@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Boundwake — Legacy / Autopilot UI motion preview</title>
+  <link rel="stylesheet" href="./legacy_motion.css" />
+  <style>
+    :root {
+      --parch: #F4E6C8; --parch2: #EBD7B0; --parch3: #FBF4E4;
+      --ink: #2A2118; --plum: #2C2140; --gold: #E0B14A; --gold2: #B07D24;
+      --moss: #3F6B4F; --ember: #C45A32; --mist: #6E8FAF; --muted: #5E4C38;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 50% 110%, #4a3a2a 0%, transparent 55%),
+        radial-gradient(ellipse at 18% 0%, #3d2f5c 0%, transparent 48%),
+        var(--plum);
+      padding: 24px 16px 64px;
+    }
+    h1 {
+      font: 800 22px/1.2 ui-rounded, "Nunito", system-ui, sans-serif;
+      color: #fffaf0; margin: 0 0 6px; letter-spacing: 0.02em;
+    }
+    .lede { color: #cbbfa8; margin: 0 0 16px; max-width: 42rem; font-size: 13px; }
+    .stage { max-width: 440px; margin: 0 auto; display: grid; gap: 14px; }
+    .toolbar {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      margin-bottom: 4px;
+    }
+    .toolbar label {
+      color: #e8dcc4; font-size: 12px; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+    }
+    .card {
+      background: linear-gradient(180deg, var(--parch3), var(--parch));
+      border: 2px solid color-mix(in srgb, var(--gold) 55%, #8a6a3a);
+      border-radius: 16px;
+      box-shadow: 0 1px 0 #fff8 inset, 0 8px 22px #00000055, 0 0 0 1px #0002;
+      padding: 14px 16px 16px;
+      position: relative;
+    }
+    .card h2 {
+      margin: 0 0 8px; font: 800 13px/1.2 ui-rounded, "Nunito", system-ui, sans-serif;
+      letter-spacing: 0.04em; text-transform: uppercase; color: var(--gold2);
+    }
+    .sub { font-size: 12px; color: var(--muted); margin: 0 0 10px; }
+    .hd-sub { font-weight: 700; opacity: 0.7; text-transform: none; letter-spacing: 0; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 8px; }
+    button, .btn {
+      appearance: none; border: 0; cursor: pointer;
+      padding: 10px 14px; border-radius: 12px;
+      font: 800 13px/1 ui-rounded, "Nunito", system-ui, sans-serif;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #fffaf0; box-shadow: 0 3px 0 #00000033, inset 0 1px 0 #fff4;
+    }
+    button.ghost {
+      background: transparent; color: var(--ink);
+      border: 1.5px solid color-mix(in srgb, var(--gold) 50%, #8a6a3a);
+      box-shadow: none;
+    }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    button.primary { min-height: 40px; }
+    .legacy-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      min-height: 56px; padding: 8px 0; border-top: 1px solid #b8955a33;
+    }
+    .legacy-ico { flex: none; width: 28px; text-align: center; padding-top: 2px; }
+    .legacy-main { flex: 1 1 auto; min-width: 0; }
+    .legacy-main b { font-size: 14px; }
+    .legacy-act { flex: none; display: flex; align-items: center; position: relative; }
+    .legacy-bar {
+      height: 8px; border-radius: 99px; background: #0002; overflow: hidden;
+      margin: 6px 0 2px; border: 1px solid #b8955a55;
+    }
+    .legacy-bar > span {
+      display: block; height: 100%;
+      background: linear-gradient(90deg, #e0b14a, #3F7A3A);
+      border-radius: 99px;
+    }
+    .legacy-claimed { opacity: 0.78; }
+    .pill {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      padding: 3px 8px; border-radius: 999px;
+      background: color-mix(in srgb, var(--parch2) 80%, #0001);
+      border: 1px solid #b8955a44; color: var(--ink);
+    }
+    .pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+    .auto-host .card-body-sim { min-height: 4.5rem; }
+    .auto-actions { display: flex; flex-wrap: wrap; gap: 8px; min-height: 44px; }
+    .auto-actions button { min-height: 44px; font-weight: 800; }
+    .dock-auto {
+      display: flex; flex-direction: column; align-items: stretch; gap: 6px;
+      background: #120c1de8; border-radius: 14px; padding: 10px 12px;
+      border: 1.5px solid #e0b14a55; color: #f4ead2;
+    }
+    .auto-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px; }
+    .auto-label { font-size: 11px; font-weight: 700; letter-spacing: .04em; opacity: .8; margin-right: 2px; }
+    .auto-skip, .auto-stop {
+      font-size: 11px; padding: 6px 8px; min-height: 28px; border-radius: 8px;
+      border: 1.5px solid #e0b14a66; background: #120c1de8; color: #f4ead2; font-weight: 700;
+    }
+    .auto-stop { border-color: #c45a32; color: #f4c4b0; }
+    .age {
+      width: 100%; padding: 12px; border-radius: 12px; border: 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #fffaf0; font: 800 14px/1 ui-rounded, "Nunito", system-ui, sans-serif;
+    }
+    .note { font-size: 11px; color: #5E4C38; margin-top: 8px; }
+    .age-sim { font-size: 12px; color: #cbbfa8; margin: 0 0 8px; }
+    .blank-warn {
+      display: none; font-size: 12px; color: var(--ember); font-weight: 700; margin-top: 6px;
+    }
+    .sim-blank .auto-blurb,
+    .sim-blank .auto-actions { display: none !important; }
+    .sim-blank .blank-warn { display: block; }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div>
+      <h1>Legacy / Autopilot motion</h1>
+      <p class="lede">Parchment Boundwake hooks for Coder — panel open, progress bars, claim pulses, ready breathe, Autopilot/Skip polish. Links <code>legacy_motion.css</code> only. No build step.</p>
+      <div class="toolbar">
+        <label><input type="checkbox" id="tog-reduced" /> Reduced motion</label>
+        <button type="button" class="ghost" id="btn-reopen" style="padding:8px 12px">Replay panel open</button>
+      </div>
+    </div>
+
+    <!-- A · Panel open + Goals -->
+    <section class="card panel-legacy bw-legacy-panel" id="card-goals">
+      <h2>Life Goals <span class="hd-sub">1/4</span></h2>
+      <p class="sub">This playthrough. Claim rewards when the bar fills.</p>
+      <div class="actions">
+        <button type="button" class="primary" id="btn-claim-all">Claim All (2)</button>
+        <button type="button" class="ghost" id="btn-fill-bars">Animate bars</button>
+      </div>
+
+      <div class="row legacy-row legacy-ready" data-row="1">
+        <div class="legacy-ico">✦</div>
+        <div class="legacy-main">
+          <b>First forge</b>
+          <div class="sub">Craft a focus or blade.</div>
+          <div class="pills"><span class="pill">+25g</span><span class="pill">+1 renown</span></div>
+          <div class="legacy-bar bw-legacy-bar"><span class="bw-legacy-bar-fill" style="width:100%; --bw-bar-from:0%; --bw-bar-to:100%"></span></div>
+          <small>1/1</small>
+        </div>
+        <div class="legacy-act">
+          <button type="button" class="primary bw-claim bw-claim-ready" data-claim="1">
+            Claim
+            <span class="bw-claim-spark" aria-hidden="true"><img src="./claim_spark.svg" alt="" width="22" height="22" /></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="row legacy-row legacy-progress" data-row="2">
+        <div class="legacy-ico">◈</div>
+        <div class="legacy-main">
+          <b>Wanderer</b>
+          <div class="sub">Visit three realms.</div>
+          <div class="pills"><span class="pill">+10 spirit</span></div>
+          <div class="legacy-bar bw-legacy-bar"><span class="bw-legacy-bar-fill" id="bar-wander" style="width:33%; --bw-bar-from:0%; --bw-bar-to:33%"></span></div>
+          <small>1/3</small>
+        </div>
+        <div class="legacy-act"><span class="pill">In progress</span></div>
+      </div>
+
+      <div class="row legacy-row legacy-ready" data-row="3">
+        <div class="legacy-ico">✧</div>
+        <div class="legacy-main">
+          <b>Kind hearth</b>
+          <div class="sub">Rest with strain under 30 three times.</div>
+          <div class="pills"><span class="pill">+5 spirit</span></div>
+          <div class="legacy-bar bw-legacy-bar"><span class="bw-legacy-bar-fill" style="width:100%; --bw-bar-from:0%; --bw-bar-to:100%"></span></div>
+          <small>3/3</small>
+        </div>
+        <div class="legacy-act">
+          <button type="button" class="primary bw-claim bw-claim-ready" data-claim="3">
+            Claim
+            <span class="bw-claim-spark" aria-hidden="true"><img src="./claim_spark.svg" alt="" width="22" height="22" /></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="row legacy-row legacy-claimed" data-row="4">
+        <div class="legacy-ico">◆</div>
+        <div class="legacy-main">
+          <b>Awakened</b>
+          <div class="sub">Reach age 16.</div>
+          <div class="pills"><span class="pill">+5g</span></div>
+        </div>
+        <div class="legacy-act"><span class="pill">Claimed</span></div>
+      </div>
+      <p class="note">A · panel open · B · bars · C · claim pulse · D · ready breathe</p>
+    </section>
+
+    <!-- Achievements -->
+    <section class="card panel-legacy bw-legacy-panel" id="card-ach">
+      <h2>Achievements <span class="hd-sub">2/6 · 40 sparks</span></h2>
+      <p class="sub">Meta progress across lives. Permanent modifiers when claimed.</p>
+      <div class="row legacy-row legacy-claimed">
+        <div class="legacy-ico">◎</div>
+        <div class="legacy-main">
+          <b>First life</b>
+          <div class="sub">Finish a playthrough.</div>
+          <div class="pills"><span class="pill">+10 sparks</span><span class="pill">birth gold</span></div>
+        </div>
+        <div class="legacy-act"><span class="pill">Claimed</span></div>
+      </div>
+      <div class="row legacy-row legacy-ready">
+        <div class="legacy-ico">◉</div>
+        <div class="legacy-main">
+          <b>Guild friend</b>
+          <div class="sub">Join any hall.</div>
+          <div class="pills"><span class="pill">+15 sparks</span></div>
+          <div class="legacy-bar bw-legacy-bar"><span class="bw-legacy-bar-fill" style="width:100%"></span></div>
+          <small>1/1</small>
+        </div>
+        <div class="legacy-act">
+          <button type="button" class="primary bw-claim bw-claim-ready" data-claim="ach">
+            Claim
+            <span class="bw-claim-spark" aria-hidden="true"><img src="./claim_spark.svg" alt="" width="22" height="22" /></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mods -->
+    <section class="card panel-legacy bw-legacy-panel" id="card-mods">
+      <h2>Permanent modifiers</h2>
+      <p class="sub">Earned from claimed Achievements.</p>
+      <div class="legacy-mods">
+        <div style="display:flex;justify-content:space-between;padding:6px 0"><b>Birth gold</b> <span class="pill">+12</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0"><b>Rare trait weight</b> <span class="pill">+8%</span></div>
+      </div>
+    </section>
+
+    <!-- E · Autopilot -->
+    <section class="card auto-host bw-auto-host bw-auto-skip-flash" id="auto-card">
+      <h2>Autopilot / Skip</h2>
+      <div class="card-body-sim">
+        <p class="sub auto-blurb" id="auto-blurb">Advance <b>cage</b> years (1 turn = 1 year). Safe picks; pauses on death, jail, romance/family, ownership, tournaments, or Stop.</p>
+        <div class="actions auto-actions" id="auto-actions">
+          <button type="button" class="primary" data-skip="1">Skip 1y</button>
+          <button type="button" class="primary" data-skip="5">Skip 5y</button>
+          <button type="button" class="primary" data-skip="10">Skip 10y</button>
+          <button type="button" class="primary" data-skip="25">Skip 25y</button>
+          <button type="button" data-skip="custom">Custom…</button>
+          <button type="button" class="primary" id="btn-stop" hidden>Stop</button>
+        </div>
+        <p class="blank-warn">⚠ Simulated blank collapse (without bw-auto-host safeguards)</p>
+      </div>
+      <p class="age-sim">Simulated age: <b id="age-n">24</b> · <button type="button" class="ghost" id="btn-age-sim" style="padding:6px 10px;margin-left:6px">Simulate Age advance</button></p>
+      <div class="actions" style="margin-top:4px">
+        <button type="button" class="ghost" id="btn-toggle-blank">Toggle blank bug (before polish)</button>
+      </div>
+      <p class="note">E · keep <code>auto-host</code> + <code>bw-auto-host</code> after ageUp/skip re-render</p>
+    </section>
+
+    <div class="dock-auto bw-auto-dock bw-auto-skip-flash" id="auto-dock">
+      <div class="auto-row" role="group" aria-label="Autopilot skip">
+        <span class="auto-label">Skip</span>
+        <button type="button" class="auto-skip" data-skip="1">+1</button>
+        <button type="button" class="auto-skip" data-skip="5">+5</button>
+        <button type="button" class="auto-skip" data-skip="10">+10</button>
+        <button type="button" class="auto-skip" data-skip="25">+25</button>
+        <button type="button" class="auto-skip" data-skip="custom">…</button>
+        <button type="button" class="auto-stop" id="dock-stop" hidden>Stop</button>
+      </div>
+      <button type="button" class="age" id="btn-age">Age +1</button>
+    </div>
+  </div>
+
+  <script>
+    const html = document.documentElement;
+    const ageEl = document.getElementById('age-n');
+    let age = 24;
+    let skipping = false;
+
+    function setMotionFlag() {
+      const reduced = document.getElementById('tog-reduced').checked;
+      if (reduced) html.setAttribute('data-motion', 'reduced');
+      else html.removeAttribute('data-motion');
+    }
+    document.getElementById('tog-reduced').addEventListener('change', setMotionFlag);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        html.setAttribute('data-motion', html.getAttribute('data-motion') === 'reduced' ? 'reduced' : 'paused');
+        if (document.getElementById('tog-reduced').checked) html.setAttribute('data-motion', 'reduced');
+        else html.setAttribute('data-motion', 'paused');
+      } else {
+        setMotionFlag();
+      }
+    });
+
+    function openPanels() {
+      document.querySelectorAll('.bw-legacy-panel').forEach((el) => {
+        el.classList.remove('bw-legacy-panel-in', 'is-opening');
+        void el.offsetWidth;
+        el.classList.add('bw-legacy-panel-in');
+      });
+    }
+    document.getElementById('btn-reopen').addEventListener('click', openPanels);
+    openPanels();
+
+    function fillBar(span, fromPct, toPct) {
+      span.style.setProperty('--bw-bar-from', fromPct + '%');
+      span.style.setProperty('--bw-bar-to', toPct + '%');
+      span.style.width = toPct + '%';
+      span.classList.remove('is-filling');
+      void span.offsetWidth;
+      span.classList.add('is-filling');
+      const clear = () => span.classList.remove('is-filling');
+      span.addEventListener('animationend', clear, { once: true });
+      setTimeout(clear, 650);
+    }
+
+    document.getElementById('btn-fill-bars').addEventListener('click', () => {
+      document.querySelectorAll('.bw-legacy-bar-fill').forEach((span) => {
+        const to = parseInt(span.style.getPropertyValue('--bw-bar-to') || span.style.width, 10) || 100;
+        fillBar(span, 0, to);
+      });
+      // bump wanderer as demo of previous→new
+      const w = document.getElementById('bar-wander');
+      fillBar(w, 33, 66);
+      w.parentElement.nextElementSibling.textContent = '2/3';
+    });
+
+    function fireClaim(btn) {
+      const row = btn.closest('.legacy-row');
+      btn.classList.remove('is-claiming');
+      row.classList.remove('is-claiming');
+      void btn.offsetWidth;
+      btn.classList.add('is-claiming');
+      row.classList.add('is-claiming');
+      const clear = () => {
+        btn.classList.remove('is-claiming', 'bw-claim-ready');
+        row.classList.remove('is-claiming', 'legacy-ready');
+        row.classList.add('legacy-claimed');
+        const act = row.querySelector('.legacy-act');
+        act.innerHTML = '<span class="pill">Claimed</span>';
+        const bar = row.querySelector('.legacy-bar');
+        if (bar) bar.remove();
+        const small = row.querySelector('small');
+        if (small) small.remove();
+      };
+      btn.addEventListener('animationend', clear, { once: true });
+      setTimeout(clear, 750);
+    }
+
+    document.querySelectorAll('.bw-claim').forEach((btn) => {
+      btn.addEventListener('click', () => fireClaim(btn));
+    });
+
+    document.getElementById('btn-claim-all').addEventListener('click', () => {
+      const ready = [...document.querySelectorAll('.legacy-row.legacy-ready .bw-claim')].slice(0, 6);
+      ready.forEach((btn, i) => setTimeout(() => fireClaim(btn), i * 70));
+      document.getElementById('btn-claim-all').disabled = true;
+      document.getElementById('btn-claim-all').textContent = 'Claim All (0)';
+    });
+
+    function flashSkip() {
+      [document.getElementById('auto-card'), document.getElementById('auto-dock')].forEach((el) => {
+        el.classList.remove('is-skipping');
+        void el.offsetWidth;
+        el.classList.add('is-skipping');
+        const clear = () => el.classList.remove('is-skipping');
+        el.addEventListener('animationend', clear, { once: true });
+        setTimeout(clear, 400);
+      });
+    }
+
+    function advanceYears(n) {
+      if (skipping) return;
+      skipping = true;
+      document.getElementById('btn-stop').hidden = false;
+      document.getElementById('dock-stop').hidden = false;
+      let left = n;
+      const tick = () => {
+        if (!skipping || left <= 0) {
+          skipping = false;
+          document.getElementById('btn-stop').hidden = true;
+          document.getElementById('dock-stop').hidden = true;
+          return;
+        }
+        age += 1;
+        left -= 1;
+        ageEl.textContent = age;
+        flashSkip();
+        setTimeout(tick, 380);
+      };
+      tick();
+    }
+
+    document.querySelectorAll('[data-skip]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const v = btn.getAttribute('data-skip');
+        const n = v === 'custom' ? 3 : parseInt(v, 10);
+        advanceYears(n);
+      });
+    });
+    document.getElementById('btn-stop').addEventListener('click', () => { skipping = false; });
+    document.getElementById('dock-stop').addEventListener('click', () => { skipping = false; });
+    document.getElementById('btn-age').addEventListener('click', () => advanceYears(1));
+    document.getElementById('btn-age-sim').addEventListener('click', () => {
+      // Simulate re-render: classes must stick
+      const card = document.getElementById('auto-card');
+      card.classList.add('auto-host', 'bw-auto-host');
+      advanceYears(1);
+    });
+
+    document.getElementById('btn-toggle-blank').addEventListener('click', () => {
+      const card = document.getElementById('auto-card');
+      card.classList.toggle('sim-blank');
+      // When showing the bug, drop bw-auto-host; when restoring, put it back
+      if (card.classList.contains('sim-blank')) {
+        card.classList.remove('bw-auto-host');
+      } else {
+        card.classList.add('bw-auto-host');
+      }
+    });
+  </script>
+</body>
+</html>

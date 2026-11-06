@@ -1,3 +1,9 @@
+## Live — pending · Legacy motion · https://paigegames.net/boundwake/
+
+## 2026-11-05 ~6:05 PM CT — Animator Legacy motion
+- Wire `legacy_motion.css` + LEGACY_HOOKS.md classes in ui.js / index.html
+- Smoke PASS (cage 0→2 + claim); deploy paige-site
+
 ## Live — **f56882ee** Legacy + Autopilot hotfix · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~5:55 PM CT — Legacy Goals/Achievements + Autopilot P1/P3

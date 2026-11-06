@@ -1,0 +1,524 @@
+/* Boundwake — Legacy (Goals/Achievements) + Autopilot/Skip UI motion pack
+   Drop-in under assets/ui_motion/. Transform + opacity (+ width on bar fill).
+   Tokens use Boundwake mood hexes with fallbacks to live :root vars.
+   Additive classes only — does not fight style.css Legacy/Autopilot layout. */
+
+:root {
+  --bw-parch: var(--parch, #F4E6C8);
+  --bw-parch-hi: var(--parch3, #FBF4E4);
+  --bw-parch-lo: var(--parch2, #EBD7B0);
+  --bw-ink: var(--ink, #2A2118);
+  --bw-plum: var(--plum, #2C2140);
+  --bw-gold: var(--gold, #E0B14A);
+  --bw-gold-deep: var(--gold2, #B07D24);
+  --bw-moss: var(--moss, #3F6B4F);
+  --bw-ember: var(--ember, #C45A32);
+  --bw-mist: var(--mist, #6E8FAF);
+  --bw-muted: var(--muted, #5E4C38);
+}
+
+/* =========================================================
+   A. Panel open — soft parchment fade+lift on Legacy cards
+   ========================================================= */
+
+.bw-legacy-panel {
+  position: relative;
+  will-change: transform, opacity;
+}
+
+.bw-legacy-panel.bw-legacy-panel-in,
+.bw-legacy-panel.is-opening {
+  animation: bw-legacy-panel-in 280ms cubic-bezier(0.22, 0.9, 0.28, 1) both;
+}
+
+/* Stagger siblings slightly — never flash whole app chrome */
+.bw-legacy-panel.bw-legacy-panel-in:nth-of-type(1),
+.bw-legacy-panel.is-opening:nth-of-type(1) { animation-delay: 0ms; }
+.bw-legacy-panel.bw-legacy-panel-in:nth-of-type(2),
+.bw-legacy-panel.is-opening:nth-of-type(2) { animation-delay: 55ms; }
+.bw-legacy-panel.bw-legacy-panel-in:nth-of-type(3),
+.bw-legacy-panel.is-opening:nth-of-type(3) { animation-delay: 110ms; }
+.bw-legacy-panel.bw-legacy-panel-in:nth-of-type(4),
+.bw-legacy-panel.is-opening:nth-of-type(4) { animation-delay: 165ms; }
+.bw-legacy-panel.bw-legacy-panel-in:nth-of-type(n+5),
+.bw-legacy-panel.is-opening:nth-of-type(n+5) { animation-delay: 210ms; }
+
+@keyframes bw-legacy-panel-in {
+  0%   { opacity: 0; transform: translateY(8px) scale(0.985); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* =========================================================
+   B. Progress bars — enhance .legacy-bar > span
+   ========================================================= */
+
+.bw-legacy-bar,
+.legacy-bar.bw-legacy-bar {
+  position: relative;
+  overflow: hidden;
+}
+
+.bw-legacy-bar-fill,
+.legacy-bar > span.bw-legacy-bar-fill,
+.bw-legacy-bar > span {
+  display: block;
+  height: 100%;
+  position: relative;
+  transform-origin: left center;
+  will-change: width, opacity;
+}
+
+/* Soft gold sheen once on fill (CSS pseudo — no SVG required) */
+.bw-legacy-bar-fill::after,
+.legacy-bar > span.bw-legacy-bar-fill::after,
+.bw-legacy-bar > span::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    color-mix(in srgb, #fffaf0 70%, transparent) 48%,
+    color-mix(in srgb, var(--bw-gold) 55%, transparent) 52%,
+    transparent 70%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-80%);
+  will-change: transform, opacity;
+}
+
+.bw-legacy-bar-fill.is-filling,
+.legacy-bar > span.bw-legacy-bar-fill.is-filling,
+.bw-legacy-bar > span.is-filling,
+.bw-legacy-bar.is-filling > span {
+  animation: bw-legacy-bar-sheen-host 520ms ease-out both;
+}
+
+.bw-legacy-bar-fill.is-filling::after,
+.legacy-bar > span.bw-legacy-bar-fill.is-filling::after,
+.bw-legacy-bar > span.is-filling::after,
+.bw-legacy-bar.is-filling > span::after {
+  animation: bw-legacy-bar-sheen 520ms ease-out both;
+}
+
+/* Width tween: Coder sets --bw-bar-from / --bw-bar-to (0–100) on the fill,
+   or relies on inline width + is-filling for sheen-only on first reveal.
+   Prefer: set style.width to target; animate from --bw-bar-from via keyframes. */
+.bw-legacy-bar-fill.is-filling[style*="--bw-bar"],
+.legacy-bar > span.bw-legacy-bar-fill.is-filling,
+.bw-legacy-bar > span.is-filling {
+  animation: bw-legacy-bar-fill 520ms cubic-bezier(0.22, 0.85, 0.28, 1) both,
+             bw-legacy-bar-sheen-host 520ms ease-out both;
+}
+
+@keyframes bw-legacy-bar-fill {
+  0%   { width: var(--bw-bar-from, 0%); opacity: 0.85; }
+  100% { width: var(--bw-bar-to, var(--bw-bar-from, 100%)); opacity: 1; }
+}
+
+@keyframes bw-legacy-bar-sheen-host {
+  0%, 100% { /* host no-op; sheen is on ::after */ }
+}
+
+@keyframes bw-legacy-bar-sheen {
+  0%   { transform: translateX(-90%); opacity: 0; }
+  22%  { opacity: 0.55; }
+  55%  { transform: translateX(40%); opacity: 0.4; }
+  100% { transform: translateX(110%); opacity: 0; }
+}
+
+/* =========================================================
+   C. Claim pulses — Claim / Claim All success
+   ========================================================= */
+
+.bw-claim {
+  position: relative;
+  isolation: isolate;
+}
+
+.bw-claim-pulse,
+.bw-claim.bw-claim-pulse {
+  will-change: transform, opacity;
+}
+
+.bw-claim.is-claiming,
+.bw-claim-pulse.is-claiming,
+.legacy-row.is-claiming .bw-claim,
+.legacy-row.is-claiming .legacy-act .primary {
+  animation: bw-claim-pulse 600ms cubic-bezier(0.22, 0.9, 0.28, 1) both;
+}
+
+.legacy-row.is-claiming {
+  animation: bw-claim-row 600ms ease-out both;
+}
+
+@keyframes bw-claim-pulse {
+  0%   { transform: scale(1); box-shadow: 0 0 0 0 transparent; }
+  22%  {
+    transform: scale(1.06);
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--bw-gold) 55%, transparent),
+      0 0 14px color-mix(in srgb, var(--bw-moss) 35%, transparent);
+  }
+  55%  {
+    transform: scale(1.02);
+    box-shadow:
+      0 0 0 2px color-mix(in srgb, var(--bw-moss) 40%, transparent),
+      0 0 10px color-mix(in srgb, var(--bw-gold) 28%, transparent);
+  }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 transparent; }
+}
+
+@keyframes bw-claim-row {
+  0%   { opacity: 1; }
+  30%  {
+    opacity: 1;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bw-gold) 40%, transparent);
+  }
+  100% { opacity: 1; box-shadow: none; }
+}
+
+/* Optional check spark (img or CSS mote) */
+.bw-claim-spark {
+  position: absolute;
+  right: -6px;
+  top: -8px;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 3;
+  will-change: transform, opacity;
+}
+
+.bw-claim.is-claiming .bw-claim-spark,
+.bw-claim-pulse.is-claiming .bw-claim-spark,
+.is-claiming > .bw-claim-spark {
+  animation: bw-claim-spark 620ms cubic-bezier(0.22, 0.9, 0.28, 1) both;
+}
+
+.bw-claim-spark img,
+.bw-claim-spark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes bw-claim-spark {
+  0%   { opacity: 0; transform: translateY(4px) scale(0.4); }
+  28%  { opacity: 1; transform: translateY(-2px) scale(1.15); }
+  70%  { opacity: 1; transform: translateY(-10px) scale(1); }
+  100% { opacity: 0; transform: translateY(-18px) scale(0.85); }
+}
+
+/* Claim All: stagger ready rows (max ~6) */
+.legacy-row.is-claiming:nth-child(1) { animation-delay: 0ms; }
+.legacy-row.is-claiming:nth-child(1) .bw-claim,
+.legacy-row.is-claiming:nth-child(1) .legacy-act .primary { animation-delay: 0ms; }
+.legacy-row.is-claiming:nth-child(2) { animation-delay: 70ms; }
+.legacy-row.is-claiming:nth-child(2) .bw-claim,
+.legacy-row.is-claiming:nth-child(2) .legacy-act .primary { animation-delay: 70ms; }
+.legacy-row.is-claiming:nth-child(3) { animation-delay: 140ms; }
+.legacy-row.is-claiming:nth-child(3) .bw-claim,
+.legacy-row.is-claiming:nth-child(3) .legacy-act .primary { animation-delay: 140ms; }
+.legacy-row.is-claiming:nth-child(4) { animation-delay: 210ms; }
+.legacy-row.is-claiming:nth-child(4) .bw-claim,
+.legacy-row.is-claiming:nth-child(4) .legacy-act .primary { animation-delay: 210ms; }
+.legacy-row.is-claiming:nth-child(5) { animation-delay: 280ms; }
+.legacy-row.is-claiming:nth-child(5) .bw-claim,
+.legacy-row.is-claiming:nth-child(5) .legacy-act .primary { animation-delay: 280ms; }
+.legacy-row.is-claiming:nth-child(6) { animation-delay: 350ms; }
+.legacy-row.is-claiming:nth-child(6) .bw-claim,
+.legacy-row.is-claiming:nth-child(6) .legacy-act .primary { animation-delay: 350ms; }
+
+/* After pulse settles into .legacy-claimed — don't fight opacity:0.78 */
+.legacy-row.legacy-claimed.bw-claim-settled,
+.legacy-claimed.bw-claim-settled {
+  /* style.css already sets opacity .78 — leave it */
+}
+
+/* =========================================================
+   D. Ready-to-claim idle — gentle gold breathe
+   ========================================================= */
+
+.bw-claim-ready {
+  position: relative;
+  box-shadow: 0 0 0 0 transparent;
+  will-change: box-shadow, opacity;
+}
+
+html:not([data-motion="reduced"]):not([data-motion="paused"]) .bw-claim-ready {
+  animation: bw-claim-ready-breathe 2.5s ease-in-out infinite;
+}
+
+@keyframes bw-claim-ready-breathe {
+  0%, 100% {
+    box-shadow:
+      0 0 0 0 transparent,
+      0 0 0 0 color-mix(in srgb, var(--bw-gold) 0%, transparent);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow:
+      0 0 0 2px color-mix(in srgb, var(--bw-gold) 42%, transparent),
+      0 0 10px color-mix(in srgb, var(--bw-gold) 22%, transparent);
+    filter: brightness(1.04);
+  }
+}
+
+/* =========================================================
+   E. Autopilot / Skip visibility polish
+   ========================================================= */
+
+.bw-auto-host,
+.auto-host.bw-auto-host {
+  flex: 0 0 auto;
+  min-height: 7.5rem;
+  opacity: 1;
+  visibility: visible;
+  color: var(--bw-ink);
+}
+
+.bw-auto-host .card-body,
+.auto-host.bw-auto-host .card-body {
+  flex: 0 0 auto;
+  min-height: 4.5rem;
+  opacity: 1;
+  visibility: visible;
+  color: var(--bw-ink);
+  overflow: visible;
+}
+
+.bw-auto-host .auto-blurb,
+.auto-host.bw-auto-host .auto-blurb {
+  color: var(--bw-muted);
+  opacity: 1;
+  visibility: visible;
+  margin: 0 0 10px;
+}
+
+.bw-auto-host .auto-actions,
+.auto-host.bw-auto-host .auto-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  opacity: 1;
+  visibility: visible;
+  min-height: 44px;
+}
+
+.bw-auto-host .auto-actions button,
+.auto-host.bw-auto-host .auto-actions button {
+  min-height: 44px;
+  opacity: 1;
+}
+
+.bw-auto-host .auto-actions button:disabled,
+.auto-host.bw-auto-host .auto-actions button:disabled {
+  opacity: 0.45;
+}
+
+/* Skip year flash — one-shot lantern-gold edge on card or dock */
+.bw-auto-skip-flash,
+.bw-auto-host.bw-auto-skip-flash,
+.dock-auto.bw-auto-skip-flash {
+  position: relative;
+  will-change: box-shadow, opacity;
+}
+
+.bw-auto-skip-flash.is-skipping,
+.bw-auto-host.is-skipping,
+.dock-auto.is-skipping,
+.is-skipping.bw-auto-skip-flash {
+  animation: bw-auto-skip-flash 350ms ease-out both;
+}
+
+@keyframes bw-auto-skip-flash {
+  0%   {
+    box-shadow:
+      0 0 0 0 transparent,
+      0 0 0 0 color-mix(in srgb, var(--bw-gold) 0%, transparent);
+  }
+  35%  {
+    box-shadow:
+      0 0 0 2px color-mix(in srgb, var(--bw-gold) 70%, transparent),
+      0 0 16px color-mix(in srgb, var(--bw-gold) 35%, transparent);
+  }
+  100% {
+    box-shadow:
+      0 0 0 0 transparent,
+      0 0 0 0 transparent;
+  }
+}
+
+/* Dock Skip chips polish */
+.bw-auto-dock,
+.dock-auto.bw-auto-dock {
+  /* additive host — layout stays in style.css */
+}
+
+.bw-auto-dock .auto-skip,
+.dock-auto.bw-auto-dock .auto-skip {
+  transition: transform 120ms ease, opacity 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+  will-change: transform, opacity;
+}
+
+.bw-auto-dock .auto-skip:hover:not(:disabled),
+.dock-auto.bw-auto-dock .auto-skip:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--bw-gold) 85%, #e0b14a);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--bw-gold) 35%, transparent);
+}
+
+.bw-auto-dock .auto-skip:active:not(:disabled),
+.dock-auto.bw-auto-dock .auto-skip:active:not(:disabled),
+.bw-auto-dock .auto-skip.is-pressed,
+.dock-auto.bw-auto-dock .auto-skip.is-pressed {
+  transform: scale(0.94);
+  border-color: var(--bw-gold);
+  box-shadow: inset 0 2px 4px #0006;
+}
+
+.bw-auto-dock .auto-skip:disabled,
+.dock-auto.bw-auto-dock .auto-skip:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.bw-auto-dock .auto-stop,
+.dock-auto.bw-auto-dock .auto-stop {
+  border-color: var(--bw-ember);
+  color: #f4c4b0;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--bw-ember) 40%, transparent);
+  font-weight: 800;
+}
+
+.bw-auto-dock .auto-stop:hover,
+.dock-auto.bw-auto-dock .auto-stop:hover {
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--bw-ember) 55%, transparent),
+    0 0 10px color-mix(in srgb, var(--bw-ember) 30%, transparent);
+}
+
+.bw-auto-dock .auto-stop:active,
+.dock-auto.bw-auto-dock .auto-stop:active {
+  transform: scale(0.95);
+}
+
+/* =========================================================
+   Reduced motion — snap / static; kill loops
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .bw-legacy-panel.bw-legacy-panel-in,
+  .bw-legacy-panel.is-opening {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  .bw-legacy-bar-fill.is-filling,
+  .legacy-bar > span.bw-legacy-bar-fill.is-filling,
+  .bw-legacy-bar > span.is-filling,
+  .bw-legacy-bar.is-filling > span,
+  .bw-legacy-bar-fill.is-filling::after,
+  .legacy-bar > span.bw-legacy-bar-fill.is-filling::after,
+  .bw-legacy-bar > span.is-filling::after {
+    animation: none !important;
+  }
+  .bw-legacy-bar-fill.is-filling,
+  .legacy-bar > span.bw-legacy-bar-fill.is-filling,
+  .bw-legacy-bar > span.is-filling {
+    width: var(--bw-bar-to, var(--bw-bar-from, 100%)) !important;
+    opacity: 1;
+  }
+
+  .bw-claim.is-claiming,
+  .bw-claim-pulse.is-claiming,
+  .legacy-row.is-claiming,
+  .legacy-row.is-claiming .bw-claim,
+  .legacy-row.is-claiming .legacy-act .primary,
+  .bw-claim.is-claiming .bw-claim-spark,
+  .bw-claim-pulse.is-claiming .bw-claim-spark {
+    animation: none !important;
+  }
+  .bw-claim.is-claiming,
+  .bw-claim-pulse.is-claiming {
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--bw-gold) 50%, transparent);
+  }
+  .bw-claim.is-claiming .bw-claim-spark,
+  .bw-claim-pulse.is-claiming .bw-claim-spark {
+    opacity: 0.9;
+    transform: none;
+  }
+
+  .bw-claim-ready {
+    animation: none !important;
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--bw-gold) 35%, transparent);
+  }
+
+  .bw-auto-skip-flash.is-skipping,
+  .bw-auto-host.is-skipping,
+  .dock-auto.is-skipping,
+  .is-skipping.bw-auto-skip-flash {
+    animation: none !important;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--bw-gold) 55%, transparent);
+  }
+
+  .bw-auto-dock .auto-skip,
+  .dock-auto.bw-auto-dock .auto-skip,
+  .bw-auto-dock .auto-stop,
+  .dock-auto.bw-auto-dock .auto-stop {
+    transition: none !important;
+  }
+}
+
+/* Explicit app flags (match tournament_motion.css / style.css ambient gate) */
+html[data-motion="reduced"] .bw-legacy-panel.bw-legacy-panel-in,
+html[data-motion="reduced"] .bw-legacy-panel.is-opening {
+  animation: none !important;
+  opacity: 1;
+  transform: none;
+}
+
+html[data-motion="reduced"] .bw-legacy-bar-fill.is-filling,
+html[data-motion="reduced"] .legacy-bar > span.bw-legacy-bar-fill.is-filling,
+html[data-motion="reduced"] .bw-legacy-bar > span.is-filling,
+html[data-motion="reduced"] .bw-legacy-bar-fill.is-filling::after,
+html[data-motion="reduced"] .legacy-bar > span.bw-legacy-bar-fill.is-filling::after,
+html[data-motion="reduced"] .bw-legacy-bar > span.is-filling::after {
+  animation: none !important;
+}
+
+html[data-motion="reduced"] .bw-legacy-bar-fill.is-filling,
+html[data-motion="reduced"] .legacy-bar > span.bw-legacy-bar-fill.is-filling,
+html[data-motion="reduced"] .bw-legacy-bar > span.is-filling {
+  width: var(--bw-bar-to, var(--bw-bar-from, 100%)) !important;
+}
+
+html[data-motion="reduced"] .bw-claim.is-claiming,
+html[data-motion="reduced"] .bw-claim-pulse.is-claiming,
+html[data-motion="reduced"] .legacy-row.is-claiming,
+html[data-motion="reduced"] .legacy-row.is-claiming .bw-claim,
+html[data-motion="reduced"] .legacy-row.is-claiming .legacy-act .primary,
+html[data-motion="reduced"] .bw-claim.is-claiming .bw-claim-spark,
+html[data-motion="reduced"] .bw-claim-pulse.is-claiming .bw-claim-spark {
+  animation: none !important;
+}
+
+html[data-motion="reduced"] .bw-claim-ready {
+  animation: none !important;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--bw-gold) 35%, transparent);
+}
+
+html[data-motion="reduced"] .bw-auto-skip-flash.is-skipping,
+html[data-motion="reduced"] .bw-auto-host.is-skipping,
+html[data-motion="reduced"] .dock-auto.is-skipping {
+  animation: none !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--bw-gold) 55%, transparent);
+}
+
+/* Pause loops when tab hidden */
+html[data-motion="paused"] .bw-claim-ready {
+  animation-play-state: paused !important;
+}

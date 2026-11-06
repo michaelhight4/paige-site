@@ -1,3 +1,11 @@
+## Live — pending · Legacy motion + Autopilot polish · https://paigegames.net/boundwake/
+
+## DEPLOY — Animator Legacy motion wired — Coder Nov 5 ~6:05 PM CT
+- Opt-in `assets/ui_motion/legacy_motion.css` linked in `index.html`
+- Hooks per LEGACY_HOOKS.md: `.bw-legacy-panel` / `-in`, `.bw-legacy-bar` + fill `is-filling`, `.bw-claim` / `-ready` / `-spark` / Claim All stagger ≤6, `.bw-auto-host` + `.bw-auto-skip-flash` `is-skipping`, `.bw-auto-dock`
+- Claim handlers restored; Age +1 / Skip flash; Autopilot age advance smoke PASS
+- Lifeline / tournament pack untouched
+
 ## Live — **f56882ee** Legacy Goals + Autopilot hotfix · https://paigegames.net/boundwake/
 
 ## DEPLOY — Achievements / Life Goals + Autopilot P1/P3 — Coder Nov 5 ~5:55 PM CT

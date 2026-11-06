@@ -21,6 +21,83 @@ function ensureTourMotion() {
   const l = document.createElement('link'); l.id = 'bw-tourney-motion'; l.rel = 'stylesheet';
   l.href = 'assets/ui_motion/tournament_motion.css'; document.head.append(l);
 }
+
+function ensureLegacyMotion() {
+  if (document.getElementById('bw-legacy-motion')) return;
+  const l = document.createElement('link'); l.id = 'bw-legacy-motion'; l.rel = 'stylesheet';
+  l.href = 'assets/ui_motion/legacy_motion.css'; document.head.append(l);
+}
+function openLegacyPanels(root = document) {
+  ensureLegacyMotion(); pauseMotionOnHide();
+  root.querySelectorAll('.panel-legacy, .card.panel-legacy').forEach((el) => {
+    el.classList.add('bw-legacy-panel');
+    el.classList.remove('bw-legacy-panel-in', 'is-opening');
+    void el.offsetWidth;
+    el.classList.add('bw-legacy-panel-in');
+  });
+}
+function fillLegacyBar(span, fromPct, toPct) {
+  if (!span) return;
+  span.classList.add('bw-legacy-bar-fill');
+  span.parentElement?.classList.add('bw-legacy-bar');
+  span.style.setProperty('--bw-bar-from', Math.round(fromPct) + '%');
+  span.style.setProperty('--bw-bar-to', Math.round(toPct) + '%');
+  span.style.width = Math.round(toPct) + '%';
+  span.classList.remove('is-filling');
+  void span.offsetWidth;
+  span.classList.add('is-filling');
+  const clear = () => span.classList.remove('is-filling');
+  span.addEventListener('animationend', clear, { once: true });
+  setTimeout(clear, 650);
+}
+function fireClaim(btnOrRow) {
+  const host = btnOrRow.closest?.('.legacy-row') || btnOrRow;
+  const btn = host.querySelector?.('.bw-claim, [data-a="lgclaim"], [data-a="achclaim"]') || btnOrRow;
+  if (btn?.classList) btn.classList.add('bw-claim');
+  host.classList?.remove('is-claiming');
+  btn?.classList?.remove('is-claiming');
+  void (host.offsetWidth || 0);
+  host.classList?.add('is-claiming');
+  btn?.classList?.add('is-claiming');
+  const clear = () => {
+    host.classList?.remove('is-claiming');
+    btn?.classList?.remove('is-claiming', 'bw-claim-ready');
+  };
+  btn?.addEventListener?.('animationend', clear, { once: true });
+  setTimeout(clear, 750);
+}
+function fireClaimAll(rows) {
+  [...rows].filter((r) => r.classList.contains('legacy-ready') || r.querySelector('.bw-claim-ready'))
+    .slice(0, 6)
+    .forEach((r) => fireClaim(r));
+}
+function flashSkip(el) {
+  if (!el) return;
+  el.classList.add('bw-auto-skip-flash');
+  el.classList.remove('is-skipping');
+  void el.offsetWidth;
+  el.classList.add('is-skipping');
+  const clear = () => el.classList.remove('is-skipping');
+  el.addEventListener('animationend', clear, { once: true });
+  setTimeout(clear, 400);
+}
+function afterLegacyRender() {
+  ensureLegacyMotion(); pauseMotionOnHide();
+  // Autopilot host classes survive re-render via markup; reinforce dock
+  document.querySelectorAll('.auto-host').forEach((el) => {
+    el.classList.add('bw-auto-host', 'bw-auto-skip-flash');
+  });
+  document.querySelectorAll('.dock-auto').forEach((el) => {
+    el.classList.add('bw-auto-dock', 'bw-auto-skip-flash');
+  });
+  if (tab === 'legacy') {
+    openLegacyPanels(document);
+    document.querySelectorAll('.legacy-bar > span').forEach((span) => {
+      const to = parseFloat(span.style.width) || 0;
+      fillLegacyBar(span, 0, to);
+    });
+  }
+}
 function pauseMotionOnHide() {
   const apply = () => { document.documentElement.dataset.motion = document.hidden ? 'paused' : (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduced' : ''); };
   if (!window.__bwMotionVis) { window.__bwMotionVis = 1; document.addEventListener('visibilitychange', apply); apply(); }
@@ -215,7 +292,7 @@ function body() {
         <button type="button" data-a="skip" data-v="custom" ${autoBusy || s.pending.length ? 'disabled' : ''}>Custom…</button>
         ${autoBusy ? `<button type="button" class="primary" data-a="autostop">Stop</button>` : ''}
       </div>
-      ${s.pending.length ? `<p class="sub lock-why">Resolve the open event first (or Autopilot will pause on important ones).</p>` : ''}`, 'auto-host');
+      ${s.pending.length ? `<p class="sub lock-why">Resolve the open event first (or Autopilot will pause on important ones).</p>` : ''}`, 'auto-host bw-auto-host bw-auto-skip-flash');
     const tourneyBanner = E.isTournamentYear(s)
       ? card('life', `${ico('adventure')} Tournament year`, `<p class="sub">Bracket <b>${esc(E.tourneyBracket(s)?.label || '')}</b> meets are open — enter from the Adventure tab (1 action). Strong places draw academies, tutors, and blade halls.</p><div class="actions"><button type="button" class="primary" data-tab="adv">${ico('adventure')} Open Adventure</button></div>`)
       : (E.tournamentInvites(s).length
@@ -629,6 +706,7 @@ function body() {
     const goals = E.listLifeGoals(s, meta);
     const achs = E.listAchievements(s, meta);
     const modEntries = Object.entries(sum.mods || {}).filter(([, v]) => v);
+    ensureLegacyMotion(); pauseMotionOnHide();
     const modPanel = card('legacy', `${ico('echo')} Permanent modifiers`, modEntries.length
       ? `<p class="sub">Earned from claimed Achievements — applied at birth and while claimed.</p>
         <div class="legacy-mods">${modEntries.map(([k, v]) => {
@@ -636,7 +714,7 @@ function body() {
           const show = typeof v === 'number' && Math.abs(v) < 1 && k.toLowerCase().includes('bonus') ? `+${Math.round(v * 100)}%` : (typeof v === 'number' && v >= 0 ? `+${v}` : String(v));
           return `<div class="row"><b>${esc(label)}</b> <span class="pill">${esc(show)}</span></div>`;
         }).join('')}</div>`
-      : `<p class="sub">No permanent modifiers yet. Claim Achievements to earn birth gold, rare-trait weight, action crumbs, and more.</p>`);
+      : `<p class="sub">No permanent modifiers yet. Claim Achievements to earn birth gold, rare-trait weight, action crumbs, and more.</p>`, 'bw-legacy-panel');
     const statusLabel = (st) => st === 'claimed' ? 'Claimed' : st === 'ready' ? 'Claim' : st === 'progress' ? 'In progress' : 'Not yet';
     const rewardTags = (reward) => {
       if (!reward) return '';
@@ -652,23 +730,24 @@ function body() {
     };
     const rowHTML = (item, kind) => {
       const st = item.status;
-      const bar = st === 'claimed' ? '' : `<div class="legacy-bar"><span style="width:${Math.round((item.pct || 0) * 100)}%"></span></div><small>${item.cur || 0}/${item.target || 1}</small>`;
+      const pct = Math.round((item.pct || 0) * 100);
+      const bar = st === 'claimed' ? '' : `<div class="legacy-bar bw-legacy-bar"><span class="bw-legacy-bar-fill" style="width:${pct}%; --bw-bar-from:0%; --bw-bar-to:${pct}%"></span></div><small>${item.cur || 0}/${item.target || 1}</small>`;
       const btn = st === 'ready'
-        ? `<button type="button" class="primary" data-a="${kind === 'goal' ? 'lgclaim' : 'achclaim'}" data-v="${item.id}">Claim</button>`
+        ? `<button type="button" class="primary bw-claim bw-claim-ready" data-a="${kind === 'goal' ? 'lgclaim' : 'achclaim'}" data-v="${item.id}">Claim<span class="bw-claim-spark" aria-hidden="true"><img src="assets/ui_motion/claim_spark.svg" alt="" width="22" height="22"></span></button>`
         : st === 'claimed' ? `<span class="pill">Claimed</span>` : `<span class="pill">${statusLabel(st)}</span>`;
-      return `<div class="row legacy-row legacy-${st}"><div class="legacy-ico">${ico(item.icon || 'echo')}</div><div class="legacy-main"><b>${esc(item.title)}</b><div class="sub">${esc(item.desc || '')}</div><div class="pills">${rewardTags(item.reward)}</div>${bar}</div><div class="legacy-act">${btn}</div></div>`;
+      return `<div class="row legacy-row legacy-${st}${st === 'ready' ? ' legacy-ready' : ''}"><div class="legacy-ico">${ico(item.icon || 'echo')}</div><div class="legacy-main"><b>${esc(item.title)}</b><div class="sub">${esc(item.desc || '')}</div><div class="pills">${rewardTags(item.reward)}</div>${bar}</div><div class="legacy-act">${btn}</div></div>`;
     };
     const gReady = goals.filter((g) => g.status === 'ready').length;
     const aReady = achs.filter((a) => a.status === 'ready').length;
     const goalsCard = card('legacy', `${ico('spirit')} Life Goals <span class="hd-sub">${sum.goals.claimed}/${sum.goals.total}</span>`,
       `<p class="sub">This playthrough. Claim rewards when the bar fills.</p>
-      <div class="actions" style="margin-bottom:8px"><button type="button" class="primary" data-a="lgclaimall" ${gReady ? '' : 'disabled'}>Claim All (${gReady})</button></div>
-      ${goals.map((g) => rowHTML(g, 'goal')).join('') || '<div class="empty">No goals loaded.</div>'}`);
+      <div class="actions" style="margin-bottom:8px"><button type="button" class="primary bw-claim" data-a="lgclaimall" ${gReady ? '' : 'disabled'}>Claim All (${gReady})</button></div>
+      ${goals.map((g) => rowHTML(g, 'goal')).join('') || '<div class="empty">No goals loaded.</div>'}` , 'bw-legacy-panel');
     const achCard = card('legacy', `${ico('echo')} Achievements <span class="hd-sub">${sum.achievements.claimed}/${sum.achievements.total} · ${sum.points} ${esc(sum.pointsName)}</span>`,
       `<p class="sub">Meta progress across lives. Rewards are Legacy sparks and permanent modifiers.</p>
-      <div class="actions" style="margin-bottom:8px"><button type="button" class="primary" data-a="achclaimall" ${aReady ? '' : 'disabled'}>Claim All (${aReady})</button></div>
-      ${achs.map((a) => rowHTML(a, 'ach')).join('') || '<div class="empty">No achievements loaded.</div>'}`);
-    return `${lead('legacy') ? card('legacy', HD.legacy, `${lead('legacy')}<p class="sub">${esc(sum.blurb || '')}</p>`) : ''}` + modPanel + goalsCard + achCard;
+      <div class="actions" style="margin-bottom:8px"><button type="button" class="primary bw-claim" data-a="achclaimall" ${aReady ? '' : 'disabled'}>Claim All (${aReady})</button></div>
+      ${achs.map((a) => rowHTML(a, 'ach')).join('') || '<div class="empty">No achievements loaded.</div>'}` , 'bw-legacy-panel');
+    return `${lead('legacy') ? card('legacy', HD.legacy, `${lead('legacy')}<p class="sub">${esc(sum.blurb || '')}</p>`, 'bw-legacy-panel') : ''}` + modPanel + goalsCard + achCard;
   }
   if (tab === 'bel') {
     const biz = (s.workshops || []).map((w) => {
@@ -768,7 +847,7 @@ function ageDock() {
   if (!s || !s.alive) return '';
   const busy = autoRunning();
   const skipBtns = SKIP_PRESETS.map((n) => `<button type="button" class="auto-skip" data-a="skip" data-v="${n}" ${busy || s.pending.length ? 'disabled' : ''} title="Skip ${n} year${n > 1 ? 's' : ''} (safe auto)">+${n}</button>`).join('');
-  return `<div class="dock dock-auto">
+  return `<div class="dock dock-auto bw-auto-dock bw-auto-skip-flash">
     <div class="auto-row" role="group" aria-label="Autopilot skip">
       <span class="auto-label">Skip</span>${skipBtns}
       <button type="button" class="auto-skip" data-a="skip" data-v="custom" ${busy || s.pending.length ? 'disabled' : ''} title="Custom skip">…</button>
@@ -837,6 +916,7 @@ function render() {
   const j = $('#jr'); if (j) j.scrollTop = j.scrollHeight; save();
   paintAmbient(s.region || 'hearthfold', tab);
   try { syncMusic(tab, document.documentElement.dataset.tod); } catch (_) {}
+  try { afterLegacyRender(); } catch (_) {}
   if (!document.querySelector('.music-fab')) {
     const fab = document.createElement('div'); fab.className = 'music-fab'; fab.innerHTML = musicToggleHTML(); document.body.append(fab);
   } else {
@@ -870,6 +950,8 @@ app.addEventListener('click', (ev) => {
       save(); render(); return;
     }
     const now = E.cage(s);
+    flashSkip(document.querySelector('.auto-host'));
+    flashSkip(document.querySelector('.dock-auto'));
     if (s.alive && !s.route && now >= 11 && prevAge < 11) toast('Age 11 — choose your path on Life or Skills (sword / magic / hybrid / craft).');
     else if (s.alive && !s.route && now === 8) toast('Path choice unlocked — pick sword, magic, hybrid, or craft.');
   }
@@ -943,6 +1025,33 @@ app.addEventListener('click', (ev) => {
   else if (a === 'greclaim') r = v === 'challenge' ? E.reclaimChallenge(s, 'guild') : E.reclaimBuyback(s, 'guild');
   else if (a === 'thand') r = E.handoffOwnership(s, 'team', v);
   else if (a === 'ghand') r = E.handoffOwnership(s, 'guild', v);
+  else if (a === 'codexfilter') { s.flags.codexFilter = v; }
+  else if (a === 'lgclaim') {
+    ensureLegacyMotion();
+    const row = b.closest('.legacy-row');
+    r = E.claimLifeGoal(s, meta, v);
+    if (r?.ok) { fireClaim(row || b); save(); }
+  }
+  else if (a === 'lgclaimall') {
+    ensureLegacyMotion();
+    const rows = document.querySelectorAll('.legacy-row.legacy-ready, .legacy-row .bw-claim-ready');
+    const hosts = [...document.querySelectorAll('.legacy-row.legacy-ready')];
+    fireClaimAll(hosts);
+    r = E.claimAllLifeGoals(s, meta);
+    if (r?.ok) save();
+  }
+  else if (a === 'achclaim') {
+    ensureLegacyMotion();
+    const row = b.closest('.legacy-row');
+    r = E.claimAchievement(s, meta, v);
+    if (r?.ok) { fireClaim(row || b); save(); }
+  }
+  else if (a === 'achclaimall') {
+    ensureLegacyMotion();
+    fireClaimAll(document.querySelectorAll('.legacy-row.legacy-ready'));
+    r = E.claimAllAchievements(s, meta);
+    if (r?.ok) save();
+  }
   else if (a === 'music') { unlockMusic(); toggleMute(); return; }
   else if (a === 'autostop') { requestStop(); toast('Stopping autopilot…'); return; }
   else if (a === 'skip') {
@@ -956,6 +1065,8 @@ app.addEventListener('click', (ev) => {
     skipYears(s, n, {
       waitMs: 30,
       onYear: (y, i, total) => {
+        flashSkip(document.querySelector('.auto-host'));
+        flashSkip(document.querySelector('.dock-auto'));
         if (i === 1 || i === total || i % 5 === 0) toast(`Autopilot ${i}/${total} · age ${E.cage(s)}`);
       },
       onPause: (p) => { toast(p?.reason || 'Autopilot paused.'); },
