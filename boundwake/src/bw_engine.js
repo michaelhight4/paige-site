@@ -404,10 +404,113 @@ function newYearBudget(s) {
   if (m.socialBonus) s.budget.social += m.socialBonus;
 }
 function spendAct(s, k) { if (s.budget[k] <= 0) return false; s.budget[k]--; return true; }
+// Ledger taken before an outing so the outcome sheet can name what actually moved.
+// Session-only: the pre-choice snapshot is not part of the save. advOutcomeId is.
+const advWatch = new WeakMap();
+const STAT_FACE = { health: 'Health', happiness: 'Spirit', smarts: 'Wits', looks: 'Presence', fame: 'Renown', karma: 'Karma', stress: 'Strain' };
+function fmtNum(n) {
+  const r = Math.round(Number(n) * 10) / 10;
+  return Number.isInteger(r) ? String(r) : r.toFixed(1);
+}
+function signed(n) {
+  const r = Math.round(Number(n) * 10) / 10;
+  if (r === 0) return '0';
+  return (r > 0 ? '+' : '') + fmtNum(r);
+}
+function faceId(id) {
+  return String(id || '').replace(/^relic_/, '').replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+export function captureLedger(s) {
+  return {
+    gold: Math.floor(s.gold || 0),
+    mana: Math.floor(s.mana || 0),
+    alive: s.alive !== false,
+    stats: Object.fromEntries(STATS.map((k) => [k, Math.round((s.stats?.[k] || 0) * 10) / 10])),
+    skills: Object.fromEntries(Object.entries(s.skills || {}).map(([k, v]) => [k, Math.round((v || 0) * 10) / 10])),
+    injuries: (s.injuries || []).map((j) => j.id),
+    relics: [...(s.relics || [])],
+    gear: [...(s.gear?.owned || [])],
+    people: (s.people || []).filter((p) => p && p.id).map((p) => ({
+      id: p.id, first: p.first || 'Someone', rel: p.rel || 'bond', bar: Math.round(p.bar || 0), alive: p.alive !== false, inParty: !!p.inParty,
+    })),
+    teamRenown: s.team ? Math.round(s.team.renown || 0) : null,
+    guildRenown: s.guild ? Math.round(s.guild.renown || 0) : null,
+  };
+}
+/** Concrete lines for gold, renown, health, injuries, items, skills, bonds, and party. */
+export function ledgerDeltas(before, after) {
+  const lines = [];
+  if (!before || !after) return lines;
+  const gold = after.gold - before.gold;
+  if (gold) lines.push(`Gold ${signed(gold)} (now ${after.gold})`);
+  const fame = (after.stats.fame || 0) - (before.stats.fame || 0);
+  if (fame) lines.push(`Renown ${signed(fame)} (now ${fmtNum(after.stats.fame)})`);
+  const hp = (after.stats.health || 0) - (before.stats.health || 0);
+  if (hp) lines.push(`Health ${signed(hp)} (now ${fmtNum(after.stats.health)})`);
+  for (const k of STATS) {
+    if (k === 'fame' || k === 'health') continue;
+    const d = (after.stats[k] || 0) - (before.stats[k] || 0);
+    if (Math.abs(d) >= 1) lines.push(`${STAT_FACE[k] || k} ${signed(d)}`);
+  }
+  const mana = (after.mana || 0) - (before.mana || 0);
+  if (Math.abs(mana) >= 1) lines.push(`Mana ${signed(mana)} (now ${after.mana})`);
+  const injB = new Map(), injA = new Map();
+  for (const id of before.injuries) injB.set(id, (injB.get(id) || 0) + 1);
+  for (const id of after.injuries) injA.set(id, (injA.get(id) || 0) + 1);
+  for (const id of new Set([...injB.keys(), ...injA.keys()])) {
+    const d = (injA.get(id) || 0) - (injB.get(id) || 0);
+    if (d > 0) lines.push(`Injury: ${faceId(id)}`);
+    else if (d < 0) lines.push(`Injury healed: ${faceId(id)}`);
+  }
+  const hadRelic = new Set(before.relics);
+  for (const id of after.relics) if (!hadRelic.has(id)) lines.push(`Item: ${faceId(id)}`);
+  const hadGear = new Set(before.gear);
+  for (const id of after.gear) if (!hadGear.has(id)) lines.push(`Gear: ${(typeof gearDef === 'function' && gearDef(id)?.name) || faceId(id)}`);
+  const skillIds = new Set([...Object.keys(before.skills || {}), ...Object.keys(after.skills || {})]);
+  const skillLines = [];
+  for (const id of skillIds) {
+    const d = (after.skills[id] || 0) - (before.skills[id] || 0);
+    if (Math.abs(d) < 0.1) continue;
+    const name = D.skillById?.[id]?.name || faceId(id);
+    let line = `${name} ${signed(d)} (now ${fmtNum(after.skills[id] || 0)})`;
+    try {
+      const rb = rankOf(before.skills[id] || 0), ra = rankOf(after.skills[id] || 0);
+      if (rb !== ra) line += ` · ${ra}`;
+    } catch (_) { /* ranks optional */ }
+    skillLines.push([Math.abs(d), line]);
+  }
+  skillLines.sort((a, b) => b[0] - a[0]);
+  for (const [, line] of skillLines) lines.push(line);
+  const bPeople = new Map(before.people.map((p) => [p.id, p]));
+  const aPeople = new Map(after.people.map((p) => [p.id, p]));
+  for (const [id, p] of aPeople) {
+    const was = bPeople.get(id);
+    if (!was) {
+      lines.push(`Bond: ${p.first} joined (${p.rel})`);
+      if (p.inParty) lines.push(`Party: ${p.first} is with you`);
+      continue;
+    }
+    if (was.alive && !p.alive) lines.push(`Bond: ${p.first} is gone`);
+    else if (was.rel !== p.rel) lines.push(`Bond: ${p.first} is now your ${p.rel}`);
+    const db = p.bar - was.bar;
+    if (db) lines.push(`Bond: ${p.first} closeness ${signed(db)} (now ${p.bar})`);
+    if (!was.inParty && p.inParty) lines.push(`Party: ${p.first} joined`);
+    else if (was.inParty && !p.inParty) lines.push(`Party: ${p.first} left`);
+  }
+  for (const [id, p] of bPeople) if (!aPeople.has(id)) lines.push(`Bond: ${p.first} left`);
+  if (before.teamRenown != null && after.teamRenown != null && after.teamRenown !== before.teamRenown)
+    lines.push(`Team renown ${signed(after.teamRenown - before.teamRenown)} (now ${after.teamRenown})`);
+  if (before.guildRenown != null && after.guildRenown != null && after.guildRenown !== before.guildRenown)
+    lines.push(`Hall renown ${signed(after.guildRenown - before.guildRenown)} (now ${after.guildRenown})`);
+  if (before.alive && !after.alive) lines.push('You fell. This life ends here.');
+  return lines;
+}
+
 export function canAdventure(s) { if (s.prison) return false; return cage(s) >= 10 && s.budget.adv > 0 && s.budget.act > 0; }
 export function adventure(s) {
   if (s.prison) return { ok: false, msg: 'The road is closed while you are held.' };
   if (!canAdventure(s)) return { ok: false, msg: cage(s) < 10 ? 'Too young for the road.' : 'No adventures left this year.' };
+  const snap = captureLedger(s);
   s.budget.adv--; s.budget.act--;
   s.flags.goal_adventured = 1; s.tally.adventures = (s.tally.adventures || 0) + 1;
   // Trained skills + styles color the road (Boundwake growth, not Bit Tensie copy)
@@ -423,12 +526,18 @@ export function adventure(s) {
   const e = wpick(s, el, (x) => (x.w || 1) * (x.cat === 'combat' ? combatW : x.cat === 'dungeon' ? dungeonW : exploreW));
   if (e) {
     useSkill(s, e.cat === 'combat' ? 'swordsmanship' : e.cat === 'dungeon' ? (s.flags.mana_awakened ? 'spellcraft' : 'endurance') : 'tracking', 1.5);
-    queue(s, e.id); return { ok: true, msg: 'Something finds you on the road…' };
+    queue(s, e.id);
+    if (!s.flags) s.flags = {};
+    s.flags.advOutcomeId = e.id;
+    advWatch.set(s, snap);
+    return { ok: true, msg: 'Something finds you on the road…' };
   }
   const loc = pick(s, regionOf(s).locations);
   const coin = rint(s, 0, 6) + Math.floor((s.skills.bartering || 0) / 40);
   s.gold += coin; useSkill(s, 'tracking', 1); useSkill(s, 'endurance', 0.8);
-  log(s, `I wandered ${loc.name}. ${loc.flavor}`, 'explore'); discover(s, loc.id); return { ok: true, msg: loc.flavor };
+  const msg = `I wandered ${loc.name}. ${loc.flavor}`;
+  log(s, msg, 'explore'); discover(s, loc.id);
+  return { ok: true, ack: true, title: loc.name || 'The road', msg, deltas: ledgerDeltas(snap, captureLedger(s)) };
 }
 export function rest(s) { if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' }; s.stats.stress = clamp(s.stats.stress - 12, 0, 100); s.stats.health = clamp(s.stats.health + 3, 0, 100); log(s, 'I took a slow day by the pond with tea and bread.', 'rest'); return { ok: true }; }
 export function chooseRoute(s, r) {
@@ -822,6 +931,9 @@ export function resolve(s, i) {
   if (!c) return { ok: false, msg: 'Unknown choice.' };
   const need = typeof c.req === 'number' ? c.req : (c.req?.gold ?? 0);
   if (need && s.gold < need) return { ok: false, msg: `Need ${need} gold.` };
+  // Adventure set-out snapshots the whole outing (road skills + this choice). Other events snapshot here.
+  const fromAdventure = s.flags?.advOutcomeId === id;
+  const before = (fromAdventure && advWatch.get(s)) || captureLedger(s);
   const p = oddsOf(s, c), ok = p == null || chance(s, p), branch = c.win ? (ok ? c.win : c.fail || {}) : c;
   if (c.win) applyFx(s, c.fx || {}); applyFx(s, branch.fx || {});
   const flag = branch.flag || (ok && !c.win && c.flag); if (flag) s.flags[flag] = 1;
@@ -831,7 +943,8 @@ export function resolve(s, i) {
   const msg = fill(pick(s, lines), { name: s.first, heir_name: s.first, gold: Math.floor(s.gold) }); s.pending.shift();
   if (e.once) s.flags['once_' + e.id] = 1; s.evLast[e.id] = s.age; s.tally.events++; discover(s, e.id);
   log(s, msg, 'event'); if (s.stats.health <= 0) die(s, e.cat === 'combat' || e.cat === 'dungeon' ? 'battle' : 'accident');
-  return { ok: true, success: ok, msg, title: e.title };
+  if (fromAdventure) { delete s.flags.advOutcomeId; advWatch.delete(s); }
+  return { ok: true, success: ok, msg, title: e.title, ack: true, deltas: ledgerDeltas(before, captureLedger(s)) };
 }
 
 

@@ -2,7 +2,7 @@
 // Reference: Lifeline autopilot pause-on-important + yearly spend leftovers.
 // Docs: docs/AUTOPILOT.md
 
-import * as E from './bw_engine.js';
+import * as E from './bw_engine.js?v=advack1';
 
 export const SKIP_PRESETS = [1, 5, 10, 25];
 export const MAX_SKIP = 100;

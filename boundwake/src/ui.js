@@ -1,13 +1,13 @@
 // Boundwake UI shell — studio standard pass (Nov 5, 2026 CT).
 // Craft: Lifeline docked Age + per-menu hue bars; Boundwake parchment/realm identity.
 import { loadPack } from './pack.js';
-import * as E from './bw_engine.js';
+import * as E from './bw_engine.js?v=advack1';
 import { ico, esc, flare, oddsChip, statLabel, infoChip, skillIco } from './flare.js';
 import { mountInfoClicks, openInfo, openInfoDetail } from './info.js';
 import { checkAdminAccess, gateHTML, isLocalHost } from './admingate.js';
 import { mountAmbient, paintAmbient } from './ambient.js';
 import { mountMusic, syncMusic, toggleMute, musicToggleHTML, unlockMusic } from './music.js';
-import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP } from './autopilot.js';
+import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP } from './autopilot.js?v=advack1';
 const $ = (sel) => document.querySelector(sel), app = $('#app');
 const KEY = 'bw.save.v1', META = 'bw.meta.v1', SEEN = 'bw.cold.v1';
 const TAB_ID = Math.random().toString(36).slice(2, 10);
@@ -1099,6 +1099,49 @@ function eventSheet() {
   const c = E.pendingCard(s); if (!c) return '';
   return `<div class="sheet" data-sheet="1"><div class="card"><div class="card-hd">${ico('adventure')} ${flare(c.title)}</div><div class="card-body"><p class="prompt">${flare(c.prompt)}</p><div class="choices">${c.choices.map((x, i) => `<button type="button" data-a="ch" data-v="${i}" ${x.locked ? 'disabled aria-disabled="true"' : ''} title="${esc(x.lockWhy || '')}">${flare(x.label)}${x.locked && x.lockWhy ? ` <small class="lock-why">(${esc(x.lockWhy)})</small>` : ''}${oddsChip(x.odds)}</button>`).join('')}</div></div></div></div>`;
 }
+// Outcome sheet stays until Continue. No timer — the old toast faded itself after 2s.
+let outcomeAck = null;
+const OUTING = new Set(['tourney', 'tinvite', 'tmeet', 'tgrand', 'tmeetall']);
+const OUTING_TITLE = { tourney: 'Tournament', tinvite: 'Invitation', tmeet: 'Realm meet', tgrand: 'Teams', tmeetall: 'Teams' };
+function holdOutcome(r) {
+  if (!r) return;
+  outcomeAck = {
+    title: r.title || 'Outcome',
+    msg: String(r.msg || ''),
+    deltas: Array.isArray(r.deltas) ? r.deltas.map((d) => String(d)) : [],
+  };
+  if (s) {
+    if (!s.flags) s.flags = {};
+    s.flags.outcomeAck = outcomeAck;
+  }
+  document.body.dataset.sheetBusy = '1';
+  setTimeout(() => { delete document.body.dataset.sheetBusy; }, 320);
+}
+function clearOutcome() {
+  outcomeAck = null;
+  if (s?.flags) delete s.flags.outcomeAck;
+}
+function activeOutcome() {
+  if (outcomeAck) return outcomeAck;
+  const stored = s?.flags?.outcomeAck;
+  if (stored && typeof stored === 'object') {
+    outcomeAck = {
+      title: stored.title || 'Outcome',
+      msg: String(stored.msg || ''),
+      deltas: Array.isArray(stored.deltas) ? stored.deltas.map((d) => String(d)) : [],
+    };
+    return outcomeAck;
+  }
+  return null;
+}
+function outcomeSheet() {
+  const o = activeOutcome();
+  if (!o) return '';
+  const items = o.deltas.length
+    ? o.deltas.map((d) => `<li>${flare(d)}</li>`).join('')
+    : '<li>No change to gold, renown, health, items, bonds, skills, or party.</li>';
+  return `<div class="sheet sheet-outcome" data-sheet="outcome" role="dialog" aria-modal="true" aria-labelledby="outcome-hd"><div class="card"><div class="card-hd" id="outcome-hd">${ico('adventure')} ${flare(o.title || 'Outcome')}</div><div class="card-body"><p class="prompt">${flare(o.msg || '')}</p><h3 class="outcome-label">What changed</h3><ul class="outcome-deltas">${items}</ul></div><div class="outcome-ack"><button type="button" class="primary" data-a="ack">Continue</button></div></div></div>`;
+}
 function ageDock() {
   if (!s || !s.alive) return '';
   const busy = autoRunning();
@@ -1156,13 +1199,23 @@ function sidePeek() {
 let courtPick = null;
 function render() {
   if (!s) return fateScreen();
-  if (!s.alive) { save(); return deathScreen(); }
+  const outcome = activeOutcome();
+  if (!s.alive) {
+    save();
+    deathScreen();
+    if (outcome) {
+      app.insertAdjacentHTML('beforeend', outcomeSheet());
+      document.body.classList.add('has-sheet');
+      document.querySelector('.sheet-outcome [data-a="ack"]')?.focus();
+    }
+    return;
+  }
   setChrome(tab);
   const tabs = TABS.map(([k]) => {
     const m = TAB_META[k];
     return `<button data-tab="${k}" class="${tab === k ? 'on' : ''}" aria-label="${T(m.label)}">${ico(m.ico)}${T(m.label)}</button>`;
   }).join('');
-  const sheet = eventSheet();
+  const sheet = outcome ? outcomeSheet() : eventSheet();
   document.body.classList.toggle('has-sheet', !!sheet);
   app.innerHTML = `<div class="play-layout">
     <div class="play-hub">${header()}${ageDock()}</div>
@@ -1178,8 +1231,18 @@ function render() {
   } else {
     document.querySelector('.music-fab').innerHTML = musicToggleHTML();
   }
+  if (outcome) document.querySelector('.sheet-outcome [data-a="ack"]')?.focus();
 }
 app.addEventListener('click', (ev) => {
+  const ackBtn = ev.target.closest('button[data-a="ack"]');
+  if (ackBtn) {
+    ev.preventDefault();
+    if (document.body.dataset.sheetBusy) return;
+    clearOutcome();
+    render();
+    return;
+  }
+  if (activeOutcome()) { ev.preventDefault(); ev.stopPropagation(); return; }
   // Tab switches for buttons / flare chips with data-tab — never body[data-tab] (setChrome).
   // Soccer Rpg P1: closest('[data-tab]') matched BODY and ate Age/Skip/Rest before data-a.
   const tabEl = ev.target.closest('button[data-tab], a[data-tab], .flare[data-tab]');
@@ -1196,6 +1259,7 @@ app.addEventListener('click', (ev) => {
   // Real disabled: attribute or aria (Playwright/DOM greyed choices must not fire)
   if (b.disabled || b.getAttribute('aria-disabled') === 'true') { ev.preventDefault(); ev.stopPropagation(); return; }
   const a = b.dataset.a, v = b.dataset.v; let r;
+  const ledgerBefore = OUTING.has(a) ? E.captureLedger(s) : null;
   if (a === 'age') {
     if (s?.pending?.length) return;
     const prevAge = E.cage(s);
@@ -1216,8 +1280,7 @@ app.addEventListener('click', (ev) => {
     if (document.body.dataset.sheetBusy) return;
     document.body.dataset.sheetBusy = '1';
     r = E.resolve(s, +v);
-    if (r && r.ok === false) toast(r.msg);
-    else if (r) toast((r.success === false ? '✗ ' : '') + r.msg);
+    // Outcome text is held for Continue below. Failures still toast.
     // Drop sheet hit-target quickly so stale modal clicks cannot double-fire
     const sheet = document.querySelector('.sheet'); if (sheet) sheet.style.pointerEvents = 'none';
     setTimeout(() => { delete document.body.dataset.sheetBusy; }, 280);
@@ -1339,7 +1402,15 @@ app.addEventListener('click', (ev) => {
     });
     return;
   }
-  if (r && r.ok === false) toast(r.msg); else if (r && a !== 'ch' && r.msg && a !== 'adv') toast(r.msg);
+  if (r?.ack) holdOutcome(r);
+  else if (ledgerBefore && r?.ok && OUTING.has(a)) {
+    holdOutcome({ title: OUTING_TITLE[a] || 'Adventure', msg: r.msg || '', deltas: E.ledgerDeltas(ledgerBefore, E.captureLedger(s)) });
+  }
+  const acknowledged = !!(r?.ack || (ledgerBefore && r?.ok && OUTING.has(a)));
+  if (!acknowledged) {
+    if (r && r.ok === false) toast(r.msg);
+    else if (r && a !== 'ch' && r.msg && a !== 'adv') toast(r.msg);
+  }
   render();
 });
 function startAmbient() {
