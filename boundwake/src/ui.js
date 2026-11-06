@@ -10,6 +10,10 @@ import { mountMusic, syncMusic, toggleMute, musicToggleHTML, unlockMusic } from 
 import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP } from './autopilot.js';
 const $ = (sel) => document.querySelector(sel), app = $('#app');
 const KEY = 'bw.save.v1', META = 'bw.meta.v1', SEEN = 'bw.cold.v1';
+const TAB_ID = Math.random().toString(36).slice(2, 10);
+let adoptBusy = false;
+let saveBc = null;
+try { saveBc = new BroadcastChannel('bw.save.v1'); } catch (_) { saveBc = null; }
 const LEGACY_ACC_KEY = 'bw.ui.legacyAcc'; // session: { goals:bool, achs:bool } open state
 function readLegacyAcc() {
   try { return JSON.parse(sessionStorage.getItem(LEGACY_ACC_KEY) || '{}') || {}; } catch { return {}; }
@@ -246,7 +250,109 @@ function portrait(st, raceId, career, big, name, sex) {
   return `<div class="${cls}" data-spr="${file}"><img alt="" src="${GRID}${file}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mono-fallback',textContent:'${mono}'}))"></div>`;
 }
 const career = () => (s.job ? E.careerOf(s.job.id).id : null);
-const save = () => { if (!Q.has('nosave')) { localStorage.setItem(KEY, JSON.stringify(s)); localStorage.setItem(META, JSON.stringify(meta)); } };
+/** Rank a life save so an older tab can never clobber a newer one (Gary Nov 5 ~6:53 PM CT: 14→7). */
+function saveRank(st) {
+  if (!st || typeof st !== 'object') return -1;
+  const epoch = Number(st.lifeEpoch) || 0;
+  const age = Number(st.age) || 0;
+  const logSeq = Number(st.logSeq) || (Array.isArray(st.log) ? st.log.length : 0);
+  const savedAt = Number(st.savedAt) || 0;
+  return epoch * 1e15 + age * 1e9 + logSeq * 1e4 + (savedAt % 10000);
+}
+function readStoredSave() {
+  try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { return null; }
+}
+function readStoredMeta() {
+  try { return JSON.parse(localStorage.getItem(META) || '{}') || {}; } catch { return {}; }
+}
+/** New life / reincarnate / heir must beat any in-flight stale tab of the prior life. */
+function bumpLifeEpoch(st) {
+  if (!st) return;
+  const stored = readStoredSave();
+  const base = Math.max(Number(st.lifeEpoch) || 0, Number(stored?.lifeEpoch) || 0, Number(meta?.lifeEpoch) || 0);
+  st.lifeEpoch = base + 1;
+  if (meta) meta.lifeEpoch = st.lifeEpoch;
+}
+function adoptRemoteSave(remote, reason) {
+  if (!remote || adoptBusy) return;
+  adoptBusy = true;
+  try {
+    s = remote;
+    meta = readStoredMeta();
+    E.ensureLegacyMeta(meta);
+    if (s.team === undefined) s.team = null;
+    if (s.guild === undefined) s.guild = null;
+    if (!s.flags) s.flags = {};
+    const a = Math.floor(Number(s.age) || 0);
+    toast(reason || `Synced from another tab · age ${a}.`);
+    render();
+  } finally { adoptBusy = false; }
+}
+const save = () => {
+  if (Q.has('nosave') || !s) return false;
+  if (s.lifeEpoch == null) s.lifeEpoch = Number(meta?.lifeEpoch) || 0;
+  s.savedAt = Date.now();
+  s.saveTab = TAB_ID;
+  const stored = readStoredSave();
+  if (stored && saveRank(stored) > saveRank(s)) {
+    // Never clobber a newer save with older in-memory state (multi-tab).
+    // Defer adopt so we do not re-enter render() mid-save.
+    const newer = stored;
+    const msg = `Another tab is ahead (age ${Math.floor(Number(stored.age) || 0)}). Restored that life.`;
+    s = newer;
+    queueMicrotask(() => adoptRemoteSave(newer, msg));
+    return false;
+  }
+  try {
+    localStorage.setItem(KEY, JSON.stringify(s));
+    if (meta) {
+      meta.lifeEpoch = Math.max(Number(meta.lifeEpoch) || 0, Number(s.lifeEpoch) || 0);
+      localStorage.setItem(META, JSON.stringify(meta));
+    }
+  } catch (err) {
+    console.error('Boundwake save failed', err);
+    toast('Could not save — browser storage may be full.');
+    return false;
+  }
+  try {
+    saveBc?.postMessage({ type: 'save', tab: TAB_ID, rank: saveRank(s), age: s.age, lifeEpoch: s.lifeEpoch });
+  } catch (_) {}
+  return true;
+};
+function bindMultiTabSave() {
+  if (globalThis.__bwSaveBound) return;
+  globalThis.__bwSaveBound = 1;
+  window.addEventListener('storage', (ev) => {
+    if (ev.key !== KEY || ev.newValue == null) return;
+    let remote;
+    try { remote = JSON.parse(ev.newValue); } catch { return; }
+    if (!remote) return;
+    if (!s) {
+      // Sitting on fate/cold while another tab plays — pick up their life on return.
+      s = remote;
+      meta = readStoredMeta();
+      E.ensureLegacyMeta(meta);
+      render();
+      return;
+    }
+    if (saveRank(remote) > saveRank(s)) {
+      adoptRemoteSave(remote, `Synced from another tab · age ${Math.floor(Number(remote.age) || 0)}.`);
+    }
+  });
+  if (saveBc) {
+    saveBc.addEventListener('message', (ev) => {
+      const msg = ev?.data;
+      if (!msg || msg.tab === TAB_ID || msg.type !== 'save') return;
+      if (!s) return;
+      if (typeof msg.rank === 'number' && msg.rank > saveRank(s)) {
+        const remote = readStoredSave();
+        if (remote && saveRank(remote) > saveRank(s)) {
+          adoptRemoteSave(remote, `Synced from another tab · age ${Math.floor(Number(remote.age) || 0)}.`);
+        }
+      }
+    });
+  }
+}
 const toast = (m) => {
   if (!m) return; document.querySelectorAll('.toast').forEach((t) => t.remove());
   const d = document.createElement('div'); d.className = 'toast'; d.style.pointerEvents = 'none';
@@ -332,7 +438,7 @@ function fateScreen(rr = 1) {
   app.innerHTML = card('fate', `${ico('echo')} ${T('fate_title')}`, body);
   try { syncMusic('fate', document.documentElement.dataset.tod); } catch (_) {}
   if (!document.querySelector('.music-fab')) { const fab = document.createElement('div'); fab.className = 'music-fab'; fab.innerHTML = musicToggleHTML(); document.body.append(fab); }
-  $('#go').onclick = () => { s = E.begin(fate, meta); tab = 'life'; save(); render(); };
+  $('#go').onclick = () => { s = E.begin(fate, meta); bumpLifeEpoch(s); tab = 'life'; save(); render(); };
   $('#rr').onclick = () => fateScreen(0);
 }
 function header() {
@@ -1120,8 +1226,8 @@ app.addEventListener('click', (ev) => {
   else if (a === 'train') r = E.train(s, v); else if (a === 'job') r = E.takeJob(s, v); else if (a === 'quit') E.quitJob(s); else if (a === 'work') r = E.workHard(s);
   else if (a === 'adv') r = E.adventure(s); else if (a === 'rest') r = E.rest(s); else if (a === 'route') { r = E.chooseRoute(s, v); }
   else if (a === 'soc') r = E.socialize(s, v); else if (a === 'friend') r = E.meetSomeone(s, false); else if (a === 'love') r = E.meetSomeone(s, true); else if (a === 'travel') r = E.travel(s, v); else if (a === 'scout') r = E.scoutRealm(s, v); else if (a === 'visit') r = E.visitLocation(s, v);
-  else if (a === 'reinc') { s = E.reincarnate(meta, s, v, (Math.random() * 2 ** 31) | 0); tab = 'life'; }
-  else if (a === 'heir') { s = E.continueAsHeir(meta, s, v, (Math.random() * 2 ** 31) | 0); tab = 'life'; }
+  else if (a === 'reinc') { s = E.reincarnate(meta, s, v, (Math.random() * 2 ** 31) | 0); bumpLifeEpoch(s); tab = 'life'; }
+  else if (a === 'heir') { s = E.continueAsHeir(meta, s, v, (Math.random() * 2 ** 31) | 0); bumpLifeEpoch(s); tab = 'life'; }
   else if (a === 'party') { r = E.toggleParty(s, v); }
   else if (a === 'awaken') { r = E.attemptManaAwaken(s); }
   else if (a === 'style') { r = E.chooseSwordStyle(s, v); }
@@ -1245,8 +1351,15 @@ function startAmbient() {
   const acc = await checkAdminAccess();
   if (!acc.ok) { setChrome('gate'); app.innerHTML = gateHTML(acc.reason); return; }
   P = await loadPack(); E.setPack(P); meta = JSON.parse(localStorage.getItem(META) || '{}'); E.ensureLegacyMeta(meta);
+  // ?fresh / ?nosave / ?skipintro only when explicitly present in the URL (never implied by hard refresh).
   if (!Q.has('fresh')) try { s = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { s = null; }
-  if (s) { if (s.team === undefined) s.team = null; if (s.guild === undefined) s.guild = null; if (!s.flags) s.flags = {}; }
+  else s = null;
+  if (s) {
+    if (s.team === undefined) s.team = null; if (s.guild === undefined) s.guild = null; if (!s.flags) s.flags = {};
+    if (s.lifeEpoch == null) s.lifeEpoch = Number(meta.lifeEpoch) || 0;
+    meta.lifeEpoch = Math.max(Number(meta.lifeEpoch) || 0, Number(s.lifeEpoch) || 0);
+  }
+  bindMultiTabSave();
   startAmbient(); mountInfoClicks(document); mountMusic();
   if (s) render(); else if (!localStorage.getItem(SEEN) && !Q.has('skipintro')) cold(); else fateScreen();
 })();

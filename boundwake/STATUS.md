@@ -1,3 +1,13 @@
+## Live — **PENDING_SHA** multi-tab save guard · https://paigegames.net/boundwake/
+
+## HOTFIX — Hard refresh rolled age 14→7 (multi-tab clobber) — Coder Nov 5 ~6:55 PM CT
+- Root cause (Gary): two Boundwake tabs open; older tab (age 7) wrote `bw.save.v1` over newer life (age 14) on render/save
+- Fix: `saveRank(lifeEpoch, age, logSeq, savedAt)` — never write if stored rank is higher; adopt/sync newer via `storage` + `BroadcastChannel`
+- New life / reincarnate / heir bump `lifeEpoch` so intentional resets still win
+- `?fresh` / `?nosave` / `?skipintro` still only when explicitly in the URL (hard refresh alone never wipes)
+- Cache-bust `?v=tabsave1` on ui.js only; all-tabs scroll `?v=tabscroll1` CSS left alone
+- Recovery: once age-7 overwrote age-14 in localStorage the years are gone unless another tab/device still holds age 14 in memory (that tab can Age/+act once on the new build to re-save ahead)
+
 ## Live — **a48e449e** all-tabs scroll fix · https://paigegames.net/boundwake/
 
 ## HOTFIX — Belongings/Work/Skills/Realms (+ Bonds/Adv/Legacy/Codex) won't scroll — Coder Nov 5 ~6:53 PM CT

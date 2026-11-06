@@ -1,3 +1,10 @@
+## Live — **PENDING_SHA** multi-tab save guard · https://paigegames.net/boundwake/
+
+## 2026-11-05 ~6:55 PM CT — Multi-tab save never clobbers newer life
+- Gary hard refresh: age 14 → 7 (second tab still at 7 overwrote `bw.save.v1`)
+- Guarded save + storage/BroadcastChannel sync; lifeEpoch for new life/reinc/heir
+- Cache-bust tabsave1 (ui.js); tabscroll1 CSS untouched
+
 ## Live — **a48e449e** all-tabs scroll fix · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:53 PM CT — All tall tabs scroll
