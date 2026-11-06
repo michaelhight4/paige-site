@@ -1,4 +1,4 @@
-## Live — **PENDING** all-tabs scroll fix · https://paigegames.net/boundwake/
+## Live — **a48e449e** all-tabs scroll fix · https://paigegames.net/boundwake/
 
 ## HOTFIX — Belongings/Work/Skills/Realms (+ Bonds/Adv/Legacy/Codex) won't scroll — Coder Nov 5 ~6:53 PM CT
 - Root: tall `.card` flex-shrunk inside `.play-body` while `.card{overflow:hidden}` clipped content
