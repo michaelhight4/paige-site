@@ -1,4 +1,4 @@
-## Live — pending · Legacy accordion + row info · https://paigegames.net/boundwake/
+## Live — **f6edd14f** Legacy accordion + row info · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:35 PM CT — Legacy collapsible + Life Goal/Achievement info
 - Collapsible Life Goals + Achievements (default collapsed; Achievements above fold)

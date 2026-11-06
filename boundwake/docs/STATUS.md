@@ -1,4 +1,4 @@
-## Live — pending · Legacy accordion + row info · https://paigegames.net/boundwake/
+## Live — **f6edd14f** Legacy accordion + row info · https://paigegames.net/boundwake/
 
 ## DEPLOY — Legacy collapsible + goal/ach info panel — Coder Nov 5 ~6:35 PM CT
 - Life Goals + Achievements collapsible (`details.legacy-acc`); default both collapsed; `sessionStorage bw.ui.legacyAcc`
