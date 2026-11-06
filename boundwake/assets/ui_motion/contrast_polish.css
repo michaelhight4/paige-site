@@ -1,0 +1,68 @@
+/* Boundwake contrast polish — Gary ask Nov 5 2026
+   Drop-in under assets/ui_motion/. Load AFTER style.css.
+   Pure override: desktop column shells → plum night; restore opaque parchment
+   plates on hub / Life / side cards that were made transparent against cream columns.
+   Mobile dock and body ink/gold tokens untouched. Coder wires. */
+
+/* =========================================================
+   Desktop ≥1024px — column frames vs parchment plates
+   ========================================================= */
+
+@media (min-width: 1024px) {
+  /* Column shells: deep plum night plates (mood lock: frames with plum night).
+     At most ~12% parch warmth via color-mix — clearly darker L* than #F7EBD2 cards. */
+  .play-hub,
+  .play-main,
+  .play-side {
+    /* Explicit night plate (alt: color-mix --plum/#120c1d with ≤~12% parch warmth) */
+    background: linear-gradient(180deg, #221a34, #140e1f);
+    border: 2px solid #e0b14a44;
+    box-shadow: 0 12px 36px #0008, 0 0 0 1px #0003;
+  }
+
+  /* ---- Hub identity card: opaque parchment plate again ---- */
+  .play-hub > .card.hub {
+    background: linear-gradient(180deg, var(--parch3, #FBF4E4), var(--parch, #F7EBD2));
+    border: var(--bw, 2px) solid color-mix(in srgb, var(--accent, var(--gold, #E0B14A)) 55%, #8a6a3a);
+    box-shadow: var(--shadow-card, 0 1px 0 #fff8 inset, 0 8px 22px #00000055, 0 0 0 1px #0002),
+      0 0 0 3px color-mix(in srgb, var(--accent, var(--gold, #E0B14A)) 22%, transparent);
+  }
+
+  .play-hub > .card.hub .card-body {
+    background: linear-gradient(180deg, var(--parch3, #FBF4E4), var(--parch, #F7EBD2));
+  }
+
+  /* ---- Life panel: opaque parchment shell; body keeps life-t mix ---- */
+  .play-body > .card.panel-life {
+    background: linear-gradient(180deg, var(--parch3, #FBF4E4), var(--parch, #F7EBD2));
+    border: var(--bw, 2px) solid color-mix(in srgb, var(--accent, var(--life, #3F7A3A)) 55%, #8a6a3a);
+    box-shadow: var(--shadow-card, 0 1px 0 #fff8 inset, 0 8px 22px #00000055, 0 0 0 1px #0002),
+      0 0 0 3px color-mix(in srgb, var(--accent, var(--life, #3F7A3A)) 22%, transparent);
+  }
+
+  .play-body > .card.panel-life .card-body {
+    /* Keep life tint so the panel still reads as Life, plate edge against dark column */
+    background: color-mix(in srgb, var(--life-t, #EEF5E6) 82%, var(--parch, #F7EBD2));
+  }
+
+  /* ---- Side / realm card: opaque parchment plate ---- */
+  .play-side.card,
+  .card.panel-side {
+    background: linear-gradient(180deg, var(--parch3, #FBF4E4), var(--parch, #F7EBD2));
+    border: var(--bw, 2px) solid color-mix(in srgb, var(--accent, var(--realm, #1F7A72)) 55%, #8a6a3a);
+    box-shadow: var(--shadow-card, 0 1px 0 #fff8 inset, 0 8px 22px #00000055, 0 0 0 1px #0002),
+      0 0 0 3px color-mix(in srgb, var(--accent, var(--realm, #1F7A72)) 22%, transparent);
+  }
+
+  .panel-side .card-body,
+  .play-side .card-body {
+    background: color-mix(in srgb, var(--realm-t, #E2F2F0) 78%, var(--parch, #F7EBD2));
+  }
+
+  /* Optional: slight deepen of even-row wells on parchment — subtle, not muddy */
+  .play-hub .row:nth-child(even),
+  .play-body .row:nth-child(even),
+  .play-side .row:nth-child(even) {
+    background: color-mix(in srgb, var(--parch2, #EBD7B0) 42%, #fff);
+  }
+}

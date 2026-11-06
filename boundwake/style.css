@@ -406,19 +406,23 @@ body.has-sheet .dock{visibility:hidden;pointer-events:none}
     grid-template-columns:minmax(280px,22vw) minmax(0,1fr) minmax(250px,20vw);
     gap:12px;align-items:stretch;
   }
+  /* Desktop contrast polish (Gary Nov 5): plum night columns + opaque parchment plates */
   .play-hub,.play-main,.play-side{
     display:flex;flex-direction:column;min-height:0;height:auto;align-self:stretch;
-    background:linear-gradient(180deg,color-mix(in srgb,var(--parch3) 94%,#120c1d),color-mix(in srgb,var(--parch) 92%,#120c1d));
-    border:2px solid #e0b14a55;border-radius:18px;
+    background:linear-gradient(180deg,#221a34,#140e1f);
+    border:2px solid #e0b14a44;border-radius:18px;
     box-shadow:0 12px 36px #0008,0 0 0 1px #0003;
     padding:10px;box-sizing:border-box;overflow:hidden;
   }
   .play-hub > .card.hub{
     flex:1 1 0;margin:0;min-height:0;display:flex;flex-direction:column;
-    border:0;box-shadow:none;background:transparent;
+    background:linear-gradient(180deg,var(--parch3),var(--parch));
+    border:var(--bw) solid color-mix(in srgb,var(--accent) 55%,#8a6a3a);
+    box-shadow:var(--shadow-card),0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent);
   }
   .play-hub > .card.hub .card-body{
-    flex:1 1 0;overflow:auto;min-height:0;background:transparent;
+    flex:1 1 0;overflow:auto;min-height:0;
+    background:linear-gradient(180deg,var(--parch3),var(--parch));
   }
   .play-hub .dock{
     position:relative;flex:0 0 auto;height:auto;margin-top:8px;padding:0;
@@ -439,7 +443,9 @@ body.has-sheet .dock{visibility:hidden;pointer-events:none}
   .play-body > .card{margin:0}
   .play-body > .card.panel-life{
     flex:1 1 0;min-height:0;display:flex;flex-direction:column;
-    border:0;box-shadow:none;background:transparent;
+    background:linear-gradient(180deg,var(--parch3),var(--parch));
+    border:var(--bw) solid color-mix(in srgb,var(--accent) 55%,#8a6a3a);
+    box-shadow:var(--shadow-card),0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent);
   }
   .play-body > .card.panel-life .card-hd{border-radius:12px 12px 0 0}
   .play-body > .card.panel-life .card-body{
@@ -452,13 +458,20 @@ body.has-sheet .dock{visibility:hidden;pointer-events:none}
   .play-side{--accent:var(--realm);--accent2:var(--realm2);--tint:var(--realm-t);margin:0}
   .play-side.card,.card.panel-side{
     flex:1 1 0;margin:0;min-height:0;display:flex;flex-direction:column;
-    border:0;box-shadow:none;background:transparent;
+    background:linear-gradient(180deg,var(--parch3),var(--parch));
+    border:var(--bw) solid color-mix(in srgb,var(--accent) 55%,#8a6a3a);
+    box-shadow:var(--shadow-card),0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent);
   }
   .panel-side .card-hd{border-radius:12px 12px 0 0}
   .panel-side .card-body,.play-side .card-body{
     flex:1 1 0;min-height:0;overflow:auto;padding:12px 14px;
     background:color-mix(in srgb,var(--realm-t) 78%,var(--parch));
     border-radius:0 0 12px 12px;
+  }
+  .play-hub .row:nth-child(even),
+  .play-body .row:nth-child(even),
+  .play-side .row:nth-child(even){
+    background:color-mix(in srgb,var(--parch2) 42%,#fff);
   }
   .side-label{margin:10px 0 4px;font:800 10.5px var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--gold2)}
   .side-label:first-child{margin-top:0}

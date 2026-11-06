@@ -1,3 +1,11 @@
+## Live — pending · desktop contrast polish · https://paigegames.net/boundwake/
+
+## DEPLOY — Animator contrast polish — Coder Nov 5 ~6:20 PM CT
+- Desktop columns `.play-hub/.play-main/.play-side` → plum night `#221a34`→`#140e1f`
+- Opaque parchment restored on hub / panel-life / side plates (merged into `style.css` ≥1024 block)
+- Opt-in `assets/ui_motion/contrast_polish.css` linked after style.css
+- Age/Skip click trap untouched; smoke Age +1 PASS
+
 ## Live — **f69b7ac1** P1 body[data-tab] click steal hotfix · https://paigegames.net/boundwake/
 
 ## HOTFIX P1 — Age/Skip/Rest clicks stolen by body[data-tab] — Coder Nov 5 ~6:12 PM CT

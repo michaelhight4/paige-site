@@ -1,3 +1,9 @@
+## Live — pending · desktop contrast polish · https://paigegames.net/boundwake/
+
+## 2026-11-05 ~6:20 PM CT — Desktop contrast polish
+- Merge plum night columns + opaque parchment plates into style.css; link contrast_polish.css
+- No Age/Skip regression
+
 ## Live — **f69b7ac1** P1 body[data-tab] click steal hotfix · https://paigegames.net/boundwake/
 
 ## HOTFIX P1 — Age/Skip/Rest clicks stolen by body[data-tab] — Coder Nov 5 ~6:12 PM CT

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Boundwake — UI contrast polish (before / after)</title>
+  <style>
+    /* Self-contained demo — real Boundwake mood hex tokens. Open via file:// */
+    :root {
+      --parch: #F7EBD2;
+      --parch2: #EBD7B0;
+      --parch3: #FBF4E4;
+      --ink: #241C14;
+      --muted: #5E4C38;
+      --plum: #2C2140;
+      --gold: #E0B14A;
+      --gold2: #B07D24;
+      --life: #3F7A3A;
+      --life2: #2A5A28;
+      --life-t: #EEF5E6;
+      --realm: #1F7A72;
+      --realm2: #135650;
+      --realm-t: #E2F2F0;
+      --bw: 2px;
+      --r-card: 16px;
+      --shadow-card: 0 1px 0 #fff8 inset, 0 8px 22px #00000055, 0 0 0 1px #0002;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 50% 110%, #3a4a2a 0%, transparent 55%),
+        radial-gradient(ellipse at 18% 0%, #3d2f5c 0%, transparent 48%),
+        var(--plum);
+      padding: 20px 16px 48px;
+    }
+    h1 {
+      margin: 0 0 6px;
+      font: 800 22px/1.2 ui-rounded, "Nunito", system-ui, sans-serif;
+      color: #fffaf0;
+      letter-spacing: 0.02em;
+    }
+    .lede {
+      color: #cbbfa8;
+      margin: 0 0 18px;
+      max-width: 52rem;
+      font-size: 13px;
+    }
+    .swatches {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin: 0 0 20px;
+    }
+    .swatch {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 8px; border-radius: 999px;
+      background: #120c1dcc; border: 1px solid #e0b14a44;
+      color: #e8dcc4; font: 700 11px/1 system-ui; letter-spacing: 0.02em;
+    }
+    .swatch i {
+      width: 14px; height: 14px; border-radius: 4px;
+      border: 1px solid #0006; display: block;
+    }
+    .compare {
+      display: grid;
+      gap: 18px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    @media (min-width: 900px) {
+      .compare { grid-template-columns: 1fr 1fr; }
+    }
+    .panel-label {
+      margin: 0 0 8px;
+      font: 800 12px/1.2 system-ui;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .panel-label span {
+      display: block;
+      font: 600 11px/1.35 system-ui;
+      letter-spacing: 0;
+      text-transform: none;
+      color: #cbbfa8;
+      margin-top: 4px;
+    }
+
+    /* Shared 3-column strip */
+    .strip {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr) minmax(0, 0.85fr);
+      gap: 10px;
+      padding: 10px;
+      border-radius: 18px;
+      border: 1px solid #0004;
+      min-height: 280px;
+    }
+    .col {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      border-radius: 18px;
+      padding: 10px;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    .card {
+      flex: 1 1 0;
+      margin: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      border-radius: var(--r-card);
+      overflow: hidden;
+      padding: 0;
+    }
+    .card-hd {
+      display: flex; align-items: center; gap: 8px; min-height: 36px;
+      padding: 6px 12px;
+      color: #fffaf0;
+      font: 800 12px/1.2 ui-rounded, system-ui, sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      box-shadow: inset 0 1px 0 #fff4, 0 2px 6px #0003;
+      text-shadow: 0 1px 0 #0004;
+    }
+    .card-body {
+      flex: 1 1 0;
+      padding: 10px 12px 12px;
+      font-size: 12.5px;
+      color: var(--ink);
+    }
+    .name { font: 800 15px/1.2 system-ui; margin: 0 0 2px; }
+    .meta { color: var(--muted); font-size: 11.5px; margin: 0 0 8px; }
+    .row {
+      display: flex; justify-content: space-between; gap: 8px;
+      padding: 6px 8px; border-radius: 10px; font-size: 12px;
+      margin: 0 0 4px;
+    }
+    .row:nth-child(even) { background: color-mix(in srgb, var(--tint, var(--parch3)) 55%, #fff); }
+    .pill {
+      display: inline-block; padding: 2px 8px; border-radius: 999px;
+      font: 700 10px/1.4 system-ui; letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: color-mix(in srgb, var(--gold) 28%, #fff);
+      color: var(--gold2);
+      border: 1px solid color-mix(in srgb, var(--gold) 45%, #8a6a3a);
+    }
+    .side-label {
+      margin: 0 0 6px;
+      font: 800 10px system-ui;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold2);
+    }
+
+    /* ========== BEFORE: cream columns + cream / transparent cards ========== */
+    .before .col {
+      background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--parch3) 94%, #120c1d),
+        color-mix(in srgb, var(--parch) 92%, #120c1d)
+      );
+      border: 2px solid #e0b14a55;
+      box-shadow: 0 12px 36px #0008, 0 0 0 1px #0003;
+    }
+    .before .card {
+      border: 0;
+      box-shadow: none;
+      background: transparent;
+    }
+    .before .hub .card-body { background: transparent; }
+    .before .panel-life .card-hd {
+      background: linear-gradient(135deg, var(--life), var(--life2));
+      border-radius: 12px 12px 0 0;
+    }
+    .before .panel-life .card-body {
+      background: color-mix(in srgb, var(--life-t) 82%, var(--parch));
+      border-radius: 0 0 12px 12px;
+    }
+    .before .panel-side .card-hd {
+      background: linear-gradient(135deg, var(--realm), var(--realm2));
+      border-radius: 12px 12px 0 0;
+    }
+    .before .panel-side .card-body {
+      background: color-mix(in srgb, var(--realm-t) 78%, var(--parch));
+      border-radius: 0 0 12px 12px;
+    }
+    .before .hub .name { color: var(--ink); }
+
+    /* ========== AFTER: plum columns + opaque parchment cards ========== */
+    .after .col {
+      background: linear-gradient(180deg, #221a34, #140e1f);
+      border: 2px solid #e0b14a44;
+      box-shadow: 0 12px 36px #0008, 0 0 0 1px #0003;
+    }
+    .after .card {
+      background: linear-gradient(180deg, var(--parch3), var(--parch));
+      border: var(--bw) solid color-mix(in srgb, var(--accent, var(--gold)) 55%, #8a6a3a);
+      box-shadow: var(--shadow-card), 0 0 0 3px color-mix(in srgb, var(--accent, var(--gold)) 22%, transparent);
+    }
+    .after .hub { --accent: var(--gold); }
+    .after .hub .card-body {
+      background: linear-gradient(180deg, var(--parch3), var(--parch));
+    }
+    .after .panel-life { --accent: var(--life); }
+    .after .panel-life .card-hd {
+      background: linear-gradient(135deg, var(--life), var(--life2));
+    }
+    .after .panel-life .card-body {
+      background: color-mix(in srgb, var(--life-t) 82%, var(--parch));
+    }
+    .after .panel-side { --accent: var(--realm); }
+    .after .panel-side .card-hd {
+      background: linear-gradient(135deg, var(--realm), var(--realm2));
+    }
+    .after .panel-side .card-body {
+      background: color-mix(in srgb, var(--realm-t) 78%, var(--parch));
+    }
+    .after .row:nth-child(even) {
+      background: color-mix(in srgb, var(--parch2) 42%, #fff);
+    }
+
+    .hex-note {
+      margin-top: 10px;
+      font: 600 11px/1.4 ui-monospace, Menlo, Consolas, monospace;
+      color: #a89880;
+    }
+  </style>
+</head>
+<body>
+  <h1>Boundwake — contrast polish</h1>
+  <p class="lede">
+    Gary ask Nov 5 2026: cream column shells matched parchment cards → no plate lift.
+    BEFORE = live desktop cream columns + transparent nested cards.
+    AFTER = plum night columns + opaque parchment plates (drop-in <code>contrast_polish.css</code>).
+  </p>
+
+  <div class="swatches" aria-label="Mood tokens">
+    <span class="swatch"><i style="background:#221a34"></i> column #221a34</span>
+    <span class="swatch"><i style="background:#140e1f"></i> column #140e1f</span>
+    <span class="swatch"><i style="background:#FBF4E4"></i> parch3 #FBF4E4</span>
+    <span class="swatch"><i style="background:#F7EBD2"></i> parch #F7EBD2</span>
+    <span class="swatch"><i style="background:#2C2140"></i> plum #2C2140</span>
+    <span class="swatch"><i style="background:#E0B14A"></i> gold #E0B14A</span>
+  </div>
+
+  <div class="compare">
+    <!-- BEFORE -->
+    <section class="before" aria-label="Before">
+      <p class="panel-label">Before<span>Cream columns (~parch mix) + transparent hub / Life / side → hard on the eyes</span></p>
+      <div class="strip">
+        <div class="col">
+          <article class="card hub">
+            <div class="card-body">
+              <p class="name">Mira Vale</p>
+              <p class="meta">Age 24 · Apprentice scribe</p>
+              <span class="pill">Hub</span>
+              <div class="row"><span>Vitality</span><strong>72</strong></div>
+              <div class="row"><span>Coin</span><strong>18g</strong></div>
+              <div class="row"><span>Renown</span><strong>3</strong></div>
+            </div>
+          </article>
+        </div>
+        <div class="col">
+          <article class="card panel-life">
+            <div class="card-hd">Life</div>
+            <div class="card-body">
+              <p class="meta" style="margin-top:0">Today’s thread</p>
+              <div class="row"><span>Morning market</span><strong>+2 coin</strong></div>
+              <div class="row"><span>Letter from home</span><strong>Bond +1</strong></div>
+              <div class="row"><span>Quiet study</span><strong>Skill +1</strong></div>
+            </div>
+          </article>
+        </div>
+        <div class="col">
+          <article class="card panel-side">
+            <div class="card-hd">Realm</div>
+            <div class="card-body">
+              <p class="side-label">Where you stand</p>
+              <div class="row"><span>Ashfen Reach</span><strong>Safe</strong></div>
+              <div class="row"><span>Travel</span><strong>Ready</strong></div>
+              <div class="row"><span>Weather</span><strong>Mist</strong></div>
+            </div>
+          </article>
+        </div>
+      </div>
+      <p class="hex-note">columns ≈ mix(parch3 94%, #120c1d) · cards transparent on cream</p>
+    </section>
+
+    <!-- AFTER -->
+    <section class="after" aria-label="After">
+      <p class="panel-label">After<span>Plum night columns + opaque parchment plates — plate lift restored</span></p>
+      <div class="strip">
+        <div class="col">
+          <article class="card hub">
+            <div class="card-body">
+              <p class="name">Mira Vale</p>
+              <p class="meta">Age 24 · Apprentice scribe</p>
+              <span class="pill">Hub</span>
+              <div class="row"><span>Vitality</span><strong>72</strong></div>
+              <div class="row"><span>Coin</span><strong>18g</strong></div>
+              <div class="row"><span>Renown</span><strong>3</strong></div>
+            </div>
+          </article>
+        </div>
+        <div class="col">
+          <article class="card panel-life">
+            <div class="card-hd">Life</div>
+            <div class="card-body">
+              <p class="meta" style="margin-top:0">Today’s thread</p>
+              <div class="row"><span>Morning market</span><strong>+2 coin</strong></div>
+              <div class="row"><span>Letter from home</span><strong>Bond +1</strong></div>
+              <div class="row"><span>Quiet study</span><strong>Skill +1</strong></div>
+            </div>
+          </article>
+        </div>
+        <div class="col">
+          <article class="card panel-side">
+            <div class="card-hd">Realm</div>
+            <div class="card-body">
+              <p class="side-label">Where you stand</p>
+              <div class="row"><span>Ashfen Reach</span><strong>Safe</strong></div>
+              <div class="row"><span>Travel</span><strong>Ready</strong></div>
+              <div class="row"><span>Weather</span><strong>Mist</strong></div>
+            </div>
+          </article>
+        </div>
+      </div>
+      <p class="hex-note">columns #221a34 → #140e1f · cards #FBF4E4 → #F7EBD2</p>
+    </section>
+  </div>
+</body>
+</html>
