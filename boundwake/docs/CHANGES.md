@@ -1,4 +1,4 @@
-## Live — pending · P1 body[data-tab] click steal hotfix · https://paigegames.net/boundwake/
+## Live — **f69b7ac1** P1 body[data-tab] click steal hotfix · https://paigegames.net/boundwake/
 
 ## HOTFIX P1 — Age/Skip/Rest clicks stolen by body[data-tab] — Coder Nov 5 ~6:12 PM CT
 - Root cause: `closest('[data-tab]')` matched `body[data-tab]` from setChrome; every Age/Skip/Rest re-rendered Life and returned before `data-a`
