@@ -21,7 +21,7 @@ const FILES = {
   worldActivities: 'world_activities.json',
   worldLegacy: 'world_legacy.json',
 };
-const OPTIONAL = { eventsExpansion: 'events_expansion.json', gear: 'gear.json', market: 'market.json', legacy: 'legacy.json' };
+const OPTIONAL = { eventsExpansion: 'events_expansion.json', gear: 'gear.json', market: 'market.json', legacy: 'legacy.json', premium: 'premium.json', adsCfg: 'ads.json' };
 export async function loadPack(read = async (f) => (await fetch(new URL('../data_fantasy/' + f, import.meta.url))).json()) {
   const out = {};
   await Promise.all(Object.entries(FILES).map(async ([k, f]) => { out[k] = await read(f); }));

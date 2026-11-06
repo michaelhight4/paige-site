@@ -1,0 +1,477 @@
+/* Boundwake phone — Lifeline organisation + Boundwake PC fantasy flair.
+   Layout locked (6451275). Visual only. Every rule needs html.is-phone. */
+html.is-phone, html.is-phone body { height: 100%; overflow: hidden; }
+html.is-phone body {
+  font-size: 16px; line-height: 1.4; padding: 0;
+  background: #1a1430; /* soft plum fallback under ambient */
+  color: #f5edda;
+}
+/* Existing PC forest ambient — visible behind phone chrome (fireflies via #motes) */
+html.is-phone #bw-amb {
+  opacity: 1 !important;
+  pointer-events: none;
+  z-index: 0;
+}
+html.is-phone #bw-amb .bw-amb-art {
+  filter: brightness(1.28) saturate(1.22) contrast(1.04);
+}
+html.is-phone.bw-amb[data-tod="night"] #bw-amb .bw-amb-art,
+html.is-phone.bw-amb[data-tod="dusk"] #bw-amb .bw-amb-art {
+  filter: brightness(1.42) saturate(1.3) contrast(1.06);
+}
+/* Keep forest vivid — override PC + night veils so art shows between cards */
+html.is-phone #bw-amb::after,
+html.is-phone.bw-amb #bw-amb::after,
+html.is-phone.bw-amb[data-tod="night"] #bw-amb::after,
+html.is-phone.bw-amb[data-tod="dusk"] #bw-amb::after,
+html.is-phone.bw-amb[data-tod="dawn"] #bw-amb::after,
+html.is-phone.bw-amb[data-tod="day"] #bw-amb::after {
+  background:
+    radial-gradient(130% 85% at 50% 8%, transparent 45%, #140e1f2a 78%, #140e1f66 100%),
+    linear-gradient(180deg, #140e1f18 0%, transparent 14%, transparent 72%, #140e1f55 100%) !important;
+}
+html.is-phone #stage {
+  max-width: none !important; width: 100% !important; margin: 0 !important;
+  /* Peek of forest above the topbar (Lifeline-style scene strip) */
+  padding: calc(52px + env(safe-area-inset-top, 0px)) 0 0 !important;
+  height: 100dvh; min-height: 100dvh; overflow: hidden;
+  display: flex; flex-direction: column;
+  position: relative; z-index: 1;
+  background: transparent !important;
+}
+html.is-phone #app {
+  flex: 1 1 0; min-height: 0; height: 100%;
+  display: flex; flex-direction: column;
+  max-width: 480px; width: 100%; margin: 0 auto;
+  background: transparent;
+  overflow: hidden; position: relative;
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 -6px 28px #0005, 0 0 0 1px #e0b14a33;
+}
+
+html.is-phone .play-layout,
+html.is-phone .play-hub,
+html.is-phone .play-main,
+html.is-phone .play-side,
+html.is-phone .play-body,
+html.is-phone .tabs,
+html.is-phone .dock,
+html.is-phone .end-pad,
+html.is-phone .life-shortcuts,
+html.is-phone .music-fab { display: none !important; }
+
+html.is-phone .bw-phone {
+  flex: 1 1 0; min-height: 0; height: 100%;
+  display: flex; flex-direction: column; position: relative;
+  --tab-h: 76px;
+  background: transparent;
+}
+
+/* ---- Topbar: plum + gold (not flat cream) ---- */
+html.is-phone .bw-topbar {
+  flex: none;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px 10px;
+  background:
+    linear-gradient(135deg, #3a2a48 0%, #221a34 55%, #2c2140 100%);
+  border-bottom: 2px solid #e0b14a;
+  box-shadow: 0 4px 18px #0007, inset 0 1px 0 #e0b14a44;
+  color: #f5edda;
+  z-index: 20;
+  border-radius: 16px 16px 0 0;
+}
+html.is-phone .bw-ava {
+  width: 48px; height: 48px; flex: none;
+  border-radius: 50%; padding: 0; margin: 0;
+  border: 3px solid #fff8e8;
+  box-shadow: 0 0 0 2px #e0b14a, 0 0 12px #e0b14a66, 0 2px 6px #0006;
+  background: radial-gradient(circle at 50% 30%, #fff8e8, #d9bf8c);
+  overflow: hidden; position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+html.is-phone .bw-ava img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center 8%;
+  display: block;
+}
+html.is-phone .bw-ava .mono-fallback {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font: 800 18px/1 Georgia, serif; color: #5a3d18;
+}
+html.is-phone .bw-who {
+  flex: 1; min-width: 0; text-align: left;
+  background: none; border: 0; padding: 0;
+  color: inherit; font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+html.is-phone .bw-nm {
+  display: block; font-weight: 800; font-size: 17px; color: #fff8e8;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  text-shadow: 0 1px 2px #0008;
+}
+html.is-phone .bw-hd {
+  display: block; font-size: 12.5px; color: #c9b896; margin-top: 1px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+html.is-phone .bw-hd .ico { width: 12px; height: 12px; vertical-align: -2px; color: #e0b14a; }
+html.is-phone .bw-topbtn {
+  flex: none; width: 34px; height: 34px; border-radius: 50%; border: 0;
+  background: #ffffff22; display: grid; place-items: center; padding: 0;
+  color: #f5edda; box-shadow: inset 0 0 0 1px #e0b14a55;
+}
+html.is-phone .bw-topbtn.bw-prem {
+  background: linear-gradient(135deg, #ffe38a, #e0b14a 50%, #b07d24);
+  box-shadow: 0 0 14px #e0b14a88, 0 2px 6px #0005;
+  color: #2c2140;
+}
+html.is-phone .bw-topbtn .ico, html.is-phone .bw-topbtn svg { width: 18px; height: 18px; }
+html.is-phone .bw-bank { text-align: right; flex: none; min-width: 64px; }
+html.is-phone .bw-bank b {
+  display: block; font-size: 18px; font-weight: 900; color: #f0c86a; line-height: 1.1;
+  text-shadow: 0 0 10px #e0b14a66;
+}
+html.is-phone .bw-bank b .ico { width: 14px; height: 14px; vertical-align: -2px; }
+html.is-phone .bw-bank small { font-size: 11px; color: #c9b896; font-weight: 700; }
+
+/* ---- Hub ---- */
+html.is-phone .bw-hub {
+  flex: 1 1 0; min-height: 0;
+  display: flex; flex-direction: column;
+  padding-bottom: var(--tab-h);
+  position: relative; z-index: 1;
+  background: transparent;
+}
+html.is-phone .bw-agebar {
+  flex: none;
+  display: flex; justify-content: space-between; gap: 8px;
+  padding: 6px 14px;
+  font-weight: 700; font-size: 13px; color: #f5edda;
+  background: linear-gradient(90deg, #2c2140cc, #3a2a48aa);
+  border-bottom: 1px solid #e0b14a55;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+html.is-phone .bw-journal {
+  flex: 1 1 0; min-height: 0;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  margin: 8px 10px 0;
+  padding: 12px 14px 16px;
+  /* Frosted parchment / glassy plum — backdrop peeks through */
+  background:
+    linear-gradient(160deg, rgba(251,244,228,.78), rgba(247,235,210,.68) 55%, rgba(236,214,178,.58));
+  color: #241c14;
+  border: 2px solid #e0b14a;
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 1px #e0b14a44,
+    0 10px 28px #0007,
+    inset 0 1px 0 #fff8;
+  backdrop-filter: blur(10px) saturate(1.15);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  scroll-behavior: smooth;
+}
+html.is-phone .bw-jage {
+  font-weight: 800; color: #b07d24; font-size: 13.5px;
+  margin: 14px 0 4px; padding-bottom: 3px;
+  border-bottom: 2px solid #e0b14a66;
+  text-shadow: 0 1px 0 #fff6;
+}
+html.is-phone .bw-jage:first-child { margin-top: 2px; }
+html.is-phone .bw-jline {
+  margin: 6px 0; font-size: 15.5px; line-height: 1.45; color: #241c14;
+}
+
+/* Thin stats — colourful sheen */
+html.is-phone .bw-stats {
+  flex: none;
+  display: grid; gap: 6px;
+  margin: 8px 10px 0;
+  padding: 10px 12px 20px;
+  background: linear-gradient(180deg, #2c2140cc, #1a1228d8);
+  border: 1px solid #e0b14a55;
+  border-radius: 14px;
+  box-shadow: 0 8px 22px #0006, inset 0 1px 0 #e0b14a33;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 0; /* reset button */
+  width: calc(100% - 20px); text-align: left; font: inherit; color: inherit;
+  -webkit-tap-highlight-color: transparent; cursor: pointer;
+  box-sizing: border-box;
+  border: 1px solid #e0b14a55;
+}
+html.is-phone .bw-thin {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12.5px; font-weight: 700; color: #f5edda;
+}
+html.is-phone .bw-thin-lbl {
+  width: 92px; flex: none;
+  display: flex; align-items: center; gap: 5px;
+  white-space: nowrap; overflow: hidden;
+}
+html.is-phone .bw-thin-lbl .ico, html.is-phone .bw-thin-lbl svg { width: 13px; height: 13px; flex: none; }
+html.is-phone .bw-thin-track {
+  flex: 1; height: 11px; border-radius: 7px;
+  background: #0007; overflow: hidden;
+  box-shadow: inset 0 1px 2px #0006;
+}
+html.is-phone .bw-thin-track > i {
+  display: block; height: 100%; border-radius: 7px; min-width: 0;
+  background-image:
+    linear-gradient(180deg, #fff7 0%, #fff0 45%, transparent 100%),
+    linear-gradient(90deg, var(--b1, #3F6B4F), var(--b2, #2F7A48));
+  box-shadow: 0 0 8px color-mix(in srgb, var(--b2, #2F7A48) 55%, transparent);
+}
+html.is-phone .bw-thin-val {
+  width: 36px; text-align: right; flex: none;
+  font-variant-numeric: tabular-nums; color: #e0c896;
+}
+html.is-phone .bw-thin.bar-health { --b1: #ff9a9a; --b2: #C45A5A; }
+html.is-phone .bw-thin.bar-spirit { --b1: #ffe89a; --b2: #C9A227; }
+html.is-phone .bw-thin.bar-wits { --b1: #a8c8f0; --b2: #4A6A9A; }
+html.is-phone .bw-thin.bar-presence { --b1: #d4a0e0; --b2: #8A5A9A; }
+html.is-phone .bw-thin.bar-strain { --b1: #ffb08a; --b2: #c45a32; }
+html.is-phone .bw-thin.bar-renown { --b1: #f0d080; --b2: #B07D24; }
+html.is-phone .bw-thin.bar-mana, html.is-phone .bw-thin.magic { --b1: #a8d8ff; --b2: #6a9cc4; }
+
+/* ---- Panels ---- */
+html.is-phone .bw-panel {
+  flex: 1 1 0; min-height: 0;
+  display: flex; flex-direction: column;
+  padding-bottom: var(--tab-h);
+  background: transparent; z-index: 1;
+  animation: bw-slide .18s ease-out;
+  position: relative;
+}
+@keyframes bw-slide { from { transform: translateY(14px); opacity: 0; } to { transform: none; opacity: 1; } }
+html.is-phone .bw-pbar {
+  flex: none; display: flex; align-items: center;
+  min-height: 52px; padding: 8px 10px;
+  background: linear-gradient(135deg, #3a2a48, #221a34);
+  color: #f5edda;
+  border-bottom: 2px solid #e0b14a;
+  box-shadow: 0 4px 16px #0006;
+  position: relative;
+}
+html.is-phone .bw-pbar h2 {
+  flex: 1; margin: 0; text-align: center;
+  font-size: 16px; font-weight: 900; letter-spacing: .06em;
+  text-transform: uppercase; padding: 0 44px; color: #fff8e8;
+  text-shadow: 0 0 12px #e0b14a44;
+}
+html.is-phone .bw-pback, html.is-phone .bw-pclose {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 2px solid #e0b14a99; background: #221a34; color: #f5edda;
+  font-size: 20px; font-weight: 900; display: grid; place-items: center;
+  padding: 0; box-shadow: 0 0 10px #e0b14a33;
+}
+html.is-phone .bw-pback { left: 10px; }
+html.is-phone .bw-pclose { right: 8px; background: #0006; }
+html.is-phone .bw-pbody {
+  flex: 1 1 0; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding: 10px 0 36px;
+  background: transparent;
+}
+html.is-phone .bw-sec {
+  margin: 8px 10px 0;
+  border-radius: 10px;
+  font-weight: 800; text-align: center; font-size: 12.5px;
+  padding: 7px 10px; letter-spacing: .08em; text-transform: uppercase;
+  color: #fff8e8;
+  background: linear-gradient(90deg, #3a2a48, #2c2140);
+  border: 1px solid #e0b14a66;
+  box-shadow: 0 2px 10px #0005;
+}
+html.is-phone .bw-sec.tone-moss { background: linear-gradient(90deg, #2e5038, #1e3828); border-color: #78b86888; color: #d6f2df; }
+html.is-phone .bw-sec.tone-sky { background: linear-gradient(90deg, #2a4a70, #1a3050); border-color: #8ab0e088; color: #d8e8ff; }
+html.is-phone .bw-sec.tone-plum { background: linear-gradient(90deg, #4a2a58, #2c2140); border-color: #c48ad088; color: #f0e0f8; }
+html.is-phone .bw-sec.tone-gold { background: linear-gradient(90deg, #6a5020, #3a2e14); border-color: #e0b14a99; color: #fff3c4; }
+
+html.is-phone .bw-row {
+  display: flex; align-items: center; gap: 12px;
+  width: calc(100% - 20px); margin: 8px 10px 0; text-align: left;
+  min-height: 58px; padding: 12px 14px;
+  border: 1.5px solid #e0b14a66;
+  border-radius: 14px;
+  background:
+    linear-gradient(160deg, rgba(251,244,228,.78), rgba(247,235,210,.66));
+  color: #241c14; font: inherit;
+  box-shadow: 0 6px 16px #0005, inset 0 1px 0 #fff8;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  -webkit-tap-highlight-color: transparent;
+}
+html.is-phone .bw-row:active { filter: brightness(.97); transform: scale(.995); }
+html.is-phone .bw-ic {
+  width: 40px; height: 40px; flex: none; display: grid; place-items: center;
+  border-radius: 12px; color: #fff8e8;
+  border: 1px solid #ffffff33;
+  box-shadow: 0 2px 8px #0004, inset 0 1px 0 #fff3;
+  background: linear-gradient(145deg, #3a2a48, #221a34);
+}
+html.is-phone .bw-ic.tone-moss { background: linear-gradient(145deg, #4a9058, #2e6038); }
+html.is-phone .bw-ic.tone-gold { background: linear-gradient(145deg, #e0b14a, #8a5a10); color: #241c14; }
+html.is-phone .bw-ic.tone-sky { background: linear-gradient(145deg, #6a9ad0, #3a5a90); }
+html.is-phone .bw-ic.tone-plum { background: linear-gradient(145deg, #8a5aa0, #4a2a60); }
+html.is-phone .bw-ic .ico,
+html.is-phone .bw-ic .ico-sk,
+html.is-phone .bw-ic svg {
+  width: 24px !important; height: 24px !important;
+  flex: none;
+}
+/* Force readable glyph on gem chips (style.css .ico-* colors were low-contrast) */
+html.is-phone .bw-ic .ico,
+html.is-phone .bw-ic .ico-sk {
+  color: #fffaf0 !important;
+  filter: drop-shadow(0 1px 1px #0008);
+}
+html.is-phone .bw-ic.tone-gold .ico,
+html.is-phone .bw-ic.tone-gold .ico-sk {
+  color: #2a1c10 !important;
+  filter: drop-shadow(0 1px 0 #fff8);
+}
+html.is-phone .bw-ic .ico-sk.has-png svg { visibility: hidden; }
+html.is-phone .bw-ic .ico-sk .sk-png {
+  display: none; position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; pointer-events: none;
+}
+html.is-phone .bw-ic .ico-sk.has-png .sk-png { display: block; filter: brightness(1.15) contrast(1.05); }
+html.is-phone .bw-ic .ico-sk { position: relative; overflow: hidden; border-radius: 6px; }
+html.is-phone .bw-t { flex: 1; min-width: 0; }
+html.is-phone .bw-t b { display: block; font-size: 16px; font-weight: 800; color: #2c2140; }
+html.is-phone .bw-t small { display: block; font-size: 13px; color: #5e4c38; margin-top: 2px; }
+html.is-phone .bw-chev { color: #b07d24; font-size: 22px; font-weight: 900; flex: none; }
+
+html.is-phone .bw-card {
+  margin: 12px;
+  background: linear-gradient(160deg, rgba(251,244,228,.78), rgba(247,235,210,.66));
+  border: 2px solid #e0b14a;
+  border-radius: 16px; padding: 14px;
+  color: #241c14;
+  box-shadow: 0 10px 28px #0006, inset 0 1px 0 #fff8;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+html.is-phone .bw-card h3 {
+  margin: 0 0 8px; font-size: 16px; color: #2c2140;
+  display: flex; align-items: center; gap: 8px;
+}
+html.is-phone .bw-card .sub { color: #5e4c38; font-size: 13.5px; line-height: 1.4; }
+html.is-phone .bw-card .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+html.is-phone .bw-card .actions button,
+html.is-phone .bw-card button.primary {
+  min-height: 48px; padding: 12px 16px; border-radius: 12px; font-size: 15px; font-weight: 800;
+}
+html.is-phone .bw-profile-bars { display: grid; gap: 6px; margin: 10px 0; }
+html.is-phone .bw-profile-bars .bw-thin { color: #241c14; }
+html.is-phone .bw-profile-bars .bw-thin-val { color: #3a2e20; }
+html.is-phone .bw-profile-bars .bw-thin-track { background: #0000001a; }
+html.is-phone .bw-pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+html.is-phone .bw-pills .pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; padding: 4px 9px;
+  background: #fff8; border: 1.5px solid #e0b14a66; border-radius: 999px; color: #241c14;
+}
+html.is-phone .bw-set-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  width: calc(100% - 20px); margin: 6px 10px 0;
+  min-height: 56px; padding: 10px 14px;
+  background: linear-gradient(160deg, rgba(251,244,228,.78), rgba(247,235,210,.66));
+  color: #241c14; border: 1.5px solid #e0b14a66; border-radius: 14px;
+  box-shadow: 0 6px 16px #0005;
+}
+html.is-phone .bw-set-lb { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 15px; }
+
+html.is-phone .bw-rest { margin-top: 8px; }
+html.is-phone .bw-rest-main { width: 100%; min-height: 52px; font-size: 16px; font-weight: 800; border-radius: 14px; }
+html.is-phone .bw-rest-pick {
+  display: flex; flex-direction: column; gap: 8px; margin-top: 8px;
+  padding: 10px; border-radius: 14px; background: #efe2c0; border: 1px solid #c9b896;
+}
+html.is-phone .bw-rest-pick[hidden] { display: none !important; }
+html.is-phone .bw-rest-pick button { min-height: 48px; border-radius: 12px; font-weight: 700; }
+
+html.is-phone .bw-pbody .card { margin: 10px 12px; border-radius: 14px; }
+html.is-phone .bw-pbody .life-shortcuts,
+html.is-phone .bw-pbody .tabs { display: none !important; }
+
+/* ---- Bottom nav: plum gradient + gold active ---- */
+html.is-phone .bw-nav {
+  flex: none; position: absolute; left: 0; right: 0; bottom: 0; z-index: 40;
+  height: calc(var(--tab-h) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: linear-gradient(180deg, #3a2a48 0%, #221a34 45%, #140e1f 100%);
+  border-top: 2px solid #e0b14a88;
+  display: grid; grid-template-columns: 1fr 1fr 96px 1fr 1fr;
+  align-items: stretch;
+  box-shadow: 0 -8px 28px #000a, inset 0 1px 0 #e0b14a33;
+}
+html.is-phone .bw-nav .bw-tab {
+  background: none; border: 0; color: #c9b896;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; font-size: 11px; font-weight: 700; padding: 6px 0; height: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+html.is-phone .bw-nav .bw-tab .ico,
+html.is-phone .bw-nav .bw-tab svg { width: 22px; height: 22px; color: #e0b14a; }
+html.is-phone .bw-nav .bw-tab.on {
+  color: #fff8e8;
+  background: radial-gradient(ellipse at 50% 100%, #e0b14a33, transparent 70%);
+  box-shadow: inset 0 -3px 0 #e0b14a;
+}
+html.is-phone .bw-nav .bw-tab.on .ico { color: #f0c86a; filter: drop-shadow(0 0 6px #e0b14a88); }
+html.is-phone .bw-nav .bw-age {
+  --d: 88px; position: absolute; left: 50%; top: -28px;
+  margin-left: calc(var(--d) / -2);
+  width: var(--d); height: var(--d);
+  border-radius: 50%; border: 5px solid #fffaf0;
+  background: radial-gradient(circle at 35% 30%, #ffe08a, #e0b14a 55%, #b07d24);
+  color: #241c14; font-weight: 900;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  box-shadow:
+    0 0 0 3px #e0b14a66,
+    0 0 22px #e0b14aaa,
+    0 8px 18px #0008;
+  z-index: 3; padding: 0; line-height: 1;
+}
+html.is-phone .bw-nav .bw-age b { font-size: 18px; }
+html.is-phone .bw-nav .bw-age small { font-size: 11px; opacity: .9; margin-top: 2px; font-weight: 700; }
+html.is-phone .bw-nav .bw-age:disabled { opacity: .45; filter: grayscale(.35); animation: none !important; }
+html.is-phone .bw-nav .bw-age-slot { pointer-events: none; }
+
+/* Subtle AGE pulse — calm, cheap; off when reduced-motion */
+html.is-phone:not([data-motion="reduced"]) .bw-nav .bw-age {
+  animation: bw-age-glow 2.8s ease-in-out infinite;
+}
+@keyframes bw-age-glow {
+  0%, 100% { box-shadow: 0 0 0 3px #e0b14a66, 0 0 18px #e0b14a88, 0 8px 18px #0008; }
+  50% { box-shadow: 0 0 0 5px #e0b14a44, 0 0 28px #e0b14acc, 0 8px 18px #0008; }
+}
+
+html.is-phone .sheet { z-index: 50; }
+html.is-phone .toast {
+  z-index: 60; left: 50%; right: auto; transform: translateX(-50%);
+  max-width: 88%; bottom: calc(var(--tab-h) + 22px); top: auto;
+}
+
+html.is-phone body[data-tab="fate"] #stage,
+html.is-phone body[data-tab="death"] #stage,
+html.is-phone body[data-tab="gate"] #stage,
+html.is-phone body[data-tab="cold"] #stage {
+  max-width: 460px !important; margin: 0 auto !important;
+  padding: 12px !important; overflow: auto; height: auto; min-height: 100dvh; display: block;
+}
+html.is-phone body[data-tab="fate"] .bw-phone,
+html.is-phone body[data-tab="death"] .bw-phone,
+html.is-phone body[data-tab="gate"] .bw-phone { display: none; }
+
+@media (max-height: 640px) {
+  html.is-phone .bw-stats { padding-bottom: 14px; gap: 4px; }
+  html.is-phone .bw-nav .bw-age { --d: 78px; top: -24px; }
+  html.is-phone #stage { padding-top: calc(36px + env(safe-area-inset-top, 0px)) !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.is-phone .bw-nav .bw-age { animation: none !important; }
+  html.is-phone .bw-panel { animation: none !important; }
+  html.is-phone .bw-journal,
+  html.is-phone .bw-row,
+  html.is-phone .bw-stats,
+  html.is-phone .bw-agebar { backdrop-filter: none; -webkit-backdrop-filter: none; }
+}

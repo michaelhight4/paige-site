@@ -1,3 +1,25 @@
+## HOTFIX — multi-tab save freeze (“Another tab is ahead”) — Nov 5 ~7:50 PM CT
+
+- Symptom: UI felt frozen; toast “Another tab is ahead…” (browser-only; no server play log)
+- Cause: `saveRank` used `savedAt % 10000` + `save()` mutated `savedAt` before compare → refuse-write/adopt loop on every action; toast every `save()`
+- Fix: lexicographic `cmpSave` (full `savedAt`); compare before mutate; toast once per `stored.savedAt`; on adopt match fields then write-through when tied/ahead
+- Cache: `ui.js?v=tabsave2`
+
+## Live — **dc785842** tabsave2 freeze fix · https://paigegames.net/boundwake/
+
+## Ads + gamepasses scaffolding — Nov 5 ~7:45 PM CT (Gary)
+
+- Catalog: `data_fantasy/premium.json` (14 passes + Realm Pass) + `ads.json`
+- Modules: premium / premium_fx / ads / adapter_ads / payments / native_bridge
+- UI: **Passes** tab + Life shortcut; Buy stub (dev grant localhost/`?devpass=1` only; live = coming soon)
+- Autopilot gated by pass; **web alpha still free** (`alpha.webFreePasses`)
+- No Ads suppresses forced ads (android/ios platform); web forced off
+- Docs: PASS_MAP.md, ITCH_DLC.md, STORE_PUSH checklist; Lifeline untouched
+- Cache: `?v=passes1`
+- Stub: Play/Apple/itch product IDs + AdMob — Gary console create next
+
+## Live — **8a5edcb8** passes scaffolding · https://paigegames.net/boundwake/
+
 ## Live — **a48e449e** all-tabs scroll fix · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:53 PM CT — All tall tabs scroll

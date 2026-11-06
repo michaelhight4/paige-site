@@ -1,16 +1,32 @@
 // Boundwake UI shell — studio standard pass (Nov 5, 2026 CT).
 // Craft: Lifeline docked Age + per-menu hue bars; Boundwake parchment/realm identity.
 import { loadPack } from './pack.js';
-import * as E from './bw_engine.js?v=advack1';
+import * as E from './bw_engine.js?v=advack2';
 import { ico, esc, flare, oddsChip, statLabel, infoChip, skillIco } from './flare.js';
 import { mountInfoClicks, openInfo, openInfoDetail } from './info.js';
 import { checkAdminAccess, gateHTML, isLocalHost } from './admingate.js';
 import { mountAmbient, paintAmbient } from './ambient.js';
 import { mountMusic, syncMusic, toggleMute, musicToggleHTML, unlockMusic } from './music.js';
-import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP } from './autopilot.js?v=advack1';
+import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP, unlocked as autoUnlocked } from './autopilot.js?v=gold1';
+import * as Premium from './premium.js';
+import * as PremFx from './premium_fx.js';
+import * as Ads from './ads.js';
+import { purchasePass, restorePurchases, channel as payChannel } from './payments.js';
+import { installNativeAds, installNativeBilling } from './native_bridge.js';
 const $ = (sel) => document.querySelector(sel), app = $('#app');
 const KEY = 'bw.save.v1', META = 'bw.meta.v1', SEEN = 'bw.cold.v1';
 const TAB_ID = Math.random().toString(36).slice(2, 10);
+/** itch HTML5 build: hide Passes tab / shop UI entirely (Gary Nov 5 2026). Website unchanged. */
+function isItchBuild() {
+  try {
+    if (globalThis.__BW_ITCH) return true;
+    const u = new URL(location.href);
+    if (u.searchParams.get('platform') === 'itch') return true;
+    if (/\.itch\.io$/i.test(u.hostname) || /\.itch\.zone$/i.test(u.hostname)) return true;
+  } catch (_) {}
+  return false;
+}
+
 let adoptBusy = false;
 let saveBc = null;
 try { saveBc = new BroadcastChannel('bw.save.v1'); } catch (_) { saveBc = null; }
@@ -250,14 +266,30 @@ function portrait(st, raceId, career, big, name, sex) {
   return `<div class="${cls}" data-spr="${file}"><img alt="" src="${GRID}${file}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mono-fallback',textContent:'${mono}'}))"></div>`;
 }
 const career = () => (s.job ? E.careerOf(s.job.id).id : null);
-/** Rank a life save so an older tab can never clobber a newer one (Gary Nov 5 ~6:53 PM CT: 14→7). */
+/** Lexicographic save compare — NEVER pack savedAt%10000 into a Number (wrap → infinite adopt/toast freeze, Gary Nov 5 ~7:48 PM CT). */
+function saveParts(st) {
+  if (!st || typeof st !== 'object') return { epoch: -1, age: -1, logSeq: -1, savedAt: -1 };
+  return {
+    epoch: Number(st.lifeEpoch) || 0,
+    age: Number(st.age) || 0,
+    logSeq: Number(st.logSeq) || (Array.isArray(st.log) ? st.log.length : 0),
+    savedAt: Number(st.savedAt) || 0,
+  };
+}
+/** @returns {number} >0 if a newer than b; <0 if older; 0 if equal */
+function cmpSave(a, b) {
+  const A = saveParts(a), B = saveParts(b);
+  if (A.epoch !== B.epoch) return A.epoch > B.epoch ? 1 : -1;
+  if (A.age !== B.age) return A.age > B.age ? 1 : -1;
+  if (A.logSeq !== B.logSeq) return A.logSeq > B.logSeq ? 1 : -1;
+  if (A.savedAt !== B.savedAt) return A.savedAt > B.savedAt ? 1 : -1;
+  return 0;
+}
+/** Scalar for BroadcastChannel only (full savedAt, no modulo). */
 function saveRank(st) {
-  if (!st || typeof st !== 'object') return -1;
-  const epoch = Number(st.lifeEpoch) || 0;
-  const age = Number(st.age) || 0;
-  const logSeq = Number(st.logSeq) || (Array.isArray(st.log) ? st.log.length : 0);
-  const savedAt = Number(st.savedAt) || 0;
-  return epoch * 1e15 + age * 1e9 + logSeq * 1e4 + (savedAt % 10000);
+  const p = saveParts(st);
+  // Keep epoch/age/log dominant; savedAt as low-order ms (safe for epoch < ~100).
+  return p.epoch * 1e13 + p.age * 1e9 + p.logSeq * 1e6 + (p.savedAt % 1e6);
 }
 function readStoredSave() {
   try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { return null; }
@@ -273,36 +305,45 @@ function bumpLifeEpoch(st) {
   st.lifeEpoch = base + 1;
   if (meta) meta.lifeEpoch = st.lifeEpoch;
 }
+let lastAheadToastStamp = null;
 function adoptRemoteSave(remote, reason) {
   if (!remote || adoptBusy) return;
   adoptBusy = true;
   try {
     s = remote;
+    if (s.lifeEpoch == null) s.lifeEpoch = Number(meta?.lifeEpoch) || 0;
+    if (s.logSeq == null) s.logSeq = Array.isArray(s.log) ? s.log.length : 0;
     meta = readStoredMeta();
     E.ensureLegacyMeta(meta);
     if (s.team === undefined) s.team = null;
     if (s.guild === undefined) s.guild = null;
     if (!s.flags) s.flags = {};
-    const a = Math.floor(Number(s.age) || 0);
-    toast(reason || `Synced from another tab · age ${a}.`);
-    render();
+    if (reason) toast(reason);
+    render(); // render→save write-through once ranks match
   } finally { adoptBusy = false; }
 }
 const save = () => {
   if (Q.has('nosave') || !s) return false;
   if (s.lifeEpoch == null) s.lifeEpoch = Number(meta?.lifeEpoch) || 0;
-  s.savedAt = Date.now();
-  s.saveTab = TAB_ID;
+  if (s.logSeq == null) s.logSeq = Array.isArray(s.log) ? s.log.length : 0;
+  // Compare BEFORE mutating savedAt — mutating first + savedAt%10000 caused refuse-write loops.
   const stored = readStoredSave();
-  if (stored && saveRank(stored) > saveRank(s)) {
-    // Never clobber a newer save with older in-memory state (multi-tab).
-    // Defer adopt so we do not re-enter render() mid-save.
-    const newer = stored;
+  if (stored && cmpSave(stored, s) > 0) {
+    const stamp = Number(stored.savedAt) || 0;
     const msg = `Another tab is ahead (age ${Math.floor(Number(stored.age) || 0)}). Restored that life.`;
-    s = newer;
-    queueMicrotask(() => adoptRemoteSave(newer, msg));
+    // Match stored fields so the next save is tied/ahead and writes through.
+    s = stored;
+    if (s.lifeEpoch == null) s.lifeEpoch = 0;
+    if (s.logSeq == null) s.logSeq = Array.isArray(s.log) ? s.log.length : 0;
+    const toastMsg = lastAheadToastStamp !== stamp ? msg : null;
+    lastAheadToastStamp = stamp;
+    queueMicrotask(() => adoptRemoteSave(s, toastMsg));
     return false;
   }
+  // Ahead or tied → write through. Beat stored.savedAt on ties so we never bounce.
+  const now = Date.now();
+  s.savedAt = stored ? Math.max(now, (Number(stored.savedAt) || 0) + 1) : now;
+  s.saveTab = TAB_ID;
   try {
     localStorage.setItem(KEY, JSON.stringify(s));
     if (meta) {
@@ -315,7 +356,7 @@ const save = () => {
     return false;
   }
   try {
-    saveBc?.postMessage({ type: 'save', tab: TAB_ID, rank: saveRank(s), age: s.age, lifeEpoch: s.lifeEpoch });
+    saveBc?.postMessage({ type: 'save', tab: TAB_ID, rank: saveRank(s), age: s.age, lifeEpoch: s.lifeEpoch, savedAt: s.savedAt });
   } catch (_) {}
   return true;
 };
@@ -335,8 +376,13 @@ function bindMultiTabSave() {
       render();
       return;
     }
-    if (saveRank(remote) > saveRank(s)) {
-      adoptRemoteSave(remote, `Synced from another tab · age ${Math.floor(Number(remote.age) || 0)}.`);
+    if (cmpSave(remote, s) > 0) {
+      const stamp = Number(remote.savedAt) || 0;
+      const msg = lastAheadToastStamp !== stamp
+        ? `Synced from another tab · age ${Math.floor(Number(remote.age) || 0)}.`
+        : null;
+      lastAheadToastStamp = stamp;
+      adoptRemoteSave(remote, msg);
     }
   });
   if (saveBc) {
@@ -344,15 +390,18 @@ function bindMultiTabSave() {
       const msg = ev?.data;
       if (!msg || msg.tab === TAB_ID || msg.type !== 'save') return;
       if (!s) return;
-      if (typeof msg.rank === 'number' && msg.rank > saveRank(s)) {
-        const remote = readStoredSave();
-        if (remote && saveRank(remote) > saveRank(s)) {
-          adoptRemoteSave(remote, `Synced from another tab · age ${Math.floor(Number(remote.age) || 0)}.`);
-        }
+      const remote = readStoredSave();
+      if (remote && cmpSave(remote, s) > 0) {
+        const stamp = Number(remote.savedAt) || 0;
+        const text = lastAheadToastStamp !== stamp
+          ? `Synced from another tab · age ${Math.floor(Number(remote.age) || 0)}.`
+          : null;
+        lastAheadToastStamp = stamp;
+        adoptRemoteSave(remote, text);
       }
     });
   }
-}
+};
 const toast = (m) => {
   if (!m) return; document.querySelectorAll('.toast').forEach((t) => t.remove());
   const d = document.createElement('div'); d.className = 'toast'; d.style.pointerEvents = 'none';
@@ -386,8 +435,9 @@ const TAB_META = {
   codex: { ico: 'codex', label: 'codex_menu' },
   legacy: { ico: 'echo', label: 'Legacy' },
   bel: { ico: 'belong', label: 'assets_menu' },
+  passes: { ico: 'echo', label: 'Passes' },
 };
-const TABS = Object.keys(TAB_META).map((k) => [k, TAB_META[k].label]);
+const TABS = Object.keys(TAB_META).filter((k) => !(k === 'passes' && isItchBuild())).map((k) => [k, TAB_META[k].label]);
 const LEAD = {
   life: 'The year turns soft as pondwater. Rest, remember, choose what matters.',
   work: 'Everyday chores and guild boards alike. Earn your keep — or leave the post.',
@@ -398,6 +448,7 @@ const LEAD = {
   codex: 'What the world taught you stays — even when the body does not.',
   legacy: 'Life Goals are this waking. Achievements and their modifiers endure across reincarnations.',
   bel: 'Gold, relics, workshops, and the notice boards that carry your name. Gear shop: buy, equip, and sell.',
+  passes: 'Game passes keep Boundwake free to try. Buy on Play / App Store / itch when Boundwake launches — web alpha stubs only.',
 };
 const HD = {
   life: `${ico('spirit')} Journal`,
@@ -409,6 +460,7 @@ const HD = {
   codex: `${ico('codex')} Codex`,
   legacy: `${ico('echo')} Legacy`,
   bel: `${ico('belong')} Belongings`,
+  passes: `${ico('echo')} Passes`,
 };
 
 function cold(step = 0) {
@@ -471,13 +523,18 @@ function body() {
       <button type="button" data-tab="bonds">${ico('bond')} Bonds</button>
       <button type="button" data-tab="work">${ico('work')} Work</button>
       <button type="button" data-a="rest" ${s.budget.act < 1 ? 'disabled' : ''}>${ico('spirit')} Rest</button>
-    </div>`;
+    ${isItchBuild() ? '' : `<button type="button" data-tab="passes">${ico('echo')} Passes</button>`}</div>`;
     const autoBusy = autoRunning();
+    const autoOk = autoUnlocked();
+    const skipDis = autoBusy || s.pending.length || !!outcomeAck || !autoOk;
     const autoCard = card('life', `${ico('act')} Autopilot / Skip`, `<p class="sub auto-blurb">Advance <b>cage</b> years (1 turn = 1 year). Safe picks; pauses on death, jail, romance/family, ownership, tournaments, or Stop. Leftovers: Rest if strained → Work if employed → Train lowest skill.</p>
+      ${autoOk ? '' : (isItchBuild()
+        ? `<p class="sub lock-why">Autopilot Pack is not sold in this itch build.</p>`
+        : `<p class="sub lock-why">Needs <b>Autopilot Pack</b> ($5.99) on store builds. <button type="button" data-tab="passes">Open Passes</button></p>`)}
       <div class="actions auto-actions">
-        ${SKIP_PRESETS.map((n) => `<button type="button" class="primary" data-a="skip" data-v="${n}" ${autoBusy || s.pending.length ? 'disabled' : ''}>Skip ${n}y</button>`).join('')}
-        <button type="button" data-a="skip" data-v="custom" ${autoBusy || s.pending.length ? 'disabled' : ''}>Custom…</button>
-        ${autoBusy ? `<button type="button" class="primary" data-a="autostop">Stop</button>` : ''}
+        ${SKIP_PRESETS.map((n) => `<button type="button" class="primary" data-a="skip" data-v="${n}" ${skipDis ? 'disabled' : ''}>Skip ${n}y</button>`).join('')}
+        <button type="button" data-a="skip" data-v="custom" ${skipDis ? 'disabled' : ''}>Custom…</button>
+        ${autoBusy ? `<button type="button" data-a="autostop">Stop</button>` : ''}
       </div>
       ${s.pending.length ? `<p class="sub lock-why">Resolve the open event first (or Autopilot will pause on important ones).</p>` : ''}`, 'auto-host bw-auto-host bw-auto-skip-flash');
     const tourneyBanner = E.isTournamentYear(s)
@@ -501,7 +558,8 @@ function body() {
     const pastAvail = (pl.available || []).slice(0, 8).map((p) => `<button data-a="adopt" data-v="${p.id}" ${pl.free < 1 ? 'disabled' : ''}>${esc(p.name)}</button>`).join('');
     const pastCard = card('life', `${ico('spirit')} Pastimes`, `<p class="sub">${pl.free} free slot(s). Master two to open more (max 4).</p>${pastActive || '<div class="empty">No pastime yet.</div>'}<div class="actions">${pastAvail || ''}</div>`);
     const actCats = E.activityCategories(s).map((c) => {
-      const acts = c.activities.filter((a) => h >= a.minAge && a.id !== 'healer').map((a) => {
+      const restIds = new Set(phoneRestOptions().map((a) => a.id));
+      const acts = c.activities.filter((a) => h >= a.minAge && a.id !== 'healer' && !restIds.has(a.id)).map((a) => {
         const ch0 = a.choices[0]; const cost = ch0?.cost || 0;
         return `<div class="row"><div><b>${esc(a.name)}</b> <small>${esc(a.sub)}${cost ? ` · ${cost} gold` : ''}</small></div><button data-a="actv" data-v="${a.id}" ${s.budget.act < 1 || s.gold < cost ? 'disabled' : ''}>Do</button></div>`;
       }).join('');
@@ -529,16 +587,20 @@ function body() {
        ${nx ? `<p class="sub">Next rank: <b>${esc(nx.title)}</b> — ${nx.req.years} yrs${Object.entries(nx.req.skills).map(([k, v]) => `, ${flare(P.skills.skills.find((x) => x.id === k).name)} ${v}`).join('')}</p>` : '<p class="sub">Top of your craft.</p>'}
        <div class="actions"><button data-a="work" class="primary">Work hard (${esc(c.actions[0])}…)</button> <button data-a="quit" class="ghost">Leave post</button></div>`); })() : card('work', HD.work, lead('work'));
     const opens = E.openings(s);
-    const row = ({ job, career: c, ok }) => {
+    const row = ({ job, career: c, ok, needsAdvance }) => {
       const tags = c.tags || [];
       const kind = (tags.includes('ordinary') || c.id === 'farmer' || c.id === 'merchant') ? 'Everyday' : (tags.includes('guild') || tags.includes('academy') || tags.includes('special') ? 'Guild track' : 'Trade');
       const why = ok ? '' : (E.jobLockReason(s, job) || 'Locked');
       const unlock = E.humanizeUnlock(c.unlock_text || '');
       const joinFee = E.jobJoinFee(job);
-      const feeWhy = (ok && joinFee > 0 && s.gold < joinFee) ? `Need ${joinFee} gold apron/kit bond` : '';
-      const canJoin = ok && !feeWhy;
-      const feeBit = joinFee > 0 ? ` · join ${ico('gold')}${joinFee} apron/kit` : ' · no join fee';
-      return `<div class="row row-job${canJoin ? '' : ' locked'}"><div><b>${esc(job.title)}</b> <small>· ${esc(c.name)} · ${kind}</small><br><small>${flare(c.blurb)} · ${ico('gold')}${job.wage} ${T('currency')}/yr${feeBit}${unlock ? `<br>${esc(unlock)}` : ''}</small>${(why || feeWhy) ? `<br><small class="lock-why">${esc(why || feeWhy)}</small>` : ''}</div><button data-a="job" data-v="${job.id}" ${canJoin ? '' : 'disabled'} title="${esc(why || feeWhy || (joinFee ? `Join (−${joinFee}g bond)` : 'Join'))}">${canJoin ? (joinFee ? `Join (−${joinFee}g)` : 'Join') : 'Locked'}</button></div>`;
+      const advance = !!needsAdvance || (ok && joinFee > 0 && s.gold < joinFee);
+      const canJoin = !!ok;
+      const feeBit = joinFee <= 0
+        ? ' · no join fee'
+        : (advance ? ` · kit ${ico('gold')}${joinFee} fronted by employer` : ` · join ${ico('gold')}${joinFee} apron/kit`);
+      const btn = !canJoin ? 'Locked' : (joinFee <= 0 ? 'Join' : (advance ? `Join (owe ${joinFee}g)` : `Join (−${joinFee}g)`));
+      const tip = why || (joinFee <= 0 ? 'Join — no kit bond' : (advance ? `Employer fronts ${joinFee}g kit; wages repay it` : `Join (−${joinFee}g bond)`));
+      return `<div class="row row-job${canJoin ? '' : ' locked'}"><div><b>${esc(job.title)}</b> <small>· ${esc(c.name)} · ${kind}</small><br><small>${flare(c.blurb)} · ${ico('gold')}${job.wage} ${T('currency')}/yr${feeBit}${unlock ? `<br>${esc(unlock)}` : ''}</small>${why ? `<br><small class="lock-why">${esc(why)}</small>` : ''}</div><button data-a="job" data-v="${job.id}" ${canJoin ? '' : 'disabled'} title="${esc(tip)}">${btn}</button></div>`;
     };
     const everyday = opens.filter(({ career: c }) => (c.tags || []).includes('ordinary') || c.id === 'farmer' || c.id === 'merchant');
     const guild = opens.filter((o) => !everyday.includes(o));
@@ -547,6 +609,10 @@ function body() {
     const openOpenings = !s.job; // looking for work → openings expanded; employed → collapsed so Workshops/Court/Mentors stay reachable
     const openSecondary = !!s.job; // when employed, surface workshops/court/mentors
     const acc = (id, title, body, open) => `<details class="work-acc panel-work"${open ? ' open' : ''} data-work-acc="${id}"><summary class="work-acc-hd">${title}</summary><div class="work-acc-body">${body}</div></details>`;
+    const oddCard = (ca >= 6)
+      ? card('work', `${ico('gold')} Odd jobs`, `<p class="sub">Carry, sweep, stack wood — a few gold, no apron, no skills. Always available when broke.</p>
+        <div class="actions"><button type="button" class="primary" data-a="odd" ${s.budget.act < 1 ? 'disabled' : ''}>Work odd jobs (1 act)</button></div>`)
+      : '';
     const openingsAcc = acc('openings', `${ico('work')} Openings <small>${opens.length} listed${s.job ? ' · tap to browse' : ''}</small>`,
       `${everyday.length ? `<h3>${ico('work')} Everyday work</h3>${boardEveryday}` : ''}${guild.length ? `<h3>${ico('adventure')} Guild &amp; trained tracks</h3>${boardGuild}` : ''}${!opens.length ? '<div class="empty">No openings this year.</div>' : ''}`,
       openOpenings);
@@ -611,7 +677,7 @@ function body() {
         ${handRow}<p class="sub">Jobs resolve on Age +1. Fees from coffer first, then purse. Halls: Mossbeam / Tidebell / Reedlodge / Quillkey / Cinderhorn.</p>`;
     }
     const guildAcc = acc('guild', `${markImg('guild')} Adventure guild hall <small>${s.guild ? E.guildLabel(s) : (ca >= 18 ? 'open one' : 'age 18+')}</small>`, guildBody, !!s.guild || ca >= 18);
-    return cur + openingsAcc + bizAcc + guildAcc + courtAcc + mentAcc + clubCard;
+    return cur + oddCard + openingsAcc + bizAcc + guildAcc + courtAcc + mentAcc + clubCard;
   }
   if (tab === 'adv') {
     const party = E.partyOf(s);
@@ -692,7 +758,7 @@ function body() {
       }
     }
     if (s.prison) return card('adv', HD.adv, `${lead('adv')}<div class="empty">Adventure is locked while you are imprisoned. Age +1 advances the sentence; Behave / Appeal / Escape are on Life.</div>`);
-    const advWhy = s.prison ? 'Imprisoned' : (ca < 10 ? 'Age 10+' : (!s.budget.adv ? 'No adventures left this year' : (!s.budget.act ? 'No actions left' : '')));
+    const advWhy = s.prison ? 'Imprisoned' : (ca < 10 ? 'Age 10+' : (!s.budget.adv ? 'No adventures left this year' : ''));
     return tourneyCard + teamCard + card('adv', HD.adv, `${lead('adv')}<p class="sub">${ca < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
     ${partyBlock}
     <div class="actions"><button data-a="adv" class="primary" ${E.canAdventure(s) ? '' : 'disabled'} title="${esc(advWhy)}">Set out</button></div>${advWhy && !E.canAdventure(s) ? `<p class="sub lock-why">${esc(advWhy)}</p>` : ''}`);
@@ -1027,7 +1093,35 @@ function body() {
       ${marketHTML()}
       ${gearHTML()}`);
   }
+  if (tab === 'passes') return isItchBuild() ? card('passes', HD.passes, '<div class="empty">Passes are not sold in this itch build.</div>') : passesHTML();
   return '';
+}
+
+
+function passesHTML() {
+  const st = Premium.status();
+  const ch = payChannel();
+  const leadLine = LEAD.passes ? `<p class="menu-lead">${LEAD.passes}</p>` : '';
+  const sub = st.subscribed ? `<p class="sub">Realm Pass active (${esc(st.plan || 'sub')}).</p>` : `<p class="sub">Realm Pass (All Access) · $7.99/mo or $79.99/yr — <b>TODO</b> Gary creates Play/Apple sub <code>all_access</code>.</p>`;
+  const rows = st.passes.filter((p) => p.id !== 'tester_pack' || Premium.canDevGrant()).map((p) => {
+    const badge = p.owned ? 'Owned' : p.viaAlpha ? 'Free (web alpha)' : p.viaSub ? 'Via Realm Pass' : p.unlocked ? 'Unlocked' : Premium.price(p);
+    const locked = p.unlocked && !p.viaAlpha ? true : p.owned;
+    const btn = p.owned || (p.unlocked && !p.viaAlpha)
+      ? `<span class="pass-owned">${esc(badge)}</span>`
+      : p.viaAlpha
+        ? `<span class="pass-alpha">${esc(badge)}</span>`
+        : `<button type="button" data-a="buypass" data-v="${esc(p.id)}">${Premium.canDevGrant() ? 'Unlock (dev)' : 'Buy'} · ${Premium.price(p)}</button>`;
+    return `<div class="row pass-row" data-pass="${esc(p.id)}"><div><b>${esc(p.name)}</b> <small>${esc(badge)}</small><br><small>${esc(p.description || p.effect || '')}</small>${p.lifeline ? `<br><small class="lock-why">Lifeline map: ${esc(p.lifeline)}</small>` : ''}</div>${btn}</div>`;
+  }).join('');
+  return card('passes', HD.passes, `${leadLine}
+    <p class="sub">Channel: <b>${esc(ch)}</b>. No Ads suppresses forced ads on store builds. Autopilot gates Skip (free on web alpha).</p>
+    ${sub}
+    <div class="pass-list">${rows || '<div class="empty">Catalog not loaded.</div>'}</div>
+    <div class="actions">
+      <button type="button" data-a="restorepass">Restore purchases</button>
+      ${Premium.canDevGrant() ? '<button type="button" data-a="devtester">Grant Tester Pack (dev)</button>' : ''}
+    </div>
+    <p class="sub">itch: each pass is a DLC (see docs/ITCH_DLC.md). Play/Apple: IAP product ids must match catalog. Lifeline untouched.</p>`);
 }
 
 function marketHTML() {
@@ -1095,64 +1189,48 @@ function gearHTML() {
   }).join('');
   return `<h3>${ico('adventure')} Gear</h3>${owned || '<div class="empty">No gear yet.</div>'}<h3>Gear shop</h3>${shop}`;
 }
+function formatOutcomeAck(ack) {
+  if (!ack) return '';
+  const hasOdds = ack.chance != null;
+  const pct = hasOdds ? Math.round(ack.chance * 100) : null;
+  const rollPct = hasOdds && ack.roll != null ? Math.round(ack.roll * 100) : null;
+  let verdict;
+  if (hasOdds) {
+    const lab = ack.success === false ? 'Failed' : 'Succeeded';
+    verdict = `${lab} (${pct}%)`;
+    if (rollPct != null) verdict += ` · roll ${rollPct}%`;
+  } else {
+    verdict = 'Resolved';
+  }
+  const vcls = ack.success === false ? 'bad' : 'good';
+  const deltas = (ack.deltas || []).map((d) => {
+    const cls = d.good === false ? 'bad' : (d.good ? 'good' : '');
+    return `<li class="${cls}">${esc(d.text)}</li>`;
+  }).join('');
+  const deltaBlock = deltas
+    ? `<ul class="outcome-deltas">${deltas}</ul>`
+    : `<p class="sub outcome-deltas-empty">No numbered changes this time — the journal still holds the tale.</p>`;
+  return `<div class="sheet outcome-ack" data-sheet="1" data-outcome="1" role="dialog" aria-modal="true"><div class="card"><div class="card-hd">${ico('adventure')} ${flare(ack.title || 'Outcome')}</div><div class="card-body"><p class="outcome-verdict ${vcls}">${esc(verdict)}</p><p class="prompt">${flare(ack.msg || '')}</p>${deltaBlock}</div><div class="actions"><button type="button" class="primary" data-a="ackout">Continue</button></div></div></div>`;
+}
 function eventSheet() {
+  if (outcomeAck) return formatOutcomeAck(outcomeAck);
   const c = E.pendingCard(s); if (!c) return '';
   return `<div class="sheet" data-sheet="1"><div class="card"><div class="card-hd">${ico('adventure')} ${flare(c.title)}</div><div class="card-body"><p class="prompt">${flare(c.prompt)}</p><div class="choices">${c.choices.map((x, i) => `<button type="button" data-a="ch" data-v="${i}" ${x.locked ? 'disabled aria-disabled="true"' : ''} title="${esc(x.lockWhy || '')}">${flare(x.label)}${x.locked && x.lockWhy ? ` <small class="lock-why">(${esc(x.lockWhy)})</small>` : ''}${oddsChip(x.odds)}</button>`).join('')}</div></div></div></div>`;
-}
-// Outcome sheet stays until Continue. No timer — the old toast faded itself after 2s.
-let outcomeAck = null;
-const OUTING = new Set(['tourney', 'tinvite', 'tmeet', 'tgrand', 'tmeetall']);
-const OUTING_TITLE = { tourney: 'Tournament', tinvite: 'Invitation', tmeet: 'Realm meet', tgrand: 'Teams', tmeetall: 'Teams' };
-function holdOutcome(r) {
-  if (!r) return;
-  outcomeAck = {
-    title: r.title || 'Outcome',
-    msg: String(r.msg || ''),
-    deltas: Array.isArray(r.deltas) ? r.deltas.map((d) => String(d)) : [],
-  };
-  if (s) {
-    if (!s.flags) s.flags = {};
-    s.flags.outcomeAck = outcomeAck;
-  }
-  document.body.dataset.sheetBusy = '1';
-  setTimeout(() => { delete document.body.dataset.sheetBusy; }, 320);
-}
-function clearOutcome() {
-  outcomeAck = null;
-  if (s?.flags) delete s.flags.outcomeAck;
-}
-function activeOutcome() {
-  if (outcomeAck) return outcomeAck;
-  const stored = s?.flags?.outcomeAck;
-  if (stored && typeof stored === 'object') {
-    outcomeAck = {
-      title: stored.title || 'Outcome',
-      msg: String(stored.msg || ''),
-      deltas: Array.isArray(stored.deltas) ? stored.deltas.map((d) => String(d)) : [],
-    };
-    return outcomeAck;
-  }
-  return null;
-}
-function outcomeSheet() {
-  const o = activeOutcome();
-  if (!o) return '';
-  const items = o.deltas.length
-    ? o.deltas.map((d) => `<li>${flare(d)}</li>`).join('')
-    : '<li>No change to gold, renown, health, items, bonds, skills, or party.</li>';
-  return `<div class="sheet sheet-outcome" data-sheet="outcome" role="dialog" aria-modal="true" aria-labelledby="outcome-hd"><div class="card"><div class="card-hd" id="outcome-hd">${ico('adventure')} ${flare(o.title || 'Outcome')}</div><div class="card-body"><p class="prompt">${flare(o.msg || '')}</p><h3 class="outcome-label">What changed</h3><ul class="outcome-deltas">${items}</ul></div><div class="outcome-ack"><button type="button" class="primary" data-a="ack">Continue</button></div></div></div>`;
 }
 function ageDock() {
   if (!s || !s.alive) return '';
   const busy = autoRunning();
-  const skipBtns = SKIP_PRESETS.map((n) => `<button type="button" class="auto-skip" data-a="skip" data-v="${n}" ${busy || s.pending.length ? 'disabled' : ''} title="Skip ${n} year${n > 1 ? 's' : ''} (safe auto)">+${n}</button>`).join('');
+  const autoOk = autoUnlocked();
+  const locked = busy || s.pending.length || !!outcomeAck;
+  const skipLocked = locked || !autoOk;
+  const skipBtns = SKIP_PRESETS.map((n) => `<button type="button" class="auto-skip" data-a="skip" data-v="${n}" ${skipLocked ? 'disabled' : ''} title="${autoOk ? 'Skip ' + n + ' year' + (n > 1 ? 's' : '') + ' (safe auto)' : 'Needs Autopilot Pack'}">+${n}</button>`).join('');
   return `<div class="dock dock-auto bw-auto-dock bw-auto-skip-flash">
     <div class="auto-row" role="group" aria-label="Autopilot skip">
       <span class="auto-label">Skip</span>${skipBtns}
-      <button type="button" class="auto-skip" data-a="skip" data-v="custom" ${busy || s.pending.length ? 'disabled' : ''} title="Custom skip">…</button>
+      <button type="button" class="auto-skip" data-a="skip" data-v="custom" ${skipLocked ? 'disabled' : ''} title="${autoOk ? 'Custom skip' : 'Needs Autopilot Pack'}">…</button>
       ${busy ? `<button type="button" class="auto-stop" data-a="autostop">Stop</button>` : ''}
     </div>
-    <button class="age" data-a="age" ${busy || s.pending.length ? 'disabled' : ''}>${T('year_verb')} +${E.turnYears(s)}</button>
+    <button class="age" data-a="age" ${locked ? 'disabled' : ''}>${T('year_verb')} +${E.turnYears(s)}</button>
   </div>`;
 }
 function deathScreen() {
@@ -1197,52 +1275,402 @@ function sidePeek() {
   </aside>`;
 }
 let courtPick = null;
+/** Adventure/event outcome waiting for Continue (Gary Nov 5: results must hold weight). */
+let outcomeAck = null;
+const OUTING = new Set(['tourney', 'tinvite', 'tmeet', 'tgrand', 'tmeetall']);
+const OUTING_TITLE = { tourney: 'Tournament', tinvite: 'Invitation', tmeet: 'Realm meet', tgrand: 'Teams', tmeetall: 'Teams' };
+function holdOutcome(r, deltas) {
+  if (!r) return;
+  outcomeAck = {
+    title: r.title || 'Outcome',
+    msg: r.msg || '',
+    success: r.success !== false,
+    chance: r.chance ?? null,
+    roll: r.roll ?? null,
+    deltas: deltas || r.deltas || [],
+  };
+}
+/** Phone-only UI state (never affects desktop render). */
+let phonePanel = null;
+let phoneStatsOpen = false;
+const PHONE_MENU_DEST = ['skills', 'realms', 'codex', 'legacy', 'bel'];
+const PHONE_LIFE_PANELS = ['auto', 'health', 'pastimes', 'activities', 'law', 'rest', 'profile'];
+
+function isPhoneUI() {
+  try {
+    const w = Math.min(window.innerWidth || 9999, document.documentElement?.clientWidth || 9999);
+    const touchy = (navigator.maxTouchPoints || 0) > 0 || 'ontouchstart' in window
+      || window.matchMedia('(pointer: coarse)').matches;
+    const plat = (() => { try { return new URLSearchParams(location.search).get('platform') || ''; } catch (_) { return ''; } })();
+    const native = !!(globalThis.Capacitor?.isNativePlatform?.());
+    if (w <= 600 && (touchy || plat === 'android' || plat === 'ios' || native)) return true;
+    if (window.matchMedia('(max-width: 600px) and (pointer: coarse)').matches) return true;
+  } catch (_) {}
+  return false;
+}
+function syncPhoneClass() {
+  const on = isPhoneUI();
+  document.documentElement.classList.toggle('is-phone', on);
+  return on;
+}
+function phoneRow(id, iconHtml, title, hint, tone = 'plum') {
+  return `<button type="button" class="bw-row" data-a="phonepanel" data-v="${esc(id)}"><span class="bw-ic tone-${esc(tone)}">${iconHtml}</span><span class="bw-t"><b>${esc(title)}</b><small>${esc(hint)}</small></span><span class="bw-chev" aria-hidden="true">›</span></button>`;
+}
+function phoneStatName(key) {
+  return ({ health: 'Health', spirit: 'Spirit', happiness: 'Spirit', wits: 'Wits', smarts: 'Wits',
+    presence: 'Presence', looks: 'Presence', strain: 'Strain', stress: 'Strain', renown: 'Renown', fame: 'Renown', mana: 'Mana' })[key] || key;
+}
+function phoneThinBar(key, v, cls = '', valHtml = null) {
+  const pct = Math.max(0, Math.min(100, typeof v === 'number' ? v : 0));
+  const val = valHtml != null ? valHtml : Math.round(v);
+  const extra = cls || (key === 'health' ? 'bar-health' : key === 'spirit' || key === 'happiness' ? 'bar-spirit' : key === 'wits' || key === 'smarts' ? 'bar-wits'
+    : key === 'presence' || key === 'looks' ? 'bar-presence' : key === 'strain' || key === 'stress' ? 'bad bar-strain' : key === 'renown' || key === 'fame' ? 'bar-renown' : key === 'mana' ? 'magic bar-mana' : '');
+  return `<div class="bw-thin ${extra}"><span class="bw-thin-lbl">${ico(key)} ${phoneStatName(key)}</span><span class="bw-thin-track"><i style="width:${pct}%"></i></span><span class="bw-thin-val">${val}</span></div>`;
+}
+function phoneTopbarHTML() {
+  // Lifeline-style compact topbar: portrait · name/role · Passes ★ · gold
+  const st = E.stage(s), r = E.race(s), j = s.job && P.occ.jobs[s.job.id];
+  const ca = E.cage(s);
+  const occ = j ? j.title : (s.school && ca >= 6 && ca < 16 ? 'Student' : (ca < 6 ? 'Child' : (ca < 16 ? 'Youth' : 'No work')));
+  const sx = s.sex || 'm';
+  const file = `${s.race}_${st}_${sx}.png`;
+  const mono = initials(s.first + ' ' + s.last);
+  const passBtn = isItchBuild() ? '' : `<button type="button" class="bw-topbtn bw-prem" data-a="phonepasses" aria-label="Passes">${ico('echo')}</button>`;
+  return `<header class="bw-topbar">
+    <button type="button" class="bw-ava" data-a="phonepanel" data-v="profile" aria-label="Open profile">
+      <img alt="" src="${GRID}${file}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mono-fallback',textContent:'${mono}'}))">
+    </button>
+    <button type="button" class="bw-who" data-a="phonepanel" data-v="profile" aria-label="Open profile">
+      <span class="bw-nm">${esc(s.first)} ${esc(s.last)}</span>
+      <span class="bw-hd">${ico('work')} ${esc(occ)} · ${esc(r.name)}</span>
+    </button>
+    ${passBtn}
+    <div class="bw-bank" aria-label="Gold">
+      <b class="gold-line">${ico('gold')}${Math.floor(s.gold)}</b>
+      <small>${T('currency')}</small>
+    </div>
+  </header>`;
+}
+function phoneAgebarHTML() {
+  return `<div class="bw-agebar"><span>${T('year_verb')} ${Math.floor(s.age)} · ${esc(E.stageLabel(s))}</span><span>${esc(E.regionOf(s).name)}</span></div>`;
+}
+function phoneJournalHTML() {
+  const byAge = [];
+  for (const l of s.log.slice(-100)) {
+    const a = Math.floor(l.age);
+    if (!byAge.length || byAge.at(-1)[0] !== a) byAge.push([a, []]);
+    if (l.kind !== 'year') byAge.at(-1)[1].push(l.text);
+  }
+  const lines = byAge.map(([a, ls]) =>
+    `<div class="bw-jage">${T('year_verb')} ${a}</div>${ls.map((tx) => `<p class="bw-jline">${flare(tx)}</p>`).join('')}`
+  ).join('');
+  return `<div class="bw-journal" id="jr">${lines || `<div class="bw-jage">${T('year_verb')} ${Math.floor(s.age)}</div><p class="bw-jline">Your story begins.</p>`}</div>`;
+}
+function phoneStatsStripHTML() {
+  // Lifeline-style thin strip — a few tidy bars; full stats one tap on the header.
+  return `<button type="button" class="bw-stats" data-a="phonepanel" data-v="profile" aria-label="Open full stats">
+    ${phoneThinBar('health', s.stats.health, s.stats.health < 30 ? 'bad bar-health' : 'bar-health')}
+    ${phoneThinBar('spirit', s.stats.happiness)}
+    ${phoneThinBar('wits', s.stats.smarts)}
+    ${phoneThinBar('presence', s.stats.looks)}
+  </button>`;
+}
+function phoneLifeHome() {
+  // Lifeline composition: agebar + LARGE journal + thin stats. Very few elements.
+  return `${phoneAgebarHTML()}${phoneJournalHTML()}${phoneStatsStripHTML()}`;
+}
+function phoneProfileHTML() {
+  const mana = s.flags.mana_awakened
+    ? phoneThinBar('mana', (100 * (s.mana || 0)) / Math.max(1, s.manaMax || 1), 'magic bar-mana', `${Math.floor(s.mana || 0)}/${Math.floor(Math.max(s.manaMax || 0, 1))}`)
+    : '';
+  return `<div class="bw-card">
+    <h3>${ico('spirit')} Profile</h3>
+    <p class="sub">${esc(s.first)} ${esc(s.last)} · ${T('year_verb')} ${Math.floor(s.age)} · ${esc(E.stageLabel(s))}</p>
+    <div class="bw-profile-bars">
+      ${phoneThinBar('health', s.stats.health, s.stats.health < 30 ? 'bad bar-health' : 'bar-health')}
+      ${phoneThinBar('spirit', s.stats.happiness)}
+      ${phoneThinBar('wits', s.stats.smarts)}
+      ${phoneThinBar('presence', s.stats.looks)}
+      ${phoneThinBar('strain', s.stats.stress, 'bad bar-strain')}
+      ${phoneThinBar('renown', s.stats.fame)}
+      ${mana}
+    </div>
+    <div class="bw-pills">
+      <span class="pill">${ico('act')}Actions ${s.budget.act}/4</span>
+      <span class="pill">${ico('social')}Social ${s.budget.social}/3</span>
+      <span class="pill">${ico('adventure')}Adventure ${s.budget.adv}/5</span>
+    </div>
+    <p class="sub">Tap Health below for ailments &amp; Rest. Autopilot lives on the AGE button when unlocked.</p>
+    <div class="actions"><button type="button" class="primary" data-a="phonepanel" data-v="health">${ico('health')} Health &amp; rest</button></div>
+  </div>`;
+}
+function phoneRestOptions() {
+  const h = E.hage(s);
+  const acts = [];
+  try {
+    for (const c of (E.activityCategories(s) || [])) {
+      for (const a of (c.activities || [])) {
+        if (h < (a.minAge || 0)) continue;
+        const id = String(a.id || ''), name = String(a.name || '');
+        const blob = (id + ' ' + name + ' ' + (a.sub || '')).toLowerCase();
+        if (id === 'healer') continue;
+        if (/\brest\b|nap|sleep|pond|recover|relax/.test(blob)) acts.push(a);
+      }
+    }
+  } catch (_) {}
+  return acts;
+}
+function phoneRestPickerHTML() {
+  const busy = s.budget.act < 1;
+  const extra = phoneRestOptions().map((a) => {
+    const ch0 = a.choices?.[0]; const cost = ch0?.cost || 0;
+    return `<button type="button" data-a="actv" data-v="${esc(a.id)}" ${(busy || s.gold < cost) ? 'disabled' : ''}>${esc(a.name)}${cost ? ` (${cost}g)` : ''}</button>`;
+  }).join('');
+  return `<div class="bw-rest">
+    <button type="button" class="primary bw-rest-main" data-a="phonerest" ${busy ? 'disabled' : ''}>${ico('spirit')} Rest</button>
+    <div class="bw-rest-pick" hidden>
+      <button type="button" data-a="rest" ${busy ? 'disabled' : ''}>Rest by the pond</button>
+      ${extra}
+    </div>
+  </div>`;
+}
+function phoneLifePanel(id) {
+  const h = E.hage(s);
+  if (id === 'profile') return phoneProfileHTML();
+  if (id === 'auto') {
+    const autoBusy = autoRunning();
+    const autoOk = autoUnlocked();
+    const skipDis = autoBusy || s.pending.length || !!outcomeAck || !autoOk;
+    return `<div class="bw-card"><h3>${ico('act')} Autopilot</h3>
+      <p class="sub">Advance cage years safely. Pauses on death, jail, romance, ownership, or tournaments.</p>
+      ${autoOk ? '' : (isItchBuild() ? `<p class="sub lock-why">Not sold in this itch build.</p>` : `<p class="sub lock-why">Needs Autopilot Pack. <button type="button" data-a="phonepasses">Open Passes</button></p>`)}
+      <div class="actions auto-actions">${SKIP_PRESETS.map((n) => `<button type="button" class="primary" data-a="skip" data-v="${n}" ${skipDis ? 'disabled' : ''}>Skip ${n}y</button>`).join('')}
+        <button type="button" data-a="skip" data-v="custom" ${skipDis ? 'disabled' : ''}>Custom…</button>
+        ${autoBusy ? `<button type="button" data-a="autostop">Stop</button>` : ''}</div></div>`;
+  }
+  if (id === 'health') {
+    const ailRows = (s.ailments || []).map((d) => {
+      const def = E.ailmentDef(d.id); if (!def) return '';
+      return `<div class="row"><div><b>${esc(def.name)}</b> <small>${esc(def.sev)}${d.dx ? '' : ' · undiagnosed'}${d.treated ? ' · treating' : ''}</small></div></div>`;
+    }).join('') || '<div class="empty">No ailments right now.</div>';
+    return `<div class="bw-card"><h3>${ico('health')} Health &amp; rest</h3>${ailRows}
+      <div class="actions"><button data-a="healer" ${s.budget.act < 1 ? 'disabled' : ''}>Visit a healer (12 gold)</button></div>
+      ${phoneRestPickerHTML()}</div>`;
+  }
+  if (id === 'rest') {
+    return `<div class="bw-card"><h3>${ico('spirit')} Rest</h3>
+      <button type="button" class="bw-row" data-a="rest"><span class="bw-ic">${ico('spirit')}</span><span class="bw-t"><b>Rest by the pond</b><small>Spend 1 action · ease strain</small></span><span class="bw-chev">›</span></button>
+      ${phoneRestOptions().map((a) => {
+        const ch0 = a.choices?.[0]; const cost = ch0?.cost || 0;
+        return `<button type="button" class="bw-row" data-a="actv" data-v="${esc(a.id)}"><span class="bw-ic">${ico('spirit')}</span><span class="bw-t"><b>${esc(a.name)}</b><small>${esc(a.sub || '')}${cost ? ` · ${cost} gold` : ''}</small></span><span class="bw-chev">›</span></button>`;
+      }).join('')}</div>`;
+  }
+  if (id === 'pastimes') {
+    const pl = E.passionList(s);
+    const pastActive = (pl.active || []).map((x) => `<div class="row"><div><b>${esc(x.def?.name || x.id)}</b> <small>meter ${Math.floor(x.meter)}</small></div><button data-a="prac" data-v="${x.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Practice</button></div>`).join('');
+    const pastAvail = (pl.available || []).slice(0, 8).map((x) => `<button data-a="adopt" data-v="${x.id}" ${pl.free < 1 ? 'disabled' : ''}>${esc(x.name)}</button>`).join('');
+    return `<div class="bw-card"><h3>${ico('spirit')} Pastimes</h3><p class="sub">${pl.free} free slot(s).</p>${pastActive || '<div class="empty">No pastime yet.</div>'}<div class="actions">${pastAvail || ''}</div></div>`;
+  }
+  if (id === 'activities') {
+    const restIds = new Set(phoneRestOptions().map((a) => a.id));
+    const actCats = E.activityCategories(s).map((c) => {
+      const acts = c.activities.filter((a) => h >= a.minAge && a.id !== 'healer' && !restIds.has(a.id)).map((a) => {
+        const ch0 = a.choices[0]; const cost = ch0?.cost || 0;
+        return `<div class="row"><div><b>${esc(a.name)}</b> <small>${esc(a.sub)}${cost ? ` · ${cost} gold` : ''}</small></div><button data-a="actv" data-v="${a.id}" ${s.budget.act < 1 || s.gold < cost ? 'disabled' : ''}>Do</button></div>`;
+      }).join('');
+      return acts ? `<div class="bw-card"><h3>${esc(c.name)}</h3>${acts}</div>` : '';
+    }).join('');
+    return actCats || '<div class="bw-card"><div class="empty">Nothing available right now.</div></div>';
+  }
+  if (id === 'law') {
+    const crimes = E.lawMenuCrimes(s);
+    if (!crimes.length) return `<div class="bw-card"><h3>${ico('strain')} Realm law</h3><div class="empty">No shadow options yet.</div></div>`;
+    return `<div class="bw-card"><h3>${ico('strain')} Realm law</h3><p class="sub">Age ${E.CRIME_MENU_MIN_AGE}+.</p>${crimes.map((c) => {
+      const locked = !c.ok || s.budget.act < 1;
+      const why = !c.ok ? c.why : (s.budget.act < 1 ? 'No actions left' : '');
+      return `<div class="row"><div><b>${esc(c.name)}</b> <small>severity ${c.severity}</small>${why ? `<br><small class="lock-why">${esc(why)}</small>` : ''}</div><button data-a="crime" data-v="${c.id}" ${locked ? 'disabled' : ''}>Attempt</button></div>`;
+    }).join('')}</div>`;
+  }
+  return '<div class="bw-card"><div class="empty">Unknown section.</div></div>';
+}
+function phoneWorkAdvHTML() {
+  return `<div class="bw-sec tone-moss">Work</div>
+    ${phoneRow('job', ico('work'), 'Jobs & wages', 'Your post and openings', 'moss')}
+    ${phoneRow('odd', ico('gold'), 'Odd jobs', 'Short work for coin', 'gold')}
+    ${phoneRow('train', skillIco('swordsmanship'), 'Train', 'Mentors, drills, practice', 'sky')}
+    <div class="bw-sec tone-sky">Adventure</div>
+    ${phoneRow('setout', ico('adventure'), 'Set out', 'Spend Adventure to travel', 'sky')}
+    ${phoneRow('guild', ico('adventure'), 'Guilds', 'Found or manage a hall', 'plum')}
+    ${phoneRow('tourney', ico('renown'), 'Tournaments', 'Teams, meets, invitations', 'gold')}`;
+}
+function phoneMenuHTML() {
+  return `<div class="bw-sec tone-plum">Menu</div>
+    ${phoneRow('more:skills', skillIco('literacy'), 'Skills', 'Train ranks and life path', 'sky')}
+    ${phoneRow('more:codex', skillIco('lore'), 'Codex', 'What the world taught you', 'plum')}
+    ${phoneRow('more:realms', ico('realm'), 'Realms', 'Map and travel', 'moss')}
+    ${phoneRow('more:legacy', ico('renown'), 'Legacy', 'Goals and achievements', 'gold')}
+    ${phoneRow('more:bel', skillIco('smithing'), 'Belongings', 'Gold, relics, workshops', 'gold')}
+    <div class="bw-sec tone-moss">Care</div>
+    ${phoneRow('health', ico('health'), 'Health & rest', 'Ailments, healer, one Rest', 'moss')}
+    ${phoneRow('pastimes', ico('spirit'), 'Pastimes', 'Hobbies and practice', 'gold')}
+    ${phoneRow('activities', ico('adventure'), 'Activities', 'Things to do this year', 'sky')}
+    ${phoneRow('auto', ico('act'), 'Autopilot', 'Skip quiet years safely', 'plum')}
+    <div class="bw-sec tone-gold">Settings</div>
+    <div class="bw-set-row"><span class="bw-set-lb">${ico('spirit')} Music</span>${musicToggleHTML()}</div>`;
+}
+function phoneBondsHTML() {
+  return `<div class="bw-sec tone-plum">Bonds</div>
+    ${phoneRow('people', ico('bond'), 'People', 'Family, friends, party', 'plum')}
+    ${phoneRow('social', ico('social'), 'Spend time', 'Deepen bonds', 'sky')}`;
+}
+function phoneSanitizeBody(html) {
+  return String(html || '')
+    .replace(/<div class="life-shortcuts"[^>]*>[\s\S]*?<\/div>/i, '')
+    .replace(/<div class="tabs"[^>]*>[\s\S]*?<\/div>/i, '');
+}
+function phonePanelChrome(title, bodyHtml, backAction = 'phoneback') {
+  return `<section class="bw-panel">
+    <div class="bw-pbar">
+      <button type="button" class="bw-pback" data-a="${backAction}" aria-label="Back">‹</button>
+      <h2>${esc(title)}</h2>
+      <button type="button" class="bw-pclose" data-a="phonehome" aria-label="Close to home">✕</button>
+    </div>
+    <div class="bw-pbody">${bodyHtml}</div>
+  </section>`;
+}
+function phoneMainHTML() {
+  if (tab === 'passes') {
+    return phonePanelChrome('Passes', phoneSanitizeBody(body()));
+  }
+  if (PHONE_MENU_DEST.includes(tab) && (phonePanel === 'menu-dest' || phonePanel === 'more-dest')) {
+    return phonePanelChrome(T(TAB_META[tab]?.label || tab), phoneSanitizeBody(body()), 'phonemenu');
+  }
+  if (tab === 'life') {
+    if (phonePanel && PHONE_LIFE_PANELS.includes(phonePanel)) {
+      const titles = { auto: 'Autopilot', health: 'Health & rest', pastimes: 'Pastimes', activities: 'Activities', law: 'Realm law', rest: 'Rest', profile: 'Profile' };
+      return phonePanelChrome(titles[phonePanel] || 'Back', phoneLifePanel(phonePanel));
+    }
+    return `<div class="bw-hub">${phoneLifeHome()}</div>`;
+  }
+  if (tab === 'workadv') {
+    if (phonePanel) {
+      const map = { job: 'work', odd: 'work', train: 'work', workshops: 'work', setout: 'adv', guild: 'adv', tourney: 'adv' };
+      const dest = map[phonePanel] || 'work';
+      const prev = tab; tab = dest;
+      const html = phoneSanitizeBody(body());
+      tab = prev;
+      const labels = { job: 'Jobs & wages', odd: 'Odd jobs', train: 'Train', setout: 'Set out', guild: 'Guilds', tourney: 'Tournaments' };
+      return phonePanelChrome(labels[phonePanel] || phonePanel, html);
+    }
+    return phonePanelChrome('Work & Adventure', phoneWorkAdvHTML(), 'phonehome');
+  }
+  if (tab === 'bonds') {
+    if (phonePanel) {
+      return phonePanelChrome(String(phonePanel), phoneSanitizeBody(body()));
+    }
+    return phonePanelChrome('Bonds', phoneBondsHTML(), 'phonehome');
+  }
+  if (tab === 'menu') {
+    if (phonePanel && PHONE_LIFE_PANELS.includes(phonePanel)) {
+      const titles = { health: 'Health & rest', auto: 'Autopilot', rest: 'Rest', pastimes: 'Pastimes', activities: 'Activities', law: 'Realm law', profile: 'Profile' };
+      return phonePanelChrome(titles[phonePanel] || 'Back', phoneLifePanel(phonePanel));
+    }
+    return phonePanelChrome('More', phoneMenuHTML(), 'phonehome');
+  }
+  if (PHONE_MENU_DEST.includes(tab)) {
+    return phonePanelChrome(T(TAB_META[tab]?.label || tab), phoneSanitizeBody(body()), 'phonemenu');
+  }
+  return `<div class="bw-hub">${phoneLifeHome()}</div>`;
+}
+function phoneNavHTML() {
+  const locked = autoRunning() || s.pending.length || !!outcomeAck;
+  const menuOn = tab === 'menu' || PHONE_MENU_DEST.includes(tab);
+  const workOn = tab === 'workadv' || tab === 'work' || tab === 'adv';
+  const left = [
+    ['life', 'spirit', 'Life', tab === 'life' && !phonePanel],
+    ['workadv', 'work', 'Work', workOn],
+  ].map(([id, ic, lab, on]) =>
+    `<button type="button" class="bw-tab${on ? ' on' : ''}" data-tab="${id}">${ico(ic)}<span>${lab}</span></button>`).join('');
+  const right = [
+    ['bonds', 'bond', 'Bonds', tab === 'bonds'],
+    ['menu', 'codex', 'More', menuOn],
+  ].map(([id, ic, lab, on]) =>
+    `<button type="button" class="bw-tab${on ? ' on' : ''}" data-tab="${id}">${ico(ic)}<span>${lab}</span></button>`).join('');
+  return `<nav class="bw-nav" aria-label="Main">
+    ${left}<div class="bw-age-slot" aria-hidden="true"></div>${right}
+    <button type="button" class="bw-age" data-a="age" ${locked ? 'disabled' : ''} aria-label="Age one year"><b>AGE</b><small>${Math.floor(s.age)}</small></button>
+  </nav>`;
+}
+function phoneRender(sheet) {
+  document.body.classList.toggle('has-sheet', !!sheet);
+  // Lifeline shell: topbar + hub(or panel) + nav. Journal gets the space.
+  const onHome = tab === 'life' && !phonePanel;
+  app.innerHTML = `<div class="bw-phone">
+    ${phoneTopbarHTML()}
+    ${phoneMainHTML()}
+    ${phoneNavHTML()}
+  </div>${sheet || ''}`;
+  const j = $('#jr');
+  if (j && onHome) j.scrollTop = j.scrollHeight;
+}
+
+
 function render() {
+  syncPhoneClass();
   if (!s) return fateScreen();
-  const outcome = activeOutcome();
   if (!s.alive) {
     save();
     deathScreen();
-    if (outcome) {
-      app.insertAdjacentHTML('beforeend', outcomeSheet());
+    // A killing blow still waits for Continue before the death screen can be used.
+    if (outcomeAck) {
+      app.insertAdjacentHTML('beforeend', formatOutcomeAck(outcomeAck));
       document.body.classList.add('has-sheet');
-      document.querySelector('.sheet-outcome [data-a="ack"]')?.focus();
+      document.querySelector('.outcome-ack [data-a="ackout"]')?.focus();
     }
     return;
   }
-  setChrome(tab);
-  const tabs = TABS.map(([k]) => {
-    const m = TAB_META[k];
-    return `<button data-tab="${k}" class="${tab === k ? 'on' : ''}" aria-label="${T(m.label)}">${ico(m.ico)}${T(m.label)}</button>`;
-  }).join('');
-  const sheet = outcome ? outcomeSheet() : eventSheet();
-  document.body.classList.toggle('has-sheet', !!sheet);
-  app.innerHTML = `<div class="play-layout">
+  const phone = syncPhoneClass();
+  setChrome((tab === 'more' || tab === 'menu' || tab === 'workadv') ? 'life' : tab);
+  const sheet = eventSheet();
+  if (phone) {
+    phoneRender(sheet);
+  } else {
+    // DESKTOP PATH — markup unchanged
+    const tabs = TABS.map(([k]) => {
+      const m = TAB_META[k];
+      return `<button data-tab="${k}" class="${tab === k ? 'on' : ''}" aria-label="${T(m.label)}">${ico(m.ico)}${T(m.label)}</button>`;
+    }).join('');
+    document.body.classList.toggle('has-sheet', !!sheet);
+    app.innerHTML = `<div class="play-layout">
     <div class="play-hub">${header()}${ageDock()}</div>
     <div class="play-main"><div class="tabs">${tabs}</div><div class="play-body">${body()}</div></div>
     ${sidePeek()}
   </div><div class="end-pad" aria-hidden="true"></div>${sheet}`;
-  const j = $('#jr'); if (j) j.scrollTop = j.scrollHeight; save();
-  paintAmbient(s.region || 'hearthfold', tab);
-  try { syncMusic(tab, document.documentElement.dataset.tod); } catch (_) {}
-  try { afterLegacyRender(); } catch (_) {}
-  if (!document.querySelector('.music-fab')) {
-    const fab = document.createElement('div'); fab.className = 'music-fab'; fab.innerHTML = musicToggleHTML(); document.body.append(fab);
-  } else {
-    document.querySelector('.music-fab').innerHTML = musicToggleHTML();
+    const j = $('#jr'); if (j) j.scrollTop = j.scrollHeight;
   }
-  if (outcome) document.querySelector('.sheet-outcome [data-a="ack"]')?.focus();
+  save();
+  paintAmbient(s.region || 'hearthfold', (tab === 'more' || tab === 'menu' || tab === 'workadv') ? 'life' : tab);
+  try { syncMusic((tab === 'more' || tab === 'menu' || tab === 'workadv') ? 'life' : tab, document.documentElement.dataset.tod); } catch (_) {}
+  try { afterLegacyRender(); } catch (_) {}
+  let fab = document.querySelector('.music-fab');
+  if (phone) {
+    if (fab) fab.style.display = 'none';
+  } else {
+    if (!fab) {
+      fab = document.createElement('div'); fab.className = 'music-fab'; document.body.append(fab);
+    }
+    fab.style.display = '';
+    fab.innerHTML = musicToggleHTML();
+  }
+  if (outcomeAck) document.querySelector('.outcome-ack [data-a="ackout"]')?.focus();
 }
 app.addEventListener('click', (ev) => {
-  const ackBtn = ev.target.closest('button[data-a="ack"]');
-  if (ackBtn) {
+  // Outcome card stays until Continue. Clicks elsewhere do not dismiss it or start another action.
+  if (outcomeAck && !ev.target.closest('button[data-a="ackout"]')) {
     ev.preventDefault();
-    if (document.body.dataset.sheetBusy) return;
-    clearOutcome();
-    render();
+    ev.stopPropagation();
     return;
   }
-  if (activeOutcome()) { ev.preventDefault(); ev.stopPropagation(); return; }
   // Tab switches for buttons / flare chips with data-tab — never body[data-tab] (setChrome).
   // Soccer Rpg P1: closest('[data-tab]') matched BODY and ate Age/Skip/Rest before data-a.
   const tabEl = ev.target.closest('button[data-tab], a[data-tab], .flare[data-tab]');
@@ -1252,6 +1680,7 @@ app.addEventListener('click', (ev) => {
     }
     ev.preventDefault();
     tab = tabEl.dataset.tab;
+    if (isPhoneUI()) { phonePanel = null; }
     render();
     return;
   }
@@ -1259,9 +1688,52 @@ app.addEventListener('click', (ev) => {
   // Real disabled: attribute or aria (Playwright/DOM greyed choices must not fire)
   if (b.disabled || b.getAttribute('aria-disabled') === 'true') { ev.preventDefault(); ev.stopPropagation(); return; }
   const a = b.dataset.a, v = b.dataset.v; let r;
-  const ledgerBefore = OUTING.has(a) ? E.captureLedger(s) : null;
+  const beforeOuting = OUTING.has(a) ? E.outcomeSnap(s) : null;
+  if (a === 'phonestats') {
+    if (!isPhoneUI()) return;
+    phoneStatsOpen = !phoneStatsOpen; render(); return;
+  }
+  if (a === 'phonehome') {
+    if (!isPhoneUI()) return;
+    tab = 'life'; phonePanel = null; render(); return;
+  }
+  if (a === 'phonepasses') {
+    if (!isPhoneUI() || isItchBuild()) return;
+    tab = 'passes'; phonePanel = null; render(); return;
+  }
+  if (a === 'phonerest') {
+    if (!isPhoneUI()) return;
+    const wrap = b.closest('.bw-rest');
+    const pick = wrap && wrap.querySelector('.bw-rest-pick');
+    if (pick) { pick.hidden = !pick.hidden; return; }
+    tab = 'life'; phonePanel = 'rest'; render(); return;
+  }
+  if (a === 'phonepanel') {
+    if (!isPhoneUI()) return;
+    if (String(v || '').startsWith('more:')) {
+      tab = v.slice(5); phonePanel = 'menu-dest'; render(); return;
+    }
+    if (PHONE_LIFE_PANELS.includes(v)) {
+      if (tab === 'menu' || tab === 'workadv' || tab === 'bonds') {
+        phonePanel = v; render(); return;
+      }
+      tab = 'life'; phonePanel = v; render(); return;
+    }
+    phonePanel = v || null; render(); return;
+  }
+  if (a === 'phoneback') {
+    if (!isPhoneUI()) return;
+    if (tab === 'passes') { tab = 'life'; phonePanel = null; render(); return; }
+    if (PHONE_MENU_DEST.includes(tab)) { tab = 'menu'; phonePanel = null; render(); return; }
+    if (tab === 'workadv' || tab === 'bonds' || tab === 'menu') { phonePanel = null; render(); return; }
+    phonePanel = null; render(); return;
+  }
+  if (a === 'phonemenu' || a === 'phonemore') {
+    if (!isPhoneUI()) return;
+    tab = 'menu'; phonePanel = null; render(); return;
+  }
   if (a === 'age') {
-    if (s?.pending?.length) return;
+    if (s?.pending?.length || outcomeAck) return;
     const prevAge = E.cage(s);
     try {
       E.ageUp(s);
@@ -1275,18 +1747,57 @@ app.addEventListener('click', (ev) => {
     flashSkip(document.querySelector('.dock-auto'));
     if (s.alive && !s.route && now >= 11 && prevAge < 11) toast('Age 11 — choose your path on Life or Skills (sword / magic / hybrid / craft).');
     else if (s.alive && !s.route && now === 8) toast('Path choice unlocked — pick sword, magic, hybrid, or craft.');
+    // Forced ad at natural break (store builds only; No Ads suppresses)
+    if (s.ads?.due && Ads.promptsEnabled()) {
+      Ads.showForced({ placement: 'age_break' }).then((r) => {
+        Ads.dismissPrompt(s);
+        if (r?.shown) toast('Ad finished.');
+        save();
+      }).catch(() => { Ads.dismissPrompt(s); });
+    }
+  }
+  else if (a === 'buypass') {
+    purchasePass(v).then((r) => {
+      if (r.ok) { toast(r.already ? 'Already owned.' : (r.via === 'dev_grant' ? 'Dev unlock granted.' : 'Pass unlocked!')); try { PremFx.applyStart(s); } catch (_) {} }
+      else toast(r.reason || 'Purchase unavailable.');
+      save(); render();
+    });
+    return;
+  }
+  else if (a === 'restorepass') {
+    restorePurchases().then((r) => { toast(r.ok ? 'Restored.' : (r.reason || 'Nothing to restore')); save(); render(); });
+    return;
+  }
+  else if (a === 'devtester') {
+    if (!Premium.canDevGrant()) { toast('Dev only.'); return; }
+    try { Premium.setOwned('tester_pack', true); toast('Tester Pack granted (dev).'); PremFx.applyStart(s); }
+    catch (err) { toast(String(err.message || err)); }
+    save(); render(); return;
   }
   else if (a === 'ch') {
-    if (document.body.dataset.sheetBusy) return;
+    if (document.body.dataset.sheetBusy || outcomeAck) return;
     document.body.dataset.sheetBusy = '1';
     r = E.resolve(s, +v);
-    // Outcome text is held for Continue below. Failures still toast.
-    // Drop sheet hit-target quickly so stale modal clicks cannot double-fire
+    if (r && r.ok === false) toast(r.msg);
+    else if (r && r.ok) {
+      // Keep result on screen until Continue — toast alone felt weightless (Gary Nov 5).
+      outcomeAck = {
+        title: r.title,
+        msg: r.msg,
+        success: r.success !== false,
+        chance: r.chance,
+        roll: r.roll,
+        deltas: r.deltas || [],
+      };
+    }
     const sheet = document.querySelector('.sheet'); if (sheet) sheet.style.pointerEvents = 'none';
     setTimeout(() => { delete document.body.dataset.sheetBusy; }, 280);
   }
+  else if (a === 'ackout') {
+    outcomeAck = null;
+  }
   else if (a === 'newlife') { s = null; localStorage.removeItem(KEY); tab = 'life'; fateScreen(); return; }
-  else if (a === 'train') r = E.train(s, v); else if (a === 'job') r = E.takeJob(s, v); else if (a === 'quit') E.quitJob(s); else if (a === 'work') r = E.workHard(s);
+  else if (a === 'train') r = E.train(s, v); else if (a === 'job') r = E.takeJob(s, v); else if (a === 'quit') E.quitJob(s); else if (a === 'work') r = E.workHard(s); else if (a === 'odd') r = E.oddJobs(s);
   else if (a === 'adv') r = E.adventure(s); else if (a === 'rest') r = E.rest(s); else if (a === 'route') { r = E.chooseRoute(s, v); }
   else if (a === 'soc') r = E.socialize(s, v); else if (a === 'friend') r = E.meetSomeone(s, false); else if (a === 'love') r = E.meetSomeone(s, true); else if (a === 'travel') r = E.travel(s, v); else if (a === 'scout') r = E.scoutRealm(s, v); else if (a === 'visit') r = E.visitLocation(s, v);
   else if (a === 'reinc') { s = E.reincarnate(meta, s, v, (Math.random() * 2 ** 31) | 0); bumpLifeEpoch(s); tab = 'life'; }
@@ -1376,7 +1887,14 @@ app.addEventListener('click', (ev) => {
   else if (a === 'autostop') { requestStop(); toast('Stopping autopilot…'); return; }
   else if (a === 'skip') {
     if (autoRunning()) return;
-    if (s.pending?.length) { toast('Resolve the open event first.'); return; }
+    if (!autoUnlocked()) {
+      toast(isItchBuild()
+        ? 'Autopilot Pack is not sold in this itch build.'
+        : 'Needs Autopilot Pack — free on web alpha; buy on stores when Boundwake launches.');
+      if (!isItchBuild()) tab = 'passes';
+      render(); return;
+    }
+    if (s.pending?.length || outcomeAck) { toast(outcomeAck ? 'Acknowledge the outcome first.' : 'Resolve the open event first.'); return; }
     let n = v === 'custom' ? parseInt(prompt(`Skip how many years? (1–${MAX_SKIP})`, '10') || '0', 10) : parseInt(v, 10);
     if (!Number.isFinite(n) || n < 1) return;
     n = Math.min(MAX_SKIP, n);
@@ -1402,12 +1920,12 @@ app.addEventListener('click', (ev) => {
     });
     return;
   }
-  if (r?.ack) holdOutcome(r);
-  else if (ledgerBefore && r?.ok && OUTING.has(a)) {
-    holdOutcome({ title: OUTING_TITLE[a] || 'Adventure', msg: r.msg || '', deltas: E.ledgerDeltas(ledgerBefore, E.captureLedger(s)) });
+  if (a === 'adv' && r?.ok && r.ack) holdOutcome(r);
+  else if (beforeOuting && r?.ok && OUTING.has(a)) {
+    holdOutcome({ title: OUTING_TITLE[a] || 'Adventure', msg: r.msg || '', success: r.success !== false }, E.outcomeDeltas(beforeOuting, E.outcomeSnap(s)));
   }
-  const acknowledged = !!(r?.ack || (ledgerBefore && r?.ok && OUTING.has(a)));
-  if (!acknowledged) {
+  const held = (a === 'ch' && r?.ok) || (a === 'adv' && r?.ack) || (beforeOuting && r?.ok && OUTING.has(a));
+  if (!held) {
     if (r && r.ok === false) toast(r.msg);
     else if (r && a !== 'ch' && r.msg && a !== 'adv') toast(r.msg);
   }
@@ -1417,11 +1935,27 @@ function startAmbient() {
   mountAmbient({ realm: (s && s.region) || 'hearthfold', tab: document.body.dataset.tab || 'life' });
 }
 (async () => {
+  const sync = () => { try { syncPhoneClass(); } catch (_) {} };
+  sync();
+  window.addEventListener('resize', sync);
   setChrome('gate');
   app.innerHTML = `<div class="card panel-gate"><div class="card-body"><p class="sub">Checking access…</p></div></div>`;
   const acc = await checkAdminAccess();
   if (!acc.ok) { setChrome('gate'); app.innerHTML = gateHTML(acc.reason); return; }
-  P = await loadPack(); E.setPack(P); meta = JSON.parse(localStorage.getItem(META) || '{}'); E.ensureLegacyMeta(meta);
+  P = await loadPack(); E.setPack(P);
+  if (P.premium) Premium.setCatalog(P.premium);
+  if (P.adsCfg) Ads.setConfig(P.adsCfg);
+  try {
+    const plat = new URLSearchParams(location.search).get('platform');
+    if (plat) Ads.setPlatformOverride(plat);
+    else if (globalThis.Capacitor?.isNativePlatform?.()) {
+      const np = globalThis.Capacitor.getPlatform?.();
+      if (np === 'android' || np === 'ios') Ads.setPlatformOverride(np);
+    }
+  } catch (_) {}
+  await installNativeAds();
+  installNativeBilling();
+  meta = JSON.parse(localStorage.getItem(META) || '{}'); E.ensureLegacyMeta(meta);
   // ?fresh / ?nosave / ?skipintro only when explicitly present in the URL (never implied by hard refresh).
   if (!Q.has('fresh')) try { s = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { s = null; }
   else s = null;

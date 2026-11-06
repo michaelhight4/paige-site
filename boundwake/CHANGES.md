@@ -1,3 +1,46 @@
+## 2026-11-05 — phone UI live (f7cac67)
+- Lifeline-style phone hub + fantasy forest flair + real chip icons. Cache `?v=live1`. Desktop unchanged.
+
+## HOTFIX — 0-gold soft lock + Adventure≠Actions — Nov 5 ~9:30 PM CT
+
+- Soft lock: broke chars (0 gold) could not Join any job (apron/kit bond min 5g); guild/team stayed unreachable
+- Fix: free entry jobs (Picker, Yard Hand, Farmhand, Runner, Inn Helper); other entries allow employer-fronted kit repaid from wages; **Odd jobs** Work action (age 6+, 1 act, 3–7g, no kit)
+- Autopilot: takes free/fronted job when unemployed; odd-jobs if still broke
+- Adventure: **Set out** spends Adventure only (never Actions); UI no longer disables for Actions 0 (Gary elf@15 screenshot)
+- Cache: `ui.js?v=gold1` (+ `bw_engine.js?v=gold1`, `autopilot.js?v=gold1` imports)
+- Tests: `tests/poor_start_gold0.mjs`, `tests/adventure_acts_independent.mjs`
+- itch 0.1.1-alpha: same fix + **Passes tab/button/shop UI removed** on itch build only
+
+## Live — **82e14727** gold0 soft lock + adventure budget · https://paigegames.net/boundwake/
+
+## HOTFIX — multi-tab save freeze (“Another tab is ahead”) — Nov 5 ~7:50 PM CT
+
+- Symptom: UI felt frozen; toast “Another tab is ahead…” (browser-only; no server play log)
+- Cause: `saveRank` used `savedAt % 10000` + `save()` mutated `savedAt` before compare → refuse-write/adopt loop on every action; toast every `save()`
+- Fix: lexicographic `cmpSave` (full `savedAt`); compare before mutate; toast once per `stored.savedAt`; on adopt match fields then write-through when tied/ahead
+- Cache: `ui.js?v=tabsave2`
+
+## Live — **dc785842** tabsave2 freeze fix · https://paigegames.net/boundwake/
+
+## Ads + gamepasses scaffolding — Nov 5 ~7:45 PM CT (Gary)
+
+- Catalog: `data_fantasy/premium.json` (14 passes + Realm Pass) + `ads.json`
+- Modules: premium / premium_fx / ads / adapter_ads / payments / native_bridge
+- UI: **Passes** tab + Life shortcut; Buy stub (dev grant localhost/`?devpass=1` only; live = coming soon)
+- Autopilot gated by pass; **web alpha still free** (`alpha.webFreePasses`)
+- No Ads suppresses forced ads (android/ios platform); web forced off
+- Docs: PASS_MAP.md, ITCH_DLC.md, STORE_PUSH checklist; Lifeline untouched
+- Cache: `?v=passes1`
+- Stub: Play/Apple/itch product IDs + AdMob — Gary console create next
+
+## Live — **8a5edcb8** passes scaffolding · https://paigegames.net/boundwake/
+
+## Adventure outcome acknowledge — Nov 5 ~7:30 PM CT (Gary)
+
+- Root cause: choice resolve only fired a 2s toast (`✗` + prose); sheet closed immediately; % on the button was chance, never Succeeded/Failed + roll.
+- Fix: result sheet stays until **Continue**; verdict `Succeeded (N%) · roll R%` / `Failed (N%) · roll R%`; lists gold/renown/injury/loot/bonds/skills deltas; journal unchanged.
+- Cache: `style.css?v=advack1`, `ui.js?v=advack1` (kept tabscroll1/tabsave1 history; bumped only changed files).
+- Engine: `resolve()` returns `chance`, `roll`, `deltas` (one `rnd` under shown chance).
 ## Live — **2df4831d** multi-tab save guard · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:55 PM CT — Multi-tab save never clobbers newer life
@@ -11,7 +54,7 @@
 - Gary: Belongings, Work, Skills, Realms unusable without scroll
 - Shared flex-shrink + overflow:hidden clip; play-body now scrolls
 
-## Live — **PENDING_SHA** Belongings scroll fix · https://paigegames.net/boundwake/
+## Live — **82e14727** Belongings scroll fix · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:49 PM CT — Belongings (gear/shop/homes/mounts) scroll
 - Gary: Belongings page does not scroll

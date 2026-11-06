@@ -308,6 +308,51 @@ body.has-sheet .dock{visibility:hidden;pointer-events:none}
 .odds .ico{width:12px;height:12px}
 .odds-good{color:var(--moss)}.odds-mid{color:#8a6a20}.odds-bad{color:var(--ember)}
 
+/* Adventure outcome acknowledge (Gary Nov 5 — stay until Continue) */
+.outcome-ack .outcome-verdict{
+  margin:0 0 10px;font:800 18px/1.3 var(--display);letter-spacing:.01em;
+  padding:8px 12px;border-radius:12px;border:2px solid transparent;text-align:center;
+}
+.outcome-ack .outcome-verdict.good{
+  color:#1F6B52;background:#e8f6ef;border-color:#1F6B52;
+}
+.outcome-ack .outcome-verdict.bad{
+  color:#8B2E1A;background:#fceceb;border-color:#c45a32;
+}
+.outcome-ack .outcome-deltas{
+  list-style:none;margin:0 0 14px;padding:0;display:grid;gap:6px;
+}
+.outcome-ack .outcome-deltas li{
+  padding:8px 12px;border-radius:10px;font-weight:700;font-size:14px;
+  background:color-mix(in srgb,var(--tint) 55%,#fff);border:1.5px solid #b8955a55;
+}
+.outcome-ack .outcome-deltas li.good{border-color:#1F6B5288;color:#1F6B52}
+.outcome-ack .outcome-deltas li.bad{border-color:#c45a3288;color:#8B2E1A}
+.outcome-ack .outcome-deltas-empty{margin:0 0 12px}
+.outcome-ack .actions{margin-top:4px}
+.outcome-ack .actions .primary{width:100%;min-height:48px;font-size:16px}
+
+/* Keep Continue on screen. The card is centered and the tale scrolls above the button. */
+.sheet.outcome-ack{
+  align-items:center;justify-content:center;
+  padding:16px 16px calc(16px + var(--safe-b));overflow:auto;
+}
+.sheet.outcome-ack .card{
+  width:min(440px,100%);
+  max-height:min(90dvh,90vh,720px);
+  margin:auto;
+  display:flex;flex-direction:column;
+  border-radius:20px;border-bottom:3px solid var(--gold);
+  overflow:hidden;
+}
+.sheet.outcome-ack .card-hd{flex:none}
+.sheet.outcome-ack .card-body{overflow:auto;flex:1 1 auto;min-height:0}
+.sheet.outcome-ack .actions{
+  flex:none;margin:0;padding:12px 16px 16px;
+  background:#fffdf6;border-top:1px solid #e6d5a8;
+}
+
+
 @keyframes up{from{transform:translateY(36px);opacity:0}}@keyframes fade{from{opacity:0}}
 .cold{color:#f4e6c8;text-align:center;padding:26vh 16px 40px;font:700 22px/1.45 var(--display);min-height:80vh;text-shadow:0 2px 18px #0008}
 .cold p{animation:fade .5s ease}
@@ -1089,30 +1134,13 @@ body[data-tab="legacy"] .play-body > details.legacy-acc.panel-legacy{
   .legacy-hover-tip{transition:none}
 }
 
-/* Adventure / event outcomes stay until Continue (no toast timer).
-   Card is centered and capped to the visible viewport so Continue cannot sit past the window edge. */
-.sheet.sheet-outcome{
-  z-index:60;align-items:center;justify-content:center;
-  padding:16px 16px calc(16px + var(--safe-b));overflow:auto;
-}
-.sheet.sheet-outcome .card{
-  width:min(440px,100%);
-  max-height:min(90dvh,90vh,720px);
-  margin:auto;
-  display:flex;flex-direction:column;
-  border-radius:20px;border:3px solid var(--gold,#E0B14A);border-bottom-width:3px;
-  overflow:hidden;
-}
-.sheet.sheet-outcome .card-hd{flex:none}
-.sheet.sheet-outcome .card-body{overflow:auto;flex:1 1 auto;min-height:0}
-.sheet.sheet-outcome .prompt{font-size:16px;line-height:1.45}
-.outcome-label{margin:0 0 8px;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted,#6a5a40)}
-.outcome-deltas{list-style:none;margin:0;padding:0;display:grid;gap:6px}
-.outcome-deltas li{
-  margin:0;padding:8px 10px;border-radius:10px;font-weight:700;font-size:14.5px;line-height:1.35;
-  background:#fff;border:1.5px solid #c9b896;color:var(--ink,#241C14);
-}
-.sheet.sheet-outcome .outcome-ack{
-  flex:none;padding:12px 16px 16px;background:#fffdf6;border-top:1px solid #e6d5a8;
-}
-.sheet.sheet-outcome .outcome-ack button.primary{width:100%;min-height:48px;font-size:16px}
+
+/* Passes store (ads + gamepasses scaffolding Nov 5 2026) */
+.pass-list{display:flex;flex-direction:column;gap:0}
+.pass-row{align-items:flex-start}
+.pass-row button{min-width:7.5rem}
+.pass-owned,.pass-alpha{display:inline-block;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:700;background:color-mix(in srgb,var(--tint) 70%,#fff);color:var(--ink)}
+.pass-alpha{background:color-mix(in srgb,#c9a227 28%,#fff)}
+.panel-passes{--accent:var(--echo,#6b4a8a);--accent2:#4a3068;--tint:color-mix(in srgb,#6b4a8a 12%,#fff)}
+body[data-tab="passes"] .play-body > *{flex:0 0 auto}
+body[data-tab="passes"] .card.panel-passes{overflow:visible}

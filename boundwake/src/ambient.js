@@ -265,7 +265,11 @@ function stopFx() { cancelAnimationFrame(raf); raf = 0; if (ctx && canvas) ctx.c
 
 export function paintAmbient(realmId, tab) {
   if (OFF || !artHost) return;
-  const tod = timeOfDay();
+  const todReal = timeOfDay();
+  // Phone only: night land silhouettes read as empty black behind cards —
+  // paint dusk forest so Boundwake grove art stays visible (PC unchanged).
+  const phone = typeof document !== 'undefined' && document.documentElement.classList.contains('is-phone');
+  const tod = (phone && todReal === 'night') ? 'dusk' : todReal;
   const realm = realmId || FALLBACK;
   const k = `${realm}|${tod}|${tab || ''}`;
   document.documentElement.dataset.tod = tod;

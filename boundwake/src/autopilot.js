@@ -1,8 +1,12 @@
-// Boundwake Autopilot / Skip (basic, free) — cage calendar, 1 turn = 1 year.
-// Reference: Lifeline autopilot pause-on-important + yearly spend leftovers.
+// Boundwake Autopilot / Skip — cage calendar, 1 turn = 1 year.
+// Gated by Autopilot Pack (web alpha still free via premium.json alpha.webFreePasses).
 // Docs: docs/AUTOPILOT.md
 
-import * as E from './bw_engine.js?v=advack1';
+import * as E from './bw_engine.js';
+import * as Premium from './premium.js';
+
+export const PASS = 'autopilot';
+export const unlocked = () => Premium.isUnlocked(PASS);
 
 export const SKIP_PRESETS = [1, 5, 10, 25];
 export const MAX_SKIP = 100;
@@ -64,6 +68,24 @@ export function spendLeftover(s) {
     const r = E.rest(s);
     if (!r?.ok) break;
     ran.push({ id: 'rest', msg: r.msg || 'Rested.' });
+  }
+  // Broke / unemployed: take a free (or employer-fronted) entry job so Autopilot never soft-locks at 0 gold.
+  if (!s.job && E.cage(s) >= 6) {
+    const opens = (E.openings(s) || []).filter((x) => x.ok);
+    const free = opens.filter((x) => (x.joinFee || 0) <= 0);
+    const pick = (free.length ? free : opens).sort((a, b) => (a.joinFee || 0) - (b.joinFee || 0) || (a.job?.wage || 0) - (b.job?.wage || 0))[0];
+    if (pick?.job?.id) {
+      const r = E.takeJob(s, pick.job.id);
+      if (r?.ok) ran.push({ id: 'job', job: pick.job.id, msg: r.msg || 'Took a job.' });
+    }
+  }
+  // Still unemployed (or still broke): odd jobs earn a little with no kit.
+  while ((s.budget?.act || 0) > 0 && (!s.job || (s.gold || 0) < 20)) {
+    if (s.job && (s.gold || 0) >= 20) break;
+    if (s.job) break; // employed + not critically broke → fall through to workHard
+    const r = E.oddJobs(s);
+    if (!r?.ok) break;
+    ran.push({ id: 'odd', msg: r.msg || 'Odd jobs.' });
   }
   // Work if employed
   while ((s.budget?.act || 0) > 0 && s.job) {
@@ -164,6 +186,11 @@ export function runOneYear(s) {
  * Yields to UI via await waitMs between years.
  */
 export async function skipYears(s, n, { onYear, onPause, waitMs = 40 } = {}) {
+  if (!unlocked()) {
+    const p = { kind: 'locked', reason: 'Needs the Autopilot Pack ($5.99). Free on web alpha until store launch.' };
+    onPause?.(p, []);
+    return { ok: false, paused: p, years: [], done: 0, wanted: 0, locked: true };
+  }
   const total = Math.max(1, Math.min(MAX_SKIP, Math.floor(n) || 1));
   _running = true;
   _stop = false;

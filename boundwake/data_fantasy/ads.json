@@ -1,0 +1,54 @@
+{
+  "platform": "web",
+  "note": "web: no forced ads by default (alpha). android/ios: rewarded + forced interstitial every 8-15 cage years (or 20 min active). No Ads / Realm Pass: no forced ads; rewards instant. Cap AdMob unit ids come from native config (see src/native_bridge.js) — never hard-code production ids in web.",
+  "requiredMs": 5000,
+  "platforms": {
+    "web": {
+      "ads": false,
+      "rewardLimit": "perOptionPerDay",
+      "subscribersOnly": false,
+      "forced": false
+    },
+    "android": {
+      "ads": true,
+      "rewardLimit": "unlimited",
+      "subscribersOnly": false,
+      "forced": true
+    },
+    "ios": {
+      "ads": true,
+      "rewardLimit": "unlimited",
+      "subscribersOnly": false,
+      "forced": true
+    },
+    "itch": {
+      "ads": false,
+      "rewardLimit": "perOptionPerDay",
+      "subscribersOnly": false,
+      "forced": false
+    }
+  },
+  "rewards": {
+    "gold": 25,
+    "statPoints": 3,
+    "stats": ["health", "happiness", "smarts", "looks", "fame"]
+  },
+  "randomPrompt": {
+    "minYears": 8,
+    "maxYears": 15,
+    "firstAfter": 8
+  },
+  "admob": {
+    "android": {
+      "appIdTodo": "Gary: create AdMob Android app for com.pagegames.boundwake",
+      "rewardedUnitIdTodo": "ca-app-pub-XXXX/YYYY",
+      "interstitialUnitIdTodo": "ca-app-pub-XXXX/ZZZZ",
+      "testDeviceNote": "Use Google sample unit ids until production"
+    },
+    "ios": {
+      "appIdTodo": "Gary: create AdMob iOS app for com.pagegames.boundwake",
+      "rewardedUnitIdTodo": "ca-app-pub-XXXX/YYYY",
+      "interstitialUnitIdTodo": "ca-app-pub-XXXX/ZZZZ"
+    }
+  }
+}
