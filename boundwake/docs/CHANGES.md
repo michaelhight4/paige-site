@@ -1,3 +1,9 @@
+## Live — **PENDING** contrast HARD v3 · https://paigegames.net/boundwake/
+
+## 2026-11-05 ~6:25 PM CT — Contrast HARD v3 (Life Goals colors)
+- Drop-in contrast_polish.css HARD v3: colored Legacy tiles (not cream-on-cream)
+- Hard plum columns kept `#221a34`→`#140e1f`
+
 ## Live — **3b421b00** desktop contrast polish · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:20 PM CT — Desktop contrast polish

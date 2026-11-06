@@ -1,3 +1,10 @@
+## Live — **PENDING** contrast HARD v3 · https://paigegames.net/boundwake/
+
+## DEPLOY — Animator contrast HARD v3 — Coder Nov 5 ~6:25 PM CT
+- Replaced `contrast_polish.css` with HARD pass v3 (Life Goals hue tiles + hard plum columns)
+- Cache-bust `?v=hard3` on contrast link; style.css plum merge unchanged
+- `.legacy-row` life/moss, `.legacy-ready` gold, `.legacy-claimed` mist; moss well on `.panel-legacy .card-body`; darker `.legacy-bar`
+
 ## Live — **3b421b00** desktop contrast polish · https://paigegames.net/boundwake/
 
 ## DEPLOY — Animator contrast polish — Coder Nov 5 ~6:20 PM CT
