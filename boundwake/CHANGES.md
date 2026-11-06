@@ -1,4 +1,4 @@
-## Live — pending · WD Legacy merge + motion · https://paigegames.net/boundwake/
+## Live — **532c1717** WD Legacy merge + motion · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:10 PM CT — WD Legacy merge + Animator motion
 - legacy.json 48 goals / 28 achs (additive WD); progress wiring; market heralds ×16; Codex shelves

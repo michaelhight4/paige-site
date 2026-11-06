@@ -1,4 +1,4 @@
-## Live — pending · WD Legacy merge + motion · https://paigegames.net/boundwake/
+## Live — **532c1717** WD Legacy merge + motion · https://paigegames.net/boundwake/
 
 ## DEPLOY — WD Legacy content merge + Animator motion — Coder Nov 5 ~6:10 PM CT
 - Motion: `legacy_motion.css` linked; LEGACY_HOOKS.md bw-* classes (panels/bars/claims/autopilot)
