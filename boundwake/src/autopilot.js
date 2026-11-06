@@ -1,8 +1,12 @@
-// Boundwake Autopilot / Skip (basic, free) — cage calendar, 1 turn = 1 year.
-// Reference: Lifeline autopilot pause-on-important + yearly spend leftovers.
+// Boundwake Autopilot / Skip — cage calendar, 1 turn = 1 year.
+// Gated by Autopilot Pack (web alpha still free via premium.json alpha.webFreePasses).
 // Docs: docs/AUTOPILOT.md
 
 import * as E from './bw_engine.js';
+import * as Premium from './premium.js';
+
+export const PASS = 'autopilot';
+export const unlocked = () => Premium.isUnlocked(PASS);
 
 export const SKIP_PRESETS = [1, 5, 10, 25];
 export const MAX_SKIP = 100;
@@ -164,6 +168,11 @@ export function runOneYear(s) {
  * Yields to UI via await waitMs between years.
  */
 export async function skipYears(s, n, { onYear, onPause, waitMs = 40 } = {}) {
+  if (!unlocked()) {
+    const p = { kind: 'locked', reason: 'Needs the Autopilot Pack ($5.99). Free on web alpha until store launch.' };
+    onPause?.(p, []);
+    return { ok: false, paused: p, years: [], done: 0, wanted: 0, locked: true };
+  }
   const total = Math.max(1, Math.min(MAX_SKIP, Math.floor(n) || 1));
   _running = true;
   _stop = false;

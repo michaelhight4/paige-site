@@ -1,0 +1,183 @@
+{
+  "currency": "USD",
+  "game": "boundwake",
+  "productIdPrefix": "boundwake_",
+  "note": "Product IDs for Play/Apple MUST match pass id exactly (or productId field). itch DLC sku = itchSku. Gary creates console products — do not invent live IDs here until he confirms. See docs/PASS_MAP.md and docs/ITCH_DLC.md.",
+  "alpha": {
+    "webFreePasses": ["autopilot"],
+    "note": "Web alpha keeps Autopilot free until store IAP/itch DLC ships. Flip webFreePasses to [] when ready to gate on web too. Forced ads stay off on web by default (ads.json)."
+  },
+  "subscription": {
+    "id": "all_access",
+    "name": "Realm Pass",
+    "monthly": 7.99,
+    "yearly": 79.99,
+    "includes": "all Boundwake passes while subscribed (except tester_pack / founder-style grants)",
+    "lapses_on_cancel": true,
+    "productIdTodo": "Gary: create Play base plans monthly/yearly + Apple auto-renewable sub with product id all_access (or confirm Apple id)"
+  },
+  "passes": [
+    {
+      "id": "archsage",
+      "name": "Archsage Quill",
+      "price": 5.99,
+      "effect": "instant_skill_40",
+      "lifeline": "einstein",
+      "description": "Skip the grind once per life: instantly raise any unlocked skill to journeyman (40).",
+      "playProductId": "archsage",
+      "appleProductId": "TODO_Gary_create_boundwake_archsage",
+      "itchSku": "boundwake-archsage"
+    },
+    {
+      "id": "dragonhoard",
+      "name": "Dragonhoard",
+      "price": 5.99,
+      "effect": "start_gold_1000_every_life",
+      "lifeline": "midas",
+      "description": "Start every new life with 1,000 gold in the purse.",
+      "playProductId": "dragonhoard",
+      "appleProductId": "TODO_Gary_create_boundwake_dragonhoard",
+      "itchSku": "boundwake-dragonhoard"
+    },
+    {
+      "id": "heralds_favor",
+      "name": "Herald's Favor",
+      "price": 5.99,
+      "effect": "instant_renown",
+      "lifeline": "nepo",
+      "description": "Become known overnight. Renown starts high and never fades below a floor.",
+      "playProductId": "heralds_favor",
+      "appleProductId": "TODO_Gary_create_boundwake_heralds_favor",
+      "itchSku": "boundwake-heralds-favor"
+    },
+    {
+      "id": "banner_champion",
+      "name": "Banner Champion",
+      "price": 5.99,
+      "effect": "instant_team_draft",
+      "lifeline": "baller",
+      "description": "Jump straight onto a tournament team when founding age opens — affinity skill primed.",
+      "playProductId": "banner_champion",
+      "appleProductId": "TODO_Gary_create_boundwake_banner_champion",
+      "itchSku": "boundwake-banner-champion"
+    },
+    {
+      "id": "keep_keys",
+      "name": "Keep Keys",
+      "price": 5.99,
+      "effect": "free_home_ember_hall_every_life",
+      "lifeline": "free_realestate",
+      "description": "Every new adult life begins with Emberlight Hall as your home.",
+      "playProductId": "keep_keys",
+      "appleProductId": "TODO_Gary_create_boundwake_keep_keys",
+      "itchSku": "boundwake-keep-keys"
+    },
+    {
+      "id": "banner_lord",
+      "name": "Banner Lord",
+      "price": 5.99,
+      "effect": "own_tournament_team",
+      "lifeline": "sports_owner",
+      "description": "Found your own tournament team without the gold founding fee (age and skill gates still apply).",
+      "playProductId": "banner_lord",
+      "appleProductId": "TODO_Gary_create_boundwake_banner_lord",
+      "itchSku": "boundwake-banner-lord"
+    },
+    {
+      "id": "shadowcloak",
+      "name": "Shadowcloak",
+      "price": 5.99,
+      "effect": "crime_never_caught",
+      "lifeline": "golden_gun",
+      "description": "Walk outside the law. Crimes never lead to arrest or jail.",
+      "playProductId": "shadowcloak",
+      "appleProductId": "TODO_Gary_create_boundwake_shadowcloak",
+      "itchSku": "boundwake-shadowcloak"
+    },
+    {
+      "id": "eternal_bloom",
+      "name": "Eternal Bloom",
+      "price": 5.99,
+      "effect": "never_catch_ailment",
+      "lifeline": "fountain",
+      "description": "Never catch an ailment. Clear existing ones when the pass unlocks.",
+      "playProductId": "eternal_bloom",
+      "appleProductId": "TODO_Gary_create_boundwake_eternal_bloom",
+      "itchSku": "boundwake-eternal-bloom"
+    },
+    {
+      "id": "kinblessed",
+      "name": "Kinblessed",
+      "price": 5.99,
+      "effect": "unlimited_heirs",
+      "lifeline": "rabbit",
+      "description": "No soft caps on children or heirs — grow the bloodline you want.",
+      "playProductId": "kinblessed",
+      "appleProductId": "TODO_Gary_create_boundwake_kinblessed",
+      "itchSku": "boundwake-kinblessed"
+    },
+    {
+      "id": "tollbreaker",
+      "name": "Tollbreaker",
+      "price": 5.99,
+      "effect": "never_pay_living_or_rent",
+      "lifeline": "tax_evasion",
+      "description": "Boundwake has no income tax — instead never pay living costs between jobs, home rent, or guild adventure fees from your purse.",
+      "playProductId": "tollbreaker",
+      "appleProductId": "TODO_Gary_create_boundwake_tollbreaker",
+      "itchSku": "boundwake-tollbreaker"
+    },
+    {
+      "id": "no_ads",
+      "name": "No Ads Forever",
+      "price": 5.99,
+      "effect": "remove_ads",
+      "lifeline": "no_ads",
+      "description": "Removes forced ads for good. Rewarded boosts (when wired) grant instantly without watching.",
+      "playProductId": "no_ads",
+      "appleProductId": "TODO_Gary_create_boundwake_no_ads",
+      "itchSku": "boundwake-no-ads"
+    },
+    {
+      "id": "fateweaver",
+      "name": "Fateweaver",
+      "price": 5.99,
+      "effect": "edit_stats_age",
+      "lifeline": "creator",
+      "description": "Edit your stats and age. Shape the waking exactly how you want (UI stub until Creator panel ships).",
+      "playProductId": "fateweaver",
+      "appleProductId": "TODO_Gary_create_boundwake_fateweaver",
+      "itchSku": "boundwake-fateweaver"
+    },
+    {
+      "id": "autopilot",
+      "name": "Autopilot Pack",
+      "price": 5.99,
+      "effect": "autopilot_skip_ahead",
+      "lifeline": "autopilot",
+      "description": "Skip ahead several cage years at once with safe picks and pause-on-important. Web alpha: still free until store launch.",
+      "playProductId": "autopilot",
+      "appleProductId": "TODO_Gary_create_boundwake_autopilot",
+      "itchSku": "boundwake-autopilot"
+    },
+    {
+      "id": "tester_pack",
+      "name": "Tester Pack",
+      "price": 9.99,
+      "effect": "unlock_all_current_passes",
+      "lifeline": "tester_pack",
+      "description": "Thank-you for testers. Unlocks all current Boundwake passes (not Realm Pass subscription).",
+      "notInSubscription": true,
+      "playProductId": "tester_pack",
+      "appleProductId": "TODO_Gary_create_boundwake_tester_pack",
+      "itchSku": "boundwake-tester-pack",
+      "unlocks": ["archsage", "dragonhoard", "heralds_favor", "banner_champion", "keep_keys", "banner_lord", "shadowcloak", "eternal_bloom", "kinblessed", "tollbreaker", "no_ads", "fateweaver", "autopilot"]
+    }
+  ],
+  "skippedFromLifeline": [
+    {
+      "lifeline": "founder_pack",
+      "reason": "Lifeline Play pre-registration reward only. Boundwake has no pre-reg yet — add a Boundwake Founder pass later if needed."
+    }
+  ]
+}

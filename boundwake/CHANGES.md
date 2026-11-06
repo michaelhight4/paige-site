@@ -1,3 +1,16 @@
+## Ads + gamepasses scaffolding — Nov 5 ~7:45 PM CT (Gary)
+
+- Catalog: `data_fantasy/premium.json` (14 passes + Realm Pass) + `ads.json`
+- Modules: premium / premium_fx / ads / adapter_ads / payments / native_bridge
+- UI: **Passes** tab + Life shortcut; Buy stub (dev grant localhost/`?devpass=1` only; live = coming soon)
+- Autopilot gated by pass; **web alpha still free** (`alpha.webFreePasses`)
+- No Ads suppresses forced ads (android/ios platform); web forced off
+- Docs: PASS_MAP.md, ITCH_DLC.md, STORE_PUSH checklist; Lifeline untouched
+- Cache: `?v=passes1`
+- Stub: Play/Apple/itch product IDs + AdMob — Gary console create next
+
+## Live — **PENDING** passes scaffolding · https://paigegames.net/boundwake/
+
 ## Adventure outcome acknowledge — Nov 5 ~7:30 PM CT (Gary)
 
 - Root cause: choice resolve only fired a 2s toast (`✗` + prose); sheet closed immediately; % on the button was chance, never Succeeded/Failed + roll.

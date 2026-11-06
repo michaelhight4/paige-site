@@ -1,6 +1,12 @@
-# Boundwake Autopilot / Skip (basic, free)
+# Boundwake Autopilot / Skip
 
 **Calendar:** uses **cage** age. **1 turn = 1 year** for every race (Gary Nov 5).
+
+## Entitlement
+
+Requires premium pass **`autopilot`** (Autopilot Pack), or Realm Pass subscription.
+
+**Web alpha exception:** `data_fantasy/premium.json` → `alpha.webFreePasses` includes `autopilot` so Skip stays free on paigegames.net until store IAP / itch DLC ship. Clear that array to gate web too. Store builds (android/ios/itch) always check ownership.
 
 ## Skip N years
 From Life (or the Age dock): choose **1 / 5 / 10 / 25** or a custom count (max 100). Boundwake advances one cage year at a time under the hood.
@@ -26,5 +32,4 @@ From Life (or the Age dock): choose **1 / 5 / 10 / 25** or a custom count (max 1
 - Jail
 - User Stop
 - N years reached
-
-Not a paid pack yet — free for long-race playtests (e.g. dwarf ~300 years).
+- Missing Autopilot entitlement (locked)

@@ -1113,3 +1113,14 @@ body[data-tab="legacy"] .play-body > details.legacy-acc.panel-legacy{
 @media (prefers-reduced-motion:reduce){
   .legacy-hover-tip{transition:none}
 }
+
+
+/* Passes store (ads + gamepasses scaffolding Nov 5 2026) */
+.pass-list{display:flex;flex-direction:column;gap:0}
+.pass-row{align-items:flex-start}
+.pass-row button{min-width:7.5rem}
+.pass-owned,.pass-alpha{display:inline-block;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:700;background:color-mix(in srgb,var(--tint) 70%,#fff);color:var(--ink)}
+.pass-alpha{background:color-mix(in srgb,#c9a227 28%,#fff)}
+.panel-passes{--accent:var(--echo,#6b4a8a);--accent2:#4a3068;--tint:color-mix(in srgb,#6b4a8a 12%,#fff)}
+body[data-tab="passes"] .play-body > *{flex:0 0 auto}
+body[data-tab="passes"] .card.panel-passes{overflow:visible}

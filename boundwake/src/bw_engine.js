@@ -4,6 +4,8 @@
 // (ailments, law, passions, workshops, notices, court, mentors, patronage, world activities) — see docs/PACK_RESKIN.md.
 import { rnd, rint, pick, chance, clamp, wpick } from './rng.js';
 import { log, fill } from './core.js';
+import * as PremFx from './premium_fx.js';
+import * as Ads from './ads.js';
 
 export let D = null;
 export const setPack = (pack) => { D = pack; D.jobsById = pack.occ.jobs; D.skillById = Object.fromEntries(pack.skills.skills.map((k) => [k.id, k])); D.styles = pack.styles || []; D.styleById = Object.fromEntries((pack.styles || []).map((x) => [x.id, x])); };
@@ -156,7 +158,9 @@ export function begin(fate, meta = {}, carry = null) {
   // Echoes after mods so echoBoost applies
   for (const [id, n] of Object.entries(meta.echoes || {})) applyEcho(s, id, n);
   log(s, `I was born ${art(race(s).name)} ${race(s).name.toLowerCase()} in Hearthfold Vale. Affinity: ${s.affinity}.`, 'birth');
-  newYearBudget(s); return s;
+  newYearBudget(s);
+  try { PremFx.applyStart(s); } catch (_) { /* premium optional */ }
+  return s;
 }
 const art = (w) => (/^[AEIOU]/.test(w) ? 'an' : 'a');
 const ECHO = { echo_might: ['strength', 'endurance'], echo_wits: ['literacy', 'lore'], echo_mana: ['mana_control', 'spellcraft'], echo_grace: ['agility', 'stealth'], echo_presence: ['charm', 'etiquette'] };
@@ -1119,13 +1123,15 @@ export function ageUp(s) {
   const sd = s.stats.stress > 70 ? -3 : 0, old = h > 55 ? -((h - 55) / 12) * yrs : 0;
   s.stats.health = clamp(s.stats.health + sd + old - s.injuries.length + (h < 30 ? 1 : 0), 0, 100);
   s.stats.stress = clamp(s.stats.stress - 4, 0, 100);
-  if (cage(s) >= 16 && !s.job) {
+  if (cage(s) >= 16 && !s.job && !PremFx.neverToll()) {
     const living = Math.round(4 * yrs);
     if (living > 0 && s.gold > 0) {
       const paid = Math.min(s.gold, living);
       s.gold -= paid;
       log(s, `Living costs while between jobs: −${paid} gold.`, 'money');
     }
+  } else if (cage(s) >= 16 && !s.job && PremFx.neverToll()) {
+    log(s, 'Tollbreaker: living costs waived.', 'money');
   }
   if (cage(s) < 16 && s.wealth === 'noble') s.gold += 2;
   log(s, `${D.terms.ui.year_passed} I am ${Math.floor(s.age)}.`, 'year');
@@ -1133,6 +1139,8 @@ export function ageUp(s) {
   newYearBudget(s);
   refreshTournamentYear(s);
   gearYear(s, yrs); marketYear(s); tickLegacyLifeFlags(s);
+  try { PremFx.fameFloor(s); } catch (_) {}
+  try { Ads.yearPassed(s); } catch (_) {}
   const dieP = s.stats.health <= 0 ? 1 : h > 70 ? Math.min(0.95, ((h - 70) / 28) ** 2.2 * yrs) : 0.0015 * yrs;
   if (chance(s, dieP)) { die(s, s.stats.health <= 0 && s.injuries.length ? pickDeathCause(s, 'violent') : h > 70 ? pickDeathCause(s, 'old') : pickDeathCause(s, chance(s, 0.55) ? 'illness' : 'odd')); return true; }
   drawEvents(s); return true;
@@ -1969,6 +1977,7 @@ export function visitHealer(s) {
 }
 function ailmentsYear(s, yrs) {
   ensureBags(s); if (!D.ailments) return;
+  if (PremFx.neverAilment()) { if (s.ailments?.length) { s.ailments = []; log(s, 'Eternal Bloom: ailments cleared.', 'health'); } return; }
   for (const d of [...s.ailments]) {
     const def = ailmentDef(d.id); if (!def) { s.ailments.splice(s.ailments.indexOf(d), 1); continue; }
     if (!d.dx && chance(s, 0.45 * yrs)) { d.dx = true; log(s, `I was diagnosed with ${def.name.toLowerCase()}.`, 'health'); }
@@ -2034,7 +2043,7 @@ export function commitCrime(s, id) {
   const c = crimeDef(id); if (!c || s.prison || cage(s) < crimeMinAge(c)) return { ok: false, msg: cage(s) < crimeMinAge(c) ? `Crime opens at age ${crimeMinAge(c)}.` : 'Not possible.' };
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
   s.tally.crimes = (s.tally.crimes || 0) + 1;
-  if (chance(s, catchChance(s, c))) return arrest(s, id);
+  if (!PremFx.neverCaught() && chance(s, catchChance(s, c))) return arrest(s, id);
   const loot = c.loot?.[1] != null ? Math.round(c.loot[0] + (c.loot[1] - c.loot[0]) * rnd(s)) : 0;
   if (loot) s.gold += loot;
   s.stats.karma = clamp(s.stats.karma + (c.karma || 0), 0, 100);
@@ -2466,6 +2475,7 @@ export function gearYear(s, yrs) {
   const gr = s.gear; if (!gr?.home) return; const g = gearDef(gr.home); if (!hasFlag(g, 'rent')) return;
   const due = Math.ceil(g.price / 2) * yrs;
   if (s.prison) return; // rent held while away
+  if (PremFx.neverToll()) { log(s, `Tollbreaker: rent on ${g.name} waived.`, 'gear'); return; }
   if (s.gold >= due) { s.gold -= due; log(s, `Paid ${due} gold rent on ${g.name}.`, 'gear'); }
   else { gr.owned = gr.owned.filter((x) => x !== g.id); gr.home = null; delete gr.rentYearsLeft; delete s.flags.has_home; log(s, `I could not pay rent and lost my room at ${g.name}.`, 'gear'); }
 }

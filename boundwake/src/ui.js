@@ -7,7 +7,12 @@ import { mountInfoClicks, openInfo, openInfoDetail } from './info.js';
 import { checkAdminAccess, gateHTML, isLocalHost } from './admingate.js';
 import { mountAmbient, paintAmbient } from './ambient.js';
 import { mountMusic, syncMusic, toggleMute, musicToggleHTML, unlockMusic } from './music.js';
-import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP } from './autopilot.js';
+import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP, unlocked as autoUnlocked } from './autopilot.js';
+import * as Premium from './premium.js';
+import * as PremFx from './premium_fx.js';
+import * as Ads from './ads.js';
+import { purchasePass, restorePurchases, channel as payChannel } from './payments.js';
+import { installNativeAds, installNativeBilling } from './native_bridge.js';
 const $ = (sel) => document.querySelector(sel), app = $('#app');
 const KEY = 'bw.save.v1', META = 'bw.meta.v1', SEEN = 'bw.cold.v1';
 const TAB_ID = Math.random().toString(36).slice(2, 10);
@@ -386,6 +391,7 @@ const TAB_META = {
   codex: { ico: 'codex', label: 'codex_menu' },
   legacy: { ico: 'echo', label: 'Legacy' },
   bel: { ico: 'belong', label: 'assets_menu' },
+  passes: { ico: 'echo', label: 'Passes' },
 };
 const TABS = Object.keys(TAB_META).map((k) => [k, TAB_META[k].label]);
 const LEAD = {
@@ -398,6 +404,7 @@ const LEAD = {
   codex: 'What the world taught you stays — even when the body does not.',
   legacy: 'Life Goals are this waking. Achievements and their modifiers endure across reincarnations.',
   bel: 'Gold, relics, workshops, and the notice boards that carry your name. Gear shop: buy, equip, and sell.',
+  passes: 'Game passes keep Boundwake free to try. Buy on Play / App Store / itch when Boundwake launches — web alpha stubs only.',
 };
 const HD = {
   life: `${ico('spirit')} Journal`,
@@ -409,6 +416,7 @@ const HD = {
   codex: `${ico('codex')} Codex`,
   legacy: `${ico('echo')} Legacy`,
   bel: `${ico('belong')} Belongings`,
+  passes: `${ico('echo')} Passes`,
 };
 
 function cold(step = 0) {
@@ -471,13 +479,16 @@ function body() {
       <button type="button" data-tab="bonds">${ico('bond')} Bonds</button>
       <button type="button" data-tab="work">${ico('work')} Work</button>
       <button type="button" data-a="rest" ${s.budget.act < 1 ? 'disabled' : ''}>${ico('spirit')} Rest</button>
-    </div>`;
+    <button type="button" data-tab="passes">${ico('echo')} Passes</button></div>`;
     const autoBusy = autoRunning();
+    const autoOk = autoUnlocked();
+    const skipDis = autoBusy || s.pending.length || !!outcomeAck || !autoOk;
     const autoCard = card('life', `${ico('act')} Autopilot / Skip`, `<p class="sub auto-blurb">Advance <b>cage</b> years (1 turn = 1 year). Safe picks; pauses on death, jail, romance/family, ownership, tournaments, or Stop. Leftovers: Rest if strained → Work if employed → Train lowest skill.</p>
+      ${autoOk ? '' : `<p class="sub lock-why">Needs <b>Autopilot Pack</b> ($5.99) on store builds. <button type="button" data-tab="passes">Open Passes</button></p>`}
       <div class="actions auto-actions">
-        ${SKIP_PRESETS.map((n) => `<button type="button" class="primary" data-a="skip" data-v="${n}" ${autoBusy || s.pending.length ? 'disabled' : ''}>Skip ${n}y</button>`).join('')}
-        <button type="button" data-a="skip" data-v="custom" ${autoBusy || s.pending.length ? 'disabled' : ''}>Custom…</button>
-        ${autoBusy ? `<button type="button" class="primary" data-a="autostop">Stop</button>` : ''}
+        ${SKIP_PRESETS.map((n) => `<button type="button" class="primary" data-a="skip" data-v="${n}" ${skipDis ? 'disabled' : ''}>Skip ${n}y</button>`).join('')}
+        <button type="button" data-a="skip" data-v="custom" ${skipDis ? 'disabled' : ''}>Custom…</button>
+        ${autoBusy ? `<button type="button" data-a="autostop">Stop</button>` : ''}
       </div>
       ${s.pending.length ? `<p class="sub lock-why">Resolve the open event first (or Autopilot will pause on important ones).</p>` : ''}`, 'auto-host bw-auto-host bw-auto-skip-flash');
     const tourneyBanner = E.isTournamentYear(s)
@@ -1027,7 +1038,34 @@ function body() {
       ${marketHTML()}
       ${gearHTML()}`);
   }
+  if (tab === 'passes') return passesHTML();
   return '';
+}
+
+
+function passesHTML() {
+  const st = Premium.status();
+  const ch = payChannel();
+  const sub = st.subscribed ? `<p class="sub">Realm Pass active (${esc(st.plan || 'sub')}).</p>` : `<p class="sub">Realm Pass (All Access) · $7.99/mo or $79.99/yr — <b>TODO</b> Gary creates Play/Apple sub <code>all_access</code>.</p>`;
+  const rows = st.passes.filter((p) => p.id !== 'tester_pack' || Premium.canDevGrant()).map((p) => {
+    const badge = p.owned ? 'Owned' : p.viaAlpha ? 'Free (web alpha)' : p.viaSub ? 'Via Realm Pass' : p.unlocked ? 'Unlocked' : Premium.price(p);
+    const locked = p.unlocked && !p.viaAlpha ? true : p.owned;
+    const btn = p.owned || (p.unlocked && !p.viaAlpha)
+      ? `<span class="pass-owned">${esc(badge)}</span>`
+      : p.viaAlpha
+        ? `<span class="pass-alpha">${esc(badge)}</span>`
+        : `<button type="button" data-a="buypass" data-v="${esc(p.id)}">${Premium.canDevGrant() ? 'Unlock (dev)' : 'Buy'} · ${Premium.price(p)}</button>`;
+    return `<div class="row pass-row" data-pass="${esc(p.id)}"><div><b>${esc(p.name)}</b> <small>${esc(badge)}</small><br><small>${esc(p.description || p.effect || '')}</small>${p.lifeline ? `<br><small class="lock-why">Lifeline map: ${esc(p.lifeline)}</small>` : ''}</div>${btn}</div>`;
+  }).join('');
+  return card('passes', HD.passes, `${lead('passes')}
+    <p class="sub">Channel: <b>${esc(ch)}</b>. No Ads suppresses forced ads on store builds. Autopilot gates Skip (free on web alpha).</p>
+    ${sub}
+    <div class="pass-list">${rows || '<div class="empty">Catalog not loaded.</div>'}</div>
+    <div class="actions">
+      <button type="button" data-a="restorepass">Restore purchases</button>
+      ${Premium.canDevGrant() ? '<button type="button" data-a="devtester">Grant Tester Pack (dev)</button>' : ''}
+    </div>
+    <p class="sub">itch: each pass is a DLC (see docs/ITCH_DLC.md). Play/Apple: IAP product ids must match catalog. Lifeline untouched.</p>`);
 }
 
 function marketHTML() {
@@ -1126,12 +1164,14 @@ function eventSheet() {
 function ageDock() {
   if (!s || !s.alive) return '';
   const busy = autoRunning();
+  const autoOk = autoUnlocked();
   const locked = busy || s.pending.length || !!outcomeAck;
-  const skipBtns = SKIP_PRESETS.map((n) => `<button type="button" class="auto-skip" data-a="skip" data-v="${n}" ${locked ? 'disabled' : ''} title="Skip ${n} year${n > 1 ? 's' : ''} (safe auto)">+${n}</button>`).join('');
+  const skipLocked = locked || !autoOk;
+  const skipBtns = SKIP_PRESETS.map((n) => `<button type="button" class="auto-skip" data-a="skip" data-v="${n}" ${skipLocked ? 'disabled' : ''} title="${autoOk ? 'Skip ' + n + ' year' + (n > 1 ? 's' : '') + ' (safe auto)' : 'Needs Autopilot Pack'}">+${n}</button>`).join('');
   return `<div class="dock dock-auto bw-auto-dock bw-auto-skip-flash">
     <div class="auto-row" role="group" aria-label="Autopilot skip">
       <span class="auto-label">Skip</span>${skipBtns}
-      <button type="button" class="auto-skip" data-a="skip" data-v="custom" ${locked ? 'disabled' : ''} title="Custom skip">…</button>
+      <button type="button" class="auto-skip" data-a="skip" data-v="custom" ${skipLocked ? 'disabled' : ''} title="${autoOk ? 'Custom skip' : 'Needs Autopilot Pack'}">…</button>
       ${busy ? `<button type="button" class="auto-stop" data-a="autostop">Stop</button>` : ''}
     </div>
     <button class="age" data-a="age" ${locked ? 'disabled' : ''}>${T('year_verb')} +${E.turnYears(s)}</button>
@@ -1238,6 +1278,32 @@ app.addEventListener('click', (ev) => {
     flashSkip(document.querySelector('.dock-auto'));
     if (s.alive && !s.route && now >= 11 && prevAge < 11) toast('Age 11 — choose your path on Life or Skills (sword / magic / hybrid / craft).');
     else if (s.alive && !s.route && now === 8) toast('Path choice unlocked — pick sword, magic, hybrid, or craft.');
+    // Forced ad at natural break (store builds only; No Ads suppresses)
+    if (s.ads?.due && Ads.promptsEnabled()) {
+      Ads.showForced({ placement: 'age_break' }).then((r) => {
+        Ads.dismissPrompt(s);
+        if (r?.shown) toast('Ad finished.');
+        save();
+      }).catch(() => { Ads.dismissPrompt(s); });
+    }
+  }
+  else if (a === 'buypass') {
+    purchasePass(v).then((r) => {
+      if (r.ok) { toast(r.already ? 'Already owned.' : (r.via === 'dev_grant' ? 'Dev unlock granted.' : 'Pass unlocked!')); try { PremFx.applyStart(s); } catch (_) {} }
+      else toast(r.reason || 'Purchase unavailable.');
+      save(); render();
+    });
+    return;
+  }
+  else if (a === 'restorepass') {
+    restorePurchases().then((r) => { toast(r.ok ? 'Restored.' : (r.reason || 'Nothing to restore')); save(); render(); });
+    return;
+  }
+  else if (a === 'devtester') {
+    if (!Premium.canDevGrant()) { toast('Dev only.'); return; }
+    try { Premium.setOwned('tester_pack', true); toast('Tester Pack granted (dev).'); PremFx.applyStart(s); }
+    catch (err) { toast(String(err.message || err)); }
+    save(); render(); return;
   }
   else if (a === 'ch') {
     if (document.body.dataset.sheetBusy || outcomeAck) return;
@@ -1352,6 +1418,7 @@ app.addEventListener('click', (ev) => {
   else if (a === 'autostop') { requestStop(); toast('Stopping autopilot…'); return; }
   else if (a === 'skip') {
     if (autoRunning()) return;
+    if (!autoUnlocked()) { toast('Needs Autopilot Pack — free on web alpha; buy on stores when Boundwake launches.'); tab = 'passes'; render(); return; }
     if (s.pending?.length || outcomeAck) { toast(outcomeAck ? 'Acknowledge the outcome first.' : 'Resolve the open event first.'); return; }
     let n = v === 'custom' ? parseInt(prompt(`Skip how many years? (1–${MAX_SKIP})`, '10') || '0', 10) : parseInt(v, 10);
     if (!Number.isFinite(n) || n < 1) return;
@@ -1389,7 +1456,16 @@ function startAmbient() {
   app.innerHTML = `<div class="card panel-gate"><div class="card-body"><p class="sub">Checking access…</p></div></div>`;
   const acc = await checkAdminAccess();
   if (!acc.ok) { setChrome('gate'); app.innerHTML = gateHTML(acc.reason); return; }
-  P = await loadPack(); E.setPack(P); meta = JSON.parse(localStorage.getItem(META) || '{}'); E.ensureLegacyMeta(meta);
+  P = await loadPack(); E.setPack(P);
+  if (P.premium) Premium.setCatalog(P.premium);
+  if (P.adsCfg) Ads.setConfig(P.adsCfg);
+  try {
+    const plat = new URLSearchParams(location.search).get('platform');
+    if (plat) Ads.setPlatformOverride(plat);
+  } catch (_) {}
+  await installNativeAds();
+  installNativeBilling();
+  meta = JSON.parse(localStorage.getItem(META) || '{}'); E.ensureLegacyMeta(meta);
   // ?fresh / ?nosave / ?skipintro only when explicitly present in the URL (never implied by hard refresh).
   if (!Q.has('fresh')) try { s = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { s = null; }
   else s = null;
