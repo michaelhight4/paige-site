@@ -1,4 +1,4 @@
-## Live — pending · Legacy motion + Autopilot polish · https://paigegames.net/boundwake/
+## Live — **bb825ef5** Legacy motion + Autopilot polish · https://paigegames.net/boundwake/
 
 ## DEPLOY — Animator Legacy motion wired — Coder Nov 5 ~6:05 PM CT
 - Opt-in `assets/ui_motion/legacy_motion.css` linked in `index.html`

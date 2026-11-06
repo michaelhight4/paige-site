@@ -1,4 +1,4 @@
-## Live — pending · Legacy motion · https://paigegames.net/boundwake/
+## Live — **bb825ef5** Legacy motion · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:05 PM CT — Animator Legacy motion
 - Wire `legacy_motion.css` + LEGACY_HOOKS.md classes in ui.js / index.html
