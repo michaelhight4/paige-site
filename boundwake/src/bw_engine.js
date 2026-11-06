@@ -817,13 +817,78 @@ export function applyFx(s, fx = {}) {
     else if (k === 'pm') gainPassionMeter(s, v);
   }
 }
+/** Snapshot fields players care about after a choice (gold, renown, injury, loot, bonds, skills). */
+function outcomeSnap(s) {
+  return {
+    gold: s.gold,
+    fame: s.stats.fame || 0,
+    health: s.stats.health || 0,
+    happiness: s.stats.happiness || 0,
+    stress: s.stats.stress || 0,
+    karma: s.stats.karma || 0,
+    mana: s.mana || 0,
+    injuries: s.injuries.length,
+    relics: s.relics.length,
+    people: s.people.length,
+    skills: { ...s.skills },
+  };
+}
+function skillLabel(id) {
+  const sk = (D.skills?.skills || []).find((x) => x.id === id);
+  return sk?.name || id.replace(/_/g, ' ');
+}
+/** Concrete delta lines for the acknowledge card (Gary Nov 5 adventure weight). */
+function outcomeDeltas(before, after) {
+  const lines = [];
+  const pushStat = (key, label, a, b, invert = false) => {
+    const d = Math.round((b - a) * 10) / 10;
+    if (!d) return;
+    const sign = d > 0 ? '+' : '';
+    let good = d > 0;
+    if (invert) good = !good;
+    lines.push({ key, text: `${sign}${d} ${label}`, good });
+  };
+  pushStat('gold', 'gold', before.gold, after.gold);
+  pushStat('fame', 'renown', before.fame, after.fame);
+  pushStat('health', 'health', before.health, after.health);
+  pushStat('happiness', 'spirit', before.happiness, after.happiness);
+  pushStat('stress', 'strain', before.stress, after.stress, true);
+  pushStat('karma', 'karma', before.karma, after.karma);
+  pushStat('mana', 'mana', before.mana, after.mana);
+  if (after.injuries > before.injuries) {
+    const n = after.injuries - before.injuries;
+    lines.push({ key: 'injury', text: n === 1 ? 'Injury sustained' : `${n} injuries sustained`, good: false });
+  }
+  if (after.relics > before.relics) {
+    const n = after.relics - before.relics;
+    lines.push({ key: 'loot', text: n === 1 ? 'Loot gained' : `${n} relics gained`, good: true });
+  }
+  if (after.people > before.people) {
+    const n = after.people - before.people;
+    lines.push({ key: 'bond', text: n === 1 ? 'New bond' : `${n} new bonds`, good: true });
+  }
+  const ids = new Set([...Object.keys(before.skills), ...Object.keys(after.skills)]);
+  for (const id of [...ids].sort()) {
+    const d = Math.round(((after.skills[id] || 0) - (before.skills[id] || 0)) * 10) / 10;
+    if (!d) continue;
+    const sign = d > 0 ? '+' : '';
+    lines.push({ key: 'skill', text: `${skillLabel(id)} ${sign}${d}`, good: d > 0 });
+  }
+  return lines;
+}
 export function resolve(s, i) {
   const id = s.pending[0]; if (!id) return null; const e = evById(id), c = e.choices[i];
   if (!c) return { ok: false, msg: 'Unknown choice.' };
   const need = typeof c.req === 'number' ? c.req : (c.req?.gold ?? 0);
   if (need && s.gold < need) return { ok: false, msg: `Need ${need} gold.` };
-  const p = oddsOf(s, c), ok = p == null || chance(s, p), branch = c.win ? (ok ? c.win : c.fail || {}) : c;
+  // One draw under the shown chance (Gary Nov 5). Expose roll so the result card can say which way it went.
+  const p = oddsOf(s, c);
+  let roll = null, ok = true;
+  if (p != null) { roll = rnd(s); ok = roll < p; }
+  const branch = c.win ? (ok ? c.win : c.fail || {}) : c;
+  const before = outcomeSnap(s);
   if (c.win) applyFx(s, c.fx || {}); applyFx(s, branch.fx || {});
+  const deltas = outcomeDeltas(before, outcomeSnap(s));
   const flag = branch.flag || (ok && !c.win && c.flag); if (flag) s.flags[flag] = 1;
   const ch = branch.chain || (!c.win && c.chain); if (ch) s.chain.push({ id: ch.id, due: s.age + rint(s, ch.in[0], ch.in[1]) * turnYears(s) });
   // Prefer branch/choice outcome or journal; never leave a generic line when choice text exists.
@@ -831,7 +896,7 @@ export function resolve(s, i) {
   const msg = fill(pick(s, lines), { name: s.first, heir_name: s.first, gold: Math.floor(s.gold) }); s.pending.shift();
   if (e.once) s.flags['once_' + e.id] = 1; s.evLast[e.id] = s.age; s.tally.events++; discover(s, e.id);
   log(s, msg, 'event'); if (s.stats.health <= 0) die(s, e.cat === 'combat' || e.cat === 'dungeon' ? 'battle' : 'accident');
-  return { ok: true, success: ok, msg, title: e.title };
+  return { ok: true, success: ok, msg, title: e.title, chance: p, roll, deltas };
 }
 
 

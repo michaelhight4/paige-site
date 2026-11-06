@@ -1,3 +1,9 @@
+## Adventure outcome acknowledge — Nov 5 ~7:30 PM CT (Gary)
+
+- Root cause: choice resolve only fired a 2s toast (`✗` + prose); sheet closed immediately; % on the button was chance, never Succeeded/Failed + roll.
+- Fix: result sheet stays until **Continue**; verdict `Succeeded (N%) · roll R%` / `Failed (N%) · roll R%`; lists gold/renown/injury/loot/bonds/skills deltas; journal unchanged.
+- Cache: `style.css?v=advack1`, `ui.js?v=advack1` (kept tabscroll1/tabsave1 history; bumped only changed files).
+- Engine: `resolve()` returns `chance`, `roll`, `deltas` (one `rnd` under shown chance).
 ## Live — **2df4831d** multi-tab save guard · https://paigegames.net/boundwake/
 
 ## HOTFIX — Hard refresh rolled age 14→7 (multi-tab clobber) — Coder Nov 5 ~6:55 PM CT

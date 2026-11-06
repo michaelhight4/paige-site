@@ -1095,21 +1095,46 @@ function gearHTML() {
   }).join('');
   return `<h3>${ico('adventure')} Gear</h3>${owned || '<div class="empty">No gear yet.</div>'}<h3>Gear shop</h3>${shop}`;
 }
+function formatOutcomeAck(ack) {
+  if (!ack) return '';
+  const hasOdds = ack.chance != null;
+  const pct = hasOdds ? Math.round(ack.chance * 100) : null;
+  const rollPct = hasOdds && ack.roll != null ? Math.round(ack.roll * 100) : null;
+  let verdict;
+  if (hasOdds) {
+    const lab = ack.success === false ? 'Failed' : 'Succeeded';
+    verdict = `${lab} (${pct}%)`;
+    if (rollPct != null) verdict += ` · roll ${rollPct}%`;
+  } else {
+    verdict = 'Resolved';
+  }
+  const vcls = ack.success === false ? 'bad' : 'good';
+  const deltas = (ack.deltas || []).map((d) => {
+    const cls = d.good === false ? 'bad' : (d.good ? 'good' : '');
+    return `<li class="${cls}">${esc(d.text)}</li>`;
+  }).join('');
+  const deltaBlock = deltas
+    ? `<ul class="outcome-deltas">${deltas}</ul>`
+    : `<p class="sub outcome-deltas-empty">No numbered changes this time — the journal still holds the tale.</p>`;
+  return `<div class="sheet outcome-ack" data-sheet="1" data-outcome="1"><div class="card"><div class="card-hd">${ico('adventure')} ${flare(ack.title || 'Outcome')}</div><div class="card-body"><p class="outcome-verdict ${vcls}">${esc(verdict)}</p><p class="prompt">${flare(ack.msg || '')}</p>${deltaBlock}<div class="actions"><button type="button" class="primary" data-a="ackout">Continue</button></div></div></div></div>`;
+}
 function eventSheet() {
+  if (outcomeAck) return formatOutcomeAck(outcomeAck);
   const c = E.pendingCard(s); if (!c) return '';
   return `<div class="sheet" data-sheet="1"><div class="card"><div class="card-hd">${ico('adventure')} ${flare(c.title)}</div><div class="card-body"><p class="prompt">${flare(c.prompt)}</p><div class="choices">${c.choices.map((x, i) => `<button type="button" data-a="ch" data-v="${i}" ${x.locked ? 'disabled aria-disabled="true"' : ''} title="${esc(x.lockWhy || '')}">${flare(x.label)}${x.locked && x.lockWhy ? ` <small class="lock-why">(${esc(x.lockWhy)})</small>` : ''}${oddsChip(x.odds)}</button>`).join('')}</div></div></div></div>`;
 }
 function ageDock() {
   if (!s || !s.alive) return '';
   const busy = autoRunning();
-  const skipBtns = SKIP_PRESETS.map((n) => `<button type="button" class="auto-skip" data-a="skip" data-v="${n}" ${busy || s.pending.length ? 'disabled' : ''} title="Skip ${n} year${n > 1 ? 's' : ''} (safe auto)">+${n}</button>`).join('');
+  const locked = busy || s.pending.length || !!outcomeAck;
+  const skipBtns = SKIP_PRESETS.map((n) => `<button type="button" class="auto-skip" data-a="skip" data-v="${n}" ${locked ? 'disabled' : ''} title="Skip ${n} year${n > 1 ? 's' : ''} (safe auto)">+${n}</button>`).join('');
   return `<div class="dock dock-auto bw-auto-dock bw-auto-skip-flash">
     <div class="auto-row" role="group" aria-label="Autopilot skip">
       <span class="auto-label">Skip</span>${skipBtns}
-      <button type="button" class="auto-skip" data-a="skip" data-v="custom" ${busy || s.pending.length ? 'disabled' : ''} title="Custom skip">…</button>
+      <button type="button" class="auto-skip" data-a="skip" data-v="custom" ${locked ? 'disabled' : ''} title="Custom skip">…</button>
       ${busy ? `<button type="button" class="auto-stop" data-a="autostop">Stop</button>` : ''}
     </div>
-    <button class="age" data-a="age" ${busy || s.pending.length ? 'disabled' : ''}>${T('year_verb')} +${E.turnYears(s)}</button>
+    <button class="age" data-a="age" ${locked ? 'disabled' : ''}>${T('year_verb')} +${E.turnYears(s)}</button>
   </div>`;
 }
 function deathScreen() {
@@ -1154,6 +1179,8 @@ function sidePeek() {
   </aside>`;
 }
 let courtPick = null;
+/** Adventure/event outcome waiting for Continue (Gary Nov 5: results must hold weight). */
+let outcomeAck = null;
 function render() {
   if (!s) return fateScreen();
   if (!s.alive) { save(); return deathScreen(); }
@@ -1197,7 +1224,7 @@ app.addEventListener('click', (ev) => {
   if (b.disabled || b.getAttribute('aria-disabled') === 'true') { ev.preventDefault(); ev.stopPropagation(); return; }
   const a = b.dataset.a, v = b.dataset.v; let r;
   if (a === 'age') {
-    if (s?.pending?.length) return;
+    if (s?.pending?.length || outcomeAck) return;
     const prevAge = E.cage(s);
     try {
       E.ageUp(s);
@@ -1213,14 +1240,26 @@ app.addEventListener('click', (ev) => {
     else if (s.alive && !s.route && now === 8) toast('Path choice unlocked — pick sword, magic, hybrid, or craft.');
   }
   else if (a === 'ch') {
-    if (document.body.dataset.sheetBusy) return;
+    if (document.body.dataset.sheetBusy || outcomeAck) return;
     document.body.dataset.sheetBusy = '1';
     r = E.resolve(s, +v);
     if (r && r.ok === false) toast(r.msg);
-    else if (r) toast((r.success === false ? '✗ ' : '') + r.msg);
-    // Drop sheet hit-target quickly so stale modal clicks cannot double-fire
+    else if (r && r.ok) {
+      // Keep result on screen until Continue — toast alone felt weightless (Gary Nov 5).
+      outcomeAck = {
+        title: r.title,
+        msg: r.msg,
+        success: r.success !== false,
+        chance: r.chance,
+        roll: r.roll,
+        deltas: r.deltas || [],
+      };
+    }
     const sheet = document.querySelector('.sheet'); if (sheet) sheet.style.pointerEvents = 'none';
     setTimeout(() => { delete document.body.dataset.sheetBusy; }, 280);
+  }
+  else if (a === 'ackout') {
+    outcomeAck = null;
   }
   else if (a === 'newlife') { s = null; localStorage.removeItem(KEY); tab = 'life'; fateScreen(); return; }
   else if (a === 'train') r = E.train(s, v); else if (a === 'job') r = E.takeJob(s, v); else if (a === 'quit') E.quitJob(s); else if (a === 'work') r = E.workHard(s);
@@ -1313,7 +1352,7 @@ app.addEventListener('click', (ev) => {
   else if (a === 'autostop') { requestStop(); toast('Stopping autopilot…'); return; }
   else if (a === 'skip') {
     if (autoRunning()) return;
-    if (s.pending?.length) { toast('Resolve the open event first.'); return; }
+    if (s.pending?.length || outcomeAck) { toast(outcomeAck ? 'Acknowledge the outcome first.' : 'Resolve the open event first.'); return; }
     let n = v === 'custom' ? parseInt(prompt(`Skip how many years? (1–${MAX_SKIP})`, '10') || '0', 10) : parseInt(v, 10);
     if (!Number.isFinite(n) || n < 1) return;
     n = Math.min(MAX_SKIP, n);
