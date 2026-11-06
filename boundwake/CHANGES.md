@@ -1,3 +1,9 @@
+## Live — pending · WD Legacy merge + motion · https://paigegames.net/boundwake/
+
+## 2026-11-05 ~6:10 PM CT — WD Legacy merge + Animator motion
+- legacy.json 48 goals / 28 achs (additive WD); progress wiring; market heralds ×16; Codex shelves
+- legacy_motion.css + hooks; Autopilot age smoke still PASS
+
 ## Live — **bb825ef5** Legacy motion · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:05 PM CT — Animator Legacy motion

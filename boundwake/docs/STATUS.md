@@ -1,3 +1,15 @@
+## Live — pending · WD Legacy merge + motion · https://paigegames.net/boundwake/
+
+## DEPLOY — WD Legacy content merge + Animator motion — Coder Nov 5 ~6:10 PM CT
+- Motion: `legacy_motion.css` linked; LEGACY_HOOKS.md bw-* classes (panels/bars/claims/autopilot)
+- WD merge (additive, live 34/20 kept): **+14 Life Goals**, **+8 Achievements** → **48 / 28**
+- New progress: skillCat, passionMastered, notices, places, teamWins, guildJobs, codexId + prereq raceIn
+- Meta flags: guildJobsTotal, everCraft40, everPassionMaster, everHome, longLife200
+- Safeguards: startGold apply ≤80, rareTrait≤0.10, marketBuy≤0.05, act/social≤2; echoBoost + scoutBonus hooked
+- Additive goal gold balanced ≈ **361g** (total claimable gold crumbs ≈ **1371g** with live base)
+- Market: **16** herald flavor lines; Codex shelves: Skills / Craft & stalls / Banners & halls
+- Smoke PASS; Lifeline untouched
+
 ## Live — **bb825ef5** Legacy motion + Autopilot polish · https://paigegames.net/boundwake/
 
 ## DEPLOY — Animator Legacy motion wired — Coder Nov 5 ~6:05 PM CT

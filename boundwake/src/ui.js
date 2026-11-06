@@ -640,6 +640,9 @@ function body() {
       { id: 'events', label: 'Events' },
       { id: 'places', label: 'Places' },
       { id: 'realms', label: 'Realms' },
+      { id: 'skills', label: 'Skills' },
+      { id: 'craft', label: 'Craft & stalls' },
+      { id: 'bonds', label: 'Banners & halls' },
     ];
     const eventIds = P.events.map((e) => e.id);
     const placeIds = allLocs.map((l) => l.id);
@@ -648,10 +651,19 @@ function body() {
     const discoveredPlaces = placeIds.filter((id) => known.has(id)).length;
     const discoveredRealms = realmIds.filter((id) => known.has(id)).length;
     const ratio = (n, d) => `${n}/${d}`;
+    const skillIds = (P.skills?.skills || []).map((x) => x.id);
+    const discoveredSkills = skillIds.filter((id) => (s.skills?.[id] || 0) >= 1 || (s.talents || []).includes(id)).length;
+    const craftTypes = Object.keys(P.workshops?.types || {});
+    const discoveredCraft = craftTypes.filter((id) => (s.workshops || []).some((w) => w.type === id)).length;
+    const bondKnown = (s.team ? 1 : 0) + (s.guild ? 1 : 0) + ((s.flags?.team_history || []).length);
+    const bondTotal = 2 + Math.max(2, (s.flags?.team_history || []).length);
     const filters = cats.map((c) => {
       const sub = c.id === 'events' ? ratio(discoveredEvents, eventIds.length)
         : c.id === 'places' ? ratio(discoveredPlaces, placeIds.length)
         : c.id === 'realms' ? ratio(discoveredRealms, realmIds.length)
+        : c.id === 'skills' ? ratio(discoveredSkills, skillIds.length || 1)
+        : c.id === 'craft' ? ratio(discoveredCraft, craftTypes.length || 1)
+        : c.id === 'bonds' ? ratio(bondKnown, Math.max(2, bondTotal))
         : ratio(known.size, eventIds.length + placeIds.length + realmIds.length);
       return `<button type="button" data-a="codexfilter" data-v="${c.id}" class="${filter === c.id ? 'primary' : ''}">${esc(c.label)} <small>${sub}</small></button>`;
     }).join('');
@@ -683,6 +695,34 @@ function body() {
       entries = P.regions.map((r) => known.has(r.id)
         ? { cat: 'realms', open: true, title: r.name, sub: r.feel || '' }
         : { cat: 'realms', open: false, title: '???', sub: 'Undiscovered realm' });
+    }
+    if (filter === 'skills') {
+      const skills = P.skills?.skills || [];
+      entries = skills.map((sk) => {
+        const v = s.skills?.[sk.id] || 0;
+        const open = v >= 1 || (s.talents || []).includes(sk.id);
+        return open
+          ? { cat: 'skills', open: true, title: sk.name || sk.id, sub: `${sk.cat || ''} · ${Math.floor(v)}` }
+          : { cat: 'skills', open: false, title: '???', sub: 'Unpracticed' };
+      });
+    }
+    if (filter === 'craft') {
+      const types = Object.entries(P.workshops?.types || {});
+      const owned = new Set((s.workshops || []).map((w) => w.type));
+      entries = types.map(([id, t]) => owned.has(id) || known.has(id)
+        ? { cat: 'craft', open: true, title: t.name || id, sub: 'Workshop' }
+        : { cat: 'craft', open: false, title: '???', sub: 'Unopened stall' });
+      if (!entries.length) entries = [{ cat: 'craft', open: false, title: '???', sub: 'Unopened stall' }];
+    }
+    if (filter === 'bonds') {
+      entries = [];
+      if (s.team) entries.push({ cat: 'bonds', open: true, title: s.team.name || 'Team', sub: `Renown ${Math.round(s.team.renown || 0)} · wins ${((s.team.wins||{}).realm||0)+((s.team.wins||{}).grand||0)}` });
+      else entries.push({ cat: 'bonds', open: false, title: '???', sub: 'No banner yet' });
+      if (s.guild) entries.push({ cat: 'bonds', open: true, title: E.guildLabel(s), sub: `Jobs ${s.guild.jobsDone || 0} · renown ${Math.round(s.guild.renown || 0)}` });
+      else entries.push({ cat: 'bonds', open: false, title: '???', sub: 'No hall yet' });
+      for (const h of (s.flags?.team_history || []).slice(-4)) {
+        entries.push({ cat: 'bonds', open: true, title: h.legacy?.name || h.kind || 'Legacy list', sub: 'Remembered banner' });
+      }
     }
     if (filter === 'all') {
       entries = [...known].map((c) => ({
@@ -815,7 +855,9 @@ function marketHTML() {
     return `<div class="row"><div><b>${esc(def?.name || c.id)}</b> <small>×${c.qty} · sell ${pay}g each</small></div>
       <button data-a="mktsell" data-v="${c.id}">Sell 1</button></div>`;
   }).join('') || '<div class="empty">No trade packs yet — checkout to fill your packs.</div>';
+  const herald = E.marketHerald?.(s);
   return `<h3>${ico('gold')} Yearly market</h3>
+    ${herald ? `<p class="sub mkt-herald"><i>${esc(herald.text)}</i></p>` : ''}
     <p class="sub">${flare(P.market?.notes || 'Trade goods with yearly marks. Gear/homes/mounts stay in the Gear shop below.')} Bartering <b>${bart}</b> · buy −${disc}% · sell rate ${sellR}%.</p>
     <div class="mkt-board">${rows}</div>
     <h3>Cart</h3>${cartRows}

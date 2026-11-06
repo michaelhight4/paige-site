@@ -151,17 +151,18 @@ export function begin(fate, meta = {}, carry = null) {
   s.people.push(person(s, 'mother', rint(s, 20, 34)), person(s, 'father', rint(s, 22, 38)));
   for (let i = rint(s, 0, 2); i > 0; i--) s.people.push(person(s, 'sibling', rint(s, 1, 8)));
   if (carry) Object.assign(s, carry(s) || {});
-  // Echoes (reincarnation): each echo grants a perm bonus, halved per repeat (SYSTEMS_OVERVIEW "Legacy")
-  for (const [id, n] of Object.entries(meta.echoes || {})) applyEcho(s, id, n);
   s.flags.born = 1; s.goals = { claimed: {} };
   applyAchievementMods(s, meta);
+  // Echoes after mods so echoBoost applies
+  for (const [id, n] of Object.entries(meta.echoes || {})) applyEcho(s, id, n);
   log(s, `I was born ${art(race(s).name)} ${race(s).name.toLowerCase()} in Hearthfold Vale. Affinity: ${s.affinity}.`, 'birth');
   newYearBudget(s); return s;
 }
 const art = (w) => (/^[AEIOU]/.test(w) ? 'an' : 'a');
 const ECHO = { echo_might: ['strength', 'endurance'], echo_wits: ['literacy', 'lore'], echo_mana: ['mana_control', 'spellcraft'], echo_grace: ['agility', 'stealth'], echo_presence: ['charm', 'etiquette'] };
 function applyEcho(s, id, n) {
-  let b = 0; for (let i = 0; i < n; i++) b += 8 / 2 ** i; // 8, +4, +2 …
+  const boost = 1 + Math.min(0.25, s.flags?.legacyMods?.echoBoost || 0);
+  let b = 0; for (let i = 0; i < n; i++) b += (8 * boost) / 2 ** i; // 8, +4, +2 …
   if (ECHO[id]) for (const k of ECHO[id]) s.skills[k] = (s.skills[k] || 0) + b; // seeds; arcane still locked until awakening
   if (id === 'echo_mana') s.manaMax += Math.round(b * 2);
   if (id === 'echo_presence') s.stats.looks = clamp(s.stats.looks + b, 0, 100);
@@ -527,6 +528,11 @@ export function scoutRealm(s, id) {
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
   s.regionsFound.push(id);
   discover(s, id);
+  const scoutB = s.flags?.legacyMods?.scoutBonus || 0;
+  if (scoutB > 0 && chance(s, Math.min(0.35, scoutB * 3))) {
+    useSkill(s, 'tracking', 1.2);
+    useSkill(s, 'lore', 0.6);
+  }
   const msg = `I scouted the roads toward ${reg.name}. It is on my map now.`;
   log(s, msg, 'travel');
   return { ok: true, msg };
@@ -2814,6 +2820,20 @@ export function syncLegacyMeta(meta, s, path) {
     if (fr >= 6) metaFlagSet(meta, 'everFriends6', 1);
     const buys = (s.tally?.marketBuys || 0);
     metaFlagSet(meta, 'marketBuysTotal', Math.max(metaFlagGet(meta, 'marketBuysTotal'), buys));
+    const jobs = Math.floor(s.guild?.jobsDone || 0);
+    if (jobs > (s.flags?.guildJobsPeak || 0)) {
+      const delta = jobs - (s.flags?.guildJobsPeak || 0);
+      s.flags.guildJobsPeak = jobs;
+      meta.legacy.flags.guildJobsTotal = (metaFlagGet(meta, 'guildJobsTotal') || 0) + delta;
+    }
+    if ((s.passions?.mastered || []).length) metaFlagSet(meta, 'everPassionMaster', 1);
+    if (s.flags?.has_home) metaFlagSet(meta, 'everHome', 1);
+    let craftBest = 0;
+    for (const sk of (D.skills?.skills || [])) {
+      if (sk.cat === 'craft') craftBest = Math.max(craftBest, s.skills?.[sk.id] || 0);
+    }
+    if (craftBest >= 40) metaFlagSet(meta, 'everCraft40', 1);
+    if (Math.floor(s.age || 0) >= 200 && (s.race === 'elf' || s.race === 'dwarf')) metaFlagSet(meta, 'longLife200', 1);
   }
   if (path === 'reincarnate') metaFlagSet(meta, 'reincCount', (metaFlagGet(meta, 'reincCount') || 0) + 1);
   if (path === 'heir') metaFlagSet(meta, 'heirCount', (metaFlagGet(meta, 'heirCount') || 0) + 1);
@@ -2839,9 +2859,15 @@ export function applyAchievementMods(s, meta) {
     }
   }
   meta.legacy.mods = mods;
+  // WD safeguards: clamp pct mods and birth gold
+  if (mods.rareTraitBonus) mods.rareTraitBonus = Math.min(0.10, mods.rareTraitBonus);
+  if (mods.marketBuyBonus) mods.marketBuyBonus = Math.min(0.05, mods.marketBuyBonus);
+  if (mods.actBonus) mods.actBonus = Math.min(2, mods.actBonus);
+  if (mods.socialBonus) mods.socialBonus = Math.min(2, mods.socialBonus);
   s.flags = s.flags || {};
   s.flags.legacyMods = { ...mods };
-  if (mods.startGold) s.gold = (s.gold || 0) + mods.startGold;
+  const startGold = Math.min(80, mods.startGold || 0);
+  if (startGold) s.gold = (s.gold || 0) + startGold;
   if (mods.healthSeed) s.stats.health = clamp((s.stats.health || 0) + mods.healthSeed, 0, 100);
   if (mods.happinessSeed) s.stats.happiness = clamp((s.stats.happiness || 0) + mods.happinessSeed, 0, 100);
   if (mods.fameSeed) s.stats.fame = clamp((s.stats.fame || 0) + mods.fameSeed, 0, 100);
@@ -2889,6 +2915,28 @@ function progressValue(s, meta, prog, ctx) {
   if (t === 'hasGuild') return s.guild ? 1 : 0;
   if (t === 'stat') return Math.floor(s.stats?.[prog.id] || 0);
   if (t === 'workshops') return (s.workshops || []).length || (s.flags?.workshopCount || 0);
+  if (t === 'skillCat') {
+    const cat = prog.id || 'craft';
+    let best = 0;
+    for (const sk of (D.skills?.skills || [])) {
+      if (sk.cat !== cat) continue;
+      best = Math.max(best, Math.floor(s.skills?.[sk.id] || 0));
+    }
+    return best;
+  }
+  if (t === 'passionMastered') return (s.passions?.mastered || []).length;
+  if (t === 'notices') return Math.floor(s.notices?.posts || 0);
+  if (t === 'places') {
+    const locIds = new Set((D.regions || []).flatMap((r) => (r.locations || []).map((l) => l.id)));
+    return (s.codex || []).filter((id) => locIds.has(id)).length;
+  }
+  if (t === 'teamWins') {
+    const w = s.team?.wins || {};
+    return Math.floor((w.realm || 0) + (w.grand || 0));
+  }
+  if (t === 'guildJobs') return Math.floor(s.guild?.jobsDone || 0);
+  if (t === 'codexId') return (s.codex || []).includes(prog.id) ? 1 : 0;
+  if (t === 'gearOwned') return (s.gear?.owned || []).length;
   // meta
   ensureLegacyMeta(meta);
   const L = meta.legacy;
@@ -2902,9 +2950,19 @@ function progressValue(s, meta, prog, ctx) {
   if (t === 'goalsClaimedLife') return Object.keys(s.goals?.claimed || {}).length;
   return 0;
 }
+function prereqOk(s, prereqs) {
+  if (!prereqs || !prereqs.length) return true;
+  for (const p of prereqs) {
+    if (p.type === 'raceIn' && !(p.ids || []).includes(s.race)) return false;
+    if (p.type === 'hasGuild' && !s.guild) return false;
+    if (p.type === 'hasTeam' && !s.team) return false;
+  }
+  return true;
+}
 function goalStatus(s, meta, g) {
   const claimed = !!(s.goals?.claimed || {})[g.id];
   if (claimed) return { status: 'claimed', cur: g.progress?.target || 1, target: g.progress?.target || 1, pct: 1 };
+  if (!prereqOk(s, g.prereq)) return { status: 'locked', cur: 0, target: g.progress?.target || 1, pct: 0, gated: true };
   const cur = progressValue(s, meta, g.progress);
   const target = g.progress?.target || 1;
   const pct = Math.max(0, Math.min(1, cur / target));
@@ -3039,4 +3097,30 @@ export function tickLegacyLifeFlags(s) {
   if (s.guild) s.flags.everGuild = 1;
   if (s.workshops?.length) s.flags.workshopCount = s.workshops.length;
   if (Math.floor(s.age || 0) >= 120) s.flags.longLife120 = 1;
+  // Home gear equipped / owned
+  const owned = s.gear?.owned || [];
+  const homeId = s.gear?.home || s.home;
+  if (homeId || owned.some((id) => {
+    const g = (D.gear?.items || []).find((x) => x.id === id);
+    return g?.slot === 'home';
+  })) s.flags.has_home = 1;
+  if ((s.passions?.mastered || []).length) s.flags.everPassionMaster = 1;
+  let craftBest = 0;
+  for (const sk of (D.skills?.skills || [])) {
+    if (sk.cat === 'craft') craftBest = Math.max(craftBest, s.skills?.[sk.id] || 0);
+  }
+  if (craftBest >= 40) s.flags.everCraft40 = 1;
+}
+
+/** Yearly market herald flavor (WD) — pick one line for current realm + soft mark band. */
+export function marketHerald(s) {
+  const list = D.market?.heralds || [];
+  if (!list.length) return null;
+  const realm = s.region || 'hearthfold';
+  const year = cage(s);
+  // Stable pick per year+realm
+  const pool = list.filter((h) => !h.realm || h.realm === realm);
+  const use = pool.length ? pool : list;
+  const idx = Math.abs((year * 17 + (realm.length * 3)) % use.length);
+  return use[idx];
 }

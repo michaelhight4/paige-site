@@ -1,7 +1,7 @@
 {
   "version": 1,
   "currency": "gold",
-  "notes": "Yearly Market — trade goods only (not gear slots). Marks refresh each cage year. Bartering softens buy price and lifts sell payout. No tobacco/drugs/alcohol. Icons optional later: assets/market/<id>.png",
+  "notes": "Yearly Market \u2014 trade goods only (not gear slots). Marks refresh each cage year. Bartering softens buy price and lifts sell payout. No tobacco/drugs/alcohol. Icons optional later: assets/market/<id>.png",
   "unlock": {
     "minAge": 10
   },
@@ -24,15 +24,49 @@
   },
   "seed": {
     "key": "marketYear",
-    "fields": ["runSeed", "yearFloor", "realmId"],
+    "fields": [
+      "runSeed",
+      "yearFloor",
+      "realmId"
+    ],
     "note": "Derive a mulberry32 seed from save RNG seed + Math.floor(cage age) + current region id so listings/marks are stable for the year and differ by realm."
   },
   "markBands": [
-    { "id": "glut", "label": "Glut", "pctMin": -25, "pctMax": -12, "weight": 1 },
-    { "id": "soft", "label": "Soft", "pctMin": -11, "pctMax": -4, "weight": 2 },
-    { "id": "fair", "label": "Fair", "pctMin": -3, "pctMax": 3, "weight": 3 },
-    { "id": "firm", "label": "Firm", "pctMin": 4, "pctMax": 12, "weight": 2 },
-    { "id": "dear", "label": "Dear", "pctMin": 13, "pctMax": 28, "weight": 1 }
+    {
+      "id": "glut",
+      "label": "Glut",
+      "pctMin": -25,
+      "pctMax": -12,
+      "weight": 1
+    },
+    {
+      "id": "soft",
+      "label": "Soft",
+      "pctMin": -11,
+      "pctMax": -4,
+      "weight": 2
+    },
+    {
+      "id": "fair",
+      "label": "Fair",
+      "pctMin": -3,
+      "pctMax": 3,
+      "weight": 3
+    },
+    {
+      "id": "firm",
+      "label": "Firm",
+      "pctMin": 4,
+      "pctMax": 12,
+      "weight": 2
+    },
+    {
+      "id": "dear",
+      "label": "Dear",
+      "pctMin": 13,
+      "pctMax": 28,
+      "weight": 1
+    }
   ],
   "barter": {
     "skillId": "bartering",
@@ -54,7 +88,10 @@
     "tabHint": "Yearly Market",
     "pctLabel": "% vs normal",
     "pctNote": "Show markPct on each listing (year mark before personal Bartering). Show effective buy/sell gold after Bartering under the price.",
-    "excludeFromMarket": ["home", "mount"]
+    "excludeFromMarket": [
+      "home",
+      "mount"
+    ]
   },
   "formulas": {
     "listPrice": "Math.max(1, Math.round(basePrice * (1 + markPct / 100)))",
@@ -65,12 +102,30 @@
     "sellMarkPct": "If this good is listed this year in the current realm, use that listing's markPct; else 0 (fair)."
   },
   "categories": [
-    { "id": "staple", "name": "Staples" },
-    { "id": "cloth", "name": "Cloth & fibre" },
-    { "id": "metal", "name": "Metal & stone" },
-    { "id": "reagent", "name": "Reagents" },
-    { "id": "provision", "name": "Provisions" },
-    { "id": "curio", "name": "Curios" }
+    {
+      "id": "staple",
+      "name": "Staples"
+    },
+    {
+      "id": "cloth",
+      "name": "Cloth & fibre"
+    },
+    {
+      "id": "metal",
+      "name": "Metal & stone"
+    },
+    {
+      "id": "reagent",
+      "name": "Reagents"
+    },
+    {
+      "id": "provision",
+      "name": "Provisions"
+    },
+    {
+      "id": "curio",
+      "name": "Curios"
+    }
   ],
   "items": [
     {
@@ -211,7 +266,7 @@
       "realm": "glassmarket",
       "minAge": 14,
       "stack": 8,
-      "desc": "Pepper, citrus peel, and dried blossom — no spirits."
+      "desc": "Pepper, citrus peel, and dried blossom \u2014 no spirits."
     },
     {
       "id": "mkt_reed_fibre",
@@ -301,7 +356,7 @@
       "realm": "spireward",
       "minAge": 14,
       "stack": 6,
-      "desc": "Blessed grit for circle edges — not for the table."
+      "desc": "Blessed grit for circle edges \u2014 not for the table."
     },
     {
       "id": "mkt_banner_dye",
@@ -432,6 +487,149 @@
       "minAge": 12,
       "stack": 12,
       "desc": "Clean-burning oil for halls and watch posts."
+    }
+  ],
+  "heralds": [
+    {
+      "id": "her_hf_soft_honey",
+      "realm": "hearthfold",
+      "when": {
+        "markBand": "soft",
+        "itemCat": "provision"
+      },
+      "text": "Market Row chalk reads soft on Hearthfold Honey Jars \u2014 wasps louder than brokers this winter."
+    },
+    {
+      "id": "her_hf_fair_reed",
+      "realm": "hearthfold",
+      "when": {
+        "markBand": "fair",
+        "itemCat": "staple"
+      },
+      "text": "Pond Reed Baskets price fair by the willow shade; anglers trade gossip louder than coin."
+    },
+    {
+      "id": "her_hf_dear_wool",
+      "realm": "hearthfold",
+      "when": {
+        "markBand": "dear",
+        "itemCat": "cloth"
+      },
+      "text": "Vale Loom Wool climbs dear after a wet shear; Cottage Lane fences wear fewer colors."
+    },
+    {
+      "id": "her_gm_glut_glass",
+      "realm": "glassmarket",
+      "when": {
+        "markBand": "glut",
+        "itemCat": "curio"
+      },
+      "text": "Mirrorglass Stalls claim a glut of bright trays \u2014 Lantern Quay musicians quarrel over reflections."
+    },
+    {
+      "id": "her_gm_firm_dye",
+      "realm": "glassmarket",
+      "when": {
+        "markBand": "firm",
+        "itemCat": "cloth"
+      },
+      "text": "Imported dyes sit firm on the quay boards; Ledger Hall clerks sharpen their quills."
+    },
+    {
+      "id": "her_gm_dear_scale",
+      "realm": "glassmarket",
+      "when": {
+        "markBand": "dear",
+        "itemCat": "metal"
+      },
+      "text": "Envoy of Scales watches a dear mark on coast metal; oaths cost more than pans today."
+    },
+    {
+      "id": "her_tr_soft_forage",
+      "realm": "thornreed",
+      "when": {
+        "markBand": "soft",
+        "itemCat": "reagent"
+      },
+      "text": "Foragers\u2019 Camp lists soft marks on reed reagents; Standing Stone Ring stays quiet about why."
+    },
+    {
+      "id": "her_tr_fair_bowstave",
+      "realm": "thornreed",
+      "when": {
+        "markBand": "fair",
+        "itemCat": "staple"
+      },
+      "text": "Reedpath packs carry fair-priced staves; Ashen Gate porters want tea, not stories."
+    },
+    {
+      "id": "her_tr_dear_mirror",
+      "realm": "thornreed",
+      "when": {
+        "markBand": "dear",
+        "itemCat": "curio"
+      },
+      "text": "Black Mirror Pond finds keep a dear curio price \u2014 Wayshrine ribbons look thin."
+    },
+    {
+      "id": "her_sw_glut_ink",
+      "realm": "spireward",
+      "when": {
+        "markBand": "glut",
+        "itemCat": "reagent"
+      },
+      "text": "Scribe Stalls drown in ink glut; Archive Steps smell like wet paper and ambition."
+    },
+    {
+      "id": "her_sw_firm_quill",
+      "realm": "spireward",
+      "when": {
+        "markBand": "firm",
+        "itemCat": "curio"
+      },
+      "text": "Collegium runners say quill-kits are firm; Crest Terrace bets on who fails the first exam."
+    },
+    {
+      "id": "her_sw_fair_ward",
+      "realm": "spireward",
+      "when": {
+        "markBand": "fair",
+        "itemCat": "reagent"
+      },
+      "text": "Fair ward-chalk on the dueling lawn board \u2014 tutors pretend not to notice."
+    },
+    {
+      "id": "her_em_firm_ore",
+      "realm": "emberlight",
+      "when": {
+        "markBand": "firm",
+        "itemCat": "metal"
+      },
+      "text": "Forge Plaza rings firm ore marks; Watch Fort apprentices count sparks, not sleep."
+    },
+    {
+      "id": "her_em_dear_ember",
+      "realm": "emberlight",
+      "when": {
+        "markBand": "dear",
+        "itemCat": "reagent"
+      },
+      "text": "Dear ember-sand jars near Sparkfield; Hero Statue gets fresh soot polish anyway."
+    },
+    {
+      "id": "her_em_glut_ration",
+      "realm": "emberlight",
+      "when": {
+        "markBand": "glut",
+        "itemCat": "provision"
+      },
+      "text": "Ash Park cooks cheer a provision glut; Cinderhorn Hall boards rewrite supper tallies."
+    },
+    {
+      "id": "her_any_year_turn",
+      "realm": null,
+      "when": {},
+      "text": "Year-turn stalls reshuffle under new chalk. Bartering tongues wake before the sun does."
     }
   ]
 }

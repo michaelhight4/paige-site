@@ -1,63 +1,1571 @@
 {
-  "version": 1,
-  "blurb": "Life Goals are this playthrough. Achievements and their modifiers endure across reincarnations.",
+  "version": 2,
+  "blurb": "Life Goals are this playthrough. Achievements and their modifiers endure across reincarnations. WD season/craft/cozy additions merged Nov 5.",
   "pointsName": "Legacy sparks",
   "lifeGoals": [
-    { "id": "lg_age_10", "icon": "spirit", "title": "First decade", "desc": "Reach calendar age 10.", "cat": "age", "progress": { "type": "age", "target": 10 }, "reward": { "gold": 15, "happiness": 4 }, "tags": ["age"] },
-    { "id": "lg_age_16", "icon": "spirit", "title": "Youth's threshold", "desc": "Reach calendar age 16.", "cat": "age", "progress": { "type": "age", "target": 16 }, "reward": { "gold": 25, "happiness": 5, "fame": 1 }, "tags": ["age"] },
-    { "id": "lg_age_30", "icon": "spirit", "title": "Thirty winters", "desc": "Reach calendar age 30.", "cat": "age", "progress": { "type": "age", "target": 30 }, "reward": { "gold": 40, "happiness": 6, "fame": 2 }, "tags": ["age"] },
-    { "id": "lg_age_50", "icon": "spirit", "title": "Half a century", "desc": "Reach calendar age 50.", "cat": "age", "progress": { "type": "age", "target": 50 }, "reward": { "gold": 60, "happiness": 8, "fame": 3 }, "tags": ["age"] },
-    { "id": "lg_age_80", "icon": "spirit", "title": "Long road", "desc": "Reach calendar age 80.", "cat": "age", "progress": { "type": "age", "target": 80 }, "reward": { "gold": 100, "happiness": 10, "fame": 5 }, "tags": ["age"] },
-    { "id": "lg_job_first", "icon": "work", "title": "First wage", "desc": "Take any job.", "cat": "work", "progress": { "type": "hasJob", "target": 1 }, "reward": { "gold": 20, "happiness": 3 }, "tags": ["job"] },
-    { "id": "lg_job_years_5", "icon": "work", "title": "Steady hands", "desc": "Hold a post for 5 years.", "cat": "work", "progress": { "type": "jobYears", "target": 5 }, "reward": { "gold": 35, "skillBump": 1 }, "tags": ["job"] },
-    { "id": "lg_job_promo", "icon": "work", "title": "One rung up", "desc": "Earn a promotion.", "cat": "work", "progress": { "type": "flag", "id": "goal_promoted", "target": 1 }, "reward": { "gold": 40, "fame": 3, "happiness": 5 }, "tags": ["job"] },
-    { "id": "lg_merchant", "icon": "work", "title": "Market blood", "desc": "Hold a Merchant-track job.", "cat": "work", "progress": { "type": "career", "id": "merchant", "target": 1 }, "reward": { "gold": 30, "skill": { "id": "bartering", "amt": 2 } }, "tags": ["job", "market"] },
-    { "id": "lg_sk_sword_15", "icon": "skill", "title": "Edge of fifteen", "desc": "Train Swordsmanship to 15.", "cat": "skills", "progress": { "type": "skill", "id": "swordsmanship", "target": 15 }, "reward": { "gold": 20, "skill": { "id": "swordsmanship", "amt": 1 } }, "tags": ["skill"] },
-    { "id": "lg_sk_spell_15", "icon": "mana", "title": "Spark of fifteen", "desc": "Train Spellcraft to 15.", "cat": "skills", "progress": { "type": "skill", "id": "spellcraft", "target": 15 }, "reward": { "gold": 20, "skill": { "id": "spellcraft", "amt": 1 } }, "tags": ["skill", "magic"] },
-    { "id": "lg_sk_barter_20", "icon": "gold", "title": "Fair tongue", "desc": "Train Bartering to 20.", "cat": "skills", "progress": { "type": "skill", "id": "bartering", "target": 20 }, "reward": { "gold": 35, "skill": { "id": "bartering", "amt": 1 } }, "tags": ["skill", "market"] },
-    { "id": "lg_sk_any_40", "icon": "skill", "title": "Craft deep", "desc": "Raise any skill to 40.", "cat": "skills", "progress": { "type": "bestSkill", "target": 40 }, "reward": { "gold": 50, "fame": 2, "happiness": 4 }, "tags": ["skill"] },
-    { "id": "lg_mana_awake", "icon": "mana", "title": "Mana answers", "desc": "Awaken mana.", "cat": "skills", "progress": { "type": "flag", "id": "mana_awakened", "target": 1 }, "reward": { "gold": 25, "happiness": 6 }, "tags": ["magic"] },
-    { "id": "lg_route", "icon": "route", "title": "Choose a path", "desc": "Pick sword, magic, hybrid, or craft.", "cat": "skills", "progress": { "type": "hasRoute", "target": 1 }, "reward": { "gold": 20, "happiness": 4 }, "tags": ["path"] },
-    { "id": "lg_friend", "icon": "bond", "title": "First friend", "desc": "Make a friend.", "cat": "bonds", "progress": { "type": "friends", "target": 1 }, "reward": { "happiness": 8, "gold": 10 }, "tags": ["social"] },
-    { "id": "lg_friends_3", "icon": "bond", "title": "Circle of three", "desc": "Have 3 living friends.", "cat": "bonds", "progress": { "type": "friends", "target": 3 }, "reward": { "happiness": 10, "fame": 1 }, "tags": ["social"] },
-    { "id": "lg_partner", "icon": "bond", "title": "Lantern vow", "desc": "Find a partner.", "cat": "bonds", "progress": { "type": "partner", "target": 1 }, "reward": { "happiness": 12, "gold": 25 }, "tags": ["social"] },
-    { "id": "lg_party", "icon": "adventure", "title": "Road company", "desc": "Fill a party of 2+.", "cat": "bonds", "progress": { "type": "party", "target": 2 }, "reward": { "gold": 20, "happiness": 5 }, "tags": ["adventure"] },
-    { "id": "lg_adv_1", "icon": "adventure", "title": "First road", "desc": "Set out on Adventure once.", "cat": "adventure", "progress": { "type": "flag", "id": "goal_adventured", "target": 1 }, "reward": { "gold": 15, "fame": 1 }, "tags": ["adventure"] },
-    { "id": "lg_adv_5", "icon": "adventure", "title": "Seasoned boots", "desc": "Complete 5 adventures (lifetime tally).", "cat": "adventure", "progress": { "type": "tally", "id": "adventures", "target": 5 }, "reward": { "gold": 40, "fame": 3 }, "tags": ["adventure"] },
-    { "id": "lg_realm_2", "icon": "realm", "title": "Second horizon", "desc": "Discover 2 realms.", "cat": "travel", "progress": { "type": "realms", "target": 2 }, "reward": { "gold": 30, "fame": 2 }, "tags": ["travel"] },
-    { "id": "lg_realm_4", "icon": "realm", "title": "Four corners", "desc": "Discover 4 realms.", "cat": "travel", "progress": { "type": "realms", "target": 4 }, "reward": { "gold": 60, "fame": 4 }, "tags": ["travel"] },
-    { "id": "lg_travel", "icon": "realm", "title": "Leave the Vale", "desc": "Travel to a realm that is not Hearthfold.", "cat": "travel", "progress": { "type": "notHome", "target": 1 }, "reward": { "gold": 25, "happiness": 4 }, "tags": ["travel"] },
-    { "id": "lg_market_buy", "icon": "gold", "title": "First stall buy", "desc": "Checkout once at the Yearly Market.", "cat": "market", "progress": { "type": "tally", "id": "marketBuys", "target": 1 }, "reward": { "gold": 15, "skill": { "id": "bartering", "amt": 1 } }, "tags": ["market"] },
-    { "id": "lg_market_sell", "icon": "gold", "title": "Pack flip", "desc": "Sell a trade good at market.", "cat": "market", "progress": { "type": "tally", "id": "marketSells", "target": 1 }, "reward": { "gold": 15, "skill": { "id": "bartering", "amt": 1 } }, "tags": ["market"] },
-    { "id": "lg_team_found", "icon": "adventure", "title": "Clerk's stamp", "desc": "Found a tournament team.", "cat": "team", "progress": { "type": "hasTeam", "target": 1 }, "reward": { "gold": 40, "fame": 3 }, "tags": ["team"] },
-    { "id": "lg_team_meet", "icon": "adventure", "title": "Lists walked", "desc": "Enter a Teams meet (grand or party).", "cat": "team", "progress": { "type": "flag", "id": "tour_team_entered", "target": 1 }, "reward": { "gold": 35, "fame": 4 }, "tags": ["team", "tournament"] },
-    { "id": "lg_guild", "icon": "work", "title": "Hall keys", "desc": "Open an adventure guild hall.", "cat": "guild", "progress": { "type": "hasGuild", "target": 1 }, "reward": { "gold": 50, "fame": 4 }, "tags": ["guild"] },
-    { "id": "lg_tourney", "icon": "adventure", "title": "Enter the lists", "desc": "Enter any Blade/Spark/craft meet.", "cat": "tournament", "progress": { "type": "flag", "id": "goal_tourney", "target": 1 }, "reward": { "gold": 25, "fame": 3 }, "tags": ["tournament"] },
-    { "id": "lg_gold_200", "icon": "gold", "title": "Purse of two hundred", "desc": "Hold 200 gold at once.", "cat": "wealth", "progress": { "type": "gold", "target": 200 }, "reward": { "happiness": 5, "fame": 1 }, "tags": ["wealth"] },
-    { "id": "lg_gold_1000", "icon": "gold", "title": "Thousand weight", "desc": "Hold 1000 gold at once.", "cat": "wealth", "progress": { "type": "gold", "target": 1000 }, "reward": { "happiness": 8, "fame": 4 }, "tags": ["wealth"] },
-    { "id": "lg_fame_20", "icon": "renown", "title": "Name on lips", "desc": "Reach Renown 20.", "cat": "fame", "progress": { "type": "stat", "id": "fame", "target": 20 }, "reward": { "gold": 30, "happiness": 4 }, "tags": ["fame"] },
-    { "id": "lg_workshop", "icon": "work", "title": "Own a stall", "desc": "Open any workshop.", "cat": "work", "progress": { "type": "workshops", "target": 1 }, "reward": { "gold": 40, "fame": 2 }, "tags": ["biz"] }
+    {
+      "id": "lg_age_10",
+      "icon": "spirit",
+      "title": "First decade",
+      "desc": "Reach calendar age 10.",
+      "cat": "age",
+      "progress": {
+        "type": "age",
+        "target": 10
+      },
+      "reward": {
+        "gold": 15,
+        "happiness": 4
+      },
+      "tags": [
+        "age"
+      ]
+    },
+    {
+      "id": "lg_age_16",
+      "icon": "spirit",
+      "title": "Youth's threshold",
+      "desc": "Reach calendar age 16.",
+      "cat": "age",
+      "progress": {
+        "type": "age",
+        "target": 16
+      },
+      "reward": {
+        "gold": 25,
+        "happiness": 5,
+        "fame": 1
+      },
+      "tags": [
+        "age"
+      ]
+    },
+    {
+      "id": "lg_age_30",
+      "icon": "spirit",
+      "title": "Thirty winters",
+      "desc": "Reach calendar age 30.",
+      "cat": "age",
+      "progress": {
+        "type": "age",
+        "target": 30
+      },
+      "reward": {
+        "gold": 40,
+        "happiness": 6,
+        "fame": 2
+      },
+      "tags": [
+        "age"
+      ]
+    },
+    {
+      "id": "lg_age_50",
+      "icon": "spirit",
+      "title": "Half a century",
+      "desc": "Reach calendar age 50.",
+      "cat": "age",
+      "progress": {
+        "type": "age",
+        "target": 50
+      },
+      "reward": {
+        "gold": 60,
+        "happiness": 8,
+        "fame": 3
+      },
+      "tags": [
+        "age"
+      ]
+    },
+    {
+      "id": "lg_age_80",
+      "icon": "spirit",
+      "title": "Long road",
+      "desc": "Reach calendar age 80.",
+      "cat": "age",
+      "progress": {
+        "type": "age",
+        "target": 80
+      },
+      "reward": {
+        "gold": 100,
+        "happiness": 10,
+        "fame": 5
+      },
+      "tags": [
+        "age"
+      ]
+    },
+    {
+      "id": "lg_job_first",
+      "icon": "work",
+      "title": "First wage",
+      "desc": "Take any job.",
+      "cat": "work",
+      "progress": {
+        "type": "hasJob",
+        "target": 1
+      },
+      "reward": {
+        "gold": 20,
+        "happiness": 3
+      },
+      "tags": [
+        "job"
+      ]
+    },
+    {
+      "id": "lg_job_years_5",
+      "icon": "work",
+      "title": "Steady hands",
+      "desc": "Hold a post for 5 years.",
+      "cat": "work",
+      "progress": {
+        "type": "jobYears",
+        "target": 5
+      },
+      "reward": {
+        "gold": 35,
+        "skillBump": 1
+      },
+      "tags": [
+        "job"
+      ]
+    },
+    {
+      "id": "lg_job_promo",
+      "icon": "work",
+      "title": "One rung up",
+      "desc": "Earn a promotion.",
+      "cat": "work",
+      "progress": {
+        "type": "flag",
+        "id": "goal_promoted",
+        "target": 1
+      },
+      "reward": {
+        "gold": 40,
+        "fame": 3,
+        "happiness": 5
+      },
+      "tags": [
+        "job"
+      ]
+    },
+    {
+      "id": "lg_merchant",
+      "icon": "work",
+      "title": "Market blood",
+      "desc": "Hold a Merchant-track job.",
+      "cat": "work",
+      "progress": {
+        "type": "career",
+        "id": "merchant",
+        "target": 1
+      },
+      "reward": {
+        "gold": 30,
+        "skill": {
+          "id": "bartering",
+          "amt": 2
+        }
+      },
+      "tags": [
+        "job",
+        "market"
+      ]
+    },
+    {
+      "id": "lg_sk_sword_15",
+      "icon": "skill",
+      "title": "Edge of fifteen",
+      "desc": "Train Swordsmanship to 15.",
+      "cat": "skills",
+      "progress": {
+        "type": "skill",
+        "id": "swordsmanship",
+        "target": 15
+      },
+      "reward": {
+        "gold": 20,
+        "skill": {
+          "id": "swordsmanship",
+          "amt": 1
+        }
+      },
+      "tags": [
+        "skill"
+      ]
+    },
+    {
+      "id": "lg_sk_spell_15",
+      "icon": "mana",
+      "title": "Spark of fifteen",
+      "desc": "Train Spellcraft to 15.",
+      "cat": "skills",
+      "progress": {
+        "type": "skill",
+        "id": "spellcraft",
+        "target": 15
+      },
+      "reward": {
+        "gold": 20,
+        "skill": {
+          "id": "spellcraft",
+          "amt": 1
+        }
+      },
+      "tags": [
+        "skill",
+        "magic"
+      ]
+    },
+    {
+      "id": "lg_sk_barter_20",
+      "icon": "gold",
+      "title": "Fair tongue",
+      "desc": "Train Bartering to 20.",
+      "cat": "skills",
+      "progress": {
+        "type": "skill",
+        "id": "bartering",
+        "target": 20
+      },
+      "reward": {
+        "gold": 35,
+        "skill": {
+          "id": "bartering",
+          "amt": 1
+        }
+      },
+      "tags": [
+        "skill",
+        "market"
+      ]
+    },
+    {
+      "id": "lg_sk_any_40",
+      "icon": "skill",
+      "title": "Craft deep",
+      "desc": "Raise any skill to 40.",
+      "cat": "skills",
+      "progress": {
+        "type": "bestSkill",
+        "target": 40
+      },
+      "reward": {
+        "gold": 50,
+        "fame": 2,
+        "happiness": 4
+      },
+      "tags": [
+        "skill"
+      ]
+    },
+    {
+      "id": "lg_mana_awake",
+      "icon": "mana",
+      "title": "Mana answers",
+      "desc": "Awaken mana.",
+      "cat": "skills",
+      "progress": {
+        "type": "flag",
+        "id": "mana_awakened",
+        "target": 1
+      },
+      "reward": {
+        "gold": 25,
+        "happiness": 6
+      },
+      "tags": [
+        "magic"
+      ]
+    },
+    {
+      "id": "lg_route",
+      "icon": "route",
+      "title": "Choose a path",
+      "desc": "Pick sword, magic, hybrid, or craft.",
+      "cat": "skills",
+      "progress": {
+        "type": "hasRoute",
+        "target": 1
+      },
+      "reward": {
+        "gold": 20,
+        "happiness": 4
+      },
+      "tags": [
+        "path"
+      ]
+    },
+    {
+      "id": "lg_friend",
+      "icon": "bond",
+      "title": "First friend",
+      "desc": "Make a friend.",
+      "cat": "bonds",
+      "progress": {
+        "type": "friends",
+        "target": 1
+      },
+      "reward": {
+        "happiness": 8,
+        "gold": 10
+      },
+      "tags": [
+        "social"
+      ]
+    },
+    {
+      "id": "lg_friends_3",
+      "icon": "bond",
+      "title": "Circle of three",
+      "desc": "Have 3 living friends.",
+      "cat": "bonds",
+      "progress": {
+        "type": "friends",
+        "target": 3
+      },
+      "reward": {
+        "happiness": 10,
+        "fame": 1
+      },
+      "tags": [
+        "social"
+      ]
+    },
+    {
+      "id": "lg_partner",
+      "icon": "bond",
+      "title": "Lantern vow",
+      "desc": "Find a partner.",
+      "cat": "bonds",
+      "progress": {
+        "type": "partner",
+        "target": 1
+      },
+      "reward": {
+        "happiness": 12,
+        "gold": 25
+      },
+      "tags": [
+        "social"
+      ]
+    },
+    {
+      "id": "lg_party",
+      "icon": "adventure",
+      "title": "Road company",
+      "desc": "Fill a party of 2+.",
+      "cat": "bonds",
+      "progress": {
+        "type": "party",
+        "target": 2
+      },
+      "reward": {
+        "gold": 20,
+        "happiness": 5
+      },
+      "tags": [
+        "adventure"
+      ]
+    },
+    {
+      "id": "lg_adv_1",
+      "icon": "adventure",
+      "title": "First road",
+      "desc": "Set out on Adventure once.",
+      "cat": "adventure",
+      "progress": {
+        "type": "flag",
+        "id": "goal_adventured",
+        "target": 1
+      },
+      "reward": {
+        "gold": 15,
+        "fame": 1
+      },
+      "tags": [
+        "adventure"
+      ]
+    },
+    {
+      "id": "lg_adv_5",
+      "icon": "adventure",
+      "title": "Seasoned boots",
+      "desc": "Complete 5 adventures (lifetime tally).",
+      "cat": "adventure",
+      "progress": {
+        "type": "tally",
+        "id": "adventures",
+        "target": 5
+      },
+      "reward": {
+        "gold": 40,
+        "fame": 3
+      },
+      "tags": [
+        "adventure"
+      ]
+    },
+    {
+      "id": "lg_realm_2",
+      "icon": "realm",
+      "title": "Second horizon",
+      "desc": "Discover 2 realms.",
+      "cat": "travel",
+      "progress": {
+        "type": "realms",
+        "target": 2
+      },
+      "reward": {
+        "gold": 30,
+        "fame": 2
+      },
+      "tags": [
+        "travel"
+      ]
+    },
+    {
+      "id": "lg_realm_4",
+      "icon": "realm",
+      "title": "Four corners",
+      "desc": "Discover 4 realms.",
+      "cat": "travel",
+      "progress": {
+        "type": "realms",
+        "target": 4
+      },
+      "reward": {
+        "gold": 60,
+        "fame": 4
+      },
+      "tags": [
+        "travel"
+      ]
+    },
+    {
+      "id": "lg_travel",
+      "icon": "realm",
+      "title": "Leave the Vale",
+      "desc": "Travel to a realm that is not Hearthfold.",
+      "cat": "travel",
+      "progress": {
+        "type": "notHome",
+        "target": 1
+      },
+      "reward": {
+        "gold": 25,
+        "happiness": 4
+      },
+      "tags": [
+        "travel"
+      ]
+    },
+    {
+      "id": "lg_market_buy",
+      "icon": "gold",
+      "title": "First stall buy",
+      "desc": "Checkout once at the Yearly Market.",
+      "cat": "market",
+      "progress": {
+        "type": "tally",
+        "id": "marketBuys",
+        "target": 1
+      },
+      "reward": {
+        "gold": 15,
+        "skill": {
+          "id": "bartering",
+          "amt": 1
+        }
+      },
+      "tags": [
+        "market"
+      ]
+    },
+    {
+      "id": "lg_market_sell",
+      "icon": "gold",
+      "title": "Pack flip",
+      "desc": "Sell a trade good at market.",
+      "cat": "market",
+      "progress": {
+        "type": "tally",
+        "id": "marketSells",
+        "target": 1
+      },
+      "reward": {
+        "gold": 15,
+        "skill": {
+          "id": "bartering",
+          "amt": 1
+        }
+      },
+      "tags": [
+        "market"
+      ]
+    },
+    {
+      "id": "lg_team_found",
+      "icon": "adventure",
+      "title": "Clerk's stamp",
+      "desc": "Found a tournament team.",
+      "cat": "team",
+      "progress": {
+        "type": "hasTeam",
+        "target": 1
+      },
+      "reward": {
+        "gold": 40,
+        "fame": 3
+      },
+      "tags": [
+        "team"
+      ]
+    },
+    {
+      "id": "lg_team_meet",
+      "icon": "adventure",
+      "title": "Lists walked",
+      "desc": "Enter a Teams meet (grand or party).",
+      "cat": "team",
+      "progress": {
+        "type": "flag",
+        "id": "tour_team_entered",
+        "target": 1
+      },
+      "reward": {
+        "gold": 35,
+        "fame": 4
+      },
+      "tags": [
+        "team",
+        "tournament"
+      ]
+    },
+    {
+      "id": "lg_guild",
+      "icon": "work",
+      "title": "Hall keys",
+      "desc": "Open an adventure guild hall.",
+      "cat": "guild",
+      "progress": {
+        "type": "hasGuild",
+        "target": 1
+      },
+      "reward": {
+        "gold": 50,
+        "fame": 4
+      },
+      "tags": [
+        "guild"
+      ]
+    },
+    {
+      "id": "lg_tourney",
+      "icon": "adventure",
+      "title": "Enter the lists",
+      "desc": "Enter any Blade/Spark/craft meet.",
+      "cat": "tournament",
+      "progress": {
+        "type": "flag",
+        "id": "goal_tourney",
+        "target": 1
+      },
+      "reward": {
+        "gold": 25,
+        "fame": 3
+      },
+      "tags": [
+        "tournament"
+      ]
+    },
+    {
+      "id": "lg_gold_200",
+      "icon": "gold",
+      "title": "Purse of two hundred",
+      "desc": "Hold 200 gold at once.",
+      "cat": "wealth",
+      "progress": {
+        "type": "gold",
+        "target": 200
+      },
+      "reward": {
+        "happiness": 5,
+        "fame": 1
+      },
+      "tags": [
+        "wealth"
+      ]
+    },
+    {
+      "id": "lg_gold_1000",
+      "icon": "gold",
+      "title": "Thousand weight",
+      "desc": "Hold 1000 gold at once.",
+      "cat": "wealth",
+      "progress": {
+        "type": "gold",
+        "target": 1000
+      },
+      "reward": {
+        "happiness": 8,
+        "fame": 4
+      },
+      "tags": [
+        "wealth"
+      ]
+    },
+    {
+      "id": "lg_fame_20",
+      "icon": "renown",
+      "title": "Name on lips",
+      "desc": "Reach Renown 20.",
+      "cat": "fame",
+      "progress": {
+        "type": "stat",
+        "id": "fame",
+        "target": 20
+      },
+      "reward": {
+        "gold": 30,
+        "happiness": 4
+      },
+      "tags": [
+        "fame"
+      ]
+    },
+    {
+      "id": "lg_workshop",
+      "icon": "work",
+      "title": "Own a stall",
+      "desc": "Open any workshop.",
+      "cat": "work",
+      "progress": {
+        "type": "workshops",
+        "target": 1
+      },
+      "reward": {
+        "gold": 40,
+        "fame": 2
+      },
+      "tags": [
+        "biz"
+      ]
+    },
+    {
+      "id": "lg_seasons_10",
+      "icon": "spirit",
+      "title": "First decade of winters",
+      "desc": "Live through 10 calendar winters in this waking.",
+      "cat": "age",
+      "progress": {
+        "type": "age",
+        "target": 10
+      },
+      "reward": {
+        "gold": 10,
+        "happiness": 3
+      },
+      "tags": [
+        "age"
+      ]
+    },
+    {
+      "id": "lg_seasons_25",
+      "icon": "spirit",
+      "title": "Quarter-mark",
+      "desc": "Live through 25 calendar winters.",
+      "cat": "age",
+      "progress": {
+        "type": "age",
+        "target": 25
+      },
+      "reward": {
+        "gold": 22,
+        "happiness": 5,
+        "fame": 1
+      },
+      "tags": [
+        "age"
+      ]
+    },
+    {
+      "id": "lg_seasons_60",
+      "icon": "spirit",
+      "title": "Sixty winters kept",
+      "desc": "Live through 60 calendar winters (any race).",
+      "cat": "age",
+      "progress": {
+        "type": "age",
+        "target": 60
+      },
+      "reward": {
+        "gold": 40,
+        "happiness": 7,
+        "fame": 2
+      },
+      "tags": [
+        "age"
+      ]
+    },
+    {
+      "id": "lg_long_blood_100",
+      "icon": "spirit",
+      "title": "Second-century lantern",
+      "desc": "As elf or dwarf, reach calendar age 100 in this life.",
+      "cat": "age",
+      "progress": {
+        "type": "age",
+        "target": 100
+      },
+      "reward": {
+        "gold": 55,
+        "happiness": 9,
+        "fame": 3
+      },
+      "tags": [
+        "age",
+        "longlife"
+      ],
+      "prereq": [
+        {
+          "type": "raceIn",
+          "ids": [
+            "elf",
+            "dwarf"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lg_craft_skill_25",
+      "icon": "work",
+      "title": "Hands that remember",
+      "desc": "Raise any craft-category skill to 25.",
+      "cat": "work",
+      "progress": {
+        "type": "skillCat",
+        "id": "craft",
+        "target": 25
+      },
+      "reward": {
+        "gold": 28,
+        "happiness": 4,
+        "skillBump": 1
+      },
+      "tags": [
+        "craft"
+      ]
+    },
+    {
+      "id": "lg_literacy_20",
+      "icon": "skill",
+      "title": "Letters held",
+      "desc": "Train Literacy to 20.",
+      "cat": "skills",
+      "progress": {
+        "type": "skill",
+        "id": "literacy",
+        "target": 20
+      },
+      "reward": {
+        "gold": 18,
+        "skill": {
+          "id": "literacy",
+          "amt": 1
+        }
+      },
+      "tags": [
+        "study"
+      ]
+    },
+    {
+      "id": "lg_lore_20",
+      "icon": "skill",
+      "title": "Shelf-reader",
+      "desc": "Train Lore to 20.",
+      "cat": "skills",
+      "progress": {
+        "type": "skill",
+        "id": "lore",
+        "target": 20
+      },
+      "reward": {
+        "gold": 18,
+        "skill": {
+          "id": "lore",
+          "amt": 1
+        }
+      },
+      "tags": [
+        "study"
+      ]
+    },
+    {
+      "id": "lg_passion_one",
+      "icon": "skill",
+      "title": "Pastime kept",
+      "desc": "Master one passion track.",
+      "cat": "skills",
+      "progress": {
+        "type": "passionMastered",
+        "target": 1
+      },
+      "reward": {
+        "gold": 24,
+        "happiness": 6
+      },
+      "tags": [
+        "passion",
+        "cozy"
+      ]
+    },
+    {
+      "id": "lg_hearth_visit",
+      "icon": "bond",
+      "title": "Greenwell afternoon",
+      "desc": "Visit Greenwell Commons (record hf_greenwell in Codex).",
+      "cat": "bonds",
+      "progress": {
+        "type": "codexId",
+        "id": "hf_greenwell",
+        "target": 1
+      },
+      "reward": {
+        "happiness": 6,
+        "gold": 8
+      },
+      "tags": [
+        "cozy",
+        "hearthfold"
+      ]
+    },
+    {
+      "id": "lg_notice_post",
+      "icon": "bond",
+      "title": "Slate voice",
+      "desc": "Post once on any notice board.",
+      "cat": "bonds",
+      "progress": {
+        "type": "notices",
+        "target": 1
+      },
+      "reward": {
+        "fame": 2,
+        "happiness": 3,
+        "gold": 8
+      },
+      "tags": [
+        "social"
+      ]
+    },
+    {
+      "id": "lg_realms_3",
+      "icon": "realm",
+      "title": "Three horizons",
+      "desc": "Discover 3 realms this life.",
+      "cat": "travel",
+      "progress": {
+        "type": "realms",
+        "target": 3
+      },
+      "reward": {
+        "gold": 35,
+        "fame": 3
+      },
+      "tags": [
+        "travel"
+      ]
+    },
+    {
+      "id": "lg_places_8",
+      "icon": "realm",
+      "title": "Footpaths known",
+      "desc": "Record 8 place ids in this life's Codex.",
+      "cat": "travel",
+      "progress": {
+        "type": "places",
+        "target": 8
+      },
+      "reward": {
+        "gold": 28,
+        "fame": 2,
+        "happiness": 3
+      },
+      "tags": [
+        "travel",
+        "explore"
+      ]
+    },
+    {
+      "id": "lg_team_win_1",
+      "icon": "adventure",
+      "title": "Ribbon claimed",
+      "desc": "Win 1 team meet (realm or grand).",
+      "cat": "team",
+      "progress": {
+        "type": "teamWins",
+        "target": 1
+      },
+      "reward": {
+        "gold": 35,
+        "fame": 4
+      },
+      "tags": [
+        "team",
+        "tournament"
+      ],
+      "prereq": [
+        {
+          "type": "hasTeam"
+        }
+      ]
+    },
+    {
+      "id": "lg_guild_jobs_3",
+      "icon": "work",
+      "title": "Board cleared",
+      "desc": "Complete 3 guild jobs.",
+      "cat": "guild",
+      "progress": {
+        "type": "guildJobs",
+        "target": 3
+      },
+      "reward": {
+        "gold": 32,
+        "fame": 3
+      },
+      "tags": [
+        "guild"
+      ],
+      "prereq": [
+        {
+          "type": "hasGuild"
+        }
+      ]
+    }
   ],
   "achievements": [
-    { "id": "ach_first_life", "icon": "echo", "title": "First waking", "desc": "Finish or begin your first life in this save.", "cat": "meta", "progress": { "type": "metaLives", "target": 1 }, "reward": { "points": 5, "mods": { "startGold": 8 } }, "tags": ["meta"] },
-    { "id": "ach_lives_3", "icon": "echo", "title": "Three souls", "desc": "Record 3 lives in the cemetery.", "cat": "meta", "progress": { "type": "metaLives", "target": 3 }, "reward": { "points": 8, "mods": { "startGold": 12, "rareTraitBonus": 0.03 } }, "tags": ["meta"] },
-    { "id": "ach_lives_8", "icon": "echo", "title": "Echo chorus", "desc": "Record 8 lives in the cemetery.", "cat": "meta", "progress": { "type": "metaLives", "target": 8 }, "reward": { "points": 12, "mods": { "startGold": 20, "actBonus": 1 } }, "tags": ["meta"] },
-    { "id": "ach_reinc_1", "icon": "echo", "title": "Soul road", "desc": "Reincarnate once.", "cat": "meta", "progress": { "type": "metaFlag", "id": "reincCount", "target": 1 }, "reward": { "points": 6, "mods": { "echoBoost": 0.1 } }, "tags": ["meta"] },
-    { "id": "ach_heir_1", "icon": "echo", "title": "Blood continues", "desc": "Continue as an heir once.", "cat": "meta", "progress": { "type": "metaFlag", "id": "heirCount", "target": 1 }, "reward": { "points": 6, "mods": { "startGold": 15 } }, "tags": ["meta"] },
-    { "id": "ach_age_100_life", "icon": "spirit", "title": "Century soul", "desc": "In one life, reach age 100.", "cat": "age", "progress": { "type": "metaBestAge", "target": 100 }, "reward": { "points": 15, "mods": { "healthSeed": 3 } }, "tags": ["age"] },
-    { "id": "ach_all_realms", "icon": "realm", "title": "Map-keeper", "desc": "Discover all five realms across lives.", "cat": "travel", "progress": { "type": "metaRegions", "target": 5 }, "reward": { "points": 10, "mods": { "scoutBonus": 0.05 } }, "tags": ["travel"] },
-    { "id": "ach_codex_40", "icon": "codex", "title": "Shelf of forty", "desc": "Hold 40 codex entries in meta.", "cat": "codex", "progress": { "type": "metaCodex", "target": 40 }, "reward": { "points": 8, "mods": { "loreSeed": 2 } }, "tags": ["codex"] },
-    { "id": "ach_team_owner", "icon": "adventure", "title": "Banner house", "desc": "Found a tournament team in any life.", "cat": "team", "progress": { "type": "metaFlag", "id": "everTeam", "target": 1 }, "reward": { "points": 7, "mods": { "teamRenownSeed": 2 } }, "tags": ["team"] },
-    { "id": "ach_guild_owner", "icon": "work", "title": "Hall founder", "desc": "Open a guild hall in any life.", "cat": "guild", "progress": { "type": "metaFlag", "id": "everGuild", "target": 1 }, "reward": { "points": 7, "mods": { "guildCofferSeed": 20 } }, "tags": ["guild"] },
-    { "id": "ach_merchant_line", "icon": "gold", "title": "Ledger blood", "desc": "Reach Peddler or higher on Merchant track.", "cat": "work", "progress": { "type": "metaFlag", "id": "everMerchantMid", "target": 1 }, "reward": { "points": 6, "mods": { "barterSeed": 2 } }, "tags": ["market"] },
-    { "id": "ach_market_flip", "icon": "gold", "title": "Yearly trader", "desc": "Complete 10 market checkouts across lives.", "cat": "market", "progress": { "type": "metaFlag", "id": "marketBuysTotal", "target": 10 }, "reward": { "points": 8, "mods": { "marketBuyBonus": 0.02 } }, "tags": ["market"] },
-    { "id": "ach_tourney_win", "icon": "renown", "title": "Lists champion", "desc": "Place 1st in any meet.", "cat": "tournament", "progress": { "type": "metaFlag", "id": "tourneyFirst", "target": 1 }, "reward": { "points": 10, "mods": { "fameSeed": 3 } }, "tags": ["tournament"] },
-    { "id": "ach_mana_line", "icon": "mana", "title": "Spark lineage", "desc": "Awaken mana in three different lives.", "cat": "magic", "progress": { "type": "metaFlag", "id": "manaAwakenLives", "target": 3 }, "reward": { "points": 9, "mods": { "manaMaxSeed": 4, "rareTraitBonus": 0.02 } }, "tags": ["magic"] },
-    { "id": "ach_gold_5k", "icon": "gold", "title": "Hoard whisper", "desc": "Hold 5000 gold in one life.", "cat": "wealth", "progress": { "type": "metaBestGold", "target": 5000 }, "reward": { "points": 12, "mods": { "startGold": 30 } }, "tags": ["wealth"] },
-    { "id": "ach_friends_many", "icon": "bond", "title": "Wide hearth", "desc": "Have 6 living friends at once.", "cat": "bonds", "progress": { "type": "metaFlag", "id": "everFriends6", "target": 1 }, "reward": { "points": 6, "mods": { "socialBonus": 1 } }, "tags": ["social"] },
-    { "id": "ach_jailbird", "icon": "strain", "title": "Stone lesson", "desc": "Survive imprisonment and release.", "cat": "law", "progress": { "type": "metaFlag", "id": "everJailed", "target": 1 }, "reward": { "points": 5, "mods": { "stealthSeed": 2 } }, "tags": ["law"] },
-    { "id": "ach_points_50", "icon": "echo", "title": "Spark hoard", "desc": "Earn 50 Legacy sparks.", "cat": "meta", "progress": { "type": "metaPoints", "target": 50 }, "reward": { "points": 10, "mods": { "startGold": 25, "rareTraitBonus": 0.04 } }, "tags": ["meta"] },
-    { "id": "ach_goals_10", "icon": "spirit", "title": "Purpose tenfold", "desc": "Claim 10 Life Goals in a single life.", "cat": "goals", "progress": { "type": "goalsClaimedLife", "target": 10 }, "reward": { "points": 8, "mods": { "happinessSeed": 3 } }, "tags": ["goals"] },
-    { "id": "ach_elf_or_dwarf", "icon": "spirit", "title": "Long-lived blood", "desc": "Live as elf or dwarf to age 120+.", "cat": "age", "progress": { "type": "metaFlag", "id": "longLife120", "target": 1 }, "reward": { "points": 14, "mods": { "healthSeed": 4, "actBonus": 0 } }, "tags": ["age"] }
-  ]
+    {
+      "id": "ach_first_life",
+      "icon": "echo",
+      "title": "First waking",
+      "desc": "Finish or begin your first life in this save.",
+      "cat": "meta",
+      "progress": {
+        "type": "metaLives",
+        "target": 1
+      },
+      "reward": {
+        "points": 5,
+        "mods": {
+          "startGold": 8
+        }
+      },
+      "tags": [
+        "meta"
+      ]
+    },
+    {
+      "id": "ach_lives_3",
+      "icon": "echo",
+      "title": "Three souls",
+      "desc": "Record 3 lives in the cemetery.",
+      "cat": "meta",
+      "progress": {
+        "type": "metaLives",
+        "target": 3
+      },
+      "reward": {
+        "points": 8,
+        "mods": {
+          "startGold": 12,
+          "rareTraitBonus": 0.03
+        }
+      },
+      "tags": [
+        "meta"
+      ]
+    },
+    {
+      "id": "ach_lives_8",
+      "icon": "echo",
+      "title": "Echo chorus",
+      "desc": "Record 8 lives in the cemetery.",
+      "cat": "meta",
+      "progress": {
+        "type": "metaLives",
+        "target": 8
+      },
+      "reward": {
+        "points": 12,
+        "mods": {
+          "startGold": 20,
+          "actBonus": 1
+        }
+      },
+      "tags": [
+        "meta"
+      ]
+    },
+    {
+      "id": "ach_reinc_1",
+      "icon": "echo",
+      "title": "Soul road",
+      "desc": "Reincarnate once.",
+      "cat": "meta",
+      "progress": {
+        "type": "metaFlag",
+        "id": "reincCount",
+        "target": 1
+      },
+      "reward": {
+        "points": 6,
+        "mods": {
+          "echoBoost": 0.1
+        }
+      },
+      "tags": [
+        "meta"
+      ]
+    },
+    {
+      "id": "ach_heir_1",
+      "icon": "echo",
+      "title": "Blood continues",
+      "desc": "Continue as an heir once.",
+      "cat": "meta",
+      "progress": {
+        "type": "metaFlag",
+        "id": "heirCount",
+        "target": 1
+      },
+      "reward": {
+        "points": 6,
+        "mods": {
+          "startGold": 15
+        }
+      },
+      "tags": [
+        "meta"
+      ]
+    },
+    {
+      "id": "ach_age_100_life",
+      "icon": "spirit",
+      "title": "Century soul",
+      "desc": "In one life, reach age 100.",
+      "cat": "age",
+      "progress": {
+        "type": "metaBestAge",
+        "target": 100
+      },
+      "reward": {
+        "points": 15,
+        "mods": {
+          "healthSeed": 3
+        }
+      },
+      "tags": [
+        "age"
+      ]
+    },
+    {
+      "id": "ach_all_realms",
+      "icon": "realm",
+      "title": "Map-keeper",
+      "desc": "Discover all five realms across lives.",
+      "cat": "travel",
+      "progress": {
+        "type": "metaRegions",
+        "target": 5
+      },
+      "reward": {
+        "points": 10,
+        "mods": {
+          "scoutBonus": 0.05
+        }
+      },
+      "tags": [
+        "travel"
+      ]
+    },
+    {
+      "id": "ach_codex_40",
+      "icon": "codex",
+      "title": "Shelf of forty",
+      "desc": "Hold 40 codex entries in meta.",
+      "cat": "codex",
+      "progress": {
+        "type": "metaCodex",
+        "target": 40
+      },
+      "reward": {
+        "points": 8,
+        "mods": {
+          "loreSeed": 2
+        }
+      },
+      "tags": [
+        "codex"
+      ]
+    },
+    {
+      "id": "ach_team_owner",
+      "icon": "adventure",
+      "title": "Banner house",
+      "desc": "Found a tournament team in any life.",
+      "cat": "team",
+      "progress": {
+        "type": "metaFlag",
+        "id": "everTeam",
+        "target": 1
+      },
+      "reward": {
+        "points": 7,
+        "mods": {
+          "teamRenownSeed": 2
+        }
+      },
+      "tags": [
+        "team"
+      ]
+    },
+    {
+      "id": "ach_guild_owner",
+      "icon": "work",
+      "title": "Hall founder",
+      "desc": "Open a guild hall in any life.",
+      "cat": "guild",
+      "progress": {
+        "type": "metaFlag",
+        "id": "everGuild",
+        "target": 1
+      },
+      "reward": {
+        "points": 7,
+        "mods": {
+          "guildCofferSeed": 20
+        }
+      },
+      "tags": [
+        "guild"
+      ]
+    },
+    {
+      "id": "ach_merchant_line",
+      "icon": "gold",
+      "title": "Ledger blood",
+      "desc": "Reach Peddler or higher on Merchant track.",
+      "cat": "work",
+      "progress": {
+        "type": "metaFlag",
+        "id": "everMerchantMid",
+        "target": 1
+      },
+      "reward": {
+        "points": 6,
+        "mods": {
+          "barterSeed": 2
+        }
+      },
+      "tags": [
+        "market"
+      ]
+    },
+    {
+      "id": "ach_market_flip",
+      "icon": "gold",
+      "title": "Yearly trader",
+      "desc": "Complete 10 market checkouts across lives.",
+      "cat": "market",
+      "progress": {
+        "type": "metaFlag",
+        "id": "marketBuysTotal",
+        "target": 10
+      },
+      "reward": {
+        "points": 8,
+        "mods": {
+          "marketBuyBonus": 0.02
+        }
+      },
+      "tags": [
+        "market"
+      ]
+    },
+    {
+      "id": "ach_tourney_win",
+      "icon": "renown",
+      "title": "Lists champion",
+      "desc": "Place 1st in any meet.",
+      "cat": "tournament",
+      "progress": {
+        "type": "metaFlag",
+        "id": "tourneyFirst",
+        "target": 1
+      },
+      "reward": {
+        "points": 10,
+        "mods": {
+          "fameSeed": 3
+        }
+      },
+      "tags": [
+        "tournament"
+      ]
+    },
+    {
+      "id": "ach_mana_line",
+      "icon": "mana",
+      "title": "Spark lineage",
+      "desc": "Awaken mana in three different lives.",
+      "cat": "magic",
+      "progress": {
+        "type": "metaFlag",
+        "id": "manaAwakenLives",
+        "target": 3
+      },
+      "reward": {
+        "points": 9,
+        "mods": {
+          "manaMaxSeed": 4,
+          "rareTraitBonus": 0.02
+        }
+      },
+      "tags": [
+        "magic"
+      ]
+    },
+    {
+      "id": "ach_gold_5k",
+      "icon": "gold",
+      "title": "Hoard whisper",
+      "desc": "Hold 5000 gold in one life.",
+      "cat": "wealth",
+      "progress": {
+        "type": "metaBestGold",
+        "target": 5000
+      },
+      "reward": {
+        "points": 12,
+        "mods": {
+          "startGold": 30
+        }
+      },
+      "tags": [
+        "wealth"
+      ]
+    },
+    {
+      "id": "ach_friends_many",
+      "icon": "bond",
+      "title": "Wide hearth",
+      "desc": "Have 6 living friends at once.",
+      "cat": "bonds",
+      "progress": {
+        "type": "metaFlag",
+        "id": "everFriends6",
+        "target": 1
+      },
+      "reward": {
+        "points": 6,
+        "mods": {
+          "socialBonus": 1
+        }
+      },
+      "tags": [
+        "social"
+      ]
+    },
+    {
+      "id": "ach_jailbird",
+      "icon": "strain",
+      "title": "Stone lesson",
+      "desc": "Survive imprisonment and release.",
+      "cat": "law",
+      "progress": {
+        "type": "metaFlag",
+        "id": "everJailed",
+        "target": 1
+      },
+      "reward": {
+        "points": 5,
+        "mods": {
+          "stealthSeed": 2
+        }
+      },
+      "tags": [
+        "law"
+      ]
+    },
+    {
+      "id": "ach_points_50",
+      "icon": "echo",
+      "title": "Spark hoard",
+      "desc": "Earn 50 Legacy sparks.",
+      "cat": "meta",
+      "progress": {
+        "type": "metaPoints",
+        "target": 50
+      },
+      "reward": {
+        "points": 10,
+        "mods": {
+          "startGold": 25,
+          "rareTraitBonus": 0.04
+        }
+      },
+      "tags": [
+        "meta"
+      ]
+    },
+    {
+      "id": "ach_goals_10",
+      "icon": "spirit",
+      "title": "Purpose tenfold",
+      "desc": "Claim 10 Life Goals in a single life.",
+      "cat": "goals",
+      "progress": {
+        "type": "goalsClaimedLife",
+        "target": 10
+      },
+      "reward": {
+        "points": 8,
+        "mods": {
+          "happinessSeed": 3
+        }
+      },
+      "tags": [
+        "goals"
+      ]
+    },
+    {
+      "id": "ach_elf_or_dwarf",
+      "icon": "spirit",
+      "title": "Long-lived blood",
+      "desc": "Live as elf or dwarf to age 120+.",
+      "cat": "age",
+      "progress": {
+        "type": "metaFlag",
+        "id": "longLife120",
+        "target": 1
+      },
+      "reward": {
+        "points": 14,
+        "mods": {
+          "healthSeed": 4,
+          "actBonus": 0
+        }
+      },
+      "tags": [
+        "age"
+      ]
+    },
+    {
+      "id": "ach_codex_60",
+      "icon": "codex",
+      "title": "Deep shelf",
+      "desc": "Hold 60 codex entries in meta.",
+      "cat": "codex",
+      "progress": {
+        "type": "metaCodex",
+        "target": 60
+      },
+      "reward": {
+        "points": 9,
+        "mods": {
+          "loreSeed": 2
+        }
+      },
+      "tags": [
+        "codex"
+      ]
+    },
+    {
+      "id": "ach_guild_board_20",
+      "icon": "work",
+      "title": "Contract ledger",
+      "desc": "Accumulate 20 guild jobs done across lives.",
+      "cat": "guild",
+      "progress": {
+        "type": "metaFlag",
+        "id": "guildJobsTotal",
+        "target": 20
+      },
+      "reward": {
+        "points": 8,
+        "mods": {
+          "startGold": 8,
+          "socialBonus": 1
+        }
+      },
+      "tags": [
+        "guild"
+      ]
+    },
+    {
+      "id": "ach_market_season",
+      "icon": "gold",
+      "title": "Yearly trader",
+      "desc": "Complete 8 market checkouts across lives.",
+      "cat": "market",
+      "progress": {
+        "type": "metaFlag",
+        "id": "marketBuysTotal",
+        "target": 8
+      },
+      "reward": {
+        "points": 7,
+        "mods": {
+          "marketBuyBonus": 0.02
+        }
+      },
+      "tags": [
+        "market"
+      ]
+    },
+    {
+      "id": "ach_craft_line",
+      "icon": "work",
+      "title": "Anvil echo",
+      "desc": "Raise any craft skill to 40 in any life.",
+      "cat": "work",
+      "progress": {
+        "type": "metaFlag",
+        "id": "everCraft40",
+        "target": 1
+      },
+      "reward": {
+        "points": 8,
+        "mods": {
+          "startGold": 10
+        }
+      },
+      "tags": [
+        "craft"
+      ]
+    },
+    {
+      "id": "ach_passion_line",
+      "icon": "skill",
+      "title": "Pastime lineage",
+      "desc": "Master a passion in any life.",
+      "cat": "skills",
+      "progress": {
+        "type": "metaFlag",
+        "id": "everPassionMaster",
+        "target": 1
+      },
+      "reward": {
+        "points": 6,
+        "mods": {
+          "happinessSeed": 3
+        }
+      },
+      "tags": [
+        "passion",
+        "cozy"
+      ]
+    },
+    {
+      "id": "ach_hearth_key",
+      "icon": "bond",
+      "title": "Threshold kept",
+      "desc": "Live in a home (gear home) in any life.",
+      "cat": "bonds",
+      "progress": {
+        "type": "metaFlag",
+        "id": "everHome",
+        "target": 1
+      },
+      "reward": {
+        "points": 5,
+        "mods": {
+          "happinessSeed": 2
+        }
+      },
+      "tags": [
+        "cozy"
+      ]
+    },
+    {
+      "id": "ach_friends_circle",
+      "icon": "bond",
+      "title": "Wide hearth",
+      "desc": "Have 6 living friends at once.",
+      "cat": "bonds",
+      "progress": {
+        "type": "metaFlag",
+        "id": "everFriends6",
+        "target": 1
+      },
+      "reward": {
+        "points": 6,
+        "mods": {
+          "socialBonus": 1
+        }
+      },
+      "tags": [
+        "social"
+      ]
+    },
+    {
+      "id": "ach_long_echo",
+      "icon": "spirit",
+      "title": "Long-lived blood",
+      "desc": "Reach calendar age 120+ as elf or dwarf (any life).",
+      "cat": "age",
+      "progress": {
+        "type": "metaFlag",
+        "id": "longLife120",
+        "target": 1
+      },
+      "reward": {
+        "points": 14,
+        "mods": {
+          "healthSeed": 4
+        }
+      },
+      "tags": [
+        "age",
+        "longlife"
+      ]
+    }
+  ],
+  "wdMerge": {
+    "addedGoals": [
+      "lg_seasons_10",
+      "lg_seasons_25",
+      "lg_seasons_60",
+      "lg_long_blood_100",
+      "lg_craft_skill_25",
+      "lg_literacy_20",
+      "lg_lore_20",
+      "lg_passion_one",
+      "lg_hearth_visit",
+      "lg_notice_post",
+      "lg_realms_3",
+      "lg_places_8",
+      "lg_team_win_1",
+      "lg_guild_jobs_3"
+    ],
+    "addedAchievements": [
+      "ach_codex_60",
+      "ach_guild_board_20",
+      "ach_market_season",
+      "ach_craft_line",
+      "ach_passion_line",
+      "ach_hearth_key",
+      "ach_friends_circle",
+      "ach_long_echo"
+    ],
+    "source": "docs/legacy_proposal_wd.json",
+    "balancedGoldTotal": 1371,
+    "additiveGold": 361
+  }
 }
