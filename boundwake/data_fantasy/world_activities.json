@@ -3,13 +3,13 @@
   {
    "id": "body",
    "name": "Body & Care",
-   "icon": "💪",
+   "icon": "\ud83d\udcaa",
    "sub": "Healer, walks, sleep, training",
    "activities": [
     {
      "id": "healer",
      "name": "Visit a Healer",
-     "icon": "✚",
+     "icon": "\u271a",
      "sub": "Diagnose and treat",
      "minAge": 6,
      "choices": [
@@ -52,7 +52,7 @@
     {
      "id": "walk",
      "name": "Long Walk",
-     "icon": "🥾",
+     "icon": "\ud83e\udd7e",
      "sub": "Clear the head",
      "minAge": 8,
      "choices": [
@@ -83,7 +83,7 @@
     {
      "id": "sleep_in",
      "name": "Sleep In",
-     "icon": "😴",
+     "icon": "\ud83d\ude34",
      "sub": "Ignore the rooster",
      "minAge": 10,
      "choices": [
@@ -106,7 +106,7 @@
     {
      "id": "spar_yard",
      "name": "Spar in the Yard",
-     "icon": "⚔",
+     "icon": "\u2694",
      "sub": "Light drill",
      "minAge": 12,
      "choices": [
@@ -140,13 +140,13 @@
   {
    "id": "mind",
    "name": "Mind & Letters",
-   "icon": "📖",
+   "icon": "\ud83d\udcd6",
    "sub": "Study, lore, focus",
    "activities": [
     {
      "id": "study",
      "name": "Study by Candle",
-     "icon": "🕯",
+     "icon": "\ud83d\udd6f",
      "sub": "Push wits",
      "minAge": 8,
      "choices": [
@@ -184,7 +184,7 @@
     {
      "id": "shrine_quiet",
      "name": "Sit at the Shrine",
-     "icon": "🕯",
+     "icon": "\ud83d\udd6f",
      "sub": "Quiet mind",
      "minAge": 10,
      "choices": [
@@ -208,7 +208,7 @@
     {
      "id": "puzzle",
      "name": "Kingboard Puzzle",
-     "icon": "♟",
+     "icon": "\u265f",
      "sub": "Think sideways",
      "minAge": 10,
      "choices": [
@@ -240,13 +240,13 @@
   {
    "id": "social",
    "name": "Social & Festival",
-   "icon": "🎉",
+   "icon": "\ud83c\udf89",
    "sub": "People, dances, teas",
    "activities": [
     {
      "id": "tea_house",
      "name": "Tea House",
-     "icon": "🍵",
+     "icon": "\ud83c\udf75",
      "sub": "Talk without shouting",
      "minAge": 12,
      "choices": [
@@ -277,7 +277,7 @@
     {
      "id": "festival",
      "name": "Join a Festival",
-     "icon": "🎏",
+     "icon": "\ud83c\udf8f",
      "sub": "Lanterns and noise",
      "minAge": 10,
      "choices": [
@@ -309,7 +309,7 @@
     {
      "id": "visit_bonds",
      "name": "Call on Bonds",
-     "icon": "🤝",
+     "icon": "\ud83e\udd1d",
      "sub": "Knock on doors",
      "minAge": 8,
      "choices": [
@@ -334,13 +334,13 @@
   {
    "id": "travel",
    "name": "Roads & Leisure",
-   "icon": "🗺",
+   "icon": "\ud83d\uddfa",
    "sub": "Short trips, fishing, views",
    "activities": [
     {
      "id": "fish",
      "name": "Fish the Pond",
-     "icon": "🎣",
+     "icon": "\ud83c\udfa3",
      "sub": "Patience practice",
      "minAge": 8,
      "choices": [
@@ -372,7 +372,7 @@
     {
      "id": "day_trip",
      "name": "Day Trip",
-     "icon": "🚶",
+     "icon": "\ud83d\udeb6",
      "sub": "A neighboring rise",
      "minAge": 12,
      "choices": [
@@ -405,13 +405,13 @@
   {
    "id": "presence",
    "name": "Presence & Style",
-   "icon": "✨",
+   "icon": "\u2728",
    "sub": "Groom, clothes, posture",
    "activities": [
     {
      "id": "groom",
      "name": "Groom & Mend",
-     "icon": "🪞",
+     "icon": "\ud83e\ude9e",
      "sub": "Look presentable",
      "minAge": 10,
      "choices": [
@@ -434,7 +434,7 @@
     {
      "id": "new_sash",
      "name": "Buy a Sash",
-     "icon": "🎀",
+     "icon": "\ud83c\udf80",
      "sub": "A splash of color",
      "minAge": 12,
      "choices": [
@@ -482,15 +482,15 @@
   {
    "id": "coin",
    "name": "Coin & Chance",
-   "icon": "🪙",
+   "icon": "\ud83e\ude99",
    "sub": "Odd jobs, luck, bets of skill",
    "activities": [
     {
      "id": "odd_job",
      "name": "Odd Job",
-     "icon": "📦",
+     "icon": "\ud83d\udce6",
      "sub": "Carry, dig, fetch",
-     "minAge": 10,
+     "minAge": 6,
      "choices": [
       {
        "label": "Work the day",
@@ -520,7 +520,7 @@
     {
      "id": "wager_skill",
      "name": "Skill Wager",
-     "icon": "🎲",
+     "icon": "\ud83c\udfb2",
      "sub": "Dice of competence",
      "minAge": 14,
      "choices": [
@@ -551,7 +551,7 @@
     {
      "id": "seek_windfall",
      "name": "Ask Around for Work",
-     "icon": "👂",
+     "icon": "\ud83d\udc42",
      "sub": "Rumors of pay",
      "minAge": 12,
      "choices": [

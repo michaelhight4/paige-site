@@ -69,6 +69,24 @@ export function spendLeftover(s) {
     if (!r?.ok) break;
     ran.push({ id: 'rest', msg: r.msg || 'Rested.' });
   }
+  // Broke / unemployed: take a free (or employer-fronted) entry job so Autopilot never soft-locks at 0 gold.
+  if (!s.job && E.cage(s) >= 6) {
+    const opens = (E.openings(s) || []).filter((x) => x.ok);
+    const free = opens.filter((x) => (x.joinFee || 0) <= 0);
+    const pick = (free.length ? free : opens).sort((a, b) => (a.joinFee || 0) - (b.joinFee || 0) || (a.job?.wage || 0) - (b.job?.wage || 0))[0];
+    if (pick?.job?.id) {
+      const r = E.takeJob(s, pick.job.id);
+      if (r?.ok) ran.push({ id: 'job', job: pick.job.id, msg: r.msg || 'Took a job.' });
+    }
+  }
+  // Still unemployed (or still broke): odd jobs earn a little with no kit.
+  while ((s.budget?.act || 0) > 0 && (!s.job || (s.gold || 0) < 20)) {
+    if (s.job && (s.gold || 0) >= 20) break;
+    if (s.job) break; // employed + not critically broke → fall through to workHard
+    const r = E.oddJobs(s);
+    if (!r?.ok) break;
+    ran.push({ id: 'odd', msg: r.msg || 'Odd jobs.' });
+  }
   // Work if employed
   while ((s.budget?.act || 0) > 0 && s.job) {
     const r = E.workHard(s);

@@ -354,14 +354,26 @@ export function meetsReq(s, j, forPromo = false) {
   if (j.sector === 'retainer' && j.level === 0 && s.wealth !== 'noble' && !s.flags.has_mentor && !s.flags.school_royal) return false;
   return true;
 }
+// Early ordinary posts with no apron/kit bond — always a path to income at 0 gold.
+const FREE_ENTRY_JOBS = new Set([
+  'orchard_entry', // Picker (age 6)
+  'stablehand_entry', // Yard Hand (age 6)
+  'farmer_farmhand', // Farmhand (age 6)
+  'courier_entry', // Runner (age 8)
+  'inn_hand_entry', // Inn Helper (age 8)
+]);
 export const openings = (s) => Object.values(D.jobsById).filter((j) => j.entry).map((j) => {
   const fee = jobJoinFee(j);
-  const ok = meetsReq(s, j) && !(s.job && s.job.id === j.id) && (fee <= 0 || s.gold >= fee);
-  return { job: j, career: careerOf(j.id), ok, joinFee: fee };
+  const ok = meetsReq(s, j) && !(s.job && s.job.id === j.id);
+  // Broke characters can still join: free posts, or employer fronts the kit (repaid from wages).
+  const needsAdvance = fee > 0 && (s.gold || 0) < fee;
+  return { job: j, career: careerOf(j.id), ok, joinFee: fee, needsAdvance };
 });
 export function jobJoinFee(j) {
   if (!j) return 0;
-  // Entry posts ask a small apron/kit bond (~15% of yearly wage, min 5). Shown on the Join card.
+  if (FREE_ENTRY_JOBS.has(j.id)) return 0;
+  // Other entry posts ask a small apron/kit bond (~15% of yearly wage, min 5). Shown on the Join card.
+  // At 0 gold the employer can front it (see takeJob) and wages repay the debt.
   if (j.level === 0 || j.entry) return Math.max(5, Math.round((j.wage || 0) * 0.15));
   return 0;
 }
@@ -369,15 +381,36 @@ export function takeJob(s, id) {
   if (s.prison) return { ok: false, msg: 'No work while imprisoned.' };
   const j = D.jobsById[id]; if (!meetsReq(s, j)) return { ok: false, msg: jobLockReason(s, j) || 'You do not meet the requirements yet.' };
   const fee = jobJoinFee(j);
-  if (fee > 0 && s.gold < fee) return { ok: false, msg: `Need ${fee} gold for the apron/kit bond.` };
   if (s.job) s.jobHist.push({ ...s.job, left: s.age });
-  if (fee > 0) s.gold -= fee;
-  s.job = { id, years: 0, perf: 50 };
-  const feeNote = fee > 0 ? ` Apron/kit bond −${fee} gold.` : '';
+  let feeNote = '';
+  let kitDebt = 0;
+  if (fee > 0) {
+    if ((s.gold || 0) >= fee) {
+      s.gold -= fee;
+      feeNote = ` Apron/kit bond −${fee} gold.`;
+    } else {
+      kitDebt = fee;
+      feeNote = ` Employer fronted the ${fee}g apron/kit — repaid from wages.`;
+    }
+  }
+  s.job = { id, years: 0, perf: 50, kitDebt };
   const m = `I started as ${j.title} (${careerOf(id).name}).${feeNote}`;
   log(s, m, 'job'); return { ok: true, msg: m };
 }
 export function quitJob(s) { if (!s.job) return; log(s, `I left my post as ${D.jobsById[s.job.id].title}.`, 'job'); s.jobHist.push({ ...s.job, left: s.age }); s.job = null; }
+/** Day labor / odd jobs — no kit, no skill gate. Always a light gold path at 0 purse. */
+export function oddJobs(s) {
+  if (s.prison) return { ok: false, msg: 'No work while imprisoned.' };
+  if (cage(s) < 6) return { ok: false, msg: 'Odd jobs open at age 6.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  const pay = rint(s, 3, 7);
+  s.gold = (s.gold || 0) + pay;
+  s.stats.stress = clamp((s.stats.stress || 0) + 2, 0, 100);
+  useSkill(s, 'endurance', 0.5);
+  const chore = pick(s, ['hauled crates', 'swept the square', 'stacked firewood', 'ran errands', 'scrubbed steps', 'mended a fence']);
+  const m = `Odd jobs: I ${chore} (+${pay} gold).`;
+  log(s, m, 'job'); return { ok: true, msg: m, gold: pay };
+}
 export function workHard(s) {
   if (!s.job) return { ok: false, msg: 'You have no work.' }; if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
   s.job.perf = clamp(s.job.perf + 12, 0, 100); for (const k of careerOf(s.job.id).skills) useSkill(s, k, 2.5);
@@ -385,7 +418,15 @@ export function workHard(s) {
 }
 function jobYear(s, yrs) {
   if (!s.job) return; const j = D.jobsById[s.job.id], c = careerOf(j.id);
-  const pay = Math.round(j.wage * yrs * (0.7 + s.job.perf / 170)); s.gold += pay; s.job.years += yrs;
+  let pay = Math.round(j.wage * yrs * (0.7 + s.job.perf / 170));
+  const debt = Math.max(0, s.job.kitDebt || 0);
+  if (debt > 0 && pay > 0) {
+    const repay = Math.min(debt, pay);
+    s.job.kitDebt = debt - repay;
+    pay -= repay;
+    log(s, `Kit debt repaid −${repay} gold${s.job.kitDebt ? ` (${s.job.kitDebt} left)` : ' (cleared)'}.`, 'money');
+  }
+  s.gold += pay; s.job.years += yrs;
   for (const k of c.skills) useSkill(s, k, 1.6 * yrs ** 0.6);
   s.job.perf = clamp(s.job.perf + rint(s, -6, 6), 0, 100);
   const nx = j.next && D.jobsById[j.next];
@@ -408,11 +449,19 @@ function newYearBudget(s) {
   if (m.socialBonus) s.budget.social += m.socialBonus;
 }
 function spendAct(s, k) { if (s.budget[k] <= 0) return false; s.budget[k]--; return true; }
-export function canAdventure(s) { if (s.prison) return false; return cage(s) >= 10 && s.budget.adv > 0 && s.budget.act > 0; }
+export function canAdventure(s) {
+  if (s.prison) return false;
+  // Gary Nov 5 2026: Adventures are independent of Actions — only the Adventure budget gates Set out.
+  return cage(s) >= 10 && (s.budget?.adv || 0) > 0;
+}
 export function adventure(s) {
   if (s.prison) return { ok: false, msg: 'The road is closed while you are held.' };
-  if (!canAdventure(s)) return { ok: false, msg: cage(s) < 10 ? 'Too young for the road.' : 'No adventures left this year.' };
-  s.budget.adv--; s.budget.act--;
+  if (!canAdventure(s)) {
+    if (cage(s) < 10) return { ok: false, msg: 'Too young for the road.' };
+    if ((s.budget?.adv || 0) <= 0) return { ok: false, msg: 'No adventures left this year.' };
+    return { ok: false, msg: 'Cannot adventure right now.' };
+  }
+  s.budget.adv--; // spend Adventure only — never Actions
   s.flags.goal_adventured = 1; s.tally.adventures = (s.tally.adventures || 0) + 1;
   // Trained skills + styles color the road (Boundwake growth, not Bit Tensie copy)
   const sword = s.skills.swordsmanship || 0, spell = s.skills.spellcraft || 0, track = s.skills.tracking || 0;

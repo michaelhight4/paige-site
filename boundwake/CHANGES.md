@@ -1,3 +1,15 @@
+## HOTFIX — 0-gold soft lock + Adventure≠Actions — Nov 5 ~9:30 PM CT
+
+- Soft lock: broke chars (0 gold) could not Join any job (apron/kit bond min 5g); guild/team stayed unreachable
+- Fix: free entry jobs (Picker, Yard Hand, Farmhand, Runner, Inn Helper); other entries allow employer-fronted kit repaid from wages; **Odd jobs** Work action (age 6+, 1 act, 3–7g, no kit)
+- Autopilot: takes free/fronted job when unemployed; odd-jobs if still broke
+- Adventure: **Set out** spends Adventure only (never Actions); UI no longer disables for Actions 0 (Gary elf@15 screenshot)
+- Cache: `ui.js?v=gold1` (+ `bw_engine.js?v=gold1`, `autopilot.js?v=gold1` imports)
+- Tests: `tests/poor_start_gold0.mjs`, `tests/adventure_acts_independent.mjs`
+- itch 0.1.1-alpha: same fix + **Passes tab/button/shop UI removed** on itch build only
+
+## Live — **PENDING_SHA** gold0 soft lock + adventure budget · https://paigegames.net/boundwake/
+
 ## HOTFIX — multi-tab save freeze (“Another tab is ahead”) — Nov 5 ~7:50 PM CT
 
 - Symptom: UI felt frozen; toast “Another tab is ahead…” (browser-only; no server play log)

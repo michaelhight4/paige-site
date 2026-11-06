@@ -1,13 +1,13 @@
 // Boundwake UI shell — studio standard pass (Nov 5, 2026 CT).
 // Craft: Lifeline docked Age + per-menu hue bars; Boundwake parchment/realm identity.
 import { loadPack } from './pack.js';
-import * as E from './bw_engine.js';
+import * as E from './bw_engine.js?v=gold1';
 import { ico, esc, flare, oddsChip, statLabel, infoChip, skillIco } from './flare.js';
 import { mountInfoClicks, openInfo, openInfoDetail } from './info.js';
 import { checkAdminAccess, gateHTML, isLocalHost } from './admingate.js';
 import { mountAmbient, paintAmbient } from './ambient.js';
 import { mountMusic, syncMusic, toggleMute, musicToggleHTML, unlockMusic } from './music.js';
-import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP, unlocked as autoUnlocked } from './autopilot.js';
+import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP, unlocked as autoUnlocked } from './autopilot.js?v=gold1';
 import * as Premium from './premium.js';
 import * as PremFx from './premium_fx.js';
 import * as Ads from './ads.js';
@@ -16,6 +16,17 @@ import { installNativeAds, installNativeBilling } from './native_bridge.js';
 const $ = (sel) => document.querySelector(sel), app = $('#app');
 const KEY = 'bw.save.v1', META = 'bw.meta.v1', SEEN = 'bw.cold.v1';
 const TAB_ID = Math.random().toString(36).slice(2, 10);
+/** itch HTML5 build: hide Passes tab / shop UI entirely (Gary Nov 5 2026). Website unchanged. */
+function isItchBuild() {
+  try {
+    if (globalThis.__BW_ITCH) return true;
+    const u = new URL(location.href);
+    if (u.searchParams.get('platform') === 'itch') return true;
+    if (/\.itch\.io$/i.test(u.hostname) || /\.itch\.zone$/i.test(u.hostname)) return true;
+  } catch (_) {}
+  return false;
+}
+
 let adoptBusy = false;
 let saveBc = null;
 try { saveBc = new BroadcastChannel('bw.save.v1'); } catch (_) { saveBc = null; }
@@ -426,7 +437,7 @@ const TAB_META = {
   bel: { ico: 'belong', label: 'assets_menu' },
   passes: { ico: 'echo', label: 'Passes' },
 };
-const TABS = Object.keys(TAB_META).map((k) => [k, TAB_META[k].label]);
+const TABS = Object.keys(TAB_META).filter((k) => !(k === 'passes' && isItchBuild())).map((k) => [k, TAB_META[k].label]);
 const LEAD = {
   life: 'The year turns soft as pondwater. Rest, remember, choose what matters.',
   work: 'Everyday chores and guild boards alike. Earn your keep — or leave the post.',
@@ -512,12 +523,14 @@ function body() {
       <button type="button" data-tab="bonds">${ico('bond')} Bonds</button>
       <button type="button" data-tab="work">${ico('work')} Work</button>
       <button type="button" data-a="rest" ${s.budget.act < 1 ? 'disabled' : ''}>${ico('spirit')} Rest</button>
-    <button type="button" data-tab="passes">${ico('echo')} Passes</button></div>`;
+    ${isItchBuild() ? '' : `<button type="button" data-tab="passes">${ico('echo')} Passes</button>`}</div>`;
     const autoBusy = autoRunning();
     const autoOk = autoUnlocked();
     const skipDis = autoBusy || s.pending.length || !!outcomeAck || !autoOk;
     const autoCard = card('life', `${ico('act')} Autopilot / Skip`, `<p class="sub auto-blurb">Advance <b>cage</b> years (1 turn = 1 year). Safe picks; pauses on death, jail, romance/family, ownership, tournaments, or Stop. Leftovers: Rest if strained → Work if employed → Train lowest skill.</p>
-      ${autoOk ? '' : `<p class="sub lock-why">Needs <b>Autopilot Pack</b> ($5.99) on store builds. <button type="button" data-tab="passes">Open Passes</button></p>`}
+      ${autoOk ? '' : (isItchBuild()
+        ? `<p class="sub lock-why">Autopilot Pack is not sold in this itch build.</p>`
+        : `<p class="sub lock-why">Needs <b>Autopilot Pack</b> ($5.99) on store builds. <button type="button" data-tab="passes">Open Passes</button></p>`)}
       <div class="actions auto-actions">
         ${SKIP_PRESETS.map((n) => `<button type="button" class="primary" data-a="skip" data-v="${n}" ${skipDis ? 'disabled' : ''}>Skip ${n}y</button>`).join('')}
         <button type="button" data-a="skip" data-v="custom" ${skipDis ? 'disabled' : ''}>Custom…</button>
@@ -573,16 +586,20 @@ function body() {
        ${nx ? `<p class="sub">Next rank: <b>${esc(nx.title)}</b> — ${nx.req.years} yrs${Object.entries(nx.req.skills).map(([k, v]) => `, ${flare(P.skills.skills.find((x) => x.id === k).name)} ${v}`).join('')}</p>` : '<p class="sub">Top of your craft.</p>'}
        <div class="actions"><button data-a="work" class="primary">Work hard (${esc(c.actions[0])}…)</button> <button data-a="quit" class="ghost">Leave post</button></div>`); })() : card('work', HD.work, lead('work'));
     const opens = E.openings(s);
-    const row = ({ job, career: c, ok }) => {
+    const row = ({ job, career: c, ok, needsAdvance }) => {
       const tags = c.tags || [];
       const kind = (tags.includes('ordinary') || c.id === 'farmer' || c.id === 'merchant') ? 'Everyday' : (tags.includes('guild') || tags.includes('academy') || tags.includes('special') ? 'Guild track' : 'Trade');
       const why = ok ? '' : (E.jobLockReason(s, job) || 'Locked');
       const unlock = E.humanizeUnlock(c.unlock_text || '');
       const joinFee = E.jobJoinFee(job);
-      const feeWhy = (ok && joinFee > 0 && s.gold < joinFee) ? `Need ${joinFee} gold apron/kit bond` : '';
-      const canJoin = ok && !feeWhy;
-      const feeBit = joinFee > 0 ? ` · join ${ico('gold')}${joinFee} apron/kit` : ' · no join fee';
-      return `<div class="row row-job${canJoin ? '' : ' locked'}"><div><b>${esc(job.title)}</b> <small>· ${esc(c.name)} · ${kind}</small><br><small>${flare(c.blurb)} · ${ico('gold')}${job.wage} ${T('currency')}/yr${feeBit}${unlock ? `<br>${esc(unlock)}` : ''}</small>${(why || feeWhy) ? `<br><small class="lock-why">${esc(why || feeWhy)}</small>` : ''}</div><button data-a="job" data-v="${job.id}" ${canJoin ? '' : 'disabled'} title="${esc(why || feeWhy || (joinFee ? `Join (−${joinFee}g bond)` : 'Join'))}">${canJoin ? (joinFee ? `Join (−${joinFee}g)` : 'Join') : 'Locked'}</button></div>`;
+      const advance = !!needsAdvance || (ok && joinFee > 0 && s.gold < joinFee);
+      const canJoin = !!ok;
+      const feeBit = joinFee <= 0
+        ? ' · no join fee'
+        : (advance ? ` · kit ${ico('gold')}${joinFee} fronted by employer` : ` · join ${ico('gold')}${joinFee} apron/kit`);
+      const btn = !canJoin ? 'Locked' : (joinFee <= 0 ? 'Join' : (advance ? `Join (owe ${joinFee}g)` : `Join (−${joinFee}g)`));
+      const tip = why || (joinFee <= 0 ? 'Join — no kit bond' : (advance ? `Employer fronts ${joinFee}g kit; wages repay it` : `Join (−${joinFee}g bond)`));
+      return `<div class="row row-job${canJoin ? '' : ' locked'}"><div><b>${esc(job.title)}</b> <small>· ${esc(c.name)} · ${kind}</small><br><small>${flare(c.blurb)} · ${ico('gold')}${job.wage} ${T('currency')}/yr${feeBit}${unlock ? `<br>${esc(unlock)}` : ''}</small>${why ? `<br><small class="lock-why">${esc(why)}</small>` : ''}</div><button data-a="job" data-v="${job.id}" ${canJoin ? '' : 'disabled'} title="${esc(tip)}">${btn}</button></div>`;
     };
     const everyday = opens.filter(({ career: c }) => (c.tags || []).includes('ordinary') || c.id === 'farmer' || c.id === 'merchant');
     const guild = opens.filter((o) => !everyday.includes(o));
@@ -591,6 +608,10 @@ function body() {
     const openOpenings = !s.job; // looking for work → openings expanded; employed → collapsed so Workshops/Court/Mentors stay reachable
     const openSecondary = !!s.job; // when employed, surface workshops/court/mentors
     const acc = (id, title, body, open) => `<details class="work-acc panel-work"${open ? ' open' : ''} data-work-acc="${id}"><summary class="work-acc-hd">${title}</summary><div class="work-acc-body">${body}</div></details>`;
+    const oddCard = (ca >= 6)
+      ? card('work', `${ico('gold')} Odd jobs`, `<p class="sub">Carry, sweep, stack wood — a few gold, no apron, no skills. Always available when broke.</p>
+        <div class="actions"><button type="button" class="primary" data-a="odd" ${s.budget.act < 1 ? 'disabled' : ''}>Work odd jobs (1 act)</button></div>`)
+      : '';
     const openingsAcc = acc('openings', `${ico('work')} Openings <small>${opens.length} listed${s.job ? ' · tap to browse' : ''}</small>`,
       `${everyday.length ? `<h3>${ico('work')} Everyday work</h3>${boardEveryday}` : ''}${guild.length ? `<h3>${ico('adventure')} Guild &amp; trained tracks</h3>${boardGuild}` : ''}${!opens.length ? '<div class="empty">No openings this year.</div>' : ''}`,
       openOpenings);
@@ -655,7 +676,7 @@ function body() {
         ${handRow}<p class="sub">Jobs resolve on Age +1. Fees from coffer first, then purse. Halls: Mossbeam / Tidebell / Reedlodge / Quillkey / Cinderhorn.</p>`;
     }
     const guildAcc = acc('guild', `${markImg('guild')} Adventure guild hall <small>${s.guild ? E.guildLabel(s) : (ca >= 18 ? 'open one' : 'age 18+')}</small>`, guildBody, !!s.guild || ca >= 18);
-    return cur + openingsAcc + bizAcc + guildAcc + courtAcc + mentAcc + clubCard;
+    return cur + oddCard + openingsAcc + bizAcc + guildAcc + courtAcc + mentAcc + clubCard;
   }
   if (tab === 'adv') {
     const party = E.partyOf(s);
@@ -736,7 +757,7 @@ function body() {
       }
     }
     if (s.prison) return card('adv', HD.adv, `${lead('adv')}<div class="empty">Adventure is locked while you are imprisoned. Age +1 advances the sentence; Behave / Appeal / Escape are on Life.</div>`);
-    const advWhy = s.prison ? 'Imprisoned' : (ca < 10 ? 'Age 10+' : (!s.budget.adv ? 'No adventures left this year' : (!s.budget.act ? 'No actions left' : '')));
+    const advWhy = s.prison ? 'Imprisoned' : (ca < 10 ? 'Age 10+' : (!s.budget.adv ? 'No adventures left this year' : ''));
     return tourneyCard + teamCard + card('adv', HD.adv, `${lead('adv')}<p class="sub">${ca < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
     ${partyBlock}
     <div class="actions"><button data-a="adv" class="primary" ${E.canAdventure(s) ? '' : 'disabled'} title="${esc(advWhy)}">Set out</button></div>${advWhy && !E.canAdventure(s) ? `<p class="sub lock-why">${esc(advWhy)}</p>` : ''}`);
@@ -1071,7 +1092,7 @@ function body() {
       ${marketHTML()}
       ${gearHTML()}`);
   }
-  if (tab === 'passes') return passesHTML();
+  if (tab === 'passes') return isItchBuild() ? card('passes', HD.passes, '<div class="empty">Passes are not sold in this itch build.</div>') : passesHTML();
   return '';
 }
 
@@ -1361,7 +1382,7 @@ app.addEventListener('click', (ev) => {
     outcomeAck = null;
   }
   else if (a === 'newlife') { s = null; localStorage.removeItem(KEY); tab = 'life'; fateScreen(); return; }
-  else if (a === 'train') r = E.train(s, v); else if (a === 'job') r = E.takeJob(s, v); else if (a === 'quit') E.quitJob(s); else if (a === 'work') r = E.workHard(s);
+  else if (a === 'train') r = E.train(s, v); else if (a === 'job') r = E.takeJob(s, v); else if (a === 'quit') E.quitJob(s); else if (a === 'work') r = E.workHard(s); else if (a === 'odd') r = E.oddJobs(s);
   else if (a === 'adv') r = E.adventure(s); else if (a === 'rest') r = E.rest(s); else if (a === 'route') { r = E.chooseRoute(s, v); }
   else if (a === 'soc') r = E.socialize(s, v); else if (a === 'friend') r = E.meetSomeone(s, false); else if (a === 'love') r = E.meetSomeone(s, true); else if (a === 'travel') r = E.travel(s, v); else if (a === 'scout') r = E.scoutRealm(s, v); else if (a === 'visit') r = E.visitLocation(s, v);
   else if (a === 'reinc') { s = E.reincarnate(meta, s, v, (Math.random() * 2 ** 31) | 0); bumpLifeEpoch(s); tab = 'life'; }
@@ -1451,7 +1472,13 @@ app.addEventListener('click', (ev) => {
   else if (a === 'autostop') { requestStop(); toast('Stopping autopilot…'); return; }
   else if (a === 'skip') {
     if (autoRunning()) return;
-    if (!autoUnlocked()) { toast('Needs Autopilot Pack — free on web alpha; buy on stores when Boundwake launches.'); tab = 'passes'; render(); return; }
+    if (!autoUnlocked()) {
+      toast(isItchBuild()
+        ? 'Autopilot Pack is not sold in this itch build.'
+        : 'Needs Autopilot Pack — free on web alpha; buy on stores when Boundwake launches.');
+      if (!isItchBuild()) tab = 'passes';
+      render(); return;
+    }
     if (s.pending?.length || outcomeAck) { toast(outcomeAck ? 'Acknowledge the outcome first.' : 'Resolve the open event first.'); return; }
     let n = v === 'custom' ? parseInt(prompt(`Skip how many years? (1–${MAX_SKIP})`, '10') || '0', 10) : parseInt(v, 10);
     if (!Number.isFinite(n) || n < 1) return;
