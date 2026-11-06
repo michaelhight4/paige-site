@@ -102,8 +102,12 @@ async function crossfadeTo(key) {
   // Drop stale loads if the player asked for another bed while we decoded.
   if (wanted !== key) return;
   if (key === curKey && live) return;
+  // Mute / lock may have flipped while we were decoding — never start a loop then.
+  if (muted || !unlocked) return;
 
   await c.resume().catch(() => {});
+  // Re-check after resume (resume is async); a mute click can land in between.
+  if (muted || !unlocked || wanted !== key) return;
 
   const next = startLoop(key, buf, 0);
   const prev = live;
@@ -169,14 +173,18 @@ export function setMuted(v) {
     live = null;
     fading = null;
     curKey = '';
+    // Belt-and-braces: suspend the graph so nothing can keep sounding.
+    if (ctx && ctx.state === 'running') ctx.suspend().catch(() => {});
   } else if (unlocked) {
+    if (ctx && ctx.state === 'suspended') ctx.resume().catch(() => {});
     crossfadeTo(wanted);
   }
   updateToggle();
 }
 
 export function toggleMute() {
-  if (!unlocked) { unlockMusic(); setMuted(false); return muted; }
+  // Callers unlock first (document gesture + unlockMusic()). Always flip mute
+  // so the first music-button click ends muted when music just started.
   setMuted(!muted);
   return muted;
 }

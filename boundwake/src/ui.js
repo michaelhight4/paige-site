@@ -6,7 +6,7 @@ import { ico, esc, flare, oddsChip, statLabel, infoChip, skillIco } from './flar
 import { mountInfoClicks, openInfo, openInfoDetail } from './info.js';
 import { checkAdminAccess, gateHTML, isLocalHost } from './admingate.js';
 import { mountAmbient, paintAmbient } from './ambient.js';
-import { mountMusic, syncMusic, toggleMute, musicToggleHTML, unlockMusic } from './music.js';
+import { mountMusic, syncMusic, toggleMute, musicToggleHTML, unlockMusic } from './music.js?v=musicfix1';
 import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP, unlocked as autoUnlocked } from './autopilot.js?v=gold1';
 import * as Premium from './premium.js';
 import * as PremFx from './premium_fx.js';
@@ -1664,6 +1664,21 @@ function render() {
   }
   if (outcomeAck) document.querySelector('.outcome-ack [data-a="ackout"]')?.focus();
 }
+
+// PC music FAB lives on document.body (outside #app), so the app click
+// delegate never sees it. Handle it here; buttons inside #app still use
+// the app listener and must not double-toggle.
+document.addEventListener('click', (ev) => {
+  const b = ev.target.closest('.music-fab [data-a="music"]');
+  if (!b) return;
+  if (b.disabled || b.getAttribute('aria-disabled') === 'true') {
+    ev.preventDefault(); ev.stopPropagation(); return;
+  }
+  ev.preventDefault();
+  unlockMusic();
+  toggleMute();
+});
+
 app.addEventListener('click', (ev) => {
   // Outcome card stays until Continue. Clicks elsewhere do not dismiss it or start another action.
   if (outcomeAck && !ev.target.closest('button[data-a="ackout"]')) {

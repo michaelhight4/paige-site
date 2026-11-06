@@ -1,3 +1,16 @@
+## HOTFIX — music will not turn off (PC FAB) — Nov 6 ~2:50 PM CT
+
+- Symptom: players report music keeps playing; mute control does nothing on PC
+- Causes:
+  1. PC `.music-fab` is appended to `document.body` (outside `#app`), but mute only lived on `app.addEventListener('click')` → FAB clicks never reached `a === 'music'`
+  2. `crossfadeTo` could finish `loadBuffer` / `resume` after mute and start a new loop
+- Fix: document-level click on `.music-fab [data-a="music"]` → `unlockMusic()` + `toggleMute()` (in-app Settings / Life music-row still use app delegate, no double-toggle); re-check `muted`/`unlocked` after load+resume; `ctx.suspend()` on mute / `resume` on unmute; `toggleMute` always flips (callers unlock first)
+- Cache: `ui.js?v=musicfix1`, `music.js?v=musicfix1` import
+- Smoke PASS: fab mute persists `bw.music.muted`, race stays muted, in-app toggle once
+- itch / Play / Apple untouched
+
+## Live — **PENDING_SHA** music mute FAB fix · https://paigegames.net/boundwake/
+
 ## HOTFIX — multi-tab save freeze (“Another tab is ahead”) — Nov 5 ~7:50 PM CT
 
 - Symptom: UI felt frozen; toast “Another tab is ahead…” (browser-only; no server play log)

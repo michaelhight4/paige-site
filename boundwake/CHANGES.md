@@ -1,3 +1,7 @@
+## HOTFIX — music mute FAB (Nov 6 ~2:50 PM CT)
+- Document click handler for `.music-fab` (outside #app); crossfade mute race + AudioContext suspend
+- Cache `?v=musicfix1`
+
 ## 2026-11-05 — phone UI live (f7cac67)
 - Lifeline-style phone hub + fantasy forest flair + real chip icons. Cache `?v=live1`. Desktop unchanged.
 

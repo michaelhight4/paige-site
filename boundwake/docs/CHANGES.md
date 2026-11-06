@@ -1,3 +1,7 @@
+## HOTFIX — music mute FAB (Nov 6 ~2:50 PM CT)
+- Document click handler for `.music-fab` (outside #app); crossfade mute race + AudioContext suspend
+- Cache `?v=musicfix1`
+
 ## HOTFIX — multi-tab save freeze (“Another tab is ahead”) — Nov 5 ~7:50 PM CT
 
 - Symptom: UI felt frozen; toast “Another tab is ahead…” (browser-only; no server play log)
