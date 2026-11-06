@@ -4,7 +4,7 @@
 - Fix: result sheet stays until **Continue**; verdict `Succeeded (N%) · roll R%` / `Failed (N%) · roll R%`; lists gold/renown/injury/loot/bonds/skills deltas; journal unchanged.
 - Cache: `style.css?v=advack1`, `ui.js?v=advack1` (kept tabscroll1/tabsave1 history; bumped only changed files).
 - Engine: `resolve()` returns `chance`, `roll`, `deltas` (one `rnd` under shown chance).
-## Live — **2df4831d** multi-tab save guard · https://paigegames.net/boundwake/
+## Live — **9d72fb14** adventure outcome acknowledge · https://paigegames.net/boundwake/
 
 ## HOTFIX — Hard refresh rolled age 14→7 (multi-tab clobber) — Coder Nov 5 ~6:55 PM CT
 - Root cause (Gary): two Boundwake tabs open; older tab (age 7) wrote `bw.save.v1` over newer life (age 14) on render/save
