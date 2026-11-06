@@ -8,7 +8,7 @@
 - Tests: `tests/poor_start_gold0.mjs`, `tests/adventure_acts_independent.mjs`
 - itch 0.1.1-alpha: same fix + **Passes tab/button/shop UI removed** on itch build only
 
-## Live — **PENDING_SHA** gold0 soft lock + adventure budget · https://paigegames.net/boundwake/
+## Live — **82e14727** gold0 soft lock + adventure budget · https://paigegames.net/boundwake/
 
 ## HOTFIX — multi-tab save freeze (“Another tab is ahead”) — Nov 5 ~7:50 PM CT
 
@@ -51,7 +51,7 @@
 - Gary: Belongings, Work, Skills, Realms unusable without scroll
 - Shared flex-shrink + overflow:hidden clip; play-body now scrolls
 
-## Live — **PENDING_SHA** Belongings scroll fix · https://paigegames.net/boundwake/
+## Live — **82e14727** Belongings scroll fix · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:49 PM CT — Belongings (gear/shop/homes/mounts) scroll
 - Gary: Belongings page does not scroll
