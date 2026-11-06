@@ -558,7 +558,8 @@ function body() {
     const pastAvail = (pl.available || []).slice(0, 8).map((p) => `<button data-a="adopt" data-v="${p.id}" ${pl.free < 1 ? 'disabled' : ''}>${esc(p.name)}</button>`).join('');
     const pastCard = card('life', `${ico('spirit')} Pastimes`, `<p class="sub">${pl.free} free slot(s). Master two to open more (max 4).</p>${pastActive || '<div class="empty">No pastime yet.</div>'}<div class="actions">${pastAvail || ''}</div>`);
     const actCats = E.activityCategories(s).map((c) => {
-      const acts = c.activities.filter((a) => h >= a.minAge && a.id !== 'healer').map((a) => {
+      const restIds = new Set(phoneRestOptions().map((a) => a.id));
+      const acts = c.activities.filter((a) => h >= a.minAge && a.id !== 'healer' && !restIds.has(a.id)).map((a) => {
         const ch0 = a.choices[0]; const cost = ch0?.cost || 0;
         return `<div class="row"><div><b>${esc(a.name)}</b> <small>${esc(a.sub)}${cost ? ` · ${cost} gold` : ''}</small></div><button data-a="actv" data-v="${a.id}" ${s.budget.act < 1 || s.gold < cost ? 'disabled' : ''}>Do</button></div>`;
       }).join('');
@@ -1100,6 +1101,7 @@ function body() {
 function passesHTML() {
   const st = Premium.status();
   const ch = payChannel();
+  const leadLine = LEAD.passes ? `<p class="menu-lead">${LEAD.passes}</p>` : '';
   const sub = st.subscribed ? `<p class="sub">Realm Pass active (${esc(st.plan || 'sub')}).</p>` : `<p class="sub">Realm Pass (All Access) · $7.99/mo or $79.99/yr — <b>TODO</b> Gary creates Play/Apple sub <code>all_access</code>.</p>`;
   const rows = st.passes.filter((p) => p.id !== 'tester_pack' || Premium.canDevGrant()).map((p) => {
     const badge = p.owned ? 'Owned' : p.viaAlpha ? 'Free (web alpha)' : p.viaSub ? 'Via Realm Pass' : p.unlocked ? 'Unlocked' : Premium.price(p);
@@ -1111,7 +1113,7 @@ function passesHTML() {
         : `<button type="button" data-a="buypass" data-v="${esc(p.id)}">${Premium.canDevGrant() ? 'Unlock (dev)' : 'Buy'} · ${Premium.price(p)}</button>`;
     return `<div class="row pass-row" data-pass="${esc(p.id)}"><div><b>${esc(p.name)}</b> <small>${esc(badge)}</small><br><small>${esc(p.description || p.effect || '')}</small>${p.lifeline ? `<br><small class="lock-why">Lifeline map: ${esc(p.lifeline)}</small>` : ''}</div>${btn}</div>`;
   }).join('');
-  return card('passes', HD.passes, `${lead('passes')}
+  return card('passes', HD.passes, `${leadLine}
     <p class="sub">Channel: <b>${esc(ch)}</b>. No Ads suppresses forced ads on store builds. Autopilot gates Skip (free on web alpha).</p>
     ${sub}
     <div class="pass-list">${rows || '<div class="empty">Catalog not loaded.</div>'}</div>
@@ -1275,29 +1277,367 @@ function sidePeek() {
 let courtPick = null;
 /** Adventure/event outcome waiting for Continue (Gary Nov 5: results must hold weight). */
 let outcomeAck = null;
+/** Phone-only UI state (never affects desktop render). */
+let phonePanel = null;
+let phoneStatsOpen = false;
+const PHONE_MENU_DEST = ['skills', 'realms', 'codex', 'legacy', 'bel'];
+const PHONE_LIFE_PANELS = ['auto', 'health', 'pastimes', 'activities', 'law', 'rest', 'profile'];
+
+function isPhoneUI() {
+  try {
+    const w = Math.min(window.innerWidth || 9999, document.documentElement?.clientWidth || 9999);
+    const touchy = (navigator.maxTouchPoints || 0) > 0 || 'ontouchstart' in window
+      || window.matchMedia('(pointer: coarse)').matches;
+    const plat = (() => { try { return new URLSearchParams(location.search).get('platform') || ''; } catch (_) { return ''; } })();
+    const native = !!(globalThis.Capacitor?.isNativePlatform?.());
+    if (w <= 600 && (touchy || plat === 'android' || plat === 'ios' || native)) return true;
+    if (window.matchMedia('(max-width: 600px) and (pointer: coarse)').matches) return true;
+  } catch (_) {}
+  return false;
+}
+function syncPhoneClass() {
+  const on = isPhoneUI();
+  document.documentElement.classList.toggle('is-phone', on);
+  return on;
+}
+function phoneRow(id, iconHtml, title, hint, tone = 'plum') {
+  return `<button type="button" class="bw-row" data-a="phonepanel" data-v="${esc(id)}"><span class="bw-ic tone-${esc(tone)}">${iconHtml}</span><span class="bw-t"><b>${esc(title)}</b><small>${esc(hint)}</small></span><span class="bw-chev" aria-hidden="true">›</span></button>`;
+}
+function phoneStatName(key) {
+  return ({ health: 'Health', spirit: 'Spirit', happiness: 'Spirit', wits: 'Wits', smarts: 'Wits',
+    presence: 'Presence', looks: 'Presence', strain: 'Strain', stress: 'Strain', renown: 'Renown', fame: 'Renown', mana: 'Mana' })[key] || key;
+}
+function phoneThinBar(key, v, cls = '', valHtml = null) {
+  const pct = Math.max(0, Math.min(100, typeof v === 'number' ? v : 0));
+  const val = valHtml != null ? valHtml : Math.round(v);
+  const extra = cls || (key === 'health' ? 'bar-health' : key === 'spirit' || key === 'happiness' ? 'bar-spirit' : key === 'wits' || key === 'smarts' ? 'bar-wits'
+    : key === 'presence' || key === 'looks' ? 'bar-presence' : key === 'strain' || key === 'stress' ? 'bad bar-strain' : key === 'renown' || key === 'fame' ? 'bar-renown' : key === 'mana' ? 'magic bar-mana' : '');
+  return `<div class="bw-thin ${extra}"><span class="bw-thin-lbl">${ico(key)} ${phoneStatName(key)}</span><span class="bw-thin-track"><i style="width:${pct}%"></i></span><span class="bw-thin-val">${val}</span></div>`;
+}
+function phoneTopbarHTML() {
+  // Lifeline-style compact topbar: portrait · name/role · Passes ★ · gold
+  const st = E.stage(s), r = E.race(s), j = s.job && P.occ.jobs[s.job.id];
+  const ca = E.cage(s);
+  const occ = j ? j.title : (s.school && ca >= 6 && ca < 16 ? 'Student' : (ca < 6 ? 'Child' : (ca < 16 ? 'Youth' : 'No work')));
+  const sx = s.sex || 'm';
+  const file = `${s.race}_${st}_${sx}.png`;
+  const mono = initials(s.first + ' ' + s.last);
+  const passBtn = isItchBuild() ? '' : `<button type="button" class="bw-topbtn bw-prem" data-a="phonepasses" aria-label="Passes">${ico('echo')}</button>`;
+  return `<header class="bw-topbar">
+    <button type="button" class="bw-ava" data-a="phonepanel" data-v="profile" aria-label="Open profile">
+      <img alt="" src="${GRID}${file}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mono-fallback',textContent:'${mono}'}))">
+    </button>
+    <button type="button" class="bw-who" data-a="phonepanel" data-v="profile" aria-label="Open profile">
+      <span class="bw-nm">${esc(s.first)} ${esc(s.last)}</span>
+      <span class="bw-hd">${ico('work')} ${esc(occ)} · ${esc(r.name)}</span>
+    </button>
+    ${passBtn}
+    <div class="bw-bank" aria-label="Gold">
+      <b class="gold-line">${ico('gold')}${Math.floor(s.gold)}</b>
+      <small>${T('currency')}</small>
+    </div>
+  </header>`;
+}
+function phoneAgebarHTML() {
+  return `<div class="bw-agebar"><span>${T('year_verb')} ${Math.floor(s.age)} · ${esc(E.stageLabel(s))}</span><span>${esc(E.regionOf(s).name)}</span></div>`;
+}
+function phoneJournalHTML() {
+  const byAge = [];
+  for (const l of s.log.slice(-100)) {
+    const a = Math.floor(l.age);
+    if (!byAge.length || byAge.at(-1)[0] !== a) byAge.push([a, []]);
+    if (l.kind !== 'year') byAge.at(-1)[1].push(l.text);
+  }
+  const lines = byAge.map(([a, ls]) =>
+    `<div class="bw-jage">${T('year_verb')} ${a}</div>${ls.map((tx) => `<p class="bw-jline">${flare(tx)}</p>`).join('')}`
+  ).join('');
+  return `<div class="bw-journal" id="jr">${lines || `<div class="bw-jage">${T('year_verb')} ${Math.floor(s.age)}</div><p class="bw-jline">Your story begins.</p>`}</div>`;
+}
+function phoneStatsStripHTML() {
+  // Lifeline-style thin strip — a few tidy bars; full stats one tap on the header.
+  return `<button type="button" class="bw-stats" data-a="phonepanel" data-v="profile" aria-label="Open full stats">
+    ${phoneThinBar('health', s.stats.health, s.stats.health < 30 ? 'bad bar-health' : 'bar-health')}
+    ${phoneThinBar('spirit', s.stats.happiness)}
+    ${phoneThinBar('wits', s.stats.smarts)}
+    ${phoneThinBar('presence', s.stats.looks)}
+  </button>`;
+}
+function phoneLifeHome() {
+  // Lifeline composition: agebar + LARGE journal + thin stats. Very few elements.
+  return `${phoneAgebarHTML()}${phoneJournalHTML()}${phoneStatsStripHTML()}`;
+}
+function phoneProfileHTML() {
+  const mana = s.flags.mana_awakened
+    ? phoneThinBar('mana', (100 * (s.mana || 0)) / Math.max(1, s.manaMax || 1), 'magic bar-mana', `${Math.floor(s.mana || 0)}/${Math.floor(Math.max(s.manaMax || 0, 1))}`)
+    : '';
+  return `<div class="bw-card">
+    <h3>${ico('spirit')} Profile</h3>
+    <p class="sub">${esc(s.first)} ${esc(s.last)} · ${T('year_verb')} ${Math.floor(s.age)} · ${esc(E.stageLabel(s))}</p>
+    <div class="bw-profile-bars">
+      ${phoneThinBar('health', s.stats.health, s.stats.health < 30 ? 'bad bar-health' : 'bar-health')}
+      ${phoneThinBar('spirit', s.stats.happiness)}
+      ${phoneThinBar('wits', s.stats.smarts)}
+      ${phoneThinBar('presence', s.stats.looks)}
+      ${phoneThinBar('strain', s.stats.stress, 'bad bar-strain')}
+      ${phoneThinBar('renown', s.stats.fame)}
+      ${mana}
+    </div>
+    <div class="bw-pills">
+      <span class="pill">${ico('act')}Actions ${s.budget.act}/4</span>
+      <span class="pill">${ico('social')}Social ${s.budget.social}/3</span>
+      <span class="pill">${ico('adventure')}Adventure ${s.budget.adv}/5</span>
+    </div>
+    <p class="sub">Tap Health below for ailments &amp; Rest. Autopilot lives on the AGE button when unlocked.</p>
+    <div class="actions"><button type="button" class="primary" data-a="phonepanel" data-v="health">${ico('health')} Health &amp; rest</button></div>
+  </div>`;
+}
+function phoneRestOptions() {
+  const h = E.hage(s);
+  const acts = [];
+  try {
+    for (const c of (E.activityCategories(s) || [])) {
+      for (const a of (c.activities || [])) {
+        if (h < (a.minAge || 0)) continue;
+        const id = String(a.id || ''), name = String(a.name || '');
+        const blob = (id + ' ' + name + ' ' + (a.sub || '')).toLowerCase();
+        if (id === 'healer') continue;
+        if (/\brest\b|nap|sleep|pond|recover|relax/.test(blob)) acts.push(a);
+      }
+    }
+  } catch (_) {}
+  return acts;
+}
+function phoneRestPickerHTML() {
+  const busy = s.budget.act < 1;
+  const extra = phoneRestOptions().map((a) => {
+    const ch0 = a.choices?.[0]; const cost = ch0?.cost || 0;
+    return `<button type="button" data-a="actv" data-v="${esc(a.id)}" ${(busy || s.gold < cost) ? 'disabled' : ''}>${esc(a.name)}${cost ? ` (${cost}g)` : ''}</button>`;
+  }).join('');
+  return `<div class="bw-rest">
+    <button type="button" class="primary bw-rest-main" data-a="phonerest" ${busy ? 'disabled' : ''}>${ico('spirit')} Rest</button>
+    <div class="bw-rest-pick" hidden>
+      <button type="button" data-a="rest" ${busy ? 'disabled' : ''}>Rest by the pond</button>
+      ${extra}
+    </div>
+  </div>`;
+}
+function phoneLifePanel(id) {
+  const h = E.hage(s);
+  if (id === 'profile') return phoneProfileHTML();
+  if (id === 'auto') {
+    const autoBusy = autoRunning();
+    const autoOk = autoUnlocked();
+    const skipDis = autoBusy || s.pending.length || !!outcomeAck || !autoOk;
+    return `<div class="bw-card"><h3>${ico('act')} Autopilot</h3>
+      <p class="sub">Advance cage years safely. Pauses on death, jail, romance, ownership, or tournaments.</p>
+      ${autoOk ? '' : (isItchBuild() ? `<p class="sub lock-why">Not sold in this itch build.</p>` : `<p class="sub lock-why">Needs Autopilot Pack. <button type="button" data-a="phonepasses">Open Passes</button></p>`)}
+      <div class="actions auto-actions">${SKIP_PRESETS.map((n) => `<button type="button" class="primary" data-a="skip" data-v="${n}" ${skipDis ? 'disabled' : ''}>Skip ${n}y</button>`).join('')}
+        <button type="button" data-a="skip" data-v="custom" ${skipDis ? 'disabled' : ''}>Custom…</button>
+        ${autoBusy ? `<button type="button" data-a="autostop">Stop</button>` : ''}</div></div>`;
+  }
+  if (id === 'health') {
+    const ailRows = (s.ailments || []).map((d) => {
+      const def = E.ailmentDef(d.id); if (!def) return '';
+      return `<div class="row"><div><b>${esc(def.name)}</b> <small>${esc(def.sev)}${d.dx ? '' : ' · undiagnosed'}${d.treated ? ' · treating' : ''}</small></div></div>`;
+    }).join('') || '<div class="empty">No ailments right now.</div>';
+    return `<div class="bw-card"><h3>${ico('health')} Health &amp; rest</h3>${ailRows}
+      <div class="actions"><button data-a="healer" ${s.budget.act < 1 ? 'disabled' : ''}>Visit a healer (12 gold)</button></div>
+      ${phoneRestPickerHTML()}</div>`;
+  }
+  if (id === 'rest') {
+    return `<div class="bw-card"><h3>${ico('spirit')} Rest</h3>
+      <button type="button" class="bw-row" data-a="rest"><span class="bw-ic">${ico('spirit')}</span><span class="bw-t"><b>Rest by the pond</b><small>Spend 1 action · ease strain</small></span><span class="bw-chev">›</span></button>
+      ${phoneRestOptions().map((a) => {
+        const ch0 = a.choices?.[0]; const cost = ch0?.cost || 0;
+        return `<button type="button" class="bw-row" data-a="actv" data-v="${esc(a.id)}"><span class="bw-ic">${ico('spirit')}</span><span class="bw-t"><b>${esc(a.name)}</b><small>${esc(a.sub || '')}${cost ? ` · ${cost} gold` : ''}</small></span><span class="bw-chev">›</span></button>`;
+      }).join('')}</div>`;
+  }
+  if (id === 'pastimes') {
+    const pl = E.passionList(s);
+    const pastActive = (pl.active || []).map((x) => `<div class="row"><div><b>${esc(x.def?.name || x.id)}</b> <small>meter ${Math.floor(x.meter)}</small></div><button data-a="prac" data-v="${x.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Practice</button></div>`).join('');
+    const pastAvail = (pl.available || []).slice(0, 8).map((x) => `<button data-a="adopt" data-v="${x.id}" ${pl.free < 1 ? 'disabled' : ''}>${esc(x.name)}</button>`).join('');
+    return `<div class="bw-card"><h3>${ico('spirit')} Pastimes</h3><p class="sub">${pl.free} free slot(s).</p>${pastActive || '<div class="empty">No pastime yet.</div>'}<div class="actions">${pastAvail || ''}</div></div>`;
+  }
+  if (id === 'activities') {
+    const restIds = new Set(phoneRestOptions().map((a) => a.id));
+    const actCats = E.activityCategories(s).map((c) => {
+      const acts = c.activities.filter((a) => h >= a.minAge && a.id !== 'healer' && !restIds.has(a.id)).map((a) => {
+        const ch0 = a.choices[0]; const cost = ch0?.cost || 0;
+        return `<div class="row"><div><b>${esc(a.name)}</b> <small>${esc(a.sub)}${cost ? ` · ${cost} gold` : ''}</small></div><button data-a="actv" data-v="${a.id}" ${s.budget.act < 1 || s.gold < cost ? 'disabled' : ''}>Do</button></div>`;
+      }).join('');
+      return acts ? `<div class="bw-card"><h3>${esc(c.name)}</h3>${acts}</div>` : '';
+    }).join('');
+    return actCats || '<div class="bw-card"><div class="empty">Nothing available right now.</div></div>';
+  }
+  if (id === 'law') {
+    const crimes = E.lawMenuCrimes(s);
+    if (!crimes.length) return `<div class="bw-card"><h3>${ico('strain')} Realm law</h3><div class="empty">No shadow options yet.</div></div>`;
+    return `<div class="bw-card"><h3>${ico('strain')} Realm law</h3><p class="sub">Age ${E.CRIME_MENU_MIN_AGE}+.</p>${crimes.map((c) => {
+      const locked = !c.ok || s.budget.act < 1;
+      const why = !c.ok ? c.why : (s.budget.act < 1 ? 'No actions left' : '');
+      return `<div class="row"><div><b>${esc(c.name)}</b> <small>severity ${c.severity}</small>${why ? `<br><small class="lock-why">${esc(why)}</small>` : ''}</div><button data-a="crime" data-v="${c.id}" ${locked ? 'disabled' : ''}>Attempt</button></div>`;
+    }).join('')}</div>`;
+  }
+  return '<div class="bw-card"><div class="empty">Unknown section.</div></div>';
+}
+function phoneWorkAdvHTML() {
+  return `<div class="bw-sec tone-moss">Work</div>
+    ${phoneRow('job', ico('work'), 'Jobs & wages', 'Your post and openings', 'moss')}
+    ${phoneRow('odd', ico('gold'), 'Odd jobs', 'Short work for coin', 'gold')}
+    ${phoneRow('train', skillIco('swordsmanship'), 'Train', 'Mentors, drills, practice', 'sky')}
+    <div class="bw-sec tone-sky">Adventure</div>
+    ${phoneRow('setout', ico('adventure'), 'Set out', 'Spend Adventure to travel', 'sky')}
+    ${phoneRow('guild', ico('adventure'), 'Guilds', 'Found or manage a hall', 'plum')}
+    ${phoneRow('tourney', ico('renown'), 'Tournaments', 'Teams, meets, invitations', 'gold')}`;
+}
+function phoneMenuHTML() {
+  return `<div class="bw-sec tone-plum">Menu</div>
+    ${phoneRow('more:skills', skillIco('literacy'), 'Skills', 'Train ranks and life path', 'sky')}
+    ${phoneRow('more:codex', skillIco('lore'), 'Codex', 'What the world taught you', 'plum')}
+    ${phoneRow('more:realms', ico('realm'), 'Realms', 'Map and travel', 'moss')}
+    ${phoneRow('more:legacy', ico('renown'), 'Legacy', 'Goals and achievements', 'gold')}
+    ${phoneRow('more:bel', skillIco('smithing'), 'Belongings', 'Gold, relics, workshops', 'gold')}
+    <div class="bw-sec tone-moss">Care</div>
+    ${phoneRow('health', ico('health'), 'Health & rest', 'Ailments, healer, one Rest', 'moss')}
+    ${phoneRow('pastimes', ico('spirit'), 'Pastimes', 'Hobbies and practice', 'gold')}
+    ${phoneRow('activities', ico('adventure'), 'Activities', 'Things to do this year', 'sky')}
+    ${phoneRow('auto', ico('act'), 'Autopilot', 'Skip quiet years safely', 'plum')}
+    <div class="bw-sec tone-gold">Settings</div>
+    <div class="bw-set-row"><span class="bw-set-lb">${ico('spirit')} Music</span>${musicToggleHTML()}</div>`;
+}
+function phoneBondsHTML() {
+  return `<div class="bw-sec tone-plum">Bonds</div>
+    ${phoneRow('people', ico('bond'), 'People', 'Family, friends, party', 'plum')}
+    ${phoneRow('social', ico('social'), 'Spend time', 'Deepen bonds', 'sky')}`;
+}
+function phoneSanitizeBody(html) {
+  return String(html || '')
+    .replace(/<div class="life-shortcuts"[^>]*>[\s\S]*?<\/div>/i, '')
+    .replace(/<div class="tabs"[^>]*>[\s\S]*?<\/div>/i, '');
+}
+function phonePanelChrome(title, bodyHtml, backAction = 'phoneback') {
+  return `<section class="bw-panel">
+    <div class="bw-pbar">
+      <button type="button" class="bw-pback" data-a="${backAction}" aria-label="Back">‹</button>
+      <h2>${esc(title)}</h2>
+      <button type="button" class="bw-pclose" data-a="phonehome" aria-label="Close to home">✕</button>
+    </div>
+    <div class="bw-pbody">${bodyHtml}</div>
+  </section>`;
+}
+function phoneMainHTML() {
+  if (tab === 'passes') {
+    return phonePanelChrome('Passes', phoneSanitizeBody(body()));
+  }
+  if (PHONE_MENU_DEST.includes(tab) && (phonePanel === 'menu-dest' || phonePanel === 'more-dest')) {
+    return phonePanelChrome(T(TAB_META[tab]?.label || tab), phoneSanitizeBody(body()), 'phonemenu');
+  }
+  if (tab === 'life') {
+    if (phonePanel && PHONE_LIFE_PANELS.includes(phonePanel)) {
+      const titles = { auto: 'Autopilot', health: 'Health & rest', pastimes: 'Pastimes', activities: 'Activities', law: 'Realm law', rest: 'Rest', profile: 'Profile' };
+      return phonePanelChrome(titles[phonePanel] || 'Back', phoneLifePanel(phonePanel));
+    }
+    return `<div class="bw-hub">${phoneLifeHome()}</div>`;
+  }
+  if (tab === 'workadv') {
+    if (phonePanel) {
+      const map = { job: 'work', odd: 'work', train: 'work', workshops: 'work', setout: 'adv', guild: 'adv', tourney: 'adv' };
+      const dest = map[phonePanel] || 'work';
+      const prev = tab; tab = dest;
+      const html = phoneSanitizeBody(body());
+      tab = prev;
+      const labels = { job: 'Jobs & wages', odd: 'Odd jobs', train: 'Train', setout: 'Set out', guild: 'Guilds', tourney: 'Tournaments' };
+      return phonePanelChrome(labels[phonePanel] || phonePanel, html);
+    }
+    return phonePanelChrome('Work & Adventure', phoneWorkAdvHTML(), 'phonehome');
+  }
+  if (tab === 'bonds') {
+    if (phonePanel) {
+      return phonePanelChrome(String(phonePanel), phoneSanitizeBody(body()));
+    }
+    return phonePanelChrome('Bonds', phoneBondsHTML(), 'phonehome');
+  }
+  if (tab === 'menu') {
+    if (phonePanel && PHONE_LIFE_PANELS.includes(phonePanel)) {
+      const titles = { health: 'Health & rest', auto: 'Autopilot', rest: 'Rest', pastimes: 'Pastimes', activities: 'Activities', law: 'Realm law', profile: 'Profile' };
+      return phonePanelChrome(titles[phonePanel] || 'Back', phoneLifePanel(phonePanel));
+    }
+    return phonePanelChrome('More', phoneMenuHTML(), 'phonehome');
+  }
+  if (PHONE_MENU_DEST.includes(tab)) {
+    return phonePanelChrome(T(TAB_META[tab]?.label || tab), phoneSanitizeBody(body()), 'phonemenu');
+  }
+  return `<div class="bw-hub">${phoneLifeHome()}</div>`;
+}
+function phoneNavHTML() {
+  const locked = autoRunning() || s.pending.length || !!outcomeAck;
+  const menuOn = tab === 'menu' || PHONE_MENU_DEST.includes(tab);
+  const workOn = tab === 'workadv' || tab === 'work' || tab === 'adv';
+  const left = [
+    ['life', 'spirit', 'Life', tab === 'life' && !phonePanel],
+    ['workadv', 'work', 'Work', workOn],
+  ].map(([id, ic, lab, on]) =>
+    `<button type="button" class="bw-tab${on ? ' on' : ''}" data-tab="${id}">${ico(ic)}<span>${lab}</span></button>`).join('');
+  const right = [
+    ['bonds', 'bond', 'Bonds', tab === 'bonds'],
+    ['menu', 'codex', 'More', menuOn],
+  ].map(([id, ic, lab, on]) =>
+    `<button type="button" class="bw-tab${on ? ' on' : ''}" data-tab="${id}">${ico(ic)}<span>${lab}</span></button>`).join('');
+  return `<nav class="bw-nav" aria-label="Main">
+    ${left}<div class="bw-age-slot" aria-hidden="true"></div>${right}
+    <button type="button" class="bw-age" data-a="age" ${locked ? 'disabled' : ''} aria-label="Age one year"><b>AGE</b><small>${Math.floor(s.age)}</small></button>
+  </nav>`;
+}
+function phoneRender(sheet) {
+  document.body.classList.toggle('has-sheet', !!sheet);
+  // Lifeline shell: topbar + hub(or panel) + nav. Journal gets the space.
+  const onHome = tab === 'life' && !phonePanel;
+  app.innerHTML = `<div class="bw-phone">
+    ${phoneTopbarHTML()}
+    ${phoneMainHTML()}
+    ${phoneNavHTML()}
+  </div>${sheet || ''}`;
+  const j = $('#jr');
+  if (j && onHome) j.scrollTop = j.scrollHeight;
+}
+
+
 function render() {
+  syncPhoneClass();
   if (!s) return fateScreen();
   if (!s.alive) { save(); return deathScreen(); }
-  setChrome(tab);
-  const tabs = TABS.map(([k]) => {
-    const m = TAB_META[k];
-    return `<button data-tab="${k}" class="${tab === k ? 'on' : ''}" aria-label="${T(m.label)}">${ico(m.ico)}${T(m.label)}</button>`;
-  }).join('');
+  const phone = syncPhoneClass();
+  setChrome((tab === 'more' || tab === 'menu' || tab === 'workadv') ? 'life' : tab);
   const sheet = eventSheet();
-  document.body.classList.toggle('has-sheet', !!sheet);
-  app.innerHTML = `<div class="play-layout">
+  if (phone) {
+    phoneRender(sheet);
+  } else {
+    // DESKTOP PATH — markup unchanged
+    const tabs = TABS.map(([k]) => {
+      const m = TAB_META[k];
+      return `<button data-tab="${k}" class="${tab === k ? 'on' : ''}" aria-label="${T(m.label)}">${ico(m.ico)}${T(m.label)}</button>`;
+    }).join('');
+    document.body.classList.toggle('has-sheet', !!sheet);
+    app.innerHTML = `<div class="play-layout">
     <div class="play-hub">${header()}${ageDock()}</div>
     <div class="play-main"><div class="tabs">${tabs}</div><div class="play-body">${body()}</div></div>
     ${sidePeek()}
   </div><div class="end-pad" aria-hidden="true"></div>${sheet}`;
-  const j = $('#jr'); if (j) j.scrollTop = j.scrollHeight; save();
-  paintAmbient(s.region || 'hearthfold', tab);
-  try { syncMusic(tab, document.documentElement.dataset.tod); } catch (_) {}
+    const j = $('#jr'); if (j) j.scrollTop = j.scrollHeight;
+  }
+  save();
+  paintAmbient(s.region || 'hearthfold', (tab === 'more' || tab === 'menu' || tab === 'workadv') ? 'life' : tab);
+  try { syncMusic((tab === 'more' || tab === 'menu' || tab === 'workadv') ? 'life' : tab, document.documentElement.dataset.tod); } catch (_) {}
   try { afterLegacyRender(); } catch (_) {}
-  if (!document.querySelector('.music-fab')) {
-    const fab = document.createElement('div'); fab.className = 'music-fab'; fab.innerHTML = musicToggleHTML(); document.body.append(fab);
+  let fab = document.querySelector('.music-fab');
+  if (phone) {
+    if (fab) fab.style.display = 'none';
   } else {
-    document.querySelector('.music-fab').innerHTML = musicToggleHTML();
+    if (!fab) {
+      fab = document.createElement('div'); fab.className = 'music-fab'; document.body.append(fab);
+    }
+    fab.style.display = '';
+    fab.innerHTML = musicToggleHTML();
   }
 }
 app.addEventListener('click', (ev) => {
@@ -1310,6 +1650,7 @@ app.addEventListener('click', (ev) => {
     }
     ev.preventDefault();
     tab = tabEl.dataset.tab;
+    if (isPhoneUI()) { phonePanel = null; }
     render();
     return;
   }
@@ -1317,6 +1658,49 @@ app.addEventListener('click', (ev) => {
   // Real disabled: attribute or aria (Playwright/DOM greyed choices must not fire)
   if (b.disabled || b.getAttribute('aria-disabled') === 'true') { ev.preventDefault(); ev.stopPropagation(); return; }
   const a = b.dataset.a, v = b.dataset.v; let r;
+  if (a === 'phonestats') {
+    if (!isPhoneUI()) return;
+    phoneStatsOpen = !phoneStatsOpen; render(); return;
+  }
+  if (a === 'phonehome') {
+    if (!isPhoneUI()) return;
+    tab = 'life'; phonePanel = null; render(); return;
+  }
+  if (a === 'phonepasses') {
+    if (!isPhoneUI() || isItchBuild()) return;
+    tab = 'passes'; phonePanel = null; render(); return;
+  }
+  if (a === 'phonerest') {
+    if (!isPhoneUI()) return;
+    const wrap = b.closest('.bw-rest');
+    const pick = wrap && wrap.querySelector('.bw-rest-pick');
+    if (pick) { pick.hidden = !pick.hidden; return; }
+    tab = 'life'; phonePanel = 'rest'; render(); return;
+  }
+  if (a === 'phonepanel') {
+    if (!isPhoneUI()) return;
+    if (String(v || '').startsWith('more:')) {
+      tab = v.slice(5); phonePanel = 'menu-dest'; render(); return;
+    }
+    if (PHONE_LIFE_PANELS.includes(v)) {
+      if (tab === 'menu' || tab === 'workadv' || tab === 'bonds') {
+        phonePanel = v; render(); return;
+      }
+      tab = 'life'; phonePanel = v; render(); return;
+    }
+    phonePanel = v || null; render(); return;
+  }
+  if (a === 'phoneback') {
+    if (!isPhoneUI()) return;
+    if (tab === 'passes') { tab = 'life'; phonePanel = null; render(); return; }
+    if (PHONE_MENU_DEST.includes(tab)) { tab = 'menu'; phonePanel = null; render(); return; }
+    if (tab === 'workadv' || tab === 'bonds' || tab === 'menu') { phonePanel = null; render(); return; }
+    phonePanel = null; render(); return;
+  }
+  if (a === 'phonemenu' || a === 'phonemore') {
+    if (!isPhoneUI()) return;
+    tab = 'menu'; phonePanel = null; render(); return;
+  }
   if (a === 'age') {
     if (s?.pending?.length || outcomeAck) return;
     const prevAge = E.cage(s);
@@ -1512,6 +1896,9 @@ function startAmbient() {
   mountAmbient({ realm: (s && s.region) || 'hearthfold', tab: document.body.dataset.tab || 'life' });
 }
 (async () => {
+  const sync = () => { try { syncPhoneClass(); } catch (_) {} };
+  sync();
+  window.addEventListener('resize', sync);
   setChrome('gate');
   app.innerHTML = `<div class="card panel-gate"><div class="card-body"><p class="sub">Checking access…</p></div></div>`;
   const acc = await checkAdminAccess();
@@ -1522,6 +1909,10 @@ function startAmbient() {
   try {
     const plat = new URLSearchParams(location.search).get('platform');
     if (plat) Ads.setPlatformOverride(plat);
+    else if (globalThis.Capacitor?.isNativePlatform?.()) {
+      const np = globalThis.Capacitor.getPlatform?.();
+      if (np === 'android' || np === 'ios') Ads.setPlatformOverride(np);
+    }
   } catch (_) {}
   await installNativeAds();
   installNativeBilling();

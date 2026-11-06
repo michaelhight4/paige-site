@@ -1,3 +1,6 @@
+## 2026-11-05 — phone UI live (f7cac67)
+- Lifeline-style phone hub + fantasy forest flair + real chip icons. Cache `?v=live1`. Desktop unchanged.
+
 ## HOTFIX — 0-gold soft lock + Adventure≠Actions — Nov 5 ~9:30 PM CT
 
 - Soft lock: broke chars (0 gold) could not Join any job (apron/kit bond min 5g); guild/team stayed unreachable
