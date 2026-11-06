@@ -1,3 +1,10 @@
+## Live — pending · P1 body[data-tab] click steal hotfix · https://paigegames.net/boundwake/
+
+## HOTFIX P1 — Age/Skip/Rest clicks stolen by body[data-tab] — Coder Nov 5 ~6:12 PM CT
+- Root cause: `closest('[data-tab]')` matched `body[data-tab]` from setChrome; every Age/Skip/Rest re-rendered Life and returned before `data-a`
+- Fix: tab delegation only `button[data-tab], a[data-tab], .flare[data-tab]`
+- Engine ageUp was fine; UI path blocked
+
 ## Live — **532c1717** WD Legacy merge + motion · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:10 PM CT — WD Legacy merge + Animator motion

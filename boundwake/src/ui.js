@@ -966,8 +966,9 @@ function render() {
   }
 }
 app.addEventListener('click', (ev) => {
-  // Tab switches win for any [data-tab] (journal Adventure flare chips, Life shortcuts, main tabs)
-  const tabEl = ev.target.closest('[data-tab]');
+  // Tab switches for buttons / flare chips with data-tab — never body[data-tab] (setChrome).
+  // Soccer Rpg P1: closest('[data-tab]') matched BODY and ate Age/Skip/Rest before data-a.
+  const tabEl = ev.target.closest('button[data-tab], a[data-tab], .flare[data-tab]');
   if (tabEl && tabEl.dataset.tab) {
     if (tabEl.tagName === 'BUTTON' && (tabEl.disabled || tabEl.getAttribute('aria-disabled') === 'true')) {
       ev.preventDefault(); ev.stopPropagation(); return;
