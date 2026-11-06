@@ -9,7 +9,7 @@
 - Cache: `?v=passes1`
 - Stub: Play/Apple/itch product IDs + AdMob — Gary console create next
 
-## Live — **PENDING** passes scaffolding · https://paigegames.net/boundwake/
+## Live — **8a5edcb8** passes scaffolding · https://paigegames.net/boundwake/
 
 ## Adventure outcome acknowledge — Nov 5 ~7:30 PM CT (Gary)
 
