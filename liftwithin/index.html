@@ -187,15 +187,17 @@ const CONFIG = {
   collections: [
     { id: 'camo', title: 'Camo', match: ['timber', 'duck bark', 'quack'] },
     { id: 'signature', title: 'Signature', match: ['signature'] },
+    { id: 'disciple', title: 'Disciple', match: ['disciple'] },
   ],
-  // First matching category wins, so Jackets (hoodie) is checked before Shirts.
+  // First matching category wins: sweatshirt before sweats; hoodie before shirts.
   categories: [
+    { id: 'sweatshirts', title: 'Sweatshirts', match: ['sweatshirt'] },
     { id: 'pants', title: 'Pants', match: ['pants', 'joggers', 'sweats'] },
     { id: 'shorts', title: 'Shorts', match: ['shorts'] },
     { id: 'jackets', title: 'Jackets', match: ['hoodie', 'jacket'] },
     { id: 'shirts', title: 'Shirts', match: ['t-shirt', 'tee', 'jersey', 'shirt'] },
   ],
-  categoryOrder: ['pants', 'shorts', 'shirts', 'jackets'],
+  categoryOrder: ['pants', 'shorts', 'sweatshirts', 'shirts', 'jackets'],
 };
 // ==========================
 
