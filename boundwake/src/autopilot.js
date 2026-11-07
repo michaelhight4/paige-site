@@ -2,7 +2,7 @@
 // Gated by Autopilot Pack (web alpha still free via premium.json alpha.webFreePasses).
 // Docs: docs/AUTOPILOT.md
 
-import * as E from './bw_engine.js';
+import * as E from './bw_engine.js?v=lifechoices1';
 import * as Premium from './premium.js';
 
 export const PASS = 'autopilot';

@@ -1144,3 +1144,8 @@ body[data-tab="legacy"] .play-body > details.legacy-acc.panel-legacy{
 .panel-passes{--accent:var(--echo,#6b4a8a);--accent2:#4a3068;--tint:color-mix(in srgb,#6b4a8a 12%,#fff)}
 body[data-tab="passes"] .play-body > *{flex:0 0 auto}
 body[data-tab="passes"] .card.panel-passes{overflow:visible}
+
+/* Mid-life choices reuse existing buttons; larger targets only on the phone menu. */
+.life-choices { margin-top: 10px; }
+html.is-phone .life-choices { display: flex; flex-wrap: wrap; gap: 10px; }
+html.is-phone .life-choices button { min-height: 48px; min-width: 120px; flex: 1; }

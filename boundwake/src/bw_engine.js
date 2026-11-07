@@ -1233,6 +1233,12 @@ function pickDeathCause(s, kind) {
 export function die(s, cause) {
   if (!s.alive) return; s.alive = false; s.cause = cause; s.pending = []; log(s, `${D.terms.causes[cause] || D.terms.causes.unknown}`, 'death');
 }
+// Same death path, score and Echo eligibility as a natural death. No bonus payout here.
+export function giveUp(s) {
+  if (!s?.alive) return false;
+  die(s, 'unknown');
+  return true;
+}
 export const heirs = (s) => living(s, 'child');
 export function legacyScore(s) { return Math.round(s.stats.fame * 2 + s.gold / 20 + Object.values(s.skills).reduce((a, b) => a + Math.max(0, b - 20), 0) / 5 + s.relics.length * 15 + s.codex.length * 2); }
 export function echoChoices(s) {

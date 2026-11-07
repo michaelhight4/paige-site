@@ -1,13 +1,13 @@
 // Boundwake UI shell — studio standard pass (Nov 5, 2026 CT).
 // Craft: Lifeline docked Age + per-menu hue bars; Boundwake parchment/realm identity.
 import { loadPack } from './pack.js';
-import * as E from './bw_engine.js?v=advack2';
+import * as E from './bw_engine.js?v=lifechoices1';
 import { ico, esc, flare, oddsChip, statLabel, infoChip, skillIco } from './flare.js';
 import { mountInfoClicks, openInfo, openInfoDetail } from './info.js';
 import { checkAdminAccess, gateHTML, isLocalHost } from './admingate.js';
 import { mountAmbient, paintAmbient } from './ambient.js';
 import { mountMusic, syncMusic, toggleMute, musicToggleHTML, unlockMusic } from './music.js?v=musicfix1';
-import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP, unlocked as autoUnlocked } from './autopilot.js?v=gold1';
+import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP, unlocked as autoUnlocked } from './autopilot.js?v=lifechoices1';
 import * as Premium from './premium.js';
 import * as PremFx from './premium_fx.js';
 import * as Ads from './ads.js';
@@ -310,6 +310,7 @@ function adoptRemoteSave(remote, reason) {
   if (!remote || adoptBusy) return;
   adoptBusy = true;
   try {
+    requestStop(); outcomeAck = null;
     s = remote;
     if (s.lifeEpoch == null) s.lifeEpoch = Number(meta?.lifeEpoch) || 0;
     if (s.logSeq == null) s.logSeq = Array.isArray(s.log) ? s.log.length : 0;
@@ -319,11 +320,39 @@ function adoptRemoteSave(remote, reason) {
     if (s.guild === undefined) s.guild = null;
     if (!s.flags) s.flags = {};
     if (reason) toast(reason);
-    render(); // render→save write-through once ranks match
+    render(); // Adopt already-persisted state without broadcasting it back to other tabs.
   } finally { adoptBusy = false; }
 }
+function currentLifeGuard() {
+  const stored = readStoredSave();
+  if (stored && (!s || cmpSave(stored, s) > 0)) {
+    adoptRemoteSave(stored, 'Another tab changed this life. Please review it before continuing.');
+    return false;
+  }
+  return true;
+}
+function lifeChoiceButtons() {
+  return `<div class="actions life-choices"><button class="ghost" data-a="newlife">New Life</button><button class="ghost" data-a="giveup">Give Up</button></div>`;
+}
+function chooseLifeAction(kind) {
+  if (!currentLifeGuard() || !s || s.awaitingFate) return;
+  if (autoRunning()) { requestStop(); toast('Stopping Autopilot. Choose again once it has stopped.'); return; }
+  if (kind === 'giveup' && !s.alive) return;
+  const expected = s;
+  const warning = kind === 'giveup'
+    ? 'Give up this life now? It will end immediately. You may then reincarnate through the normal Echo/heir choices, using only what you have earned so far. This cannot be undone.'
+    : 'Start a New Life? Your current life will be abandoned. It grants no new Echo, inheritance or end-of-life bonuses. Previously earned Legacy progress stays. This cannot be undone.';
+  if (!window.confirm(warning) || !currentLifeGuard() || s !== expected) return;
+  outcomeAck = null; delete document.body.dataset.sheetBusy;
+  if (kind === 'giveup') E.giveUp(s);
+  else s = { ...s, alive: false, pending: [], awaitingFate: true };
+  // Persist a higher-epoch boundary even while on character creation. Never delete KEY:
+  // an old tab must not resurrect the abandoned life or mint duplicate death rewards.
+  bumpLifeEpoch(s); tab = 'life'; phonePanel = null;
+  save(); render();
+}
 const save = () => {
-  if (Q.has('nosave') || !s) return false;
+  if (Q.has('nosave') || !s || adoptBusy) return false;
   if (s.lifeEpoch == null) s.lifeEpoch = Number(meta?.lifeEpoch) || 0;
   if (s.logSeq == null) s.logSeq = Array.isArray(s.log) ? s.log.length : 0;
   // Compare BEFORE mutating savedAt — mutating first + savedAt%10000 caused refuse-write loops.
@@ -490,7 +519,7 @@ function fateScreen(rr = 1) {
   app.innerHTML = card('fate', `${ico('echo')} ${T('fate_title')}`, body);
   try { syncMusic('fate', document.documentElement.dataset.tod); } catch (_) {}
   if (!document.querySelector('.music-fab')) { const fab = document.createElement('div'); fab.className = 'music-fab'; fab.innerHTML = musicToggleHTML(); document.body.append(fab); }
-  $('#go').onclick = () => { s = E.begin(fate, meta); bumpLifeEpoch(s); tab = 'life'; save(); render(); };
+  $('#go').onclick = () => { if (!currentLifeGuard() || (s && !s.awaitingFate)) return; s = E.begin(fate, meta); bumpLifeEpoch(s); tab = 'life'; save(); render(); };
   $('#rr').onclick = () => fateScreen(0);
 }
 function header() {
@@ -508,7 +537,7 @@ function header() {
    <div class="bars">${bar('health', s.stats.health, s.stats.health < 30 ? 'bad bar-health' : 'bar-health')}${bar('spirit', s.stats.happiness)}${bar('wits', s.stats.smarts)}${bar('presence', s.stats.looks)}
    ${bar('strain', s.stats.stress, 'bad bar-strain')}${bar('renown', s.stats.fame)}${mana}</div>
    <div class="pills"><span class="pill">${ico('act')}Actions ${s.budget.act}/4</span><span class="pill">${ico('social')}Social ${s.budget.social}/3</span><span class="pill">${ico('adventure')}Adventure ${s.budget.adv}/5</span>${s.injuries.length ? `<span class="pill bad">${ico('strain')}Injuries ${s.injuries.length}</span>` : ''}</div>`;
-  return `<div class="card hub panel-${tab}"><div class="card-body">${body}</div></div>`;
+  return `<div class="card hub panel-${tab}"><div class="card-body">${body}${lifeChoiceButtons()}</div></div>`;
 }
 function body() {
   const h = E.hage(s); // portrait/life-stage feel
@@ -1516,7 +1545,7 @@ function phoneMenuHTML() {
     ${phoneRow('activities', ico('adventure'), 'Activities', 'Things to do this year', 'sky')}
     ${phoneRow('auto', ico('act'), 'Autopilot', 'Skip quiet years safely', 'plum')}
     <div class="bw-sec tone-gold">Settings</div>
-    <div class="bw-set-row"><span class="bw-set-lb">${ico('spirit')} Music</span>${musicToggleHTML()}</div>`;
+    <div class="bw-set-row"><span class="bw-set-lb">${ico('spirit')} Music</span>${musicToggleHTML()}</div>${lifeChoiceButtons()}`;
 }
 function phoneBondsHTML() {
   return `<div class="bw-sec tone-plum">Bonds</div>
@@ -1617,7 +1646,7 @@ function phoneRender(sheet) {
 
 function render() {
   syncPhoneClass();
-  if (!s) return fateScreen();
+  if (!s || s.awaitingFate) return fateScreen();
   if (!s.alive) {
     save();
     deathScreen();
@@ -1811,12 +1840,12 @@ app.addEventListener('click', (ev) => {
   else if (a === 'ackout') {
     outcomeAck = null;
   }
-  else if (a === 'newlife') { s = null; localStorage.removeItem(KEY); tab = 'life'; fateScreen(); return; }
+  else if (a === 'newlife' || a === 'giveup') { chooseLifeAction(a); return; }
   else if (a === 'train') r = E.train(s, v); else if (a === 'job') r = E.takeJob(s, v); else if (a === 'quit') E.quitJob(s); else if (a === 'work') r = E.workHard(s); else if (a === 'odd') r = E.oddJobs(s);
   else if (a === 'adv') r = E.adventure(s); else if (a === 'rest') r = E.rest(s); else if (a === 'route') { r = E.chooseRoute(s, v); }
   else if (a === 'soc') r = E.socialize(s, v); else if (a === 'friend') r = E.meetSomeone(s, false); else if (a === 'love') r = E.meetSomeone(s, true); else if (a === 'travel') r = E.travel(s, v); else if (a === 'scout') r = E.scoutRealm(s, v); else if (a === 'visit') r = E.visitLocation(s, v);
-  else if (a === 'reinc') { s = E.reincarnate(meta, s, v, (Math.random() * 2 ** 31) | 0); bumpLifeEpoch(s); tab = 'life'; }
-  else if (a === 'heir') { s = E.continueAsHeir(meta, s, v, (Math.random() * 2 ** 31) | 0); bumpLifeEpoch(s); tab = 'life'; }
+  else if (a === 'reinc') { if (!currentLifeGuard() || s.alive || s.awaitingFate || !E.echoChoices(s).includes(v)) return; s = E.reincarnate(meta, s, v, (Math.random() * 2 ** 31) | 0); bumpLifeEpoch(s); tab = 'life'; }
+  else if (a === 'heir') { if (!currentLifeGuard() || s.alive || s.awaitingFate || !E.heirs(s).some(h => h.id === v)) return; s = E.continueAsHeir(meta, s, v, (Math.random() * 2 ** 31) | 0); bumpLifeEpoch(s); tab = 'life'; }
   else if (a === 'party') { r = E.toggleParty(s, v); }
   else if (a === 'awaken') { r = E.attemptManaAwaken(s); }
   else if (a === 'style') { r = E.chooseSwordStyle(s, v); }
@@ -1915,20 +1944,24 @@ app.addEventListener('click', (ev) => {
     n = Math.min(MAX_SKIP, n);
     toast(`Autopilot: skipping ${n} year${n > 1 ? 's' : ''}…`);
     render(); // show Stop button
+    const autoLife = s;
     skipYears(s, n, {
       waitMs: 30,
       onYear: (y, i, total) => {
+        if (s !== autoLife) return;
         flashSkip(document.querySelector('.auto-host'));
         flashSkip(document.querySelector('.dock-auto'));
         if (i === 1 || i === total || i % 5 === 0) toast(`Autopilot ${i}/${total} · age ${E.cage(s)}`);
       },
-      onPause: (p) => { toast(p?.reason || 'Autopilot paused.'); },
+      onPause: (p) => { if (s !== autoLife) return; toast(p?.reason || 'Autopilot paused.'); },
     }).then((res) => {
+      if (s !== autoLife) return;
       if (res.ok) toast(`Skipped ${res.done} year${res.done > 1 ? 's' : ''} · age ${E.cage(s)}.`);
       else if (res.paused?.kind === 'stop') toast('Autopilot stopped.');
       else if (res.paused?.reason) toast(res.paused.reason);
       save(); render();
     }).catch((err) => {
+      if (s !== autoLife) return;
       console.error('Autopilot error', err);
       toast('Autopilot failed — try Age +1.');
       save(); render();

@@ -1,2 +1,2 @@
-{ "name": "boundwake", "version": "0.1.0", "private": true, "type": "module",
+{ "name": "boundwake", "version": "0.1.2-alpha", "private": true, "type": "module",
   "scripts": { "start": "python3 -m http.server 8090", "build:pack": "python3 tools/build_pack.py && python3 tools/build_events.py", "test": "node tests/smoke.mjs" } }

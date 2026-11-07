@@ -1,3 +1,12 @@
+## 0.1.2-alpha — lifechoices1 · Nov 6, 2026 (CT)
+
+- Mid-life **New Life** (no new death rewards; prior meta Legacy stays) and **Give Up** (normal death → earned Echo/heir choices), both confirmed.
+- Desktop: beneath character stats. Phone browser: **More → Settings**, 48px targets.
+- Persistent creation boundary and guarded death choices prevent old tabs restoring abandoned lives or repeating rewards; adopted saves no longer rebroadcast in a loop.
+- Autopilot is stopped before transition/remote adoption, old callbacks cannot save a replacement life, and UI/Autopilot share one initialized engine module.
+- Regression coverage: natural-death parity/idempotence, creation/reload, real and stale tabs, desktop/touch-phone actions, Autopilot, smoke, music, poor-start and adventure checks. See `LIFE_CHOICES.md`.
+- itch HTML5 version **0.1.2-alpha** uses the existing no-ads/no-Stripe/no-Passes bootstrap. Native/mobile outputs, Lifeline and Kilumen untouched. Existing access policy unchanged.
+
 ## itch HTML5 — musicfix1 pushed — Nov 6 ~2:55 PM CT
 
 - Zip: `/workspace/releases/boundwake/itch/boundwake-itch-20261106-musicfix1.zip` (~13 MB)

@@ -1,7 +1,7 @@
 // Poor-start soft-lock check: each race, wealth=poor, force gold=0 at age 6, play to 25; need >=80g.
 import fs from 'fs';
 import { loadPack } from '../src/pack.js';
-import * as E from '../src/bw_engine.js';
+import * as E from '../src/bw_engine.js?v=lifechoices1';
 import { spendLeftover, runOneYear } from '../src/autopilot.js';
 
 const pack = await loadPack(async (f) => JSON.parse(fs.readFileSync(new URL('../data_fantasy/' + f, import.meta.url))));

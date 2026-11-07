@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {loadPack} from '../src/pack.js';
+import * as E from '../src/bw_engine.js';
+const pack=await loadPack(async f=>JSON.parse(fs.readFileSync(new URL('../data_fantasy/'+f,import.meta.url))));E.setPack(pack);
+const original=E.begin(E.rollFate(9876),{});original.age=37;original.gold=2400;original.stats.fame=21;original.pending=['example'];
+const natural=structuredClone(original),given=structuredClone(original);
+E.die(natural,'unknown');assert.equal(E.giveUp(given),true);assert.deepEqual(given,natural);assert.equal(E.giveUp(given),false);assert.deepEqual(given,natural);
+assert.equal(E.legacyScore(given),E.legacyScore(natural));assert.deepEqual(E.echoChoices(given),E.echoChoices(natural));
+const ma={},mb={},echo=E.echoChoices(given)[0];assert.deepEqual(E.reincarnate(ma,natural,echo,345),E.reincarnate(mb,given,echo,345));assert.deepEqual(ma,mb);assert.equal(ma.cemetery.length,1);assert.equal(Object.values(ma.echoes).reduce((a,b)=>a+b,0),1);
+console.log('PASS Give Up exact natural-death state/score/choices/payout; repeated Give Up is idempotent; one normal Echo and one cemetery record');
