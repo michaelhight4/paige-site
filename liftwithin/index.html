@@ -173,7 +173,8 @@ table.sz td.hl,table.sz th.hl{background:rgba(212,167,44,.16)}
 </div>
 <div class="toast" id="toast"></div>
 
-<script>
+<script type="module">
+import { leadingImage, orderedImageUrls } from "/liftwithin/mockup-order.js";
 // ===== Editable config =====
 const CONFIG = {
   api: 'https://kjdubkeowcyuoazvpoyt.supabase.co/functions/v1',
@@ -247,34 +248,34 @@ const PLAIN_PF = new Set([
     "https://files.cdn.printful.com/files/f53/f535991d4ac1c28ee01c3c30b1841666_preview.png"
   ]);
 function isPlain(u) { return !u || PLAIN_PF.has(u); }
-function extraMockups(pid, color) {
-  const out = [];
-  for (const e of EXTRA[pid] || []) {
-    if (e.color && color && e.color !== color) continue;
-    const u = '/liftwithin/' + e.src;
-    if (!out.includes(u)) out.push(u);
+// Designed mockups and Printful previews together. Front / print-carrying first, backs last, the rest stable.
+function shopImageItems(p, color, leadId) {
+  const items = [];
+  const seen = new Set();
+  const add = (url, itemColor) => {
+    if (!url || isPlain(url) || seen.has(url)) return;
+    seen.add(url);
+    items.push({ url, color: itemColor || "" });
+  };
+  for (const e of EXTRA[p.id] || []) {
+    if (color && e.color && e.color !== color) continue;
+    add('/liftwithin/' + e.src, e.color || "");
   }
-  return out;
+  let vs = (p.variants || []).filter((v) => !color || v.color === color);
+  if (leadId) {
+    const lead = vs.find((v) => v.id === leadId);
+    if (lead) vs = [lead, ...vs.filter((v) => v !== lead)];
+  }
+  for (const v of vs) for (const u of (v.images || [v.image])) add(u, v.color || "");
+  if (!color && !isPlain(p.thumbnail)) add(p.thumbnail, "");
+  return items;
 }
 function cardImg(p) {
-  // Prefer Gary's designed mockups (Black front first) over Printful previews.
-  const ex = EXTRA[p.id] || [];
-  if (ex.length) {
-    const pick = ex.find((e) => e.color === 'Black' && /-front-/.test(e.src))
-      || ex.find((e) => e.color === 'Black')
-      || ex.find((e) => /-front-/.test(e.src))
-      || ex[0];
-    return '/liftwithin/' + pick.src;
-  }
-  const v = p.variants.find((x) => x.image && !isPlain(x.image));
-  return (v && v.image) || (isPlain(p.thumbnail) ? null : p.thumbnail) || '';
+  return leadingImage(shopImageItems(p), "Black");
 }
 function displayImg(p, color) {
-  const ex = extraMockups(p.id, color);
-  if (ex.length) return ex[0];
-  const v = p.variants.find((x) => (!color || x.color === color) && x.image && !isPlain(x.image))
-    || p.variants.find((x) => x.image && !isPlain(x.image));
-  return (v && v.image) || cardImg(p);
+  const urls = orderedImageUrls(shopImageItems(p, color));
+  return urls[0] || cardImg(p);
 }
 function card(p) {
   return `<div class="card" role="button" tabindex="0" data-act="open" data-id="${p.id}"><div class="img"><img loading="lazy" src="${esc(cardImg(p))}" alt="${esc(p.name)}"></div><div class="meta"><div class="nm">${esc(p.name)}</div><div class="pr">from ${money(p.min_price)}</div></div></div>`;
@@ -404,13 +405,8 @@ function openProduct(p, keepSel) {
 }
 fetch('/liftwithin/extra-mockups.json').then((r) => r.ok ? r.json() : {}).then((d) => { EXTRA = d || {}; if (PRODUCTS.length) render(); if (cur && document.body.classList.contains('pdp-on')) drawProduct(); }).catch(() => {});
 function galleryImgs() {
-  const extras = extraMockups(cur.id, selColor);
-  const vs = cur.variants.filter((v) => !selColor || v.color === selColor);
-  const pf = []; const v = curVariant();
-  for (const x of [v, ...vs]) if (x) for (const u of (x.images || [x.image])) if (u && !isPlain(u) && !pf.includes(u)) pf.push(u);
-  // Designed mockups first; never show blank Printful backs.
-  const out = [...extras];
-  for (const u of pf) if (!out.includes(u)) out.push(u);
+  const v = curVariant();
+  const out = orderedImageUrls(shopImageItems(cur, selColor, v && v.id));
   if (!out.length) { const fallback = cardImg(cur); if (fallback) out.push(fallback); }
   return out;
 }

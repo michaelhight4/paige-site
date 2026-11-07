@@ -1,4 +1,6 @@
 // Lift Within shop: live proxy of the Printful store catalog (store 18998717). Public GET, ~5 min in-memory cache.
+import { mockupImageUrls, orderByMockupView } from "../_shared/mockup-order.js";
+
 const PF = "https://api.printful.com";
 const STORE = "18998717";
 const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, apikey, content-type", "Access-Control-Allow-Methods": "GET, OPTIONS" };
@@ -22,12 +24,13 @@ async function build() {
     const d = await pf(`/store/products/${p.id}`);
     const variants = (d.sync_variants || []).filter((v: any) => !v.is_ignored && v.availability_status !== "discontinued").map((v: any) => ({
       id: v.id, size: v.size || "", color: v.color || "", price: v.retail_price, currency: v.currency,
-      image: (v.files || []).find((f: any) => f.type === "preview")?.preview_url || null,
+      image: mockupImageUrls(v.files || [])[0] || null,
       available: v.availability_status === "active",
     }));
     for (const v of variants) if (!v.image) v.image = (variants.find((x: any) => x.image && x.color === v.color) || variants.find((x: any) => x.image))?.image || null; // never blank catalog photos
     const prices = variants.map((v: any) => parseFloat(v.price)).filter((n: number) => !isNaN(n));
-    return { id: p.id, name: p.name, thumbnail: p.thumbnail_url, min_price: prices.length ? Math.min(...prices) : null, variants };
+    const thumbnail = orderByMockupView([p.thumbnail_url, ...variants.map((v: any) => v.image)].filter(Boolean))[0] || p.thumbnail_url || null;
+    return { id: p.id, name: p.name, thumbnail, min_price: prices.length ? Math.min(...prices) : null, variants };
   }));
   return { updated: new Date().toISOString(), products: out.filter((p) => p.variants.length) };
 }

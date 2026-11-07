@@ -1,6 +1,8 @@
 // Lift Within shop: product detail (store 18998717). GET ?id=<sync_product_id>
 // Returns variants (live prices, per-variant mockup gallery), catalog description and size tables.
 // Store data cached 5 min, catalog data (description/sizes) cached 24 h.
+import { mockupImageUrls, orderByMockupView } from "../_shared/mockup-order.js";
+
 const PF = "https://api.printful.com";
 const STORE = "18998717";
 const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, apikey, content-type", "Access-Control-Allow-Methods": "GET, OPTIONS" };
@@ -36,8 +38,7 @@ async function build(id: string) {
   if (!d || d.sync_product?.is_ignored) return null;
   const sv = (d.sync_variants || []).filter((v: any) => !v.is_ignored && v.availability_status !== "discontinued");
   const variants = sv.map((v: any) => {
-    const mock = (v.files || []).filter((f: any) => f.type === "preview" && f.preview_url).map((f: any) => f.preview_url);
-    const images = [...new Set(mock)];
+    const images = mockupImageUrls(v.files || []);
     return { id: v.id, size: v.size || "", color: v.color || "", price: v.retail_price, currency: v.currency, image: images[0] || null, images, available: v.availability_status === "active" };
   });
   // variants without their own design mockup borrow one (same color first, then any) - never the blank catalog photo
@@ -49,7 +50,8 @@ async function build(id: string) {
   const cats = await Promise.all(cids.map(catalog));
   const prices = variants.map((v: any) => parseFloat(v.price)).filter((n: number) => !isNaN(n));
   return {
-    id: d.sync_product.id, name: d.sync_product.name, thumbnail: d.sync_product.thumbnail_url,
+    id: d.sync_product.id, name: d.sync_product.name,
+    thumbnail: orderByMockupView([d.sync_product.thumbnail_url, ...variants.map((v: any) => v.image)].filter(Boolean))[0] || d.sync_product.thumbnail_url || null,
     min_price: prices.length ? Math.min(...prices) : null,
     description: cats[0]?.description || "", size_tables: cats[0]?.size_tables || [], catalog: cats,
     variants, updated: new Date().toISOString(),
