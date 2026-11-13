@@ -1,0 +1,125 @@
+{
+ "perf": [
+  {
+   "plat": "pc",
+   "biome": "coast",
+   "wx": null,
+   "throttle": "1x",
+   "order": "bg>b-field>b-bottom",
+   "fps": 60,
+   "p50": 16.7,
+   "p95": 16.7
+  },
+  {
+   "plat": "pc",
+   "biome": "coast",
+   "wx": "wx wx-rain",
+   "throttle": "1x",
+   "order": "bg>wx>b-field",
+   "fps": 60,
+   "p50": 16.7,
+   "p95": 16.7
+  },
+  {
+   "plat": "pc",
+   "biome": "coast",
+   "wx": "wx wx-storm",
+   "throttle": "1x",
+   "order": "bg>wx>b-field",
+   "fps": 59.5,
+   "p50": 16.7,
+   "p95": 16.7
+  },
+  {
+   "plat": "pc",
+   "biome": "bog",
+   "wx": "wx wx-fog",
+   "throttle": "1x",
+   "order": "bg>wx>b-field",
+   "fps": 59.8,
+   "p50": 16.7,
+   "p95": 16.7
+  },
+  {
+   "plat": "pc",
+   "biome": "bog",
+   "wx": null,
+   "throttle": "1x",
+   "order": "bg>b-field>b-bottom",
+   "fps": 60.5,
+   "p50": 16.7,
+   "p95": 16.7
+  },
+  {
+   "plat": "pc",
+   "biome": "meadow",
+   "wx": "wx wx-rain",
+   "throttle": "1x",
+   "order": "bg>wx>b-field",
+   "fps": 60,
+   "p50": 16.7,
+   "p95": 16.8
+  },
+  {
+   "plat": "phone",
+   "biome": "coast",
+   "wx": null,
+   "throttle": "4x",
+   "order": "bg>b-field>b-bottom",
+   "fps": 59.4,
+   "p50": 16.7,
+   "p95": 16.8
+  },
+  {
+   "plat": "phone",
+   "biome": "coast",
+   "wx": "wx wx-rain",
+   "throttle": "4x",
+   "order": "bg>wx>b-field",
+   "fps": 57.4,
+   "p50": 16.7,
+   "p95": 16.8
+  },
+  {
+   "plat": "phone",
+   "biome": "coast",
+   "wx": "wx wx-storm",
+   "throttle": "4x",
+   "order": "bg>wx>b-field",
+   "fps": 59.4,
+   "p50": 16.7,
+   "p95": 16.8
+  },
+  {
+   "plat": "phone",
+   "biome": "bog",
+   "wx": "wx wx-fog",
+   "throttle": "4x",
+   "order": "bg>wx>b-field",
+   "fps": 59.4,
+   "p50": 16.7,
+   "p95": 16.8
+  },
+  {
+   "plat": "phone",
+   "biome": "bog",
+   "wx": null,
+   "throttle": "4x",
+   "order": "bg>b-field>b-bottom",
+   "fps": 58.8,
+   "p50": 16.7,
+   "p95": 16.8
+  },
+  {
+   "plat": "phone",
+   "biome": "meadow",
+   "wx": "wx wx-rain",
+   "throttle": "4x",
+   "order": "bg>wx>b-field",
+   "fps": 56.2,
+   "p50": 16.7,
+   "p95": 16.8
+  }
+ ],
+ "errors": []
+}

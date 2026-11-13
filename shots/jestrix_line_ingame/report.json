@@ -1,0 +1,336 @@
+[
+ {
+  "plat": "pc",
+  "scene": "battle_jestrix_vs_japkit",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_battle_jestrix_vs_japkit.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "battle_japkit_vs_harlequop",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_battle_japkit_vs_harlequop.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "battle_harlequop_vs_mummerhop",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_battle_harlequop_vs_mummerhop.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "battle_mummerhop_vs_maestrix",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_battle_mummerhop_vs_maestrix.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "battle_maestrix_vs_jestrix",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_battle_maestrix_vs_jestrix.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "walk_jestrix",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_walk_jestrix_0start.png",
+   "pc_walk_jestrix_right_mid.png",
+   "pc_walk_jestrix_down_mid.png",
+   "pc_walk_jestrix_left_mid.png",
+   "pc_walk_jestrix_up_mid.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "walk_japkit",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_walk_japkit_0start.png",
+   "pc_walk_japkit_right_mid.png",
+   "pc_walk_japkit_down_mid.png",
+   "pc_walk_japkit_left_mid.png",
+   "pc_walk_japkit_up_mid.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "walk_harlequop",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_walk_harlequop_0start.png",
+   "pc_walk_harlequop_right_mid.png",
+   "pc_walk_harlequop_down_mid.png",
+   "pc_walk_harlequop_left_mid.png",
+   "pc_walk_harlequop_up_mid.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "walk_mummerhop",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_walk_mummerhop_0start.png",
+   "pc_walk_mummerhop_right_mid.png",
+   "pc_walk_mummerhop_down_mid.png",
+   "pc_walk_mummerhop_left_mid.png",
+   "pc_walk_mummerhop_up_mid.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "walk_maestrix",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_walk_maestrix_0start.png",
+   "pc_walk_maestrix_right_mid.png",
+   "pc_walk_maestrix_down_mid.png",
+   "pc_walk_maestrix_left_mid.png",
+   "pc_walk_maestrix_up_mid.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "kilindex",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_kilindex_jestrix.png",
+   "pc_kilindex_japkit.png",
+   "pc_kilindex_harlequop.png",
+   "pc_kilindex_mummerhop.png",
+   "pc_kilindex_maestrix.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "evolve_jestrix_to_japkit",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_evolve_jestrix_to_japkit_start.png",
+   "pc_evolve_jestrix_to_japkit_glow.png",
+   "pc_evolve_jestrix_to_japkit_reveal.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "evolve_japkit_to_harlequop",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_evolve_japkit_to_harlequop_start.png",
+   "pc_evolve_japkit_to_harlequop_glow.png",
+   "pc_evolve_japkit_to_harlequop_reveal.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "evolve_harlequop_to_mummerhop",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_evolve_harlequop_to_mummerhop_start.png",
+   "pc_evolve_harlequop_to_mummerhop_glow.png",
+   "pc_evolve_harlequop_to_mummerhop_reveal.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "evolve_mummerhop_to_maestrix",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_evolve_mummerhop_to_maestrix_start.png",
+   "pc_evolve_mummerhop_to_maestrix_glow.png",
+   "pc_evolve_mummerhop_to_maestrix_reveal.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "battle_jestrix_vs_japkit",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_battle_jestrix_vs_japkit.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "battle_japkit_vs_harlequop",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_battle_japkit_vs_harlequop.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "battle_harlequop_vs_mummerhop",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_battle_harlequop_vs_mummerhop.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "battle_mummerhop_vs_maestrix",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_battle_mummerhop_vs_maestrix.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "battle_maestrix_vs_jestrix",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_battle_maestrix_vs_jestrix.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "walk_jestrix",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_walk_jestrix_0start.png",
+   "phone_walk_jestrix_right_mid.png",
+   "phone_walk_jestrix_down_mid.png",
+   "phone_walk_jestrix_left_mid.png",
+   "phone_walk_jestrix_up_mid.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "walk_japkit",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_walk_japkit_0start.png",
+   "phone_walk_japkit_right_mid.png",
+   "phone_walk_japkit_down_mid.png",
+   "phone_walk_japkit_left_mid.png",
+   "phone_walk_japkit_up_mid.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "walk_harlequop",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_walk_harlequop_0start.png",
+   "phone_walk_harlequop_right_mid.png",
+   "phone_walk_harlequop_down_mid.png",
+   "phone_walk_harlequop_left_mid.png",
+   "phone_walk_harlequop_up_mid.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "walk_mummerhop",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_walk_mummerhop_0start.png",
+   "phone_walk_mummerhop_right_mid.png",
+   "phone_walk_mummerhop_down_mid.png",
+   "phone_walk_mummerhop_left_mid.png",
+   "phone_walk_mummerhop_up_mid.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "walk_maestrix",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_walk_maestrix_0start.png",
+   "phone_walk_maestrix_right_mid.png",
+   "phone_walk_maestrix_down_mid.png",
+   "phone_walk_maestrix_left_mid.png",
+   "phone_walk_maestrix_up_mid.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "kilindex",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_kilindex_jestrix.png",
+   "phone_kilindex_japkit.png",
+   "phone_kilindex_harlequop.png",
+   "phone_kilindex_mummerhop.png",
+   "phone_kilindex_maestrix.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "evolve_jestrix_to_japkit",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_evolve_jestrix_to_japkit_start.png",
+   "phone_evolve_jestrix_to_japkit_glow.png",
+   "phone_evolve_jestrix_to_japkit_reveal.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "evolve_japkit_to_harlequop",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_evolve_japkit_to_harlequop_start.png",
+   "phone_evolve_japkit_to_harlequop_glow.png",
+   "phone_evolve_japkit_to_harlequop_reveal.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "evolve_harlequop_to_mummerhop",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_evolve_harlequop_to_mummerhop_start.png",
+   "phone_evolve_harlequop_to_mummerhop_glow.png",
+   "phone_evolve_harlequop_to_mummerhop_reveal.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "evolve_mummerhop_to_maestrix",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_evolve_mummerhop_to_maestrix_start.png",
+   "phone_evolve_mummerhop_to_maestrix_glow.png",
+   "phone_evolve_mummerhop_to_maestrix_reveal.png"
+  ]
+ }
+]

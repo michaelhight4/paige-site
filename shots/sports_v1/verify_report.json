@@ -1,0 +1,52 @@
+{
+ "desktop": {
+  "seconds": 31.918,
+  "saveBlockedDuringRace": "script",
+  "log": [
+   [
+    "start",
+    0.8179499010940393
+   ],
+   [
+    "push",
+    0.98
+   ],
+   [
+    "sprint",
+    0.98
+   ]
+  ],
+  "results": "Results: Dash Race\nNot this time. Rivals here are tough.\nFinal\n#\t\tTime\t\n1st\tHummbel\t23.55s\t+10\n2nd\tSpratwyrm\t24.08s\t+6\n3rd\tStonepede\t24.43s\t+3\n4th\tBriarlet\t24.73s\t+1\nHeat 1\n#\t\tTime\t\n1st\tHummbel\t23.56s\t\n2nd\tStonepede\t24.50s\t\n3rd\tNibbin (You)\t25.62s\t\n4th\tEmberbrock\t26.57s\t\nHeat 2\n#\t\tTime\t\n1st\tSpratwyrm\t24.17s\t\n2nd\tBriarlet\t24.50s\t\n3rd\tEchoshell\t25.73s\t\n4th\tGeodling\t26.95s\t\nRace againBack",
+  "after": {
+   "open": false,
+   "ts": 1,
+   "lock": "script"
+  },
+  "errors": []
+ },
+ "phone": {
+  "seconds": 31.154,
+  "saveBlockedDuringRace": "script",
+  "log": [
+   [
+    "start",
+    0.7338774036500201
+   ],
+   [
+    "push",
+    0.74
+   ],
+   [
+    "sprint",
+    0.81
+   ]
+  ],
+  "results": "Results: Dash Race\nNot this time. Rivals here are tough.\nFinal\n#\t\tTime\t\n1st\tFinnip\t23.83s\t+10\n2nd\tRubblon\t23.90s\t+6\n3rd\tBarnaclump\t24.57s\t+3\n4th\tHumstone\t25.43s\t+1\nHeat 1\n#\t\tTime\t\n1st\tFinnip\t23.44s\t\n2nd\tRubblon\t23.94s\t\n3rd\tMoatling\t24.31s\t\n4th\tNibbin (You)\t25.81s\t\nHeat 2\n#\t\tTime\t\n1st\tBarnaclump\t24.69s\t\n2nd\tHumstone\t25.61s\t\n3rd\tDewmite\t25.76s\t\n4th\tStonepede\t25.88s\t\nRace againBack",
+  "after": {
+   "open": false,
+   "ts": 1,
+   "lock": "script"
+  },
+  "errors": []
+ }
+}

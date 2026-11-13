@@ -1,0 +1,185 @@
+{
+  "pc": {
+    "steps": [
+      {
+        "k": "npcs",
+        "before": 9,
+        "party": [
+          "cindrip5",
+          "nibbin5"
+        ]
+      },
+      {
+        "k": "C_two",
+        "found": true,
+        "foes": [
+          {
+            "sp": "pandember",
+            "hp": 17,
+            "alive": true,
+            "caught": false
+          },
+          {
+            "sp": "mumblet",
+            "hp": 14,
+            "alive": true,
+            "caught": false
+          }
+        ]
+      },
+      {
+        "k": "C_pre_switch",
+        "s": {
+          "rt": true,
+          "turn": false,
+          "top": null,
+          "btn": {
+            "to": "turn",
+            "w": 161,
+            "h": 44,
+            "label": "⏸Turn-basedR"
+          },
+          "foes": [
+            {
+              "sp": "pandember",
+              "hp": 15,
+              "alive": true,
+              "caught": false
+            },
+            {
+              "sp": "mumblet",
+              "hp": 6,
+              "alive": true,
+              "caught": false
+            }
+          ],
+          "state": "fight",
+          "party": [
+            {
+              "sp": "cindrip",
+              "lv": 5,
+              "hp": 19,
+              "xp": 100
+            },
+            {
+              "sp": "nibbin",
+              "lv": 5,
+              "hp": 20,
+              "xp": 100
+            }
+          ],
+          "mode": "rt",
+          "flag": false,
+          "last": null,
+          "flash": false,
+          "saveLock": "script"
+        }
+      },
+      {
+        "k": "C_two_turn",
+        "turnFoes": [
+          {
+            "sp": "pandember",
+            "hp": 15
+          },
+          {
+            "sp": "mumblet",
+            "hp": 6
+          }
+        ]
+      },
+      {
+        "k": "C_back_rt",
+        "ok": true,
+        "now": {
+          "rt": true,
+          "turn": false,
+          "top": null,
+          "btn": {
+            "to": "turn",
+            "w": 161,
+            "h": 44,
+            "label": "⏸Turn-basedR"
+          },
+          "foes": [
+            {
+              "sp": "pandember",
+              "hp": 15,
+              "alive": true,
+              "caught": false
+            },
+            {
+              "sp": "mumblet",
+              "hp": 6,
+              "alive": true,
+              "caught": false
+            }
+          ],
+          "state": "fight",
+          "party": [
+            {
+              "sp": "cindrip",
+              "lv": 5,
+              "hp": 19,
+              "xp": 100
+            },
+            {
+              "sp": "nibbin",
+              "lv": 5,
+              "hp": 20,
+              "xp": 100
+            }
+          ],
+          "mode": "rt",
+          "flag": true,
+          "last": null,
+          "flash": false,
+          "saveLock": "script"
+        }
+      },
+      {
+        "k": "C_ko",
+        "ko": {
+          "lead": "nibbin",
+          "hp": 20,
+          "state": "fight"
+        }
+      },
+      {
+        "k": "C_fight",
+        "shots": 31,
+        "dodged": 8,
+        "tried": 0
+      },
+      {
+        "k": "C_end",
+        "last": {
+          "outcome": "win",
+          "caught": null,
+          "xp": 35
+        },
+        "party": [
+          {
+            "sp": "cindrip",
+            "lv": 5,
+            "hp": 0,
+            "xp": 100
+          },
+          {
+            "sp": "nibbin",
+            "lv": 5,
+            "hp": 14,
+            "xp": 135
+          }
+        ]
+      },
+      {
+        "k": "D_trainer_button",
+        "shown": false
+      }
+    ],
+    "errs": [],
+    "saveViolations": [],
+    "saveWrites": 6
+  }
+}

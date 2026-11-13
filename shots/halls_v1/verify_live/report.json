@@ -1,0 +1,122 @@
+{
+ "pc": {
+  "fernwick": {
+   "reachable": true,
+   "trainers": 2,
+   "version": "v0.2.56-alpha",
+   "loaded": "fernwick_hall_int",
+   "masterGate": "Beat the rest of my hall first. 2 trainers left.",
+   "sight": {
+    "helper_1": "spotted>talk > battle started",
+    "helper_2": "spotted>talk > battle started"
+   },
+   "errors": []
+  },
+  "saltmere": {
+   "reachable": true,
+   "trainers": 3,
+   "version": "v0.2.56-alpha",
+   "loaded": "saltmere_hall_int",
+   "masterGate": "Beat the rest of my hall first. 3 trainers left.",
+   "sight": {
+    "saltmere_hall_int_h1": "spotted>talk > battle started",
+    "saltmere_hall_int_h2": "spotted>talk > battle started",
+    "saltmere_hall_int_h3": "spotted>talk > battle started"
+   },
+   "errors": []
+  },
+  "revival": {
+   "reachable": true,
+   "trainers": 4,
+   "version": "v0.2.56-alpha",
+   "loaded": "revival_hall_int",
+   "masterGate": "Beat the rest of my hall first. 4 trainers left.",
+   "sight": {
+    "revival_hall_int_h1": "spotted>talk > battle started",
+    "revival_hall_int_h2": "spotted>talk > battle started",
+    "revival_hall_int_h3": "spotted>talk > battle started",
+    "revival_hall_int_h4": "spotted>talk > battle started"
+   },
+   "errors": []
+  },
+  "frostspire": {
+   "reachable": true,
+   "trainers": 3,
+   "version": "v0.2.56-alpha",
+   "loaded": "frostspire_hall_int",
+   "windPuzzleOpensOnMaster": true,
+   "masterGate": "Beat the rest of my hall first. 3 trainers left.",
+   "sight": {
+    "frostspire_hall_int_h1": "spotted>talk > battle started",
+    "frostspire_hall_int_h2": "spotted>talk > battle started",
+    "frostspire_hall_int_h3": "spotted>talk > battle started"
+   },
+   "windPuzzle": {
+    "kind": "gust",
+    "steps": 14,
+    "solved": true
+   },
+   "errors": []
+  }
+ },
+ "phone": {
+  "fernwick": {
+   "reachable": true,
+   "trainers": 2,
+   "version": "v0.2.56-alpha",
+   "loaded": "fernwick_hall_int",
+   "masterGate": "Beat the rest of my hall first. 2 trainers left.",
+   "sight": {
+    "helper_1": "spotted>talk > battle started",
+    "helper_2": "spotted>talk > battle started"
+   },
+   "errors": []
+  },
+  "saltmere": {
+   "reachable": true,
+   "trainers": 3,
+   "version": "v0.2.56-alpha",
+   "loaded": "saltmere_hall_int",
+   "masterGate": "Beat the rest of my hall first. 3 trainers left.",
+   "sight": {
+    "saltmere_hall_int_h1": "spotted>talk > battle started",
+    "saltmere_hall_int_h2": "spotted>talk > battle started",
+    "saltmere_hall_int_h3": "spotted>talk > battle started"
+   },
+   "errors": []
+  },
+  "revival": {
+   "reachable": true,
+   "trainers": 4,
+   "version": "v0.2.56-alpha",
+   "loaded": "revival_hall_int",
+   "masterGate": "Beat the rest of my hall first. 4 trainers left.",
+   "sight": {
+    "revival_hall_int_h1": "spotted>talk > battle started",
+    "revival_hall_int_h2": "spotted>talk > battle started",
+    "revival_hall_int_h3": "spotted>talk > battle started",
+    "revival_hall_int_h4": "spotted>talk > battle started"
+   },
+   "errors": []
+  },
+  "frostspire": {
+   "reachable": true,
+   "trainers": 3,
+   "version": "v0.2.56-alpha",
+   "loaded": "frostspire_hall_int",
+   "windPuzzleOpensOnMaster": true,
+   "masterGate": "Beat the rest of my hall first. 3 trainers left.",
+   "sight": {
+    "frostspire_hall_int_h1": "spotted>talk > battle started",
+    "frostspire_hall_int_h2": "spotted>talk > battle started",
+    "frostspire_hall_int_h3": "spotted>talk > battle started"
+   },
+   "windPuzzle": {
+    "kind": "gust",
+    "steps": 14,
+    "solved": true
+   },
+   "errors": []
+  }
+ }
+}

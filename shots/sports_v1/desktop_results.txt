@@ -1,0 +1,22 @@
+Results: Dash Tournament
+Out in the heats. Only the top two in each heat make the final.
+No prize this time. · Gold: 250
+Final
+#		Time	
+1st	Gearwarden	24.06s	+10
+2nd	Mossmote	24.55s	+6
+3rd	Brinecube	24.72s	+3
+4th	Medulet	24.97s	+1
+Heat 1
+#		Time	
+1st	Gearwarden	24.11s	
+2nd	Medulet	24.92s	
+3rd	Sproutwyrm	24.99s	
+4th	Nibbin (You)	26.63s	
+Heat 2
+#		Time	
+1st	Mossmote	24.67s	
+2nd	Brinecube	24.89s	
+3rd	Bastonox	25.64s	
+4th	Stonepede	25.75s	
+Back

@@ -1,0 +1,282 @@
+[
+  {
+    "view": "pc1920x1080",
+    "scene": "overworld",
+    "platform": [
+      "pc",
+      "pc"
+    ],
+    "canvasPx": [
+      [
+        1920,
+        1080
+      ],
+      [
+        1920,
+        1080
+      ]
+    ],
+    "zoom": [
+      2,
+      2
+    ],
+    "canvasHash": [
+      1609525189,
+      1609525189
+    ],
+    "canvasIdentical": true,
+    "screenshotDiffPx": 0
+  },
+  {
+    "view": "pc1920x1080",
+    "scene": "interior",
+    "platform": [
+      "pc",
+      "pc"
+    ],
+    "canvasPx": [
+      [
+        1920,
+        1080
+      ],
+      [
+        1920,
+        1080
+      ]
+    ],
+    "zoom": [
+      2,
+      2
+    ],
+    "canvasHash": [
+      3429658085,
+      3429658085
+    ],
+    "canvasIdentical": true,
+    "screenshotDiffPx": 0
+  },
+  {
+    "view": "pc1920x1080",
+    "scene": "battle",
+    "platform": [
+      "pc",
+      "pc"
+    ],
+    "canvasPx": [
+      [
+        1920,
+        1080
+      ],
+      [
+        1920,
+        1080
+      ]
+    ],
+    "zoom": [
+      2,
+      2
+    ],
+    "canvasHash": [
+      1609525189,
+      1609525189
+    ],
+    "canvasIdentical": true,
+    "screenshotDiffPx": 15
+  },
+  {
+    "view": "pc1920x1080",
+    "scene": "menu",
+    "platform": [
+      "pc",
+      "pc"
+    ],
+    "canvasPx": [
+      [
+        1920,
+        1080
+      ],
+      [
+        1920,
+        1080
+      ]
+    ],
+    "zoom": [
+      2,
+      2
+    ],
+    "canvasHash": [
+      1609525189,
+      1609525189
+    ],
+    "canvasIdentical": true,
+    "screenshotDiffPx": 13
+  },
+  {
+    "view": "pc1920x1080",
+    "scene": "dialogue",
+    "platform": [
+      "pc",
+      "pc"
+    ],
+    "canvasPx": [
+      [
+        1920,
+        1080
+      ],
+      [
+        1920,
+        1080
+      ]
+    ],
+    "zoom": [
+      2,
+      2
+    ],
+    "canvasHash": [
+      1609525189,
+      1609525189
+    ],
+    "canvasIdentical": true,
+    "screenshotDiffPx": 0
+  },
+  {
+    "view": "pc1280x720",
+    "scene": "overworld",
+    "platform": [
+      "pc",
+      "pc"
+    ],
+    "canvasPx": [
+      [
+        1280,
+        720
+      ],
+      [
+        1280,
+        720
+      ]
+    ],
+    "zoom": [
+      2,
+      2
+    ],
+    "canvasHash": [
+      628320757,
+      628320757
+    ],
+    "canvasIdentical": true,
+    "screenshotDiffPx": 0
+  },
+  {
+    "view": "pc1280x720",
+    "scene": "interior",
+    "platform": [
+      "pc",
+      "pc"
+    ],
+    "canvasPx": [
+      [
+        1280,
+        720
+      ],
+      [
+        1280,
+        720
+      ]
+    ],
+    "zoom": [
+      2,
+      2
+    ],
+    "canvasHash": [
+      3757116725,
+      3757116725
+    ],
+    "canvasIdentical": true,
+    "screenshotDiffPx": 0
+  },
+  {
+    "view": "pc1280x720",
+    "scene": "battle",
+    "platform": [
+      "pc",
+      "pc"
+    ],
+    "canvasPx": [
+      [
+        1280,
+        720
+      ],
+      [
+        1280,
+        720
+      ]
+    ],
+    "zoom": [
+      2,
+      2
+    ],
+    "canvasHash": [
+      628320757,
+      628320757
+    ],
+    "canvasIdentical": true,
+    "screenshotDiffPx": 2
+  },
+  {
+    "view": "pc1280x720",
+    "scene": "menu",
+    "platform": [
+      "pc",
+      "pc"
+    ],
+    "canvasPx": [
+      [
+        1280,
+        720
+      ],
+      [
+        1280,
+        720
+      ]
+    ],
+    "zoom": [
+      2,
+      2
+    ],
+    "canvasHash": [
+      628320757,
+      628320757
+    ],
+    "canvasIdentical": true,
+    "screenshotDiffPx": 0
+  },
+  {
+    "view": "pc1280x720",
+    "scene": "dialogue",
+    "platform": [
+      "pc",
+      "pc"
+    ],
+    "canvasPx": [
+      [
+        1280,
+        720
+      ],
+      [
+        1280,
+        720
+      ]
+    ],
+    "zoom": [
+      2,
+      2
+    ],
+    "canvasHash": [
+      628320757,
+      628320757
+    ],
+    "canvasIdentical": true,
+    "screenshotDiffPx": 0
+  }
+]

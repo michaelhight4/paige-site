@@ -1,0 +1,52 @@
+[
+ {
+  "file": "pc1280x720_battle.png",
+  "size": "1280x720",
+  "diffPixels": 0
+ },
+ {
+  "file": "pc1280x720_dialogue.png",
+  "size": "1280x720",
+  "diffPixels": 29677
+ },
+ {
+  "file": "pc1280x720_interior.png",
+  "size": "1280x720",
+  "diffPixels": 0
+ },
+ {
+  "file": "pc1280x720_menu.png",
+  "size": "1280x720",
+  "diffPixels": 65086
+ },
+ {
+  "file": "pc1280x720_overworld.png",
+  "size": "1280x720",
+  "diffPixels": 1300
+ },
+ {
+  "file": "pc1920x1080_battle.png",
+  "size": "1920x1080",
+  "diffPixels": 0
+ },
+ {
+  "file": "pc1920x1080_dialogue.png",
+  "size": "1920x1080",
+  "diffPixels": 9053
+ },
+ {
+  "file": "pc1920x1080_interior.png",
+  "size": "1920x1080",
+  "diffPixels": 0
+ },
+ {
+  "file": "pc1920x1080_menu.png",
+  "size": "1920x1080",
+  "diffPixels": 201015
+ },
+ {
+  "file": "pc1920x1080_overworld.png",
+  "size": "1920x1080",
+  "diffPixels": 825
+ }
+]

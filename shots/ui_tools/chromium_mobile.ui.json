@@ -1,0 +1,57 @@
+{
+  "ui": {
+    "_note": "UI pass (Oct 22, 2026): sizing for src/ui on phones (landscape, tested 932x430, 956x440, 2340x1080). The right inset keeps every menu clear of the A/B buttons (right 22 + 2x76 + gap 14 = 188px). D-pad, SEL and DBG hide while a menu is open; A/B stay. Tuning here never changes pc.json.",
+    "vars": {
+      "font": "14px",
+      "hud-font": "13px",
+      "family": "ui-rounded, \"Nunito\", \"Trebuchet MS\", system-ui, sans-serif",
+      "inset-top": "calc(6px + var(--safe-top, 0px))",
+      "inset-left": "calc(10px + var(--safe-left, 0px))",
+      "inset-right": "calc(200px + var(--safe-right, 0px))",
+      "inset-bottom": "calc(6px + var(--safe-bottom, 0px))",
+      "max-w": "none",
+      "gap": "8px",
+      "pad": "10px",
+      "row-h": "44px",
+      "hit": "44px",
+      "tile-h": "92px",
+      "badge": "46px",
+      "icon": "48px",
+      "app-cols": "4",
+      "team-cols": "2",
+      "card-h": "78px",
+      "dex-cols": "4",
+      "dex-h": "84px",
+      "dex-sprite": "1",
+      "bar-h": "10px",
+      "logo": "64px",
+      "menu-btn": "48px",
+      "hud-edge": "10px",
+      "b-plate-w": "250px",
+      "b-bottom-h": "max(30%, 126px)",
+      "b-msg-skills": "none"
+    },
+    "spriteScale": [
+      {
+        "minHeight": 0,
+        "scale": 1
+      }
+    ],
+    "menuKeys": [
+      "Escape",
+      "KeyM"
+    ],
+    "menuPadButton": 9,
+    "menuButton": "round",
+    "hideTouchDuringUI": [
+      "dpad",
+      "sel",
+      "dbg"
+    ],
+    "titleOnBoot": true,
+    "locationBanner": true,
+    "bannerMs": 2400,
+    "interactPrompt": true,
+    "haptics": true
+  }
+}

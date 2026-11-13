@@ -1,0 +1,180 @@
+[
+ {
+  "file": "pg_pc_quest_hud.png",
+  "hud": "★ The Benchmark 0/4\nHead north up Route 1. Three trainers on the trail (optional; see sq_fork_regulars).",
+  "flags": [
+   "q_sq_bin_day_on",
+   "q_sq_dana_on",
+   "q_mq_route1_benchmark_on",
+   "q_sq_biscuit_on",
+   "q_mq_brookhollow_promotion_done"
+  ],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_pc_quest_log.png",
+  "hud": "★ The Benchmark 0/4Head north up Route 1. Three trainers on the trail (optional; see sq_fork_regulars).",
+  "flags": [
+   "q_sq_bin_day_on",
+   "q_sq_dana_on",
+   "q_mq_route1_benchmark_on",
+   "q_sq_biscuit_on",
+   "q_mq_brookhollow_promotion_done"
+  ],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_pc_quest_give.png",
+  "r": "ok",
+  "hud": "★ The Benchmark 0/4Head north up Route 1. Three trainers on the trail (optional; see sq_fork_regulars).",
+  "flags": [
+   "q_sq_bin_day_on",
+   "q_sq_dana_on",
+   "q_mq_route1_benchmark_on",
+   "q_sq_biscuit_on",
+   "q_mq_brookhollow_promotion_done"
+  ],
+  "dlg": "Something's eating my beans. Neat little bites, every night.\n▼",
+  "errors": []
+ },
+ {
+  "file": "pg_pc_master_saltmere.png",
+  "hud": null,
+  "flags": [],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_pc_master_cindervale.png",
+  "hud": null,
+  "flags": [],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_pc_hall_saltmere.png",
+  "hud": null,
+  "flags": [],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_pc_hall_revival_heights.png",
+  "hud": null,
+  "flags": [],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_pc_hall_frostspire.png",
+  "hud": null,
+  "flags": [],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_pc_hall_mirefen.png",
+  "hud": null,
+  "flags": [],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_pc_hall_tidewater_coast.png",
+  "hud": null,
+  "flags": [],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_pc_hall_lanternport.png",
+  "hud": null,
+  "flags": [],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_pc_hall_cindervale.png",
+  "hud": null,
+  "flags": [],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_pc_hall_saltmere_solved.png",
+  "hud": null,
+  "flags": [],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_phone_quest_hud.png",
+  "hud": "★ The Benchmark 0/4\nHead north up Route 1. Three trainers on the trail (optional; see sq_fork_regulars).",
+  "flags": [
+   "q_sq_bin_day_on",
+   "q_sq_dana_on",
+   "q_mq_route1_benchmark_on",
+   "q_sq_biscuit_on",
+   "q_mq_brookhollow_promotion_done"
+  ],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_phone_quest_log.png",
+  "hud": "★ The Benchmark 0/4Head north up Route 1. Three trainers on the trail (optional; see sq_fork_regulars).",
+  "flags": [
+   "q_sq_bin_day_on",
+   "q_sq_dana_on",
+   "q_mq_route1_benchmark_on",
+   "q_sq_biscuit_on",
+   "q_mq_brookhollow_promotion_done"
+  ],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_phone_quest_give.png",
+  "r": "ok",
+  "hud": "★ The Benchmark 0/4Head north up Route 1. Three trainers on the trail (optional; see sq_fork_regulars).",
+  "flags": [
+   "q_sq_bin_day_on",
+   "q_sq_dana_on",
+   "q_mq_route1_benchmark_on",
+   "q_sq_biscuit_on",
+   "q_mq_brookhollow_promotion_done"
+  ],
+  "dlg": "Something's eating my beans. Neat little bites, every night.\n▼",
+  "errors": []
+ },
+ {
+  "file": "pg_phone_master_saltmere.png",
+  "hud": null,
+  "flags": [],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_phone_master_cindervale.png",
+  "hud": null,
+  "flags": [],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_phone_hall_revival_heights.png",
+  "hud": null,
+  "flags": [],
+  "dlg": "▼",
+  "errors": []
+ },
+ {
+  "file": "pg_phone_hall_saltmere_solved.png",
+  "hud": null,
+  "flags": [],
+  "dlg": "▼",
+  "errors": []
+ }
+]

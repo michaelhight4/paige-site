@@ -1,0 +1,24 @@
+{
+  "phone": {
+    "steps": [
+      {
+        "k": "npcs",
+        "before": 9,
+        "party": [
+          "cindrip5",
+          "nibbin5"
+        ]
+      },
+      {
+        "k": "KILL",
+        "rt": false,
+        "turn": false,
+        "btn": null,
+        "mode": "rt",
+        "url": "https://paigegames.net/kilumen/index.html"
+      }
+    ],
+    "errs": [],
+    "saveViolations": []
+  }
+}

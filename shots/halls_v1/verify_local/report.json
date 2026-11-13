@@ -1,0 +1,29 @@
+{
+ "pc": {
+  "frostspire": {
+   "reachable": true,
+   "trainers": 3,
+   "version": "v0.2.56-alpha",
+   "loaded": "frostspire_hall_int",
+   "windPuzzleOpensOnMaster": true,
+   "masterGate": "Beat the rest of my hall first. 3 trainers left.",
+   "sight": {
+    "frostspire_hall_int_h1": "spotted>talk > battle started",
+    "frostspire_hall_int_h2": "spotted>talk > battle started",
+    "frostspire_hall_int_h3": "spotted>talk > battle started"
+   },
+   "windPuzzle": {
+    "kind": "gust",
+    "steps": 14,
+    "solved": true
+   },
+   "errors": [
+    "Failed to load resource: the server responded with a status of 404 (File not found) @http://127.0.0.1:8977/playtime.js?game=kilumen&v=v0.2.56-alpha",
+    "Failed to load resource: the server responded with a status of 404 (File not found) @http://127.0.0.1:8977/playtime.js?game=kilumen&v=v0.2.56-alpha",
+    "Failed to load resource: the server responded with a status of 404 (File not found) @http://127.0.0.1:8977/playtime.js?game=kilumen&v=v0.2.56-alpha",
+    "Failed to load resource: the server responded with a status of 404 (File not found) @http://127.0.0.1:8977/playtime.js?game=kilumen&v=v0.2.56-alpha",
+    "Failed to load resource: the server responded with a status of 404 (File not found) @http://127.0.0.1:8977/playtime.js?game=kilumen&v=v0.2.56-alpha"
+   ]
+  }
+ }
+}

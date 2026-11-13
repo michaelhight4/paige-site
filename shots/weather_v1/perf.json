@@ -1,0 +1,146 @@
+{
+ "phone_route1_clear": {
+  "frames": 173,
+  "rafAvg": 28.92,
+  "rafP95": 50.1,
+  "mainMsPerFrame": 28.8,
+  "wxDrawAvg": 0.043,
+  "wxDrawP95": 0.1
+ },
+ "phone_route1_rain_light": {
+  "frames": 171,
+  "rafAvg": 29.2,
+  "rafP95": 66.6,
+  "mainMsPerFrame": 28.33,
+  "wxDrawAvg": 0.182,
+  "wxDrawP95": 0.5
+ },
+ "phone_route1_rain_heavy": {
+  "frames": 134,
+  "rafAvg": 37.45,
+  "rafP95": 83.3,
+  "mainMsPerFrame": 36.83,
+  "wxDrawAvg": 0.184,
+  "wxDrawP95": 0.5
+ },
+ "phone_route1_storm": {
+  "frames": 125,
+  "rafAvg": 39.89,
+  "rafP95": 66.8,
+  "mainMsPerFrame": 40.18,
+  "wxDrawAvg": 0.413,
+  "wxDrawP95": 0.7
+ },
+ "phone_route1_fog": {
+  "frames": 115,
+  "rafAvg": 43.35,
+  "rafP95": 99.9,
+  "mainMsPerFrame": 44.18,
+  "wxDrawAvg": 0.126,
+  "wxDrawP95": 0.4
+ },
+ "phone_route1_clear_2": {
+  "frames": 157,
+  "rafAvg": 31.76,
+  "rafP95": 66.7,
+  "mainMsPerFrame": 31.6,
+  "wxDrawAvg": 0.062,
+  "wxDrawP95": 0.1
+ },
+ "phone_frostspire_pass_snow_light": {
+  "frames": 102,
+  "rafAvg": 49.23,
+  "rafP95": 99.9,
+  "mainMsPerFrame": 49.6,
+  "wxDrawAvg": 0.159,
+  "wxDrawP95": 0.6
+ },
+ "phone_frostspire_pass_blizzard": {
+  "frames": 99,
+  "rafAvg": 50.9,
+  "rafP95": 116.7,
+  "mainMsPerFrame": 52.43,
+  "wxDrawAvg": 0.207,
+  "wxDrawP95": 0.7
+ },
+ "phone_frostspire_pass_ice_fog": {
+  "frames": 58,
+  "rafAvg": 86.94,
+  "rafP95": 183.3,
+  "mainMsPerFrame": 85.64,
+  "wxDrawAvg": 0.078,
+  "wxDrawP95": 0.5
+ },
+ "pc_route1_clear": {
+  "frames": 41,
+  "rafAvg": 123.32,
+  "rafP95": 266.6,
+  "mainMsPerFrame": 126.11,
+  "wxDrawAvg": 0.222,
+  "wxDrawP95": 0.6
+ },
+ "pc_route1_rain_light": {
+  "frames": 85,
+  "rafAvg": 58.97,
+  "rafP95": 133.3,
+  "mainMsPerFrame": 59.68,
+  "wxDrawAvg": 0.24,
+  "wxDrawP95": 0.8
+ },
+ "pc_route1_rain_heavy": {
+  "frames": 101,
+  "rafAvg": 50.17,
+  "rafP95": 116.6,
+  "mainMsPerFrame": 51.08,
+  "wxDrawAvg": 0.247,
+  "wxDrawP95": 0.8
+ },
+ "pc_route1_storm": {
+  "frames": 42,
+  "rafAvg": 118.79,
+  "rafP95": 366.6,
+  "mainMsPerFrame": 129.53,
+  "wxDrawAvg": 0.662,
+  "wxDrawP95": 4.3
+ },
+ "pc_route1_fog": {
+  "frames": 24,
+  "rafAvg": 206.41,
+  "rafP95": 349.9,
+  "mainMsPerFrame": 218.63,
+  "wxDrawAvg": 0.158,
+  "wxDrawP95": 0.9
+ },
+ "pc_route1_clear_2": {
+  "frames": 139,
+  "rafAvg": 36.06,
+  "rafP95": 66.8,
+  "mainMsPerFrame": 36.11,
+  "wxDrawAvg": 0.019,
+  "wxDrawP95": 0.1
+ },
+ "pc_frostspire_pass_snow_light": {
+  "frames": 22,
+  "rafAvg": 231.06,
+  "rafP95": 400,
+  "mainMsPerFrame": 244.82,
+  "wxDrawAvg": 0.877,
+  "wxDrawP95": 0.9
+ },
+ "pc_frostspire_pass_blizzard": {
+  "frames": 35,
+  "rafAvg": 144.2,
+  "rafP95": 350,
+  "mainMsPerFrame": 146.36,
+  "wxDrawAvg": 0.131,
+  "wxDrawP95": 0.7
+ },
+ "pc_frostspire_pass_ice_fog": {
+  "frames": 62,
+  "rafAvg": 80.65,
+  "rafP95": 150,
+  "mainMsPerFrame": 83.99,
+  "wxDrawAvg": 0.077,
+  "wxDrawP95": 0.2
+ }
+}

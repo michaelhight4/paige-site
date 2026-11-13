@@ -1,0 +1,746 @@
+From 51d23597f60248090f57c9cf35e30872b3bb2de3 Mon Sep 17 00:00:00 2001
+From: Coder <coder@paigegames.net>
+Date: Thu, 29 Oct 2026 14:16:39 -0500
+Subject: [PATCH] Weather v1: dynamic weather per area (clear/fog/rain/storm,
+ snow/ice fog/blizzard), encounter + fishing modifiers, saved state, HUD chip,
+ more noticeable snow
+
+---
+ kilumen/THIRD_PARTY_LICENSES             |   6 ++
+ kilumen/data/textbot_requests_weather.md |   3 +
+ kilumen/docs/WEATHER.md                  |  78 +++++++++++++++
+ kilumen/src/alpha.js                     |   2 +-
+ kilumen/src/battle/encounters.js         |  20 ++--
+ kilumen/src/fishing/index.js             |   2 +-
+ kilumen/src/fishing/logic.js             |  31 +++---
+ kilumen/src/main.js                      |   1 +
+ kilumen/src/region4/soul.js              |  11 ++-
+ kilumen/src/weather/fx.js                |  84 ++++++++++++++++
+ kilumen/src/weather/index.js             |  89 +++++++++++++++++
+ kilumen/src/weather/logic.js             | 117 +++++++++++++++++++++++
+ kilumen/tests/weather.test.mjs           |  86 +++++++++++++++++
+ 13 files changed, 501 insertions(+), 29 deletions(-)
+ create mode 100644 kilumen/data/textbot_requests_weather.md
+ create mode 100644 kilumen/docs/WEATHER.md
+ create mode 100644 kilumen/src/weather/fx.js
+ create mode 100644 kilumen/src/weather/index.js
+ create mode 100644 kilumen/src/weather/logic.js
+ create mode 100644 kilumen/tests/weather.test.mjs
+
+diff --git a/kilumen/THIRD_PARTY_LICENSES b/kilumen/THIRD_PARTY_LICENSES
+index 49c56a13..89854605 100644
+--- a/kilumen/THIRD_PARTY_LICENSES
++++ b/kilumen/THIRD_PARTY_LICENSES
+@@ -634,3 +634,9 @@ THE SOFTWARE.
+ Pixel Water (Godot shader) by Francisco Cidade: CC0. https://fcidade.itch.io/pixel-water-godot-shader-free
+ Where: src/battle/data/water_bg.js. Only the technique (flat banded water shades, thin crests, sparse glints, long swell)
+ was adapted; no code copied. Credited anyway. All art is drawn in code by Kilumen.
++
++################################################################################
++# Dynamic weather v1 (Oct 29, 2026)
++################################################################################
++No third-party code. Evaluated only (all MIT): weather-canvas, sparkle, let-it-go, minimal-snow, canvas-snowfall.
++src/weather/ is original Kilumen code.
+diff --git a/kilumen/data/textbot_requests_weather.md b/kilumen/data/textbot_requests_weather.md
+new file mode 100644
+index 00000000..19c2cfd4
+--- /dev/null
++++ b/kilumen/data/textbot_requests_weather.md
+@@ -0,0 +1,3 @@
++# Text Bot requests: weather v1 (Coder, Oct 29 2026)
++Placeholder keys live in src/weather/logic.js `TEXT` (HUD weather chip, one short label each). Please add final lines to text/ and the chip will read them:
++weather.clear, weather.fog, weather.rain_light, weather.rain_heavy, weather.storm, weather.snow_light, weather.ice_fog, weather.blizzard
+diff --git a/kilumen/docs/WEATHER.md b/kilumen/docs/WEATHER.md
+new file mode 100644
+index 00000000..eb8b2976
+--- /dev/null
++++ b/kilumen/docs/WEATHER.md
+@@ -0,0 +1,78 @@
++# Kilumen weather v1 (branch dev/weather-rain)
++
++Code: `kilumen/src/weather/`. Weather rolls per 3 in-game hours from a per-save seed (saved in `systems.weather`), by area type. Indoors is always clear; `*_storm` maps are always storm. Changes ease over 4 s.
++
++## Chances per 3-hour block
++
++| Area | Row | clear | fog | rain_light | rain_heavy | storm | snow_light | ice_fog | blizzard |
++|---|---|---|---|---|---|---|---|---|---|
++| temperate | day | 52% | 8% | 22% | 12% | 6% | · | · | · |
++| temperate | dawn | 42% | 30% | 16% | 8% | 4% | · | · | · |
++| swamp | day | 34% | 22% | 22% | 14% | 8% | · | · | · |
++| swamp | dawn | 24% | 46% | 16% | 10% | 4% | · | · | · |
++| snowy | day | · | · | · | · | · | 66% | 10% | 24% |
++| snowy | dawn | · | · | · | · | · | 56% | 26% | 18% |
++
++Dawn = blocks starting 03:00–08:59. Snowy areas never roll rain. Swamp = mirefen, mirefen_bog, route_saltmere_mirefen, route_sunmeadow_mirefen; snowy = frostspire maps.
++
++## Encounter modifiers (wild grass rolls)
++
++| Kind | Step rate | Element weight | Species weight | Weather-only species (weight, grass zones only) | Notes |
++|---|---|---|---|---|---|
++| clear | ×1 | — | — | — |  |
++| fog | ×1.15 | ghost ×1.6, mystic ×1.6, dark ×1.4 | — | dustbonnet w5, mournlily w3 |  |
++| rain_light | ×1 | water ×1.5, swamp ×1.3, rain ×2 | — | — |  |
++| rain_heavy | ×1 | water ×1.8, swamp ×1.5, rain ×2.5 | — | puddlenip w10, pondkin w8 (swamp) |  |
++| storm | ×1 | water ×2, swamp ×1.6, rain ×3 | — | puddlenip w10, drizzlebill w4, pondkin w8 (swamp) |  |
++| snow_light | ×1 | — | snowgrouse ×1.2, frostlop ×1.3, snowdrowse ×1.3, alpuff ×1.2 | — |  |
++| ice_fog | ×1.1 | ghost ×1.5, mystic ×1.6 | snowdrowse ×3 | — |  |
++| blizzard | ×1.1 | wind ×1.4 | snowgrouse ×1.8, frostlop ×2, shagmount ×2, tundrarch ×2.5, snowdrowse ×1.8, ledgebex ×1.5 | snowcairn w6, rimewick w3 |  |
++
++Data field: any slot in `data/encounters_wired.json` may carry `"weather": {"rain": 2}` (multiplier; groups rain / fog / snow or an exact kind) or `"weather": ["rain"]` (only in that weather).
++
++## Fishing modifiers
++
++| Kind | Bite chance | Wait | Uncommon weight | Rare weight |
++|---|---|---|---|---|
++| clear | ×1 | ×1 | ×1 | ×1 |
++| fog | ×0.85 | ×1.3 | ×1.3 | ×1.8 |
++| rain_light | ×1.12 | ×1 | ×1.15 | ×1.3 |
++| rain_heavy | ×1.22 | ×1 | ×1.3 | ×1.6 |
++| storm | ×1.3 | ×0.9 | ×1.4 | ×2 |
++| snow_light | ×1 | ×1 | ×1 | ×1 |
++| ice_fog | ×0.85 | ×1.25 | ×1 | ×1.6 |
++| blizzard | ×0.9 | ×1 | ×1.3 | ×1.5 |
++
++Fog also plans trainer sight -1 tile (in MODS.fog, not wired: trainer code is shared with other work).
++
++## Frame cost (measured Oct 29 2026, Playwright Chromium, 4x CPU throttle, software canvas on the box)
++
++wxDraw = time inside the weather draw call per frame (st.prof timer). Whole-frame numbers are noisy on the box: origin/main itself measured 18.7 ms main-thread/frame on phone route1 (no weather), and ?wx=0 on this branch 17.8 ms, so whole-frame deltas between kinds are mostly box noise.
++
++| Run | weather draw avg ms | p95 ms | main-thread ms/frame | rAF avg ms |
++|---|---|---|---|---|
++| phone_route1_clear | 0.043 | 0.1 | 28.8 | 28.92 |
++| phone_route1_rain_light | 0.182 | 0.5 | 28.33 | 29.2 |
++| phone_route1_rain_heavy | 0.184 | 0.5 | 36.83 | 37.45 |
++| phone_route1_storm | 0.413 | 0.7 | 40.18 | 39.89 |
++| phone_route1_fog | 0.126 | 0.4 | 44.18 | 43.35 |
++| phone_route1_clear_2 | 0.062 | 0.1 | 31.6 | 31.76 |
++| phone_frostspire_pass_snow_light | 0.159 | 0.6 | 49.6 | 49.23 |
++| phone_frostspire_pass_blizzard | 0.207 | 0.7 | 52.43 | 50.9 |
++| phone_frostspire_pass_ice_fog | 0.078 | 0.5 | 85.64 | 86.94 |
++| pc_route1_clear | 0.222 | 0.6 | 126.11 | 123.32 |
++| pc_route1_rain_light | 0.24 | 0.8 | 59.68 | 58.97 |
++| pc_route1_rain_heavy | 0.247 | 0.8 | 51.08 | 50.17 |
++| pc_route1_storm | 0.662 | 4.3 | 129.53 | 118.79 |
++| pc_route1_fog | 0.158 | 0.9 | 218.63 | 206.41 |
++| pc_route1_clear_2 | 0.019 | 0.1 | 36.11 | 36.06 |
++| pc_frostspire_pass_snow_light | 0.877 | 0.9 | 244.82 | 231.06 |
++| pc_frostspire_pass_blizzard | 0.131 | 0.7 | 146.36 | 144.2 |
++| pc_frostspire_pass_ice_fog | 0.077 | 0.2 | 83.99 | 80.65 |
++
++## Snow change
++soul.js flakeCount: cap 160 → 210, density /9000 → /6800, phone ×0.4 → ×0.45. Flakes ~20% larger, far flakes brighter. Light snow adds a faint low drift band (weather fx). Blizzard multiplies the soul.js flake count up to ×2.2 and pushes the wind ×4.
++
++## Files
++Shots: `<kind>_pc.png` / `<kind>_phone.png`, contact_sheet_{pc,phone}.png, clip_{pc,phone}.mp4 (route1 clear → light → heavy → storm → fog → clear, then Frostspire light snow → blizzard → ice fog; 4 s eases). Scripts: _wx_shots.mjs, _wx_perf.mjs. Raw: report.json, perf.json.
++QA note: the alpha build strips dev URL flags, so shots force weather with `kilumen.scene.weather.set(kind)`. `?wx=0` (kept) turns weather off.
+diff --git a/kilumen/src/alpha.js b/kilumen/src/alpha.js
+index d5ca50ec..75e98001 100644
+--- a/kilumen/src/alpha.js
++++ b/kilumen/src/alpha.js
+@@ -14,7 +14,7 @@ if (raw.get('battle') === 'shell') keep.set('battle', 'shell');
+ if (raw.get('enc') === '0') keep.set('enc', '0');
+ if (raw.has('encrate') && Number.isFinite(Number(raw.get('encrate')))) keep.set('encrate', raw.get('encrate'));
+ // v0.2.0 opt-outs (Gary Oct 23 2026: contacts / RITA are default on, ?contacts=0 / ?cv=0 turn them off). Only the '0' value is kept.
+-for (const k of ['contacts', 'cv', 'sports', 'ix2', 'ixlight', 'cloudsave', 'rtb', 'fishing', 'feeds', 'rtbcap']) if (raw.get(k) === '0') keep.set(k, '0');
++for (const k of ['contacts', 'cv', 'sports', 'ix2', 'ixlight', 'cloudsave', 'rtb', 'fishing', 'feeds', 'rtbcap', 'wx']) if (raw.get(k) === '0') keep.set(k, '0');
+ if (raw.get('ix2') === '0') globalThis.KILUMEN_IX2_OFF = true; // Interiors v2 kill switch (Oct 29 2026): old interiors
+ if (raw.get('ixlight') === '0') globalThis.KILUMEN_IXLIGHT_OFF = true; // no ix2 plane lighting / indoor night shade
+ if (raw.get('rtbcap') === '0') globalThis.KILUMEN_RTB_CAPTURE_OFF = true; // real-time Capture button / tab kill switch (v0.2.65): no crystals in real-time (T to turn-based still captures)
+diff --git a/kilumen/src/battle/encounters.js b/kilumen/src/battle/encounters.js
+index 4b0f7808..ad879f70 100644
+--- a/kilumen/src/battle/encounters.js
++++ b/kilumen/src/battle/encounters.js
+@@ -18,6 +18,7 @@ export const ENCOUNTERS_WIRED_URL = 'data/encounters_wired.json';
+ // town you get"): on trail maps with an axis in data/trail_axes.json the slot level follows the player's progress along
+ // the trail (src/battle/level_scale.js) instead of a uniform roll. installWildEncounters opts.levelScale === false turns it off.
+ import { TRAIL_AXES_URL, axisFor, trailT, scaledLevel } from './level_scale.js?v=v0.2.68-alpha';
++import { wxMatch, encWeight, extraSlots, encRate, areaType } from '../weather/logic.js?v=v0.2.68-alpha'; // weather v1 (src/weather/)
+ import { TERRAIN_URL, terrainZone, filterTerrain } from './terrain_encounters.js?v=v0.2.68-alpha'; // water + cave floor at 0.3x grass (flag, off)
+ export const PHASES = ['dawn', 'day', 'dusk', 'night'];
+ export const MAX_RATE = 0.2;
+@@ -39,7 +40,7 @@ export function zoneAt(data, mapName, rects, x, y, code = 1) {
+ /** Slot conditions (encounters.json "conditions"): time phase list, weather list, flood-only. */
+ export function slotOk(slot, ctx = {}) {
+   if (slot.time && !slot.time.includes(ctx.phase || 'day')) return false;
+-  if (slot.weather && !slot.weather.includes(ctx.weather || 'clear')) return false;
++  if (Array.isArray(slot.weather) && !wxMatch(slot.weather, ctx.weather)) return false; // list = only in that weather ('rain' / 'fog' / 'snow' groups ok); an object {kind: x} is a weight multiplier (encWeight)
+   if (slot.flood && !ctx.flood) return false;
+   return true;
+ }
+@@ -47,11 +48,14 @@ export function slotOk(slot, ctx = {}) {
+ /** Weighted pick among eligible slots. Level uniform in [lo, hi], or, when ctx.t (trail progress 0..1) is a number,
+  * scaledLevel(lo, hi, t) clamped to the zone cap (zone.cap.level). rng() in [0,1). -> {species, level, slot} | null */
+ export function pickSlot(zone, ctx = {}, rng = Math.random) {
+-  const slots = (zone?.slots || []).filter((s) => (s.weight || 0) > 0 && slotOk(s, ctx));
+-  const total = slots.reduce((a, s) => a + s.weight, 0);
++  // weather v1: ctx.weather kind re-weights slots (encWeight: slot.weather {kind: x} + MODS element / species boosts) and
++  // adds the weather-only slots of that kind (extraSlots) when ctx.wxOn; without ctx.wxOn the weights are untouched.
++  const base = [...(zone?.slots || []), ...(ctx.wxOn ? extraSlots(zone, ctx.weather, ctx.area || 'temperate', ctx.hasArt) : [])];
++  const slots = base.filter((s) => (s.weight || 0) > 0 && slotOk(s, ctx)).map((s) => ({ s, w: ctx.wxOn ? encWeight(s, ctx.weather, ctx.elOf) : s.weight })).filter((x) => x.w > 0);
++  const total = slots.reduce((a, x) => a + x.w, 0);
+   if (!total) return null;
+-  let r = rng() * total, slot = slots[slots.length - 1];
+-  for (const s of slots) { if ((r -= s.weight) < 0) { slot = s; break; } }
++  let r = rng() * total, slot = slots[slots.length - 1].s;
++  for (const x of slots) { if ((r -= x.w) < 0) { slot = x.s; break; } }
+   const [lo, hi] = Array.isArray(slot.level) ? slot.level : [slot.level, slot.level];
+   if (typeof ctx.t === 'number') return { species: slot.species, level: scaledLevel(lo, hi, ctx.t, rng, zone.cap?.level || null), slot };
+   return { species: slot.species, level: lo + Math.floor(rng() * (hi - lo + 1)), slot };
+@@ -132,7 +136,7 @@ export class EncounterRoller {
+   }
+   _roll(z, mapName, x, y, ctx) {
+     if (!z) return null;
+-    if (this.rng() >= this.rateFor(z.zone)) return null;
++    if (this.rng() >= Math.min(this.rateOverride != null ? 1 : this.maxRate, this.rateFor(z.zone) * (ctx.wxOn ? encRate(ctx.weather) : 1))) return null; // weather v1: fog / blizzard rate x (still capped)
+     const t = trailT(axisFor(this.axes, mapName), x, y);
+     const hit = pickSlot(z.zone, t == null ? ctx : { ...ctx, t }, this.rng);
+     if (!hit) return null;
+@@ -174,7 +178,9 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
+     if (!ro || !m) return;
+     if (st.lastMap !== m.name) { st.lastMap = m.name; ro.resetGrace(); } // a few free steps after every map change
+     if (scene.busy || scene.fade || !scene.party?.length || opts.blocked?.()) return;
+-    const ctx = { phase: scene.phase, weather: scene.flags?.has('storm_season') ? 'storm' : 'clear', flood: /_storm$/.test(m.name) };
++    const wk = scene.weather?.kind?.(); // weather v1 (src/weather/index.js); absent -> the old storm_season rule
++    const ctx = { phase: scene.phase, weather: wk || (scene.flags?.has('storm_season') ? 'storm' : 'clear'), flood: /_storm$/.test(m.name),
++      wxOn: !!wk, area: areaType(m.name), elOf: opts.elOf, hasArt: opts.hasArt && opts.artFilter !== false ? opts.hasArt : null };
+     const hit = water ? ro.stepWater(m.name, x, y, ctx) : ro.step(m.name, m.json?.encounter_zones, x, y, code, ctx);
+     if (!hit) return;
+     scene.log?.push({ tick: scene.tick, type: 'wild', species: hit.species, level: hit.level, table: hit.table, x, y, t: hit.t });
+diff --git a/kilumen/src/fishing/index.js b/kilumen/src/fishing/index.js
+index 16e12e6e..8536d32b 100644
+--- a/kilumen/src/fishing/index.js
++++ b/kilumen/src/fishing/index.js
+@@ -128,7 +128,7 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
+     const choice = await openPicker();
+     if (choice.cancel) return;
+     const baitId = choice.bait && sys.bag.count(choice.bait) > 0 ? choice.bait : null;
+-    const plan = planCast(st.tables, scene.map.name, rod, st.rng || rng, hasArt, baitId);
++    const plan = planCast(st.tables, scene.map.name, rod, st.rng || rng, hasArt, baitId, scene.weather?.fishMods?.() || null); // weather v1: rain / fog / blizzard fishing multipliers
+     const p = scene.player, d = DELTA[p.facing];
+     const fx = st.fx = { phase: 'cast', t0: now(), cell, facing: p.facing, from: { x: (p.x + 0.5 + d.x * 0.45) * TILE, y: (p.y - 0.15) * TILE }, press: null, touch: touch(), plan };
+     st.casts++;
+diff --git a/kilumen/src/fishing/logic.js b/kilumen/src/fishing/logic.js
+index 9fcd3cec..17cf265d 100644
+--- a/kilumen/src/fishing/logic.js
++++ b/kilumen/src/fishing/logic.js
+@@ -58,18 +58,19 @@ export const BAIT_IDS = Object.freeze(['ripple_grub', 'reed_nymph', 'brine_fleck
+ export const baitOf = (tables, bait) => (bait && typeof bait === 'object' ? bait : (bait && tables?.baits?.[bait]) || null);
+ 
+ /** Bite chance for the rod (tables.rods[id].bite) plus the bait, clamped to tables.bite_clamp (default 0.05..0.95). */
+-export function biteChance(tables, rod, bait = null) {
++// weather v1 (src/weather/logic.js fishMods): optional wx {bite, rare, uncommon, wait} multipliers; null = no change.
++export function biteChance(tables, rod, bait = null, wx = null) {
+   const base = tables?.rods?.[rod?.id]?.bite ?? 0.7, b = baitOf(tables, bait);
+-  if (!b) return base;
++  if (!b && (!wx || wx.bite === 1)) return base;
+   const [lo, hi] = tables?.bite_clamp || [0.05, 0.95];
+-  return Math.round(Math.min(hi, Math.max(lo, base + (b.bite || 0))) * 1e6) / 1e6;
++  return Math.round(Math.min(hi, Math.max(lo, (base + (b?.bite || 0)) * (wx?.bite ?? 1))) * 1e6) / 1e6;
+ }
+ 
+ /** Effective weight of one slot under a bait. elOf(species) -> element list (tables.species_el). */
+-export function effectiveWeight(slot, bait = null, elOf = null) {
+-  const w = slot.weight ?? 1;
++export function effectiveWeight(slot, bait = null, elOf = null, wx = null) {
++  const w0 = slot.weight ?? 1, r = slot.rarity || 'common';
++  const w = w0 > 0 && wx ? w0 * (r === 'rare' ? (wx.rare ?? 1) : r === 'uncommon' ? (wx.uncommon ?? 1) : 1) : w0;
+   if (!bait || w <= 0) return Math.max(0, w);
+-  const r = slot.rarity || 'common';
+   const R = r === 'rare' ? (bait.rare ?? 1) : r === 'uncommon' ? (bait.uncommon ?? 1) : 1;
+   const E = bait.element && isWaterEl(elOf?.(slot.species)) && (elOf?.(slot.species) || []).includes(bait.element) ? (bait.elementMult ?? 1) : 1;
+   return w * R * E;
+@@ -81,8 +82,8 @@ export const elFrom = (tables) => (sp) => tables?.species_el?.[sp] || [];
+ /** Weighted species pick + uniform level. Optional hasArt drops creatures without art (same rule as grass, #62).
+  * Optional bait row + elOf apply the gear multipliers; with elOf, any non-water species is dropped (water-only rule).
+  * planCast always passes elOf, so fishing can never roll a non-water creature. Returns rarity too. */
+-export function pickFish(table, rng = Math.random, hasArt = null, bait = null, elOf = null) {
+-  const slots = (table?.slots || []).map((s) => ({ s, w: effectiveWeight(s, bait, elOf) }))
++export function pickFish(table, rng = Math.random, hasArt = null, bait = null, elOf = null, wx = null) {
++  const slots = (table?.slots || []).map((s) => ({ s, w: effectiveWeight(s, bait, elOf, wx) }))
+     .filter((x) => x.w > 0 && (!hasArt || hasArt(x.s.species)) && (!elOf || isWaterEl(elOf(x.s.species))));
+   const total = slots.reduce((a, x) => a + x.w, 0);
+   if (!total) return null;
+@@ -93,11 +94,11 @@ export function pickFish(table, rng = Math.random, hasArt = null, bait = null, e
+ }
+ 
+ /** Expected catches per 100 clean casts -> {bite, bites, common, uncommon, rare} (design §5 point 5). */
+-export function expectedPer100(tables, mapName, rod, bait = null) {
++export function expectedPer100(tables, mapName, rod, bait = null, wx = null) {
+   const tab = tableFor(tables, mapName, rod), b = baitOf(tables, bait), elOf = elFrom(tables);
+-  const p = biteChance(tables, rod, b), out = { bite: p, bites: 100 * p, common: 0, uncommon: 0, rare: 0 };
++  const p = biteChance(tables, rod, b, wx), out = { bite: p, bites: 100 * p, common: 0, uncommon: 0, rare: 0 };
+   if (!tab) return { ...out, bites: 0 };
+-  const ws = tab.slots.filter((s) => isWaterEl(elOf(s.species))).map((s) => [s.rarity || 'common', effectiveWeight(s, b, elOf)]), tot = ws.reduce((a, [, w]) => a + w, 0);
++  const ws = tab.slots.filter((s) => isWaterEl(elOf(s.species))).map((s) => [s.rarity || 'common', effectiveWeight(s, b, elOf, wx)]), tot = ws.reduce((a, [, w]) => a + w, 0);
+   for (const [k, w] of ws) out[k] += (100 * p * w) / tot;
+   return out;
+ }
+@@ -106,12 +107,12 @@ export function expectedPer100(tables, mapName, rod, bait = null) {
+  * One cast, decided up front (so tests and replays are deterministic). -> {bite: bool, waitMs, fish|null}
+  * The player's timing is judged later by judgePress.
+  */
+-export function planCast(tables, mapName, rod, rng = Math.random, hasArt = null, bait = null) {
++export function planCast(tables, mapName, rod, rng = Math.random, hasArt = null, bait = null, wx = null) {
+   const tab = tableFor(tables, mapName, rod), b = baitOf(tables, bait);
+-  const waitMs = Math.round(TIMING.WAIT_MIN + rng() * (TIMING.WAIT_MAX - TIMING.WAIT_MIN));
++  const waitMs = Math.round((TIMING.WAIT_MIN + rng() * (TIMING.WAIT_MAX - TIMING.WAIT_MIN)) * (wx?.wait ?? 1));
+   if (!tab) return { bite: false, waitMs, fish: null, empty: true };
+-  const bite = rng() < biteChance(tables, rod, b);
+-  return { bite, waitMs, fish: bite ? pickFish(tab, rng, hasArt, b, elFrom(tables)) : null, table: tab.from, tier: tab.tier, empty: false };
++  const bite = rng() < biteChance(tables, rod, b, wx);
++  return { bite, waitMs, fish: bite ? pickFish(tab, rng, hasArt, b, elFrom(tables), wx) : null, table: tab.from, tier: tab.tier, empty: false };
+ }
+ 
+ /** Judge an A press at time t (ms since the cast landed). -> 'early' | 'hooked' | 'late' | null (no press yet). */
+diff --git a/kilumen/src/main.js b/kilumen/src/main.js
+index a0fc5200..d6486117 100644
+--- a/kilumen/src/main.js
++++ b/kilumen/src/main.js
+@@ -145,6 +145,7 @@ window.kilumen = { scene, mood: scene.mood, platform: { id: platform.id, profile
+ window.kilumen.ready.catch((e) => { console.error(e); toast('Failed to load: ' + e.message); });
+ window.kilumen.save = { backend: saveStorage?.backend || (saveStorage ? 'localStorage' : 'none'), flush: () => saveStorage?.flush?.(), cloud: cloudSave ? { action: cloudSave.action, uploader: cloudSave.uploader || null } : null };
+ if (q.get('cv') !== '0') import('./systems/company_voice.js?v=v0.2.68-alpha').then((m) => m.attachCompanyVoice(scene, { query: q })).then((cv) => { window.kilumen.companyVoice = cv; if (cv && q.get('ritavoice') !== '0') return import('./systems/rita_voice.js?v=v0.2.68-alpha').then((r) => { window.kilumen.ritaVoice = r.attachRitaVoice(cv, { audio: () => window.kilumen.audio }); }); }) /* [rita voice hook] spoken clips, Options 'RITA voice' (default on), ?ritavoice=0 off */.catch((e) => console.error('company voice:', e)); // [company voice hook] DEFAULT ON for region 1 (Gary 12:45 PM CT Oct 23 2026: "Yes, ship RITA in region 1"); ?cv=0 turns off (design/company_voice.md)
++if (q.get('wx') !== '0') window.kilumen.ready.then(() => import('./weather/index.js?v=v0.2.68-alpha')).then((m) => { window.kilumen.weather = m.installWeather(scene, { query: q, mobile: scene.opts?.platform?.id === 'mobile' }); }).catch((e) => console.error('weather:', e)); // [weather hook] v1 (Oct 29 2026): clear / fog / rain / storm, snow / ice fog / blizzard per area type; ?wx=<kind> forces, ?wx=0 off (src/weather/)
+ import('./fishing/flags.js?v=v0.2.68-alpha').then((f) => { if (f.fishingFlags(q).fishing) return window.kilumen.ready.then(() => import('./fishing/index.js?v=v0.2.68-alpha')).then((m) => { window.kilumen.fishing = m.installFishing(scene); }); }).catch((e) => console.error('fishing:', e)); // [fishing hook] v1 (Oct 29 2026): rod from the Brookhollow fisher, cast at any water; OFF by default, ?fishing=1 on (src/fishing/)
+ window.kilumen.ready.then(() => import('./rail/index.js?v=v0.2.68-alpha')).then((m) => { window.kilumen.rail = m.attachRail(scene, { systems: scene.systems }); }).catch((e) => console.error('rail:', e)); // [rail hook] Lumen Line travel menu (src/rail/)
+ if (q.get('r4') !== '0') window.kilumen.ready.then(() => import('./region4/index.js?v=v0.2.68-alpha')).then(async (m) => { window.kilumen.region4 = m.attachRegion4(scene, { systems: scene.systems, data: await m.loadRegion4Data() }); }).catch((e) => console.error('region4:', e)); // [region4 hook] v0.2.48: shipped (Gary Oct 29 2026). Frostspire via Skylift after Master 3; ?r4=0 turns off (src/region4/)
+diff --git a/kilumen/src/region4/soul.js b/kilumen/src/region4/soul.js
+index b9f64392..b2fd8638 100644
+--- a/kilumen/src/region4/soul.js
++++ b/kilumen/src/region4/soul.js
+@@ -14,7 +14,8 @@ const TILE = 64;
+ /** Same gust curve as living.js (1..1.6). */
+ export const gust = (t) => 1 + 0.6 * Math.max(0, Math.sin(t / 420)) * Math.max(0, Math.sin(t / 97));
+ /** Flake count for a screen: phones get ~40%, reduced motion none. */
+-export const flakeCount = (w, h, mobile, reduced) => (reduced ? 0 : Math.round(Math.min(160, (w * h) / 9000) * (mobile ? 0.4 : 1)));
++// weather v1 (Gary Oct 29: "make the snow effect a little more noticable"): cap 160 -> 210, density /9000 -> /6800, phone 0.4 -> 0.45
++export const flakeCount = (w, h, mobile, reduced) => (reduced ? 0 : Math.round(Math.min(210, (w * h) / 6800) * (mobile ? 0.45 : 1)));
+ /** Snowfall strength 0..1 on a map at player tile y (pass: fades out over 3 rows above the snowline). */
+ export function snowfallAt(mapName, y, snowlineY) {
+   if (!SNOWFALL_MAPS.has(mapName)) return 0;
+@@ -100,17 +101,17 @@ export function attachSoul(scene, { mobile = false } = {}) {
+   function drawSnow(ctx, v) {
+     const k = snowfallAt(scene.map?.name, scene.player?.y ?? 0, scene.map?.json?.snowline_y);
+     if (k <= 0) return;
+-    const W = ctx.canvas.width, H = ctx.canvas.height, n = Math.round(flakeCount(W, H, mobile, reduced()) * k);
++    const W = ctx.canvas.width, H = ctx.canvas.height, n = Math.round(flakeCount(W, H, mobile, reduced()) * k * (scene.weather?.snowMul?.() ?? 1)); // blizzard: denser (src/weather)
+     while (st.flakes.length < n) st.flakes.push({ x: Math.random(), y: Math.random(), d: [0.35, 0.6, 1][st.flakes.length % 3], ph: Math.random() * 6.28 });
+     const ms = scene.ms || 0, g = gust(tnow()), z = v.zoom;
+     for (let i = 0; i < n; i++) {
+-      const f = st.flakes[i], sz = Math.max(2, Math.round((1.5 + f.d * 2.5) * z * 0.5));
++      const f = st.flakes[i], sz = Math.max(2, Math.round((1.8 + f.d * 3) * z * 0.5)); // weather v1: slightly larger
+       // parallax: near flakes (d=1) move with the camera more than far ones; wind pushes harder in a gust
+-      const sx = (f.x * (W + 40) - v.cam.x * z * f.d * 0.5 + ms * 0.012 * g * f.d * z + Math.sin(ms / 700 + f.ph) * 6 * z) % (W + 40);
++      const sx = (f.x * (W + 40) - v.cam.x * z * f.d * 0.5 + ms * 0.012 * g * f.d * z * (scene.weather?.snowMul?.() > 1.5 ? 4 : 1) + Math.sin(ms / 700 + f.ph) * 6 * z) % (W + 40);
+       const sy = (f.y * (H + 40) - v.cam.y * z * f.d * 0.5 + ms * 0.02 * f.d * z) % (H + 40);
+       const fx = Math.round((sx + W + 40) % (W + 40)) - 20, fy = Math.round((sy + H + 40) % (H + 40)) - 20;
+       ctx.fillStyle = `rgba(92,112,148,${(0.18 + 0.2 * f.d).toFixed(2)})`; ctx.fillRect(fx + 1, fy + 1, sz, sz); // soft shade so flakes read against white snow
+-      ctx.fillStyle = `rgba(255,255,255,${(0.6 + 0.4 * f.d).toFixed(2)})`; ctx.fillRect(fx, fy, sz, sz);
++      ctx.fillStyle = `rgba(255,255,255,${(0.72 + 0.28 * f.d).toFixed(2)})`; // weather v1: brighter far flakes ctx.fillRect(fx, fy, sz, sz);
+     }
+   }
+   // ---- audio -----------------------------------------------------------------------------------------------------
+diff --git a/kilumen/src/weather/fx.js b/kilumen/src/weather/fx.js
+new file mode 100644
+index 00000000..095e2f59
+--- /dev/null
++++ b/kilumen/src/weather/fx.js
+@@ -0,0 +1,84 @@
++// Weather v1 renderer: pooled particles + cached fog sheet, drawn in the living-world top pass (renderer.js).
++// Budget (phone 844x390 at 4x CPU throttle must stay < 16.7 ms): drops live in a fixed Float32Array pool (no per-frame
++// allocation), all rain streaks go in ONE path + ONE stroke, splashes are a 24-slot ring, fog is a 96x54 offscreen
++// sheet built once and blitted twice (scrolling), tint / haze / flash are single fillRects.
++import { RAINY, FOGGY, particleCap } from './logic.js?v=v0.2.68-alpha';
++
++const RAIN_LOOK = { rain_light: { len: 8, spd: 0.55, a: 0.5, tint: 0.1 }, rain_heavy: { len: 12, spd: 0.8, a: 0.62, tint: 0.18 }, storm: { len: 14, spd: 0.95, a: 0.68, tint: 0.26 } };
++const POOL = 280, SPL = 24;
++
++export function createWeatherFx({ mobile = false } = {}) {
++  const drops = new Float32Array(POOL * 3); // x01, y01, depth
++  for (let i = 0; i < POOL; i++) { drops[i * 3] = Math.random(); drops[i * 3 + 1] = Math.random(); drops[i * 3 + 2] = 0.55 + Math.random() * 0.45; }
++  const spl = new Float32Array(SPL * 3); let splI = 0, splT = 0; // x, y (screen), born ms
++  const st = { fog: null, flash: 0, nextFlash: 0, lastMs: 0 };
++
++  function fogSheet(ice) {
++    if (st.fog?.ice === ice) return st.fog.c;
++    const c = (globalThis.OffscreenCanvas ? new OffscreenCanvas(96, 54) : Object.assign(document.createElement('canvas'), { width: 96, height: 54 }));
++    const g = c.getContext('2d'), col = ice ? '232,240,250' : '214,220,226';
++    let s = 7; const r = () => ((s = (s * 16807) % 2147483647) / 2147483647);
++    for (let i = 0; i < 26; i++) { // soft blobs, wrapped horizontally so the sheet tiles
++      const x = r() * 96, y = r() * 54, rad = 10 + r() * 18;
++      for (const ox of [-96, 0, 96]) { const gr = g.createRadialGradient(x + ox, y, 0, x + ox, y, rad); gr.addColorStop(0, `rgba(${col},0.5)`); gr.addColorStop(1, `rgba(${col},0)`); g.fillStyle = gr; g.fillRect(x + ox - rad, y - rad, rad * 2, rad * 2); }
++    }
++    st.fog = { ice, c }; return c;
++  }
++
++  /** Draw one frame. w = {kind, k (0..1 ease), ms, gust (1 = calm), reduced}. */
++  function draw(ctx, v, w) {
++    const { kind, k } = w; if (!kind || k <= 0.01) return;
++    const W = ctx.canvas.width, H = ctx.canvas.height, ms = w.ms || 0, z = v.zoom || 1, cx = (v.cam?.x || 0) * z, cy = (v.cam?.y || 0) * z;
++    const dt = Math.min(50, Math.max(0, ms - st.lastMs)); st.lastMs = ms;
++    // tint: darker for rain, cold haze for blizzard
++    const look = RAIN_LOOK[kind];
++    if (look) { ctx.fillStyle = `rgba(18,26,48,${(look.tint * k).toFixed(3)})`; ctx.fillRect(0, 0, W, H); }
++    // fog / ice fog / blizzard haze: cached sheet, two scrolled blits
++    if (FOGGY.has(kind) || kind === 'blizzard' || kind === 'snow_light') {
++      const a = kind === 'blizzard' ? 0.42 + 0.18 * Math.max(0, (w.gust || 1) - 1) : kind === 'snow_light' ? 0.16 : kind === 'ice_fog' ? 0.6 : 0.55;
++      const sheet = fogSheet(kind !== 'fog'), sw = W * 1.5, sh = H * 1.2, speed = kind === 'blizzard' ? 0.09 : 0.012;
++      const ox = -(((ms * speed * z + cx * 0.6) % sw) + sw) % sw, oy = -(((cy * 0.3) % (sh - H)) + (sh - H)) % (sh - H) || 0;
++      ctx.globalAlpha = Math.min(1, a * k); const sm = ctx.imageSmoothingEnabled; ctx.imageSmoothingEnabled = true;
++      ctx.drawImage(sheet, ox, oy, sw, sh); ctx.drawImage(sheet, ox + sw, oy, sw, sh);
++      if (kind === 'snow_light') { ctx.drawImage(sheet, ox * 0.5, H - sh * 0.35, sw, sh * 0.4); ctx.drawImage(sheet, ox * 0.5 + sw, H - sh * 0.35, sw, sh * 0.4); } // low drift band
++      ctx.imageSmoothingEnabled = sm; ctx.globalAlpha = 1;
++      if (kind === 'blizzard') { ctx.fillStyle = `rgba(226,234,246,${(0.14 * k).toFixed(3)})`; ctx.fillRect(0, 0, W, H); }
++    }
++    // particles
++    const n = Math.min(POOL, Math.round(particleCap(kind, mobile, w.reduced) * k));
++    if (n > 0 && look) {
++      const L = look.len * z, sp = look.spd * z, slant = 0.28;
++      ctx.strokeStyle = `rgba(196,212,236,${look.a.toFixed(2)})`; ctx.lineWidth = Math.max(1, Math.round(z * 0.6)); ctx.beginPath();
++      for (let i = 0; i < n; i++) {
++        const d = drops[i * 3 + 2], x = ((drops[i * 3] * (W + 60) - cx * 0.2 * d + ms * sp * slant * d) % (W + 60) + W + 60) % (W + 60) - 30;
++        const y = ((drops[i * 3 + 1] * (H + 40) - cy * 0.2 * d + ms * sp * d) % (H + 40) + H + 40) % (H + 40) - 20;
++        ctx.moveTo(x | 0, y | 0); ctx.lineTo((x - L * slant * d) | 0, (y - L * d) | 0);
++      }
++      ctx.stroke();
++      // splashes: ring buffer, spawn rate by intensity
++      splT += dt * n * 0.0016;
++      while (splT >= 1) { splT -= 1; const j = splI++ % SPL; spl[j * 3] = Math.random() * W; spl[j * 3 + 1] = H * 0.15 + Math.random() * H * 0.85; spl[j * 3 + 2] = ms; }
++      ctx.fillStyle = 'rgba(214,226,244,0.55)';
++      for (let j = 0; j < SPL; j++) {
++        const age = ms - spl[j * 3 + 2]; if (age < 0 || age > 220) continue;
++        const r = 1 + Math.floor(age / 70), x = spl[j * 3] | 0, y = spl[j * 3 + 1] | 0, p = Math.max(1, Math.round(z * 0.5));
++        ctx.fillRect(x - r * p * 2, y, p, p); ctx.fillRect(x + r * p * 2, y, p, p); ctx.fillRect(x - r * p, y - r * p, p, p); ctx.fillRect(x + r * p, y - r * p, p, p);
++      }
++    }
++    if (n > 0 && kind === 'blizzard') { // wind-driven streak flakes on top of the soul.js snowfall
++      ctx.fillStyle = 'rgba(255,255,255,0.85)'; const g = w.gust || 1, sz = Math.max(2, Math.round(z * (mobile ? 0.9 : 1.1)));
++      for (let i = 0; i < n; i++) {
++        const d = drops[i * 3 + 2], x = ((drops[i * 3] * (W + 60) - cx * 0.5 * d + ms * 0.32 * z * d * g) % (W + 60) + W + 60) % (W + 60) - 30;
++        const y = ((drops[i * 3 + 1] * (H + 40) - cy * 0.5 * d + ms * 0.1 * z * d + Math.sin(ms / 400 + i) * 4 * z) % (H + 40) + H + 40) % (H + 40) - 20;
++        ctx.fillRect(x | 0, y | 0, sz * (i & 1 ? 3 : 2), sz);
++      }
++    }
++    // storm lightning
++    if (kind === 'storm' && !w.reduced) {
++      if (!st.nextFlash) st.nextFlash = ms + 6000 + Math.random() * 9000;
++      if (ms > st.nextFlash) { st.flash = 1; st.nextFlash = ms + 8000 + Math.random() * 14000; w.onFlash?.(); }
++      if (st.flash > 0.02) { ctx.fillStyle = `rgba(236,240,255,${(0.32 * st.flash * k).toFixed(3)})`; ctx.fillRect(0, 0, W, H); st.flash *= Math.pow(0.86, dt / 16.7); }
++    }
++  }
++  return { draw, st, isRainy: (k) => RAINY.has(k) };
++}
+diff --git a/kilumen/src/weather/index.js b/kilumen/src/weather/index.js
+new file mode 100644
+index 00000000..6e186b0a
+--- /dev/null
++++ b/kilumen/src/weather/index.js
+@@ -0,0 +1,89 @@
++// Weather v1 runtime: picks the weather per area type from the game clock (logic.js), eases it in / out, draws it
++// (fx.js), exposes scene.weather {kind(), fishMods(), snowMul()} to the encounter roller, fishing and soul.js snow,
++// a small HUD chip next to the clock, and an optional WebAudio rain bed (same Howler context as region4/soul.js).
++// Save: systems.state.weather {seed, override} rides the normal systems block; nothing here calls save, so the
++// existing save lock (battles, talks, cutscenes refuse saves) still decides when it is written.
++// Dev: ?wx=clear|fog|rain_light|rain_heavy|storm|snow_light|ice_fog|blizzard forces a kind (not saved); ?wx=0 = off.
++import { weatherFor, areaType, fishMods, normaliseWeather, RAINY, FOGGY, TEXT } from './logic.js?v=v0.2.68-alpha';
++import { createWeatherFx } from './fx.js?v=v0.2.68-alpha';
++import { isIndoor } from '../overworld/clock.js?v=v0.2.68-alpha';
++import { gust } from '../region4/soul.js?v=v0.2.68-alpha';
++
++const EASE_MS = 4000; // smooth start / stop (real ms)
++const ICON = { clear: '☀', fog: '≋', rain_light: '☂', rain_heavy: '☂', storm: '⚡', snow_light: '❄', ice_fog: '≋', blizzard: '❄' };
++
++export function installWeather(scene, { query = null, mobile = false } = {}) {
++  const force = query?.get?.('wx');
++  const fx = createWeatherFx({ mobile });
++  const sysState = () => scene.systems?.state;
++  const state = () => { const s = sysState(); if (!s) return st.mem; if (!s.weather || s.weather.seed == null) { s.weather = normaliseWeather(s.weather); scene._dirty = true; } return s.weather; };
++  const st = { mem: normaliseWeather(null), shown: 'clear', k: 0, lastNow: 0, forced: force && force !== '0' ? force : null, amb: null };
++  const reduced = () => !!globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !!globalThis.document?.body?.classList.contains('ui-reduce');
++  const outdoor = () => !!scene.map && !isIndoor(scene.map.name);
++  const target = () => (st.forced || weatherFor(state(), scene.map?.name, scene.clock, outdoor()));
++
++  const api = {
++    /** Current gameplay kind (what the roller / fishing use: the target, not the eased visual). */
++    kind: () => target(),
++    area: () => areaType(scene.map?.name),
++    fishMods: () => fishMods(target()),
++    /** soul.js snowfall multiplier: light snow a touch denser, blizzard dense. */
++    snowMul: () => (st.shown === 'blizzard' ? 1 + 1.2 * st.k : 1),
++    set: (kind) => { st.forced = kind || null; return api.kind(); }, // dev / shots
++    setOverride: (area, kind) => { const s = state(); s.override = { ...s.override, [area]: kind }; Object.assign(s, normaliseWeather(s)); scene._dirty = true; },
++    debug: () => ({ target: target(), shown: st.shown, k: +st.k.toFixed(2), area: api.area(), seed: state().seed }),
++    st,
++  };
++  scene.weather = api;
++
++  // ease: fade the shown kind out, swap, fade the new one in
++  function tickEase() {
++    const now = performance.now(), dt = st.lastNow ? Math.min(100, now - st.lastNow) : 16; st.lastNow = now;
++    const t = outdoor() ? target() : 'clear';
++    if (t !== st.shown) { st.k = Math.max(0, st.k - dt / EASE_MS); if (st.k <= 0) st.shown = t; }
++    else st.k = Math.min(1, st.k + dt / EASE_MS);
++    if (scene._wxFirst !== false) { scene._wxFirst = false; st.shown = t; st.k = query?.get?.('wxease') === '1' ? 0 : 1; } // load into the saved weather, no fade
++    // living world: wet = fish dive, no butterflies / birds; fog = overcast clouds
++    const lw = scene.life, want = RAINY.has(st.shown) && st.k > 0.3 ? 'rain' : (FOGGY.has(st.shown) || st.shown === 'blizzard') && st.k > 0.3 ? 'overcast' : null;
++    if (lw?.setWeather && want !== st.lwSet) { st.lwSet = want; lw.setWeather(want || st.lw0 || 'fair'); }
++  }
++  st.lw0 = scene.life?.weather || 'fair';
++
++  const view0 = scene.view.bind(scene);
++  scene.view = () => {
++    const v = view0();
++    tickEase();
++    if (!outdoor() && st.k <= 0) return v;
++    const life = v.life, W = { kind: st.shown, k: st.k, ms: scene.ms, gust: gust(scene.tick || 0), reduced: reduced(), onFlash: thunder };
++    v.life = { under: (c, vv) => life?.under?.(c, vv), over: (c, vv) => life?.over?.(c, vv), top: (c, vv) => { life?.top?.(c, vv); const t0 = st.prof ? performance.now() : 0; fx.draw(c, vv || v, W); if (st.prof) st.prof.push(performance.now() - t0); } };
++    return v;
++  };
++
++  // HUD chip beside the clock (placeholder text keys weather.*)
++  const T = (k) => (globalThis.kilumen?.text?.(k) || TEXT[k]?.[0] || k);
++  let chip = null, chipTxt = '';
++  const hud = setInterval(() => {
++    const top = globalThis.kilumen?.ui?.hudTop; if (!top || typeof document === 'undefined') return;
++    if (!chip) { chip = document.createElement('div'); chip.className = 'hud-clock hud-wx'; chip.style.marginLeft = '6px'; top.querySelector('.hud-clock')?.after(chip) ?? top.appendChild(chip); }
++    const k = outdoor() ? target() : null, txt = k ? `${ICON[k] || ''} ${T('weather.' + k)}` : '';
++    if (txt !== chipTxt) { chipTxt = txt; chip.textContent = txt; chip.hidden = !k; chip.dataset.kind = k || ''; }
++    ambience();
++  }, 500);
++
++  // optional audio: filtered-noise rain bed, wind bed in a blizzard, a low rumble on lightning
++  const au = () => { const a = scene.audio || globalThis.kilumen?.audio, ctx = globalThis.Howler?.ctx; if (!a?.unlocked || !ctx || a.settings?.muted) return null; return { ctx, out: globalThis.Howler.masterGain || ctx.destination, vol: a.settings?.sfx ?? 1 }; };
++  const noise = (ctx) => { const b = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate), d = b.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; return b; };
++  function ambience() {
++    const A = au(); const lvl = !A || scene.battle || globalThis.document?.hidden ? 0 : ({ rain_light: 0.05, rain_heavy: 0.09, storm: 0.11, blizzard: 0.07 }[st.shown] || 0) * st.k * (A?.vol ?? 0);
++    if (!A) return;
++    if (!st.amb && lvl > 0) { const { ctx, out } = A, s = ctx.createBufferSource(); s.buffer = st.nb ||= noise(ctx); s.loop = true; const f = ctx.createBiquadFilter(); f.type = 'lowpass'; const g = ctx.createGain(); g.gain.value = 0.0001; s.connect(f).connect(g).connect(out); s.start(); st.amb = { s, f, g }; }
++    if (st.amb) { const t = A.ctx.currentTime; st.amb.f.frequency.setTargetAtTime(st.shown === 'blizzard' ? 700 : 2400, t, 0.5); st.amb.g.gain.setTargetAtTime(Math.max(0.0001, lvl), t, 0.8); }
++  }
++  function thunder() {
++    const A = au(); if (!A) return; const { ctx, out, vol } = A, t = ctx.currentTime + 0.4 + Math.random() * 0.8;
++    const s = ctx.createBufferSource(); s.buffer = st.nb ||= noise(ctx); const f = ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 160; const g = ctx.createGain();
++    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.25 * vol, t + 0.08); g.gain.exponentialRampToValueAtTime(0.0001, t + 2.2);
++    s.connect(f).connect(g).connect(out); s.start(t); s.stop(t + 2.3);
++  }
++  return { api, fx, stop: () => { clearInterval(hud); scene.view = view0; chip?.remove(); try { st.amb?.s.stop(); } catch {} } };
++}
+diff --git a/kilumen/src/weather/logic.js b/kilumen/src/weather/logic.js
+new file mode 100644
+index 00000000..836e131a
+--- /dev/null
++++ b/kilumen/src/weather/logic.js
+@@ -0,0 +1,117 @@
++// Weather v1: pure rules (no DOM; Node-testable). Coder, Oct 29 2026. Gary: "make the snow effect a little more
++// noticable and we still need dynamic rain that can affect chances of fishing rates and what kilu are in the grass".
++// Area types (Gary, Oct 29): temperate = clear | fog | rain_light | rain_heavy | storm; swamp = same set, foggier and
++// wetter; snowy = snow_light | ice_fog | blizzard (rain never falls in snow areas). Weather is rolled per area type per
++// 3-game-hour block from a seeded hash, then eased in/out over ~2 game hours of real play (see fx.js).
++// Free-code check: canvas weather libraries (weather-canvas, sparkle, let-it-go, minimal-snow; all MIT) each own their
++// own canvas + rAF loop; Kilumen draws inside renderer's living-world top pass, so a small pooled layer was written here.
++export const KINDS = Object.freeze(['clear', 'fog', 'rain_light', 'rain_heavy', 'storm', 'snow_light', 'ice_fog', 'blizzard']);
++export const RAINY = new Set(['rain_light', 'rain_heavy', 'storm']);
++export const FOGGY = new Set(['fog', 'ice_fog']);
++export const BLOCK_H = 3; // weather can change every 3 game hours
++
++export const SNOWY_MAPS = new Set(['frostspire', 'frostspire_pass']);
++export const SWAMP_MAPS = new Set(['mirefen', 'mirefen_bog', 'route_saltmere_mirefen', 'route_sunmeadow_mirefen']);
++/** Area type for a map name -> 'snowy' | 'swamp' | 'temperate'. Indoor / cave checks are the caller's (outdoor flag). */
++export const areaType = (map) => { const b = String(map || '').replace(/_storm$/, ''); return SNOWY_MAPS.has(b) ? 'snowy' : SWAMP_MAPS.has(b) ? 'swamp' : 'temperate'; };
++
++/** Roll chances per area type; dawn (05-08) swaps in the dawn row (fog more likely). Each row sums to 1. */
++export const CHANCES = Object.freeze({
++  temperate: { day: { clear: 0.52, fog: 0.08, rain_light: 0.22, rain_heavy: 0.12, storm: 0.06 }, dawn: { clear: 0.42, fog: 0.3, rain_light: 0.16, rain_heavy: 0.08, storm: 0.04 } },
++  swamp: { day: { clear: 0.34, fog: 0.22, rain_light: 0.22, rain_heavy: 0.14, storm: 0.08 }, dawn: { clear: 0.24, fog: 0.46, rain_light: 0.16, rain_heavy: 0.1, storm: 0.04 } },
++  snowy: { day: { snow_light: 0.66, ice_fog: 0.1, blizzard: 0.24 }, dawn: { snow_light: 0.56, ice_fog: 0.26, blizzard: 0.18 } },
++});
++
++/** Gameplay modifiers. enc: rate (x grass rate, still capped by MAX_RATE), el (element x weight), sp (species x
++ * weight), only (weather-only slots added to grass tables of that area type). fish: bite (x bite chance, clamped),
++ * rare / uncommon (x slot weight), wait (x bite wait). Values are Coder placeholders for Gary (WEATHER.md). */
++export const MODS = Object.freeze({
++  clear: { enc: {}, fish: {} },
++  rain_light: { enc: { el: { water: 1.5, swamp: 1.3, rain: 2 } }, fish: { bite: 1.12, uncommon: 1.15, rare: 1.3 } },
++  rain_heavy: { enc: { el: { water: 1.8, swamp: 1.5, rain: 2.5 }, only: [{ species: 'puddlenip', weight: 10 }, { species: 'pondkin', weight: 8, area: 'swamp' }] }, fish: { bite: 1.22, uncommon: 1.3, rare: 1.6 } },
++  storm: { enc: { el: { water: 2, swamp: 1.6, rain: 3 }, only: [{ species: 'puddlenip', weight: 10 }, { species: 'drizzlebill', weight: 4 }, { species: 'pondkin', weight: 8, area: 'swamp' }] }, fish: { bite: 1.3, uncommon: 1.4, rare: 2, wait: 0.9 } },
++  fog: { enc: { rate: 1.15, el: { ghost: 1.6, mystic: 1.6, dark: 1.4 }, only: [{ species: 'dustbonnet', weight: 5 }, { species: 'mournlily', weight: 3 }] }, fish: { bite: 0.85, wait: 1.3, uncommon: 1.3, rare: 1.8 }, trainerSight: -1 },
++  snow_light: { enc: { sp: { snowgrouse: 1.2, frostlop: 1.3, snowdrowse: 1.3, alpuff: 1.2 } }, fish: {} },
++  blizzard: { enc: { rate: 1.1, el: { wind: 1.4 }, sp: { snowgrouse: 1.8, frostlop: 2, shagmount: 2, tundrarch: 2.5, snowdrowse: 1.8, ledgebex: 1.5 }, only: [{ species: 'snowcairn', weight: 6 }, { species: 'rimewick', weight: 3 }] }, fish: { bite: 0.9, uncommon: 1.3, rare: 1.5 } },
++  ice_fog: { enc: { rate: 1.1, el: { ghost: 1.5, mystic: 1.6 }, sp: { snowdrowse: 3 } }, fish: { bite: 0.85, wait: 1.25, rare: 1.6 }, trainerSight: -1 },
++});
++
++/** Same 32-bit mixing as living.js mulberry32 (small, deterministic). */
++export function hash01(...parts) {
++  let h = 2166136261;
++  for (const c of parts.join('|')) h = Math.imul(h ^ c.charCodeAt(0), 16777619);
++  h = (h + 0x6d2b79f5) | 0; let t = Math.imul(h ^ (h >>> 15), 1 | h); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
++  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
++}
++/** Absolute 3-hour block index from a clock {day, min}. */
++export const blockOf = (clock) => ((clock?.day || 1) - 1) * (24 / BLOCK_H) + Math.floor(((clock?.min || 0) % 1440) / 60 / BLOCK_H);
++/** Weather for (seed, area type, block) -> kind. Block hours 3-5 / 6-8 use the dawn row. */
++export function rollWeather(seed, area, block) {
++  const startH = (block % (24 / BLOCK_H)) * BLOCK_H, row = CHANCES[area] || CHANCES.temperate;
++  const ch = startH >= 3 && startH < 9 ? row.dawn : row.day;
++  let r = hash01(seed, area, block);
++  for (const [k, p] of Object.entries(ch)) { if ((r -= p) < 0) return k; }
++  return Object.keys(ch)[0];
++}
++/** Kind for a map now. Indoors / caves -> 'clear'. route1_storm-style variants are always 'storm'. override wins. */
++export function weatherFor(state, mapName, clock, outdoor = true) {
++  if (!outdoor) return 'clear';
++  if (/_storm$/.test(mapName || '')) return 'storm';
++  const a = areaType(mapName), o = state?.override?.[a];
++  if (o && KINDS.includes(o)) return o;
++  return rollWeather(state?.seed ?? 1, a, blockOf(clock));
++}
++/** Does a slot weather list ('rain' = any rain, 'fog' = any fog, 'snow' = snow_light | blizzard) match a kind? */
++export function wxMatch(list, kind) {
++  const k = kind || 'clear';
++  return list.some((w) => w === k || (w === 'rain' && RAINY.has(k)) || (w === 'fog' && FOGGY.has(k)) || (w === 'snow' && (k === 'snow_light' || k === 'blizzard')));
++}
++
++// ---- encounters ----
++/** Weight multiplier for one slot: slot.weather {kind|group: x} (data field), then MODS el / sp. */
++export function encWeight(slot, kind, elOf = null) {
++  let w = slot.weight || 0;
++  if (w <= 0) return 0;
++  const sw = slot.weather;
++  if (sw && !Array.isArray(sw) && typeof sw === 'object') for (const [k, m] of Object.entries(sw)) if (wxMatch([k], kind)) w *= +m;
++  const e = MODS[kind]?.enc;
++  if (!e) return w;
++  if (e.sp?.[slot.species]) w *= e.sp[slot.species];
++  if (e.el && elOf) { let best = 1; for (const el of elOf(slot.species) || []) best = Math.max(best, e.el[el] || 1); w *= best; }
++  return w;
++}
++/** Weather-only extra slots for a grass zone (not surf / cave), levels copied from the zone's own range. */
++export function extraSlots(zone, kind, area, hasArt = null) {
++  const only = MODS[kind]?.enc?.only;
++  if (!only || !/grass/i.test(zone?.method || '')) return [];
++  const lv = (zone.slots || []).map((s) => (Array.isArray(s.level) ? s.level : [s.level, s.level]));
++  if (!lv.length) return [];
++  const lo = Math.min(...lv.map((l) => l[0])), hi = Math.max(...lv.map((l) => l[1]));
++  return only.filter((o) => (!o.area || o.area === area) && (!hasArt || hasArt(o.species))).map((o) => ({ species: o.species, weight: o.weight, level: [lo, hi], weatherOnly: kind }));
++}
++export const encRate = (kind) => MODS[kind]?.enc?.rate ?? 1;
++
++// ---- fishing ----
++/** Fishing modifier row for a kind -> {bite, rare, uncommon, wait} (all multipliers, default 1). */
++export function fishMods(kind) { const f = MODS[kind]?.fish || {}; return { bite: f.bite ?? 1, rare: f.rare ?? 1, uncommon: f.uncommon ?? 1, wait: f.wait ?? 1 }; }
++
++// ---- save ----
++/** Shape the save block (systems.weather): {seed, override: {area: kind}}. Bad data -> defaults. */
++export function normaliseWeather(o) {
++  const seed = Number.isFinite(+o?.seed) && +o.seed > 0 ? Math.floor(+o.seed) : 1 + Math.floor(Math.random() * 1e9);
++  const override = {};
++  for (const [a, k] of Object.entries(o?.override || {})) if (CHANCES[a] && KINDS.includes(k) && Object.prototype.hasOwnProperty.call(CHANCES[a].day, k)) override[a] = k;
++  return { seed, override };
++}
++
++/** Particle budget (pooled, capped). mobile halves rain; reduced motion -> 0 particles (tint / fog only). */
++export function particleCap(kind, mobile, reduced) {
++  if (reduced) return 0;
++  const base = { rain_light: 90, rain_heavy: 200, storm: 260, blizzard: 220, snow_light: 0, fog: 0, ice_fog: 0, clear: 0 }[kind] || 0;
++  return Math.round(base * (mobile ? 0.5 : 1));
++}
++/** Placeholder text keys (Text Bot owns text/*). Fallbacks shown until the keys exist. */
++export const TEXT = Object.freeze({
++  'weather.clear': ['Clear'], 'weather.fog': ['Fog'], 'weather.rain_light': ['Light rain'], 'weather.rain_heavy': ['Heavy rain'],
++  'weather.storm': ['Storm'], 'weather.snow_light': ['Snow'], 'weather.ice_fog': ['Ice fog'], 'weather.blizzard': ['Blizzard'],
++});
+diff --git a/kilumen/tests/weather.test.mjs b/kilumen/tests/weather.test.mjs
+new file mode 100644
+index 00000000..304f09a7
+--- /dev/null
++++ b/kilumen/tests/weather.test.mjs
+@@ -0,0 +1,86 @@
++// Weather v1 tests: node --test tests/weather.test.mjs
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import { areaType, rollWeather, weatherFor, blockOf, encWeight, extraSlots, encRate, fishMods, normaliseWeather, wxMatch, particleCap, CHANCES, MODS, KINDS } from '../src/weather/logic.js';
++import { pickSlot, slotOk, EncounterRoller } from '../src/battle/encounters.js';
++import { biteChance, planCast, effectiveWeight, expectedPer100 } from '../src/fishing/logic.js';
++import { normalise, freshSave } from '../src/overworld/save.js';
++
++const seq = (a) => { let i = 0; return () => a[i++ % a.length]; };
++const elOf = (id) => ({ rillop: ['water'], gloamtick: ['dark', 'ghost'], burlbeetle: ['bug'], puddlenip: ['water', 'rain'], mirewump: ['water', 'swamp'] }[id] || []);
++
++test('area types and weather sets', () => {
++  assert.equal(areaType('frostspire_pass'), 'snowy'); assert.equal(areaType('mirefen_bog'), 'swamp'); assert.equal(areaType('route1_storm'), 'temperate');
++  for (const [a, rows] of Object.entries(CHANCES)) for (const r of Object.values(rows)) assert.ok(Math.abs(Object.values(r).reduce((x, y) => x + y, 0) - 1) < 1e-9, a);
++  const snowKinds = new Set(), tempKinds = new Set();
++  for (let b = 0; b < 4000; b++) { snowKinds.add(rollWeather(3, 'snowy', b)); tempKinds.add(rollWeather(3, 'temperate', b)); }
++  assert.deepEqual([...snowKinds].sort(), ['blizzard', 'ice_fog', 'snow_light']); // never rain in snow areas
++  assert.ok(!tempKinds.has('blizzard') && tempKinds.has('fog') && tempKinds.has('storm'));
++});
++test('weather changes over game time, deterministic per seed, indoor clear, storm variant', () => {
++  assert.equal(blockOf({ day: 1, min: 0 }), 0); assert.equal(blockOf({ day: 2, min: 180 }), 9);
++  const ks = new Set(); for (let d = 1; d < 30; d++) for (let m = 0; m < 1440; m += 180) ks.add(weatherFor({ seed: 11 }, 'route1', { day: d, min: m }));
++  assert.ok(ks.size >= 4);
++  assert.equal(weatherFor({ seed: 11 }, 'route1', { day: 4, min: 600 }), weatherFor({ seed: 11 }, 'route1', { day: 4, min: 620 }));
++  assert.equal(weatherFor({ seed: 11 }, 'house_1f', { day: 1, min: 0 }, false), 'clear');
++  assert.equal(weatherFor({ seed: 11 }, 'route1_storm', { day: 1, min: 0 }), 'storm');
++  assert.equal(weatherFor({ seed: 11, override: { snowy: 'blizzard' } }, 'frostspire', { day: 1, min: 0 }), 'blizzard');
++});
++test('dawn makes fog more likely', () => {
++  let dawn = 0, day = 0; for (let d = 0; d < 3000; d++) { if (rollWeather(5, 'temperate', d * 8 + 1) === 'fog') dawn++; if (rollWeather(5, 'temperate', d * 8 + 4) === 'fog') day++; }
++  assert.ok(dawn > day * 2, `${dawn} vs ${day}`);
++});
++test('encounter weights: rain boosts water, fog boosts ghost, slot data field, groups', () => {
++  assert.equal(encWeight({ species: 'rillop', weight: 10 }, 'rain_heavy', elOf), 18);
++  assert.equal(encWeight({ species: 'gloamtick', weight: 10 }, 'fog', elOf), 16);
++  assert.equal(encWeight({ species: 'burlbeetle', weight: 10 }, 'storm', elOf), 10);
++  assert.equal(encWeight({ species: 'burlbeetle', weight: 10, weather: { rain: 3 } }, 'rain_light', elOf), 30);
++  assert.equal(encWeight({ species: 'burlbeetle', weight: 10, weather: { rain: 3 } }, 'clear', elOf), 10);
++  assert.ok(wxMatch(['rain'], 'storm') && wxMatch(['fog'], 'ice_fog') && !wxMatch(['rain'], 'blizzard'));
++  assert.ok(!slotOk({ weather: ['rain'] }, { weather: 'clear' }) && slotOk({ weather: ['rain'] }, { weather: 'rain_light' }) && slotOk({ weather: { rain: 2 } }, { weather: 'clear' }));
++  assert.equal(encRate('fog'), 1.15); assert.equal(encRate('clear'), 1);
++});
++test('weather-only species join grass tables only, in their weather', () => {
++  const zone = { method: 'grass', slots: [{ species: 'burlbeetle', weight: 30, level: [2, 4] }, { species: 'rillop', weight: 10, level: [3, 6] }] };
++  assert.deepEqual(extraSlots(zone, 'clear', 'temperate'), []);
++  const ex = extraSlots(zone, 'rain_heavy', 'temperate'); assert.deepEqual(ex.map((s) => s.species), ['puddlenip']); assert.deepEqual(ex[0].level, [2, 6]);
++  assert.ok(extraSlots(zone, 'rain_heavy', 'swamp').some((s) => s.species === 'pondkin'));
++  assert.deepEqual(extraSlots({ ...zone, method: 'water (Tideglide)' }, 'storm', 'temperate'), []);
++  assert.deepEqual(extraSlots(zone, 'blizzard', 'snowy').map((s) => s.species), ['snowcairn', 'rimewick']);
++  assert.deepEqual(extraSlots(zone, 'storm', 'temperate', (id) => id !== 'drizzlebill').map((s) => s.species), ['puddlenip']);
++  // roller picks: with wxOn the rain-only species can appear; without it never
++  const seen = new Set(), off = new Set();
++  for (let i = 0; i < 400; i++) { seen.add(pickSlot(zone, { weather: 'storm', wxOn: true, elOf, area: 'temperate' }, Math.random)?.species); off.add(pickSlot(zone, { weather: 'storm' }, Math.random)?.species); }
++  assert.ok(seen.has('puddlenip')); assert.ok(!off.has('puddlenip'));
++  // rate: fog raises the step chance (still capped)
++  const ro = new EncounterRoller({ zones: { z: { method: 'grass', rate: 0.1, maps: ['m'], slots: zone.slots } } }, { graceSteps: 0, rng: seq([0.105, 0.0]) });
++  assert.equal(ro.step('m', [], 1, 1, 1, { weather: 'clear' }), null);
++  const ro2 = new EncounterRoller({ zones: { z: { method: 'grass', rate: 0.1, maps: ['m'], slots: zone.slots } } }, { graceSteps: 0, rng: seq([0.105, 0.0, 0.5]) });
++  assert.ok(ro2.step('m', [], 1, 1, 1, { weather: 'fog', wxOn: true, elOf }));
++});
++test('fishing: rain raises bite + rare, fog = rarer but slower, clear unchanged', () => {
++  const tables = { rods: { basic: { bite: 0.6 } }, bite_clamp: [0.05, 0.95], species_el: { a: ['water'], b: ['water'] }, maps: { m: { basic: { from: 'x', slots: [{ species: 'a', weight: 90, level: 3 }, { species: 'b', weight: 10, level: 5, rarity: 'rare' }] } } } };
++  const rod = { id: 'basic', tier: 1 };
++  assert.equal(biteChance(tables, rod, null, fishMods('clear')), 0.6);
++  assert.ok(biteChance(tables, rod, null, fishMods('rain_heavy')) > 0.6);
++  assert.ok(biteChance(tables, rod, null, fishMods('fog')) < 0.6);
++  assert.equal(biteChance(tables, rod, null, { bite: 5 }), 0.95);
++  const rare = (wx) => expectedPer100(tables, 'm', rod, null, wx).rare;
++  assert.ok(rare(fishMods('storm')) > rare(fishMods('rain_light')) && rare(fishMods('rain_light')) > rare(null));
++  assert.ok(rare(fishMods('fog')) / expectedPer100(tables, 'm', rod, null, fishMods('fog')).bites > rare(fishMods('rain_heavy')) / expectedPer100(tables, 'm', rod, null, fishMods('rain_heavy')).bites);
++  assert.equal(effectiveWeight({ weight: 10, rarity: 'rare' }, null, null, fishMods('rain_heavy')), 16);
++  const r = seq([0.5, 0.1, 0.0, 0.0]); const p0 = planCast(tables, 'm', rod, seq([0.5, 0.1, 0.0, 0.0])), pf = planCast(tables, 'm', rod, r, null, null, fishMods('fog'));
++  assert.ok(pf.waitMs > p0.waitMs);
++  for (const k of KINDS) assert.ok(MODS[k], k);
++});
++test('save: weather block normalised, survives the save normaliser', () => {
++  const w = normaliseWeather({ seed: 42, override: { snowy: 'blizzard', temperate: 'blizzard', bogus: 'x' } });
++  assert.deepEqual(w, { seed: 42, override: { snowy: 'blizzard' } });
++  assert.ok(normaliseWeather(null).seed > 0); assert.ok(normaliseWeather({ seed: 'junk' }).seed > 0);
++  const s = normalise({ ...freshSave(), systems: { weather: w } });
++  assert.deepEqual(s.systems.weather, w);
++  assert.deepEqual(JSON.parse(JSON.stringify(s)).systems.weather, w);
++});
++test('particle caps: phone halves, reduced motion none', () => {
++  assert.equal(particleCap('storm', true, false), 130); assert.equal(particleCap('storm', false, true), 0); assert.ok(particleCap('rain_heavy', false, false) <= 280);
++});
+-- 
+2.47.3
+

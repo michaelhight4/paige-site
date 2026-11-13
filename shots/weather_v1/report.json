@@ -1,0 +1,456 @@
+{
+ "snow_before_pc": {
+  "map": "frostspire_pass",
+  "wx": null,
+  "dbg": null,
+  "perf": null,
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "snow_after_pc": {
+  "map": "frostspire_pass",
+  "wx": "snow_light",
+  "dbg": {
+   "target": "snow_light",
+   "shown": "snow_light",
+   "k": 1,
+   "area": "snowy",
+   "seed": 167683677
+  },
+  "perf": null,
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "blizzard_pc": {
+  "map": "frostspire_pass",
+  "wx": "blizzard",
+  "dbg": {
+   "target": "blizzard",
+   "shown": "blizzard",
+   "k": 1,
+   "area": "snowy",
+   "seed": 208026256
+  },
+  "perf": null,
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "ice_fog_pc": {
+  "map": "frostspire_pass",
+  "wx": "ice_fog",
+  "dbg": {
+   "target": "ice_fog",
+   "shown": "ice_fog",
+   "k": 1,
+   "area": "snowy",
+   "seed": 460000591
+  },
+  "perf": null,
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "clear_pc": {
+  "map": "route1",
+  "wx": "clear",
+  "dbg": {
+   "target": "clear",
+   "shown": "clear",
+   "k": 1,
+   "area": "temperate",
+   "seed": 432586525
+  },
+  "perf": null,
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "rain_light_pc": {
+  "map": "route1",
+  "wx": "rain_light",
+  "dbg": {
+   "target": "rain_light",
+   "shown": "rain_light",
+   "k": 1,
+   "area": "temperate",
+   "seed": 882627325
+  },
+  "perf": null,
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "rain_heavy_pc": {
+  "map": "route1",
+  "wx": "rain_heavy",
+  "dbg": {
+   "target": "rain_heavy",
+   "shown": "rain_heavy",
+   "k": 1,
+   "area": "temperate",
+   "seed": 338785994
+  },
+  "perf": null,
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "storm_pc": {
+  "map": "route1",
+  "wx": "storm",
+  "dbg": {
+   "target": "storm",
+   "shown": "storm",
+   "k": 1,
+   "area": "temperate",
+   "seed": 709523565
+  },
+  "perf": null,
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "fog_dawn_pc": {
+  "map": "route1",
+  "wx": "fog",
+  "dbg": {
+   "target": "fog",
+   "shown": "fog",
+   "k": 1,
+   "area": "temperate",
+   "seed": 827224106
+  },
+  "perf": null,
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "swamp_fog_pc": {
+  "map": "mirefen_bog",
+  "wx": "fog",
+  "dbg": {
+   "target": "fog",
+   "shown": "fog",
+   "k": 1,
+   "area": "swamp",
+   "seed": 365382945
+  },
+  "perf": null,
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "rain_fishing_pc": {
+  "map": "brookhollow",
+  "wx": "rain_heavy",
+  "dbg": {
+   "target": "rain_heavy",
+   "shown": "rain_heavy",
+   "k": 1,
+   "area": "temperate",
+   "seed": 975550732
+  },
+  "perf": null,
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "snow_before_phone": {
+  "map": "frostspire_pass",
+  "wx": null,
+  "dbg": null,
+  "perf": {
+   "raf": {
+    "n": 184,
+    "avg": 27.17,
+    "p50": 16.7,
+    "p95": 50.1,
+    "max": 99.9,
+    "over16_7": 114
+   },
+   "mainMsPerFrame": 26.74
+  },
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "snow_after_phone": {
+  "map": "frostspire_pass",
+  "wx": "snow_light",
+  "dbg": {
+   "target": "snow_light",
+   "shown": "snow_light",
+   "k": 1,
+   "area": "snowy",
+   "seed": 57462683
+  },
+  "perf": {
+   "raf": {
+    "n": 161,
+    "avg": 30.95,
+    "p50": 33.3,
+    "p95": 50.1,
+    "max": 99.9,
+    "over16_7": 119
+   },
+   "mainMsPerFrame": 30.45
+  },
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "blizzard_phone": {
+  "map": "frostspire_pass",
+  "wx": "blizzard",
+  "dbg": {
+   "target": "blizzard",
+   "shown": "blizzard",
+   "k": 1,
+   "area": "snowy",
+   "seed": 231641484
+  },
+  "perf": {
+   "raf": {
+    "n": 146,
+    "avg": 33.79,
+    "p50": 33.3,
+    "p95": 66.8,
+    "max": 83.4,
+    "over16_7": 108
+   },
+   "mainMsPerFrame": 33.56
+  },
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "ice_fog_phone": {
+  "map": "frostspire_pass",
+  "wx": "ice_fog",
+  "dbg": {
+   "target": "ice_fog",
+   "shown": "ice_fog",
+   "k": 1,
+   "area": "snowy",
+   "seed": 992148943
+  },
+  "perf": {
+   "raf": {
+    "n": 175,
+    "avg": 28.38,
+    "p50": 33.3,
+    "p95": 50,
+    "max": 66.7,
+    "over16_7": 125
+   },
+   "mainMsPerFrame": 28.86
+  },
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "clear_phone": {
+  "map": "route1",
+  "wx": "clear",
+  "dbg": {
+   "target": "clear",
+   "shown": "clear",
+   "k": 1,
+   "area": "temperate",
+   "seed": 452586494
+  },
+  "perf": {
+   "raf": {
+    "n": 212,
+    "avg": 23.66,
+    "p50": 16.7,
+    "p95": 50,
+    "max": 66.7,
+    "over16_7": 121
+   },
+   "mainMsPerFrame": 22.9
+  },
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "rain_light_phone": {
+  "map": "route1",
+  "wx": "rain_light",
+  "dbg": {
+   "target": "rain_light",
+   "shown": "rain_light",
+   "k": 1,
+   "area": "temperate",
+   "seed": 544925954
+  },
+  "perf": {
+   "raf": {
+    "n": 142,
+    "avg": 35.09,
+    "p50": 33.3,
+    "p95": 83.4,
+    "max": 116.7,
+    "over16_7": 102
+   },
+   "mainMsPerFrame": 34.29
+  },
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "rain_heavy_phone": {
+  "map": "route1",
+  "wx": "rain_heavy",
+  "dbg": {
+   "target": "rain_heavy",
+   "shown": "rain_heavy",
+   "k": 1,
+   "area": "temperate",
+   "seed": 811900616
+  },
+  "perf": {
+   "raf": {
+    "n": 218,
+    "avg": 22.63,
+    "p50": 16.7,
+    "p95": 50,
+    "max": 83.3,
+    "over16_7": 123
+   },
+   "mainMsPerFrame": 20.99
+  },
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "storm_phone": {
+  "map": "route1",
+  "wx": "storm",
+  "dbg": {
+   "target": "storm",
+   "shown": "storm",
+   "k": 1,
+   "area": "temperate",
+   "seed": 513241297
+  },
+  "perf": {
+   "raf": {
+    "n": 206,
+    "avg": 24.27,
+    "p50": 16.7,
+    "p95": 50,
+    "max": 66.7,
+    "over16_7": 126
+   },
+   "mainMsPerFrame": 23.7
+  },
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "fog_dawn_phone": {
+  "map": "route1",
+  "wx": "fog",
+  "dbg": {
+   "target": "fog",
+   "shown": "fog",
+   "k": 1,
+   "area": "temperate",
+   "seed": 599471139
+  },
+  "perf": {
+   "raf": {
+    "n": 196,
+    "avg": 25.25,
+    "p50": 16.7,
+    "p95": 50,
+    "max": 66.7,
+    "over16_7": 132
+   },
+   "mainMsPerFrame": 25.1
+  },
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "swamp_fog_phone": {
+  "map": "mirefen_bog",
+  "wx": "fog",
+  "dbg": {
+   "target": "fog",
+   "shown": "fog",
+   "k": 1,
+   "area": "swamp",
+   "seed": 982487826
+  },
+  "perf": {
+   "raf": {
+    "n": 200,
+    "avg": 25,
+    "p50": 16.7,
+    "p95": 49.9,
+    "max": 83.3,
+    "over16_7": 123
+   },
+   "mainMsPerFrame": 24.09
+  },
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "rain_fishing_phone": {
+  "map": "brookhollow",
+  "wx": "rain_heavy",
+  "dbg": {
+   "target": "rain_heavy",
+   "shown": "rain_heavy",
+   "k": 1,
+   "area": "temperate",
+   "seed": 444139461
+  },
+  "perf": {
+   "raf": {
+    "n": 223,
+    "avg": 22.35,
+    "p50": 16.7,
+    "p95": 50,
+    "max": 66.7,
+    "over16_7": 117
+   },
+   "mainMsPerFrame": 20.62
+  },
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "route1_base_phone": {
+  "perf": {
+   "raf": {
+    "n": 242,
+    "avg": 20.73,
+    "p50": 16.7,
+    "p95": 33.4,
+    "max": 66.7,
+    "over16_7": 132
+   },
+   "mainMsPerFrame": 18.7
+  }
+ },
+ "route1_wxoff_phone": {
+  "perf": {
+   "raf": {
+    "n": 251,
+    "avg": 19.85,
+    "p50": 16.7,
+    "p95": 33.4,
+    "max": 66.7,
+    "over16_7": 122
+   },
+   "mainMsPerFrame": 17.83
+  }
+ }
+}

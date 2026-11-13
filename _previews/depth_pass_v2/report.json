@@ -1,0 +1,1836 @@
+[
+  {
+    "dev": "pc",
+    "kind": "toggle",
+    "tag": "heal_brookhollow",
+    "map": "heal_brookhollow",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 8,
+      "walls": 26,
+      "buildMs": 38.5,
+      "frameMs": 2.149,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "heal_brookhollow_carer",
+        "x": 6,
+        "y": 3,
+        "facing": "down"
+      },
+      {
+        "id": "heal_brookhollow_technician",
+        "x": 4,
+        "y": 3,
+        "facing": "up"
+      },
+      {
+        "id": "heal_brookhollow_storage_user",
+        "x": 12,
+        "y": 5,
+        "facing": "up"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "heal_brookhollow_pc_depth1.png",
+      "heal_brookhollow_pc_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "pc",
+    "kind": "toggle",
+    "tag": "lab_crystals",
+    "map": "lab_brookhollow",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 20,
+      "walls": 28,
+      "buildMs": 33.5,
+      "frameMs": 0.074,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "lab_brookhollow_researcher",
+        "x": 7,
+        "y": 4,
+        "facing": "down"
+      },
+      {
+        "id": "lab_brookhollow_aide",
+        "x": 10,
+        "y": 6,
+        "facing": "right"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "lab_crystals_pc_depth1.png",
+      "lab_crystals_pc_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "pc",
+    "kind": "toggle",
+    "tag": "home_sofas",
+    "map": "home_brookhollow_b",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 12,
+      "walls": 24,
+      "buildMs": 28.4,
+      "frameMs": 0.039,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "home_brookhollow_b_parent",
+        "x": 8,
+        "y": 4,
+        "facing": "down"
+      },
+      {
+        "id": "scholar",
+        "x": 4,
+        "y": 4,
+        "facing": "down"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "home_sofas_pc_depth1.png",
+      "home_sofas_pc_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "pc",
+    "kind": "toggle",
+    "tag": "route1_trees",
+    "map": "route1",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "outdoor",
+      "objects": 672,
+      "walls": 0,
+      "buildMs": 98.5,
+      "frameMs": 1.602,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 72
+    },
+    "npcs": [
+      {
+        "id": "trainer_r1_a",
+        "x": 12,
+        "y": 20,
+        "facing": "left"
+      },
+      {
+        "id": "trainer_r1_b",
+        "x": 31,
+        "y": 13,
+        "facing": "left"
+      },
+      {
+        "id": "trainer_r1_c",
+        "x": 34,
+        "y": 9,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "route1_trees_pc_depth1.png",
+      "route1_trees_pc_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "pc",
+    "kind": "toggle",
+    "tag": "firefly_day",
+    "map": "club_int",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 14,
+      "walls": 44,
+      "buildMs": 43.8,
+      "frameMs": 2.046,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "rebel_bartender",
+        "x": 2,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_dj",
+        "x": 10,
+        "y": 12,
+        "facing": "right"
+      },
+      {
+        "id": "rebel_patron_1",
+        "x": 6,
+        "y": 9,
+        "facing": "up"
+      },
+      {
+        "id": "rebel_patron_2",
+        "x": 5,
+        "y": 12,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_patron_3",
+        "x": 8,
+        "y": 12,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_bouncer",
+        "x": 8,
+        "y": 13,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_paint_vendor",
+        "x": 13,
+        "y": 4,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "firefly_day_pc_depth1.png",
+      "firefly_day_pc_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "pc",
+    "kind": "toggle",
+    "tag": "firefly_night",
+    "map": "club_int",
+    "grade": "night",
+    "litGreens": false,
+    "phase": "night",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 14,
+      "walls": 44,
+      "buildMs": 54,
+      "frameMs": 0.048,
+      "colour": "20,20,57",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "rebel_bartender",
+        "x": 2,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_dj",
+        "x": 11,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_patron_1",
+        "x": 6,
+        "y": 9,
+        "facing": "up"
+      },
+      {
+        "id": "rebel_patron_2",
+        "x": 5,
+        "y": 12,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_patron_3",
+        "x": 8,
+        "y": 12,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_bouncer",
+        "x": 8,
+        "y": 13,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_paint_vendor",
+        "x": 13,
+        "y": 4,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "firefly_night_pc_depth1.png",
+      "firefly_night_pc_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "pc",
+    "kind": "toggle",
+    "tag": "firefly_night_litgreens",
+    "map": "club_int",
+    "grade": "night",
+    "litGreens": true,
+    "phase": "night",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 14,
+      "walls": 44,
+      "buildMs": 45.1,
+      "frameMs": 0.056,
+      "colour": "20,20,57",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "rebel_bartender",
+        "x": 2,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_dj",
+        "x": 11,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_patron_1",
+        "x": 6,
+        "y": 9,
+        "facing": "up"
+      },
+      {
+        "id": "rebel_patron_2",
+        "x": 5,
+        "y": 12,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_patron_3",
+        "x": 8,
+        "y": 12,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_bouncer",
+        "x": 8,
+        "y": 13,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_paint_vendor",
+        "x": 13,
+        "y": 4,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "firefly_night_litgreens_pc_depth1.png"
+    ]
+  },
+  {
+    "dev": "pc",
+    "kind": "toggle",
+    "tag": "fernwick_club_front_night",
+    "map": "fernwick",
+    "grade": "night",
+    "litGreens": false,
+    "phase": "night",
+    "depth": {
+      "enabled": true,
+      "profile": "outdoor",
+      "objects": 203,
+      "walls": 0,
+      "buildMs": 50.5,
+      "frameMs": 3.081,
+      "colour": "20,20,57",
+      "strength": "medium",
+      "alpha": 72
+    },
+    "npcs": [
+      {
+        "id": "ron_rival_1",
+        "x": 12,
+        "y": 12,
+        "facing": "down"
+      },
+      {
+        "id": "villager_f1",
+        "x": 20,
+        "y": 10,
+        "facing": "left"
+      },
+      {
+        "id": "elder",
+        "x": 7,
+        "y": 20,
+        "facing": "up"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "fernwick_club_front_night_pc_depth1.png",
+      "fernwick_club_front_night_pc_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "pc",
+    "kind": "toggle",
+    "tag": "fernwick_hall",
+    "map": "fernwick_hall_int",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 9,
+      "walls": 44,
+      "buildMs": 28.1,
+      "frameMs": 2.791,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "helper_1",
+        "x": 4,
+        "y": 12,
+        "facing": "right"
+      },
+      {
+        "id": "helper_2",
+        "x": 11,
+        "y": 12,
+        "facing": "left"
+      },
+      {
+        "id": "master_fernwick",
+        "x": 7,
+        "y": 4,
+        "facing": "down"
+      },
+      {
+        "id": "guide",
+        "x": 9,
+        "y": 14,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "fernwick_hall_pc_depth1.png",
+      "fernwick_hall_pc_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "mobile",
+    "kind": "toggle",
+    "tag": "heal_brookhollow",
+    "map": "heal_brookhollow",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 8,
+      "walls": 26,
+      "buildMs": 35.9,
+      "frameMs": 2.721,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "heal_brookhollow_carer",
+        "x": 6,
+        "y": 3,
+        "facing": "down"
+      },
+      {
+        "id": "heal_brookhollow_technician",
+        "x": 4,
+        "y": 3,
+        "facing": "up"
+      },
+      {
+        "id": "heal_brookhollow_storage_user",
+        "x": 12,
+        "y": 5,
+        "facing": "up"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "heal_brookhollow_mobile_depth1.png",
+      "heal_brookhollow_mobile_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "mobile",
+    "kind": "toggle",
+    "tag": "lab_crystals",
+    "map": "lab_brookhollow",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 20,
+      "walls": 28,
+      "buildMs": 32.1,
+      "frameMs": 0.046,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "lab_brookhollow_researcher",
+        "x": 7,
+        "y": 4,
+        "facing": "down"
+      },
+      {
+        "id": "lab_brookhollow_aide",
+        "x": 10,
+        "y": 6,
+        "facing": "right"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "lab_crystals_mobile_depth1.png",
+      "lab_crystals_mobile_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "mobile",
+    "kind": "toggle",
+    "tag": "home_sofas",
+    "map": "home_brookhollow_b",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 12,
+      "walls": 24,
+      "buildMs": 28,
+      "frameMs": 0.043,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "home_brookhollow_b_parent",
+        "x": 8,
+        "y": 4,
+        "facing": "down"
+      },
+      {
+        "id": "scholar",
+        "x": 4,
+        "y": 4,
+        "facing": "down"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "home_sofas_mobile_depth1.png",
+      "home_sofas_mobile_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "mobile",
+    "kind": "toggle",
+    "tag": "route1_trees",
+    "map": "route1",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "outdoor",
+      "objects": 672,
+      "walls": 0,
+      "buildMs": 98.1,
+      "frameMs": 2.924,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 72
+    },
+    "npcs": [
+      {
+        "id": "trainer_r1_a",
+        "x": 12,
+        "y": 20,
+        "facing": "left"
+      },
+      {
+        "id": "trainer_r1_b",
+        "x": 31,
+        "y": 13,
+        "facing": "left"
+      },
+      {
+        "id": "trainer_r1_c",
+        "x": 34,
+        "y": 9,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "route1_trees_mobile_depth1.png",
+      "route1_trees_mobile_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "mobile",
+    "kind": "toggle",
+    "tag": "firefly_day",
+    "map": "club_int",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 14,
+      "walls": 44,
+      "buildMs": 41,
+      "frameMs": 2.97,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "rebel_bartender",
+        "x": 2,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_dj",
+        "x": 10,
+        "y": 12,
+        "facing": "right"
+      },
+      {
+        "id": "rebel_patron_1",
+        "x": 6,
+        "y": 9,
+        "facing": "up"
+      },
+      {
+        "id": "rebel_patron_2",
+        "x": 5,
+        "y": 12,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_patron_3",
+        "x": 8,
+        "y": 12,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_bouncer",
+        "x": 8,
+        "y": 13,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_paint_vendor",
+        "x": 13,
+        "y": 4,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "firefly_day_mobile_depth1.png",
+      "firefly_day_mobile_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "mobile",
+    "kind": "toggle",
+    "tag": "firefly_night",
+    "map": "club_int",
+    "grade": "night",
+    "litGreens": false,
+    "phase": "night",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 14,
+      "walls": 44,
+      "buildMs": 31.7,
+      "frameMs": 0.071,
+      "colour": "20,20,57",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "rebel_bartender",
+        "x": 2,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_dj",
+        "x": 11,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_patron_1",
+        "x": 6,
+        "y": 9,
+        "facing": "up"
+      },
+      {
+        "id": "rebel_patron_2",
+        "x": 5,
+        "y": 12,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_patron_3",
+        "x": 8,
+        "y": 12,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_bouncer",
+        "x": 8,
+        "y": 13,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_paint_vendor",
+        "x": 13,
+        "y": 4,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "firefly_night_mobile_depth1.png",
+      "firefly_night_mobile_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "mobile",
+    "kind": "toggle",
+    "tag": "firefly_night_litgreens",
+    "map": "club_int",
+    "grade": "night",
+    "litGreens": true,
+    "phase": "night",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 14,
+      "walls": 44,
+      "buildMs": 41,
+      "frameMs": 0.053,
+      "colour": "20,20,57",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "rebel_bartender",
+        "x": 2,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_dj",
+        "x": 11,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_patron_1",
+        "x": 6,
+        "y": 9,
+        "facing": "up"
+      },
+      {
+        "id": "rebel_patron_2",
+        "x": 5,
+        "y": 12,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_patron_3",
+        "x": 8,
+        "y": 12,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_bouncer",
+        "x": 8,
+        "y": 13,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_paint_vendor",
+        "x": 13,
+        "y": 4,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "firefly_night_litgreens_mobile_depth1.png"
+    ]
+  },
+  {
+    "dev": "mobile",
+    "kind": "toggle",
+    "tag": "fernwick_club_front_night",
+    "map": "fernwick",
+    "grade": "night",
+    "litGreens": false,
+    "phase": "night",
+    "depth": {
+      "enabled": true,
+      "profile": "outdoor",
+      "objects": 203,
+      "walls": 0,
+      "buildMs": 53.1,
+      "frameMs": 5.268,
+      "colour": "20,20,57",
+      "strength": "medium",
+      "alpha": 72
+    },
+    "npcs": [
+      {
+        "id": "ron_rival_1",
+        "x": 12,
+        "y": 12,
+        "facing": "down"
+      },
+      {
+        "id": "villager_f1",
+        "x": 20,
+        "y": 10,
+        "facing": "left"
+      },
+      {
+        "id": "elder",
+        "x": 7,
+        "y": 20,
+        "facing": "up"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "fernwick_club_front_night_mobile_depth1.png",
+      "fernwick_club_front_night_mobile_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "mobile",
+    "kind": "toggle",
+    "tag": "fernwick_hall",
+    "map": "fernwick_hall_int",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 9,
+      "walls": 44,
+      "buildMs": 32.4,
+      "frameMs": 3.644,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "helper_1",
+        "x": 4,
+        "y": 12,
+        "facing": "right"
+      },
+      {
+        "id": "helper_2",
+        "x": 11,
+        "y": 12,
+        "facing": "left"
+      },
+      {
+        "id": "master_fernwick",
+        "x": 7,
+        "y": 4,
+        "facing": "down"
+      },
+      {
+        "id": "guide",
+        "x": 9,
+        "y": 14,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "fernwick_hall_mobile_depth1.png",
+      "fernwick_hall_mobile_depth0.png"
+    ],
+    "afterJ": false
+  },
+  {
+    "dev": "pc",
+    "kind": "strength",
+    "tag": "heal_brookhollow",
+    "strength": "light",
+    "map": "heal_brookhollow",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 8,
+      "walls": 26,
+      "buildMs": 39.5,
+      "frameMs": 2.163,
+      "colour": "26,18,38",
+      "strength": "light",
+      "alpha": 56
+    },
+    "npcs": [
+      {
+        "id": "heal_brookhollow_carer",
+        "x": 6,
+        "y": 3,
+        "facing": "down"
+      },
+      {
+        "id": "heal_brookhollow_technician",
+        "x": 4,
+        "y": 3,
+        "facing": "up"
+      },
+      {
+        "id": "heal_brookhollow_storage_user",
+        "x": 12,
+        "y": 5,
+        "facing": "up"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "heal_brookhollow_pc_light.png"
+    ]
+  },
+  {
+    "dev": "pc",
+    "kind": "strength",
+    "tag": "heal_brookhollow",
+    "strength": "medium",
+    "map": "heal_brookhollow",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 8,
+      "walls": 26,
+      "buildMs": 39,
+      "frameMs": 2.141,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "heal_brookhollow_carer",
+        "x": 6,
+        "y": 3,
+        "facing": "down"
+      },
+      {
+        "id": "heal_brookhollow_technician",
+        "x": 4,
+        "y": 3,
+        "facing": "up"
+      },
+      {
+        "id": "heal_brookhollow_storage_user",
+        "x": 12,
+        "y": 5,
+        "facing": "up"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "heal_brookhollow_pc_medium.png"
+    ]
+  },
+  {
+    "dev": "pc",
+    "kind": "strength",
+    "tag": "heal_brookhollow",
+    "strength": "strong",
+    "map": "heal_brookhollow",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 8,
+      "walls": 26,
+      "buildMs": 39.5,
+      "frameMs": 2.19,
+      "colour": "26,18,38",
+      "strength": "strong",
+      "alpha": 108
+    },
+    "npcs": [
+      {
+        "id": "heal_brookhollow_carer",
+        "x": 6,
+        "y": 3,
+        "facing": "down"
+      },
+      {
+        "id": "heal_brookhollow_technician",
+        "x": 4,
+        "y": 3,
+        "facing": "up"
+      },
+      {
+        "id": "heal_brookhollow_storage_user",
+        "x": 12,
+        "y": 5,
+        "facing": "up"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "heal_brookhollow_pc_strong.png"
+    ]
+  },
+  {
+    "dev": "pc",
+    "kind": "strength",
+    "tag": "home_sofas",
+    "strength": "light",
+    "map": "home_brookhollow_b",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 12,
+      "walls": 24,
+      "buildMs": 26.9,
+      "frameMs": 0.055,
+      "colour": "26,18,38",
+      "strength": "light",
+      "alpha": 56
+    },
+    "npcs": [
+      {
+        "id": "home_brookhollow_b_parent",
+        "x": 8,
+        "y": 4,
+        "facing": "down"
+      },
+      {
+        "id": "scholar",
+        "x": 4,
+        "y": 4,
+        "facing": "down"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "home_sofas_pc_light.png"
+    ]
+  },
+  {
+    "dev": "pc",
+    "kind": "strength",
+    "tag": "home_sofas",
+    "strength": "medium",
+    "map": "home_brookhollow_b",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 12,
+      "walls": 24,
+      "buildMs": 27.3,
+      "frameMs": 0.065,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "home_brookhollow_b_parent",
+        "x": 8,
+        "y": 4,
+        "facing": "down"
+      },
+      {
+        "id": "scholar",
+        "x": 4,
+        "y": 4,
+        "facing": "down"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "home_sofas_pc_medium.png"
+    ]
+  },
+  {
+    "dev": "pc",
+    "kind": "strength",
+    "tag": "home_sofas",
+    "strength": "strong",
+    "map": "home_brookhollow_b",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 12,
+      "walls": 24,
+      "buildMs": 29,
+      "frameMs": 0.057,
+      "colour": "26,18,38",
+      "strength": "strong",
+      "alpha": 108
+    },
+    "npcs": [
+      {
+        "id": "home_brookhollow_b_parent",
+        "x": 8,
+        "y": 4,
+        "facing": "down"
+      },
+      {
+        "id": "scholar",
+        "x": 4,
+        "y": 4,
+        "facing": "down"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "home_sofas_pc_strong.png"
+    ]
+  },
+  {
+    "dev": "pc",
+    "kind": "strength",
+    "tag": "route1_trees",
+    "strength": "light",
+    "map": "route1",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "outdoor",
+      "objects": 672,
+      "walls": 0,
+      "buildMs": 87.2,
+      "frameMs": 1.829,
+      "colour": "26,18,38",
+      "strength": "light",
+      "alpha": 50
+    },
+    "npcs": [
+      {
+        "id": "trainer_r1_a",
+        "x": 12,
+        "y": 20,
+        "facing": "left"
+      },
+      {
+        "id": "trainer_r1_b",
+        "x": 31,
+        "y": 13,
+        "facing": "left"
+      },
+      {
+        "id": "trainer_r1_c",
+        "x": 34,
+        "y": 9,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "route1_trees_pc_light.png"
+    ]
+  },
+  {
+    "dev": "pc",
+    "kind": "strength",
+    "tag": "route1_trees",
+    "strength": "medium",
+    "map": "route1",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "outdoor",
+      "objects": 672,
+      "walls": 0,
+      "buildMs": 91.9,
+      "frameMs": 1.55,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 72
+    },
+    "npcs": [
+      {
+        "id": "trainer_r1_a",
+        "x": 12,
+        "y": 20,
+        "facing": "left"
+      },
+      {
+        "id": "trainer_r1_b",
+        "x": 31,
+        "y": 13,
+        "facing": "left"
+      },
+      {
+        "id": "trainer_r1_c",
+        "x": 34,
+        "y": 9,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "route1_trees_pc_medium.png"
+    ]
+  },
+  {
+    "dev": "pc",
+    "kind": "strength",
+    "tag": "route1_trees",
+    "strength": "strong",
+    "map": "route1",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "outdoor",
+      "objects": 672,
+      "walls": 0,
+      "buildMs": 103.4,
+      "frameMs": 1.791,
+      "colour": "26,18,38",
+      "strength": "strong",
+      "alpha": 97
+    },
+    "npcs": [
+      {
+        "id": "trainer_r1_a",
+        "x": 12,
+        "y": 20,
+        "facing": "left"
+      },
+      {
+        "id": "trainer_r1_b",
+        "x": 31,
+        "y": 13,
+        "facing": "left"
+      },
+      {
+        "id": "trainer_r1_c",
+        "x": 34,
+        "y": 9,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "route1_trees_pc_strong.png"
+    ]
+  },
+  {
+    "dev": "pc",
+    "kind": "strength",
+    "tag": "firefly_night",
+    "strength": "light",
+    "map": "club_int",
+    "grade": "night",
+    "litGreens": false,
+    "phase": "night",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 14,
+      "walls": 44,
+      "buildMs": 34.6,
+      "frameMs": 0.042,
+      "colour": "20,20,57",
+      "strength": "light",
+      "alpha": 56
+    },
+    "npcs": [
+      {
+        "id": "rebel_bartender",
+        "x": 2,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_dj",
+        "x": 11,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_patron_1",
+        "x": 6,
+        "y": 9,
+        "facing": "up"
+      },
+      {
+        "id": "rebel_patron_2",
+        "x": 5,
+        "y": 12,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_patron_3",
+        "x": 8,
+        "y": 12,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_bouncer",
+        "x": 8,
+        "y": 13,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_paint_vendor",
+        "x": 13,
+        "y": 4,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "firefly_night_pc_light.png"
+    ]
+  },
+  {
+    "dev": "pc",
+    "kind": "strength",
+    "tag": "firefly_night",
+    "strength": "medium",
+    "map": "club_int",
+    "grade": "night",
+    "litGreens": false,
+    "phase": "night",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 14,
+      "walls": 44,
+      "buildMs": 38.6,
+      "frameMs": 0.043,
+      "colour": "20,20,57",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "rebel_bartender",
+        "x": 2,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_dj",
+        "x": 11,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_patron_1",
+        "x": 6,
+        "y": 9,
+        "facing": "up"
+      },
+      {
+        "id": "rebel_patron_2",
+        "x": 5,
+        "y": 12,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_patron_3",
+        "x": 8,
+        "y": 12,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_bouncer",
+        "x": 8,
+        "y": 13,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_paint_vendor",
+        "x": 13,
+        "y": 4,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "firefly_night_pc_medium.png"
+    ]
+  },
+  {
+    "dev": "pc",
+    "kind": "strength",
+    "tag": "firefly_night",
+    "strength": "strong",
+    "map": "club_int",
+    "grade": "night",
+    "litGreens": false,
+    "phase": "night",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 14,
+      "walls": 44,
+      "buildMs": 40.6,
+      "frameMs": 0.041,
+      "colour": "20,20,57",
+      "strength": "strong",
+      "alpha": 108
+    },
+    "npcs": [
+      {
+        "id": "rebel_bartender",
+        "x": 2,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_dj",
+        "x": 11,
+        "y": 9,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_patron_1",
+        "x": 6,
+        "y": 9,
+        "facing": "up"
+      },
+      {
+        "id": "rebel_patron_2",
+        "x": 5,
+        "y": 12,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_patron_3",
+        "x": 8,
+        "y": 12,
+        "facing": "down"
+      },
+      {
+        "id": "rebel_bouncer",
+        "x": 8,
+        "y": 13,
+        "facing": "left"
+      },
+      {
+        "id": "rebel_paint_vendor",
+        "x": 13,
+        "y": 4,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "firefly_night_pc_strong.png"
+    ]
+  },
+  {
+    "dev": "mobile",
+    "kind": "guide",
+    "tag": "fernwick_hall",
+    "map": "fernwick_hall_int",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 9,
+      "walls": 44,
+      "buildMs": 31.2,
+      "frameMs": 3.993,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "helper_1",
+        "x": 4,
+        "y": 12,
+        "facing": "right"
+      },
+      {
+        "id": "helper_2",
+        "x": 11,
+        "y": 12,
+        "facing": "left"
+      },
+      {
+        "id": "master_fernwick",
+        "x": 7,
+        "y": 4,
+        "facing": "down"
+      },
+      {
+        "id": "guide",
+        "x": 9,
+        "y": 14,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "fernwick_hall_guide_mobile.png"
+    ],
+    "guide": {
+      "x": 9,
+      "y": 14,
+      "facing": "left",
+      "home": {
+        "x": 9,
+        "y": 14,
+        "facing": "left"
+      },
+      "behaviour": "wander",
+      "box": {
+        "left": 519.3333333333333,
+        "right": 540.6666666666666,
+        "top": 240.66666666666666,
+        "bottom": 302
+      },
+      "onScreen": true,
+      "overlaps": [],
+      "buttons": 9,
+      "zoom": 2
+    }
+  },
+  {
+    "dev": "phone2340",
+    "kind": "guide",
+    "tag": "fernwick_hall",
+    "map": "fernwick_hall_int",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 9,
+      "walls": 44,
+      "buildMs": 44.5,
+      "frameMs": 3.173,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "helper_1",
+        "x": 4,
+        "y": 12,
+        "facing": "right"
+      },
+      {
+        "id": "helper_2",
+        "x": 11,
+        "y": 12,
+        "facing": "left"
+      },
+      {
+        "id": "master_fernwick",
+        "x": 7,
+        "y": 4,
+        "facing": "down"
+      },
+      {
+        "id": "guide",
+        "x": 9,
+        "y": 14,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "fernwick_hall_guide_phone2340.png"
+    ],
+    "guide": {
+      "x": 9,
+      "y": 14,
+      "facing": "left",
+      "home": {
+        "x": 9,
+        "y": 14,
+        "facing": "left"
+      },
+      "behaviour": "wander",
+      "box": {
+        "left": 483.6880341880342,
+        "right": 506.96324786324783,
+        "top": 186.9290598290598,
+        "bottom": 253.84529914529912
+      },
+      "onScreen": true,
+      "overlaps": [],
+      "buttons": 9,
+      "zoom": 2
+    }
+  },
+  {
+    "dev": "phone844",
+    "kind": "guide",
+    "tag": "fernwick_hall",
+    "map": "fernwick_hall_int",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 9,
+      "walls": 44,
+      "buildMs": 30.9,
+      "frameMs": 3.263,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "helper_1",
+        "x": 4,
+        "y": 12,
+        "facing": "right"
+      },
+      {
+        "id": "helper_2",
+        "x": 11,
+        "y": 12,
+        "facing": "left"
+      },
+      {
+        "id": "master_fernwick",
+        "x": 7,
+        "y": 4,
+        "facing": "down"
+      },
+      {
+        "id": "guide",
+        "x": 9,
+        "y": 14,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "fernwick_hall_guide_phone844.png"
+    ],
+    "guide": {
+      "x": 9,
+      "y": 14,
+      "facing": "left",
+      "home": {
+        "x": 9,
+        "y": 14,
+        "facing": "left"
+      },
+      "behaviour": "wander",
+      "box": {
+        "left": 475.3333333333333,
+        "right": 496.66666666666663,
+        "top": 200.66666666666666,
+        "bottom": 262
+      },
+      "onScreen": true,
+      "overlaps": [],
+      "buttons": 9,
+      "zoom": 2
+    }
+  },
+  {
+    "dev": "phone740",
+    "kind": "guide",
+    "tag": "fernwick_hall",
+    "map": "fernwick_hall_int",
+    "grade": "day",
+    "litGreens": false,
+    "phase": "day",
+    "depth": {
+      "enabled": true,
+      "profile": "indoor",
+      "objects": 9,
+      "walls": 44,
+      "buildMs": 34.6,
+      "frameMs": 2.934,
+      "colour": "26,18,38",
+      "strength": "medium",
+      "alpha": 80
+    },
+    "npcs": [
+      {
+        "id": "helper_1",
+        "x": 4,
+        "y": 12,
+        "facing": "right"
+      },
+      {
+        "id": "helper_2",
+        "x": 11,
+        "y": 12,
+        "facing": "left"
+      },
+      {
+        "id": "master_fernwick",
+        "x": 7,
+        "y": 4,
+        "facing": "down"
+      },
+      {
+        "id": "guide",
+        "x": 9,
+        "y": 14,
+        "facing": "left"
+      }
+    ],
+    "errors": [],
+    "files": [
+      "fernwick_hall_guide_phone740.png"
+    ],
+    "guide": {
+      "x": 9,
+      "y": 14,
+      "facing": "left",
+      "home": {
+        "x": 9,
+        "y": 14,
+        "facing": "left"
+      },
+      "behaviour": "wander",
+      "box": {
+        "left": 423.3333333333333,
+        "right": 444.66666666666663,
+        "top": 170.66666666666666,
+        "bottom": 232
+      },
+      "onScreen": true,
+      "overlaps": [],
+      "buttons": 9,
+      "zoom": 2
+    }
+  }
+]

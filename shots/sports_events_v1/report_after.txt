@@ -1,0 +1,89 @@
+/workspace/kilumen/shots/sports_events_v1/pc_fernwick_1_coach.png
+/workspace/kilumen/shots/sports_events_v1/pc_fernwick_2_cup_field.png
+/workspace/kilumen/shots/sports_events_v1/pc_fernwick_3_play_crowd.png
+/workspace/kilumen/shots/sports_events_v1/pc_fernwick_4_champion.png
+pc_fernwick: cup day 1, {"cup":{"place":1,"prize":600,"cups":1},"coins":2500}
+/workspace/kilumen/shots/sports_events_v1/pc_fernwick_5_result.png
+/workspace/kilumen/shots/sports_events_v1/pc_fernwick.webm
+/workspace/kilumen/shots/sports_events_v1/pc_saltmere_1_coach.png
+/workspace/kilumen/shots/sports_events_v1/pc_saltmere_2_cup_field.png
+/workspace/kilumen/shots/sports_events_v1/pc_saltmere_3_play_crowd.png
+/workspace/kilumen/shots/sports_events_v1/pc_saltmere_4_champion.png
+pc_saltmere: cup day 2, {"cup":{"place":1,"prize":600,"cups":1},"coins":2500}
+/workspace/kilumen/shots/sports_events_v1/pc_saltmere_5_result.png
+/workspace/kilumen/shots/sports_events_v1/pc_saltmere.webm
+/workspace/kilumen/shots/sports_events_v1/pc_revival_heights_1_coach.png
+/workspace/kilumen/shots/sports_events_v1/pc_revival_heights_2_cup_field.png
+/workspace/kilumen/shots/sports_events_v1/pc_revival_heights_3_play_crowd.png
+/workspace/kilumen/shots/sports_events_v1/pc_revival_heights_4_champion.png
+pc_revival_heights: cup day 3, {"cup":{"place":1,"prize":600,"cups":1},"coins":2500}
+/workspace/kilumen/shots/sports_events_v1/pc_revival_heights_5_result.png
+/workspace/kilumen/shots/sports_events_v1/pc_revival_heights.webm
+/workspace/kilumen/shots/sports_events_v1/pc_frostspire_1_coach.png
+/workspace/kilumen/shots/sports_events_v1/pc_frostspire_2_cup_field.png
+/workspace/kilumen/shots/sports_events_v1/pc_frostspire_3_play_crowd.png
+/workspace/kilumen/shots/sports_events_v1/pc_frostspire_4_champion.png
+pc_frostspire: cup day 1, {"cup":{"place":1,"prize":600,"cups":1},"coins":2500}
+/workspace/kilumen/shots/sports_events_v1/pc_frostspire_5_result.png
+/workspace/kilumen/shots/sports_events_v1/pc_frostspire.webm
+/workspace/kilumen/shots/sports_events_v1/pc_lanternport_1_coach.png
+/workspace/kilumen/shots/sports_events_v1/pc_lanternport_2_cup_field.png
+/workspace/kilumen/shots/sports_events_v1/pc_lanternport_3_play_crowd.png
+/workspace/kilumen/shots/sports_events_v1/pc_lanternport_4_champion.png
+pc_lanternport: cup day 1, {"cup":{"place":1,"prize":600,"cups":1},"coins":2500}
+/workspace/kilumen/shots/sports_events_v1/pc_lanternport_5_result.png
+/workspace/kilumen/shots/sports_events_v1/pc_lanternport.webm
+/workspace/kilumen/shots/sports_events_v1/pc_cindervale_1_coach.png
+/workspace/kilumen/shots/sports_events_v1/pc_cindervale_2_cup_field.png
+/workspace/kilumen/shots/sports_events_v1/pc_cindervale_3_play_crowd.png
+/workspace/kilumen/shots/sports_events_v1/pc_cindervale_4_champion.png
+pc_cindervale: cup day 2, {"cup":{"place":1,"prize":600,"cups":1},"coins":2500}
+/workspace/kilumen/shots/sports_events_v1/pc_cindervale_5_result.png
+/workspace/kilumen/shots/sports_events_v1/pc_cindervale.webm
+/workspace/kilumen/shots/sports_events_v1/pc_badges_after.png
+pc badges after: 1 coming-soon plates
+/workspace/kilumen/shots/sports_events_v1/phone_fernwick_1_coach.png
+/workspace/kilumen/shots/sports_events_v1/phone_fernwick_2_cup_field.png
+/workspace/kilumen/shots/sports_events_v1/phone_fernwick_3_play_crowd.png
+/workspace/kilumen/shots/sports_events_v1/phone_fernwick_4_champion.png
+phone_fernwick: cup day 1, {"cup":{"place":4,"prize":0,"cups":0},"coins":1900}
+/workspace/kilumen/shots/sports_events_v1/phone_fernwick_5_result.png
+/workspace/kilumen/shots/sports_events_v1/phone_fernwick.webm
+/workspace/kilumen/shots/sports_events_v1/phone_saltmere_1_coach.png
+/workspace/kilumen/shots/sports_events_v1/phone_saltmere_2_cup_field.png
+/workspace/kilumen/shots/sports_events_v1/phone_saltmere_3_play_crowd.png
+/workspace/kilumen/shots/sports_events_v1/phone_saltmere_4_champion.png
+phone_saltmere: cup day 2, {"cup":{"place":1,"prize":600,"cups":1},"coins":2500}
+/workspace/kilumen/shots/sports_events_v1/phone_saltmere_5_result.png
+/workspace/kilumen/shots/sports_events_v1/phone_saltmere.webm
+/workspace/kilumen/shots/sports_events_v1/phone_revival_heights_1_coach.png
+/workspace/kilumen/shots/sports_events_v1/phone_revival_heights_2_cup_field.png
+/workspace/kilumen/shots/sports_events_v1/phone_revival_heights_3_play_crowd.png
+/workspace/kilumen/shots/sports_events_v1/phone_revival_heights_4_champion.png
+phone_revival_heights: cup day 3, {"cup":{"place":1,"prize":600,"cups":1},"coins":2500}
+/workspace/kilumen/shots/sports_events_v1/phone_revival_heights_5_result.png
+/workspace/kilumen/shots/sports_events_v1/phone_revival_heights.webm
+/workspace/kilumen/shots/sports_events_v1/phone_frostspire_1_coach.png
+/workspace/kilumen/shots/sports_events_v1/phone_frostspire_2_cup_field.png
+/workspace/kilumen/shots/sports_events_v1/phone_frostspire_3_play_crowd.png
+/workspace/kilumen/shots/sports_events_v1/phone_frostspire_4_champion.png
+phone_frostspire: cup day 1, {"cup":{"place":1,"prize":600,"cups":1},"coins":2500}
+/workspace/kilumen/shots/sports_events_v1/phone_frostspire_5_result.png
+/workspace/kilumen/shots/sports_events_v1/phone_frostspire.webm
+/workspace/kilumen/shots/sports_events_v1/phone_lanternport_1_coach.png
+/workspace/kilumen/shots/sports_events_v1/phone_lanternport_2_cup_field.png
+/workspace/kilumen/shots/sports_events_v1/phone_lanternport_3_play_crowd.png
+/workspace/kilumen/shots/sports_events_v1/phone_lanternport_4_champion.png
+phone_lanternport: cup day 1, {"cup":{"place":1,"prize":600,"cups":1},"coins":2500}
+/workspace/kilumen/shots/sports_events_v1/phone_lanternport_5_result.png
+/workspace/kilumen/shots/sports_events_v1/phone_lanternport.webm
+/workspace/kilumen/shots/sports_events_v1/phone_cindervale_1_coach.png
+/workspace/kilumen/shots/sports_events_v1/phone_cindervale_2_cup_field.png
+/workspace/kilumen/shots/sports_events_v1/phone_cindervale_3_play_crowd.png
+/workspace/kilumen/shots/sports_events_v1/phone_cindervale_4_champion.png
+phone_cindervale: cup day 2, {"cup":{"place":1,"prize":600,"cups":1},"coins":2500}
+/workspace/kilumen/shots/sports_events_v1/phone_cindervale_5_result.png
+/workspace/kilumen/shots/sports_events_v1/phone_cindervale.webm
+/workspace/kilumen/shots/sports_events_v1/phone_badges_after.png
+phone badges after: 1 coming-soon plates
+page errors: none

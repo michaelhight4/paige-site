@@ -1,0 +1,1250 @@
+[
+ {
+  "view": "2340x1080",
+  "scene": "overworld",
+  "platform": "mobile",
+  "inner": [
+   780,
+   360
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 780,
+   "h": 360
+  },
+  "canvasPx": [
+   2340,
+   1080
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "2340x1080",
+  "scene": "interior",
+  "platform": "mobile",
+  "inner": [
+   780,
+   360
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 780,
+   "h": 360
+  },
+  "canvasPx": [
+   2340,
+   1080
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 274,
+   "right": 274,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 30,
+   "right": 30,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "2340x1080",
+  "scene": "battle",
+  "platform": "mobile",
+  "inner": [
+   780,
+   360
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 780,
+   "h": 360
+  },
+  "canvasPx": [
+   2340,
+   1080
+  ],
+  "zoom": 2,
+  "battle": {
+   "x": 0,
+   "y": 0,
+   "w": 780,
+   "h": 360
+  },
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "2340x1080",
+  "scene": "menu",
+  "platform": "mobile",
+  "inner": [
+   780,
+   360
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 780,
+   "h": 360
+  },
+  "canvasPx": [
+   2340,
+   1080
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": [
+   "wait [data-scr=\"phone\"]"
+  ]
+ },
+ {
+  "view": "2340x1080",
+  "scene": "dialogue",
+  "platform": "mobile",
+  "inner": [
+   780,
+   360
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 780,
+   "h": 360
+  },
+  "canvasPx": [
+   2340,
+   1080
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "2400x1080",
+  "scene": "overworld",
+  "platform": "mobile",
+  "inner": [
+   800,
+   360
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 800,
+   "h": 360
+  },
+  "canvasPx": [
+   2400,
+   1080
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "2400x1080",
+  "scene": "interior",
+  "platform": "mobile",
+  "inner": [
+   800,
+   360
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 800,
+   "h": 360
+  },
+  "canvasPx": [
+   2400,
+   1080
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 304,
+   "right": 304,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 30,
+   "right": 30,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "2400x1080",
+  "scene": "battle",
+  "platform": "mobile",
+  "inner": [
+   800,
+   360
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 800,
+   "h": 360
+  },
+  "canvasPx": [
+   2400,
+   1080
+  ],
+  "zoom": 2,
+  "battle": {
+   "x": 0,
+   "y": 0,
+   "w": 800,
+   "h": 360
+  },
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "2400x1080",
+  "scene": "menu",
+  "platform": "mobile",
+  "inner": [
+   800,
+   360
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 800,
+   "h": 360
+  },
+  "canvasPx": [
+   2400,
+   1080
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": [
+   "wait [data-scr=\"phone\"]"
+  ]
+ },
+ {
+  "view": "2400x1080",
+  "scene": "dialogue",
+  "platform": "mobile",
+  "inner": [
+   800,
+   360
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 800,
+   "h": 360
+  },
+  "canvasPx": [
+   2400,
+   1080
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "2532x1170",
+  "scene": "overworld",
+  "platform": "mobile",
+  "inner": [
+   844,
+   390
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 844,
+   "h": 390
+  },
+  "canvasPx": [
+   2532,
+   1170
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": [
+   "TypeError: Cannot read properties of null (reading 'style')"
+  ]
+ },
+ {
+  "view": "2532x1170",
+  "scene": "interior",
+  "platform": "mobile",
+  "inner": [
+   844,
+   390
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 844,
+   "h": 390
+  },
+  "canvasPx": [
+   2532,
+   1170
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 370,
+   "right": 370,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 30,
+   "right": 30,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": [
+   "TypeError: Cannot read properties of null (reading 'style')"
+  ]
+ },
+ {
+  "view": "2532x1170",
+  "scene": "battle",
+  "platform": "mobile",
+  "inner": [
+   844,
+   390
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 844,
+   "h": 390
+  },
+  "canvasPx": [
+   2532,
+   1170
+  ],
+  "zoom": 2,
+  "battle": {
+   "x": 0,
+   "y": 0,
+   "w": 844,
+   "h": 390
+  },
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": [
+   "TypeError: Cannot read properties of null (reading 'style')"
+  ]
+ },
+ {
+  "view": "2532x1170",
+  "scene": "menu",
+  "platform": "mobile",
+  "inner": [
+   844,
+   390
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 844,
+   "h": 390
+  },
+  "canvasPx": [
+   2532,
+   1170
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": [
+   "TypeError: Cannot read properties of null (reading 'style')",
+   "wait [data-scr=\"phone\"]"
+  ]
+ },
+ {
+  "view": "2532x1170",
+  "scene": "dialogue",
+  "platform": "mobile",
+  "inner": [
+   844,
+   390
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 844,
+   "h": 390
+  },
+  "canvasPx": [
+   2532,
+   1170
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": [
+   "TypeError: Cannot read properties of null (reading 'style')"
+  ]
+ },
+ {
+  "view": "1600x720",
+  "scene": "overworld",
+  "platform": "mobile",
+  "inner": [
+   800,
+   360
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 800,
+   "h": 360
+  },
+  "canvasPx": [
+   1600,
+   720
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "1600x720",
+  "scene": "interior",
+  "platform": "mobile",
+  "inner": [
+   800,
+   360
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 800,
+   "h": 360
+  },
+  "canvasPx": [
+   1600,
+   720
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "1600x720",
+  "scene": "battle",
+  "platform": "mobile",
+  "inner": [
+   800,
+   360
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 800,
+   "h": 360
+  },
+  "canvasPx": [
+   1600,
+   720
+  ],
+  "zoom": 2,
+  "battle": {
+   "x": 0,
+   "y": 0,
+   "w": 800,
+   "h": 360
+  },
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "1600x720",
+  "scene": "menu",
+  "platform": "mobile",
+  "inner": [
+   800,
+   360
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 800,
+   "h": 360
+  },
+  "canvasPx": [
+   1600,
+   720
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": [
+   "wait [data-scr=\"phone\"]"
+  ]
+ },
+ {
+  "view": "1600x720",
+  "scene": "dialogue",
+  "platform": "mobile",
+  "inner": [
+   800,
+   360
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 800,
+   "h": 360
+  },
+  "canvasPx": [
+   1600,
+   720
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "844x390css",
+  "scene": "overworld",
+  "platform": "mobile",
+  "inner": [
+   844,
+   390
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 844,
+   "h": 390
+  },
+  "canvasPx": [
+   1688,
+   780
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "844x390css",
+  "scene": "interior",
+  "platform": "mobile",
+  "inner": [
+   844,
+   390
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 844,
+   "h": 390
+  },
+  "canvasPx": [
+   1688,
+   780
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "844x390css",
+  "scene": "battle",
+  "platform": "mobile",
+  "inner": [
+   844,
+   390
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 844,
+   "h": 390
+  },
+  "canvasPx": [
+   1688,
+   780
+  ],
+  "zoom": 2,
+  "battle": {
+   "x": 0,
+   "y": 0,
+   "w": 844,
+   "h": 390
+  },
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "844x390css",
+  "scene": "menu",
+  "platform": "mobile",
+  "inner": [
+   844,
+   390
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 844,
+   "h": 390
+  },
+  "canvasPx": [
+   1688,
+   780
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": [
+   "wait [data-scr=\"phone\"]"
+  ]
+ },
+ {
+  "view": "844x390css",
+  "scene": "dialogue",
+  "platform": "mobile",
+  "inner": [
+   844,
+   390
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 844,
+   "h": 390
+  },
+  "canvasPx": [
+   1688,
+   780
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "overworld",
+  "platform": "pc",
+  "inner": [
+   1920,
+   1080
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 1920,
+   "h": 1080
+  },
+  "canvasPx": [
+   1920,
+   1080
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "interior",
+  "platform": "pc",
+  "inner": [
+   1920,
+   1080
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 1920,
+   "h": 1080
+  },
+  "canvasPx": [
+   1920,
+   1080
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 64,
+   "right": 64,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 16,
+   "right": 16,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "battle",
+  "platform": "pc",
+  "inner": [
+   1920,
+   1080
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 1920,
+   "h": 1080
+  },
+  "canvasPx": [
+   1920,
+   1080
+  ],
+  "zoom": 2,
+  "battle": {
+   "x": 0,
+   "y": 0,
+   "w": 1920,
+   "h": 1080
+  },
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "menu",
+  "platform": "pc",
+  "inner": [
+   1920,
+   1080
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 1920,
+   "h": 1080
+  },
+  "canvasPx": [
+   1920,
+   1080
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": [
+   "wait [data-scr=\"phone\"]"
+  ]
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "dialogue",
+  "platform": "pc",
+  "inner": [
+   1920,
+   1080
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 1920,
+   "h": 1080
+  },
+  "canvasPx": [
+   1920,
+   1080
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "pc1280x720",
+  "scene": "overworld",
+  "platform": "pc",
+  "inner": [
+   1280,
+   720
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 1280,
+   "h": 720
+  },
+  "canvasPx": [
+   1280,
+   720
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "pc1280x720",
+  "scene": "interior",
+  "platform": "pc",
+  "inner": [
+   1280,
+   720
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 1280,
+   "h": 720
+  },
+  "canvasPx": [
+   1280,
+   720
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "pc1280x720",
+  "scene": "battle",
+  "platform": "pc",
+  "inner": [
+   1280,
+   720
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 1280,
+   "h": 720
+  },
+  "canvasPx": [
+   1280,
+   720
+  ],
+  "zoom": 2,
+  "battle": {
+   "x": 0,
+   "y": 0,
+   "w": 1280,
+   "h": 720
+  },
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ },
+ {
+  "view": "pc1280x720",
+  "scene": "menu",
+  "platform": "pc",
+  "inner": [
+   1280,
+   720
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 1280,
+   "h": 720
+  },
+  "canvasPx": [
+   1280,
+   720
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": [
+   "wait [data-scr=\"phone\"]"
+  ]
+ },
+ {
+  "view": "pc1280x720",
+  "scene": "dialogue",
+  "platform": "pc",
+  "inner": [
+   1280,
+   720
+  ],
+  "canvasCss": {
+   "x": 0,
+   "y": 0,
+   "w": 1280,
+   "h": 720
+  },
+  "canvasPx": [
+   1280,
+   720
+  ],
+  "zoom": 2,
+  "battle": null,
+  "canvasBlack": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "black": {
+   "left": 0,
+   "right": 0,
+   "top": 0,
+   "bottom": 0
+  },
+  "errors": []
+ }
+]

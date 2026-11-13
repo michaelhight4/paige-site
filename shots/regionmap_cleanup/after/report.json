@@ -1,0 +1,104 @@
+{
+ "tag": "after",
+ "shots": [
+  "shots/regionmap_cleanup/after/pc_brookhollow.png",
+  "shots/regionmap_cleanup/after/pc_fernwick.png",
+  "shots/regionmap_cleanup/after/pc_saltmere.png",
+  "shots/regionmap_cleanup/after/pc_aurelith.png",
+  "shots/regionmap_cleanup/after/pc_revival_heights.png",
+  "shots/regionmap_cleanup/after/pc_sunmeadow_fields.png",
+  "shots/regionmap_cleanup/after/phone_brookhollow.png",
+  "shots/regionmap_cleanup/after/phone_fernwick.png",
+  "shots/regionmap_cleanup/after/phone_saltmere.png",
+  "shots/regionmap_cleanup/after/phone_aurelith.png",
+  "shots/regionmap_cleanup/after/phone_revival_heights.png",
+  "shots/regionmap_cleanup/after/phone_sunmeadow_fields.png"
+ ],
+ "axe": [
+  {
+   "plat": "pc",
+   "town": "brookhollow",
+   "violations": [
+    "aria-dialog-name(serious) x1: .ui-root"
+   ]
+  },
+  {
+   "plat": "pc",
+   "town": "fernwick",
+   "violations": [
+    "aria-dialog-name(serious) x1: .ui-root"
+   ]
+  },
+  {
+   "plat": "pc",
+   "town": "saltmere",
+   "violations": [
+    "aria-dialog-name(serious) x1: .ui-root"
+   ]
+  },
+  {
+   "plat": "pc",
+   "town": "aurelith",
+   "violations": [
+    "aria-dialog-name(serious) x1: .ui-root"
+   ]
+  },
+  {
+   "plat": "pc",
+   "town": "revival_heights",
+   "violations": [
+    "aria-dialog-name(serious) x1: .ui-root"
+   ]
+  },
+  {
+   "plat": "pc",
+   "town": "sunmeadow_fields",
+   "violations": [
+    "aria-dialog-name(serious) x1: .ui-root"
+   ]
+  },
+  {
+   "plat": "phone",
+   "town": "brookhollow",
+   "violations": [
+    "aria-dialog-name(serious) x1: .ui-root"
+   ]
+  },
+  {
+   "plat": "phone",
+   "town": "fernwick",
+   "violations": [
+    "aria-dialog-name(serious) x1: .ui-root"
+   ]
+  },
+  {
+   "plat": "phone",
+   "town": "saltmere",
+   "violations": [
+    "aria-dialog-name(serious) x1: .ui-root"
+   ]
+  },
+  {
+   "plat": "phone",
+   "town": "aurelith",
+   "violations": [
+    "aria-dialog-name(serious) x1: .ui-root"
+   ]
+  },
+  {
+   "plat": "phone",
+   "town": "revival_heights",
+   "violations": [
+    "aria-dialog-name(serious) x1: .ui-root"
+   ]
+  },
+  {
+   "plat": "phone",
+   "town": "sunmeadow_fields",
+   "violations": [
+    "aria-dialog-name(serious) x1: .ui-root"
+   ]
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,302 @@
+--- a/tools/gen_tiles.py
++++ b/tools/gen_tiles.py
+@@ -6,7 +6,7 @@
+ T = 64           # native tile size in pixels (pixel art; exported 1x/2x/3x nearest-neighbour)
+ U = 128          # design units per tile
+ S = T / U
+-OUT = '/workspace/kilumen/art/world/overworld'
++OUT = os.environ.get('KILUMEN_OW_OUT') or os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))   # (2026-10-23) was hard-coded to live; now the tree this file lives in (override: KILUMEN_OW_OUT)
+ YY, XX = (np.mgrid[0:T, 0:T] + 0.5) / S   # coordinates in design units
+ 
+ def font(sz):
+--- a/tools/seam_crops.py
++++ b/tools/seam_crops.py
+@@ -1,7 +1,7 @@
+ # 1:1 crops of the 3x previews (192px per tile) for the "no panel lines" check.
+ import sys, os
+ from PIL import Image
+-OUT = '/workspace/kilumen/art/world/overworld'
++OUT = os.environ.get('KILUMEN_OW_OUT') or os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))   # (2026-10-23) was hard-coded to live; now the tree this file lives in (override: KILUMEN_OW_OUT)
+ CROPS = {  # name: (map, x0, y0, x1, y1) in tiles, exclusive end
+     'open_grass':  ('brookhollow', 12, 21, 21, 24),
+     'sign_fence':  ('brookhollow', 2, 8, 9, 12),
+--- a/tools/seamcheck.py
++++ b/tools/seamcheck.py
+@@ -1,8 +1,8 @@
+ # Seam metric: for every ordered pair of variants (a|b side by side, a over b) of one terrain,
+ # ratio = mean |edge column step| / mean |interior column step|. 1.0 = invisible join; >1.3 = visible line.
+-import json, itertools, sys, numpy as np
++import json, itertools, sys, os, numpy as np
+ from PIL import Image
+-OUT = '/workspace/kilumen/art/world/overworld'
++OUT = os.environ.get('KILUMEN_OW_OUT') or os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))   # (2026-10-23) was hard-coded to live; now the tree this file lives in (override: KILUMEN_OW_OUT)
+ def load():
+     ts = json.load(open(f'{OUT}/tileset.json')); sheets = {}; T = 64; img = {}
+     for t in ts['tiles']:
+--- a/tools/runguard.py
++++ b/tools/runguard.py
+@@ -5,7 +5,7 @@
+ #              Every file write is swallowed (open for write -> /dev/null, Image.save / os.remove / makedirs / rmtree / replace -> no-op),
+ #              so the whole build runs in memory and only its checks are printed. Nothing on disk changes, not even /tmp/report.json.
+ import atexit, builtins, fcntl, io, os, signal, sys, time, shutil
+-LOCK = '/tmp/kilumen_run.lock'
++LOCK = os.environ.get('KILUMEN_RUN_LOCK') or '/tmp/kilumen_run.lock'   # (2026-10-23) isolated copies use their own lock
+ CHECK = '--check' in sys.argv
+ NO_WAIT = '--no-wait' in sys.argv
+ SUPPRESSED = []
+--- a/tools/overnight_tiles.py
++++ b/tools/overnight_tiles.py
+@@ -73,3 +73,70 @@
+             if has_top: O[y - 1][x] = top; m.over[y - 1][x] = 'snowpine_top'
+         log.append(f'{n}: {len(m.snow_pine_cells)} green trees -> snow pine')
+     return log
++
++# ---- BATCH 3 (World Design, Oct 23 2026, prepared 01:55 CT for the build after the 2:30 alpha): Mirefen hall reed lamps ----
++# Reed lamp pair for the 4 puzzle lamp cells of mirefen_hall_int, hand-drawn as TRUE 16 x 16 pixel art (every colour taken from the
++# shared palette.hex) and nearest-upscaled x4 into the 64 px native tile grid (1x sheet; 2x/3x export as usual). A cattail reed
++# stake with a small woven lantern head. Lit = warm flame pixels in the glass + 4 single-pixel glints. NO halo blur, smoke, haze or
++# vapour (GQC line 354). No floor shadow (depth pass). Both block, like the generic 'lamp' they replace.
++REED_LAMP_PX = [
++    "................",
++    "......KKKK......",
++    ".....KccccK.....",
++    ".....KGgGGK.....",
++    ".....KGGGGK.....",
++    ".....KGGGGK.....",
++    ".....KGGGGK.....",
++    ".....KCCCCK.....",
++    "......KrRK......",
++    "......KrRK......",
++    "...K..KrRK..K...",
++    "..KlK.KrRK.KLK..",
++    "...KLKKrRKKLK...",
++    "....KLLrRLLK....",
++    "....KDDDDDDK....",
++    "................",
++]
++REED_LAMP_GLASS_LIT = {3: "FffF", 4: "fWWf", 5: "fWWf", 6: "FffF"}       # cols 6-9
++REED_LAMP_GLINTS = [(3, 3), (12, 3), (3, 6), (12, 6)]
++REED_LAMP_RGB = dict(K=(44, 30, 36), C=(96, 62, 42), c=(140, 98, 62), G=(58, 66, 72), g=(104, 112, 112), R=(124, 104, 60), r=(166, 144, 86),
++                     D=(86, 70, 44), L=(56, 104, 62), l=(96, 148, 76), F=(232, 156, 70), f=(255, 210, 120), W=(255, 246, 214), x=(255, 210, 120))
++
++def _pal_nearest(rgb):
++    import numpy as np
++    from pixel import PAL
++    k = int(np.argmin(((PAL - np.array(rgb, float)) ** 2).sum(1))); return tuple(int(v) for v in PAL[k])
++
++def reed_lamp_16(lit):
++    from PIL import Image
++    rows = [list(r) for r in REED_LAMP_PX]
++    assert len(rows) == 16 and all(len(r) == 16 for r in rows)
++    if lit:
++        for y, seg in REED_LAMP_GLASS_LIT.items(): rows[y][6:10] = list(seg)
++        for x, y in REED_LAMP_GLINTS: rows[y][x] = 'x'
++    im = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
++    for y, r in enumerate(rows):
++        for x, ch in enumerate(r):
++            if ch != '.': im.putpixel((x, y), _pal_nearest(REED_LAMP_RGB[ch]) + (255,))
++    return im
++
++def reed_lamp(lit):
++    from PIL import Image
++    return reed_lamp_16(lit).resize((T, T), Image.NEAREST)
++
++REED_LAMP_BOX = [[12, 4, 52, 32]]   # native (64 px) box: lamp head (16px cols 5-10, rows 1-7) + glints; emissive mask for reed_lamp_lit
++
++def reed_lamps_late(res):
++    """Register reed_lamp_unlit / reed_lamp_lit LAST (they are not in the id ledger, so assign_new numbers them after every other
++    new tile: nothing renumbered) and swap the generic 'lamp' at the recorded cells (m.reed_lamp_cells) for reed_lamp_unlit."""
++    todo = [(n, r) for n, r in res.items() if getattr(r[0], 'reed_lamp_cells', None)]
++    if not todo: return []
++    if 'reed_lamp_unlit' not in build.BYNAME:
++        build.reg('reed_lamp_unlit', 'deco', reed_lamp(False), 'block', raw=True, notes='Mirefen hall reed lamp, unlit (puzzle lamp cell; hall starts dark). Pair: reed_lamp_lit')
++        build.reg('reed_lamp_lit', 'deco', reed_lamp(True), 'block', raw=True, notes='Mirefen hall reed lamp, lit (runtime swaps it in when the lamp is lit; emissive head). No smoke/haze. Pair: reed_lamp_unlit')
++    u = build.BYNAME['reed_lamp_unlit']['id']; log = []
++    for n, (m, G, D, O, C, E) in todo:
++        for x, y in m.reed_lamp_cells:
++            assert m.deco[y][x] == 'lamp', (n, x, y, m.deco[y][x]); D[y][x] = u; m.deco[y][x] = 'reed_lamp_unlit'
++        log.append(f'{n}: generic lamp -> reed_lamp_unlit at {m.reed_lamp_cells} (reed_lamp_lit registered as the lit pair)')
++    return log
+--- a/tools/time_of_day.py
++++ b/tools/time_of_day.py
+@@ -61,6 +61,8 @@
+     'i_fireplace_0_0': None, 'i_fireplace_0_1': None, 'i_fireplace_1_0': None, 'i_fireplace_1_1': None, 'i_brazier': None,
+     'i_forge_0_0': None, 'i_forge_0_1': None, 'i_forge_1_0': None, 'i_forge_1_1': None, 'i_lantern_stand_0_0': None, 'i_lantern_stand_1_0': None,
+     'i_lava': None, 'i_crystal_on': None, 'i_beam_emitter': None, 'i_beam_receiver_on': None,
++    # BATCH 3 (Oct 23 2026): Mirefen hall reed lamp, lit head + glints only (box = overnight_tiles.REED_LAMP_BOX); the unlit pair is not emissive
++    'reed_lamp_lit': [[12, 4, 52, 32]],
+ }
+ 
+ def _sheet_key(sheet): return sheet.replace('/', '__')
+--- a/tools/run.py
++++ b/tools/run.py
+@@ -105,7 +105,7 @@
+ 
+ WD_TERMINAL_ID = world_data.late_tiles(res)   # new core tile registered after every map is final (ids stay stable)
+ CLUB_TILES = club.late(res)                    # club tiles after the terminal: new ids at the end, placeholders patched
+-OVN_LOG = overnight_tiles.late(res); print('\n'.join(OVN_LOG))   # AUTOTILE PORT (1:38 AM CT): before assign_new so the rebased ledger keeps 1823/1824 for the pair; SANDBOX (overnight maps): snow pine pair registered LAST, ids patched like club.late
++OVN_LOG = overnight_tiles.late(res); print('\n'.join(OVN_LOG)); OVN_LOG += overnight_tiles.reed_lamps_late(res); print('\n'.join(OVN_LOG[-1:]))   # BATCH 3 (Oct 23): reed lamps registered after the snow pine pair, before assign_new (last new ids)   # AUTOTILE PORT (1:38 AM CT): before assign_new so the rebased ledger keeps 1823/1824 for the pair; SANDBOX (overnight maps): snow pine pair registered LAST, ids patched like club.late
+ AUTOTILE_NEW = _bd.assign_new(res)            # autotile port (Oct 23): tiles not in tools/tile_id_ledger.json get ids after the last legacy id
+ print(f'AUTOTILE: {len(AUTOTILE_NEW)} new tiles ({AUTOTILE_NEW[0][1] if AUTOTILE_NEW else "-"}..{AUTOTILE_NEW[-1][1] if AUTOTILE_NEW else "-"}); port cells: ' + ', '.join(f'{m.name} {len(getattr(m, "port_cells", []))}+{len(getattr(m, "strip_changes", []))}' for m in MAPS + VARIANTS if m.name in _bd.ROLLOUT))
+ furniture_depth.apply_frames(_bd.TILES, only={'i_company_terminal'})   # FIX (Oct 22): the call above ran before late_tiles registered the terminal (no-op); run it now
+@@ -223,6 +223,7 @@
+         data['terrain'] = dict(rules='tools/autotile_rules.json', grid=[[_tc[t] for t in r] for r in m.terr])
+     if hasattr(m, 'npcs_pending'):
+         data['source'] = m.source
++    if hasattr(m, 'npcs_pending') and (m.npcs_pending or m.signs_pending):   # BATCH 3 job 0 (Oct 23): promoted maps carry no pending keys/note
+         data['npcs_pending_text'] = [dict(n, text_ref=extra_merge.PENDING_REF.get((name, n['id']), f'overworld_lines.json maps.{name}.{n["id"]} (key requested from Text Bot)')) for n in m.npcs_pending]
+         data['signs_pending_text'] = [dict(s, text_ref=extra_merge.PENDING_REF.get((name, s['id']), f'overworld_lines.json maps.{name}.{s["id"]} (key requested from Text Bot)'), text_note='dev label only') for s in m.signs_pending]
+         data['pending_text_note'] = ('These npcs/signs are real and placed, but kept out of npcs/signs until Text Bot adds maps.' + name +
+--- a/maps_new/zz_overnight.py
++++ b/maps_new/zz_overnight.py
+@@ -749,7 +749,7 @@
+         _prop(f'{_hn}_spring_tap', _at('T'), 'spring tap (grid T, left)'); _prop(f'{_hn}_spring_tap_dry', _at('T'), 'dry state, same cell')
+         _prop(f'{_hn}_pour', _at('B'), 'pour spot (grid B)'); _prop(f'{_hn}_poured', _at('B'), 'poured state, same cell')
+         _prop(f'{_hn}_bellows', _at('T', 1), 'bellows (grid T, right)'); _prop(f'{_hn}_remelt', _at('R'), 'remelt (grid R)')
+-_json.dump([list(r) for r in B2], open('/workspace/kilumen/art/world/overworld/qa/overnight_maps/integration/batch2_spots.json', 'w'), indent=0)
++_json.dump([list(r) for r in B2], open(__import__('gen_tiles').OUT + '/qa/overnight_maps/integration/batch2_spots.json', 'w'), indent=0)
+ print('BATCH2 spots:', len([r for r in B2 if r[1] != 'SKIP']), 'skips:', [r[2] for r in B2 if r[1] == 'SKIP'])
+ 
+ # ---- POCKET ITEMS (01:20 CT, Game dev override via the integrator): no energy item in pockets (Gary: energy items stay expensive).
+@@ -775,7 +775,7 @@
+     if any(_i is k[2] for k in _keep): POCKET_LOG.append((_n, _i['id'], 'energy_tonic', 'energy_tonic', 'kept (hidden, late)', _s, _i.get('gd_id'))); continue
+     POCKET_LOG.append((_n, _i['id'], 'energy_tonic', 'tonic_large', 'energy cap', _s, _i.get('gd_id')))
+     _i['note'] = (_i.get('note') or '') + ' [01:20 CT: energy_tonic -> tonic_large (energy cap: max 2, hidden late-game only)]'; _i['item'] = 'tonic_large'
+-_json.dump(POCKET_LOG, open('/workspace/kilumen/art/world/overworld/qa/overnight_maps/integration/pocket_items_0120.json', 'w'), indent=0)
++_json.dump(POCKET_LOG, open(__import__('gen_tiles').OUT + '/qa/overnight_maps/integration/pocket_items_0120.json', 'w'), indent=0)
+ print('POCKETS:', POCKET_LOG)
+ 
+ # ===================================================================================================================
+@@ -811,9 +811,122 @@
+     _g = _json.load(open(f"{HP_DIR}/mirefen.json"))['grid']
+     _lamps = {c: [_ox + x, _oy + y] for y, r in enumerate(_g) for x, c in enumerate(r) if c in '1234'}
+     for _c, (_x, _y) in _lamps.items(): _h.deco[_y][_x] = 'lamp'      # art TODO: dedicated reed_lamp tile (unlit/lit pair)
++    _h.reed_lamp_cells = [tuple(_lamps[c]) for c in sorted(_lamps)]   # BATCH 3: overnight_tiles.reed_lamps_late() swaps 'lamp' -> reed_lamp_unlit here (tiles registered last)
+     _hp['overlay'] = dict(kind='darkness', light='reed_lamp', lamps={c: _lamps[c] for c in sorted(_lamps)}, order=['3', '1', '4', '2'],
+                           reveal='hall starts dark; lighting the reed lamps in the croak order (3,1,4,2) lights the boardwalk path to G; unlit cells stay dark',
+                           note='GQC line 354 (no obscuring vapour effects). Replaces the old visual cue in data/hall_puzzles/mirefen.json (Coder: update the cue/runtime view to darkness).')
+     _hp['cue'] = 'frogs croak the order (sound) + a ripple and lamp glow by each reed lamp (visual); darkness overlay, lamps light the path'
+     _SCRUB_LOG.append('mirefen_hall_int: darkness overlay + 4 reed lamps')
+ print('OVERNIGHT POSTFIX:', _SCRUB_LOG)
++
++# =====================================================================================
++# BATCH 3 (World Design, Oct 23 2026, prepared 01:55 CT in an isolated copy; live after the 2:30 AM CT alpha)
++# =====================================================================================
++_B3 = []
++# 1) Hall trainers: no sight line may cover the door row (H-1) or the first 2 lobby rows a player enters (H-2, H-3).
++#    Trainers move to rows ly (= H-5) and ly+1 (= H-4), facing sideways toward the S column so they still guard the path.
++def _b3_blk(m, x, y):
++    if not (0 <= x < m.w and 0 <= y < m.h): return True
++    t = BYNAME.get(m.terr[y][x])
++    if t is not None and t['coll'] != 'walk': return True
++    return _blk(m, x, y)
++def _b3_sight(m, x, y, f, n, others):
++    dx, dy = {'left': (-1, 0), 'right': (1, 0), 'up': (0, -1), 'down': (0, 1)}[f]; out = []
++    for k in range(1, n + 1):
++        c = (x + dx * k, y + dy * k)
++        if _b3_blk(m, *c) or c in others: break
++        out.append(c)
++    return out
++HALL_SIGHT = {}
++for _n in ON_ORDER:
++    if not _n.endswith('_hall_int'): continue
++    _m = ON[_n]; _hp = _m.hall_puzzle; _sx = _hp['start'][0]; _ly = _hp['origin'][1] + _hp['grid_size'][1]; _H = _m.h; _W = _m.w
++    _tr = sorted([e for e in _m.npcs_pending if _re.fullmatch(_re.escape(_n) + r'_h\d+', e['id'])], key=lambda e: e['id'])
++    _fixed = {(e['x'], e['y']) for e in _m.npcs_pending + _m.signs_pending if e not in _tr} | {(w['x'], w['y']) for w in _m.warps}
++    _used = set(); _plan = [(-2, _ly + 1), (2, _ly + 1), (-3, _ly), (3, _ly)]
++    for _i, _e in enumerate(_tr):
++        _d, _y = _plan[_i]; _cand = []
++        for _dd in (_d, -_d, _d + (1 if _d > 0 else -1), -_d - (1 if _d > 0 else -1), _d - (1 if _d > 0 else -1)):
++            for _yy in (_y, _ly + 1 if _y == _ly else _ly):
++                _cand.append((_sx + _dd, _yy))
++        _pick = next(c for c in _cand if 1 <= c[0] <= _W - 2 and c[0] != _sx and c not in _fixed and c not in _used and not _b3_blk(_m, *c))
++        _f = 'right' if _pick[0] < _sx else 'left'
++        _old = (_e['x'], _e['y'], _e['facing'])
++        _e['x'], _e['y'], _e['facing'] = _pick[0], _pick[1], _f; _used.add(_pick)
++        if _old != (_pick[0], _pick[1], _f):
++            _e['note'] = (_e.get('note') or '') + f' [batch 3: was ({_old[0]},{_old[1]}) facing {_old[2]}; sight kept off the door + first 2 lobby rows]'
++            _B3.append(f'{_n}.{_e["id"].rsplit("_", 1)[1]}: ({_old[0]},{_old[1]},{_old[2]}) -> ({_pick[0]},{_pick[1]},{_f})')
++    _occ = {(e['x'], e['y']) for e in _m.npcs_pending}
++    for _e in _tr:
++        _cells = _b3_sight(_m, _e['x'], _e['y'], _e['facing'], 3, _occ - {(_e['x'], _e['y'])})
++        HALL_SIGHT[_e['id']] = _cells
++        _bad = [c for c in _cells if c[1] >= _H - 3]
++        assert not _bad, (_e['id'], _bad)
++        assert (_sx, _H - 2) not in _occ and all((x, _H - 1) not in _occ for x in range(_W)), _n
++print('BATCH3 hall trainers moved:', _B3)
++print('BATCH3 hall sight cells (none in rows H-3..H-1):', {k: v for k, v in HALL_SIGHT.items()})
++# 2) Mirefen hall: whole-map darkness tint (palette-swap grade, NO fog/haze/vapour layer), at every phase
++_h = ON.get('mirefen_hall_int')
++if _h is not None:
++    _h.soul = dict(getattr(_h, 'soul', None) or {})
++    _h.soul['tint'] = dict(kind='darkness', grade='night', phases=['dawn', 'day', 'dusk', 'night'],
++        rule='draw the WHOLE map with time_of_day grade "night" (grades.json palette swap, emissive masks lit) at every phase; overrides the indoor day rule for this map only. Plain darkening: no fog, haze or vapour layer (GQC line 354).',
++        lights=dict(tile_unlit='reed_lamp_unlit', tile_lit='reed_lamp_lit', cells=[list(c) for c in _h.reed_lamp_cells],
++                    note='hall starts dark: every lamp cell shows reed_lamp_unlit; the runtime swaps a cell to reed_lamp_lit when that lamp is lit (data/hall_puzzles/mirefen.json darkness: order 3,1,4,2) and its light pool reveals the boardwalk'),
++        src='World Design batch 3 (Oct 23 2026)')
++    _B3.append('mirefen_hall_int: tint=darkness (night grade, all phases) + reed lamps at ' + str(_h.reed_lamp_cells))
++# 3) route_revival_sunmeadow sign: the text entry follows its sign tile at (13,3) (settle() had moved it to (12,2) because the
++#    sign tile itself blocks). (13,3) does not block brush pocket_1: the approach (14,3) stays open from (14,2)/(14,4).
++_m = ON['route_revival_sunmeadow']
++for _e in _m.signs_pending:
++    if _e['id'] == 'route_revival_sunmeadow_sign' and (_e['x'], _e['y']) != (13, 3):
++        assert _m.deco[3][13] == 'sign', _m.deco[3][13]
++        _B3.append(f"route_revival_sunmeadow_sign: ({_e['x']},{_e['y']}) -> (13,3) (on its sign tile)")
++        _e['x'], _e['y'] = 13, 3; _e['note'] = (_e.get('note') or '').replace(' [settled from 13,3]', '') + ' [batch 3: on its sign tile (13,3), read from (13,4)]'
++_R0, _R1 = _reach(_m, False), _reach(_m, True)
++for _o in _m.field_obstacles:
++    _pc = {tuple(c) for c in _o.get('pocket_cells', [])}
++    _B3.append(f"route_revival_sunmeadow {_o['id']}: pocket cells in R0 (no skill) = {len(_pc & _R0)}, in R1 (skill) = {len(_pc & _R1)}/{len(_pc)}")
++    assert not (_pc & _R0) and _pc <= _R1, _o['id']
++assert (13, 4) in _R0, 'sign must be readable from the south'
++# 3b) every pocket on every overnight map stays sealed: pocket cells unreachable without the field skill, reachable with it
++_SEAL = {}
++for _n in ON_ORDER:
++    _mm = ON[_n]
++    if not getattr(_mm, 'field_obstacles', None): continue
++    _r0, _r1 = _reach(_mm, False), _reach(_mm, True)
++    for _o in _mm.field_obstacles:
++        _pc = {tuple(c) for c in _o.get('pocket_cells', [])}
++        if not _pc: continue
++        _SEAL[_o['id']] = (len(_pc & _r0), len(_pc & _r1), len(_pc))
++_UNSEALED = {k: v for k, v in _SEAL.items() if v[0] or v[1] != v[2]}
++print('BATCH3 pockets sealed:', len(_SEAL) - len(_UNSEALED), '/', len(_SEAL), 'problems:', _UNSEALED)
++print('BATCH3:', _B3)
++# ==== BATCH 3 job 0 (Oct 23 2026, after the 2:30 AM CT alpha): promote pending npcs/signs into the real npcs/signs ====
++# Text Bot v0.4.12 has maps.<name>.<id> lines for every overnight map + hall spot, so each map's npcs_pending/signs_pending
++# move into npcs/signs with the same ids (run.py then drops npcs_pending_text/signs_pending_text/pending_text_note when empty).
++# Only an id with no maps.<name>.<id> key in Text Bot's overworld_lines.json (read-only) stays pending. The 14 v0.4.12
++# UNMERGED lines (Aurelith arena interior, Greystone B2) belong to maps not built yet, so no map here carries them.
++# Scope: the overnight ON maps only (lantern_rest, station_int, mirefen_bog are other sources and stay as they are).
++_TBL = _json.load(open('/workspace/kilumen/text/overworld_lines.json'))['maps']
++_J0 = dict(maps=0, npcs=0, signs=0, kept=[])
++for _n in ON_ORDER:
++    _mm = ON[_n]; _keys = set(_TBL.get(_n, {}))
++    _have = {e['id'] for e in _mm.npcs + _mm.signs}
++    for _src, _dst, _k in ((_mm.npcs_pending, _mm.npcs, 'npcs'), (_mm.signs_pending, _mm.signs, 'signs')):
++        _keep = []
++        for _e in _src:
++            if _e['id'] in _keys and _e['id'] not in _have:
++                _dst.append(_e); _have.add(_e['id']); _J0[_k] += 1
++            else: _keep.append(_e); _J0['kept'].append((_n, _e['id'], 'no Text Bot key' if _e['id'] not in _keys else 'id already placed'))
++        _src[:] = _keep
++    _J0['maps'] += 1
++print('BATCH3 job0 promoted:', {k: v for k, v in _J0.items() if k != 'kept'}, 'kept pending:', _J0['kept'])
++# job 0 side effect: with real npcs on the routes, world_data's reach check now runs on them (it used to skip maps without
++# warps/npcs). route_cindervale item_1 at (8,29) sat on the only way into (8,30) (the boulder approach of pocket_1): one cell west.
++_m = ON['route_cindervale']
++for _it in _m.items:
++    if _it['id'] == 'route_cindervale_item_1' and (_it['x'], _it['y']) == (8, 29):
++        assert not _blk(_m, 7, 29) and not any((e['x'], e['y']) == (7, 29) for e in _m.npcs + _m.signs + _m.items), 'route_cindervale (7,29) not free'
++        _it['x'] = 7; _it['note'] += ' [batch 3 job 0: (8,29) -> (7,29), off the boulder approach]'
++        print('BATCH3 job0: route_cindervale_item_1 (8,29) -> (7,29)')
+--- a/tools/world_data.py
++++ b/tools/world_data.py
+@@ -400,6 +400,7 @@
+             xy = (it['x'], it['y'])
+             ok = xy in reach if it['hidden'] else any((xy[0] + dx, xy[1] + dy) in reach_s for dx, dy in DIRS.values())
+             if not ok and _in_bike_area(m, xy): continue   # bike ramp pockets: reach is proven by run.py's bike checks (one-way ramps)
++            if not ok and any(xy in {tuple(c) for c in o.get('pocket_cells', [])} for o in getattr(m, 'field_obstacles', [])): continue   # BATCH 3 job 0: field-skill pockets; sealed + skill reach proven by zz_overnight (BATCH3 pockets sealed)
+             if not ok: P.append(f'{nm}: item {it["id"]} at {xy} not reachable')
+         lost = [p for p in reach if p not in reach_s and Cs[p[1]][p[0]] != 1]
+         if lost: P.append(f'{nm}: visible items cut off {lost[:4]}')

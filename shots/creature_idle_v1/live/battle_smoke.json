@@ -1,0 +1,133 @@
+{
+ "phone2340_fill": {
+  "vw": 780,
+  "vh": 360,
+  "dpr": 3,
+  "canvas": {
+   "l": 0,
+   "t": 0,
+   "r": 0,
+   "b": 0,
+   "w": 780,
+   "h": 360
+  },
+  "scroll": false,
+  "fsBtn": true,
+  "bars": [],
+  "png": "/workspace/kilumen/shots/creature_idle_v1/live/fill_world_phone2340.png"
+ },
+ "phone2340": {
+  "pass": 15,
+  "total": 19,
+  "results": [
+   {
+    "id": "0 new game in the world",
+    "ok": true,
+    "info": "house_2f search=\"\""
+   },
+   {
+    "id": "1 engine battles + wild encounters loaded",
+    "ok": true,
+    "info": "{\"sd\":true,\"wild\":true}"
+   },
+   {
+    "id": "C1 follower breathes while standing",
+    "ok": true,
+    "info": ""
+   },
+   {
+    "id": "C2 follower walks with bob/squash",
+    "ok": true,
+    "info": ""
+   },
+   {
+    "id": "2 fills the viewport edge to edge (in world)",
+    "ok": true,
+    "info": "780x360@3 canvas {\"l\":0,\"t\":0,\"r\":0,\"b\":0,\"w\":780,\"h\":360} bars [] fsBtn=true"
+   },
+   {
+    "id": "2c small interior (heal_brookhollow): no black bars",
+    "ok": true,
+    "info": "heal_brookhollow {\"platform\":\"mobile\",\"px\":[1170,540],\"black\":{\"left\":0,\"right\":0,\"top\":0,\"bottom\":0}} css bars []"
+   },
+   {
+    "id": "2d fullscreen button works (enters full screen, or shows the iPhone Add to Home Screen hint)",
+    "ok": true,
+    "info": "{\"fullscreen\":true,\"hint\":false,\"btnHidden\":true}"
+   },
+   {
+    "id": "3 wild battle opens from tall grass",
+    "ok": true,
+    "info": "{\"tick\":1824,\"type\":\"wild\",\"species\":\"tumbloam\",\"level\":3,\"table\":\"sunmeadow_grass\",\"x\":30,\"y\":30,\"t\":0.2671394799054374}"
+   },
+   {
+    "id": "2b fills the viewport edge to edge (battle)",
+    "ok": true,
+    "info": "bars []"
+   },
+   {
+    "id": "4 wild battle ends, back in the world",
+    "ok": true,
+    "info": "1 commands; {\"last\":{\"outcome\":\"win\",\"turns\":1},\"map\":\"route1\"}"
+   },
+   {
+    "id": "4b capture shows the bone_v2 one-arm pose",
+    "ok": true,
+    "info": "{\"catchFx\":true,\"pose\":\"hold\",\"bg\":\"capture_poses/bone_v2/cal/cal_capture_strip.png\",\"art\":\"raise,beam,absorb,pulse_4,lock_bloom\"}"
+   },
+   {
+    "id": "4c capture battle ends",
+    "ok": true,
+    "info": "{\"outcome\":\"caught\"}"
+   },
+   {
+    "id": "5 Ron's battle opens from talking",
+    "ok": true,
+    "info": "{\"id\":\"ron_rival_1\",\"x\":24,\"y\":19}"
+   },
+   {
+    "id": "6 Ron's battle ends, story flags set",
+    "ok": true,
+    "info": "3 commands; {\"last\":{\"outcome\":\"win\",\"turns\":3},\"flags\":[\"visited_fernwick\",\"beat_rival_ron_1\",\"has_run_shoes\"],\"map\":\"fernwick\"}; lines: Yeah, okay. You've been practicing. / Ron hands over 480. / \"Fair's fair.\" / Here. My old runners. I got new ones. / Don't make it weird. They just make me look slow. / Cal received the Trail Runners! / Hold the B button to run. Works everywhere, even i / Running through grass still stirs up wild creature"
+   },
+   {
+    "id": "9 hall door: Saltmere (12,20) door enters the hall interior",
+    "ok": true,
+    "info": "{\"map\":\"saltmere_hall_int\",\"x\":5,\"y\":14,\"npcs\":[\"saltmere_hall_int_master\",\"saltmere_hall_int_h1\",\"saltmere_hall_int_h2\",\"saltmere_hall_int_h3\",\"saltmere_hall_int_guide\"]}"
+   },
+   {
+    "id": "10 Master battle opens (Saltmere hall Master)",
+    "ok": false,
+    "info": "{\"id\":\"saltmere_hall_int_master\",\"x\":5,\"y\":3} hall trainer fights on the way: 0"
+   },
+   {
+    "id": "11 Master battle ends, beat_master_saltmere set",
+    "ok": false,
+    "info": "0 commands; {\"last\":{\"outcome\":\"win\",\"turns\":3},\"flags\":[\"visited_saltmere\"],\"map\":\"saltmere_hall_int\"}; lines: "
+   },
+   {
+    "id": "7 no console / page errors",
+    "ok": false,
+    "info": "Failed to load resource: the server responded with a status of 404 () @https://paigegames.net/kilumen/art/characters/pixel/capture_poses/bone_v2/ron/hold_points.json?v=v0.2.36-alpha | Failed to load resource: the server responded with a status of 404 () @https://paigegames.net/kilumen/art/characters/pixel/capture_poses/bone_v2/vane/hold_points.json?v=v0.2.36-alpha | Failed to load resource: the server responded with a status of 404 () @https://paigegames.net/kilumen/art/characters/pixel/capture_poses/bone_v2/riverbank_stranger/hold_points.json?v=v0.2.36-alpha | Failed to load resource: the server responded with a status of 404 () @https://paigegames.net/kilumen/art/characters/pixel/npcs/ron/trainer/ron_trainer_64x128_2x.png"
+   },
+   {
+    "id": "8 no failed requests",
+    "ok": false,
+    "info": "404 https://paigegames.net/kilumen/art/characters/pixel/capture_poses/bone_v2/ron/hold_points.json?v=v0.2.36-alpha | 404 https://paigegames.net/kilumen/art/characters/pixel/capture_poses/bone_v2/vane/hold_points.json?v=v0.2.36-alpha | 404 https://paigegames.net/kilumen/art/characters/pixel/capture_poses/bone_v2/riverbank_stranger/hold_points.json?v=v0.2.36-alpha | 404 https://paigegames.net/kilumen/art/characters/pixel/npcs/ron/trainer/ron_trainer_64x128_2x.png"
+   }
+  ],
+  "errors": [
+   "Failed to load resource: the server responded with a status of 404 () @https://paigegames.net/kilumen/art/characters/pixel/capture_poses/bone_v2/ron/hold_points.json?v=v0.2.36-alpha",
+   "Failed to load resource: the server responded with a status of 404 () @https://paigegames.net/kilumen/art/characters/pixel/capture_poses/bone_v2/vane/hold_points.json?v=v0.2.36-alpha",
+   "Failed to load resource: the server responded with a status of 404 () @https://paigegames.net/kilumen/art/characters/pixel/capture_poses/bone_v2/riverbank_stranger/hold_points.json?v=v0.2.36-alpha",
+   "Failed to load resource: the server responded with a status of 404 () @https://paigegames.net/kilumen/art/characters/pixel/npcs/ron/trainer/ron_trainer_64x128_2x.png"
+  ],
+  "bad": [
+   "404 https://paigegames.net/kilumen/art/characters/pixel/capture_poses/bone_v2/ron/hold_points.json?v=v0.2.36-alpha",
+   "404 https://paigegames.net/kilumen/art/characters/pixel/capture_poses/bone_v2/vane/hold_points.json?v=v0.2.36-alpha",
+   "404 https://paigegames.net/kilumen/art/characters/pixel/capture_poses/bone_v2/riverbank_stranger/hold_points.json?v=v0.2.36-alpha",
+   "404 https://paigegames.net/kilumen/art/characters/pixel/npcs/ron/trainer/ron_trainer_64x128_2x.png"
+  ],
+  "expected404": []
+ }
+}

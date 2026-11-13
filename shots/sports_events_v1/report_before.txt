@@ -1,0 +1,5 @@
+/workspace/kilumen/shots/sports_events_v1/pc_badges_before.png
+pc badges before: 8 coming-soon plates
+/workspace/kilumen/shots/sports_events_v1/phone_badges_before.png
+phone badges before: 8 coming-soon plates
+page errors: none

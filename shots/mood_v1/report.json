@@ -1,0 +1,1264 @@
+{
+ "shots": {
+  "pc/brookhollow_day_clear_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=brookhollow&x=29&y=20&hour=12&weather=clear&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/brookhollow_day_clear_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=brookhollow&x=29&y=20&hour=12&weather=clear&mood=1",
+   "mood": {
+    "tint": 0.06,
+    "vignette": 0.24,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 25,
+    "ms": 4.100000008940697,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/brookhollow_day_cloudy_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=brookhollow&x=29&y=20&hour=12&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/brookhollow_day_cloudy_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=brookhollow&x=29&y=20&hour=12&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.06,
+    "vignette": 0.24,
+    "rays": 1,
+    "raysDrawn": 5,
+    "particles": 25,
+    "ms": 0.29999999701976776,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/brookhollow_dusk_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=brookhollow&x=29&y=20&hour=18.5&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "dusk",
+    "zoom": 2
+   }
+  },
+  "pc/brookhollow_dusk_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=brookhollow&x=29&y=20&hour=18.5&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.036,
+    "vignette": 0.24,
+    "rays": 0.625,
+    "raysDrawn": 5,
+    "particles": 10,
+    "ms": 0.30000001192092896,
+    "grade": "dusk",
+    "zoom": 2
+   }
+  },
+  "pc/brookhollow_night_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=brookhollow&x=29&y=20&hour=22&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "night",
+    "zoom": 2
+   }
+  },
+  "pc/brookhollow_night_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=brookhollow&x=29&y=20&hour=22&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0,
+    "vignette": 0.168,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 10,
+    "ms": 3.5,
+    "grade": "night",
+    "zoom": 2
+   }
+  },
+  "pc/route1_day_clear_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=route1&x=34&y=26&hour=12&weather=clear&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/route1_day_clear_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=route1&x=34&y=26&hour=12&weather=clear&mood=1",
+   "mood": {
+    "tint": 0.072,
+    "vignette": 0.22,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 32,
+    "ms": 3.199999988079071,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/route1_day_cloudy_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=route1&x=34&y=26&hour=12&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/route1_day_cloudy_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=route1&x=34&y=26&hour=12&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.072,
+    "vignette": 0.22,
+    "rays": 1,
+    "raysDrawn": 5,
+    "particles": 32,
+    "ms": 31,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/route1_dusk_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=route1&x=34&y=26&hour=18.5&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "dusk",
+    "zoom": 2
+   }
+  },
+  "pc/route1_dusk_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=route1&x=34&y=26&hour=18.5&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.043,
+    "vignette": 0.22,
+    "rays": 0.625,
+    "raysDrawn": 5,
+    "particles": 11,
+    "ms": 0.20000000298023224,
+    "grade": "dusk",
+    "zoom": 2
+   }
+  },
+  "pc/route1_night_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=route1&x=34&y=26&hour=22&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "night",
+    "zoom": 2
+   }
+  },
+  "pc/route1_night_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=route1&x=34&y=26&hour=22&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0,
+    "vignette": 0.154,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 11,
+    "ms": 3.7999999970197678,
+    "grade": "night",
+    "zoom": 2
+   }
+  },
+  "pc/greystone_b1_day_clear_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=greystone_b1&x=27&y=16&hour=12&weather=clear&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/greystone_b1_day_clear_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=greystone_b1&x=27&y=16&hour=12&weather=clear&mood=1",
+   "mood": {
+    "tint": 0.084,
+    "vignette": 0.4,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 16,
+    "ms": 3.5,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/greystone_b1_day_cloudy_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=greystone_b1&x=27&y=16&hour=12&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/greystone_b1_day_cloudy_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=greystone_b1&x=27&y=16&hour=12&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.084,
+    "vignette": 0.4,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 16,
+    "ms": 4.0999999940395355,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/greystone_b1_dusk_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=greystone_b1&x=27&y=16&hour=18.5&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/greystone_b1_dusk_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=greystone_b1&x=27&y=16&hour=18.5&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.084,
+    "vignette": 0.4,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 16,
+    "ms": 3.4000000059604645,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/greystone_b1_night_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=greystone_b1&x=27&y=16&hour=22&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/greystone_b1_night_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=greystone_b1&x=27&y=16&hour=22&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.084,
+    "vignette": 0.4,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 16,
+    "ms": 0.19999998807907104,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_day_clear_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick&x=27&y=19&hour=12&weather=clear&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_day_clear_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick&x=27&y=19&hour=12&weather=clear&mood=1",
+   "mood": {
+    "tint": 0.06,
+    "vignette": 0.28,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 30,
+    "ms": 3.5,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_day_cloudy_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick&x=27&y=19&hour=12&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_day_cloudy_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick&x=27&y=19&hour=12&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.06,
+    "vignette": 0.28,
+    "rays": 1,
+    "raysDrawn": 5,
+    "particles": 30,
+    "ms": 33.20000000298023,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_dusk_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick&x=27&y=19&hour=18.5&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "dusk",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_dusk_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick&x=27&y=19&hour=18.5&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.036,
+    "vignette": 0.28,
+    "rays": 0.625,
+    "raysDrawn": 5,
+    "particles": 15,
+    "ms": 0.20000000298023224,
+    "grade": "dusk",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_night_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick&x=27&y=19&hour=22&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "night",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_night_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick&x=27&y=19&hour=22&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0,
+    "vignette": 0.196,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 15,
+    "ms": 3.2999999970197678,
+    "grade": "night",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_hall_int_day_clear_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick_hall_int&x=8&y=7&hour=12&weather=clear&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_hall_int_day_clear_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick_hall_int&x=8&y=7&hour=12&weather=clear&mood=1",
+   "mood": {
+    "tint": 0.048,
+    "vignette": 0.32,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 11,
+    "ms": 3.7000000029802322,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_hall_int_day_cloudy_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick_hall_int&x=8&y=7&hour=12&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_hall_int_day_cloudy_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick_hall_int&x=8&y=7&hour=12&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.048,
+    "vignette": 0.32,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 11,
+    "ms": 3.2999999970197678,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_hall_int_dusk_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick_hall_int&x=8&y=7&hour=18.5&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_hall_int_dusk_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick_hall_int&x=8&y=7&hour=18.5&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.048,
+    "vignette": 0.32,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 11,
+    "ms": 4.100000008940697,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_hall_int_night_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick_hall_int&x=8&y=7&hour=22&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "pc/fernwick_hall_int_night_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=pc&map=fernwick_hall_int&x=8&y=7&hour=22&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.048,
+    "vignette": 0.32,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 11,
+    "ms": 3,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/brookhollow_day_clear_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=brookhollow&x=29&y=20&hour=12&weather=clear&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/brookhollow_day_clear_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=brookhollow&x=29&y=20&hour=12&weather=clear&mood=1",
+   "mood": {
+    "tint": 0.06,
+    "vignette": 0.24,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 14,
+    "ms": 0.29999999701976776,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/brookhollow_day_cloudy_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=brookhollow&x=29&y=20&hour=12&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/brookhollow_day_cloudy_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=brookhollow&x=29&y=20&hour=12&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.06,
+    "vignette": 0.24,
+    "rays": 1,
+    "raysDrawn": 3,
+    "particles": 14,
+    "ms": 34.19999998807907,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/brookhollow_dusk_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=brookhollow&x=29&y=20&hour=18.5&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "dusk",
+    "zoom": 2
+   }
+  },
+  "phone/brookhollow_dusk_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=brookhollow&x=29&y=20&hour=18.5&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.036,
+    "vignette": 0.24,
+    "rays": 0.625,
+    "raysDrawn": 3,
+    "particles": 5,
+    "ms": 0.30000001192092896,
+    "grade": "dusk",
+    "zoom": 2
+   }
+  },
+  "phone/brookhollow_night_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=brookhollow&x=29&y=20&hour=22&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "night",
+    "zoom": 2
+   }
+  },
+  "phone/brookhollow_night_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=brookhollow&x=29&y=20&hour=22&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0,
+    "vignette": 0.168,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 5,
+    "ms": 4.5,
+    "grade": "night",
+    "zoom": 2
+   }
+  },
+  "phone/route1_day_clear_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=route1&x=34&y=26&hour=12&weather=clear&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/route1_day_clear_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=route1&x=34&y=26&hour=12&weather=clear&mood=1",
+   "mood": {
+    "tint": 0.072,
+    "vignette": 0.22,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 16,
+    "ms": 5.5,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/route1_day_cloudy_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=route1&x=34&y=26&hour=12&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/route1_day_cloudy_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=route1&x=34&y=26&hour=12&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.072,
+    "vignette": 0.22,
+    "rays": 1,
+    "raysDrawn": 3,
+    "particles": 16,
+    "ms": 38,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/route1_dusk_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=route1&x=34&y=26&hour=18.5&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "dusk",
+    "zoom": 2
+   }
+  },
+  "phone/route1_dusk_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=route1&x=34&y=26&hour=18.5&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.043,
+    "vignette": 0.22,
+    "rays": 0.625,
+    "raysDrawn": 3,
+    "particles": 6,
+    "ms": 37.29999999701977,
+    "grade": "dusk",
+    "zoom": 2
+   }
+  },
+  "phone/route1_night_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=route1&x=34&y=26&hour=22&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "night",
+    "zoom": 2
+   }
+  },
+  "phone/route1_night_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=route1&x=34&y=26&hour=22&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0,
+    "vignette": 0.154,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 6,
+    "ms": 4.700000002980232,
+    "grade": "night",
+    "zoom": 2
+   }
+  },
+  "phone/greystone_b1_day_clear_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=greystone_b1&x=27&y=16&hour=12&weather=clear&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/greystone_b1_day_clear_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=greystone_b1&x=27&y=16&hour=12&weather=clear&mood=1",
+   "mood": {
+    "tint": 0.084,
+    "vignette": 0.4,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 8,
+    "ms": 0.20000000298023224,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/greystone_b1_day_cloudy_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=greystone_b1&x=27&y=16&hour=12&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/greystone_b1_day_cloudy_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=greystone_b1&x=27&y=16&hour=12&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.084,
+    "vignette": 0.4,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 8,
+    "ms": 0.09999999403953552,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/greystone_b1_dusk_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=greystone_b1&x=27&y=16&hour=18.5&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/greystone_b1_dusk_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=greystone_b1&x=27&y=16&hour=18.5&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.084,
+    "vignette": 0.4,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 8,
+    "ms": 6.799999997019768,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/greystone_b1_night_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=greystone_b1&x=27&y=16&hour=22&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/greystone_b1_night_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=greystone_b1&x=27&y=16&hour=22&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.084,
+    "vignette": 0.4,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 8,
+    "ms": 0.20000000298023224,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_day_clear_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick&x=27&y=19&hour=12&weather=clear&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_day_clear_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick&x=27&y=19&hour=12&weather=clear&mood=1",
+   "mood": {
+    "tint": 0.06,
+    "vignette": 0.28,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 14,
+    "ms": 6.299999997019768,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_day_cloudy_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick&x=27&y=19&hour=12&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_day_cloudy_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick&x=27&y=19&hour=12&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.06,
+    "vignette": 0.28,
+    "rays": 1,
+    "raysDrawn": 3,
+    "particles": 14,
+    "ms": 44.400000005960464,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_dusk_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick&x=27&y=19&hour=18.5&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "dusk",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_dusk_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick&x=27&y=19&hour=18.5&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.036,
+    "vignette": 0.28,
+    "rays": 0.625,
+    "raysDrawn": 3,
+    "particles": 9,
+    "ms": 37.79999999701977,
+    "grade": "dusk",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_night_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick&x=27&y=19&hour=22&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "night",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_night_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick&x=27&y=19&hour=22&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0,
+    "vignette": 0.196,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 9,
+    "ms": 4.899999991059303,
+    "grade": "night",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_hall_int_day_clear_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick_hall_int&x=8&y=7&hour=12&weather=clear&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_hall_int_day_clear_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick_hall_int&x=8&y=7&hour=12&weather=clear&mood=1",
+   "mood": {
+    "tint": 0.048,
+    "vignette": 0.32,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 5,
+    "ms": 0.10000000894069672,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_hall_int_day_cloudy_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick_hall_int&x=8&y=7&hour=12&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_hall_int_day_cloudy_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick_hall_int&x=8&y=7&hour=12&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.048,
+    "vignette": 0.32,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 5,
+    "ms": 3.699999988079071,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_hall_int_dusk_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick_hall_int&x=8&y=7&hour=18.5&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_hall_int_dusk_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick_hall_int&x=8&y=7&hour=18.5&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.048,
+    "vignette": 0.32,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 5,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_hall_int_night_off": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick_hall_int&x=8&y=7&hour=22&weather=cloudy&mood=0",
+   "mood": {
+    "tint": 0,
+    "vignette": 0,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 0,
+    "ms": 0,
+    "grade": "day",
+    "zoom": 2
+   }
+  },
+  "phone/fernwick_hall_int_night_on": {
+   "url": "http://127.0.0.1:8131/index.html?save=0&skipintro=1&ui=0&audio=0&timescale=0&platform=mobile&touch=1&map=fernwick_hall_int&x=8&y=7&hour=22&weather=cloudy&mood=1",
+   "mood": {
+    "tint": 0.048,
+    "vignette": 0.32,
+    "rays": 0,
+    "raysDrawn": 0,
+    "particles": 5,
+    "ms": 3.7999999970197678,
+    "grade": "day",
+    "zoom": 2
+   }
+  }
+ },
+ "errors": [
+  "pc console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "pc console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "pc console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "pc console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "pc console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "pc console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "pc console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "pc console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "phone console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "phone console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "phone console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "phone console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "phone console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "phone console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "phone console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "phone console: Failed to load resource: the server responded with a status of 404 (File not found)"
+ ],
+ "blocks": {
+  "pc/brookhollow_day_clear_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/brookhollow_day_cloudy_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/brookhollow_dusk_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/brookhollow_night_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/route1_day_clear_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/route1_day_cloudy_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/route1_dusk_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/route1_night_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/greystone_b1_day_clear_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/greystone_b1_day_cloudy_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/greystone_b1_dusk_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/greystone_b1_night_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/fernwick_day_clear_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/fernwick_day_cloudy_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/fernwick_dusk_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/fernwick_night_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/fernwick_hall_int_day_clear_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/fernwick_hall_int_day_cloudy_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/fernwick_hall_int_dusk_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "pc/fernwick_hall_int_night_on": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "phone/brookhollow_day_clear_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/brookhollow_day_cloudy_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/brookhollow_dusk_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/brookhollow_night_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/route1_day_clear_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/route1_day_cloudy_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/route1_dusk_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/route1_night_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/greystone_b1_day_clear_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/greystone_b1_day_cloudy_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/greystone_b1_dusk_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/greystone_b1_night_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/fernwick_day_clear_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/fernwick_day_cloudy_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/fernwick_dusk_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/fernwick_night_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/fernwick_hall_int_day_clear_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/fernwick_hall_int_day_cloudy_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/fernwick_hall_int_dusk_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  },
+  "phone/fernwick_hall_int_night_on": {
+   "bad": 0,
+   "blocks": 740610,
+   "z": 2
+  }
+ }
+}

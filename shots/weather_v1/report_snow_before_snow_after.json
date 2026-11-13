@@ -1,0 +1,70 @@
+{
+ "snow_before_pc": {
+  "map": "frostspire_pass",
+  "wx": null,
+  "dbg": null,
+  "perf": null,
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "snow_after_pc": {
+  "map": "frostspire_pass",
+  "wx": "snow_light",
+  "dbg": {
+   "target": "snow_light",
+   "shown": "snow_light",
+   "k": 1,
+   "area": "snowy",
+   "seed": 112439394
+  },
+  "perf": null,
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "snow_before_phone": {
+  "map": "frostspire_pass",
+  "wx": null,
+  "dbg": null,
+  "perf": {
+   "raf": {
+    "n": 49,
+    "avg": 100,
+    "p50": 100,
+    "p95": 183.4,
+    "max": 200,
+    "over16_7": 45
+   },
+   "mainMsPerFrame": 100.39
+  },
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "snow_after_phone": {
+  "map": "frostspire_pass",
+  "wx": "snow_light",
+  "dbg": {
+   "target": "snow_light",
+   "shown": "snow_light",
+   "k": 1,
+   "area": "snowy",
+   "seed": 245879144
+  },
+  "perf": {
+   "raf": {
+    "n": 47,
+    "avg": 106.73,
+    "p50": 116.6,
+    "p95": 233.3,
+    "max": 316.6,
+    "over16_7": 43
+   },
+   "mainMsPerFrame": 103.46
+  },
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ }
+}

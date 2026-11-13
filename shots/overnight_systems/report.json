@@ -1,0 +1,254 @@
+[
+ {
+  "plat": "pc",
+  "scene": "boot_default",
+  "errors": [],
+  "shots": [
+   "pc_boot_default.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "sight",
+  "info": {
+   "x": 11,
+   "y": 21,
+   "key": "ArrowUp"
+  },
+  "errors": [],
+  "shots": [
+   "pc_sight_spark.png",
+   "pc_sight_spotted.png",
+   "pc_sight_end.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "kilindex",
+  "errors": [],
+  "shots": [
+   "pc_kilindex.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "kilindex_new",
+  "info": {
+   "seen": [
+    "rillop",
+    "cindrip"
+   ],
+   "caught": [
+    "rillop",
+    "cindrip"
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "pc_kilindex_new_line.png",
+   "pc_kilindex_new_end.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "tideglide",
+  "info": {
+   "gliding": true,
+   "at": [
+    18,
+    14
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "pc_tideglide_inspect.png",
+   "pc_tideglide_end.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "brush_locked",
+  "errors": [],
+  "shots": [
+   "pc_brush_locked.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "boulder",
+  "info": {
+   "boulderAt19": true,
+   "at18": 0
+  },
+  "errors": [
+   "Failed to load resource: the server responded with a status of 404 (File not found) http://127.0.0.1:36829/art/world/overworld/puzzles/greystone_b1.runtime.json"
+  ],
+  "shots": [
+   "pc_boulder.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "regionmap",
+  "info": {
+   "map": "brookhollow",
+   "at": [
+    6,
+    20
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "pc_regionmap_menu.png",
+   "pc_regionmap_confirm.png",
+   "pc_regionmap_end.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "learn",
+  "errors": [],
+  "shots": [
+   "pc_learn_slots_full.png",
+   "pc_learn_end.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "staged_map",
+  "info": {
+   "map": "heal_saltmere",
+   "staged": 36
+  },
+  "errors": [],
+  "shots": [
+   "pc_staged_map.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "boot_default",
+  "errors": [],
+  "shots": [
+   "phone_boot_default.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "sight",
+  "info": {
+   "x": 11,
+   "y": 21,
+   "key": "ArrowUp"
+  },
+  "errors": [],
+  "shots": [
+   "phone_sight_spark.png",
+   "phone_sight_spotted.png",
+   "phone_sight_end.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "kilindex",
+  "errors": [],
+  "shots": [
+   "phone_kilindex.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "kilindex_new",
+  "info": {
+   "seen": [
+    "rillop",
+    "cindrip"
+   ],
+   "caught": [
+    "rillop",
+    "cindrip"
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "phone_kilindex_new_line.png",
+   "phone_kilindex_new_end.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "tideglide",
+  "info": {
+   "gliding": true,
+   "at": [
+    18,
+    14
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "phone_tideglide_inspect.png",
+   "phone_tideglide_end.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "brush_locked",
+  "errors": [],
+  "shots": [
+   "phone_brush_locked.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "boulder",
+  "info": {
+   "boulderAt19": true,
+   "at18": 0
+  },
+  "errors": [
+   "Failed to load resource: the server responded with a status of 404 (File not found) http://127.0.0.1:36829/art/world/overworld/puzzles/greystone_b1.runtime.json"
+  ],
+  "shots": [
+   "phone_boulder.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "regionmap",
+  "info": {
+   "map": "brookhollow",
+   "at": [
+    6,
+    20
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "phone_regionmap_menu.png",
+   "phone_regionmap_confirm.png",
+   "phone_regionmap_end.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "learn",
+  "errors": [],
+  "shots": [
+   "phone_learn_slots_full.png",
+   "phone_learn_end.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "staged_map",
+  "info": {
+   "map": "heal_saltmere",
+   "staged": 36
+  },
+  "errors": [],
+  "shots": [
+   "phone_staged_map.png"
+  ]
+ }
+]

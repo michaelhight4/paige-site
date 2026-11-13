@@ -1,0 +1,2110 @@
+[
+ {
+  "view": "pc1920x1080",
+  "scene": "brookhollow_tl",
+  "file": "pc1920x1080_brookhollow_tl.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": -448,
+   "y": -238
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "brookhollow_tr",
+  "file": "pc1920x1080_brookhollow_tr.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   33,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": 1664,
+   "y": -238
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "brookhollow_bl",
+  "file": "pc1920x1080_brookhollow_bl.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   0,
+   31
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": -448,
+   "y": 1746
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "brookhollow_br",
+  "file": "pc1920x1080_brookhollow_br.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   33,
+   31
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": 1664,
+   "y": 1746
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "route1_tl",
+  "file": "pc1920x1080_route1_tl.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": -448,
+   "y": -238
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "route1_tr",
+  "file": "pc1920x1080_route1_tr.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   43,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": 2304,
+   "y": -238
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "route1_bl",
+  "file": "pc1920x1080_route1_bl.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   0,
+   33
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": -448,
+   "y": 1874
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "route1_br",
+  "file": "pc1920x1080_route1_br.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   43,
+   33
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": 2304,
+   "y": 1874
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "greystone_b1_tl",
+  "file": "pc1920x1080_greystone_b1_tl.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": -448,
+   "y": -238
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "greystone_b1_tr",
+  "file": "pc1920x1080_greystone_b1_tr.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   29,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": 1408,
+   "y": -238
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "greystone_b1_bl",
+  "file": "pc1920x1080_greystone_b1_bl.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   0,
+   23
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": -448,
+   "y": 1234
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "greystone_b1_br",
+  "file": "pc1920x1080_greystone_b1_br.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   29,
+   23
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": 1408,
+   "y": 1234
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "x_night_clouds_brookhollow_tl",
+  "file": "pc1920x1080_x_night_clouds_brookhollow_tl.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": -448,
+   "y": -238
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "x_rain_route1_br",
+  "file": "pc1920x1080_x_rain_route1_br.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   43,
+   33
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": 2304,
+   "y": 1874
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "x_interior_home_a",
+  "file": "pc1920x1080_x_interior_home_a.png",
+  "map": "home_brookhollow_a",
+  "mapWH": [
+   10,
+   8
+  ],
+  "tile": [
+   1,
+   3
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": -384,
+   "y": -46
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0.0109,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc1920x1080",
+  "scene": "x_interior_heal",
+  "file": "pc1920x1080_x_interior_heal.png",
+  "map": "heal_brookhollow",
+  "mapWH": [
+   14,
+   10
+  ],
+  "tile": [
+   7,
+   8
+  ],
+  "zoom": 2,
+  "canvas": [
+   1920,
+   1080
+  ],
+  "cam": {
+   "x": 0,
+   "y": 274
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0.0004,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc2560x1440",
+  "scene": "brookhollow_tl",
+  "file": "pc2560x1440_brookhollow_tl.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 3,
+  "canvas": [
+   2560,
+   1440
+  ],
+  "cam": {
+   "x": -395,
+   "y": -208
+  },
+  "centreErrPx": [
+   1,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc2560x1440",
+  "scene": "brookhollow_tr",
+  "file": "pc2560x1440_brookhollow_tr.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   33,
+   0
+  ],
+  "zoom": 3,
+  "canvas": [
+   2560,
+   1440
+  ],
+  "cam": {
+   "x": 1717,
+   "y": -208
+  },
+  "centreErrPx": [
+   1,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc2560x1440",
+  "scene": "brookhollow_bl",
+  "file": "pc2560x1440_brookhollow_bl.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   0,
+   31
+  ],
+  "zoom": 3,
+  "canvas": [
+   2560,
+   1440
+  ],
+  "cam": {
+   "x": -395,
+   "y": 1776
+  },
+  "centreErrPx": [
+   1,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc2560x1440",
+  "scene": "brookhollow_br",
+  "file": "pc2560x1440_brookhollow_br.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   33,
+   31
+  ],
+  "zoom": 3,
+  "canvas": [
+   2560,
+   1440
+  ],
+  "cam": {
+   "x": 1717,
+   "y": 1776
+  },
+  "centreErrPx": [
+   1,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc2560x1440",
+  "scene": "route1_tl",
+  "file": "pc2560x1440_route1_tl.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 3,
+  "canvas": [
+   2560,
+   1440
+  ],
+  "cam": {
+   "x": -395,
+   "y": -208
+  },
+  "centreErrPx": [
+   1,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc2560x1440",
+  "scene": "route1_tr",
+  "file": "pc2560x1440_route1_tr.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   43,
+   0
+  ],
+  "zoom": 3,
+  "canvas": [
+   2560,
+   1440
+  ],
+  "cam": {
+   "x": 2357,
+   "y": -208
+  },
+  "centreErrPx": [
+   1,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc2560x1440",
+  "scene": "route1_bl",
+  "file": "pc2560x1440_route1_bl.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   0,
+   33
+  ],
+  "zoom": 3,
+  "canvas": [
+   2560,
+   1440
+  ],
+  "cam": {
+   "x": -395,
+   "y": 1904
+  },
+  "centreErrPx": [
+   1,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc2560x1440",
+  "scene": "route1_br",
+  "file": "pc2560x1440_route1_br.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   43,
+   33
+  ],
+  "zoom": 3,
+  "canvas": [
+   2560,
+   1440
+  ],
+  "cam": {
+   "x": 2357,
+   "y": 1904
+  },
+  "centreErrPx": [
+   1,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc2560x1440",
+  "scene": "greystone_b1_tl",
+  "file": "pc2560x1440_greystone_b1_tl.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 3,
+  "canvas": [
+   2560,
+   1440
+  ],
+  "cam": {
+   "x": -395,
+   "y": -208
+  },
+  "centreErrPx": [
+   1,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc2560x1440",
+  "scene": "greystone_b1_tr",
+  "file": "pc2560x1440_greystone_b1_tr.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   29,
+   0
+  ],
+  "zoom": 3,
+  "canvas": [
+   2560,
+   1440
+  ],
+  "cam": {
+   "x": 1461,
+   "y": -208
+  },
+  "centreErrPx": [
+   1,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc2560x1440",
+  "scene": "greystone_b1_bl",
+  "file": "pc2560x1440_greystone_b1_bl.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   0,
+   23
+  ],
+  "zoom": 3,
+  "canvas": [
+   2560,
+   1440
+  ],
+  "cam": {
+   "x": -395,
+   "y": 1264
+  },
+  "centreErrPx": [
+   1,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "pc2560x1440",
+  "scene": "greystone_b1_br",
+  "file": "pc2560x1440_greystone_b1_br.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   29,
+   23
+  ],
+  "zoom": 3,
+  "canvas": [
+   2560,
+   1440
+  ],
+  "cam": {
+   "x": 1461,
+   "y": 1264
+  },
+  "centreErrPx": [
+   1,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 0,
+  "errors": []
+ },
+ {
+  "view": "ph844x390@3",
+  "scene": "brookhollow_tl",
+  "file": "ph844x390@3_brookhollow_tl.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2532,
+   1170
+  ],
+  "cam": {
+   "x": -601,
+   "y": -260
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph844x390@3",
+  "scene": "brookhollow_tr",
+  "file": "ph844x390@3_brookhollow_tr.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   33,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2532,
+   1170
+  ],
+  "cam": {
+   "x": 1511,
+   "y": -260
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph844x390@3",
+  "scene": "brookhollow_bl",
+  "file": "ph844x390@3_brookhollow_bl.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   0,
+   31
+  ],
+  "zoom": 2,
+  "canvas": [
+   2532,
+   1170
+  ],
+  "cam": {
+   "x": -601,
+   "y": 1724
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph844x390@3",
+  "scene": "brookhollow_br",
+  "file": "ph844x390@3_brookhollow_br.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   33,
+   31
+  ],
+  "zoom": 2,
+  "canvas": [
+   2532,
+   1170
+  ],
+  "cam": {
+   "x": 1511,
+   "y": 1724
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph844x390@3",
+  "scene": "route1_tl",
+  "file": "ph844x390@3_route1_tl.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2532,
+   1170
+  ],
+  "cam": {
+   "x": -601,
+   "y": -260
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph844x390@3",
+  "scene": "route1_tr",
+  "file": "ph844x390@3_route1_tr.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   43,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2532,
+   1170
+  ],
+  "cam": {
+   "x": 2151,
+   "y": -260
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph844x390@3",
+  "scene": "route1_bl",
+  "file": "ph844x390@3_route1_bl.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   0,
+   33
+  ],
+  "zoom": 2,
+  "canvas": [
+   2532,
+   1170
+  ],
+  "cam": {
+   "x": -601,
+   "y": 1852
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph844x390@3",
+  "scene": "route1_br",
+  "file": "ph844x390@3_route1_br.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   43,
+   33
+  ],
+  "zoom": 2,
+  "canvas": [
+   2532,
+   1170
+  ],
+  "cam": {
+   "x": 2151,
+   "y": 1852
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph844x390@3",
+  "scene": "greystone_b1_tl",
+  "file": "ph844x390@3_greystone_b1_tl.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2532,
+   1170
+  ],
+  "cam": {
+   "x": -601,
+   "y": -260
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph844x390@3",
+  "scene": "greystone_b1_tr",
+  "file": "ph844x390@3_greystone_b1_tr.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   29,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2532,
+   1170
+  ],
+  "cam": {
+   "x": 1255,
+   "y": -260
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph844x390@3",
+  "scene": "greystone_b1_bl",
+  "file": "ph844x390@3_greystone_b1_bl.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   0,
+   23
+  ],
+  "zoom": 2,
+  "canvas": [
+   2532,
+   1170
+  ],
+  "cam": {
+   "x": -601,
+   "y": 1212
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph844x390@3",
+  "scene": "greystone_b1_br",
+  "file": "ph844x390@3_greystone_b1_br.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   29,
+   23
+  ],
+  "zoom": 2,
+  "canvas": [
+   2532,
+   1170
+  ],
+  "cam": {
+   "x": 1255,
+   "y": 1212
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "brookhollow_tl",
+  "file": "ph932x430@3_brookhollow_tl.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": -667,
+   "y": -290
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "brookhollow_tr",
+  "file": "ph932x430@3_brookhollow_tr.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   33,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": 1445,
+   "y": -290
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "brookhollow_bl",
+  "file": "ph932x430@3_brookhollow_bl.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   0,
+   31
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": -667,
+   "y": 1694
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "brookhollow_br",
+  "file": "ph932x430@3_brookhollow_br.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   33,
+   31
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": 1445,
+   "y": 1694
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "route1_tl",
+  "file": "ph932x430@3_route1_tl.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": -667,
+   "y": -290
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "route1_tr",
+  "file": "ph932x430@3_route1_tr.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   43,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": 2085,
+   "y": -290
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "route1_bl",
+  "file": "ph932x430@3_route1_bl.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   0,
+   33
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": -667,
+   "y": 1822
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "route1_br",
+  "file": "ph932x430@3_route1_br.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   43,
+   33
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": 2085,
+   "y": 1822
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "greystone_b1_tl",
+  "file": "ph932x430@3_greystone_b1_tl.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": -667,
+   "y": -290
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "greystone_b1_tr",
+  "file": "ph932x430@3_greystone_b1_tr.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   29,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": 1189,
+   "y": -290
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "greystone_b1_bl",
+  "file": "ph932x430@3_greystone_b1_bl.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   0,
+   23
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": -667,
+   "y": 1182
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "greystone_b1_br",
+  "file": "ph932x430@3_greystone_b1_br.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   29,
+   23
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": 1189,
+   "y": 1182
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "x_night_clouds_brookhollow_tl",
+  "file": "ph932x430@3_x_night_clouds_brookhollow_tl.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": -667,
+   "y": -290
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "x_rain_route1_br",
+  "file": "ph932x430@3_x_rain_route1_br.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   43,
+   33
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": 2085,
+   "y": 1822
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "x_interior_home_a",
+  "file": "ph932x430@3_x_interior_home_a.png",
+  "map": "home_brookhollow_a",
+  "mapWH": [
+   10,
+   8
+  ],
+  "tile": [
+   1,
+   3
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": -603,
+   "y": -98
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0.0062,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph932x430@3",
+  "scene": "x_interior_heal",
+  "file": "ph932x430@3_x_interior_heal.png",
+  "map": "heal_brookhollow",
+  "mapWH": [
+   14,
+   10
+  ],
+  "tile": [
+   7,
+   8
+  ],
+  "zoom": 2,
+  "canvas": [
+   2796,
+   1290
+  ],
+  "cam": {
+   "x": -219,
+   "y": 222
+  },
+  "centreErrPx": [
+   0,
+   -1
+  ],
+  "blackShare": 0.0004,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph780x360@3",
+  "scene": "brookhollow_tl",
+  "file": "ph780x360@3_brookhollow_tl.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2340,
+   1080
+  ],
+  "cam": {
+   "x": -553,
+   "y": -238
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph780x360@3",
+  "scene": "brookhollow_tr",
+  "file": "ph780x360@3_brookhollow_tr.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   33,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2340,
+   1080
+  ],
+  "cam": {
+   "x": 1559,
+   "y": -238
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph780x360@3",
+  "scene": "brookhollow_bl",
+  "file": "ph780x360@3_brookhollow_bl.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   0,
+   31
+  ],
+  "zoom": 2,
+  "canvas": [
+   2340,
+   1080
+  ],
+  "cam": {
+   "x": -553,
+   "y": 1746
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph780x360@3",
+  "scene": "brookhollow_br",
+  "file": "ph780x360@3_brookhollow_br.png",
+  "map": "brookhollow",
+  "mapWH": [
+   34,
+   32
+  ],
+  "tile": [
+   33,
+   31
+  ],
+  "zoom": 2,
+  "canvas": [
+   2340,
+   1080
+  ],
+  "cam": {
+   "x": 1559,
+   "y": 1746
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph780x360@3",
+  "scene": "route1_tl",
+  "file": "ph780x360@3_route1_tl.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2340,
+   1080
+  ],
+  "cam": {
+   "x": -553,
+   "y": -238
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph780x360@3",
+  "scene": "route1_tr",
+  "file": "ph780x360@3_route1_tr.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   43,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2340,
+   1080
+  ],
+  "cam": {
+   "x": 2199,
+   "y": -238
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph780x360@3",
+  "scene": "route1_bl",
+  "file": "ph780x360@3_route1_bl.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   0,
+   33
+  ],
+  "zoom": 2,
+  "canvas": [
+   2340,
+   1080
+  ],
+  "cam": {
+   "x": -553,
+   "y": 1874
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph780x360@3",
+  "scene": "route1_br",
+  "file": "ph780x360@3_route1_br.png",
+  "map": "route1",
+  "mapWH": [
+   44,
+   34
+  ],
+  "tile": [
+   43,
+   33
+  ],
+  "zoom": 2,
+  "canvas": [
+   2340,
+   1080
+  ],
+  "cam": {
+   "x": 2199,
+   "y": 1874
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph780x360@3",
+  "scene": "greystone_b1_tl",
+  "file": "ph780x360@3_greystone_b1_tl.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   0,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2340,
+   1080
+  ],
+  "cam": {
+   "x": -553,
+   "y": -238
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph780x360@3",
+  "scene": "greystone_b1_tr",
+  "file": "ph780x360@3_greystone_b1_tr.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   29,
+   0
+  ],
+  "zoom": 2,
+  "canvas": [
+   2340,
+   1080
+  ],
+  "cam": {
+   "x": 1303,
+   "y": -238
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph780x360@3",
+  "scene": "greystone_b1_bl",
+  "file": "ph780x360@3_greystone_b1_bl.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   0,
+   23
+  ],
+  "zoom": 2,
+  "canvas": [
+   2340,
+   1080
+  ],
+  "cam": {
+   "x": -553,
+   "y": 1234
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ },
+ {
+  "view": "ph780x360@3",
+  "scene": "greystone_b1_br",
+  "file": "ph780x360@3_greystone_b1_br.png",
+  "map": "greystone_b1",
+  "mapWH": [
+   30,
+   24
+  ],
+  "tile": [
+   29,
+   23
+  ],
+  "zoom": 2,
+  "canvas": [
+   2340,
+   1080
+  ],
+  "cam": {
+   "x": 1303,
+   "y": 1234
+  },
+  "centreErrPx": [
+   0,
+   0
+  ],
+  "blackShare": 0,
+  "overlaps": [],
+  "controls": 6,
+  "errors": []
+ }
+]

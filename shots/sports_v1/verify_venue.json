@@ -1,0 +1,42 @@
+{
+ "desktop": {
+  "checks": [
+   "PASS coach present in Brookhollow ({\"map\":\"brookhollow\",\"x\":15,\"y\":29,\"coach\":true})",
+   "PASS save locked while the venue is open",
+   "PASS practice: save refused mid-race (lock=script, saveNow=false)",
+   "PASS practice: gold unchanged (400 -> 400)",
+   "PASS tourney: no fee until a creature is picked",
+   "PASS tourney: gold math 400 - 150 = 250",
+   "PASS tourney: nothing saved mid-race (saved coins still 400)",
+   "PASS tourney: one entry per window (You have run this one. Next tournament in 3 days.)",
+   "PASS after close: unlocked, world running ({\"lock\":null,\"ts\":1})",
+   "PASS save after: coins 250, sports {\"enteredWindow\":1,\"entries\":1,\"wins\":0,\"practice\":1,\"best\":25.9}",
+   "PASS reload: coins 250, entered window kept, party nibbin:c-v1:false,peeplark:c-v2:false",
+   "PASS refused under 150 gold (You need 150 gold to enter.)",
+   "PASS countdown on day 7: Next tournament in 2 days.",
+   "PASS no console errors (0)"
+  ],
+  "fail": 0,
+  "errors": []
+ },
+ "phone": {
+  "checks": [
+   "PASS coach present in Brookhollow ({\"map\":\"brookhollow\",\"x\":15,\"y\":29,\"coach\":true})",
+   "PASS save locked while the venue is open",
+   "PASS practice: save refused mid-race (lock=script, saveNow=false)",
+   "PASS practice: gold unchanged (400 -> 400)",
+   "PASS tourney: no fee until a creature is picked",
+   "PASS tourney: gold math 400 - 150 = 250",
+   "PASS tourney: nothing saved mid-race (saved coins still 400)",
+   "PASS tourney: one entry per window (You have run this one. Next tournament in 3 days.)",
+   "PASS after close: unlocked, world running ({\"lock\":null,\"ts\":1})",
+   "PASS save after: coins 250, sports {\"enteredWindow\":1,\"entries\":1,\"wins\":0,\"practice\":1,\"best\":26.03}",
+   "PASS reload: coins 250, entered window kept, party nibbin:c-v1:false,peeplark:c-v2:false",
+   "PASS refused under 150 gold (You need 150 gold to enter.)",
+   "PASS countdown on day 7: Next tournament in 2 days.",
+   "PASS no console errors (0)"
+  ],
+  "fail": 0,
+  "errors": []
+ }
+}

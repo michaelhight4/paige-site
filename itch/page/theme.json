@@ -1,0 +1,63 @@
+{
+  "status": "DRAFT \u2014 Gary review required",
+  "bg": "#10142a",
+  "bg2": "#1b2140",
+  "text": "#f4efe1",
+  "link": "#ffd23f",
+  "button": "#ffd23f",
+  "button_text": "#191210",
+  "border": "#8a63d2",
+  "accent_crystal": "#b07cff",
+  "fonts": {
+    "headers": {
+      "family": "Fredoka",
+      "weights": [
+        600,
+        700
+      ],
+      "google_fonts_url": "https://fonts.google.com/specimen/Fredoka",
+      "why": "rounded, matches the Kilumen logotype"
+    },
+    "body": {
+      "family": "Nunito",
+      "weights": [
+        400,
+        600,
+        700
+      ],
+      "google_fonts_url": "https://fonts.google.com/specimen/Nunito"
+    }
+  },
+  "itch_settings": {
+    "background_image": "background_full.png",
+    "background_repeat": "no-repeat",
+    "background_position": "center top",
+    "background_size": "auto (native 2560x1600; do NOT use cover)",
+    "content_background": "opaque #1b2140",
+    "banner_image": "banner.png",
+    "background_attachment": "scroll",
+    "content_width_px": 960,
+    "banner_top_offset_px": 20
+  },
+  "notes": [
+    "Manual itch theme suggestions, not an importable format.",
+    "Logo gold #ffd23f on deep night-blue; crystal violet from the dominance crystals as a secondary accent.",
+    "Gold buttons need dark #191210 text.",
+    "Do not use preview.png as gameplay evidence.",
+    "Full-page side art; top-center banner is an exact background crop plus existing logo. Native-size background is necessary for pixel alignment. DRAFT."
+  ],
+  "banner_crop": {
+    "source": "background_full.png",
+    "box_xyxy": [
+      800,
+      20,
+      1760,
+      270
+    ],
+    "size": [
+      960,
+      250
+    ],
+    "overlay": "Existing extracted title/logotype, centered; no separate banner frame"
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "pc": {
+    "steps": [
+      {
+        "k": "npcs",
+        "before": 9,
+        "party": [
+          "cindrip5",
+          "nibbin5"
+        ]
+      },
+      {
+        "k": "C_two",
+        "found": true,
+        "foes": [
+          {
+            "sp": "dewmite",
+            "hp": 13,
+            "alive": true,
+            "caught": false
+          },
+          {
+            "sp": "puffwhirl",
+            "hp": 14,
+            "alive": true,
+            "caught": false
+          }
+        ]
+      },
+      {
+        "k": "C_pre_switch",
+        "s": {
+          "rt": true,
+          "turn": false,
+          "top": null,
+          "btn": {
+            "to": "turn",
+            "w": 161,
+            "h": 44,
+            "label": "⏸Turn-basedR"
+          },
+          "foes": [
+            {
+              "sp": "dewmite",
+              "hp": 0,
+              "alive": false,
+              "caught": false
+            },
+            {
+              "sp": "puffwhirl",
+              "hp": 14,
+              "alive": true,
+              "caught": false
+            }
+          ],
+          "state": "fight",
+          "party": [
+            {
+              "sp": "cindrip",
+              "lv": 5,
+              "hp": 17,
+              "xp": 100
+            },
+            {
+              "sp": "nibbin",
+              "lv": 5,
+              "hp": 20,
+              "xp": 100
+            }
+          ],
+          "mode": "rt",
+          "flag": false,
+          "last": {
+            "outcome": "retreat",
+            "caught": null,
+            "xp": 0
+          },
+          "flash": false,
+          "saveLock": "script"
+        }
+      },
+      {
+        "k": "C_two_turn",
+        "turnFoes": [
+          {
+            "sp": "puffwhirl",
+            "hp": 14
+          }
+        ]
+      },
+      {
+        "k": "C_back_rt",
+        "ok": true,
+        "now": {
+          "rt": true,
+          "turn": false,
+          "top": null,
+          "btn": {
+            "to": "turn",
+            "w": 161,
+            "h": 44,
+            "label": "⏸Turn-basedR"
+          },
+          "foes": [
+            {
+              "sp": "puffwhirl",
+              "hp": 14,
+              "alive": true,
+              "caught": false
+            }
+          ],
+          "state": "fight",
+          "party": [
+            {
+              "sp": "cindrip",
+              "lv": 5,
+              "hp": 17,
+              "xp": 114
+            },
+            {
+              "sp": "nibbin",
+              "lv": 5,
+              "hp": 20,
+              "xp": 100
+            }
+          ],
+          "mode": "rt",
+          "flag": true,
+          "last": {
+            "outcome": "retreat",
+            "caught": null,
+            "xp": 0
+          },
+          "flash": false,
+          "saveLock": "script"
+        }
+      },
+      {
+        "k": "C_ko",
+        "ko": {
+          "lead": "nibbin",
+          "hp": 20,
+          "state": "fight"
+        }
+      },
+      {
+        "k": "C_fight",
+        "shots": 12,
+        "dodged": 1,
+        "tried": 0
+      },
+      {
+        "k": "C_end",
+        "last": {
+          "outcome": "win",
+          "caught": null,
+          "xp": 14
+        },
+        "party": [
+          {
+            "sp": "cindrip",
+            "lv": 5,
+            "hp": 0,
+            "xp": 114
+          },
+          {
+            "sp": "nibbin",
+            "lv": 5,
+            "hp": 20,
+            "xp": 114
+          }
+        ]
+      },
+      {
+        "k": "D_trainer_button",
+        "shown": false
+      }
+    ],
+    "errs": [],
+    "saveViolations": [],
+    "saveWrites": 14
+  }
+}

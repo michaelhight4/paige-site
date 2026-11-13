@@ -1,0 +1,24 @@
+{
+  "pc": {
+    "steps": [
+      {
+        "k": "npcs",
+        "before": 9,
+        "party": [
+          "cindrip5",
+          "nibbin5"
+        ]
+      },
+      {
+        "k": "KILL",
+        "rt": false,
+        "turn": false,
+        "btn": null,
+        "mode": "rt",
+        "url": "http://127.0.0.1:8121/kilumen/index.html"
+      }
+    ],
+    "errs": [],
+    "saveViolations": []
+  }
+}
