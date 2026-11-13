@@ -1,0 +1,77 @@
+<!doctype html>
+<!-- DEV ONLY (free tools pass, Oct 23, 2026). json-editor 2.17.3 (MIT) form editor for Kilumen data files.
+     Lives under tools/ so the alpha filelist never ships it. Needs tools/free_tools installed (cd tools/free_tools && npm ci).
+     Open via the repo-root dev server:  python3 -m http.server 8000  ->  http://localhost:8000/tools/dev/data_editor.html
+     "Download JSON" saves a copy; it never writes into the repo. Diff it and copy it in by hand. -->
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>Kilumen data editor (dev only)</title>
+<style>
+  body { font: 14px system-ui, sans-serif; margin: 1rem; background: #f6f4ee; }
+  header { position: sticky; top: 0; background: #f6f4ee; padding: .5rem 0; display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; border-bottom: 1px solid #ccc; z-index: 5; }
+  #errors { color: #a00; white-space: pre-wrap; font-family: monospace; font-size: 12px; max-height: 12rem; overflow: auto; }
+  .ok { color: #070 !important; }
+</style>
+</head>
+<body>
+<header>
+  <strong>Kilumen data editor</strong> <em>(dev only, never shipped)</em>
+  <select id="pick">
+    <option value="data/quests.json|quests">data/quests.json</option>
+    <option value="data/masters.json|masters">data/masters.json</option>
+    <option value="art/world/overworld/encounters/encounters.json|encounters">encounters.json</option>
+  </select>
+  <button id="load">Load</button>
+  <button id="validate">Validate</button>
+  <button id="download">Download JSON</button>
+  <span id="status"></span>
+</header>
+<div id="errors"></div>
+<div id="editor"></div>
+<script src="../free_tools/node_modules/@json-editor/json-editor/dist/jsoneditor.js"></script>
+<script type="module">
+const ROOT = '../../';
+const $ = (id) => document.getElementById(id);
+const getJSON = async (u) => { const r = await fetch(u); if (!r.ok) throw new Error(`${u}: HTTP ${r.status}`); return r.json(); };
+const common = await getJSON('../schemas/common.schema.json');
+// json-editor does not follow custom $id URIs or if/then/else, so inline the refs and drop conditionals for editing.
+// Ajv (npm test / tools/schemas/check_data.mjs) remains the real validator.
+function inline(node, local, depth = 0) {
+  if (Array.isArray(node)) return node.map((n) => inline(n, local, depth));
+  if (!node || typeof node !== 'object') return node;
+  if (typeof node.$ref === 'string' && depth < 20) {
+    const [doc, ptr] = node.$ref.split('#/$defs/');
+    const defs = doc === 'kilumen:common' ? common.$defs : local.$defs;
+    if (defs && defs[ptr]) return inline(defs[ptr], doc === 'kilumen:common' ? common : local, depth + 1);
+  }
+  const out = {};
+  for (const [k, v] of Object.entries(node)) if (!['$id', '$schema', '$defs', 'if', 'then', 'else'].includes(k)) out[k] = inline(v, local, depth);
+  return out;
+}
+let editor = null, file = null;
+async function load() {
+  const [path, name] = $('pick').value.split('|');
+  file = path.split('/').pop();
+  const [schema, data] = await Promise.all([getJSON(`../schemas/${name}.schema.json`), getJSON(ROOT + path)]);
+  editor?.destroy();
+  editor = new JSONEditor($('editor'), { schema: inline(schema, schema), startval: data, theme: 'html', iconlib: null,
+    disable_edit_json: false, disable_properties: false, keep_oneof_values: false, show_errors: 'interaction', no_additional_properties: false });
+  $('status').textContent = `loaded ${path}`; $('errors').textContent = '';
+}
+$('load').onclick = () => load().catch((e) => { $('errors').textContent = String(e); });
+$('validate').onclick = () => {
+  const errs = editor ? editor.validate() : [];
+  $('errors').className = errs.length ? '' : 'ok';
+  $('errors').textContent = errs.length ? errs.map((e) => `${e.path}: ${e.message}`).join('\n') : 'No form-level errors (run npm test for the full Ajv check).';
+};
+$('download').onclick = () => {
+  if (!editor) return;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(editor.getValue(), null, 2) + '\n'], { type: 'application/json' }));
+  a.download = file.replace(/\.json$/, '.edited.json'); a.click();
+};
+load().catch((e) => { $('errors').textContent = String(e); });
+</script>
+</body>
+</html>

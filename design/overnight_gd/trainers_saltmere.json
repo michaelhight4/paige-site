@@ -1,0 +1,71 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "saltmere",
+ "route_id": null,
+ "kind": "town",
+ "map_status": "to_come",
+ "story_step": "5 (coin 2, Courier Bike)",
+ "story_order": 9,
+ "level_band": "Ron 2 L20; hall see halls/saltmere.json",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "ron_2",
+   "class": "ron",
+   "class_display_suggestion": "Ron",
+   "name_suggestion": "Ron",
+   "teams_by_player_starter": {
+    "if_player_took_tumbloam": [
+     {
+      "species": "sailquill",
+      "level": 17
+     },
+     {
+      "species": "grainling",
+      "level": 18
+     },
+     {
+      "species": "emberlunx",
+      "level": 20
+     }
+    ],
+    "if_player_took_cindrip": [
+     {
+      "species": "sailquill",
+      "level": 17
+     },
+     {
+      "species": "bramblehog",
+      "level": 18
+     },
+     {
+      "species": "brookhorn",
+      "level": 20
+     }
+    ],
+    "if_player_took_rillop": [
+     {
+      "species": "sailquill",
+      "level": 17
+     },
+     {
+      "species": "lancebeetle",
+      "level": 18
+     },
+     {
+      "species": "burrowmane",
+      "level": 20
+     }
+    ]
+   },
+   "base": 60,
+   "base_status": "existing",
+   "prize": 1200,
+   "sight_range": 0,
+   "flag": "beat_rival_ron_2",
+   "text_ref": "TODO Text Bot: ron.battle_2 (opens with bin line 2, STORY_RULINGS_SOUL)",
+   "note": "Harbour, before the hall. Ron jealous of your employee ID level (6.1)."
+  }
+ ],
+ "hall": "halls/saltmere.json"
+}

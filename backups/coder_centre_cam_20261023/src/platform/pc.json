@@ -1,0 +1,106 @@
+{
+  "_status": "DRAFT, local only (Oct 22, 2026). Gary: 'make coder have a mobile and pc set up independtly'. PC tuning lives ONLY in this file; mobile.json is separate and never reads from here.",
+  "id": "pc",
+  "zoom": {
+    "_note": "Integer camera zoom by canvas height in DEVICE px (innerHeight x devicePixelRatio). Pick the last row whose minHeight <= h; above the last row the last zoom holds. A string zoom names a value in this object. Starting values = old pickZoom: 1 under 600, else max(2, floor(h/480)).",
+    "zoom1440p": 3,
+    "_zoom1440p": "UNDECIDED (Gary hasn't picked 1440p yet). The 1440-1919 px band uses this one value; change it here only.",
+    "breakpoints": [
+      { "minHeight": 0, "zoom": 1 },
+      { "minHeight": 600, "zoom": 2 },
+      { "minHeight": 1440, "zoom": "zoom1440p" },
+      { "minHeight": 1920, "zoom": 4 },
+      { "minHeight": 2400, "zoom": 5 },
+      { "minHeight": 2880, "zoom": 6 },
+      { "minHeight": 3360, "zoom": 7 },
+      { "minHeight": 3840, "zoom": 8 },
+      { "minHeight": 4320, "zoom": 9 }
+    ]
+  },
+  "camera": {
+    "_note": "Copied from src/overworld/camera.js as it behaves today: hard follow on the player tile centre (no deadzone), clamped to the map edges, and an axis where the map is smaller than the view (short interiors) is centred on black. Always whole native px.",
+    "follow": "player_tile_centre",
+    "deadzonePx": { "x": 0, "y": 0 },
+    "clampToMapEdges": true,
+    "smallMapAxis": "centre",
+    "pinShortMaps": {
+      "_note": "Pin short maps (README §17.2, interior_scale_audit REPORT fix 4a; on Oct 22, 2026): an interior (clock.js isIndoor) taller than the view by at most slackTiles is pinned to its bottom row (mat and floor visible, only top wall rows cropped) instead of scrolling. y axis only. OFF on pc (Oct 23, 2026, clinic camera fix): at 1920x1080 the 14x10 heal rooms overflow 1.56 tiles, so the bottom pin cropped row 1 (i_crystal_polisher cradle at screen y=-16). PC now follows the player clamped to the map edges (top row visible at the counter); rooms that fit are still centred. mobile.json is unchanged.",
+      "enabled": false,
+      "slackTiles": 1.6
+    }
+  },
+  "hud": {
+    "dialogBottom": "4vh",
+    "dialogBottomRules": [],
+    "dialogPortraitBottom": "4vh",
+    "toastBottom": "6vh",
+    "toastDuringDialog": {
+      "_note": "Oct 22, 2026: a toast shown while the dialogue is open was hidden under the box (z 3 < 4). Only those toasts move: gapPx above the box/name tag, between the portrait and the battle image, over the box in z. Toasts with no dialogue open are unchanged.",
+      "gapPx": 12,
+      "topMarginPx": 8
+    }
+  },
+  "controls": {
+    "touch": false,
+    "orientation": "any",
+    "inputs": ["keyboard", "mouse", "controller"],
+    "prompts": {
+      "_note": "Glyph ids match text/overworld_lines.json input_hints. Phrases are the keyboard/controller wording from that file. Wired (Oct 22, 2026): overworld textVars uses the set for the last device used (keyboard until a pad is touched), via platform.js promptVars; CONFIG.buttonNames is the fallback.",
+      "keyboard": {
+        "run_button": { "glyph": "key_x", "label": "the X key" },
+        "bike_button": { "glyph": "key_c", "label": "the C key" },
+        "confirm_button": { "glyph": "key_z", "label": "the Z key" },
+        "debug": { "glyph": "key_f3", "label": "F3" }
+      },
+      "controller": {
+        "run_button": { "glyph": "btn_b", "label": "the B button" },
+        "bike_button": { "glyph": "btn_select", "label": "Select" },
+        "confirm_button": { "glyph": "btn_a", "label": "the A button" },
+        "debug": { "glyph": "btn_l3", "label": "L3" }
+      },
+      "mouse": {
+        "_note": "input.js has no mouse bindings yet; glyph ids are reserved so prompts can land without a text change.",
+        "confirm_button": { "glyph": "mouse_left", "label": "left click" },
+        "run_button": null,
+        "bike_button": null
+      }
+    }
+  },
+  "ui": {
+    "_note": "UI pass (Oct 22, 2026): sizing for src/ui (menus, HUD, battle shell). 'vars' become --ui-* CSS vars; colours and patterns live in src/ui/theme.css. Tuning here never changes mobile.json.",
+    "vars": { "font": "clamp(15px, 1.75vh, 26px)", "hud-font": "clamp(14px, 1.55vh, 22px)", "family": "ui-rounded, \"Nunito\", \"Trebuchet MS\", system-ui, sans-serif",
+      "inset-top": "5vh", "inset-left": "6vw", "inset-right": "6vw", "inset-bottom": "4vh", "max-w": "1360px", "gap": "14px", "pad": "16px",
+      "row-h": "48px", "hit": "44px", "tile-h": "clamp(110px, 17vh, 200px)", "badge": "clamp(56px, 8vh, 96px)", "icon": "64px", "app-cols": "4",
+      "team-cols": "2", "card-h": "clamp(92px, 13vh, 150px)", "dex-cols": "4", "dex-h": "clamp(96px, 12vh, 140px)", "dex-sprite": "1", "bar-h": "14px",
+      "logo": "clamp(80px, 14vh, 180px)", "menu-btn": "44px", "hud-edge": "16px", "b-plate-w": "clamp(320px, 26vw, 460px)", "b-bottom-h": "24%" },
+    "spriteScale": [ { "minHeight": 0, "scale": 1 }, { "minHeight": 700, "scale": 2 }, { "minHeight": 1000, "scale": 3 } ],
+    "menuKeys": ["Escape", "KeyM"],
+    "menuPadButton": 9,
+    "menuButton": "chip",
+    "hideTouchDuringUI": [],
+    "titleOnBoot": true,
+    "locationBanner": true,
+    "bannerMs": 2600,
+    "interactPrompt": true,
+    "haptics": false
+  },
+  "audio": {
+    "_note": "Libs pass Oct 22, 2026 (src/audio/audio.js). PC defaults; the player's Options changes are stored per platform in localStorage kilumen.audio.pc. Oct 22, 2026: music/sfx defaults lowered after Gary found the drafts a little loud (pc music 0.5->0.4, sfx 0.8->0.55; mobile music 0.4->0.3, sfx 0.7->0.5; draft loops normalised to -16 LUFS).",
+    "master": 0.8,
+    "music": 0.4,
+    "sfx": 0.55,
+    "muted": false,
+    "crossfadeMs": 1500,
+    "blip": true,
+    "blipEveryChars": 3,
+    "unlockOn": ["pointerup", "mousedown", "keydown", "touchend"],
+    "pauseWhenHidden": true
+  },
+  "nightFx": {
+    "_note": "Night FX v1 (Oct 23, 2026), src/overworld/nightfx.js. lightCell = light buffer cell in native px (smaller = smoother pools, bigger buffer). clouds/flicker false turn those off on this profile only; nightLights/moonlight false likewise. windowsGoDark = share of lit windows that go dark late at night (seeded). CONFIG.nightFx is the master switch; the alpha build forces it all off.",
+    "lightCell": 4,
+    "clouds": true,
+    "flicker": true,
+    "windowsGoDark": 0.4
+  }
+}

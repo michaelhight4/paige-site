@@ -1,0 +1,151 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_brookhollow_aurelith",
+ "route_id": "brookhollow-aurelith",
+ "kind": "route",
+ "map_status": "to_come",
+ "story_step": "4",
+ "story_order": 6,
+ "level_band": "wild 12-16, trainers 13-17",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_route_brookhollow_aurelith_a",
+   "class": "courier",
+   "class_display_suggestion": "Courier",
+   "name_suggestion": "Penrose",
+   "team": [
+    {
+     "species": "sailquill",
+     "level": 13
+    },
+    {
+     "species": "flockpup",
+     "level": 13
+    }
+   ],
+   "base": 45,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 585,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_brookhollow_aurelith.a",
+   "note": "by the bridge road, first trainer past the RT gate",
+   "name_status": "approved by Gary 2026-10-23 9:05 AM CT"
+  },
+  {
+   "id": "tr_route_brookhollow_aurelith_b",
+   "class": "angler",
+   "class_display_suggestion": "Angler",
+   "name_suggestion": "Rue",
+   "team": [
+    {
+     "species": "ditchsnap",
+     "level": 13
+    },
+    {
+     "species": "pondkin",
+     "level": 14
+    },
+    {
+     "species": "puddlenip",
+     "level": 15
+    }
+   ],
+   "base": 35,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 525,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_brookhollow_aurelith.b",
+   "note": "on the river bank (sees the bridge)"
+  },
+  {
+   "id": "tr_route_brookhollow_aurelith_c",
+   "class": "kid",
+   "class_display_suggestion": "Trail Kid",
+   "name_suggestion": "Bram",
+   "team": [
+    {
+     "species": "burlbeetle",
+     "level": 14
+    },
+    {
+     "species": "gloamtick",
+     "level": 14
+    }
+   ],
+   "base": 20,
+   "base_status": "existing",
+   "prize": 280,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_brookhollow_aurelith.c",
+   "note": "grass patch"
+  },
+  {
+   "id": "tr_route_brookhollow_aurelith_d",
+   "class": "skater",
+   "class_display_suggestion": "Skater",
+   "name_suggestion": "Tilly",
+   "team": [
+    {
+     "species": "millwhirl",
+     "level": 15
+    },
+    {
+     "species": "sailquill",
+     "level": 16
+    }
+   ],
+   "base": 35,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 560,
+   "sight_range": 5,
+   "text_ref": "TODO Text Bot: trainers.route_brookhollow_aurelith.d",
+   "note": "downhill bluff (later bike ramps)"
+  },
+  {
+   "id": "tr_route_brookhollow_aurelith_e",
+   "class": "worker",
+   "class_display_suggestion": "Field Worker",
+   "name_suggestion": "Cass",
+   "team": [
+    {
+     "species": "bleatling",
+     "level": 16
+    },
+    {
+     "species": "loamworm",
+     "level": 16
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 800,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_brookhollow_aurelith.e",
+   "note": "road works near the Aurelith bluff"
+  },
+  {
+   "id": "tr_route_brookhollow_aurelith_f",
+   "class": "birder",
+   "class_display_suggestion": "Birdwatcher",
+   "name_suggestion": "Juno",
+   "team": [
+    {
+     "species": "sailquill",
+     "level": 15
+    },
+    {
+     "species": "crowkin",
+     "level": 17
+    }
+   ],
+   "base": 35,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 595,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_brookhollow_aurelith.f",
+   "note": "optional, behind a ledge"
+  }
+ ],
+ "hall": null
+}

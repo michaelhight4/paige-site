@@ -1,0 +1,51 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_thornwood_revival",
+ "route_id": "thornwood-revival",
+ "kind": "route",
+ "map_status": "to_come",
+ "story_step": "6",
+ "story_order": 10,
+ "level_band": "wild 20-24, trainers 21-25",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "tr_log",
+   "item": "tonic_large",
+   "hidden": false,
+   "placement_hint": "past the fallen log"
+  },
+  {
+   "id": "tr_stakes",
+   "item": "crystal_dust",
+   "hidden": true,
+   "placement_hint": "survey stake"
+  },
+  {
+   "id": "tr_track",
+   "item": "energy_tonic",
+   "hidden": false,
+   "placement_hint": "track side shed"
+  },
+  {
+   "id": "tr_circle",
+   "item": "vigor_seed",
+   "hidden": true,
+   "placement_hint": "stone circle centre"
+  },
+  {
+   "id": "tr_gate",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "placement_hint": "survey gate bench"
+  },
+  {
+   "id": "tr_hidden_tree",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "placement_hint": "lone tree"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

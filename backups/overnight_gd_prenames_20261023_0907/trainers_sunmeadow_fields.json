@@ -1,0 +1,146 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "sunmeadow_fields",
+ "route_id": null,
+ "kind": "biome (meadow; Croft)",
+ "map_status": "partial (route1 strip built; main meadow to come)",
+ "story_step": "8",
+ "story_order": 15,
+ "level_band": "wild 30-34, trainers 31-35",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_sunmeadow_fields_a",
+   "class": "gardener",
+   "class_display_suggestion": "Gardener",
+   "name_suggestion": "Hux",
+   "team": [
+    {
+     "species": "heliobloom",
+     "level": 31
+    },
+    {
+     "species": "plainhorn",
+     "level": 31
+    }
+   ],
+   "base": 40,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1240,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.sunmeadow_fields.a",
+   "note": "past the dim crystal barrier"
+  },
+  {
+   "id": "tr_sunmeadow_fields_b",
+   "class": "birder",
+   "class_display_suggestion": "Birdwatcher",
+   "name_suggestion": "Ione",
+   "team": [
+    {
+     "species": "sailquill",
+     "level": 32
+    },
+    {
+     "species": "sunquail",
+     "level": 32
+    }
+   ],
+   "base": 35,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1120,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.sunmeadow_fields.b",
+   "note": "stream footbridge"
+  },
+  {
+   "id": "tr_sunmeadow_fields_c",
+   "class": "kid",
+   "class_display_suggestion": "Trail Kid",
+   "name_suggestion": "Jory",
+   "team": [
+    {
+     "species": "halovy",
+     "level": 32
+    },
+    {
+     "species": "burlbeetle",
+     "level": 32
+    }
+   ],
+   "base": 20,
+   "base_status": "existing",
+   "prize": 640,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.sunmeadow_fields.c",
+   "note": "near Wexley's Croft"
+  },
+  {
+   "id": "tr_sunmeadow_fields_d",
+   "class": "skater",
+   "class_display_suggestion": "Skater",
+   "name_suggestion": "Kaz",
+   "team": [
+    {
+     "species": "thermalark",
+     "level": 33
+    },
+    {
+     "species": "basklet",
+     "level": 33
+    }
+   ],
+   "base": 35,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1155,
+   "sight_range": 5,
+   "text_ref": "TODO Text Bot: trainers.sunmeadow_fields.d",
+   "note": "bike boardwalk loop"
+  },
+  {
+   "id": "tr_sunmeadow_fields_e",
+   "class": "researcher",
+   "class_display_suggestion": "Field Researcher",
+   "name_suggestion": "Lomond",
+   "team": [
+    {
+     "species": "reapmantis",
+     "level": 33
+    },
+    {
+     "species": "heliobloom",
+     "level": 34
+    }
+   ],
+   "base": 60,
+   "base_status": "existing",
+   "prize": 2040,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.sunmeadow_fields.e",
+   "note": "flower survey"
+  },
+  {
+   "id": "tr_sunmeadow_fields_f",
+   "class": "veteran",
+   "class_display_suggestion": "Veteran",
+   "name_suggestion": "Mira",
+   "team": [
+    {
+     "species": "popgopher",
+     "level": 34
+    },
+    {
+     "species": "spinemonitor",
+     "level": 35
+    }
+   ],
+   "base": 80,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 2800,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.sunmeadow_fields.f",
+   "note": "optional north meadow"
+  }
+ ],
+ "hall": null
+}

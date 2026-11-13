@@ -1,0 +1,62 @@
+[
+ {
+  "map": "house_1f",
+  "x": "5",
+  "y": "7",
+  "file": "before_house_1f.png",
+  "w": 12,
+  "h": 10,
+  "zoom": 2,
+  "errors": []
+ },
+ {
+  "map": "house_2f",
+  "x": "4",
+  "y": "6",
+  "file": "before_house_2f.png",
+  "w": 10,
+  "h": 8,
+  "zoom": 2,
+  "errors": []
+ },
+ {
+  "map": "heal_brookhollow",
+  "x": "6",
+  "y": "8",
+  "file": "before_heal_brookhollow.png",
+  "w": 14,
+  "h": 10,
+  "zoom": 2,
+  "errors": []
+ },
+ {
+  "map": "shop_int",
+  "x": "5",
+  "y": "6",
+  "file": "before_shop_int.png",
+  "w": 12,
+  "h": 9,
+  "zoom": 2,
+  "errors": []
+ },
+ {
+  "map": "home_brookhollow_a",
+  "x": "5",
+  "y": "6",
+  "file": "before_home_brookhollow_a.png",
+  "w": 10,
+  "h": 8,
+  "zoom": 2,
+  "errors": []
+ },
+ {
+  "map": "house_int_a",
+  "x": "5",
+  "y": "6",
+  "file": "before_house_int_a.png",
+  "w": 11,
+  "h": 9,
+  "zoom": 2,
+  "errors": []
+ }
+]

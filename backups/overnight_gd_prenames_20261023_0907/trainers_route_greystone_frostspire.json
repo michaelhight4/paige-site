@@ -1,0 +1,205 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_greystone_frostspire",
+ "route_id": "greystone-frostspire",
+ "kind": "route (pass)",
+ "map_status": "to_come",
+ "story_step": "6->7",
+ "story_order": 13,
+ "level_band": "wild 27-31, trainers 28-31, Ron 4 L32",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "ron_4",
+   "class": "ron",
+   "class_display_suggestion": "Ron",
+   "name_suggestion": "Ron",
+   "teams_by_player_starter": {
+    "if_player_took_tumbloam": [
+     {
+      "species": "sailquill",
+      "level": 29
+     },
+     {
+      "species": "fernlume",
+      "level": 30
+     },
+     {
+      "species": "geodling",
+      "level": 30
+     },
+     {
+      "species": "shagmount",
+      "level": 31
+     },
+     {
+      "species": "forgeharrow",
+      "level": 32
+     }
+    ],
+    "if_player_took_cindrip": [
+     {
+      "species": "sailquill",
+      "level": 29
+     },
+     {
+      "species": "glassvine",
+      "level": 30
+     },
+     {
+      "species": "facetling",
+      "level": 30
+     },
+     {
+      "species": "ledgebex",
+      "level": 31
+     },
+     {
+      "species": "tidemarrow",
+      "level": 32
+     }
+    ],
+    "if_player_took_rillop": [
+     {
+      "species": "sailquill",
+      "level": 29
+     },
+     {
+      "species": "topiarix",
+      "level": 30
+     },
+     {
+      "species": "mirrorkin",
+      "level": 30
+     },
+     {
+      "species": "talusmouse",
+      "level": 31
+     },
+     {
+      "species": "bastonox",
+      "level": 32
+     }
+    ]
+   },
+   "base": 60,
+   "base_status": "existing",
+   "prize": 1920,
+   "sight_range": 0,
+   "flag": "beat_rival_ron_4",
+   "text_ref": "TODO Text Bot: ron.battle_4 (opens with bin line 4, STORY_RULINGS_SOUL)",
+   "note": "At the rebuilt bridge (rt_engineer_pass nearby). Optional to add a Ron battle here; drop if Text Bot wants fewer."
+  },
+  {
+   "id": "tr_route_greystone_frostspire_a",
+   "class": "climber",
+   "class_display_suggestion": "Climber",
+   "name_suggestion": "Yara",
+   "team": [
+    {
+     "species": "frostlop",
+     "level": 28
+    },
+    {
+     "species": "sailquill",
+     "level": 29
+    }
+   ],
+   "base": 45,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1305,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_greystone_frostspire.a",
+   "note": "switchback"
+  },
+  {
+   "id": "tr_route_greystone_frostspire_b",
+   "class": "hiker",
+   "class_display_suggestion": "Hillwalker",
+   "name_suggestion": "Zev",
+   "team": [
+    {
+     "species": "snowcairn",
+     "level": 29
+    },
+    {
+     "species": "slagrook",
+     "level": 29
+    }
+   ],
+   "base": 40,
+   "base_status": "existing",
+   "prize": 1160,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_greystone_frostspire.b",
+   "note": "cave exit ledge"
+  },
+  {
+   "id": "tr_route_greystone_frostspire_c",
+   "class": "birder",
+   "class_display_suggestion": "Birdwatcher",
+   "name_suggestion": "Ada",
+   "team": [
+    {
+     "species": "sailquill",
+     "level": 29
+    },
+    {
+     "species": "skyrender",
+     "level": 30
+    }
+   ],
+   "base": 35,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1050,
+   "sight_range": 5,
+   "text_ref": "TODO Text Bot: trainers.route_greystone_frostspire.c",
+   "note": "cliff lookout"
+  },
+  {
+   "id": "tr_route_greystone_frostspire_d",
+   "class": "ranger",
+   "class_display_suggestion": "Ranger",
+   "name_suggestion": "Bryn",
+   "team": [
+    {
+     "species": "skyrender",
+     "level": 30
+    },
+    {
+     "species": "rubblon",
+     "level": 30
+    }
+   ],
+   "base": 55,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1650,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_greystone_frostspire.d",
+   "note": "snow-fern band (forced)"
+  },
+  {
+   "id": "tr_route_greystone_frostspire_e",
+   "class": "climber",
+   "class_display_suggestion": "Climber",
+   "name_suggestion": "Cole",
+   "team": [
+    {
+     "species": "snowgrouse",
+     "level": 31
+    },
+    {
+     "species": "squallwhirl",
+     "level": 31
+    }
+   ],
+   "base": 45,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1395,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_greystone_frostspire.e",
+   "note": "last before Frostspire"
+  }
+ ],
+ "hall": null
+}

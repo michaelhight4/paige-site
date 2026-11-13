@@ -1,0 +1,206 @@
+// Home start v1 (Oct 23, 2026; DEV): the Pokemon-style new-game opening.
+//   new game -> black hold until the title/UI is closed -> slow fade in on house_2f's player_start -> wake-up thought
+//   (inner monologue: italic, no speaker name) -> Ron downstairs gives the morning briefing (sets talked_ron_morning)
+//   -> objective "Go to the Revival Tech office". Until then the house_1f front door turns you back with a thought line.
+// Text keys (Text Bot owns text/overworld_lines.json; FALLBACK below is code-only draft text from
+// text/drafts/HOME_START_v2.md, used only while the file has no merged lines): see design/HOME_START_TEXT_NEEDS.md.
+// Nothing here hard-codes an outdoor tile: the outside spawn is looked up from the warps by `to` name (World Design pads
+// the outdoor maps), interiors (house_2f / house_1f) are read from their own map JSON.
+import { OPPOSITE } from './npcs.js';
+
+export const HOME = {
+  bedroom: 'house_2f', downstairs: 'house_1f', outside: 'brookhollow', ron: 'ron',
+  started: 'intro_new_game',          // set only by a new game (old saves never get it, so they are never blocked)
+  briefed: 'talked_ron_morning',      // set by Ron's briefing (Text Bot's flag name)
+  past: ['flg_promoted', 'got_starter'], // story already past the morning (dev ?flags= links): no block, no briefing takeover
+  objective: 'Go to the Revival Tech office',
+  wakeSeen: 'intro:wake',             // seen-key: the wake-up thought plays once
+  wakeFadeTicks: 75,                  // ~1.25 s at 60 Hz (a normal door fade-in is shorter)
+};
+
+// Code fallbacks ONLY (not in overworld_lines.json). Text Bot's v2 draft wording; replace by merging the keys.
+export const FALLBACK = {
+  player_start: [
+    '...The river again. Cold water, and someone on the bank, watching.',
+    'Just a dream. Probably.',
+    "I smell toast downstairs. Ron's up early for once.",
+    "Work's at nine. Better get down there before he eats mine.",
+  ],
+  ron_briefing: [
+    'Morning. You look like you slept in the river.',
+    "Work's been dead all week. They cleared out three desks on Friday.",
+    'And now the boss wants to see us both. First thing. No reason given.',
+    "That's either really good or really bad. My money's on bad.",
+    "Field office, same as always. Go on, I'll be right behind you.",
+    "And don't be late. I'm not covering for you again.",
+  ],
+  ron_repeat: ['Field office, {nick}. The boss is waiting.', "If it's layoffs, at least we'll know by lunch."],
+  door_block: ["Ron's waving me over. I should see what he wants first."],
+};
+
+export const THOUGHT = { name: null, portrait: null, battle: null, thought: true };
+
+const pagesOf = (v) => (Array.isArray(v) ? v : v?.pages || (typeof v === 'string' ? [v] : null));
+
+/** A new game: no ?map= start and no saved position (Continue / old saves always have one). */
+export const isNewGame = (opts = {}) => !opts.start && !opts.saveData?.pos;
+
+/** New-game spawn: the bedroom map's own player_start (top-level, or its kind:'spawn' npc). */
+export function bedroomSpawn(json) {
+  const ps = json?.player_start || (json?.npcs || []).find((n) => n.kind === 'spawn' || n.id === 'player_start');
+  if (!ps) return null;
+  return { map: json.name || HOME.bedroom, x: ps.x, y: ps.y, facing: ps.facing || 'down' };
+}
+
+/** "Start outside as before" (?skipintro=1): where the front door of house_1f lets you out, found by warp `to` name.
+ *  Prefers the house's own door warp (to: brookhollow, tx/ty kept in sync by World Design), else the outdoor warp
+ *  to house_1f + one tile below it. Null if neither exists (caller falls back to CONFIG.start). */
+export function outsideSpawn(houseJson, outsideJson) {
+  const out = (houseJson?.warps || []).find((w) => w.to === HOME.outside && Number.isFinite(w.tx));
+  if (out) return { map: HOME.outside, x: out.tx, y: out.ty, facing: out.facing || 'down' };
+  const door = (outsideJson?.warps || []).find((w) => w.to === HOME.downstairs);
+  if (door) return { map: HOME.outside, x: door.x, y: door.y + 1, facing: 'down' };
+  return null;
+}
+
+/** True when Text Bot's merged lines already carry the morning flow (a Ron line keyed on talked_ron_morning). */
+export function ronMerged(entry) {
+  return !!(entry?.lines || []).some((l) => (l.flags || []).includes(HOME.briefed));
+}
+
+/** Story still in the morning: a new game that hasn't been promoted / got a starter yet. */
+export function inMorning(flags) {
+  return flags.has(HOME.started) && !HOME.past.some((f) => flags.has(f));
+}
+
+/** The front door of house_1f is blocked: new game, morning, briefing not heard yet. */
+export function doorBlocked(flags, mapName, warp) {
+  return mapName === HOME.downstairs && warp?.to === HOME.outside && inMorning(flags) && !flags.has(HOME.briefed);
+}
+
+/** Current objective text for the HUD / tests (null = nothing to show). */
+export function objectiveFor(flags) {
+  if (!flags.has(HOME.started) && !flags.has(HOME.briefed)) return null;
+  if (flags.has('flg_promoted')) return null;
+  return flags.has(HOME.briefed) ? HOME.objective : 'Talk to Ron downstairs';
+}
+
+export class HomeStart {
+  /** @param {import('./overworld.js').Overworld} scene  @param {{newGame:boolean, gate?:()=>boolean}} opts */
+  constructor(scene, opts = {}) {
+    this.scene = scene; this.newGame = !!opts.newGame; this.gate = opts.gate || null;
+    this.holding = false; this.wakePending = false; this._gateSince = null;
+  }
+
+  /** After the first map is loaded (init). New game: mark it, hold on black, wake-up thought after the fade. */
+  begin() {
+    const s = this.scene;
+    if (!this.newGame) return;
+    if (!s.flags.has(HOME.started)) s.setFlag(HOME.started);
+    if (s.map?.name === HOME.bedroom && !s.seen[HOME.wakeSeen]) {
+      this.wakePending = true; this.holding = true;
+      s.fade = { phase: 'hold', t: 0, len: HOME.wakeFadeTicks }; s.player.locked = true;
+      s.log.push({ tick: s.tick, type: 'intro', step: 'hold' });
+    }
+  }
+
+  /** Every tick (Overworld.step). Leaves the black hold once the title / UI is closed; then plays the wake thought. */
+  tick() {
+    const s = this.scene;
+    if (!this._qPatched && s.progression?.quests) this._patchQuests(s.progression.quests);
+    if (this.holding) {
+      const blocked = this.gate ? this.gate() : false;
+      if (this._gateSince == null) this._gateSince = s.tick;
+      // safety: a UI that never mounts can't keep the screen black (10 s), but an open title holds as long as it's open
+      if (blocked && !(blocked === 'loading' && s.tick - this._gateSince > 600)) return;
+      this.holding = false; s.fade.phase = 'in'; s.fade.t = 0;
+      s.log.push({ tick: s.tick, type: 'intro', step: 'fadeIn' });
+      return;
+    }
+    if (this.wakePending && !s.fade && !s.busy && !(this.gate && this.gate() === true)) {
+      this.wakePending = false;
+      s.seen[HOME.wakeSeen] = true; s._dirty = true;
+      s.log.push({ tick: s.tick, type: 'intro', step: 'wake' });
+      s.script(() => this.wake());
+    }
+  }
+
+  async wake() {
+    const s = this.scene, e = s._entryFor?.(HOME.bedroom, { id: 'player_start' });
+    const merged = pagesOf(e && s.pick(e, `maps.${HOME.bedroom}.player_start`)) || null;
+    // the file's old 2-page dream is superseded by the 4-page wake-up until Text Bot merges (merged = 3+ pages)
+    await s.say(merged && merged.length > 2 ? merged : FALLBACK.player_start, THOUGHT);
+    this._questSkip(1); // the quest prototype's s1 text is this same dream: don't play it twice (?pg=quests)
+  }
+
+  /** Ron in house_1f. Returns true when this module handled the talk (Overworld.talk returns early). */
+  onTalk(n, def) {
+    const s = this.scene;
+    if (s.map?.name !== HOME.downstairs || def?.id !== HOME.ron) return false;
+    const e = s._entryFor(HOME.downstairs, def), merged = ronMerged(e);
+    if (!merged && !s.flags.has(HOME.started)) return false; // old saves without the new game marker: unchanged
+    const key = `maps.${HOME.downstairs}.${HOME.ron}`;
+    const picked = e ? s.pick(e, key) : null;
+    const isDefault = !picked || picked.id === 'default' || !(picked.flags || []).length;
+    if (!isDefault && !(merged && (picked.flags || []).includes(HOME.briefed))) return false; // a story line (promoted, coins...): normal flow
+    const briefing = isDefault && !s.flags.has(HOME.briefed) && (merged || inMorning(s.flags));
+    let pages;
+    if (merged) pages = picked?.pages || e.pages;
+    else if (briefing) pages = FALLBACK.ron_briefing;
+    else if (s.flags.has(HOME.briefed)) pages = FALLBACK.ron_repeat;
+    else return false; // past the morning (dev flags) with no merged line: the file's default
+    s.log.push({ tick: s.tick, type: 'intro', step: briefing ? 'briefing' : 'ron' });
+    s.script(async () => {
+      if (n) s.npcs.beginTalk(n);
+      try {
+        await s.say(pages, s.speakerFor(n));
+        if (briefing) this.afterBriefing();
+      } finally { if (n) s.npcs.endTalk(n); }
+    });
+    return true;
+  }
+
+  afterBriefing() {
+    const s = this.scene;
+    s.setFlag(HOME.briefed);
+    this._questSkip(2);
+    s.progression?.hud?.update?.();
+    s.toast(`New objective: ${HOME.objective}`);
+  }
+
+  /** Door onto the street. Returns true when the step is refused (caller returns 'stop' to the mover). */
+  onDoor(warp) {
+    const s = this.scene;
+    if (!doorBlocked(s.flags, s.map?.name, warp)) return false;
+    const back = OPPOSITE[s.player.facing] || 'up';
+    s.log.push({ tick: s.tick, type: 'intro', step: 'doorBlock' });
+    s.script(async () => {
+      const e = s.lines?.maps?.[HOME.downstairs]?.door_block;
+      const file = pagesOf(e?.lines ? s.pick(e, `maps.${HOME.downstairs}.door_block`) || e : e);
+      await s.say(file || FALLBACK.door_block, THOUGHT);
+      // gently turned back: one step back into the room, facing it
+      const p = s.player;
+      p.facing = back; p._attempt(back, s.worldApi(), []);
+    });
+    return true;
+  }
+
+  /** Quest prototype (?pg=quests, off by default): its main quest's s1 / s2 step text is the old dream + Ron's layoff talk,
+   *  which this opening now plays itself. Drop those two step texts in a new game so nothing repeats. */
+  _patchQuests(qb) {
+    this._qPatched = true;
+    const s = this.scene, orig = qb.lines.bind(qb), skip = new Set(['mq_brookhollow_promotion_s1', 'mq_brookhollow_promotion_s2']);
+    qb.lines = (q, context, step = null) => orig(q, context, step).filter((l) => !(context === 'step' && skip.has(l.step) && s.flags.has(HOME.started)));
+  }
+
+  /** Quest prototype (?pg=quests): count step n of the main quest as done so its own step text doesn't repeat ours. */
+  _questSkip(n) {
+    const qb = this.scene.progression?.quests;
+    const q = qb?.quests?.find((x) => x.id === 'mq_brookhollow_promotion'), st = q?.steps?.[n - 1];
+    if (!st || st.flag) return;
+    const done = (qb.state.steps[q.id] ||= []);
+    if (!done.includes(st.id)) done.push(st.id);
+  }
+
+  objective() { return objectiveFor(this.scene.flags); }
+}

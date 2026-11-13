@@ -1,0 +1,27 @@
+route1 south:brookhollow -> north:fernwick shortest (33, 3) min-grass (33, 3)
+route1 south:brookhollow -> east:sunmeadow_fields shortest (66, 0) min-grass (66, 0)
+route1 north:fernwick -> south:brookhollow shortest (33, 3) min-grass (33, 3)
+route1 north:fernwick -> east:sunmeadow_fields shortest (61, 6) min-grass (63, 3)
+route1 east:sunmeadow_fields -> south:brookhollow shortest (66, 0) min-grass (66, 0)
+route1 east:sunmeadow_fields -> north:fernwick shortest (61, 6) min-grass (63, 3)
+route1 forced [{'id': 'r1_north_choke', 'x0': 1, 'y0': 2, 'x1': 9, 'y1': 4, 'kind': 'tall_grass', 'between': ['exit-south', 'exit-north']}] zones [(7, 28, 11, 31), (15, 21, 20, 24), (8, 20, 11, 24), (25, 13, 30, 16), (26, 6, 30, 8), (35, 7, 39, 9), (7, 8, 9, 14), (1, 2, 9, 4)]
+route1 npcs [('trainer_r1_a', 12, 20, 'down', 'sight 3 tiles'), ('trainer_r1_b', 22, 14, 'left', 'sight 3 tiles'), ('trainer_r1_c', 34, 9, 'up', 'sight 3 tiles')]
+route1 items [('r1_feed', 30, 6, True), ('r1_hidden_tonic', 38, 8, True), ('r1_crystal', 8, 13, False)]
+route1 signs [(6, 32, 'overworld_lines.json maps.route1.sign_r1'), (6, 25, 'overworld_lines.json maps.route1.sign_r1'), (40, 3, 'overworld_lines.json maps.route1.sign_r1')]
+thornwood west:fernwick -> east:route_revival shortest (52, 4) min-grass (52, 4)
+thornwood west:fernwick -> cave shortest (72, 4) min-grass (72, 4)
+thornwood east:route_revival -> west:fernwick shortest (52, 4) min-grass (52, 4)
+thornwood east:route_revival -> cave shortest (34, 0) min-grass (34, 0)
+thornwood cave -> west:fernwick shortest (72, 4) min-grass (72, 4)
+thornwood cave -> east:route_revival shortest (34, 0) min-grass (34, 0)
+thornwood forced [{'id': 'tw_east_choke', 'x0': 21, 'y0': 21, 'x1': 23, 'y1': 23, 'kind': 'tall_grass', 'between': ['exit-west', 'warp->greystone_entrance']}] zones [(10, 12, 14, 17), (7, 24, 12, 26), (22, 11, 26, 13), (15, 24, 18, 26), (21, 21, 23, 23)]
+thornwood npcs [('trainer_tw_bug', 11, 15, 'left', 'bug catcher, in the grass clearing'), ('trainer_tw_b', 26, 22, 'left', ''), ('dissident_hint', 23, 7, 'down', 'opposition group foreshadowing')]
+thornwood items [('tw_bike_cache', 18, 15, False), ('tw_feed', 5, 17, True), ('tw_hidden_seed', 8, 25, True), ('tw_crystal', 7, 12, False), ('tw_tonic', 25, 17, False)]
+thornwood signs [(1, 8, 'overworld_lines.json maps.thornwood.sign')]
+brookhollow north:route1 -> east:route_east shortest (34, 0) min-grass (34, 0)
+brookhollow north:route1 -> house_1f shortest (14, 0) min-grass (14, 0)
+brookhollow north:route1 -> heal_centre_int shortest (25, 0) min-grass (25, 0)
+brookhollow north:route1 -> shop_int shortest (26, 0) min-grass (26, 0)
+brookhollow north:route1 -> office_int shortest (33, 0) min-grass (33, 0)
+brookhollow north:route1 -> house_int_a shortest (13, 0) min-grass (13, 0)
+brookhollow north:route1 -> house_int_b shortest (38, 0) min-grass (38, 0)

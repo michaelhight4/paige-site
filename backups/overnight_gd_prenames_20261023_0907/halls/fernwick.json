@@ -1,0 +1,93 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "coin_number": 1,
+ "zone": "fernwick",
+ "hall_map": "fernwick_hall_int (built)",
+ "flag": "beat_master_fernwick",
+ "coin_name_suggestion": "Loam Coin",
+ "coin_name_note": "player text says \"coin\" (CRITICAL_PATH); name needs Gary + web clash check",
+ "master": {
+  "id": "master_fernwick",
+  "class": "master",
+  "name_suggestion": "Oswin Marl",
+  "element": "earth (text: \"Master of Fernwick (Earth)\")",
+  "team": [
+   {
+    "species": "nibbin",
+    "level": 10
+   },
+   {
+    "species": "pebblant",
+    "level": 12
+   }
+  ],
+  "base": 120,
+  "base_status": "existing",
+  "prize": 1440,
+  "sight_range": 0,
+  "sight_rule": "masters never spot: talk to them",
+  "text_ref": "overworld_lines.json masters.fernwick (TODO Text Bot)"
+ },
+ "hall_trainers": [
+  {
+   "id": "tr_hall_fernwick_helper_1",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Kit",
+   "team": [
+    {
+     "species": "cobblepup",
+     "level": 8
+    },
+    {
+     "species": "burlbeetle",
+     "level": 8
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 400,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.hall_fernwick.helper_1",
+   "note": "existing npc helper_1 (4,12)"
+  },
+  {
+   "id": "tr_hall_fernwick_helper_2",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Lio",
+   "team": [
+    {
+     "species": "burlbeetle",
+     "level": 9
+    },
+    {
+     "species": "lintmouse",
+     "level": 9
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 450,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.hall_fernwick.helper_2",
+   "note": "existing npc helper_2 (11,12)"
+  }
+ ],
+ "puzzle": {
+  "status": "BUILT (puzzles/fernwick_hall_int.runtime.json; flag puzzle_fernwick_hall_solved)",
+  "outline": "Pressure plates + crystal gates: stand a weight on the plate to dim the crystal gate; two gates to the dais. Keep as is."
+ },
+ "reward": {
+  "coin": "Loam Coin",
+  "money": 1440,
+  "gift_item": {
+   "id": "vigor_seed",
+   "qty": 1
+  },
+  "opens": "gate_brookhollow_east (RT barricade)",
+  "skill_manual": "TODO: first skill manual (earth) once the skills list lands"
+ },
+ "team_size": 2,
+ "ace_level": 12
+}

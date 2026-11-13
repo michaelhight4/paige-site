@@ -1,0 +1,1215 @@
+{
+ "note": "Generic placeholder item ids used in maps/*.json items[]. Text Bot: please give each a name + pickup line; Coder: pockets are a hint. Visible items are solid (supply satchel prop); hidden ones are walkable and found by facing + A.",
+ "items": {
+  "tonic_small": {
+   "pocket": "medicine",
+   "role": "restores a little health (placeholder)"
+  },
+  "tonic_large": {
+   "pocket": "medicine",
+   "role": "restores more health (placeholder)"
+  },
+  "energy_tonic": {
+   "pocket": "medicine",
+   "role": "already in maps: restores energy (placeholder)"
+  },
+  "calm_tea": {
+   "pocket": "medicine",
+   "role": "status cure (placeholder)"
+  },
+  "trail_mix": {
+   "pocket": "snacks",
+   "role": "Trail Buddy snack / Warmth (placeholder)"
+  },
+  "feed_bag_small": {
+   "pocket": "snacks",
+   "role": "already in maps (placeholder)"
+  },
+  "feed_bag": {
+   "pocket": "snacks",
+   "role": "already in maps (placeholder)"
+  },
+  "vigor_seed": {
+   "pocket": "growth",
+   "role": "already in maps: stat seed (placeholder)"
+  },
+  "crystal_dust": {
+   "pocket": "crystals",
+   "role": "crafting / sell item (placeholder)"
+  },
+  "dominance_crystal": {
+   "pocket": "crystals",
+   "role": "already in maps: capture crystal (placeholder)"
+  },
+  "dominance_crystal_plus": {
+   "pocket": "crystals",
+   "role": "already in maps: better capture crystal (placeholder)"
+  },
+  "coin_pouch_small": {
+   "pocket": "money",
+   "role": "a little money (placeholder)"
+  },
+  "TBD": {
+   "pocket": "?",
+   "role": "interiors worker placeholder: Story/Text Bot to choose"
+  },
+  "TBD_backroom_reward": {
+   "pocket": "?",
+   "role": "interiors worker placeholder: back-room story reward"
+  }
+ },
+ "placed": [
+  {
+   "map": "brookhollow",
+   "id": "hid_feed_1",
+   "item": "feed_bag_small",
+   "hidden": true,
+   "flag": "item_brookhollow_hid_feed_1",
+   "x": 41,
+   "y": 29
+  },
+  {
+   "map": "brookhollow",
+   "id": "bh_north_trees",
+   "item": "trail_mix",
+   "hidden": false,
+   "flag": "item_brookhollow_bh_north_trees",
+   "x": 25,
+   "y": 9
+  },
+  {
+   "map": "brookhollow",
+   "id": "bh_west_nook",
+   "item": "tonic_small",
+   "hidden": true,
+   "flag": "item_brookhollow_bh_west_nook",
+   "x": 15,
+   "y": 15
+  },
+  {
+   "map": "brookhollow",
+   "id": "bh_east_corner",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_brookhollow_bh_east_corner",
+   "x": 43,
+   "y": 22
+  },
+  {
+   "map": "route1",
+   "id": "r1_feed",
+   "item": "feed_bag_small",
+   "hidden": true,
+   "flag": "item_route1_r1_feed",
+   "x": 42,
+   "y": 13
+  },
+  {
+   "map": "route1",
+   "id": "r1_hidden_tonic",
+   "item": "energy_tonic",
+   "hidden": true,
+   "flag": "item_route1_r1_hidden_tonic",
+   "x": 50,
+   "y": 15
+  },
+  {
+   "map": "route1",
+   "id": "r1_crystal",
+   "item": "dominance_crystal",
+   "hidden": false,
+   "flag": "item_route1_r1_crystal",
+   "x": 20,
+   "y": 20
+  },
+  {
+   "map": "route1",
+   "id": "old_record",
+   "item": "old_record",
+   "hidden": false,
+   "flag": "item_route1_old_record",
+   "x": 32,
+   "y": 30
+  },
+  {
+   "map": "route1",
+   "id": "r1_ne_corner",
+   "item": "tonic_small",
+   "hidden": false,
+   "flag": "item_route1_r1_ne_corner",
+   "x": 54,
+   "y": 8
+  },
+  {
+   "map": "route1",
+   "id": "r1_tree_gap",
+   "item": "trail_mix",
+   "hidden": true,
+   "flag": "item_route1_r1_tree_gap",
+   "x": 29,
+   "y": 20
+  },
+  {
+   "map": "fernwick",
+   "id": "old_record",
+   "item": "old_record",
+   "hidden": false,
+   "flag": "item_fernwick_old_record",
+   "x": 39,
+   "y": 12
+  },
+  {
+   "map": "fernwick",
+   "id": "fw_north_trees",
+   "item": "calm_tea",
+   "hidden": false,
+   "flag": "item_fernwick_fw_north_trees",
+   "x": 31,
+   "y": 9
+  },
+  {
+   "map": "fernwick",
+   "id": "fw_east_tree",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "flag": "item_fernwick_fw_east_tree",
+   "x": 41,
+   "y": 16
+  },
+  {
+   "map": "thornwood",
+   "id": "tw_bike_cache",
+   "item": "vigor_seed",
+   "hidden": false,
+   "flag": "item_thornwood_tw_bike_cache",
+   "x": 30,
+   "y": 22
+  },
+  {
+   "map": "thornwood",
+   "id": "tw_feed",
+   "item": "feed_bag",
+   "hidden": true,
+   "flag": "item_thornwood_tw_feed",
+   "x": 17,
+   "y": 24
+  },
+  {
+   "map": "thornwood",
+   "id": "tw_hidden_seed",
+   "item": "vigor_seed",
+   "hidden": true,
+   "flag": "item_thornwood_tw_hidden_seed",
+   "x": 20,
+   "y": 32
+  },
+  {
+   "map": "thornwood",
+   "id": "tw_crystal",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "flag": "item_thornwood_tw_crystal",
+   "x": 19,
+   "y": 19
+  },
+  {
+   "map": "thornwood",
+   "id": "tw_tonic",
+   "item": "energy_tonic",
+   "hidden": false,
+   "flag": "item_thornwood_tw_tonic",
+   "x": 37,
+   "y": 24
+  },
+  {
+   "map": "thornwood",
+   "id": "old_record",
+   "item": "old_record",
+   "hidden": false,
+   "flag": "item_thornwood_old_record",
+   "x": 17,
+   "y": 22
+  },
+  {
+   "map": "thornwood",
+   "id": "tw_glade_tree",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_thornwood_tw_glade_tree",
+   "x": 34,
+   "y": 18
+  },
+  {
+   "map": "thornwood",
+   "id": "tw_se_tree",
+   "item": "tonic_large",
+   "hidden": true,
+   "flag": "item_thornwood_tw_se_tree",
+   "x": 44,
+   "y": 28
+  },
+  {
+   "map": "greystone_entrance",
+   "id": "gs_item",
+   "item": "energy_tonic",
+   "hidden": true,
+   "flag": "item_greystone_entrance_gs_item",
+   "x": 35,
+   "y": 22
+  },
+  {
+   "map": "greystone_entrance",
+   "id": "gs_west_dead_end",
+   "item": "crystal_dust",
+   "hidden": false,
+   "flag": "item_greystone_entrance_gs_west_dead_end",
+   "x": 15,
+   "y": 11
+  },
+  {
+   "map": "greystone_entrance",
+   "id": "gs_sw_dead_end",
+   "item": "calm_tea",
+   "hidden": true,
+   "flag": "item_greystone_entrance_gs_sw_dead_end",
+   "x": 13,
+   "y": 18
+  },
+  {
+   "map": "house_1f",
+   "id": "h1f_corner",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "flag": "item_house_1f_h1f_corner",
+   "x": 11,
+   "y": 3
+  },
+  {
+   "map": "house_2f",
+   "id": "h2f_corner",
+   "item": "tonic_small",
+   "hidden": true,
+   "flag": "item_house_2f_h2f_corner",
+   "x": 9,
+   "y": 3
+  },
+  {
+   "map": "greystone_b1",
+   "id": "b1_item",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "flag": "item_greystone_b1_b1_item",
+   "x": 34,
+   "y": 26
+  },
+  {
+   "map": "greystone_b1",
+   "id": "b1_hidden",
+   "item": "feed_bag",
+   "hidden": true,
+   "flag": "item_greystone_b1_b1_hidden",
+   "x": 15,
+   "y": 11
+  },
+  {
+   "map": "greystone_b1",
+   "id": "b1_north_dead_end",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_greystone_b1_b1_north_dead_end",
+   "x": 22,
+   "y": 10
+  },
+  {
+   "map": "greystone_b1",
+   "id": "b1_east_dead_end",
+   "item": "tonic_small",
+   "hidden": true,
+   "flag": "item_greystone_b1_b1_east_dead_end",
+   "x": 36,
+   "y": 23
+  },
+  {
+   "map": "office_int",
+   "id": "office_corner",
+   "item": "tonic_small",
+   "hidden": true,
+   "flag": "item_office_int_office_corner",
+   "x": 15,
+   "y": 11
+  },
+  {
+   "map": "lantern_rest",
+   "id": "lr_south_nook",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_lantern_rest_lr_south_nook",
+   "x": 19,
+   "y": 20
+  },
+  {
+   "map": "route_east",
+   "id": "route_east_pocket_1",
+   "item": "tonic_small",
+   "hidden": false,
+   "flag": "item_route_east_pocket_1",
+   "x": 47,
+   "y": 16
+  },
+  {
+   "map": "route_east",
+   "id": "route_east_pocket_2",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_route_east_pocket_2",
+   "x": 20,
+   "y": 25
+  },
+  {
+   "map": "route_east",
+   "id": "route_east_item_1",
+   "item": "tonic_small",
+   "hidden": false,
+   "flag": "item_route_east_item_1",
+   "x": 20,
+   "y": 10
+  },
+  {
+   "map": "route_east",
+   "id": "route_east_item_2",
+   "item": "dominance_crystal",
+   "hidden": false,
+   "flag": "item_route_east_item_2",
+   "x": 15,
+   "y": 22
+  },
+  {
+   "map": "route_east",
+   "id": "route_east_item_3",
+   "item": "calm_tea",
+   "hidden": true,
+   "flag": "item_route_east_item_3",
+   "x": 42,
+   "y": 16
+  },
+  {
+   "map": "route_east",
+   "id": "route_east_item_4",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "flag": "item_route_east_item_4",
+   "x": 34,
+   "y": 17
+  },
+  {
+   "map": "aurelith",
+   "id": "aurelith_item_1",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "flag": "item_aurelith_item_1",
+   "x": 19,
+   "y": 24
+  },
+  {
+   "map": "aurelith",
+   "id": "aurelith_item_2",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_aurelith_item_2",
+   "x": 20,
+   "y": 12
+  },
+  {
+   "map": "aurelith",
+   "id": "aurelith_item_3",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_aurelith_item_3",
+   "x": 27,
+   "y": 26
+  },
+  {
+   "map": "route_aurelith_saltmere",
+   "id": "route_aurelith_saltmere_pocket_1",
+   "item": "tonic_small",
+   "hidden": false,
+   "flag": "item_route_aurelith_saltmere_pocket_1",
+   "x": 43,
+   "y": 25
+  },
+  {
+   "map": "route_aurelith_saltmere",
+   "id": "route_aurelith_saltmere_item_1",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_route_aurelith_saltmere_item_1",
+   "x": 17,
+   "y": 27
+  },
+  {
+   "map": "route_aurelith_saltmere",
+   "id": "route_aurelith_saltmere_item_2",
+   "item": "tonic_small",
+   "hidden": false,
+   "flag": "item_route_aurelith_saltmere_item_2",
+   "x": 45,
+   "y": 22
+  },
+  {
+   "map": "route_aurelith_saltmere",
+   "id": "route_aurelith_saltmere_item_3",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_route_aurelith_saltmere_item_3",
+   "x": 30,
+   "y": 28
+  },
+  {
+   "map": "route_aurelith_saltmere",
+   "id": "route_aurelith_saltmere_item_4",
+   "item": "feed_bag",
+   "hidden": true,
+   "flag": "item_route_aurelith_saltmere_item_4",
+   "x": 35,
+   "y": 12
+  },
+  {
+   "map": "saltmere",
+   "id": "saltmere_item_1",
+   "item": "gold_coin",
+   "hidden": true,
+   "flag": "item_saltmere_item_1",
+   "x": 38,
+   "y": 11
+  },
+  {
+   "map": "saltmere",
+   "id": "saltmere_item_2",
+   "item": "calm_tea",
+   "hidden": false,
+   "flag": "item_saltmere_item_2",
+   "x": 35,
+   "y": 27
+  },
+  {
+   "map": "saltmere",
+   "id": "saltmere_item_3",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "flag": "item_saltmere_item_3",
+   "x": 42,
+   "y": 27
+  },
+  {
+   "map": "saltmere",
+   "id": "saltmere_item_4",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "flag": "item_saltmere_item_4",
+   "x": 37,
+   "y": 21
+  },
+  {
+   "map": "route_revival",
+   "id": "route_revival_pocket_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_route_revival_pocket_1",
+   "x": 42,
+   "y": 25
+  },
+  {
+   "map": "route_revival",
+   "id": "route_revival_pocket_2",
+   "item": "tonic_small",
+   "hidden": false,
+   "flag": "item_route_revival_pocket_2",
+   "x": 39,
+   "y": 11
+  },
+  {
+   "map": "route_revival",
+   "id": "route_revival_item_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_route_revival_item_1",
+   "x": 43,
+   "y": 22
+  },
+  {
+   "map": "route_revival",
+   "id": "route_revival_item_2",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_route_revival_item_2",
+   "x": 30,
+   "y": 22
+  },
+  {
+   "map": "route_revival",
+   "id": "route_revival_item_3",
+   "item": "vigor_seed",
+   "hidden": true,
+   "flag": "item_route_revival_item_3",
+   "x": 49,
+   "y": 16
+  },
+  {
+   "map": "route_revival",
+   "id": "route_revival_item_4",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "flag": "item_route_revival_item_4",
+   "x": 28,
+   "y": 20
+  },
+  {
+   "map": "revival_heights",
+   "id": "revival_heights_item_1",
+   "item": "tonic_large",
+   "hidden": true,
+   "flag": "item_revival_heights_item_1",
+   "x": 23,
+   "y": 21
+  },
+  {
+   "map": "revival_heights",
+   "id": "revival_heights_item_2",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "flag": "item_revival_heights_item_2",
+   "x": 31,
+   "y": 12
+  },
+  {
+   "map": "revival_heights",
+   "id": "revival_heights_item_3",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_revival_heights_item_3",
+   "x": 17,
+   "y": 9
+  },
+  {
+   "map": "route_revival_saltmere",
+   "id": "route_revival_saltmere_pocket_1",
+   "item": "tonic_small",
+   "hidden": false,
+   "flag": "item_route_revival_saltmere_pocket_1",
+   "x": 32,
+   "y": 25
+  },
+  {
+   "map": "route_revival_saltmere",
+   "id": "route_revival_saltmere_item_1",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_route_revival_saltmere_item_1",
+   "x": 25,
+   "y": 20
+  },
+  {
+   "map": "route_revival_saltmere",
+   "id": "route_revival_saltmere_item_2",
+   "item": "vigor_seed",
+   "hidden": true,
+   "flag": "item_route_revival_saltmere_item_2",
+   "x": 22,
+   "y": 24
+  },
+  {
+   "map": "frostspire_pass",
+   "id": "frostspire_pass_pocket_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_frostspire_pass_pocket_1",
+   "x": 20,
+   "y": 17
+  },
+  {
+   "map": "frostspire_pass",
+   "id": "frostspire_pass_item_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_frostspire_pass_item_1",
+   "x": 19,
+   "y": 27
+  },
+  {
+   "map": "frostspire_pass",
+   "id": "frostspire_pass_item_2",
+   "item": "tonic_large",
+   "hidden": true,
+   "flag": "item_frostspire_pass_item_2",
+   "x": 19,
+   "y": 40
+  },
+  {
+   "map": "frostspire_pass",
+   "id": "frostspire_pass_item_3",
+   "item": "feed_bag",
+   "hidden": true,
+   "flag": "item_frostspire_pass_item_3",
+   "x": 21,
+   "y": 40
+  },
+  {
+   "map": "frostspire",
+   "id": "frostspire_item_1",
+   "item": "vigor_seed",
+   "hidden": false,
+   "flag": "item_frostspire_item_1",
+   "x": 18,
+   "y": 27
+  },
+  {
+   "map": "frostspire",
+   "id": "frostspire_item_2",
+   "item": "calm_tea",
+   "hidden": true,
+   "flag": "item_frostspire_item_2",
+   "x": 42,
+   "y": 24
+  },
+  {
+   "map": "frostspire",
+   "id": "frostspire_item_3",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_frostspire_item_3",
+   "x": 36,
+   "y": 22
+  },
+  {
+   "map": "frostspire",
+   "id": "frostspire_item_4",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "flag": "item_frostspire_item_4",
+   "x": 32,
+   "y": 13
+  },
+  {
+   "map": "frostspire",
+   "id": "frostspire_item_5",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "flag": "item_frostspire_item_5",
+   "x": 14,
+   "y": 9
+  },
+  {
+   "map": "route_revival_sunmeadow",
+   "id": "route_revival_sunmeadow_pocket_1",
+   "item": "tonic_small",
+   "hidden": false,
+   "flag": "item_route_revival_sunmeadow_pocket_1",
+   "x": 29,
+   "y": 10
+  },
+  {
+   "map": "route_revival_sunmeadow",
+   "id": "route_revival_sunmeadow_item_1",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_route_revival_sunmeadow_item_1",
+   "x": 23,
+   "y": 32
+  },
+  {
+   "map": "sunmeadow_fields",
+   "id": "sunmeadow_fields_pocket_1",
+   "item": "tonic_small",
+   "hidden": false,
+   "flag": "item_sunmeadow_fields_pocket_1",
+   "x": 47,
+   "y": 14
+  },
+  {
+   "map": "sunmeadow_fields",
+   "id": "sunmeadow_fields_pocket_2",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_sunmeadow_fields_pocket_2",
+   "x": 17,
+   "y": 19
+  },
+  {
+   "map": "sunmeadow_fields",
+   "id": "sunmeadow_fields_item_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_sunmeadow_fields_item_1",
+   "x": 32,
+   "y": 9
+  },
+  {
+   "map": "sunmeadow_fields",
+   "id": "sunmeadow_fields_item_2",
+   "item": "feed_bag",
+   "hidden": false,
+   "flag": "item_sunmeadow_fields_item_2",
+   "x": 41,
+   "y": 25
+  },
+  {
+   "map": "sunmeadow_fields",
+   "id": "sunmeadow_fields_item_3",
+   "item": "tonic_large",
+   "hidden": true,
+   "flag": "item_sunmeadow_fields_item_3",
+   "x": 26,
+   "y": 29
+  },
+  {
+   "map": "sunmeadow_fields",
+   "id": "sunmeadow_fields_item_4",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "flag": "item_sunmeadow_fields_item_4",
+   "x": 45,
+   "y": 17
+  },
+  {
+   "map": "route_sunmeadow_mirefen",
+   "id": "route_sunmeadow_mirefen_pocket_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_route_sunmeadow_mirefen_pocket_1",
+   "x": 18,
+   "y": 23
+  },
+  {
+   "map": "route_sunmeadow_mirefen",
+   "id": "route_sunmeadow_mirefen_item_1",
+   "item": "calm_tea",
+   "hidden": false,
+   "flag": "item_route_sunmeadow_mirefen_item_1",
+   "x": 38,
+   "y": 16
+  },
+  {
+   "map": "route_sunmeadow_mirefen",
+   "id": "route_sunmeadow_mirefen_item_2",
+   "item": "tonic_large",
+   "hidden": true,
+   "flag": "item_route_sunmeadow_mirefen_item_2",
+   "x": 14,
+   "y": 14
+  },
+  {
+   "map": "route_sunmeadow_mirefen",
+   "id": "route_sunmeadow_mirefen_item_3",
+   "item": "vigor_seed",
+   "hidden": true,
+   "flag": "item_route_sunmeadow_mirefen_item_3",
+   "x": 37,
+   "y": 26
+  },
+  {
+   "map": "mirefen",
+   "id": "mirefen_item_1",
+   "item": "vigor_seed",
+   "hidden": false,
+   "flag": "item_mirefen_item_1",
+   "x": 42,
+   "y": 18
+  },
+  {
+   "map": "mirefen",
+   "id": "mirefen_item_2",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_mirefen_item_2",
+   "x": 35,
+   "y": 21
+  },
+  {
+   "map": "mirefen",
+   "id": "mirefen_item_3",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "flag": "item_mirefen_item_3",
+   "x": 25,
+   "y": 11
+  },
+  {
+   "map": "mirefen",
+   "id": "mirefen_item_4",
+   "item": "energy_tonic",
+   "hidden": true,
+   "flag": "item_mirefen_item_4",
+   "x": 41,
+   "y": 10
+  },
+  {
+   "map": "route_saltmere_mirefen",
+   "id": "route_saltmere_mirefen_pocket_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_route_saltmere_mirefen_pocket_1",
+   "x": 34,
+   "y": 30
+  },
+  {
+   "map": "route_saltmere_mirefen",
+   "id": "route_saltmere_mirefen_item_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_route_saltmere_mirefen_item_1",
+   "x": 46,
+   "y": 24
+  },
+  {
+   "map": "route_saltmere_mirefen",
+   "id": "route_saltmere_mirefen_item_2",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_route_saltmere_mirefen_item_2",
+   "x": 37,
+   "y": 30
+  },
+  {
+   "map": "route_coast",
+   "id": "route_coast_pocket_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_route_coast_pocket_1",
+   "x": 31,
+   "y": 15
+  },
+  {
+   "map": "route_coast",
+   "id": "route_coast_item_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_route_coast_item_1",
+   "x": 26,
+   "y": 22
+  },
+  {
+   "map": "route_coast",
+   "id": "route_coast_item_2",
+   "item": "vigor_seed",
+   "hidden": false,
+   "flag": "item_route_coast_item_2",
+   "x": 28,
+   "y": 28
+  },
+  {
+   "map": "route_coast",
+   "id": "route_coast_item_3",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "flag": "item_route_coast_item_3",
+   "x": 28,
+   "y": 39
+  },
+  {
+   "map": "route_coast",
+   "id": "route_coast_item_4",
+   "item": "energy_tonic",
+   "hidden": true,
+   "flag": "item_route_coast_item_4",
+   "x": 27,
+   "y": 17
+  },
+  {
+   "map": "route_coast",
+   "id": "route_coast_item_5",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "flag": "item_route_coast_item_5",
+   "x": 26,
+   "y": 30
+  },
+  {
+   "map": "tidewater_coast",
+   "id": "tidewater_coast_item_1",
+   "item": "tonic_large",
+   "hidden": true,
+   "flag": "item_tidewater_coast_item_1",
+   "x": 34,
+   "y": 14
+  },
+  {
+   "map": "tidewater_coast",
+   "id": "tidewater_coast_item_2",
+   "item": "vigor_seed",
+   "hidden": false,
+   "flag": "item_tidewater_coast_item_2",
+   "x": 43,
+   "y": 24
+  },
+  {
+   "map": "tidewater_coast",
+   "id": "tidewater_coast_item_3",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_tidewater_coast_item_3",
+   "x": 24,
+   "y": 9
+  },
+  {
+   "map": "tidewater_coast",
+   "id": "tidewater_coast_item_4",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "flag": "item_tidewater_coast_item_4",
+   "x": 20,
+   "y": 21
+  },
+  {
+   "map": "tidewater_coast",
+   "id": "tidewater_coast_item_5",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "flag": "item_tidewater_coast_item_5",
+   "x": 43,
+   "y": 9
+  },
+  {
+   "map": "tidewater_coast",
+   "id": "tidewater_coast_item_6",
+   "item": "calm_tea",
+   "hidden": false,
+   "flag": "item_tidewater_coast_item_6",
+   "x": 35,
+   "y": 23
+  },
+  {
+   "map": "lanternport",
+   "id": "lanternport_item_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_lanternport_item_1",
+   "x": 17,
+   "y": 10
+  },
+  {
+   "map": "lanternport",
+   "id": "lanternport_item_2",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "flag": "item_lanternport_item_2",
+   "x": 41,
+   "y": 9
+  },
+  {
+   "map": "lanternport",
+   "id": "lanternport_item_3",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_lanternport_item_3",
+   "x": 27,
+   "y": 21
+  },
+  {
+   "map": "lanternport",
+   "id": "lanternport_item_4",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "flag": "item_lanternport_item_4",
+   "x": 25,
+   "y": 10
+  },
+  {
+   "map": "route_fernwick_lanternport",
+   "id": "route_fernwick_lanternport_pocket_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_route_fernwick_lanternport_pocket_1",
+   "x": 31,
+   "y": 17
+  },
+  {
+   "map": "route_fernwick_lanternport",
+   "id": "route_fernwick_lanternport_item_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_route_fernwick_lanternport_item_1",
+   "x": 24,
+   "y": 29
+  },
+  {
+   "map": "route_fernwick_lanternport",
+   "id": "route_fernwick_lanternport_item_2",
+   "item": "vigor_seed",
+   "hidden": true,
+   "flag": "item_route_fernwick_lanternport_item_2",
+   "x": 26,
+   "y": 20
+  },
+  {
+   "map": "route_cindervale",
+   "id": "route_cindervale_pocket_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_route_cindervale_pocket_1",
+   "x": 20,
+   "y": 39
+  },
+  {
+   "map": "route_cindervale",
+   "id": "route_cindervale_item_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_route_cindervale_item_1",
+   "x": 19,
+   "y": 36
+  },
+  {
+   "map": "route_cindervale",
+   "id": "route_cindervale_item_2",
+   "item": "tonic_large",
+   "hidden": true,
+   "flag": "item_route_cindervale_item_2",
+   "x": 21,
+   "y": 16
+  },
+  {
+   "map": "route_cindervale",
+   "id": "route_cindervale_item_3",
+   "item": "vigor_seed",
+   "hidden": false,
+   "flag": "item_route_cindervale_item_3",
+   "x": 22,
+   "y": 23
+  },
+  {
+   "map": "route_cindervale",
+   "id": "route_cindervale_item_4",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "flag": "item_route_cindervale_item_4",
+   "x": 15,
+   "y": 36
+  },
+  {
+   "map": "cindervale",
+   "id": "cindervale_item_1",
+   "item": "tonic_large",
+   "hidden": false,
+   "flag": "item_cindervale_item_1",
+   "x": 27,
+   "y": 14
+  },
+  {
+   "map": "cindervale",
+   "id": "cindervale_item_2",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "flag": "item_cindervale_item_2",
+   "x": 21,
+   "y": 21
+  },
+  {
+   "map": "cindervale",
+   "id": "cindervale_item_3",
+   "item": "vigor_seed",
+   "hidden": false,
+   "flag": "item_cindervale_item_3",
+   "x": 39,
+   "y": 10
+  },
+  {
+   "map": "mirefen_bog",
+   "id": "mirefen_islet_item",
+   "item": "TBD",
+   "hidden": false,
+   "flag": "item_mirefen_bog_mirefen_islet_item",
+   "x": 24,
+   "y": 9
+  },
+  {
+   "map": "mirefen_bog",
+   "id": "mf_sw_dead_end",
+   "item": "calm_tea",
+   "hidden": true,
+   "flag": "item_mirefen_bog_mf_sw_dead_end",
+   "x": 12,
+   "y": 22
+  },
+  {
+   "map": "mirefen_bog",
+   "id": "mf_south_dead_end",
+   "item": "trail_mix",
+   "hidden": false,
+   "flag": "item_mirefen_bog_mf_south_dead_end",
+   "x": 32,
+   "y": 24
+  },
+  {
+   "map": "rt_branch_backroom",
+   "id": "rt_branch_backroom_item_1",
+   "item": "TBD_backroom_reward",
+   "hidden": false,
+   "flag": "item_rt_branch_backroom_item_1",
+   "x": 5,
+   "y": 3
+  },
+  {
+   "map": "rt_branch_backroom",
+   "id": "rtb_corner",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_rt_branch_backroom_rtb_corner",
+   "x": 7,
+   "y": 5
+  },
+  {
+   "map": "lab_brookhollow",
+   "id": "lab_corner",
+   "item": "trail_mix",
+   "hidden": false,
+   "flag": "item_lab_brookhollow_lab_corner",
+   "x": 13,
+   "y": 8
+  },
+  {
+   "map": "home_brookhollow_b",
+   "id": "hbb_corner",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_home_brookhollow_b_hbb_corner",
+   "x": 0,
+   "y": 3
+  },
+  {
+   "map": "home_brookhollow_b_2f",
+   "id": "home_brookhollow_b_2f_item_1",
+   "item": "TBD",
+   "hidden": false,
+   "flag": "item_home_brookhollow_b_2f_item_1",
+   "x": 0,
+   "y": 7
+  },
+  {
+   "map": "home_fernwick_a",
+   "id": "hfa_corner",
+   "item": "trail_mix",
+   "hidden": true,
+   "flag": "item_home_fernwick_a_hfa_corner",
+   "x": 11,
+   "y": 3
+  },
+  {
+   "map": "home_fernwick_a_2f",
+   "id": "home_fernwick_a_2f_item_1",
+   "item": "TBD",
+   "hidden": false,
+   "flag": "item_home_fernwick_a_2f_item_1",
+   "x": 9,
+   "y": 7
+  },
+  {
+   "map": "home_lanternport_c_2f",
+   "id": "home_lanternport_c_2f_item_1",
+   "item": "TBD",
+   "hidden": false,
+   "flag": "item_home_lanternport_c_2f_item_1",
+   "x": 0,
+   "y": 7
+  }
+ ]
+}

@@ -1,0 +1,41 @@
+{
+  "name": "@bbc/tv-lrud-spatial",
+  "version": "0.0.18",
+  "description": "Spatial navigation library",
+  "main": "lib/lrud.min.js",
+  "types": "lib/types.d.ts",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "rm -f lib/lrud.min.js && babel lib --source-maps true --out-file lib/lrud.min.js",
+    "server": "node ./test/server.js",
+    "lint": "eslint .",
+    "prepare": "husky install || exit 0",
+    "preversion": "npm test",
+    "postversion": "git push origin master --tags --no-verify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bbc/lrud-spatial.git"
+  },
+  "keywords": [],
+  "author": "BBC",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/bbc/lrud-spatial/issues"
+  },
+  "homepage": "https://github.com/bbc/lrud-spatial#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.23.9",
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
+    "eslint": "^8.27.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-jest-formatting": "^3.1.0",
+    "husky": "^8.0.0",
+    "jest": "^29.4.3",
+    "puppeteer": "24.36.1"
+  }
+}

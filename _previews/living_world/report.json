@@ -1,0 +1,643 @@
+{
+ "stills": {
+  "b_dawn": {
+   "q": "map=brookhollow&x=16&y=14&phase=dawn&timescale=0",
+   "life": {
+    "outdoor": true,
+    "clouds": true,
+    "cloudsDrawn": true,
+    "life": true,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 35,
+    "cloudOffset": {
+     "x": 1313,
+     "y": 1320
+    },
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 3,
+     "butterflies": 8,
+     "fireflies": 0,
+     "birds": 0,
+     "smoke": 15,
+     "chimneys": 4,
+     "motes": 18
+    }
+   }
+  },
+  "b_day": {
+   "q": "map=brookhollow&x=16&y=14&phase=day&timescale=0",
+   "life": {
+    "outdoor": true,
+    "clouds": true,
+    "cloudsDrawn": true,
+    "life": true,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 56,
+    "cloudOffset": {
+     "x": 960,
+     "y": 737
+    },
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 3,
+     "butterflies": 8,
+     "fireflies": 0,
+     "birds": 0,
+     "smoke": 15,
+     "chimneys": 4,
+     "motes": 18
+    }
+   }
+  },
+  "b_dusk": {
+   "q": "map=brookhollow&x=16&y=14&phase=dusk&timescale=0",
+   "life": {
+    "outdoor": true,
+    "clouds": true,
+    "cloudsDrawn": true,
+    "life": true,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 35,
+    "cloudOffset": {
+     "x": 607,
+     "y": 154
+    },
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 2,
+     "butterflies": 0,
+     "fireflies": 0,
+     "birds": 0,
+     "smoke": 15,
+     "chimneys": 4,
+     "motes": 18
+    }
+   }
+  },
+  "b_night": {
+   "q": "map=brookhollow&x=16&y=14&phase=night&timescale=0",
+   "life": {
+    "outdoor": true,
+    "clouds": true,
+    "cloudsDrawn": false,
+    "life": true,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 0,
+    "cloudOffset": {
+     "x": 883,
+     "y": 790
+    },
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 2,
+     "butterflies": 0,
+     "fireflies": 20,
+     "birds": 0,
+     "smoke": 15,
+     "chimneys": 4,
+     "motes": 0
+    }
+   }
+  },
+  "b_day_toggles_off": {
+   "q": "map=brookhollow&x=16&y=14&phase=day&timescale=0&clouds=0&life=0",
+   "life": {
+    "outdoor": true,
+    "clouds": false,
+    "cloudsDrawn": false,
+    "life": false,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 0,
+    "cloudOffset": {
+     "x": 960,
+     "y": 737
+    },
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 0,
+     "butterflies": 0,
+     "fireflies": 0,
+     "birds": 0,
+     "smoke": 0,
+     "chimneys": 4,
+     "motes": 0
+    }
+   }
+  },
+  "b_day_overcast": {
+   "q": "map=brookhollow&x=16&y=14&phase=day&timescale=0&weather=overcast",
+   "life": {
+    "outdoor": true,
+    "clouds": true,
+    "cloudsDrawn": true,
+    "life": true,
+    "weather": "overcast",
+    "coverage": 0.62,
+    "cloudAlpha": 56,
+    "cloudOffset": {
+     "x": 960,
+     "y": 737
+    },
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 3,
+     "butterflies": 8,
+     "fireflies": 0,
+     "birds": 0,
+     "smoke": 15,
+     "chimneys": 4,
+     "motes": 18
+    }
+   }
+  },
+  "c_indoor_heal_brookhollow": {
+   "q": "map=heal_brookhollow&x=6&y=7&phase=day&timescale=0",
+   "life": {
+    "outdoor": false,
+    "clouds": true,
+    "cloudsDrawn": false,
+    "life": true,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 0,
+    "cloudOffset": null,
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 0,
+     "butterflies": 0,
+     "fireflies": 0,
+     "birds": 0,
+     "smoke": 0,
+     "chimneys": 0,
+     "motes": 0
+    }
+   }
+  },
+  "c_cave_greystone_b1": {
+   "q": "map=greystone_b1&x=4&y=5&phase=day&timescale=0",
+   "life": {
+    "outdoor": false,
+    "clouds": true,
+    "cloudsDrawn": false,
+    "life": true,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 0,
+    "cloudOffset": null,
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 0,
+     "butterflies": 0,
+     "fireflies": 0,
+     "birds": 0,
+     "smoke": 0,
+     "chimneys": 0,
+     "motes": 0
+    }
+   }
+  }
+ },
+ "clips": {
+  "a_clouds_brookhollow_day": {
+   "q": "map=brookhollow&x=16&y=14&hour=12",
+   "seconds": 8,
+   "life": {
+    "outdoor": true,
+    "clouds": true,
+    "cloudsDrawn": true,
+    "life": true,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 56,
+    "cloudOffset": {
+     "x": 1024,
+     "y": 760
+    },
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 2,
+     "butterflies": 8,
+     "fireflies": 0,
+     "birds": 2,
+     "smoke": 25,
+     "chimneys": 4,
+     "motes": 18
+    }
+   }
+  },
+  "a_clouds_route1_day": {
+   "q": "map=route1&x=10&y=20&hour=11",
+   "seconds": 8,
+   "life": {
+    "outdoor": true,
+    "clouds": true,
+    "cloudsDrawn": true,
+    "life": true,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 56,
+    "cloudOffset": {
+     "x": 903,
+     "y": 1224
+    },
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 0,
+     "butterflies": 5,
+     "fireflies": 0,
+     "birds": 0,
+     "smoke": 0,
+     "chimneys": 0,
+     "motes": 17
+    }
+   }
+  },
+  "a_clouds_timelapse_x8": {
+   "q": "map=brookhollow&x=16&y=14&hour=12&timescale=8&life=0",
+   "seconds": 6,
+   "life": {
+    "outdoor": true,
+    "clouds": true,
+    "cloudsDrawn": true,
+    "life": false,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 56,
+    "cloudOffset": {
+     "x": 1353,
+     "y": 875
+    },
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 0,
+     "butterflies": 0,
+     "fireflies": 0,
+     "birds": 0,
+     "smoke": 0,
+     "chimneys": 4,
+     "motes": 0
+    }
+   }
+  },
+  "d_fish_river": {
+   "q": "map=brookhollow&x=21&y=10&hour=12&clouds=0",
+   "seconds": 5,
+   "life": {
+    "outdoor": true,
+    "clouds": false,
+    "cloudsDrawn": false,
+    "life": true,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 0,
+    "cloudOffset": {
+     "x": 1005,
+     "y": 753
+    },
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 2,
+     "butterflies": 8,
+     "fireflies": 0,
+     "birds": 0,
+     "smoke": 22,
+     "chimneys": 4,
+     "motes": 18
+    }
+   }
+  },
+  "d_butterflies": {
+   "q": "map=brookhollow&x=20&y=6&hour=10&clouds=0",
+   "seconds": 5,
+   "life": {
+    "outdoor": true,
+    "clouds": false,
+    "cloudsDrawn": false,
+    "life": true,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 0,
+    "cloudOffset": {
+     "x": 103,
+     "y": 437
+    },
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 2,
+     "butterflies": 8,
+     "fireflies": 0,
+     "birds": 0,
+     "smoke": 24,
+     "chimneys": 4,
+     "motes": 17
+    }
+   }
+  },
+  "d_fireflies_night": {
+   "q": "map=brookhollow&x=20&y=22&hour=22&timescale=0",
+   "seconds": 5,
+   "life": {
+    "outdoor": true,
+    "clouds": true,
+    "cloudsDrawn": false,
+    "life": true,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 0,
+    "cloudOffset": {
+     "x": 883,
+     "y": 790
+    },
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 2,
+     "butterflies": 0,
+     "fireflies": 20,
+     "birds": 0,
+     "smoke": 20,
+     "chimneys": 4,
+     "motes": 0
+    }
+   }
+  },
+  "d_birds": {
+   "q": "map=route1&x=10&y=20&hour=12&clouds=0",
+   "seconds": 8,
+   "life": {
+    "outdoor": true,
+    "clouds": false,
+    "cloudsDrawn": false,
+    "life": true,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 0,
+    "cloudOffset": {
+     "x": 1356,
+     "y": 1383
+    },
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 0,
+     "butterflies": 5,
+     "fireflies": 0,
+     "birds": 5,
+     "smoke": 0,
+     "chimneys": 0,
+     "motes": 17
+    }
+   }
+  },
+  "d_chimney_smoke": {
+   "q": "map=brookhollow&x=6&y=10&hour=8&clouds=0",
+   "seconds": 4,
+   "life": {
+    "outdoor": true,
+    "clouds": false,
+    "cloudsDrawn": false,
+    "life": true,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 0,
+    "cloudOffset": {
+     "x": 744,
+     "y": 123
+    },
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 2,
+     "butterflies": 8,
+     "fireflies": 0,
+     "birds": 0,
+     "smoke": 24,
+     "chimneys": 4,
+     "motes": 18
+    }
+   }
+  },
+  "d_wind_motes": {
+   "q": "map=route1&x=10&y=20&hour=12&clouds=0",
+   "seconds": 4,
+   "life": {
+    "outdoor": true,
+    "clouds": false,
+    "cloudsDrawn": false,
+    "life": true,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 0,
+    "cloudOffset": {
+     "x": 1352,
+     "y": 1381
+    },
+    "reducedMotion": false,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 0,
+     "butterflies": 5,
+     "fireflies": 0,
+     "birds": 0,
+     "smoke": 0,
+     "chimneys": 0,
+     "motes": 18
+    }
+   }
+  },
+  "d_reduced_motion": {
+   "q": "map=brookhollow&x=16&y=14&hour=12&motion=reduce",
+   "seconds": 4,
+   "life": {
+    "outdoor": true,
+    "clouds": true,
+    "cloudsDrawn": true,
+    "life": true,
+    "weather": "fair",
+    "coverage": 0.24,
+    "cloudAlpha": 56,
+    "cloudOffset": {
+     "x": 952,
+     "y": 655
+    },
+    "reducedMotion": true,
+    "wind": {
+     "x": 0.944,
+     "y": 0.331
+    },
+    "counts": {
+     "fish": 3,
+     "butterflies": 8,
+     "fireflies": 0,
+     "birds": 0,
+     "smoke": 8,
+     "chimneys": 4,
+     "motes": 0
+    }
+   }
+  }
+ },
+ "blocks": {
+  "a_clouds_brookhollow_day": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "a_clouds_route1_day": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "a_clouds_timelapse_x8": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "b_dawn": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "b_day": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "b_dusk": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "b_night": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "b_day_toggles_off": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "b_day_overcast": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "c_indoor_heal_brookhollow": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "c_cave_greystone_b1": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "d_fish_river": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "d_butterflies": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "d_fireflies_night": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "d_birds": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "d_chimney_smoke": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "d_wind_motes": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  },
+  "d_reduced_motion": {
+   "bad": 0,
+   "blocks": 518400,
+   "z": 2
+  }
+ },
+ "errors": []
+}

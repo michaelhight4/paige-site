@@ -1,0 +1,261 @@
+{
+ "results": [
+  "PASS [pc] company voice attached with no ?cv flag (default on)",
+  "PASS [pc] RITA silent before the starter - {\"shown\":0,\"started\":false}",
+  "PASS [pc] promotion line shows after the starter (quest_done mq_brookhollow_promotion) - {\"event\":\"quest_done\",\"key\":\"mq_brookhollow_promotion\",\"text\":\"RITAPromotion filed, 873454. HR spelled your number right. ▼\",\"log\":[\"quest_done\"]}",
+  "PASS [pc] promotion line: no blocked words - RITAPromotion filed, 873454. HR spelled your number right. ▼",
+  "shot shots/company_voice_r1/pc_1920x1080_1_promotion_line.png",
+  "PASS [pc] caught one in a real wild battle - battles=1",
+  "PASS [pc] first catch line shows (first_catch) - {\"event\":\"first_catch\",\"text\":\"RITAGood job 873454! First asset acquired. ▼\",\"log\":[[\"quest_done\",\"Promotion filed, 873454. HR spelled your number right.\"],[\"area_new\",\"Trail 1 is on file, 873454.\"],[\"first_catch\",\"Good job 873454! First asset acquired.\"]]}",
+  "PASS [pc] all lines shown: no blocked words - [[\"quest_done\",\"Promotion filed, 873454. HR spelled your number right.\"],[\"area_new\",\"Trail 1 is on file, 873454.\"],[\"first_catch\",\"Good job 873454! First asset acquired.\"]]",
+  "shot shots/company_voice_r1/pc_1920x1080_2_first_catch_line.png",
+  "PASS [pc] strip never shown during script / dialogue / fade / battle / menus - {\"frames\":6013,\"shownFrames\":719,\"blockedFrames\":3337,\"bad\":[]}",
+  "PASS [pc] no console errors",
+  "PASS [pc] ?cv=0: no companyVoice, no strip, nothing fetched - {\"cv\":false,\"strip\":false,\"fetched\":false}",
+  "PASS [pc] ?cv=0: no page errors"
+ ],
+ "report": [
+  {
+   "view": "pc",
+   "promotion": {
+    "event": "quest_done",
+    "key": "mq_brookhollow_promotion",
+    "text": "RITAPromotion filed, 873454. HR spelled your number right. ▼",
+    "log": [
+     "quest_done"
+    ]
+   }
+  },
+  {
+   "view": "pc",
+   "bagInfo": {
+    "crystals": 5,
+    "items": {
+     "tonic_small": {
+      "id": "tonic_small",
+      "pocket": "care",
+      "field": "heal",
+      "heal": 20,
+      "energy": 0,
+      "cure": false,
+      "battle": true,
+      "name": "Small Remedy"
+     },
+     "tonic_large": {
+      "id": "tonic_large",
+      "pocket": "care",
+      "field": "heal",
+      "heal": 60,
+      "energy": 0,
+      "cure": false,
+      "battle": true,
+      "name": "Big Remedy"
+     },
+     "energy_tonic": {
+      "id": "energy_tonic",
+      "pocket": "care",
+      "field": "energy",
+      "heal": 0,
+      "energy": 5,
+      "cure": false,
+      "battle": true,
+      "name": "Pep Remedy"
+     },
+     "calm_tea": {
+      "id": "calm_tea",
+      "pocket": "care",
+      "field": "cure",
+      "heal": 0,
+      "energy": 0,
+      "cure": true,
+      "battle": true,
+      "name": "Calm Tea"
+     },
+     "trail_mix": {
+      "id": "trail_mix",
+      "pocket": "feeds",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "feed_bag_small": {
+      "id": "feed_bag_small",
+      "pocket": "feeds",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "feed_bag": {
+      "id": "feed_bag",
+      "pocket": "feeds",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "vigor_seed": {
+      "id": "vigor_seed",
+      "pocket": "feeds",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "crystal_dust": {
+      "id": "crystal_dust",
+      "pocket": "crystals",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "dominance_crystal": {
+      "id": "dominance_crystal",
+      "pocket": "crystals",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": true,
+      "name": "Dominance Crystal"
+     },
+     "dominance_crystal_plus": {
+      "id": "dominance_crystal_plus",
+      "pocket": "crystals",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": true,
+      "name": "Prime Crystal"
+     },
+     "old_record": {
+      "id": "old_record",
+      "pocket": "key",
+      "field": null,
+      "key": true,
+      "stack": 4,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "coin_pouch_small": {
+      "id": "coin_pouch_small",
+      "pocket": null,
+      "money": 100,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "gold_coin": {
+      "id": "gold_coin",
+      "pocket": "gear",
+      "field": null,
+      "held": true,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "fine_crystal": {
+      "id": "fine_crystal",
+      "pocket": "crystals",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": true,
+      "name": "Fine Crystal"
+     },
+     "apex_crystal": {
+      "id": "apex_crystal",
+      "pocket": "crystals",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": true,
+      "name": "Apex Crystal"
+     }
+    },
+    "flags": [
+     "flg_promoted",
+     "got_starter",
+     "test_run_started"
+    ]
+   }
+  },
+  {
+   "view": "pc",
+   "battle": 1,
+   "msgs": [
+    "Go, Tumbloam!",
+    "Sailquill bursts out of the grass!",
+    "What will Tumbloam do?",
+    "Use which item?",
+    "You held up a Dominance Crystal.",
+    "Sailquill broke free!",
+    "Sailquill used Streamer Lash!",
+    "What will Tumbloam do?",
+    "Use which item?",
+    "You held up a Dominance Crystal.",
+    "Sailquill is with you now!▼"
+   ]
+  },
+  {
+   "view": "pc",
+   "firstCatch": {
+    "event": "first_catch",
+    "text": "RITAGood job 873454! First asset acquired. ▼",
+    "log": [
+     [
+      "quest_done",
+      "Promotion filed, 873454. HR spelled your number right."
+     ],
+     [
+      "area_new",
+      "Trail 1 is on file, 873454."
+     ],
+     [
+      "first_catch",
+      "Good job 873454! First asset acquired."
+     ]
+    ]
+   },
+   "areaLog": [
+    [
+     "quest_done",
+     "Promotion filed, 873454. HR spelled your number right."
+    ]
+   ]
+  },
+  {
+   "view": "pc",
+   "sampler": {
+    "bad": [],
+    "frames": 6013,
+    "shownFrames": 719,
+    "blockedFrames": 3337,
+    "run": 0
+   },
+   "errors": []
+  }
+ ]
+}

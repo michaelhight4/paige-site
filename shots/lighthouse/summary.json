@@ -1,0 +1,639 @@
+{
+  "url": "http://127.0.0.1:8977/index.html",
+  "when": "Thu Oct 22 2026 23:35:36 GMT-0500 (Central Daylight Time)",
+  "lighthouse": "12.8.2",
+  "runs": {
+    "mobile_landscape": {
+      "scores": {
+        "performance": 32,
+        "accessibility": 88,
+        "bestPractices": 96,
+        "seo": 90
+      },
+      "metrics": {
+        "first-contentful-paint": "2.7 s",
+        "largest-contentful-paint": "65.0 s",
+        "total-blocking-time": "3,580 ms",
+        "cumulative-layout-shift": "0",
+        "speed-index": "11.0 s",
+        "interactive": "67.4 s"
+      },
+      "totalByteWeightKiB": 15571,
+      "requests": 149,
+      "opportunities": [
+        {
+          "id": "modern-image-formats",
+          "title": "Serve images in next-gen formats",
+          "savingsMs": 19320,
+          "savingsKiB": 3885,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/art/world/key_art_notext.png",
+              "wastedKiB": 3885,
+              "totalKiB": 4485
+            }
+          ]
+        },
+        {
+          "id": "uses-text-compression",
+          "title": "Enable text compression",
+          "savingsMs": 13500,
+          "savingsKiB": 2543,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/art/world/overworld/tileset_2x.json",
+              "wastedKiB": 892,
+              "totalKiB": 953
+            },
+            {
+              "url": "http://127.0.0.1:8977/art/world/overworld/tileset.json",
+              "wastedKiB": 892,
+              "totalKiB": 953
+            },
+            {
+              "url": "http://127.0.0.1:8977/text/overworld_lines.json",
+              "wastedKiB": 218,
+              "totalKiB": 284
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.js",
+              "wastedKiB": 53,
+              "totalKiB": 77
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/overworld/overworld.js",
+              "wastedKiB": 33,
+              "totalKiB": 49
+            }
+          ]
+        },
+        {
+          "id": "unminified-javascript",
+          "title": "Minify JavaScript",
+          "savingsMs": 900,
+          "savingsKiB": 166,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.js",
+              "wastedKiB": 17,
+              "totalKiB": 77
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/overworld/overworld.js",
+              "wastedKiB": 17,
+              "totalKiB": 49
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/overworld/living.js",
+              "wastedKiB": 12,
+              "totalKiB": 32
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/overworld/depth.js",
+              "wastedKiB": 9,
+              "totalKiB": 23
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui_tools2.js",
+              "wastedKiB": 9,
+              "totalKiB": 26
+            }
+          ]
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "savingsMs": 900,
+          "savingsKiB": 134,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.js",
+              "wastedKiB": 56,
+              "totalKiB": 77
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/vendor/animejs/anime.ui.min.mjs",
+              "wastedKiB": 35,
+              "totalKiB": 40
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/vendor/howler/howler.esm.js",
+              "wastedKiB": 23,
+              "totalKiB": 27
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/overworld/overworld.js",
+              "wastedKiB": 21,
+              "totalKiB": 49
+            }
+          ]
+        },
+        {
+          "id": "render-blocking-resources",
+          "title": "Eliminate render-blocking resources",
+          "savingsMs": 362,
+          "savingsKiB": 0,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/src/ui/theme.css",
+              "totalKiB": 13
+            },
+            {
+              "url": "http://127.0.0.1:8977/style.css",
+              "totalKiB": 9
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.css",
+              "totalKiB": 40
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui_tools2.css",
+              "totalKiB": 8
+            }
+          ]
+        },
+        {
+          "id": "unused-css-rules",
+          "title": "Reduce unused CSS",
+          "savingsMs": 150,
+          "savingsKiB": 33,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.css",
+              "wastedKiB": 33,
+              "totalKiB": 40
+            }
+          ]
+        },
+        {
+          "id": "unminified-css",
+          "title": "Minify CSS",
+          "savingsMs": 0,
+          "savingsKiB": 19,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.css",
+              "wastedKiB": 9,
+              "totalKiB": 40
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/theme.css",
+              "wastedKiB": 4,
+              "totalKiB": 13
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui_tools2.css",
+              "wastedKiB": 3,
+              "totalKiB": 8
+            },
+            {
+              "url": "http://127.0.0.1:8977/style.css",
+              "wastedKiB": 3,
+              "totalKiB": 9
+            }
+          ]
+        }
+      ],
+      "failedAccessibility": [
+        {
+          "id": "aria-dialog-name",
+          "title": "Elements with `role=\"dialog\"` or `role=\"alertdialog\"` do not have accessible names.",
+          "score": 0
+        },
+        {
+          "id": "meta-viewport",
+          "title": "`[user-scalable=\"no\"]` is used in the `<meta name=\"viewport\">` element or the `[maximum-scale]` attribute is less than 5.",
+          "score": 0
+        }
+      ],
+      "failedBestPractices": [
+        {
+          "id": "errors-in-console",
+          "title": "Browser errors were logged to the console",
+          "score": 0
+        }
+      ],
+      "runWarnings": []
+    },
+    "mobile_portrait": {
+      "scores": {
+        "performance": 38,
+        "accessibility": 87,
+        "bestPractices": 96,
+        "seo": 90
+      },
+      "metrics": {
+        "first-contentful-paint": "2.6 s",
+        "largest-contentful-paint": "69.5 s",
+        "total-blocking-time": "4,760 ms",
+        "cumulative-layout-shift": "0",
+        "speed-index": "4.7 s",
+        "interactive": "72.4 s"
+      },
+      "totalByteWeightKiB": 17078,
+      "requests": 149,
+      "opportunities": [
+        {
+          "id": "modern-image-formats",
+          "title": "Serve images in next-gen formats",
+          "savingsMs": 19320,
+          "savingsKiB": 3885,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/art/world/key_art_notext.png",
+              "wastedKiB": 3885,
+              "totalKiB": 4485
+            }
+          ]
+        },
+        {
+          "id": "uses-text-compression",
+          "title": "Enable text compression",
+          "savingsMs": 13500,
+          "savingsKiB": 2543,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/art/world/overworld/tileset_3x.json",
+              "wastedKiB": 892,
+              "totalKiB": 953
+            },
+            {
+              "url": "http://127.0.0.1:8977/art/world/overworld/tileset.json",
+              "wastedKiB": 892,
+              "totalKiB": 953
+            },
+            {
+              "url": "http://127.0.0.1:8977/text/overworld_lines.json",
+              "wastedKiB": 218,
+              "totalKiB": 284
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.js",
+              "wastedKiB": 53,
+              "totalKiB": 77
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/overworld/overworld.js",
+              "wastedKiB": 33,
+              "totalKiB": 49
+            }
+          ]
+        },
+        {
+          "id": "unminified-javascript",
+          "title": "Minify JavaScript",
+          "savingsMs": 900,
+          "savingsKiB": 166,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.js",
+              "wastedKiB": 17,
+              "totalKiB": 77
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/overworld/overworld.js",
+              "wastedKiB": 17,
+              "totalKiB": 49
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/overworld/living.js",
+              "wastedKiB": 12,
+              "totalKiB": 32
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/overworld/depth.js",
+              "wastedKiB": 9,
+              "totalKiB": 23
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui_tools2.js",
+              "wastedKiB": 9,
+              "totalKiB": 26
+            }
+          ]
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "savingsMs": 900,
+          "savingsKiB": 134,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.js",
+              "wastedKiB": 56,
+              "totalKiB": 77
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/vendor/animejs/anime.ui.min.mjs",
+              "wastedKiB": 35,
+              "totalKiB": 40
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/vendor/howler/howler.esm.js",
+              "wastedKiB": 23,
+              "totalKiB": 27
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/overworld/overworld.js",
+              "wastedKiB": 21,
+              "totalKiB": 49
+            }
+          ]
+        },
+        {
+          "id": "render-blocking-resources",
+          "title": "Eliminate render-blocking resources",
+          "savingsMs": 391,
+          "savingsKiB": 0,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui_tools2.css",
+              "totalKiB": 8
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.css",
+              "totalKiB": 40
+            },
+            {
+              "url": "http://127.0.0.1:8977/style.css",
+              "totalKiB": 9
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/theme.css",
+              "totalKiB": 13
+            }
+          ]
+        },
+        {
+          "id": "unused-css-rules",
+          "title": "Reduce unused CSS",
+          "savingsMs": 150,
+          "savingsKiB": 33,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.css",
+              "wastedKiB": 33,
+              "totalKiB": 40
+            }
+          ]
+        },
+        {
+          "id": "unminified-css",
+          "title": "Minify CSS",
+          "savingsMs": 0,
+          "savingsKiB": 19,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.css",
+              "wastedKiB": 9,
+              "totalKiB": 40
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/theme.css",
+              "wastedKiB": 4,
+              "totalKiB": 13
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui_tools2.css",
+              "wastedKiB": 3,
+              "totalKiB": 8
+            },
+            {
+              "url": "http://127.0.0.1:8977/style.css",
+              "wastedKiB": 3,
+              "totalKiB": 9
+            }
+          ]
+        }
+      ],
+      "failedAccessibility": [
+        {
+          "id": "aria-dialog-name",
+          "title": "Elements with `role=\"dialog\"` or `role=\"alertdialog\"` do not have accessible names.",
+          "score": 0
+        },
+        {
+          "id": "meta-viewport",
+          "title": "`[user-scalable=\"no\"]` is used in the `<meta name=\"viewport\">` element or the `[maximum-scale]` attribute is less than 5.",
+          "score": 0
+        }
+      ],
+      "failedBestPractices": [
+        {
+          "id": "errors-in-console",
+          "title": "Browser errors were logged to the console",
+          "score": 0
+        }
+      ],
+      "runWarnings": []
+    },
+    "desktop": {
+      "scores": {
+        "performance": 43,
+        "accessibility": 87,
+        "bestPractices": 96,
+        "seo": 90
+      },
+      "metrics": {
+        "first-contentful-paint": "0.7 s",
+        "largest-contentful-paint": "10.8 s",
+        "total-blocking-time": "580 ms",
+        "cumulative-layout-shift": "0",
+        "speed-index": "3.3 s",
+        "interactive": "11.2 s"
+      },
+      "totalByteWeightKiB": 15567,
+      "requests": 149,
+      "opportunities": [
+        {
+          "id": "modern-image-formats",
+          "title": "Serve images in next-gen formats",
+          "savingsMs": 3200,
+          "savingsKiB": 3885,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/art/world/key_art_notext.png",
+              "wastedKiB": 3885,
+              "totalKiB": 4485
+            }
+          ]
+        },
+        {
+          "id": "uses-text-compression",
+          "title": "Enable text compression",
+          "savingsMs": 2200,
+          "savingsKiB": 2541,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/art/world/overworld/tileset_2x.json",
+              "wastedKiB": 892,
+              "totalKiB": 953
+            },
+            {
+              "url": "http://127.0.0.1:8977/art/world/overworld/tileset.json",
+              "wastedKiB": 892,
+              "totalKiB": 953
+            },
+            {
+              "url": "http://127.0.0.1:8977/text/overworld_lines.json",
+              "wastedKiB": 218,
+              "totalKiB": 284
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.js",
+              "wastedKiB": 53,
+              "totalKiB": 77
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/overworld/overworld.js",
+              "wastedKiB": 33,
+              "totalKiB": 49
+            }
+          ]
+        },
+        {
+          "id": "unminified-javascript",
+          "title": "Minify JavaScript",
+          "savingsMs": 200,
+          "savingsKiB": 166,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.js",
+              "wastedKiB": 17,
+              "totalKiB": 77
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/overworld/overworld.js",
+              "wastedKiB": 17,
+              "totalKiB": 49
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/overworld/living.js",
+              "wastedKiB": 12,
+              "totalKiB": 32
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/overworld/depth.js",
+              "wastedKiB": 9,
+              "totalKiB": 23
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui_tools2.js",
+              "wastedKiB": 9,
+              "totalKiB": 26
+            }
+          ]
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "savingsMs": 120,
+          "savingsKiB": 134,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.js",
+              "wastedKiB": 56,
+              "totalKiB": 77
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/vendor/animejs/anime.ui.min.mjs",
+              "wastedKiB": 35,
+              "totalKiB": 40
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/vendor/howler/howler.esm.js",
+              "wastedKiB": 23,
+              "totalKiB": 27
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/overworld/overworld.js",
+              "wastedKiB": 21,
+              "totalKiB": 49
+            }
+          ]
+        },
+        {
+          "id": "render-blocking-resources",
+          "title": "Eliminate render-blocking resources",
+          "savingsMs": 105,
+          "savingsKiB": 0,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui_tools2.css",
+              "totalKiB": 8
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.css",
+              "totalKiB": 40
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/theme.css",
+              "totalKiB": 13
+            }
+          ]
+        },
+        {
+          "id": "unused-css-rules",
+          "title": "Reduce unused CSS",
+          "savingsMs": 0,
+          "savingsKiB": 35,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.css",
+              "wastedKiB": 35,
+              "totalKiB": 40
+            }
+          ]
+        },
+        {
+          "id": "unminified-css",
+          "title": "Minify CSS",
+          "savingsMs": 0,
+          "savingsKiB": 19,
+          "top": [
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui.css",
+              "wastedKiB": 9,
+              "totalKiB": 40
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/theme.css",
+              "wastedKiB": 4,
+              "totalKiB": 13
+            },
+            {
+              "url": "http://127.0.0.1:8977/src/ui/ui_tools2.css",
+              "wastedKiB": 3,
+              "totalKiB": 8
+            },
+            {
+              "url": "http://127.0.0.1:8977/style.css",
+              "wastedKiB": 3,
+              "totalKiB": 9
+            }
+          ]
+        }
+      ],
+      "failedAccessibility": [
+        {
+          "id": "aria-dialog-name",
+          "title": "Elements with `role=\"dialog\"` or `role=\"alertdialog\"` do not have accessible names.",
+          "score": 0
+        },
+        {
+          "id": "meta-viewport",
+          "title": "`[user-scalable=\"no\"]` is used in the `<meta name=\"viewport\">` element or the `[maximum-scale]` attribute is less than 5.",
+          "score": 0
+        }
+      ],
+      "failedBestPractices": [
+        {
+          "id": "errors-in-console",
+          "title": "Browser errors were logged to the console",
+          "score": 0
+        }
+      ],
+      "runWarnings": []
+    }
+  }
+}

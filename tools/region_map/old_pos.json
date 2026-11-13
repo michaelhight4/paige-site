@@ -1,0 +1,54 @@
+{
+ "brookhollow": {
+  "x": 0.262,
+  "y": 0.676
+ },
+ "fernwick": {
+  "x": 0.258,
+  "y": 0.452
+ },
+ "saltmere": {
+  "x": 0.688,
+  "y": 0.596
+ },
+ "cindervale": {
+  "x": 0.73,
+  "y": 0.811
+ },
+ "revival_heights": {
+  "x": 0.494,
+  "y": 0.504
+ },
+ "lanternport": {
+  "x": 0.117,
+  "y": 0.548
+ },
+ "aurelith": {
+  "x": 0.558,
+  "y": 0.719
+ },
+ "sunmeadow_fields": {
+  "x": 0.673,
+  "y": 0.191
+ },
+ "thornwood": {
+  "x": 0.392,
+  "y": 0.297
+ },
+ "greystone_caverns": {
+  "x": 0.478,
+  "y": 0.128
+ },
+ "mirefen": {
+  "x": 0.805,
+  "y": 0.434
+ },
+ "tidewater_coast": {
+  "x": 0.197,
+  "y": 0.8
+ },
+ "frostspire": {
+  "x": 0.247,
+  "y": 0.131
+ }
+}

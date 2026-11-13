@@ -1,0 +1,31 @@
+route1 south:brookhollow -> north:fernwick shortest (33, 3) min-grass (33, 3)
+route1 south:brookhollow -> east:sunmeadow_fields shortest (66, 0) min-grass (66, 0)
+route1 north:fernwick -> south:brookhollow shortest (33, 3) min-grass (33, 3)
+route1 north:fernwick -> east:sunmeadow_fields shortest (61, 6) min-grass (63, 3)
+route1 east:sunmeadow_fields -> south:brookhollow shortest (66, 0) min-grass (66, 0)
+route1 east:sunmeadow_fields -> north:fernwick shortest (61, 6) min-grass (63, 3)
+thornwood west:fernwick -> east:route_revival shortest (52, 4) min-grass (52, 4)
+thornwood west:fernwick -> cave shortest (72, 4) min-grass (72, 4)
+thornwood east:route_revival -> west:fernwick shortest (52, 4) min-grass (52, 4)
+thornwood east:route_revival -> cave shortest (34, 0) min-grass (34, 0)
+thornwood cave -> west:fernwick shortest (72, 4) min-grass (72, 4)
+thornwood cave -> east:route_revival shortest (34, 0) min-grass (34, 0)
+brookhollow north:route1 -> east:route_east shortest (34, 0) min-grass (34, 0)
+brookhollow north:route1 -> house_1f shortest (14, 0) min-grass (14, 0)
+brookhollow north:route1 -> heal_centre_int shortest (25, 0) min-grass (25, 0)
+brookhollow north:route1 -> shop_int shortest (26, 0) min-grass (26, 0)
+brookhollow north:route1 -> office_int shortest (33, 0) min-grass (33, 0)
+brookhollow north:route1 -> house_int_a shortest (13, 0) min-grass (13, 0)
+brookhollow north:route1 -> house_int_b shortest (38, 0) min-grass (38, 0)
+brookhollow heal_centre_int -> north:route1 shortest (25, 0) min-grass (25, 0)
+brookhollow heal_centre_int -> east:route_east shortest (35, 0) min-grass (35, 0)
+brookhollow heal_centre_int -> house_1f shortest (23, 0) min-grass (23, 0)
+brookhollow heal_centre_int -> shop_int shortest (14, 0) min-grass (14, 0)
+brookhollow heal_centre_int -> office_int shortest (35, 0) min-grass (35, 0)
+brookhollow heal_centre_int -> house_int_a shortest (23, 0) min-grass (23, 0)
+brookhollow heal_centre_int -> house_int_b shortest (38, 0) min-grass (38, 0)
+route1 trainer_r1_a (12, 20) down range 3 cells [(12, 21, '.'), (12, 22, '.'), (12, 23, '.')] {'kind': 'trainer_hooded', 'note': 'sight 3 tiles'}
+route1 trainer_r1_b (22, 14) left range 3 cells [(21, 14, '.')] {'kind': 'trainer_hooded', 'note': 'sight 3 tiles'}
+route1 trainer_r1_c (34, 9) up range 3 cells [(34, 8, '.')] {'kind': 'trainer_hooded', 'note': 'sight 3 tiles'}
+thornwood trainer_tw_bug (11, 15) left range 3 cells [(10, 15, 'G')] {'kind': 'trainer_hooded', 'note': 'bug catcher, in the grass clearing'}
+thornwood trainer_tw_b (26, 22) left range 3 cells [(25, 22, '.'), (24, 22, '.'), (23, 22, 'G')] {'kind': 'trainer_hooded', 'note': ''}

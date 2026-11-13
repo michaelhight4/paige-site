@@ -1,0 +1,391 @@
+{
+ "_status": "STAGED 2026-10-23 by coder (region-2 groundwork). NOT LIVE: nothing in the game reads this file. Wire in after region 1 ships.",
+ "_generated_by": "tools/region2/build_region2.mjs from tools/region2/region2_spec.mjs (edit the spec, not this file)",
+ "_what": "Region-2 trainer teams, TRAINER_TEAMS shape (src/battle/data/trainer_teams.js): \"<map>.<npc id>\" -> [{species, level}] | {byStarter}. Copy `teams` entries into trainer_teams.js when wiring.",
+ "trainer_band": [
+  10,
+  21
+ ],
+ "teams": {
+  "route_east.route_east_trainer_1": [
+   {
+    "species": "sailquill",
+    "level": 12
+   },
+   {
+    "species": "flockpup",
+    "level": 13
+   }
+  ],
+  "route_east.route_east_trainer_2": [
+   {
+    "species": "ditchsnap",
+    "level": 13
+   },
+   {
+    "species": "pondkin",
+    "level": 14
+   },
+   {
+    "species": "puddlenip",
+    "level": 15
+   }
+  ],
+  "route_east.route_east_trainer_3": [
+   {
+    "species": "burlbeetle",
+    "level": 13
+   },
+   {
+    "species": "gloamtick",
+    "level": 14
+   }
+  ],
+  "route_east.route_east_trainer_4": [
+   {
+    "species": "millwhirl",
+    "level": 14
+   },
+   {
+    "species": "sailquill",
+    "level": 14
+   }
+  ],
+  "route_east.route_east_trainer_5": [
+   {
+    "species": "bleatling",
+    "level": 16
+   },
+   {
+    "species": "loamworm",
+    "level": 16
+   }
+  ],
+  "route_east.route_east_trainer_6": [
+   {
+    "species": "sailquill",
+    "level": 15
+   },
+   {
+    "species": "crowkin",
+    "level": 16
+   }
+  ],
+  "route_aurelith_saltmere.route_aurelith_saltmere_trainer_1": [
+   {
+    "species": "pinchkin",
+    "level": 16
+   },
+   {
+    "species": "brinepipit",
+    "level": 17
+   }
+  ],
+  "route_aurelith_saltmere.route_aurelith_saltmere_trainer_2": [
+   {
+    "species": "sailquill",
+    "level": 16
+   },
+   {
+    "species": "brinepipit",
+    "level": 16
+   }
+  ],
+  "route_aurelith_saltmere.route_aurelith_saltmere_trainer_3": [
+   {
+    "species": "blubbet",
+    "level": 17
+   },
+   {
+    "species": "sandstarlet",
+    "level": 17
+   }
+  ],
+  "route_aurelith_saltmere.route_aurelith_saltmere_trainer_4": [
+   {
+    "species": "burlbeetle",
+    "level": 16
+   },
+   {
+    "species": "moatling",
+    "level": 16
+   },
+   {
+    "species": "grainling",
+    "level": 18
+   }
+  ],
+  "route_aurelith_saltmere.route_aurelith_saltmere_trainer_5": [
+   {
+    "species": "tinderwren",
+    "level": 15
+   },
+   {
+    "species": "sailquill",
+    "level": 15
+   }
+  ],
+  "route_aurelith_saltmere.route_aurelith_saltmere_trainer_6": [
+   {
+    "species": "whelkin",
+    "level": 19
+   },
+   {
+    "species": "sandstarlet",
+    "level": 19
+   }
+  ],
+  "saltmere.saltmere_ron_2": {
+   "byStarter": {
+    "nibbin": [
+     {
+      "species": "sailquill",
+      "level": 15
+     },
+     {
+      "species": "grainling",
+      "level": 15
+     },
+     {
+      "species": "emberlunx",
+      "level": 17
+     }
+    ],
+    "cindrip": [
+     {
+      "species": "sailquill",
+      "level": 16
+     },
+     {
+      "species": "bramblehog",
+      "level": 17
+     },
+     {
+      "species": "brookhorn",
+      "level": 18
+     }
+    ],
+    "rillop": [
+     {
+      "species": "sailquill",
+      "level": 16
+     },
+     {
+      "species": "larkspar",
+      "level": 16
+     },
+     {
+      "species": "gnawford",
+      "level": 18
+     }
+    ],
+    "tumbloam": [
+     {
+      "species": "sailquill",
+      "level": 15
+     },
+     {
+      "species": "grainling",
+      "level": 15
+     },
+     {
+      "species": "emberlunx",
+      "level": 17
+     }
+    ]
+   }
+  },
+  "saltmere_hall_int.saltmere_hall_int_h1": [
+   {
+    "species": "sandstarlet",
+    "level": 17
+   },
+   {
+    "species": "blubbet",
+    "level": 17
+   }
+  ],
+  "saltmere_hall_int.saltmere_hall_int_h2": [
+   {
+    "species": "medulet",
+    "level": 18
+   },
+   {
+    "species": "whelkin",
+    "level": 18
+   }
+  ],
+  "saltmere_hall_int.saltmere_hall_int_h3": [
+   {
+    "species": "finnip",
+    "level": 19
+   },
+   {
+    "species": "ribboneel",
+    "level": 19
+   }
+  ],
+  "saltmere_hall_int.saltmere_hall_int_master": [
+   {
+    "species": "quaymouser",
+    "level": 18
+   },
+   {
+    "species": "polypip",
+    "level": 19
+   },
+   {
+    "species": "spratwyrm",
+    "level": 21
+   }
+  ],
+  "thornwood.thornwood_c_gardener": [
+   {
+    "species": "cobblepup",
+    "level": 10
+   },
+   {
+    "species": "briarlet",
+    "level": 12
+   }
+  ],
+  "thornwood.thornwood_d_kid": [
+   {
+    "species": "gloamtick",
+    "level": 12
+   }
+  ],
+  "thornwood.thornwood_e_researcher": [
+   {
+    "species": "thornpod",
+    "level": 12
+   },
+   {
+    "species": "burlbeetle",
+    "level": 13
+   }
+  ]
+ },
+ "info": {
+  "route_east.route_east_trainer_1": {
+   "gd_id": "tr_route_brookhollow_aurelith_a",
+   "class": "courier",
+   "name_suggestion": "Penrose",
+   "why": "GD 13/13. Lowered the bird lead: first trainer after Master 1 (player ~L10-11, earth/grass starters lose to wind). Play-check."
+  },
+  "route_east.route_east_trainer_2": {
+   "gd_id": "tr_route_brookhollow_aurelith_b",
+   "class": "angler",
+   "name_suggestion": "Rue"
+  },
+  "route_east.route_east_trainer_3": {
+   "gd_id": "tr_route_brookhollow_aurelith_c",
+   "class": "kid",
+   "name_suggestion": "Bram",
+   "why": "GD 14/14. Play-check: 3/10 first-try wins for tumbloam."
+  },
+  "route_east.route_east_trainer_4": {
+   "gd_id": "tr_route_brookhollow_aurelith_d",
+   "class": "skater",
+   "name_suggestion": "Tilly",
+   "why": "GD 15/16. Play-check: 0-3/10 first-try wins (two wind types vs earth/grass parties)."
+  },
+  "route_east.route_east_trainer_5": {
+   "gd_id": "tr_route_brookhollow_aurelith_e",
+   "class": "worker",
+   "name_suggestion": "Cass"
+  },
+  "route_east.route_east_trainer_6": {
+   "gd_id": "tr_route_brookhollow_aurelith_f",
+   "class": "birder",
+   "name_suggestion": "Juno",
+   "optional": true,
+   "why": "GD 15/17 (optional). Ace one level lower; play-check."
+  },
+  "route_aurelith_saltmere.route_aurelith_saltmere_trainer_1": {
+   "gd_id": "tr_route_saltmere_aurelith_a",
+   "class": "harbour_hand",
+   "name_suggestion": "Dunstan"
+  },
+  "route_aurelith_saltmere.route_aurelith_saltmere_trainer_2": {
+   "gd_id": "tr_route_saltmere_aurelith_b",
+   "class": "birder",
+   "name_suggestion": "Gil",
+   "why": "GD 17/17. Play-check: 1-5/10 first-try wins."
+  },
+  "route_aurelith_saltmere.route_aurelith_saltmere_trainer_3": {
+   "gd_id": "tr_route_saltmere_aurelith_c",
+   "class": "angler",
+   "name_suggestion": "Hana"
+  },
+  "route_aurelith_saltmere.route_aurelith_saltmere_trainer_4": {
+   "gd_id": "tr_route_saltmere_aurelith_d",
+   "class": "camper",
+   "name_suggestion": "Iska"
+  },
+  "route_aurelith_saltmere.route_aurelith_saltmere_trainer_5": {
+   "gd_id": "tr_route_saltmere_aurelith_e",
+   "class": "courier",
+   "name_suggestion": "Jem",
+   "why": "GD 18/18. Play-check: 0-1/20 at 17/16 (fire+wind vs grass-heavy parties)."
+  },
+  "route_aurelith_saltmere.route_aurelith_saltmere_trainer_6": {
+   "gd_id": "tr_route_saltmere_aurelith_f",
+   "class": "veteran",
+   "name_suggestion": "Kerr",
+   "optional": true
+  },
+  "saltmere.saltmere_ron_2": {
+   "gd_id": "ron_rival_saltmere",
+   "class": "rival",
+   "name_suggestion": "Ron",
+   "why": {
+    "all": "map draft 17/18/20: play-check 0-4/10 (no retry; Ron can be lost). Lowered to 16/16-17/18 (evolved aces stay >= evo 16).",
+    "rillop": "map draft had lancebeetle L18; game evo is 32 (thornpod->lancebeetle), DEX 12. Swapped for larkspar L18 (Ron 1 had peeplark)."
+   }
+  },
+  "saltmere_hall_int.saltmere_hall_int_h1": {
+   "gd_id": "tr_hall_saltmere_h1",
+   "class": "hall_helper",
+   "name_suggestion": "Lorna"
+  },
+  "saltmere_hall_int.saltmere_hall_int_h2": {
+   "gd_id": "tr_hall_saltmere_h2",
+   "class": "hall_helper",
+   "name_suggestion": "Ivo"
+  },
+  "saltmere_hall_int.saltmere_hall_int_h3": {
+   "gd_id": "tr_hall_saltmere_h3",
+   "class": "hall_helper",
+   "name_suggestion": "Sully"
+  },
+  "saltmere_hall_int.saltmere_hall_int_master": {
+   "gd_id": "master_saltmere",
+   "class": "master",
+   "name_suggestion": "Nerys Bryde",
+   "master": true
+  },
+  "thornwood.thornwood_c_gardener": {
+   "gd_id": "tr_thornwood_c",
+   "class": "gardener",
+   "name_suggestion": "Kit",
+   "border_map": true,
+   "npc_not_on_map": true
+  },
+  "thornwood.thornwood_d_kid": {
+   "gd_id": "tr_thornwood_d",
+   "class": "kid",
+   "name_suggestion": "Lio",
+   "border_map": true,
+   "npc_not_on_map": true
+  },
+  "thornwood.thornwood_e_researcher": {
+   "gd_id": "tr_thornwood_e",
+   "class": "researcher",
+   "name_suggestion": "Nell",
+   "border_map": true,
+   "npc_not_on_map": true,
+   "why": "GD had lancebeetle L12; game evo is 32 (DEX 12). Swapped for its pre-form thornpod L12. Name \"Nell\" no longer clashes: Saltmere hall helper h1 renamed Lorna by Text Bot."
+  }
+ }
+}

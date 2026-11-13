@@ -1,0 +1,132 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: #333;
+    width: 1200px;
+    padding:15px;
+    background-color: aliceblue;
+    overscroll-behavior: none;
+}
+
+section, .lrud-container {
+    width: fit-content;
+    overflow:hidden;
+    margin-bottom:25px;
+    background-color: #5b7084;
+}
+
+section > section, .lrud-container > .lrud-container {
+    background-color: #879db2;
+    margin: 10px;
+}
+
+section > section > section, .lrud-container > .lrud-container > .lrud-container {
+    background-color: #5b7084;
+    margin: 10px;
+}
+
+section > section > section > section, .lrud-container > .lrud-container > .lrud-container > .lrud-container {
+    background-color: #879db2;
+    margin: 10px;
+}
+
+a {
+    text-decoration: none;
+    display:inline-block;
+    outline: none;
+    color: #333;
+    width:200px;
+    margin:20px;
+}
+
+a:focus {
+    outline: 2px solid #F00;
+}
+
+.item {
+    width: 170px;
+    height: 120px;
+    border: 1px solid #333;
+    padding:15px;
+    box-sizing: content-box;
+    background-color: #8caabe;
+}
+
+section.panel, div.panel {
+    display: inline-block;
+    margin-right: 30px;
+    vertical-align: top;
+}
+
+.vert-offset {
+    display: block;
+    margin-top: 200px;
+}
+
+.hidden {
+    display: none;
+}
+
+[disabled] {
+    background: repeating-linear-gradient(135deg, #d3d3d355, #d3d3d355 10px, #c08181bb 10px, #c08181bb 20px);
+    font-style: italic;
+}
+[aria-disabled="true"] {
+    background: repeating-linear-gradient(135deg, #d3d3d355, #d3d3d355 10px, #94baffbb 10px, #94baffbb 20px);
+    font-style: italic;
+}
+
+.lrud-ignore {
+    background: repeating-linear-gradient(45deg, #d3d3d355, #d3d3d355 10px, #d3d3d3bb 10px, #d3d3d3bb 20px);
+    font-style: italic;
+}
+
+.no-dimensions { width:0; height:0; border:0; padding:0; }
+
+.middle a.item {
+    width:250px;
+}
+
+.bottom a.item {
+    width:50px;
+}
+
+section.wide {
+    width:1100px;
+}
+
+.item.small {
+    width:50px;
+    height:50px;
+}
+
+.item.wide {
+    width:176px;
+    height:50px;
+    display:block;
+    margin-top:-10px;
+}
+
+[data-block-exit*="left"] {
+    border-left: 8px dashed black;
+}
+[data-block-exit*="right"] {
+    border-right: 8px dashed black;
+}
+[data-block-exit*="up"] {
+    border-top: 8px dashed black;
+}
+[data-block-exit*="down"] {
+    border-bottom: 8px dashed black;
+}
+
+[data-lrud-prioritise-children="false"] {
+    background-color: #969681;
+}
+
+[data-lrud-consider-container-distance] {
+    outline: 4px dashed black;
+}

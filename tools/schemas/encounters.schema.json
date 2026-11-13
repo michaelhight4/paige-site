@@ -1,0 +1,21 @@
+{
+  "$id": "kilumen:encounters",
+  "$comment": "art/world/overworld/encounters/encounters.json (shipped: zones is an object) and design/overnight_gd/encounters_*.json (drafts: zones is an array; an entry with existing_table only points at a shipped table).",
+  "type": "object",
+  "required": ["zones"],
+  "properties": {
+    "zones": {
+      "type": ["object", "array"],
+      "if": { "type": "array" },
+      "then": {
+        "items": {
+          "if": { "type": "object", "required": ["existing_table"] },
+          "then": { "type": "object", "required": ["id"], "properties": { "id": { "type": "string" }, "existing_table": { "type": "string" } } },
+          "else": { "allOf": [{ "$ref": "kilumen:common#/$defs/encounterZone" }, { "type": "object", "required": ["id"], "properties": { "id": { "$ref": "kilumen:common#/$defs/id" } } }] }
+        }
+      },
+      "else": { "additionalProperties": { "$ref": "kilumen:common#/$defs/encounterZone" } }
+    },
+    "species_with_art": { "type": "array", "items": { "$ref": "kilumen:common#/$defs/id" }, "uniqueItems": true }
+  }
+}

@@ -1,0 +1,95 @@
+CLUB: 58 tiles, 90 cells reachable from the door, problems: none
+WORLD DATA: OK
+TEXT IDS: OK (143 ids from overworld_lines.json present)
+
+ALL CONNECTED (puzzle maps checked in solved state)
+PROGRESSION: PASS
+
+greystone_b1: puzzle solvable; 3 target(s) gated behind it; 101614 states searched
+   exit-north->frostspire_pass@20,0: D4 R10 D2 R3 R* D R U*4 L U R*3 U6 L
+   exit-north->frostspire_pass@21,0: D4 R10 D2 R3 R* D R U*4 L U R*3 U6
+   goal:north passage: D4 R10 D2 R3 R* D R U*4 L U R*3 U5 L
+fernwick_hall_int: puzzle solvable; 1 target(s) gated behind it; 1215 states searched
+   goal:battle ring in front of the master: U R5 U R2 D L11 U L2 D R4 U2 R2 U3 L3 AcL R7 AcR U L3 U4 L
+route1_storm: storm: Brookhollow <-> Fernwick (south <-> north exits) connected WITHOUT Tideglide
+route1_storm: storm: east exit not reachable without Tideglide (flood really gates)
+route1_storm: storm: east exit reachable WITH Tideglide
+route1_storm: storm: every npc/sign/item reachable with Tideglide
+route1_storm: storm: deep water cells are code 11 (never crossable)
+--- interiors hookup ---
+heal_brookhollow: staff door (10,2) -> rt_branch_backroom (4,4) locked by has_branch_card; approach [10, 3] reachable; back room $return -> approach
+heal_fernwick: staff door (10,2) -> rt_branch_backroom (4,4) locked by has_branch_card; approach [10, 3] reachable; back room $return -> approach
+home_recolours (staged): 25 schemes, 25 recolourable tiles (4 masked), 3 doors; checks OK
+--- world data ---
+heal_brookhollow: i_company_terminal at (12,4)
+heal_fernwick: i_company_terminal at (12,4)
+home_brookhollow_b: windows at x=[2, 4, 7] (old kit windows at x=[3, 6] -> plain wall)
+home_fernwick_a: windows at x=[4, 9] (old kit windows at x=[5, 8] -> plain wall)
+heal_brookhollow: sofa+plant row 7 -> (0..2,3); exit mat/warp (7,9) removed (one-tile exit at (6,9))
+heal_fernwick: sofa+plant row 7 -> (0..2,3); exit mat/warp (7,9) removed (one-tile exit at (6,9))
+lab_brookhollow: cradle_1..3 interact_spots (5,6)/(7,6)/(9,6) stand row 7 facing up; aide (10,8) -> (10,6) facing right
+house_1f: 1 tall tops -> overlay
+house_2f: 1 tall tops -> overlay
+shop_int: 4 tall tops -> overlay
+house_int_a: 1 tall tops -> overlay
+house_int_b: 4 tall tops -> overlay
+house_int_c: 1 tall tops -> overlay
+office_int: 6 tall tops -> overlay
+fernwick_hall_int: 4 tall tops -> overlay
+rt_branch_backroom: 2 tall tops -> overlay
+lab_brookhollow: 11 tall tops -> overlay
+home_brookhollow_b: 4 tall tops -> overlay
+home_brookhollow_b_2f: 1 tall tops -> overlay
+home_fernwick_a: 4 tall tops -> overlay
+home_fernwick_a_2f: 1 tall tops -> overlay
+home_brookhollow_a: 3 tall tops -> overlay
+home_fernwick_c: 2 tall tops -> overlay
+home_lanternport_c: 5 tall tops -> overlay
+home_saltmere_a: 2 tall tops -> overlay
+home_lanternport_c_2f: 1 tall tops -> overlay
+tags: {'brookhollow': {'crystal': 1, 'shallow': 4}, 'route1': {'bird_perch': 187, 'crystal': 8}, 'fernwick': {'firefly_zone': 8}, 'thornwood': {'crystal': 5, 'firefly_zone': 13}, 'greystone_entrance': {'crystal': 5}, 'greystone_b1': {'crystal': 5}, 'route1_storm': {'crystal': 8}}
+text spots added: [('home_brookhollow_b', 'tv'), ('home_lanternport_c', 'tv'), ('home_lanternport_c', 'bookcase'), ('home_brookhollow_a', 'bookcase'), ('home_fernwick_c', 'bookcase'), ('home_saltmere_a', 'bookcase'), ('home_fernwick_a', 'bookcase'), ('home_brookhollow_b', 'window_1'), ('home_brookhollow_b', 'window_2'), ('home_brookhollow_b', 'window_kitchen'), ('home_fernwick_a', 'window_1'), ('home_fernwick_a', 'window_2'), ('heal_brookhollow', 'lap_nap_seat'), ('heal_fernwick', 'lap_nap_seat'), ('home_brookhollow_b', 'home_brookhollow_b_parent')]
+encounter tables: ['sunmeadow_grass', 'thornwood_grass', 'greystone_glowfern', 'mirefen_grass_w', 'mirefen_grass_ne', 'mirefen_grass_s', 'mirefen_bog_surf']
+items: 43 placed, flags unique
+--- progression ---
+club_int: indoor map that follows the outdoor clock (FOLLOWS_OUTDOOR_CLOCK)
+brookhollow: gate gate_brookhollow_east OK (closed: exit-north cannot reach exit-east, even with the bike and all other flags; open after beat_master_fernwick)
+route1: forced grass r1_north_choke OK (no way from exit-south to exit-north without crossing it, even on the bike with every gate open)
+route1: gate gate_route1_east OK (closed: exit-south cannot reach exit-east, even with the bike and all other flags; open after beat_master_frostspire)
+route1: bike-only region 9 cells (no_dismount there); every entry/NPC reachable on foot -> optional
+thornwood: forced grass tw_east_choke OK (no way from exit-west to warp->greystone_entrance without crossing it, even on the bike with every gate open)
+thornwood: gate gate_thornwood_east OK (closed: exit-west cannot reach exit-east, even with the bike and all other flags; open after beat_master_saltmere)
+thornwood: bike-only region 17 cells (no_dismount there); every entry/NPC reachable on foot -> optional
+greystone_entrance: forced grass gs_mouth_choke OK (no way from warp->thornwood to warp->greystone_b1 without crossing it, even on the bike with every gate open)
+mirefen_bog: bike-only region 10 cells (no_dismount there); every entry/NPC reachable on foot -> optional
+world state 0 (none): 3789 cells in 24 maps, zones ['frostspire_pass']; next=flg_promoted: reachable; fly/rail add nothing new
+world state 1 (flg_promoted): 3789 cells in 24 maps, zones ['frostspire_pass']; next=has_run_shoes: reachable; fly/rail add nothing new
+world state 2 (has_run_shoes): 3789 cells in 24 maps, zones ['frostspire_pass']; next=beat_master_fernwick: reachable; fly/rail add nothing new
+world state 3 (beat_master_fernwick): 3793 cells in 24 maps, zones ['aurelith', 'brookhollow_south_road', 'frostspire_pass', 'route_east', 'saltmere']; next=has_survey_parcel: reachable; fly/rail add nothing new
+world state 4 (has_survey_parcel): 3793 cells in 24 maps, zones ['aurelith', 'brookhollow_south_road', 'frostspire_pass', 'route_east', 'saltmere']; next=beat_master_saltmere: reachable; fly/rail add nothing new
+world state 5 (beat_master_saltmere): 3800 cells in 24 maps, zones ['aurelith', 'brookhollow_south_road', 'frostspire_pass', 'revival_heights', 'route_east', 'route_revival', 'saltmere']; next=has_bike: reachable; fly/rail add nothing new
+world state 6 (has_bike): 3826 cells in 24 maps, zones ['aurelith', 'brookhollow_south_road', 'frostspire_pass', 'revival_heights', 'route_east', 'route_revival', 'saltmere']; next=beat_master_revival: reachable; fly/rail add nothing new
+world state 7 (beat_master_revival): 3826 cells in 24 maps, zones ['aurelith', 'brookhollow_south_road', 'frostspire', 'frostspire_pass', 'revival_heights', 'route_east', 'route_revival', 'saltmere']; next=has_rail_pass: reachable; fly/rail add nothing new
+world state 8 (has_rail_pass): 3826 cells in 24 maps, zones ['aurelith', 'brookhollow_south_road', 'frostspire', 'frostspire_pass', 'revival_heights', 'route_east', 'route_revival', 'saltmere']; next=beat_master_frostspire: reachable; fly/rail add nothing new
+world state 9 (beat_master_frostspire): 3838 cells in 24 maps, zones ['aurelith', 'brookhollow_south_road', 'frostspire', 'frostspire_pass', 'mirefen', 'revival_heights', 'route_east', 'route_revival', 'saltmere', 'sunmeadow_fields']; next=has_skylift: reachable; fly/rail add nothing new
+world state 10 (has_skylift): 3838 cells in 24 maps, zones ['aurelith', 'brookhollow_south_road', 'frostspire', 'frostspire_pass', 'mirefen', 'revival_heights', 'route_east', 'route_revival', 'saltmere', 'sunmeadow_fields']; next=beat_master_mirefen: reachable; fly/rail add nothing new
+world state 11 (beat_master_mirefen): 3838 cells in 24 maps, zones ['aurelith', 'brookhollow_south_road', 'frostspire', 'frostspire_pass', 'mirefen', 'revival_heights', 'route_east', 'route_revival', 'saltmere', 'sunmeadow_fields']; next=has_tideglide: reachable; fly/rail add nothing new
+world state 12 (has_tideglide): 3838 cells in 24 maps, zones ['aurelith', 'brookhollow_south_road', 'fernwick_west_road', 'frostspire', 'frostspire_pass', 'lanternport', 'mirefen', 'revival_heights', 'route_east', 'route_revival', 'saltmere', 'sunmeadow_fields', 'tidewater_coast']; next=beat_master_tidewater: reachable; fly/rail add nothing new
+world state 13 (beat_master_tidewater): 3838 cells in 24 maps, zones ['aurelith', 'brookhollow_south_road', 'fernwick_west_road', 'frostspire', 'frostspire_pass', 'lanternport', 'mirefen', 'revival_heights', 'route_east', 'route_revival', 'saltmere', 'sunmeadow_fields', 'tidewater_coast']; next=beat_master_lanternport: reachable; fly/rail add nothing new
+world state 14 (beat_master_lanternport): 3838 cells in 24 maps, zones ['aurelith', 'brookhollow_south_road', 'cindervale', 'fernwick_west_exit', 'fernwick_west_road', 'frostspire', 'frostspire_pass', 'lanternport', 'mirefen', 'revival_heights', 'route_east', 'route_revival', 'saltmere', 'sunmeadow_fields', 'tidewater_coast']; next=beat_master_cindervale: reachable; fly/rail add nothing new
+world state 15 (beat_master_cindervale): 3838 cells in 24 maps, zones ['aurelith', 'brookhollow_south_road', 'cindervale', 'fernwick_west_exit', 'fernwick_west_road', 'frostspire', 'frostspire_pass', 'lanternport', 'mirefen', 'revival_heights', 'route_east', 'route_revival', 'saltmere', 'sunmeadow_fields', 'tidewater_coast']; next=all_badges: reachable; fly/rail add nothing new
+world state 16 (all_badges): 3838 cells in 24 maps, zones ['aurelith', 'aurelith_arena', 'brookhollow_south_road', 'cindervale', 'fernwick_west_exit', 'fernwick_west_road', 'frostspire', 'frostspire_pass', 'lanternport', 'mirefen', 'revival_heights', 'route_east', 'route_revival', 'saltmere', 'sunmeadow_fields', 'tidewater_coast']; next=None: reachable; fly/rail add nothing new
+world: gate gate_brookhollow_east forces a detour until beat_master_fernwick (far side unreached in state 2)
+world: gate gate_thornwood_east forces a detour until beat_master_saltmere (far side unreached in state 4)
+world: planned gate gate_frostspire_bridge (frostspire_pass<->frostspire) holds until beat_master_revival
+world: planned gate revival_heights<->saltmere (beat_master_revival) is a shortcut lock: both sides are already reachable by the intended route before it opens
+world: gate gate_route1_east forces a detour until beat_master_frostspire (far side unreached in state 8)
+world: planned gate gate_sunmeadow_north (revival_heights<->sunmeadow_fields) holds until beat_master_frostspire
+world: planned gate gate_saltmere_causeway (saltmere<->mirefen) holds until beat_master_frostspire
+world: planned gate gate_coast_road_flood (brookhollow_south_road<->tidewater_coast) holds until has_tideglide
+world: planned gate gate_lanternport_tidelock (fernwick_west_road<->fernwick_west_exit) holds until beat_master_lanternport
+world: planned gate gate_cindervale_giant (aurelith<->cindervale) holds until beat_master_lanternport
+world: planned gate gate_aurelith_arena (aurelith<->aurelith_arena) holds until all_badges
+TEXT IDS (maps/*.json on disk): OK (143 ids)
+
+--check: nothing written (33 write calls suppressed); in-memory problems: 0

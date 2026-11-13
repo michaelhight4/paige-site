@@ -1,0 +1,392 @@
+{
+ "when": "Fri Oct 23 2026 00:51:08 GMT-0500 (Central Daylight Time)",
+ "shots": [
+  {
+   "label": "before",
+   "file": "before/town_night_pc.png",
+   "w": 1920,
+   "h": 1080,
+   "zoom": 2,
+   "phase": "night",
+   "map": "brookhollow",
+   "nightfx": {
+    "switches": {
+     "nightLights": false,
+     "moonlight": false,
+     "clouds": false
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": false,
+    "windows": 0,
+    "litWindows": 0,
+    "lights": 0,
+    "flames": 0,
+    "lampLevel": 1,
+    "moonGrade": "night",
+    "bufferBuilds": 0,
+    "lastBuildMs": 0
+   }
+  },
+  {
+   "label": "after",
+   "file": "after/town_night_pc.png",
+   "w": 1920,
+   "h": 1080,
+   "zoom": 2,
+   "phase": "night",
+   "map": "brookhollow",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 33,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 1,
+    "moonGrade": "night+moon",
+    "bufferBuilds": 1,
+    "lastBuildMs": 12.4,
+    "litRuns": 79
+   }
+  },
+  {
+   "label": "before",
+   "file": "before/route_night_pc.png",
+   "w": 1920,
+   "h": 1080,
+   "zoom": 2,
+   "phase": "night",
+   "map": "route1",
+   "nightfx": {
+    "switches": {
+     "nightLights": false,
+     "moonlight": false,
+     "clouds": false
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": false,
+    "windows": 0,
+    "litWindows": 0,
+    "lights": 0,
+    "flames": 0,
+    "lampLevel": 1,
+    "moonGrade": "night",
+    "bufferBuilds": 0,
+    "lastBuildMs": 0
+   }
+  },
+  {
+   "label": "after",
+   "file": "after/route_night_pc.png",
+   "w": 1920,
+   "h": 1080,
+   "zoom": 2,
+   "phase": "night",
+   "map": "route1",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 0,
+    "litWindows": 0,
+    "lights": 8,
+    "flames": 0,
+    "lampLevel": 1,
+    "moonGrade": "night+moon",
+    "bufferBuilds": 1,
+    "lastBuildMs": 18.1,
+    "litRuns": 19
+   }
+  },
+  {
+   "label": "before",
+   "file": "before/town_dusk_pc.png",
+   "w": 1920,
+   "h": 1080,
+   "zoom": 2,
+   "phase": "dusk",
+   "map": "brookhollow",
+   "nightfx": {
+    "switches": {
+     "nightLights": false,
+     "moonlight": false,
+     "clouds": false
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": false,
+    "windows": 0,
+    "litWindows": 0,
+    "lights": 0,
+    "flames": 0,
+    "lampLevel": 0.75,
+    "moonGrade": "dusk",
+    "bufferBuilds": 0,
+    "lastBuildMs": 0
+   }
+  },
+  {
+   "label": "after",
+   "file": "after/town_dusk_pc.png",
+   "w": 1920,
+   "h": 1080,
+   "zoom": 2,
+   "phase": "dusk",
+   "map": "brookhollow",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 19,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 0.75,
+    "moonGrade": "dusk",
+    "bufferBuilds": 1,
+    "lastBuildMs": 17.3,
+    "litRuns": 69
+   }
+  },
+  {
+   "label": "before",
+   "file": "before/town_night_phone.png",
+   "w": 2340,
+   "h": 1080,
+   "zoom": 2,
+   "phase": "night",
+   "map": "brookhollow",
+   "nightfx": {
+    "switches": {
+     "nightLights": false,
+     "moonlight": false,
+     "clouds": false
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": false,
+    "windows": 0,
+    "litWindows": 0,
+    "lights": 0,
+    "flames": 0,
+    "lampLevel": 1,
+    "moonGrade": "night",
+    "bufferBuilds": 0,
+    "lastBuildMs": 0
+   }
+  },
+  {
+   "label": "after",
+   "file": "after/town_night_phone.png",
+   "w": 2340,
+   "h": 1080,
+   "zoom": 2,
+   "phase": "night",
+   "map": "brookhollow",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 33,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 1,
+    "moonGrade": "night+moon",
+    "bufferBuilds": 1,
+    "lastBuildMs": 4.7,
+    "litRuns": 42
+   }
+  },
+  {
+   "label": "before",
+   "file": "before/route_night_phone.png",
+   "w": 2340,
+   "h": 1080,
+   "zoom": 2,
+   "phase": "night",
+   "map": "route1",
+   "nightfx": {
+    "switches": {
+     "nightLights": false,
+     "moonlight": false,
+     "clouds": false
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": false,
+    "windows": 0,
+    "litWindows": 0,
+    "lights": 0,
+    "flames": 0,
+    "lampLevel": 1,
+    "moonGrade": "night",
+    "bufferBuilds": 0,
+    "lastBuildMs": 0
+   }
+  },
+  {
+   "label": "after",
+   "file": "after/route_night_phone.png",
+   "w": 2340,
+   "h": 1080,
+   "zoom": 2,
+   "phase": "night",
+   "map": "route1",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 0,
+    "litWindows": 0,
+    "lights": 8,
+    "flames": 0,
+    "lampLevel": 1,
+    "moonGrade": "night+moon",
+    "bufferBuilds": 1,
+    "lastBuildMs": 4.8,
+    "litRuns": 8
+   }
+  },
+  {
+   "label": "before",
+   "file": "before/town_dusk_phone.png",
+   "w": 2340,
+   "h": 1080,
+   "zoom": 2,
+   "phase": "dusk",
+   "map": "brookhollow",
+   "nightfx": {
+    "switches": {
+     "nightLights": false,
+     "moonlight": false,
+     "clouds": false
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": false,
+    "windows": 0,
+    "litWindows": 0,
+    "lights": 0,
+    "flames": 0,
+    "lampLevel": 0.75,
+    "moonGrade": "dusk",
+    "bufferBuilds": 0,
+    "lastBuildMs": 0
+   }
+  },
+  {
+   "label": "after",
+   "file": "after/town_dusk_phone.png",
+   "w": 2340,
+   "h": 1080,
+   "zoom": 2,
+   "phase": "dusk",
+   "map": "brookhollow",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 19,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 0.75,
+    "moonGrade": "dusk",
+    "bufferBuilds": 1,
+    "lastBuildMs": 9.3,
+    "litRuns": 40
+   }
+  }
+ ],
+ "identical": [
+  {
+   "device": "pc",
+   "case": "town_day",
+   "map": "brookhollow",
+   "phase": "day",
+   "identical": true
+  },
+  {
+   "device": "pc",
+   "case": "interior_night",
+   "map": "heal_brookhollow",
+   "phase": "night",
+   "identical": true
+  },
+  {
+   "device": "pc",
+   "case": "house_night",
+   "map": "house_1f",
+   "phase": "night",
+   "identical": true
+  },
+  {
+   "device": "phone",
+   "case": "town_day",
+   "map": "brookhollow",
+   "phase": "day",
+   "identical": true
+  },
+  {
+   "device": "phone",
+   "case": "interior_night",
+   "map": "heal_brookhollow",
+   "phase": "night",
+   "identical": true
+  },
+  {
+   "device": "phone",
+   "case": "house_night",
+   "map": "house_1f",
+   "phase": "night",
+   "identical": true
+  }
+ ],
+ "errors": []
+}

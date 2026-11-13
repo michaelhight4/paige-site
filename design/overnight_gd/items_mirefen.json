@@ -1,0 +1,44 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "mirefen",
+ "route_id": null,
+ "kind": "biome (swamp)",
+ "map_status": "partial (mirefen_bog built)",
+ "story_step": "8 (coin 5, Tideglide; storm season starts)",
+ "story_order": 19,
+ "level_band": "wild 33-39 (existing), trainers 35-38; hall see halls/mirefen.json",
+ "existing_placed": [
+  "mirefen_islet_item (TBD -> propose vigor_seed)",
+  "mf_sw_dead_end",
+  "mf_south_dead_end"
+ ],
+ "existing_note": "already in maps/*.json items[] (ITEM_PLACEHOLDERS.json placed); not duplicated here",
+ "proposed": [
+  {
+   "id": "mf_islet_fix",
+   "item": "vigor_seed",
+   "hidden": false,
+   "placement_hint": "replaces mirefen_islet_item TBD (giveTbdItems=false skips it today)"
+  },
+  {
+   "id": "mf_notebook_fisher",
+   "item": "tonic_large",
+   "hidden": false,
+   "placement_hint": "Mirefen fisher field notebook scene (club tier 3)",
+   "gift": true
+  },
+  {
+   "id": "mf_spur",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "placement_hint": "bike boardwalk spur end"
+  },
+  {
+   "id": "mf_hidden_lights",
+   "item": "energy_tonic",
+   "hidden": true,
+   "placement_hint": "where the bog lights gather"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

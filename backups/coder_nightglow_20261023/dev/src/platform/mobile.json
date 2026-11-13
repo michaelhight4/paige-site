@@ -1,0 +1,167 @@
+{
+  "_status": "DRAFT, local only (Oct 22, 2026). Gary: 'make coder have a mobile and pc set up independtly'. Mobile (phones and tablets, landscape) tuning lives ONLY in this file; pc.json is separate and never reads from here.",
+  "id": "mobile",
+  "zoom": {
+    "_note": "Integer camera zoom by canvas height in DEVICE px (innerHeight x devicePixelRatio, so a 390 css px phone at dpr 2 is 780). Pick the last row whose minHeight <= h. Starting values = old pickZoom: 1 under 600, else max(2, floor(h/480)).",
+    "breakpoints": [
+      { "minHeight": 0, "zoom": 1 },
+      { "minHeight": 600, "zoom": 2 },
+      { "minHeight": 1440, "zoom": 3 },
+      { "minHeight": 1920, "zoom": 4 },
+      { "minHeight": 2400, "zoom": 5 },
+      { "minHeight": 2880, "zoom": 6 }
+    ]
+  },
+  "camera": {
+    "_note": "Copied from src/overworld/camera.js as it behaves today: hard follow on the player tile centre (no deadzone), clamped to the map edges, short-interior axis centred on black.",
+    "alwaysCentre": true,
+    "_alwaysCentre": "Centre camera (Oct 23, 2026; Gary: 'the mc is always centered in the screen', because at a map side the touch D-pad/A/B covered the player): ON for mobile. The player's tile centre is the exact screen centre on every map; clampToMapEdges, smallMapAxis and pinShortMaps below are skipped while this is true and come back unchanged if it is set to false. Off-map space is left blank (black), no padding or fill tiles (Gary, 10:09 AM CT); display.outsideMap is ignored while this is on. Independent of pc.json.",
+    "follow": "player_tile_centre",
+    "deadzonePx": { "x": 0, "y": 0 },
+    "clampToMapEdges": true,
+    "smallMapAxis": "centre",
+    "pinShortMaps": {
+      "_note": "Pin short maps (README §17.2, interior_scale_audit REPORT fix 4a; on Oct 22, 2026): an interior (clock.js isIndoor) taller than the view by at most slackTiles is pinned to its bottom row (mat and floor visible, only top wall rows cropped) instead of scrolling. y axis only.",
+      "enabled": true,
+      "slackTiles": 1.6
+    }
+  },
+  "hud": {
+    "_note": "dialogBottom clears the d-pad (18 + 174 + 8 = 200, Text Bot's 844x390 check). The first matching rule in dialogBottomRules wins. The safe-area bottom inset is added on top, the same as for the d-pad.",
+    "dialogBottom": "calc(200px + var(--safe-bottom))",
+    "dialogBottomRules": [
+      { "media": "(max-height: 340px)", "dialogBottom": "calc(180px + var(--safe-bottom))" }
+    ],
+    "_portrait": "Layout fix (Oct 22, 2026): the portrait sat at 4vh, 220px tall, over the d-pad. It now stands on the dialogue box's bottom edge (same as dialogBottom, so it overlaps only the box's own left padding) and is sized to the space above it, so it clears the d-pad, A/B and SEL/DBG at every phone size.",
+    "dialogPortraitBottom": "calc(200px + var(--safe-bottom))",
+    "_portrait_short": "No max-height 340 rule on purpose: there the box drops to 180px and its bottom overlaps the d-pad's up arrow, so the portrait keeps 200px and is shortened instead (height uses --dlg-portrait-bottom).",
+    "_dialog_v3": "Gary's pick (Oct 22, 2026, 'Hide the d-pad during conversations so the box and portrait can be full size'): while a dialogue is open the d-pad, SEL and DBG fade out (controls.hideDuringDialog), so dialog.js places the box from dialogFull: beside = from the left edge to gapPx left of B, marginPx above the bottom safe area; above = full width just above A/B, used only when beside is narrower than minWidthPx (listMinWidthPx while a list is open and the d-pad up/down are back). dialogBottom / dialogPortraitBottom above are now only the CSS fallback before dialog.js runs.",
+    "dialogFull": { "marginPx": 8, "gapPx": 8, "topMarginPx": 4, "minWidthPx": 560, "listMinWidthPx": 420, "maxWidthPx": 980 },
+    "dialogPortraitHeight": "clamp(200px, 56vh, 260px)",
+    "dialogPortraitMaxWidth": "180px",
+    "dialogPadLeft": "192px",
+    "battleImage": {
+      "_note": "Layout fix (Oct 22, 2026): the 64x128 trainer image was 64*zoom CSS px (256 px on a 390 px phone) and was cropped behind the box. dialog.js now sizes it in whole device px per art px (crisp nearest-neighbour) at the largest scale that fits between topMarginPx and the box top, then sits it gapPx above the box. pc.json does not set this, so pc keeps 64*zoom.",
+      "fit": "aboveDialog",
+      "_v3": "Oct 22, 2026: with the box back at the bottom there is room for a readable sprite: at least 2 device px per art px, at most half the screen height, right-aligned with the box (top-right, above it, so it never reaches A/B).",
+      "align": "boxRight",
+      "insetPx": 8,
+      "gapPx": 6,
+      "topMarginPx": 4,
+      "minScale": 2,
+      "maxScale": 5,
+      "maxHeightFrac": 0.5
+    },
+    "toastDuringDialog": {
+      "_note": "A toast shown while the dialogue is open sits gapPx above the box (and the name tag), between the portrait and the battle image, over the box in z, never above topMarginPx. Compact type so it fits the strip above the box on 360/330 px phones.",
+      "gapPx": 6,
+      "topMarginPx": 4,
+      "fontSize": "14px",
+      "padding": "5px 12px"
+    },
+    "_toast_battle": "Own offsets (Oct 22, 2026): the toast and the trainer battle image line up with the dialogue box (200px, 180px at max-height 340px) so they clear the d-pad and the A/B/SEL/DBG buttons. pc.json does not set battleBottom, so pc keeps the old portrait-bottom + 7.5em. battleBottom is now only the fallback: battleImage (below) places and sizes it.",
+    "toastBottom": "calc(200px + var(--safe-bottom))",
+    "toastBottomRules": [
+      { "media": "(max-height: 340px)", "toastBottom": "calc(180px + var(--safe-bottom))" }
+    ],
+    "battleBottom": "calc(200px + var(--safe-bottom))",
+    "battleBottomRules": [
+      { "media": "(max-height: 340px)", "battleBottom": "calc(180px + var(--safe-bottom))" }
+    ]
+  },
+  "display": {
+    "_note": "Mobile full screen pass (Oct 23, 2026; Gary: 'make sure the mobile version uses the whole screen'). pc.json has no display block, so pc is untouched. fitCanvas: the canvas is sized to its own CSS box (100dvh, follows the visual viewport as the browser bars come and go) instead of innerWidth/innerHeight under a 100vh box. The width is never stretched: more tiles show at the same integer zoom. outsideMap 'edge': where a map is smaller than the screen (short interiors on 19.5:9 / 20:9), the map's edge row/column is repeated outward and shaded with edgeShade instead of black. fullscreenButton: a one-tap full screen chip (Fullscreen API + landscape lock); where the API is missing (iPhone Safari) the tap shows iosHint instead. Hidden in full screen and when launched from the home screen (manifest display fullscreen/standalone).",
+    "fitCanvas": true,
+    "outsideMap": "edge",
+    "edgeShade": "rgba(26,18,38,0.55)",
+    "fullscreenButton": true,
+    "iosHint": "For full screen on iPhone: tap Share, then Add to Home Screen, and play from the icon.",
+    "iosHintOnce": true,
+    "_iosHintOnce": "Phone menu fix (Oct 23, 2026; Gary: 'make the web bar auto hide'): Safari on iPhone cannot hide its bars from a page, so the first visit without the Fullscreen API (and not launched from the home screen) shows iosHint once as a small dismissible banner (localStorage kilumen.iosHint). Android Chrome goes full screen + landscape lock on the first tap (landscape.js)."
+  },
+  "controls": {
+    "touch": true,
+    "orientation": "landscape",
+    "_dialog_v3": "Gary (Oct 22, 2026): hide the d-pad, SEL and DBG while a dialogue is open (fade dialogFadeMs, none with reduced motion); A/B stay (advance / back). showDpadForLists brings d-pad up/down back only while an ask() choice list or inbox list is open. tapDialog: tapping the box = A, tapping a list row picks it.",
+    "hideDuringDialog": ["dpad", "sel", "dbg"],
+    "showDpadForLists": false,
+    "hideDuringLists": ["a", "b"],
+    "_phone_menu_fix": "Oct 23, 2026 (Gary: the d-pad hid the title menu on iPhone): choice / inbox lists are picked by tapping a row (44px rows, style.css), so the d-pad stays hidden and A/B fade too while a list is open (showDpadForLists false, hideDuringLists). Plain dialogue keeps A/B.",
+    "tapDialog": true,
+    "dialogFadeMs": 150,
+    "inputs": ["touch", "controller"],
+    "safeArea": {
+      "top": "env(safe-area-inset-top, 0px)",
+      "right": "env(safe-area-inset-right, 0px)",
+      "bottom": "env(safe-area-inset-bottom, 0px)",
+      "left": "env(safe-area-inset-left, 0px)"
+    },
+    "touchLayout": {
+      "_note": "CSS px. Offsets are added to the safe-area inset on that side.",
+      "dpad": { "size": 174, "left": 18, "bottom": 18 },
+      "buttons": { "right": 22, "bottom": 30, "gap": 14 },
+      "ab": { "size": 76 },
+      "small": { "width": 56, "height": 36, "labels": ["SEL", "DBG"] }
+    },
+    "prompts": {
+      "_note": "Phrases from text/overworld_lines.json input_hints (touch column). Wired (Oct 22, 2026): overworld textVars uses this set via platform.js promptVars; CONFIG.buttonNames is the fallback.",
+      "touch": {
+        "run_button": { "glyph": "btn_b", "label": "the B button" },
+        "bike_button": { "glyph": "btn_select", "label": "the SEL button" },
+        "confirm_button": { "glyph": "btn_a", "label": "the A button" },
+        "debug": { "glyph": "btn_dbg", "label": "the DBG button" }
+      }
+    }
+  },
+  "ui": {
+    "_note": "UI pass (Oct 22, 2026): sizing for src/ui on phones (landscape, tested 932x430, 956x440, 2340x1080). The right inset keeps every menu clear of the A/B buttons (right 22 + 2x76 + gap 14 = 188px). D-pad, SEL and DBG hide while a menu is open; A/B stay. Tuning here never changes pc.json.",
+    "vars": { "font": "14px", "hud-font": "13px", "family": "ui-rounded, \"Nunito\", \"Trebuchet MS\", system-ui, sans-serif",
+      "inset-top": "calc(6px + var(--safe-top, 0px))", "inset-left": "calc(10px + var(--safe-left, 0px))", "inset-right": "calc(200px + var(--safe-right, 0px))",
+      "inset-bottom": "calc(6px + var(--safe-bottom, 0px))", "max-w": "none", "gap": "8px", "pad": "10px",
+      "row-h": "44px", "hit": "44px", "tile-h": "92px", "badge": "46px", "icon": "48px", "app-cols": "4",
+      "team-cols": "2", "card-h": "78px", "dex-cols": "4", "dex-h": "84px", "dex-sprite": "1", "bar-h": "10px",
+      "logo": "64px", "menu-btn": "48px", "hud-edge": "10px", "banner-font": "1.05em", "banner-max": "44vw", "b-plate-w": "250px", "b-bottom-h": "max(30%, 126px)", "b-msg-skills": "none" },
+    "spriteScale": [ { "minHeight": 0, "scale": 1 } ],
+    "menuKeys": ["Escape", "KeyM"],
+    "menuPadButton": 9,
+    "menuButton": "round",
+    "hideTouchDuringUI": ["dpad", "sel", "dbg", "a", "b"],
+    "keepTouchOn": { "battle": ["a", "b"] },
+    "_phone_menu_fix": "Oct 23, 2026 (Gary's iPhone screenshot: the d-pad covered New game / Options): every menu hides the d-pad, SEL, DBG and A/B; rows are tapped (tap = select + confirm, 44px hit), the title starts on a tap anywhere, the X button is back. keepTouchOn keeps A/B on battle (B backs out of its submenus). dialog.js no longer re-shows them on a resize (Safari bar slide). pc.json keeps hideTouchDuringUI [].",
+    "titleOnBoot": true,
+    "locationBanner": true,
+    "bannerMs": 2400,
+    "interactPrompt": false,
+    "_interactPrompt_note": "Oct 23, 2026: the over-the-head talk bubble is PC only (Gary asked for an F key prompt on PC); the phone's A button is unchanged.",
+    "haptics": true
+  },
+  "audio": {
+    "_note": "Libs pass Oct 22, 2026 (src/audio/audio.js). Phone defaults, separate from pc.json: quieter music under the speaker, shorter crossfade; changes stored in localStorage kilumen.audio.mobile. iOS Safari only starts audio inside a touch, so unlockOn lists touchend first. Oct 22, 2026: music/sfx defaults lowered after Gary found the drafts a little loud (pc music 0.5->0.4, sfx 0.8->0.55; mobile music 0.4->0.3, sfx 0.7->0.5; draft loops normalised to -16 LUFS).",
+    "master": 0.9,
+    "music": 0.3,
+    "sfx": 0.5,
+    "muted": false,
+    "crossfadeMs": 1000,
+    "blip": true,
+    "blipEveryChars": 4,
+    "unlockOn": ["touchend", "pointerup", "mousedown", "keydown"],
+    "pauseWhenHidden": true
+  },
+  "nightFx": {
+    "_note": "Night FX v1 (Oct 23, 2026), src/overworld/nightfx.js. Phones: a coarser light buffer (8 native px cells, 1/4 the cells of pc) keeps the rebuild cheap; pools stay soft through the dither. clouds/flicker false turn those off on phones only. CONFIG.nightFx is the master switch; the alpha build forces it all off.",
+    "lightCell": 8,
+    "clouds": true,
+    "flicker": true,
+    "windowsGoDark": 0.4
+  },
+  "mood": {
+    "_note": "Mood layers v1 (Oct 23, 2026), phones: half the particles and a lower cap (budget < 1 ms/frame extra), 3 sun rays max. Independent of pc.json.",
+    "enabled": true,
+    "tint": true,
+    "vignette": true,
+    "particles": 0.5,
+    "maxParticles": 20,
+    "rays": true,
+    "maxRays": 3
+  }
+}

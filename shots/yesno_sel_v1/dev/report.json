@@ -1,0 +1,42 @@
+[
+ {
+  "view": "desktop_1366",
+  "fail": [],
+  "probe": {
+   "sel": "Yes",
+   "rows": [
+    "Yes",
+    "No"
+   ],
+   "color": "rgb(31, 22, 51)",
+   "bg": "rgb(244, 236, 216)",
+   "boxBg": "rgba(0, 0, 0, 0)",
+   "bgAlpha": 1,
+   "textVsRow": 14.61,
+   "rowVsBox": 17.84,
+   "visible": true,
+   "mobile": false
+  },
+  "axe": []
+ },
+ {
+  "view": "iphone_844x390",
+  "fail": [],
+  "probe": {
+   "sel": "Yes",
+   "rows": [
+    "Yes",
+    "No"
+   ],
+   "color": "rgb(31, 22, 51)",
+   "bg": "rgb(255, 224, 122)",
+   "boxBg": "rgba(0, 0, 0, 0)",
+   "bgAlpha": 1,
+   "textVsRow": 13.27,
+   "rowVsBox": 16.2,
+   "visible": true,
+   "mobile": true
+  },
+  "axe": []
+ }
+]

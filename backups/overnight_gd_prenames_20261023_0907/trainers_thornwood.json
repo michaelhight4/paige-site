@@ -1,0 +1,120 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "thornwood",
+ "route_id": null,
+ "kind": "biome",
+ "map_status": "built",
+ "story_step": "after coin 1 (optional) / crossed at step 6",
+ "story_order": 4,
+ "level_band": "wild 9-13, trainers 10-13",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_thornwood_bug",
+   "class": "beetle_keeper",
+   "class_display_suggestion": "Beetle Keeper",
+   "name_suggestion": "Odo",
+   "team": [
+    {
+     "species": "burlbeetle",
+     "level": 10
+    },
+    {
+     "species": "thornpod",
+     "level": 11
+    }
+   ],
+   "base": 25,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 275,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.thornwood.bug",
+   "note": "existing npc trainer_tw_bug (11,15)"
+  },
+  {
+   "id": "tr_thornwood_b",
+   "class": "camper",
+   "class_display_suggestion": "Camper",
+   "name_suggestion": "Bea",
+   "team": [
+    {
+     "species": "spinelet",
+     "level": 11
+    },
+    {
+     "species": "sailquill",
+     "level": 11
+    }
+   ],
+   "base": 30,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 330,
+   "sight_range": 2,
+   "text_ref": "TODO Text Bot: trainers.thornwood.b",
+   "note": "existing npc trainer_tw_b (27,16), cannot be skipped"
+  },
+  {
+   "id": "tr_thornwood_c",
+   "class": "gardener",
+   "class_display_suggestion": "Gardener",
+   "name_suggestion": "Kit",
+   "team": [
+    {
+     "species": "cobblepup",
+     "level": 10
+    },
+    {
+     "species": "briarlet",
+     "level": 12
+    }
+   ],
+   "base": 40,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 480,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.thornwood.c",
+   "note": "NEW: suggest pond-side clearing, facing the path"
+  },
+  {
+   "id": "tr_thornwood_d",
+   "class": "kid",
+   "class_display_suggestion": "Trail Kid",
+   "name_suggestion": "Lio",
+   "team": [
+    {
+     "species": "gloamtick",
+     "level": 12
+    }
+   ],
+   "base": 20,
+   "base_status": "existing",
+   "prize": 240,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.thornwood.d",
+   "note": "NEW: suggest mud patch near the east log gate; only after dusk? (keep always for now)"
+  },
+  {
+   "id": "tr_thornwood_e",
+   "class": "researcher",
+   "class_display_suggestion": "Field Researcher",
+   "name_suggestion": "Nell",
+   "team": [
+    {
+     "species": "lancebeetle",
+     "level": 12
+    },
+    {
+     "species": "burlbeetle",
+     "level": 13
+    }
+   ],
+   "base": 60,
+   "base_status": "existing",
+   "prize": 780,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.thornwood.e",
+   "note": "NEW: optional, near the Thornwood camp (STORY_RULINGS_CLUB)"
+  }
+ ],
+ "hall": null
+}

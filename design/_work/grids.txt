@@ -1,0 +1,117 @@
+===== route1 44 34
+    01234567890123456789012345678901234567890123
+  0 TTTT==TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+  1 T...==....TTTTTTTTTTTTTTTTTT.............#.T
+  2 TGGGGGGGGGTTTTTTTTTTTTTTTTTT.............#.T
+  3 TGGGGGGGGGTTTTTTTTTTTTTTTTTT............S#.T
+  4 TGGGGGGGGGTTTTTTTTTTTTTTTTTT....============
+  5 T...==....TTTTTTTTTTTTTTTTTT....============
+  6 T...==....TTTTTTTTT.......GGGGG.==.......#.#
+  7 T...==....TTTTTTTTT.......GGGGG^==vvvvvvv#.T
+  8 T...==.GGGTTTTTTTTT.......GGGGG.==.GGGGG.#.T
+  9 T...==.GGGTTTTTTTTT.............==.GGGGG###T
+ 10 T...==.GGG~~~~~~~~~....===========....TTTTTT
+ 11 T...==.GGG~~~~~~~~~....===========....TTTTTT
+ 12 T...==.GGGTTTTTTTTT....==.vvv.v.......TTTTTT
+ 13 T...==.GGGTTTTTTT:::::.==GGGGGG.......TTTTTT
+ 14 T...==.GGG.......:~~~:.==GGGGGG.......TTTTTT
+ 15 T...==...........:~~~:.==GGGGGG#######TTTTTT
+ 16 Tvvv==...........:::::.==GGGGGGTTTTTTTTTTTTT
+ 17 T...==.................==^...TTTTTTTTTTTTTTT
+ 18 T...==^......============....TTTTTTTTTTTTTTT
+ 19 T...==.......============....TTTTTTTTTTTTTTT
+ 20 T...==..GGGG.==..............TTTTTTTTTTTTTTT
+ 21 T...==..GGGG.==GGGGGG........TTTTTTTTTTTTTTT
+ 22 T...==..GGGG.==vvvvvvv.......TTTTTTTTTTTTTTT
+ 23 T...==..GGGG.==GGGGGG########TTTTTTTTTTTTTTT
+ 24 T...==..GGGG.==GGGGGGTTTTTTTTTTTTTTTTTTTTTTT
+ 25 T...==S......==....TTTTTTTTTTTTTTTTTTTTTTTTT
+ 26 T...===========....TTTTTTTTTTTTTTTTTTTTTTTTT
+ 27 T...===========....TTTTTTTTTTTTTTTTTTTTTTTTT
+ 28 T...==.GGGGG.......TTTTTTTTTTTTTTTTTTTTTTTTT
+ 29 T...==.GGGGG^......TTTTTTTTTTTTTTTTTTTTTTTTT
+ 30 T...==.GGGGG.......TTTTTTTTTTTTTTTTTTTTTTTTT
+ 31 T...==.GGGGG#######TTTTTTTTTTTTTTTTTTTTTTTTT
+ 32 T###==S###TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+ 33 TTTT==TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+npcs [('trainer_r1_a', 12, 20, 'down', 'sight 3 tiles'), ('trainer_r1_b', 22, 14, 'left', 'sight 3 tiles'), ('trainer_r1_c', 34, 9, 'up', 'sight 3 tiles')]
+signs [('sign_r1_s', 6, 32, '', ''), ('sign_r1_fork', 6, 25, '', ''), ('sign_r1_ne', 40, 3, '', '')]
+items [('r1_feed', 30, 6, '', ''), ('r1_hidden_tonic', 38, 8, '', ''), ('r1_crystal', 8, 13, '', '')]
+exits [('brookhollow', 4, 'south', '', ''), ('fernwick', 4, 'north', '', ''), ('sunmeadow_fields', 4, 'east', '', 'TO COME: Sunmeadow Fields proper (NE meadow) and road to Revival Heights')]
+warps []
+enc [{'x0': 7, 'y0': 28, 'x1': 11, 'y1': 31, 'table': 'sunmeadow_grass'}, {'x0': 15, 'y0': 21, 'x1': 20, 'y1': 24, 'table': 'sunmeadow_grass'}, {'x0': 8, 'y0': 20, 'x1': 11, 'y1': 24, 'table': 'sunmeadow_grass'}, {'x0': 25, 'y0': 13, 'x1': 30, 'y1': 16, 'table': 'sunmeadow_grass'}, {'x0': 26, 'y0': 6, 'x1': 30, 'y1': 8, 'table': 'sunmeadow_grass'}, {'x0': 35, 'y0': 7, 'x1': 39, 'y1': 9, 'table': 'sunmeadow_grass'}, {'x0': 7, 'y0': 8, 'x1': 9, 'y1': 14, 'table': 'sunmeadow_grass'}, {'x0': 1, 'y0': 2, 'x1': 9, 'y1': 4, 'table': 'sunmeadow_grass', 'forced': True}]
+forced [{'id': 'r1_north_choke', 'x0': 1, 'y0': 2, 'x1': 9, 'y1': 4, 'kind': 'tall_grass', 'between': ['exit-south', 'exit-north']}]
+===== thornwood 36 30
+    012345678901234567890123456789012345
+  0 TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+  1 TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+  2 TTTTTTTTTTTTTTT.....TTTTTTTTTTTTTTTT
+  3 TTTTTTTTTTTTTTT.....TTTTTTTTTTTTTTTT
+  4 ^^^^^^^^^^^^^^^^###^^^^^^^^^^^^^^^^^
+  5 ^^^^^^^^^^^^^^^^#.#^^^^^^^^^^^^^^^^^
+  6 TTTTTT===============....~~~....TTTT
+  7 TTTTTT===============....~~~....TTTT
+  8 TSTTTTvvvvTTTTT======...........TTTT
+  9 ==========TTTTTTTTTTT#######==##TTTT
+ 10 ==========TTTTTTTTTTTTTTTTTT==TTTTTT
+ 11 ==========TTTTTTTTTTTTGGGGG#==TTTTTT
+ 12 TT==TTT..TGGGG.TTTTTTTGGGGG.==TTTTTT
+ 13 TT==TTT##TGGGGGT....TTGGGGG.==TTTTTT
+ 14 TT==TTTTTTGGGGG.....TT......==TTTTTT
+ 15 TT==T.#TTTGGGGG#....TT......==TTTTTT
+ 16 TT==...TTTGGGGG.....TT......==TTTTTT
+ 17 TT==#..TTTGGGGG#####TT..^...==TTTTTT
+ 18 TT==...TTT.....TTTTTTT######==TTTTTT
+ 19 TT=============TTTTTTTTTTTTT==TTTTTT
+ 20 TT=============TTTTTTTTTTTTT==TTTTTT
+ 21 TT=============TTTTT=GGG============
+ 22 TTTTTTTTTTTTT==TTTTT=GGG============
+ 23 TTTTTT.......==....#=GGG============
+ 24 TTTTTT.GGGGGG==GGGG..TTTTTTTTTTTT#TT
+ 25 TTTTTT.GGGGGG==GGGG..TTTTTTTTTTTTTTT
+ 26 TTTTTT.GGGGGG==GGGG..TTTTTTTTTTTTTTT
+ 27 TTTTTT#######==######TTTTTTTTTTTTTTT
+ 28 TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+ 29 TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+npcs [('trainer_tw_bug', 11, 15, 'left', 'bug catcher, in the grass clearing'), ('trainer_tw_b', 26, 22, 'left', ''), ('dissident_hint', 23, 7, 'down', 'opposition group foreshadowing')]
+signs [('sign_tw', 1, 8, '', '')]
+items [('tw_bike_cache', 18, 15, '', ''), ('tw_feed', 5, 17, '', ''), ('tw_hidden_seed', 8, 25, '', ''), ('tw_crystal', 7, 12, '', ''), ('tw_tonic', 25, 17, '', '')]
+exits [('fernwick', 9, 'west', '', ''), ('route_revival', 21, 'east', '', 'TO COME: trail to Revival Heights')]
+warps [('greystone_entrance', 17, 5, 'up', '')]
+enc [{'x0': 10, 'y0': 12, 'x1': 14, 'y1': 17, 'table': 'thornwood_grass'}, {'x0': 7, 'y0': 24, 'x1': 12, 'y1': 26, 'table': 'thornwood_grass'}, {'x0': 22, 'y0': 11, 'x1': 26, 'y1': 13, 'table': 'thornwood_grass'}, {'x0': 15, 'y0': 24, 'x1': 18, 'y1': 26, 'table': 'thornwood_grass'}, {'x0': 21, 'y0': 21, 'x1': 23, 'y1': 23, 'table': 'thornwood_grass', 'forced': True}]
+forced [{'id': 'tw_east_choke', 'x0': 21, 'y0': 21, 'x1': 23, 'y1': 23, 'kind': 'tall_grass', 'between': ['exit-west', 'warp->greystone_entrance']}]
+===== brookhollow 34 26
+    0123456789012345678901234567890123
+  0 TTTTTTTTTT==TTTTTTTTTT~~~TTTTTTTTT
+  1 TTTTTTTTTT==TTTTTTTTTT~~~TTTTTTTTT
+  2 TT........==..........~~~.......TT
+  3 TT.#####.#==.#####..#.~~~#######TT
+  4 TT.#####.T==.#####....~~~#######TT
+  5 TT.#####.#==.#####....~~~#######TT
+  6 TT.#####.T==.#####....~~~#######TT
+  7 TT.##.##..==.##.##....~~~#######TT
+  8 TT..S=....==...=....##~~~###.###TT
+  9 TT.##=##..==...=....T.~~~...=...TT
+ 10 TT...=....==S..=......~~~..S=...TT
+ 11 TT...=...#==...=...#..~~~...=.#.TT
+ 12 TT=====================~==========
+ 13 TT=====================~==========
+ 14 TT......#.==........#.~~==.....###
+ 15 TT.#######==..#####...~~==#####.TT
+ 16 TT.#######==..#####...~~==#####.TT
+ 17 TT########==..#####...~~==#####.TT
+ 18 TT.#######==..#####...~~==#####.TT
+ 19 TT.###.###==..##.###..~~==##.##.TT
+ 20 TT....=...==....=.....~~=====...TT
+ 21 TT===================.~~~.......TT
+ 22 TT....................~~~......#TT
+ 23 TT####################~~~#######TT
+ 24 TTTTTTTTTTTTTTTTTTTTTT~~~TTTTTTTTT
+ 25 TTTTTTTTTTTTTTTTTTTTTT~~~TTTTTTTTT
+npcs [('villager_garden', 18, 13, 'left', ''), ('fisher', 21, 17, 'right', ''), ('kid', 12, 20, 'down', ''), ('rt_guard_east', 31, 11, 'down', 'story gate gate_brookhollow_east: speaks the gate lines')]
+signs [('sign_town', 12, 10, '', ''), ('sign_office', 27, 10, '', ''), ('sign_home', 4, 8, '', '')]
+items [('hid_feed_1', 29, 22, '', '')]
+exits [('route1', 10, 'north', '', ''), ('route_east', 12, 'east', '', 'TO COME: road east toward Aurelith / Tidewater')]
+warps [('house_1f', 5, 7, 'up', ''), ('heal_centre_int', 6, 19, 'up', ''), ('shop_int', 16, 19, 'up', ''), ('office_int', 28, 8, 'up', 'Revival Tech field office (promotion cutscene)'), ('house_int_a', 15, 7, 'up', ''), ('house_int_b', 28, 19, 'up', '')]
+enc []
+forced None

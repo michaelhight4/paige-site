@@ -1,0 +1,23 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "thornwood",
+ "route_id": null,
+ "kind": "biome",
+ "map_status": "built",
+ "story_step": "after coin 1 (optional) / crossed at step 6",
+ "story_order": 4,
+ "level_band": "wild 9-13, trainers 10-13",
+ "existing_placed": [
+  "tw_bike_cache",
+  "tw_feed",
+  "tw_hidden_seed",
+  "tw_crystal",
+  "tw_tonic",
+  "old_record",
+  "tw_glade_tree",
+  "tw_se_tree"
+ ],
+ "existing_note": "already in maps/*.json items[] (ITEM_PLACEHOLDERS.json placed); not duplicated here",
+ "proposed": [],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

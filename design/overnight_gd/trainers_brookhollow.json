@@ -1,0 +1,13 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "brookhollow",
+ "route_id": null,
+ "kind": "town",
+ "map_status": "built",
+ "story_step": "0 (start)",
+ "story_order": 1,
+ "level_band": "-",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [],
+ "hall": null
+}

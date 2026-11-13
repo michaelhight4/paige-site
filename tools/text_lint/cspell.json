@@ -1,0 +1,55 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "version": "0.2",
+  "language": "en-US",
+  "dictionaries": [
+    "en_us",
+    "en-gb",
+    "kilumen-words"
+  ],
+  "dictionaryDefinitions": [
+    {
+      "name": "kilumen-words",
+      "path": "./kilumen-words.txt",
+      "addWords": true
+    }
+  ],
+  "flagWords": [
+    "shiny",
+    "pokedex",
+    "pokédex",
+    "pokeball",
+    "pokéball",
+    "poké",
+    "pokemon",
+    "pokémon",
+    "gotcha",
+    "nurse",
+    "alcohol",
+    "beer",
+    "wine",
+    "vodka",
+    "whisky",
+    "whiskey",
+    "drunk",
+    "cigarette",
+    "cigarettes",
+    "smoking",
+    "smoke break",
+    "weed",
+    "drugs"
+  ],
+  "ignoreRegExpList": [
+    "/\\b[a-z0-9]+(?:_[a-z0-9]+)+\\b/g",
+    "/\\{[A-Za-z0-9_.]{1,40}\\}/g"
+  ],
+  "overrides": [
+    {
+      "filename": "**/*.json",
+      "ignoreRegExpList": [
+        "/\"[a-z0-9_]+\"\\s*:/g"
+      ]
+    }
+  ],
+  "minWordLength": 4
+}

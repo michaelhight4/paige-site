@@ -1,0 +1,214 @@
+[
+ {
+  "file": "pc_saltmere_door_to_hall.png",
+  "r": {
+   "map": "saltmere_hall_int",
+   "npcs": [
+    "saltmere_hall_int_master",
+    "saltmere_hall_int_h1",
+    "saltmere_hall_int_h2",
+    "saltmere_hall_int_h3",
+    "saltmere_hall_int_guide"
+   ]
+  },
+  "map": "saltmere_hall_int",
+  "pos": [
+   5,
+   14
+  ],
+  "dlg": "Sully is heading your way!\n▼",
+  "puzzle": false,
+  "errors": []
+ },
+ {
+  "file": "pc_saltmere_hall_master.png",
+  "r": "ok",
+  "map": "saltmere_hall_int",
+  "pos": [
+   5,
+   4
+  ],
+  "dlg": "Nerys BrydeYou crossed my pans dry. Let's see how you do in deep water.▼",
+  "puzzle": false,
+  "errors": []
+ },
+ {
+  "file": "pc_tidewater_hall.png",
+  "r": {
+   "map": "tidewater_hall_int",
+   "npcs": [
+    "tidewater_hall_int_master",
+    "tidewater_hall_int_h1",
+    "tidewater_hall_int_h2",
+    "tidewater_hall_int_h3",
+    "tidewater_hall_int_h4",
+    "tidewater_hall_int_guide"
+   ]
+  },
+  "map": "tidewater_hall_int",
+  "pos": [
+   6,
+   12
+  ],
+  "dlg": "Edda is heading your way!\n▼",
+  "puzzle": false,
+  "errors": []
+ },
+ {
+  "file": "pc_mirefen_hall.png",
+  "r": {
+   "map": "mirefen_hall_int",
+   "npcs": [
+    "mirefen_hall_int_master",
+    "mirefen_hall_int_h1",
+    "mirefen_hall_int_h2",
+    "mirefen_hall_int_h3",
+    "mirefen_hall_int_guide"
+   ]
+  },
+  "map": "mirefen_hall_int",
+  "pos": [
+   5,
+   17
+  ],
+  "dlg": "Arlo is heading your way!\n▼",
+  "puzzle": false,
+  "errors": []
+ },
+ {
+  "file": "pc_mirefen_guide_puzzle_dark.png",
+  "r": "ok",
+  "map": "mirefen_hall_int",
+  "pos": [
+   9,
+   16
+  ],
+  "dlg": "It's dark on the water. Light a reed lamp and you'll see the planks near it.\n▼",
+  "puzzle": true,
+  "errors": []
+ },
+ {
+  "file": "pc_mirefen_puzzle_2_lamps.png",
+  "r": {
+   "p": 2,
+   "at": [
+    2,
+    5
+   ]
+  },
+  "map": "mirefen_hall_int",
+  "pos": [
+   5,
+   17
+  ],
+  "dlg": "Arlo is heading your way!\n▼",
+  "puzzle": true,
+  "errors": []
+ },
+ {
+  "file": "phone_saltmere_door_to_hall.png",
+  "r": {
+   "map": "saltmere_hall_int",
+   "npcs": [
+    "saltmere_hall_int_master",
+    "saltmere_hall_int_h1",
+    "saltmere_hall_int_h2",
+    "saltmere_hall_int_h3",
+    "saltmere_hall_int_guide"
+   ]
+  },
+  "map": "saltmere_hall_int",
+  "pos": [
+   5,
+   14
+  ],
+  "dlg": "Sully is heading your way!\n▼",
+  "puzzle": false,
+  "errors": []
+ },
+ {
+  "file": "phone_saltmere_hall_master.png",
+  "r": "ok",
+  "map": "saltmere_hall_int",
+  "pos": [
+   5,
+   4
+  ],
+  "dlg": "Nerys BrydeYou crossed my pans dry. Let's see how you do in deep water.▼",
+  "puzzle": false,
+  "errors": []
+ },
+ {
+  "file": "phone_tidewater_hall.png",
+  "r": {
+   "map": "tidewater_hall_int",
+   "npcs": [
+    "tidewater_hall_int_master",
+    "tidewater_hall_int_h1",
+    "tidewater_hall_int_h2",
+    "tidewater_hall_int_h3",
+    "tidewater_hall_int_h4",
+    "tidewater_hall_int_guide"
+   ]
+  },
+  "map": "tidewater_hall_int",
+  "pos": [
+   6,
+   12
+  ],
+  "dlg": "Edda is heading your way!\n▼",
+  "puzzle": false,
+  "errors": []
+ },
+ {
+  "file": "phone_mirefen_hall.png",
+  "r": {
+   "map": "mirefen_hall_int",
+   "npcs": [
+    "mirefen_hall_int_master",
+    "mirefen_hall_int_h1",
+    "mirefen_hall_int_h2",
+    "mirefen_hall_int_h3",
+    "mirefen_hall_int_guide"
+   ]
+  },
+  "map": "mirefen_hall_int",
+  "pos": [
+   5,
+   17
+  ],
+  "dlg": "Arlo is heading your way!\n▼",
+  "puzzle": false,
+  "errors": []
+ },
+ {
+  "file": "phone_mirefen_guide_puzzle_dark.png",
+  "r": "ok",
+  "map": "mirefen_hall_int",
+  "pos": [
+   9,
+   16
+  ],
+  "dlg": "It's dark on the water. Light a reed lamp and you'll see the planks near it.\n▼",
+  "puzzle": true,
+  "errors": []
+ },
+ {
+  "file": "phone_mirefen_puzzle_2_lamps.png",
+  "r": {
+   "p": 2,
+   "at": [
+    2,
+    5
+   ]
+  },
+  "map": "mirefen_hall_int",
+  "pos": [
+   5,
+   17
+  ],
+  "dlg": "Arlo is heading your way!\n▼",
+  "puzzle": true,
+  "errors": []
+ }
+]

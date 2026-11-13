@@ -1,0 +1,45 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "frostspire",
+ "route_id": null,
+ "kind": "biome (snow peaks)",
+ "map_status": "to_come",
+ "story_step": "7 (coin 4, Skylift)",
+ "story_order": 14,
+ "level_band": "wild 29-33, trainers 30-33; hall see halls/frostspire.json",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "fs_sled_end",
+   "item": "vigor_seed",
+   "hidden": false,
+   "placement_hint": "bottom of the one-way sled run"
+  },
+  {
+   "id": "fs_shrine",
+   "item": "calm_tea",
+   "hidden": true,
+   "placement_hint": "shrine offering stone"
+  },
+  {
+   "id": "fs_hut",
+   "item": "tonic_large",
+   "hidden": false,
+   "placement_hint": "peak hut"
+  },
+  {
+   "id": "fs_ice_cave",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "placement_hint": "ice cave dead end"
+  },
+  {
+   "id": "fs_hidden_cairn",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "placement_hint": "cairn"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

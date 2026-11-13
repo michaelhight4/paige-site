@@ -1,0 +1,25 @@
+{
+ "_status": "DRAFT layout (overnight Coder pass, Oct 23 2026) from Game dev outline in design/overnight_gd/halls/frostspire.json. Hall map not built yet: World Design to place it; solvability is checked by tests/progression.test.mjs.",
+ "zone": "frostspire",
+ "map": "frostspire_hall_int",
+ "kind": "gust",
+ "name_placeholder": "Gust lanes",
+ "solved_flag": "puzzle_frostspire_hall_solved",
+ "grid": [
+  "###########",
+  "#G#.......#",
+  "#.#nnnnnnn#",
+  "#.e....B..#",
+  "##vvvvvvvv#",
+  "#.....B...#",
+  "#.....S...#",
+  "###########"
+ ],
+ "note": "Outline has ledges + falling to the floor below; this draft is one floor (no ledge art/runtime yet).",
+ "verified": {
+  "shortest_solution": "L U AR U U R AR L L L L L U U",
+  "length": 14,
+  "states_explored": 82,
+  "legend": "U/D/L/R step, A<dir> = face + A"
+ }
+}

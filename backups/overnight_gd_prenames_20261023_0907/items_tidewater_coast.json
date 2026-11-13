@@ -1,0 +1,52 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "tidewater_coast",
+ "route_id": null,
+ "kind": "biome (coast/sea)",
+ "map_status": "to_come",
+ "story_step": "9 (coin 6)",
+ "story_order": 21,
+ "level_band": "wild 40-45, trainers 41-45; hall see halls/tidewater_coast.json",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "tc_pools",
+   "item": "tonic_large",
+   "hidden": true,
+   "placement_hint": "tide pool"
+  },
+  {
+   "id": "tc_arch",
+   "item": "vigor_seed",
+   "hidden": false,
+   "placement_hint": "rock arch"
+  },
+  {
+   "id": "tc_stack",
+   "item": "energy_tonic",
+   "hidden": false,
+   "placement_hint": "sea stack (Tideglide)"
+  },
+  {
+   "id": "tc_grotto",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "placement_hint": "grotto back",
+   "qty": 2
+  },
+  {
+   "id": "tc_hidden_wreck",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "placement_hint": "wreck"
+  },
+  {
+   "id": "tc_lane",
+   "item": "calm_tea",
+   "hidden": false,
+   "placement_hint": "sea lane islet"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

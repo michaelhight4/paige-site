@@ -1,0 +1,150 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_brookhollow_tidewater",
+ "route_id": "brookhollow-tidewater",
+ "kind": "route (coast road, storm-flooded)",
+ "map_status": "to_come",
+ "story_step": "9",
+ "story_order": 20,
+ "level_band": "wild 38-42, trainers 39-43",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_route_brookhollow_tidewater_a",
+   "class": "diver",
+   "class_display_suggestion": "Reef Swimmer",
+   "name_suggestion": "Gwen",
+   "team": [
+    {
+     "species": "downpaw",
+     "level": 39
+    },
+    {
+     "species": "driftknot",
+     "level": 39
+    }
+   ],
+   "base": 50,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1950,
+   "sight_range": 0,
+   "text_ref": "TODO Text Bot: trainers.route_brookhollow_tidewater.a",
+   "note": "floodwater (Tideglide), talk-to"
+  },
+  {
+   "id": "tr_route_brookhollow_tidewater_b",
+   "class": "harbour_hand",
+   "class_display_suggestion": "Harbour Hand",
+   "name_suggestion": "Heath",
+   "team": [
+    {
+     "species": "drenchcrab",
+     "level": 40
+    },
+    {
+     "species": "downpaw",
+     "level": 40
+    }
+   ],
+   "base": 45,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1800,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_brookhollow_tidewater.b",
+   "note": "seawall"
+  },
+  {
+   "id": "tr_route_brookhollow_tidewater_c",
+   "class": "birder",
+   "class_display_suggestion": "Birdwatcher",
+   "name_suggestion": "Ines",
+   "team": [
+    {
+     "species": "sailquill",
+     "level": 40
+    },
+    {
+     "species": "reedcrane",
+     "level": 41
+    }
+   ],
+   "base": 35,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1435,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_brookhollow_tidewater.c",
+   "note": "cliff path"
+  },
+  {
+   "id": "tr_route_brookhollow_tidewater_d",
+   "class": "angler",
+   "class_display_suggestion": "Angler",
+   "name_suggestion": "Jarrah",
+   "team": [
+    {
+     "species": "tundrarch",
+     "level": 40
+    },
+    {
+     "species": "mirewump",
+     "level": 41
+    },
+    {
+     "species": "surfskipper",
+     "level": 41
+    }
+   ],
+   "base": 35,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1435,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_brookhollow_tidewater.d",
+   "note": "jetty"
+  },
+  {
+   "id": "tr_route_brookhollow_tidewater_e",
+   "class": "skater",
+   "class_display_suggestion": "Skater",
+   "name_suggestion": "Kestrel",
+   "team": [
+    {
+     "species": "galepetrel",
+     "level": 42
+    },
+    {
+     "species": "sunbasilisk",
+     "level": 42
+    }
+   ],
+   "base": 35,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1470,
+   "sight_range": 5,
+   "text_ref": "TODO Text Bot: trainers.route_brookhollow_tidewater.e",
+   "note": "seawall bike rail"
+  },
+  {
+   "id": "tr_route_brookhollow_tidewater_f",
+   "class": "diver",
+   "class_display_suggestion": "Reef Swimmer",
+   "name_suggestion": "Linnet",
+   "team": [
+    {
+     "species": "coilarch",
+     "level": 42
+    },
+    {
+     "species": "galepetrel",
+     "level": 43
+    }
+   ],
+   "base": 50,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 2150,
+   "sight_range": 0,
+   "text_ref": "TODO Text Bot: trainers.route_brookhollow_tidewater.f",
+   "note": "floodwater, optional"
+  }
+ ],
+ "hall": null
+}

@@ -1,0 +1,36 @@
+{
+ "target": "http://127.0.0.1:36741/index.html",
+ "after": {
+  "map": "brookhollow",
+  "x": 17,
+  "y": 15,
+  "facing": "down",
+  "size": [
+   58,
+   46
+  ],
+  "padding": {
+   "dx": 12,
+   "dy": 7,
+   "old_size": [
+    34,
+    32
+   ],
+   "rule": "centre camera (Gary, Oct 23 2026): decorative blocking border, every coordinate already includes +dx/+dy; see qa/centre_camera/OFFSETS.md"
+  },
+  "code": 0,
+  "cam": null,
+  "zoom": 2,
+  "warps": [
+   "house_1f@17,14",
+   "heal_brookhollow@18,26",
+   "shop_int@28,26",
+   "office_int@40,15",
+   "home_brookhollow_a@27,14",
+   "home_brookhollow_b@40,26",
+   "lab_brookhollow@28,34"
+  ],
+  "warpFix": []
+ },
+ "errors": []
+}

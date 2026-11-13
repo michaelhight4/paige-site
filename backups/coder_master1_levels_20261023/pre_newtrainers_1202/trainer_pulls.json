@@ -1,0 +1,7826 @@
+{
+ "_meta": {
+  "built": "2026-10-23",
+  "by": "tools/build_creature_plan.mjs",
+  "status": "PLAN DATA, NOT WIRED. Existing teams recorded as they are (runtime order: trainer_teams.js > masters.json > map npc.team > World Design draft). Only trainers with no team anywhere are filled (guess).",
+  "trainer_bands": {
+   "1": [
+    4,
+    13
+   ],
+   "2": [
+    10,
+    21
+   ],
+   "3": [
+    14,
+    28
+   ],
+   "4": [
+    27,
+    35
+   ],
+   "5": [
+    31,
+    40
+   ],
+   "6": [
+    39,
+    46
+   ],
+   "7": [
+    43,
+    50
+   ],
+   "8": [
+    47,
+    55
+   ],
+   "9": [
+    57,
+    64
+   ]
+  }
+ },
+ "trainers": [
+  {
+   "key": "fernwick_hall_int.helper_1",
+   "map": "fernwick_hall_int",
+   "npc_id": "helper_1",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 1,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+     "team": [
+      {
+       "species": "nibbin",
+       "level": 10
+      },
+      {
+       "species": "peeplark",
+       "level": 11
+      }
+     ]
+    },
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "cobblepup",
+       "level": 8
+      },
+      {
+       "species": "burlbeetle",
+       "level": 8
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+    "team": [
+     {
+      "species": "nibbin",
+      "level": 10
+     },
+     {
+      "species": "peeplark",
+      "level": 11
+     }
+    ]
+   },
+   "also_recorded_differently": [
+    "data/masters.json (hall trainer)"
+   ]
+  },
+  {
+   "key": "fernwick_hall_int.helper_2",
+   "map": "fernwick_hall_int",
+   "npc_id": "helper_2",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 1,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+     "team": [
+      {
+       "species": "pebblant",
+       "level": 11
+      },
+      {
+       "species": "dewmite",
+       "level": 11
+      }
+     ]
+    },
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "burlbeetle",
+       "level": 9
+      },
+      {
+       "species": "lintmouse",
+       "level": 9
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+    "team": [
+     {
+      "species": "pebblant",
+      "level": 11
+     },
+     {
+      "species": "dewmite",
+      "level": 11
+     }
+    ]
+   },
+   "also_recorded_differently": [
+    "data/masters.json (hall trainer)"
+   ]
+  },
+  {
+   "key": "fernwick_hall_int.master_fernwick",
+   "map": "fernwick_hall_int",
+   "npc_id": "master_fernwick",
+   "kind": "master",
+   "gd_id": null,
+   "region": 1,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+     "team": [
+      {
+       "species": "pebblant",
+       "level": 12
+      },
+      {
+       "species": "pondkin",
+       "level": 12
+      },
+      {
+       "species": "nibbin",
+       "level": 13
+      }
+     ]
+    },
+    {
+     "source": "data/masters.json (hall master)",
+     "team": [
+      {
+       "species": "nibbin",
+       "level": 10
+      },
+      {
+       "species": "pebblant",
+       "level": 12
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+    "team": [
+     {
+      "species": "pebblant",
+      "level": 12
+     },
+     {
+      "species": "pondkin",
+      "level": 12
+     },
+     {
+      "species": "nibbin",
+      "level": 13
+     }
+    ]
+   },
+   "also_recorded_differently": [
+    "data/masters.json (hall master)"
+   ]
+  },
+  {
+   "key": "fernwick.ron_rival_1",
+   "map": "fernwick",
+   "npc_id": "ron_rival_1",
+   "kind": "ron",
+   "gd_id": "ron_1",
+   "region": 1,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+     "teams_by_starter": {
+      "tumbloam": [
+       {
+        "species": "peeplark",
+        "level": 7
+       },
+       {
+        "species": "cindrip",
+        "level": 8
+       }
+      ],
+      "cindrip": [
+       {
+        "species": "peeplark",
+        "level": 7
+       },
+       {
+        "species": "rillop",
+        "level": 8
+       }
+      ],
+      "rillop": [
+       {
+        "species": "peeplark",
+        "level": 7
+       },
+       {
+        "species": "tumbloam",
+        "level": 8
+       }
+      ]
+     }
+    },
+    {
+     "source": "design/overnight_gd/trainers_fernwick.json (World Design draft)",
+     "teams_by_starter": {
+      "tumbloam": [
+       {
+        "species": "cindrip",
+        "level": 6
+       }
+      ],
+      "cindrip": [
+       {
+        "species": "rillop",
+        "level": 6
+       }
+      ],
+      "rillop": [
+       {
+        "species": "tumbloam",
+        "level": 6
+       }
+      ]
+     }
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+    "teams_by_starter": {
+     "tumbloam": [
+      {
+       "species": "peeplark",
+       "level": 7
+      },
+      {
+       "species": "cindrip",
+       "level": 8
+      }
+     ],
+     "cindrip": [
+      {
+       "species": "peeplark",
+       "level": 7
+      },
+      {
+       "species": "rillop",
+       "level": 8
+      }
+     ],
+     "rillop": [
+      {
+       "species": "peeplark",
+       "level": 7
+      },
+      {
+       "species": "tumbloam",
+       "level": 8
+      }
+     ]
+    }
+   },
+   "also_recorded_differently": [
+    "design/overnight_gd/trainers_fernwick.json (World Design draft)"
+   ]
+  },
+  {
+   "key": "route1.trainer_r1_a",
+   "map": "route1",
+   "npc_id": "trainer_r1_a",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route1_a",
+   "region": 1,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 4
+      },
+      {
+       "species": "burlbeetle",
+       "level": 4
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route1.json (World Design draft)",
+     "team": [
+      {
+       "species": "nibbin",
+       "level": 4
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 4
+     },
+     {
+      "species": "burlbeetle",
+      "level": 4
+     }
+    ]
+   },
+   "also_recorded_differently": [
+    "design/overnight_gd/trainers_route1.json (World Design draft)"
+   ]
+  },
+  {
+   "key": "route1.trainer_r1_b",
+   "map": "route1",
+   "npc_id": "trainer_r1_b",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route1_b",
+   "region": 1,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+     "team": [
+      {
+       "species": "dewmite",
+       "level": 5
+      },
+      {
+       "species": "peeplark",
+       "level": 6
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route1.json (World Design draft)",
+     "team": [
+      {
+       "species": "burlbeetle",
+       "level": 4
+      },
+      {
+       "species": "pebblant",
+       "level": 5
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+    "team": [
+     {
+      "species": "dewmite",
+      "level": 5
+     },
+     {
+      "species": "peeplark",
+      "level": 6
+     }
+    ]
+   },
+   "also_recorded_differently": [
+    "design/overnight_gd/trainers_route1.json (World Design draft)"
+   ]
+  },
+  {
+   "key": "route1.trainer_r1_c",
+   "map": "route1",
+   "npc_id": "trainer_r1_c",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route1_c",
+   "region": 1,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 6
+      },
+      {
+       "species": "nibbin",
+       "level": 7
+      },
+      {
+       "species": "cloverkin",
+       "level": 7
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route1.json (World Design draft)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 6
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+    "team": [
+     {
+      "species": "gloamtick",
+      "level": 6
+     },
+     {
+      "species": "nibbin",
+      "level": 7
+     },
+     {
+      "species": "cloverkin",
+      "level": 7
+     }
+    ]
+   },
+   "also_recorded_differently": [
+    "design/overnight_gd/trainers_route1.json (World Design draft)"
+   ]
+  },
+  {
+   "key": "gd:thornwood.tr_thornwood_c",
+   "map": "thornwood",
+   "npc_id": null,
+   "kind": "gardener",
+   "gd_id": "tr_thornwood_c",
+   "region": 2,
+   "placed_on_map": false,
+   "records": [
+    {
+     "source": "design/overnight_gd/trainers_thornwood.json (World Design draft)",
+     "team": [
+      {
+       "species": "cobblepup",
+       "level": 10
+      },
+      {
+       "species": "briarlet",
+       "level": 12
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "design/overnight_gd/trainers_thornwood.json (World Design draft)",
+    "team": [
+     {
+      "species": "cobblepup",
+      "level": 10
+     },
+     {
+      "species": "briarlet",
+      "level": 12
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "gd:thornwood.tr_thornwood_d",
+   "map": "thornwood",
+   "npc_id": null,
+   "kind": "kid",
+   "gd_id": "tr_thornwood_d",
+   "region": 2,
+   "placed_on_map": false,
+   "records": [
+    {
+     "source": "design/overnight_gd/trainers_thornwood.json (World Design draft)",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 12
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "design/overnight_gd/trainers_thornwood.json (World Design draft)",
+    "team": [
+     {
+      "species": "gloamtick",
+      "level": 12
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "gd:thornwood.tr_thornwood_e",
+   "map": "thornwood",
+   "npc_id": null,
+   "kind": "researcher",
+   "gd_id": "tr_thornwood_e",
+   "region": 2,
+   "placed_on_map": false,
+   "records": [
+    {
+     "source": "design/overnight_gd/trainers_thornwood.json (World Design draft)",
+     "team": [
+      {
+       "species": "lancebeetle",
+       "level": 12
+      },
+      {
+       "species": "burlbeetle",
+       "level": 13
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "design/overnight_gd/trainers_thornwood.json (World Design draft)",
+    "team": [
+     {
+      "species": "lancebeetle",
+      "level": 12
+     },
+     {
+      "species": "burlbeetle",
+      "level": 13
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_aurelith_saltmere.route_aurelith_saltmere_trainer_1",
+   "map": "route_aurelith_saltmere",
+   "npc_id": "route_aurelith_saltmere_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_saltmere_aurelith_a",
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_aurelith_saltmere.json (npc.team)",
+     "team": [
+      {
+       "species": "pinchkin",
+       "level": 16
+      },
+      {
+       "species": "brinepipit",
+       "level": 17
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_saltmere_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "pinchkin",
+       "level": 16
+      },
+      {
+       "species": "brinepipit",
+       "level": 17
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_aurelith_saltmere.json (npc.team)",
+    "team": [
+     {
+      "species": "pinchkin",
+      "level": 16
+     },
+     {
+      "species": "brinepipit",
+      "level": 17
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_aurelith_saltmere.route_aurelith_saltmere_trainer_2",
+   "map": "route_aurelith_saltmere",
+   "npc_id": "route_aurelith_saltmere_trainer_2",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_saltmere_aurelith_b",
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_aurelith_saltmere.json (npc.team)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 17
+      },
+      {
+       "species": "brinepipit",
+       "level": 17
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_saltmere_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 17
+      },
+      {
+       "species": "brinepipit",
+       "level": 17
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_aurelith_saltmere.json (npc.team)",
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 17
+     },
+     {
+      "species": "brinepipit",
+      "level": 17
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_aurelith_saltmere.route_aurelith_saltmere_trainer_3",
+   "map": "route_aurelith_saltmere",
+   "npc_id": "route_aurelith_saltmere_trainer_3",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_saltmere_aurelith_c",
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_aurelith_saltmere.json (npc.team)",
+     "team": [
+      {
+       "species": "blubbet",
+       "level": 17
+      },
+      {
+       "species": "sandstarlet",
+       "level": 17
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_saltmere_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "blubbet",
+       "level": 17
+      },
+      {
+       "species": "sandstarlet",
+       "level": 17
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_aurelith_saltmere.json (npc.team)",
+    "team": [
+     {
+      "species": "blubbet",
+      "level": 17
+     },
+     {
+      "species": "sandstarlet",
+      "level": 17
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_aurelith_saltmere.route_aurelith_saltmere_trainer_4",
+   "map": "route_aurelith_saltmere",
+   "npc_id": "route_aurelith_saltmere_trainer_4",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_saltmere_aurelith_d",
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_aurelith_saltmere.json (npc.team)",
+     "team": [
+      {
+       "species": "burlbeetle",
+       "level": 16
+      },
+      {
+       "species": "moatling",
+       "level": 16
+      },
+      {
+       "species": "grainling",
+       "level": 18
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_saltmere_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "burlbeetle",
+       "level": 16
+      },
+      {
+       "species": "moatling",
+       "level": 16
+      },
+      {
+       "species": "grainling",
+       "level": 18
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_aurelith_saltmere.json (npc.team)",
+    "team": [
+     {
+      "species": "burlbeetle",
+      "level": 16
+     },
+     {
+      "species": "moatling",
+      "level": 16
+     },
+     {
+      "species": "grainling",
+      "level": 18
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_aurelith_saltmere.route_aurelith_saltmere_trainer_5",
+   "map": "route_aurelith_saltmere",
+   "npc_id": "route_aurelith_saltmere_trainer_5",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_saltmere_aurelith_e",
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_aurelith_saltmere.json (npc.team)",
+     "team": [
+      {
+       "species": "tinderwren",
+       "level": 18
+      },
+      {
+       "species": "sailquill",
+       "level": 18
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_saltmere_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "tinderwren",
+       "level": 18
+      },
+      {
+       "species": "sailquill",
+       "level": 18
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_aurelith_saltmere.json (npc.team)",
+    "team": [
+     {
+      "species": "tinderwren",
+      "level": 18
+     },
+     {
+      "species": "sailquill",
+      "level": 18
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_aurelith_saltmere.route_aurelith_saltmere_trainer_6",
+   "map": "route_aurelith_saltmere",
+   "npc_id": "route_aurelith_saltmere_trainer_6",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_saltmere_aurelith_f",
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_aurelith_saltmere.json (npc.team)",
+     "team": [
+      {
+       "species": "whelkin",
+       "level": 19
+      },
+      {
+       "species": "sandstarlet",
+       "level": 19
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_saltmere_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "whelkin",
+       "level": 19
+      },
+      {
+       "species": "sandstarlet",
+       "level": 19
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_aurelith_saltmere.json (npc.team)",
+    "team": [
+     {
+      "species": "whelkin",
+      "level": 19
+     },
+     {
+      "species": "sandstarlet",
+      "level": 19
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_east.route_east_trainer_1",
+   "map": "route_east",
+   "npc_id": "route_east_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_brookhollow_aurelith_a",
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_east.json (npc.team)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 13
+      },
+      {
+       "species": "flockpup",
+       "level": 13
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_brookhollow_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 13
+      },
+      {
+       "species": "flockpup",
+       "level": 13
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_east.json (npc.team)",
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 13
+     },
+     {
+      "species": "flockpup",
+      "level": 13
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_east.route_east_trainer_2",
+   "map": "route_east",
+   "npc_id": "route_east_trainer_2",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_brookhollow_aurelith_b",
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_east.json (npc.team)",
+     "team": [
+      {
+       "species": "ditchsnap",
+       "level": 13
+      },
+      {
+       "species": "pondkin",
+       "level": 14
+      },
+      {
+       "species": "puddlenip",
+       "level": 15
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_brookhollow_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "ditchsnap",
+       "level": 13
+      },
+      {
+       "species": "pondkin",
+       "level": 14
+      },
+      {
+       "species": "puddlenip",
+       "level": 15
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_east.json (npc.team)",
+    "team": [
+     {
+      "species": "ditchsnap",
+      "level": 13
+     },
+     {
+      "species": "pondkin",
+      "level": 14
+     },
+     {
+      "species": "puddlenip",
+      "level": 15
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_east.route_east_trainer_3",
+   "map": "route_east",
+   "npc_id": "route_east_trainer_3",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_brookhollow_aurelith_c",
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_east.json (npc.team)",
+     "team": [
+      {
+       "species": "burlbeetle",
+       "level": 14
+      },
+      {
+       "species": "gloamtick",
+       "level": 14
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_brookhollow_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "burlbeetle",
+       "level": 14
+      },
+      {
+       "species": "gloamtick",
+       "level": 14
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_east.json (npc.team)",
+    "team": [
+     {
+      "species": "burlbeetle",
+      "level": 14
+     },
+     {
+      "species": "gloamtick",
+      "level": 14
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_east.route_east_trainer_4",
+   "map": "route_east",
+   "npc_id": "route_east_trainer_4",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_brookhollow_aurelith_d",
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_east.json (npc.team)",
+     "team": [
+      {
+       "species": "millwhirl",
+       "level": 15
+      },
+      {
+       "species": "sailquill",
+       "level": 16
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_brookhollow_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "millwhirl",
+       "level": 15
+      },
+      {
+       "species": "sailquill",
+       "level": 16
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_east.json (npc.team)",
+    "team": [
+     {
+      "species": "millwhirl",
+      "level": 15
+     },
+     {
+      "species": "sailquill",
+      "level": 16
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_east.route_east_trainer_5",
+   "map": "route_east",
+   "npc_id": "route_east_trainer_5",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_brookhollow_aurelith_e",
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_east.json (npc.team)",
+     "team": [
+      {
+       "species": "bleatling",
+       "level": 16
+      },
+      {
+       "species": "loamworm",
+       "level": 16
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_brookhollow_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "bleatling",
+       "level": 16
+      },
+      {
+       "species": "loamworm",
+       "level": 16
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_east.json (npc.team)",
+    "team": [
+     {
+      "species": "bleatling",
+      "level": 16
+     },
+     {
+      "species": "loamworm",
+      "level": 16
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_east.route_east_trainer_6",
+   "map": "route_east",
+   "npc_id": "route_east_trainer_6",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_brookhollow_aurelith_f",
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_east.json (npc.team)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 15
+      },
+      {
+       "species": "crowkin",
+       "level": 17
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_brookhollow_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 15
+      },
+      {
+       "species": "crowkin",
+       "level": 17
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_east.json (npc.team)",
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 15
+     },
+     {
+      "species": "crowkin",
+      "level": 17
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "saltmere_hall_int.saltmere_hall_int_h1",
+   "map": "saltmere_hall_int",
+   "npc_id": "saltmere_hall_int_h1",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "sandstarlet",
+       "level": 17
+      },
+      {
+       "species": "blubbet",
+       "level": 17
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "sandstarlet",
+      "level": 17
+     },
+     {
+      "species": "blubbet",
+      "level": 17
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "saltmere_hall_int.saltmere_hall_int_h2",
+   "map": "saltmere_hall_int",
+   "npc_id": "saltmere_hall_int_h2",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "medulet",
+       "level": 18
+      },
+      {
+       "species": "whelkin",
+       "level": 18
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "medulet",
+      "level": 18
+     },
+     {
+      "species": "whelkin",
+      "level": 18
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "saltmere_hall_int.saltmere_hall_int_h3",
+   "map": "saltmere_hall_int",
+   "npc_id": "saltmere_hall_int_h3",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "finnip",
+       "level": 19
+      },
+      {
+       "species": "ribboneel",
+       "level": 19
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "finnip",
+      "level": 19
+     },
+     {
+      "species": "ribboneel",
+      "level": 19
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "saltmere_hall_int.saltmere_hall_int_master",
+   "map": "saltmere_hall_int",
+   "npc_id": "saltmere_hall_int_master",
+   "kind": "master",
+   "gd_id": null,
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall master)",
+     "team": [
+      {
+       "species": "quaymouser",
+       "level": 18
+      },
+      {
+       "species": "polypip",
+       "level": 19
+      },
+      {
+       "species": "spratwyrm",
+       "level": 21
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall master)",
+    "team": [
+     {
+      "species": "quaymouser",
+      "level": 18
+     },
+     {
+      "species": "polypip",
+      "level": 19
+     },
+     {
+      "species": "spratwyrm",
+      "level": 21
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "saltmere.saltmere_ron_2",
+   "map": "saltmere",
+   "npc_id": "saltmere_ron_2",
+   "kind": "rival",
+   "gd_id": "ron_2",
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/saltmere.json (npc.team)",
+     "teams_by_starter": {
+      "tumbloam": [
+       {
+        "species": "sailquill",
+        "level": 17
+       },
+       {
+        "species": "grainling",
+        "level": 18
+       },
+       {
+        "species": "emberlunx",
+        "level": 20
+       }
+      ],
+      "cindrip": [
+       {
+        "species": "sailquill",
+        "level": 17
+       },
+       {
+        "species": "bramblehog",
+        "level": 18
+       },
+       {
+        "species": "brookhorn",
+        "level": 20
+       }
+      ],
+      "rillop": [
+       {
+        "species": "sailquill",
+        "level": 17
+       },
+       {
+        "species": "lancebeetle",
+        "level": 18
+       },
+       {
+        "species": "burrowmane",
+        "level": 20
+       }
+      ]
+     }
+    },
+    {
+     "source": "design/overnight_gd/trainers_saltmere.json (World Design draft)",
+     "teams_by_starter": {
+      "tumbloam": [
+       {
+        "species": "sailquill",
+        "level": 17
+       },
+       {
+        "species": "grainling",
+        "level": 18
+       },
+       {
+        "species": "emberlunx",
+        "level": 20
+       }
+      ],
+      "cindrip": [
+       {
+        "species": "sailquill",
+        "level": 17
+       },
+       {
+        "species": "bramblehog",
+        "level": 18
+       },
+       {
+        "species": "brookhorn",
+        "level": 20
+       }
+      ],
+      "rillop": [
+       {
+        "species": "sailquill",
+        "level": 17
+       },
+       {
+        "species": "lancebeetle",
+        "level": 18
+       },
+       {
+        "species": "burrowmane",
+        "level": 20
+       }
+      ]
+     }
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/saltmere.json (npc.team)",
+    "teams_by_starter": {
+     "tumbloam": [
+      {
+       "species": "sailquill",
+       "level": 17
+      },
+      {
+       "species": "grainling",
+       "level": 18
+      },
+      {
+       "species": "emberlunx",
+       "level": 20
+      }
+     ],
+     "cindrip": [
+      {
+       "species": "sailquill",
+       "level": 17
+      },
+      {
+       "species": "bramblehog",
+       "level": 18
+      },
+      {
+       "species": "brookhorn",
+       "level": 20
+      }
+     ],
+     "rillop": [
+      {
+       "species": "sailquill",
+       "level": 17
+      },
+      {
+       "species": "lancebeetle",
+       "level": 18
+      },
+      {
+       "species": "burrowmane",
+       "level": 20
+      }
+     ]
+    }
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "thornwood.trainer_tw_b",
+   "map": "thornwood",
+   "npc_id": "trainer_tw_b",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_thornwood_b",
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+     "team": [
+      {
+       "species": "briarlet",
+       "level": 12
+      },
+      {
+       "species": "burlbeetle",
+       "level": 12
+      },
+      {
+       "species": "bramblehog",
+       "level": 13
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_thornwood.json (World Design draft)",
+     "team": [
+      {
+       "species": "spinelet",
+       "level": 11
+      },
+      {
+       "species": "sailquill",
+       "level": 11
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+    "team": [
+     {
+      "species": "briarlet",
+      "level": 12
+     },
+     {
+      "species": "burlbeetle",
+      "level": 12
+     },
+     {
+      "species": "bramblehog",
+      "level": 13
+     }
+    ]
+   },
+   "also_recorded_differently": [
+    "design/overnight_gd/trainers_thornwood.json (World Design draft)"
+   ]
+  },
+  {
+   "key": "thornwood.trainer_tw_bug",
+   "map": "thornwood",
+   "npc_id": "trainer_tw_bug",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_thornwood_bug",
+   "region": 2,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+     "team": [
+      {
+       "species": "thornpod",
+       "level": 11
+      },
+      {
+       "species": "gloamtick",
+       "level": 11
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_thornwood.json (World Design draft)",
+     "team": [
+      {
+       "species": "burlbeetle",
+       "level": 10
+      },
+      {
+       "species": "thornpod",
+       "level": 11
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "src/battle/data/trainer_teams.js (authored, used first at runtime)",
+    "team": [
+     {
+      "species": "thornpod",
+      "level": 11
+     },
+     {
+      "species": "gloamtick",
+      "level": 11
+     }
+    ]
+   },
+   "also_recorded_differently": [
+    "design/overnight_gd/trainers_thornwood.json (World Design draft)"
+   ]
+  },
+  {
+   "key": "gd:greystone_b1.tr_greystone_c",
+   "map": "greystone_b1",
+   "npc_id": null,
+   "kind": "researcher",
+   "gd_id": "tr_greystone_c",
+   "region": 3,
+   "placed_on_map": false,
+   "records": [
+    {
+     "source": "design/overnight_gd/trainers_greystone_caverns.json (World Design draft)",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 15
+      },
+      {
+       "species": "cavernmaw",
+       "level": 16
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "design/overnight_gd/trainers_greystone_caverns.json (World Design draft)",
+    "team": [
+     {
+      "species": "gloamtick",
+      "level": 15
+     },
+     {
+      "species": "cavernmaw",
+      "level": 16
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "gd:greystone_b1.tr_greystone_d",
+   "map": "greystone_b1",
+   "npc_id": null,
+   "kind": "hiker",
+   "gd_id": "tr_greystone_d",
+   "region": 3,
+   "placed_on_map": false,
+   "records": [
+    {
+     "source": "design/overnight_gd/trainers_greystone_caverns.json (World Design draft)",
+     "team": [
+      {
+       "species": "dripweaver",
+       "level": 26
+      },
+      {
+       "species": "slagrook",
+       "level": 27
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "design/overnight_gd/trainers_greystone_caverns.json (World Design draft)",
+    "team": [
+     {
+      "species": "dripweaver",
+      "level": 26
+     },
+     {
+      "species": "slagrook",
+      "level": 27
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "gd:greystone_b1.tr_greystone_e",
+   "map": "greystone_b1",
+   "npc_id": null,
+   "kind": "climber",
+   "gd_id": "tr_greystone_e",
+   "region": 3,
+   "placed_on_map": false,
+   "records": [
+    {
+     "source": "design/overnight_gd/trainers_greystone_caverns.json (World Design draft)",
+     "team": [
+      {
+       "species": "stonepede",
+       "level": 26
+      },
+      {
+       "species": "gloamtick",
+       "level": 27
+      },
+      {
+       "species": "cavernwing",
+       "level": 28
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "design/overnight_gd/trainers_greystone_caverns.json (World Design draft)",
+    "team": [
+     {
+      "species": "stonepede",
+      "level": 26
+     },
+     {
+      "species": "gloamtick",
+      "level": 27
+     },
+     {
+      "species": "cavernwing",
+      "level": 28
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "gd:greystone_b1.tr_greystone_hiker",
+   "map": "greystone_b1",
+   "npc_id": null,
+   "kind": "hiker",
+   "gd_id": "tr_greystone_hiker",
+   "region": 3,
+   "placed_on_map": false,
+   "records": [
+    {
+     "source": "design/overnight_gd/trainers_greystone_caverns.json (World Design draft)",
+     "team": [
+      {
+       "species": "pebbit",
+       "level": 14
+      },
+      {
+       "species": "delvelet",
+       "level": 15
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "design/overnight_gd/trainers_greystone_caverns.json (World Design draft)",
+    "team": [
+     {
+      "species": "pebbit",
+      "level": 14
+     },
+     {
+      "species": "delvelet",
+      "level": 15
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "greystone_b1.hiker_b1",
+   "map": "greystone_b1",
+   "npc_id": "hiker_b1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_greystone_hiker_b1",
+   "region": 3,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "design/overnight_gd/trainers_greystone_caverns.json (World Design draft)",
+     "team": [
+      {
+       "species": "geodling",
+       "level": 16
+      },
+      {
+       "species": "slagrook",
+       "level": 16
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "design/overnight_gd/trainers_greystone_caverns.json (World Design draft)",
+    "team": [
+     {
+      "species": "geodling",
+      "level": 16
+     },
+     {
+      "species": "slagrook",
+      "level": 16
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "greystone_entrance.hiker",
+   "map": "greystone_entrance",
+   "npc_id": "hiker",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 3,
+   "placed_on_map": true,
+   "records": [],
+   "status": "filled (plan only, guess: no team existed)",
+   "guess": true,
+   "active": {
+    "source": "tools/build_creature_plan.mjs fill rule (region pool, fully built species, lower third of the trainer band)",
+    "team": [
+     {
+      "species": "halovy",
+      "level": 18
+     },
+     {
+      "species": "tollkin",
+      "level": 19
+     }
+    ]
+   }
+  },
+  {
+   "key": "revival_hall_int.revival_hall_int_h1",
+   "map": "revival_hall_int",
+   "npc_id": "revival_hall_int_h1",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 3,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "halovy",
+       "level": 24
+      },
+      {
+       "species": "glarekit",
+       "level": 24
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "halovy",
+      "level": 24
+     },
+     {
+      "species": "glarekit",
+      "level": 24
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "revival_hall_int.revival_hall_int_h2",
+   "map": "revival_hall_int",
+   "npc_id": "revival_hall_int_h2",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 3,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "prismwing",
+       "level": 25
+      },
+      {
+       "species": "glimmerlamb",
+       "level": 25
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "prismwing",
+      "level": 25
+     },
+     {
+      "species": "glimmerlamb",
+      "level": 25
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "revival_hall_int.revival_hall_int_h3",
+   "map": "revival_hall_int",
+   "npc_id": "revival_hall_int_h3",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 3,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "tollkin",
+       "level": 26
+      },
+      {
+       "species": "dawnfin",
+       "level": 26
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "tollkin",
+      "level": 26
+     },
+     {
+      "species": "dawnfin",
+      "level": 26
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "revival_hall_int.revival_hall_int_h4",
+   "map": "revival_hall_int",
+   "npc_id": "revival_hall_int_h4",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 3,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "candlewren",
+       "level": 26
+      },
+      {
+       "species": "halovy",
+       "level": 26
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "candlewren",
+      "level": 26
+     },
+     {
+      "species": "halovy",
+      "level": 26
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "revival_hall_int.revival_hall_int_master",
+   "map": "revival_hall_int",
+   "npc_id": "revival_hall_int_master",
+   "kind": "master",
+   "gd_id": null,
+   "region": 3,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall master)",
+     "team": [
+      {
+       "species": "halovy",
+       "level": 25
+      },
+      {
+       "species": "gildfinch",
+       "level": 26
+      },
+      {
+       "species": "fleecelight",
+       "level": 26
+      },
+      {
+       "species": "lampwick",
+       "level": 28
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall master)",
+    "team": [
+     {
+      "species": "halovy",
+      "level": 25
+     },
+     {
+      "species": "gildfinch",
+      "level": 26
+     },
+     {
+      "species": "fleecelight",
+      "level": 26
+     },
+     {
+      "species": "lampwick",
+      "level": 28
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "revival_heights.revival_heights_ron_3",
+   "map": "revival_heights",
+   "npc_id": "revival_heights_ron_3",
+   "kind": "rival",
+   "gd_id": "ron_3",
+   "region": 3,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/revival_heights.json (npc.team)",
+     "teams_by_starter": {
+      "tumbloam": [
+       {
+        "species": "sailquill",
+        "level": 24
+       },
+       {
+        "species": "glassvine",
+        "level": 25
+       },
+       {
+        "species": "mirrorkin",
+        "level": 25
+       },
+       {
+        "species": "emberlunx",
+        "level": 27
+       }
+      ],
+      "cindrip": [
+       {
+        "species": "sailquill",
+        "level": 24
+       },
+       {
+        "species": "topiarix",
+        "level": 25
+       },
+       {
+        "species": "reverion",
+        "level": 25
+       },
+       {
+        "species": "brookhorn",
+        "level": 27
+       }
+      ],
+      "rillop": [
+       {
+        "species": "sailquill",
+        "level": 24
+       },
+       {
+        "species": "sproutwyrm",
+        "level": 25
+       },
+       {
+        "species": "cogwhisk",
+        "level": 25
+       },
+       {
+        "species": "burrowmane",
+        "level": 27
+       }
+      ]
+     }
+    },
+    {
+     "source": "design/overnight_gd/trainers_revival_heights.json (World Design draft)",
+     "teams_by_starter": {
+      "tumbloam": [
+       {
+        "species": "sailquill",
+        "level": 24
+       },
+       {
+        "species": "glassvine",
+        "level": 25
+       },
+       {
+        "species": "mirrorkin",
+        "level": 25
+       },
+       {
+        "species": "emberlunx",
+        "level": 27
+       }
+      ],
+      "cindrip": [
+       {
+        "species": "sailquill",
+        "level": 24
+       },
+       {
+        "species": "topiarix",
+        "level": 25
+       },
+       {
+        "species": "reverion",
+        "level": 25
+       },
+       {
+        "species": "brookhorn",
+        "level": 27
+       }
+      ],
+      "rillop": [
+       {
+        "species": "sailquill",
+        "level": 24
+       },
+       {
+        "species": "sproutwyrm",
+        "level": 25
+       },
+       {
+        "species": "cogwhisk",
+        "level": 25
+       },
+       {
+        "species": "burrowmane",
+        "level": 27
+       }
+      ]
+     }
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/revival_heights.json (npc.team)",
+    "teams_by_starter": {
+     "tumbloam": [
+      {
+       "species": "sailquill",
+       "level": 24
+      },
+      {
+       "species": "glassvine",
+       "level": 25
+      },
+      {
+       "species": "mirrorkin",
+       "level": 25
+      },
+      {
+       "species": "emberlunx",
+       "level": 27
+      }
+     ],
+     "cindrip": [
+      {
+       "species": "sailquill",
+       "level": 24
+      },
+      {
+       "species": "topiarix",
+       "level": 25
+      },
+      {
+       "species": "reverion",
+       "level": 25
+      },
+      {
+       "species": "brookhorn",
+       "level": 27
+      }
+     ],
+     "rillop": [
+      {
+       "species": "sailquill",
+       "level": 24
+      },
+      {
+       "species": "sproutwyrm",
+       "level": 25
+      },
+      {
+       "species": "cogwhisk",
+       "level": 25
+      },
+      {
+       "species": "burrowmane",
+       "level": 27
+      }
+     ]
+    }
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "revival_heights.revival_heights_trainer_1",
+   "map": "revival_heights",
+   "npc_id": "revival_heights_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_revival_heights_plaza",
+   "region": 3,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/revival_heights.json (npc.team)",
+     "team": [
+      {
+       "species": "halovy",
+       "level": 25
+      },
+      {
+       "species": "prismite",
+       "level": 26
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_revival_heights.json (World Design draft)",
+     "team": [
+      {
+       "species": "halovy",
+       "level": 25
+      },
+      {
+       "species": "prismite",
+       "level": 26
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/revival_heights.json (npc.team)",
+    "team": [
+     {
+      "species": "halovy",
+      "level": 25
+     },
+     {
+      "species": "prismite",
+      "level": 26
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_revival.route_revival_trainer_1",
+   "map": "route_revival",
+   "npc_id": "route_revival_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_thornwood_revival_a",
+   "region": 3,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_revival.json (npc.team)",
+     "team": [
+      {
+       "species": "scutadillo",
+       "level": 21
+      },
+      {
+       "species": "topiarix",
+       "level": 22
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_thornwood_revival.json (World Design draft)",
+     "team": [
+      {
+       "species": "scutadillo",
+       "level": 21
+      },
+      {
+       "species": "topiarix",
+       "level": 22
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_revival.json (npc.team)",
+    "team": [
+     {
+      "species": "scutadillo",
+      "level": 21
+     },
+     {
+      "species": "topiarix",
+      "level": 22
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_revival.route_revival_trainer_2",
+   "map": "route_revival",
+   "npc_id": "route_revival_trainer_2",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_thornwood_revival_b",
+   "region": 3,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_revival.json (npc.team)",
+     "team": [
+      {
+       "species": "halovy",
+       "level": 22
+      },
+      {
+       "species": "prismwing",
+       "level": 22
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_thornwood_revival.json (World Design draft)",
+     "team": [
+      {
+       "species": "halovy",
+       "level": 22
+      },
+      {
+       "species": "prismwing",
+       "level": 22
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_revival.json (npc.team)",
+    "team": [
+     {
+      "species": "halovy",
+      "level": 22
+     },
+     {
+      "species": "prismwing",
+      "level": 22
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_revival.route_revival_trainer_3",
+   "map": "route_revival",
+   "npc_id": "route_revival_trainer_3",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_thornwood_revival_c",
+   "region": 3,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_revival.json (npc.team)",
+     "team": [
+      {
+       "species": "burlbeetle",
+       "level": 21
+      },
+      {
+       "species": "chiselbug",
+       "level": 22
+      },
+      {
+       "species": "prismwing",
+       "level": 23
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_thornwood_revival.json (World Design draft)",
+     "team": [
+      {
+       "species": "burlbeetle",
+       "level": 21
+      },
+      {
+       "species": "chiselbug",
+       "level": 22
+      },
+      {
+       "species": "prismwing",
+       "level": 23
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_revival.json (npc.team)",
+    "team": [
+     {
+      "species": "burlbeetle",
+      "level": 21
+     },
+     {
+      "species": "chiselbug",
+      "level": 22
+     },
+     {
+      "species": "prismwing",
+      "level": 23
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_revival.route_revival_trainer_4",
+   "map": "route_revival",
+   "npc_id": "route_revival_trainer_4",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_thornwood_revival_d",
+   "region": 3,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_revival.json (npc.team)",
+     "team": [
+      {
+       "species": "slagrook",
+       "level": 23
+      },
+      {
+       "species": "moatling",
+       "level": 23
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_thornwood_revival.json (World Design draft)",
+     "team": [
+      {
+       "species": "slagrook",
+       "level": 23
+      },
+      {
+       "species": "moatling",
+       "level": 23
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_revival.json (npc.team)",
+    "team": [
+     {
+      "species": "slagrook",
+      "level": 23
+     },
+     {
+      "species": "moatling",
+      "level": 23
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_revival.route_revival_trainer_5",
+   "map": "route_revival",
+   "npc_id": "route_revival_trainer_5",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_thornwood_revival_e",
+   "region": 3,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_revival.json (npc.team)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 23
+      },
+      {
+       "species": "kindlepup",
+       "level": 24
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_thornwood_revival.json (World Design draft)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 23
+      },
+      {
+       "species": "kindlepup",
+       "level": 24
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_revival.json (npc.team)",
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 23
+     },
+     {
+      "species": "kindlepup",
+      "level": 24
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_revival.route_revival_trainer_6",
+   "map": "route_revival",
+   "npc_id": "route_revival_trainer_6",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_thornwood_revival_f",
+   "region": 3,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_revival.json (npc.team)",
+     "team": [
+      {
+       "species": "reverion",
+       "level": 24
+      },
+      {
+       "species": "cogwhisk",
+       "level": 25
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_thornwood_revival.json (World Design draft)",
+     "team": [
+      {
+       "species": "reverion",
+       "level": 24
+      },
+      {
+       "species": "cogwhisk",
+       "level": 25
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_revival.json (npc.team)",
+    "team": [
+     {
+      "species": "reverion",
+      "level": 24
+     },
+     {
+      "species": "cogwhisk",
+      "level": 25
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_revival.route_revival_trainer_7",
+   "map": "route_revival",
+   "npc_id": "route_revival_trainer_7",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_thornwood_revival_g",
+   "region": 3,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_revival.json (npc.team)",
+     "team": [
+      {
+       "species": "ankerling",
+       "level": 24
+      },
+      {
+       "species": "brinecube",
+       "level": 25
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_thornwood_revival.json (World Design draft)",
+     "team": [
+      {
+       "species": "ankerling",
+       "level": 24
+      },
+      {
+       "species": "brinecube",
+       "level": 25
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_revival.json (npc.team)",
+    "team": [
+     {
+      "species": "ankerling",
+      "level": 24
+     },
+     {
+      "species": "brinecube",
+      "level": 25
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "frostspire_hall_int.frostspire_hall_int_h1",
+   "map": "frostspire_hall_int",
+   "npc_id": "frostspire_hall_int_h1",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 30
+      },
+      {
+       "species": "snowgrouse",
+       "level": 30
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 30
+     },
+     {
+      "species": "snowgrouse",
+      "level": 30
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "frostspire_hall_int.frostspire_hall_int_h2",
+   "map": "frostspire_hall_int",
+   "npc_id": "frostspire_hall_int_h2",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "highkite",
+       "level": 31
+      },
+      {
+       "species": "signalwren",
+       "level": 31
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "highkite",
+      "level": 31
+     },
+     {
+      "species": "signalwren",
+      "level": 31
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "frostspire_hall_int.frostspire_hall_int_h3",
+   "map": "frostspire_hall_int",
+   "npc_id": "frostspire_hall_int_h3",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "spraytern",
+       "level": 32
+      },
+      {
+       "species": "sailquill",
+       "level": 32
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "spraytern",
+      "level": 32
+     },
+     {
+      "species": "sailquill",
+      "level": 32
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "frostspire_hall_int.frostspire_hall_int_master",
+   "map": "frostspire_hall_int",
+   "npc_id": "frostspire_hall_int_master",
+   "kind": "master",
+   "gd_id": null,
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall master)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 31
+      },
+      {
+       "species": "highkite",
+       "level": 32
+      },
+      {
+       "species": "pouchbill",
+       "level": 33
+      },
+      {
+       "species": "gildfinch",
+       "level": 35
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall master)",
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 31
+     },
+     {
+      "species": "highkite",
+      "level": 32
+     },
+     {
+      "species": "pouchbill",
+      "level": 33
+     },
+     {
+      "species": "gildfinch",
+      "level": 35
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "frostspire_pass.frostspire_pass_ron_4",
+   "map": "frostspire_pass",
+   "npc_id": "frostspire_pass_ron_4",
+   "kind": "rival",
+   "gd_id": "ron_4",
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/frostspire_pass.json (npc.team)",
+     "teams_by_starter": {
+      "tumbloam": [
+       {
+        "species": "sailquill",
+        "level": 29
+       },
+       {
+        "species": "fernlume",
+        "level": 30
+       },
+       {
+        "species": "geodling",
+        "level": 30
+       },
+       {
+        "species": "shagmount",
+        "level": 31
+       },
+       {
+        "species": "forgeharrow",
+        "level": 32
+       }
+      ],
+      "cindrip": [
+       {
+        "species": "sailquill",
+        "level": 29
+       },
+       {
+        "species": "glassvine",
+        "level": 30
+       },
+       {
+        "species": "facetling",
+        "level": 30
+       },
+       {
+        "species": "ledgebex",
+        "level": 31
+       },
+       {
+        "species": "tidemarrow",
+        "level": 32
+       }
+      ],
+      "rillop": [
+       {
+        "species": "sailquill",
+        "level": 29
+       },
+       {
+        "species": "topiarix",
+        "level": 30
+       },
+       {
+        "species": "mirrorkin",
+        "level": 30
+       },
+       {
+        "species": "talusmouse",
+        "level": 31
+       },
+       {
+        "species": "bastonox",
+        "level": 32
+       }
+      ]
+     }
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_greystone_frostspire.json (World Design draft)",
+     "teams_by_starter": {
+      "tumbloam": [
+       {
+        "species": "sailquill",
+        "level": 29
+       },
+       {
+        "species": "fernlume",
+        "level": 30
+       },
+       {
+        "species": "geodling",
+        "level": 30
+       },
+       {
+        "species": "shagmount",
+        "level": 31
+       },
+       {
+        "species": "forgeharrow",
+        "level": 32
+       }
+      ],
+      "cindrip": [
+       {
+        "species": "sailquill",
+        "level": 29
+       },
+       {
+        "species": "glassvine",
+        "level": 30
+       },
+       {
+        "species": "facetling",
+        "level": 30
+       },
+       {
+        "species": "ledgebex",
+        "level": 31
+       },
+       {
+        "species": "tidemarrow",
+        "level": 32
+       }
+      ],
+      "rillop": [
+       {
+        "species": "sailquill",
+        "level": 29
+       },
+       {
+        "species": "topiarix",
+        "level": 30
+       },
+       {
+        "species": "mirrorkin",
+        "level": 30
+       },
+       {
+        "species": "talusmouse",
+        "level": 31
+       },
+       {
+        "species": "bastonox",
+        "level": 32
+       }
+      ]
+     }
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/frostspire_pass.json (npc.team)",
+    "teams_by_starter": {
+     "tumbloam": [
+      {
+       "species": "sailquill",
+       "level": 29
+      },
+      {
+       "species": "fernlume",
+       "level": 30
+      },
+      {
+       "species": "geodling",
+       "level": 30
+      },
+      {
+       "species": "shagmount",
+       "level": 31
+      },
+      {
+       "species": "forgeharrow",
+       "level": 32
+      }
+     ],
+     "cindrip": [
+      {
+       "species": "sailquill",
+       "level": 29
+      },
+      {
+       "species": "glassvine",
+       "level": 30
+      },
+      {
+       "species": "facetling",
+       "level": 30
+      },
+      {
+       "species": "ledgebex",
+       "level": 31
+      },
+      {
+       "species": "tidemarrow",
+       "level": 32
+      }
+     ],
+     "rillop": [
+      {
+       "species": "sailquill",
+       "level": 29
+      },
+      {
+       "species": "topiarix",
+       "level": 30
+      },
+      {
+       "species": "mirrorkin",
+       "level": 30
+      },
+      {
+       "species": "talusmouse",
+       "level": 31
+      },
+      {
+       "species": "bastonox",
+       "level": 32
+      }
+     ]
+    }
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "frostspire_pass.frostspire_pass_trainer_1",
+   "map": "frostspire_pass",
+   "npc_id": "frostspire_pass_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_greystone_frostspire_a",
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/frostspire_pass.json (npc.team)",
+     "team": [
+      {
+       "species": "frostlop",
+       "level": 28
+      },
+      {
+       "species": "sailquill",
+       "level": 29
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_greystone_frostspire.json (World Design draft)",
+     "team": [
+      {
+       "species": "frostlop",
+       "level": 28
+      },
+      {
+       "species": "sailquill",
+       "level": 29
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/frostspire_pass.json (npc.team)",
+    "team": [
+     {
+      "species": "frostlop",
+      "level": 28
+     },
+     {
+      "species": "sailquill",
+      "level": 29
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "frostspire_pass.frostspire_pass_trainer_2",
+   "map": "frostspire_pass",
+   "npc_id": "frostspire_pass_trainer_2",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_greystone_frostspire_b",
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/frostspire_pass.json (npc.team)",
+     "team": [
+      {
+       "species": "snowcairn",
+       "level": 29
+      },
+      {
+       "species": "slagrook",
+       "level": 29
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_greystone_frostspire.json (World Design draft)",
+     "team": [
+      {
+       "species": "snowcairn",
+       "level": 29
+      },
+      {
+       "species": "slagrook",
+       "level": 29
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/frostspire_pass.json (npc.team)",
+    "team": [
+     {
+      "species": "snowcairn",
+      "level": 29
+     },
+     {
+      "species": "slagrook",
+      "level": 29
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "frostspire_pass.frostspire_pass_trainer_3",
+   "map": "frostspire_pass",
+   "npc_id": "frostspire_pass_trainer_3",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_greystone_frostspire_c",
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/frostspire_pass.json (npc.team)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 29
+      },
+      {
+       "species": "skyrender",
+       "level": 30
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_greystone_frostspire.json (World Design draft)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 29
+      },
+      {
+       "species": "skyrender",
+       "level": 30
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/frostspire_pass.json (npc.team)",
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 29
+     },
+     {
+      "species": "skyrender",
+      "level": 30
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "frostspire_pass.frostspire_pass_trainer_4",
+   "map": "frostspire_pass",
+   "npc_id": "frostspire_pass_trainer_4",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_greystone_frostspire_d",
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/frostspire_pass.json (npc.team)",
+     "team": [
+      {
+       "species": "skyrender",
+       "level": 30
+      },
+      {
+       "species": "rubblon",
+       "level": 30
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_greystone_frostspire.json (World Design draft)",
+     "team": [
+      {
+       "species": "skyrender",
+       "level": 30
+      },
+      {
+       "species": "rubblon",
+       "level": 30
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/frostspire_pass.json (npc.team)",
+    "team": [
+     {
+      "species": "skyrender",
+      "level": 30
+     },
+     {
+      "species": "rubblon",
+      "level": 30
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "frostspire_pass.frostspire_pass_trainer_5",
+   "map": "frostspire_pass",
+   "npc_id": "frostspire_pass_trainer_5",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_greystone_frostspire_e",
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/frostspire_pass.json (npc.team)",
+     "team": [
+      {
+       "species": "snowgrouse",
+       "level": 31
+      },
+      {
+       "species": "squallwhirl",
+       "level": 31
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_greystone_frostspire.json (World Design draft)",
+     "team": [
+      {
+       "species": "snowgrouse",
+       "level": 31
+      },
+      {
+       "species": "squallwhirl",
+       "level": 31
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/frostspire_pass.json (npc.team)",
+    "team": [
+     {
+      "species": "snowgrouse",
+      "level": 31
+     },
+     {
+      "species": "squallwhirl",
+      "level": 31
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "frostspire.frostspire_trainer_1",
+   "map": "frostspire",
+   "npc_id": "frostspire_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_frostspire_a",
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/frostspire.json (npc.team)",
+     "team": [
+      {
+       "species": "spirewing",
+       "level": 31
+      },
+      {
+       "species": "skyrender",
+       "level": 31
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_frostspire.json (World Design draft)",
+     "team": [
+      {
+       "species": "spirewing",
+       "level": 31
+      },
+      {
+       "species": "skyrender",
+       "level": 31
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/frostspire.json (npc.team)",
+    "team": [
+     {
+      "species": "spirewing",
+      "level": 31
+     },
+     {
+      "species": "skyrender",
+      "level": 31
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "frostspire.frostspire_trainer_2",
+   "map": "frostspire",
+   "npc_id": "frostspire_trainer_2",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_frostspire_b",
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/frostspire.json (npc.team)",
+     "team": [
+      {
+       "species": "frostlop",
+       "level": 31
+      },
+      {
+       "species": "sailquill",
+       "level": 32
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_frostspire.json (World Design draft)",
+     "team": [
+      {
+       "species": "frostlop",
+       "level": 31
+      },
+      {
+       "species": "sailquill",
+       "level": 32
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/frostspire.json (npc.team)",
+    "team": [
+     {
+      "species": "frostlop",
+      "level": 31
+     },
+     {
+      "species": "sailquill",
+      "level": 32
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "frostspire.frostspire_trainer_3",
+   "map": "frostspire",
+   "npc_id": "frostspire_trainer_3",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_frostspire_c",
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/frostspire.json (npc.team)",
+     "team": [
+      {
+       "species": "halovy",
+       "level": 32
+      },
+      {
+       "species": "chimelet",
+       "level": 32
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_frostspire.json (World Design draft)",
+     "team": [
+      {
+       "species": "halovy",
+       "level": 32
+      },
+      {
+       "species": "chimelet",
+       "level": 32
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/frostspire.json (npc.team)",
+    "team": [
+     {
+      "species": "halovy",
+      "level": 32
+     },
+     {
+      "species": "chimelet",
+      "level": 32
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "frostspire.frostspire_trainer_4",
+   "map": "frostspire",
+   "npc_id": "frostspire_trainer_4",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_frostspire_d",
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/frostspire.json (npc.team)",
+     "team": [
+      {
+       "species": "snowgrouse",
+       "level": 33
+      },
+      {
+       "species": "peakbrute",
+       "level": 33
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_frostspire.json (World Design draft)",
+     "team": [
+      {
+       "species": "snowgrouse",
+       "level": 33
+      },
+      {
+       "species": "peakbrute",
+       "level": 33
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/frostspire.json (npc.team)",
+    "team": [
+     {
+      "species": "snowgrouse",
+      "level": 33
+     },
+     {
+      "species": "peakbrute",
+      "level": 33
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_revival_saltmere.route_revival_saltmere_trainer_1",
+   "map": "route_revival_saltmere",
+   "npc_id": "route_revival_saltmere_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_revival_saltmere_a",
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_revival_saltmere.json (npc.team)",
+     "team": [
+      {
+       "species": "slagrook",
+       "level": 27
+      },
+      {
+       "species": "shalekin",
+       "level": 28
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_revival_saltmere.json (World Design draft)",
+     "team": [
+      {
+       "species": "slagrook",
+       "level": 27
+      },
+      {
+       "species": "shalekin",
+       "level": 28
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_revival_saltmere.json (npc.team)",
+    "team": [
+     {
+      "species": "slagrook",
+      "level": 27
+     },
+     {
+      "species": "shalekin",
+      "level": 28
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_revival_saltmere.route_revival_saltmere_trainer_2",
+   "map": "route_revival_saltmere",
+   "npc_id": "route_revival_saltmere_trainer_2",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_revival_saltmere_b",
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_revival_saltmere.json (npc.team)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 28
+      },
+      {
+       "species": "kindlepup",
+       "level": 28
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_revival_saltmere.json (World Design draft)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 28
+      },
+      {
+       "species": "kindlepup",
+       "level": 28
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_revival_saltmere.json (npc.team)",
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 28
+     },
+     {
+      "species": "kindlepup",
+      "level": 28
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_revival_saltmere.route_revival_saltmere_trainer_3",
+   "map": "route_revival_saltmere",
+   "npc_id": "route_revival_saltmere_trainer_3",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_revival_saltmere_c",
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_revival_saltmere.json (npc.team)",
+     "team": [
+      {
+       "species": "spiralith",
+       "level": 28
+      },
+      {
+       "species": "bulwarkrab",
+       "level": 29
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_revival_saltmere.json (World Design draft)",
+     "team": [
+      {
+       "species": "spiralith",
+       "level": 28
+      },
+      {
+       "species": "bulwarkrab",
+       "level": 29
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_revival_saltmere.json (npc.team)",
+    "team": [
+     {
+      "species": "spiralith",
+      "level": 28
+     },
+     {
+      "species": "bulwarkrab",
+      "level": 29
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_revival_saltmere.route_revival_saltmere_trainer_4",
+   "map": "route_revival_saltmere",
+   "npc_id": "route_revival_saltmere_trainer_4",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_revival_saltmere_d",
+   "region": 4,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_revival_saltmere.json (npc.team)",
+     "team": [
+      {
+       "species": "prismite",
+       "level": 29
+      },
+      {
+       "species": "scutadillo",
+       "level": 30
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_revival_saltmere.json (World Design draft)",
+     "team": [
+      {
+       "species": "prismite",
+       "level": 29
+      },
+      {
+       "species": "scutadillo",
+       "level": 30
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_revival_saltmere.json (npc.team)",
+    "team": [
+     {
+      "species": "prismite",
+      "level": 29
+     },
+     {
+      "species": "scutadillo",
+      "level": 30
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "mirefen_hall_int.mirefen_hall_int_h1",
+   "map": "mirefen_hall_int",
+   "npc_id": "mirefen_hall_int_h1",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "mirewump",
+       "level": 35
+      },
+      {
+       "species": "bulrusher",
+       "level": 36
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "mirewump",
+      "level": 35
+     },
+     {
+      "species": "bulrusher",
+      "level": 36
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "mirefen_hall_int.mirefen_hall_int_h2",
+   "map": "mirefen_hall_int",
+   "npc_id": "mirefen_hall_int_h2",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 36
+      },
+      {
+       "species": "mirewump",
+       "level": 36
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "gloamtick",
+      "level": 36
+     },
+     {
+      "species": "mirewump",
+      "level": 36
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "mirefen_hall_int.mirefen_hall_int_h3",
+   "map": "mirefen_hall_int",
+   "npc_id": "mirefen_hall_int_h3",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "cypresshade",
+       "level": 37
+      },
+      {
+       "species": "mirejaw",
+       "level": 37
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "cypresshade",
+      "level": 37
+     },
+     {
+      "species": "mirejaw",
+      "level": 37
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "mirefen_hall_int.mirefen_hall_int_master",
+   "map": "mirefen_hall_int",
+   "npc_id": "mirefen_hall_int_master",
+   "kind": "master",
+   "gd_id": null,
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall master)",
+     "team": [
+      {
+       "species": "mirewump",
+       "level": 37
+      },
+      {
+       "species": "silteel",
+       "level": 37
+      },
+      {
+       "species": "gloamtick",
+       "level": 38
+      },
+      {
+       "species": "mudwhisk",
+       "level": 38
+      },
+      {
+       "species": "bulrusher",
+       "level": 40
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall master)",
+    "team": [
+     {
+      "species": "mirewump",
+      "level": 37
+     },
+     {
+      "species": "silteel",
+      "level": 37
+     },
+     {
+      "species": "gloamtick",
+      "level": 38
+     },
+     {
+      "species": "mudwhisk",
+      "level": 38
+     },
+     {
+      "species": "bulrusher",
+      "level": 40
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "mirefen.mirefen_trainer_1",
+   "map": "mirefen",
+   "npc_id": "mirefen_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_mirefen_a",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/mirefen.json (npc.team)",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 35
+      },
+      {
+       "species": "mirewump",
+       "level": 36
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_mirefen.json (World Design draft)",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 35
+      },
+      {
+       "species": "mirewump",
+       "level": 36
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/mirefen.json (npc.team)",
+    "team": [
+     {
+      "species": "gloamtick",
+      "level": 35
+     },
+     {
+      "species": "mirewump",
+      "level": 36
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "mirefen.mirefen_trainer_2",
+   "map": "mirefen",
+   "npc_id": "mirefen_trainer_2",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_mirefen_b",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/mirefen.json (npc.team)",
+     "team": [
+      {
+       "species": "mirewump",
+       "level": 36
+      },
+      {
+       "species": "peatbellow",
+       "level": 36
+      },
+      {
+       "species": "mirejaw",
+       "level": 37
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_mirefen.json (World Design draft)",
+     "team": [
+      {
+       "species": "mirewump",
+       "level": 36
+      },
+      {
+       "species": "peatbellow",
+       "level": 36
+      },
+      {
+       "species": "mirejaw",
+       "level": 37
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/mirefen.json (npc.team)",
+    "team": [
+     {
+      "species": "mirewump",
+      "level": 36
+     },
+     {
+      "species": "peatbellow",
+      "level": 36
+     },
+     {
+      "species": "mirejaw",
+      "level": 37
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "mirefen.mirefen_trainer_3",
+   "map": "mirefen",
+   "npc_id": "mirefen_trainer_3",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_mirefen_c",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/mirefen.json (npc.team)",
+     "team": [
+      {
+       "species": "runeskein",
+       "level": 37
+      },
+      {
+       "species": "turfhulk",
+       "level": 37
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_mirefen.json (World Design draft)",
+     "team": [
+      {
+       "species": "runeskein",
+       "level": 37
+      },
+      {
+       "species": "turfhulk",
+       "level": 37
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/mirefen.json (npc.team)",
+    "team": [
+     {
+      "species": "runeskein",
+      "level": 37
+     },
+     {
+      "species": "turfhulk",
+      "level": 37
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "mirefen.mirefen_trainer_4",
+   "map": "mirefen",
+   "npc_id": "mirefen_trainer_4",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_mirefen_d",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/mirefen.json (npc.team)",
+     "team": [
+      {
+       "species": "burlbeetle",
+       "level": 36
+      },
+      {
+       "species": "bogdart",
+       "level": 37
+      },
+      {
+       "species": "glimmoth",
+       "level": 37
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_mirefen.json (World Design draft)",
+     "team": [
+      {
+       "species": "burlbeetle",
+       "level": 36
+      },
+      {
+       "species": "bogdart",
+       "level": 37
+      },
+      {
+       "species": "glimmoth",
+       "level": 37
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/mirefen.json (npc.team)",
+    "team": [
+     {
+      "species": "burlbeetle",
+      "level": 36
+     },
+     {
+      "species": "bogdart",
+      "level": 37
+     },
+     {
+      "species": "glimmoth",
+      "level": 37
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "mirefen.mirefen_trainer_5",
+   "map": "mirefen",
+   "npc_id": "mirefen_trainer_5",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_mirefen_e",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/mirefen.json (npc.team)",
+     "team": [
+      {
+       "species": "pitchergulp",
+       "level": 38
+      },
+      {
+       "species": "mirewump",
+       "level": 38
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_mirefen.json (World Design draft)",
+     "team": [
+      {
+       "species": "pitchergulp",
+       "level": 38
+      },
+      {
+       "species": "mirewump",
+       "level": 38
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/mirefen.json (npc.team)",
+    "team": [
+     {
+      "species": "pitchergulp",
+      "level": 38
+     },
+     {
+      "species": "mirewump",
+      "level": 38
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_revival_sunmeadow.route_revival_sunmeadow_trainer_1",
+   "map": "route_revival_sunmeadow",
+   "npc_id": "route_revival_sunmeadow_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_revival_sunmeadow_a",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_revival_sunmeadow.json (npc.team)",
+     "team": [
+      {
+       "species": "seraphawk",
+       "level": 32
+      },
+      {
+       "species": "halovy",
+       "level": 33
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_revival_sunmeadow.json (World Design draft)",
+     "team": [
+      {
+       "species": "seraphawk",
+       "level": 32
+      },
+      {
+       "species": "halovy",
+       "level": 33
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_revival_sunmeadow.json (npc.team)",
+    "team": [
+     {
+      "species": "seraphawk",
+      "level": 32
+     },
+     {
+      "species": "halovy",
+      "level": 33
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_revival_sunmeadow.route_revival_sunmeadow_trainer_2",
+   "map": "route_revival_sunmeadow",
+   "npc_id": "route_revival_sunmeadow_trainer_2",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_revival_sunmeadow_b",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_revival_sunmeadow.json (npc.team)",
+     "team": [
+      {
+       "species": "slagrook",
+       "level": 33
+      },
+      {
+       "species": "spinemonitor",
+       "level": 33
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_revival_sunmeadow.json (World Design draft)",
+     "team": [
+      {
+       "species": "slagrook",
+       "level": 33
+      },
+      {
+       "species": "spinemonitor",
+       "level": 33
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_revival_sunmeadow.json (npc.team)",
+    "team": [
+     {
+      "species": "slagrook",
+      "level": 33
+     },
+     {
+      "species": "spinemonitor",
+      "level": 33
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_revival_sunmeadow.route_revival_sunmeadow_trainer_3",
+   "map": "route_revival_sunmeadow",
+   "npc_id": "route_revival_sunmeadow_trainer_3",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_revival_sunmeadow_c",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_revival_sunmeadow.json (npc.team)",
+     "team": [
+      {
+       "species": "shardhart",
+       "level": 34
+      },
+      {
+       "species": "quartzhopper",
+       "level": 34
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_revival_sunmeadow.json (World Design draft)",
+     "team": [
+      {
+       "species": "shardhart",
+       "level": 34
+      },
+      {
+       "species": "quartzhopper",
+       "level": 34
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_revival_sunmeadow.json (npc.team)",
+    "team": [
+     {
+      "species": "shardhart",
+      "level": 34
+     },
+     {
+      "species": "quartzhopper",
+      "level": 34
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_saltmere_mirefen.route_saltmere_mirefen_trainer_1",
+   "map": "route_saltmere_mirefen",
+   "npc_id": "route_saltmere_mirefen_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_saltmere_mirefen_a",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_saltmere_mirefen.json (npc.team)",
+     "team": [
+      {
+       "species": "floepaddle",
+       "level": 33
+      },
+      {
+       "species": "dewbell",
+       "level": 34
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_saltmere_mirefen.json (World Design draft)",
+     "team": [
+      {
+       "species": "floepaddle",
+       "level": 33
+      },
+      {
+       "species": "dewbell",
+       "level": 34
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_saltmere_mirefen.json (npc.team)",
+    "team": [
+     {
+      "species": "floepaddle",
+      "level": 33
+     },
+     {
+      "species": "dewbell",
+      "level": 34
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_saltmere_mirefen.route_saltmere_mirefen_trainer_2",
+   "map": "route_saltmere_mirefen",
+   "npc_id": "route_saltmere_mirefen_trainer_2",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_saltmere_mirefen_b",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_saltmere_mirefen.json (npc.team)",
+     "team": [
+      {
+       "species": "floepaddle",
+       "level": 34
+      },
+      {
+       "species": "rimewyrm",
+       "level": 34
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_saltmere_mirefen.json (World Design draft)",
+     "team": [
+      {
+       "species": "floepaddle",
+       "level": 34
+      },
+      {
+       "species": "rimewyrm",
+       "level": 34
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_saltmere_mirefen.json (npc.team)",
+    "team": [
+     {
+      "species": "floepaddle",
+      "level": 34
+     },
+     {
+      "species": "rimewyrm",
+      "level": 34
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_saltmere_mirefen.route_saltmere_mirefen_trainer_3",
+   "map": "route_saltmere_mirefen",
+   "npc_id": "route_saltmere_mirefen_trainer_3",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_saltmere_mirefen_c",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_saltmere_mirefen.json (npc.team)",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 35
+      },
+      {
+       "species": "snapmoor",
+       "level": 35
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_saltmere_mirefen.json (World Design draft)",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 35
+      },
+      {
+       "species": "snapmoor",
+       "level": 35
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_saltmere_mirefen.json (npc.team)",
+    "team": [
+     {
+      "species": "gloamtick",
+      "level": 35
+     },
+     {
+      "species": "snapmoor",
+      "level": 35
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_sunmeadow_mirefen.route_sunmeadow_mirefen_trainer_1",
+   "map": "route_sunmeadow_mirefen",
+   "npc_id": "route_sunmeadow_mirefen_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_sunmeadow_mirefen_a",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_sunmeadow_mirefen.json (npc.team)",
+     "team": [
+      {
+       "species": "dewbell",
+       "level": 33
+      },
+      {
+       "species": "floepaddle",
+       "level": 34
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_sunmeadow_mirefen.json (World Design draft)",
+     "team": [
+      {
+       "species": "dewbell",
+       "level": 33
+      },
+      {
+       "species": "floepaddle",
+       "level": 34
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_sunmeadow_mirefen.json (npc.team)",
+    "team": [
+     {
+      "species": "dewbell",
+      "level": 33
+     },
+     {
+      "species": "floepaddle",
+      "level": 34
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_sunmeadow_mirefen.route_sunmeadow_mirefen_trainer_2",
+   "map": "route_sunmeadow_mirefen",
+   "npc_id": "route_sunmeadow_mirefen_trainer_2",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_sunmeadow_mirefen_b",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_sunmeadow_mirefen.json (npc.team)",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 34
+      },
+      {
+       "species": "snapmoor",
+       "level": 34
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_sunmeadow_mirefen.json (World Design draft)",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 34
+      },
+      {
+       "species": "snapmoor",
+       "level": 34
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_sunmeadow_mirefen.json (npc.team)",
+    "team": [
+     {
+      "species": "gloamtick",
+      "level": 34
+     },
+     {
+      "species": "snapmoor",
+      "level": 34
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_sunmeadow_mirefen.route_sunmeadow_mirefen_trainer_3",
+   "map": "route_sunmeadow_mirefen",
+   "npc_id": "route_sunmeadow_mirefen_trainer_3",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_sunmeadow_mirefen_c",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_sunmeadow_mirefen.json (npc.team)",
+     "team": [
+      {
+       "species": "burlbeetle",
+       "level": 34
+      },
+      {
+       "species": "sunspeckle",
+       "level": 35
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_sunmeadow_mirefen.json (World Design draft)",
+     "team": [
+      {
+       "species": "burlbeetle",
+       "level": 34
+      },
+      {
+       "species": "sunspeckle",
+       "level": 35
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_sunmeadow_mirefen.json (npc.team)",
+    "team": [
+     {
+      "species": "burlbeetle",
+      "level": 34
+     },
+     {
+      "species": "sunspeckle",
+      "level": 35
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_sunmeadow_mirefen.route_sunmeadow_mirefen_trainer_4",
+   "map": "route_sunmeadow_mirefen",
+   "npc_id": "route_sunmeadow_mirefen_trainer_4",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_sunmeadow_mirefen_d",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_sunmeadow_mirefen.json (npc.team)",
+     "team": [
+      {
+       "species": "reedmoot",
+       "level": 35
+      },
+      {
+       "species": "plainhorn",
+       "level": 35
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_sunmeadow_mirefen.json (World Design draft)",
+     "team": [
+      {
+       "species": "reedmoot",
+       "level": 35
+      },
+      {
+       "species": "plainhorn",
+       "level": 35
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_sunmeadow_mirefen.json (npc.team)",
+    "team": [
+     {
+      "species": "reedmoot",
+      "level": 35
+     },
+     {
+      "species": "plainhorn",
+      "level": 35
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_sunmeadow_mirefen.route_sunmeadow_mirefen_trainer_5",
+   "map": "route_sunmeadow_mirefen",
+   "npc_id": "route_sunmeadow_mirefen_trainer_5",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_sunmeadow_mirefen_e",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_sunmeadow_mirefen.json (npc.team)",
+     "team": [
+      {
+       "species": "heliobloom",
+       "level": 35
+      },
+      {
+       "species": "rimewyrm",
+       "level": 36
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_sunmeadow_mirefen.json (World Design draft)",
+     "team": [
+      {
+       "species": "heliobloom",
+       "level": 35
+      },
+      {
+       "species": "rimewyrm",
+       "level": 36
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_sunmeadow_mirefen.json (npc.team)",
+    "team": [
+     {
+      "species": "heliobloom",
+      "level": 35
+     },
+     {
+      "species": "rimewyrm",
+      "level": 36
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "sunmeadow_fields.sunmeadow_fields_trainer_1",
+   "map": "sunmeadow_fields",
+   "npc_id": "sunmeadow_fields_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_sunmeadow_fields_a",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/sunmeadow_fields.json (npc.team)",
+     "team": [
+      {
+       "species": "heliobloom",
+       "level": 31
+      },
+      {
+       "species": "plainhorn",
+       "level": 31
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_sunmeadow_fields.json (World Design draft)",
+     "team": [
+      {
+       "species": "heliobloom",
+       "level": 31
+      },
+      {
+       "species": "plainhorn",
+       "level": 31
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/sunmeadow_fields.json (npc.team)",
+    "team": [
+     {
+      "species": "heliobloom",
+      "level": 31
+     },
+     {
+      "species": "plainhorn",
+      "level": 31
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "sunmeadow_fields.sunmeadow_fields_trainer_2",
+   "map": "sunmeadow_fields",
+   "npc_id": "sunmeadow_fields_trainer_2",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_sunmeadow_fields_b",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/sunmeadow_fields.json (npc.team)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 32
+      },
+      {
+       "species": "sunquail",
+       "level": 32
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_sunmeadow_fields.json (World Design draft)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 32
+      },
+      {
+       "species": "sunquail",
+       "level": 32
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/sunmeadow_fields.json (npc.team)",
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 32
+     },
+     {
+      "species": "sunquail",
+      "level": 32
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "sunmeadow_fields.sunmeadow_fields_trainer_3",
+   "map": "sunmeadow_fields",
+   "npc_id": "sunmeadow_fields_trainer_3",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_sunmeadow_fields_c",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/sunmeadow_fields.json (npc.team)",
+     "team": [
+      {
+       "species": "halovy",
+       "level": 32
+      },
+      {
+       "species": "burlbeetle",
+       "level": 32
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_sunmeadow_fields.json (World Design draft)",
+     "team": [
+      {
+       "species": "halovy",
+       "level": 32
+      },
+      {
+       "species": "burlbeetle",
+       "level": 32
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/sunmeadow_fields.json (npc.team)",
+    "team": [
+     {
+      "species": "halovy",
+      "level": 32
+     },
+     {
+      "species": "burlbeetle",
+      "level": 32
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "sunmeadow_fields.sunmeadow_fields_trainer_4",
+   "map": "sunmeadow_fields",
+   "npc_id": "sunmeadow_fields_trainer_4",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_sunmeadow_fields_d",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/sunmeadow_fields.json (npc.team)",
+     "team": [
+      {
+       "species": "thermalark",
+       "level": 33
+      },
+      {
+       "species": "basklet",
+       "level": 33
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_sunmeadow_fields.json (World Design draft)",
+     "team": [
+      {
+       "species": "thermalark",
+       "level": 33
+      },
+      {
+       "species": "basklet",
+       "level": 33
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/sunmeadow_fields.json (npc.team)",
+    "team": [
+     {
+      "species": "thermalark",
+      "level": 33
+     },
+     {
+      "species": "basklet",
+      "level": 33
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "sunmeadow_fields.sunmeadow_fields_trainer_5",
+   "map": "sunmeadow_fields",
+   "npc_id": "sunmeadow_fields_trainer_5",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_sunmeadow_fields_e",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/sunmeadow_fields.json (npc.team)",
+     "team": [
+      {
+       "species": "reapmantis",
+       "level": 33
+      },
+      {
+       "species": "heliobloom",
+       "level": 34
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_sunmeadow_fields.json (World Design draft)",
+     "team": [
+      {
+       "species": "reapmantis",
+       "level": 33
+      },
+      {
+       "species": "heliobloom",
+       "level": 34
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/sunmeadow_fields.json (npc.team)",
+    "team": [
+     {
+      "species": "reapmantis",
+      "level": 33
+     },
+     {
+      "species": "heliobloom",
+      "level": 34
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "sunmeadow_fields.sunmeadow_fields_trainer_6",
+   "map": "sunmeadow_fields",
+   "npc_id": "sunmeadow_fields_trainer_6",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_sunmeadow_fields_f",
+   "region": 5,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/sunmeadow_fields.json (npc.team)",
+     "team": [
+      {
+       "species": "popgopher",
+       "level": 34
+      },
+      {
+       "species": "spinemonitor",
+       "level": 35
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_sunmeadow_fields.json (World Design draft)",
+     "team": [
+      {
+       "species": "popgopher",
+       "level": 34
+      },
+      {
+       "species": "spinemonitor",
+       "level": 35
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/sunmeadow_fields.json (npc.team)",
+    "team": [
+     {
+      "species": "popgopher",
+      "level": 34
+     },
+     {
+      "species": "spinemonitor",
+      "level": 35
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_coast.route_coast_trainer_1",
+   "map": "route_coast",
+   "npc_id": "route_coast_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_brookhollow_tidewater_a",
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_coast.json (npc.team)",
+     "team": [
+      {
+       "species": "downpaw",
+       "level": 39
+      },
+      {
+       "species": "driftknot",
+       "level": 39
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_brookhollow_tidewater.json (World Design draft)",
+     "team": [
+      {
+       "species": "downpaw",
+       "level": 39
+      },
+      {
+       "species": "driftknot",
+       "level": 39
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_coast.json (npc.team)",
+    "team": [
+     {
+      "species": "downpaw",
+      "level": 39
+     },
+     {
+      "species": "driftknot",
+      "level": 39
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_coast.route_coast_trainer_2",
+   "map": "route_coast",
+   "npc_id": "route_coast_trainer_2",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_brookhollow_tidewater_b",
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_coast.json (npc.team)",
+     "team": [
+      {
+       "species": "drenchcrab",
+       "level": 40
+      },
+      {
+       "species": "downpaw",
+       "level": 40
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_brookhollow_tidewater.json (World Design draft)",
+     "team": [
+      {
+       "species": "drenchcrab",
+       "level": 40
+      },
+      {
+       "species": "downpaw",
+       "level": 40
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_coast.json (npc.team)",
+    "team": [
+     {
+      "species": "drenchcrab",
+      "level": 40
+     },
+     {
+      "species": "downpaw",
+      "level": 40
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_coast.route_coast_trainer_3",
+   "map": "route_coast",
+   "npc_id": "route_coast_trainer_3",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_brookhollow_tidewater_c",
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_coast.json (npc.team)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 40
+      },
+      {
+       "species": "reedcrane",
+       "level": 41
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_brookhollow_tidewater.json (World Design draft)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 40
+      },
+      {
+       "species": "reedcrane",
+       "level": 41
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_coast.json (npc.team)",
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 40
+     },
+     {
+      "species": "reedcrane",
+      "level": 41
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_coast.route_coast_trainer_4",
+   "map": "route_coast",
+   "npc_id": "route_coast_trainer_4",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_brookhollow_tidewater_d",
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_coast.json (npc.team)",
+     "team": [
+      {
+       "species": "tundrarch",
+       "level": 40
+      },
+      {
+       "species": "mirewump",
+       "level": 41
+      },
+      {
+       "species": "surfskipper",
+       "level": 41
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_brookhollow_tidewater.json (World Design draft)",
+     "team": [
+      {
+       "species": "tundrarch",
+       "level": 40
+      },
+      {
+       "species": "mirewump",
+       "level": 41
+      },
+      {
+       "species": "surfskipper",
+       "level": 41
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_coast.json (npc.team)",
+    "team": [
+     {
+      "species": "tundrarch",
+      "level": 40
+     },
+     {
+      "species": "mirewump",
+      "level": 41
+     },
+     {
+      "species": "surfskipper",
+      "level": 41
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_coast.route_coast_trainer_5",
+   "map": "route_coast",
+   "npc_id": "route_coast_trainer_5",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_brookhollow_tidewater_e",
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_coast.json (npc.team)",
+     "team": [
+      {
+       "species": "galepetrel",
+       "level": 42
+      },
+      {
+       "species": "sunbasilisk",
+       "level": 42
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_brookhollow_tidewater.json (World Design draft)",
+     "team": [
+      {
+       "species": "galepetrel",
+       "level": 42
+      },
+      {
+       "species": "sunbasilisk",
+       "level": 42
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_coast.json (npc.team)",
+    "team": [
+     {
+      "species": "galepetrel",
+      "level": 42
+     },
+     {
+      "species": "sunbasilisk",
+      "level": 42
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_coast.route_coast_trainer_6",
+   "map": "route_coast",
+   "npc_id": "route_coast_trainer_6",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_brookhollow_tidewater_f",
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_coast.json (npc.team)",
+     "team": [
+      {
+       "species": "coilarch",
+       "level": 42
+      },
+      {
+       "species": "galepetrel",
+       "level": 43
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_brookhollow_tidewater.json (World Design draft)",
+     "team": [
+      {
+       "species": "coilarch",
+       "level": 42
+      },
+      {
+       "species": "galepetrel",
+       "level": 43
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_coast.json (npc.team)",
+    "team": [
+     {
+      "species": "coilarch",
+      "level": 42
+     },
+     {
+      "species": "galepetrel",
+      "level": 43
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "tidewater_coast.tidewater_coast_trainer_1",
+   "map": "tidewater_coast",
+   "npc_id": "tidewater_coast_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_tidewater_coast_a",
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/tidewater_coast.json (npc.team)",
+     "team": [
+      {
+       "species": "reefshell",
+       "level": 41
+      },
+      {
+       "species": "raywing",
+       "level": 42
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_tidewater_coast.json (World Design draft)",
+     "team": [
+      {
+       "species": "reefshell",
+       "level": 41
+      },
+      {
+       "species": "raywing",
+       "level": 42
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/tidewater_coast.json (npc.team)",
+    "team": [
+     {
+      "species": "reefshell",
+      "level": 41
+     },
+     {
+      "species": "raywing",
+      "level": 42
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "tidewater_coast.tidewater_coast_trainer_2",
+   "map": "tidewater_coast",
+   "npc_id": "tidewater_coast_trainer_2",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_tidewater_coast_b",
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/tidewater_coast.json (npc.team)",
+     "team": [
+      {
+       "species": "lurelamp",
+       "level": 42
+      },
+      {
+       "species": "raywing",
+       "level": 42
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_tidewater_coast.json (World Design draft)",
+     "team": [
+      {
+       "species": "lurelamp",
+       "level": 42
+      },
+      {
+       "species": "raywing",
+       "level": 42
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/tidewater_coast.json (npc.team)",
+    "team": [
+     {
+      "species": "lurelamp",
+      "level": 42
+     },
+     {
+      "species": "raywing",
+      "level": 42
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "tidewater_coast.tidewater_coast_trainer_3",
+   "map": "tidewater_coast",
+   "npc_id": "tidewater_coast_trainer_3",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_tidewater_coast_c",
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/tidewater_coast.json (npc.team)",
+     "team": [
+      {
+       "species": "bristlereef",
+       "level": 43
+      },
+      {
+       "species": "breakerfin",
+       "level": 43
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_tidewater_coast.json (World Design draft)",
+     "team": [
+      {
+       "species": "bristlereef",
+       "level": 43
+      },
+      {
+       "species": "breakerfin",
+       "level": 43
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/tidewater_coast.json (npc.team)",
+    "team": [
+     {
+      "species": "bristlereef",
+      "level": 43
+     },
+     {
+      "species": "breakerfin",
+      "level": 43
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "tidewater_coast.tidewater_coast_trainer_4",
+   "map": "tidewater_coast",
+   "npc_id": "tidewater_coast_trainer_4",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_tidewater_coast_d",
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/tidewater_coast.json (npc.team)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 43
+      },
+      {
+       "species": "cliffpuff",
+       "level": 44
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_tidewater_coast.json (World Design draft)",
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 43
+      },
+      {
+       "species": "cliffpuff",
+       "level": 44
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/tidewater_coast.json (npc.team)",
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 43
+     },
+     {
+      "species": "cliffpuff",
+      "level": 44
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "tidewater_coast.tidewater_coast_trainer_5",
+   "map": "tidewater_coast",
+   "npc_id": "tidewater_coast_trainer_5",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_tidewater_coast_e",
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/tidewater_coast.json (npc.team)",
+     "team": [
+      {
+       "species": "shorehound",
+       "level": 44
+      },
+      {
+       "species": "bristlereef",
+       "level": 44
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_tidewater_coast.json (World Design draft)",
+     "team": [
+      {
+       "species": "shorehound",
+       "level": 44
+      },
+      {
+       "species": "bristlereef",
+       "level": 44
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/tidewater_coast.json (npc.team)",
+    "team": [
+     {
+      "species": "shorehound",
+      "level": 44
+     },
+     {
+      "species": "bristlereef",
+      "level": 44
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "tidewater_coast.tidewater_coast_trainer_6",
+   "map": "tidewater_coast",
+   "npc_id": "tidewater_coast_trainer_6",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_tidewater_coast_f",
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/tidewater_coast.json (npc.team)",
+     "team": [
+      {
+       "species": "spinyclaw",
+       "level": 45
+      },
+      {
+       "species": "mirewump",
+       "level": 45
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_tidewater_coast.json (World Design draft)",
+     "team": [
+      {
+       "species": "spinyclaw",
+       "level": 45
+      },
+      {
+       "species": "mirewump",
+       "level": 45
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/tidewater_coast.json (npc.team)",
+    "team": [
+     {
+      "species": "spinyclaw",
+      "level": 45
+     },
+     {
+      "species": "mirewump",
+      "level": 45
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "tidewater_hall_int.tidewater_hall_int_h1",
+   "map": "tidewater_hall_int",
+   "npc_id": "tidewater_hall_int_h1",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "squidge",
+       "level": 41
+      },
+      {
+       "species": "spinyclaw",
+       "level": 42
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "squidge",
+      "level": 41
+     },
+     {
+      "species": "spinyclaw",
+      "level": 42
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "tidewater_hall_int.tidewater_hall_int_h2",
+   "map": "tidewater_hall_int",
+   "npc_id": "tidewater_hall_int_h2",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "downpaw",
+       "level": 42
+      },
+      {
+       "species": "driftknot",
+       "level": 42
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "downpaw",
+      "level": 42
+     },
+     {
+      "species": "driftknot",
+      "level": 42
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "tidewater_hall_int.tidewater_hall_int_h3",
+   "map": "tidewater_hall_int",
+   "npc_id": "tidewater_hall_int_h3",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "nudiblume",
+       "level": 43
+      },
+      {
+       "species": "tundrarch",
+       "level": 43
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "nudiblume",
+      "level": 43
+     },
+     {
+      "species": "tundrarch",
+      "level": 43
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "tidewater_hall_int.tidewater_hall_int_h4",
+   "map": "tidewater_hall_int",
+   "npc_id": "tidewater_hall_int_h4",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "foamkin",
+       "level": 43
+      },
+      {
+       "species": "coilarch",
+       "level": 44
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "foamkin",
+      "level": 43
+     },
+     {
+      "species": "coilarch",
+      "level": 44
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "tidewater_hall_int.tidewater_hall_int_master",
+   "map": "tidewater_hall_int",
+   "npc_id": "tidewater_hall_int_master",
+   "kind": "master",
+   "gd_id": null,
+   "region": 6,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall master)",
+     "team": [
+      {
+       "species": "bulwarkrab",
+       "level": 43
+      },
+      {
+       "species": "kelpstrider",
+       "level": 43
+      },
+      {
+       "species": "spraytern",
+       "level": 44
+      },
+      {
+       "species": "galepetrel",
+       "level": 44
+      },
+      {
+       "species": "hullwhale",
+       "level": 46
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall master)",
+    "team": [
+     {
+      "species": "bulwarkrab",
+      "level": 43
+     },
+     {
+      "species": "kelpstrider",
+      "level": 43
+     },
+     {
+      "species": "spraytern",
+      "level": 44
+     },
+     {
+      "species": "galepetrel",
+      "level": 44
+     },
+     {
+      "species": "hullwhale",
+      "level": 46
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "lanternport_hall_int.lanternport_hall_int_h1",
+   "map": "lanternport_hall_int",
+   "npc_id": "lanternport_hall_int_h1",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 7,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 45
+      },
+      {
+       "species": "wreckwarden",
+       "level": 46
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "gloamtick",
+      "level": 45
+     },
+     {
+      "species": "wreckwarden",
+      "level": 46
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "lanternport_hall_int.lanternport_hall_int_h2",
+   "map": "lanternport_hall_int",
+   "npc_id": "lanternport_hall_int_h2",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 7,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "runeskein",
+       "level": 46
+      },
+      {
+       "species": "lanternkeep",
+       "level": 46
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "runeskein",
+      "level": 46
+     },
+     {
+      "species": "lanternkeep",
+      "level": 46
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "lanternport_hall_int.lanternport_hall_int_h3",
+   "map": "lanternport_hall_int",
+   "npc_id": "lanternport_hall_int_h3",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 7,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "kelpstrider",
+       "level": 47
+      },
+      {
+       "species": "novarch",
+       "level": 47
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "kelpstrider",
+      "level": 47
+     },
+     {
+      "species": "novarch",
+      "level": 47
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "lanternport_hall_int.lanternport_hall_int_master",
+   "map": "lanternport_hall_int",
+   "npc_id": "lanternport_hall_int_master",
+   "kind": "master",
+   "gd_id": null,
+   "region": 7,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall master)",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 47
+      },
+      {
+       "species": "runeskein",
+       "level": 47
+      },
+      {
+       "species": "mournhorn",
+       "level": 48
+      },
+      {
+       "species": "bleachghast",
+       "level": 48
+      },
+      {
+       "species": "foamkin",
+       "level": 50
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall master)",
+    "team": [
+     {
+      "species": "gloamtick",
+      "level": 47
+     },
+     {
+      "species": "runeskein",
+      "level": 47
+     },
+     {
+      "species": "mournhorn",
+      "level": 48
+     },
+     {
+      "species": "bleachghast",
+      "level": 48
+     },
+     {
+      "species": "foamkin",
+      "level": 50
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "lanternport.lanternport_ron_5",
+   "map": "lanternport",
+   "npc_id": "lanternport_ron_5",
+   "kind": "rival",
+   "gd_id": "ron_5",
+   "region": 7,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/lanternport.json (npc.team)",
+     "teams_by_starter": {
+      "tumbloam": [
+       {
+        "species": "sailquill",
+        "level": 43
+       },
+       {
+        "species": "parasoleaf",
+        "level": 44
+       },
+       {
+        "species": "novarch",
+        "level": 44
+       },
+       {
+        "species": "netspinner",
+        "level": 45
+       },
+       {
+        "species": "forgeharrow",
+        "level": 47
+       }
+      ],
+      "cindrip": [
+       {
+        "species": "sailquill",
+        "level": 43
+       },
+       {
+        "species": "driftknot",
+        "level": 44
+       },
+       {
+        "species": "chartmouse",
+        "level": 44
+       },
+       {
+        "species": "shorehound",
+        "level": 45
+       },
+       {
+        "species": "tidemarrow",
+        "level": 47
+       }
+      ],
+      "rillop": [
+       {
+        "species": "sailquill",
+        "level": 43
+       },
+       {
+        "species": "pitchergulp",
+        "level": 44
+       },
+       {
+        "species": "pearlisk",
+        "level": 44
+       },
+       {
+        "species": "barnaclump",
+        "level": 45
+       },
+       {
+        "species": "bastonox",
+        "level": 47
+       }
+      ]
+     }
+    },
+    {
+     "source": "design/overnight_gd/trainers_lanternport.json (World Design draft)",
+     "teams_by_starter": {
+      "tumbloam": [
+       {
+        "species": "sailquill",
+        "level": 43
+       },
+       {
+        "species": "parasoleaf",
+        "level": 44
+       },
+       {
+        "species": "novarch",
+        "level": 44
+       },
+       {
+        "species": "netspinner",
+        "level": 45
+       },
+       {
+        "species": "forgeharrow",
+        "level": 47
+       }
+      ],
+      "cindrip": [
+       {
+        "species": "sailquill",
+        "level": 43
+       },
+       {
+        "species": "driftknot",
+        "level": 44
+       },
+       {
+        "species": "chartmouse",
+        "level": 44
+       },
+       {
+        "species": "shorehound",
+        "level": 45
+       },
+       {
+        "species": "tidemarrow",
+        "level": 47
+       }
+      ],
+      "rillop": [
+       {
+        "species": "sailquill",
+        "level": 43
+       },
+       {
+        "species": "pitchergulp",
+        "level": 44
+       },
+       {
+        "species": "pearlisk",
+        "level": 44
+       },
+       {
+        "species": "barnaclump",
+        "level": 45
+       },
+       {
+        "species": "bastonox",
+        "level": 47
+       }
+      ]
+     }
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/lanternport.json (npc.team)",
+    "teams_by_starter": {
+     "tumbloam": [
+      {
+       "species": "sailquill",
+       "level": 43
+      },
+      {
+       "species": "parasoleaf",
+       "level": 44
+      },
+      {
+       "species": "novarch",
+       "level": 44
+      },
+      {
+       "species": "netspinner",
+       "level": 45
+      },
+      {
+       "species": "forgeharrow",
+       "level": 47
+      }
+     ],
+     "cindrip": [
+      {
+       "species": "sailquill",
+       "level": 43
+      },
+      {
+       "species": "driftknot",
+       "level": 44
+      },
+      {
+       "species": "chartmouse",
+       "level": 44
+      },
+      {
+       "species": "shorehound",
+       "level": 45
+      },
+      {
+       "species": "tidemarrow",
+       "level": 47
+      }
+     ],
+     "rillop": [
+      {
+       "species": "sailquill",
+       "level": 43
+      },
+      {
+       "species": "pitchergulp",
+       "level": 44
+      },
+      {
+       "species": "pearlisk",
+       "level": 44
+      },
+      {
+       "species": "barnaclump",
+       "level": 45
+      },
+      {
+       "species": "bastonox",
+       "level": 47
+      }
+     ]
+    }
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "lanternport.lanternport_trainer_1",
+   "map": "lanternport",
+   "npc_id": "lanternport_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_lanternport_pier",
+   "region": 7,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/lanternport.json (npc.team)",
+     "team": [
+      {
+       "species": "moorcoil",
+       "level": 44
+      },
+      {
+       "species": "sluicekin",
+       "level": 45
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_lanternport.json (World Design draft)",
+     "team": [
+      {
+       "species": "moorcoil",
+       "level": 44
+      },
+      {
+       "species": "sluicekin",
+       "level": 45
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/lanternport.json (npc.team)",
+    "team": [
+     {
+      "species": "moorcoil",
+      "level": 44
+     },
+     {
+      "species": "sluicekin",
+      "level": 45
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_fernwick_lanternport.route_fernwick_lanternport_trainer_1",
+   "map": "route_fernwick_lanternport",
+   "npc_id": "route_fernwick_lanternport_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_fernwick_lanternport_a",
+   "region": 7,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_fernwick_lanternport.json (npc.team)",
+     "team": [
+      {
+       "species": "moorcoil",
+       "level": 45
+      },
+      {
+       "species": "mooncrab",
+       "level": 46
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_fernwick_lanternport.json (World Design draft)",
+     "team": [
+      {
+       "species": "moorcoil",
+       "level": 45
+      },
+      {
+       "species": "mooncrab",
+       "level": 46
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_fernwick_lanternport.json (npc.team)",
+    "team": [
+     {
+      "species": "moorcoil",
+      "level": 45
+     },
+     {
+      "species": "mooncrab",
+      "level": 46
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_fernwick_lanternport.route_fernwick_lanternport_trainer_2",
+   "map": "route_fernwick_lanternport",
+   "npc_id": "route_fernwick_lanternport_trainer_2",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_fernwick_lanternport_b",
+   "region": 7,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_fernwick_lanternport.json (npc.team)",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 46
+      },
+      {
+       "species": "lanternkeep",
+       "level": 46
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_fernwick_lanternport.json (World Design draft)",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 46
+      },
+      {
+       "species": "lanternkeep",
+       "level": 46
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_fernwick_lanternport.json (npc.team)",
+    "team": [
+     {
+      "species": "gloamtick",
+      "level": 46
+     },
+     {
+      "species": "lanternkeep",
+      "level": 46
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_fernwick_lanternport.route_fernwick_lanternport_trainer_3",
+   "map": "route_fernwick_lanternport",
+   "npc_id": "route_fernwick_lanternport_trainer_3",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_fernwick_lanternport_c",
+   "region": 7,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_fernwick_lanternport.json (npc.team)",
+     "team": [
+      {
+       "species": "parasoleaf",
+       "level": 46
+      },
+      {
+       "species": "netspinner",
+       "level": 47
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_fernwick_lanternport.json (World Design draft)",
+     "team": [
+      {
+       "species": "parasoleaf",
+       "level": 46
+      },
+      {
+       "species": "netspinner",
+       "level": 47
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_fernwick_lanternport.json (npc.team)",
+    "team": [
+     {
+      "species": "parasoleaf",
+      "level": 46
+     },
+     {
+      "species": "netspinner",
+      "level": 47
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_fernwick_lanternport.route_fernwick_lanternport_trainer_4",
+   "map": "route_fernwick_lanternport",
+   "npc_id": "route_fernwick_lanternport_trainer_4",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_fernwick_lanternport_d",
+   "region": 7,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_fernwick_lanternport.json (npc.team)",
+     "team": [
+      {
+       "species": "runeskein",
+       "level": 47
+      },
+      {
+       "species": "novarch",
+       "level": 47
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_fernwick_lanternport.json (World Design draft)",
+     "team": [
+      {
+       "species": "runeskein",
+       "level": 47
+      },
+      {
+       "species": "novarch",
+       "level": 47
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_fernwick_lanternport.json (npc.team)",
+    "team": [
+     {
+      "species": "runeskein",
+      "level": 47
+     },
+     {
+      "species": "novarch",
+      "level": 47
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "cindervale_hall_int.cindervale_hall_int_h1",
+   "map": "cindervale_hall_int",
+   "npc_id": "cindervale_hall_int_h1",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 8,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "slagrook",
+       "level": 49
+      },
+      {
+       "species": "foundrax",
+       "level": 50
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "slagrook",
+      "level": 49
+     },
+     {
+      "species": "foundrax",
+      "level": 50
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "cindervale_hall_int.cindervale_hall_int_h2",
+   "map": "cindervale_hall_int",
+   "npc_id": "cindervale_hall_int_h2",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 8,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "pyrogrim",
+       "level": 50
+      },
+      {
+       "species": "sunderhoof",
+       "level": 50
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "pyrogrim",
+      "level": 50
+     },
+     {
+      "species": "sunderhoof",
+      "level": 50
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "cindervale_hall_int.cindervale_hall_int_h3",
+   "map": "cindervale_hall_int",
+   "npc_id": "cindervale_hall_int_h3",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 8,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "ingotitan",
+       "level": 51
+      },
+      {
+       "species": "slagrook",
+       "level": 51
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "ingotitan",
+      "level": 51
+     },
+     {
+      "species": "slagrook",
+      "level": 51
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "cindervale_hall_int.cindervale_hall_int_h4",
+   "map": "cindervale_hall_int",
+   "npc_id": "cindervale_hall_int_h4",
+   "kind": "trainer_hooded",
+   "gd_id": null,
+   "region": 8,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall trainer)",
+     "team": [
+      {
+       "species": "kilnant",
+       "level": 51
+      },
+      {
+       "species": "cinderwraith",
+       "level": 52
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall trainer)",
+    "team": [
+     {
+      "species": "kilnant",
+      "level": 51
+     },
+     {
+      "species": "cinderwraith",
+      "level": 52
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "cindervale_hall_int.cindervale_hall_int_master",
+   "map": "cindervale_hall_int",
+   "npc_id": "cindervale_hall_int_master",
+   "kind": "master",
+   "gd_id": null,
+   "region": 8,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "data/masters.json (hall master)",
+     "team": [
+      {
+       "species": "slagrook",
+       "level": 51
+      },
+      {
+       "species": "sparkplume",
+       "level": 51
+      },
+      {
+       "species": "charlurcher",
+       "level": 52
+      },
+      {
+       "species": "kilnowl",
+       "level": 53
+      },
+      {
+       "species": "embermink",
+       "level": 53
+      },
+      {
+       "species": "glyphforge",
+       "level": 55
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "data/masters.json (hall master)",
+    "team": [
+     {
+      "species": "slagrook",
+      "level": 51
+     },
+     {
+      "species": "sparkplume",
+      "level": 51
+     },
+     {
+      "species": "charlurcher",
+      "level": 52
+     },
+     {
+      "species": "kilnowl",
+      "level": 53
+     },
+     {
+      "species": "embermink",
+      "level": 53
+     },
+     {
+      "species": "glyphforge",
+      "level": 55
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "cindervale.cindervale_trainer_1",
+   "map": "cindervale",
+   "npc_id": "cindervale_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_cindervale_square",
+   "region": 8,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/cindervale.json (npc.team)",
+     "team": [
+      {
+       "species": "foundrax",
+       "level": 50
+      },
+      {
+       "species": "cinderwyrm",
+       "level": 51
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_cindervale.json (World Design draft)",
+     "team": [
+      {
+       "species": "foundrax",
+       "level": 50
+      },
+      {
+       "species": "cinderwyrm",
+       "level": 51
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/cindervale.json (npc.team)",
+    "team": [
+     {
+      "species": "foundrax",
+      "level": 50
+     },
+     {
+      "species": "cinderwyrm",
+      "level": 51
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_cindervale.route_cindervale_trainer_1",
+   "map": "route_cindervale",
+   "npc_id": "route_cindervale_trainer_1",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_aurelith_cindervale_a",
+   "region": 8,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_cindervale.json (npc.team)",
+     "team": [
+      {
+       "species": "slagrook",
+       "level": 47
+      },
+      {
+       "species": "clinkerback",
+       "level": 47
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_aurelith_cindervale.json (World Design draft)",
+     "team": [
+      {
+       "species": "slagrook",
+       "level": 47
+      },
+      {
+       "species": "clinkerback",
+       "level": 47
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_cindervale.json (npc.team)",
+    "team": [
+     {
+      "species": "slagrook",
+      "level": 47
+     },
+     {
+      "species": "clinkerback",
+      "level": 47
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_cindervale.route_cindervale_trainer_2",
+   "map": "route_cindervale",
+   "npc_id": "route_cindervale_trainer_2",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_aurelith_cindervale_b",
+   "region": 8,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_cindervale.json (npc.team)",
+     "team": [
+      {
+       "species": "dormagnus",
+       "level": 48
+      },
+      {
+       "species": "geysirox",
+       "level": 48
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_aurelith_cindervale.json (World Design draft)",
+     "team": [
+      {
+       "species": "dormagnus",
+       "level": 48
+      },
+      {
+       "species": "geysirox",
+       "level": 48
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_cindervale.json (npc.team)",
+    "team": [
+     {
+      "species": "dormagnus",
+      "level": 48
+     },
+     {
+      "species": "geysirox",
+      "level": 48
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_cindervale.route_cindervale_trainer_3",
+   "map": "route_cindervale",
+   "npc_id": "route_cindervale_trainer_3",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_aurelith_cindervale_c",
+   "region": 8,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_cindervale.json (npc.team)",
+     "team": [
+      {
+       "species": "calderock",
+       "level": 48
+      },
+      {
+       "species": "scorchkite",
+       "level": 49
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_aurelith_cindervale.json (World Design draft)",
+     "team": [
+      {
+       "species": "calderock",
+       "level": 48
+      },
+      {
+       "species": "scorchkite",
+       "level": 49
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_cindervale.json (npc.team)",
+    "team": [
+     {
+      "species": "calderock",
+      "level": 48
+     },
+     {
+      "species": "scorchkite",
+      "level": 49
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_cindervale.route_cindervale_trainer_4",
+   "map": "route_cindervale",
+   "npc_id": "route_cindervale_trainer_4",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_aurelith_cindervale_d",
+   "region": 8,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_cindervale.json (npc.team)",
+     "team": [
+      {
+       "species": "emberbrock",
+       "level": 49
+      },
+      {
+       "species": "slagrook",
+       "level": 49
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_aurelith_cindervale.json (World Design draft)",
+     "team": [
+      {
+       "species": "emberbrock",
+       "level": 49
+      },
+      {
+       "species": "slagrook",
+       "level": 49
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_cindervale.json (npc.team)",
+    "team": [
+     {
+      "species": "emberbrock",
+      "level": 49
+     },
+     {
+      "species": "slagrook",
+      "level": 49
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_cindervale.route_cindervale_trainer_5",
+   "map": "route_cindervale",
+   "npc_id": "route_cindervale_trainer_5",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_aurelith_cindervale_e",
+   "region": 8,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_cindervale.json (npc.team)",
+     "team": [
+      {
+       "species": "obsidiax",
+       "level": 50
+      },
+      {
+       "species": "emberbrock",
+       "level": 50
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_aurelith_cindervale.json (World Design draft)",
+     "team": [
+      {
+       "species": "obsidiax",
+       "level": 50
+      },
+      {
+       "species": "emberbrock",
+       "level": 50
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_cindervale.json (npc.team)",
+    "team": [
+     {
+      "species": "obsidiax",
+      "level": 50
+     },
+     {
+      "species": "emberbrock",
+      "level": 50
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "route_cindervale.route_cindervale_trainer_6",
+   "map": "route_cindervale",
+   "npc_id": "route_cindervale_trainer_6",
+   "kind": "trainer_hooded",
+   "gd_id": "tr_route_aurelith_cindervale_f",
+   "region": 8,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/route_cindervale.json (npc.team)",
+     "team": [
+      {
+       "species": "tidepony",
+       "level": 51
+      },
+      {
+       "species": "slagrook",
+       "level": 51
+      }
+     ]
+    },
+    {
+     "source": "design/overnight_gd/trainers_route_aurelith_cindervale.json (World Design draft)",
+     "team": [
+      {
+       "species": "tidepony",
+       "level": 51
+      },
+      {
+       "species": "slagrook",
+       "level": 51
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/route_cindervale.json (npc.team)",
+    "team": [
+     {
+      "species": "tidepony",
+      "level": 51
+     },
+     {
+      "species": "slagrook",
+      "level": 51
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "aurelith.aurelith_ron_6",
+   "map": "aurelith",
+   "npc_id": "aurelith_ron_6",
+   "kind": "rival",
+   "gd_id": "ron_6",
+   "region": 9,
+   "placed_on_map": true,
+   "records": [
+    {
+     "source": "art/world/overworld/maps/aurelith.json (npc.team)",
+     "teams_by_starter": {
+      "tumbloam": [
+       {
+        "species": "sailquill",
+        "level": 58
+       },
+       {
+        "species": "gearwarden",
+        "level": 59
+       },
+       {
+        "species": "foldwing",
+        "level": 59
+       },
+       {
+        "species": "runeskein",
+        "level": 60
+       },
+       {
+        "species": "eavesgrim",
+        "level": 61
+       },
+       {
+        "species": "forgeharrow",
+        "level": 62
+       }
+      ],
+      "cindrip": [
+       {
+        "species": "sailquill",
+        "level": 58
+       },
+       {
+        "species": "tollkin",
+        "level": 59
+       },
+       {
+        "species": "pennantail",
+        "level": 59
+       },
+       {
+        "species": "runeskein",
+        "level": 60
+       },
+       {
+        "species": "railmite",
+        "level": 61
+       },
+       {
+        "species": "tidemarrow",
+        "level": 62
+       }
+      ],
+      "rillop": [
+       {
+        "species": "sailquill",
+        "level": 58
+       },
+       {
+        "species": "somnarch",
+        "level": 59
+       },
+       {
+        "species": "stratodrake",
+        "level": 59
+       },
+       {
+        "species": "runeskein",
+        "level": 60
+       },
+       {
+        "species": "faultgrin",
+        "level": 61
+       },
+       {
+        "species": "bastonox",
+        "level": 62
+       }
+      ]
+     }
+    },
+    {
+     "source": "design/overnight_gd/trainers_aurelith.json (World Design draft)",
+     "teams_by_starter": {
+      "tumbloam": [
+       {
+        "species": "sailquill",
+        "level": 58
+       },
+       {
+        "species": "gearwarden",
+        "level": 59
+       },
+       {
+        "species": "foldwing",
+        "level": 59
+       },
+       {
+        "species": "runeskein",
+        "level": 60
+       },
+       {
+        "species": "eavesgrim",
+        "level": 61
+       },
+       {
+        "species": "forgeharrow",
+        "level": 62
+       }
+      ],
+      "cindrip": [
+       {
+        "species": "sailquill",
+        "level": 58
+       },
+       {
+        "species": "tollkin",
+        "level": 59
+       },
+       {
+        "species": "pennantail",
+        "level": 59
+       },
+       {
+        "species": "runeskein",
+        "level": 60
+       },
+       {
+        "species": "railmite",
+        "level": 61
+       },
+       {
+        "species": "tidemarrow",
+        "level": 62
+       }
+      ],
+      "rillop": [
+       {
+        "species": "sailquill",
+        "level": 58
+       },
+       {
+        "species": "somnarch",
+        "level": 59
+       },
+       {
+        "species": "stratodrake",
+        "level": 59
+       },
+       {
+        "species": "runeskein",
+        "level": 60
+       },
+       {
+        "species": "faultgrin",
+        "level": 61
+       },
+       {
+        "species": "bastonox",
+        "level": 62
+       }
+      ]
+     }
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "art/world/overworld/maps/aurelith.json (npc.team)",
+    "teams_by_starter": {
+     "tumbloam": [
+      {
+       "species": "sailquill",
+       "level": 58
+      },
+      {
+       "species": "gearwarden",
+       "level": 59
+      },
+      {
+       "species": "foldwing",
+       "level": 59
+      },
+      {
+       "species": "runeskein",
+       "level": 60
+      },
+      {
+       "species": "eavesgrim",
+       "level": 61
+      },
+      {
+       "species": "forgeharrow",
+       "level": 62
+      }
+     ],
+     "cindrip": [
+      {
+       "species": "sailquill",
+       "level": 58
+      },
+      {
+       "species": "tollkin",
+       "level": 59
+      },
+      {
+       "species": "pennantail",
+       "level": 59
+      },
+      {
+       "species": "runeskein",
+       "level": 60
+      },
+      {
+       "species": "railmite",
+       "level": 61
+      },
+      {
+       "species": "tidemarrow",
+       "level": 62
+      }
+     ],
+     "rillop": [
+      {
+       "species": "sailquill",
+       "level": 58
+      },
+      {
+       "species": "somnarch",
+       "level": 59
+      },
+      {
+       "species": "stratodrake",
+       "level": 59
+      },
+      {
+       "species": "runeskein",
+       "level": 60
+      },
+      {
+       "species": "faultgrin",
+       "level": 61
+      },
+      {
+       "species": "bastonox",
+       "level": 62
+      }
+     ]
+    }
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "gd:aurelith.tr_aurelith_arena_1",
+   "map": "aurelith",
+   "npc_id": null,
+   "kind": "battle_master",
+   "gd_id": "tr_aurelith_arena_1",
+   "region": 9,
+   "placed_on_map": false,
+   "records": [
+    {
+     "source": "design/overnight_gd/trainers_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "ingotitan",
+       "level": 57
+      },
+      {
+       "species": "dormagnus",
+       "level": 58
+      },
+      {
+       "species": "emberbrock",
+       "level": 58
+      },
+      {
+       "species": "pumicepuff",
+       "level": 59
+      },
+      {
+       "species": "netspinner",
+       "level": 58
+      },
+      {
+       "species": "railmite",
+       "level": 60
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "design/overnight_gd/trainers_aurelith.json (World Design draft)",
+    "team": [
+     {
+      "species": "ingotitan",
+      "level": 57
+     },
+     {
+      "species": "dormagnus",
+      "level": 58
+     },
+     {
+      "species": "emberbrock",
+      "level": 58
+     },
+     {
+      "species": "pumicepuff",
+      "level": 59
+     },
+     {
+      "species": "netspinner",
+      "level": 58
+     },
+     {
+      "species": "railmite",
+      "level": 60
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "gd:aurelith.tr_aurelith_arena_2",
+   "map": "aurelith",
+   "npc_id": null,
+   "kind": "battle_master",
+   "gd_id": "tr_aurelith_arena_2",
+   "region": 9,
+   "placed_on_map": false,
+   "records": [
+    {
+     "source": "design/overnight_gd/trainers_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 58
+      },
+      {
+       "species": "mournlily",
+       "level": 59
+      },
+      {
+       "species": "rooftrove",
+       "level": 59
+      },
+      {
+       "species": "runeskein",
+       "level": 59
+      },
+      {
+       "species": "lampwick",
+       "level": 60
+      },
+      {
+       "species": "velvetabby",
+       "level": 61
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "design/overnight_gd/trainers_aurelith.json (World Design draft)",
+    "team": [
+     {
+      "species": "gloamtick",
+      "level": 58
+     },
+     {
+      "species": "mournlily",
+      "level": 59
+     },
+     {
+      "species": "rooftrove",
+      "level": 59
+     },
+     {
+      "species": "runeskein",
+      "level": 59
+     },
+     {
+      "species": "lampwick",
+      "level": 60
+     },
+     {
+      "species": "velvetabby",
+      "level": 61
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "gd:aurelith.tr_aurelith_arena_3",
+   "map": "aurelith",
+   "npc_id": null,
+   "kind": "battle_master",
+   "gd_id": "tr_aurelith_arena_3",
+   "region": 9,
+   "placed_on_map": false,
+   "records": [
+    {
+     "source": "design/overnight_gd/trainers_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "plashcrown",
+       "level": 59
+      },
+      {
+       "species": "mirewump",
+       "level": 59
+      },
+      {
+       "species": "echoshell",
+       "level": 60
+      },
+      {
+       "species": "deluvane",
+       "level": 60
+      },
+      {
+       "species": "cascadorn",
+       "level": 60
+      },
+      {
+       "species": "moorcoil",
+       "level": 62
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "design/overnight_gd/trainers_aurelith.json (World Design draft)",
+    "team": [
+     {
+      "species": "plashcrown",
+      "level": 59
+     },
+     {
+      "species": "mirewump",
+      "level": 59
+     },
+     {
+      "species": "echoshell",
+      "level": 60
+     },
+     {
+      "species": "deluvane",
+      "level": 60
+     },
+     {
+      "species": "cascadorn",
+      "level": 60
+     },
+     {
+      "species": "moorcoil",
+      "level": 62
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "gd:aurelith.tr_aurelith_arena_4",
+   "map": "aurelith",
+   "npc_id": null,
+   "kind": "battle_master",
+   "gd_id": "tr_aurelith_arena_4",
+   "region": 9,
+   "placed_on_map": false,
+   "records": [
+    {
+     "source": "design/overnight_gd/trainers_aurelith.json (World Design draft)",
+     "team": [
+      {
+       "species": "stratodrake",
+       "level": 61
+      },
+      {
+       "species": "emberseraph",
+       "level": 61
+      },
+      {
+       "species": "calderax",
+       "level": 62
+      },
+      {
+       "species": "halovy",
+       "level": 61
+      },
+      {
+       "species": "ondravel",
+       "level": 62
+      },
+      {
+       "species": "tidepony",
+       "level": 64
+      }
+     ]
+    }
+   ],
+   "status": "recorded (existing team, not changed)",
+   "active": {
+    "source": "design/overnight_gd/trainers_aurelith.json (World Design draft)",
+    "team": [
+     {
+      "species": "stratodrake",
+      "level": 61
+     },
+     {
+      "species": "emberseraph",
+      "level": 61
+     },
+     {
+      "species": "calderax",
+      "level": 62
+     },
+     {
+      "species": "halovy",
+      "level": 61
+     },
+     {
+      "species": "ondravel",
+      "level": 62
+     },
+     {
+      "species": "tidepony",
+      "level": 64
+     }
+    ]
+   },
+   "also_recorded_differently": []
+  },
+  {
+   "key": "house_1f.ron",
+   "map": "house_1f",
+   "npc_id": "ron",
+   "kind": "ron",
+   "gd_id": null,
+   "region": null,
+   "placed_on_map": true,
+   "records": [],
+   "status": "no team anywhere"
+  }
+ ]
+}

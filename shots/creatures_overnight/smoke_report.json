@@ -1,0 +1,64 @@
+{
+ "pc": {
+  "lead": "peeplark",
+  "skills": [
+   "gustdart",
+   "streamerlash",
+   "swoop",
+   "tailwind"
+  ],
+  "table": "tools/sync_creatures.mjs 10/23/2026, 14:28:48 CT",
+  "route1": 17,
+  "follower": {
+   "species": "peeplark",
+   "sheet": 320
+  },
+  "battleImgs": [
+   [
+    "geodrake_front_128_2x.png",
+    256
+   ],
+   [
+    "peeplark_back_128_2x.png",
+    256
+   ]
+  ],
+  "introMsg": "What will Peeplark do?",
+  "usedSkill": true,
+  "afterMsg": "It shrugged most of that off.",
+  "errors": [],
+  "afterForceClose": [],
+  "missing": []
+ },
+ "phone": {
+  "lead": "peeplark",
+  "skills": [
+   "gustdart",
+   "streamerlash",
+   "swoop",
+   "tailwind"
+  ],
+  "table": "tools/sync_creatures.mjs 10/23/2026, 14:28:48 CT",
+  "route1": 17,
+  "follower": {
+   "species": "peeplark",
+   "sheet": 320
+  },
+  "battleImgs": [
+   [
+    "geodrake_front_128_2x.png",
+    256
+   ],
+   [
+    "peeplark_back_128_2x.png",
+    256
+   ]
+  ],
+  "introMsg": "What will Peeplark do?",
+  "usedSkill": true,
+  "afterMsg": "It shrugged most of that off.",
+  "errors": [],
+  "afterForceClose": [],
+  "missing": []
+ }
+}

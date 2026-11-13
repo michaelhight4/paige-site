@@ -1,0 +1,314 @@
+{
+  "checks": [
+    {
+      "plat": "pc",
+      "what": "new game: company XP 0, ID 1, 0 points, 6-digit employee ID",
+      "ok": true,
+      "info": "{\"idLevel\":1,\"board\":{},\"pointsFree\":0,\"respecWeek\":0,\"employeeId\":\"784513\",\"transfers\":{\"total\":0,\"bySpecies\":{},\"goalTier\":0,\"weekly\":null},\"perkClaims\":{},\"xp\":0,\"xpClaims\":{\"kilindex_count\":0},\"progress\":{\"idLevel\":1,\"xp\":0,\"xpInto\":0,\"xpSpan\":100,\"toNext\":100,\"frac\":0,\"capped\":false,\"points\":0,\"cap\":4}}"
+    },
+    {
+      "plat": "pc",
+      "what": "starter: +40 promotion (got_starter) +10 Kilindex log",
+      "ok": true,
+      "info": "{\"xp\":50,\"claims\":{\"kilindex_count\":1,\"main_quest:mq_brookhollow_promotion\":1}}"
+    },
+    {
+      "plat": "pc",
+      "what": "battle: save locked mid battle",
+      "ok": true,
+      "info": "battle"
+    },
+    {
+      "plat": "pc",
+      "what": "catch: first catch +30, Kilindex log +10 (90 XP)",
+      "ok": true,
+      "info": "{\"cmds\":[\"Skills\",\"Pack\",\"Team\",\"Retreat\"],\"pack\":[\"Dominance Crystal ×3\"],\"mid\":50,\"xp\":90,\"claims\":{\"kilindex_count\":2,\"main_quest:mq_brookhollow_promotion\":1,\"first_catch\":1}}"
+    },
+    {
+      "plat": "pc",
+      "what": "level up: 130 XP -> ID 2 with 1 point",
+      "ok": true,
+      "info": "{\"xp\":130,\"id\":2,\"pts\":1}"
+    },
+    {
+      "plat": "pc",
+      "what": "phone: RT Employee Benefits tile is last, existing order kept",
+      "ok": true,
+      "info": "[\"Team\",\"Pack\",\"Kilindex\",\"Tasks\",\"Map\",\"Contacts\",\"Options\",\"RT Employee Benefits\"]"
+    },
+    {
+      "plat": "pc",
+      "what": "phone menu: .ui-root [data-i] inside the viewport",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "plat": "pc",
+      "what": "tab opens",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc",
+      "what": "header: bare 6-digit employee ID = save, ID 2, 1 point; title \"RT Employee Benefits\"",
+      "ok": true,
+      "info": "{\"eid\":\"784513\",\"lv\":\"ID 2\",\"pts\":\"1 pt\",\"title\":\"RT Employee Benefits\",\"nodes\":[\"copay_coverage:locked\",\"store_discount:available\",\"rt_payout:available\",\"crystal_grade:locked\",\"unit_training:locked\"]}"
+    },
+    {
+      "plat": "pc",
+      "what": "tree: store_discount + rt_payout available, region 2 nodes locked",
+      "ok": true,
+      "info": "copay_coverage:locked,store_discount:available,rt_payout:available,crystal_grade:locked,unit_training:locked"
+    },
+    {
+      "plat": "pc",
+      "what": "tab text: no blocked words",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc",
+      "what": "tab: #rtbinfo, .rtb-id, .ui-hint, .rtb-node[data-node=\"copay_coverage\"], .rtb-node[data-node=\"store_discount\"] inside the viewport",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "plat": "pc",
+      "what": "tab: every node can be scrolled into the viewport",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "plat": "pc",
+      "what": "node hit targets >= 44px tall",
+      "ok": true,
+      "info": "[79,79,79,79,79]"
+    },
+    {
+      "plat": "pc",
+      "what": "tab: axe-core (incl. color-contrast) on .ui-root",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc",
+      "what": "keyboard: arrow moves to store_discount, details show",
+      "ok": true,
+      "info": "store_discount"
+    },
+    {
+      "plat": "pc",
+      "what": "confirm box shows",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc",
+      "what": "confirm: axe-core (incl. color-contrast) on .ui-modal",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc",
+      "what": "bought: store_discount rank 1, 0 points left",
+      "ok": true,
+      "info": "{\"board\":{\"store_discount\":1},\"pts\":0}"
+    },
+    {
+      "plat": "pc",
+      "what": "tree after buy: store_discount owned",
+      "ok": true,
+      "info": "copay_coverage:locked,store_discount:owned,rt_payout:locked,crystal_grade:locked,unit_training:locked"
+    },
+    {
+      "plat": "pc",
+      "what": "tab after buy: axe-core (incl. color-contrast) on .ui-root",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc",
+      "what": "reload: rank, XP, ID and employee ID persisted",
+      "ok": true,
+      "info": "{\"board\":{\"store_discount\":1},\"xp\":130,\"id\":2,\"pts\":0,\"eid\":\"784513\"}"
+    },
+    {
+      "plat": "pc",
+      "what": "reload: tab shows store_discount owned",
+      "ok": true,
+      "info": "owned"
+    },
+    {
+      "plat": "phone",
+      "what": "new game: company XP 0, ID 1, 0 points, 6-digit employee ID",
+      "ok": true,
+      "info": "{\"idLevel\":1,\"board\":{},\"pointsFree\":0,\"respecWeek\":0,\"employeeId\":\"805179\",\"transfers\":{\"total\":0,\"bySpecies\":{},\"goalTier\":0,\"weekly\":null},\"perkClaims\":{},\"xp\":0,\"xpClaims\":{\"kilindex_count\":0},\"progress\":{\"idLevel\":1,\"xp\":0,\"xpInto\":0,\"xpSpan\":100,\"toNext\":100,\"frac\":0,\"capped\":false,\"points\":0,\"cap\":4}}"
+    },
+    {
+      "plat": "phone",
+      "what": "starter: +40 promotion (got_starter) +10 Kilindex log",
+      "ok": true,
+      "info": "{\"xp\":50,\"claims\":{\"kilindex_count\":1,\"main_quest:mq_brookhollow_promotion\":1}}"
+    },
+    {
+      "plat": "phone",
+      "what": "battle: save locked mid battle",
+      "ok": true,
+      "info": "battle"
+    },
+    {
+      "plat": "phone",
+      "what": "catch: first catch +30, Kilindex log +10 (90 XP)",
+      "ok": true,
+      "info": "{\"cmds\":[\"Skills\",\"Pack\",\"Team\",\"Retreat\"],\"pack\":[\"Dominance Crystal ×3\"],\"mid\":50,\"xp\":90,\"claims\":{\"kilindex_count\":2,\"main_quest:mq_brookhollow_promotion\":1,\"first_catch\":1}}"
+    },
+    {
+      "plat": "phone",
+      "what": "level up: 130 XP -> ID 2 with 1 point",
+      "ok": true,
+      "info": "{\"xp\":130,\"id\":2,\"pts\":1}"
+    },
+    {
+      "plat": "phone",
+      "what": "phone: RT Employee Benefits tile is last, existing order kept",
+      "ok": true,
+      "info": "[\"Team\",\"Pack\",\"Kilindex\",\"Tasks\",\"Map\",\"Contacts\",\"Options\",\"RT Employee Benefits\"]"
+    },
+    {
+      "plat": "phone",
+      "what": "phone menu: .ui-root [data-i] inside the viewport",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "plat": "phone",
+      "what": "tab opens",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "phone",
+      "what": "header: bare 6-digit employee ID = save, ID 2, 1 point; title \"RT Employee Benefits\"",
+      "ok": true,
+      "info": "{\"eid\":\"805179\",\"lv\":\"ID 2\",\"pts\":\"1 pt\",\"title\":\"RT Employee Benefits\",\"nodes\":[\"copay_coverage:locked\",\"store_discount:available\",\"rt_payout:available\",\"crystal_grade:locked\",\"unit_training:locked\"]}"
+    },
+    {
+      "plat": "phone",
+      "what": "tree: store_discount + rt_payout available, region 2 nodes locked",
+      "ok": true,
+      "info": "copay_coverage:locked,store_discount:available,rt_payout:available,crystal_grade:locked,unit_training:locked"
+    },
+    {
+      "plat": "phone",
+      "what": "tab text: no blocked words",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "phone",
+      "what": "tab: #rtbinfo, .rtb-id, .ui-hint, .rtb-node[data-node=\"copay_coverage\"], .rtb-node[data-node=\"store_discount\"] inside the viewport",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "plat": "phone",
+      "what": "tab: every node can be scrolled into the viewport",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "plat": "phone",
+      "what": "node hit targets >= 44px tall",
+      "ok": true,
+      "info": "[66,66,66,66,66]"
+    },
+    {
+      "plat": "phone",
+      "what": "tab: axe-core (incl. color-contrast) on .ui-root",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "phone",
+      "what": "tap a node: details + Buy button, no confirm yet",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "phone",
+      "what": "confirm box shows",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "phone",
+      "what": "confirm: axe-core (incl. color-contrast) on .ui-modal",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "phone",
+      "what": "bought: store_discount rank 1, 0 points left",
+      "ok": true,
+      "info": "{\"board\":{\"store_discount\":1},\"pts\":0}"
+    },
+    {
+      "plat": "phone",
+      "what": "tree after buy: store_discount owned",
+      "ok": true,
+      "info": "copay_coverage:locked,store_discount:owned,rt_payout:locked,crystal_grade:locked,unit_training:locked"
+    },
+    {
+      "plat": "phone",
+      "what": "tab after buy: axe-core (incl. color-contrast) on .ui-root",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "phone",
+      "what": "reload: rank, XP, ID and employee ID persisted",
+      "ok": true,
+      "info": "{\"board\":{\"store_discount\":1},\"xp\":130,\"id\":2,\"pts\":0,\"eid\":\"805179\"}"
+    },
+    {
+      "plat": "phone",
+      "what": "reload: tab shows store_discount owned",
+      "ok": true,
+      "info": "owned"
+    },
+    {
+      "plat": "all",
+      "what": "no console errors / page errors (known optional-art 404s ignored: 6)",
+      "ok": true,
+      "info": ""
+    }
+  ],
+  "errors": [],
+  "shots": [
+    "01_pc_new_game.png",
+    "02_pc_catch.png",
+    "03_pc_phone_menu.png",
+    "04_pc_tab.png",
+    "05_pc_detail.png",
+    "06_pc_confirm.png",
+    "07_pc_bought.png",
+    "08_pc_reloaded.png",
+    "01_phone_new_game.png",
+    "02_phone_catch.png",
+    "03_phone_phone_menu.png",
+    "04_phone_tab.png",
+    "05_phone_tab_scrolled.png",
+    "06_phone_detail.png",
+    "07_phone_confirm.png",
+    "08_phone_bought.png",
+    "09_phone_reloaded.png"
+  ],
+  "known": [
+    "pc http 404: /art/characters/pixel/capture_poses/bone_v2/ron/hold_points.json",
+    "pc http 404: /art/characters/pixel/capture_poses/bone_v2/vane/hold_points.json",
+    "pc http 404: /art/characters/pixel/capture_poses/bone_v2/riverbank_stranger/hold_points.json",
+    "phone http 404: /art/characters/pixel/capture_poses/bone_v2/ron/hold_points.json",
+    "phone http 404: /art/characters/pixel/capture_poses/bone_v2/vane/hold_points.json",
+    "phone http 404: /art/characters/pixel/capture_poses/bone_v2/riverbank_stranger/hold_points.json"
+  ]
+}

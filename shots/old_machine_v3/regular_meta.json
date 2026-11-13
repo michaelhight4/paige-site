@@ -1,0 +1,106 @@
+{
+ "pc": {
+  "door": {
+   "map": "heal_brookhollow",
+   "lastDoor": {
+    "map": "brookhollow",
+    "x": 18,
+    "y": 26
+   }
+  },
+  "res": {
+   "ms": 4949,
+   "machine": {
+    "x": 5,
+    "y": 1,
+    "base": "i_crystal_polisher",
+    "pt": [
+     63,
+     28
+    ]
+   },
+   "mapPx": [
+    383,
+    92
+   ],
+   "at": {
+    "x": 640,
+    "y": 184
+   },
+   "scale": 3.5,
+   "steps": [
+    "heal_cradle_open",
+    "heal_float_6",
+    "heal_scanner_sweep",
+    "heal_glow_6",
+    "heal_done_ping",
+    "heal_float_6_back"
+   ],
+   "zoom": 1.75,
+   "variant": "heal_restore"
+  },
+  "heal_start_s": 19.357,
+  "heal_end_s": 27.753,
+  "night": {
+   "hour": 23,
+   "phase": "night"
+  },
+  "outdoor": {
+   "map": "brookhollow",
+   "hour": 23,
+   "grade": "night"
+  }
+ },
+ "phone": {
+  "door": {
+   "map": "heal_brookhollow",
+   "lastDoor": {
+    "map": "brookhollow",
+    "x": 18,
+    "y": 26
+   }
+  },
+  "res": {
+   "ms": 4953,
+   "machine": {
+    "x": 5,
+    "y": 1,
+    "base": "i_crystal_polisher",
+    "pt": [
+     63,
+     28
+    ]
+   },
+   "mapPx": [
+    383,
+    92
+   ],
+   "at": {
+    "x": 422,
+    "y": 195
+   },
+   "scale": 1,
+   "steps": [
+    "heal_cradle_open",
+    "heal_float_6",
+    "heal_scanner_sweep",
+    "heal_glow_6",
+    "heal_done_ping",
+    "heal_float_6_back"
+   ],
+   "zoom": 1.75,
+   "variant": "heal_restore"
+  },
+  "heal_start_s": 18.051,
+  "heal_end_s": 26.218,
+  "night": {
+   "hour": 23,
+   "phase": "night"
+  },
+  "outdoor": {
+   "map": "brookhollow",
+   "hour": 23,
+   "grade": "night"
+  }
+ }
+}

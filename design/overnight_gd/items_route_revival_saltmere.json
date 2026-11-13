@@ -1,0 +1,33 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_revival_saltmere",
+ "route_id": "revival-saltmere",
+ "kind": "route (shortcut, opened from inside)",
+ "map_status": "to_come",
+ "story_step": "after coin 3",
+ "story_order": 12,
+ "level_band": "wild 26-29, trainers 27-30",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "rs_checkpoint",
+   "item": "tonic_large",
+   "hidden": false,
+   "placement_hint": "checkpoint bench"
+  },
+  {
+   "id": "rs_flats",
+   "item": "crystal_dust",
+   "hidden": true,
+   "placement_hint": "salt flat"
+  },
+  {
+   "id": "rs_hidden",
+   "item": "vigor_seed",
+   "hidden": true,
+   "placement_hint": "lone post"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

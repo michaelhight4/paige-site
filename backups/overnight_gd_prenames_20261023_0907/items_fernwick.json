@@ -1,0 +1,27 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "fernwick",
+ "route_id": null,
+ "kind": "town",
+ "map_status": "built",
+ "story_step": "2-3",
+ "story_order": 3,
+ "level_band": "Ron 1 L6; hall see halls/fernwick.json",
+ "existing_placed": [
+  "old_record",
+  "fw_north_trees",
+  "fw_east_tree"
+ ],
+ "existing_note": "already in maps/*.json items[] (ITEM_PLACEHOLDERS.json placed); not duplicated here",
+ "proposed": [
+  {
+   "id": "fw_club_gift",
+   "item": "trail_mix",
+   "hidden": false,
+   "placement_hint": "club_int host gift, once",
+   "qty": 3,
+   "gift": true
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

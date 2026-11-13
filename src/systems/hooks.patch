@@ -1,0 +1,143 @@
+--- a/src/overworld/overworld.js
++++ b/src/overworld/overworld.js
+@@ -52,6 +52,7 @@
+     this.log = [];              // recent events (tests/debug)
+     // later: wild encounters, puzzles, field skills (FIELD_SKILLS.md: Tideglide / Skylift / Lumen Line / flooding)
+     this.hooks = { onEncounterTile: null, onPlate: null, onWater: null, onFieldSkill: null };
++    this.systems = null; // [systems-gd hook] set by attachSystems (src/systems/index.js)
+     this.flags = new Set([...(config.startFlags || []), ...(opts.flags || [])]);
+     this.lines = null;          // text/overworld_lines.json (optional; map placeholders are the fallback)
+     this._lastBumpMsg = null;   // say a blocked line once per push, not every bump
+@@ -157,6 +158,7 @@
+     this.npcs.build(m, this.spriteMap, this.phase); // by_phase NPCs (club_int rebel_dj) are placed for the phase on entry
+     this.decals = [];
+     this.life.enter(m);
++    this.systems?.onMapEnter(m); // [systems-gd hook] satchels solid, puzzle state onto the map
+     this._placeFollower();
+     await this._loadActorSprites();
+   }
+@@ -564,7 +566,8 @@
+   }
+ 
+   async setLead(species, { nickname = null, warmth = 0, rt = null } = {}) {
+-    this.party = [{ species, nickname, warmth: clampWarmth(warmth), rt }, ...this.party.filter((c) => c.species !== species)];
++    const had = this.party.find((c) => c.species === species && (rt == null || c.rt === rt)) || {}; // [systems-gd hook] keep the whole creature (uid/level/hp/xp)
++    this.party = [{ ...had, species, nickname, warmth: clampWarmth(warmth), rt }, ...this.party.filter((c) => c !== had)]; // [systems-gd hook]
+     this._placeFollower(); await this._loadActorSprites(); this._dirty = true;
+   }
+ 
+@@ -640,6 +643,7 @@
+     if (this.busy) return;
+     const p = this.player, d = DELTA[p.facing];
+     const fx = p.x + d.x, fy = p.y + d.y, m = this.map;
++    if (this.systems?.onInteract(fx, fy)) return; // [systems-gd hook] pickups, crystal switches, starter cradles
+     // 1) interact spots on the faced cell (props; triggers fire by standing, see _checkTriggers)
+     const spot = this.spots.find((sp) => sp.kind !== 'trigger' && sp.x === fx && sp.y === fy);
+     if (spot) { this.script(() => this.runSpot(spot)); return; }
+@@ -690,6 +694,7 @@
+           return;
+         }
+         const line = this.pick(e, key);
++        if (this.systems && await this.systems.onTalk({ mapName, def, entry: e, line, speaker: sp })) return; // [systems-gd hook] heal counter, shop clerk
+         if (e.after_heal) { // healer: the line ends with the question
+           const yes = (await this.ask(line?.pages || e.pages, ['Yes', 'No'], sp)) === 0;
+           if (yes) { this.healedAt = this.ms; this.log.push({ tick: this.tick, type: 'heal' }); await this.say(e.after_heal, sp); }
+@@ -769,6 +774,7 @@
+     return {
+       flags: [...this.flags], counters: this.counters, seen: this.seen, seenDay: this.seenDay, clock: this.clock, party: this.party,
+       pos: this.map && !this.fade ? { map: this.map.name, x: p.x, y: p.y, facing: p.facing } : this._lastPos || null, lastDoor: this.lastDoor,
++      ...this.systems?.saveBlocks(), // [systems-gd hook] coins, bag, archive, systems
+     };
+   }
+ 
+@@ -836,6 +842,7 @@
+     for (const n of this.npcs.list) { const a = this._npcActor(n, grade); if (a) actors.push(a); }
+     const fa = this._followerActor(grade, p);
+     if (fa) actors.push(fa);
++    if (this.systems) actors.push(...this.systems.worldActors(grade)); // [systems-gd hook] supply satchels
+     return {
+       map: this.map, tileset: this.tileset, tileset1x: this.tileset1x, grade, gradeImage, emissive: this.emissiveMasks, swap: this.swapMap(),
+       decals: this._decalsView(), overlays: this.overlays,
+--- a/src/overworld/save.js
++++ b/src/overworld/save.js
+@@ -17,7 +17,7 @@
+ export const COUNTERS = ['office_display_taps', 'bin_inspects_after_8'];
+ 
+ /** v2 blocks the overworld does not touch yet. SaveStore carries them from the last load into every save. */
+-export const V2_BLOCKS = ['saveId', 'coins', 'bag', 'archive', 'kilindex', 'tasks', 'company'];
++export const V2_BLOCKS = ['saveId', 'coins', 'bag', 'archive', 'kilindex', 'tasks', 'company', 'systems']; // [systems-gd hook] + systems
+ 
+ function v2Defaults() {
+   return {
+@@ -30,6 +30,7 @@
+       idLevel: 1, pointsFree: 0, board: {}, respecWeek: 0, // idLevel start value is a proposal (Gary's call)
+       transfers: { total: 0, bySpecies: {}, goalTier: 0, weekly: null }, perkClaims: {},
+     },
++    systems: {}, // [systems-gd hook] src/systems state (lastHeal, puzzles, bag recency...), open map
+   };
+ }
+ 
+@@ -110,6 +111,7 @@
+ }
+ const natInt = (n) => Math.max(0, Math.floor(Number(n) || 0));
+ 
++const keepSystemsFields = (c) => Object.fromEntries(['hp', 'energy', 'status', 'skills', 'lineage', 'origin'].filter((k) => c[k] != null).map((k) => [k, clone(c[k])])); // [systems-gd hook]
+ function normParty(list, saveId) {
+   const used = new Set();
+   return list.filter((c) => c && typeof c.species === 'string').map((c, i) => {
+@@ -120,6 +122,7 @@
+       uid, species: c.species, nickname: c.nickname || null, warmth: clampWarmth(c.warmth), rt: c.rt || null,
+       level: Number.isInteger(c.level) && c.level > 0 ? c.level : null, xp: natInt(c.xp),
+       held: typeof c.held === 'string' ? c.held : null, locked: c.locked === true, variant: typeof c.variant === 'string' ? c.variant : null,
++      ...keepSystemsFields(c), // [systems-gd hook] hp/energy/status/skills/lineage/origin (src/systems/creature.js validates)
+     };
+   });
+ }
+@@ -143,7 +146,7 @@
+   const d = v2Defaults();
+   s.coins = natInt(o.coins);
+   s.bag = Object.fromEntries(Object.entries(isObj(o.bag) ? o.bag : {}).map(([k, n]) => [k, natInt(n)]).filter(([, n]) => n > 0));
+-  for (const k of ['archive', 'kilindex', 'tasks', 'company']) s[k] = shaped(d[k], o[k]);
++  for (const k of ['archive', 'kilindex', 'tasks', 'company', 'systems']) s[k] = shaped(d[k], o[k]); // [systems-gd hook] + systems
+   return s;
+ }
+ 
+--- a/src/main.js
++++ b/src/main.js
+@@ -17,6 +17,7 @@
+ import { SaveStore, SAVE_KEY } from './overworld/save.js';
+ import { openSaveStorage } from './overworld/save_backend.js';
+ import { Dialog } from './overworld/dialog.js';
++import { attachSystems } from './systems/index.js'; // [systems-gd hook]
+ import { startPlatform } from './platform.js';
+ 
+ const q = new URLSearchParams(location.search);
+@@ -80,6 +81,7 @@
+   else if (e.code === scene.depth.key) toast(`Depth shadows ${scene.depth.toggle() ? 'on' : 'off'}`);
+ });
+ 
++attachSystems(scene, { saveData: saveData || {}, config: q }); // [systems-gd hook] party/bag/heal/shop/puzzles (src/systems/HOOKS.md)
+ window.kilumen = { scene, platform: { id: platform.id, profile: platform.profile }, state: () => scene.state(), ready: scene.init().then(() => { scene.run(); return true; }) };
+ window.kilumen.ready.catch((e) => { console.error(e); toast('Failed to load: ' + e.message); });
+ window.kilumen.save = { backend: saveStorage?.backend || (saveStorage ? 'localStorage' : 'none'), flush: () => saveStorage?.flush?.() };
+@@ -99,7 +101,8 @@
+ // UI layer (src/ui/ui.js, UI pass Oct 22, 2026): phone menu (Esc / M / Start / menu button), HUD, title, screens, battle
+ // shell. Loaded after the world is up and guarded, so a UI failure never stops the game. ?ui=0 skips it.
+ if (q.get('ui') !== '0') {
+-  window.kilumen.ready.then(() => import('./ui/ui.js')).then(({ mountUI }) => { window.kilumen.ui = mountUI({ scene, platform, toast, params: q }); })
++  window.kilumen.ready.then(() => import('./ui/ui.js')).then(({ mountUI }) => { window.kilumen.ui = mountUI({ scene, platform, toast, params: q });
++    return import('./ui/systems_screens.js').then((m) => m.installSystemsScreens(window.kilumen.ui, scene.systems)); }) // [systems-gd hook]
+     .catch((e) => console.error('ui:', e));
+ }
+ 
+--- a/package.json
++++ b/package.json
+@@ -6,7 +6,7 @@
+   "description": "Kilumen overworld (dev). Zero-build static ES modules.",
+   "scripts": {
+     "start": "python3 -m http.server 8080",
+-    "test": "node --test tests/overworld.test.mjs tests/platform.test.mjs tests/batch3.test.mjs tests/depth.test.mjs tests/battle.test.mjs tests/save_props.test.mjs tests/libs.test.mjs tests/online.test.mjs",
++    "test": "node --test tests/overworld.test.mjs tests/platform.test.mjs tests/batch3.test.mjs tests/depth.test.mjs tests/battle.test.mjs tests/save_props.test.mjs tests/libs.test.mjs tests/online.test.mjs tests/systems_gd.test.mjs",
+     "shots": "node tests/shots.mjs"
+   },
+   "devDependencies": {

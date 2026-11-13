@@ -1,0 +1,165 @@
+// Evolution on level-up (Coder, Oct 23 2026): src/systems/evolution.js. Node only (the browser run is tests/evolution_e2e.mjs).
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { KilumenBattle } from '../src/battle/battle.js';
+import { attachSystems } from '../src/systems/index.js';
+import { createCreature, maxHp, xpForLevel, applyBattleTeam } from '../src/systems/creature.js';
+import { Kilindex } from '../src/overnight/kilindex.js';
+import { evoTable, nextEvolution, pendingEvolutions, evolveCreature, attachEvolution, NOT_BY_LEVEL, FALLBACK } from '../src/systems/evolution.js';
+
+const DEX = JSON.parse(readFileSync(new URL('../design/DEX_450.json', import.meta.url)));
+
+function stubScene(party = []) {
+  const said = [], saves = [];
+  const scene = {
+    party, flags: new Set(), lines: {}, busy: false, fade: null, tick: 0, log: [], dialog: { active: false }, toast() {},
+    textVars: () => ({}), fill: (pages, vars) => pages.map((t) => t.replace(/\{(\w+)\}/g, (m, k) => vars[k] ?? m)),
+    say(pages) { said.push(pages.join(' ')); return Promise.resolve(); },
+    step() { this.tick++; },
+    saveNow() { saves.push({ busy: this.busy, species: this.party.map((c) => c.species) }); return !this.busy; },
+    async script(fn) { if (this.busy) return; this.busy = true; try { await fn(); } finally { this.busy = false; this.saveNow(); } },
+  };
+  const sys = attachSystems(scene, { saveData: {} });
+  sys.kilindex = new Kilindex(null, party);
+  return { scene, sys, said, saves };
+}
+const winBattle = (party, foe = { species: 'tumbloam', level: 12 }) => {
+  const b = new KilumenBattle({ party, foes: [foe], wild: true, seed: [1, 2, 3, 4] });
+  for (let i = 0; i < 40 && !b.ended; i++) b.choose('move 1');
+  return b.result();
+};
+const nearLevel = (species, lv) => { const c = createCreature({ species, level: lv - 1, nickname: 'Pip', warmth: 40 }); c.xp = xpForLevel(lv) - 1; return c; };
+const settle = async (scene) => { for (let i = 0; i < 5; i++) { scene.step({}); await new Promise((r) => setTimeout(r, 0)); } };
+
+test('before (systems layer alone): reaching the evolution level does NOT change species', () => {
+  const { scene, sys } = stubScene([nearLevel('cindrip', 16)]);
+  const res = winBattle(scene.party);
+  assert.equal(res.outcome, 'win');
+  sys.applyBattleResult(res);
+  assert.equal(scene.party[0].level, 16);
+  assert.equal(scene.party[0].species, 'cindrip'); // applyBattleTeam copies level/xp/hp/energy/status only
+});
+
+test('table: built from the game data (buildCreatures evos + evoLevel), bond form held back', () => {
+  const t = evoTable();
+  assert.deepEqual(t.cindrip, { to: 'emberlunx', level: 16, time: null });
+  assert.deepEqual(t.emberlunx, { to: 'forgeharrow', level: 32, time: null });
+  assert.equal(t.tumbloam.to, 'burrowmane'); assert.equal(t.rillop.to, 'brookhorn');
+  assert.deepEqual(t.peeplark, { to: 'larkspar', level: 16, time: null });
+  assert.deepEqual(t.larkspar, { to: 'galespar', level: 32, time: null });
+  assert.equal(t.wavelin, undefined); // wavelin -> breakerfin is a bond evolution in DEX_450 (out of scope)
+  // new evolutions (coder_new_evos, Gary 2:18 PM CT Oct 23 2026): columnpede -> vaultpede, spinelet -> pricklon -> geodurchin
+  assert.deepEqual(t.columnpede, { to: 'vaultpede', level: 32, time: null });
+  assert.deepEqual(t.spinelet, { to: 'pricklon', level: 16, time: null });
+  assert.deepEqual(t.pricklon, { to: 'geodurchin', level: 32, time: null });
+  assert.equal(Object.keys(t).length, 52); // 6 hand-written + 47 synced - 1 bond
+  for (const e of Object.values(t)) assert.ok([16, 32].includes(e.level));
+});
+
+test('table vs DEX_450: no shard / fossil / bond / trade evolution is triggered by level', () => {
+  const byId = Object.fromEntries(DEX.creatures.map((c) => [c.id, c]));
+  for (const [from, e] of Object.entries(evoTable())) {
+    const m = String(byId[e.to]?.evolution?.method || '');
+    assert.doesNotMatch(m, /shard|fossil|bond|warmth|trade|courier/i, `${from} -> ${e.to}: ${m}`);
+  }
+  for (const id of Object.keys(NOT_BY_LEVEL)) assert.match(String(byId[id].evolution.method), /bond|warmth/i);
+});
+
+test('time of day: only gates entries that carry evoTime (none in the game data today)', () => {
+  const dex = { a: { name: 'A', evos: ['B'] }, b: { name: 'B', prevo: 'A', evoLevel: 10, evoTime: 'night' } };
+  const t = evoTable(dex), c = { species: 'a', level: 10 };
+  assert.equal(nextEvolution(c, { table: t, phase: 'day' }), null);
+  assert.equal(nextEvolution(c, { table: t, phase: 'night' }).to, 'b');
+  assert.ok(Object.values(evoTable()).every((e) => e.time === null));
+});
+
+test('pending: needs a level gained in this battle, a won battle, and a standing creature', () => {
+  const c = createCreature({ species: 'cindrip', level: 16 }), before = new Map([[c.uid, 15]]);
+  assert.equal(pendingEvolutions([c], before, 'win').length, 1);
+  assert.equal(pendingEvolutions([c], before, 'caught').length, 1);
+  assert.equal(pendingEvolutions([c], before, 'lose').length, 0);
+  assert.equal(pendingEvolutions([c], before, 'retreat').length, 0);
+  assert.equal(pendingEvolutions([c], new Map([[c.uid, 16]]), 'win').length, 0); // no level gained (e.g. stopped earlier)
+  c.hp = 0; assert.equal(pendingEvolutions([c], before, 'win').length, 0);
+  const d = createCreature({ species: 'cindrip', level: 15 });
+  assert.equal(pendingEvolutions([d], new Map([[d.uid, 14]]), 'win').length, 0);
+  const e = createCreature({ species: 'cindrip', level: 20 }); // jumped past 16 in one battle
+  assert.equal(pendingEvolutions([e], new Map([[e.uid, 14]]), 'win')[0].to, 'emberlunx');
+});
+
+test('evolveCreature: species + derived stats change; level, xp, nickname, skills, warmth, variant kept; HP proportion', () => {
+  const c = createCreature({ species: 'cindrip', level: 16, nickname: 'Pip', warmth: 55, variant: 'cosmic' });
+  const keep = { uid: c.uid, level: c.level, xp: c.xp, nickname: c.nickname, skills: [...c.skills], warmth: c.warmth, variant: c.variant };
+  const m0 = maxHp(c); c.hp = Math.round(m0 / 2);
+  const r = evolveCreature(c, 'emberlunx');
+  assert.equal(c.species, 'emberlunx');
+  assert.deepEqual({ uid: c.uid, level: c.level, xp: c.xp, nickname: c.nickname, skills: c.skills, warmth: c.warmth, variant: c.variant }, keep);
+  assert.ok(maxHp(c) > m0, `${m0} -> ${maxHp(c)}`);
+  assert.equal(c.hp, Math.round((r.hp[0] / m0) * maxHp(c)));
+  const f = createCreature({ species: 'rillop', level: 16 }); f.hp = 0; evolveCreature(f, 'brookhorn'); assert.equal(f.hp, 0);
+});
+
+test('flow: real won battle -> after the battle a script evolves, registers the Kilindex entry, then saves', async () => {
+  const { scene, sys, said, saves } = stubScene([nearLevel('cindrip', 16)]);
+  const ev = attachEvolution(scene, { wait: false });
+  sys.applyBattleResult(winBattle(scene.party));
+  assert.equal(ev.queue.length, 1);
+  assert.equal(scene.party[0].species, 'cindrip'); // nothing changes until the battle screen / talk is closed
+  await settle(scene);
+  const c = scene.party[0];
+  assert.equal(c.species, 'emberlunx'); assert.equal(c.level, 16); assert.equal(c.nickname, 'Pip');
+  assert.deepEqual(said, ['Pip is changing!', 'Pip became Emberlunx!', 'New Kilindex entry: Emberlunx.']);
+  assert.ok(sys.kilindex.isCaught('emberlunx') && sys.kilindex.isSeen('emberlunx'));
+  assert.ok(scene.log.some((e) => e.type === 'evolve' && e.from === 'cindrip' && e.to === 'emberlunx'));
+  // the only save is the script's normal save AFTER the evolution finished (nothing is written mid-evolution)
+  assert.deepEqual(saves, [{ busy: false, species: ['emberlunx'] }]);
+  assert.ok(sys.partyJSON()[0].species === 'emberlunx');
+});
+
+test('flow: waits while a dialog / UI is open (trainer talk after the battle)', async () => {
+  const { scene, sys } = stubScene([nearLevel('rillop', 16)]);
+  attachEvolution(scene, { wait: false });
+  sys.applyBattleResult(winBattle(scene.party));
+  scene.dialog.active = true; await settle(scene);
+  assert.equal(scene.party[0].species, 'rillop');
+  scene.dialog.active = false; await settle(scene);
+  assert.equal(scene.party[0].species, 'brookhorn');
+});
+
+test('flow: B stops it (player stub polls cancel), creature stays; next level-up asks again', async () => {
+  const { scene, sys, said } = stubScene([nearLevel('cindrip', 16)]);
+  const ev = attachEvolution(scene, { wait: false });
+  const calls = [];
+  globalThis.kilumen = { ui: { active: false, fx: { evolveFx: async (o) => { calls.push(o); scene.step({ b: true }); return { cancelled: o.cancel(), from: o.from }; } } } };
+  try {
+    sys.applyBattleResult(winBattle(scene.party));
+    await settle(scene);
+    assert.equal(scene.party[0].species, 'cindrip');
+    assert.equal(calls[0].text.start, 'Pip is changing!');
+    assert.deepEqual(said, ['Pip stayed as it is.']);
+    assert.equal(ev.log.at(-1).cancelled, true);
+    // next battle with a level gained -> asked again; this time no B
+    globalThis.kilumen.ui.fx.evolveFx = async (o) => ({ cancelled: o.cancel(), from: o.from });
+    const c = scene.party[0]; c.xp = xpForLevel(17) - 1;
+    sys.applyBattleResult(winBattle(scene.party));
+    await settle(scene);
+    assert.equal(c.level, 17); assert.equal(c.species, 'emberlunx');
+  } finally { delete globalThis.kilumen; }
+});
+
+test('flow: lost battle never evolves; ?evo=0 turns the feature off', async () => {
+  const { scene, sys } = stubScene([createCreature({ species: 'cindrip', level: 16 })]);
+  const ev = attachEvolution(scene, { wait: false });
+  const uid = scene.party[0].uid;
+  sys.applyBattleResult({ outcome: 'lose', team: [{ uid, level: 16, hp: 0 }] });
+  assert.equal(ev.queue.length, 0);
+  assert.equal(attachEvolution(stubScene().scene, { query: new URLSearchParams('evo=0') }), null);
+});
+
+test('text: Text Bot keys win; fallbacks carry no blocked words', () => {
+  const blocked = /\b(PP|shiny|super effective|Pok[eé]dex|Pok[eé] ?Ball|Gotcha|nurse|is evolving|routes?)\b/i;
+  for (const p of Object.values(FALLBACK).flat()) assert.doesNotMatch(p, blocked);
+  const lines = JSON.parse(readFileSync(new URL('../text/overworld_lines.json', import.meta.url))).system_evolution;
+  for (const k of ['start', 'done', 'stopped', 'kilindex']) { assert.ok(lines[k]?.pages?.length, k); for (const p of lines[k].pages) assert.doesNotMatch(p, blocked); }
+});

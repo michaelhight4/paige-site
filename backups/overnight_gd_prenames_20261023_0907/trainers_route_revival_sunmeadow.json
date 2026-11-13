@@ -1,0 +1,80 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_revival_sunmeadow",
+ "route_id": "revival-sunmeadow",
+ "kind": "route (crystal field)",
+ "map_status": "to_come",
+ "story_step": "8 (alt entry)",
+ "story_order": 16,
+ "level_band": "wild 31-34, trainers 32-34",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_route_revival_sunmeadow_a",
+   "class": "researcher",
+   "class_display_suggestion": "Field Researcher",
+   "name_suggestion": "Nash",
+   "team": [
+    {
+     "species": "seraphawk",
+     "level": 32
+    },
+    {
+     "species": "halovy",
+     "level": 33
+    }
+   ],
+   "base": 60,
+   "base_status": "existing",
+   "prize": 1980,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_revival_sunmeadow.a",
+   "note": "crystal field edge"
+  },
+  {
+   "id": "tr_route_revival_sunmeadow_b",
+   "class": "worker",
+   "class_display_suggestion": "Field Worker",
+   "name_suggestion": "Oona",
+   "team": [
+    {
+     "species": "slagrook",
+     "level": 33
+    },
+    {
+     "species": "spinemonitor",
+     "level": 33
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 1650,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_revival_sunmeadow.b",
+   "note": "RT crystal survey rig"
+  },
+  {
+   "id": "tr_route_revival_sunmeadow_c",
+   "class": "scholar",
+   "class_display_suggestion": "Scholar",
+   "name_suggestion": "Piers",
+   "team": [
+    {
+     "species": "shardhart",
+     "level": 34
+    },
+    {
+     "species": "quartzhopper",
+     "level": 34
+    }
+   ],
+   "base": 60,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 2040,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_revival_sunmeadow.c",
+   "note": "optional"
+  }
+ ],
+ "hall": null
+}

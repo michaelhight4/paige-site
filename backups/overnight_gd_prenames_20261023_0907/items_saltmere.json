@@ -1,0 +1,41 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "saltmere",
+ "route_id": null,
+ "kind": "town",
+ "map_status": "to_come",
+ "story_step": "5 (coin 2, Courier Bike)",
+ "story_order": 9,
+ "level_band": "Ron 2 L20; hall see halls/saltmere.json",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "sm_islet",
+   "item": "gold_coin",
+   "hidden": true,
+   "placement_hint": "lighthouse islet via the bike pier rail (world_layout bike_routes.planned.saltmere). Held: x1.5 trainer money"
+  },
+  {
+   "id": "sm_net_shed",
+   "item": "calm_tea",
+   "hidden": false,
+   "placement_hint": "behind the net shed"
+  },
+  {
+   "id": "sm_hidden_crate",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "placement_hint": "fish crates"
+  },
+  {
+   "id": "sm_office_gift",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "placement_hint": "RT office clerk extra gift with the Courier Bike",
+   "qty": 3,
+   "gift": true
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

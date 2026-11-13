@@ -1,0 +1,61 @@
+# HOME_START + OPENING_OFFICE: text keys and flags the code reads
+
+Owner: Coder (home_start). Status: DEV, Oct 23 2026, nothing committed.
+Text Bot owns `text/overworld_lines.json` and `text/*.py`. The code never writes them; it reads them at runtime.
+Until a key is merged, the code uses its fallback. Fallbacks are the HOME_START_v1 / OPENING_OFFICE_v1 drafts.
+A brand-new key with no draft yet shows a `[TODO Text Bot: <key>]` prefix in game, so you can see it in shots.
+
+## Page format
+- Normal entries use the usual shape: `lines` plus optional `v_<flag>` variants, picked with the same `pick()` as every other NPC.
+- In a multi-speaker scene, a page may start with `WHO: text`. WHO can be MANAGER, RON, LAB TECH or PLAYER.
+  The code also accepts `{ "speaker": "...", "text": "..." }`.
+  A page with no tag uses the default speaker for that entry.
+- An inner thought has no tag and plays as italic text in a dashed box with no name.
+  These keys play as thoughts: player_start, door_block, cradle_not_yet, test_run_logged and leave_block.
+- Placeholders: `{lead}` (starter name), `{count}` (crystals), `{n}` and `{need}` (test-run progress). The usual textVars also work.
+
+## Keys
+| Key | When it plays | Status |
+|---|---|---|
+| maps.house_2f.player_start | Wake-up thought after the new-game fade-in | HOME_START_v1 |
+| maps.house_1f.ron | Ron's morning briefing (default). Sets talked_ron_morning. Needs a short repeat variant `v_talked_ron_morning`, placed after `v_flg_promoted`. | HOME_START_v1 (+ repeat) |
+| maps.house_1f.door_block | Thought when the front door is blocked before the briefing | HOME_START_v1 |
+| maps.office_int.scene_promotion | Talking to the office manager on a new game. Sets flg_promoted, then fades to the lab. | OPENING_OFFICE_v1 |
+| maps.office_int.manager_starter_repeat | Manager talked to again after the promotion but before a starter is picked | NEW placeholder |
+| maps.lab_brookhollow.cradle_not_yet | Thought when a cradle is used before flg_promoted (new game only) | NEW placeholder |
+| maps.lab_brookhollow.scene_starter_intro | First cradle use after the promotion. Plays once (seen key `intro:starter_intro`). | OPENING_OFFICE_v1 |
+| maps.lab_brookhollow.starter_confirm | Yes/No question, `{lead}` = species | OPENING_OFFICE_v1 |
+| maps.lab_brookhollow.scene_starter_after | After Yes (sets got_starter) | OPENING_OFFICE_v1 |
+| maps.lab_brookhollow.scene_test_run | Straight after; sets test_run_started | OPENING_OFFICE_v1 |
+| maps.lab_brookhollow.crystals_received | `{count}` dominance crystals given (5) | NEW placeholder |
+| maps.lab_brookhollow.manager_test_run_repeat | Manager or researcher talked to during the run | OPENING_OFFICE_v1 |
+| maps.lab_brookhollow.scene_test_run_return | Entering the lab with test_run_done | OPENING_OFFICE_v1 |
+| maps.lab_brookhollow.scene_job_briefing | Straight after; sets job_briefed (pay is on progress) | OPENING_OFFICE_v1 |
+| system_opening.test_run_progress | Toast `{n}/{need}` after each catch that gets logged | NEW placeholder |
+| system_opening.test_run_logged | Thought when the 2nd catch is logged; sets test_run_done | NEW placeholder |
+| system_opening.leave_block | Thought when an edge exit is blocked. One entry; use `v_` variants by stage (see below). | NEW placeholder |
+| system_opening.free_roam | Toast after job_briefed | NEW placeholder |
+
+Stages for leave_block variants:
+- office: no flg_promoted yet. Base `lines`.
+- lab: no got_starter yet. `v_flg_promoted`.
+- run: during the test run, only route1 is allowed. `v_test_run_started`.
+- back: run done, go back to the lab. `v_test_run_done`.
+
+The code fallbacks already change by stage.
+
+## Flags, all set by code
+intro_new_game, talked_ron_morning, flg_promoted, got_starter (set by party.chooseStarter), test_run_started, test_run_done, job_briefed.
+
+## Counters and constants
+- Counters: test_run_base (baseline of owned + Kilindex-logged creatures at test_run_started) and test_run_logged.
+- Test-run target: 2. Crystals given: 5 × `dominance_crystal`.
+- Allowed area during the run: brookhollow and route1.
+
+## Objectives (hard-coded strings; tell Coder if Text Bot wants them as keys)
+1. Talk to Ron downstairs
+2. Go to the Revival Tech office
+3. Pick a partner at the lab
+4. Test run: catch and log 2 wild Kilumen (n/2)
+5. Return to the lab
+6. (none: free roam)

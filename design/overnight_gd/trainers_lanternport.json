@@ -1,0 +1,117 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "lanternport",
+ "route_id": null,
+ "kind": "city (port, rail)",
+ "map_status": "to_come",
+ "story_step": "10 (coin 7)",
+ "story_order": 22,
+ "level_band": "Ron 5 L47; hall see halls/lanternport.json",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "ron_5",
+   "class": "ron",
+   "class_display_suggestion": "Ron",
+   "name_suggestion": "Ron",
+   "teams_by_player_starter": {
+    "if_player_took_tumbloam": [
+     {
+      "species": "sailquill",
+      "level": 43
+     },
+     {
+      "species": "parasoleaf",
+      "level": 44
+     },
+     {
+      "species": "novarch",
+      "level": 44
+     },
+     {
+      "species": "netspinner",
+      "level": 45
+     },
+     {
+      "species": "forgeharrow",
+      "level": 47
+     }
+    ],
+    "if_player_took_cindrip": [
+     {
+      "species": "sailquill",
+      "level": 43
+     },
+     {
+      "species": "driftknot",
+      "level": 44
+     },
+     {
+      "species": "chartmouse",
+      "level": 44
+     },
+     {
+      "species": "shorehound",
+      "level": 45
+     },
+     {
+      "species": "tidemarrow",
+      "level": 47
+     }
+    ],
+    "if_player_took_rillop": [
+     {
+      "species": "sailquill",
+      "level": 43
+     },
+     {
+      "species": "pitchergulp",
+      "level": 44
+     },
+     {
+      "species": "pearlisk",
+      "level": 44
+     },
+     {
+      "species": "barnaclump",
+      "level": 45
+     },
+     {
+      "species": "bastonox",
+      "level": 47
+     }
+    ]
+   },
+   "base": 60,
+   "base_status": "existing",
+   "prize": 2820,
+   "sight_range": 0,
+   "flag": "beat_rival_ron_5",
+   "text_ref": "TODO Text Bot: ron.battle_5 (opens with bin line 5, STORY_RULINGS_SOUL)",
+   "note": "Ron finds a field team log page first and chooses to share it after the battle (6.1 turn toward trust)."
+  },
+  {
+   "id": "tr_lanternport_pier",
+   "class": "harbour_hand",
+   "class_display_suggestion": "Harbour Hand",
+   "name_suggestion": "Tamsin",
+   "team": [
+    {
+     "species": "moorcoil",
+     "level": 44
+    },
+    {
+     "species": "sluicekin",
+     "level": 45
+    }
+   ],
+   "base": 45,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 2025,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.lanternport.pier",
+   "note": "pier, optional"
+  }
+ ],
+ "hall": "halls/lanternport.json"
+}

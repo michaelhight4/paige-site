@@ -1,0 +1,28 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_revival_sunmeadow",
+ "route_id": "revival-sunmeadow",
+ "kind": "route (crystal field)",
+ "map_status": "to_come",
+ "story_step": "8 (alt entry)",
+ "story_order": 16,
+ "level_band": "wild 31-34, trainers 32-34",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "rsf_rig",
+   "item": "energy_tonic",
+   "hidden": false,
+   "placement_hint": "survey rig"
+  },
+  {
+   "id": "rsf_hidden",
+   "item": "crystal_dust",
+   "hidden": true,
+   "placement_hint": "dim crystal stub",
+   "qty": 3
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

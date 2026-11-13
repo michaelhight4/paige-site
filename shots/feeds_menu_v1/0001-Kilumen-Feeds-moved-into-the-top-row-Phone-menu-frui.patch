@@ -1,0 +1,82 @@
+From 62de4255d3af87c8b48eba4eefa4976a079debb5 Mon Sep 17 00:00:00 2001
+From: Coder <coder@paigegames.net>
+Date: Thu, 29 Oct 2026 13:42:53 -0500
+Subject: [PATCH] Kilumen: Feeds moved into the top-row Phone menu (fruit icon,
+ after Badges); floating #feeds-btn removed; ?sports=1 dev button unchanged
+
+---
+ kilumen/src/feeds/index.js  | 7 +------
+ kilumen/src/feeds/ui_art.js | 1 -
+ kilumen/src/ui/ui.js        | 9 ++++++---
+ 3 files changed, 7 insertions(+), 10 deletions(-)
+
+diff --git a/kilumen/src/feeds/index.js b/kilumen/src/feeds/index.js
+index bdb6929b..fbbcf65e 100644
+--- a/kilumen/src/feeds/index.js
++++ b/kilumen/src/feeds/index.js
+@@ -53,16 +53,11 @@ export function attachFeeds(scene, { query, systems, speciesInfo = () => null, n
+   function onBattleWin(fought) { for (const u of fought || []) L.drain(fs(), u, L.DRAIN.battleWin); scene._dirty = true; }
+   function onPractice(c) { const u = uidOf(c); if (u) L.drain(fs(), u, L.DRAIN.practice); L.practiceBoost(fs()); scene._dirty = true; }
+ 
+-  let btn = null;
+-  if (typeof document !== 'undefined') {
+-    btn = document.createElement('button'); btn.id = 'feeds-btn'; btn.textContent = FS['feeds.button']; document.body.appendChild(btn);
+-    btn.addEventListener('click', () => openFeeds());
+-  }
++  // v0.2.69 (Gary): no floating #feeds-btn any more; Feeds opens from its own top-row Phone menu entry (src/ui/ui.js, scr_phone).
+   const blocked = () => {
+     const ui = globalThis.kilumen?.ui;
+     return !!(scene.busy || scene.fade || scene.dialog?.active || scene.saveLocked || ui?.active || ui?.stack?.some?.((s) => s.scr === 'battle') || globalThis.kilumen?.sports?.state?.()?.open);
+   };
+-  if (btn) setInterval(() => { btn.hidden = st.open || blocked(); }, 250); // only offered in free roam
+   let ov = null, keyH = null, savedTs = 1, timer = 0, bg = null;
+   function openFeeds(tab = 'feed') {
+     if (st.open) return true;
+diff --git a/kilumen/src/feeds/ui_art.js b/kilumen/src/feeds/ui_art.js
+index f90e1497..29441f03 100644
+--- a/kilumen/src/feeds/ui_art.js
++++ b/kilumen/src/feeds/ui_art.js
+@@ -35,7 +35,6 @@ export function fruitSvg(id, stage = null) {
+   return `<svg class="fd-ico" viewBox="0 0 32 32" aria-hidden="true">${SHAPE[sh](a, b)}</svg>`;
+ }
+ export const CSS = `
+-#feeds-btn{position:fixed;right:10px;top:54px;z-index:40;font:600 13px system-ui;padding:6px 12px;border-radius:14px;border:2px solid #f3e6b8;background:#3b5d2e;color:#fff6d8}
+ #feeds-ov{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;background:rgba(10,14,8,.6);font:14px system-ui;color:#2a2418}
+ #feeds-ov .fd-box{width:min(920px,96vw);max-height:94vh;overflow:auto;background:#fbf3dc;border:3px solid #6b4f2a;border-radius:14px;padding:10px;box-shadow:0 8px 30px #0008}
+ .fd-tabs{display:flex;gap:6px;margin-bottom:8px}.fd-tabs button{flex:0 0 auto;padding:6px 16px;border-radius:10px;border:2px solid #6b4f2a;background:#efe1b8;font-weight:700}
+diff --git a/kilumen/src/ui/ui.js b/kilumen/src/ui/ui.js
+index b1cb9ed3..6ed60517 100644
+--- a/kilumen/src/ui/ui.js
++++ b/kilumen/src/ui/ui.js
+@@ -61,6 +61,7 @@ const GLYPHS = {
+   shop: ['............', '.##########.', '#.#.#.#.#.##', '############', '.#........#.', '.#.###....#.', '.#.#.#.##.#.', '.#.#.#.##.#.', '.#.###....#.', '.#........#.', '.##########.', '............'],
+   battle: ['#.........##', '.#.......###', '..#.....###.', '...#...###..', '....#.###...', '.....###....', '....###.#...', '..####...#..', '..###.....#.', '.##........#', '##..........', '............'],
+   badges: ['...######...', '..#......#..', '.#..####..#.', '#..#....#..#', '#.#..##..#.#', '#.#.####.#.#', '#.#.####.#.#', '#.#..##..#.#', '#..#....#..#', '.#..####..#.', '..#......#..', '...######...'],
++  feeds: ['.....##.....', '......#.##..', '...####.#...', '..########..', '.###########', '.####.######', '.###.#######', '.###########', '.###########', '..#########.', '...#######..', '....####....'], // fruit (Feeds, v0.2.69)
+   menu: ['............', '.##########.', '.##########.', '............', '............', '.##########.', '.##########.', '............', '............', '.##########.', '.##########.', '............'],
+ };
+ const ICONS_PX = typeof location === 'undefined' || new URLSearchParams(location.search).get('icons') !== 'classic'; // ?icons=classic: old 12x12 glyphs
+@@ -540,15 +541,17 @@ export class GameUI {
+       .filter(([k]) => k !== 'rt_benefits' || typeof this.scr_rt_benefits === 'function'); // only once src/ui/rt_benefits_screen.js installed it
+     const hasBdg = typeof this.scr_badges === 'function'; // Badges (v0.2.65): own top-row entry after Tasks; only installed when badgesOn() (?badges=0 kill switch)
+     if (hasBdg) apps.splice(4, 0, ['badges', this.T('system_badges.labels.tab', 'Badges'), 'badges']);
+-    const COLS = { team: '#ff7a6b', pack: '#3fbf6a', kilindex: '#2f9bff', tasks: '#ff6fa8', map: '#47c27a', contacts: '#ff9a3d', save: '#9b6cff', options: '#5a7cff', rt_benefits: '#d98a00', badges: '#c8962a' };
+-    const cols = +(this.cfg.vars?.['app-cols'] || 4) + (hasBdg ? 1 : 0); // one more column so Badges sits on the top row
++    const feeds = globalThis.window?.kilumen?.feeds, hasFeeds = typeof feeds?.open === 'function'; // Feeds (v0.2.69, Gary): top-row entry after Badges; only when src/feeds attached (flag on)
++    if (hasFeeds) apps.splice(hasBdg ? 5 : 4, 0, ['feeds', this.T('feeds.title', 'Feeds'), 'feeds']);
++    const COLS = { team: '#ff7a6b', pack: '#3fbf6a', kilindex: '#2f9bff', tasks: '#ff6fa8', map: '#47c27a', contacts: '#ff9a3d', save: '#9b6cff', options: '#5a7cff', rt_benefits: '#d98a00', badges: '#c8962a', feeds: '#3b9a3e' };
++    const cols = +(this.cfg.vars?.['app-cols'] || 4) + (hasBdg ? 1 : 0) + (hasFeeds ? 1 : 0); // one more column each so Badges sits on the top row
+     return { scr: 'phone', pat: 'crystal', title: 'Phone', glyph: 'contacts', sel: Math.min(this._phoneSel || 0, apps.length - 1), cols,
+       count: () => apps.length,
+       chips: () => `${this.gold != null ? `<span class="ui-chip"><i class="coin"></i>${this.gold.toLocaleString()}</span>` : ''}<span class="ui-chip dark">${esc(this.scene.map?.title || '')}</span>`,
+       render: () => `<div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="phone" data-pat="lattice"><div class="ui-apps" style="--ui-app-cols:${cols}">${apps.map(([k, l], i) =>
+         `<div class="ui-tile" data-i="${i}" data-app="${k}"><span class="badge" style="background:${COLS[k]}">${k === 'badges' && this.badgeIcon ? this.badgeIcon() : glyph(k, '#fff')}</span><span class="lbl">${esc(l)}</span></div>`).join('')}</div></div>`,
+       hint: () => this.hintText([['A', 'Open'], ['B', 'Close']]),
+-      onA: (i) => { this._phoneSel = i; this.open(apps[i][0]); },
++      onA: (i) => { this._phoneSel = i; if (apps[i][0] === 'feeds') { this.closeAll(); setTimeout(() => feeds.open('feed'), 60); return; } this.open(apps[i][0]); }, // Feeds is its own overlay (needs free roam, so the Phone closes first)
+       onSel: (i) => { this._phoneSel = i; },
+     };
+   }
+-- 
+2.47.3
+

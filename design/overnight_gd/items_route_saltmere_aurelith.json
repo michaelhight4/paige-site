@@ -1,0 +1,46 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_saltmere_aurelith",
+ "route_id": "saltmere-aurelith",
+ "kind": "route",
+ "map_status": "to_come",
+ "story_step": "4-5",
+ "story_order": 8,
+ "level_band": "wild 15-18, trainers 16-19",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "sa_salt_pan",
+   "item": "crystal_dust",
+   "hidden": true,
+   "placement_hint": "salt pan crust"
+  },
+  {
+   "id": "sa_dune",
+   "item": "tonic_small",
+   "hidden": false,
+   "placement_hint": "dune top"
+  },
+  {
+   "id": "sa_cove",
+   "item": "tonic_large",
+   "hidden": false,
+   "placement_hint": "hidden cove (veteran guards)"
+  },
+  {
+   "id": "sa_footbridge",
+   "item": "dominance_crystal",
+   "hidden": false,
+   "placement_hint": "footbridge end",
+   "qty": 2
+  },
+  {
+   "id": "sa_hidden_post",
+   "item": "feed_bag",
+   "hidden": true,
+   "placement_hint": "old signpost"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

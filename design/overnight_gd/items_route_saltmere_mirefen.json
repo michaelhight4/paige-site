@@ -1,0 +1,34 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_saltmere_mirefen",
+ "route_id": "saltmere-mirefen",
+ "kind": "route (causeway)",
+ "map_status": "to_come",
+ "story_step": "8 (alt entry)",
+ "story_order": 18,
+ "level_band": "wild 32-35, trainers 33-35",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "sme_sluice",
+   "item": "tonic_large",
+   "hidden": false,
+   "placement_hint": "sluice house"
+  },
+  {
+   "id": "sme_hidden",
+   "item": "crystal_dust",
+   "hidden": true,
+   "placement_hint": "causeway stone",
+   "qty": 2
+  },
+  {
+   "id": "sme_marsh",
+   "item": "energy_tonic",
+   "hidden": false,
+   "placement_hint": "marsh hummock"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

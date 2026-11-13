@@ -1,0 +1,20 @@
+{
+ "drizzlebill": {"walk": "quad", "legfrac": 0.16, "sidefrac": 0.16, "ow_ms": 150, "notes": "cute set r1; stubby legs, waddle; back raw shows tail as round paddle from behind"},
+ "mossmote": {"walk": "quad", "legfrac": 0.28, "sidefrac": 0.28, "mirror_right": true, "ow_ms": 170, "notes": "cute set r1; OW right mirrored from left (source drew both facing left); dewdrops remap to pale violet tones"},
+ "gladlet": {"walk": "biped", "notes": "cute set r1; crystal is a pendant on a violet cord"},
+ "buoyling": {"walk": "hover", "float": true, "ow_ms": 170, "notes": "cute set r1; floats upright on its float ring, hover bob"},
+ "lumoris": {"walk": "biped", "ow_ms": 170, "notes": "cute set r1; slow loris, slow walk cycle; back view hides the forehead crystal"},
+ "pandember": {"walk": "quad", "legfrac": 0.24, "sidefrac": 0.24, "mirror_right": true, "notes": "cute set r1; OW right mirrored from left (source drew both facing left); ember tail rings get lava glow"},
+ "haysquee": {"walk": "quad", "legfrac": 0.14, "sidefrac": 0.14, "mirror_right": true, "ow_ms": 160, "notes": "cute set r2; OW right mirrored from left"},
+ "dunehop": {"walk": "biped", "mirror_right": true, "ow_ms": 140, "notes": "cute set r2; hopper; OW right mirrored from left"},
+ "belugoo": {"walk": "quad", "legfrac": 0.14, "sidefrac": 0.14, "mirror_right": true, "ow_ms": 170, "notes": "cute set r2; waddles on flippers; OW right mirrored"},
+ "okapip": {"walk": "quad", "legfrac": 0.3, "sidefrac": 0.3, "mirror_right": true, "notes": "cute set r2; OW right mirrored from left"},
+ "crownlet": {"walk": "biped", "ow_ms": 150, "notes": "cute set r2; round chick, hop walk"},
+ "kinkalume": {"walk": "biped", "mirror_right": true, "ow_ms": 170, "notes": "cute set r2; lantern tail; OW right mirrored"},
+ "mufflynx": {"walk": "quad", "legfrac": 0.2, "sidefrac": 0.2, "mirror_right": true, "notes": "cute set r3; OW right mirrored from left"},
+ "mittling": {"walk": "biped", "ow_ms": 170, "notes": "cute set r3; knit mitten spirit"},
+ "marmallow": {"walk": "biped", "mirror_right": true, "ow_ms": 160, "notes": "cute set r3; OW right mirrored"},
+ "snugworm": {"walk": "quad", "legfrac": 0.12, "sidefrac": 0.12, "mirror_right": true, "ow_ms": 180, "notes": "cute set r3; caterpillar crawl; OW right mirrored"},
+ "alpuff": {"walk": "quad", "legfrac": 0.3, "sidefrac": 0.3, "mirror_right": true, "notes": "cute set r3; white wool on white bg, check cut; OW right mirrored"},
+ "snowdrowse": {"walk": "hover", "float": true, "ow_ms": 180, "notes": "cute set r3; snow globe, hover bob"}
+}

@@ -1,0 +1,105 @@
+{
+  "when": "Thu Oct 22 2026 23:35:24 GMT-0500 (Central Daylight Time)",
+  "build": {
+    "buildId": "330d5f71a3",
+    "precacheEntries": 98,
+    "precacheBytes": 2096369,
+    "swBytes": 31136,
+    "swBuildBytes": 652,
+    "warnings": []
+  },
+  "pass": 18,
+  "fail": 0,
+  "results": [
+    {
+      "name": "plain URL: no service worker registered",
+      "ok": true,
+      "info": "registrations=0"
+    },
+    {
+      "name": "plain URL: pwa_register.js / kilumen-sw.js never requested",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "name": "plain URL: page keeps the original manifest.webmanifest",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "name": "?pwa=1: worker active",
+      "ok": true,
+      "info": "{\"status\":\"active\",\"build\":\"330d5f71a3\"}"
+    },
+    {
+      "name": "?pwa=1: build id reported by the worker matches the build",
+      "ok": true,
+      "info": "330d5f71a3 vs 330d5f71a3"
+    },
+    {
+      "name": "page is controlled by kilumen-sw.js",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "name": "shell precached (all entries)",
+      "ok": true,
+      "info": "{\"kilumen-330d5f71a3-precache-v2-http://127.0.0.1:41079/\":98,\"kilumen-330d5f71a3-art\":82}"
+    },
+    {
+      "name": "art runtime cache filled on use",
+      "ok": true,
+      "info": "kilumen-330d5f71a3-art: 82"
+    },
+    {
+      "name": "every cache name carries the build id",
+      "ok": true,
+      "info": "kilumen-330d5f71a3-precache-v2-http://127.0.0.1:41079/, kilumen-330d5f71a3-art"
+    },
+    {
+      "name": "installable (Chromium reports no installability errors)",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "name": "manifest: Kilumen name, landscape, icons",
+      "ok": true,
+      "info": "http://127.0.0.1:41079/pwa/kilumen.webmanifest"
+    },
+    {
+      "name": "new build controls the page after one online load",
+      "ok": true,
+      "info": "controller build=330d5f71a3_next"
+    },
+    {
+      "name": "new build took over and old caches were deleted",
+      "ok": true,
+      "info": "{\"kilumen-330d5f71a3_next-precache-v2-http://127.0.0.1:41079/\":98,\"kilumen-330d5f71a3_next-art\":82}"
+    },
+    {
+      "name": "offline reload boots the game from cache",
+      "ok": true,
+      "info": "{\"online\":true,\"map\":\"brookhollow\",\"canvas\":[44,35,32,255]}"
+    },
+    {
+      "name": "offline: a different query string still opens (navigate fallback)",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "name": "?pwa=0 unregisters and clears kilumen- caches",
+      "ok": true,
+      "info": "{\"controlled\":false,\"regs\":0,\"caches\":[]}"
+    },
+    {
+      "name": "no page errors while online",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "name": "INFO offline page errors (art never visited online is not cached)",
+      "ok": true,
+      "info": ""
+    }
+  ]
+}

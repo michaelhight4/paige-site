@@ -1,0 +1,39 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_sunmeadow_mirefen",
+ "route_id": "sunmeadow-mirefen",
+ "kind": "route",
+ "map_status": "to_come",
+ "story_step": "8",
+ "story_order": 17,
+ "level_band": "wild 32-35, trainers 33-36",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "smm_pond",
+   "item": "calm_tea",
+   "hidden": false,
+   "placement_hint": "pond jetty"
+  },
+  {
+   "id": "smm_fence",
+   "item": "tonic_large",
+   "hidden": true,
+   "placement_hint": "fence post"
+  },
+  {
+   "id": "smm_boardwalk",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "placement_hint": "boardwalk end"
+  },
+  {
+   "id": "smm_hidden",
+   "item": "vigor_seed",
+   "hidden": true,
+   "placement_hint": "reed tuft"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

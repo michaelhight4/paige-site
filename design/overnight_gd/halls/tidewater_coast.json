@@ -1,0 +1,149 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "coin_number": 6,
+ "zone": "tidewater_coast",
+ "hall_map": "tidewater_hall_int (to come; sea cave)",
+ "flag": "beat_master_tidewater",
+ "coin_name_suggestion": "Undertow Coin",
+ "coin_name_note": "player text says \"coin\" (CRITICAL_PATH); name needs Gary + web clash check",
+ "master": {
+  "id": "master_tidewater_coast",
+  "class": "master",
+  "name_suggestion": "Jory Swell",
+  "element": "sea",
+  "team": [
+   {
+    "species": "bulwarkrab",
+    "level": 43
+   },
+   {
+    "species": "kelpstrider",
+    "level": 43
+   },
+   {
+    "species": "spraytern",
+    "level": 44
+   },
+   {
+    "species": "galepetrel",
+    "level": 44
+   },
+   {
+    "species": "hullwhale",
+    "level": 46
+   }
+  ],
+  "base": 120,
+  "base_status": "existing",
+  "prize": 5520,
+  "sight_range": 0,
+  "sight_rule": "masters never spot: talk to them",
+  "text_ref": "overworld_lines.json masters.tidewater_coast (TODO Text Bot)"
+ },
+ "hall_trainers": [
+  {
+   "id": "tr_hall_tidewater_coast_h1",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Marlow",
+   "team": [
+    {
+     "species": "squidge",
+     "level": 41
+    },
+    {
+     "species": "spinyclaw",
+     "level": 42
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 2100,
+   "sight_range": 0,
+   "text_ref": "TODO Text Bot: trainers.hall_tidewater_coast.h1",
+   "note": "diver, talk-to (in water)",
+   "name_status": "approved by Gary 2026-10-23 9:05 AM CT"
+  },
+  {
+   "id": "tr_hall_tidewater_coast_h2",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Moss",
+   "team": [
+    {
+     "species": "downpaw",
+     "level": 42
+    },
+    {
+     "species": "driftknot",
+     "level": 42
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 2100,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.hall_tidewater_coast.h2"
+  },
+  {
+   "id": "tr_hall_tidewater_coast_h3",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Edda",
+   "team": [
+    {
+     "species": "nudiblume",
+     "level": 43
+    },
+    {
+     "species": "tundrarch",
+     "level": 43
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 2150,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.hall_tidewater_coast.h3"
+  },
+  {
+   "id": "tr_hall_tidewater_coast_h4",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Wendell",
+   "team": [
+    {
+     "species": "foamkin",
+     "level": 43
+    },
+    {
+     "species": "coilarch",
+     "level": 44
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 2200,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.hall_tidewater_coast.h4",
+   "name_status": "approved by Gary 2026-10-23 9:05 AM CT"
+  }
+ ],
+ "puzzle": {
+  "status": "outline",
+  "name_suggestion": "Tide clock",
+  "outline": "A sea cave that floods and drains on a step counter (a big shell clock on the wall shows the tide). At low tide the floor is walkable; at high tide only Tideglide lanes are open. Two shell switches stop the clock at high or low. Plan a route that mixes walking and gliding. Helpers move between ledges with the tide.",
+  "teaches": "using Tideglide inside a puzzle; planning around a cycle"
+ },
+ "reward": {
+  "coin": "Undertow Coin",
+  "money": 5520,
+  "gift_item": {
+   "id": "energy_tonic",
+   "qty": 2
+  },
+  "opens": "route on to Lanternport (sea lane)"
+ },
+ "team_size": 5,
+ "ace_level": 46
+}

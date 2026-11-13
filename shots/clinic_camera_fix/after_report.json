@@ -1,0 +1,158 @@
+[
+ {
+  "plat": "pc",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "touch": false,
+  "map": "heal_brookhollow",
+  "x": 6,
+  "y": 3,
+  "facing": "up",
+  "label": "clinic_at_counter",
+  "file": "after_pc_1920x1080_clinic_at_counter.png",
+  "platform": "pc",
+  "zoom": 2,
+  "cam": {
+   "x": -32,
+   "y": 0
+  },
+  "mapW": 14,
+  "mapH": 10,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "touch": false,
+  "map": "heal_brookhollow",
+  "x": 6,
+  "y": 8,
+  "facing": "up",
+  "label": "clinic_arrival",
+  "file": "after_pc_1920x1080_clinic_arrival.png",
+  "platform": "pc",
+  "zoom": 2,
+  "cam": {
+   "x": -32,
+   "y": 100
+  },
+  "mapW": 14,
+  "mapH": 10,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 780,
+  "h": 360,
+  "dpr": 3,
+  "touch": true,
+  "tag": "2340x1080",
+  "map": "heal_brookhollow",
+  "x": 6,
+  "y": 3,
+  "facing": "up",
+  "label": "clinic_at_counter",
+  "file": "after_mobile_2340x1080_clinic_at_counter.png",
+  "platform": "mobile",
+  "zoom": 2,
+  "cam": {
+   "x": -137,
+   "y": 100
+  },
+  "mapW": 14,
+  "mapH": 10,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 780,
+  "h": 360,
+  "dpr": 3,
+  "touch": true,
+  "tag": "2340x1080",
+  "map": "heal_brookhollow",
+  "x": 6,
+  "y": 8,
+  "facing": "up",
+  "label": "clinic_arrival",
+  "file": "after_mobile_2340x1080_clinic_arrival.png",
+  "platform": "mobile",
+  "zoom": 2,
+  "cam": {
+   "x": -137,
+   "y": 100
+  },
+  "mapW": 14,
+  "mapH": 10,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "touch": false,
+  "map": "house_int_a",
+  "x": 5,
+  "y": 2,
+  "facing": "up",
+  "label": "house_a_top",
+  "file": "after_pc_1920x1080_house_a_top.png",
+  "platform": "pc",
+  "zoom": 2,
+  "cam": {
+   "x": -128,
+   "y": 0
+  },
+  "mapW": 11,
+  "mapH": 9,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "touch": false,
+  "map": "shop_int",
+  "x": 5,
+  "y": 2,
+  "facing": "up",
+  "label": "shop_top",
+  "file": "after_pc_1920x1080_shop_top.png",
+  "platform": "pc",
+  "zoom": 2,
+  "cam": {
+   "x": -96,
+   "y": 0
+  },
+  "mapW": 12,
+  "mapH": 9,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "touch": false,
+  "map": "station_int",
+  "x": 10,
+  "y": 2,
+  "facing": "up",
+  "label": "station_top",
+  "file": "after_pc_1920x1080_station_top.png",
+  "platform": "pc",
+  "zoom": 2,
+  "cam": {
+   "x": 192,
+   "y": 0
+  },
+  "mapW": 20,
+  "mapH": 13,
+  "errors": []
+ }
+]

@@ -1,0 +1,641 @@
+[
+ {
+  "engine": "chromium",
+  "device": "Pixel 7 landscape",
+  "touch": "CDP touch",
+  "pass": true,
+  "results": [
+   {
+    "id": "0 mobile profile",
+    "ok": true,
+    "info": "mobile"
+   },
+   {
+    "id": "0 spots found",
+    "ok": true,
+    "info": "{\"open\":{\"x\":5,\"y\":4},\"talk\":{\"x\":6,\"y\":31,\"facing\":\"up\",\"id\":\"sign_r1_s\"},\"w\":44,\"h\":34}"
+   },
+   {
+    "id": "1 hold up moves up",
+    "ok": true,
+    "info": "moved 1 tile(s), facing up [CDP touch]"
+   },
+   {
+    "id": "1 release up stops",
+    "ok": true,
+    "info": "held=[] stop at 5,2"
+   },
+   {
+    "id": "1 hold down moves down",
+    "ok": true,
+    "info": "moved 1 tile(s), facing down [CDP touch]"
+   },
+   {
+    "id": "1 release down stops",
+    "ok": true,
+    "info": "held=[] stop at 5,7"
+   },
+   {
+    "id": "1 hold left moves left",
+    "ok": true,
+    "info": "moved 1 tile(s), facing left [CDP touch]"
+   },
+   {
+    "id": "1 release left stops",
+    "ok": true,
+    "info": "held=[] stop at 3,4"
+   },
+   {
+    "id": "1 hold right moves right",
+    "ok": true,
+    "info": "moved 1 tile(s), facing right [CDP touch]"
+   },
+   {
+    "id": "1 release right stops",
+    "ok": true,
+    "info": "held=[] stop at 8,4"
+   },
+   {
+    "id": "1 slide left -> up without lifting",
+    "ok": true,
+    "info": "(5,4) -> (4,4) -> (2,2) facing up"
+   },
+   {
+    "id": "2 hold B + right runs",
+    "ok": true,
+    "info": "mode=run moved 2 [CDP touch]"
+   },
+   {
+    "id": "2 lift d-pad keeps B, lift B clears",
+    "ok": true,
+    "info": "B after d-pad lift=true, after B lift=false"
+   },
+   {
+    "id": "2 tap A talks to a sign",
+    "ok": true,
+    "info": "sign sign_r1_s: type=say"
+   },
+   {
+    "id": "6 A reaches the game on touchstart, within 1 frame (no 300 ms delay)",
+    "ok": true,
+    "info": "pointerdown -> game input poll 7.2 ms, consumed by frame #1 (dialogue open with the finger still down)"
+   },
+   {
+    "id": "3 d-pad/SEL/DBG hidden, A/B shown",
+    "ok": true,
+    "info": "a,b"
+   },
+   {
+    "id": "2 B advances to close",
+    "ok": true,
+    "info": ""
+   },
+   {
+    "id": "3 controls back after close",
+    "ok": true,
+    "info": "a,b,debug,down,left,right,select,up"
+   },
+   {
+    "id": "3 tap box advances, A closes",
+    "ok": true,
+    "info": "page after box tap=1"
+   },
+   {
+    "id": "3 list shows d-pad up/down only",
+    "ok": true,
+    "info": "a,b,down,up"
+   },
+   {
+    "id": "3 d-pad down moves the list, tapping row 3 picks it",
+    "ok": true,
+    "info": "sel after down=1 picked=2"
+   },
+   {
+    "id": "2 B goes back (cancels the list)",
+    "ok": true,
+    "info": "res=1"
+   },
+   {
+    "id": "4 touchcancel clears input",
+    "ok": true,
+    "info": "before held=[right] B=true after held=[] B=false"
+   },
+   {
+    "id": "4 lift outside the buttons clears input",
+    "ok": true,
+    "info": "before held=[right] B=true after held=[] B=false"
+   },
+   {
+    "id": "4 page blur clears input",
+    "ok": true,
+    "info": "before held=[right] B=true after held=[] B=false"
+   },
+   {
+    "id": "4 visibilitychange (hidden) clears input",
+    "ok": true,
+    "info": "before held=[right] B=true after held=[] B=false"
+   },
+   {
+    "id": "7 portrait shows the rotate screen, hides the controls",
+    "ok": true,
+    "info": "rotate=true touchpad=hidden"
+   },
+   {
+    "id": "4 rotate to portrait and back clears input",
+    "ok": true,
+    "info": "before held=[right] B=true after held=[] B=false"
+   },
+   {
+    "id": "7 back in landscape: controls back, no rotate screen",
+    "ok": true,
+    "info": "a,b,debug,down,left,right,select,up"
+   },
+   {
+    "id": "5 touch-action:none on body/canvas/buttons/box",
+    "ok": true,
+    "info": "{\"body\":\"none\",\"canvas\":\"none\",\"a\":\"none\",\"box\":\"none\"}"
+   },
+   {
+    "id": "5 user-select:none",
+    "ok": true,
+    "info": "{\"body\":\"none\",\"a\":\"none\",\"box\":\"none\"}"
+   },
+   {
+    "id": "5 viewport meta: no user scaling, viewport-fit=cover",
+    "ok": true,
+    "info": "width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no"
+   },
+   {
+    "id": "5 double-tap: no zoom",
+    "ok": true,
+    "info": "scale=1"
+   },
+   {
+    "id": "5 pinch: no zoom",
+    "ok": true,
+    "info": "scale=1"
+   },
+   {
+    "id": "5 long-press: no context menu, no selection",
+    "ok": true,
+    "info": "contextmenu events=[] selection=\"\""
+   },
+   {
+    "id": "5 swipe: no page scroll",
+    "ok": true,
+    "info": "scroll=0,0"
+   },
+   {
+    "id": "6 every control hit area >= 44x44 px",
+    "ok": true,
+    "info": "up:58x58 left:58x58 right:58x58 down:58x58 debug:56x44 select:56x44 b:76x76 a:76x76"
+   },
+   {
+    "id": "7 safe-area insets move d-pad, A/B and the box",
+    "ok": true,
+    "info": "dpad +47 A -47 up 21; box left 55 bottom gap 29"
+   },
+   {
+    "id": "8 no console errors",
+    "ok": true,
+    "info": ""
+   }
+  ],
+  "frames": [
+   "chromium_00_start.png",
+   "chromium_01_hold_right.png",
+   "chromium_02_run_b_right.png",
+   "chromium_03_talk_sign.png",
+   "chromium_04_ask_list.png",
+   "chromium_05_portrait_rotate.png",
+   "chromium_06_safe_area_47_21.png",
+   "chromium_07_end.png"
+  ]
+ },
+ {
+  "engine": "webkit14",
+  "device": "iPhone 14 landscape",
+  "touch": "synthetic pointer (touch)",
+  "pass": true,
+  "results": [
+   {
+    "id": "0 mobile profile",
+    "ok": true,
+    "info": "mobile"
+   },
+   {
+    "id": "0 spots found",
+    "ok": true,
+    "info": "{\"open\":{\"x\":5,\"y\":4},\"talk\":{\"x\":6,\"y\":31,\"facing\":\"up\",\"id\":\"sign_r1_s\"},\"w\":44,\"h\":34}"
+   },
+   {
+    "id": "1 hold up moves up",
+    "ok": true,
+    "info": "moved 1 tile(s), facing up [synthetic pointer (touch)]"
+   },
+   {
+    "id": "1 release up stops",
+    "ok": true,
+    "info": "held=[] stop at 5,2"
+   },
+   {
+    "id": "1 hold down moves down",
+    "ok": true,
+    "info": "moved 1 tile(s), facing down [synthetic pointer (touch)]"
+   },
+   {
+    "id": "1 release down stops",
+    "ok": true,
+    "info": "held=[] stop at 5,6"
+   },
+   {
+    "id": "1 hold left moves left",
+    "ok": true,
+    "info": "moved 1 tile(s), facing left [synthetic pointer (touch)]"
+   },
+   {
+    "id": "1 release left stops",
+    "ok": true,
+    "info": "held=[] stop at 3,4"
+   },
+   {
+    "id": "1 hold right moves right",
+    "ok": true,
+    "info": "moved 1 tile(s), facing right [synthetic pointer (touch)]"
+   },
+   {
+    "id": "1 release right stops",
+    "ok": true,
+    "info": "held=[] stop at 7,4"
+   },
+   {
+    "id": "1 slide left -> up without lifting",
+    "ok": true,
+    "info": "(5,4) -> (4,4) -> (3,2) facing up"
+   },
+   {
+    "id": "2 hold B + right runs",
+    "ok": true,
+    "info": "mode=run moved 2 [synthetic pointer (touch)]"
+   },
+   {
+    "id": "2 lift d-pad keeps B, lift B clears",
+    "ok": true,
+    "info": "B after d-pad lift=true, after B lift=false"
+   },
+   {
+    "id": "2 tap A talks to a sign",
+    "ok": true,
+    "info": "sign sign_r1_s: type=say"
+   },
+   {
+    "id": "6 A reaches the game on touchstart, within 1 frame (no 300 ms delay)",
+    "ok": true,
+    "info": "pointerdown -> game input poll 22.0 ms, consumed by frame #1 "
+   },
+   {
+    "id": "3 d-pad/SEL/DBG hidden, A/B shown",
+    "ok": true,
+    "info": "a,b"
+   },
+   {
+    "id": "2 B advances to close",
+    "ok": true,
+    "info": ""
+   },
+   {
+    "id": "3 controls back after close",
+    "ok": true,
+    "info": "a,b,debug,down,left,right,select,up"
+   },
+   {
+    "id": "3 tap box advances, A closes",
+    "ok": true,
+    "info": "page after box tap=1"
+   },
+   {
+    "id": "3 list shows d-pad up/down only",
+    "ok": true,
+    "info": "a,b,down,up"
+   },
+   {
+    "id": "3 d-pad down moves the list, tapping row 3 picks it",
+    "ok": true,
+    "info": "sel after down=1 picked=2"
+   },
+   {
+    "id": "2 B goes back (cancels the list)",
+    "ok": true,
+    "info": "res=1"
+   },
+   {
+    "id": "4 touchcancel clears input",
+    "ok": true,
+    "info": "before held=[right] B=true after held=[] B=false"
+   },
+   {
+    "id": "4 lift outside the buttons clears input",
+    "ok": true,
+    "info": "before held=[right] B=true after held=[] B=false"
+   },
+   {
+    "id": "4 page blur clears input",
+    "ok": true,
+    "info": "before held=[right] B=true after held=[] B=false"
+   },
+   {
+    "id": "4 visibilitychange (hidden) clears input",
+    "ok": true,
+    "info": "before held=[right] B=true after held=[] B=false"
+   },
+   {
+    "id": "7 portrait shows the rotate screen, hides the controls",
+    "ok": true,
+    "info": "rotate=true touchpad=hidden"
+   },
+   {
+    "id": "4 rotate to portrait and back clears input",
+    "ok": true,
+    "info": "before held=[right] B=true after held=[] B=false"
+   },
+   {
+    "id": "7 back in landscape: controls back, no rotate screen",
+    "ok": true,
+    "info": "a,b,debug,down,left,right,select,up"
+   },
+   {
+    "id": "5 touch-action:none on body/canvas/buttons/box",
+    "ok": true,
+    "info": "{\"body\":\"none\",\"canvas\":\"none\",\"a\":\"none\",\"box\":\"none\"}"
+   },
+   {
+    "id": "5 user-select:none",
+    "ok": true,
+    "info": "{\"body\":\"none\",\"a\":\"none\",\"box\":\"none\"}"
+   },
+   {
+    "id": "5 -webkit-touch-callout:none (WebKit)",
+    "ok": true,
+    "info": "not implemented in this WebKit build; 2 touch-ui rules set it"
+   },
+   {
+    "id": "5 viewport meta: no user scaling, viewport-fit=cover",
+    "ok": true,
+    "info": "width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no"
+   },
+   {
+    "id": "5 double-tap: no zoom",
+    "ok": true,
+    "info": "scale=1"
+   },
+   {
+    "id": "5 contextmenu / gesturestart / dblclick prevented (WebKit)",
+    "ok": true,
+    "info": "{\"contextmenu\":true,\"gesturestart\":true,\"dblclick\":true,\"sel\":true}"
+   },
+   {
+    "id": "5 no scroll, no selection",
+    "ok": true,
+    "info": "scroll=0,0"
+   },
+   {
+    "id": "6 every control hit area >= 44x44 px",
+    "ok": true,
+    "info": "up:58x58 left:58x58 right:58x58 down:58x58 debug:56x44 select:56x44 b:76x76 a:76x76"
+   },
+   {
+    "id": "7 safe-area insets move d-pad, A/B and the box",
+    "ok": true,
+    "info": "dpad +47 A -47 up 21; box left 55 bottom gap 135"
+   },
+   {
+    "id": "8 no console errors",
+    "ok": true,
+    "info": ""
+   }
+  ],
+  "frames": [
+   "webkit14_00_start.png",
+   "webkit14_01_hold_right.png",
+   "webkit14_02_run_b_right.png",
+   "webkit14_03_talk_sign.png",
+   "webkit14_04_ask_list.png",
+   "webkit14_05_portrait_rotate.png",
+   "webkit14_06_safe_area_47_21.png",
+   "webkit14_07_end.png"
+  ]
+ },
+ {
+  "engine": "webkit15",
+  "device": "iPhone 15 landscape",
+  "touch": "synthetic pointer (touch)",
+  "pass": true,
+  "results": [
+   {
+    "id": "0 mobile profile",
+    "ok": true,
+    "info": "mobile"
+   },
+   {
+    "id": "0 spots found",
+    "ok": true,
+    "info": "{\"open\":{\"x\":5,\"y\":4},\"talk\":{\"x\":6,\"y\":31,\"facing\":\"up\",\"id\":\"sign_r1_s\"},\"w\":44,\"h\":34}"
+   },
+   {
+    "id": "1 hold up moves up",
+    "ok": true,
+    "info": "moved 1 tile(s), facing up [synthetic pointer (touch)]"
+   },
+   {
+    "id": "1 release up stops",
+    "ok": true,
+    "info": "held=[] stop at 5,2"
+   },
+   {
+    "id": "1 hold down moves down",
+    "ok": true,
+    "info": "moved 1 tile(s), facing down [synthetic pointer (touch)]"
+   },
+   {
+    "id": "1 release down stops",
+    "ok": true,
+    "info": "held=[] stop at 5,6"
+   },
+   {
+    "id": "1 hold left moves left",
+    "ok": true,
+    "info": "moved 1 tile(s), facing left [synthetic pointer (touch)]"
+   },
+   {
+    "id": "1 release left stops",
+    "ok": true,
+    "info": "held=[] stop at 3,4"
+   },
+   {
+    "id": "1 hold right moves right",
+    "ok": true,
+    "info": "moved 1 tile(s), facing right [synthetic pointer (touch)]"
+   },
+   {
+    "id": "1 release right stops",
+    "ok": true,
+    "info": "held=[] stop at 7,4"
+   },
+   {
+    "id": "1 slide left -> up without lifting",
+    "ok": true,
+    "info": "(5,4) -> (4,4) -> (3,3) facing up"
+   },
+   {
+    "id": "2 hold B + right runs",
+    "ok": true,
+    "info": "mode=run moved 2 [synthetic pointer (touch)]"
+   },
+   {
+    "id": "2 lift d-pad keeps B, lift B clears",
+    "ok": true,
+    "info": "B after d-pad lift=true, after B lift=false"
+   },
+   {
+    "id": "2 tap A talks to a sign",
+    "ok": true,
+    "info": "sign sign_r1_s: type=say"
+   },
+   {
+    "id": "6 A reaches the game on touchstart, within 1 frame (no 300 ms delay)",
+    "ok": true,
+    "info": "pointerdown -> game input poll 34.0 ms, consumed by frame #1 "
+   },
+   {
+    "id": "3 d-pad/SEL/DBG hidden, A/B shown",
+    "ok": true,
+    "info": "a,b"
+   },
+   {
+    "id": "2 B advances to close",
+    "ok": true,
+    "info": ""
+   },
+   {
+    "id": "3 controls back after close",
+    "ok": true,
+    "info": "a,b,debug,down,left,right,select,up"
+   },
+   {
+    "id": "3 tap box advances, A closes",
+    "ok": true,
+    "info": "page after box tap=1"
+   },
+   {
+    "id": "3 list shows d-pad up/down only",
+    "ok": true,
+    "info": "a,b,down,up"
+   },
+   {
+    "id": "3 d-pad down moves the list, tapping row 3 picks it",
+    "ok": true,
+    "info": "sel after down=1 picked=2"
+   },
+   {
+    "id": "2 B goes back (cancels the list)",
+    "ok": true,
+    "info": "res=1"
+   },
+   {
+    "id": "4 touchcancel clears input",
+    "ok": true,
+    "info": "before held=[right] B=true after held=[] B=false"
+   },
+   {
+    "id": "4 lift outside the buttons clears input",
+    "ok": true,
+    "info": "before held=[right] B=true after held=[] B=false"
+   },
+   {
+    "id": "4 page blur clears input",
+    "ok": true,
+    "info": "before held=[right] B=true after held=[] B=false"
+   },
+   {
+    "id": "4 visibilitychange (hidden) clears input",
+    "ok": true,
+    "info": "before held=[right] B=true after held=[] B=false"
+   },
+   {
+    "id": "7 portrait shows the rotate screen, hides the controls",
+    "ok": true,
+    "info": "rotate=true touchpad=hidden"
+   },
+   {
+    "id": "4 rotate to portrait and back clears input",
+    "ok": true,
+    "info": "before held=[right] B=true after held=[] B=false"
+   },
+   {
+    "id": "7 back in landscape: controls back, no rotate screen",
+    "ok": true,
+    "info": "a,b,debug,down,left,right,select,up"
+   },
+   {
+    "id": "5 touch-action:none on body/canvas/buttons/box",
+    "ok": true,
+    "info": "{\"body\":\"none\",\"canvas\":\"none\",\"a\":\"none\",\"box\":\"none\"}"
+   },
+   {
+    "id": "5 user-select:none",
+    "ok": true,
+    "info": "{\"body\":\"none\",\"a\":\"none\",\"box\":\"none\"}"
+   },
+   {
+    "id": "5 -webkit-touch-callout:none (WebKit)",
+    "ok": true,
+    "info": "not implemented in this WebKit build; 2 touch-ui rules set it"
+   },
+   {
+    "id": "5 viewport meta: no user scaling, viewport-fit=cover",
+    "ok": true,
+    "info": "width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no"
+   },
+   {
+    "id": "5 double-tap: no zoom",
+    "ok": true,
+    "info": "scale=1"
+   },
+   {
+    "id": "5 contextmenu / gesturestart / dblclick prevented (WebKit)",
+    "ok": true,
+    "info": "{\"contextmenu\":true,\"gesturestart\":true,\"dblclick\":true,\"sel\":true}"
+   },
+   {
+    "id": "5 no scroll, no selection",
+    "ok": true,
+    "info": "scroll=0,0"
+   },
+   {
+    "id": "6 every control hit area >= 44x44 px",
+    "ok": true,
+    "info": "up:58x58 left:58x58 right:58x58 down:58x58 debug:56x44 select:56x44 b:76x76 a:76x76"
+   },
+   {
+    "id": "7 safe-area insets move d-pad, A/B and the box",
+    "ok": true,
+    "info": "dpad +47 A -47 up 21; box left 55 bottom gap 135"
+   },
+   {
+    "id": "8 no console errors",
+    "ok": true,
+    "info": ""
+   }
+  ],
+  "frames": [
+   "webkit15_00_start.png",
+   "webkit15_01_hold_right.png",
+   "webkit15_02_run_b_right.png",
+   "webkit15_03_talk_sign.png",
+   "webkit15_04_ask_list.png",
+   "webkit15_05_portrait_rotate.png",
+   "webkit15_06_safe_area_47_21.png",
+   "webkit15_07_end.png"
+  ]
+ }
+]

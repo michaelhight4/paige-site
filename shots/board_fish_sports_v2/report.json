@@ -1,0 +1,95 @@
+{
+  "checks": [
+    {
+      "plat": "pc",
+      "what": "warped to brookhollow (outdoors)",
+      "ok": true,
+      "info": "brookhollow busy=false"
+    },
+    {
+      "plat": "pc",
+      "what": "skylift_fare_full",
+      "ok": true,
+      "info": "Head to Fernwick? [PLACEHOLDER] Fare to Fernwick: 100 coins. [PLACEHOLDER] You have 500 coins. en=true busy=false party=1 cur=ask || "
+    },
+    {
+      "plat": "pc",
+      "what": "skylift_fare_commuter_III",
+      "ok": true,
+      "info": "Head to Fernwick? [PLACEHOLDER] Fare to Fernwick: 50 coins (100 before your Commuter Benefit). [PLACEHOLDER] You have 500 coins. en=true busy=false party=1 cur=ask || "
+    },
+    {
+      "plat": "pc",
+      "what": "skylift_short_walk",
+      "ok": true,
+      "info": "[PLACEHOLDER] Fare to Fernwick: 100 coins. [PLACEHOLDER] You have 20 coins. [PLACEHOLDER] You need 100 coins for that flight. You can always walk there. en=true busy=false party=1 cur=say || "
+    },
+    {
+      "plat": "pc",
+      "what": "rail_fare_commuter_II",
+      "ok": true,
+      "info": "Next train to Aurelith leaves in a minute. Go on. [PLACEHOLDER] Fare to Aurelith: 49 coins (70 before your Commuter Benefit). [PLACEHOLDER] You have 500 coins. en=true busy=false party=1 cur=ask || "
+    },
+    {
+      "plat": "pc",
+      "what": "rail_broke_standby",
+      "ok": true,
+      "info": "[PLACEHOLDER] Short on coins? There is a free standby seat to Revival Heights, the next stop. [PLACEHOLDER] Fare to Aurelith: 70 coins. [PLACEHOLDER] You have 0 coins. en=true busy=false party=1 cur=a"
+    },
+    {
+      "plat": "phone",
+      "what": "warped to brookhollow (outdoors)",
+      "ok": true,
+      "info": "brookhollow busy=false"
+    },
+    {
+      "plat": "phone",
+      "what": "skylift_fare_full",
+      "ok": true,
+      "info": "Head to Fernwick? [PLACEHOLDER] Fare to Fernwick: 100 coins. [PLACEHOLDER] You have 500 coins. en=true busy=false party=1 cur=ask || "
+    },
+    {
+      "plat": "phone",
+      "what": "skylift_fare_commuter_III",
+      "ok": true,
+      "info": "Head to Fernwick? [PLACEHOLDER] Fare to Fernwick: 50 coins (100 before your Commuter Benefit). [PLACEHOLDER] You have 500 coins. en=true busy=false party=1 cur=ask || "
+    },
+    {
+      "plat": "phone",
+      "what": "skylift_short_walk",
+      "ok": true,
+      "info": "[PLACEHOLDER] Fare to Fernwick: 100 coins. [PLACEHOLDER] You have 20 coins. [PLACEHOLDER] You need 100 coins for that flight. You can always walk there. en=true busy=false party=1 cur=say || "
+    },
+    {
+      "plat": "phone",
+      "what": "rail_fare_commuter_II",
+      "ok": true,
+      "info": "Next train to Aurelith leaves in a minute. Go on. [PLACEHOLDER] Fare to Aurelith: 49 coins (70 before your Commuter Benefit). [PLACEHOLDER] You have 500 coins. en=true busy=false party=1 cur=ask || "
+    },
+    {
+      "plat": "phone",
+      "what": "rail_broke_standby",
+      "ok": true,
+      "info": "[PLACEHOLDER] Short on coins? There is a free standby seat to Revival Heights, the next stop. [PLACEHOLDER] Fare to Aurelith: 70 coins. [PLACEHOLDER] You have 0 coins. en=true busy=false party=1 cur=a"
+    },
+    {
+      "plat": "all",
+      "what": "no page errors",
+      "ok": true,
+      "info": ""
+    }
+  ],
+  "errors": [],
+  "shots": [
+    "01_pc_skylift_fare_full.png",
+    "02_pc_skylift_fare_commuter_III.png",
+    "03_pc_skylift_short_walk.png",
+    "04_pc_rail_fare_commuter_II.png",
+    "05_pc_rail_broke_standby.png",
+    "01_phone_skylift_fare_full.png",
+    "02_phone_skylift_fare_commuter_III.png",
+    "03_phone_skylift_short_walk.png",
+    "04_phone_rail_fare_commuter_II.png",
+    "05_phone_rail_broke_standby.png"
+  ]
+}

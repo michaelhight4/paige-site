@@ -1,0 +1,34 @@
+{
+ "_status": "DRAFT layout (overnight Coder pass, Oct 23 2026) from Game dev outline in design/overnight_gd/halls/mirefen.json. Hall map not built yet: World Design to place it; solvability is checked by tests/progression.test.mjs.",
+ "zone": "mirefen",
+ "map": "mirefen_hall_int",
+ "kind": "boardwalk",
+ "name_placeholder": "Bog-light boardwalk",
+ "solved_flag": "puzzle_mirefen_hall_solved",
+ "order": [
+  "3",
+  "1",
+  "4",
+  "2"
+ ],
+ "grid": [
+  "###########",
+  "#~~~~G~~~~#",
+  "#~~~~h~~~~#",
+  "#~~~~h~~~~#",
+  "#~~~~s~~~~#",
+  "#1...=...2#",
+  "#~~~~=~~~~#",
+  "#3..s=...4#",
+  "#~~~~=~~~~#",
+  "#....S....#",
+  "###########"
+ ],
+ "cue": "frogs croak the order (sound) + ripple on the water by each lamp (visual cue for accessibility); fog layer = existing mirefen fog",
+ "verified": {
+  "shortest_solution": "U U U D L L L AL R R R U U U D L L L AL R R R D D R R R AR L L L U U R R R AR L L L U U U U",
+  "length": 44,
+  "states_explored": 240,
+  "legend": "U/D/L/R step, A<dir> = face + A"
+ }
+}

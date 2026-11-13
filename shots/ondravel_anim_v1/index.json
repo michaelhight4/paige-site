@@ -1,0 +1,248 @@
+{
+ "ondravel_ow_idle_down": {
+  "night": 0.627,
+  "min": 0.627,
+  "frames": 12,
+  "ms": 120,
+  "loop": true,
+  "covered": [
+   [
+    0,
+    0
+   ]
+  ]
+ },
+ "ondravel_ow_idle_up": {
+  "night": 0.589,
+  "min": 0.589,
+  "frames": 12,
+  "ms": 120,
+  "loop": true,
+  "covered": [
+   [
+    0,
+    0
+   ]
+  ]
+ },
+ "ondravel_ow_idle_left": {
+  "night": 0.604,
+  "min": 0.604,
+  "frames": 12,
+  "ms": 120,
+  "loop": true,
+  "covered": [
+   [
+    0,
+    0
+   ]
+  ]
+ },
+ "ondravel_ow_idle_right": {
+  "night": 0.518,
+  "min": 0.518,
+  "frames": 12,
+  "ms": 120,
+  "loop": true,
+  "covered": [
+   [
+    0,
+    0
+   ]
+  ]
+ },
+ "ondravel_ow_turn_down": {
+  "night": 0.619,
+  "min": 0.619,
+  "frames": 16,
+  "ms": 150,
+  "loop": true,
+  "covered": [
+   [
+    0,
+    0
+   ]
+  ]
+ },
+ "ondravel_ow_turn_up": {
+  "night": 0.574,
+  "min": 0.574,
+  "frames": 16,
+  "ms": 150,
+  "loop": true,
+  "covered": [
+   [
+    0,
+    0
+   ]
+  ]
+ },
+ "ondravel_ow_turn_left": {
+  "night": 0.62,
+  "min": 0.62,
+  "frames": 16,
+  "ms": 150,
+  "loop": true,
+  "covered": [
+   [
+    0,
+    0
+   ]
+  ]
+ },
+ "ondravel_ow_turn_right": {
+  "night": 0.571,
+  "min": 0.571,
+  "frames": 16,
+  "ms": 150,
+  "loop": true,
+  "covered": [
+   [
+    0,
+    0
+   ]
+  ]
+ },
+ "ondravel_reveal": {
+  "night": 0.641,
+  "min": 0.641,
+  "frames": 17,
+  "ms": 80,
+  "loop": false,
+  "covered": [
+   [
+    0,
+    0
+   ]
+  ]
+ },
+ "ondravel_tank_water_loop": {
+  "night": 0.938,
+  "min": 0.938,
+  "frames": 24,
+  "ms": 140,
+  "loop": true,
+  "covered": [
+   [
+    0,
+    0
+   ],
+   [
+    1,
+    0
+   ],
+   [
+    2,
+    0
+   ],
+   [
+    3,
+    0
+   ],
+   [
+    4,
+    0
+   ],
+   [
+    5,
+    0
+   ],
+   [
+    0,
+    1
+   ],
+   [
+    1,
+    1
+   ],
+   [
+    2,
+    1
+   ],
+   [
+    3,
+    1
+   ],
+   [
+    4,
+    1
+   ],
+   [
+    5,
+    1
+   ],
+   [
+    0,
+    2
+   ],
+   [
+    1,
+    2
+   ],
+   [
+    2,
+    2
+   ],
+   [
+    3,
+    2
+   ],
+   [
+    4,
+    2
+   ],
+   [
+    5,
+    2
+   ],
+   [
+    0,
+    3
+   ],
+   [
+    1,
+    3
+   ],
+   [
+    2,
+    3
+   ],
+   [
+    3,
+    3
+   ],
+   [
+    4,
+    3
+   ],
+   [
+    5,
+    3
+   ],
+   [
+    0,
+    4
+   ],
+   [
+    1,
+    4
+   ],
+   [
+    2,
+    4
+   ],
+   [
+    3,
+    4
+   ],
+   [
+    4,
+    4
+   ],
+   [
+    5,
+    4
+   ]
+  ]
+ }
+}

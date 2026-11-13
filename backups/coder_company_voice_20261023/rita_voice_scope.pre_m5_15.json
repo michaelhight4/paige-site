@@ -1,0 +1,46 @@
+{
+  "_note": "RITA voice scope (coder, Oct 23 2026). Gary 12:33 PM CT: \"focus on voice lines that will actually be used in each section, realistic milestones\". Read by tools/build_rita_voice.py. Only regions listed in build_regions get audio. A line key in text/overworld_lines.json system_company_voice that carries its own region tag (\"region\": \"region_1\" | 1, or \"regions\": [...]) is voiced iff that tag is in build_regions; an untagged key falls back to the bases listed under regions.<r>.keys (a base also covers its variants <base>_2.._<base>_9). Each new region adds its own block (keys + names + numbers). Text Bot owns the lines; this file only says which ones get a voice.",
+  "line_section": "system_company_voice",
+  "build_regions": ["region_1"],
+  "region_tag_fields": ["region", "regions"],
+  "regions": {
+    "region_1": {
+      "label": "Region 1: Brookhollow, Trail 1 (route1), Fernwick, through Master 1 (beat_master_fernwick)",
+      "keys": ["first_catch", "kilindex_new", "kilindex_milestone_10", "area_new", "trainer_first_win", "rival_beaten", "master_beaten", "quest_done", "first_evolution"],
+      "names": {
+        "area": ["Brookhollow", "Trail 1", "Fernwick"],
+        "master": ["Fernwick"],
+        "trainer": ["Ron"],
+        "quest": ["Promoted (Apparently)", "The Bean Thief", "Meet Five", "A Fly for the Fisher", "Bin Day Is Tomorrow", "The Benchmark", "Fork Road Regulars", "Stand Your Ground", "Mixing Colours", "Ticks on the Flyer", "Dance of the Firefly", "Answers to Biscuit", "Where the Fireflies Went", "The Last Parcel", "KEEP OUT (please)"],
+        "creature": ["Tumbloam", "Cindrip", "Rillop", "Peeplark", "Nibbin", "Dewmite", "Hushowl", "Thistlepup", "Pebblant", "Glintfly"],
+        "new": ["Burrowmane", "Emberlunx", "Brookhorn", "Larkspar", "Gnawford", "Huskling", "Vesperowl", "Thistlehound", "Cairnant", "Beaconfly"]
+      },
+      "numbers": [5, 10, 15],
+      "why": {
+        "first_catch": "first wild catch on Trail 1 (sunmeadow_grass)",
+        "kilindex_new": "Kilindex counts 2-4 (company_voice.json min/max_count); Gary's model line",
+        "kilindex_milestone_10": "only reachable milestone: region 1 can log at most 18 kinds (17 Trail 1 wild species incl. tumbloam/rillop + cindrip if picked as starter; no creature gifts before Master 1). 25+ unreachable.",
+        "area_new": "area-sign titles of brookhollow ('Brookhollow'), route1 ('Trail 1', system lines area_name), fernwick ('Fernwick'). Brookhollow fires on the first return after got_starter.",
+        "trainer_first_win": "first trainer win (Trail 1 / Fernwick trainers); no slot",
+        "rival_beaten": "beat_rival_ron_1 only (fernwick.ron_rival_1); {trainer} is always 'Ron' in company_voice.js",
+        "master_beaten": "beat_master_fernwick only; {master} = cap('fernwick') = 'Fernwick'",
+        "quest_done": "the 15 built region 1 quests (zones brookhollow / route1 / fernwick, map_status built, not finale-gated); {quest} = quest title. Map-pending quests (sq_dana, sq_ron_job, sq_kid_joke, sq_over_the_wall, sq_missing_note) and mq_welcome_back (finale_done) left out.",
+        "first_evolution": "GRIND-ONLY in region 1: every region 1 line evolves at L16 (placeholder), wild L2-4, Master 1 team L10/L12. Kept because it costs little and a grinding player would otherwise get a silent line; names = region 1 species that evolve by level + their next forms.",
+        "numbers": "{count}/{level} are not used by any region 1 line today (per-count milestone lines spell the number); 5/10/15 cover the suggested region 1 thresholds if Gary adopts them"
+      },
+      "skipped": {
+        "id_level_up": "no code raises company.idLevel yet (Gary 12:33 steering: skip)",
+        "board_node": "no Benefits Board purchase code yet (skip)",
+        "kilindex_milestone": "generic base: never picked while kilindex_milestone_<count> keys exist",
+        "kilindex_milestone_25+": "unreachable in region 1 (max 18 kinds)"
+      },
+      "say": {
+        "Promoted (Apparently)": "Promoted. Apparently.",
+        "KEEP OUT (please)": "Keep out. Please.",
+        "Trail 1": "Trail one",
+        "Mixing Colours": "Mixing colors"
+      },
+      "_unreachable_before_master_1_but_ungated": "Fernwick's east exit (Thornwood) and west stub (Tide-Lock Road) have no story gate, so a player can log those area signs before Master 1. They are region 2 content here: their area_new plays text-only (no name clip) until region 2's block lists them."
+    }
+  }
+}

@@ -1,0 +1,450 @@
+{
+ "hushpine_pc": {
+  "follower": {
+   "species": "hushpine",
+   "sheetW": 320
+  },
+  "battleImgs": [
+   [
+    "anim/hushpine_front_idle_2x.gif",
+    256
+   ],
+   [
+    "anim/hushpine_back_idle_2x.gif",
+    256
+   ]
+  ],
+  "owPerf": null,
+  "btPerf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:36651/playtime.js?game=kilumen&v=v0.2.66-alpha"
+  ]
+ },
+ "cairnhorn_pc": {
+  "follower": {
+   "species": "cairnhorn",
+   "sheetW": 320
+  },
+  "battleImgs": [
+   [
+    "anim/cairnhorn_front_idle_2x.gif",
+    256
+   ],
+   [
+    "anim/cairnhorn_back_idle_2x.gif",
+    256
+   ]
+  ],
+  "owPerf": null,
+  "btPerf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:36651/playtime.js?game=kilumen&v=v0.2.66-alpha"
+  ]
+ },
+ "glintmoth_pc": {
+  "follower": {
+   "species": "glintmoth",
+   "sheetW": 320
+  },
+  "battleImgs": [
+   [
+    "anim/glintmoth_front_idle_2x.gif",
+    256
+   ],
+   [
+    "anim/glintmoth_back_idle_2x.gif",
+    256
+   ]
+  ],
+  "owPerf": null,
+  "btPerf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:36651/playtime.js?game=kilumen&v=v0.2.66-alpha"
+  ]
+ },
+ "skivvet_pc": {
+  "follower": {
+   "species": "skivvet",
+   "sheetW": 320
+  },
+  "battleImgs": [
+   [
+    "anim/skivvet_front_idle_2x.gif",
+    256
+   ],
+   [
+    "anim/skivvet_back_idle_2x.gif",
+    256
+   ]
+  ],
+  "owPerf": null,
+  "btPerf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:36651/playtime.js?game=kilumen&v=v0.2.66-alpha"
+  ]
+ },
+ "aurorel_pc": {
+  "follower": {
+   "species": "aurorel",
+   "sheetW": 320
+  },
+  "battleImgs": [
+   [
+    "anim/aurorel_front_idle_2x.gif",
+    256
+   ],
+   [
+    "anim/aurorel_back_idle_2x.gif",
+    256
+   ]
+  ],
+  "owPerf": null,
+  "btPerf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:36651/playtime.js?game=kilumen&v=v0.2.66-alpha"
+  ]
+ },
+ "tbdcandle_pc": {
+  "follower": {
+   "species": "tbdcandle",
+   "sheetW": 320
+  },
+  "battleImgs": [
+   [
+    "anim/tbdcandle_front_idle_2x.gif",
+    256
+   ],
+   [
+    "anim/tbdcandle_back_idle_2x.gif",
+    256
+   ]
+  ],
+  "owPerf": null,
+  "btPerf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:36651/playtime.js?game=kilumen&v=v0.2.66-alpha"
+  ]
+ },
+ "rimewick_pc": {
+  "follower": {
+   "species": "rimewick",
+   "sheetW": 320
+  },
+  "battleImgs": [
+   [
+    "anim/rimewick_front_idle_2x.gif",
+    256
+   ],
+   [
+    "anim/rimewick_back_idle_2x.gif",
+    256
+   ]
+  ],
+  "owPerf": null,
+  "btPerf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:36651/playtime.js?game=kilumen&v=v0.2.66-alpha"
+  ]
+ },
+ "hushpine_phone": {
+  "follower": {
+   "species": "hushpine",
+   "sheetW": 320
+  },
+  "battleImgs": [
+   [
+    "anim/hushpine_front_idle_2x.gif",
+    256
+   ],
+   [
+    "anim/hushpine_back_idle_2x.gif",
+    256
+   ]
+  ],
+  "owPerf": {
+   "rafInterval": {
+    "n": 282,
+    "avg": 17.73,
+    "p50": 16.7,
+    "p95": 33.3,
+    "max": 50,
+    "over16_7": 114
+   },
+   "mainThreadPerFrameMs": 15.81
+  },
+  "btPerf": {
+   "rafInterval": {
+    "n": 268,
+    "avg": 18.59,
+    "p50": 16.7,
+    "p95": 33.3,
+    "max": 166.7,
+    "over16_7": 145
+   },
+   "mainThreadPerFrameMs": 14.99
+  },
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:36651/playtime.js?game=kilumen&v=v0.2.66-alpha"
+  ]
+ },
+ "cairnhorn_phone": {
+  "follower": {
+   "species": "cairnhorn",
+   "sheetW": 320
+  },
+  "battleImgs": [
+   [
+    "anim/cairnhorn_front_idle_2x.gif",
+    256
+   ],
+   [
+    "anim/cairnhorn_back_idle_2x.gif",
+    256
+   ]
+  ],
+  "owPerf": {
+   "rafInterval": {
+    "n": 269,
+    "avg": 18.4,
+    "p50": 16.7,
+    "p95": 33.3,
+    "max": 50.1,
+    "over16_7": 120
+   },
+   "mainThreadPerFrameMs": 14.21
+  },
+  "btPerf": {
+   "rafInterval": {
+    "n": 181,
+    "avg": 27.25,
+    "p50": 16.7,
+    "p95": 50,
+    "max": 116.7,
+    "over16_7": 130
+   },
+   "mainThreadPerFrameMs": 26.43
+  },
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:36651/playtime.js?game=kilumen&v=v0.2.66-alpha"
+  ]
+ },
+ "glintmoth_phone": {
+  "follower": {
+   "species": "glintmoth",
+   "sheetW": 320
+  },
+  "battleImgs": [
+   [
+    "anim/glintmoth_front_idle_2x.gif",
+    256
+   ],
+   [
+    "anim/glintmoth_back_idle_2x.gif",
+    256
+   ]
+  ],
+  "owPerf": {
+   "rafInterval": {
+    "n": 165,
+    "avg": 30.4,
+    "p50": 33.3,
+    "p95": 66.6,
+    "max": 83.4,
+    "over16_7": 123
+   },
+   "mainThreadPerFrameMs": 29.6
+  },
+  "btPerf": {
+   "rafInterval": {
+    "n": 219,
+    "avg": 22.53,
+    "p50": 16.7,
+    "p95": 49.9,
+    "max": 66.7,
+    "over16_7": 146
+   },
+   "mainThreadPerFrameMs": 20.72
+  },
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:36651/playtime.js?game=kilumen&v=v0.2.66-alpha"
+  ]
+ },
+ "skivvet_phone": {
+  "follower": {
+   "species": "skivvet",
+   "sheetW": 320
+  },
+  "battleImgs": [
+   [
+    "anim/skivvet_front_idle_2x.gif",
+    256
+   ],
+   [
+    "anim/skivvet_back_idle_2x.gif",
+    256
+   ]
+  ],
+  "owPerf": {
+   "rafInterval": {
+    "n": 110,
+    "avg": 45.3,
+    "p50": 33.4,
+    "p95": 100.1,
+    "max": 133.4,
+    "over16_7": 89
+   },
+   "mainThreadPerFrameMs": 45.34
+  },
+  "btPerf": {
+   "rafInterval": {
+    "n": 78,
+    "avg": 62.6,
+    "p50": 66.5,
+    "p95": 116.7,
+    "max": 183.2,
+    "over16_7": 74
+   },
+   "mainThreadPerFrameMs": 61.81
+  },
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:36651/playtime.js?game=kilumen&v=v0.2.66-alpha"
+  ]
+ },
+ "aurorel_phone": {
+  "follower": {
+   "species": "aurorel",
+   "sheetW": 320
+  },
+  "battleImgs": [
+   [
+    "anim/aurorel_front_idle_2x.gif",
+    256
+   ],
+   [
+    "anim/aurorel_back_idle_2x.gif",
+    256
+   ]
+  ],
+  "owPerf": {
+   "rafInterval": {
+    "n": 102,
+    "avg": 48.04,
+    "p50": 33.4,
+    "p95": 116.6,
+    "max": 166.7,
+    "over16_7": 82
+   },
+   "mainThreadPerFrameMs": 48.45
+  },
+  "btPerf": {
+   "rafInterval": {
+    "n": 111,
+    "avg": 45.04,
+    "p50": 33.4,
+    "p95": 100,
+    "max": 116.7,
+    "over16_7": 99
+   },
+   "mainThreadPerFrameMs": 44.17
+  },
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:36651/playtime.js?game=kilumen&v=v0.2.66-alpha"
+  ]
+ },
+ "tbdcandle_phone": {
+  "follower": {
+   "species": "tbdcandle",
+   "sheetW": 320
+  },
+  "battleImgs": [
+   [
+    "anim/tbdcandle_front_idle_2x.gif",
+    256
+   ],
+   [
+    "anim/tbdcandle_back_idle_2x.gif",
+    256
+   ]
+  ],
+  "owPerf": {
+   "rafInterval": {
+    "n": 98,
+    "avg": 50.17,
+    "p50": 33.4,
+    "p95": 133.3,
+    "max": 166.6,
+    "over16_7": 77
+   },
+   "mainThreadPerFrameMs": 49.15
+  },
+  "btPerf": {
+   "rafInterval": {
+    "n": 67,
+    "avg": 75.37,
+    "p50": 66.6,
+    "p95": 166.6,
+    "max": 200.1,
+    "over16_7": 64
+   },
+   "mainThreadPerFrameMs": 73.09
+  },
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:36651/playtime.js?game=kilumen&v=v0.2.66-alpha"
+  ]
+ },
+ "rimewick_phone": {
+  "follower": {
+   "species": "rimewick",
+   "sheetW": 320
+  },
+  "battleImgs": [
+   [
+    "anim/rimewick_front_idle_2x.gif",
+    256
+   ],
+   [
+    "anim/rimewick_back_idle_2x.gif",
+    256
+   ]
+  ],
+  "owPerf": {
+   "rafInterval": {
+    "n": 117,
+    "avg": 42.02,
+    "p50": 33.4,
+    "p95": 100,
+    "max": 133.3,
+    "over16_7": 97
+   },
+   "mainThreadPerFrameMs": 41.53
+  },
+  "btPerf": {
+   "rafInterval": {
+    "n": 118,
+    "avg": 42.37,
+    "p50": 33.4,
+    "p95": 83.4,
+    "max": 166.6,
+    "over16_7": 103
+   },
+   "mainThreadPerFrameMs": 40.56
+  },
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:36651/playtime.js?game=kilumen&v=v0.2.66-alpha"
+  ]
+ }
+}

@@ -1,0 +1,117 @@
+{
+ "_status": "design data, approved by Gary (swamp/sea attacks); not wired",
+ "format": "Matches src/ui/data.js PLACEHOLDER_SKILLS rows [name, element, power] plus EXTRA effects in src/battle/data/skills.js. Swamp is Physical (not in SPECIAL); sea is Special.",
+ "credits": "Effect handler shapes (secondary chance/boosts, accuracy) follow Pokemon Showdown data/moves.ts (MIT license, (c) Guangcong Luo and contributors). Names and numbers are Kilumen's own.",
+ "moves": [
+  {
+   "id": "bogsnap",
+   "name": "Bog Snap",
+   "element": "swamp",
+   "power": 55,
+   "accuracy": 90,
+   "category": "Physical",
+   "effect": null,
+   "flavour": "Jaws shut out of the mud."
+  },
+  {
+   "id": "mirelob",
+   "name": "Mire Lob",
+   "element": "swamp",
+   "power": 40,
+   "accuracy": 95,
+   "category": "Physical",
+   "effect": "20% chance: target Speed -1",
+   "flavour": "A sticky glob that gums up legs."
+  },
+  {
+   "id": "brinelash",
+   "name": "Brine Lash",
+   "element": "sea",
+   "power": 55,
+   "accuracy": 90,
+   "category": "Special",
+   "effect": null,
+   "flavour": "A whip of salty spray."
+  },
+  {
+   "id": "undertow",
+   "name": "Undertow",
+   "element": "sea",
+   "power": 40,
+   "accuracy": 95,
+   "category": "Special",
+   "effect": "20% chance: target Might -1",
+   "flavour": "A pull that drags the strength out of a swing."
+  },
+  {
+   "id": "kelplash",
+   "name": "Kelp Lash",
+   "element": "grass",
+   "power": 55,
+   "accuracy": 95,
+   "category": "Physical",
+   "effect": null,
+   "flavour": "A slap of heavy kelp. Sea creatures' answer to earth types.",
+   "sim_note": "Simmed with mossslam (grass 55 physical) since stats are identical."
+  }
+ ],
+ "pools": {
+  "swamp": [
+   "bogsnap",
+   "mirelob",
+   "rippleshot",
+   "stomp"
+  ],
+  "sea": [
+   "brinelash",
+   "undertow",
+   "rippleshot",
+   "pebbletoss"
+  ]
+ },
+ "pool_rule": "Replace SKILL_POOL_ALIAS swamp->water and sea->water with real pools. Species whose first element is water and that carry swamp use the swamp pool; water+sea use the sea pool.",
+ "learn_levels": {
+  "swamp_line": {
+   "mirelob": 1,
+   "rippleshot": 1,
+   "stomp": 18,
+   "bogsnap": 28
+  },
+  "sea_line": {
+   "undertow": 1,
+   "rippleshot": 1,
+   "pebbletoss": 18,
+   "brinelash": 28
+  },
+  "kelplash": {
+   "atollback": 38,
+   "nudiblume": 34
+  },
+  "tutor": "brinelash for lurelamp, pearlisk, driftknot (Tidewater move tutor, Old Gus)"
+ },
+ "learners": {
+  "swamp_pool": [
+   "mirejaw",
+   "silteel",
+   "fenmaw",
+   "peatbellow",
+   "bulrusher",
+   "eftwarden (player line)"
+  ],
+  "sea_pool": [
+   "nudiblume",
+   "atollback",
+   "reefshell",
+   "abyssray",
+   "hullwhale"
+  ],
+  "master_use": {
+   "M5": "mirejaw, silteel, fenmaw: full swamp pool + Bogroot Charm",
+   "M6": "nudiblume (sea pool), atollback (brinelash/kelplash/undertow/rippleshot) + Tidebell Charm; lurelamp/pearlisk/driftknot carry brinelash"
+  }
+ },
+ "charms": {
+  "bogroot_charm": "x1.15 swamp attacks",
+  "tidebell_charm": "x1.15 sea attacks"
+ }
+}

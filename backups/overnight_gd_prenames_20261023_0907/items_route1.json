@@ -1,0 +1,21 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route1",
+ "route_id": null,
+ "kind": "route",
+ "map_status": "built",
+ "story_step": "1",
+ "story_order": 2,
+ "level_band": "wild 2-6, trainers 4-6",
+ "existing_placed": [
+  "r1_feed",
+  "r1_hidden_tonic",
+  "r1_crystal",
+  "old_record",
+  "r1_ne_corner",
+  "r1_tree_gap"
+ ],
+ "existing_note": "already in maps/*.json items[] (ITEM_PLACEHOLDERS.json placed); not duplicated here",
+ "proposed": [],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

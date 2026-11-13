@@ -1,0 +1,259 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "aurelith",
+ "route_id": null,
+ "kind": "city (rail-only, arena)",
+ "map_status": "to_come",
+ "story_step": "4 (pass through, arena sealed) / 11+ finale",
+ "story_order": 7,
+ "level_band": "finale Ron 6 L62; arena 56-64 (count TBD)",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "ron_6",
+   "class": "ron",
+   "class_display_suggestion": "Ron",
+   "name_suggestion": "Ron",
+   "teams_by_player_starter": {
+    "if_player_took_tumbloam": [
+     {
+      "species": "sailquill",
+      "level": 58
+     },
+     {
+      "species": "gearwarden",
+      "level": 59
+     },
+     {
+      "species": "foldwing",
+      "level": 59
+     },
+     {
+      "species": "runeskein",
+      "level": 60
+     },
+     {
+      "species": "eavesgrim",
+      "level": 61
+     },
+     {
+      "species": "forgeharrow",
+      "level": 62
+     }
+    ],
+    "if_player_took_cindrip": [
+     {
+      "species": "sailquill",
+      "level": 58
+     },
+     {
+      "species": "tollkin",
+      "level": 59
+     },
+     {
+      "species": "pennantail",
+      "level": 59
+     },
+     {
+      "species": "runeskein",
+      "level": 60
+     },
+     {
+      "species": "railmite",
+      "level": 61
+     },
+     {
+      "species": "tidemarrow",
+      "level": 62
+     }
+    ],
+    "if_player_took_rillop": [
+     {
+      "species": "sailquill",
+      "level": 58
+     },
+     {
+      "species": "somnarch",
+      "level": 59
+     },
+     {
+      "species": "stratodrake",
+      "level": 59
+     },
+     {
+      "species": "runeskein",
+      "level": 60
+     },
+     {
+      "species": "faultgrin",
+      "level": 61
+     },
+     {
+      "species": "bastonox",
+      "level": 62
+     }
+    ]
+   },
+   "base": 60,
+   "base_status": "existing",
+   "prize": 3720,
+   "sight_range": 0,
+   "flag": "beat_rival_ron_6",
+   "text_ref": "TODO Text Bot: ron.battle_6 (opens with bin line 6, STORY_RULINGS_SOUL)",
+   "note": "Final Ron battle at the arena steps after all_badges (6.1 \"Final\"). Six creatures. Ron stands beside you afterwards."
+  },
+  {
+   "id": "tr_aurelith_arena_1",
+   "class": "battle_master",
+   "class_display_suggestion": "Battle Master",
+   "name_suggestion": "Arlo",
+   "team": [
+    {
+     "species": "ingotitan",
+     "level": 57
+    },
+    {
+     "species": "dormagnus",
+     "level": 58
+    },
+    {
+     "species": "emberbrock",
+     "level": 58
+    },
+    {
+     "species": "pumicepuff",
+     "level": 59
+    },
+    {
+     "species": "netspinner",
+     "level": 58
+    },
+    {
+     "species": "railmite",
+     "level": 60
+    }
+   ],
+   "base": 150,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 9000,
+   "sight_range": 0,
+   "text_ref": "TODO Text Bot: trainers.aurelith.arena_1",
+   "note": "ARENA Battle Master 1 (count 8 vs 15 pending Gary)"
+  },
+  {
+   "id": "tr_aurelith_arena_2",
+   "class": "battle_master",
+   "class_display_suggestion": "Battle Master",
+   "name_suggestion": "TBD_NAME_1",
+   "team": [
+    {
+     "species": "gloamtick",
+     "level": 58
+    },
+    {
+     "species": "mournlily",
+     "level": 59
+    },
+    {
+     "species": "rooftrove",
+     "level": 59
+    },
+    {
+     "species": "runeskein",
+     "level": 59
+    },
+    {
+     "species": "lampwick",
+     "level": 60
+    },
+    {
+     "species": "velvetabby",
+     "level": 61
+    }
+   ],
+   "base": 150,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 9150,
+   "sight_range": 0,
+   "text_ref": "TODO Text Bot: trainers.aurelith.arena_2",
+   "note": "ARENA Battle Master 2"
+  },
+  {
+   "id": "tr_aurelith_arena_3",
+   "class": "battle_master",
+   "class_display_suggestion": "Battle Master",
+   "name_suggestion": "Moss",
+   "team": [
+    {
+     "species": "plashcrown",
+     "level": 59
+    },
+    {
+     "species": "mirewump",
+     "level": 59
+    },
+    {
+     "species": "echoshell",
+     "level": 60
+    },
+    {
+     "species": "deluvane",
+     "level": 60
+    },
+    {
+     "species": "cascadorn",
+     "level": 60
+    },
+    {
+     "species": "moorcoil",
+     "level": 62
+    }
+   ],
+   "base": 150,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 9300,
+   "sight_range": 0,
+   "text_ref": "TODO Text Bot: trainers.aurelith.arena_3",
+   "note": "ARENA Battle Master 3"
+  },
+  {
+   "id": "tr_aurelith_arena_4",
+   "class": "battle_master",
+   "class_display_suggestion": "Battle Master",
+   "name_suggestion": "Edda",
+   "team": [
+    {
+     "species": "stratodrake",
+     "level": 61
+    },
+    {
+     "species": "emberseraph",
+     "level": 61
+    },
+    {
+     "species": "calderax",
+     "level": 62
+    },
+    {
+     "species": "halovy",
+     "level": 61
+    },
+    {
+     "species": "ondravel",
+     "level": 62
+    },
+    {
+     "species": "tidepony",
+     "level": 64
+    }
+   ],
+   "base": 150,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 9600,
+   "sight_range": 0,
+   "text_ref": "TODO Text Bot: trainers.aurelith.arena_4",
+   "note": "ARENA Battle Master 4 / head of the arena"
+  }
+ ],
+ "hall": null
+}

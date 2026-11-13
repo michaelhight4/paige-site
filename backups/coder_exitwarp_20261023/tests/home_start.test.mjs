@@ -1,0 +1,163 @@
+// Home start v1 (Oct 23, 2026): new game wakes in house_2f, thought text, Ron's morning briefing sets talked_ron_morning,
+// the house_1f front door turns you back until then, objective "Go to the Revival Tech office", ?skipintro=1 outside,
+// Continue / old saves unchanged. Run: node --test tests/home_start.test.mjs
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { Overworld } from '../src/overworld/overworld.js';
+import { GridMover } from '../src/overworld/movement.js';
+import { NpcSystem } from '../src/overworld/npcs.js';
+import { indexTileset } from '../src/overworld/tileset.js';
+import { Col } from '../src/overworld/constants.js';
+import { CONFIG } from '../src/config.js';
+import { HomeStart, HOME, FALLBACK, isNewGame, bedroomSpawn, outsideSpawn, doorBlocked, objectiveFor } from '../src/overworld/intro.js';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const readJson = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
+const LINES = readJson(CONFIG.textLines);
+const TS = indexTileset(readJson('art/world/overworld/tileset.json'));
+const MAP = (n) => readJson(CONFIG.mapsDir + n + '.json');
+
+globalThis.fetch = async (url) => {
+  const p = path.join(ROOT, String(url).replace(/^https?:\/\/[^/]+\//, ''));
+  return fs.existsSync(p) ? { ok: true, status: 200, json: async () => JSON.parse(fs.readFileSync(p, 'utf8')) } : { ok: false, status: 404 };
+};
+
+/** Headless scene: real map loader / talk / onArrive / script, a recording dialogue, no canvas. */
+async function scene({ map = 'house_1f', flags = [], newGame = true, gate = null } = {}) {
+  const s = Object.create(Overworld.prototype);
+  const said = [], toasts = [];
+  Object.assign(s, {
+    mapCache: new Map(), config: CONFIG, lines: LINES, tilesetIndex: TS, opts: { toast: (t) => toasts.push(t) }, input: {},
+    flags: new Set(flags), party: [], seen: {}, seenDay: {}, counters: {}, clock: { day: 0, min: 480 }, log: [], tick: 0,
+    busy: false, fade: null, store: null, systems: null, timescale: 0, zoom: 2, stillSince: 0, healedAt: null, layout: null,
+    dialog: { active: false, say: async (pages, sp) => { said.push({ pages, sp }); }, ask: async () => 0 },
+  });
+  s.npcs = new NpcSystem(s);
+  s.map = await s.loadMap(map);
+  s.player = new GridMover({ x: 0, y: 0, facing: 'down' });
+  s.intro = new HomeStart(s, { newGame, gate });
+  return { s, said, toasts };
+}
+const settle = () => new Promise((r) => setTimeout(r, 0));
+async function idle(s) { for (let i = 0; i < 50 && s.busy; i++) await settle(); assert.equal(s.busy, false, 'script finished'); }
+const frontDoor = (json) => json.warps.find((w) => w.to === HOME.outside); // by `to` name, never by coordinates
+
+test('new game vs continue: only no ?map= and no saved position is a new game', () => {
+  assert.equal(isNewGame({}), true);
+  assert.equal(isNewGame({ saveData: { pos: null, flags: [] } }), true);
+  assert.equal(isNewGame({ saveData: { pos: { map: 'route1', x: 3, y: 4 } } }), false, 'Continue / old save keeps its position');
+  assert.equal(isNewGame({ start: { map: 'route1', x: 1, y: 1 } }), false, '?map= dev start wins');
+});
+
+test('new game start map: house_2f player_start (from the map JSON), facing down, standing on floor', async () => {
+  const { s } = await scene();
+  const sp = await s._homeStart(false);
+  const raw = MAP(HOME.bedroom);
+  assert.deepEqual(sp, { map: 'house_2f', x: raw.player_start.x, y: raw.player_start.y, facing: raw.player_start.facing || 'down' });
+  assert.deepEqual(bedroomSpawn(raw), sp);
+  const m = await s.loadMap('house_2f');
+  assert.equal(m.code(sp.x, sp.y), Col.WALK);
+  assert.ok(!m.npcs.some((n) => n.x === sp.x && n.y === sp.y), 'the spawn is not a drawn NPC');
+});
+
+test('?skipintro=1: starts outside the house_1f front door, found by warp name (padding-safe)', async () => {
+  const { s } = await scene();
+  const sp = await s._homeStart(true);
+  const door = frontDoor(MAP('house_1f')), street = MAP('brookhollow');
+  assert.deepEqual(sp, { map: 'brookhollow', x: door.tx, y: door.ty, facing: door.facing || 'down' });
+  const back = street.warps.find((w) => w.to === 'house_1f');
+  assert.ok(Math.abs(back.x - sp.x) + Math.abs(back.y - sp.y) <= 1, 'next to the street door into house_1f');
+  const m = await s.loadMap('brookhollow');
+  assert.notEqual(m.code(sp.x, sp.y), Col.SOLID);
+  // shifted outdoor map (World Design padding): the fallback follows the street warp
+  assert.deepEqual(outsideSpawn({ warps: [] }, { warps: [{ x: 9, y: 11, to: 'house_1f' }] }), { map: 'brookhollow', x: 9, y: 12, facing: 'down' });
+});
+
+test('intro: black hold while the title is open, slow fade in, then the wake-up thought (italic, no name)', async () => {
+  let titleOpen = true;
+  const { s, said } = await scene({ map: 'house_2f', gate: () => titleOpen });
+  const sp = await s._homeStart(false); s.player.place(sp.x, sp.y, sp.facing);
+  s.intro.begin();
+  assert.ok(s.flags.has(HOME.started));
+  assert.equal(s.fade.phase, 'hold'); assert.equal(s.fadeAlpha(), 1); assert.equal(s.player.locked, true);
+  for (let i = 0; i < 30; i++) { s._stepFade(); s.intro.tick(); }
+  assert.equal(s.fade.phase, 'hold', 'still black under the title');
+  titleOpen = false;
+  let n = 0;
+  while (s.fade && n++ < 400) { s._stepFade(); s.intro.tick(); }
+  assert.ok(n >= HOME.wakeFadeTicks, 'fade-in lasted the wake length');
+  s.intro.tick(); await idle(s);
+  assert.equal(said.length, 1);
+  assert.equal(said[0].sp.thought, true); assert.equal(said[0].sp.name, null);
+  assert.ok(said[0].pages.length >= 2);
+  assert.equal(s.seen[HOME.wakeSeen], true, 'plays once');
+  s.intro.tick(); await idle(s); assert.equal(said.length, 1);
+});
+
+test('door block: house_1f front door turns you back until Ron has talked to you', async () => {
+  const { s, said } = await scene({ flags: [HOME.started] });
+  const door = frontDoor(s.map.json);
+  s.player.place(door.x, door.y, 'down'); // just arrived on the door tile, walking down
+  assert.equal(doorBlocked(s.flags, 'house_1f', door), true);
+  assert.equal(s.worldApi().onArrive(door.x, door.y), 'stop');
+  assert.equal(s.fade, null, 'no warp');
+  await idle(s);
+  const fileBlock = LINES.maps.house_1f.door_block; // Text Bot's key once merged, else the code fallback
+  assert.deepEqual(said[0].pages, s.fill(Array.isArray(fileBlock) ? fileBlock : fileBlock?.pages || FALLBACK.door_block));
+  assert.equal(said[0].sp.thought, true); assert.equal(said[0].sp.name, null);
+  assert.equal(s.player.facing, 'up', 'turned back');
+  assert.equal(s.player.state, 'step'); assert.deepEqual([s.player.tx, s.player.ty], [door.x, door.y - 1], 'one step back into the room');
+  assert.equal(s.player.locked, false);
+  // after the briefing flag the same door warps outside
+  s.setFlag(HOME.briefed);
+  s.player.place(door.x, door.y, 'down');
+  assert.equal(s.worldApi().onArrive(door.x, door.y), 'stop');
+  assert.equal(s.fade?.phase, 'out'); assert.equal(s.fade.spawn.map, 'brookhollow');
+});
+
+test('door block never applies to old saves, dev flags past the morning, or other doors', async () => {
+  const door = frontDoor(MAP('house_1f'));
+  assert.equal(doorBlocked(new Set(), 'house_1f', door), false, 'old save: no new game marker');
+  assert.equal(doorBlocked(new Set([HOME.started, 'flg_promoted']), 'house_1f', door), false);
+  assert.equal(doorBlocked(new Set([HOME.started, 'got_starter']), 'house_1f', door), false);
+  assert.equal(doorBlocked(new Set([HOME.started]), 'house_1f', MAP('house_1f').warps.find((w) => w.to === 'house_2f')), false, 'stairs stay open');
+  const { s } = await scene({ flags: [] });
+  s.player.place(door.x, door.y, 'down');
+  s.worldApi().onArrive(door.x, door.y);
+  assert.equal(s.fade?.spawn?.map, 'brookhollow', 'old save walks straight out');
+});
+
+test("Ron's briefing sets talked_ron_morning, gives the office objective; then a repeat line; story lines untouched", async () => {
+  const { s, said, toasts } = await scene({ flags: [HOME.started] });
+  assert.equal(objectiveFor(s.flags), 'Talk to Ron downstairs');
+  s.talk(null, { id: 'ron' }); await idle(s);
+  assert.equal(said.length, 1);
+  assert.equal(said[0].pages.length, 6, 'six-page briefing');
+  assert.match(said[0].pages.join(' '), /office/i);
+  assert.doesNotMatch(said[0].pages.join(' '), /Lumen Lab/i, 'no starter / lab before the promotion');
+  assert.ok(s.flags.has('talked_ron_morning'));
+  assert.ok(toasts.includes('New objective: Go to the Revival Tech office'));
+  assert.equal(s.intro.objective(), 'Go to the Revival Tech office');
+  s.talk(null, { id: 'ron' }); await idle(s);
+  assert.match(said[1].pages.join(' '), /Field office/);
+  // promoted: Ron's own file line (v_flg_promoted), not the morning text
+  s.setFlag('flg_promoted');
+  s.talk(null, { id: 'ron' }); await idle(s);
+  assert.deepEqual(said[2].pages, s.fill(LINES.maps.house_1f.ron.lines.find((l) => l.id === 'v_flg_promoted').pages));
+  assert.equal(s.intro.objective(), 'Pick a partner at the lab'); // opening v1: the chain continues to the lab
+});
+
+test('old save: Ron keeps his file default line and no flag is set', async () => {
+  const { s, said } = await scene({ flags: [], newGame: false });
+  s.talk(null, { id: 'ron' }); await idle(s);
+  assert.deepEqual(said[0].pages, s.fill(LINES.maps.house_1f.ron.pages || LINES.maps.house_1f.ron.lines.at(-1).pages));
+  assert.ok(!s.flags.has('talked_ron_morning'));
+});
+
+test('thought style: dialog toggles .thought and style.css makes it italic', () => {
+  assert.match(fs.readFileSync(path.join(ROOT, 'src/overworld/dialog.js'), 'utf8'), /classList\.toggle\('thought', !!sp\?\.thought\)/);
+  assert.match(fs.readFileSync(path.join(ROOT, 'style.css'), 'utf8'), /\.dlg-wrap\.thought \.dlg-text \{[^}]*font-style: italic/);
+});

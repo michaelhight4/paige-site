@@ -1,0 +1,3 @@
+{
+  "_note": "Blocked-word hits that already existed when cspell was added (Oct 23, 2026, ~1:05 AM CT). tests/text_lint.test.mjs warns on these and fails only on NEW hits. Remove an entry once the text is fixed. Format: \"file|word\": count. Oct 23, 2026, 9:10 AM CT: shiny entry removed (padlock line now 'brand-new', parity row C10 now 'Rare colour variant'); baseline is empty."
+}

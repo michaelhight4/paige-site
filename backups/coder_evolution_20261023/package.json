@@ -1,0 +1,27 @@
+{
+  "name": "kilumen",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Kilumen overworld (dev). Zero-build static ES modules.",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "test": "node --test tests/overworld.test.mjs tests/platform.test.mjs tests/batch3.test.mjs tests/depth.test.mjs tests/battle.test.mjs tests/save_props.test.mjs tests/libs.test.mjs tests/online.test.mjs tests/map_bridge.test.mjs tests/systems_gd.test.mjs tests/capture_poses.test.mjs tests/battles_default.test.mjs tests/overnight_systems.test.mjs tests/progression.test.mjs tests/data_schemas.test.mjs tests/save_valibot.test.mjs tests/nightfx.test.mjs tests/text_lint.test.mjs tests/visual_diff.test.mjs tests/free_tools.test.mjs tests/creatures_sync.test.mjs tests/mobile_fullscreen.test.mjs tests/batch3_wire.test.mjs tests/home_start.test.mjs tests/opening_office.test.mjs tests/starter_markers.test.mjs tests/cut_a.test.mjs tests/area_sign.test.mjs tests/creature_plan.test.mjs tests/rotate_zoom.test.mjs tests/mood.test.mjs tests/save_lock.test.mjs tests/talk_prompt.test.mjs tests/trail_level_scale.test.mjs",
+    "check:data": "node tools/schemas/check_data.mjs",
+    "lint:text": "node tools/text_lint/spellcheck.mjs",
+    "visual:diff": "node tools/visual/visual_diff.mjs",
+    "assets:png-opt": "node tools/assets/png_optimize.mjs",
+    "assets:webp": "node tools/assets/webp_variants.mjs",
+    "sim:encounters": "node tools/sim/encounter_sim.mjs",
+    "shots": "node tests/shots.mjs"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "esbuild": "^0.25.12",
+    "fast-check": "4.10.2",
+    "pixelmatch": "8.0.0",
+    "playwright": "1.64.1",
+    "pngjs": "7.0.0",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,28 @@
+{
+ "pc": {
+  "sprint": {
+   "left_walk": 6,
+   "left_run": 9,
+   "right_walk": 6,
+   "right_run": 13,
+   "down_walk": 6,
+   "down_run": 3,
+   "up_walk": 6,
+   "up_run": 3
+  },
+  "consoleErrors": []
+ },
+ "phone": {
+  "sprint": {
+   "left_walk": 6,
+   "left_run": 9,
+   "right_walk": 6,
+   "right_run": 13,
+   "down_walk": 6,
+   "down_run": 3,
+   "up_walk": 6,
+   "up_run": 3
+  },
+  "consoleErrors": []
+ }
+}

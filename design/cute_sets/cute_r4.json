@@ -1,0 +1,282 @@
+{
+ "_meta": {
+  "set": "cute_r4",
+  "region": 4,
+  "note": "Region 4 (Frostspire) set, 6 single-stage creatures. Built Oct 29 2026 on dev/region4-station. Art v2: Character-models pipeline.",
+  "hold_from_encounters": false,
+  "dex_no": "PROVISIONAL 472-478",
+  "wild": {
+   "why": "Frostspire Pass, Frostspire town grass and the ice cave",
+   "zone": "frostspire_grass",
+   "slots": [
+    {
+     "species": "rimewick",
+     "level": [
+      30,
+      32
+     ],
+     "weight": 4,
+     "zone": "frostspire_grass"
+    },
+    {
+     "species": "hushpine",
+     "level": [
+      27,
+      29
+     ],
+     "weight": 4,
+     "zone": "frostspire_pass_grass"
+    },
+    {
+     "species": "cairnhorn",
+     "level": [
+      30,
+      32
+     ],
+     "weight": 3,
+     "zone": "frostspire_cave"
+    },
+    {
+     "species": "glintmoth",
+     "level": [
+      27,
+      29
+     ],
+     "weight": 3,
+     "zone": "frostspire_pass_grass",
+     "time": [
+      "dusk",
+      "night"
+     ]
+    },
+    {
+     "species": "skivvet",
+     "level": [
+      30,
+      32
+     ],
+     "weight": 4,
+     "zone": "frostspire_grass",
+     "time": [
+      "dawn",
+      "day"
+     ]
+    },
+    {
+     "species": "aurorel",
+     "level": [
+      31,
+      33
+     ],
+     "weight": 1,
+     "zone": "frostspire_grass",
+     "time": [
+      "night"
+     ]
+    },
+    {
+     "species": "tbdcandle",
+     "level": [
+      29,
+      31
+     ],
+     "weight": 3,
+     "zone": "frostspire_grass",
+     "time": [
+      "dusk",
+      "night"
+     ]
+    }
+   ]
+  }
+ },
+ "creatures": [
+  {
+   "id": "rimewick",
+   "name": "Rimewick",
+   "types": [
+    "light",
+    "mystic"
+   ],
+   "first_zone": "frostspire",
+   "rarity": "common",
+   "size_class": "small",
+   "habitat": "Candle-wick spirit that lives in hut windows; its flame burns blue in frost",
+   "visual_brief": "Frost-blue snow hare whose ear tips are candle wicks burning tiny blue flames; lives by hut windows. Art: v2, Character-models pipeline (generated reference -> creatures/_overnight c_build snap/palette/INK; tools/region4/c_build_r4.py).",
+   "dex_no": 472,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "rimewick"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "hushpine",
+   "name": "Hushpine",
+   "types": [
+    "grass",
+    "earth"
+   ],
+   "first_zone": "frostspire_pass",
+   "rarity": "common",
+   "size_class": "small",
+   "habitat": "Snow-capped pine sapling that walks the switchbacks at night",
+   "visual_brief": "Hedgehog-like burrower whose quills are snow-dusted pine needles, with a pinecone tail; walks the switchbacks at night. Art: v2, Character-models pipeline (generated reference -> creatures/_overnight c_build snap/palette/INK; tools/region4/c_build_r4.py).",
+   "dex_no": 473,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "hushpine"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "cairnhorn",
+   "name": "Cairnhorn",
+   "types": [
+    "earth"
+   ],
+   "first_zone": "frostspire",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "Stacked-stone kid goat with stubby horns; guards trail cairns",
+   "visual_brief": "Shaggy goat kid carrying a cairn of stacked trail stones on its back; guards trail markers. Art: v2, Character-models pipeline (generated reference -> creatures/_overnight c_build snap/palette/INK; tools/region4/c_build_r4.py).",
+   "dex_no": 474,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "cairnhorn"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "glintmoth",
+   "name": "Glintmoth",
+   "types": [
+    "bug",
+    "wind"
+   ],
+   "first_zone": "frostspire_pass",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "Frost-wing moth drawn to the cable-lift lamps",
+   "visual_brief": "Slender lacewing with leaded-glass teal and gold wings; drawn to the Skylift lamps. Art: v2, Character-models pipeline (generated reference -> creatures/_overnight c_build snap/palette/INK; tools/region4/c_build_r4.py).",
+   "dex_no": 475,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "glintmoth"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "skivvet",
+   "name": "Skivvet",
+   "types": [
+    "wind"
+   ],
+   "first_zone": "frostspire",
+   "rarity": "common",
+   "size_class": "small",
+   "habitat": "Ski-footed stoat that skids down powder slopes",
+   "visual_brief": "White stoat with a red scarf-pattern ruff and flat ski-pads on its feet; skids down powder slopes. Art: v2, Character-models pipeline (generated reference -> creatures/_overnight c_build snap/palette/INK; tools/region4/c_build_r4.py).",
+   "dex_no": 476,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "skivvet"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "aurorel",
+   "name": "Aurorel",
+   "types": [
+    "water",
+    "light"
+   ],
+   "first_zone": "frostspire",
+   "rarity": "rare",
+   "size_class": "small",
+   "habitat": "Small aurora eel that swims through the night air above the peaks",
+   "visual_brief": "Chubby floating eel with green-teal aurora ribbon fins; swims through the night air above the peaks. Art: v2, Character-models pipeline (generated reference -> creatures/_overnight c_build snap/palette/INK; tools/region4/c_build_r4.py).",
+   "dex_no": 477,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "aurorel"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "tbdcandle",
+   "name": "Frostwick",
+   "types": [
+    "light",
+    "mystic"
+   ],
+   "first_zone": "frostspire",
+   "rarity": "common",
+   "size_class": "small",
+   "habitat": "Candle spirit of hut windows; a warm gold flame burns on its head wicks even in deep frost",
+   "visual_brief": "Round frosty candle creature with two wick horns burning warm gold/orange flames (split from Rimewick v3 art, Gary Oct 29). Name Frostwick (Gary Oct 29 2026).",
+   "dex_no": 478,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "tbdcandle"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  }
+ ]
+}

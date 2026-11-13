@@ -1,0 +1,172 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_thornwood_revival",
+ "route_id": "thornwood-revival",
+ "kind": "route",
+ "map_status": "to_come",
+ "story_step": "6",
+ "story_order": 10,
+ "level_band": "wild 20-24, trainers 21-25",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_route_thornwood_revival_a",
+   "class": "ranger",
+   "class_display_suggestion": "Ranger",
+   "name_suggestion": "Lark",
+   "team": [
+    {
+     "species": "scutadillo",
+     "level": 21
+    },
+    {
+     "species": "topiarix",
+     "level": 22
+    }
+   ],
+   "base": 55,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1210,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_thornwood_revival.a",
+   "note": "just past the fallen log"
+  },
+  {
+   "id": "tr_route_thornwood_revival_b",
+   "class": "researcher",
+   "class_display_suggestion": "Field Researcher",
+   "name_suggestion": "Mabry",
+   "team": [
+    {
+     "species": "halovy",
+     "level": 22
+    },
+    {
+     "species": "prismwing",
+     "level": 22
+    }
+   ],
+   "base": 60,
+   "base_status": "existing",
+   "prize": 1320,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_thornwood_revival.b",
+   "note": "survey stakes in the grass"
+  },
+  {
+   "id": "tr_route_thornwood_revival_c",
+   "class": "beetle_keeper",
+   "class_display_suggestion": "Beetle Keeper",
+   "name_suggestion": "Nico",
+   "team": [
+    {
+     "species": "burlbeetle",
+     "level": 21
+    },
+    {
+     "species": "chiselbug",
+     "level": 22
+    },
+    {
+     "species": "prismwing",
+     "level": 23
+    }
+   ],
+   "base": 25,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 575,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_thornwood_revival.c",
+   "note": "tree line"
+  },
+  {
+   "id": "tr_route_thornwood_revival_d",
+   "class": "rail_worker",
+   "class_display_suggestion": "Rail Worker",
+   "name_suggestion": "Orla",
+   "team": [
+    {
+     "species": "slagrook",
+     "level": 23
+    },
+    {
+     "species": "moatling",
+     "level": 23
+    }
+   ],
+   "base": 50,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1150,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_thornwood_revival.d",
+   "note": "Lumen Line track side"
+  },
+  {
+   "id": "tr_route_thornwood_revival_e",
+   "class": "courier",
+   "class_display_suggestion": "Courier",
+   "name_suggestion": "Penn",
+   "team": [
+    {
+     "species": "sailquill",
+     "level": 23
+    },
+    {
+     "species": "kindlepup",
+     "level": 24
+    }
+   ],
+   "base": 45,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1080,
+   "sight_range": 5,
+   "text_ref": "TODO Text Bot: trainers.route_thornwood_revival.e",
+   "note": "bike lane"
+  },
+  {
+   "id": "tr_route_thornwood_revival_f",
+   "class": "scholar",
+   "class_display_suggestion": "Scholar",
+   "name_suggestion": "TBD_NAME_2",
+   "team": [
+    {
+     "species": "reverion",
+     "level": 24
+    },
+    {
+     "species": "cogwhisk",
+     "level": 25
+    }
+   ],
+   "base": 60,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1500,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_thornwood_revival.f",
+   "note": "stone circle, optional"
+  },
+  {
+   "id": "tr_route_thornwood_revival_g",
+   "class": "worker",
+   "class_display_suggestion": "Field Worker",
+   "name_suggestion": "Rhea",
+   "team": [
+    {
+     "species": "ankerling",
+     "level": 24
+    },
+    {
+     "species": "brinecube",
+     "level": 25
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 1250,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_thornwood_revival.g",
+   "note": "RT survey gate before Revival Heights"
+  }
+ ],
+ "hall": null
+}

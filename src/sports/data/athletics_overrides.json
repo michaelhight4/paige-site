@@ -1,0 +1,7 @@
+{
+  "_doc": "Hand-tunable per-species overrides for athletic ranges. Keys: species id. 'shift' adds to both ends; 'range' replaces [lo,hi]; 'shape' forces a body shape; 'traits' adds weight. Then run node tools/sports/gen_athletics.mjs",
+  "tumbloam": { "shape": "blob", "shift": { "speed": 4 }, "_why": "rolls down banks: a blob that is quicker than most" },
+  "puffwhirl": { "shape": "avian" },
+  "foalgust": { "shift": { "speed": 6 }, "traits": { "sprinter": 6 } },
+  "pebbadillo": { "traits": { "steady_pacer": 4 } }
+}

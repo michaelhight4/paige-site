@@ -1,0 +1,15 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch(); const p = await (await b.newContext({viewport:{width:1280,height:800}})).newPage();
+p.on('pageerror', e => console.log('ERR', e.message));
+await p.goto('http://localhost:8765/kilumen/index.html?save=0&audio=0');
+await p.evaluate(() => window.kilumen.ready); await p.waitForTimeout(2500);
+await p.keyboard.press('Enter'); await p.waitForTimeout(1000);
+const idle = async()=>{for (let i=0;i<80;i++){ const st = await p.evaluate(() => !!window.kilumen.scene.dialog?.active || !!window.kilumen.scene.busy || !!window.kilumen.scene.fade || !!window.kilumen.scene.player.locked); if(!st) break; await p.keyboard.press('Enter'); await p.waitForTimeout(300);}};
+await idle();
+await p.evaluate(async () => { const s=window.kilumen.scene; const m = await import('/kilumen/src/systems/creature.js?v=v0.2.61-alpha'); s.systems.party.add(m.createCreature({species:'nibbin', level:20}),1); s.flags.add('got_starter'); s.seen['defeated:fernwick_hall_int.helper_1']=true; s.seen['defeated:fernwick_hall_int.helper_2']=true; s.startWarp({ map: 'fernwick_hall_int', x: 7, y: 5, facing: 'up' }, 'dev'); });
+await p.waitForTimeout(3000);
+console.log(await p.evaluate(() => { const s=window.kilumen.scene; return JSON.stringify({map:s.map.name, w:s.map.width,h:s.map.height, npcsT: Object.prototype.toString.call(s.npcs), npcs: [...(s.npcs?.list||s.npcs?.all||s.npcs?.values?.()||[])].map(n=>[n.id||n.def?.id,n.x,n.y]), nk:Object.keys(s.npcs||{}), mapnpcs:(s.map.npcs||[]).map(n=>[n.id,n.x,n.y,n.sprite])}); }));
+await p.keyboard.press('f'); await p.waitForTimeout(1500);
+await p.screenshot({path:'/tmp/hall.png'});
+console.log(await p.evaluate(() => { const s=window.kilumen.scene; const o={}; for (const k of Object.keys(s)) { const v=s[k]; if (v && typeof v==='object' && ('x' in v) && ('y' in v) && k!=='player') o[k]=[v.x,v.y,v.sprite||v.id]; if (Array.isArray(v) && v.length && v[0] && typeof v[0]==='object' && 'x' in v[0]) o[k]=v.map(e=>[e.x,e.y,e.id||e.sprite||e.kind]); } return JSON.stringify({o, dlg: s.dialog?.active}); }));
+await b.close();

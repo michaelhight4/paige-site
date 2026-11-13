@@ -1,0 +1,33 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_fernwick_lanternport",
+ "route_id": "fernwick-lanternport",
+ "kind": "route (tide-lock shortcut home)",
+ "map_status": "to_come",
+ "story_step": "after coin 7",
+ "story_order": 23,
+ "level_band": "wild 44-47, trainers 45-47",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "fl_lock",
+   "item": "tonic_large",
+   "hidden": false,
+   "placement_hint": "lock keeper hut"
+  },
+  {
+   "id": "fl_hidden",
+   "item": "vigor_seed",
+   "hidden": true,
+   "placement_hint": "canal bollard"
+  },
+  {
+   "id": "fl_edge",
+   "item": "energy_tonic",
+   "hidden": false,
+   "placement_hint": "forest edge"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

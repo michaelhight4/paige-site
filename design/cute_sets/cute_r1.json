@@ -1,0 +1,234 @@
+{
+ "_meta": {
+  "set": "cute_r1",
+  "region": 1,
+  "note": "Cute creature set for region 1 (Gary 2:19 PM CT Oct 23 2026: 'we need a set of cute ones as well for other players we can throw them in at the end of the game 6 per region'). Held out of encounter tables until Gary places them. All single-stage (stay cute; no evolution that turns them 'cool'). Built by coder_cute_r1.",
+  "hold_from_encounters": false,
+  "dex_no": "PROVISIONAL numbers after the 450 plan and coder_new_evos 451-453, until Gary/World Design slot them. DEX_450 itself is not edited; tools/sync_creatures.mjs reads design/cute_sets/cute_r*.json.",
+  "wild": {
+   "why": "Gary Oct 27 2026: region 1 cute set lives in region 1 grass, mixed with existing spawns",
+   "zone": "sunmeadow_grass",
+   "slots": [
+    {
+     "species": "mossmote",
+     "level": [
+      2,
+      4
+     ],
+     "weight": 4
+    },
+    {
+     "species": "drizzlebill",
+     "level": [
+      2,
+      4
+     ],
+     "weight": 4
+    },
+    {
+     "species": "buoyling",
+     "level": [
+      2,
+      4
+     ],
+     "weight": 4
+    },
+    {
+     "species": "pandember",
+     "level": [
+      2,
+      4
+     ],
+     "weight": 4
+    },
+    {
+     "species": "gladlet",
+     "level": [
+      2,
+      4
+     ],
+     "weight": 2,
+     "time": [
+      "dawn",
+      "day"
+     ]
+    },
+    {
+     "species": "lumoris",
+     "level": [
+      2,
+      4
+     ],
+     "weight": 2,
+     "time": [
+      "dusk",
+      "night"
+     ]
+    }
+   ]
+  }
+ },
+ "creatures": [
+  {
+   "id": "drizzlebill",
+   "name": "Drizzlebill",
+   "types": [
+    "water",
+    "rain"
+   ],
+   "first_zone": "brookhollow",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "Brookhollow riverbank shallows and puddles after rain (proposed: bh_river_fish / route1_water edges)",
+   "visual_brief": "Chubby baby platypus-like river critter: teal-blue fur, cream belly, soft pale-blue bill, raindrop-shaped paddle tail, raindrop freckles on cheeks, huge dark eyes. Crystal: small violet crystal on top of its head.",
+   "dex_no": 454,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "drizzlebill"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "mossmote",
+   "name": "Mossmote",
+   "types": [
+    "earth",
+    "bug"
+   ],
+   "first_zone": "route1",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "Trail 1 damp stones and mossy bank by the stream (proposed: sunmeadow_grass, low weight)",
+   "visual_brief": "Plump tardigrade-inspired 'water bear': sage-green segmented barrel body, cream underside, eight stubby legs with mauve toe-pads, moss saddle with two dewdrops, big sparkly eyes, little 'o' mouth. Crystal: violet crystal growing from the moss on its back.",
+   "dex_no": 455,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "mossmote"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "gladlet",
+   "name": "Gladlet",
+   "types": [
+    "light",
+    "spirit"
+   ],
+   "first_zone": "fernwick",
+   "rarity": "rare",
+   "size_class": "small",
+   "habitat": "Fernwick cottage gardens and flowerbeds at sunrise (proposed: Fernwick garden grass, rare)",
+   "visual_brief": "Round quokka-inspired garden spirit sitting upright: honey-cream fur, pink inner ears, huge smile with rosy cheeks, pink blossom-petal tuft on its forehead, fluffy tail with a pale-gold wisp tip. Crystal: violet crystal pendant at its chest.",
+   "dex_no": 456,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "gladlet"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "buoyling",
+   "name": "Buoyling",
+   "types": [
+    "water",
+    "sea"
+   ],
+   "first_zone": "lanternport",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "Lanternport harbour, bobbing between moored boats (proposed: lp_harbour / lanternport_water)",
+   "visual_brief": "Baby manatee-inspired sea calf resting upright on its paddle tail: powder blue-grey skin, cream belly, whiskery round snout, small flippers, a red-and-white striped float ring around its middle (natural markings, like a harbour float). Crystal: violet crystal on top of its head.",
+   "dex_no": 457,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "buoyling"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "lumoris",
+   "name": "Lumoris",
+   "types": [
+    "mystic"
+   ],
+   "first_zone": "greystone",
+   "rarity": "rare",
+   "size_class": "small",
+   "habitat": "Greystone Caverns glowfern pockets (proposed: greystone_glowfern, rare)",
+   "visual_brief": "Fluffy baby slow-loris-inspired cave puffball: silvery-blue and white fur, enormous amber eyes in dark-teal eye rings, tiny round ears, hugs a glowing teal fern frond. Crystal: violet crystal on its forehead.",
+   "dex_no": 458,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "lumoris"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "pandember",
+   "name": "Pandember",
+   "types": [
+    "fire",
+    "magma"
+   ],
+   "first_zone": "thornwood",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "Thornwood forest, curled on sun-warmed stones and old charcoal-burner clearings (proposed: thornwood_grass)",
+   "visual_brief": "Round red-panda-inspired cub: rusty red-orange fur, cream face and ear markings, dark brown legs, big glossy eyes, huge ringed tail whose rings glow ember-orange like cooling lava (no flames). Crystal: violet crystal on top of its head between the ears.",
+   "dex_no": 459,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "pandember"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  }
+ ]
+}

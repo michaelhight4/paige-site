@@ -1,0 +1,39 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_greystone_frostspire",
+ "route_id": "greystone-frostspire",
+ "kind": "route (pass)",
+ "map_status": "to_come",
+ "story_step": "6->7",
+ "story_order": 13,
+ "level_band": "wild 27-31, trainers 28-31, Ron 4 L32",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "fp_switchback",
+   "item": "tonic_large",
+   "hidden": false,
+   "placement_hint": "switchback corner"
+  },
+  {
+   "id": "fp_bridge",
+   "item": "energy_tonic",
+   "hidden": true,
+   "placement_hint": "bridge anchor post"
+  },
+  {
+   "id": "fp_lookout",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "placement_hint": "cliff lookout"
+  },
+  {
+   "id": "fp_camp",
+   "item": "feed_bag",
+   "hidden": true,
+   "placement_hint": "Frostspire camp (club note tier 2)"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

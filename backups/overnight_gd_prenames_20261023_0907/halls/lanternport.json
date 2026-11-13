@@ -1,0 +1,126 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "coin_number": 7,
+ "zone": "lanternport",
+ "hall_map": "lanternport_hall_int (to come; old lighthouse)",
+ "flag": "beat_master_lanternport",
+ "coin_name_suggestion": "Beacon Coin",
+ "coin_name_note": "player text says \"coin\" (CRITICAL_PATH); name needs Gary + web clash check",
+ "master": {
+  "id": "master_lanternport",
+  "class": "master",
+  "name_suggestion": "Delphine Orrin",
+  "element": "spirit + ghost (PROPOSED)",
+  "team": [
+   {
+    "species": "gloamtick",
+    "level": 47
+   },
+   {
+    "species": "runeskein",
+    "level": 47
+   },
+   {
+    "species": "mournhorn",
+    "level": 48
+   },
+   {
+    "species": "bleachghast",
+    "level": 48
+   },
+   {
+    "species": "foamkin",
+    "level": 50
+   }
+  ],
+  "base": 120,
+  "base_status": "existing",
+  "prize": 6000,
+  "sight_range": 0,
+  "sight_rule": "masters never spot: talk to them",
+  "text_ref": "overworld_lines.json masters.lanternport (TODO Text Bot)"
+ },
+ "hall_trainers": [
+  {
+   "id": "tr_hall_lanternport_h1",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Gil",
+   "team": [
+    {
+     "species": "gloamtick",
+     "level": 45
+    },
+    {
+     "species": "wreckwarden",
+     "level": 46
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 2300,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.hall_lanternport.h1",
+   "note": "lamplighter outfit"
+  },
+  {
+   "id": "tr_hall_lanternport_h2",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Hana",
+   "team": [
+    {
+     "species": "runeskein",
+     "level": 46
+    },
+    {
+     "species": "lanternkeep",
+     "level": 46
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 2300,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.hall_lanternport.h2"
+  },
+  {
+   "id": "tr_hall_lanternport_h3",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Iska",
+   "team": [
+    {
+     "species": "kelpstrider",
+     "level": 47
+    },
+    {
+     "species": "novarch",
+     "level": 47
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 2350,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.hall_lanternport.h3"
+  }
+ ],
+ "puzzle": {
+  "status": "outline",
+  "name_suggestion": "Lens signal",
+  "outline": "The lighthouse is dark. At the foot, the lens flashes a code (long/short beams across 4 coloured panes). Each floor has 4 lamp posts in those colours; light them in the code order to open the stair. Wrong order: lamps go out, no penalty. Top floor: the code is shown only in the reflection on the sea (look out of the window).",
+  "teaches": "pattern memory; builds to the horn that wakes the giant"
+ },
+ "reward": {
+  "coin": "Beacon Coin",
+  "money": 6000,
+  "gift_item": {
+   "id": "dominance_crystal_plus",
+   "qty": 5
+  },
+  "opens": "gate_cindervale_giant + gate_lanternport_tidelock"
+ },
+ "team_size": 5,
+ "ace_level": 50
+}

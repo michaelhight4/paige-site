@@ -1,0 +1,34 @@
+{
+  "$id": "kilumen:masters",
+  "$comment": "data/masters.json (hall Masters + hall trainers, built from design/overnight_gd/halls).",
+  "type": "object",
+  "required": ["halls"],
+  "properties": {
+    "halls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["zone", "coin_number", "flag", "hall_map", "master", "trainers"],
+        "properties": {
+          "zone": { "$ref": "kilumen:common#/$defs/id" },
+          "coin_number": { "type": "integer", "minimum": 1, "maximum": 8 },
+          "flag": { "$ref": "kilumen:common#/$defs/id" },
+          "hall_map": { "$ref": "kilumen:common#/$defs/id" },
+          "map_built": { "type": "boolean" },
+          "master": {
+            "type": "object",
+            "required": ["id", "class", "base", "team"],
+            "properties": {
+              "id": { "$ref": "kilumen:common#/$defs/id" },
+              "element": { "type": "array", "items": { "type": "string" } },
+              "base": { "type": "integer", "minimum": 0 },
+              "team": { "type": "array", "items": { "$ref": "kilumen:common#/$defs/teamMember" }, "minItems": 1, "maxItems": 6 },
+              "ace_level": { "$ref": "kilumen:common#/$defs/level" }
+            }
+          },
+          "trainers": { "type": "array", "items": { "type": "object", "required": ["id", "class", "team"], "properties": { "id": { "$ref": "kilumen:common#/$defs/id" }, "base": { "type": "integer", "minimum": 0 }, "team": { "type": "array", "items": { "$ref": "kilumen:common#/$defs/teamMember" }, "minItems": 1, "maxItems": 6 } } } }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,354 @@
+{
+ "water_day_pc": {
+  "info": {
+   "phase": "day",
+   "biome": "water",
+   "bg": "water/bg_day.webp\")",
+   "layers": [
+    "IMG:life_day.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ },
+ "water_night_pc": {
+  "info": {
+   "phase": "night",
+   "biome": "water",
+   "bg": "water/bg_night.webp\")",
+   "layers": [
+    "IMG:life_night.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ },
+ "cave_day_pc": {
+  "info": {
+   "phase": "day",
+   "biome": "cave",
+   "bg": "cave/bg_day.webp\")",
+   "layers": [
+    "IMG:life_day.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ },
+ "cave_night_pc": {
+  "info": {
+   "phase": "night",
+   "biome": "cave",
+   "bg": "cave/bg_night.webp\")",
+   "layers": [
+    "IMG:life_night.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ },
+ "mountain_day_pc": {
+  "info": {
+   "phase": "day",
+   "biome": "mountain",
+   "bg": "mountain/bg_day.webp\")",
+   "layers": [
+    "IMG:life_day.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ },
+ "mountain_night_pc": {
+  "info": {
+   "phase": "night",
+   "biome": "mountain",
+   "bg": "mountain/bg_night.webp\")",
+   "layers": [
+    "IMG:life_night.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ },
+ "snow_day_pc": {
+  "info": {
+   "phase": "day",
+   "biome": "snow",
+   "bg": "snow/bg_day.webp\")",
+   "layers": [
+    "IMG:life_day.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ },
+ "snow_night_pc": {
+  "info": {
+   "phase": "night",
+   "biome": "snow",
+   "bg": "snow/bg_night.webp\")",
+   "layers": [
+    "IMG:life_night.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ },
+ "water_day_phone": {
+  "info": {
+   "phase": "day",
+   "biome": "water",
+   "bg": "water/bg_day.webp\")",
+   "layers": [
+    "IMG:life_day.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": {
+   "withLife": {
+    "rafInterval": {
+     "n": 97,
+     "avg": 61.51,
+     "p50": 66.5,
+     "p95": 116.7,
+     "max": 166.6,
+     "over16_7": 89
+    },
+    "mainThreadPerFrameMs": 57.74
+   },
+   "noLife": {
+    "rafInterval": {
+     "n": 97,
+     "avg": 61.85,
+     "p50": 50,
+     "p95": 116.7,
+     "max": 133.4,
+     "over16_7": 95
+    },
+    "mainThreadPerFrameMs": 58.68
+   },
+   "withLife2": null
+  },
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ },
+ "water_night_phone": {
+  "info": {
+   "phase": "night",
+   "biome": "water",
+   "bg": "water/bg_night.webp\")",
+   "layers": [
+    "IMG:life_night.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ },
+ "cave_day_phone": {
+  "info": {
+   "phase": "day",
+   "biome": "cave",
+   "bg": "cave/bg_day.webp\")",
+   "layers": [
+    "IMG:life_day.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": {
+   "withLife": {
+    "rafInterval": {
+     "n": 87,
+     "avg": 68.58,
+     "p50": 66.6,
+     "p95": 133.4,
+     "max": 150,
+     "over16_7": 82
+    },
+    "mainThreadPerFrameMs": 65.91
+   },
+   "noLife": {
+    "rafInterval": {
+     "n": 78,
+     "avg": 75.85,
+     "p50": 83.3,
+     "p95": 133.3,
+     "max": 166.6,
+     "over16_7": 75
+    },
+    "mainThreadPerFrameMs": 73.14
+   },
+   "withLife2": null
+  },
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ },
+ "cave_night_phone": {
+  "info": {
+   "phase": "night",
+   "biome": "cave",
+   "bg": "cave/bg_night.webp\")",
+   "layers": [
+    "IMG:life_night.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ },
+ "mountain_day_phone": {
+  "info": {
+   "phase": "day",
+   "biome": "mountain",
+   "bg": "mountain/bg_day.webp\")",
+   "layers": [
+    "IMG:life_day.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": {
+   "withLife": {
+    "rafInterval": {
+     "n": 80,
+     "avg": 73.75,
+     "p50": 66.7,
+     "p95": 150,
+     "max": 183.4,
+     "over16_7": 74
+    },
+    "mainThreadPerFrameMs": 71.11
+   },
+   "noLife": {
+    "rafInterval": {
+     "n": 86,
+     "avg": 67.44,
+     "p50": 66.7,
+     "p95": 116.8,
+     "max": 150.1,
+     "over16_7": 79
+    },
+    "mainThreadPerFrameMs": 65.3
+   },
+   "withLife2": null
+  },
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ },
+ "mountain_night_phone": {
+  "info": {
+   "phase": "night",
+   "biome": "mountain",
+   "bg": "mountain/bg_night.webp\")",
+   "layers": [
+    "IMG:life_night.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ },
+ "snow_day_phone": {
+  "info": {
+   "phase": "day",
+   "biome": "snow",
+   "bg": "snow/bg_day.webp\")",
+   "layers": [
+    "IMG:life_day.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": {
+   "withLife": {
+    "rafInterval": {
+     "n": 51,
+     "avg": 110.45,
+     "p50": 100.1,
+     "p95": 200,
+     "max": 333.4,
+     "over16_7": 50
+    },
+    "mainThreadPerFrameMs": 111.7
+   },
+   "noLife": {
+    "rafInterval": {
+     "n": 61,
+     "avg": 98.63,
+     "p50": 99.9,
+     "p95": 199.9,
+     "max": 233.3,
+     "over16_7": 60
+    },
+    "mainThreadPerFrameMs": 94.45
+   },
+   "withLife2": null
+  },
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ },
+ "snow_night_phone": {
+  "info": {
+   "phase": "night",
+   "biome": "snow",
+   "bg": "snow/bg_night.webp\")",
+   "layers": [
+    "IMG:life_night.webp"
+   ]
+  },
+  "startBg": [],
+  "perf": null,
+  "errs": [],
+  "miss": [
+   "http://127.0.0.1:37005/playtime.js?game=kilumen&v=v0.2.69-alpha"
+  ]
+ }
+}

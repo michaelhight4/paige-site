@@ -1,0 +1,129 @@
+{
+ "_meta": {
+  "by": "tools/gen_encounters.mjs",
+  "built": "2026-10-23",
+  "regions": [
+   1
+  ],
+  "status": "GENERATED PLAN TABLES, NOT LOADED. Only zones with no table; existing tables untouched.",
+  "shape": "{method, rate, slots:[{species, level:[min,max], weight, time?}], source, band}",
+  "tier_weights_guess": {
+   "common": 30,
+   "uncommon": 15,
+   "rare": 5,
+   "very rare": 1
+  },
+  "overrides": "data/encounter_overrides.json",
+  "skipped": []
+ },
+ "zones": {
+  "fernwick_water": {
+   "method": "water (Tideglide)",
+   "rate": 0.0667,
+   "slots": [
+    {
+     "species": "pondkin",
+     "level": [
+      5,
+      9
+     ],
+     "weight": 30
+    },
+    {
+     "species": "weathervex",
+     "level": [
+      5,
+      9
+     ],
+     "weight": 15
+    }
+   ],
+   "source": "tools/gen_encounters.mjs from data/region_pulls.json plan_pool (fully built species only)",
+   "band": [
+    5,
+    9
+   ],
+   "map": "fernwick",
+   "region": 1,
+   "class": "water",
+   "generated": true,
+   "inert": true,
+   "inert_why": "water cells (collision 3) with no table; runtime has no Tideglide/water encounters yet, so a table here is inert until it does",
+   "weight_total": 45
+  },
+  "route1_water": {
+   "method": "water (Tideglide)",
+   "rate": 0.0667,
+   "slots": [
+    {
+     "species": "dartling",
+     "level": [
+      2,
+      6
+     ],
+     "weight": 30
+    },
+    {
+     "species": "musselin",
+     "level": [
+      2,
+      6
+     ],
+     "weight": 30
+    },
+    {
+     "species": "pondkin",
+     "level": [
+      2,
+      6
+     ],
+     "weight": 30
+    },
+    {
+     "species": "puddlenip",
+     "level": [
+      2,
+      6
+     ],
+     "weight": 15
+    },
+    {
+     "species": "eftling",
+     "level": [
+      2,
+      6
+     ],
+     "weight": 15
+    },
+    {
+     "species": "weathervex",
+     "level": [
+      2,
+      6
+     ],
+     "weight": 15
+    },
+    {
+     "species": "rillop",
+     "level": [
+      2,
+      6
+     ],
+     "weight": 5
+    }
+   ],
+   "source": "tools/gen_encounters.mjs from data/region_pulls.json plan_pool (fully built species only)",
+   "band": [
+    2,
+    6
+   ],
+   "map": "route1",
+   "region": 1,
+   "class": "water",
+   "generated": true,
+   "inert": true,
+   "inert_why": "water cells (collision 3) with no table; runtime has no Tideglide/water encounters yet, so a table here is inert until it does",
+   "weight_total": 140
+  }
+ }
+}

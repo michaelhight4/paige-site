@@ -1,0 +1,38 @@
+// RITA crystal resupply (Oct 23 2026): src/systems/crystal_resupply.js. Run: node --test tests/crystal_resupply.test.mjs
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { checkResupply, resupplyDue } from '../src/systems/crystal_resupply.js';
+import { OPEN } from '../src/overworld/intro.js';
+import { FALLBACK } from '../src/systems/company_voice.js';
+
+function stub({ flags = [OPEN.runStarted], crystals = 0, caught = 0 } = {}) {
+  const counts = { [OPEN.crystalItem]: crystals }, emits = [];
+  const party = [{ species: 'nibbin' }, ...Array.from({ length: caught }, (_, i) => ({ species: 'c' + i }))];
+  return { emits, s: { flags: new Set(flags), busy: false, fade: null, dialog: { active: false }, log: [], tick: 0,
+    counters: { [OPEN.base]: 1 },
+    companyVoice: { emit: (n, c) => emits.push([n, c]) },
+    systems: { party: { list: party }, bag: { count: (id) => counts[id] || 0, add: (id, n) => { counts[id] = (counts[id] || 0) + n; } } } } };
+}
+
+test('fires at 0 crystals with < 2 caught, restocks to 5, repeatable', () => {
+  const { s, emits } = stub({ caught: 1 });
+  assert.equal(checkResupply(s), true);
+  assert.equal(s.systems.bag.count(OPEN.crystalItem), OPEN.crystals);
+  assert.deepEqual(emits[0][0], 'crystal_resupply');
+  assert.equal(checkResupply(s), false); // has crystals now
+  s.systems.bag.add(OPEN.crystalItem, -5);
+  assert.equal(checkResupply(s), true); // runs out again
+  assert.equal(emits.length, 2);
+});
+test('no fire with crystals left, mid-battle/script, 2 caught, before run, or after the run is done', () => {
+  assert.equal(resupplyDue(stub({ crystals: 1 }).s), false);
+  const b = stub().s; b.busy = true; assert.equal(resupplyDue(b), false);
+  assert.equal(resupplyDue(stub({ caught: 2 }).s), false);
+  assert.equal(resupplyDue(stub({ flags: [] }).s), false);
+  const d = stub({ flags: [OPEN.runStarted, OPEN.runDone] });
+  assert.equal(checkResupply(d.s), false); assert.equal(d.emits.length, 0);
+});
+test('fallback line is clean', () => {
+  const t = FALLBACK.crystal_resupply.join(' ');
+  assert.match(t, /\{employee_id\}/); assert.doesNotMatch(t, /TODO|throw|Poké|route/i);
+});

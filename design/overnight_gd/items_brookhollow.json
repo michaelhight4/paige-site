@@ -1,0 +1,28 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "brookhollow",
+ "route_id": null,
+ "kind": "town",
+ "map_status": "built",
+ "story_step": "0 (start)",
+ "story_order": 1,
+ "level_band": "-",
+ "existing_placed": [
+  "hid_feed_1",
+  "bh_north_trees",
+  "bh_west_nook",
+  "bh_east_corner"
+ ],
+ "existing_note": "already in maps/*.json items[] (ITEM_PLACEHOLDERS.json placed); not duplicated here",
+ "proposed": [
+  {
+   "id": "bh_lab_gift",
+   "item": "dominance_crystal",
+   "hidden": false,
+   "placement_hint": "lab tech gives 5 after got_starter (gift, not a pickup)",
+   "qty": 5,
+   "gift": true
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

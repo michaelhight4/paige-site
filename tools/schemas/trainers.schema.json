@@ -1,0 +1,26 @@
+{
+  "$id": "kilumen:trainers",
+  "$comment": "design/overnight_gd/trainers_*.json (draft trainer rosters).",
+  "type": "object",
+  "required": ["map", "trainers"],
+  "properties": {
+    "map": { "$ref": "kilumen:common#/$defs/id" },
+    "trainers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "class", "base"],
+        "anyOf": [{ "required": ["team"] }, { "required": ["teams_by_player_starter"] }],
+        "properties": {
+          "id": { "$ref": "kilumen:common#/$defs/id" },
+          "class": { "$ref": "kilumen:common#/$defs/id" },
+          "base": { "type": "integer", "minimum": 0 },
+          "prize": { "type": "integer", "minimum": 0 },
+          "sight_range": { "type": "integer", "minimum": 0, "maximum": 12 },
+          "team": { "type": "array", "items": { "$ref": "kilumen:common#/$defs/teamMember" }, "minItems": 1, "maxItems": 6 },
+          "teams_by_player_starter": { "type": "object", "additionalProperties": { "type": "array", "items": { "$ref": "kilumen:common#/$defs/teamMember" }, "minItems": 1, "maxItems": 6 } }
+        }
+      }
+    }
+  }
+}

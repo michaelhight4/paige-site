@@ -1,0 +1,119 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "coin_number": 2,
+ "zone": "saltmere",
+ "hall_map": "saltmere_hall_int (to come)",
+ "flag": "beat_master_saltmere",
+ "coin_name_suggestion": "Brine Coin",
+ "coin_name_note": "player text says \"coin\" (CRITICAL_PATH); name needs Gary + web clash check",
+ "master": {
+  "id": "master_saltmere",
+  "class": "master",
+  "name_suggestion": "Nerys Bryde",
+  "element": "water (PROPOSED; sprite tr_master_saltmere_f exists)",
+  "team": [
+   {
+    "species": "quaymouser",
+    "level": 18
+   },
+   {
+    "species": "polypip",
+    "level": 19
+   },
+   {
+    "species": "spratwyrm",
+    "level": 21
+   }
+  ],
+  "base": 120,
+  "base_status": "existing",
+  "prize": 2520,
+  "sight_range": 0,
+  "sight_rule": "masters never spot: talk to them",
+  "text_ref": "overworld_lines.json masters.saltmere (TODO Text Bot)"
+ },
+ "hall_trainers": [
+  {
+   "id": "tr_hall_saltmere_h1",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Lorna",
+   "team": [
+    {
+     "species": "sandstarlet",
+     "level": 17
+    },
+    {
+     "species": "blubbet",
+     "level": 17
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 850,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.hall_saltmere.h1"
+  },
+  {
+   "id": "tr_hall_saltmere_h2",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Ivo",
+   "team": [
+    {
+     "species": "medulet",
+     "level": 18
+    },
+    {
+     "species": "whelkin",
+     "level": 18
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 900,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.hall_saltmere.h2"
+  },
+  {
+   "id": "tr_hall_saltmere_h3",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Sully",
+   "team": [
+    {
+     "species": "finnip",
+     "level": 19
+    },
+    {
+     "species": "ribboneel",
+     "level": 19
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 950,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.hall_saltmere.h3",
+   "note": "guards the last sluice"
+  }
+ ],
+ "puzzle": {
+  "status": "outline",
+  "name_suggestion": "Salt-pan sluices",
+  "outline": "The hall is a row of salt pans at three water heights. Three sluice wheels each raise one pan and lower its neighbour. Raised pans are walkable salt crust; lowered pans are water (no Tideglide yet). Turn the wheels in the right order to make a dry line to the dais. A drying rack shows the order as salt stripes (hint without text). Reset tile at the door.",
+  "teaches": "reading a state change across 3 linked switches (one step up from Fernwick plates)"
+ },
+ "reward": {
+  "coin": "Brine Coin",
+  "money": 2520,
+  "gift_item": {
+   "id": "dominance_crystal_plus",
+   "qty": 3
+  },
+  "opens": "gate_thornwood_east (fallen log)",
+  "also": "Courier Bike is from the RT office (parcel), not the Master"
+ },
+ "team_size": 3,
+ "ace_level": 21
+}

@@ -1,0 +1,59 @@
+{
+ "label": "after_toggles_off",
+ "extra": "&clouds=0&life=0",
+ "results": [
+  {
+   "case": "brookhollow day",
+   "viewport": "1920x1080",
+   "renderMeanMs": 2.774,
+   "renderP50": 2.8,
+   "renderP95": 3.1,
+   "flushedMeanMs": 2.735,
+   "flushedP50": 2.7,
+   "flushedP95": 3,
+   "rafMeanMs": 26.2,
+   "rafP95": 16.7,
+   "zoom": 2
+  },
+  {
+   "case": "brookhollow dusk",
+   "viewport": "1920x1080",
+   "renderMeanMs": 2.627,
+   "renderP50": 0.2,
+   "renderP95": 2.7,
+   "flushedMeanMs": 2.924,
+   "flushedP50": 2.7,
+   "flushedP95": 3.1,
+   "rafMeanMs": 26.11,
+   "rafP95": 16.8,
+   "zoom": 2
+  },
+  {
+   "case": "route1 day",
+   "viewport": "1920x1080",
+   "renderMeanMs": 3.834,
+   "renderP50": 3.8,
+   "renderP95": 4.2,
+   "flushedMeanMs": 4.002,
+   "flushedP50": 4,
+   "flushedP95": 4.5,
+   "rafMeanMs": 30.28,
+   "rafP95": 16.8,
+   "zoom": 2
+  },
+  {
+   "case": "heal_brookhollow (indoor)",
+   "viewport": "1920x1080",
+   "renderMeanMs": 2.09,
+   "renderP50": 0.1,
+   "renderP95": 0.3,
+   "flushedMeanMs": 2.319,
+   "flushedP50": 2.2,
+   "flushedP95": 2.4,
+   "rafMeanMs": 24.17,
+   "rafP95": 16.8,
+   "zoom": 2
+  }
+ ],
+ "errors": []
+}

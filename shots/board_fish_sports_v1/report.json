@@ -1,0 +1,173 @@
+{
+  "checks": [
+    {
+      "plat": "pc",
+      "what": "dev setup: ranks bought through rt.buy",
+      "ok": true,
+      "info": "{\"out\":{\"rod_steady_grip\":true,\"rod_quick_bite\":true,\"bait_allowance\":true,\"grow_stipend\":true,\"wellness_days\":true,\"skill_tidal_audit\":true},\"pts\":22,\"perks\":{\"waitCut\":500,\"windowMs\":120,\"rareMult\":1,\"baitSave\":0.2,\"baitPower\":0},\"feeds\":{\"grow\":0.85,\"gain\":1,\"digest\":1.25,\"fill\":1},\"skills\":[\"boardtidalaudit\"]}"
+    },
+    {
+      "plat": "pc",
+      "what": "alpha notice dismissed before shots",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc",
+      "what": "tab shows 5 new branches",
+      "ok": true,
+      "info": "Field Logistics | Supply & Pay | Crystal Lab | Unit Performance | Angler Plan | Wellness Plan | Commuter Plan | R&D Clearance | Executive Perks"
+    },
+    {
+      "plat": "pc",
+      "what": "tab text: no blocked words",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc",
+      "what": "commuter + key cards show locked",
+      "ok": true,
+      "info": "copay_coverage:available,store_discount:available,rt_payout:available,hall_hazard_pay:available,daily_bonus:available,crystal_grade:available,asset_logging_bonus:available,unit_training:available,ceremony_bonus:available,rod_quick_bite:available,rod_steady_grip:available,rod_deep_water:available,bait_allowance:available,bait_premium:available,grow_stipend:available,training_allowance:available,wellness_days:available,light_lunch:available,commuter_benefit:locked,rt_node_station_m:locked,rt_node_station_t:locked,keycard_r7:locked,keycard_r8:locked,skill_tidal_audit:owned,skill_overtime_blaze:available,skill_hostile_restructure:available,skill_team_huddle:available,skill_hostile_takeover:available"
+    },
+    {
+      "plat": "pc",
+      "what": "detail rod_deep_water",
+      "ok": true,
+      "info": "Deep Water Plan Angler Plan · Rank 0/2 Rare fish bite more often. Uncommon ones a little. I: Rare fish x1.15. Cost: 2 pt · Needs ID 5 Buy rank I"
+    },
+    {
+      "plat": "pc",
+      "what": "detail skill_team_huddle",
+      "ok": true,
+      "info": "Skill: Team Huddle Executive Perks · Rank 0/1 Board-only light support skill. Teach it from the Team menu. I: Team Huddle unlocked. Cost: 4 pt · Needs ID 10 Buy"
+    },
+    {
+      "plat": "pc",
+      "what": "detail commuter_benefit",
+      "ok": true,
+      "info": "Commuter Benefit Commuter Plan · Rank 0/3 Cheaper paid fast travel. Once someone charges for it. I: Fares -15%. Cost: 1 pt · Needs ID 4 Not open yet. Facilities"
+    },
+    {
+      "plat": "pc",
+      "what": "detail rt_node_station_m",
+      "ok": true,
+      "info": "Lab Pass: Mirefen R&D Clearance · Rank 0/1 Opens the Mirefen sunken station. Waders not included. I: Key card issued. Cost: 2 pt · Needs ID 14 Not open yet. Fac"
+    },
+    {
+      "plat": "pc",
+      "what": "reload: new ranks persisted",
+      "ok": true,
+      "info": "{\"rod_steady_grip\":1,\"rod_quick_bite\":1,\"bait_allowance\":1,\"grow_stipend\":1,\"wellness_days\":1,\"skill_tidal_audit\":1}"
+    },
+    {
+      "plat": "phone",
+      "what": "dev setup: ranks bought through rt.buy",
+      "ok": true,
+      "info": "{\"out\":{\"rod_steady_grip\":true,\"rod_quick_bite\":true,\"bait_allowance\":true,\"grow_stipend\":true,\"wellness_days\":true,\"skill_tidal_audit\":true},\"pts\":22,\"perks\":{\"waitCut\":500,\"windowMs\":120,\"rareMult\":1,\"baitSave\":0.2,\"baitPower\":0},\"feeds\":{\"grow\":0.85,\"gain\":1,\"digest\":1.25,\"fill\":1},\"skills\":[\"boardtidalaudit\"]}"
+    },
+    {
+      "plat": "phone",
+      "what": "alpha notice dismissed before shots",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "phone",
+      "what": "tab shows 5 new branches",
+      "ok": true,
+      "info": "Field Logistics | Supply & Pay | Crystal Lab | Unit Performance | Angler Plan | Wellness Plan | Commuter Plan | R&D Clearance | Executive Perks"
+    },
+    {
+      "plat": "phone",
+      "what": "tab text: no blocked words",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "phone",
+      "what": "commuter + key cards show locked",
+      "ok": true,
+      "info": "copay_coverage:available,store_discount:available,rt_payout:available,hall_hazard_pay:available,daily_bonus:available,crystal_grade:available,asset_logging_bonus:available,unit_training:available,ceremony_bonus:available,rod_quick_bite:available,rod_steady_grip:available,rod_deep_water:available,bait_allowance:available,bait_premium:available,grow_stipend:available,training_allowance:available,wellness_days:available,light_lunch:available,commuter_benefit:locked,rt_node_station_m:locked,rt_node_station_t:locked,keycard_r7:locked,keycard_r8:locked,skill_tidal_audit:owned,skill_overtime_blaze:available,skill_hostile_restructure:available,skill_team_huddle:available,skill_hostile_takeover:available"
+    },
+    {
+      "plat": "phone",
+      "what": "detail rod_deep_water",
+      "ok": true,
+      "info": "Deep Water Plan Angler Plan · Rank 0/2 Rare fish bite more often. Uncommon ones a little. I: Rare fish x1.15. Cost: 2 pt · Needs ID 5 Buy rank I"
+    },
+    {
+      "plat": "phone",
+      "what": "detail skill_team_huddle",
+      "ok": true,
+      "info": "Skill: Team Huddle Executive Perks · Rank 0/1 Board-only light support skill. Teach it from the Team menu. I: Team Huddle unlocked. Cost: 4 pt · Needs ID 10 Buy"
+    },
+    {
+      "plat": "phone",
+      "what": "detail commuter_benefit",
+      "ok": true,
+      "info": "Commuter Benefit Commuter Plan · Rank 0/3 Cheaper paid fast travel. Once someone charges for it. I: Fares -15%. Cost: 1 pt · Needs ID 4 Not open yet. Facilities"
+    },
+    {
+      "plat": "phone",
+      "what": "detail rt_node_station_m",
+      "ok": true,
+      "info": "Lab Pass: Mirefen R&D Clearance · Rank 0/1 Opens the Mirefen sunken station. Waders not included. I: Key card issued. Cost: 2 pt · Needs ID 14 Not open yet. Fac"
+    },
+    {
+      "plat": "phone",
+      "what": "phone frame time p95 at vsync (<=17 ms; rAF is 60 Hz-locked, so ~16.7 mean = no dropped frames)",
+      "ok": true,
+      "info": "{\"idle\":{\"n\":234,\"mean\":16.81,\"p95\":16.7,\"max\":33.4},\"scrolling\":{\"n\":222,\"mean\":17.72,\"p95\":16.8,\"max\":50.1}}"
+    },
+    {
+      "plat": "phone",
+      "what": "reload: new ranks persisted",
+      "ok": true,
+      "info": "{\"rod_steady_grip\":1,\"rod_quick_bite\":1,\"bait_allowance\":1,\"grow_stipend\":1,\"wellness_days\":1,\"skill_tidal_audit\":1}"
+    },
+    {
+      "plat": "all",
+      "what": "no page / console errors",
+      "ok": true,
+      "info": ""
+    }
+  ],
+  "errors": [],
+  "shots": [
+    "01_pc_tab_top.png",
+    "02_pc_branch_angler_plan.png",
+    "03_pc_branch_wellness_plan.png",
+    "04_pc_branch_commuter_plan.png",
+    "05_pc_branch_rnd_clearance.png",
+    "06_pc_branch_executive_perks.png",
+    "07_pc_detail_rod_deep_water.png",
+    "08_pc_detail_skill_team_huddle.png",
+    "09_pc_detail_commuter_benefit.png",
+    "10_pc_detail_rt_node_station_m.png",
+    "01_phone_tab_top.png",
+    "02_phone_branch_angler_plan.png",
+    "03_phone_branch_wellness_plan.png",
+    "04_phone_branch_commuter_plan.png",
+    "05_phone_branch_rnd_clearance.png",
+    "06_phone_branch_executive_perks.png",
+    "07_phone_detail_rod_deep_water.png",
+    "08_phone_detail_skill_team_huddle.png",
+    "09_phone_detail_commuter_benefit.png",
+    "10_phone_detail_rt_node_station_m.png"
+  ],
+  "frame": {
+    "idle": {
+      "n": 234,
+      "mean": 16.81,
+      "p95": 16.7,
+      "max": 33.4
+    },
+    "scrolling": {
+      "n": 222,
+      "mean": 17.72,
+      "p95": 16.8,
+      "max": 50.1
+    }
+  }
+}

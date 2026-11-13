@@ -1,0 +1,102 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_revival_saltmere",
+ "route_id": "revival-saltmere",
+ "kind": "route (shortcut, opened from inside)",
+ "map_status": "to_come",
+ "story_step": "after coin 3",
+ "story_order": 12,
+ "level_band": "wild 26-29, trainers 27-30",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_route_revival_saltmere_a",
+   "class": "worker",
+   "class_display_suggestion": "Field Worker",
+   "name_suggestion": "TBD_NAME_4",
+   "team": [
+    {
+     "species": "slagrook",
+     "level": 27
+    },
+    {
+     "species": "shalekin",
+     "level": 28
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 1400,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_revival_saltmere.a",
+   "note": "checkpoint road"
+  },
+  {
+   "id": "tr_route_revival_saltmere_b",
+   "class": "courier",
+   "class_display_suggestion": "Courier",
+   "name_suggestion": "Una",
+   "team": [
+    {
+     "species": "sailquill",
+     "level": 28
+    },
+    {
+     "species": "kindlepup",
+     "level": 28
+    }
+   ],
+   "base": 45,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1260,
+   "sight_range": 5,
+   "text_ref": "TODO Text Bot: trainers.route_revival_saltmere.b",
+   "note": "bike lane"
+  },
+  {
+   "id": "tr_route_revival_saltmere_c",
+   "class": "harbour_hand",
+   "class_display_suggestion": "Harbour Hand",
+   "name_suggestion": "Vale",
+   "team": [
+    {
+     "species": "spiralith",
+     "level": 28
+    },
+    {
+     "species": "bulwarkrab",
+     "level": 29
+    }
+   ],
+   "base": 45,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1305,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_revival_saltmere.c",
+   "note": "salt flats"
+  },
+  {
+   "id": "tr_route_revival_saltmere_d",
+   "class": "veteran",
+   "class_display_suggestion": "Veteran",
+   "name_suggestion": "Wynn",
+   "team": [
+    {
+     "species": "prismite",
+     "level": 29
+    },
+    {
+     "species": "scutadillo",
+     "level": 30
+    }
+   ],
+   "base": 80,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 2400,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_revival_saltmere.d",
+   "note": "optional"
+  }
+ ],
+ "hall": null
+}

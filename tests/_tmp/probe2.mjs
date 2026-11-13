@@ -1,0 +1,14 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch(); const p = await (await b.newContext({viewport:{width:1280,height:800}})).newPage();
+p.on('pageerror', e => console.log('ERR', e.message));
+await p.goto('http://localhost:8765/kilumen/index.html?save=0&audio=0');
+await p.evaluate(() => window.kilumen.ready); await p.waitForTimeout(2500);
+await p.keyboard.press('Enter'); await p.waitForTimeout(1000);
+for (let i=0;i<80;i++){ const st = await p.evaluate(() => !!window.kilumen.scene.dialog?.active || !!window.kilumen.scene.busy || !!window.kilumen.scene.fade || !!window.kilumen.scene.player.locked); if(!st) break; await p.keyboard.press('Enter'); await p.waitForTimeout(300);} await p.waitForTimeout(500);
+console.log(await p.evaluate(async () => { const k=window.kilumen, sys=k.scene.systems; sys.wallet.add(5000);
+  const sh = sys.makeShop(); const st = sh.stock(); const r = st.slice(0,3).map(it=>[it.id, JSON.stringify(sh.buy(it.id,2))]);
+  k.ui.open('pack'); await new Promise(r=>setTimeout(r,800));
+  const txt = document.querySelector('.ui-body')?.innerText;
+  return JSON.stringify({r, counts: sys.bag.counts, txt}); }));
+await p.screenshot({path:'/tmp/pack_care.png'});
+await b.close();

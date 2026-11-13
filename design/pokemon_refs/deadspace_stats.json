@@ -1,0 +1,189 @@
+{
+ "Johto_Route_45_HGSS.png": {
+  "tile_px": 16,
+  "grid": [
+   31,
+   123
+  ],
+  "map_tiles": 3813,
+  "plain_tiles": 476,
+  "plain_share": 0.125,
+  "largest_plain_square": 4
+ },
+ "Dark_Cave_2_HGSS.png": {
+  "tile_px": 16,
+  "grid": [
+   68,
+   50
+  ],
+  "map_tiles": 2465,
+  "plain_tiles": 638,
+  "plain_share": 0.259,
+  "largest_plain_square": 6
+ },
+ "Mt_Mortar_Entrance_HGSS.png": {
+  "tile_px": 16,
+  "grid": [
+   89,
+   51
+  ],
+  "map_tiles": 3936,
+  "plain_tiles": 712,
+  "plain_share": 0.181,
+  "largest_plain_square": 5
+ },
+ "Ice_Path_1F_HGSS.png": {
+  "tile_px": 16,
+  "grid": [
+   56,
+   48
+  ],
+  "map_tiles": 1481,
+  "plain_tiles": 241,
+  "plain_share": 0.163,
+  "largest_plain_square": 3
+ },
+ "Union_Cave_1F_HGSS.png": {
+  "tile_px": 16,
+  "grid": [
+   34,
+   60
+  ],
+  "map_tiles": 1567,
+  "plain_tiles": 282,
+  "plain_share": 0.18,
+  "largest_plain_square": 5
+ },
+ "Johto_Route_32_HGSS.png": {
+  "tile_px": 16,
+  "grid": [
+   30,
+   125
+  ],
+  "map_tiles": 3750,
+  "plain_tiles": 308,
+  "plain_share": 0.082,
+  "largest_plain_square": 5
+ },
+ "Kanto_Route_4_FRLG.png": {
+  "tile_px": 16,
+  "grid": [
+   108,
+   20
+  ],
+  "map_tiles": 2160,
+  "plain_tiles": 695,
+  "plain_share": 0.322,
+  "largest_plain_square": 5
+ },
+ "Mt_Moon_1F_FRLG.png": {
+  "tile_px": 16,
+  "grid": [
+   48,
+   40
+  ],
+  "map_tiles": 1920,
+  "plain_tiles": 129,
+  "plain_share": 0.067,
+  "largest_plain_square": 4
+ },
+ "Victory_Road_1F_FRLG.png": {
+  "tile_px": 16,
+  "grid": [
+   48,
+   22
+  ],
+  "map_tiles": 1056,
+  "plain_tiles": 0,
+  "plain_share": 0.0,
+  "largest_plain_square": 0
+ },
+ "Meteor_Falls_1F1R_E.png": {
+  "tile_px": 16,
+  "grid": [
+   30,
+   42
+  ],
+  "map_tiles": 1260,
+  "plain_tiles": 93,
+  "plain_share": 0.074,
+  "largest_plain_square": 3
+ },
+ "Hoenn_Route_114_E.png": {
+  "tile_px": 16,
+  "grid": [
+   40,
+   80
+  ],
+  "map_tiles": 3200,
+  "plain_tiles": 249,
+  "plain_share": 0.078,
+  "largest_plain_square": 6
+ },
+ "Sinnoh_Route_210_Pt.png": {
+  "tile_px": 16,
+  "grid": [
+   96,
+   100
+  ],
+  "map_tiles": 5096,
+  "plain_tiles": 742,
+  "plain_share": 0.146,
+  "largest_plain_square": 18
+ },
+ "Mt_Coronet_2F_Pt.png": {
+  "tile_px": 16,
+  "grid": [
+   26,
+   39
+  ],
+  "map_tiles": 792,
+  "plain_tiles": 122,
+  "plain_share": 0.154,
+  "largest_plain_square": 3
+ },
+ "FAN_Unbound_Route_1.jpg": {
+  "tile_px": 32,
+  "grid": [
+   29,
+   64
+  ],
+  "map_tiles": 1838,
+  "plain_tiles": 518,
+  "plain_share": 0.282,
+  "largest_plain_square": 8
+ },
+ "FAN_Unbound_Route_3.jpg": {
+  "tile_px": 32,
+  "grid": [
+   64,
+   57
+  ],
+  "map_tiles": 3568,
+  "plain_tiles": 1512,
+  "plain_share": 0.424,
+  "largest_plain_square": 9
+ },
+ "FAN_Unbound_Route_5.jpg": {
+  "tile_px": 32,
+  "grid": [
+   64,
+   43
+  ],
+  "map_tiles": 2711,
+  "plain_tiles": 287,
+  "plain_share": 0.106,
+  "largest_plain_square": 3
+ },
+ "FAN_Reborn_Route_4.png": {
+  "tile_px": 32,
+  "grid": [
+   70,
+   100
+  ],
+  "map_tiles": 7000,
+  "plain_tiles": 529,
+  "plain_share": 0.076,
+  "largest_plain_square": 3
+ }
+}

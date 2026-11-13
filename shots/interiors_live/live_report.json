@@ -1,0 +1,197 @@
+{
+ "errors": [],
+ "pc": {
+  "version": "https://paigegames.net/kilumen/favicon.ico?v=v0.2.39-alpha",
+  "ix2": true,
+  "devchip": false,
+  "rooms": [
+   {
+    "map": "house_1f",
+    "got": "house_1f",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "house_1f",
+    "got": "house_1f",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "house_2f",
+    "got": "house_2f",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "house_2f",
+    "got": "house_2f",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "shop_int",
+    "got": "shop_int",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "shop_int",
+    "got": "shop_int",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "office_int",
+    "got": "office_int",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "office_int",
+    "got": "office_int",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "heal_brookhollow",
+    "got": "heal_brookhollow",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "heal_brookhollow",
+    "got": "heal_brookhollow",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "lab_brookhollow",
+    "got": "lab_brookhollow",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "lab_brookhollow",
+    "got": "lab_brookhollow",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "home_brookhollow_a",
+    "got": "home_brookhollow_a",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "home_brookhollow_a",
+    "got": "home_brookhollow_a",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   }
+  ],
+  "exit": {
+   "map": "house_1f",
+   "x": 5,
+   "y": 8
+  },
+  "save": "no save() method"
+ },
+ "phone": {
+  "version": "https://paigegames.net/kilumen/favicon.ico?v=v0.2.39-alpha",
+  "ix2": true,
+  "devchip": false,
+  "rooms": [
+   {
+    "map": "house_1f",
+    "got": "house_1f",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "house_1f",
+    "got": "house_1f",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "house_2f",
+    "got": "house_2f",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "house_2f",
+    "got": "house_2f",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "shop_int",
+    "got": "shop_int",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "shop_int",
+    "got": "shop_int",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "office_int",
+    "got": "office_int",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "office_int",
+    "got": "office_int",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "heal_brookhollow",
+    "got": "heal_brookhollow",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "heal_brookhollow",
+    "got": "heal_brookhollow",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "lab_brookhollow",
+    "got": "lab_brookhollow",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "lab_brookhollow",
+    "got": "lab_brookhollow",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "home_brookhollow_a",
+    "got": "home_brookhollow_a",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "home_brookhollow_a",
+    "got": "home_brookhollow_a",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   }
+  ],
+  "exit": {
+   "map": "house_1f",
+   "x": 5,
+   "y": 8
+  },
+  "save": "no save() method"
+ }
+}

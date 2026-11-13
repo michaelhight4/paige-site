@@ -1,0 +1,30 @@
+{
+  "_note": "Contacts (phone book) v1 data, dev only, behind ?contacts=1 (Coder, Oct 23 2026; Gary 12:24 PM CT asked for a trainer contact system for named trainers; quote in dev_notes). Structure only: no player text here (Text Bot owns it under system_contacts in text/overworld_lines.json; see data/textbot_requests_contacts.md). Keys are '<map>.<npc id>'. Only trainers listed here can become contacts; generic class-named trainers and hall helpers/Masters are refused unless their block says contact: true. A map NPC def may also carry its own contact block (def.contact), which wins over this file. All numbers are Coder defaults pending Gary.",
+  "max": 20,
+  "ping": {
+    "_note": "Incoming pings. A ping can only fire on a fresh tile step, outside battles / dialogue / scripts / cutscenes / menus / fades, after the map has settled. Steps and game minutes both have to pass since the last ping; then a per-step chance; at most maxPerDay per in-game day. Contacts on the player's current map never ping (they are right here).",
+    "minSteps": 120,
+    "minGameMinutes": 360,
+    "chancePerStep": 0.05,
+    "maxPerDay": 3,
+    "settleTicks": 240,
+    "settleSteps": 4,
+    "rematchCooldownGameMinutes": 1440,
+    "tipShare": 0.35,
+    "logMax": 20
+  },
+  "regions": {
+    "1": {
+      "_note": "Rematch level cap for region 1 = Master 1's ace level minus one (master_fernwick ace_level 12; region 1 non-Master trainers stay under 12), so a rematch never out-levels the region's Master; tests/contacts.test.mjs cross-checks it against data/masters.json and data/region_pulls.json.",
+      "cap": 11,
+      "maps": ["brookhollow", "brookhollow_home_down", "brookhollow_home_up", "route1", "route1_storm", "fernwick", "fernwick_hall_int"]
+    }
+  },
+  "trainers": {
+    "route1.trainer_r1_d": { "offer": "always", "rematch": { "step": 2 }, "tips": [{ "kind": "rare_sighting", "map": "route1" }], "gift": null },
+    "route1.trainer_r1_e": { "offer": "always", "rematch": { "step": 2 }, "tips": [{ "kind": "rare_sighting", "map": "route1" }], "gift": null },
+    "route1.trainer_r1_f": { "offer": "always", "rematch": { "step": 2 }, "tips": [{ "kind": "rare_sighting", "map": "route1" }], "gift": { "item": "tonic_small", "n": 1, "everyWins": 2 } },
+    "fernwick.trainer_fw_a": { "offer": "always", "rematch": { "step": 2 }, "tips": [{ "kind": "rare_sighting", "map": "route1" }], "gift": null },
+    "fernwick.ron_rival_1": { "offer": "always", "rematch": null, "tips": [{ "kind": "rare_sighting", "map": "route1" }], "gift": null, "_note": "Ron is the story rival: his battles come from the story, so no phone rematches (open question for Gary)." }
+  }
+}

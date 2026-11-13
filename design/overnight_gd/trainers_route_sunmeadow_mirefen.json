@@ -1,0 +1,124 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_sunmeadow_mirefen",
+ "route_id": "sunmeadow-mirefen",
+ "kind": "route",
+ "map_status": "to_come",
+ "story_step": "8",
+ "story_order": 17,
+ "level_band": "wild 32-35, trainers 33-36",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_route_sunmeadow_mirefen_a",
+   "class": "angler",
+   "class_display_suggestion": "Angler",
+   "name_suggestion": "Ross",
+   "team": [
+    {
+     "species": "dewbell",
+     "level": 33
+    },
+    {
+     "species": "floepaddle",
+     "level": 34
+    }
+   ],
+   "base": 35,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1190,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_sunmeadow_mirefen.a",
+   "note": "reed pond"
+  },
+  {
+   "id": "tr_route_sunmeadow_mirefen_b",
+   "class": "fogwalker",
+   "class_display_suggestion": "Bog Walker",
+   "name_suggestion": "Saffi",
+   "team": [
+    {
+     "species": "gloamtick",
+     "level": 34
+    },
+    {
+     "species": "snapmoor",
+     "level": 34
+    }
+   ],
+   "base": 45,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1530,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_sunmeadow_mirefen.b",
+   "note": "fog bank"
+  },
+  {
+   "id": "tr_route_sunmeadow_mirefen_c",
+   "class": "beetle_keeper",
+   "class_display_suggestion": "Beetle Keeper",
+   "name_suggestion": "Tobin",
+   "team": [
+    {
+     "species": "burlbeetle",
+     "level": 34
+    },
+    {
+     "species": "sunspeckle",
+     "level": 35
+    }
+   ],
+   "base": 25,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 875,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_sunmeadow_mirefen.c",
+   "note": "rotting fence"
+  },
+  {
+   "id": "tr_route_sunmeadow_mirefen_d",
+   "class": "ranger",
+   "class_display_suggestion": "Ranger",
+   "name_suggestion": "Ulla",
+   "team": [
+    {
+     "species": "reedmoot",
+     "level": 35
+    },
+    {
+     "species": "plainhorn",
+     "level": 35
+    }
+   ],
+   "base": 55,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1925,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_sunmeadow_mirefen.d",
+   "note": "boardwalk start"
+  },
+  {
+   "id": "tr_route_sunmeadow_mirefen_e",
+   "class": "camper",
+   "class_display_suggestion": "Camper",
+   "name_suggestion": "Vic",
+   "team": [
+    {
+     "species": "heliobloom",
+     "level": 35
+    },
+    {
+     "species": "rimewyrm",
+     "level": 36
+    }
+   ],
+   "base": 30,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1080,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_sunmeadow_mirefen.e",
+   "note": "optional"
+  }
+ ],
+ "hall": null
+}

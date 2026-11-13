@@ -1,0 +1,1493 @@
+{
+"Johto_Route_45_HGSS.png": {
+"title": "HGSS Route 45 - one-way ledge descent, 4 sealed shelves",
+"marks": [
+[
+"E",
+95,
+40,
+"Dark Cave mouth (2nd exit of Dark Cave)"
+],
+[
+"S",
+130,
+130,
+215,
+245,
+"plateau: 2 trainers"
+],
+[
+"S",
+150,
+620,
+240,
+735,
+"plateau pocket"
+],
+[
+"S",
+165,
+858,
+215,
+892,
+"pond: Surf"
+],
+[
+"S",
+180,
+18,
+242,
+80,
+"NE nook"
+],
+[
+"L",
+60,
+245,
+"ledge"
+],
+[
+"L",
+60,
+365,
+"ledge"
+],
+[
+"L",
+80,
+555,
+"ledge"
+],
+[
+"L",
+60,
+800,
+"ledge"
+],
+[
+"L",
+175,
+530,
+"ledge"
+],
+[
+"L",
+130,
+300,
+"ledge"
+],
+[
+"T",
+137,
+192
+],
+[
+"T",
+212,
+210
+],
+[
+"T",
+65,
+330
+],
+[
+"T",
+70,
+435
+],
+[
+"T",
+147,
+400
+],
+[
+"T",
+215,
+560
+],
+[
+"T",
+145,
+705
+],
+[
+"T",
+210,
+710
+],
+[
+"T",
+65,
+825
+],
+[
+"T",
+220,
+915
+],
+[
+"I",
+108,
+512
+],
+[
+"I",
+182,
+862
+],
+[
+"W",
+22,
+60,
+22,
+1000,
+"cliff wall"
+],
+[
+"W",
+245,
+250,
+245,
+1000,
+"cliff wall"
+]
+],
+"view_w": 265
+},
+"Dark_Cave_2_HGSS.png": {
+"title": "HGSS Dark Cave (Route 45 side) - surf lake + stair-gated shelves",
+"marks": [
+[
+"E",
+940,
+78,
+"exit -> Route 45/Blackthorn"
+],
+[
+"E",
+128,
+718,
+"exit -> Route 46"
+],
+[
+"S",
+400,
+440,
+820,
+560,
+"lake: Surf only"
+],
+[
+"S",
+640,
+470,
+750,
+590,
+"surf islet pocket: item"
+],
+[
+"S",
+665,
+110,
+720,
+230,
+"stair pillar"
+],
+[
+"S",
+210,
+250,
+300,
+330,
+"raised box"
+],
+[
+"I",
+668,
+560
+],
+[
+"I",
+247,
+628
+],
+[
+"T",
+278,
+170,
+"hiker"
+],
+[
+"P",
+620,
+180,
+"stairs up"
+],
+[
+"P",
+735,
+100,
+"stairs"
+],
+[
+"P",
+720,
+532,
+"stairs"
+]
+],
+"view_w": 1024
+},
+"Mt_Mortar_Entrance_HGSS.png": {
+"title": "HGSS Mt. Mortar entrance - 7 mouths, Waterfall wall splits floor",
+"marks": [
+[
+"P",
+475,
+45,
+"-> upper cave (needs Waterfall)"
+],
+[
+"E",
+350,
+370,
+"-> lower cave W"
+],
+[
+"E",
+600,
+370,
+"-> lower cave E"
+],
+[
+"P",
+890,
+340,
+"-> side room (Strength)"
+],
+[
+"E",
+190,
+515,
+"out R42"
+],
+[
+"E",
+475,
+550,
+"out R42"
+],
+[
+"E",
+640,
+553,
+"out R42"
+],
+[
+"E",
+765,
+515,
+"out"
+],
+[
+"S",
+230,
+130,
+390,
+220,
+"W shelf: Surf only + item"
+],
+[
+"S",
+640,
+115,
+780,
+220,
+"E shelf: Surf only"
+],
+[
+"S",
+410,
+95,
+545,
+150,
+"islet"
+],
+[
+"S",
+690,
+315,
+770,
+352,
+"stair nook: item"
+],
+[
+"W",
+390,
+230,
+565,
+320,
+"Waterfall"
+],
+[
+"I",
+350,
+205
+],
+[
+"I",
+730,
+340
+],
+[
+"I",
+475,
+490
+],
+[
+"L",
+840,
+440,
+"one-way slope"
+]
+],
+"view_w": 1024
+},
+"Ice_Path_1F_HGSS.png": {
+"title": "HGSS Ice Path 1F - ice slide fields lock item pockets",
+"marks": [
+[
+"E",
+110,
+730,
+"from Route 44"
+],
+[
+"P",
+815,
+105,
+"ladder -> B1F"
+],
+[
+"P",
+815,
+265,
+"ladder -> B1F"
+],
+[
+"E",
+815,
+505,
+"-> deeper floor"
+],
+[
+"S",
+170,
+100,
+390,
+270,
+"ice-slide field"
+],
+[
+"S",
+725,
+180,
+825,
+235,
+"slide-only shelf: item"
+],
+[
+"S",
+700,
+320,
+835,
+415,
+"ice pocket"
+],
+[
+"I",
+785,
+197
+],
+[
+"I",
+688,
+145
+],
+[
+"I",
+783,
+452
+],
+[
+"T",
+688,
+90,
+"(NPC)"
+]
+],
+"view_w": 896
+},
+"Union_Cave_1F_HGSS.png": {
+"title": "HGSS Union Cave 1F - 4 Surf pools hold side items",
+"marks": [
+[
+"E",
+460,
+300,
+"exit -> Route 32"
+],
+[
+"E",
+460,
+915,
+"exit -> Route 33"
+],
+[
+"P",
+60,
+90,
+"hole/ladder -> B1F (Surf lake pocket)"
+],
+[
+"S",
+50,
+400,
+160,
+500,
+"Surf pool"
+],
+[
+"S",
+50,
+630,
+270,
+750,
+"Surf lake"
+],
+[
+"S",
+50,
+805,
+125,
+890,
+"Surf pool"
+],
+[
+"S",
+320,
+825,
+410,
+900,
+"Surf pond"
+],
+[
+"T",
+150,
+95
+],
+[
+"T",
+103,
+360
+],
+[
+"T",
+343,
+400
+],
+[
+"T",
+390,
+620
+],
+[
+"T",
+215,
+755
+],
+[
+"I",
+70,
+198
+],
+[
+"I",
+88,
+603
+],
+[
+"I",
+487,
+666
+],
+[
+"I",
+390,
+925
+]
+],
+"view_w": 544
+},
+"Johto_Route_32_HGSS.png": {
+"title": "HGSS Route 32 - cliff boxes + Union Cave mouth at the end",
+"marks": [
+[
+"E",
+110,
+950,
+"Union Cave mouth"
+],
+[
+"S",
+95,
+125,
+190,
+180,
+"cliff box"
+],
+[
+"S",
+135,
+200,
+190,
+280,
+"cliff box"
+],
+[
+"S",
+95,
+340,
+160,
+395,
+"cliff box: item"
+],
+[
+"S",
+180,
+315,
+240,
+440,
+"high cliff"
+],
+[
+"S",
+190,
+480,
+245,
+530,
+"Surf rocks"
+],
+[
+"L",
+70,
+470,
+"ledge row"
+],
+[
+"L",
+150,
+462,
+""
+],
+[
+"T",
+185,
+190
+],
+[
+"T",
+150,
+375
+],
+[
+"T",
+105,
+595
+],
+[
+"T",
+160,
+675
+],
+[
+"T",
+95,
+775
+],
+[
+"T",
+160,
+970
+],
+[
+"I",
+120,
+120
+],
+[
+"I",
+155,
+245
+],
+[
+"I",
+130,
+380
+],
+[
+"W",
+12,
+100,
+12,
+880,
+"tree wall"
+]
+],
+"view_w": 251
+},
+"Kanto_Route_4_FRLG.png": {
+"title": "FRLG Route 4 - Mt. Moon spits you past a one-way ledge",
+"marks": [
+[
+"E",
+185,
+48,
+"Mt. Moon in"
+],
+[
+"P",
+308,
+48,
+"Mt. Moon out (east side)"
+],
+[
+"L",
+600,
+98,
+"ledge: no way back W"
+],
+[
+"L",
+720,
+72,
+"ledge"
+],
+[
+"L",
+470,
+95,
+"ledge"
+],
+[
+"S",
+285,
+0,
+520,
+40,
+"upper shelf"
+],
+[
+"W",
+230,
+60,
+230,
+180,
+"cliff"
+],
+[
+"I",
+545,
+40
+]
+],
+"view_w": 1024
+},
+"Mt_Moon_1F_FRLG.png": {
+"title": "FRLG Mt. Moon 1F - 1 entrance, 3 ladders, rock islands",
+"marks": [
+[
+"E",
+295,
+610,
+"from Route 3"
+],
+[
+"P",
+88,
+102,
+"ladder -> B1F"
+],
+[
+"P",
+312,
+232,
+"ladder -> B1F dead-end room"
+],
+[
+"P",
+505,
+265,
+"ladder -> B1F -> fossils"
+],
+[
+"I",
+665,
+140
+],
+[
+"I",
+190,
+40
+],
+[
+"I",
+70,
+355
+],
+[
+"T",
+312,
+422,
+"(sign)"
+],
+[
+"D",
+40,
+40,
+200,
+140,
+"open floor ~8x6"
+]
+],
+"view_w": 768
+},
+"Victory_Road_1F_FRLG.png": {
+"title": "FRLG Victory Road 1F - stairs-gated plateaus + Strength boulder",
+"marks": [
+[
+"E",
+183,
+340,
+"from Route 23"
+],
+[
+"P",
+55,
+30,
+"ladder -> 2F"
+],
+[
+"P",
+327,
+264,
+"Strength boulder"
+],
+[
+"S",
+100,
+85,
+330,
+155,
+"plateau (stairs)"
+],
+[
+"S",
+100,
+180,
+270,
+265,
+"inner plateau"
+],
+[
+"P",
+170,
+150,
+"stairs"
+],
+[
+"P",
+295,
+150,
+"stairs"
+],
+[
+"D",
+380,
+0,
+768,
+352,
+"render filler (not map)"
+]
+],
+"view_w": 768
+},
+"Meteor_Falls_1F1R_E.png": {
+"title": "Emerald Meteor Falls 1F - Waterfall gates deep pocket",
+"marks": [
+[
+"E",
+100,
+640,
+"from Route 114"
+],
+[
+"E",
+420,
+305,
+"exit -> Route 115"
+],
+[
+"E",
+165,
+48,
+"-> 1F 2R (north)"
+],
+[
+"P",
+425,
+445,
+"-> B1F pocket (Waterfall)"
+],
+[
+"W",
+130,
+165,
+255,
+240,
+"Waterfall HM"
+],
+[
+"W",
+320,
+385,
+365,
+485,
+"Waterfall HM"
+],
+[
+"S",
+395,
+170,
+465,
+300,
+"E ledge shelf"
+],
+[
+"S",
+290,
+0,
+420,
+140,
+"N shelf"
+],
+[
+"I",
+88,
+70
+]
+],
+"view_w": 480
+},
+"Hoenn_Route_114_E.png": {
+"title": "Emerald Route 114 - Surf islets, waterfall, secret-base holes",
+"marks": [
+[
+"E",
+108,
+808,
+"cave mouth"
+],
+[
+"S",
+125,
+320,
+185,
+375,
+"Surf islet: item"
+],
+[
+"S",
+310,
+185,
+355,
+240,
+"Surf pond"
+],
+[
+"S",
+310,
+92,
+355,
+125,
+"pond"
+],
+[
+"W",
+115,
+128,
+165,
+165,
+"Waterfall"
+],
+[
+"S",
+0,
+200,
+110,
+250,
+"surf rocks pocket"
+],
+[
+"P",
+120,
+605,
+"secret hole"
+],
+[
+"P",
+390,
+655,
+"secret hole"
+],
+[
+"P",
+415,
+735,
+"secret hole"
+],
+[
+"P",
+248,
+900,
+"secret hole"
+],
+[
+"P",
+180,
+862,
+"stairs up cliff"
+],
+[
+"P",
+320,
+890,
+"stairs"
+],
+[
+"P",
+330,
+735,
+"stairs"
+],
+[
+"L",
+360,
+570,
+"ledge"
+],
+[
+"L",
+190,
+470,
+"ledge"
+]
+],
+"view_w": 512
+},
+"Sinnoh_Route_210_Pt.png": {
+"title": "Pt Route 210 - north cliff half: bridges + stairs, south: grass maze",
+"marks": [
+[
+"S",
+0,
+0,
+525,
+185,
+"north half: Defog/Rock Climb cliffs"
+],
+[
+"D",
+0,
+185,
+525,
+819,
+"render filler (not map)"
+],
+[
+"S",
+605,
+650,
+660,
+690,
+"raised pocket"
+],
+[
+"S",
+650,
+700,
+750,
+730,
+"raised walkway: trainer"
+],
+[
+"T",
+680,
+580
+],
+[
+"T",
+605,
+595
+],
+[
+"T",
+705,
+705
+],
+[
+"T",
+118,
+105
+],
+[
+"T",
+255,
+135
+],
+[
+"T",
+313,
+158
+],
+[
+"T",
+440,
+45
+],
+[
+"T",
+480,
+105
+],
+[
+"P",
+340,
+95,
+"stairs up cliff"
+],
+[
+"P",
+108,
+90,
+"stairs"
+],
+[
+"P",
+475,
+75,
+"stairs"
+]
+],
+"view_w": 781
+},
+"Mt_Coronet_2F_Pt.png": {
+"title": "Pt Mt. Coronet 2F - stair-only rooms, bridges, Strength",
+"marks": [
+[
+"E",
+100,
+230,
+"mouth -> outside ledge"
+],
+[
+"E",
+25,
+600,
+"exit -> outside"
+],
+[
+"P",
+110,
+110,
+"stairs -> isolated room"
+],
+[
+"P",
+325,
+110,
+"stairs -> isolated room"
+],
+[
+"P",
+345,
+495,
+"stairs -> 3F"
+],
+[
+"S",
+40,
+0,
+190,
+160,
+"stair-only room"
+],
+[
+"S",
+240,
+0,
+385,
+160,
+"stair-only room"
+],
+[
+"S",
+295,
+410,
+390,
+515,
+"pocket"
+],
+[
+"I",
+48,
+322
+],
+[
+"I",
+315,
+372
+],
+[
+"I",
+48,
+565
+],
+[
+"I",
+180,
+618
+]
+],
+"view_w": 428
+},
+"FAN_Unbound_Route_1.jpg": {
+"title": "FAN Unbound Route 1 - ledge terraces, Rock Climb shelf, hidden rock",
+"marks": [
+[
+"E",
+118,
+880,
+"Icicle Cave (only way out)"
+],
+[
+"S",
+430,
+380,
+470,
+470,
+"Rock Climb shelf: Lucky Egg"
+],
+[
+"I",
+101,
+512
+],
+[
+"I",
+441,
+398
+],
+[
+"I",
+82,
+762,
+"hidden"
+],
+[
+"T",
+270,
+198
+],
+[
+"L",
+150,
+240,
+"ledge"
+],
+[
+"L",
+200,
+330,
+"ledge"
+],
+[
+"L",
+150,
+525,
+"ledge"
+],
+[
+"W",
+20,
+100,
+20,
+900,
+"cliff"
+],
+[
+"W",
+400,
+60,
+400,
+600,
+"cliff"
+]
+],
+"view_w": 473
+},
+"FAN_Unbound_Route_3.jpg": {
+"title": "FAN Unbound Route 3 - Surf islets each = trainer + item, bridge, stairs up cliff",
+"marks": [
+[
+"S",
+110,
+365,
+175,
+420,
+"islet: trainer+item"
+],
+[
+"S",
+640,
+545,
+710,
+600,
+"islet: trainer+item"
+],
+[
+"S",
+180,
+610,
+240,
+660,
+"islet: trainer+hidden"
+],
+[
+"S",
+712,
+305,
+770,
+350,
+"islet: hidden"
+],
+[
+"S",
+355,
+215,
+550,
+340,
+"raised grass plateau"
+],
+[
+"T",
+163,
+212
+],
+[
+"T",
+123,
+385
+],
+[
+"T",
+696,
+565
+],
+[
+"T",
+190,
+628
+],
+[
+"T",
+455,
+580
+],
+[
+"T",
+472,
+208
+],
+[
+"I",
+143,
+394
+],
+[
+"I",
+675,
+573
+],
+[
+"I",
+218,
+632,
+"?"
+],
+[
+"I",
+742,
+330,
+"?"
+],
+[
+"P",
+420,
+500,
+"stairs up cliff"
+],
+[
+"P",
+365,
+575,
+"stairs"
+],
+[
+"P",
+420,
+130,
+"stairs"
+],
+[
+"W",
+440,
+300,
+480,
+430,
+"bridge"
+]
+],
+"view_w": 819
+},
+"FAN_Unbound_Route_5.jpg": {
+"title": "FAN Unbound Route 5 - dark forest belt hides trainers 13/14/15",
+"marks": [
+[
+"S",
+245,
+380,
+819,
+557,
+"dense forest pocket"
+],
+[
+"T",
+350,
+395
+],
+[
+"T",
+545,
+430
+],
+[
+"T",
+800,
+360
+],
+[
+"T",
+285,
+175
+],
+[
+"T",
+440,
+180
+],
+[
+"T",
+585,
+240
+],
+[
+"T",
+665,
+315
+],
+[
+"T",
+190,
+265
+],
+[
+"T",
+190,
+455
+],
+[
+"P",
+720,
+100,
+"dock: Surf"
+],
+[
+"I",
+500,
+265
+],
+[
+"I",
+690,
+208
+]
+],
+"view_w": 819
+},
+"FAN_Reborn_Route_4.png": {
+"title": "FAN Reborn Route 4 - Rock Climb plateau w/ freeze/melt puzzle",
+"marks": [
+[
+"S",
+130,
+140,
+390,
+450,
+"Rock Climb plateau: 6 items"
+],
+[
+"P",
+65,
+108,
+"gate"
+],
+[
+"W",
+220,
+0,
+255,
+80,
+"waterfall"
+],
+[
+"D",
+0,
+0,
+120,
+640,
+"mountain filler"
+],
+[
+"D",
+390,
+0,
+459,
+640,
+"mountain filler"
+]
+],
+"view_w": 459
+}
+}

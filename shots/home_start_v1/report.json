@@ -1,0 +1,830 @@
+[
+ {
+  "view": "pc",
+  "file": "01_pc_1920x1080_01_new_game_hold_or_fade.png",
+  "map": "house_2f",
+  "x": 2,
+  "y": 4,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "pc",
+  "file": "02_pc_1920x1080_02_wake_thought.png",
+  "map": "house_2f",
+  "x": 2,
+  "y": 4,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": " | ...The river again. Cold water, and someone on the bank, watching."
+ },
+ {
+  "view": "pc",
+  "file": "03_pc_1920x1080_03_wake_thought_p3.png",
+  "map": "house_2f",
+  "x": 2,
+  "y": 4,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": " | I smell toast downstairs. Ron's up early for once."
+ },
+ {
+  "view": "pc",
+  "file": "04_pc_1920x1080_04_bedroom_free.png",
+  "map": "house_2f",
+  "x": 2,
+  "y": 4,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "pc",
+  "file": "05_pc_1920x1080_05_downstairs.png",
+  "map": "house_1f",
+  "x": 10,
+  "y": 4,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "pc",
+  "file": "06_pc_1920x1080_06_door_blocked_thought.png",
+  "map": "house_1f",
+  "x": 5,
+  "y": 9,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": " | Ron's waving me over. I should see what he wants first."
+ },
+ {
+  "view": "pc",
+  "file": "07_pc_1920x1080_07_turned_back.png",
+  "map": "house_1f",
+  "x": 5,
+  "y": 8,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "pc",
+  "file": "08_pc_1920x1080_08_ron_briefing.png",
+  "map": "house_1f",
+  "x": 6,
+  "y": 5,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": "Ron | Morning. You look like you slept in the river."
+ },
+ {
+  "view": "pc",
+  "file": "09_pc_1920x1080_09_ron_briefing_p3.png",
+  "map": "house_1f",
+  "x": 6,
+  "y": 5,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": "Ron | And now the boss wants to see us both. First thing. No reason given."
+ },
+ {
+  "view": "pc",
+  "file": "10_pc_1920x1080_10_objective_office.png",
+  "map": "house_1f",
+  "x": 6,
+  "y": 5,
+  "objective": "Go to the Revival Tech office",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "pc",
+  "file": "11_pc_1920x1080_11_outside_door_open.png",
+  "map": "brookhollow",
+  "x": 5,
+  "y": 8,
+  "objective": "Go to the Revival Tech office",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "pc",
+  "file": "12_pc_1920x1080_12_promotion_manager.png",
+  "map": "office_int",
+  "x": 13,
+  "y": 6,
+  "objective": "Go to the Revival Tech office",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning"
+  ],
+  "dialog": "Manager | Sit down. Relax, this isn't that conversation."
+ },
+ {
+  "view": "pc",
+  "file": "13_pc_1920x1080_13_promotion_ron.png",
+  "map": "office_int",
+  "x": 13,
+  "y": 6,
+  "objective": "Go to the Revival Tech office",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning"
+  ],
+  "dialog": "Ron | So the desks on Friday... that wasn't layoffs?"
+ },
+ {
+  "view": "pc",
+  "file": "14_pc_1920x1080_14_promotion_come_on.png",
+  "map": "office_int",
+  "x": 13,
+  "y": 6,
+  "objective": "Go to the Revival Tech office",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning"
+  ],
+  "dialog": "Manager | There's a creature in this. Lab's next door. Come on."
+ },
+ {
+  "view": "pc",
+  "file": "15_pc_1920x1080_15_lab_arrival.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 9,
+  "objective": "Pick a partner at the lab",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "pc",
+  "file": "16_pc_1920x1080_16_starter_intro.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 7,
+  "objective": "Pick a partner at the lab",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted"
+  ],
+  "dialog": "Lab Tech | Three cradles. Three creatures. Each one's been raised here since it hatched."
+ },
+ {
+  "view": "pc",
+  "file": "17_pc_1920x1080_17_starter_confirm.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 7,
+  "objective": "Pick a partner at the lab",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted"
+  ],
+  "dialog": " | Take Cindrip as your partner?"
+ },
+ {
+  "view": "pc",
+  "file": "18_pc_1920x1080_18_starter_after.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 7,
+  "objective": null,
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter"
+  ],
+  "dialog": "Ron | Then I'll take this one. It looked at me first."
+ },
+ {
+  "view": "pc",
+  "file": "19_pc_1920x1080_19_test_run_brief.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 7,
+  "objective": null,
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter"
+  ],
+  "dialog": "Manager | Before anyone signs anything, a test run."
+ },
+ {
+  "view": "pc",
+  "file": "20_pc_1920x1080_20_crystals.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 7,
+  "objective": null,
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter"
+  ],
+  "dialog": "Manager | These crystals are on the company. Hold one up when a creature's worn down."
+ },
+ {
+  "view": "pc",
+  "file": "21_pc_1920x1080_21_objective_test_run.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 7,
+  "objective": "Test run: catch and log 2 wild Kilumen (0/2)",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "pc",
+  "file": "22_pc_1920x1080_22_leave_block_thought.png",
+  "map": "brookhollow",
+  "x": 33,
+  "y": 12,
+  "objective": "Test run: catch and log 2 wild Kilumen (0/2)",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started"
+  ],
+  "dialog": " | [TODO Text Bot: system_opening.leave_block] Two creatures, then back to the lab. Fernwick can wait."
+ },
+ {
+  "view": "pc",
+  "file": "23_pc_1920x1080_23_route1_logged_1of2.png",
+  "map": "route1",
+  "x": 4,
+  "y": 33,
+  "objective": "Test run: catch and log 2 wild Kilumen (1/2)",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "pc",
+  "file": "24_pc_1920x1080_24_test_run_done_thought.png",
+  "map": "route1",
+  "x": 4,
+  "y": 33,
+  "objective": "Test run: catch and log 2 wild Kilumen (2/2)",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started"
+  ],
+  "dialog": " | That's two in the Kilindex. Time to head back to the lab."
+ },
+ {
+  "view": "pc",
+  "file": "25_pc_1920x1080_25_objective_return.png",
+  "map": "route1",
+  "x": 4,
+  "y": 33,
+  "objective": "Return to the lab",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started",
+   "test_run_done"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "pc",
+  "file": "26_pc_1920x1080_26_return_scene.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 9,
+  "objective": "Return to the lab",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started",
+   "test_run_done"
+  ],
+  "dialog": "Manager | Two logged. Clean entries, too. Nice work."
+ },
+ {
+  "view": "pc",
+  "file": "27_pc_1920x1080_27_job_briefing.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 9,
+  "objective": "Return to the lab",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started",
+   "test_run_done"
+  ],
+  "dialog": "Manager | Noted. Ignored. Now, the actual job."
+ },
+ {
+  "view": "pc",
+  "file": "28_pc_1920x1080_28_paid_on_progress.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 9,
+  "objective": "Return to the lab",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started",
+   "test_run_done"
+  ],
+  "dialog": "Manager | Now, pay. You're not on the clock anymore. You're paid on progress."
+ },
+ {
+  "view": "pc",
+  "file": "29_pc_1920x1080_29_free_roam.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 9,
+  "objective": null,
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started",
+   "test_run_done",
+   "job_briefed"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "pc",
+  "errors": []
+ },
+ {
+  "view": "phone",
+  "file": "01_phone_844x390_01_new_game_hold_or_fade.png",
+  "map": "house_2f",
+  "x": 2,
+  "y": 4,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "phone",
+  "file": "02_phone_844x390_02_wake_thought.png",
+  "map": "house_2f",
+  "x": 2,
+  "y": 4,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": " | ...The river again. Cold water, and someone on the bank, watching."
+ },
+ {
+  "view": "phone",
+  "file": "03_phone_844x390_03_wake_thought_p3.png",
+  "map": "house_2f",
+  "x": 2,
+  "y": 4,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": " | I smell toast downstairs. Ron's up early for once."
+ },
+ {
+  "view": "phone",
+  "file": "04_phone_844x390_04_bedroom_free.png",
+  "map": "house_2f",
+  "x": 2,
+  "y": 4,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "phone",
+  "file": "05_phone_844x390_05_downstairs.png",
+  "map": "house_1f",
+  "x": 10,
+  "y": 4,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "phone",
+  "file": "06_phone_844x390_06_door_blocked_thought.png",
+  "map": "house_1f",
+  "x": 5,
+  "y": 9,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": " | Ron's waving me over. I should see what he wants first."
+ },
+ {
+  "view": "phone",
+  "file": "07_phone_844x390_07_turned_back.png",
+  "map": "house_1f",
+  "x": 5,
+  "y": 8,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "phone",
+  "file": "08_phone_844x390_08_ron_briefing.png",
+  "map": "house_1f",
+  "x": 6,
+  "y": 5,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": "Ron | Morning. You look like you slept in the river."
+ },
+ {
+  "view": "phone",
+  "file": "09_phone_844x390_09_ron_briefing_p3.png",
+  "map": "house_1f",
+  "x": 6,
+  "y": 5,
+  "objective": "Talk to Ron downstairs",
+  "flags": [
+   "intro_new_game"
+  ],
+  "dialog": "Ron | And now the boss wants to see us both. First thing. No reason given."
+ },
+ {
+  "view": "phone",
+  "file": "10_phone_844x390_10_objective_office.png",
+  "map": "house_1f",
+  "x": 6,
+  "y": 5,
+  "objective": "Go to the Revival Tech office",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "phone",
+  "file": "11_phone_844x390_11_outside_door_open.png",
+  "map": "brookhollow",
+  "x": 5,
+  "y": 8,
+  "objective": "Go to the Revival Tech office",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "phone",
+  "file": "12_phone_844x390_12_promotion_manager.png",
+  "map": "office_int",
+  "x": 13,
+  "y": 6,
+  "objective": "Go to the Revival Tech office",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning"
+  ],
+  "dialog": "Manager | Sit down. Relax, this isn't that conversation."
+ },
+ {
+  "view": "phone",
+  "file": "13_phone_844x390_13_promotion_ron.png",
+  "map": "office_int",
+  "x": 13,
+  "y": 6,
+  "objective": "Go to the Revival Tech office",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning"
+  ],
+  "dialog": "Ron | So the desks on Friday... that wasn't layoffs?"
+ },
+ {
+  "view": "phone",
+  "file": "14_phone_844x390_14_promotion_come_on.png",
+  "map": "office_int",
+  "x": 13,
+  "y": 6,
+  "objective": "Go to the Revival Tech office",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning"
+  ],
+  "dialog": "Manager | There's a creature in this. Lab's next door. Come on."
+ },
+ {
+  "view": "phone",
+  "file": "15_phone_844x390_15_lab_arrival.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 9,
+  "objective": "Pick a partner at the lab",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "phone",
+  "file": "16_phone_844x390_16_starter_intro.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 7,
+  "objective": "Pick a partner at the lab",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted"
+  ],
+  "dialog": "Lab Tech | Three cradles. Three creatures. Each one's been raised here since it hatched."
+ },
+ {
+  "view": "phone",
+  "file": "17_phone_844x390_17_starter_confirm.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 7,
+  "objective": "Pick a partner at the lab",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted"
+  ],
+  "dialog": " | Take Cindrip as your partner?"
+ },
+ {
+  "view": "phone",
+  "file": "18_phone_844x390_18_starter_after.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 7,
+  "objective": null,
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter"
+  ],
+  "dialog": "Ron | Then I'll take this one. It looked at me first."
+ },
+ {
+  "view": "phone",
+  "file": "19_phone_844x390_19_test_run_brief.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 7,
+  "objective": null,
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter"
+  ],
+  "dialog": "Manager | Before anyone signs anything, a test run."
+ },
+ {
+  "view": "phone",
+  "file": "20_phone_844x390_20_crystals.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 7,
+  "objective": null,
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter"
+  ],
+  "dialog": "Manager | These crystals are on the company. Hold one up when a creature's worn down."
+ },
+ {
+  "view": "phone",
+  "file": "21_phone_844x390_21_objective_test_run.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 7,
+  "objective": "Test run: catch and log 2 wild Kilumen (0/2)",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "phone",
+  "file": "22_phone_844x390_22_leave_block_thought.png",
+  "map": "brookhollow",
+  "x": 53,
+  "y": 22,
+  "objective": "Test run: catch and log 2 wild Kilumen (0/2)",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started"
+  ],
+  "dialog": " | [TODO Text Bot: system_opening.leave_block] Two creatures, then back to the lab. Fernwick can wait."
+ },
+ {
+  "view": "phone",
+  "file": "23_phone_844x390_23_route1_logged_1of2.png",
+  "map": "route1",
+  "x": 14,
+  "y": 53,
+  "objective": "Test run: catch and log 2 wild Kilumen (1/2)",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "phone",
+  "file": "24_phone_844x390_24_test_run_done_thought.png",
+  "map": "route1",
+  "x": 14,
+  "y": 53,
+  "objective": "Test run: catch and log 2 wild Kilumen (2/2)",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started"
+  ],
+  "dialog": " | That's two in the Kilindex. Time to head back to the lab."
+ },
+ {
+  "view": "phone",
+  "file": "25_phone_844x390_25_objective_return.png",
+  "map": "route1",
+  "x": 14,
+  "y": 53,
+  "objective": "Return to the lab",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started",
+   "test_run_done"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "phone",
+  "file": "26_phone_844x390_26_return_scene.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 9,
+  "objective": "Return to the lab",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started",
+   "test_run_done"
+  ],
+  "dialog": "Manager | Two logged. Clean entries, too. Nice work."
+ },
+ {
+  "view": "phone",
+  "file": "27_phone_844x390_27_job_briefing.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 9,
+  "objective": "Return to the lab",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started",
+   "test_run_done"
+  ],
+  "dialog": "Manager | Noted. Ignored. Now, the actual job."
+ },
+ {
+  "view": "phone",
+  "file": "28_phone_844x390_28_paid_on_progress.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 9,
+  "objective": "Return to the lab",
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started",
+   "test_run_done"
+  ],
+  "dialog": "Manager | Now, pay. You're not on the clock anymore. You're paid on progress."
+ },
+ {
+  "view": "phone",
+  "file": "29_phone_844x390_29_free_roam.png",
+  "map": "lab_brookhollow",
+  "x": 7,
+  "y": 9,
+  "objective": null,
+  "flags": [
+   "intro_new_game",
+   "talked_ron_morning",
+   "flg_promoted",
+   "got_starter",
+   "test_run_started",
+   "test_run_done",
+   "job_briefed"
+  ],
+  "dialog": null
+ },
+ {
+  "view": "phone",
+  "errors": []
+ }
+]

@@ -1,0 +1,52 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_brookhollow_tidewater",
+ "route_id": "brookhollow-tidewater",
+ "kind": "route (coast road, storm-flooded)",
+ "map_status": "to_come",
+ "story_step": "9",
+ "story_order": 20,
+ "level_band": "wild 38-42, trainers 39-43",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "ct_seawall",
+   "item": "tonic_large",
+   "hidden": false,
+   "placement_hint": "seawall steps"
+  },
+  {
+   "id": "ct_flood_roof",
+   "item": "vigor_seed",
+   "hidden": false,
+   "placement_hint": "flooded hut roof (Tideglide)"
+  },
+  {
+   "id": "ct_jetty",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "placement_hint": "jetty",
+   "qty": 2
+  },
+  {
+   "id": "ct_hidden_dune",
+   "item": "energy_tonic",
+   "hidden": true,
+   "placement_hint": "dune grass"
+  },
+  {
+   "id": "ct_cliff",
+   "item": "calm_tea",
+   "hidden": false,
+   "placement_hint": "cliff path"
+  },
+  {
+   "id": "ct_hidden_buoy",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "placement_hint": "beached buoy"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

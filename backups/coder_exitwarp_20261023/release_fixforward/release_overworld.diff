@@ -1,0 +1,51 @@
+--- /workspace/kilumen_release_r1/kilumen/src/overworld/overworld.js	2026-10-23 14:23:26.528771360 -0500
++++ overworld.js	2026-10-23 14:24:31.405848544 -0500
+@@ -9,13 +9,13 @@
+ import { GridMover } from './movement.js?v=v0.2.1-alpha';
+ import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.1-alpha';
+ import { promptScheme, promptVars } from '../platform.js?v=v0.2.1-alpha';
+-import { loadImage, loadJson, resolveUrl } from './assets.js?v=v0.2.1-alpha';
++import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.1-alpha';
+ import { loadTileset, tilesetFileForZoom, indexTileset } from './tileset.js?v=v0.2.1-alpha';
+ import { Renderer } from './renderer.js?v=v0.2.1-alpha';
+ import { drawDebug } from './debug.js?v=v0.2.1-alpha';
+ import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.1-alpha';
+ import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.1-alpha';
+-import { migratePos, migrateDoor } from './pad_migrate.js?v=v0.2.1-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
++import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.1-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
+ import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor } from './clock.js?v=v0.2.1-alpha';
+ import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.1-alpha';
+ import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.1-alpha';
+@@ -488,6 +488,7 @@
+         target = await this.loadMap(f.spawn.map);
+         ({ x, y } = f.spawn); facing = f.spawn.facing;
+       }
++      if (!target.isWalkable(x, y)) ({ target, x, y } = await this._staleLanding(target, x, y)); // exit warp fix (Gary 2:14 PM CT)
+       this.map = target;
+       await this.ensureAssets();
+       const wasBike = this.player.mode === MoveMode.BIKE;
+@@ -510,6 +511,24 @@
+     f.phase = 'in'; f.t = 0;
+   }
+ 
++  /** Exit warp fix (Gary 2:14 PM CT Oct 23 2026: "exit home from spawn and end up on top of RT supply"). A warp landing on a
++   *  blocked tile means the two map files come from different builds: the browser / CDN kept v0.1.3's unpadded
++   *  brookhollow.json (34x32, where 17,15 is the RT Supply roof) while house_1f.json was fresh (padded tx 17,15). Re-fetch
++   *  the target past every cache; if it is still blocked, shift by its padding (stale source) or take the nearest walkable. */
++  async _staleLanding(target, x, y) {
++    const name = target.name;
++    try {
++      const fresh = reloadJson(this.mapUrl(name));
++      this.mapCache.delete(name);
++      await fresh;
++      target = await this.loadMap(name);
++    } catch (e) { console.warn('stale map reload:', e.message); }
++    const fix = fixLanding(target, x, y);
++    this.log.push({ tick: this.tick, type: 'warpFix', map: name, from: [x, y], to: [fix.x, fix.y], how: fix.how, size: [target.width, target.height] });
++    console.warn(`warp landing ${name} ${x},${y} was blocked: ${fix.how} -> ${fix.x},${fix.y}`);
++    return { target, x: fix.x, y: fix.y };
++  }
++
+   /** Area name sign: decide on map entry, show after the fade-in. */
+   _areaSignEnter() {
+     this._areaSigns ||= new AreaSignTracker();

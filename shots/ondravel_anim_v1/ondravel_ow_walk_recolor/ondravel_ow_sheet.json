@@ -1,0 +1,378 @@
+{
+ "name": "ondravel_ow_sheet (walk recolour)",
+ "status": "DRAFT - needs Gary approval; game repo untouched",
+ "source": "/workspace/kilumen/art/characters/pixel/creatures/ondravel/overworld/ondravel_ow_sheet.png",
+ "source_sha256": "c24c132f3a91340b76f867e93852ac1e4cc8595e16c760ed0d798b16011bb11b",
+ "sheet": "ondravel_ow_sheet.png",
+ "sheet_w": 320,
+ "sheet_h": 256,
+ "frame_w": 64,
+ "frame_h": 64,
+ "cols": 5,
+ "rows_n": 4,
+ "rows": [
+  "down",
+  "left",
+  "right",
+  "up"
+ ],
+ "cols_names": [
+  "stand",
+  "walk0",
+  "walk1",
+  "walk2",
+  "walk3"
+ ],
+ "layout": "same as original: row = facing, col 0 = stand, cols 1..4 = walk0..3 (movement.js frame())",
+ "art_px_scale": 1,
+ "mapping": {
+  "7ac2e8": "c6ecfa",
+  "4692ce": "7ac2e8",
+  "4a70ba": "1e4078",
+  "2c64a8": "1e4078",
+  "30488c": "1e4078",
+  "54444e": "3e3a48"
+ },
+ "mapping_source": "_tools/build.py RAMP_SPREAD (imported)",
+ "readability_rule": "build.score_ow: px with |dLuma|>=28 vs ToD-graded ground; pass >= 0.5",
+ "readability": {
+  "down": {
+   "grass_0": {
+    "dawn": {
+     "mean": 0.867,
+     "worst_frame": 0.865
+    },
+    "day": {
+     "mean": 0.907,
+     "worst_frame": 0.903
+    },
+    "dusk": {
+     "mean": 0.824,
+     "worst_frame": 0.82
+    },
+    "night": {
+     "mean": 0.728,
+     "worst_frame": 0.725
+    }
+   },
+   "cave_0": {
+    "dawn": {
+     "mean": 0.84,
+     "worst_frame": 0.838
+    },
+    "day": {
+     "mean": 0.872,
+     "worst_frame": 0.869
+    },
+    "dusk": {
+     "mean": 0.749,
+     "worst_frame": 0.745
+    },
+    "night": {
+     "mean": 0.617,
+     "worst_frame": 0.616
+    }
+   },
+   "snow_0": {
+    "dawn": {
+     "mean": 0.803,
+     "worst_frame": 0.799
+    },
+    "day": {
+     "mean": 0.803,
+     "worst_frame": 0.799
+    },
+    "dusk": {
+     "mean": 0.803,
+     "worst_frame": 0.799
+    },
+    "night": {
+     "mean": 0.781,
+     "worst_frame": 0.776
+    }
+   },
+   "floor_stone": {
+    "dawn": {
+     "mean": 0.734,
+     "worst_frame": 0.731
+    },
+    "day": {
+     "mean": 0.734,
+     "worst_frame": 0.731
+    },
+    "dusk": {
+     "mean": 0.699,
+     "worst_frame": 0.695
+    },
+    "night": {
+     "mean": 0.697,
+     "worst_frame": 0.694
+    }
+   }
+  },
+  "left": {
+   "grass_0": {
+    "dawn": {
+     "mean": 0.871,
+     "worst_frame": 0.869
+    },
+    "day": {
+     "mean": 0.926,
+     "worst_frame": 0.924
+    },
+    "dusk": {
+     "mean": 0.86,
+     "worst_frame": 0.857
+    },
+    "night": {
+     "mean": 0.805,
+     "worst_frame": 0.8
+    }
+   },
+   "cave_0": {
+    "dawn": {
+     "mean": 0.905,
+     "worst_frame": 0.904
+    },
+    "day": {
+     "mean": 0.948,
+     "worst_frame": 0.948
+    },
+    "dusk": {
+     "mean": 0.828,
+     "worst_frame": 0.825
+    },
+    "night": {
+     "mean": 0.638,
+     "worst_frame": 0.634
+    }
+   },
+   "snow_0": {
+    "dawn": {
+     "mean": 0.771,
+     "worst_frame": 0.766
+    },
+    "day": {
+     "mean": 0.771,
+     "worst_frame": 0.766
+    },
+    "dusk": {
+     "mean": 0.771,
+     "worst_frame": 0.766
+    },
+    "night": {
+     "mean": 0.737,
+     "worst_frame": 0.735
+    }
+   },
+   "floor_stone": {
+    "dawn": {
+     "mean": 0.615,
+     "worst_frame": 0.61
+    },
+    "day": {
+     "mean": 0.615,
+     "worst_frame": 0.61
+    },
+    "dusk": {
+     "mean": 0.615,
+     "worst_frame": 0.61
+    },
+    "night": {
+     "mean": 0.606,
+     "worst_frame": 0.6
+    }
+   }
+  },
+  "right": {
+   "grass_0": {
+    "dawn": {
+     "mean": 0.874,
+     "worst_frame": 0.872
+    },
+    "day": {
+     "mean": 0.907,
+     "worst_frame": 0.904
+    },
+    "dusk": {
+     "mean": 0.844,
+     "worst_frame": 0.841
+    },
+    "night": {
+     "mean": 0.757,
+     "worst_frame": 0.755
+    }
+   },
+   "cave_0": {
+    "dawn": {
+     "mean": 0.915,
+     "worst_frame": 0.914
+    },
+    "day": {
+     "mean": 0.942,
+     "worst_frame": 0.94
+    },
+    "dusk": {
+     "mean": 0.833,
+     "worst_frame": 0.827
+    },
+    "night": {
+     "mean": 0.62,
+     "worst_frame": 0.615
+    }
+   },
+   "snow_0": {
+    "dawn": {
+     "mean": 0.764,
+     "worst_frame": 0.76
+    },
+    "day": {
+     "mean": 0.764,
+     "worst_frame": 0.76
+    },
+    "dusk": {
+     "mean": 0.764,
+     "worst_frame": 0.76
+    },
+    "night": {
+     "mean": 0.715,
+     "worst_frame": 0.709
+    }
+   },
+   "floor_stone": {
+    "dawn": {
+     "mean": 0.586,
+     "worst_frame": 0.584
+    },
+    "day": {
+     "mean": 0.586,
+     "worst_frame": 0.584
+    },
+    "dusk": {
+     "mean": 0.531,
+     "worst_frame": 0.528
+    },
+    "night": {
+     "mean": 0.522,
+     "worst_frame": 0.517
+    }
+   }
+  },
+  "up": {
+   "grass_0": {
+    "dawn": {
+     "mean": 0.898,
+     "worst_frame": 0.891
+    },
+    "day": {
+     "mean": 0.925,
+     "worst_frame": 0.919
+    },
+    "dusk": {
+     "mean": 0.874,
+     "worst_frame": 0.867
+    },
+    "night": {
+     "mean": 0.805,
+     "worst_frame": 0.8
+    }
+   },
+   "cave_0": {
+    "dawn": {
+     "mean": 0.897,
+     "worst_frame": 0.891
+    },
+    "day": {
+     "mean": 0.917,
+     "worst_frame": 0.912
+    },
+    "dusk": {
+     "mean": 0.837,
+     "worst_frame": 0.833
+    },
+    "night": {
+     "mean": 0.632,
+     "worst_frame": 0.627
+    }
+   },
+   "snow_0": {
+    "dawn": {
+     "mean": 0.751,
+     "worst_frame": 0.747
+    },
+    "day": {
+     "mean": 0.751,
+     "worst_frame": 0.747
+    },
+    "dusk": {
+     "mean": 0.751,
+     "worst_frame": 0.747
+    },
+    "night": {
+     "mean": 0.71,
+     "worst_frame": 0.703
+    }
+   },
+   "floor_stone": {
+    "dawn": {
+     "mean": 0.611,
+     "worst_frame": 0.601
+    },
+    "day": {
+     "mean": 0.611,
+     "worst_frame": 0.601
+    },
+    "dusk": {
+     "mean": 0.611,
+     "worst_frame": 0.601
+    },
+    "night": {
+     "mean": 0.599,
+     "worst_frame": 0.588
+    }
+   }
+  }
+ },
+ "night_mean_worst_ground": {
+  "down": 0.617,
+  "left": 0.606,
+  "right": 0.522,
+  "up": 0.599
+ },
+ "night_worst_single_frame": {
+  "down": 0.616,
+  "left": 0.6,
+  "right": 0.517,
+  "up": 0.588
+ },
+ "idle_match": {
+  "down": {
+   "stand_equals_idle_frame0": true,
+   "walk_colours_not_in_idle": [],
+   "old_ramp_colours_left": [
+    "7ac2e8"
+   ]
+  },
+  "left": {
+   "stand_equals_idle_frame0": true,
+   "walk_colours_not_in_idle": [],
+   "old_ramp_colours_left": [
+    "7ac2e8"
+   ]
+  },
+  "right": {
+   "stand_equals_idle_frame0": true,
+   "walk_colours_not_in_idle": [],
+   "old_ramp_colours_left": [
+    "7ac2e8"
+   ]
+  },
+  "up": {
+   "stand_equals_idle_frame0": true,
+   "walk_colours_not_in_idle": [],
+   "old_ramp_colours_left": [
+    "7ac2e8"
+   ]
+  }
+ }
+}

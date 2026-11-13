@@ -1,0 +1,388 @@
+{
+ "label": "review_after",
+ "extra": "",
+ "when": "Fri Oct 23 2026 00:48:43 GMT-0500 (Central Daylight Time)",
+ "results": [
+  {
+   "device": "phone",
+   "cpuThrottle": 4,
+   "case": "brookhollow day",
+   "flushedMeanMs": 16.703,
+   "flushedP50": 18.5,
+   "flushedP95": 24.6,
+   "rafMeanMs": 57.22,
+   "rafP95": 50,
+   "zoom": 2,
+   "canvas": "2340x1080",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 0,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 0,
+    "moonGrade": "day",
+    "bufferBuilds": 0,
+    "lastBuildMs": 0
+   }
+  },
+  {
+   "device": "phone",
+   "cpuThrottle": 4,
+   "case": "brookhollow dusk",
+   "flushedMeanMs": 21.756,
+   "flushedP50": 21.4,
+   "flushedP95": 37.1,
+   "rafMeanMs": 80.55,
+   "rafP95": 66.6,
+   "zoom": 2,
+   "canvas": "2340x1080",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 20,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 0.75,
+    "moonGrade": "dusk",
+    "bufferBuilds": 2,
+    "lastBuildMs": 9.4,
+    "litRuns": 41
+   }
+  },
+  {
+   "device": "phone",
+   "cpuThrottle": 4,
+   "case": "brookhollow night",
+   "flushedMeanMs": 20.094,
+   "flushedP50": 19.7,
+   "flushedP95": 28.4,
+   "rafMeanMs": 69.03,
+   "rafP95": 66.7,
+   "zoom": 2,
+   "canvas": "2340x1080",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 33,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 1,
+    "moonGrade": "night+moon",
+    "bufferBuilds": 1,
+    "lastBuildMs": 16.3,
+    "litRuns": 42
+   }
+  },
+  {
+   "device": "phone",
+   "cpuThrottle": 4,
+   "case": "fernwick night",
+   "flushedMeanMs": 23.556,
+   "flushedP50": 23,
+   "flushedP95": 37.1,
+   "rafMeanMs": 79.86,
+   "rafP95": 66.6,
+   "zoom": 2,
+   "canvas": "2340x1080",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 32,
+    "litWindows": 32,
+    "lights": 16,
+    "flames": 5,
+    "lampLevel": 1,
+    "moonGrade": "night+moon",
+    "bufferBuilds": 1,
+    "lastBuildMs": 20.4,
+    "litRuns": 36
+   }
+  },
+  {
+   "device": "phone",
+   "cpuThrottle": 4,
+   "case": "route1 night",
+   "flushedMeanMs": 31.899,
+   "flushedP50": 30.4,
+   "flushedP95": 61.8,
+   "rafMeanMs": 100.97,
+   "rafP95": 83.3,
+   "zoom": 2,
+   "canvas": "2340x1080",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 0,
+    "litWindows": 0,
+    "lights": 8,
+    "flames": 0,
+    "lampLevel": 1,
+    "moonGrade": "night+moon",
+    "bufferBuilds": 1,
+    "lastBuildMs": 11.4,
+    "litRuns": 8
+   }
+  },
+  {
+   "device": "phone",
+   "cpuThrottle": 4,
+   "case": "heal_brookhollow night (indoor)",
+   "flushedMeanMs": 9.547,
+   "flushedP50": 10.4,
+   "flushedP95": 15.6,
+   "rafMeanMs": 37.08,
+   "rafP95": 33.4,
+   "zoom": 2,
+   "canvas": "2340x1080",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": false,
+    "loaded": true,
+    "windows": 0,
+    "litWindows": 0,
+    "lights": 0,
+    "flames": 0,
+    "lampLevel": 1,
+    "moonGrade": "day",
+    "bufferBuilds": 0,
+    "lastBuildMs": 0
+   }
+  },
+  {
+   "device": "pc",
+   "cpuThrottle": 1,
+   "case": "brookhollow day",
+   "flushedMeanMs": 3.695,
+   "flushedP50": 3.7,
+   "flushedP95": 4.2,
+   "rafMeanMs": 23.33,
+   "rafP95": 16.8,
+   "zoom": 2,
+   "canvas": "1920x1080",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 0,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 0,
+    "moonGrade": "day",
+    "bufferBuilds": 0,
+    "lastBuildMs": 0
+   }
+  },
+  {
+   "device": "pc",
+   "cpuThrottle": 1,
+   "case": "brookhollow dusk",
+   "flushedMeanMs": 5.396,
+   "flushedP50": 5.1,
+   "flushedP95": 7.2,
+   "rafMeanMs": 26.39,
+   "rafP95": 16.8,
+   "zoom": 2,
+   "canvas": "1920x1080",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 20,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 0.75,
+    "moonGrade": "dusk",
+    "bufferBuilds": 2,
+    "lastBuildMs": 8.3,
+    "litRuns": 71
+   }
+  },
+  {
+   "device": "pc",
+   "cpuThrottle": 1,
+   "case": "brookhollow night",
+   "flushedMeanMs": 4.872,
+   "flushedP50": 4.7,
+   "flushedP95": 6.2,
+   "rafMeanMs": 25.42,
+   "rafP95": 16.8,
+   "zoom": 2,
+   "canvas": "1920x1080",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 33,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 1,
+    "moonGrade": "night+moon",
+    "bufferBuilds": 1,
+    "lastBuildMs": 17.6,
+    "litRuns": 79
+   }
+  },
+  {
+   "device": "pc",
+   "cpuThrottle": 1,
+   "case": "fernwick night",
+   "flushedMeanMs": 5.103,
+   "flushedP50": 5,
+   "flushedP95": 5.7,
+   "rafMeanMs": 26.25,
+   "rafP95": 16.8,
+   "zoom": 2,
+   "canvas": "1920x1080",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 32,
+    "litWindows": 32,
+    "lights": 16,
+    "flames": 5,
+    "lampLevel": 1,
+    "moonGrade": "night+moon",
+    "bufferBuilds": 1,
+    "lastBuildMs": 20.3,
+    "litRuns": 66
+   }
+  },
+  {
+   "device": "pc",
+   "cpuThrottle": 1,
+   "case": "route1 night",
+   "flushedMeanMs": 5.378,
+   "flushedP50": 5.1,
+   "flushedP95": 7.2,
+   "rafMeanMs": 26.25,
+   "rafP95": 16.8,
+   "zoom": 2,
+   "canvas": "1920x1080",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 0,
+    "litWindows": 0,
+    "lights": 8,
+    "flames": 0,
+    "lampLevel": 1,
+    "moonGrade": "night+moon",
+    "bufferBuilds": 1,
+    "lastBuildMs": 14.7,
+    "litRuns": 19
+   }
+  },
+  {
+   "device": "pc",
+   "cpuThrottle": 1,
+   "case": "heal_brookhollow night (indoor)",
+   "flushedMeanMs": 2.638,
+   "flushedP50": 2.6,
+   "flushedP95": 2.9,
+   "rafMeanMs": 21.39,
+   "rafP95": 16.8,
+   "zoom": 2,
+   "canvas": "1920x1080",
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": false,
+    "loaded": true,
+    "windows": 0,
+    "litWindows": 0,
+    "lights": 0,
+    "flames": 0,
+    "lampLevel": 1,
+    "moonGrade": "day",
+    "bufferBuilds": 0,
+    "lastBuildMs": 0
+   }
+  }
+ ],
+ "errors": []
+}

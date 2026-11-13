@@ -1,0 +1,93 @@
+{
+ "states": {
+  "brookhollow_night": {
+   "q": "map=brookhollow&x=16&y=14&phase=night",
+   "map": "brookhollow",
+   "phase": "night",
+   "grade": "night",
+   "cam": {
+    "x": 576,
+    "y": 658
+   },
+   "zoom": 2
+  },
+  "brookhollow_dusk": {
+   "q": "map=brookhollow&x=16&y=14&phase=dusk",
+   "map": "brookhollow",
+   "phase": "dusk",
+   "grade": "dusk",
+   "cam": {
+    "x": 576,
+    "y": 658
+   },
+   "zoom": 2
+  },
+  "brookhollow_dawn": {
+   "q": "map=brookhollow&x=16&y=14&phase=dawn",
+   "map": "brookhollow",
+   "phase": "dawn",
+   "grade": "dawn",
+   "cam": {
+    "x": 576,
+    "y": 658
+   },
+   "zoom": 2
+  },
+  "brookhollow_day": {
+   "q": "map=brookhollow&x=16&y=14&phase=day",
+   "map": "brookhollow",
+   "phase": "day",
+   "grade": "day",
+   "cam": {
+    "x": 576,
+    "y": 658
+   },
+   "zoom": 2
+  },
+  "lamp_night_closeup": {
+   "q": "map=brookhollow&x=16&y=14&phase=night",
+   "map": "brookhollow",
+   "phase": "night",
+   "grade": "night",
+   "cam": {
+    "x": 576,
+    "y": 658
+   },
+   "zoom": 2
+  },
+  "heal_brookhollow_night": {
+   "q": "map=heal_brookhollow&x=6&y=7&phase=night",
+   "map": "heal_brookhollow",
+   "phase": "night",
+   "grade": "night",
+   "cam": {
+    "x": -32,
+    "y": 100
+   },
+   "zoom": 2
+  },
+  "home_brookhollow_a_night": {
+   "q": "map=home_brookhollow_a&x=5&y=5&phase=night",
+   "map": "home_brookhollow_a",
+   "phase": "night",
+   "grade": "night",
+   "cam": {
+    "x": -160,
+    "y": -14
+   },
+   "zoom": 2
+  },
+  "route1_crystals_night": {
+   "q": "map=route1&x=10&y=20&phase=night",
+   "map": "route1",
+   "phase": "night",
+   "grade": "night",
+   "cam": {
+    "x": 192,
+    "y": 1042
+   },
+   "zoom": 2
+  }
+ },
+ "errors": []
+}

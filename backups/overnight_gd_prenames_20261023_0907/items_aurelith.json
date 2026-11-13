@@ -1,0 +1,33 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "aurelith",
+ "route_id": null,
+ "kind": "city (rail-only, arena)",
+ "map_status": "to_come",
+ "story_step": "4 (pass through, arena sealed) / 11+ finale",
+ "story_order": 7,
+ "level_band": "finale Ron 6 L62; arena 56-64 (count TBD)",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "au_fountain",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "placement_hint": "plaza fountain rim"
+  },
+  {
+   "id": "au_station",
+   "item": "tonic_large",
+   "hidden": false,
+   "placement_hint": "station side alley"
+  },
+  {
+   "id": "au_arena_steps",
+   "item": "energy_tonic",
+   "hidden": false,
+   "placement_hint": "arena steps planter (reachable at step 4)"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

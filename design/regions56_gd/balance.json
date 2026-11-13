@@ -1,0 +1,1394 @@
+{
+ "_status": "PROPOSAL Game dev 2026-10-29 (regions56_gd). Placeholder numbers; sims in SIM_RESULTS.md. Not wired.",
+ "level_bands": {
+  "region5": {
+   "route1_east": {
+    "wild": "29-33",
+    "trainers": "30-33"
+   },
+   "route_sunmeadow_mirefen": {
+    "wild": "30-33",
+    "trainers": "31-33"
+   },
+   "mirefen": {
+    "wild": "31-35",
+    "trainers": "32-34"
+   },
+   "mirefen_research_station": {
+    "wild": "33-37 (+2 research bonus)",
+    "catch_mult": 0.5
+   },
+   "hall": "33-34",
+   "master": "35-36 (ace 36 LOCKED)"
+  },
+  "region6": {
+   "route_coast (aka route_coast)": {
+    "wild": "35-38",
+    "trainers": "36-38"
+   },
+   "tidewater_coast": {
+    "wild": "36-40",
+    "trainers": "37-39"
+   },
+   "tidewater_coast_cave (research)": {
+    "wild": "38-42 (+2)",
+    "catch_mult": 0.5
+   },
+   "hall": "38-39",
+   "ron_6_optional": "38-41",
+   "master": "35-41 (ace 41 LOCKED)"
+  }
+ },
+ "masters": {
+  "M5_wenna_peat": {
+   "map": "mirefen_hall",
+   "masterNumber": 5,
+   "personality": "Bog-boardwalk keeper. Patient, hums frog songs, never rushes a turn. Sends the \"slow\" ones first so you underestimate the swamp.",
+   "team": [
+    {
+     "species": "mirejaw",
+     "level": 36,
+     "held": "bogroot_charm",
+     "skills": [
+      "bogsnap",
+      "mirelob",
+      "rippleshot",
+      "stomp"
+     ]
+    },
+    {
+     "species": "runeskein",
+     "level": 36,
+     "held": "runestitch_charm"
+    },
+    {
+     "species": "silteel",
+     "level": 36,
+     "held": "bogroot_charm",
+     "skills": [
+      "bogsnap",
+      "mirelob",
+      "rippleshot",
+      "stomp"
+     ]
+    },
+    {
+     "species": "duckmoss",
+     "level": 35,
+     "held": "sprig_charm"
+    },
+    {
+     "species": "fenmaw",
+     "level": 36,
+     "held": "bogroot_charm",
+     "skills": [
+      "bogsnap",
+      "mirelob",
+      "rippleshot",
+      "stomp"
+     ]
+    }
+   ],
+   "foeItems": {
+    "tonicsmall": 2,
+    "toniclarge": 3
+   },
+   "note_skills": "Swamp members use the new swamp attacks (moves_swamp_sea.json). Lead order matters: mirejaw first. One team for every starter.",
+   "lines": {
+    "pre": "TODO Text Bot: masters.wenna.pre",
+    "post": "TODO Text Bot: masters.wenna.post"
+   },
+   "assumes": "gnawford buffed to 480 total (Coder default, pending Gary)",
+   "sim_win": {
+    "nibbin": 0.42,
+    "cindrip": 0.53,
+    "rillop": 0.53
+   }
+  },
+  "M6_jory_swell": {
+   "map": "tidewater_hall",
+   "masterNumber": 6,
+   "personality": "Ex-lifeguard, loud, whistle on a cord, treats the battle like a swim meet. Leads with his weakest so \"everyone gets a lap\".",
+   "team": [
+    {
+     "species": "lurelamp",
+     "level": 38,
+     "held": "dusk_charm",
+     "skills": [
+      "duskbite",
+      "lanternhaunt",
+      "brinelash",
+      "earflick"
+     ]
+    },
+    {
+     "species": "pearlisk",
+     "level": 38,
+     "held": "runestitch_charm",
+     "skills": [
+      "threadweave",
+      "brinelash",
+      "beadspark",
+      "ferretdash"
+     ]
+    },
+    {
+     "species": "driftknot",
+     "level": 39,
+     "held": "sprig_charm",
+     "skills": [
+      "mossslam",
+      "brinelash",
+      "shellroll",
+      "hornnudge"
+     ]
+    },
+    {
+     "species": "nudiblume",
+     "level": 38,
+     "held": "tidebell_charm",
+     "skills": [
+      "brinelash",
+      "undertow",
+      "rippleshot",
+      "pebbletoss"
+     ]
+    },
+    {
+     "species": "deluvane",
+     "level": 33,
+     "held": "droplet_charm",
+     "skills": [
+      "rippleshot",
+      "frillsplash",
+      "undertow",
+      "pebbletoss"
+     ]
+    },
+    {
+     "species": "atollback",
+     "level": 41,
+     "held": "tidebell_charm",
+     "skills": [
+      "brinelash",
+      "kelplash",
+      "undertow",
+      "rippleshot"
+     ]
+    }
+   ],
+   "foeItems": {
+    "tonicsmall": 2,
+    "toniclarge": 3
+   },
+   "lines": {
+    "pre": "TODO Text Bot: masters.jory.pre",
+    "post": "TODO Text Bot: masters.jory.post"
+   },
+   "sim_win": {
+    "nibbin": 0.595,
+    "cindrip": 0.505,
+    "rillop": 0.51
+   },
+   "assumes": "gnawford buffed to 480 total (Coder default, pending Gary)"
+  }
+ },
+ "ron_6": {
+  "id": "rival_ron_tidewater",
+  "optional": true,
+  "gates_progress": false,
+  "note": "Optional challenge near Master 6. Ace L41. Sim player party L41/39/38/38/37/37.",
+  "byStarter": {
+   "nibbin": {
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 39
+     },
+     {
+      "species": "glassvine",
+      "level": 39
+     },
+     {
+      "species": "mirrorkin",
+      "level": 39
+     },
+     {
+      "species": "runeskein",
+      "level": 39,
+      "held": "runestitch_charm"
+     },
+     {
+      "species": "stampedor",
+      "level": 39
+     },
+     {
+      "species": "forgeharrow",
+      "level": 41
+     }
+    ],
+    "sim_win": 0.435
+   },
+   "cindrip": {
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 40
+     },
+     {
+      "species": "pearlisk",
+      "level": 40,
+      "held": "runestitch_charm"
+     },
+     {
+      "species": "driftknot",
+      "level": 40,
+      "held": "sprig_charm"
+     },
+     {
+      "species": "nudiblume",
+      "level": 40,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     },
+     {
+      "species": "deluvane",
+      "level": 39,
+      "held": "droplet_charm"
+     },
+     {
+      "species": "tidemarrow",
+      "level": 41,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     }
+    ],
+    "sim_win": 0.49
+   },
+   "rillop": {
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 40
+     },
+     {
+      "species": "glassvine",
+      "level": 40
+     },
+     {
+      "species": "gearwarden",
+      "level": 40
+     },
+     {
+      "species": "stampedor",
+      "level": 41
+     },
+     {
+      "species": "seraphawk",
+      "level": 40
+     },
+     {
+      "species": "gnawford",
+      "level": 41
+     }
+    ],
+    "sim_win": 0.57
+   }
+  },
+  "legacy": {
+   "tumbloam": "fallback entry: use the nibbin team"
+  },
+  "assumes": "gnawford buffed to 480 total (Coder default, pending Gary)"
+ },
+ "trainers": {
+  "region5": [
+   {
+    "id": "tr_route1_east_a",
+    "map": "route1_east",
+    "class": "rockhound",
+    "class_display_suggestion": "Rock Hound",
+    "name_suggestion": "Tamsin",
+    "team": [
+     {
+      "species": "ridgeskink",
+      "level": 30
+     },
+     {
+      "species": "quartzhopper",
+      "level": 31
+     }
+    ],
+    "base": 35,
+    "personality": "Licks every new pebble to check if it is a crystal. Never is. Still hopeful.",
+    "lines": {
+     "pre": "TODO Text Bot: system_story_r56.tr_route1_east_a.pre (placeholder: \"Hold still, that rock might be a gem!\")",
+     "post": "TODO Text Bot: system_story_r56.tr_route1_east_a.post (placeholder: \"Just a rock. Again.\")"
+    },
+    "prize": 1085,
+    "text_ref": "system_story_r56.tr_route1_east_a"
+   },
+   {
+    "id": "tr_route1_east_b",
+    "map": "route1_east",
+    "class": "glyph_scholar",
+    "class_display_suggestion": "Glyph Scholar",
+    "name_suggestion": "Oswin",
+    "team": [
+     {
+      "species": "glyphlet",
+      "level": 31
+     },
+     {
+      "species": "shardghast",
+      "level": 31
+     },
+     {
+      "species": "glyphmage",
+      "level": 32,
+      "held": "runestitch_charm"
+     }
+    ],
+    "base": 45,
+    "personality": "Reads the carved stones aloud in a dramatic voice, gets half the words wrong, refuses correction.",
+    "lines": {
+     "pre": "TODO Text Bot: system_story_r56.tr_route1_east_b.pre (placeholder: \"These marks say... you must battle me. Probably.\")",
+     "post": "TODO Text Bot: system_story_r56.tr_route1_east_b.post (placeholder: \"I may have read that one upside down.\")"
+    },
+    "prize": 1440,
+    "text_ref": "system_story_r56.tr_route1_east_b"
+   },
+   {
+    "id": "tr_route1_east_c",
+    "map": "route1_east",
+    "class": "kite_runner",
+    "class_display_suggestion": "Kite Runner",
+    "name_suggestion": "Tavi",
+    "team": [
+     {
+      "species": "zephkit",
+      "level": 31
+     },
+     {
+      "species": "galefennec",
+      "level": 33,
+      "held": "gustfeather_charm"
+     },
+     {
+      "species": "seraphawk",
+      "level": 32
+     }
+    ],
+    "base": 45,
+    "personality": "Races the wind every morning and keeps a losing score sheet. 0 wins, 412 losses.",
+    "lines": {
+     "pre": "TODO Text Bot: system_story_r56.tr_route1_east_c.pre (placeholder: \"Race you! Oh, battles. Fine, race you in a battle.\")",
+     "post": "TODO Text Bot: system_story_r56.tr_route1_east_c.post (placeholder: \"Wind beat me AND you beat me. Big day.\")"
+    },
+    "prize": 1485,
+    "name_status": "pending Gary (Text Bot draft name)",
+    "text_ref": "system_story_r56.tr_route1_east_c"
+   },
+   {
+    "id": "tr_route1_east_d",
+    "map": "route1_east",
+    "class": "gardener",
+    "class_display_suggestion": "Hedge Keeper",
+    "name_suggestion": "Marlo",
+    "team": [
+     {
+      "species": "lilacthorn",
+      "level": 31
+     },
+     {
+      "species": "spinemonitor",
+      "level": 32
+     },
+     {
+      "species": "shardhart",
+      "level": 33,
+      "held": "runestitch_charm"
+     }
+    ],
+    "base": 45,
+    "personality": "Trims hedges into the shape of creatures he has lost to. The hedges are mostly one shape.",
+    "lines": {
+     "pre": "TODO Text Bot: system_story_r56.tr_route1_east_d.pre (placeholder: \"Stand still, I want to remember your face for a hedge.\")",
+     "post": "TODO Text Bot: system_story_r56.tr_route1_east_d.post (placeholder: \"Yours will be a big hedge.\")"
+    },
+    "prize": 1485,
+    "text_ref": "system_story_r56.tr_route1_east_d"
+   },
+   {
+    "id": "tr_route_sunmeadow_mirefen_a",
+    "map": "route_sunmeadow_mirefen",
+    "class": "angler",
+    "class_display_suggestion": "Angler",
+    "name_suggestion": "Ross",
+    "team": [
+     {
+      "species": "dewbell",
+      "level": 31
+     },
+     {
+      "species": "floepaddle",
+      "level": 32,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     }
+    ],
+    "base": 35,
+    "prize": 1120,
+    "sight_range": 3,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> reed pond",
+    "text_ref": "route_sunmeadow_mirefen_trainer_1",
+    "source": "overnight_gd/trainers_route_sunmeadow_mirefen.json (levels rebanded)"
+   },
+   {
+    "id": "tr_route_sunmeadow_mirefen_b",
+    "map": "route_sunmeadow_mirefen",
+    "class": "fogwalker",
+    "class_display_suggestion": "Bog Walker",
+    "name_suggestion": "Saffi",
+    "team": [
+     {
+      "species": "gloamtick",
+      "level": 32
+     },
+     {
+      "species": "snapmoor",
+      "level": 32,
+      "held": "bogroot_charm",
+      "skills": [
+       "bogsnap",
+       "mirelob",
+       "rippleshot",
+       "stomp"
+      ]
+     }
+    ],
+    "base": 45,
+    "prize": 1440,
+    "sight_range": 3,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> fog bank",
+    "text_ref": "route_sunmeadow_mirefen_trainer_2",
+    "source": "overnight_gd/trainers_route_sunmeadow_mirefen.json (levels rebanded)"
+   },
+   {
+    "id": "tr_route_sunmeadow_mirefen_c",
+    "map": "route_sunmeadow_mirefen",
+    "class": "beetle_keeper",
+    "class_display_suggestion": "Beetle Keeper",
+    "name_suggestion": "Tobin",
+    "team": [
+     {
+      "species": "burlbeetle",
+      "level": 32
+     },
+     {
+      "species": "sunspeckle",
+      "level": 32
+     }
+    ],
+    "base": 25,
+    "prize": 800,
+    "sight_range": 3,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> rotting fence",
+    "text_ref": "route_sunmeadow_mirefen_trainer_3",
+    "source": "overnight_gd/trainers_route_sunmeadow_mirefen.json (levels rebanded)"
+   },
+   {
+    "id": "tr_route_sunmeadow_mirefen_d",
+    "map": "route_sunmeadow_mirefen",
+    "class": "ranger",
+    "class_display_suggestion": "Ranger",
+    "name_suggestion": "Ulla",
+    "team": [
+     {
+      "species": "reedmoot",
+      "level": 32,
+      "held": "bogroot_charm",
+      "skills": [
+       "bogsnap",
+       "mirelob",
+       "rippleshot",
+       "stomp"
+      ]
+     },
+     {
+      "species": "plainhorn",
+      "level": 32,
+      "held": "clodstone_charm"
+     }
+    ],
+    "base": 55,
+    "prize": 1760,
+    "sight_range": 4,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> boardwalk start",
+    "text_ref": "route_sunmeadow_mirefen_trainer_4",
+    "source": "overnight_gd/trainers_route_sunmeadow_mirefen.json (levels rebanded)"
+   },
+   {
+    "id": "tr_route_sunmeadow_mirefen_e",
+    "map": "route_sunmeadow_mirefen",
+    "class": "camper",
+    "class_display_suggestion": "Camper",
+    "name_suggestion": "Vic",
+    "team": [
+     {
+      "species": "heliobloom",
+      "level": 32
+     },
+     {
+      "species": "rimewyrm",
+      "level": 33,
+      "held": "droplet_charm"
+     }
+    ],
+    "base": 30,
+    "prize": 990,
+    "sight_range": 3,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> optional",
+    "text_ref": "route_sunmeadow_mirefen_trainer_5",
+    "source": "overnight_gd/trainers_route_sunmeadow_mirefen.json (levels rebanded)"
+   },
+   {
+    "id": "tr_mirefen_a",
+    "map": "mirefen",
+    "class": "fogwalker",
+    "class_display_suggestion": "Bog Walker",
+    "name_suggestion": "Briar",
+    "team": [
+     {
+      "species": "gloamtick",
+      "level": 32
+     },
+     {
+      "species": "mirewump",
+      "level": 33,
+      "held": "bogroot_charm",
+      "skills": [
+       "bogsnap",
+       "mirelob",
+       "rippleshot",
+       "stomp"
+      ]
+     }
+    ],
+    "base": 45,
+    "prize": 1485,
+    "sight_range": 3,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> bog entrance",
+    "text_ref": "mirefen_trainer_1",
+    "source": "overnight_gd/trainers_mirefen.json (levels rebanded)"
+   },
+   {
+    "id": "tr_mirefen_b",
+    "map": "mirefen",
+    "class": "angler",
+    "class_display_suggestion": "Angler",
+    "name_suggestion": "Corin",
+    "team": [
+     {
+      "species": "mirewump",
+      "level": 33,
+      "held": "bogroot_charm",
+      "skills": [
+       "bogsnap",
+       "mirelob",
+       "rippleshot",
+       "stomp"
+      ]
+     },
+     {
+      "species": "peatbellow",
+      "level": 33,
+      "held": "bogroot_charm",
+      "skills": [
+       "bogsnap",
+       "mirelob",
+       "rippleshot",
+       "stomp"
+      ]
+     },
+     {
+      "species": "mirejaw",
+      "level": 33,
+      "held": "bogroot_charm",
+      "skills": [
+       "bogsnap",
+       "mirelob",
+       "rippleshot",
+       "stomp"
+      ]
+     }
+    ],
+    "base": 35,
+    "prize": 1155,
+    "sight_range": 3,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> islet jetty",
+    "text_ref": "mirefen_trainer_2",
+    "source": "overnight_gd/trainers_mirefen.json (levels rebanded)"
+   },
+   {
+    "id": "tr_mirefen_c",
+    "map": "mirefen",
+    "class": "scholar",
+    "class_display_suggestion": "Scholar",
+    "name_suggestion": "Dilys",
+    "team": [
+     {
+      "species": "runeskein",
+      "level": 33
+     },
+     {
+      "species": "turfhulk",
+      "level": 33
+     }
+    ],
+    "base": 60,
+    "prize": 1980,
+    "sight_range": 3,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> bog lights (Bog Lights and Other Nonsense flavour)",
+    "text_ref": "mirefen_trainer_3",
+    "source": "overnight_gd/trainers_mirefen.json (levels rebanded)"
+   },
+   {
+    "id": "tr_mirefen_d",
+    "map": "mirefen",
+    "class": "beetle_keeper",
+    "class_display_suggestion": "Beetle Keeper",
+    "name_suggestion": "Esk",
+    "team": [
+     {
+      "species": "burlbeetle",
+      "level": 33
+     },
+     {
+      "species": "bogdart",
+      "level": 33
+     },
+     {
+      "species": "glimmoth",
+      "level": 33,
+      "held": "runestitch_charm"
+     }
+    ],
+    "base": 25,
+    "prize": 825,
+    "sight_range": 3,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> reed line (the only dry line)",
+    "text_ref": "mirefen_trainer_4",
+    "source": "overnight_gd/trainers_mirefen.json (levels rebanded)"
+   },
+   {
+    "id": "tr_mirefen_e",
+    "map": "mirefen",
+    "class": "veteran",
+    "class_display_suggestion": "Veteran",
+    "name_suggestion": "Hedda",
+    "team": [
+     {
+      "species": "pitchergulp",
+      "level": 34
+     },
+     {
+      "species": "mirewump",
+      "level": 34,
+      "held": "bogroot_charm",
+      "skills": [
+       "bogsnap",
+       "mirelob",
+       "rippleshot",
+       "stomp"
+      ]
+     }
+    ],
+    "base": 80,
+    "prize": 2720,
+    "sight_range": 2,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> optional, bike boardwalk spur",
+    "text_ref": "mirefen_trainer_5",
+    "source": "overnight_gd/trainers_mirefen.json (levels rebanded)"
+   }
+  ],
+  "region6": [
+   {
+    "id": "tr_route_coast_a",
+    "map": "route_coast",
+    "class": "diver",
+    "class_display_suggestion": "Reef Swimmer",
+    "name_suggestion": "Gwen",
+    "team": [
+     {
+      "species": "downpaw",
+      "level": 36
+     },
+     {
+      "species": "driftknot",
+      "level": 36
+     }
+    ],
+    "base": 50,
+    "prize": 1800,
+    "sight_range": 0,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> floodwater (Tideglide), talk-to",
+    "text_ref": "route_coast_trainer_1",
+    "source": "overnight_gd/trainers_route_brookhollow_tidewater.json (levels rebanded)"
+   },
+   {
+    "id": "tr_route_coast_b",
+    "map": "route_coast",
+    "class": "harbour_hand",
+    "class_display_suggestion": "Harbour Hand",
+    "name_suggestion": "Heath",
+    "team": [
+     {
+      "species": "drenchcrab",
+      "level": 36
+     },
+     {
+      "species": "downpaw",
+      "level": 36
+     },
+     {
+      "species": "mallup",
+      "level": 36,
+      "skills": [
+       "undertow",
+       "rippleshot",
+       "stomp",
+       "pebbletoss"
+      ],
+      "note": "hammerhead line, pending Gary"
+     }
+    ],
+    "base": 45,
+    "prize": 1620,
+    "sight_range": 4,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> seawall",
+    "text_ref": "route_coast_trainer_2",
+    "source": "overnight_gd/trainers_route_brookhollow_tidewater.json (levels rebanded)"
+   },
+   {
+    "id": "tr_route_coast_c",
+    "map": "route_coast",
+    "class": "birder",
+    "class_display_suggestion": "Birdwatcher",
+    "name_suggestion": "Ines",
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 36
+     },
+     {
+      "species": "reedcrane",
+      "level": 37
+     }
+    ],
+    "base": 35,
+    "prize": 1295,
+    "sight_range": 4,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> cliff path",
+    "text_ref": "route_coast_trainer_3",
+    "source": "overnight_gd/trainers_route_brookhollow_tidewater.json (levels rebanded)"
+   },
+   {
+    "id": "tr_route_coast_d",
+    "map": "route_coast",
+    "class": "angler",
+    "class_display_suggestion": "Angler",
+    "name_suggestion": "Jarrah",
+    "team": [
+     {
+      "species": "tundrarch",
+      "level": 36,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     },
+     {
+      "species": "mirewump",
+      "level": 37,
+      "held": "bogroot_charm",
+      "skills": [
+       "bogsnap",
+       "mirelob",
+       "rippleshot",
+       "stomp"
+      ]
+     },
+     {
+      "species": "surfskipper",
+      "level": 37
+     }
+    ],
+    "base": 35,
+    "prize": 1295,
+    "sight_range": 3,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> jetty",
+    "text_ref": "route_coast_trainer_4",
+    "source": "overnight_gd/trainers_route_brookhollow_tidewater.json (levels rebanded)"
+   },
+   {
+    "id": "tr_route_coast_e",
+    "map": "route_coast",
+    "class": "skater",
+    "class_display_suggestion": "Skater",
+    "name_suggestion": "Kestrel",
+    "team": [
+     {
+      "species": "galepetrel",
+      "level": 38
+     },
+     {
+      "species": "sunbasilisk",
+      "level": 38,
+      "held": "ember_charm"
+     }
+    ],
+    "base": 35,
+    "prize": 1330,
+    "sight_range": 5,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> seawall bike rail",
+    "text_ref": "route_coast_trainer_5",
+    "source": "overnight_gd/trainers_route_brookhollow_tidewater.json (levels rebanded)"
+   },
+   {
+    "id": "tr_route_coast_f",
+    "map": "route_coast",
+    "class": "diver",
+    "class_display_suggestion": "Reef Swimmer",
+    "name_suggestion": "Linnet",
+    "team": [
+     {
+      "species": "coilarch",
+      "level": 38,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     },
+     {
+      "species": "galepetrel",
+      "level": 38,
+      "held": "gustfeather_charm"
+     }
+    ],
+    "base": 50,
+    "prize": 1900,
+    "sight_range": 0,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> floodwater, optional",
+    "text_ref": "route_coast_trainer_6",
+    "source": "overnight_gd/trainers_route_brookhollow_tidewater.json (levels rebanded)"
+   },
+   {
+    "id": "tr_tidewater_coast_a",
+    "map": "tidewater_coast",
+    "class": "diver",
+    "class_display_suggestion": "Reef Swimmer",
+    "name_suggestion": "Merrow",
+    "team": [
+     {
+      "species": "reefshell",
+      "level": 37,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     },
+     {
+      "species": "raywing",
+      "level": 37,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     }
+    ],
+    "base": 50,
+    "prize": 1850,
+    "sight_range": 0,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> sea lane, talk-to",
+    "text_ref": "tidewater_coast_trainer_1",
+    "source": "overnight_gd/trainers_tidewater_coast.json (levels rebanded)"
+   },
+   {
+    "id": "tr_tidewater_coast_b",
+    "map": "tidewater_coast",
+    "class": "harbour_hand",
+    "class_display_suggestion": "Harbour Hand",
+    "name_suggestion": "Neve",
+    "team": [
+     {
+      "species": "lurelamp",
+      "level": 37
+     },
+     {
+      "species": "raywing",
+      "level": 37,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     }
+    ],
+    "base": 45,
+    "prize": 1665,
+    "sight_range": 4,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> tide pools",
+    "text_ref": "tidewater_coast_trainer_2",
+    "source": "overnight_gd/trainers_tidewater_coast.json (levels rebanded)"
+   },
+   {
+    "id": "tr_tidewater_coast_c",
+    "map": "tidewater_coast",
+    "class": "angler",
+    "class_display_suggestion": "Angler",
+    "name_suggestion": "Osric",
+    "team": [
+     {
+      "species": "bristlereef",
+      "level": 38,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     },
+     {
+      "species": "breakerfin",
+      "level": 38,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     }
+    ],
+    "base": 35,
+    "prize": 1330,
+    "sight_range": 3,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> rock arch",
+    "text_ref": "tidewater_coast_trainer_3",
+    "source": "overnight_gd/trainers_tidewater_coast.json (levels rebanded)"
+   },
+   {
+    "id": "tr_tidewater_coast_d",
+    "map": "tidewater_coast",
+    "class": "birder",
+    "class_display_suggestion": "Birdwatcher",
+    "name_suggestion": "Petra",
+    "team": [
+     {
+      "species": "sailquill",
+      "level": 38
+     },
+     {
+      "species": "cliffpuff",
+      "level": 39
+     }
+    ],
+    "base": 35,
+    "prize": 1365,
+    "sight_range": 4,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> sea stack",
+    "text_ref": "tidewater_coast_trainer_4",
+    "source": "overnight_gd/trainers_tidewater_coast.json (levels rebanded)"
+   },
+   {
+    "id": "tr_tidewater_coast_e",
+    "map": "tidewater_coast",
+    "class": "diver",
+    "class_display_suggestion": "Reef Swimmer",
+    "name_suggestion": "Rook",
+    "team": [
+     {
+      "species": "shorehound",
+      "level": 39
+     },
+     {
+      "species": "bristlereef",
+      "level": 39,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     },
+     {
+      "species": "gavelgill",
+      "level": 39,
+      "skills": [
+       "brinelash",
+       "stomp",
+       "undertow",
+       "rippleshot"
+      ],
+      "note": "hammerhead line, pending Gary"
+     }
+    ],
+    "base": 50,
+    "prize": 1950,
+    "sight_range": 0,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> sea lane to Lanternport",
+    "text_ref": "tidewater_coast_trainer_5",
+    "source": "overnight_gd/trainers_tidewater_coast.json (levels rebanded)"
+   },
+   {
+    "id": "tr_tidewater_coast_f",
+    "map": "tidewater_coast",
+    "class": "veteran",
+    "class_display_suggestion": "Veteran",
+    "name_suggestion": "Signe",
+    "team": [
+     {
+      "species": "spinyclaw",
+      "level": 39,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     },
+     {
+      "species": "mirewump",
+      "level": 39,
+      "held": "bogroot_charm",
+      "skills": [
+       "bogsnap",
+       "mirelob",
+       "rippleshot",
+       "stomp"
+      ]
+     }
+    ],
+    "base": 80,
+    "prize": 3120,
+    "sight_range": 2,
+    "personality": "TODO Game dev/Text Bot: keep overnight note -> optional grotto",
+    "text_ref": "tidewater_coast_trainer_6",
+    "source": "overnight_gd/trainers_tidewater_coast.json (levels rebanded)"
+   },
+   {
+    "id": "tr_tidewater_coast_cliffdiver_1",
+    "map": "tidewater_coast",
+    "class": "cliff_diver",
+    "class_display_suggestion": "Cliff Diver",
+    "name_suggestion": "Skye",
+    "team": [
+     {
+      "species": "cliffpuff",
+      "level": 37
+     },
+     {
+      "species": "divegannet",
+      "level": 38
+     },
+     {
+      "species": "abyssray",
+      "level": 38,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     }
+    ],
+    "base": 55,
+    "personality": "Narrates her own dives like a sports caster. Scores herself 10 every time.",
+    "lines": {
+     "pre": "TODO Text Bot pre (placeholder: \"And she steps up to the edge... the crowd goes quiet...\")",
+     "post": "TODO Text Bot post (placeholder: \"Judges give that a... 4. Harsh, judges.\")"
+    },
+    "prize": 2090,
+    "status": "NEW (Gary asked +4-6: cliff divers, reef researchers)",
+    "text_ref": "system_story_r56.tr_tidewater_coast_cliffdiver_1"
+   },
+   {
+    "id": "tr_tidewater_coast_cliffdiver_2",
+    "map": "tidewater_coast",
+    "class": "cliff_diver",
+    "class_display_suggestion": "Cliff Divers",
+    "name_suggestion": "Bram & Bree (twins)",
+    "team": [
+     {
+      "species": "galepetrel",
+      "level": 37
+     },
+     {
+      "species": "breakerfin",
+      "level": 37,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     },
+     {
+      "species": "spinyclaw",
+      "level": 38,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     },
+     {
+      "species": "deluvane",
+      "level": 36,
+      "held": "drizzle_charm"
+     }
+    ],
+    "base": 55,
+    "double": "optional double battle if Coder supports it; else Bram fights first two, Bree last two",
+    "personality": "Twins who finish each other's sentences, badly, then argue about it mid-battle.",
+    "lines": {
+     "pre": "TODO Text Bot pre (placeholder: \"We're the-\" \"-best divers-\" \"-no, I was saying best TWINS.\")",
+     "post": "TODO Text Bot post (placeholder: \"Your fault.\" \"YOUR fault.\")"
+    },
+    "prize": 2090,
+    "status": "NEW (Gary asked +4-6: cliff divers, reef researchers)",
+    "text_ref": "system_story_r56.tr_tidewater_coast_cliffdiver_2"
+   },
+   {
+    "id": "tr_tidewater_coast_reef_researcher_1",
+    "map": "tidewater_coast_cave",
+    "class": "reef_researcher",
+    "class_display_suggestion": "Reef Researcher",
+    "name_suggestion": "Dr. Coralie Finch",
+    "team": [
+     {
+      "species": "nudiblume",
+      "level": 37,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     },
+     {
+      "species": "pearlisk",
+      "level": 38,
+      "held": "runestitch_charm"
+     },
+     {
+      "species": "kelpstrider",
+      "level": 38
+     }
+    ],
+    "base": 60,
+    "personality": "Counts every barnacle in the cave out loud. Has lost count four times. Will not let you leave until she has the number.",
+    "lines": {
+     "pre": "TODO Text Bot pre (placeholder: \"Three hundred and twelve, three hundred and... you made me lose count!\")",
+     "post": "TODO Text Bot post (placeholder: \"Fine. Fine! One. Starting from one.\")"
+    },
+    "prize": 2280,
+    "status": "NEW (Gary asked +4-6: cliff divers, reef researchers)",
+    "text_ref": "system_story_r56.tr_tidewater_coast_reef_researcher_1"
+   },
+   {
+    "id": "tr_tidewater_coast_reef_researcher_2",
+    "map": "tidewater_coast_cave",
+    "class": "reef_researcher",
+    "class_display_suggestion": "Reef Researcher",
+    "name_suggestion": "Idris",
+    "team": [
+     {
+      "species": "reefshell",
+      "level": 38,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     },
+     {
+      "species": "lurelamp",
+      "level": 38,
+      "held": "dusk_charm"
+     },
+     {
+      "species": "hullwhale",
+      "level": 39,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     }
+    ],
+    "base": 60,
+    "personality": "Night-shift lab tech who only talks in whispers, even when shouting orders in battle.",
+    "lines": {
+     "pre": "TODO Text Bot pre (placeholder: \"(whispering) The lamps are sleeping. Battle quietly.\")",
+     "post": "TODO Text Bot post (placeholder: \"(whispering) ...wow.\")"
+    },
+    "prize": 2340,
+    "status": "NEW (Gary asked +4-6: cliff divers, reef researchers)",
+    "text_ref": "system_story_r56.tr_tidewater_coast_reef_researcher_2"
+   },
+   {
+    "id": "tr_tidewater_coast_lighthouse_keeper",
+    "map": "tidewater_coast",
+    "class": "lighthouse_keeper",
+    "class_display_suggestion": "Lamp Keeper",
+    "name_suggestion": "Old Gus",
+    "team": [
+     {
+      "species": "shorehound",
+      "level": 38
+     },
+     {
+      "species": "bleachghast",
+      "level": 38
+     },
+     {
+      "species": "tidepony",
+      "level": 39,
+      "held": "droplet_charm"
+     }
+    ],
+    "base": 60,
+    "personality": "Has polished the same lighthouse lens for 40 years. Judges every visitor by how they treat a clean window.",
+    "lines": {
+     "pre": "TODO Text Bot pre (placeholder: \"Wipe your boots. Then we battle.\")",
+     "post": "TODO Text Bot post (placeholder: \"Good boots. Good battler.\")"
+    },
+    "prize": 2340,
+    "status": "NEW (Gary asked +4-6: cliff divers, reef researchers)",
+    "text_ref": "system_story_r56.tr_tidewater_coast_lighthouse_keeper"
+   }
+  ]
+ },
+ "encounters_region5_route1_east": {
+  "map": "route1_east",
+  "levels": "29-33",
+  "table": [
+   {
+    "species": "ridgeskink",
+    "weight": 20
+   },
+   {
+    "species": "quartzhopper",
+    "weight": 20
+   },
+   {
+    "species": "zephkit",
+    "weight": 12
+   },
+   {
+    "species": "lilacthorn",
+    "weight": 16
+   },
+   {
+    "species": "glyphlet",
+    "weight": 10
+   },
+   {
+    "species": "shardghast",
+    "weight": 8
+   },
+   {
+    "species": "spinemonitor",
+    "weight": 5
+   },
+   {
+    "species": "galefennec",
+    "weight": 4
+   },
+   {
+    "species": "glyphmage",
+    "weight": 2
+   },
+   {
+    "species": "shardhart",
+    "weight": 2
+   },
+   {
+    "species": "seraphawk",
+    "weight": 1
+   }
+  ],
+  "note": "all 11 species; rares (shardhart, seraphawk) weight 1-2."
+ },
+ "encounters_other": "Use overnight_gd/encounters_route_sunmeadow_mirefen.json, encounters_mirefen.json, encounters_route_brookhollow_tidewater.json, encounters_tidewater_coast.json with levels clamped to the bands above.",
+ "research_areas": {
+  "mirefen_research_station": [
+   "bogbeacon",
+   "fenmaw",
+   "gloommire",
+   "stampedor"
+  ],
+  "tidewater_coast_cave": [
+   "abyssray",
+   "lurelamp",
+   "pearlisk",
+   "atollback"
+  ]
+ },
+ "map_display_names": {
+  "route1_east": "East Meadow Trail (draft, pending Gary)",
+  "route_sunmeadow_mirefen": "Sunmeadow\u2013Mirefen Trail (draft, pending Gary)",
+  "route_coast": "Coast Road",
+  "mirefen": "Mirefen",
+  "tidewater_coast": "Tidewater Coast"
+ },
+ "_player_text_rule": "'route' is a blocked player-facing word; ids may keep it, display names never do.",
+ "_pending_gary": [
+  "gnawford 480-stat buff (Coder default)",
+  "Tavi name for tr_route1_east_c",
+  "display names marked draft"
+ ],
+ "encounters_hammerhead": "See hammerhead_line.json appearances.wild (adds to the overnight tables)."
+}

@@ -1,0 +1,52 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_brookhollow_aurelith",
+ "route_id": "brookhollow-aurelith",
+ "kind": "route",
+ "map_status": "to_come",
+ "story_step": "4",
+ "story_order": 6,
+ "level_band": "wild 12-16, trainers 13-17",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "re_bridge",
+   "item": "tonic_small",
+   "hidden": false,
+   "placement_hint": "under the bridge abutment"
+  },
+  {
+   "id": "re_ledge",
+   "item": "dominance_crystal",
+   "hidden": false,
+   "placement_hint": "behind first ledge",
+   "qty": 1
+  },
+  {
+   "id": "re_hidden_grass",
+   "item": "calm_tea",
+   "hidden": true,
+   "placement_hint": "last tile of the grass patch"
+  },
+  {
+   "id": "re_bluff",
+   "item": "feed_bag",
+   "hidden": false,
+   "placement_hint": "top of the bluff"
+  },
+  {
+   "id": "re_hidden_post",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "placement_hint": "by the mile post"
+  },
+  {
+   "id": "re_ramp",
+   "item": "vigor_seed",
+   "hidden": false,
+   "placement_hint": "bike ramp chain landing (revisit with bike)"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

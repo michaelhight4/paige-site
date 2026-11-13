@@ -1,0 +1,4 @@
+{
+  "_note": "Blocked-word hits that already existed when cspell was added (Oct 23, 2026, ~1:05 AM CT). tests/text_lint.test.mjs warns on these and fails only on NEW hits. Remove an entry once the text is fixed. Format: \"file|word\": count.",
+  "text/overworld_lines.json|shiny": 2
+}

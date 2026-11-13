@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "lib": ["es2020", "dom"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "strict": true,
+    "noImplicitReturns": false,
+    "target": "es2020",
+    "skipLibCheck": true,
+    "types": []
+  },
+  "include": ["sim/**/*.ts", "lib/**/*.ts"]
+}

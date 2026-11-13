@@ -1,0 +1,50 @@
+{
+  "_note": "RT Employee Benefits (company XP skill tree), coder Oct 23 2026. Gary 1:01-1:02 PM CT: \"the job board is the skill tree ui for leveling up company xp\" / \"yes its the company benifits bord\" / \"RT Employee Benifits\" / \"build into region one on the phone\". Read by src/systems/rt_benefits.js. Company XP is ONLY for the company ID level (Gary); creature XP is never touched. All numbers are tunable. Text: system_rt_benefits.* (data/textbot_requests_rt_benefits.md).",
+  "region": 1,
+  "regions": {
+    "1": { "maxIdLevel": 4, "_note": "region 1 cap: XP stops at the ID 4 threshold; a normal run lands on ID 3" }
+  },
+  "curve": {
+    "_note": "xpTo[L-1] = total company XP needed to reach ID level L (index 0 = ID 1). Past the table each level costs 'step' more.",
+    "xpTo": [0, 100, 280, 550, 900, 1300, 1800, 2400, 3100, 3900],
+    "step": 900
+  },
+  "pointsPerLevel": 1,
+  "sources": {
+    "_note": "once = claimed once per save (company.xpClaims). kilindex_new = every new Kilindex log (starter included). Same events RITA (company_voice) reacts to.",
+    "first_catch":       { "xp": 30, "once": true },
+    "kilindex_new":      { "xp": 10 },
+    "kilindex_milestone": { "xp": { "5": 20, "10": 30, "15": 40 }, "once": true },
+    "main_quest":        { "xp": 40, "once": true, "flag_re": "^q_(mq_.+)_done$", "done_on_flag": { "got_starter": "mq_brookhollow_promotion" } },
+    "trainer_first_win": { "xp": 20, "once": true },
+    "rival_beaten":      { "xp": { "1": 40 }, "once": true, "flag_re": "^beat_rival_ron_(\\d+)$" },
+    "master_beaten":     { "xp": { "fernwick": 80 }, "once": true, "flag_re": "^beat_master_([a-z_]+)$" }
+  },
+  "branches": [
+    { "id": "field_logistics", "label": "Field Logistics" },
+    { "id": "supply_pay", "label": "Supply & Pay" },
+    { "id": "crystal_lab", "label": "Crystal Lab" },
+    { "id": "unit_performance", "label": "Unit Performance" }
+  ],
+  "nodes": [
+    { "id": "copay_coverage", "branch": "field_logistics", "effect": "heal.copay (not wired yet)",
+      "ranks": [ { "cost": 1, "minIdLevel": 5 }, { "cost": 2, "minIdLevel": 12 } ],
+      "maxRankByRegion": { "1": 0, "2": 1, "3": 2 }, "unlockRegion": 2 },
+    { "id": "store_discount", "branch": "supply_pay", "effect": "shop.discount",
+      "_note": "shops.json discount.boardTiers [0, .03, .06, .10] (src/systems/shop.js discountFor); stacks with the ID 2 staff 10%, cap 65%",
+      "ranks": [ { "cost": 1, "minIdLevel": 1, "value": 0.03 }, { "cost": 2, "minIdLevel": 15, "value": 0.06 }, { "cost": 3, "minIdLevel": 40, "value": 0.10 } ],
+      "maxRankByRegion": { "1": 1, "2": 2, "3": 3 } },
+    { "id": "rt_payout", "branch": "supply_pay", "effect": "money.trainer_payout",
+      "_note": "extra % on trainer prize money (wraps systems.awardBattleMoney in rt_benefits.js; shop.js untouched)",
+      "ranks": [ { "cost": 1, "minIdLevel": 2, "value": 0.10 }, { "cost": 1, "minIdLevel": 3, "value": 0.20 }, { "cost": 2, "minIdLevel": 10, "value": 0.30 } ],
+      "maxRankByRegion": { "1": 2, "2": 3 } },
+    { "id": "crystal_grade", "branch": "crystal_lab", "effect": "shop.crystal_grades",
+      "_note": "src/systems/data/crystal_grades.js (I Field ID 1 cost 1, II Prime ID 15 cost 2, III Apex ID 40 cost 3); region 1 shops hide board crystals, so locked here",
+      "ranks": [ { "cost": 1, "minIdLevel": 1 }, { "cost": 2, "minIdLevel": 15 }, { "cost": 3, "minIdLevel": 40 } ],
+      "maxRankByRegion": { "1": 0, "2": 1, "3": 3 }, "unlockRegion": 2 },
+    { "id": "unit_training", "branch": "unit_performance", "effect": "creature.xp_boost (not wired; creature XP untouched in region 1)",
+      "ranks": [ { "cost": 1, "minIdLevel": 5 }, { "cost": 2, "minIdLevel": 15 } ],
+      "maxRankByRegion": { "1": 0, "2": 1, "3": 2 }, "unlockRegion": 2 }
+  ],
+  "respec": { "supported": false, "_note": "company.respecWeek exists in the save but there is no terminal / fee / week clock yet: no respec in region 1" }
+}

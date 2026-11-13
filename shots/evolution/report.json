@@ -1,0 +1,294 @@
+{
+ "when": "Fri Oct 23 2026 14:30:47 GMT-0500 (Central Daylight Time)",
+ "fails": 0,
+ "report": [
+  {
+   "ok": true,
+   "msg": "pc: evolution attached (scene.evolution)"
+  },
+  {
+   "ok": true,
+   "msg": "pc: wild battle won ({\"outcome\":\"win\"})"
+  },
+  {
+   "ok": true,
+   "msg": "pc: start text \"Pip's crystal is humming. Something's changing!\""
+  },
+  {
+   "ok": true,
+   "msg": "pc: save refused mid-evolution (lock 'script')"
+  },
+  {
+   "ok": true,
+   "msg": "pc: became emberlunx L16 \"Pip\""
+  },
+  {
+   "ok": true,
+   "msg": "pc: end text \"Pip grew into Emberlunx!\""
+  },
+  {
+   "ok": true,
+   "msg": "pc: disk still has the pre-evolution save while the end text is up (cindrip)"
+  },
+  {
+   "ok": true,
+   "msg": "pc: Kilindex registered the new form (\"New Kilindex entry: Emberlunx.\")"
+  },
+  {
+   "ok": true,
+   "msg": "pc: saved AFTER the evolution (disk party[0] = emberlunx)"
+  },
+  {
+   "ok": true,
+   "msg": "pc: back to the overworld"
+  },
+  {
+   "ok": true,
+   "msg": "pc: no page errors "
+  },
+  {
+   "tag": "pc",
+   "setup": {
+    "evolution": true,
+    "party": [
+     "cindrip L15"
+    ]
+   },
+   "seen": {
+    "start": "Pip's crystal is humming. Something's changing!",
+    "end": "Pip grew into Emberlunx!",
+    "lockDuring": "script",
+    "savedDuring": false,
+    "kilindexLine": "New Kilindex entry: Emberlunx.",
+    "diskAtEnd": "cindrip"
+   },
+   "full": {
+    "species": "emberlunx",
+    "level": 16,
+    "nickname": "Pip",
+    "hp": 45,
+    "kilindex": true,
+    "log": [
+     {
+      "uid": "c-1ttbaf70",
+      "from": "cindrip",
+      "to": "emberlunx",
+      "level": 16,
+      "cancelled": false
+     }
+    ]
+   },
+   "errs": []
+  },
+  {
+   "ok": true,
+   "msg": "pc_cancel: evolution attached (scene.evolution)"
+  },
+  {
+   "ok": true,
+   "msg": "pc_cancel: wild battle won ({\"outcome\":\"win\"})"
+  },
+  {
+   "ok": true,
+   "msg": "pc_cancel: start text \"Pip's crystal is humming. Something's changing!\""
+  },
+  {
+   "ok": true,
+   "msg": "pc_cancel: save refused mid-evolution (lock 'script')"
+  },
+  {
+   "ok": true,
+   "msg": "pc_cancel: B stopped it, still cindrip L16"
+  },
+  {
+   "ok": true,
+   "msg": "pc_cancel: stopped text \"Pip settles down. Not today, then.\""
+  },
+  {
+   "ok": true,
+   "msg": "pc_cancel: back to the overworld"
+  },
+  {
+   "ok": true,
+   "msg": "pc_cancel: no page errors "
+  },
+  {
+   "tag": "pc_cancel",
+   "setup": {
+    "evolution": true,
+    "party": [
+     "cindrip L15"
+    ]
+   },
+   "seen": {
+    "start": "Pip's crystal is humming. Something's changing!",
+    "end": "Pip settles down. Not today, then.",
+    "lockDuring": "script",
+    "savedDuring": false,
+    "kilindexLine": null,
+    "diskAtEnd": "cindrip"
+   },
+   "full": {
+    "species": "cindrip",
+    "level": 16,
+    "nickname": "Pip",
+    "hp": 40,
+    "kilindex": false,
+    "log": [
+     {
+      "uid": "c-1vjhbxw0",
+      "from": "cindrip",
+      "to": "emberlunx",
+      "level": 16,
+      "cancelled": true
+     }
+    ]
+   },
+   "errs": []
+  },
+  {
+   "ok": true,
+   "msg": "phone: evolution attached (scene.evolution)"
+  },
+  {
+   "ok": true,
+   "msg": "phone: wild battle won ({\"outcome\":\"win\"})"
+  },
+  {
+   "ok": true,
+   "msg": "phone: start text \"Pip's crystal is humming. Something's changing!\""
+  },
+  {
+   "ok": true,
+   "msg": "phone: save refused mid-evolution (lock 'script')"
+  },
+  {
+   "ok": true,
+   "msg": "phone: became emberlunx L16 \"Pip\""
+  },
+  {
+   "ok": true,
+   "msg": "phone: end text \"Pip grew into Emberlunx!\""
+  },
+  {
+   "ok": true,
+   "msg": "phone: disk still has the pre-evolution save while the end text is up (cindrip)"
+  },
+  {
+   "ok": true,
+   "msg": "phone: Kilindex registered the new form (\"New Kilindex entry: Emberlunx.\")"
+  },
+  {
+   "ok": true,
+   "msg": "phone: saved AFTER the evolution (disk party[0] = emberlunx)"
+  },
+  {
+   "ok": true,
+   "msg": "phone: back to the overworld"
+  },
+  {
+   "ok": true,
+   "msg": "phone: no page errors "
+  },
+  {
+   "tag": "phone",
+   "setup": {
+    "evolution": true,
+    "party": [
+     "cindrip L15"
+    ]
+   },
+   "seen": {
+    "start": "Pip's crystal is humming. Something's changing!",
+    "end": "Pip grew into Emberlunx!",
+    "lockDuring": "script",
+    "savedDuring": false,
+    "kilindexLine": "New Kilindex entry: Emberlunx.",
+    "diskAtEnd": "cindrip"
+   },
+   "full": {
+    "species": "emberlunx",
+    "level": 16,
+    "nickname": "Pip",
+    "hp": 45,
+    "kilindex": true,
+    "log": [
+     {
+      "uid": "c-ln0uct0",
+      "from": "cindrip",
+      "to": "emberlunx",
+      "level": 16,
+      "cancelled": false
+     }
+    ]
+   },
+   "errs": []
+  },
+  {
+   "ok": true,
+   "msg": "phone_cancel: evolution attached (scene.evolution)"
+  },
+  {
+   "ok": true,
+   "msg": "phone_cancel: wild battle won ({\"outcome\":\"win\"})"
+  },
+  {
+   "ok": true,
+   "msg": "phone_cancel: start text \"Pip's crystal is humming. Something's changing!\""
+  },
+  {
+   "ok": true,
+   "msg": "phone_cancel: save refused mid-evolution (lock 'script')"
+  },
+  {
+   "ok": true,
+   "msg": "phone_cancel: B stopped it, still cindrip L16"
+  },
+  {
+   "ok": true,
+   "msg": "phone_cancel: stopped text \"Pip settles down. Not today, then.\""
+  },
+  {
+   "ok": true,
+   "msg": "phone_cancel: back to the overworld"
+  },
+  {
+   "ok": true,
+   "msg": "phone_cancel: no page errors "
+  },
+  {
+   "tag": "phone_cancel",
+   "setup": {
+    "evolution": true,
+    "party": [
+     "cindrip L15"
+    ]
+   },
+   "seen": {
+    "start": "Pip's crystal is humming. Something's changing!",
+    "end": "Pip settles down. Not today, then.",
+    "lockDuring": "script",
+    "savedDuring": false,
+    "kilindexLine": null,
+    "diskAtEnd": "cindrip"
+   },
+   "full": {
+    "species": "cindrip",
+    "level": 16,
+    "nickname": "Pip",
+    "hp": 40,
+    "kilindex": false,
+    "log": [
+     {
+      "uid": "c-fsu13o0",
+      "from": "cindrip",
+      "to": "emberlunx",
+      "level": 16,
+      "cancelled": true
+     }
+    ]
+   },
+   "errs": []
+  }
+ ]
+}

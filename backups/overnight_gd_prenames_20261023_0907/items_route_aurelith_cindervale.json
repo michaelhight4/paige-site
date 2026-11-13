@@ -1,0 +1,46 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_aurelith_cindervale",
+ "route_id": "aurelith-cindervale",
+ "kind": "route (volcanic road)",
+ "map_status": "to_come",
+ "story_step": "11",
+ "story_order": 24,
+ "level_band": "wild 46-50, trainers 47-51",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "ac_giant",
+   "item": "energy_tonic",
+   "hidden": false,
+   "placement_hint": "where the giant slept"
+  },
+  {
+   "id": "ac_slope",
+   "item": "tonic_large",
+   "hidden": true,
+   "placement_hint": "ash slope"
+  },
+  {
+   "id": "ac_tube",
+   "item": "vigor_seed",
+   "hidden": false,
+   "placement_hint": "lava tube end"
+  },
+  {
+   "id": "ac_outpost",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "placement_hint": "forge outpost",
+   "qty": 2
+  },
+  {
+   "id": "ac_hidden_vent",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "placement_hint": "cold vent"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

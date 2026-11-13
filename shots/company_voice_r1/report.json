@@ -1,0 +1,205 @@
+{
+ "results": [
+  "PASS [pc] company voice attached with no ?cv flag (default on)",
+  "PASS [pc] RITA silent before the starter - {\"shown\":0,\"started\":false}",
+  "PASS [pc] promotion line shows after the starter (quest_done mq_brookhollow_promotion) - {\"event\":\"quest_done\",\"key\":\"mq_brookhollow_promotion\",\"text\":\"RITA673406: new role on file. Desk: none. Field: all of it. ▼\",\"log\":[\"quest_done\"]}",
+  "PASS [pc] promotion line: no blocked words - RITA673406: new role on file. Desk: none. Field: all of it. ▼",
+  "shot shots/company_voice_r1/pc_1920x1080_1_promotion_line.png",
+  "FAIL [pc] caught one in a real wild battle - battles=3",
+  "FAIL [pc] first catch line shows (first_catch) - {\"event\":null,\"text\":\"RITAIt's mostly grass. Grass full of assets.\",\"log\":[[\"quest_done\",\"673406: new role on file. Desk: none. Field: all of it.\"],[\"area_new\",\"673406: Trail 1 logged. First stretch of the asset map.\"]]}",
+  "PASS [pc] all lines shown: no blocked words - [[\"quest_done\",\"673406: new role on file. Desk: none. Field: all of it.\"],[\"area_new\",\"673406: Trail 1 logged. First stretch of the asset map.\"]]",
+  "PASS [pc] strip never shown during script / dialogue / fade / battle / menus - {\"frames\":13135,\"shownFrames\":660,\"blockedFrames\":10551,\"bad\":[]}",
+  "PASS [pc] no console errors",
+  "PASS [pc] ?cv=0: no companyVoice, no strip, nothing fetched - {\"cv\":false,\"strip\":false,\"fetched\":false}",
+  "PASS [pc] ?cv=0: no page errors",
+  "PASS [phone] company voice attached with no ?cv flag (default on)",
+  "PASS [phone] RITA silent before the starter - {\"shown\":0,\"started\":false}",
+  "PASS [phone] promotion line shows after the starter (quest_done mq_brookhollow_promotion) - {\"event\":\"quest_done\",\"key\":\"mq_brookhollow_promotion\",\"text\":\"RITA483997: new role on file. Desk: none. Field: all of it. ▼\",\"log\":[\"quest_done\"]}",
+  "PASS [phone] promotion line: no blocked words - RITA483997: new role on file. Desk: none. Field: all of it. ▼",
+  "shot shots/company_voice_r1/phone_844x390_1_promotion_line.png",
+  "FAIL [phone] caught one in a real wild battle - battles=6",
+  "FAIL [phone] first catch line shows (first_catch) - {\"event\":null,\"text\":\"RITA483997: Trail 1 logged. First stretch of the asset map. ▼\",\"log\":[[\"quest_done\",\"483997: new role on file. Desk: none. Field: all of it.\"],[\"area_new\",\"483997: Trail 1 logged. First stretch of the asset map.\"]]}",
+  "PASS [phone] all lines shown: no blocked words - [[\"quest_done\",\"483997: new role on file. Desk: none. Field: all of it.\"],[\"area_new\",\"483997: Trail 1 logged. First stretch of the asset map.\"]]",
+  "PASS [phone] strip never shown during script / dialogue / fade / battle / menus - {\"frames\":18758,\"shownFrames\":144,\"blockedFrames\":17246,\"bad\":[]}",
+  "PASS [phone] no console errors",
+  "PASS [phone] ?cv=0: no companyVoice, no strip, nothing fetched - {\"cv\":false,\"strip\":false,\"fetched\":false}",
+  "PASS [phone] ?cv=0: no page errors"
+ ],
+ "report": [
+  {
+   "view": "pc",
+   "promotion": {
+    "event": "quest_done",
+    "key": "mq_brookhollow_promotion",
+    "text": "RITA673406: new role on file. Desk: none. Field: all of it. ▼",
+    "log": [
+     "quest_done"
+    ]
+   }
+  },
+  {
+   "view": "pc",
+   "battle": 1,
+   "msgs": [
+    "Use which item?",
+    "You held up a Dominance Crystal.",
+    "Tumbloam broke free!",
+    "Tumbloam used Moss Slam!",
+    "That hit its weak spot!",
+    "What will Tumbloam do?",
+    "Use which item?",
+    "You held up a Dominance Crystal.",
+    "Tumbloam broke free!",
+    "Tumbloam used Horn Nudge!",
+    "What will Tumbloam do?",
+    "Nothing in the Pack you can use here."
+   ]
+  },
+  {
+   "view": "pc",
+   "battle": 2,
+   "msgs": [
+    "Nothing in the Pack you can use here."
+   ]
+  },
+  {
+   "view": "pc",
+   "battle": 3,
+   "msgs": [
+    "Nothing in the Pack you can use here."
+   ]
+  },
+  {
+   "view": "pc",
+   "firstCatch": {
+    "event": null,
+    "text": "RITAIt's mostly grass. Grass full of assets.",
+    "log": [
+     [
+      "quest_done",
+      "673406: new role on file. Desk: none. Field: all of it."
+     ],
+     [
+      "area_new",
+      "673406: Trail 1 logged. First stretch of the asset map."
+     ]
+    ]
+   },
+   "areaLog": [
+    [
+     "quest_done",
+     "673406: new role on file. Desk: none. Field: all of it."
+    ]
+   ]
+  },
+  {
+   "view": "pc",
+   "sampler": {
+    "bad": [],
+    "frames": 13135,
+    "shownFrames": 660,
+    "blockedFrames": 10551,
+    "run": 0
+   },
+   "errors": []
+  },
+  {
+   "view": "phone",
+   "promotion": {
+    "event": "quest_done",
+    "key": "mq_brookhollow_promotion",
+    "text": "RITA483997: new role on file. Desk: none. Field: all of it. ▼",
+    "log": [
+     "quest_done"
+    ]
+   }
+  },
+  {
+   "view": "phone",
+   "battle": 1,
+   "msgs": [
+    "Use which item?",
+    "You held up a Dominance Crystal.",
+    "Flickermole broke free!",
+    "Flickermole used Ash Puff!",
+    "What will Cindrip do?",
+    "Use which item?",
+    "You held up a Dominance Crystal.",
+    "Flickermole broke free!",
+    "Flickermole used Spark Sneeze!",
+    "It shrugged most of that off.",
+    "What will Cindrip do?",
+    "Nothing in the Pack you can use here."
+   ]
+  },
+  {
+   "view": "phone",
+   "battle": 2,
+   "msgs": [
+    "Nothing in the Pack you can use here."
+   ]
+  },
+  {
+   "view": "phone",
+   "battle": 3,
+   "msgs": [
+    "Nothing in the Pack you can use here."
+   ]
+  },
+  {
+   "view": "phone",
+   "battle": 4,
+   "msgs": [
+    "Nothing in the Pack you can use here."
+   ]
+  },
+  {
+   "view": "phone",
+   "battle": 5,
+   "msgs": [
+    "Nothing in the Pack you can use here."
+   ]
+  },
+  {
+   "view": "phone",
+   "battle": 6,
+   "msgs": [
+    "Nothing in the Pack you can use here."
+   ]
+  },
+  {
+   "view": "phone",
+   "firstCatch": {
+    "event": null,
+    "text": "RITA483997: Trail 1 logged. First stretch of the asset map. ▼",
+    "log": [
+     [
+      "quest_done",
+      "483997: new role on file. Desk: none. Field: all of it."
+     ],
+     [
+      "area_new",
+      "483997: Trail 1 logged. First stretch of the asset map."
+     ]
+    ]
+   },
+   "areaLog": [
+    [
+     "quest_done",
+     "483997: new role on file. Desk: none. Field: all of it."
+    ]
+   ]
+  },
+  {
+   "view": "phone",
+   "sampler": {
+    "bad": [],
+    "frames": 18758,
+    "shownFrames": 144,
+    "blockedFrames": 17246,
+    "run": 0
+   },
+   "errors": []
+  }
+ ]
+}

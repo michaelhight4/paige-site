@@ -1,0 +1,54 @@
+{
+  "pc": {
+    "last": {
+      "outcome": "win",
+      "caught": "buoyling",
+      "xp": 21
+    },
+    "party": [
+      "cindrip L9 22hp",
+      "nibbin L7 24hp",
+      "buoyling L3 7hp"
+    ],
+    "crystals": 2,
+    "active": false,
+    "shots": 27,
+    "dodged": 5,
+    "crystalTried": 3,
+    "errs": []
+  },
+  "pc1080": {
+    "last": {
+      "outcome": "win",
+      "xp": 42
+    },
+    "party": [
+      "cindrip L9 25hp",
+      "nibbin L7 24hp"
+    ],
+    "crystals": 3,
+    "active": false,
+    "shots": 20,
+    "dodged": 2,
+    "crystalTried": 0,
+    "errs": []
+  },
+  "phone": {
+    "last": {
+      "outcome": "win",
+      "caught": "pandember",
+      "xp": 21
+    },
+    "party": [
+      "cindrip L9 23hp",
+      "nibbin L7 24hp",
+      "pandember L3 6hp"
+    ],
+    "crystals": 2,
+    "active": false,
+    "shots": 21,
+    "dodged": 3,
+    "crystalTried": 3,
+    "errs": []
+  }
+}

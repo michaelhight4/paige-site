@@ -1,0 +1,36 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "cindervale",
+ "route_id": null,
+ "kind": "town (volcano)",
+ "map_status": "to_come",
+ "story_step": "11 (coin 8 -> all_badges)",
+ "story_order": 25,
+ "level_band": "hall see halls/cindervale.json",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_cindervale_square",
+   "class": "smith",
+   "class_display_suggestion": "Smith",
+   "name_suggestion": "Bea",
+   "team": [
+    {
+     "species": "foundrax",
+     "level": 50
+    },
+    {
+     "species": "cinderwyrm",
+     "level": 51
+    }
+   ],
+   "base": 55,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 2805,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.cindervale.square",
+   "note": "forge square, optional"
+  }
+ ],
+ "hall": "halls/cindervale.json"
+}

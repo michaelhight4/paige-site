@@ -1,0 +1,12 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "aurelith",
+ "route_id": null,
+ "kind": "city (rail-only, arena)",
+ "map_status": "to_come",
+ "story_step": "4 (pass through, arena sealed) / 11+ finale",
+ "story_order": 7,
+ "level_band": "finale Ron 6 L62; arena 56-64 (count TBD)",
+ "format": "same as art/world/overworld/encounters/encounters.json zones (method, rate, slots[species, level[lo,hi], weight, time/weather])",
+ "zones": []
+}

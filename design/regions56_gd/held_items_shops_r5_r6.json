@@ -1,0 +1,58 @@
+{
+ "_status": "design data",
+ "rules": {
+  "charm_mult": 1.15,
+  "charm_must_match_element": true,
+  "strong_items": "earned only, never in shops"
+ },
+ "shops": [
+  {
+   "shop": "mirefen_mart",
+   "tier": 5,
+   "items": [
+    {
+     "id": "bogroot_charm",
+     "price": 2400
+    },
+    {
+     "id": "drizzle_charm",
+     "price": 2400
+    },
+    {
+     "id": "quick_tassel",
+     "price": 3000
+    }
+   ]
+  },
+  {
+   "shop": "tidewater_mart",
+   "tier": 6,
+   "items": [
+    {
+     "id": "tidebell_charm",
+     "price": 2600
+    },
+    {
+     "id": "droplet_charm",
+     "price": 2400
+    },
+    {
+     "id": "remedy_pouch",
+     "price": 3200
+    }
+   ]
+  }
+ ],
+ "earned": [
+  {
+   "id": "sap_vial",
+   "source": "Mirefen hall prize (Master Wenna Peat)"
+  },
+  {
+   "id": "tamers_thread",
+   "source": "Tidewater quest reward (Old Gus)"
+  }
+ ],
+ "caveat": "Bogroot and Tidebell Charms now pair with the swamp/sea attacks in moves_swamp_sea.json.",
+ "credits": "Item effect patterns adapted from Pokemon Showdown data/items.ts (MIT license, (c) Guangcong Luo and contributors)."
+}

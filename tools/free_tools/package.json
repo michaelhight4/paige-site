@@ -1,0 +1,25 @@
+{
+  "name": "kilumen-free-tools",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Dev-only free tools for Kilumen (Lighthouse audits, Workbox PWA build). Separate from the game's package.json on purpose so the game stays zero-build and other workers' package.json edits are untouched. Nothing here ships.",
+  "scripts": {
+    "lighthouse": "node ../lighthouse_check.mjs",
+    "pwa:build": "node ../pwa_build.mjs",
+    "pwa:test": "node ../../tests/pwa_e2e.mjs"
+  },
+  "devDependencies": {
+    "@json-editor/json-editor": "2.17.3",
+    "ajv": "8.20.0",
+    "cspell": "9.8.0",
+    "lighthouse": "12.8.2",
+    "piscina": "5.3.2",
+    "pixelmatch": "8.0.0",
+    "sharp": "0.35.5",
+    "simple-statistics": "7.12.1",
+    "stats.js": "0.17.0",
+    "valibot": "1.5.0",
+    "workbox-build": "7.4.1"
+  }
+}

@@ -1,0 +1,12 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "cindervale",
+ "route_id": null,
+ "kind": "town (volcano)",
+ "map_status": "to_come",
+ "story_step": "11 (coin 8 -> all_badges)",
+ "story_order": 25,
+ "level_band": "hall see halls/cindervale.json",
+ "format": "same as art/world/overworld/encounters/encounters.json zones (method, rate, slots[species, level[lo,hi], weight, time/weather])",
+ "zones": []
+}

@@ -1,0 +1,1769 @@
+{
+ "_meta": {
+  "built": "10/23/2026, 01:08:59 CT",
+  "rule": "species without a finished sprite set keep the existing stand-in (encounters.json / staged species, GD \"replaced\", or masters.json battle_species)",
+  "counts": {
+   "encounters": 124,
+   "masters": 50,
+   "gd_route_trainers": 118
+  }
+ },
+ "encounters": [
+  {
+   "table": "greystone_glowfern",
+   "species": "chiselbug",
+   "stand_in": "bastonox",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "greystone_glowfern",
+   "species": "pebbadillo",
+   "stand_in": "tumbloam",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_aurelith_saltmere_grass",
+   "species": "medulet",
+   "stand_in": "rillop",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_aurelith_saltmere_grass",
+   "species": "ankerling",
+   "stand_in": "tumbloam",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_aurelith_saltmere_water",
+   "species": "rakefin",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_aurelith_saltmere_water",
+   "species": "ribboneel",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_aurelith_saltmere_water",
+   "species": "whelkin",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "saltmere_water",
+   "species": "bulwarkrab",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "saltmere_water",
+   "species": "spraytern",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "saltmere_water",
+   "species": "brineseal",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_revival_grass",
+   "species": "sproutwyrm",
+   "stand_in": "burrowmane",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_revival_tr_crystal_grass",
+   "species": "tollkin",
+   "stand_in": "runeskein",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_revival_tr_crystal_grass",
+   "species": "railmite",
+   "stand_in": "burlbeetle",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_revival_saltmere_grass",
+   "species": "spraytern",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_revival_saltmere_grass",
+   "species": "chiselbug",
+   "stand_in": "burlbeetle",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_revival_saltmere_grass",
+   "species": "glarekit",
+   "stand_in": "halovy",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "frostspire_pass_grass",
+   "species": "snowgrouse",
+   "stand_in": "sailquill",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "frostspire_pass_grass",
+   "species": "signalwren",
+   "stand_in": "sailquill",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "frostspire_grass",
+   "species": "skyrender",
+   "stand_in": "sailquill",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "frostspire_grass",
+   "species": "signalwren",
+   "stand_in": "sailquill",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "frostspire_grass",
+   "species": "snowroller",
+   "stand_in": "burlbeetle",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "frostspire_cave",
+   "species": "mantleox",
+   "stand_in": "burrowmane",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "frostspire_cave",
+   "species": "squallwhirl",
+   "stand_in": "sailquill",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_revival_sunmeadow_grass",
+   "species": "northling",
+   "stand_in": "halovy",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_revival_sunmeadow_grass",
+   "species": "snowmuff",
+   "stand_in": "burrowmane",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_revival_sunmeadow_grass",
+   "species": "glyphmage",
+   "stand_in": "runeskein",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sunmeadow_fields_grass",
+   "species": "glisterdew",
+   "stand_in": "burrowmane",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sunmeadow_fields_grass",
+   "species": "snowmuff",
+   "stand_in": "burrowmane",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sunmeadow_fields_water",
+   "species": "dewbell",
+   "stand_in": "brookhorn",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sunmeadow_fields_water",
+   "species": "floepaddle",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sunmeadow_fields_water",
+   "species": "bulwarkrab",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_sunmeadow_mirefen_grass",
+   "species": "frostweevil",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_saltmere_mirefen_grass",
+   "species": "frostweevil",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_saltmere_mirefen_grass",
+   "species": "bulwarkrab",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_saltmere_mirefen_water",
+   "species": "spraytern",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_saltmere_mirefen_water",
+   "species": "brineseal",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_coast_grass",
+   "species": "spraytern",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_coast_grass",
+   "species": "parasoleaf",
+   "stand_in": "bastonox",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_coast_water",
+   "species": "peatbellow",
+   "stand_in": "mirewump",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_coast_water",
+   "species": "mirejaw",
+   "stand_in": "mirewump",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_coast_water",
+   "species": "drenchcrab",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_coast_water",
+   "species": "tuskwallow",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "tidewater_coast_grass",
+   "species": "nudiblume",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "tidewater_coast_water",
+   "species": "barnaclump",
+   "stand_in": "bastonox",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "tidewater_coast_water",
+   "species": "hullwhale",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "tidewater_coast_water",
+   "species": "wavelin",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "tidewater_coast_cave",
+   "species": "pearlisk",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "lanternport_water",
+   "species": "mooncrab",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "lanternport_water",
+   "species": "seaglint",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "lanternport_water",
+   "species": "reefshell",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_fernwick_lanternport_grass",
+   "species": "driftknot",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_fernwick_lanternport_grass",
+   "species": "shorehound",
+   "stand_in": "bastonox",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_fernwick_lanternport_water",
+   "species": "sluicekin",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_fernwick_lanternport_water",
+   "species": "reefshell",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_fernwick_lanternport_water",
+   "species": "seaglint",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_cindervale_grass",
+   "species": "obsidiax",
+   "stand_in": "slagrook",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_cindervale_grass",
+   "species": "brimtoad",
+   "stand_in": "forgeharrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_cindervale_grass",
+   "species": "pumicepuff",
+   "stand_in": "bastonox",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_cindervale_cave",
+   "species": "pumicepuff",
+   "stand_in": "bastonox",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_cindervale_cave",
+   "species": "pharolith",
+   "stand_in": "forgeharrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "route_cindervale_cave",
+   "species": "sunbasilisk",
+   "stand_in": "forgeharrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "fs_snow",
+   "species": "skyrender",
+   "stand_in": "sailquill",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "fs_snow",
+   "species": "signalwren",
+   "stand_in": "sailquill",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "fs_snow",
+   "species": "snowroller",
+   "stand_in": "burrowmane",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "fs_ice_cave",
+   "species": "mantleox",
+   "stand_in": "bastonox",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "fs_ice_cave",
+   "species": "squallwhirl",
+   "stand_in": "sailquill",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "greystone_b1_floor",
+   "species": "moatling",
+   "stand_in": "burrowmane",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "greystone_b1_floor",
+   "species": "ankerling",
+   "stand_in": "bastonox",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "greystone_b2_track",
+   "species": "brinecube",
+   "stand_in": "bastonox",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "lp_harbour",
+   "species": "mooncrab",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "lp_harbour",
+   "species": "seaglint",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "lp_harbour",
+   "species": "reefshell",
+   "stand_in": "brookhorn",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "ac_ash",
+   "species": "obsidiax",
+   "stand_in": "slagrook",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "ac_ash",
+   "species": "brimtoad",
+   "stand_in": "emberlunx",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "ac_ash",
+   "species": "pumicepuff",
+   "stand_in": "bastonox",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "ac_tube",
+   "species": "pumicepuff",
+   "stand_in": "bastonox",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "ac_tube",
+   "species": "pharolith",
+   "stand_in": "forgeharrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "ac_tube",
+   "species": "sunbasilisk",
+   "stand_in": "forgeharrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "re_river",
+   "species": "TODO_ROSTER:sea",
+   "stand_in": "tidemarrow",
+   "why": "not in DEX_450 (TODO_ROSTER)"
+  },
+  {
+   "table": "ct_dune",
+   "species": "spraytern",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "ct_dune",
+   "species": "parasoleaf",
+   "stand_in": "bastonox",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "ct_flood",
+   "species": "peatbellow",
+   "stand_in": "rillop",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "ct_flood",
+   "species": "mirejaw",
+   "stand_in": "brookhorn",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "ct_flood",
+   "species": "drenchcrab",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "ct_flood",
+   "species": "tuskwallow",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "fl_grass",
+   "species": "driftknot",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "fl_grass",
+   "species": "shorehound",
+   "stand_in": "burrowmane",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "fl_canal",
+   "species": "sluicekin",
+   "stand_in": "brookhorn",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "fl_canal",
+   "species": "reefshell",
+   "stand_in": "rillop",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "fl_canal",
+   "species": "seaglint",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "fp_snowfern",
+   "species": "snowgrouse",
+   "stand_in": "sailquill",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "fp_snowfern",
+   "species": "signalwren",
+   "stand_in": "sailquill",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "rs_grass",
+   "species": "spraytern",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "rs_grass",
+   "species": "chiselbug",
+   "stand_in": "burrowmane",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "rs_grass",
+   "species": "glarekit",
+   "stand_in": "halovy",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "rsf_crystal",
+   "species": "northling",
+   "stand_in": "halovy",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "rsf_crystal",
+   "species": "snowmuff",
+   "stand_in": "burrowmane",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "rsf_crystal",
+   "species": "glyphmage",
+   "stand_in": "runeskein",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sa_dune_grass",
+   "species": "medulet",
+   "stand_in": "rillop",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sa_dune_grass",
+   "species": "ankerling",
+   "stand_in": "tumbloam",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sa_creek",
+   "species": "rakefin",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sa_creek",
+   "species": "ribboneel",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sa_creek",
+   "species": "whelkin",
+   "stand_in": "brookhorn",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sme_marsh",
+   "species": "frostweevil",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sme_marsh",
+   "species": "bulwarkrab",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sme_channel",
+   "species": "spraytern",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sme_channel",
+   "species": "brineseal",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "smm_reeds",
+   "species": "frostweevil",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "tr_grass",
+   "species": "sproutwyrm",
+   "stand_in": "burrowmane",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "tr_crystal_grass",
+   "species": "tollkin",
+   "stand_in": "runeskein",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "tr_crystal_grass",
+   "species": "railmite",
+   "stand_in": "burrowmane",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sm_harbour",
+   "species": "bulwarkrab",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sm_harbour",
+   "species": "spraytern",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "sm_harbour",
+   "species": "brineseal",
+   "stand_in": "rillop",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "smf_meadow",
+   "species": "glisterdew",
+   "stand_in": "burrowmane",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "smf_meadow",
+   "species": "snowmuff",
+   "stand_in": "burrowmane",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "smf_stream",
+   "species": "dewbell",
+   "stand_in": "brookhorn",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "smf_stream",
+   "species": "floepaddle",
+   "stand_in": "rillop",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "smf_stream",
+   "species": "bulwarkrab",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "tc_dune",
+   "species": "nudiblume",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "tc_sea",
+   "species": "barnaclump",
+   "stand_in": "bastonox",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "tc_sea",
+   "species": "hullwhale",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "tc_sea",
+   "species": "wavelin",
+   "stand_in": "brookhorn",
+   "why": "no sprite set yet"
+  },
+  {
+   "table": "tc_grotto",
+   "species": "pearlisk",
+   "stand_in": "tidemarrow",
+   "why": "no sprite set yet"
+  }
+ ],
+ "masters": [
+  {
+   "who": "saltmere Master master_saltmere",
+   "species": "quaymouser",
+   "level": 18,
+   "stand_in": "brookhorn"
+  },
+  {
+   "who": "saltmere Master master_saltmere",
+   "species": "polypip",
+   "level": 19,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "saltmere Master master_saltmere",
+   "species": "spratwyrm",
+   "level": 21,
+   "stand_in": "brookhorn"
+  },
+  {
+   "who": "saltmere hall tr_hall_saltmere_h1",
+   "species": "sandstarlet",
+   "level": 17,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "saltmere hall tr_hall_saltmere_h1",
+   "species": "blubbet",
+   "level": 17,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "saltmere hall tr_hall_saltmere_h2",
+   "species": "medulet",
+   "level": 18,
+   "stand_in": "brookhorn"
+  },
+  {
+   "who": "saltmere hall tr_hall_saltmere_h2",
+   "species": "whelkin",
+   "level": 18,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "saltmere hall tr_hall_saltmere_h3",
+   "species": "finnip",
+   "level": 19,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "saltmere hall tr_hall_saltmere_h3",
+   "species": "ribboneel",
+   "level": 19,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "revival_heights hall tr_hall_revival_heights_h1",
+   "species": "glarekit",
+   "level": 24,
+   "stand_in": "halovy"
+  },
+  {
+   "who": "revival_heights hall tr_hall_revival_heights_h2",
+   "species": "prismwing",
+   "level": 25,
+   "stand_in": "halovy"
+  },
+  {
+   "who": "revival_heights hall tr_hall_revival_heights_h3",
+   "species": "tollkin",
+   "level": 26,
+   "stand_in": "runeskein"
+  },
+  {
+   "who": "revival_heights hall tr_hall_revival_heights_h3",
+   "species": "dawnfin",
+   "level": 26,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "frostspire Master master_frostspire",
+   "species": "highkite",
+   "level": 32,
+   "stand_in": "sailquill"
+  },
+  {
+   "who": "frostspire Master master_frostspire",
+   "species": "pouchbill",
+   "level": 33,
+   "stand_in": "sailquill"
+  },
+  {
+   "who": "frostspire hall tr_hall_frostspire_h1",
+   "species": "snowgrouse",
+   "level": 30,
+   "stand_in": "sailquill"
+  },
+  {
+   "who": "frostspire hall tr_hall_frostspire_h2",
+   "species": "highkite",
+   "level": 31,
+   "stand_in": "sailquill"
+  },
+  {
+   "who": "frostspire hall tr_hall_frostspire_h2",
+   "species": "signalwren",
+   "level": 31,
+   "stand_in": "sailquill"
+  },
+  {
+   "who": "frostspire hall tr_hall_frostspire_h3",
+   "species": "spraytern",
+   "level": 32,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "mirefen Master master_mirefen",
+   "species": "silteel",
+   "level": 37,
+   "stand_in": "mirewump"
+  },
+  {
+   "who": "mirefen Master master_mirefen",
+   "species": "mudwhisk",
+   "level": 38,
+   "stand_in": "mirewump"
+  },
+  {
+   "who": "mirefen Master master_mirefen",
+   "species": "bulrusher",
+   "level": 40,
+   "stand_in": "mirewump"
+  },
+  {
+   "who": "mirefen hall tr_hall_mirefen_h1",
+   "species": "bulrusher",
+   "level": 36,
+   "stand_in": "mirewump"
+  },
+  {
+   "who": "mirefen hall tr_hall_mirefen_h3",
+   "species": "cypresshade",
+   "level": 37,
+   "stand_in": "mirewump"
+  },
+  {
+   "who": "mirefen hall tr_hall_mirefen_h3",
+   "species": "mirejaw",
+   "level": 37,
+   "stand_in": "mirewump"
+  },
+  {
+   "who": "tidewater_coast Master master_tidewater_coast",
+   "species": "bulwarkrab",
+   "level": 43,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "tidewater_coast Master master_tidewater_coast",
+   "species": "kelpstrider",
+   "level": 43,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "tidewater_coast Master master_tidewater_coast",
+   "species": "spraytern",
+   "level": 44,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "tidewater_coast Master master_tidewater_coast",
+   "species": "galepetrel",
+   "level": 44,
+   "stand_in": "sailquill"
+  },
+  {
+   "who": "tidewater_coast Master master_tidewater_coast",
+   "species": "hullwhale",
+   "level": 46,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "tidewater_coast hall tr_hall_tidewater_coast_h1",
+   "species": "squidge",
+   "level": 41,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "tidewater_coast hall tr_hall_tidewater_coast_h1",
+   "species": "spinyclaw",
+   "level": 42,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "tidewater_coast hall tr_hall_tidewater_coast_h2",
+   "species": "downpaw",
+   "level": 42,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "tidewater_coast hall tr_hall_tidewater_coast_h2",
+   "species": "driftknot",
+   "level": 42,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "tidewater_coast hall tr_hall_tidewater_coast_h3",
+   "species": "nudiblume",
+   "level": 43,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "tidewater_coast hall tr_hall_tidewater_coast_h3",
+   "species": "tundrarch",
+   "level": 43,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "tidewater_coast hall tr_hall_tidewater_coast_h4",
+   "species": "foamkin",
+   "level": 43,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "tidewater_coast hall tr_hall_tidewater_coast_h4",
+   "species": "coilarch",
+   "level": 44,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "lanternport Master master_lanternport",
+   "species": "mournhorn",
+   "level": 48,
+   "stand_in": "sailquill"
+  },
+  {
+   "who": "lanternport Master master_lanternport",
+   "species": "bleachghast",
+   "level": 48,
+   "stand_in": "gloamtick"
+  },
+  {
+   "who": "lanternport Master master_lanternport",
+   "species": "foamkin",
+   "level": 50,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "lanternport hall tr_hall_lanternport_h1",
+   "species": "wreckwarden",
+   "level": 46,
+   "stand_in": "gloamtick"
+  },
+  {
+   "who": "lanternport hall tr_hall_lanternport_h2",
+   "species": "lanternkeep",
+   "level": 46,
+   "stand_in": "forgeharrow"
+  },
+  {
+   "who": "lanternport hall tr_hall_lanternport_h3",
+   "species": "kelpstrider",
+   "level": 47,
+   "stand_in": "tidemarrow"
+  },
+  {
+   "who": "lanternport hall tr_hall_lanternport_h3",
+   "species": "novarch",
+   "level": 47,
+   "stand_in": "runeskein"
+  },
+  {
+   "who": "cindervale hall tr_hall_cindervale_h1",
+   "species": "foundrax",
+   "level": 50,
+   "stand_in": "slagrook"
+  },
+  {
+   "who": "cindervale hall tr_hall_cindervale_h2",
+   "species": "pyrogrim",
+   "level": 50,
+   "stand_in": "forgeharrow"
+  },
+  {
+   "who": "cindervale hall tr_hall_cindervale_h2",
+   "species": "sunderhoof",
+   "level": 50,
+   "stand_in": "forgeharrow"
+  },
+  {
+   "who": "cindervale hall tr_hall_cindervale_h3",
+   "species": "ingotitan",
+   "level": 51,
+   "stand_in": "bastonox"
+  },
+  {
+   "who": "cindervale hall tr_hall_cindervale_h4",
+   "species": "kilnant",
+   "level": 51,
+   "stand_in": "forgeharrow"
+  }
+ ],
+ "trainers": [
+  {
+   "file": "trainers_aurelith.json",
+   "who": "tr_aurelith_arena_1",
+   "species": "ingotitan",
+   "level": 57
+  },
+  {
+   "file": "trainers_aurelith.json",
+   "who": "tr_aurelith_arena_1",
+   "species": "dormagnus",
+   "level": 58
+  },
+  {
+   "file": "trainers_aurelith.json",
+   "who": "tr_aurelith_arena_1",
+   "species": "emberbrock",
+   "level": 58
+  },
+  {
+   "file": "trainers_aurelith.json",
+   "who": "tr_aurelith_arena_1",
+   "species": "pumicepuff",
+   "level": 59
+  },
+  {
+   "file": "trainers_aurelith.json",
+   "who": "tr_aurelith_arena_1",
+   "species": "netspinner",
+   "level": 58
+  },
+  {
+   "file": "trainers_aurelith.json",
+   "who": "tr_aurelith_arena_1",
+   "species": "railmite",
+   "level": 60
+  },
+  {
+   "file": "trainers_aurelith.json",
+   "who": "tr_aurelith_arena_2",
+   "species": "velvetabby",
+   "level": 61
+  },
+  {
+   "file": "trainers_aurelith.json",
+   "who": "tr_aurelith_arena_3",
+   "species": "deluvane",
+   "level": 60
+  },
+  {
+   "file": "trainers_aurelith.json",
+   "who": "tr_aurelith_arena_3",
+   "species": "moorcoil",
+   "level": 62
+  },
+  {
+   "file": "trainers_aurelith.json",
+   "who": "tr_aurelith_arena_4",
+   "species": "calderax",
+   "level": 62
+  },
+  {
+   "file": "trainers_aurelith.json",
+   "who": "tr_aurelith_arena_4",
+   "species": "tidepony",
+   "level": 64
+  },
+  {
+   "file": "trainers_cindervale.json",
+   "who": "tr_cindervale_square",
+   "species": "foundrax",
+   "level": 50
+  },
+  {
+   "file": "trainers_cindervale.json",
+   "who": "tr_cindervale_square",
+   "species": "cinderwyrm",
+   "level": 51
+  },
+  {
+   "file": "trainers_frostspire.json",
+   "who": "tr_frostspire_a",
+   "species": "spirewing",
+   "level": 31
+  },
+  {
+   "file": "trainers_frostspire.json",
+   "who": "tr_frostspire_a",
+   "species": "skyrender",
+   "level": 31
+  },
+  {
+   "file": "trainers_frostspire.json",
+   "who": "tr_frostspire_b",
+   "species": "frostlop",
+   "level": 31
+  },
+  {
+   "file": "trainers_frostspire.json",
+   "who": "tr_frostspire_c",
+   "species": "chimelet",
+   "level": 32
+  },
+  {
+   "file": "trainers_frostspire.json",
+   "who": "tr_frostspire_d",
+   "species": "snowgrouse",
+   "level": 33
+  },
+  {
+   "file": "trainers_frostspire.json",
+   "who": "tr_frostspire_d",
+   "species": "peakbrute",
+   "level": 33
+  },
+  {
+   "file": "trainers_greystone_caverns.json",
+   "who": "tr_greystone_e",
+   "species": "cavernwing",
+   "level": 28
+  },
+  {
+   "file": "trainers_lanternport.json",
+   "who": "tr_lanternport_pier",
+   "species": "moorcoil",
+   "level": 44
+  },
+  {
+   "file": "trainers_lanternport.json",
+   "who": "tr_lanternport_pier",
+   "species": "sluicekin",
+   "level": 45
+  },
+  {
+   "file": "trainers_mirefen.json",
+   "who": "tr_mirefen_b",
+   "species": "peatbellow",
+   "level": 36
+  },
+  {
+   "file": "trainers_mirefen.json",
+   "who": "tr_mirefen_b",
+   "species": "mirejaw",
+   "level": 37
+  },
+  {
+   "file": "trainers_mirefen.json",
+   "who": "tr_mirefen_c",
+   "species": "turfhulk",
+   "level": 37
+  },
+  {
+   "file": "trainers_mirefen.json",
+   "who": "tr_mirefen_d",
+   "species": "bogdart",
+   "level": 37
+  },
+  {
+   "file": "trainers_mirefen.json",
+   "who": "tr_mirefen_d",
+   "species": "glimmoth",
+   "level": 37
+  },
+  {
+   "file": "trainers_mirefen.json",
+   "who": "tr_mirefen_e",
+   "species": "pitchergulp",
+   "level": 38
+  },
+  {
+   "file": "trainers_revival_heights.json",
+   "who": "tr_revival_heights_plaza",
+   "species": "prismite",
+   "level": 26
+  },
+  {
+   "file": "trainers_route_aurelith_cindervale.json",
+   "who": "tr_route_aurelith_cindervale_a",
+   "species": "clinkerback",
+   "level": 47
+  },
+  {
+   "file": "trainers_route_aurelith_cindervale.json",
+   "who": "tr_route_aurelith_cindervale_b",
+   "species": "dormagnus",
+   "level": 48
+  },
+  {
+   "file": "trainers_route_aurelith_cindervale.json",
+   "who": "tr_route_aurelith_cindervale_b",
+   "species": "geysirox",
+   "level": 48
+  },
+  {
+   "file": "trainers_route_aurelith_cindervale.json",
+   "who": "tr_route_aurelith_cindervale_c",
+   "species": "calderock",
+   "level": 48
+  },
+  {
+   "file": "trainers_route_aurelith_cindervale.json",
+   "who": "tr_route_aurelith_cindervale_c",
+   "species": "scorchkite",
+   "level": 49
+  },
+  {
+   "file": "trainers_route_aurelith_cindervale.json",
+   "who": "tr_route_aurelith_cindervale_d",
+   "species": "emberbrock",
+   "level": 49
+  },
+  {
+   "file": "trainers_route_aurelith_cindervale.json",
+   "who": "tr_route_aurelith_cindervale_e",
+   "species": "obsidiax",
+   "level": 50
+  },
+  {
+   "file": "trainers_route_aurelith_cindervale.json",
+   "who": "tr_route_aurelith_cindervale_e",
+   "species": "emberbrock",
+   "level": 50
+  },
+  {
+   "file": "trainers_route_aurelith_cindervale.json",
+   "who": "tr_route_aurelith_cindervale_f",
+   "species": "tidepony",
+   "level": 51
+  },
+  {
+   "file": "trainers_route_brookhollow_tidewater.json",
+   "who": "tr_route_brookhollow_tidewater_a",
+   "species": "downpaw",
+   "level": 39
+  },
+  {
+   "file": "trainers_route_brookhollow_tidewater.json",
+   "who": "tr_route_brookhollow_tidewater_a",
+   "species": "driftknot",
+   "level": 39
+  },
+  {
+   "file": "trainers_route_brookhollow_tidewater.json",
+   "who": "tr_route_brookhollow_tidewater_b",
+   "species": "drenchcrab",
+   "level": 40
+  },
+  {
+   "file": "trainers_route_brookhollow_tidewater.json",
+   "who": "tr_route_brookhollow_tidewater_b",
+   "species": "downpaw",
+   "level": 40
+  },
+  {
+   "file": "trainers_route_brookhollow_tidewater.json",
+   "who": "tr_route_brookhollow_tidewater_c",
+   "species": "reedcrane",
+   "level": 41
+  },
+  {
+   "file": "trainers_route_brookhollow_tidewater.json",
+   "who": "tr_route_brookhollow_tidewater_d",
+   "species": "tundrarch",
+   "level": 40
+  },
+  {
+   "file": "trainers_route_brookhollow_tidewater.json",
+   "who": "tr_route_brookhollow_tidewater_d",
+   "species": "surfskipper",
+   "level": 41
+  },
+  {
+   "file": "trainers_route_brookhollow_tidewater.json",
+   "who": "tr_route_brookhollow_tidewater_e",
+   "species": "galepetrel",
+   "level": 42
+  },
+  {
+   "file": "trainers_route_brookhollow_tidewater.json",
+   "who": "tr_route_brookhollow_tidewater_e",
+   "species": "sunbasilisk",
+   "level": 42
+  },
+  {
+   "file": "trainers_route_brookhollow_tidewater.json",
+   "who": "tr_route_brookhollow_tidewater_f",
+   "species": "coilarch",
+   "level": 42
+  },
+  {
+   "file": "trainers_route_brookhollow_tidewater.json",
+   "who": "tr_route_brookhollow_tidewater_f",
+   "species": "galepetrel",
+   "level": 43
+  },
+  {
+   "file": "trainers_route_fernwick_lanternport.json",
+   "who": "tr_route_fernwick_lanternport_a",
+   "species": "moorcoil",
+   "level": 45
+  },
+  {
+   "file": "trainers_route_fernwick_lanternport.json",
+   "who": "tr_route_fernwick_lanternport_a",
+   "species": "mooncrab",
+   "level": 46
+  },
+  {
+   "file": "trainers_route_fernwick_lanternport.json",
+   "who": "tr_route_fernwick_lanternport_b",
+   "species": "lanternkeep",
+   "level": 46
+  },
+  {
+   "file": "trainers_route_fernwick_lanternport.json",
+   "who": "tr_route_fernwick_lanternport_c",
+   "species": "parasoleaf",
+   "level": 46
+  },
+  {
+   "file": "trainers_route_fernwick_lanternport.json",
+   "who": "tr_route_fernwick_lanternport_c",
+   "species": "netspinner",
+   "level": 47
+  },
+  {
+   "file": "trainers_route_fernwick_lanternport.json",
+   "who": "tr_route_fernwick_lanternport_d",
+   "species": "novarch",
+   "level": 47
+  },
+  {
+   "file": "trainers_route_greystone_frostspire.json",
+   "who": "tr_route_greystone_frostspire_a",
+   "species": "frostlop",
+   "level": 28
+  },
+  {
+   "file": "trainers_route_greystone_frostspire.json",
+   "who": "tr_route_greystone_frostspire_b",
+   "species": "snowcairn",
+   "level": 29
+  },
+  {
+   "file": "trainers_route_greystone_frostspire.json",
+   "who": "tr_route_greystone_frostspire_c",
+   "species": "skyrender",
+   "level": 30
+  },
+  {
+   "file": "trainers_route_greystone_frostspire.json",
+   "who": "tr_route_greystone_frostspire_d",
+   "species": "skyrender",
+   "level": 30
+  },
+  {
+   "file": "trainers_route_greystone_frostspire.json",
+   "who": "tr_route_greystone_frostspire_e",
+   "species": "snowgrouse",
+   "level": 31
+  },
+  {
+   "file": "trainers_route_greystone_frostspire.json",
+   "who": "tr_route_greystone_frostspire_e",
+   "species": "squallwhirl",
+   "level": 31
+  },
+  {
+   "file": "trainers_route_revival_saltmere.json",
+   "who": "tr_route_revival_saltmere_a",
+   "species": "shalekin",
+   "level": 28
+  },
+  {
+   "file": "trainers_route_revival_saltmere.json",
+   "who": "tr_route_revival_saltmere_b",
+   "species": "kindlepup",
+   "level": 28
+  },
+  {
+   "file": "trainers_route_revival_saltmere.json",
+   "who": "tr_route_revival_saltmere_c",
+   "species": "spiralith",
+   "level": 28
+  },
+  {
+   "file": "trainers_route_revival_saltmere.json",
+   "who": "tr_route_revival_saltmere_c",
+   "species": "bulwarkrab",
+   "level": 29
+  },
+  {
+   "file": "trainers_route_revival_saltmere.json",
+   "who": "tr_route_revival_saltmere_d",
+   "species": "prismite",
+   "level": 29
+  },
+  {
+   "file": "trainers_route_revival_saltmere.json",
+   "who": "tr_route_revival_saltmere_d",
+   "species": "scutadillo",
+   "level": 30
+  },
+  {
+   "file": "trainers_route_revival_sunmeadow.json",
+   "who": "tr_route_revival_sunmeadow_a",
+   "species": "seraphawk",
+   "level": 32
+  },
+  {
+   "file": "trainers_route_revival_sunmeadow.json",
+   "who": "tr_route_revival_sunmeadow_b",
+   "species": "spinemonitor",
+   "level": 33
+  },
+  {
+   "file": "trainers_route_revival_sunmeadow.json",
+   "who": "tr_route_revival_sunmeadow_c",
+   "species": "shardhart",
+   "level": 34
+  },
+  {
+   "file": "trainers_route_revival_sunmeadow.json",
+   "who": "tr_route_revival_sunmeadow_c",
+   "species": "quartzhopper",
+   "level": 34
+  },
+  {
+   "file": "trainers_route_saltmere_aurelith.json",
+   "who": "tr_route_saltmere_aurelith_a",
+   "species": "pinchkin",
+   "level": 16
+  },
+  {
+   "file": "trainers_route_saltmere_aurelith.json",
+   "who": "tr_route_saltmere_aurelith_a",
+   "species": "brinepipit",
+   "level": 17
+  },
+  {
+   "file": "trainers_route_saltmere_aurelith.json",
+   "who": "tr_route_saltmere_aurelith_b",
+   "species": "brinepipit",
+   "level": 17
+  },
+  {
+   "file": "trainers_route_saltmere_aurelith.json",
+   "who": "tr_route_saltmere_aurelith_c",
+   "species": "blubbet",
+   "level": 17
+  },
+  {
+   "file": "trainers_route_saltmere_aurelith.json",
+   "who": "tr_route_saltmere_aurelith_c",
+   "species": "sandstarlet",
+   "level": 17
+  },
+  {
+   "file": "trainers_route_saltmere_aurelith.json",
+   "who": "tr_route_saltmere_aurelith_d",
+   "species": "moatling",
+   "level": 16
+  },
+  {
+   "file": "trainers_route_saltmere_aurelith.json",
+   "who": "tr_route_saltmere_aurelith_f",
+   "species": "whelkin",
+   "level": 19
+  },
+  {
+   "file": "trainers_route_saltmere_aurelith.json",
+   "who": "tr_route_saltmere_aurelith_f",
+   "species": "sandstarlet",
+   "level": 19
+  },
+  {
+   "file": "trainers_route_saltmere_mirefen.json",
+   "who": "tr_route_saltmere_mirefen_a",
+   "species": "floepaddle",
+   "level": 33
+  },
+  {
+   "file": "trainers_route_saltmere_mirefen.json",
+   "who": "tr_route_saltmere_mirefen_a",
+   "species": "dewbell",
+   "level": 34
+  },
+  {
+   "file": "trainers_route_saltmere_mirefen.json",
+   "who": "tr_route_saltmere_mirefen_b",
+   "species": "floepaddle",
+   "level": 34
+  },
+  {
+   "file": "trainers_route_saltmere_mirefen.json",
+   "who": "tr_route_saltmere_mirefen_b",
+   "species": "rimewyrm",
+   "level": 34
+  },
+  {
+   "file": "trainers_route_sunmeadow_mirefen.json",
+   "who": "tr_route_sunmeadow_mirefen_a",
+   "species": "dewbell",
+   "level": 33
+  },
+  {
+   "file": "trainers_route_sunmeadow_mirefen.json",
+   "who": "tr_route_sunmeadow_mirefen_a",
+   "species": "floepaddle",
+   "level": 34
+  },
+  {
+   "file": "trainers_route_sunmeadow_mirefen.json",
+   "who": "tr_route_sunmeadow_mirefen_c",
+   "species": "sunspeckle",
+   "level": 35
+  },
+  {
+   "file": "trainers_route_sunmeadow_mirefen.json",
+   "who": "tr_route_sunmeadow_mirefen_d",
+   "species": "plainhorn",
+   "level": 35
+  },
+  {
+   "file": "trainers_route_sunmeadow_mirefen.json",
+   "who": "tr_route_sunmeadow_mirefen_e",
+   "species": "heliobloom",
+   "level": 35
+  },
+  {
+   "file": "trainers_route_sunmeadow_mirefen.json",
+   "who": "tr_route_sunmeadow_mirefen_e",
+   "species": "rimewyrm",
+   "level": 36
+  },
+  {
+   "file": "trainers_route_thornwood_revival.json",
+   "who": "tr_route_thornwood_revival_a",
+   "species": "scutadillo",
+   "level": 21
+  },
+  {
+   "file": "trainers_route_thornwood_revival.json",
+   "who": "tr_route_thornwood_revival_a",
+   "species": "topiarix",
+   "level": 22
+  },
+  {
+   "file": "trainers_route_thornwood_revival.json",
+   "who": "tr_route_thornwood_revival_b",
+   "species": "prismwing",
+   "level": 22
+  },
+  {
+   "file": "trainers_route_thornwood_revival.json",
+   "who": "tr_route_thornwood_revival_c",
+   "species": "chiselbug",
+   "level": 22
+  },
+  {
+   "file": "trainers_route_thornwood_revival.json",
+   "who": "tr_route_thornwood_revival_c",
+   "species": "prismwing",
+   "level": 23
+  },
+  {
+   "file": "trainers_route_thornwood_revival.json",
+   "who": "tr_route_thornwood_revival_d",
+   "species": "moatling",
+   "level": 23
+  },
+  {
+   "file": "trainers_route_thornwood_revival.json",
+   "who": "tr_route_thornwood_revival_e",
+   "species": "kindlepup",
+   "level": 24
+  },
+  {
+   "file": "trainers_route_thornwood_revival.json",
+   "who": "tr_route_thornwood_revival_f",
+   "species": "reverion",
+   "level": 24
+  },
+  {
+   "file": "trainers_route_thornwood_revival.json",
+   "who": "tr_route_thornwood_revival_g",
+   "species": "ankerling",
+   "level": 24
+  },
+  {
+   "file": "trainers_route_thornwood_revival.json",
+   "who": "tr_route_thornwood_revival_g",
+   "species": "brinecube",
+   "level": 25
+  },
+  {
+   "file": "trainers_sunmeadow_fields.json",
+   "who": "tr_sunmeadow_fields_a",
+   "species": "heliobloom",
+   "level": 31
+  },
+  {
+   "file": "trainers_sunmeadow_fields.json",
+   "who": "tr_sunmeadow_fields_a",
+   "species": "plainhorn",
+   "level": 31
+  },
+  {
+   "file": "trainers_sunmeadow_fields.json",
+   "who": "tr_sunmeadow_fields_b",
+   "species": "sunquail",
+   "level": 32
+  },
+  {
+   "file": "trainers_sunmeadow_fields.json",
+   "who": "tr_sunmeadow_fields_d",
+   "species": "thermalark",
+   "level": 33
+  },
+  {
+   "file": "trainers_sunmeadow_fields.json",
+   "who": "tr_sunmeadow_fields_d",
+   "species": "basklet",
+   "level": 33
+  },
+  {
+   "file": "trainers_sunmeadow_fields.json",
+   "who": "tr_sunmeadow_fields_e",
+   "species": "reapmantis",
+   "level": 33
+  },
+  {
+   "file": "trainers_sunmeadow_fields.json",
+   "who": "tr_sunmeadow_fields_e",
+   "species": "heliobloom",
+   "level": 34
+  },
+  {
+   "file": "trainers_sunmeadow_fields.json",
+   "who": "tr_sunmeadow_fields_f",
+   "species": "popgopher",
+   "level": 34
+  },
+  {
+   "file": "trainers_sunmeadow_fields.json",
+   "who": "tr_sunmeadow_fields_f",
+   "species": "spinemonitor",
+   "level": 35
+  },
+  {
+   "file": "trainers_tidewater_coast.json",
+   "who": "tr_tidewater_coast_a",
+   "species": "reefshell",
+   "level": 41
+  },
+  {
+   "file": "trainers_tidewater_coast.json",
+   "who": "tr_tidewater_coast_a",
+   "species": "raywing",
+   "level": 42
+  },
+  {
+   "file": "trainers_tidewater_coast.json",
+   "who": "tr_tidewater_coast_b",
+   "species": "lurelamp",
+   "level": 42
+  },
+  {
+   "file": "trainers_tidewater_coast.json",
+   "who": "tr_tidewater_coast_b",
+   "species": "raywing",
+   "level": 42
+  },
+  {
+   "file": "trainers_tidewater_coast.json",
+   "who": "tr_tidewater_coast_c",
+   "species": "bristlereef",
+   "level": 43
+  },
+  {
+   "file": "trainers_tidewater_coast.json",
+   "who": "tr_tidewater_coast_c",
+   "species": "breakerfin",
+   "level": 43
+  },
+  {
+   "file": "trainers_tidewater_coast.json",
+   "who": "tr_tidewater_coast_d",
+   "species": "cliffpuff",
+   "level": 44
+  },
+  {
+   "file": "trainers_tidewater_coast.json",
+   "who": "tr_tidewater_coast_e",
+   "species": "shorehound",
+   "level": 44
+  },
+  {
+   "file": "trainers_tidewater_coast.json",
+   "who": "tr_tidewater_coast_e",
+   "species": "bristlereef",
+   "level": 44
+  },
+  {
+   "file": "trainers_tidewater_coast.json",
+   "who": "tr_tidewater_coast_f",
+   "species": "spinyclaw",
+   "level": 45
+  }
+ ]
+}

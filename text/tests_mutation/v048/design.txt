@@ -1,0 +1,149 @@
+Kilumen : Start of a Journey
+
+
+
+
+This game is modeled after a legendary series that no longer produces its classic style. The game
+is a 2D 128 bit open world creature battler. That game is Pokemon, and its early releases up to its
+2016 release is what we are studying for development. Game balance and mechanics, items,
+building dynamic zones that house villages, towns and unique creatures and features.
+
+
+
+A few key points:
+
+Creatures: they should all have their own primary type and each has a counter and imunity. Also
+some have sub types which can alter their counter and vulnerability. Main types include Earth,
+fire, water, wind, Light, dark, mystic, legendary. Sub types could be grass, bug, sea or fresh
+water, swamp, rain, magma, dragos, bird, spirit, ghost, demon, angelic, god and devil. We can
+add more to make it make sense or balance the game. I expect 450 creatures with atleast 350
+having 2-3 evolutions each and then a small chance for those creatures to recieve a roll for a buff
+on entry to battle, those will be similar to shiny in pokemon. Modifiers such as Large for def and
+health, small for agility, cosmic for replacing shiny from pokemon, aggresive for attack boost.
+These should all be reflected on their model so users know what variant they are by looking. For
+game balance sake we can have about an equal number of all the types except for light dark and
+mystic, legendary add those amounts to keep the game balanced, they should be rare to find in
+open world. Every creature has a certain region they appear in and no where else unless its a
+common bird or bug type.
+
+
+
+World: We need 13 entirley different zones for story pruposes. These need to be a mix of 4
+towns, 3 cities, and 6 out door biomes. These will house our "Masters" you have to defeat each
+master to gain his challenge coin which will allow you to challenge the battle masters of the
+region. There are 8 battle masters, each master of the 15 all have unique creature line ups and
+their levels reflect where in the story line your creatures should be by this time. Leading up to the
+masters city there should be a stretch of "open world" with clear contsrtains like in pokemon
+where you can freely explore within the map thats available. This should have a blanced amount
+of trainers to fight to help level up and get gold without it being too easy or rewarding. There
+should be a different amount of Helper trainers to defeat in each master zone except for the
+Battle masters, which you will be in a arena and you must defeat them all without leaving or
+puting your pokemon on healing machines. We do need some open areas for exploration or
+optional paths to the same place. Caves, water areas, forrest and swamps in the same style that
+pokemon platnium and soul silver do it.
+
+
+
+Plot: The plot is that the world is full of adventure and most people dont know how expansive
+the Kilumen world is. You work full time for a company who leads the charge on learning and
+data cataloging the Kilumen. Your primary quest sequence is to become a battle master which is
+your personal agenda, however the company gives you tasks to complete as well which idly fuels
+expanding and leveling your beasts. Total catch cout, catch count in specific regions, catching
+the same kilumen over and over to a specific ammount that scales up tp 150 from 1 to 3 to 5 to
+10 to 20 to 30 to 50 to 75 to 100. Each mileston gives you in game currency. Also discovering
+evolutions, and some beasts can only be obtained by breeding, about 5 of them which is one of
+your tasks as well. Feeding different feeds to each beast is also critical to the research of their
+manufactured feed. Feed is meant to help them grow, get rid of status effects, or boost stats
+temporarily. The more you push the companies agenda the more likely you are to trigger the
+quest for the Legendary Gaurdian, who will attack you in a battle format and you can win or lose
+or dominate the beast but winning and capture are low chances.
+
+
+
+
+Ownership and economy: There is no inflation or any ability to own any buildings. The shops
+prices stay fixed for the whole game and they are region based. You can sell extra beasts to your
+company for money and progress towards your sell goals. Top sell goal is 2000 beasts.
+
+
+
+Dark undertones: you use a dominance crystal to bond your soul to the kilumen, thats how you
+make them fight along side you, this should avoid any copyright issues with nintendo. There are
+clear opppositions in the game to the capture, forced servitudes, and battling from small groups
+in the hidden parts of the world that highlight the company you work for does inhumane testing
+without just saying it aloud.
+
+
+
+Battle: battle follows the same style as pokemon, 2D across from each other. Turn based and
+there is an energy meter. Each attack consumes energy and has a realistic limit to how many
+times it can be used before you must take your kiluman to a treatment center to let it rest. Using
+skills after energy depletion causes imediate damage, higher chance to miss, and reduced
+damage. Every battle action has a simple animation same as pokemon.
+Open world kilumen catching: it is very rare to be walking and get attacked out side the grassy
+zones, if you do get attacked it is always an agressive variant. Inside the grass it can be any
+variant or kiluman for that zone.
+
+
+
+Items: You can buy items for your beasts but it wont change the look in battle if you equipt it.
+They only get one slot. Battle armor for def, training dummy for xp boost, gold coin for extra
+money in battles where it fights, boxing gloves for more attack, a pair of binoculars that grants
+you insight on what attack the other trainer plans to use and esitmated damage range. Also
+healing potions to get rid of any status effects, restore energy, or health. And the feed we talked
+about as well. All shops are owned by your comapany Revival Tech that you shop at.
+
+
+
+Mechanics: there needs to be a place to breed, a place to buy the items, a place to heal your
+beasts, a station for paid quick travel anywhere over land and one for anywhere over water. You
+have a smart phone where you track quests, company tasks, mini map, team, inventory and stat
+tree. Every task you complete levels your emplyee ID up giving you new bonuses, like extra cash
+or company xp and one point for the "Company Benifits Board" where you use your points to
+enroll in gmae changing benifits, like free fast travel, discounts that add up at the store, increased
+payouts, increased dominance crystsl affectivmens, increased battle damage for all of your
+beasts, increased xp for all of your beast, increased health for all of your beasts, walk speed,
+energy level increase for beast, and even acces to resticted levels of company property.
+
+
+
+Plan to achieve high quality: Reuse the same assets where we can for city or town building such
+as houses and shops, reuse the same ground and grass or tree assets to build any regualr open
+world zone, create a blueprint for how the cities and towns are laid out before starting to place
+assets, review how pokemon does it to get an authentic feel. Create reusable trainer models, each
+one get its own name and team of pokemon that never changes but the hooded trainer stays
+hooded to make it bisexual use. Only masters get unique character models. The mc gets to
+choose between one male or one female character that only shows in cutscenes or battle, open
+world models are squished the same way pokemon does it, and slight animations to show
+walking, other characters bobbing while idle and turning left or right in place, grass moves
+slighlty to simulate wind, and we can add moving shadows to simulate cloud coverage. We can
+also add rain and snow where apllicable.
+
+
+
+Story plot: You have a dream that shows you in a river stuck, next page shows a trainer on the
+side of the river looking at you, next one shows you on the bank next to him and his beast. You
+wake up and go down stairs, talk to your room mate who works with you, Ron. You talk about
+how slow work has been and how the company might do lay offs. When you walk to work in the
+town you live in both of you get promoted by your boss to field researchers since other company
+employess stopped reporting back and are assumed missing. This starts your stroy off, you talk
+to your room mate and have the option of working together to make the game easier or becoming
+friendly rivals which makes the game as intended, hes the bar. Every city you visit you battle
+him to see if your progress is on track, he should be the same difficulty as the entery level
+trainers for the master. Dominance crystals work by selecting it and the target becomes opaque
+depending on how affective it is, they disapear once captures. Need a pokedex like pokemon but
+we call it the Kilindex shows how many of each one you have caught, the biggest and smallest
+weights, regions they can be caught, known types, known skills. Need small side quests like any
+open world rpg. And hidden loot items for players to find like feed bags or stronger dominance
+crystals. The game play loop mixed the need for company development through capture and
+training with personal agenbda to become a battle master. This should keep the plot in line and
+push players for realistic goals and time lines. Just need to make sure its not too easy. Loading
+screens are a msut for this operation, the only asset id that needs read technically are the trainers
+since the grass is the spawn zone and will be coded for random ticks inside of the area WHILE
+MOVING. Movement is 100% crucial to the tick timing, the specific block they are on has zero
+meaning, the game rolls the mob spawn for the interaction first from the spawn pool of that
+region then it rolls the battle trigger. This stops asset ids from needing to be drawn in the grass
+ahead of time since the game will draw the asset id needed for the battle instead of all 450
+models in every grass patch, do a lot of research on the way pokemon does this to see if there are
+more streamlined or easier ways, but creating a new way is acceptable too we can be pioneers.
+

@@ -1,0 +1,4 @@
+{
+ "_meta": { "for": "tools/gen_encounters.mjs", "how": "per-zone overrides, keyed by zone id: {skip, band:[lo,hi], rate, drop:[species], add:[{species, level:[lo,hi], weight, time?}], weights:{species: w}}. Only zones with no table are ever generated. Empty = plan defaults." },
+ "zones": {}
+}

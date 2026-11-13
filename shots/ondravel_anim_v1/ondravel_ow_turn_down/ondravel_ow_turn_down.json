@@ -1,0 +1,138 @@
+{
+ "name": "ondravel_ow_turn_down",
+ "kind": "overworld",
+ "status": "DRAFT - needs Gary approval before wiring",
+ "sheet": "ondravel_ow_turn_down.png",
+ "frame_w": 64,
+ "frame_h": 64,
+ "frames": 16,
+ "cols": 16,
+ "rows": 1,
+ "layout": "row-major frames",
+ "ms": [
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150
+ ],
+ "total_ms": 2400,
+ "loop": true,
+ "anchor": {
+  "x": 32,
+  "y": 63,
+  "meaning": "bottom-centre of frame = centre-bottom of map cell"
+ },
+ "tile_px": 64,
+ "art_px_scale": 1,
+ "footprint_tiles": [
+  1,
+  1
+ ],
+ "covered_squares": [
+  [
+   0,
+   0
+  ]
+ ],
+ "collision_squares": [
+  [
+   0,
+   0
+  ]
+ ],
+ "notes": "Look-around loop based on facing down: holds down, glances right, back, glances left, back. Snap turns (4 facings only, no diagonals exist in the source art).",
+ "readability": {
+  "grass_0": {
+   "dawn": {
+    "mean": 0.869,
+    "worst_frame": 0.867
+   },
+   "day": {
+    "mean": 0.911,
+    "worst_frame": 0.903
+   },
+   "dusk": {
+    "mean": 0.839,
+    "worst_frame": 0.824
+   },
+   "night": {
+    "mean": 0.759,
+    "worst_frame": 0.728
+   }
+  },
+  "cave_0": {
+   "dawn": {
+    "mean": 0.879,
+    "worst_frame": 0.84
+   },
+   "day": {
+    "mean": 0.913,
+    "worst_frame": 0.871
+   },
+   "dusk": {
+    "mean": 0.794,
+    "worst_frame": 0.751
+   },
+   "night": {
+    "mean": 0.625,
+    "worst_frame": 0.615
+   }
+  },
+  "snow_0": {
+   "dawn": {
+    "mean": 0.78,
+    "worst_frame": 0.758
+   },
+   "day": {
+    "mean": 0.78,
+    "worst_frame": 0.758
+   },
+   "dusk": {
+    "mean": 0.78,
+    "worst_frame": 0.758
+   },
+   "night": {
+    "mean": 0.747,
+    "worst_frame": 0.706
+   }
+  },
+  "floor_stone": {
+   "dawn": {
+    "mean": 0.655,
+    "worst_frame": 0.579
+   },
+   "day": {
+    "mean": 0.655,
+    "worst_frame": 0.579
+   },
+   "dusk": {
+    "mean": 0.625,
+    "worst_frame": 0.522
+   },
+   "night": {
+    "mean": 0.619,
+    "worst_frame": 0.511
+   }
+  }
+ },
+ "readability_rule": "px with |dLuma|>=28 vs ToD-graded background under them (sprite LUT; tank: tile snapped to palette, lit LUT for night-glow colours); pass >= 0.5 per phase",
+ "night_readability_worst_bg": 0.619,
+ "night_worst_frame": 0.511,
+ "readability_min_all_phases": 0.619,
+ "seam_ratio": 0.97,
+ "tex_bytes_rgba": 262144,
+ "png_bytes": 6028,
+ "avg_opaque_px_per_frame": 1106
+}

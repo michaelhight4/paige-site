@@ -1,0 +1,146 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_aurelith_cindervale",
+ "route_id": "aurelith-cindervale",
+ "kind": "route (volcanic road)",
+ "map_status": "to_come",
+ "story_step": "11",
+ "story_order": 24,
+ "level_band": "wild 46-50, trainers 47-51",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_route_aurelith_cindervale_a",
+   "class": "smith",
+   "class_display_suggestion": "Smith",
+   "name_suggestion": "Yolo",
+   "team": [
+    {
+     "species": "slagrook",
+     "level": 47
+    },
+    {
+     "species": "clinkerback",
+     "level": 47
+    }
+   ],
+   "base": 55,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 2585,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_aurelith_cindervale.a",
+   "note": "where the giant slept"
+  },
+  {
+   "id": "tr_route_aurelith_cindervale_b",
+   "class": "hiker",
+   "class_display_suggestion": "Hillwalker",
+   "name_suggestion": "Zinnia",
+   "team": [
+    {
+     "species": "dormagnus",
+     "level": 48
+    },
+    {
+     "species": "geysirox",
+     "level": 48
+    }
+   ],
+   "base": 40,
+   "base_status": "existing",
+   "prize": 1920,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_aurelith_cindervale.b",
+   "note": "ash slope"
+  },
+  {
+   "id": "tr_route_aurelith_cindervale_c",
+   "class": "researcher",
+   "class_display_suggestion": "Field Researcher",
+   "name_suggestion": "Pip",
+   "team": [
+    {
+     "species": "calderock",
+     "level": 48
+    },
+    {
+     "species": "scorchkite",
+     "level": 49
+    }
+   ],
+   "base": 60,
+   "base_status": "existing",
+   "prize": 2940,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_aurelith_cindervale.c",
+   "note": "vent survey"
+  },
+  {
+   "id": "tr_route_aurelith_cindervale_d",
+   "class": "climber",
+   "class_display_suggestion": "Climber",
+   "name_suggestion": "Tam",
+   "team": [
+    {
+     "species": "emberbrock",
+     "level": 49
+    },
+    {
+     "species": "slagrook",
+     "level": 49
+    }
+   ],
+   "base": 45,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 2205,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_aurelith_cindervale.d",
+   "note": "basalt steps"
+  },
+  {
+   "id": "tr_route_aurelith_cindervale_e",
+   "class": "smith",
+   "class_display_suggestion": "Smith",
+   "name_suggestion": "Wren",
+   "team": [
+    {
+     "species": "obsidiax",
+     "level": 50
+    },
+    {
+     "species": "emberbrock",
+     "level": 50
+    }
+   ],
+   "base": 55,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 2750,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_aurelith_cindervale.e",
+   "note": "forge outpost"
+  },
+  {
+   "id": "tr_route_aurelith_cindervale_f",
+   "class": "veteran",
+   "class_display_suggestion": "Veteran",
+   "name_suggestion": "Odo",
+   "team": [
+    {
+     "species": "tidepony",
+     "level": 51
+    },
+    {
+     "species": "slagrook",
+     "level": 51
+    }
+   ],
+   "base": 80,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 4080,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_aurelith_cindervale.f",
+   "note": "optional lava tube"
+  }
+ ],
+ "hall": null
+}

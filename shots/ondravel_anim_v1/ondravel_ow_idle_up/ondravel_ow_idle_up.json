@@ -1,0 +1,134 @@
+{
+ "name": "ondravel_ow_idle_up",
+ "kind": "overworld",
+ "status": "DRAFT - needs Gary approval before wiring",
+ "sheet": "ondravel_ow_idle_up.png",
+ "frame_w": 64,
+ "frame_h": 64,
+ "frames": 12,
+ "cols": 12,
+ "rows": 1,
+ "layout": "row-major frames",
+ "ms": [
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120
+ ],
+ "total_ms": 1440,
+ "loop": true,
+ "anchor": {
+  "x": 32,
+  "y": 63,
+  "meaning": "bottom-centre of the 64x64 frame = centre-bottom of his map cell"
+ },
+ "tile_px": 64,
+ "art_px_scale": 1,
+ "footprint_tiles": [
+  1,
+  1
+ ],
+ "covered_squares": [
+  [
+   0,
+   0
+  ]
+ ],
+ "collision_squares": [
+  [
+   0,
+   0
+  ]
+ ],
+ "notes": "Idle facing up: 1-px chest/head breath (legs planted), crystal sheen band sweeps once per loop. Native 64 px, not scaled.",
+ "readability": {
+  "grass_0": {
+   "dawn": {
+    "mean": 0.895,
+    "worst_frame": 0.891
+   },
+   "day": {
+    "mean": 0.924,
+    "worst_frame": 0.919
+   },
+   "dusk": {
+    "mean": 0.872,
+    "worst_frame": 0.867
+   },
+   "night": {
+    "mean": 0.808,
+    "worst_frame": 0.8
+   }
+  },
+  "cave_0": {
+   "dawn": {
+    "mean": 0.897,
+    "worst_frame": 0.891
+   },
+   "day": {
+    "mean": 0.917,
+    "worst_frame": 0.912
+   },
+   "dusk": {
+    "mean": 0.837,
+    "worst_frame": 0.833
+   },
+   "night": {
+    "mean": 0.634,
+    "worst_frame": 0.627
+   }
+  },
+  "snow_0": {
+   "dawn": {
+    "mean": 0.74,
+    "worst_frame": 0.711
+   },
+   "day": {
+    "mean": 0.74,
+    "worst_frame": 0.711
+   },
+   "dusk": {
+    "mean": 0.74,
+    "worst_frame": 0.711
+   },
+   "night": {
+    "mean": 0.698,
+    "worst_frame": 0.677
+   }
+  },
+  "floor_stone": {
+   "dawn": {
+    "mean": 0.61,
+    "worst_frame": 0.601
+   },
+   "day": {
+    "mean": 0.61,
+    "worst_frame": 0.601
+   },
+   "dusk": {
+    "mean": 0.61,
+    "worst_frame": 0.601
+   },
+   "night": {
+    "mean": 0.589,
+    "worst_frame": 0.588
+   }
+  }
+ },
+ "readability_rule": "px with |dLuma|>=28 vs ToD-graded background under them (sprite LUT; tank: tile snapped to palette, lit LUT for night-glow colours); pass >= 0.5 per phase",
+ "night_readability_worst_bg": 0.589,
+ "night_worst_frame": 0.588,
+ "readability_min_all_phases": 0.589,
+ "seam_ratio": 0.0,
+ "tex_bytes_rgba": 196608,
+ "png_bytes": 2828,
+ "avg_opaque_px_per_frame": 922
+}

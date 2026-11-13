@@ -1,0 +1,103 @@
+{
+ "_status": "STAGED 2026-10-23 by coder (region-2 groundwork). NOT LIVE: nothing in the game reads this file. Wire in after region 1 ships.",
+ "_generated_by": "tools/region2/build_region2.mjs from tools/region2/region2_spec.mjs (edit the spec, not this file)",
+ "_what": "Species used in region-2 staged data whose game evoLevel (creatures.js) differs from the DEX evolution level. Gary undecided: game levels kept; staged mins use the higher of the two.",
+ "conflicts": [
+  {
+   "species": "bramblehog",
+   "prevo": "briarlet",
+   "game_evoLevel": 16,
+   "dex_evo_level": 17,
+   "dex_method": "level 17",
+   "staged_min_used": 17
+  },
+  {
+   "species": "brineseal",
+   "prevo": "blubbet",
+   "game_evoLevel": 16,
+   "dex_evo_level": 24,
+   "dex_method": "level 24",
+   "staged_min_used": 24
+  },
+  {
+   "species": "bulwarkrab",
+   "prevo": "pinchkin",
+   "game_evoLevel": 16,
+   "dex_evo_level": 28,
+   "dex_method": "level 28",
+   "staged_min_used": 28
+  },
+  {
+   "species": "eftwarden",
+   "prevo": "eftling",
+   "game_evoLevel": 16,
+   "dex_evo_level": 24,
+   "dex_method": "level 24",
+   "staged_min_used": 24
+  },
+  {
+   "species": "frondhart",
+   "prevo": "frondlet",
+   "game_evoLevel": 16,
+   "dex_evo_level": 18,
+   "dex_method": "level 18",
+   "staged_min_used": 18
+  },
+  {
+   "species": "huskling",
+   "prevo": "dewmite",
+   "game_evoLevel": 16,
+   "dex_evo_level": 7,
+   "dex_method": "level 7",
+   "staged_min_used": 16
+  },
+  {
+   "species": "larkspar",
+   "prevo": "peeplark",
+   "game_evoLevel": 16,
+   "dex_evo_level": 14,
+   "dex_method": "level 14",
+   "staged_min_used": 16
+  },
+  {
+   "species": "rakefin",
+   "prevo": "finnip",
+   "game_evoLevel": 16,
+   "dex_evo_level": 22,
+   "dex_method": "level 22",
+   "staged_min_used": 22
+  },
+  {
+   "species": "reedmoot",
+   "prevo": "pondkin",
+   "game_evoLevel": 16,
+   "dex_evo_level": 22,
+   "dex_method": "level 22",
+   "staged_min_used": 22
+  },
+  {
+   "species": "snapmoor",
+   "prevo": "ditchsnap",
+   "game_evoLevel": 16,
+   "dex_evo_level": 30,
+   "dex_method": "level 30",
+   "staged_min_used": 30
+  },
+  {
+   "species": "spraytern",
+   "prevo": "brinepipit",
+   "game_evoLevel": 16,
+   "dex_evo_level": 25,
+   "dex_method": "level 25",
+   "staged_min_used": 25
+  },
+  {
+   "species": "streambarb",
+   "prevo": "dartling",
+   "game_evoLevel": 16,
+   "dex_evo_level": 20,
+   "dex_method": "level 20",
+   "staged_min_used": 20
+  }
+ ]
+}

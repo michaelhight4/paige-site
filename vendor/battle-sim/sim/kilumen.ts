@@ -1,0 +1,208 @@
+/**
+ * Kilumen-only battle rules (not from upstream).
+ *
+ * Wild-battle choices (Retreat, Crystal catch), bag items, XP and level-up.
+ * Every number here is a PLACEHOLDER read from `Scripts.kilumen` in the
+ * injected data (see src/battle/data/rules.js). Formulas follow the proposals
+ * in design/MECHANICS_PARITY.md (B13, B16, B19, B22); Gary signs them off.
+ *
+ * Protocol lines added by this module (all start with "-k" so a client can
+ * tell them apart from upstream lines):
+ *   |-kretreat|SIDE: NAME|success|fail
+ *   |-kcrystal|SIDE: NAME|CRYSTALID|PULSES(1-4)|caught|escaped
+ *   |-kitem|SIDE: NAME|ITEMID
+ *   |-kxp|SIDE: NAME|GAINED|TOTAL
+ *   |-klevelup|SIDE: NAME|LEVEL|hp,atk,def,spa,spd,spe
+ *   |-kxpshare|SIDE: NAME|GAINED|TOTAL          (QoL B4 Team XP share: a benched creature's share)
+ *   |-kbenchlevel|SIDE: NAME|LEVEL|hp,atk,...   (a benched creature levelled from its share)
+ *   |kend|retreat|caught
+ */
+import type { Battle } from './battle';
+import type { Creature } from './creature';
+
+export interface KilumenRules {
+	/** critical-hit chance denominators by stage (index = stage) */
+	critStages: number[];
+	critMult: number;
+	affinity: number;
+	affinitySub: number;
+	strongMult: number;
+	weakMult: number;
+	overuseDamage: number;
+	overuseAccuracy: number;
+	overuseSelfDamage: number;
+	warmthEndure: number;
+	/** retreat: chance/256 = agilityRatio * retreatBase + attempts * retreatPerAttempt */
+	retreatBase: number;
+	retreatPerAttempt: number;
+	/** status multipliers on catch odds, keyed by condition id */
+	catchStatus: { [id: string]: number };
+	/** legacy (pre Oct 23, 2026 three-shake roll); unused by runCrystal now */
+	catchShakes: number;
+	/** capture: p = catchRate x (1 - catchHpWeight x HP%^catchHpCurve) x status x grade, clamped to [catchMin, catchMax]; catchPulses FX pulses */
+	catchHpWeight?: number;
+	catchHpCurve?: number;
+	catchMin?: number;
+	catchMax?: number;
+	catchPulses?: number;
+	/** xp gained = floor(baseXp * foeLevel / xpDivisor * (trainer ? xpTrainerMult : 1)) */
+	xpDivisor: number;
+	xpTrainerMult: number;
+	/** total xp to reach level L = floor(xpCurveMult * L^3) */
+	xpCurveMult: number;
+	maxLevel: number;
+	partyMax: number;
+}
+
+/** bag key of an item: Kilumen data sets kKey (game id without underscores); the dex id comes from the display name */
+export function bagKey(item: any): string {
+	return item.kKey || item.id;
+}
+
+export function rules(battle: Battle): KilumenRules {
+	return (battle.dex.data.Scripts as any).kilumen;
+}
+
+export function xpForLevel(battle: Battle, level: number) {
+	const K = rules(battle);
+	return Math.floor(K.xpCurveMult * level * level * level);
+}
+
+/** Ends a wild battle without a winner (retreat / caught). */
+export function endBattle(battle: Battle, reason: 'retreat' | 'caught') {
+	if (battle.ended) return;
+	battle.add('');
+	battle.add('kend', reason);
+	battle.kEndReason = reason;
+	battle.winner = '';
+	battle.ended = true;
+	battle.requestState = '';
+	for (const s of battle.sides) s.activeRequest = null;
+}
+
+export function runRetreat(battle: Battle, creature: Creature) {
+	const K = rules(battle);
+	const foe = creature.side.foe.active[0];
+	const side = creature.side;
+	side.kRetreatAttempts = (side.kRetreatAttempts || 0) + 1;
+	const mine = creature.getStat('spe', false, true);
+	const theirs = foe && !foe.fainted ? foe.getStat('spe', false, true) : 1;
+	let chance = Math.floor(mine * K.retreatBase / Math.max(1, theirs)) + K.retreatPerAttempt * (side.kRetreatAttempts - 1);
+	if (mine >= theirs) chance = 256;
+	const ok = chance >= 256 || battle.random(256) < chance;
+	battle.add('-kretreat', creature, ok ? 'success' : 'fail');
+	if (ok) endBattle(battle, 'retreat');
+}
+
+export function runCrystal(battle: Battle, creature: Creature, crystalId: string) {
+	const K = rules(battle);
+	const target = creature.side.foe.active[0];
+	const crystal = battle.dex.items.get(crystalId);
+	const side = creature.side;
+	// no capturing a trainer's creatures (Gary, Oct 23 2026): chooseKilumen already refuses the choice; this guard keeps
+	// the crystal in the bag even if a queued action slips through
+	if (!battle.kWild) return;
+	side.kBag[bagKey(crystal)] = (side.kBag[bagKey(crystal)] || 0) - 1;
+	if (!target || target.fainted) return;
+	const rarity = (target.species as any).catchRate ?? 0.5;
+	const grade = (crystal as any).kCrystalGrade ?? 1;
+	const statusMult = K.catchStatus[target.status] ?? 1;
+	// Capture rules (Oct 23, 2026; Gary: "the capture chance is based on health and chance"). Same formula as
+	// src/battle/capture.js (keep in sync; tests/capture_rules.test.mjs). PLACEHOLDER numbers (B13/B17):
+	//   p = clamp(catchRate x (1 - 29/30 x HP%^0.85) x status x crystal grade, 0.5%, 95%); one roll r: caught when r < p.
+	//   (retuned 12:16 PM CT, Gary: "full health needs to be like 2%": common 0.6 at full HP -> 2%, 25% HP -> ~42%)
+	//   SHAKES in -kcrystal = the 1-4 FX pulses from that same roll: caught 4; escaped 3 (near miss) .. 1 (far miss).
+	const hpWeight = K.catchHpWeight ?? 29 / 30, hpCurve = K.catchHpCurve ?? 0.85, pMin = K.catchMin ?? 0.005, pMax = K.catchMax ?? 0.95, n = K.catchPulses ?? 4;
+	const frac = Math.max(0, Math.min(1, target.hp / target.maxhp));
+	const p = Math.max(pMin, Math.min(pMax, rarity * (1 - hpWeight * Math.pow(frac, hpCurve)) * statusMult * grade));
+	const r = battle.random(1000) / 1000;
+	const forced = battle.forceRandomChance;
+	const caught = typeof forced === 'boolean' ? forced : r < p;
+	const miss = p < 1 ? Math.max(0, Math.min(1, (r - p) / (1 - p))) : 0;
+	const shakes = caught ? n : Math.max(1, Math.min(n - 1, 1 + Math.floor((1 - miss) * (n - 1))));
+	battle.add('-kcrystal', target, bagKey(crystal), shakes, caught ? 'caught' : 'escaped');
+	if (caught) {
+		battle.kCaught = target;
+		endBattle(battle, 'caught');
+	}
+}
+
+export function runItem(battle: Battle, creature: Creature, itemId: string, slot: number) {
+	const item = battle.dex.items.get(itemId) as any;
+	const side = creature.side;
+	const target = side.creature[slot] || creature;
+	side.kBag[bagKey(item)] = (side.kBag[bagKey(item)] || 0) - 1;
+	battle.add('-kitem', target, bagKey(item));
+	if (item.kHeal && !target.fainted) {
+		const d = target.heal(item.kHeal, creature);
+		if (d) battle.add('-heal', target, target.getHealth, '[from] item: ' + item.name);
+	}
+	if (item.kCure && target.status) target.cureStatus();
+	if (item.kEnergy) for (const ms of target.moveSlots) ms.pp = Math.min(ms.maxpp, ms.pp + item.kEnergy);
+}
+
+/** Award XP to the winning side's active creature when a foe faints (B22). */
+export function awardXp(battle: Battle, fainted: Creature) {
+	const K = rules(battle);
+	const side = fainted.side.foe;
+	if (!side.kGainsXp) return;
+	const trainer = !battle.kWild;
+	const baseXp = (fainted.species as any).baseXp ?? 50;
+	const gained = Math.max(1, Math.floor(baseXp * fainted.level / K.xpDivisor * (trainer ? K.xpTrainerMult : 1)));
+	for (const creature of side.active) {
+		if (!creature || creature.fainted) continue;
+		creature.set.xp = (creature.set.xp ?? xpForLevel(battle, creature.level)) + gained;
+		battle.add('-kxp', creature, gained, creature.set.xp);
+		while (creature.level < K.maxLevel && creature.set.xp >= xpForLevel(battle, creature.level + 1)) {
+			levelUp(battle, creature);
+		}
+	}
+	// QoL B4 Team XP share (Oct 29, 2026; Gary approved 10:49 AM CT): benched creatures that can still battle get
+	// floor(gained x side.kXpShare) (0.25 when the game's `xpShare` flag is on, 0 = off). Fainted ones get nothing.
+	const share = side.kXpShare || 0;
+	if (share <= 0) return;
+	const part = Math.floor(gained * share);
+	if (part < 1) return;
+	for (const creature of side.creature) {
+		if (!creature || creature.fainted || creature.isActive || (creature.set as any).kDummy) continue;
+		creature.set.xp = (creature.set.xp ?? xpForLevel(battle, creature.level)) + part;
+		battle.add('-kxpshare', creature, part, creature.set.xp);
+		while (creature.level < K.maxLevel && creature.set.xp >= xpForLevel(battle, creature.level + 1)) {
+			levelUp(battle, creature, '-kbenchlevel');
+		}
+	}
+}
+
+function levelUp(battle: Battle, creature: Creature, line = '-klevelup') {
+	creature.level++;
+	creature.set.level = creature.level;
+	const stats: StatsTable = battle.spreadModify(creature.species.baseStats, creature.set);
+	const hpGain = stats.hp - creature.maxhp;
+	creature.baseMaxhp = stats.hp;
+	creature.maxhp = stats.hp;
+	creature.hp = Math.min(creature.maxhp, creature.hp + Math.max(0, hpGain));
+	creature.baseStoredStats = stats;
+	let statName: keyof typeof creature.storedStats;
+	for (statName in creature.storedStats) creature.storedStats[statName] = stats[statName];
+	creature.details = creature.getUpdatedDetails();
+	battle.add(line, creature, creature.level,
+		[stats.hp, stats.atk, stats.def, stats.spa, stats.spd, stats.spe].join(','));
+}
+
+/** Snapshot of a side's team to write back to the overworld save. */
+export function teamState(side: { creature: Creature[], team: { [k: string]: any }[] }) {
+	// side.creature is reordered by switches; side.team keeps the original party order
+	const ordered = side.team.map(set => side.creature.find(c => c.set === set)!);
+	return ordered.map(c => ({
+		species: c.species.id,
+		level: c.level,
+		xp: c.set.xp,
+		hp: c.fainted ? 0 : c.hp,
+		maxhp: c.maxhp,
+		status: c.status || '',
+		energy: c.baseMoveSlots.map(m => {
+			const live = c.moveSlots.find(s => s.id === m.id);
+			return live ? live.pp : m.pp;
+		}),
+	}));
+}

@@ -1,0 +1,6 @@
+{
+ "_note": "Text ids Text Bot keeps at maps.<map>.<id> that are played by code, not by a placed npc/sign/spot. Owner of each: src/overworld/intro.js (opening flow, OPENING_OFFICE_v1.md). check_text_ids treats these as present. Added Oct 23 2026 10:35 AM CT (coder, Cut A) so --check stays green.",
+ "brookhollow": ["ron_too_dangerous"],
+ "office_int": ["scene_promotion", "manager_starter_repeat"],
+ "lab_brookhollow": ["cradle_not_yet", "scene_starter_intro", "starter_confirm", "scene_starter_after", "starter_received", "scene_test_run", "crystals_received", "manager_test_run_repeat", "scene_test_run_return", "scene_job_briefing"]
+}

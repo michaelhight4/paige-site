@@ -1,0 +1,3854 @@
+[
+ {
+  "key": "kit_sofa_side_worn_teal_r",
+  "piece": "sofa_side",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": "r",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9001,
+   9002
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_worn_teal_l",
+  "piece": "sofa_side",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": "l",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9003,
+   9004
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_worn_red_r",
+  "piece": "sofa_side",
+  "condition": "worn",
+  "colour": "red",
+  "facing": "r",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9005,
+   9006
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_worn_red_l",
+  "piece": "sofa_side",
+  "condition": "worn",
+  "colour": "red",
+  "facing": "l",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9007,
+   9008
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_worn_purple_r",
+  "piece": "sofa_side",
+  "condition": "worn",
+  "colour": "purple",
+  "facing": "r",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9009,
+   9010
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_worn_purple_l",
+  "piece": "sofa_side",
+  "condition": "worn",
+  "colour": "purple",
+  "facing": "l",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9011,
+   9012
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_normal_teal_r",
+  "piece": "sofa_side",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": "r",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9013,
+   9014
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_normal_teal_l",
+  "piece": "sofa_side",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": "l",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9015,
+   9016
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_normal_red_r",
+  "piece": "sofa_side",
+  "condition": "normal",
+  "colour": "red",
+  "facing": "r",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9017,
+   9018
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_normal_red_l",
+  "piece": "sofa_side",
+  "condition": "normal",
+  "colour": "red",
+  "facing": "l",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9019,
+   9020
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_normal_purple_r",
+  "piece": "sofa_side",
+  "condition": "normal",
+  "colour": "purple",
+  "facing": "r",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9021,
+   9022
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_normal_purple_l",
+  "piece": "sofa_side",
+  "condition": "normal",
+  "colour": "purple",
+  "facing": "l",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9023,
+   9024
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_fancy_teal_r",
+  "piece": "sofa_side",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": "r",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9025,
+   9026
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_fancy_teal_l",
+  "piece": "sofa_side",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": "l",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9027,
+   9028
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_fancy_red_r",
+  "piece": "sofa_side",
+  "condition": "fancy",
+  "colour": "red",
+  "facing": "r",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9029,
+   9030
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_fancy_red_l",
+  "piece": "sofa_side",
+  "condition": "fancy",
+  "colour": "red",
+  "facing": "l",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9031,
+   9032
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_fancy_purple_r",
+  "piece": "sofa_side",
+  "condition": "fancy",
+  "colour": "purple",
+  "facing": "r",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9033,
+   9034
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_sofa_side_fancy_purple_l",
+  "piece": "sofa_side",
+  "condition": "fancy",
+  "colour": "purple",
+  "facing": "l",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9035,
+   9036
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_armchair_side_worn_teal_r",
+  "piece": "armchair_side",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9037
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_worn_teal_l",
+  "piece": "armchair_side",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9038
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_worn_red_r",
+  "piece": "armchair_side",
+  "condition": "worn",
+  "colour": "red",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9039
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_worn_red_l",
+  "piece": "armchair_side",
+  "condition": "worn",
+  "colour": "red",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9040
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_worn_purple_r",
+  "piece": "armchair_side",
+  "condition": "worn",
+  "colour": "purple",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9041
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_worn_purple_l",
+  "piece": "armchair_side",
+  "condition": "worn",
+  "colour": "purple",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9042
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_normal_teal_r",
+  "piece": "armchair_side",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9043
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_normal_teal_l",
+  "piece": "armchair_side",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9044
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_normal_red_r",
+  "piece": "armchair_side",
+  "condition": "normal",
+  "colour": "red",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9045
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_normal_red_l",
+  "piece": "armchair_side",
+  "condition": "normal",
+  "colour": "red",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9046
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_normal_purple_r",
+  "piece": "armchair_side",
+  "condition": "normal",
+  "colour": "purple",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9047
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_normal_purple_l",
+  "piece": "armchair_side",
+  "condition": "normal",
+  "colour": "purple",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9048
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_fancy_teal_r",
+  "piece": "armchair_side",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9049
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_fancy_teal_l",
+  "piece": "armchair_side",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9050
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_fancy_red_r",
+  "piece": "armchair_side",
+  "condition": "fancy",
+  "colour": "red",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9051
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_fancy_red_l",
+  "piece": "armchair_side",
+  "condition": "fancy",
+  "colour": "red",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9052
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_fancy_purple_r",
+  "piece": "armchair_side",
+  "condition": "fancy",
+  "colour": "purple",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9053
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_armchair_side_fancy_purple_l",
+  "piece": "armchair_side",
+  "condition": "fancy",
+  "colour": "purple",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9054
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_tv_unit_worn_teal",
+  "piece": "tv_unit",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9055,
+   9056
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_tv_unit_normal_teal",
+  "piece": "tv_unit",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9057,
+   9058
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_tv_unit_fancy_teal",
+  "piece": "tv_unit",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9059,
+   9060
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_side_table_worn_red",
+  "piece": "side_table",
+  "condition": "worn",
+  "colour": "red",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9061
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_side_table_worn_blue",
+  "piece": "side_table",
+  "condition": "worn",
+  "colour": "blue",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9062
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_side_table_normal_red",
+  "piece": "side_table",
+  "condition": "normal",
+  "colour": "red",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9063
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_side_table_normal_blue",
+  "piece": "side_table",
+  "condition": "normal",
+  "colour": "blue",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9064
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_side_table_fancy_red",
+  "piece": "side_table",
+  "condition": "fancy",
+  "colour": "red",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9065
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_side_table_fancy_blue",
+  "piece": "side_table",
+  "condition": "fancy",
+  "colour": "blue",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9066
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_table_worn_red",
+  "piece": "dining_table",
+  "condition": "worn",
+  "colour": "red",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9067,
+   9068
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_table_worn_blue",
+  "piece": "dining_table",
+  "condition": "worn",
+  "colour": "blue",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9069,
+   9070
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_table_worn_green",
+  "piece": "dining_table",
+  "condition": "worn",
+  "colour": "green",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9071,
+   9072
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_table_normal_red",
+  "piece": "dining_table",
+  "condition": "normal",
+  "colour": "red",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9073,
+   9074
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_table_normal_blue",
+  "piece": "dining_table",
+  "condition": "normal",
+  "colour": "blue",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9075,
+   9076
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_table_normal_green",
+  "piece": "dining_table",
+  "condition": "normal",
+  "colour": "green",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9077,
+   9078
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_table_fancy_red",
+  "piece": "dining_table",
+  "condition": "fancy",
+  "colour": "red",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9079,
+   9080
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_table_fancy_blue",
+  "piece": "dining_table",
+  "condition": "fancy",
+  "colour": "blue",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9081,
+   9082
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_table_fancy_green",
+  "piece": "dining_table",
+  "condition": "fancy",
+  "colour": "green",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9083,
+   9084
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_worn_red_r",
+  "piece": "dining_chair",
+  "condition": "worn",
+  "colour": "red",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9085
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_worn_red_l",
+  "piece": "dining_chair",
+  "condition": "worn",
+  "colour": "red",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9086
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_worn_blue_r",
+  "piece": "dining_chair",
+  "condition": "worn",
+  "colour": "blue",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9087
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_worn_blue_l",
+  "piece": "dining_chair",
+  "condition": "worn",
+  "colour": "blue",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9088
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_worn_green_r",
+  "piece": "dining_chair",
+  "condition": "worn",
+  "colour": "green",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9089
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_worn_green_l",
+  "piece": "dining_chair",
+  "condition": "worn",
+  "colour": "green",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9090
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_normal_red_r",
+  "piece": "dining_chair",
+  "condition": "normal",
+  "colour": "red",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9091
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_normal_red_l",
+  "piece": "dining_chair",
+  "condition": "normal",
+  "colour": "red",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9092
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_normal_blue_r",
+  "piece": "dining_chair",
+  "condition": "normal",
+  "colour": "blue",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9093
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_normal_blue_l",
+  "piece": "dining_chair",
+  "condition": "normal",
+  "colour": "blue",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9094
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_normal_green_r",
+  "piece": "dining_chair",
+  "condition": "normal",
+  "colour": "green",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9095
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_normal_green_l",
+  "piece": "dining_chair",
+  "condition": "normal",
+  "colour": "green",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9096
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_fancy_red_r",
+  "piece": "dining_chair",
+  "condition": "fancy",
+  "colour": "red",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9097
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_fancy_red_l",
+  "piece": "dining_chair",
+  "condition": "fancy",
+  "colour": "red",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9098
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_fancy_blue_r",
+  "piece": "dining_chair",
+  "condition": "fancy",
+  "colour": "blue",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9099
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_fancy_blue_l",
+  "piece": "dining_chair",
+  "condition": "fancy",
+  "colour": "blue",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9100
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_fancy_green_r",
+  "piece": "dining_chair",
+  "condition": "fancy",
+  "colour": "green",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9101
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_dining_chair_fancy_green_l",
+  "piece": "dining_chair",
+  "condition": "fancy",
+  "colour": "green",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9102
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_kitchen_fridge_worn_teal",
+  "piece": "kitchen_fridge",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "lab"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9103,
+   9104
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_kitchen_fridge_normal_teal",
+  "piece": "kitchen_fridge",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "lab"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9105,
+   9106
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_kitchen_fridge_fancy_teal",
+  "piece": "kitchen_fridge",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "lab"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9107,
+   9108
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_kitchen_counter_worn_teal",
+  "piece": "kitchen_counter",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9109,
+   9110
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_kitchen_counter_normal_teal",
+  "piece": "kitchen_counter",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9111,
+   9112
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_kitchen_counter_fancy_teal",
+  "piece": "kitchen_counter",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9113,
+   9114
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_kitchen_sink_worn_teal",
+  "piece": "kitchen_sink",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9115,
+   9116
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_kitchen_sink_normal_teal",
+  "piece": "kitchen_sink",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9117,
+   9118
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_kitchen_sink_fancy_teal",
+  "piece": "kitchen_sink",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9119,
+   9120
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_kitchen_stove_worn_teal",
+  "piece": "kitchen_stove",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9121,
+   9122
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_kitchen_stove_normal_teal",
+  "piece": "kitchen_stove",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9123,
+   9124
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_kitchen_stove_fancy_teal",
+  "piece": "kitchen_stove",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9125,
+   9126
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_bookcase_worn_teal",
+  "piece": "bookcase",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "hall",
+   "lab",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9127,
+   9128
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_bookcase_normal_teal",
+  "piece": "bookcase",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "hall",
+   "lab",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9129,
+   9130
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_bookcase_fancy_teal",
+  "piece": "bookcase",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "hall",
+   "lab",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9131,
+   9132
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_plant_tall_worn_green",
+  "piece": "plant_tall",
+  "condition": "worn",
+  "colour": "green",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "hall",
+   "lab",
+   "shop",
+   "clinic",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9133,
+   9134
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_plant_tall_normal_green",
+  "piece": "plant_tall",
+  "condition": "normal",
+  "colour": "green",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "hall",
+   "lab",
+   "shop",
+   "clinic",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9135,
+   9136
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_plant_tall_fancy_green",
+  "piece": "plant_tall",
+  "condition": "fancy",
+  "colour": "green",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "hall",
+   "lab",
+   "shop",
+   "clinic",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9137,
+   9138
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_coat_rack_worn_red",
+  "piece": "coat_rack",
+  "condition": "worn",
+  "colour": "red",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "inn",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9139,
+   9140
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_coat_rack_worn_green",
+  "piece": "coat_rack",
+  "condition": "worn",
+  "colour": "green",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "inn",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9141,
+   9142
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_coat_rack_worn_purple",
+  "piece": "coat_rack",
+  "condition": "worn",
+  "colour": "purple",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "inn",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9143,
+   9144
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_coat_rack_normal_red",
+  "piece": "coat_rack",
+  "condition": "normal",
+  "colour": "red",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "inn",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9145,
+   9146
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_coat_rack_normal_green",
+  "piece": "coat_rack",
+  "condition": "normal",
+  "colour": "green",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "inn",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9147,
+   9148
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_coat_rack_normal_purple",
+  "piece": "coat_rack",
+  "condition": "normal",
+  "colour": "purple",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "inn",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9149,
+   9150
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_coat_rack_fancy_red",
+  "piece": "coat_rack",
+  "condition": "fancy",
+  "colour": "red",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "inn",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9151,
+   9152
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_coat_rack_fancy_green",
+  "piece": "coat_rack",
+  "condition": "fancy",
+  "colour": "green",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "inn",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9153,
+   9154
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_coat_rack_fancy_purple",
+  "piece": "coat_rack",
+  "condition": "fancy",
+  "colour": "purple",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "inn",
+   "clinic"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9155,
+   9156
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_shoes_worn_blue",
+  "piece": "shoes",
+  "condition": "worn",
+  "colour": "blue",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9157
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_shoes_normal_blue",
+  "piece": "shoes",
+  "condition": "normal",
+  "colour": "blue",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9158
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_shoes_fancy_blue",
+  "piece": "shoes",
+  "condition": "fancy",
+  "colour": "blue",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9159
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_basket_worn_red",
+  "piece": "basket",
+  "condition": "worn",
+  "colour": "red",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "shop"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9160
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_basket_worn_green",
+  "piece": "basket",
+  "condition": "worn",
+  "colour": "green",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "shop"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9161
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_basket_normal_red",
+  "piece": "basket",
+  "condition": "normal",
+  "colour": "red",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "shop"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9162
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_basket_normal_green",
+  "piece": "basket",
+  "condition": "normal",
+  "colour": "green",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "shop"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9163
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_basket_fancy_red",
+  "piece": "basket",
+  "condition": "fancy",
+  "colour": "red",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "shop"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9164
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_basket_fancy_green",
+  "piece": "basket",
+  "condition": "fancy",
+  "colour": "green",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "shop"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9165
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_book_stack_worn_red",
+  "piece": "book_stack",
+  "condition": "worn",
+  "colour": "red",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office",
+   "lab"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9166
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_book_stack_normal_red",
+  "piece": "book_stack",
+  "condition": "normal",
+  "colour": "red",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office",
+   "lab"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9167
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_book_stack_fancy_red",
+  "piece": "book_stack",
+  "condition": "fancy",
+  "colour": "red",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office",
+   "lab"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9168
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_wall_art_worn_teal",
+  "piece": "wall_art",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office",
+   "hall",
+   "inn",
+   "clinic"
+  ],
+  "collision": "wall",
+  "ids_rowmajor": [
+   9169
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_wall_art_normal_teal",
+  "piece": "wall_art",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office",
+   "hall",
+   "inn",
+   "clinic"
+  ],
+  "collision": "wall",
+  "ids_rowmajor": [
+   9170
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_wall_art_fancy_teal",
+  "piece": "wall_art",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office",
+   "hall",
+   "inn",
+   "clinic"
+  ],
+  "collision": "wall",
+  "ids_rowmajor": [
+   9171
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_photos_worn_teal",
+  "piece": "photos",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office"
+  ],
+  "collision": "wall",
+  "ids_rowmajor": [
+   9172
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_photos_normal_teal",
+  "piece": "photos",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office"
+  ],
+  "collision": "wall",
+  "ids_rowmajor": [
+   9173
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_photos_fancy_teal",
+  "piece": "photos",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office"
+  ],
+  "collision": "wall",
+  "ids_rowmajor": [
+   9174
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_rug_worn_purple",
+  "piece": "rug",
+  "condition": "worn",
+  "colour": "purple",
+  "facing": null,
+  "size": "3x3",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "hall"
+  ],
+  "collision": "walk",
+  "ids_rowmajor": [
+   9175,
+   9176,
+   9177,
+   9178,
+   9179,
+   9180,
+   9181,
+   9182,
+   9183
+  ],
+  "layers": "ground-over (decoration layer, walkable)"
+ },
+ {
+  "key": "kit_rug_worn_teal",
+  "piece": "rug",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": null,
+  "size": "3x3",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "hall"
+  ],
+  "collision": "walk",
+  "ids_rowmajor": [
+   9184,
+   9185,
+   9186,
+   9187,
+   9188,
+   9189,
+   9190,
+   9191,
+   9192
+  ],
+  "layers": "ground-over (decoration layer, walkable)"
+ },
+ {
+  "key": "kit_rug_worn_red",
+  "piece": "rug",
+  "condition": "worn",
+  "colour": "red",
+  "facing": null,
+  "size": "3x3",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "hall"
+  ],
+  "collision": "walk",
+  "ids_rowmajor": [
+   9193,
+   9194,
+   9195,
+   9196,
+   9197,
+   9198,
+   9199,
+   9200,
+   9201
+  ],
+  "layers": "ground-over (decoration layer, walkable)"
+ },
+ {
+  "key": "kit_rug_normal_purple",
+  "piece": "rug",
+  "condition": "normal",
+  "colour": "purple",
+  "facing": null,
+  "size": "3x3",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "hall"
+  ],
+  "collision": "walk",
+  "ids_rowmajor": [
+   9202,
+   9203,
+   9204,
+   9205,
+   9206,
+   9207,
+   9208,
+   9209,
+   9210
+  ],
+  "layers": "ground-over (decoration layer, walkable)"
+ },
+ {
+  "key": "kit_rug_normal_teal",
+  "piece": "rug",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": null,
+  "size": "3x3",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "hall"
+  ],
+  "collision": "walk",
+  "ids_rowmajor": [
+   9211,
+   9212,
+   9213,
+   9214,
+   9215,
+   9216,
+   9217,
+   9218,
+   9219
+  ],
+  "layers": "ground-over (decoration layer, walkable)"
+ },
+ {
+  "key": "kit_rug_normal_red",
+  "piece": "rug",
+  "condition": "normal",
+  "colour": "red",
+  "facing": null,
+  "size": "3x3",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "hall"
+  ],
+  "collision": "walk",
+  "ids_rowmajor": [
+   9220,
+   9221,
+   9222,
+   9223,
+   9224,
+   9225,
+   9226,
+   9227,
+   9228
+  ],
+  "layers": "ground-over (decoration layer, walkable)"
+ },
+ {
+  "key": "kit_rug_fancy_purple",
+  "piece": "rug",
+  "condition": "fancy",
+  "colour": "purple",
+  "facing": null,
+  "size": "3x3",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "hall"
+  ],
+  "collision": "walk",
+  "ids_rowmajor": [
+   9229,
+   9230,
+   9231,
+   9232,
+   9233,
+   9234,
+   9235,
+   9236,
+   9237
+  ],
+  "layers": "ground-over (decoration layer, walkable)"
+ },
+ {
+  "key": "kit_rug_fancy_teal",
+  "piece": "rug",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": null,
+  "size": "3x3",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "hall"
+  ],
+  "collision": "walk",
+  "ids_rowmajor": [
+   9238,
+   9239,
+   9240,
+   9241,
+   9242,
+   9243,
+   9244,
+   9245,
+   9246
+  ],
+  "layers": "ground-over (decoration layer, walkable)"
+ },
+ {
+  "key": "kit_rug_fancy_red",
+  "piece": "rug",
+  "condition": "fancy",
+  "colour": "red",
+  "facing": null,
+  "size": "3x3",
+  "themes": [
+   "home",
+   "inn",
+   "office",
+   "hall"
+  ],
+  "collision": "walk",
+  "ids_rowmajor": [
+   9247,
+   9248,
+   9249,
+   9250,
+   9251,
+   9252,
+   9253,
+   9254,
+   9255
+  ],
+  "layers": "ground-over (decoration layer, walkable)"
+ },
+ {
+  "key": "kit_radio_worn_red",
+  "piece": "radio",
+  "condition": "worn",
+  "colour": "red",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office",
+   "shop"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9256
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_radio_worn_teal",
+  "piece": "radio",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office",
+   "shop"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9257
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_radio_normal_red",
+  "piece": "radio",
+  "condition": "normal",
+  "colour": "red",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office",
+   "shop"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9258
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_radio_normal_teal",
+  "piece": "radio",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office",
+   "shop"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9259
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_radio_fancy_red",
+  "piece": "radio",
+  "condition": "fancy",
+  "colour": "red",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office",
+   "shop"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9260
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_radio_fancy_teal",
+  "piece": "radio",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office",
+   "shop"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9261
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_crates_worn_red",
+  "piece": "crates",
+  "condition": "worn",
+  "colour": "red",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home",
+   "shop",
+   "lab"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9262,
+   9263
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_crates_normal_red",
+  "piece": "crates",
+  "condition": "normal",
+  "colour": "red",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home",
+   "shop",
+   "lab"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9264,
+   9265
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_crates_fancy_red",
+  "piece": "crates",
+  "condition": "fancy",
+  "colour": "red",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home",
+   "shop",
+   "lab"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9266,
+   9267
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_rods_worn_green",
+  "piece": "rods",
+  "condition": "worn",
+  "colour": "green",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9268
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_rods_normal_green",
+  "piece": "rods",
+  "condition": "normal",
+  "colour": "green",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9269
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_rods_fancy_green",
+  "piece": "rods",
+  "condition": "fancy",
+  "colour": "green",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9270
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_bookshelf3_worn_brown",
+  "piece": "bookshelf3",
+  "condition": "worn",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9271,
+   9272
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "APPROVED worn = test3.png worn shelf (Gary, Oct 28 2026)"
+ },
+ {
+  "key": "kit_bookshelf3_normal_brown",
+  "piece": "bookshelf3",
+  "condition": "normal",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9273,
+   9274
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "APPROVED normal = pass-2 normal shelf"
+ },
+ {
+  "key": "kit_bookshelf3_fancy_brown",
+  "piece": "bookshelf3",
+  "condition": "fancy",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "office",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9275,
+   9276
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "APPROVED normal = pass-2 normal shelf"
+ },
+ {
+  "key": "kit_bookshelf_p2worn_worn_brown",
+  "piece": "bookshelf_p2worn",
+  "condition": "worn",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x2",
+  "themes": [],
+  "collision": "block",
+  "ids_rowmajor": [
+   9277,
+   9278
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026): pass-2 worn bookshelf; do not use"
+ },
+ {
+  "key": "kit_bookshelf_p2worn_normal_brown",
+  "piece": "bookshelf_p2worn",
+  "condition": "normal",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x2",
+  "themes": [],
+  "collision": "block",
+  "ids_rowmajor": [
+   9279,
+   9280
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026): pass-2 worn bookshelf; do not use"
+ },
+ {
+  "key": "kit_bookshelf_p2worn_fancy_brown",
+  "piece": "bookshelf_p2worn",
+  "condition": "fancy",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x2",
+  "themes": [],
+  "collision": "block",
+  "ids_rowmajor": [
+   9281,
+   9282
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026): pass-2 worn bookshelf; do not use"
+ },
+ {
+  "key": "kit_table3_worn_brown",
+  "piece": "table3",
+  "condition": "worn",
+  "colour": "brown",
+  "facing": null,
+  "size": "2x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9283,
+   9284,
+   9285,
+   9286
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_table3_normal_brown",
+  "piece": "table3",
+  "condition": "normal",
+  "colour": "brown",
+  "facing": null,
+  "size": "2x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9287,
+   9288,
+   9289,
+   9290
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_table3_fancy_brown",
+  "piece": "table3",
+  "condition": "fancy",
+  "colour": "brown",
+  "facing": null,
+  "size": "2x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9291,
+   9292,
+   9293,
+   9294
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_chair3_worn_brown_r",
+  "piece": "chair3",
+  "condition": "worn",
+  "colour": "brown",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9295
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_chair3_worn_brown_l",
+  "piece": "chair3",
+  "condition": "worn",
+  "colour": "brown",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9296
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_chair3_normal_brown_r",
+  "piece": "chair3",
+  "condition": "normal",
+  "colour": "brown",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9297
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_chair3_normal_brown_l",
+  "piece": "chair3",
+  "condition": "normal",
+  "colour": "brown",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9298
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_chair3_fancy_brown_r",
+  "piece": "chair3",
+  "condition": "fancy",
+  "colour": "brown",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9299
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_chair3_fancy_brown_l",
+  "piece": "chair3",
+  "condition": "fancy",
+  "colour": "brown",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home",
+   "inn",
+   "office"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9300
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_couch3_worn_teal_r",
+  "piece": "couch3",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": "r",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9301,
+   9302
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026: \"looks awful\"); use couch_side / couch_front"
+ },
+ {
+  "key": "kit_couch3_worn_teal_l",
+  "piece": "couch3",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": "l",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9303,
+   9304
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026: \"looks awful\"); use couch_side / couch_front"
+ },
+ {
+  "key": "kit_couch3_worn_blue_r",
+  "piece": "couch3",
+  "condition": "worn",
+  "colour": "blue",
+  "facing": "r",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9305,
+   9306
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026: \"looks awful\"); use couch_side / couch_front"
+ },
+ {
+  "key": "kit_couch3_worn_blue_l",
+  "piece": "couch3",
+  "condition": "worn",
+  "colour": "blue",
+  "facing": "l",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9307,
+   9308
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026: \"looks awful\"); use couch_side / couch_front"
+ },
+ {
+  "key": "kit_couch3_normal_teal_r",
+  "piece": "couch3",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": "r",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9309,
+   9310
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026: \"looks awful\"); use couch_side / couch_front"
+ },
+ {
+  "key": "kit_couch3_normal_teal_l",
+  "piece": "couch3",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": "l",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9311,
+   9312
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026: \"looks awful\"); use couch_side / couch_front"
+ },
+ {
+  "key": "kit_couch3_normal_blue_r",
+  "piece": "couch3",
+  "condition": "normal",
+  "colour": "blue",
+  "facing": "r",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9313,
+   9314
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026: \"looks awful\"); use couch_side / couch_front"
+ },
+ {
+  "key": "kit_couch3_normal_blue_l",
+  "piece": "couch3",
+  "condition": "normal",
+  "colour": "blue",
+  "facing": "l",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9315,
+   9316
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026: \"looks awful\"); use couch_side / couch_front"
+ },
+ {
+  "key": "kit_couch3_fancy_teal_r",
+  "piece": "couch3",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": "r",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9317,
+   9318
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026: \"looks awful\"); use couch_side / couch_front"
+ },
+ {
+  "key": "kit_couch3_fancy_teal_l",
+  "piece": "couch3",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": "l",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9319,
+   9320
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026: \"looks awful\"); use couch_side / couch_front"
+ },
+ {
+  "key": "kit_couch3_fancy_blue_r",
+  "piece": "couch3",
+  "condition": "fancy",
+  "colour": "blue",
+  "facing": "r",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9321,
+   9322
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026: \"looks awful\"); use couch_side / couch_front"
+ },
+ {
+  "key": "kit_couch3_fancy_blue_l",
+  "piece": "couch3",
+  "condition": "fancy",
+  "colour": "blue",
+  "facing": "l",
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9323,
+   9324
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026: \"looks awful\"); use couch_side / couch_front"
+ },
+ {
+  "key": "kit_crt3_worn_brown_r",
+  "piece": "crt3",
+  "condition": "worn",
+  "colour": "brown",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9325
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_crt3_worn_brown_l",
+  "piece": "crt3",
+  "condition": "worn",
+  "colour": "brown",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9326
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_crt3_normal_brown_r",
+  "piece": "crt3",
+  "condition": "normal",
+  "colour": "brown",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9327
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_crt3_normal_brown_l",
+  "piece": "crt3",
+  "condition": "normal",
+  "colour": "brown",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9328
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_crt3_fancy_brown_r",
+  "piece": "crt3",
+  "condition": "fancy",
+  "colour": "brown",
+  "facing": "r",
+  "size": "1x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9329
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_crt3_fancy_brown_l",
+  "piece": "crt3",
+  "condition": "fancy",
+  "colour": "brown",
+  "facing": "l",
+  "size": "1x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9330
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_fridge3_worn_teal",
+  "piece": "fridge3",
+  "condition": "worn",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9331,
+   9332
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_fridge3_worn_green",
+  "piece": "fridge3",
+  "condition": "worn",
+  "colour": "green",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9333,
+   9334
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_fridge3_normal_teal",
+  "piece": "fridge3",
+  "condition": "normal",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9335,
+   9336
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_fridge3_normal_green",
+  "piece": "fridge3",
+  "condition": "normal",
+  "colour": "green",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9337,
+   9338
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_fridge3_fancy_teal",
+  "piece": "fridge3",
+  "condition": "fancy",
+  "colour": "teal",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9339,
+   9340
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_fridge3_fancy_green",
+  "piece": "fridge3",
+  "condition": "fancy",
+  "colour": "green",
+  "facing": null,
+  "size": "1x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9341,
+   9342
+  ],
+  "layers": "top row overlay, bottom row decoration"
+ },
+ {
+  "key": "kit_side3_worn_brown",
+  "piece": "side3",
+  "condition": "worn",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9343
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_side3_normal_brown",
+  "piece": "side3",
+  "condition": "normal",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9344
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_side3_fancy_brown",
+  "piece": "side3",
+  "condition": "fancy",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9345
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_clock3_worn_brown",
+  "piece": "clock3",
+  "condition": "worn",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office"
+  ],
+  "collision": "wall",
+  "ids_rowmajor": [
+   9346
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_clock3_normal_brown",
+  "piece": "clock3",
+  "condition": "normal",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office"
+  ],
+  "collision": "wall",
+  "ids_rowmajor": [
+   9347
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_clock3_fancy_brown",
+  "piece": "clock3",
+  "condition": "fancy",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office"
+  ],
+  "collision": "wall",
+  "ids_rowmajor": [
+   9348
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_cork3_worn_brown",
+  "piece": "cork3",
+  "condition": "worn",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office"
+  ],
+  "collision": "wall",
+  "ids_rowmajor": [
+   9349
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_cork3_normal_brown",
+  "piece": "cork3",
+  "condition": "normal",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office"
+  ],
+  "collision": "wall",
+  "ids_rowmajor": [
+   9350
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_cork3_fancy_brown",
+  "piece": "cork3",
+  "condition": "fancy",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home",
+   "office"
+  ],
+  "collision": "wall",
+  "ids_rowmajor": [
+   9351
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_couch_side_worn_mustard_r",
+  "piece": "couch_side",
+  "condition": "worn",
+  "colour": "mustard",
+  "facing": "r",
+  "size": "2x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9352,
+   9353,
+   9354,
+   9355
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026 1:30 AM: wrong scale, as tall as characters); use couch_low"
+ },
+ {
+  "key": "kit_couch_side_worn_mustard_l",
+  "piece": "couch_side",
+  "condition": "worn",
+  "colour": "mustard",
+  "facing": "l",
+  "size": "2x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9356,
+   9357,
+   9358,
+   9359
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026 1:30 AM: wrong scale, as tall as characters); use couch_low"
+ },
+ {
+  "key": "kit_couch_side_normal_mustard_r",
+  "piece": "couch_side",
+  "condition": "normal",
+  "colour": "mustard",
+  "facing": "r",
+  "size": "2x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9360,
+   9361,
+   9362,
+   9363
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026 1:30 AM: wrong scale, as tall as characters); use couch_low"
+ },
+ {
+  "key": "kit_couch_side_normal_mustard_l",
+  "piece": "couch_side",
+  "condition": "normal",
+  "colour": "mustard",
+  "facing": "l",
+  "size": "2x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9364,
+   9365,
+   9366,
+   9367
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026 1:30 AM: wrong scale, as tall as characters); use couch_low"
+ },
+ {
+  "key": "kit_couch_side_fancy_mustard_r",
+  "piece": "couch_side",
+  "condition": "fancy",
+  "colour": "mustard",
+  "facing": "r",
+  "size": "2x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9368,
+   9369,
+   9370,
+   9371
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026 1:30 AM: wrong scale, as tall as characters); use couch_low"
+ },
+ {
+  "key": "kit_couch_side_fancy_mustard_l",
+  "piece": "couch_side",
+  "condition": "fancy",
+  "colour": "mustard",
+  "facing": "l",
+  "size": "2x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9372,
+   9373,
+   9374,
+   9375
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026 1:30 AM: wrong scale, as tall as characters); use couch_low"
+ },
+ {
+  "key": "kit_couch_front_worn_mustard",
+  "piece": "couch_front",
+  "condition": "worn",
+  "colour": "mustard",
+  "facing": null,
+  "size": "2x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9376,
+   9377,
+   9378,
+   9379
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026 1:30 AM: wrong scale, as tall as characters); use couch_low"
+ },
+ {
+  "key": "kit_couch_front_normal_mustard",
+  "piece": "couch_front",
+  "condition": "normal",
+  "colour": "mustard",
+  "facing": null,
+  "size": "2x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9380,
+   9381,
+   9382,
+   9383
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026 1:30 AM: wrong scale, as tall as characters); use couch_low"
+ },
+ {
+  "key": "kit_couch_front_fancy_mustard",
+  "piece": "couch_front",
+  "condition": "fancy",
+  "colour": "mustard",
+  "facing": null,
+  "size": "2x2",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9384,
+   9385,
+   9386,
+   9387
+  ],
+  "layers": "top row overlay, bottom row decoration",
+  "status": "REJECTED (Gary, Oct 28 2026 1:30 AM: wrong scale, as tall as characters); use couch_low"
+ },
+ {
+  "key": "kit_couch_low_worn_navy",
+  "piece": "couch_low",
+  "condition": "worn",
+  "colour": "navy",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9388,
+   9389
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_couch_low_normal_navy",
+  "piece": "couch_low",
+  "condition": "normal",
+  "colour": "navy",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9390,
+   9391
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_couch_low_fancy_navy",
+  "piece": "couch_low",
+  "condition": "fancy",
+  "colour": "navy",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home",
+   "inn"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9392,
+   9393
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_tv_back_worn_brown",
+  "piece": "tv_back",
+  "condition": "worn",
+  "colour": "brown",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9394,
+   9395
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_tv_back_normal_brown",
+  "piece": "tv_back",
+  "condition": "normal",
+  "colour": "brown",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9396,
+   9397
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_tv_back_fancy_brown",
+  "piece": "tv_back",
+  "condition": "fancy",
+  "colour": "brown",
+  "facing": null,
+  "size": "2x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9398,
+   9399
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_crt3_back_worn_brown",
+  "piece": "crt3_back",
+  "condition": "worn",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9400
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_crt3_back_normal_brown",
+  "piece": "crt3_back",
+  "condition": "normal",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9401
+  ],
+  "layers": "decoration"
+ },
+ {
+  "key": "kit_crt3_back_fancy_brown",
+  "piece": "crt3_back",
+  "condition": "fancy",
+  "colour": "brown",
+  "facing": null,
+  "size": "1x1",
+  "themes": [
+   "home"
+  ],
+  "collision": "block",
+  "ids_rowmajor": [
+   9402
+  ],
+  "layers": "decoration"
+ }
+]

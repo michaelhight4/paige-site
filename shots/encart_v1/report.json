@@ -1,0 +1,162 @@
+[
+ {
+  "file": "pc_route1.png",
+  "map": "route1",
+  "dev": "pc",
+  "extra": "",
+  "spot": [
+   43,
+   8
+  ],
+  "steps": 3,
+  "hit": {
+   "tick": 97,
+   "type": "wild",
+   "species": "burlbeetle",
+   "level": 4,
+   "table": "sunmeadow_grass",
+   "x": 45,
+   "y": 8,
+   "t": 0.999667032930443,
+   "top": true
+  },
+  "filter": {
+   "dropped": {},
+   "empty": []
+  },
+  "battleOpen": true,
+  "foeSrc": "art/characters/pixel/creatures/burlbeetle/battle/burlbeetle_front_128_2x.png",
+  "top": null,
+  "consoleInfo": [
+   "[encounters] art filter dropped 0 slots {} empty zones [] empty phases {}"
+  ],
+  "errors": []
+ },
+ {
+  "file": "phone_route1.png",
+  "map": "route1",
+  "dev": "phone",
+  "extra": "",
+  "spot": [
+   43,
+   8
+  ],
+  "steps": 4,
+  "hit": {
+   "tick": 111,
+   "type": "wild",
+   "species": "tumbloam",
+   "level": 4,
+   "table": "sunmeadow_grass",
+   "x": 45,
+   "y": 8,
+   "t": 0.999667032930443,
+   "top": true
+  },
+  "filter": {
+   "dropped": {},
+   "empty": []
+  },
+  "battleOpen": true,
+  "foeSrc": "art/characters/pixel/creatures/tumbloam/battle/tumbloam_front_128_2x.png",
+  "top": null,
+  "consoleInfo": [
+   "[encounters] art filter dropped 0 slots {} empty zones [] empty phases {}"
+  ],
+  "errors": []
+ },
+ {
+  "file": "pc_route_fernwick_lanternport.png",
+  "map": "route_fernwick_lanternport",
+  "dev": "pc",
+  "extra": "",
+  "spot": [
+   34,
+   16
+  ],
+  "steps": 2,
+  "hit": {
+   "tick": 79,
+   "type": "wild",
+   "species": "shorehound",
+   "level": 45,
+   "table": "route_fernwick_lanternport_grass",
+   "x": 36,
+   "y": 16,
+   "t": 0.044175742699570725,
+   "top": true
+  },
+  "filter": {
+   "dropped": {},
+   "empty": []
+  },
+  "battleOpen": true,
+  "foeSrc": "art/characters/pixel/creatures/shorehound/battle/shorehound_front_128_2x.png",
+  "top": null,
+  "consoleInfo": [
+   "[encounters] art filter dropped 0 slots {} empty zones [] empty phases {}"
+  ],
+  "errors": []
+ },
+ {
+  "file": "phone_route_fernwick_lanternport.png",
+  "map": "route_fernwick_lanternport",
+  "dev": "phone",
+  "extra": "",
+  "spot": [
+   34,
+   16
+  ],
+  "steps": 16,
+  "hit": {
+   "tick": 334,
+   "type": "wild",
+   "species": "tidemarrow",
+   "level": 45,
+   "table": "route_fernwick_lanternport_grass",
+   "x": 36,
+   "y": 16,
+   "t": 0.044175742699570725,
+   "top": true
+  },
+  "filter": {
+   "dropped": {},
+   "empty": []
+  },
+  "battleOpen": true,
+  "foeSrc": "art/characters/pixel/creatures/tidemarrow/battle/tidemarrow_front_160_2x.png",
+  "top": null,
+  "consoleInfo": [
+   "[encounters] art filter dropped 0 slots {} empty zones [] empty phases {}"
+  ],
+  "errors": []
+ },
+ {
+  "file": "pc_route1_encart0.png",
+  "map": "route1",
+  "dev": "pc",
+  "extra": "&encart=0",
+  "spot": [
+   43,
+   8
+  ],
+  "steps": 11,
+  "hit": {
+   "tick": 229,
+   "type": "wild",
+   "species": "burlbeetle",
+   "level": 3,
+   "table": "sunmeadow_grass",
+   "x": 43,
+   "y": 8,
+   "t": 0.999667032930443,
+   "top": true
+  },
+  "filter": "off",
+  "battleOpen": true,
+  "foeSrc": "art/characters/pixel/creatures/burlbeetle/battle/burlbeetle_front_128_2x.png",
+  "top": null,
+  "consoleInfo": [],
+  "errors": []
+ }
+]

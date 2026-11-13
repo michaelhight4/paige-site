@@ -1,0 +1,84 @@
+# Kilumen CI: unit tests + the stable Playwright e2e suites. Free GitHub-hosted runner, official actions only.
+# Skipped on purpose: the WebKit iPhone touch timing checks in touch_e2e ('hold moves', 'A within 1 frame') are flaky
+# on emulated WebKit, so touch_e2e runs on Chromium only (ENGINES=chromium). Not covered here: pwa_e2e (needs
+# tools/free_tools deps), catch_menus_e2e / ink_dialogue_e2e (visual review suites, not pass/fail gates yet).
+name: test
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PORT: "8731"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Playwright browsers (Chromium + WebKit)
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Install Playwright system libraries (browser binaries came from cache)
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium webkit
+
+      - name: Unit tests (npm test)
+        run: npm test
+
+      - name: Start static server
+        run: |
+          python3 -m http.server "$PORT" --bind 127.0.0.1 > /tmp/http.log 2>&1 &
+          for i in $(seq 1 50); do curl -sf "http://127.0.0.1:$PORT/index.html" > /dev/null && exit 0; sleep 0.2; done
+          echo "static server did not start" && cat /tmp/http.log && exit 1
+
+      - name: e2e systems battle
+        run: node tests/systems_battle_e2e.mjs
+
+      - name: e2e battle touch
+        run: node tests/battle_touch_e2e.mjs
+
+      - name: e2e touch (Chromium only, WebKit iPhone timing checks skipped)
+        run: node tests/touch_e2e.mjs
+        env:
+          ENGINES: chromium
+
+      - name: e2e UI tools
+        run: node tests/ui_tools_e2e.mjs
+
+      - name: e2e online
+        run: node tests/online_e2e.mjs
+
+      - name: e2e audio draft
+        run: node tests/audio_draft_e2e.mjs
+
+      - name: e2e audio volume
+        run: node tests/audio_volume_e2e.mjs
+
+      - name: Static server log on failure
+        if: failure()
+        run: tail -50 /tmp/http.log || true

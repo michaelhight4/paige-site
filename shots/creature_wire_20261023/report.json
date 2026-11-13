@@ -1,0 +1,66 @@
+[
+ {
+  "file": "pc_route1.png",
+  "map": "route1",
+  "dev": "pc",
+  "extra": "",
+  "spot": [
+   31,
+   1
+  ],
+  "steps": 6,
+  "hit": {
+   "tick": 121,
+   "type": "wild",
+   "species": "gnawford",
+   "level": 5,
+   "table": "sunmeadow_grass",
+   "x": 31,
+   "y": 1,
+   "top": true
+  },
+  "filter": {
+   "dropped": {},
+   "empty": []
+  },
+  "battleOpen": true,
+  "foeSrc": "art/characters/pixel/creatures/gnawford/battle/gnawford_front_128_2x.png",
+  "top": null,
+  "consoleInfo": [
+   "[encounters] art filter dropped 0 slots {} empty zones [] empty phases {}"
+  ],
+  "errors": []
+ },
+ {
+  "file": "phone_route1.png",
+  "map": "route1",
+  "dev": "phone",
+  "extra": "",
+  "spot": [
+   31,
+   1
+  ],
+  "steps": 5,
+  "hit": {
+   "tick": 104,
+   "type": "wild",
+   "species": "burlbeetle",
+   "level": 5,
+   "table": "sunmeadow_grass",
+   "x": 32,
+   "y": 1,
+   "top": true
+  },
+  "filter": {
+   "dropped": {},
+   "empty": []
+  },
+  "battleOpen": true,
+  "foeSrc": "art/characters/pixel/creatures/burlbeetle/battle/burlbeetle_front_128_2x.png",
+  "top": null,
+  "consoleInfo": [
+   "[encounters] art filter dropped 0 slots {} empty zones [] empty phases {}"
+  ],
+  "errors": []
+ }
+]

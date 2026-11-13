@@ -1,0 +1,119 @@
+// Region 1 release smoke: title loads -> new game -> walk (real input) -> downstairs -> talk to Ron -> no console errors.
+import { chromium, webkit, devices } from '/workspace/kilumen_release_r1/_work/snap/node_modules/playwright/index.mjs';
+import fs from 'node:fs'; import path from 'node:path';
+const BASE = process.env.BASE || 'http://127.0.0.1:8943/kilumen/';
+const OUT = process.env.SHOTS || '/workspace/kilumen_release_r1/_smoke'; fs.mkdirSync(OUT, { recursive: true });
+const ALL = {
+  desktop_1920: { type: chromium, opts: { viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 }, touch: false },
+  desktop_1366: { type: chromium, opts: { viewport: { width: 1366, height: 768 }, deviceScaleFactor: 1 }, touch: false },
+  iphone_844x390: { type: webkit, opts: { ...devices['iPhone 14 landscape'], viewport: { width: 844, height: 390 }, screen: { width: 844, height: 390 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true }, touch: true },
+};
+const RUN = (process.env.DEV || Object.keys(ALL).join(',')).split(',');
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const summary = {};
+async function run(name) {
+  const D = ALL[name]; const browser = await D.type.launch(); const ctx = await browser.newContext(D.opts); const page = await ctx.newPage();
+  const errors = [], bad = []; const res = [];
+  page.on('pageerror', (e) => errors.push('pageerror ' + e.message));
+  page.on('console', (m) => { if (m.type() === 'error') errors.push('console ' + m.text() + ' @' + (m.location()?.url || '')); });
+  page.on('requestfailed', (r) => bad.push('failed ' + r.url()));
+  page.on('response', (r) => { if (r.status() >= 400) bad.push(r.status() + ' ' + r.url()); });
+  const check = (id, ok, info = '') => { res.push({ id, ok: !!ok, info }); console.log(`${name} ${ok ? 'ok  ' : 'FAIL'} ${id} ${info}`); };
+  const shot = (f) => page.screenshot({ path: path.join(OUT, `${name}_${f}.png`) });
+  const st = () => page.evaluate(() => { const s = window.kilumen.scene, p = s.player; return { map: s.map?.name, x: p.x, y: p.y, facing: p.facing, state: p.state, fading: !!s.fade, dlg: !!s.dialog?.active, ui: !!window.kilumen.ui?.active }; });
+  const until = async (fn, ms = 8000, step = 100, arg) => { const t0 = Date.now(); while (Date.now() - t0 < ms) { const v = await page.evaluate(fn, arg).catch(() => null); if (v) return v; await sleep(step); } return null; };
+  const center = (sel) => page.$eval(sel, (el) => { const b = el.getBoundingClientRect(); return [b.left + b.width / 2, b.top + b.height / 2]; });
+  const tap = async (sel) => { const [x, y] = await center(sel); await page.touchscreen.tap(x, y); };
+  const KEY = { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' };
+  // press a direction; release after `ms`, or (ms = 0) as soon as the player starts moving/turning (one tile per step)
+  const holdDir = async (d, ms) => { let x, y;
+    if (!D.touch) await page.keyboard.down(KEY[d]);
+    else { [x, y] = await center(`#touchpad [data-dir=${d}]`);
+      await page.evaluate(([x, y]) => { const t = document.elementFromPoint(x, y); window.__pt = t; t.dispatchEvent(new PointerEvent('pointerdown', { pointerId: 101, pointerType: 'touch', isPrimary: true, clientX: x, clientY: y, bubbles: true, cancelable: true, composed: true, buttons: 1 })); }, [x, y]); }
+    if (ms) await sleep(ms);
+    else await until((a) => { const p = window.kilumen.scene.player; return (p.state !== 'idle' || p.x !== a.x || p.y !== a.y || (a.f !== a.d && p.facing === a.d)) ? true : null; }, 400, 10, await page.evaluate((d) => { const p = window.kilumen.scene.player; return { x: p.x, y: p.y, f: p.facing, d }; }, d));
+    if (!D.touch) await page.keyboard.up(KEY[d]);
+    else await page.evaluate(([x, y]) => { window.__pt?.dispatchEvent(new PointerEvent('pointerup', { pointerId: 101, pointerType: 'touch', isPrimary: true, clientX: x, clientY: y, bubbles: true, cancelable: true, composed: true, buttons: 0 })); }, [x, y]); };
+  const pressA = async () => {
+    if (!D.touch) { await page.keyboard.press('Enter'); return 'Enter'; }
+    const target = await page.evaluate(() => { const vis = (el) => !!el && el.getClientRects().length > 0 && getComputedStyle(el).visibility !== 'hidden';
+      if (vis(document.querySelector('.ui-modal li.sel'))) return '.ui-modal li.sel';
+      if (vis(document.querySelector('.ui-press-start'))) return '.ui-press-start';
+      if (window.kilumen.ui?.active && vis(document.querySelector('.ui-stage [data-i].sel, .ui-layer [data-i].sel'))) return '.ui-stage [data-i].sel, .ui-layer [data-i].sel';
+      return '#touchpad [data-btn=a]'; });
+    await tap(target); return target; };
+  // BFS to a goal (warp to map `to`, or a cell next to npc `npc`); returns first direction + facing needed at the end
+  const route = (goal) => page.evaluate(async (goal) => {
+    const { WALKABLE } = await import('./src/overworld/constants.js');
+    const s = window.kilumen.scene, m = s.map, p = s.player; const D = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+    let goals = [];
+    if (goal.to) goals = m.warps.filter((w) => w.to === goal.to).map((w) => ({ x: w.x, y: w.y, face: null }));
+    else { const n = s.npcs.list.find((v) => v.id === goal.npc); if (!n) return { err: 'npc missing' };
+      for (const [d, [dx, dy]] of Object.entries(D)) goals.push({ x: n.x - dx, y: n.y - dy, face: d }); }
+    const isGoal = (x, y) => goals.find((g) => g.x === x && g.y === y);
+    const isWarp = (x, y) => m.warps.some((w) => w.x === x && w.y === y);
+    const key = (x, y) => x + ',' + y, prev = new Map([[key(p.x, p.y), null]]), q = [[p.x, p.y]];
+    while (q.length) { const [x, y] = q.shift(); const g = isGoal(x, y);
+      if (g) { const path = []; let k = key(x, y); while (prev.get(k)) { const [pk, d] = prev.get(k); path.unshift(d); k = pk; } return { path, face: g.face }; }
+      for (const [d, [dx, dy]] of Object.entries(D)) { const nx = x + dx, ny = y + dy, k = key(nx, ny); if (prev.has(k) || !m.inBounds(nx, ny)) continue;
+        const ok = isGoal(nx, ny) ? (goal.to ? true : WALKABLE.has(m.code(nx, ny)) && !m.npcAt(nx, ny)) : (!isWarp(nx, ny) && WALKABLE.has(m.code(nx, ny)) && !m.npcAt(nx, ny));
+        if (!ok) continue; prev.set(k, [key(x, y), d]); q.push([nx, ny]); } }
+    return { err: 'no path' }; }, goal);
+  const walkTo = async (goal, startMap) => { let steps = 0;
+    for (let k = 0; k < 120; k++) { const s = await st(); if ((goal.to && s.map !== startMap) || s.fading) break; if (s.dlg) { await clearDialog(10, 300); continue; }
+      const r = await route(goal); if (r.err) return { err: r.err, steps };
+      if (!r.path.length) { if (r.face && s.facing !== r.face) { await holdDir(r.face, 40); await sleep(250); } return { steps, face: r.face }; }
+      const d = r.path[0], a = s; if (process.env.SDEBUG) console.log('step', s.map, s.x, s.y, s.facing, s.dlg, s.ui, d, r.path.join('')); await holdDir(d, 0);
+      for (let i = 0; i < 20; i++) { const b = await st(); if (b.x !== a.x || b.y !== a.y || b.fading) break; await holdDir(d, 0); }
+      await until(() => window.kilumen.scene.player.state === 'idle' || !!window.kilumen.scene.fade, 2000, 30); steps++; }
+    return { steps }; };
+  // advance dialog pages only (never pokes menus); returns once no dialog has shown for `quiet` ms
+  const clearDialog = async (max = 40, quiet = 2500) => { let n = 0, t0 = Date.now();
+    while (n < max && Date.now() - t0 < quiet) { const s = await st();
+      if (s.dlg) { if (D.touch) await tap('#touchpad [data-btn=a]'); else await page.keyboard.press('Enter'); n++; await sleep(350); t0 = Date.now(); continue; }
+      await sleep(150); }
+    return n; };
+  try {
+    await page.goto(BASE);
+    await page.waitForFunction(() => window.kilumen?.scene?.tileset && window.kilumen.ui, null, { timeout: 45000 }); await page.evaluate(() => window.kilumen.ready);
+    const notice = await until(() => document.querySelector('.ui-modal[role=dialog]')?.textContent || null, 5000);
+    await sleep(400); await shot('1_notice');
+    if (notice) { await pressA(); await sleep(400); }
+    const t = await page.evaluate(() => ({ title: document.title, scr: !!document.querySelector('.ui-title-scr'), foot: document.querySelector('.ui-title-scr .foot')?.textContent, badge: document.querySelector('.alpha-badge')?.textContent,
+      cw: document.querySelector('canvas')?.width, ch: document.querySelector('canvas')?.height, iw: innerWidth, ih: innerHeight, dpr: devicePixelRatio, plat: window.kilumen.platform.id }));
+    await shot('2_title');
+    check('title loads', t.scr && t.foot === (process.env.EXPECT_FOOT || 'v0.2.1-alpha (Oct 2026)'), `doc "${t.title}" foot "${t.foot}" badge ${t.badge} plat ${t.plat} ${t.iw}x${t.ih}@${t.dpr} canvas ${t.cw}x${t.ch}${notice ? ' (first-launch notice dismissed)' : ''}`);
+    await pressA(); await sleep(500);
+    const items = await page.$$eval('.ui-title-menu li', (ls) => ls.map((l) => l.textContent));
+    if (D.touch) { const i = items.findIndex((t) => /new game/i.test(t)); await tap(`.ui-title-menu li:nth-child(${i + 1})`); } else await pressA();
+    const inGame = await until(() => !document.querySelector('.ui-title-scr') && window.kilumen.scene.map?.name, 8000);
+    await sleep(800); await shot('3_newgame');
+    const intro = await clearDialog();
+    const s0 = await st();
+    check('new game starts', !!inGame, `menu [${items.join('|')}] -> ${s0.map} (${s0.x},${s0.y}); intro pages advanced ${intro}`);
+    // free walk with real input
+    const d = await page.evaluate(() => { const s = window.kilumen.scene, m = s.map, p = s.player; const D = { left: [-1, 0], right: [1, 0], down: [0, 1], up: [0, -1] };
+      return Object.keys(D).find((k) => [1, 2].every((i) => m.passable(p.x + D[k][0] * i, p.y + D[k][1] * i) && !m.warps.some((w) => w.x === p.x + D[k][0] * i && w.y === p.y + D[k][1] * i))); });
+    const a = await st(); await holdDir(d, 450); await until(() => window.kilumen.scene.player.state === 'idle', 2000, 30); const b = await st();
+    await shot('4_walk');
+    check('walk', b.x !== a.x || b.y !== a.y, `${d}: (${a.x},${a.y}) -> (${b.x},${b.y}) by ${D.touch ? 'touch d-pad' : 'arrow keys'}`);
+    let r1 = { steps: 0 };
+    if (s0.map === 'house_2f') { r1 = await walkTo({ to: 'house_1f' }, 'house_2f'); await until(() => !window.kilumen.scene.fade && window.kilumen.scene.map?.name === 'house_1f', 8000); await sleep(500); }
+    const s1 = await st();
+    const r2 = await walkTo({ npc: 'ron' }, s1.map);
+    const before = await page.evaluate(() => !!window.kilumen.scene.flags?.has?.('talked_ron_morning') || !!window.kilumen.scene.flags?.talked_ron_morning);
+    if (D.touch) await tap('#touchpad [data-btn=a]'); else await page.keyboard.press(process.env.TALK_KEY || 'Enter');
+    const talk = await until(() => window.kilumen.scene.dialog?.active ? (document.querySelector('.dlg-text')?.textContent || 'dialog active') : null, 3000);
+    await sleep(500); await shot('5_ron');
+    const pages = await clearDialog(40);
+    const fl = await page.evaluate(() => { const f = window.kilumen.scene.flags; return f?.has ? f.has('talked_ron_morning') : !!(f && (f.talked_ron_morning || f.get?.('talked_ron_morning'))); });
+    check('talk to Ron', !!talk && fl && /ron|morning/i.test(String(talk) + s1.map), `${s1.map}; downstairs ${r1.steps} steps, to Ron ${r2.steps} steps${r2.err ? ' ERR ' + r2.err : ''}; dialog: "${String(talk).trim().slice(0, 90)}"; ${pages} pages; talked_ron_morning ${before} -> ${fl}`);
+    await sleep(500); await shot('6_after');
+    check('no console errors', errors.length === 0 && bad.length === 0, `${errors.length} errors, ${bad.length} failed requests ${[...errors, ...bad].slice(0, 5).join(' | ')}`);
+  } catch (e) { check('run', false, String(e).slice(0, 300)); await shot('error').catch(() => {}); }
+  summary[name] = { pass: res.filter((r) => r.ok).length, total: res.length, res, errors, bad };
+  await browser.close();
+}
+for (const n of RUN) await run(n);
+fs.writeFileSync(path.join(OUT, `smoke_${process.env.TAG || 'r1'}.json`), JSON.stringify(summary, null, 2));
+for (const [n, s] of Object.entries(summary)) console.log(`${n}: ${s.pass}/${s.total}`);

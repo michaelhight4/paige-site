@@ -1,0 +1,17 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "mirefen",
+ "route_id": null,
+ "kind": "biome (swamp)",
+ "map_status": "partial (mirefen_bog built)",
+ "story_step": "8 (coin 5, Tideglide; storm season starts)",
+ "story_order": 19,
+ "level_band": "wild 33-39 (existing), trainers 35-38; hall see halls/mirefen.json",
+ "format": "same as art/world/overworld/encounters/encounters.json zones (method, rate, slots[species, level[lo,hi], weight, time/weather])",
+ "zones": [
+  {
+   "id": "mirefen_grass_w / mirefen_grass_ne / mirefen_grass_s / mirefen_bog_surf",
+   "existing_table": "encounters.json (keep: L33-41)"
+  }
+ ]
+}

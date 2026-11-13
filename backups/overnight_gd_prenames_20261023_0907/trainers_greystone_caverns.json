@@ -1,0 +1,128 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "greystone_caverns",
+ "route_id": null,
+ "kind": "biome (cave)",
+ "map_status": "partial (entrance + B1 built; B2 planned)",
+ "story_step": "after coin 1 (optional, open), crossed at step 6 to Frostspire pass",
+ "story_order": 5,
+ "level_band": "PROPOSED entrance 12-16, B1 14-18, B2 (planned) 24-28",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_greystone_hiker",
+   "class": "hiker",
+   "class_display_suggestion": "Hillwalker",
+   "name_suggestion": "Ivo",
+   "team": [
+    {
+     "species": "pebbit",
+     "level": 14
+    },
+    {
+     "species": "delvelet",
+     "level": 15
+    }
+   ],
+   "base": 40,
+   "base_status": "existing",
+   "prize": 600,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.greystone.hiker",
+   "note": "existing npc hiker (15,10) greystone_entrance"
+  },
+  {
+   "id": "tr_greystone_hiker_b1",
+   "class": "hiker",
+   "class_display_suggestion": "Hillwalker",
+   "name_suggestion": "Sully",
+   "team": [
+    {
+     "species": "geodling",
+     "level": 16
+    },
+    {
+     "species": "slagrook",
+     "level": 16
+    }
+   ],
+   "base": 40,
+   "base_status": "existing",
+   "prize": 640,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.greystone.hiker_b1",
+   "note": "existing npc hiker_b1 (12,7) greystone_b1; keeps the plate hint"
+  },
+  {
+   "id": "tr_greystone_c",
+   "class": "researcher",
+   "class_display_suggestion": "Field Researcher",
+   "name_suggestion": "Mags",
+   "team": [
+    {
+     "species": "gloamtick",
+     "level": 15
+    },
+    {
+     "species": "cavernmaw",
+     "level": 16
+    }
+   ],
+   "base": 60,
+   "base_status": "existing",
+   "prize": 960,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.greystone.c",
+   "note": "NEW: B1, near the Greystone camp; lost field-team flavour"
+  },
+  {
+   "id": "tr_greystone_d",
+   "class": "hiker",
+   "class_display_suggestion": "Hillwalker",
+   "name_suggestion": "Dov",
+   "team": [
+    {
+     "species": "dripweaver",
+     "level": 26
+    },
+    {
+     "species": "slagrook",
+     "level": 27
+    }
+   ],
+   "base": 40,
+   "base_status": "existing",
+   "prize": 1080,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.greystone.d",
+   "note": "NEW: B2 (planned) mine track, revisit after coin 3"
+  },
+  {
+   "id": "tr_greystone_e",
+   "class": "climber",
+   "class_display_suggestion": "Climber",
+   "name_suggestion": "Fen",
+   "team": [
+    {
+     "species": "stonepede",
+     "level": 26
+    },
+    {
+     "species": "gloamtick",
+     "level": 27
+    },
+    {
+     "species": "cavernwing",
+     "level": 28
+    }
+   ],
+   "base": 45,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1260,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.greystone.e",
+   "note": "NEW: B2 (planned)"
+  }
+ ],
+ "hall": null
+}

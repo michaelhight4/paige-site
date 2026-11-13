@@ -1,0 +1,132 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "mirefen",
+ "route_id": null,
+ "kind": "biome (swamp)",
+ "map_status": "partial (mirefen_bog built)",
+ "story_step": "8 (coin 5, Tideglide; storm season starts)",
+ "story_order": 19,
+ "level_band": "wild 33-39 (existing), trainers 35-38; hall see halls/mirefen.json",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_mirefen_a",
+   "class": "fogwalker",
+   "class_display_suggestion": "Bog Walker",
+   "name_suggestion": "Briar",
+   "team": [
+    {
+     "species": "gloamtick",
+     "level": 35
+    },
+    {
+     "species": "mirewump",
+     "level": 36
+    }
+   ],
+   "base": 45,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1620,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.mirefen.a",
+   "note": "bog entrance"
+  },
+  {
+   "id": "tr_mirefen_b",
+   "class": "angler",
+   "class_display_suggestion": "Angler",
+   "name_suggestion": "Corin",
+   "team": [
+    {
+     "species": "mirewump",
+     "level": 36
+    },
+    {
+     "species": "peatbellow",
+     "level": 36
+    },
+    {
+     "species": "mirejaw",
+     "level": 37
+    }
+   ],
+   "base": 35,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1295,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.mirefen.b",
+   "note": "islet jetty"
+  },
+  {
+   "id": "tr_mirefen_c",
+   "class": "scholar",
+   "class_display_suggestion": "Scholar",
+   "name_suggestion": "Dilys",
+   "team": [
+    {
+     "species": "runeskein",
+     "level": 37
+    },
+    {
+     "species": "turfhulk",
+     "level": 37
+    }
+   ],
+   "base": 60,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 2220,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.mirefen.c",
+   "note": "bog lights (Bog Lights and Other Nonsense flavour)"
+  },
+  {
+   "id": "tr_mirefen_d",
+   "class": "beetle_keeper",
+   "class_display_suggestion": "Beetle Keeper",
+   "name_suggestion": "Esk",
+   "team": [
+    {
+     "species": "burlbeetle",
+     "level": 36
+    },
+    {
+     "species": "bogdart",
+     "level": 37
+    },
+    {
+     "species": "glimmoth",
+     "level": 37
+    }
+   ],
+   "base": 25,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 925,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.mirefen.d",
+   "note": "reed line (the only dry line)"
+  },
+  {
+   "id": "tr_mirefen_e",
+   "class": "veteran",
+   "class_display_suggestion": "Veteran",
+   "name_suggestion": "Hedda",
+   "team": [
+    {
+     "species": "pitchergulp",
+     "level": 38
+    },
+    {
+     "species": "mirewump",
+     "level": 38
+    }
+   ],
+   "base": 80,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 3040,
+   "sight_range": 2,
+   "text_ref": "TODO Text Bot: trainers.mirefen.e",
+   "note": "optional, bike boardwalk spur"
+  }
+ ],
+ "hall": "halls/mirefen.json"
+}

@@ -1,0 +1,39 @@
+/* Kilumen systems screens (systems_screens.js). systems-gd pass, Oct 22, 2026. Landscape only; integer icon scale. */
+[data-scr=heal] { --sc-a: #2fb7a0; --sc-b: #6fdcc4; --sc-c: #146b5c; --sc-sel: #fff4b0; }   /* crystal facets, mint (Revival Tech) */
+
+.sys-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 34%); gap: var(--ui-gap, 12px); min-height: 0; }
+.sys-side { overflow: auto; min-height: 0; }
+.sys-small { font-size: .78em; }
+.sys-team { --ui-team-cols: 1; }
+
+/* icon sheet: 32x32 frames, shown at a whole-number scale (2x, or 1x on short screens) */
+.sys-ico { --s: 2; --row: 0; width: calc(32px * var(--s)); height: calc(32px * var(--s)); flex: none; display: inline-block;
+  background-repeat: no-repeat; background-size: calc(64px * var(--s)) calc(512px * var(--s)); background-position: 0 calc(-32px * var(--s) * var(--row));
+  image-rendering: pixelated; image-rendering: crisp-edges; grid-row: span 2; border-radius: 50%; background-color: var(--sc-b); }
+.sys-ico.none { display: grid; place-items: center; font-weight: 800; color: var(--outline); }
+.sys-ico.out { filter: grayscale(1) brightness(.85); }
+.sys-card.out { opacity: .82; }
+.sys-card { min-height: 44px; }
+.sys-lead { padding: 1px 8px; border-radius: 6px; background: var(--sun); color: var(--outline); font-size: .7em; font-weight: 800; }
+.sys-st, .sys-ok { padding: 1px 6px; border-radius: 6px; font-size: .68em; font-weight: 800; color: #fff; background: #7a3a9a; white-space: nowrap; }
+.sys-st[data-st=brn] { background: #c2410c; } .sys-st[data-st=par] { background: #a16207; } .sys-st[data-st=slp] { background: #3b5bb5; }
+.sys-st[data-st=frz] { background: #0e7490; } .sys-st.out { background: #3a2f4a; } .sys-ok { background: #1f7a4d; }
+.bar.en > i { background: #4aa8ff; } .bar.xp > i { background: #b58cff; }
+.sys-detail .sys-dh { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; }
+.sys-skills { list-style: none; margin: 8px 0; padding: 0; display: grid; gap: 4px; font-size: .82em; }
+.sys-skills li { display: flex; justify-content: space-between; gap: 8px; text-transform: capitalize; }
+.sys-money { gap: 6px; }
+.sys-purse { display: inline-block; width: .9em; height: .9em; border-radius: 3px 3px 45% 45%; background: #c98a3a; border: 2px solid #5a3412; vertical-align: -.1em; margin-right: 4px; }
+.sys-disc { background: var(--good, #2f9e5a); color: #fff; }
+.ui-root[data-scr] .sys-side .ui-row, .ui-root .sys-split .ui-row { min-height: 44px; }
+
+/* short landscape phones (844x390 etc.) */
+@media (max-height: 480px) {
+  .sys-ico { --s: 1; }
+  .sys-split { grid-template-columns: minmax(0, 1fr) minmax(180px, 36%); gap: 8px; }
+  .sys-team { gap: 6px; }
+  .sys-card { padding: 4px 8px; gap: 2px 8px; }
+  .sys-card .bar-row { font-size: .7em; }
+  .sys-detail .sys-dh .sys-ico { --s: 2; }
+}
+/* portrait is not supported (landscape only): the game's rotate prompt covers it */

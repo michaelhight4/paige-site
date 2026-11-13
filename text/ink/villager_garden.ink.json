@@ -1,0 +1,107 @@
+{
+ "inkVersion": 21,
+ "root": [
+  [
+   [
+    "ev",
+    "str",
+    "^beat_master_fernwick",
+    "/str",
+    {
+     "x()": "flag",
+     "exArgs": 1
+    },
+    {
+     "x()": "has_lead"
+    },
+    "&&",
+    "/ev",
+    {
+     "->": ".^.b",
+     "c": true
+    },
+    {
+     "b": [
+      "\n",
+      {
+       "->": "garden_lead"
+      },
+      {
+       "->": "0.2"
+      },
+      null
+     ]
+    }
+   ],
+   [
+    {
+     "->": ".^.b"
+    },
+    {
+     "b": [
+      "\n",
+      {
+       "->": "default_line"
+      },
+      {
+       "->": "0.2"
+      },
+      null
+     ]
+    }
+   ],
+   "nop",
+   "\n",
+   [
+    "done",
+    {
+     "#n": "g-0"
+    }
+   ],
+   null
+  ],
+  "done",
+  {
+   "garden_lead": [
+    "^Is that {lead}? It's eyeing my beans. ",
+    "#",
+    "^line:garden_lead",
+    "/#",
+    "\n",
+    "^I'm watching you, {lead}.",
+    "\n",
+    "end",
+    null
+   ],
+   "default_line": [
+    "^Something keeps eating my beans at night. Neat little bites. Very polite. ",
+    "#",
+    "^line:default",
+    "/#",
+    "\n",
+    "^Probably a Tumbloam up from the river. Hard to stay mad at it.",
+    "\n",
+    "end",
+    null
+   ],
+   "flag": [
+    {
+     "temp=": "name"
+    },
+    "ev",
+    false,
+    "/ev",
+    "~ret",
+    null
+   ],
+   "has_lead": [
+    "ev",
+    true,
+    "/ev",
+    "~ret",
+    null
+   ]
+  }
+ ],
+ "listDefs": {}
+}

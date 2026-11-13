@@ -1,0 +1,240 @@
+{
+ "_meta": {
+  "set": "cute_r3",
+  "region": 3,
+  "note": "Cute creature set for region 3, Revival Heights / Frostspire (Gary Oct 23 2026: 6 cute ones per region). All single-stage. Built by coder_cute_r3 (Oct 27 2026).",
+  "hold_from_encounters": false,
+  "dex_no": "PROVISIONAL numbers continuing after cute_r1 (454-459), until Gary/World Design slot them. DEX_450 itself is not edited; tools/sync_creatures.mjs reads design/cute_sets/cute_r*.json.",
+  "wild": {
+   "why": "Region 3 cute set lives in region 3 grass (Revival Heights trails, Frostspire Pass, Frostspire), mixed with existing spawns",
+   "zone": "frostspire_pass_grass",
+   "slots": [
+    {
+     "species": "mittling",
+     "level": [
+      22,
+      24
+     ],
+     "weight": 4,
+     "zone": "route_revival_grass"
+    },
+    {
+     "species": "marmallow",
+     "level": [
+      25,
+      27
+     ],
+     "weight": 4,
+     "zone": "route_revival_saltmere_grass"
+    },
+    {
+     "species": "mufflynx",
+     "level": [
+      28,
+      31
+     ],
+     "weight": 4,
+     "zone": "frostspire_pass_grass"
+    },
+    {
+     "species": "snugworm",
+     "level": [
+      28,
+      31
+     ],
+     "weight": 4,
+     "zone": "frostspire_pass_grass"
+    },
+    {
+     "species": "alpuff",
+     "level": [
+      30,
+      32
+     ],
+     "weight": 2,
+     "zone": "frostspire_grass",
+     "time": [
+      "dawn",
+      "day"
+     ]
+    },
+    {
+     "species": "snowdrowse",
+     "level": [
+      30,
+      32
+     ],
+     "weight": 2,
+     "zone": "frostspire_grass",
+     "time": [
+      "dusk",
+      "night"
+     ]
+    }
+   ]
+  }
+ },
+ "creatures": [
+  {
+   "id": "mufflynx",
+   "name": "Mufflynx",
+   "types": [
+    "wind",
+    "dark"
+   ],
+   "first_zone": "frostspire_pass",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "Wind-scoured ledges of Frostspire Pass",
+   "visual_brief": "Fluffy grey lynx kitten with dark spots, long ear tufts, big cream ruff and a dark-tipped tail. Crystal: small violet crystal on top of its head.",
+   "dex_no": 466,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "mufflynx"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "mittling",
+   "name": "Mittling",
+   "types": [
+    "spirit"
+   ],
+   "first_zone": "revival_heights",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "Lost-mitten drifts along Revival Heights trails",
+   "visual_brief": "Little spirit of a lost knitted mitten: red cable-knit body with a white snowflake band, cream fur cuff, pom-pom tail, a shy face peeking from the knit. Crystal: small violet crystal on top of its head.",
+   "dex_no": 467,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "mittling"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "marmallow",
+   "name": "Marmallow",
+   "types": [
+    "earth",
+    "grass"
+   ],
+   "first_zone": "revival_saltmere",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "Alpine meadows and burrows below Revival Heights",
+   "visual_brief": "Chubby marmot pup with a mossy cape on its back sprouting edelweiss, buck teeth, rosy cheeks, dark flat tail. Crystal: small violet crystal on top of its head.",
+   "dex_no": 468,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "marmallow"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "snugworm",
+   "name": "Snugworm",
+   "types": [
+    "bug",
+    "magma"
+   ],
+   "first_zone": "frostspire_pass",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "Warm rocks near Frostspire vents",
+   "visual_brief": "Woolly caterpillar in dark brown and ember-orange bands flecked with warm glowing specks, orange-tipped antennae, shy round face. Crystal: small violet crystal on its back.",
+   "dex_no": 469,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "snugworm"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "alpuff",
+   "name": "Alpuff",
+   "types": [
+    "light",
+    "angelic"
+   ],
+   "first_zone": "frostspire",
+   "rarity": "rare",
+   "size_class": "small",
+   "habitat": "Frostspire summit snowfields at dawn",
+   "visual_brief": "Cloud-white baby alpaca cria with curly wool, pink-lined ears, dark hooves and a faint golden halo ring. Crystal: small violet crystal in its forelock.",
+   "dex_no": 470,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "alpuff"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "snowdrowse",
+   "name": "Snowdrowse",
+   "types": [
+    "mystic",
+    "ghost"
+   ],
+   "first_zone": "frostspire",
+   "rarity": "rare",
+   "size_class": "small",
+   "habitat": "Quiet Frostspire hollows at night",
+   "visual_brief": "Sleepy snow-globe spirit: pale-blue glass globe with drifting snow, a droopy pale-blue nightcap with a white pom, navy base. Crystal: small violet crystal set in its base.",
+   "dex_no": 471,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "snowdrowse"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  }
+ ]
+}

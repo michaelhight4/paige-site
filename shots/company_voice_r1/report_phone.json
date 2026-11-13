@@ -1,0 +1,326 @@
+{
+ "results": [
+  "PASS [phone] company voice attached with no ?cv flag (default on)",
+  "PASS [phone] RITA silent before the starter - {\"shown\":0,\"started\":false}",
+  "PASS [phone] promotion line shows after the starter (quest_done mq_brookhollow_promotion) - {\"event\":\"quest_done\",\"key\":\"mq_brookhollow_promotion\",\"text\":\"RITAPromotion filed, 943369. HR spelled your number right. ▼\",\"log\":[\"quest_done\"]}",
+  "PASS [phone] promotion line: no blocked words - RITAPromotion filed, 943369. HR spelled your number right. ▼",
+  "shot shots/company_voice_r1/phone_844x390_1_promotion_line.png",
+  "FAIL [phone] caught one in a real wild battle - battles=5",
+  "FAIL [phone] first catch line shows (first_catch) - {\"event\":null,\"text\":\"RITA943369: Trail 1 logged. Distance walked: billable. ▼\",\"log\":[[\"quest_done\",\"Promotion filed, 943369. HR spelled your number right.\"],[\"area_new\",\"943369: Trail 1 logged. Distance walked: billable.\"]]}",
+  "PASS [phone] all lines shown: no blocked words - [[\"quest_done\",\"Promotion filed, 943369. HR spelled your number right.\"],[\"area_new\",\"943369: Trail 1 logged. Distance walked: billable.\"]]",
+  "PASS [phone] strip never shown during script / dialogue / fade / battle / menus - {\"frames\":17429,\"shownFrames\":143,\"blockedFrames\":14991,\"bad\":[]}",
+  "PASS [phone] no console errors",
+  "PASS [phone] ?cv=0: no companyVoice, no strip, nothing fetched - {\"cv\":false,\"strip\":false,\"fetched\":false}",
+  "PASS [phone] ?cv=0: no page errors"
+ ],
+ "report": [
+  {
+   "view": "phone",
+   "promotion": {
+    "event": "quest_done",
+    "key": "mq_brookhollow_promotion",
+    "text": "RITAPromotion filed, 943369. HR spelled your number right. ▼",
+    "log": [
+     "quest_done"
+    ]
+   }
+  },
+  {
+   "view": "phone",
+   "bagInfo": {
+    "crystals": 5,
+    "items": {
+     "tonic_small": {
+      "id": "tonic_small",
+      "pocket": "care",
+      "field": "heal",
+      "heal": 20,
+      "energy": 0,
+      "cure": false,
+      "battle": true,
+      "name": "Small Remedy"
+     },
+     "tonic_large": {
+      "id": "tonic_large",
+      "pocket": "care",
+      "field": "heal",
+      "heal": 60,
+      "energy": 0,
+      "cure": false,
+      "battle": true,
+      "name": "Big Remedy"
+     },
+     "energy_tonic": {
+      "id": "energy_tonic",
+      "pocket": "care",
+      "field": "energy",
+      "heal": 0,
+      "energy": 5,
+      "cure": false,
+      "battle": true,
+      "name": "Pep Remedy"
+     },
+     "calm_tea": {
+      "id": "calm_tea",
+      "pocket": "care",
+      "field": "cure",
+      "heal": 0,
+      "energy": 0,
+      "cure": true,
+      "battle": true,
+      "name": "Calm Tea"
+     },
+     "trail_mix": {
+      "id": "trail_mix",
+      "pocket": "feeds",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "feed_bag_small": {
+      "id": "feed_bag_small",
+      "pocket": "feeds",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "feed_bag": {
+      "id": "feed_bag",
+      "pocket": "feeds",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "vigor_seed": {
+      "id": "vigor_seed",
+      "pocket": "feeds",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "crystal_dust": {
+      "id": "crystal_dust",
+      "pocket": "crystals",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "dominance_crystal": {
+      "id": "dominance_crystal",
+      "pocket": "crystals",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": true,
+      "name": "Dominance Crystal"
+     },
+     "dominance_crystal_plus": {
+      "id": "dominance_crystal_plus",
+      "pocket": "crystals",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": true,
+      "name": "Prime Crystal"
+     },
+     "old_record": {
+      "id": "old_record",
+      "pocket": "key",
+      "field": null,
+      "key": true,
+      "stack": 4,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "coin_pouch_small": {
+      "id": "coin_pouch_small",
+      "pocket": null,
+      "money": 100,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "gold_coin": {
+      "id": "gold_coin",
+      "pocket": "gear",
+      "field": null,
+      "held": true,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": false,
+      "name": null
+     },
+     "fine_crystal": {
+      "id": "fine_crystal",
+      "pocket": "crystals",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": true,
+      "name": "Fine Crystal"
+     },
+     "apex_crystal": {
+      "id": "apex_crystal",
+      "pocket": "crystals",
+      "field": null,
+      "heal": 0,
+      "energy": 0,
+      "cure": false,
+      "battle": true,
+      "name": "Apex Crystal"
+     }
+    },
+    "flags": [
+     "flg_promoted",
+     "got_starter",
+     "test_run_started"
+    ]
+   }
+  },
+  {
+   "view": "phone",
+   "battle": 1,
+   "msgs": [
+    "You held up a Dominance Crystal.",
+    "Thistlepup broke free!",
+    "Thistlepup used Shell Roll!",
+    "What will Cindrip do?",
+    "Use which item?",
+    "You held up a Dominance Crystal.",
+    "Thistlepup broke free!",
+    "Thistlepup used Moss Slam!",
+    "It shrugged most of that off.",
+    "What will Cindrip do?",
+    "Nothing in the Pack you can use here.",
+    "You slipped away."
+   ]
+  },
+  {
+   "view": "phone",
+   "battle": 2,
+   "msgs": [
+    "Tumbloam broke free!",
+    "Tumbloam used Shell Roll!",
+    "Tumbloam missed.",
+    "What will Cindrip do?",
+    "Use which item?",
+    "You held up a Dominance Crystal.",
+    "Tumbloam broke free!",
+    "Tumbloam used Moss Slam!",
+    "It shrugged most of that off.",
+    "What will Cindrip do?",
+    "Nothing in the Pack you can use here.",
+    "You slipped away."
+   ]
+  },
+  {
+   "view": "phone",
+   "battle": 3,
+   "msgs": [
+    "You held up a Dominance Crystal.",
+    "Peeplark broke free!",
+    "Peeplark used Tailwind!",
+    "Peeplark's Agility went up.",
+    "What will Cindrip do?",
+    "Use which item?",
+    "You held up a Dominance Crystal.",
+    "Peeplark broke free!",
+    "Peeplark used Gust Dart!",
+    "What will Cindrip do?",
+    "Nothing in the Pack you can use here.",
+    "You slipped away."
+   ]
+  },
+  {
+   "view": "phone",
+   "battle": 4,
+   "msgs": [
+    "You held up a Dominance Crystal.",
+    "Tumbloam broke free!",
+    "Tumbloam used Burrow Down!",
+    "Tumbloam's Guard went up.",
+    "What will Cindrip do?",
+    "Use which item?",
+    "You held up a Dominance Crystal.",
+    "Tumbloam broke free!",
+    "Tumbloam used Horn Nudge!",
+    "What will Cindrip do?",
+    "Nothing in the Pack you can use here.",
+    "You slipped away."
+   ]
+  },
+  {
+   "view": "phone",
+   "battle": 5,
+   "msgs": [
+    "Go, Cindrip!",
+    "Sailquill bursts out of the grass!",
+    "What will Cindrip do?",
+    "Use which item?",
+    "You held up a Dominance Crystal.",
+    "Sailquill broke free!",
+    "Sailquill used Streamer Lash!",
+    "Cindrip is out cold!",
+    "Your team is out of strength...▼"
+   ]
+  },
+  {
+   "view": "phone",
+   "firstCatch": {
+    "event": null,
+    "text": "RITA943369: Trail 1 logged. Distance walked: billable. ▼",
+    "log": [
+     [
+      "quest_done",
+      "Promotion filed, 943369. HR spelled your number right."
+     ],
+     [
+      "area_new",
+      "943369: Trail 1 logged. Distance walked: billable."
+     ]
+    ]
+   },
+   "areaLog": [
+    [
+     "quest_done",
+     "Promotion filed, 943369. HR spelled your number right."
+    ]
+   ]
+  },
+  {
+   "view": "phone",
+   "sampler": {
+    "bad": [],
+    "frames": 17429,
+    "shownFrames": 143,
+    "blockedFrames": 14991,
+    "run": 0
+   },
+   "errors": []
+  }
+ ]
+}

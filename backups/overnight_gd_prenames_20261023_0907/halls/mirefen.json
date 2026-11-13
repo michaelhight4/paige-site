@@ -1,0 +1,126 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "coin_number": 5,
+ "zone": "mirefen",
+ "hall_map": "mirefen_hall_int (to come; stilt house over the bog)",
+ "flag": "beat_master_mirefen",
+ "coin_name_suggestion": "Reed Coin",
+ "coin_name_note": "player text says \"coin\" (CRITICAL_PATH); name needs Gary + web clash check",
+ "master": {
+  "id": "master_mirefen",
+  "class": "master",
+  "name_suggestion": "Wenna Peat",
+  "element": "swamp",
+  "team": [
+   {
+    "species": "mirewump",
+    "level": 37
+   },
+   {
+    "species": "silteel",
+    "level": 37
+   },
+   {
+    "species": "gloamtick",
+    "level": 38
+   },
+   {
+    "species": "mudwhisk",
+    "level": 38
+   },
+   {
+    "species": "bulrusher",
+    "level": 40
+   }
+  ],
+  "base": 120,
+  "base_status": "existing",
+  "prize": 4800,
+  "sight_range": 0,
+  "sight_rule": "masters never spot: talk to them",
+  "text_ref": "overworld_lines.json masters.mirefen (TODO Text Bot)"
+ },
+ "hall_trainers": [
+  {
+   "id": "tr_hall_mirefen_h1",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Cass",
+   "team": [
+    {
+     "species": "mirewump",
+     "level": 35
+    },
+    {
+     "species": "bulrusher",
+     "level": 36
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 1800,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.hall_mirefen.h1"
+  },
+  {
+   "id": "tr_hall_mirefen_h2",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Juno",
+   "team": [
+    {
+     "species": "gloamtick",
+     "level": 36
+    },
+    {
+     "species": "mirewump",
+     "level": 36
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 1800,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.hall_mirefen.h2"
+  },
+  {
+   "id": "tr_hall_mirefen_h3",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Arlo",
+   "team": [
+    {
+     "species": "cypresshade",
+     "level": 37
+    },
+    {
+     "species": "mirejaw",
+     "level": 37
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 1850,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.hall_mirefen.h3"
+  }
+ ],
+ "puzzle": {
+  "status": "outline",
+  "name_suggestion": "Bog-light boardwalk",
+  "outline": "Fog fills the hall (existing mirefen fog layer). Reed lamps along the walls: lighting one shows the boardwalk planks near it for a while. Some planks sink after 2 steps and come back up. Light lamps in the order the frogs croak (sound cue + ripple on the water for accessibility) to reveal the full path to the Master.",
+  "teaches": "memory + timing; accessible visual cue for the sound cue"
+ },
+ "reward": {
+  "coin": "Reed Coin",
+  "money": 4800,
+  "gift_item": {
+   "id": "vigor_seed",
+   "qty": 2
+  },
+  "opens": "storm_season (gate_coast_road_flood needs Tideglide)",
+  "field_skill": "Tideglide (has_tideglide, given in Mirefen after the storm starts)"
+ },
+ "team_size": 5,
+ "ace_level": 40
+}

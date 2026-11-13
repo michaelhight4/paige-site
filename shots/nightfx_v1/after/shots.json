@@ -1,0 +1,331 @@
+{
+ "label": "after",
+ "extra": "",
+ "shots": [
+  {
+   "file": "brookhollow_day_pc.png",
+   "w": 1280,
+   "h": 720,
+   "zoom": 2,
+   "phase": "day",
+   "hour": 12,
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 0,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 0,
+    "moonGrade": "day",
+    "bufferBuilds": 0,
+    "lastBuildMs": 0
+   }
+  },
+  {
+   "file": "brookhollow_dusk_pc.png",
+   "w": 1280,
+   "h": 720,
+   "zoom": 2,
+   "phase": "dusk",
+   "hour": 18,
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 19,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 0.75,
+    "moonGrade": "dusk+moon_dusk",
+    "bufferBuilds": 1,
+    "lastBuildMs": 10.8
+   }
+  },
+  {
+   "file": "brookhollow_night_pc.png",
+   "w": 1280,
+   "h": 720,
+   "zoom": 2,
+   "phase": "night",
+   "hour": 22,
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 33,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 1,
+    "moonGrade": "night+moon",
+    "bufferBuilds": 1,
+    "lastBuildMs": 11.7
+   }
+  },
+  {
+   "file": "fernwick_day_pc.png",
+   "w": 1280,
+   "h": 720,
+   "zoom": 2,
+   "phase": "day",
+   "hour": 12,
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 32,
+    "litWindows": 0,
+    "lights": 16,
+    "flames": 5,
+    "lampLevel": 0,
+    "moonGrade": "day",
+    "bufferBuilds": 0,
+    "lastBuildMs": 0
+   }
+  },
+  {
+   "file": "fernwick_dusk_pc.png",
+   "w": 1280,
+   "h": 720,
+   "zoom": 2,
+   "phase": "dusk",
+   "hour": 18,
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 32,
+    "litWindows": 13,
+    "lights": 16,
+    "flames": 5,
+    "lampLevel": 0.75,
+    "moonGrade": "dusk+moon_dusk",
+    "bufferBuilds": 1,
+    "lastBuildMs": 13.5
+   }
+  },
+  {
+   "file": "fernwick_night_pc.png",
+   "w": 1280,
+   "h": 720,
+   "zoom": 2,
+   "phase": "night",
+   "hour": 22,
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 4,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 32,
+    "litWindows": 32,
+    "lights": 16,
+    "flames": 5,
+    "lampLevel": 1,
+    "moonGrade": "night+moon",
+    "bufferBuilds": 1,
+    "lastBuildMs": 16.3
+   }
+  },
+  {
+   "file": "brookhollow_day_phone.png",
+   "w": 2532,
+   "h": 1170,
+   "zoom": 2,
+   "phase": "day",
+   "hour": 12,
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 0,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 0,
+    "moonGrade": "day",
+    "bufferBuilds": 0,
+    "lastBuildMs": 0
+   }
+  },
+  {
+   "file": "brookhollow_dusk_phone.png",
+   "w": 2532,
+   "h": 1170,
+   "zoom": 2,
+   "phase": "dusk",
+   "hour": 18,
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 19,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 0.75,
+    "moonGrade": "dusk+moon_dusk",
+    "bufferBuilds": 1,
+    "lastBuildMs": 4
+   }
+  },
+  {
+   "file": "brookhollow_night_phone.png",
+   "w": 2532,
+   "h": 1170,
+   "zoom": 2,
+   "phase": "night",
+   "hour": 22,
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 33,
+    "litWindows": 33,
+    "lights": 21,
+    "flames": 3,
+    "lampLevel": 1,
+    "moonGrade": "night+moon",
+    "bufferBuilds": 1,
+    "lastBuildMs": 4.2
+   }
+  },
+  {
+   "file": "fernwick_day_phone.png",
+   "w": 2532,
+   "h": 1170,
+   "zoom": 2,
+   "phase": "day",
+   "hour": 12,
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 32,
+    "litWindows": 0,
+    "lights": 16,
+    "flames": 5,
+    "lampLevel": 0,
+    "moonGrade": "day",
+    "bufferBuilds": 0,
+    "lastBuildMs": 0
+   }
+  },
+  {
+   "file": "fernwick_dusk_phone.png",
+   "w": 2532,
+   "h": 1170,
+   "zoom": 2,
+   "phase": "dusk",
+   "hour": 18,
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 32,
+    "litWindows": 13,
+    "lights": 16,
+    "flames": 5,
+    "lampLevel": 0.75,
+    "moonGrade": "dusk+moon_dusk",
+    "bufferBuilds": 1,
+    "lastBuildMs": 3
+   }
+  },
+  {
+   "file": "fernwick_night_phone.png",
+   "w": 2532,
+   "h": 1170,
+   "zoom": 2,
+   "phase": "night",
+   "hour": 22,
+   "nightfx": {
+    "switches": {
+     "nightLights": true,
+     "moonlight": true,
+     "clouds": true
+    },
+    "alpha": false,
+    "lightCell": 8,
+    "outdoor": true,
+    "loaded": true,
+    "windows": 32,
+    "litWindows": 32,
+    "lights": 16,
+    "flames": 5,
+    "lampLevel": 1,
+    "moonGrade": "night+moon",
+    "bufferBuilds": 1,
+    "lastBuildMs": 5.9
+   }
+  }
+ ],
+ "errors": []
+}

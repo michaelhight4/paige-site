@@ -1,0 +1,1327 @@
+From 01d62715d7d27cef4ca52fba9021c1bf354fd79e Mon Sep 17 00:00:00 2001
+From: Coder <coder@paigegames.net>
+Date: Thu, 29 Oct 2026 14:08:54 -0500
+Subject: [PATCH] RT benefits: fishing/wellness/commuter boards, 5 board-only
+ skills, R5-R8 key cards (station_m/t ids match dev/r56-wiring), research
+ capture hook, tests + shots harness
+
+---
+ kilumen/data/rt_benefits.json             | 492 ++++++++++++++++++++++
+ kilumen/src/battle/capture.js             |  13 +-
+ kilumen/src/battle/data/creatures.js      |   5 +-
+ kilumen/src/battle/data/skills.js         |   3 +
+ kilumen/src/feeds/index.js                |   5 +-
+ kilumen/src/feeds/logic.js                |  16 +-
+ kilumen/src/fishing/index.js              |  12 +-
+ kilumen/src/fishing/logic.js              |  34 +-
+ kilumen/src/overworld/map.js              |   8 +
+ kilumen/src/overworld/overworld.js        |   2 +-
+ kilumen/src/qol/skills_menu.js            |  19 +-
+ kilumen/src/systems/board_skills.js       |  41 ++
+ kilumen/src/systems/rt_benefits.js        |  28 ++
+ kilumen/src/ui/rt_benefits_screen.js      |  29 +-
+ kilumen/tests/board_fish_sports.test.mjs  | 167 ++++++++
+ kilumen/tests/board_fish_sports_shots.mjs |  97 +++++
+ 16 files changed, 947 insertions(+), 24 deletions(-)
+ create mode 100644 kilumen/src/systems/board_skills.js
+ create mode 100644 kilumen/tests/board_fish_sports.test.mjs
+ create mode 100644 kilumen/tests/board_fish_sports_shots.mjs
+
+diff --git a/kilumen/data/rt_benefits.json b/kilumen/data/rt_benefits.json
+index eb74fa01..3841dfcd 100644
+--- a/kilumen/data/rt_benefits.json
++++ b/kilumen/data/rt_benefits.json
+@@ -111,6 +111,26 @@
+     {
+       "id": "unit_performance",
+       "label": "Unit Performance"
++    },
++    {
++      "id": "angler_plan",
++      "label": "Angler Plan"
++    },
++    {
++      "id": "wellness_plan",
++      "label": "Wellness Plan"
++    },
++    {
++      "id": "commuter_plan",
++      "label": "Commuter Plan"
++    },
++    {
++      "id": "rnd_clearance",
++      "label": "R&D Clearance"
++    },
++    {
++      "id": "executive_perks",
++      "label": "Executive Perks"
+     }
+   ],
+   "nodes": [
+@@ -353,6 +373,478 @@
+         "4": 2
+       },
+       "unlockRegion": 4
++    },
++    {
++      "id": "rod_quick_bite",
++      "branch": "angler_plan",
++      "effect": "fishing.wait_cut",
++      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. ms cut from the longest bite wait (WAIT_MAX 3800)",
++      "ranks": [
++        {
++          "cost": 1,
++          "minIdLevel": 2,
++          "value": 500
++        },
++        {
++          "cost": 2,
++          "minIdLevel": 7,
++          "value": 1000
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 1,
++        "2": 1,
++        "3": 2,
++        "4": 2
++      },
++      "unlockRegion": 1
++    },
++    {
++      "id": "rod_steady_grip",
++      "branch": "angler_plan",
++      "effect": "fishing.window_ms",
++      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. ms added to the reel window (900 / touch 1100)",
++      "ranks": [
++        {
++          "cost": 1,
++          "minIdLevel": 3,
++          "value": 120
++        },
++        {
++          "cost": 1,
++          "minIdLevel": 6,
++          "value": 240
++        },
++        {
++          "cost": 2,
++          "minIdLevel": 10,
++          "value": 360
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 1,
++        "2": 2,
++        "3": 2,
++        "4": 3
++      },
++      "unlockRegion": 1
++    },
++    {
++      "id": "rod_deep_water",
++      "branch": "angler_plan",
++      "effect": "fishing.rare_mult",
++      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. rare (and half on uncommon) weight multiplier",
++      "ranks": [
++        {
++          "cost": 2,
++          "minIdLevel": 5,
++          "value": 1.15
++        },
++        {
++          "cost": 2,
++          "minIdLevel": 10,
++          "value": 1.3
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 0,
++        "2": 1,
++        "3": 1,
++        "4": 2
++      },
++      "unlockRegion": 2
++    },
++    {
++      "id": "bait_allowance",
++      "branch": "angler_plan",
++      "effect": "fishing.bait_save",
++      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. chance a landed cast does not use the bait",
++      "ranks": [
++        {
++          "cost": 1,
++          "minIdLevel": 4,
++          "value": 0.2
++        },
++        {
++          "cost": 2,
++          "minIdLevel": 8,
++          "value": 0.35
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 0,
++        "2": 1,
++        "3": 2,
++        "4": 2
++      },
++      "unlockRegion": 2
++    },
++    {
++      "id": "bait_premium",
++      "branch": "angler_plan",
++      "effect": "fishing.bait_power",
++      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. bait effects scaled: m -> 1 + (m-1) x (1+value); bite bonus too",
++      "ranks": [
++        {
++          "cost": 1,
++          "minIdLevel": 6,
++          "value": 0.25
++        },
++        {
++          "cost": 2,
++          "minIdLevel": 10,
++          "value": 0.5
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 0,
++        "2": 1,
++        "3": 1,
++        "4": 2
++      },
++      "unlockRegion": 2
++    },
++    {
++      "id": "grow_stipend",
++      "branch": "wellness_plan",
++      "effect": "feeds.grow_mult",
++      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. fruit grow timer multiplier = 1 - value",
++      "ranks": [
++        {
++          "cost": 1,
++          "minIdLevel": 2,
++          "value": 0.15
++        },
++        {
++          "cost": 2,
++          "minIdLevel": 7,
++          "value": 0.3
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 1,
++        "2": 1,
++        "3": 2,
++        "4": 2
++      },
++      "unlockRegion": 1
++    },
++    {
++      "id": "training_allowance",
++      "branch": "wellness_plan",
++      "effect": "feeds.gain_mult",
++      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. fruit build gain x (1+value); stat bonus still capped at +15",
++      "ranks": [
++        {
++          "cost": 1,
++          "minIdLevel": 4,
++          "value": 0.1
++        },
++        {
++          "cost": 2,
++          "minIdLevel": 9,
++          "value": 0.2
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 0,
++        "2": 1,
++        "3": 2,
++        "4": 2
++      },
++      "unlockRegion": 2
++    },
++    {
++      "id": "wellness_days",
++      "branch": "wellness_plan",
++      "effect": "feeds.digest_mult",
++      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. fullness freed by practice / battle wins x (1+value): feed again sooner",
++      "ranks": [
++        {
++          "cost": 1,
++          "minIdLevel": 3,
++          "value": 0.25
++        },
++        {
++          "cost": 2,
++          "minIdLevel": 8,
++          "value": 0.5
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 1,
++        "2": 1,
++        "3": 2,
++        "4": 2
++      },
++      "unlockRegion": 1
++    },
++    {
++      "id": "light_lunch",
++      "branch": "wellness_plan",
++      "effect": "feeds.fill_mult",
++      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. fullness a fruit adds x (1-value)",
++      "ranks": [
++        {
++          "cost": 1,
++          "minIdLevel": 6,
++          "value": 0.1
++        },
++        {
++          "cost": 2,
++          "minIdLevel": 10,
++          "value": 0.2
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 0,
++        "2": 1,
++        "3": 1,
++        "4": 2
++      },
++      "unlockRegion": 2
++    },
++    {
++      "id": "commuter_benefit",
++      "branch": "commuter_plan",
++      "effect": "travel.discount",
++      "comingSoon": true,
++      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. DORMANT: no paid fast travel exists yet (rail is free with the pass, Skylift free). travelFare() in rt_benefits.js is ready.",
++      "ranks": [
++        {
++          "cost": 1,
++          "minIdLevel": 4,
++          "value": 0.15
++        },
++        {
++          "cost": 1,
++          "minIdLevel": 7,
++          "value": 0.3
++        },
++        {
++          "cost": 2,
++          "minIdLevel": 10,
++          "value": 0.5
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 0,
++        "2": 1,
++        "3": 2,
++        "4": 3
++      },
++      "unlockRegion": 2
++    },
++    {
++      "id": "rt_node_station_m",
++      "branch": "rnd_clearance",
++      "effect": "flag",
++      "grantFlag": "rt_keycard_r5",
++      "comingSoon": true,
++      "_note": "Region 5 key card (Mirefen sunken station). Same id / flag / cost as dev/r56-wiring 996d8a57 so the merge keeps ONE node (no keycard_r5). requiresFlag promoted_id14 is enforced by r56-wiring's state(); this branch ignores it. comingSoon here until region 5 exists (board fish/sports, Oct 29 2026).",
++      "ranks": [
++        {
++          "cost": 2,
++          "minIdLevel": 14,
++          "value": 1
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 0,
++        "2": 0,
++        "3": 0,
++        "4": 0,
++        "5": 1,
++        "6": 1,
++        "7": 1,
++        "8": 1
++      },
++      "unlockRegion": 5,
++      "requiresFlag": "promoted_id14"
++    },
++    {
++      "id": "rt_node_station_t",
++      "branch": "rnd_clearance",
++      "effect": "flag",
++      "grantFlag": "rt_keycard_r6",
++      "comingSoon": true,
++      "_note": "Region 6 key card (Tidewater sea-cave lab). Same id / flag / cost as dev/r56-wiring 996d8a57 so the merge keeps ONE node (no keycard_r6). requiresFlag promoted_id16 is enforced by r56-wiring's state(); this branch ignores it. comingSoon here until region 6 exists (board fish/sports, Oct 29 2026).",
++      "ranks": [
++        {
++          "cost": 2,
++          "minIdLevel": 16,
++          "value": 1
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 0,
++        "2": 0,
++        "3": 0,
++        "4": 0,
++        "5": 0,
++        "6": 1,
++        "7": 1,
++        "8": 1
++      },
++      "unlockRegion": 6,
++      "requiresFlag": "promoted_id16"
++    },
++    {
++      "id": "keycard_r7",
++      "branch": "rnd_clearance",
++      "effect": "flag",
++      "grantFlag": "rt_keycard_r7",
++      "comingSoon": true,
++      "_note": "board fish/sports (Oct 29 2026): Gary 1:37 PM CT research areas start in region 5. Region 7: TBD (proposal). Grants flag rt_keycard_r7; opens locked_warps with unlock_flag rt_keycard_r7 / story_gates flag. comingSoon until the region exists",
++      "ranks": [
++        {
++          "cost": 4,
++          "minIdLevel": 12,
++          "value": 1
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 0,
++        "2": 0,
++        "3": 0,
++        "4": 0,
++        "5": 0,
++        "6": 0,
++        "7": 1,
++        "8": 1
++      },
++      "unlockRegion": 7
++    },
++    {
++      "id": "keycard_r8",
++      "branch": "rnd_clearance",
++      "effect": "flag",
++      "grantFlag": "rt_keycard_r8",
++      "comingSoon": true,
++      "_note": "board fish/sports (Oct 29 2026): Gary 1:37 PM CT research areas start in region 5. Region 8: TBD (proposal). Grants flag rt_keycard_r8; opens locked_warps with unlock_flag rt_keycard_r8 / story_gates flag. comingSoon until the region exists",
++      "ranks": [
++        {
++          "cost": 4,
++          "minIdLevel": 12,
++          "value": 1
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 0,
++        "2": 0,
++        "3": 0,
++        "4": 0,
++        "5": 0,
++        "6": 0,
++        "7": 0,
++        "8": 1
++      },
++      "unlockRegion": 8
++    },
++    {
++      "id": "skill_tidal_audit",
++      "branch": "executive_perks",
++      "effect": "skill",
++      "skill": "boardtidalaudit",
++      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. board-only skill (src/systems/board_skills.js); teach from the Team menu",
++      "ranks": [
++        {
++          "cost": 3,
++          "minIdLevel": 6,
++          "value": 1
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 0,
++        "2": 1,
++        "3": 1,
++        "4": 1
++      },
++      "unlockRegion": 2
++    },
++    {
++      "id": "skill_overtime_blaze",
++      "branch": "executive_perks",
++      "effect": "skill",
++      "skill": "boardovertimeblaze",
++      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. board-only skill (src/systems/board_skills.js); teach from the Team menu",
++      "ranks": [
++        {
++          "cost": 3,
++          "minIdLevel": 8,
++          "value": 1
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 0,
++        "2": 0,
++        "3": 1,
++        "4": 1
++      },
++      "unlockRegion": 3
++    },
++    {
++      "id": "skill_hostile_restructure",
++      "branch": "executive_perks",
++      "effect": "skill",
++      "skill": "boardhostilerestructure",
++      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. board-only skill (src/systems/board_skills.js); teach from the Team menu",
++      "ranks": [
++        {
++          "cost": 3,
++          "minIdLevel": 9,
++          "value": 1
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 0,
++        "2": 0,
++        "3": 1,
++        "4": 1
++      },
++      "unlockRegion": 3
++    },
++    {
++      "id": "skill_team_huddle",
++      "branch": "executive_perks",
++      "effect": "skill",
++      "skill": "boardteamhuddle",
++      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. board-only skill (src/systems/board_skills.js); teach from the Team menu",
++      "ranks": [
++        {
++          "cost": 4,
++          "minIdLevel": 10,
++          "value": 1
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 0,
++        "2": 0,
++        "3": 0,
++        "4": 1
++      },
++      "unlockRegion": 4
++    },
++    {
++      "id": "skill_hostile_takeover",
++      "branch": "executive_perks",
++      "effect": "skill",
++      "skill": "boardhostiletakeover",
++      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. board-only skill (src/systems/board_skills.js); teach from the Team menu",
++      "ranks": [
++        {
++          "cost": 4,
++          "minIdLevel": 12,
++          "value": 1
++        }
++      ],
++      "maxRankByRegion": {
++        "1": 0,
++        "2": 0,
++        "3": 0,
++        "4": 1
++      },
++      "unlockRegion": 4
+     }
+   ],
+   "respec": {
+diff --git a/kilumen/src/battle/capture.js b/kilumen/src/battle/capture.js
+index b5b804f9..aaa86612 100644
+--- a/kilumen/src/battle/capture.js
++++ b/kilumen/src/battle/capture.js
+@@ -32,9 +32,20 @@ export function captureRoll(p, r, forced, K = CAPTURE) {
+   return { caught, pulses: Math.max(1, Math.min(n - 1, 1 + Math.floor((1 - miss) * (n - 1)))) };
+ }
+ 
++/**
++ * Board key cards (Oct 29 2026): research-area species catch harder. A species is 'research' when it carries research:true
++ * (species data) or its id is in RESEARCH_SPECIES (empty until Gary picks the roster; NODES.md lists proposals).
++ * Applied to the rarity term in rarityOf AND to creatures.js catchRate, so the engine (runCrystal) sees the same number.
++ */
++export const RESEARCH_CATCH_MULT = 0.6; // PLACEHOLDER
++export const RESEARCH_SPECIES = new Set();
++export const isResearch = (sp) => !!sp && (sp.research === true || RESEARCH_SPECIES.has(sp.id));
++export const researchRate = (rate, sp) => (isResearch(sp) ? rate * RESEARCH_CATCH_MULT : rate);
++
+ /** species rarity term for screens without the engine (ui.js shell): synced catchRate, else the creatures.js stage placeholder */
+-export function rarityOf(sp, species = []) {
++export function rarityOf(sp, species = [], raw = false) {
+   if (!sp) return 0.5;
++  if (!raw && isResearch(sp)) return researchRate(rarityOf(sp, species, true), sp);
+   if (typeof sp.catchRate === 'number') return sp.catchRate;
+   const line = sp.line ? species.filter((s) => s.line === sp.line).map((s) => s.id) : null;
+   const stage = line ? line.indexOf(sp.id) : -1;
+diff --git a/kilumen/src/battle/data/creatures.js b/kilumen/src/battle/data/creatures.js
+index a88042f5..15666b01 100644
+--- a/kilumen/src/battle/data/creatures.js
++++ b/kilumen/src/battle/data/creatures.js
+@@ -4,6 +4,7 @@
+ // Stat ids hp/atk/def/spa/spd/spe are internal; player-facing names are Vitality/Might/Guard/Focus/Resolve/Agility (B2).
+ import { SPECIES } from '../../ui/data.js?v=v0.2.66-alpha';
+ import { cap } from './elements.js?v=v0.2.66-alpha';
++import { researchRate } from '../capture.js?v=v0.2.66-alpha';
+ 
+ export const STAT_NAMES = { hp: 'Vitality', atk: 'Might', def: 'Guard', spa: 'Focus', spd: 'Resolve', spe: 'Agility' };
+ const STAGE_BASE = [45, 60, 80]; // PLACEHOLDER
+@@ -25,7 +26,7 @@ export function buildCreatures() {
+       prevo: stage > 0 ? SPECIES.find((x) => x.id === line[stage - 1]).name : undefined,
+       evos: line && stage < line.length - 1 ? [SPECIES.find((x) => x.id === line[stage + 1]).name] : undefined,
+       evoLevel: stage > 0 ? 16 * stage : undefined, // PLACEHOLDER
+-      catchRate: stage <= 0 ? 0.6 : stage === 1 ? 0.4 : 0.2, // PLACEHOLDER rarity term (B17)
++      catchRate: researchRate(stage <= 0 ? 0.6 : stage === 1 ? 0.4 : 0.2, s), // PLACEHOLDER rarity term (B17); research species x0.6
+       baseXp: 50 + 40 * Math.max(0, stage), // PLACEHOLDER
+     };
+   });
+@@ -40,6 +41,6 @@ function syncedCreature(s, n) {
+     num: n + 1, name: s.name, types: s.el.map(cap), baseStats: { ...s.baseStats },
+     abilities: { 0: 'No Ability' }, weightkg: 10, gender: 'N',
+     prevo: s.prevo ? nameOf(s.prevo) : undefined, evos: s.evo ? [nameOf(s.evo)] : undefined,
+-    evoLevel: s.prevo ? s.evoLevel : undefined, catchRate: s.catchRate, baseXp: s.baseXp, placeholder: true,
++    evoLevel: s.prevo ? s.evoLevel : undefined, catchRate: researchRate(s.catchRate, s), baseXp: s.baseXp, placeholder: true,
+   };
+ }
+diff --git a/kilumen/src/battle/data/skills.js b/kilumen/src/battle/data/skills.js
+index 38ed3be5..c9283800 100644
+--- a/kilumen/src/battle/data/skills.js
++++ b/kilumen/src/battle/data/skills.js
+@@ -3,6 +3,7 @@
+ // Every effect, category, accuracy and priority below is a PLACEHOLDER for Gary; see PLACEHOLDERS in README.md.
+ import { PLACEHOLDER_SKILLS } from '../../ui/data.js?v=v0.2.66-alpha';
+ import { cap } from './elements.js?v=v0.2.66-alpha';
++import { boardMoves } from '../../systems/board_skills.js?v=v0.2.66-alpha';
+ 
+ // PLACEHOLDER (creature sync): nearest existing skill pool for elements that have none (same table as tools/sync_creatures.mjs).
+ export const SKILL_POOL_ALIAS = { grass: 'earth', bug: 'earth', magma: 'fire', freshwater: 'water', sea: 'water', swamp: 'water', rain: 'water',
+@@ -44,6 +45,8 @@ export function buildSkills() {
+       if (out[id].target === 'self') out[id].flags = x.flags || {};
+     });
+   }
++  // RT board-only skills (src/systems/board_skills.js): engine rows only; never in any pool (skillIdsFor reads PLACEHOLDER_SKILLS)
++  Object.assign(out, boardMoves(Object.keys(out).length + 1));
+   // Fallback skill the engine uses only if a creature has no usable skill at all
+   // (cannot happen in normal play because overuse keeps every skill selectable).
+   out.struggle = { num: 0, name: '[PLACEHOLDER fallback skill]', type: 'Normal', basePower: 30, category: 'Physical', accuracy: true, pp: 1,
+diff --git a/kilumen/src/feeds/index.js b/kilumen/src/feeds/index.js
+index 5a4fc96b..989736fa 100644
+--- a/kilumen/src/feeds/index.js
++++ b/kilumen/src/feeds/index.js
+@@ -26,6 +26,7 @@ export function attachFeeds(scene, { query, systems, speciesInfo = () => null, n
+     for (const id of ['dashfig', 'rumblemelon', 'mossplum', 'saltlime', 'glidepod', 'embergourd', 'sunheart_fig']) bag().add(L.fruitItem(id), 3);
+     for (const id of ['dashfig', 'mossplum']) bag().add(L.seedItem(id), 2);
+   }
++  L.setFeedPerks(() => sys()?.rtBenefits?.feedPerks?.() || null); // RT board Wellness Plan perks
+   setAthleticBonus((c) => { const u = uidOf(c); const b = u && fs().build[u]; return b ? L.statBonus(b) : null; });
+   const bodyOf = (c) => ({ types: speciesInfo(c.species)?.el || [], shape: speciesAthletics(c.species)?.shape || 'standard' });
+   const nameOf = (c) => c.nickname || speciesInfo(c.species)?.name || c.species;
+@@ -50,8 +51,8 @@ export function attachFeeds(scene, { query, systems, speciesInfo = () => null, n
+       return out;
+     };
+   }
+-  function onBattleWin(fought) { for (const u of fought || []) L.drain(fs(), u, L.DRAIN.battleWin); scene._dirty = true; }
+-  function onPractice(c) { const u = uidOf(c); if (u) L.drain(fs(), u, L.DRAIN.practice); L.practiceBoost(fs()); scene._dirty = true; }
++  function onBattleWin(fought) { for (const u of fought || []) L.drain(fs(), u, L.drainAmount('battleWin')); scene._dirty = true; }
++  function onPractice(c) { const u = uidOf(c); if (u) L.drain(fs(), u, L.drainAmount('practice')); L.practiceBoost(fs()); scene._dirty = true; }
+ 
+   let btn = null;
+   if (typeof document !== 'undefined') {
+diff --git a/kilumen/src/feeds/logic.js b/kilumen/src/feeds/logic.js
+index 557235da..fab3d4d3 100644
+--- a/kilumen/src/feeds/logic.js
++++ b/kilumen/src/feeds/logic.js
+@@ -15,6 +15,15 @@ export const LIKE = { mult: 1.25, full: -5 }, DISLIKE = { mult: 0.75, full: 10 }
+ export const DRAIN = { practice: 10, battleWin: 5 }; // Gary Oct 29: only the creatures that fought drain after a battle; the bench loses none
+ export const PRACTICE_SPEEDUP_MS = 3600e3; // each practice ticks that town's plots (and home plots) by 1 h
+ export const HOME_PLOTS = 4;
++// RT Employee Benefits (board fish/sports, Oct 29 2026): Wellness Plan perks. grow = grow-time mult, gain = build-gain mult
++// (caps unchanged: PART_CAP / TOTAL_CAP / +15 per stat), digest = fullness freed per practice / battle win, fill = fullness a
++// fruit adds. Defaults = no perk; src/feeds/index.js points this at sys.rtBenefits.feedPerks().
++const NO_PERKS = { grow: 1, gain: 1, digest: 1, fill: 1 };
++let perkSrc = () => null;
++export function setFeedPerks(fn) { perkSrc = typeof fn === 'function' ? fn : () => null; }
++export function feedPerksNow() { let p = null; try { p = perkSrc(); } catch { p = null; } return { ...NO_PERKS, ...(p || {}) }; }
++/** Fullness freed by a practice ('practice') or battle win ('battleWin') after the Wellness Days perk. */
++export const drainAmount = (kind) => Math.round(DRAIN[kind] * feedPerksNow().digest * 10) / 10;
+ // Fins / wings fit (design section 1): full growth only for these; others stop at stage 1 (14 build).
+ export const FINS_TYPES = ['water', 'sea', 'freshwater', 'swamp', 'rain'], FINS_SHAPES = ['serpent'];
+ export const WINGS_TYPES = ['wind', 'bird', 'angelic', 'light'], WINGS_SHAPES = ['avian'];
+@@ -82,7 +91,8 @@ export function canUsePart(part, body) { return partCap(part, body) > 0; }
+ export function previewFeed({ build, full = 0, uid, fruitId, body = {}, resetPart = null }) {
+   const f = FRUITS[fruitId]; if (!f) return { ok: false, reason: 'unknown' };
+   const reaction = reactionOf(uid, fruitId), mod = reaction === 'like' ? LIKE : reaction === 'dislike' ? DISLIKE : { mult: 1, full: 0 };
+-  const addFull = Math.max(0, f.full + mod.full);
++  const pk = feedPerksNow();
++  const addFull = Math.max(0, Math.round((f.full + mod.full) * pk.fill));
+   if (full >= FULL_MAX || full + addFull > FULL_MAX + 0.001) return { ok: false, reason: 'full', reaction };
+   const delta = {};
+   if (f.reset) {
+@@ -96,7 +106,7 @@ export function previewFeed({ build, full = 0, uid, fruitId, body = {}, resetPar
+   for (const p of parts) {
+     if (!canUsePart(p, body)) continue;
+     const cur = build[p] || 0, cap = partCap(p, body);
+-    let g = Math.round(f.gain[p] * tierMult(cur) * mod.mult * 10) / 10;
++    let g = Math.round(f.gain[p] * tierMult(cur) * mod.mult * pk.gain * 10) / 10;
+     g = Math.max(0, Math.min(g, cap - cur, room)); room -= g;
+     if (g > 0) delta[p] = g;
+   }
+@@ -147,7 +157,7 @@ export function plant(fs, bag, i, fruitId, now) {
+   bag.remove(seedItem(fruitId), 1);
+   Object.assign(p, { fruit: fruitId, planted: now, boost: 0 }); return true;
+ }
+-export const growMs = (fruitId) => FRUITS[fruitId].growH * 3600e3;
++export const growMs = (fruitId) => FRUITS[fruitId].growH * 3600e3 * Math.max(0.1, feedPerksNow().grow);
+ /** 0..1 progress. Uses wall-clock `now` (real time) plus practice boost. A clock set backwards never un-grows (min 0). */
+ export function progress(p, now) { if (!p?.fruit) return 0; return Math.max(0, Math.min(1, (now - p.planted + p.boost) / growMs(p.fruit))); }
+ export const plotStage = (p, now) => (p?.fruit ? PLOT_STAGES[Math.min(3, Math.floor(progress(p, now) * 4))] : null);
+diff --git a/kilumen/src/fishing/index.js b/kilumen/src/fishing/index.js
+index 0e67c12d..08c6c04a 100644
+--- a/kilumen/src/fishing/index.js
++++ b/kilumen/src/fishing/index.js
+@@ -8,7 +8,7 @@
+ // Gear v1 (design/FISHING_GEAR.md): Driftline / Lanternreach rod gifts (Saltmere fisher, Lanternport keeper), earned baits
+ // (Lantern Moth, Hollowstar Roe), a bait picker before each cast (only when the bag holds bait), one bait used per landed cast.
+ // Art: bobber, line, splash, ripples and the leaping shadow are drawn in code from the Kilumen palette (our own art).
+-import { FISHING_URL, TIMING, TEXT, bestRod, facedWater, planCast, judgePress, castArc, ease, bitePrompt, BAIT_IDS, ROD_GIFTS, gearGiftFor, catchFlags } from './logic.js?v=v0.2.66-alpha';
++import { FISHING_URL, TIMING, TEXT, bestRod, facedWater, planCast, judgePress, castArc, ease, bitePrompt, BAIT_IDS, ROD_GIFTS, gearGiftFor, catchFlags, baitSaved, windowFor } from './logic.js?v=v0.2.66-alpha';
+ import { ITEMS } from '../systems/items.js?v=v0.2.66-alpha';
+ import { TILE, DELTA } from '../overworld/constants.js?v=v0.2.66-alpha';
+ 
+@@ -128,7 +128,8 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
+     const choice = await openPicker();
+     if (choice.cancel) return;
+     const baitId = choice.bait && sys.bag.count(choice.bait) > 0 ? choice.bait : null;
+-    const plan = planCast(st.tables, scene.map.name, rod, st.rng || rng, hasArt, baitId);
++    const perks = sys.rtBenefits?.fishingPerks?.() || null; // RT board Angler Plan (null = none)
++    const plan = planCast(st.tables, scene.map.name, rod, st.rng || rng, hasArt, baitId, perks);
+     const p = scene.player, d = DELTA[p.facing];
+     const fx = st.fx = { phase: 'cast', t0: now(), cell, facing: p.facing, from: { x: (p.x + 0.5 + d.x * 0.45) * TILE, y: (p.y - 0.15) * TILE }, press: null, touch: touch(), plan };
+     st.casts++;
+@@ -138,7 +139,8 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
+     fx.press = null; // presses during the swing do not count
+     fx.phase = 'wait'; fx.tLand = now(); scene.audio?.sfx?.('blip');
+     let baitOut = false; // one bait is used when the line lands, bite or not (design §4)
+-    if (baitId && sys.bag.remove(baitId, 1)) { st.baitUsed++; fx.bait = baitId; baitOut = sys.bag.count(baitId) === 0; scene._dirty = true; }
++    if (baitId && baitSaved(perks, st.rng || rng)) fx.baitKept = baitId; // Bait Allowance: this cast keeps its bait
++    else if (baitId && sys.bag.remove(baitId, 1)) { st.baitUsed++; fx.bait = baitId; baitOut = sys.bag.count(baitId) === 0; scene._dirty = true; }
+     let result = null;
+     while (!result) {
+       await frame();
+@@ -147,7 +149,7 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
+       if (plan.bite && t >= plan.waitMs && fx.phase === 'wait') { fx.phase = 'bite'; fx.tBite = now(); fx.prompt = promptFor(fx); scene.audio?.sfx?.('grass'); }
+       if (plan.empty && t > 900) result = 'no_table';
+       else if (pressedAt != null) result = judgePress(plan, pressedAt, true, fx.touch) || 'early';
+-      else if (!plan.bite && t >= plan.waitMs + TIMING.WINDOW) result = 'nothing';
++      else if (!plan.bite && t >= plan.waitMs + windowFor(plan)) result = 'nothing';
+       else result = judgePress(plan, t, false, fx.touch);
+     }
+     st.last = result;
+@@ -256,7 +258,7 @@ export function drawFishing(ctx, v, fx) {
+ // Gold ink-outlined chip with a key-cap icon (white cap, ink rim, red underline) + the prompt words. Min 12px text for phones.
+ function drawBiteChip(ctx, px, py, z, t, fx) {
+   const pr = fx.prompt || { label: fx.touch ? TEXT['fishing.prompt_touch'][0] : TEXT['fishing.prompt_pc'][0].replace('{key}', 'Space'), icon: fx.touch ? 'A' : 'Space' };
+-  const age = t - (fx.tBite || t), win = fx.touch ? TIMING.WINDOW_TOUCH : TIMING.WINDOW;
++  const age = t - (fx.tBite || t), win = fx.plan ? windowFor(fx.plan, fx.touch) : fx.touch ? TIMING.WINDOW_TOUCH : TIMING.WINDOW;
+   const urgency = Math.min(1, age / win); // 0 at the bite -> 1 when the window shuts
+   const pop = ease.backOut(Math.min(1, age / 260));
+   const bob = Math.sin(age / 140) * 3 * z;
+diff --git a/kilumen/src/fishing/logic.js b/kilumen/src/fishing/logic.js
+index 9a7f9d48..f69f34ea 100644
+--- a/kilumen/src/fishing/logic.js
++++ b/kilumen/src/fishing/logic.js
+@@ -106,17 +106,39 @@ export function expectedPer100(tables, mapName, rod, bait = null) {
+  * One cast, decided up front (so tests and replays are deterministic). -> {bite: bool, waitMs, fish|null}
+  * The player's timing is judged later by judgePress.
+  */
+-export function planCast(tables, mapName, rod, rng = Math.random, hasArt = null, bait = null) {
+-  const tab = tableFor(tables, mapName, rod), b = baitOf(tables, bait);
+-  const waitMs = Math.round(TIMING.WAIT_MIN + rng() * (TIMING.WAIT_MAX - TIMING.WAIT_MIN));
+-  if (!tab) return { bite: false, waitMs, fish: null, empty: true };
++export function planCast(tables, mapName, rod, rng = Math.random, hasArt = null, bait = null, perks = null) {
++  const tab = tableFor(tables, mapName, rod), pk = perks || {}, b = boostBait(baitOf(tables, bait), pk.baitPower);
++  const winBonus = Math.max(0, Math.round(pk.windowMs || 0));
++  const waitMax = Math.max(TIMING.WAIT_MIN, TIMING.WAIT_MAX - Math.max(0, pk.waitCut || 0)); // Quick Bite: shorter longest wait
++  const waitMs = Math.round(TIMING.WAIT_MIN + rng() * (waitMax - TIMING.WAIT_MIN));
++  if (!tab) return { bite: false, waitMs, fish: null, empty: true, winBonus };
+   const bite = rng() < biteChance(tables, rod, b);
+-  return { bite, waitMs, fish: bite ? pickFish(tab, rng, hasArt, b, elFrom(tables)) : null, table: tab.from, tier: tab.tier, empty: false };
++  return { bite, waitMs, fish: bite ? pickFish(tab, rng, hasArt, rareBait(b, pk.rareMult), elFrom(tables)) : null, table: tab.from, tier: tab.tier, empty: false, winBonus };
+ }
+ 
++/**
++ * RT Employee Benefits, Angler Plan (board fish/sports, Oct 29 2026). Pure; perks = {waitCut, windowMs, rareMult, baitSave,
++ * baitPower} from RtBenefits.fishingPerks() (all 0 / 1 = no perk). Premium Bait scales every bait bonus by (1 + power).
++ */
++export function boostBait(b, power = 0) {
++  if (!b || !(power > 0)) return b;
++  const k = 1 + power, up = (m) => (m == null ? m : Math.round((1 + (m - 1) * k) * 1e4) / 1e4);
++  return { ...b, bite: b.bite > 0 ? Math.round(b.bite * k * 1e4) / 1e4 : b.bite, rare: up(b.rare), uncommon: up(b.uncommon), elementMult: up(b.elementMult) };
++}
++/** Deep Water Plan: rare weight x mult, uncommon x half the bonus (works with or without bait). */
++export function rareBait(b, mult = 1) {
++  if (!(mult > 1)) return b;
++  const base = b || {};
++  return { ...base, rare: (base.rare ?? 1) * mult, uncommon: (base.uncommon ?? 1) * (1 + (mult - 1) / 2) };
++}
++/** Bait Allowance: true = this landed cast keeps its bait. rng is the cast's seeded rng. */
++export const baitSaved = (perks, rng = Math.random) => (perks?.baitSave || 0) > 0 && rng() < perks.baitSave;
++/** Reel window in ms for this plan (touch is wider, Steady Grip adds plan.winBonus). */
++export const windowFor = (plan, touch = false) => (touch ? TIMING.WINDOW_TOUCH : TIMING.WINDOW) + (plan?.winBonus || 0);
++
+ /** Judge an A press at time t (ms since the cast landed). -> 'early' | 'hooked' | 'late' | null (no press yet). */
+ export function judgePress(plan, t, pressed, touch = false) {
+-  const win = touch ? TIMING.WINDOW_TOUCH : TIMING.WINDOW;
++  const win = windowFor(plan, touch);
+   if (!plan.bite) return pressed ? 'early' : null; // reeling in on nothing: "early" (nothing was there)
+   if (pressed && t < plan.waitMs) return 'early';
+   if (pressed && t <= plan.waitMs + win) return 'hooked';
+diff --git a/kilumen/src/overworld/map.js b/kilumen/src/overworld/map.js
+index fb92de27..51f64247 100644
+--- a/kilumen/src/overworld/map.js
++++ b/kilumen/src/overworld/map.js
+@@ -97,6 +97,7 @@ export class GameMap {
+    * flags only ever get set, so a cleared gate never re-blocks. Returns the ids applied this call.
+    */
+   applyGates(flags) {
++    this._flags = flags; // board key cards (Oct 29 2026): locked_warps with unlock_flag read the same live flag set
+     const done = [];
+     for (const g of this.storyGates) {
+       if (this._appliedGates.has(g.id) || !flags?.has(g.flag)) continue;
+@@ -112,6 +113,12 @@ export class GameMap {
+     return done;
+   }
+ 
++  /** Board key cards: a locked_warps door whose unlock_flag (e.g. rt_keycard_r1) is set opens. -> the warp or null */
++  keyDoorAt(x, y, flags = this._flags) {
++    const w = this._lockedAt.get(x + ',' + y);
++    return w && w.unlock_flag && flags?.has?.(w.unlock_flag) ? w : null;
++  }
++
+   inBounds(x, y) { return x >= 0 && y >= 0 && x < this.width && y < this.height; }
+   code(x, y) { return this.inBounds(x, y) ? this.layers.collision[y][x] : Col.BLOCK; }
+   tile(layer, x, y) { const g = this.layers[layer]; return g && this.inBounds(x, y) ? g[y][x] : 0; }
+@@ -159,6 +166,7 @@ export class GameMap {
+   passable(x, y, mode = 'walk') {
+     if (!this.inBounds(x, y) || this._npcAt.has(x + ',' + y)) return false;
+     if (DEV.masterKey) { const k = x + ',' + y, g = this._gateAt.get(k); if ((g && !this.gateCleared(g)) || this._lockedAt.has(k)) return true; } // dev master key: runtime override, never saved
++    if (this._lockedAt.size && this.keyDoorAt(x, y)) return true;
+     const c = this.code(x, y);
+     return WALKABLE.has(c) || (mode === 'bike' && c === Col.BIKE_ONLY);
+   }
+diff --git a/kilumen/src/overworld/overworld.js b/kilumen/src/overworld/overworld.js
+index bc746f65..3b0e997c 100644
+--- a/kilumen/src/overworld/overworld.js
++++ b/kilumen/src/overworld/overworld.js
+@@ -382,7 +382,7 @@ export class Overworld {
+           }
+           if (w && isToCome(w) && !mkDoor) this.toast(this.config.closedPathText);
+         }
+-        const lw = DEV.masterKey && m._lockedAt?.get(x + ',' + y); // dev master key: locked staff door (collision 1, unlock_flag not set) opens
++        const lw = (DEV.masterKey && m._lockedAt?.get(x + ',' + y)) || m.keyDoorAt?.(x, y, this.flags); // dev master key: locked staff door (collision 1, unlock_flag not set) opens
+         if (lw && lw.to && lw.to !== '$return') { this.lastDoor = { map: m.name, x, y }; this.startWarp({ map: lw.to, x: lw.tx, y: lw.ty, facing: lw.facing || 'up' }, 'door'); return 'stop'; }
+         if (code === Col.PLATE) this.hooks.onPlate?.(x, y);
+         if (m.encounter(x, y)) this.hooks.onEncounterTile?.(x, y, m.encounter(x, y)); // run/bike: same rate (MOVEMENT.md)
+diff --git a/kilumen/src/qol/skills_menu.js b/kilumen/src/qol/skills_menu.js
+index ddb43c15..70a22438 100644
+--- a/kilumen/src/qol/skills_menu.js
++++ b/kilumen/src/qol/skills_menu.js
+@@ -5,11 +5,13 @@
+ // Text: every player line below is a /* PH */ fallback; keys requested from Text Bot in data/textbot_requests_qol_b.md.
+ import { learnsetFor, applyLearn } from '../overnight/learnsets.js?v=v0.2.66-alpha';
+ import { PLACEHOLDER_SKILLS } from '../ui/data.js?v=v0.2.66-alpha';
+-import { toID } from '../battle/data/skills.js?v=v0.2.66-alpha';
++import { toID, SKILL_POOL_ALIAS } from '../battle/data/skills.js?v=v0.2.66-alpha';
++import { BOARD_SKILLS, boardFit } from '../systems/board_skills.js?v=v0.2.66-alpha';
+ import { speciesInfo, defaultSkills, displayName } from '../systems/creature.js?v=v0.2.66-alpha';
+ import { qolFlags } from './flags.js?v=v0.2.66-alpha';
+ 
+ const SK = {}; for (const [name, el] of Object.values(PLACEHOLDER_SKILLS).flat()) SK[toID(name)] ||= { name, el };
++for (const [id, b] of Object.entries(BOARD_SKILLS)) SK[id] ||= { name: b.name, el: b.el, board: true }; // RT board-only skills (PH names)
+ export const skillName = (id) => SK[id]?.name || (id ? id[0].toUpperCase() + id.slice(1) : '?');
+ 
+ /** Training Reels (B22, PLACEHOLDER ids + skills; Gary / World Design to place them in RT Supply or pickups). */
+@@ -27,6 +29,12 @@ export function canTeach(c, skill) {
+   const el = SK[skill]?.el, els = speciesInfo(c.species)?.el || ['normal'];
+   return el === 'normal' || els.includes(el) || setOf(c).some((e) => e.skill === skill) ? 'ok' : 'unfit';
+ }
++/** Board-only skill fit (RT Employee Benefits Executive Perks): owned list from rt.boardSkills(). -> 'ok' | 'known' | 'unfit' | 'locked' */
++export function canTeachBoard(c, skill, owned = []) {
++  if (!owned.includes(skill)) return 'locked';
++  if ((c.skills || []).includes(skill)) return 'known';
++  return boardFit(skill, speciesInfo(c.species)?.el || ['normal'], SKILL_POOL_ALIAS) ? 'ok' : 'unfit';
++}
+ /** Pure: use a reel on c. -> {result, old?}. The reel stays unless flags.teachReuse is off. */
+ export function teach(bag, id, c, slot, flags = qolFlags()) {
+   const t = TEACH_ITEMS[id]; if (!t || !bag.has(id)) return { result: 'none' };
+@@ -63,6 +71,15 @@ export function installQolSkills(ui, sys, flags = qolFlags(ui.q || undefined)) {
+       const j = await ui.ask('team', ['Use which Reel?'] /* PH */, [...reels.map((id) => sys.bag.nameOf(id)), 'Back'], { pat: 'dots' });
+       if (j >= 0 && j < reels.length) await teachFlow(reels[j], c);
+     }]);
++    const owned = sys.rtBenefits?.boardSkills?.() || [];
++    if (owned.length) out.push(['Board skill' /* PH system_rt_benefits.labels.teach_board */, async () => {
++      const fit = owned.map((id) => canTeachBoard(c, id, owned));
++      const j = await ui.ask('team', [`Teach ${displayName(c)} which board skill?`] /* PH */, [...owned.map((id, k) => `${skillName(id)} · ${fit[k] === 'ok' ? 'Can learn' : fit[k] === 'known' ? 'Knows it' : "Can't learn"}` /* PH */), 'Back'], { pat: 'dots' });
++      if (j < 0 || j >= owned.length) return;
++      if (fit[j] !== 'ok') return say(ui, c, owned[j], { result: fit[j] });
++      const r = await learnWithSlot(ui, c, owned[j], (slot) => applyLearn(c, owned[j], slot));
++      if (r.result !== 'kept') dirty(); say(ui, c, owned[j], r);
++    }]);
+     return out;
+   };
+   const teachFlow = async (id, c) => {
+diff --git a/kilumen/src/systems/board_skills.js b/kilumen/src/systems/board_skills.js
+new file mode 100644
+index 00000000..f2b351e9
+--- /dev/null
++++ b/kilumen/src/systems/board_skills.js
+@@ -0,0 +1,41 @@
++// RT Employee Benefits board-only skills (board fish/sports, Oct 29 2026; Gary steering: "5 battle moves obtainable ONLY from
++// the board"). They are NOT in PLACEHOLDER_SKILLS (src/ui/data.js), so learnsets, wild / trainer pools (skillIdsFor), shops,
++// Training Reels and the AI can never pick them; src/battle/data/skills.js adds them to the engine move table only so a
++// player creature that was taught one can use it. Teach flow: src/qol/skills_menu.js Team menu "Board skill" row, once the
++// Executive Perks node is bought (any compatible creature, any number of times; swapping one out keeps it teachable).
++// Names / descs: placeholder text keys system_rt_benefits.board_skills.<id>.{name,desc} (Text Bot owns text/*.py).
++// Every number is a PLACEHOLDER for Gary: strong (a clear edge over the 20-60 power pool) but not broken.
++export const BOARD_SKILLS = {
++  boardtidalaudit: { node: 'skill_tidal_audit', el: 'water', role: 'attack', name: 'Tidal Audit', desc: 'A heavy wave. May lower the foe\u2019s Resolve.',
++    move: { basePower: 75, accuracy: 95, energy: 10, secondary: { chance: 30, boosts: { spd: -1 } } } },
++  boardovertimeblaze: { node: 'skill_overtime_blaze', el: 'fire', role: 'attack', name: 'Overtime Blaze', desc: 'A huge blast that leaves the user\u2019s Focus lower.',
++    move: { basePower: 90, accuracy: 90, energy: 8, self: { boosts: { spa: -1 } } } },
++  boardhostilerestructure: { node: 'skill_hostile_restructure', el: 'earth', role: 'attack', name: 'Restructure', desc: 'A ground slam. May slow the foe.',
++    move: { basePower: 70, accuracy: 100, energy: 10, secondary: { chance: 30, boosts: { spe: -1 } } } },
++  boardteamhuddle: { node: 'skill_team_huddle', el: 'light', role: 'support', name: 'Team Huddle', desc: 'Restores a quarter of Vitality and raises Guard.',
++    move: { basePower: 0, accuracy: true, energy: 6, target: 'self', heal: [1, 4], boosts: { def: 1 }, flags: { heal: 1 } } },
++  boardhostiletakeover: { node: 'skill_hostile_takeover', el: 'dark', role: 'utility', name: 'Hostile Takeover', desc: 'Lowers the foe\u2019s Might and Focus.',
++    move: { basePower: 0, accuracy: 90, energy: 8, boosts: { atk: -1, spa: -1 } } },
++};
++export const BOARD_SKILL_IDS = Object.keys(BOARD_SKILLS);
++export const isBoardSkill = (id) => Object.prototype.hasOwnProperty.call(BOARD_SKILLS, id);
++const SPECIAL = new Set(['fire', 'water', 'light', 'dark']);
++const cap = (s) => s[0].toUpperCase() + s.slice(1);
++
++/** Engine move rows (same shape as buildSkills). numBase = first free num. */
++export function boardMoves(numBase = 1000) {
++  const out = {};
++  BOARD_SKILL_IDS.forEach((id, i) => {
++    const b = BOARD_SKILLS[id], m = b.move, self = m.target === 'self';
++    out[id] = { num: numBase + i, name: b.name, type: cap(b.el), basePower: m.basePower,
++      category: m.basePower ? (SPECIAL.has(b.el) ? 'Special' : 'Physical') : 'Status', accuracy: m.accuracy, pp: m.energy, priority: 0, // pp = engine field name
++      target: m.target || 'normal', flags: self ? (m.flags || {}) : { protect: 1, ...(m.flags || {}) }, secondary: m.secondary || null,
++      boosts: m.boosts, self: m.self, heal: m.heal, status: m.status, kTags: ['board'], boardOnly: true, shortDesc: '', desc: '' };
++  });
++  return out;
++}
++/** Fit rule (same as Training Reels): skill element is one of the creature's elements (or their pool alias). */
++export function boardFit(id, els = [], alias = {}) {
++  const b = BOARD_SKILLS[id]; if (!b) return false;
++  return els.some((e) => e === b.el || alias[e] === b.el);
++}
+diff --git a/kilumen/src/systems/rt_benefits.js b/kilumen/src/systems/rt_benefits.js
+index db4ceabe..7f1e52a1 100644
+--- a/kilumen/src/systems/rt_benefits.js
++++ b/kilumen/src/systems/rt_benefits.js
+@@ -62,12 +62,34 @@ export function nodeState(data, company, node, region = data?.region || 1) {
+   const rank = Math.max(0, Math.floor(num(company?.board?.[node.id]))), max = node.ranks?.length || 0, regionMax = regionMaxRank(node, region);
+   const next = rank < max ? node.ranks[rank] : null, idLevel = num(company?.idLevel, 1), pts = num(company?.pointsFree);
+   const out = { id: node.id, branch: node.branch, rank, max, regionMax, next, needId: next ? num(next.minIdLevel, 1) : null, cost: next ? num(next.cost, 1) : null, unlockRegion: unlockRegionOf(node) };
++  if (node.comingSoon && rank < max) return { ...out, state: 'locked', reason: 'soon' }; // board fish/sports: shown, not buyable yet
+   if (rank >= max || (rank > 0 && rank >= regionMax)) return { ...out, state: 'owned', reason: rank >= max ? 'maxed' : 'region' };
+   if (rank >= regionMax) return { ...out, state: 'locked', reason: 'region', unlockRegion: Math.max(region + 1, out.unlockRegion) };
+   if (idLevel < out.needId) return { ...out, state: 'locked', reason: 'id' };
+   if (pts < out.cost) return { ...out, state: 'locked', reason: 'points' };
+   return { ...out, state: 'available', reason: null };
+ }
++/**
++ * Board fish/sports (Oct 29 2026): perk bundles read by fishing / feeds / travel. `eff(id)` = RtBenefits.effect (0 = not owned).
++ * Pure so tests pass a stub; every value is a PLACEHOLDER from data/rt_benefits.json.
++ */
++export function fishingPerks(eff = () => 0) {
++  return { waitCut: num(eff('rod_quick_bite')), windowMs: num(eff('rod_steady_grip')), rareMult: num(eff('rod_deep_water')) || 1,
++    baitSave: num(eff('bait_allowance')), baitPower: num(eff('bait_premium')) };
++}
++export function feedPerks(eff = () => 0) {
++  return { grow: 1 - num(eff('grow_stipend')), gain: 1 + num(eff('training_allowance')), digest: 1 + num(eff('wellness_days')), fill: 1 - num(eff('light_lunch')) };
++}
++/** Fast travel fare after the Commuter Benefit (dormant: nothing charges a fare yet). Never below 0, whole coins. */
++export function travelFare(base, eff = () => 0) {
++  const d = Math.min(0.9, Math.max(0, num(eff('commuter_benefit'))));
++  return Math.max(0, Math.round(num(base) * (1 - d)));
++}
++/** Board skills unlocked by owned Executive Perks nodes. */
++export function ownedBoardSkills(data, board = {}) {
++  return (data?.nodes || []).filter((n) => n.skill && num(board[n.id]) > 0).map((n) => n.skill);
++}
++
+ /** Fill a company block in place (same object, so RITA's diff keeps watching it). `base` = the store's v2 company block. */
+ export function ensureCompany(co, base = null) {
+   const d = COMPANY_DEFAULTS();
+@@ -187,6 +209,8 @@ export class RtBenefits {
+     const co = this.company;
+     co.pointsFree -= s.cost;
+     co.board[id] = s.rank + 1;
++    const node = this.node(id); // key cards: the node grants a story flag (saved with the flags, opens locked_warps unlock_flag)
++    if (node?.grantFlag) { if (typeof this.scene.setFlag === 'function') this.scene.setFlag(node.grantFlag, true); else this.scene.flags?.add?.(node.grantFlag); }
+     this.scene.log?.push?.({ tick: this.scene.tick, type: 'benefitRank', node: id, rank: s.rank + 1, cost: s.cost });
+     this.scene._dirty = true;
+     this._emit({ type: 'rank', node: id, rank: s.rank + 1 });
+@@ -195,6 +219,10 @@ export class RtBenefits {
+   }
+   /** Effect value of a node at its current rank (ranks[rank-1].value), 0 when not owned. */
+   effect(id) { const n = this.node(id), r = num(this.company.board?.[id]); return n && r > 0 ? num(n.ranks?.[r - 1]?.value) : 0; }
++  fishingPerks() { return fishingPerks((id) => this.effect(id)); }
++  feedPerks() { return feedPerks((id) => this.effect(id)); }
++  travelFare(base) { return travelFare(base, (id) => this.effect(id)); }
++  boardSkills() { return ownedBoardSkills(this.data, this.company.board); }
+   respec() { return { ok: false, reason: 'unsupported' }; } // data.respec.supported is false: no terminal / fee / week clock yet
+ }
+ 
+diff --git a/kilumen/src/ui/rt_benefits_screen.js b/kilumen/src/ui/rt_benefits_screen.js
+index 9907cde0..fa562ad4 100644
+--- a/kilumen/src/ui/rt_benefits_screen.js
++++ b/kilumen/src/ui/rt_benefits_screen.js
+@@ -16,10 +16,31 @@ export const RTB_TEXT = {
+     tab_title: 'RT Employee Benefits', employee_id: 'Employee ID', id_level: 'ID {level}', points: '{points} pts', points_one: '{points} pt', xp: 'XP',
+     xp_to_next: '{into}/{span}', xp_capped: 'Region cap', buy: 'Buy rank {rank}', cancel: 'Not now', rank: 'Rank {rank}/{max}',
+     cost: 'Cost: {cost} pt · Needs ID {level}', state_available: 'Available', state_owned: 'Owned', state_locked: 'Locked',
+-    lock_region: 'Region {region}', lock_id: 'Needs ID {level}', lock_points: 'Need {cost} pt', hint_perk: 'Perk', hint_buy: 'Details / Buy', back: 'Back',
++    lock_region: 'Region {region}', lock_id: 'Needs ID {level}', lock_points: 'Need {cost} pt', lock_soon: 'Coming soon', teach_board: 'Board skill', hint_perk: 'Perk', hint_buy: 'Details / Buy', back: 'Back',
+   },
+-  branches: { field_logistics: 'Field Logistics', supply_pay: 'Supply & Pay', crystal_lab: 'Crystal Lab', unit_performance: 'Unit Performance' },
++  branches: { field_logistics: 'Field Logistics', supply_pay: 'Supply & Pay', crystal_lab: 'Crystal Lab', unit_performance: 'Unit Performance',
++    angler_plan: 'Angler Plan', wellness_plan: 'Wellness Plan', commuter_plan: 'Commuter Plan', rnd_clearance: 'R&D Clearance', executive_perks: 'Executive Perks' },
+   nodes: {
++    // board fish/sports (Oct 29 2026): PLACEHOLDER text keys system_rt_benefits.nodes.<id>.*, final lines from Text Bot
++    rod_quick_bite: { name: 'Quick Bite', desc: 'Fish bite sooner. Time is billable.', ranks: { 1: 'Longest bite wait -0.5 s.', 2: 'Longest bite wait -1 s.' } },
++    rod_steady_grip: { name: 'Steady Grip', desc: 'A wider window to reel in. Ergonomic, allegedly.', ranks: { 1: 'Reel window +0.12 s.', 2: 'Reel window +0.24 s.', 3: 'Reel window +0.36 s.' } },
++    rod_deep_water: { name: 'Deep Water Plan', desc: 'Rare fish bite more often. Uncommon ones a little.', ranks: { 1: 'Rare fish x1.15.', 2: 'Rare fish x1.3.' } },
++    bait_allowance: { name: 'Bait Allowance', desc: 'Bait sometimes lasts another cast. Expensed.', ranks: { 1: '20% chance to keep the bait.', 2: '35% chance to keep the bait.' } },
++    bait_premium: { name: 'Premium Bait', desc: 'Every bait bonus works harder. Like you should.', ranks: { 1: 'Bait effects +25%.', 2: 'Bait effects +50%.' } },
++    grow_stipend: { name: 'Garden Stipend', desc: 'Fruit plots grow faster.', ranks: { 1: 'Grow time -15%.', 2: 'Grow time -30%.' } },
++    training_allowance: { name: 'Training Allowance', desc: 'Fruit builds more. The +15 stat cap still applies.', ranks: { 1: 'Fruit build gain +10%.', 2: 'Fruit build gain +20%.' } },
++    wellness_days: { name: 'Wellness Days', desc: 'Fullness clears faster after practice and battle wins.', ranks: { 1: 'Fullness clears +25% faster.', 2: 'Fullness clears +50% faster.' } },
++    light_lunch: { name: 'Light Lunch', desc: 'Fruit fills your team up less.', ranks: { 1: 'Fruit fills 10% less.', 2: 'Fruit fills 20% less.' } },
++    commuter_benefit: { name: 'Commuter Benefit', desc: 'Cheaper paid fast travel. Once someone charges for it.', ranks: { 1: 'Fares -15%.', 2: 'Fares -30%.', 3: 'Fares -50%.' } },
++    rt_node_station_m: { name: 'Lab Pass: Mirefen', desc: 'Opens the Mirefen sunken station. Waders not included.', ranks: { 1: 'Key card issued.' } },
++    rt_node_station_t: { name: 'Lab Pass: Tidewater', desc: 'Opens the Tidewater sea-cave lab.', ranks: { 1: 'Key card issued.' } },
++    keycard_r7: { name: 'Lab Pass: Region 7', desc: 'Opens the Region 7 research area.', ranks: { 1: 'Key card issued.' } },
++    keycard_r8: { name: 'Lab Pass: Region 8', desc: 'Opens the Region 8 research area.', ranks: { 1: 'Key card issued.' } },
++    skill_tidal_audit: { name: 'Skill: Tidal Audit', desc: 'Board-only water skill. Teach it from the Team menu.', ranks: { 1: 'Tidal Audit unlocked.' } },
++    skill_overtime_blaze: { name: 'Skill: Overtime Blaze', desc: 'Board-only fire skill. Teach it from the Team menu.', ranks: { 1: 'Overtime Blaze unlocked.' } },
++    skill_hostile_restructure: { name: 'Skill: Restructure', desc: 'Board-only earth skill. Teach it from the Team menu.', ranks: { 1: 'Restructure unlocked.' } },
++    skill_team_huddle: { name: 'Skill: Team Huddle', desc: 'Board-only light support skill. Teach it from the Team menu.', ranks: { 1: 'Team Huddle unlocked.' } },
++    skill_hostile_takeover: { name: 'Skill: Hostile Takeover', desc: 'Board-only dark skill. Teach it from the Team menu.', ranks: { 1: 'Hostile Takeover unlocked.' } },
+     // region 4 (dev, Oct 29 2026): PLACEHOLDER text, final lines requested in data/textbot_requests_region4.md
+     daily_bonus: { name: 'Daily Bonus', desc: 'Gold every in-game day. Paid on time, unlike your overtime.',
+       ranks: { 1: '50 gold per day.', 2: '150 gold per day.', 3: '300 gold per day.' } },
+@@ -42,6 +63,7 @@ export const RTB_TEXT = {
+       ranks: { 1: '+25% hall and Master prize money.', 2: '+50% hall and Master prize money.' } },
+   },
+   locked: {
++    soon: 'Not open yet. Facilities is still building it.',
+     region: 'Locked until Region {region}. Legal says no.', id: 'Needs ID level {level}. Keep logging assets.',
+     points: 'Needs {cost} benefit point. You have {points}.', maxed: 'Fully vested. Do not ask for more.', owned_region: 'Maxed for this region. More ranks in Region {region}.',
+   },
+@@ -75,12 +97,13 @@ export function installRtBenefitsScreen(ui, rt) {
+   ui.scr_rt_benefits = function () {
+     const order = () => rt.branches.flatMap((b) => rt.nodes.filter((n) => n.branch === b.id));
+     const stateLabel = (s) => (s.state === 'available' ? tx('labels.state_available') : s.state === 'owned' ? tx('labels.state_owned')
+-      : s.reason === 'region' ? tx('labels.lock_region', { region: s.unlockRegion }) : s.reason === 'id' ? tx('labels.lock_id', { level: s.needId }) : tx('labels.lock_points', { cost: s.cost }));
++      : s.reason === 'soon' ? tx('labels.lock_soon') : s.reason === 'region' ? tx('labels.lock_region', { region: s.unlockRegion }) : s.reason === 'id' ? tx('labels.lock_id', { level: s.needId }) : tx('labels.lock_points', { cost: s.cost }));
+     const pips = (s) => `<span class="rtb-pips" role="img" aria-label="${esc(tx('labels.rank', { rank: s.rank, max: s.max }))}">${Array.from({ length: s.max }, (_, k) =>
+       `<i class="${k < s.rank ? 'on' : k >= s.regionMax ? 'later' : ''}"></i>`).join('')}</span>`;
+     const why = (s) => {
+       const co = rt.company;
+       if (s.state === 'owned') return s.reason === 'maxed' ? tx('locked.maxed') : tx('locked.owned_region', { region: rt.region + 1 });
++      if (s.reason === 'soon') return tx('locked.soon');
+       if (s.reason === 'region') return tx('locked.region', { region: s.unlockRegion });
+       if (s.reason === 'id') return tx('locked.id', { level: s.needId });
+       if (s.reason === 'points') return tx('locked.points', { cost: s.cost, points: co.pointsFree });
+diff --git a/kilumen/tests/board_fish_sports.test.mjs b/kilumen/tests/board_fish_sports.test.mjs
+new file mode 100644
+index 00000000..071c1000
+--- /dev/null
++++ b/kilumen/tests/board_fish_sports.test.mjs
+@@ -0,0 +1,167 @@
++// RT Employee Benefits: board fish/sports nodes, board-only skills, commuter benefit, key cards (Coder, Oct 29 2026).
++// Run: node --test tests/
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import { readFileSync } from 'node:fs';
++const J = (p) => JSON.parse(readFileSync(new URL('../' + p, import.meta.url)));
++const RB = await import('../src/systems/rt_benefits.js');
++const F = await import('../src/fishing/logic.js');
++const FD = await import('../src/feeds/logic.js');
++const BS = await import('../src/systems/board_skills.js');
++const { buildSkills, skillIdsFor } = await import('../src/battle/data/skills.js');
++const { PLACEHOLDER_SKILLS, SPECIES } = await import('../src/ui/data.js');
++const { learnsetFor } = await import('../src/overnight/learnsets.js');
++const { canTeachBoard } = await import('../src/qol/skills_menu.js');
++const { applyLearn } = await import('../src/overnight/learnsets.js');
++const CAP = await import('../src/battle/capture.js');
++const { GameMap } = await import('../src/overworld/map.js');
++const { RTB_TEXT } = await import('../src/ui/rt_benefits_screen.js');
++const data = J('data/rt_benefits.json'), fish = J('data/fishing_tables.json');
++const NEW = ['rod_quick_bite', 'rod_steady_grip', 'rod_deep_water', 'bait_allowance', 'bait_premium', 'grow_stipend', 'training_allowance',
++  'wellness_days', 'light_lunch', 'commuter_benefit', 'rt_node_station_m', 'rt_node_station_t', 'keycard_r7', 'keycard_r8',
++  'skill_tidal_audit', 'skill_overtime_blaze', 'skill_hostile_restructure', 'skill_team_huddle', 'skill_hostile_takeover'];
++const BLOCKED = /\b(PP|shiny|berry|berries|throw)\b/i;
++const stubScene = () => ({ flags: new Set(), log: [], tick: 0, saves: 0, saveNow() { this.saves++; return true; }, setFlag(f) { this.flags.add(f); } });
++const mk = (company = {}, region = 4) => { const sc = stubScene(); const sys = { company }; return { sc, rt: new RB.RtBenefits(sc, sys, data, { region }) }; };
++const seq = (...a) => { let i = 0; return () => a[i++ % a.length]; };
++
++test('data: every new node is well formed, 1-3 ranks, cost 1-4, has text, region gated, no blocked words', () => {
++  const ids = new Set(data.nodes.map((n) => n.id)); assert.equal(ids.size, data.nodes.length, 'unique ids');
++  for (const id of NEW) {
++    const n = data.nodes.find((x) => x.id === id); assert.ok(n, id);
++    assert.ok(data.branches.some((b) => b.id === n.branch), id + ' branch');
++    assert.ok(n.ranks.length >= 1 && n.ranks.length <= 3, id);
++    for (const r of n.ranks) assert.ok(r.cost >= 1 && r.cost <= 4 && r.minIdLevel >= 1 && r.minIdLevel <= 16, id);
++    const t = RTB_TEXT.nodes[id]; assert.ok(t?.name && t.desc, id + ' text');
++    for (let k = 1; k <= n.ranks.length; k++) assert.ok(t.ranks[k], `${id} rank ${k} text`);
++    assert.doesNotMatch(JSON.stringify(t), BLOCKED);
++  }
++  for (const b of data.branches) assert.ok(RTB_TEXT.branches[b.id], b.id);
++  for (const s of Object.values(BS.BOARD_SKILLS)) assert.doesNotMatch(s.name + s.desc, BLOCKED);
++  // region 1 only shows the cheap starters
++  const r1 = NEW.filter((id) => RB.regionMaxRank(data.nodes.find((n) => n.id === id), 1) > 0);
++  assert.deepEqual(r1.sort(), ['grow_stipend', 'rod_quick_bite', 'rod_steady_grip', 'wellness_days']);
++});
++
++test('balance: new nodes cost more than the points a region-4 player can ever have (choices matter)', () => {
++  const cost = (ids) => data.nodes.filter((n) => ids.includes(n.id)).reduce((a, n) => a + n.ranks.reduce((b, r) => b + r.cost, 0), 0);
++  const income = (data.regions['4'].maxIdLevel - 1) * data.pointsPerLevel; // 11 from ID levels (+ milestone points, parallel change)
++  const buyableR4 = NEW.filter((id) => !data.nodes.find((n) => n.id === id).comingSoon && RB.unlockRegionOf(data.nodes.find((n) => n.id === id)) <= 4);
++  assert.ok(cost(buyableR4) > income * 2, `new sink ${cost(buyableR4)} vs income ${income}`);
++});
++
++test('nodeState: comingSoon (commuter benefit, key cards) is shown locked and cannot be bought', () => {
++  const { rt } = mk({ idLevel: 12, pointsFree: 30 }, 8);
++  for (const id of ['commuter_benefit', 'rt_node_station_m']) { assert.equal(rt.state(id).reason, 'soon'); assert.equal(rt.buy(id).ok, false); }
++});
++
++test('buy + effect: rank, points, save, and perk bundles', () => {
++  const { rt, sc } = mk({ idLevel: 12, pointsFree: 20 });
++  assert.deepEqual(rt.fishingPerks(), { waitCut: 0, windowMs: 0, rareMult: 1, baitSave: 0, baitPower: 0 });
++  assert.deepEqual(rt.feedPerks(), { grow: 1, gain: 1, digest: 1, fill: 1 });
++  for (const id of ['rod_steady_grip', 'rod_steady_grip', 'bait_allowance', 'grow_stipend', 'wellness_days']) assert.equal(rt.buy(id).ok, true, id);
++  assert.equal(sc.saves, 5);
++  assert.equal(rt.fishingPerks().windowMs, 240); assert.equal(rt.fishingPerks().baitSave, 0.2);
++  assert.equal(rt.feedPerks().grow, 0.85); assert.equal(rt.feedPerks().digest, 1.25);
++  assert.equal(rt.company.pointsFree, 20 - 1 - 1 - 1 - 1 - 1);
++});
++
++test('fishing: wider window, shorter wait, rare mult, premium bait, bait saver', () => {
++  const rod = F.bestRod({ fishing_rod: 1 }), r = () => 0.999999;
++  const base = F.planCast(fish, 'route1', rod, seq(0.999, 0.0, 0.5, 0.5), null, null);
++  const pk = F.planCast(fish, 'route1', rod, seq(0.999, 0.0, 0.5, 0.5), null, null, { waitCut: 1000, windowMs: 240 });
++  assert.ok(pk.waitMs < base.waitMs && pk.waitMs >= F.TIMING.WAIT_MIN);
++  assert.equal(F.windowFor(pk), F.TIMING.WINDOW + 240); assert.equal(F.windowFor(pk, true), F.TIMING.WINDOW_TOUCH + 240);
++  const bitten = { bite: true, waitMs: 1000, winBonus: 240 };
++  assert.equal(F.judgePress(bitten, 1000 + F.TIMING.WINDOW + 100, true), 'hooked');
++  assert.equal(F.judgePress({ ...bitten, winBonus: 0 }, 1000 + F.TIMING.WINDOW + 100, true), 'late');
++  assert.deepEqual(F.rareBait(null, 1.3), { rare: 1.3, uncommon: 1.15 });
++  assert.equal(F.rareBait(null, 1), null);
++  const b = { bite: 0.1, rare: 2, elementMult: 1.5 }, up = F.boostBait(b, 0.5);
++  assert.deepEqual([up.bite, up.rare, up.elementMult], [0.15, 2.5, 1.75]);
++  assert.equal(F.baitSaved({ baitSave: 0.35 }, () => 0.3), true); assert.equal(F.baitSaved({ baitSave: 0.35 }, () => 0.4), false);
++  assert.equal(F.baitSaved(null, r), false);
++  // rare weight goes up, water-only rule still holds
++  const slot = { species: 'x', weight: 10, rarity: 'rare' };
++  assert.equal(F.effectiveWeight(slot, F.rareBait(null, 1.3)), 13);
++});
++
++test('feeds: grow faster, more gain (cap +15 kept), fruit fills less, fullness clears faster', () => {
++  const growBase = FD.growMs('dashfig');
++  FD.setFeedPerks(() => ({ grow: 0.7, gain: 1.2, digest: 1.5, fill: 0.8 }));
++  try {
++    assert.equal(FD.growMs('dashfig'), growBase * 0.7);
++    assert.equal(FD.drainAmount('practice'), 15); assert.equal(FD.drainAmount('battleWin'), 7.5);
++    const pv = FD.previewFeed({ build: {}, full: 0, uid: 'u1', fruitId: 'dashfig' });
++    assert.equal(pv.full <= 15 * 0.8 + 5, true);
++    assert.equal(FD.statBonus({ legs: 60, lungs: 60, grip: 60, mind: 60 }).speed, FD.STAT_BONUS_CAP);
++  } finally { FD.setFeedPerks(null); }
++  assert.equal(FD.growMs('dashfig'), growBase); assert.equal(FD.drainAmount('practice'), FD.DRAIN.practice);
++});
++
++test('commuter benefit: travelFare discounts a fare (dormant until a paid fare exists)', () => {
++  assert.equal(RB.travelFare(200), 200);
++  assert.equal(RB.travelFare(200, () => 0.3), 140);
++  assert.equal(RB.travelFare(200, () => 5), 20); // clamped to 90% off
++});
++
++test('board skills: engine rows exist, never in any pool / learnset / trainer team', () => {
++  const sk = buildSkills();
++  for (const id of BS.BOARD_SKILL_IDS) { assert.ok(sk[id]?.boardOnly, id); assert.ok(sk[id].pp > 0); }
++  const pool = new Set(Object.values(PLACEHOLDER_SKILLS).flat().map(([n]) => n.toLowerCase().replace(/[^a-z0-9]+/g, '')));
++  for (const id of BS.BOARD_SKILL_IDS) assert.ok(!pool.has(id), id);
++  for (const sp of SPECIES) {
++    for (const id of skillIdsFor(sp.el, sp.skillPool)) assert.ok(!BS.isBoardSkill(id), sp.id);
++    for (const e of learnsetFor(sp.id, sp.el, skillIdsFor(sp.el, sp.skillPool))) assert.ok(!BS.isBoardSkill(e.skill), sp.id);
++  }
++  const tt = readFileSync(new URL('../src/battle/data/trainer_teams.js', import.meta.url), 'utf8');
++  for (const id of BS.BOARD_SKILL_IDS) assert.ok(!tt.includes(id));
++  assert.equal(new Set(Object.values(BS.BOARD_SKILLS).map((b) => b.el)).size, 5, '5 elements');
++  // strong but not broken: no board attack above 90 power, no priority
++  for (const id of BS.BOARD_SKILL_IDS) { assert.ok(sk[id].basePower <= 90); assert.equal(sk[id].priority, 0); }
++});
++
++test('board skills: bought node unlocks; teach to a compatible creature only', () => {
++  const { rt } = mk({ idLevel: 12, pointsFree: 10 });
++  assert.deepEqual(rt.boardSkills(), []);
++  assert.equal(rt.buy('skill_tidal_audit').ok, true);
++  const owned = rt.boardSkills(); assert.deepEqual(owned, ['boardtidalaudit']);
++  const water = { species: 'rillop', skills: ['a', 'b'] }, fire = { species: 'cindrip', skills: [] };
++  assert.equal(canTeachBoard(water, 'boardtidalaudit', owned), 'ok');
++  assert.equal(canTeachBoard(fire, 'boardtidalaudit', owned), 'unfit');
++  assert.equal(canTeachBoard(fire, 'boardovertimeblaze', owned), 'locked');
++  assert.equal(applyLearn(water, 'boardtidalaudit').result, 'learned');
++  assert.equal(canTeachBoard(water, 'boardtidalaudit', owned), 'known');
++});
++
++test('key cards: buying grants the flag; locked_warps with unlock_flag open; story_gates use the same flag', () => {
++  const d2 = JSON.parse(JSON.stringify(data)); for (const n of d2.nodes) delete n.comingSoon;
++  const sc = stubScene(), rt = new RB.RtBenefits(sc, { company: { idLevel: 16, pointsFree: 5 } }, d2, { region: 5 });
++  assert.equal(rt.buy('rt_node_station_m').ok, true); assert.ok(sc.flags.has('rt_keycard_r5'));
++  assert.equal(rt.state('rt_node_station_t').reason, 'region');
++  const fake = { _lockedAt: new Map([['3,4', { x: 3, y: 4, to: 'lab', unlock_flag: 'rt_keycard_r5' }], ['5,5', { x: 5, y: 5, to: 'staff' }]]) };
++  assert.equal(GameMap.prototype.keyDoorAt.call(fake, 3, 4, new Set()), null);
++  assert.equal(GameMap.prototype.keyDoorAt.call(fake, 3, 4, sc.flags).to, 'lab');
++  assert.equal(GameMap.prototype.keyDoorAt.call(fake, 5, 5, sc.flags), null, 'staff doors stay locked');
++});
++
++test('research species: capture rate x0.6 in rarityOf and the engine creature table', () => {
++  const sp = { id: 'zz', catchRate: 0.5 };
++  assert.equal(CAP.rarityOf(sp), 0.5);
++  assert.equal(CAP.rarityOf({ ...sp, research: true }), 0.5 * CAP.RESEARCH_CATCH_MULT);
++  CAP.RESEARCH_SPECIES.add('zz'); try { assert.equal(CAP.rarityOf(sp), 0.3); } finally { CAP.RESEARCH_SPECIES.delete('zz'); }
++  assert.ok(CAP.captureChance({ rarity: CAP.rarityOf({ ...sp, research: true }), hp: 1, maxHp: 10 }) < CAP.captureChance({ rarity: 0.5, hp: 1, maxHp: 10 }));
++});
++
++test('save/load: old saves (no new ids) load untouched; new ranks round-trip through JSON', () => {
++  const old = { idLevel: 6, pointsFree: 2, board: { rt_payout: 2, store_discount: 1 }, respecWeek: 0, xp: 3000, xpClaims: { first_catch: 1 } };
++  const before = JSON.stringify(old);
++  const { rt } = mk(old, 2);
++  assert.equal(rt.effect('rt_payout') > 0, true);
++  for (const id of NEW) assert.equal(rt.effect(id), 0, id);
++  assert.deepEqual(rt.fishingPerks().windowMs, 0);
++  assert.equal(JSON.stringify(rt.company.board), JSON.stringify(JSON.parse(before).board));
++  rt.buy('rod_quick_bite');
++  const back = JSON.parse(JSON.stringify(rt.company)), { rt: rt2 } = mk(back, 2);
++  assert.equal(rt2.effect('rod_quick_bite'), 500); assert.equal(rt2.effect('rt_payout'), rt.effect('rt_payout'));
++});
+diff --git a/kilumen/tests/board_fish_sports_shots.mjs b/kilumen/tests/board_fish_sports_shots.mjs
+new file mode 100644
+index 00000000..83f4c7d1
+--- /dev/null
++++ b/kilumen/tests/board_fish_sports_shots.mjs
+@@ -0,0 +1,97 @@
++// Board fish/sports shots (Oct 29 2026, coder). LOCAL ONLY. PC 1920x1080 + phone 844x390: RT Employee Benefits tab with the new
++// Angler / Wellness / Commuter / R&D Clearance / Executive Perks branches, a detail panel, and phone frame time.
++// Dev shortcuts (named in the report): region pinned to 4, ID level 12, points granted, a few ranks pre-bought via rt.buy().
++// Usage: node tests/board_fish_sports_shots.mjs [outdir]
++import { chromium } from 'playwright';
++import { spawn } from 'node:child_process';
++import fs from 'node:fs';
++import path from 'node:path';
++import net from 'node:net';
++import { fileURLToPath } from 'node:url';
++const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
++const OUT = process.argv[2] || path.join(ROOT, 'shots/board_fish_sports_v1');
++fs.mkdirSync(OUT, { recursive: true });
++const PORT = await new Promise((res) => { const sv = net.createServer(); sv.listen(0, '127.0.0.1', () => { const p = sv.address().port; sv.close(() => res(p)); }); });
++const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1'], { cwd: ROOT, stdio: 'ignore' });
++const base = `http://127.0.0.1:${PORT}/index.html`;
++for (let i = 0; i < 50; i++) { try { if ((await fetch(base)).ok) break; } catch {} await new Promise((r) => setTimeout(r, 100)); }
++const VIEWS = [
++  { plat: 'pc', ctx: { viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 }, q: 'platform=pc' },
++  { plat: 'phone', ctx: { viewport: { width: 844, height: 390 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true }, q: 'platform=mobile&touch=1' },
++];
++const report = { checks: [], errors: [], shots: [], frame: {} };
++const check = (plat, what, ok, info = '') => { report.checks.push({ plat, what, ok: !!ok, info }); console.log(ok ? 'PASS' : 'FAIL', plat, what, String(info).slice(0, 300)); };
++const wait = (ms) => new Promise((r) => setTimeout(r, ms));
++const BLOCKED = /\bPP\b|shiny|berry|berries|\bthrow/i;
++const NEWB = ['angler_plan', 'wellness_plan', 'commuter_plan', 'rnd_clearance', 'executive_perks'];
++const browser = await chromium.launch({ args: ['--disable-dev-shm-usage'] });
++try {
++  for (const v of VIEWS) {
++    const ctx = await browser.newContext(v.ctx), page = await ctx.newPage();
++    page.on('pageerror', (e) => report.errors.push(`${v.plat}: ${e}`));
++    page.on('console', (m) => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) report.errors.push(`${v.plat} console: ${m.text()}`); });
++    const S = (fn, a) => page.evaluate(fn, a);
++    let n = 0;
++    const shot = async (label) => { const f = `${String(++n).padStart(2, '0')}_${v.plat}_${label}.png`; await page.screenshot({ path: path.join(OUT, f) }); report.shots.push(f); };
++    await page.goto(`${base}?audio=0&online=0&hour=12&weather=clear&skipintro=1&reset=1&${v.q}`);
++    await page.waitForFunction(() => window.kilumen?.ui?.scr_rt_benefits && window.kilumen.scene.systems?.rtBenefits?.data, null, { timeout: 30000 });
++    await wait(1000);
++    const bought = await S(() => {
++      const rt = window.kilumen.scene.systems.rtBenefits; rt.opts.region = 4; rt.region = 4;
++      Object.assign(rt.company, { idLevel: 12, pointsFree: 30 });
++      const out = {}; for (const id of ['rod_steady_grip', 'rod_quick_bite', 'bait_allowance', 'grow_stipend', 'wellness_days', 'skill_tidal_audit']) out[id] = rt.buy(id).ok;
++      return { out, pts: rt.company.pointsFree, perks: rt.fishingPerks(), feeds: rt.feedPerks(), skills: rt.boardSkills() };
++    });
++    check(v.plat, 'dev setup: ranks bought through rt.buy', Object.values(bought.out).every(Boolean), JSON.stringify(bought));
++    for (let i = 0; i < 4 && await S(() => !!document.querySelector('.ui-modal')); i++) { await page.keyboard.press('Escape'); await wait(300); if (await S(() => !!document.querySelector('.ui-modal'))) { await page.locator('.ui-modal').getByText('Got it').first().click({ timeout: 3000 }).catch(() => {}); await wait(300); } }
++    await S(() => window.kilumen.ui.open('phone')); await wait(400);
++    await S(() => window.kilumen.ui.open('rt_benefits')); await wait(900);
++    if (await S(() => !!document.querySelector('.ui-modal'))) { await page.locator('.ui-modal').getByText('Got it').first().click({ timeout: 3000 }).catch(() => {}); await wait(400); }
++    check(v.plat, 'alpha notice dismissed before shots', await S(() => !document.querySelector('.ui-modal')));
++    const info = await S(() => ({ nodes: [...document.querySelectorAll('.rtb-node')].map((e) => `${e.dataset.node}:${e.dataset.state}`), heads: [...document.querySelectorAll('.rtb-bh')].map((e) => e.textContent), text: document.querySelector('.ui-root').innerText }));
++    check(v.plat, 'tab shows 5 new branches', NEWB.length === info.heads.filter((h) => /Angler|Wellness|Commuter|R&D|Executive/.test(h)).length, info.heads.join(' | '));
++    check(v.plat, 'tab text: no blocked words', !BLOCKED.test(info.text), info.text.match(BLOCKED)?.[0] || '');
++    check(v.plat, 'commuter + key cards show locked', info.nodes.filter((x) => /^(commuter_benefit|rt_node_station_[mt]|keycard_r[78]):locked$/.test(x)).length === 5, info.nodes.join(','));
++    await shot('tab_top');
++    for (const b of NEWB) {
++      await S((b) => { const h = [...document.querySelectorAll('.rtb-branch')].find((s) => s.querySelector(`[data-node]`) && s.getAttribute('aria-label')); const sec = [...document.querySelectorAll('.rtb-branch')].find((s) => [...s.querySelectorAll('.rtb-node')].some((e) => window.kilumen.scene.systems.rtBenefits.node(e.dataset.node)?.branch === b)); sec?.scrollIntoView({ block: 'start' }); }, b);
++      await wait(300); await shot('branch_' + b);
++    }
++    // detail panel: a board skill and the dormant commuter benefit
++    for (let id of ['_warm', 'rod_deep_water', 'skill_team_huddle', 'commuter_benefit', 'rt_node_station_m']) {
++      const warm = id === '_warm'; if (warm) id = 'rod_quick_bite'; // first tap after the alpha notice only focuses the list
++      const el = page.locator(`.rtb-node[data-node="${id}"]`).first(); await el.scrollIntoViewIfNeeded();
++      await S(() => document.querySelectorAll('.ui-modal').forEach((m) => m.remove())); await el.scrollIntoViewIfNeeded(); if (v.plat === 'phone') await el.tap({ timeout: 5000 }); else await el.click({ timeout: 5000 });
++      await wait(400);
++      if (await S(() => !!window.kilumen.ui.modal)) { await page.keyboard.press('Escape'); await wait(300); }
++      const d = await S(() => document.querySelector('#rtbinfo')?.innerText || '');
++      if (warm) continue;
++      check(v.plat, `detail ${id}`, d.includes(await S((id) => document.querySelector(`.rtb-node[data-node="${id}"] .rtb-nm`).textContent, id)), d.replace(/\s+/g, ' ').slice(0, 160));
++      await shot('detail_' + id);
++    }
++    if (v.plat === 'phone') {
++      // frame time: rAF deltas for 4 s with the tab open, then while scrolling the tree
++      const ft = await S(async () => {
++        const run = (ms, act) => new Promise((res) => { const d = []; let last = performance.now(), t0 = last; const sc = document.querySelector('.rtb-main');
++          const f = (t) => { d.push(t - last); last = t; if (act && sc) sc.scrollTop = (sc.scrollTop + 6) % Math.max(1, sc.scrollHeight - sc.clientHeight); if (t - t0 < ms) requestAnimationFrame(f); else res(d.slice(5)); }; requestAnimationFrame(f); });
++        const st = (d) => { const s = [...d].sort((a, b) => a - b); return { n: d.length, mean: +(d.reduce((a, b) => a + b, 0) / d.length).toFixed(2), p95: +s[Math.floor(s.length * 0.95)].toFixed(2), max: +s.at(-1).toFixed(2) }; };
++        return { idle: st(await run(4000)), scrolling: st(await run(4000, true)) };
++      });
++      report.frame = ft;
++      check(v.plat, 'phone frame time p95 at vsync (<=17 ms; rAF is 60 Hz-locked, so ~16.7 mean = no dropped frames)', ft.idle.p95 <= 17 && ft.scrolling.p95 <= 17, JSON.stringify(ft));
++    }
++    // reload keeps ranks
++    await S(() => window.kilumen.save.flush?.()); await wait(300);
++    await page.goto(`${base}?audio=0&online=0&hour=12&weather=clear&skipintro=1&${v.q}`);
++    await page.waitForFunction(() => window.kilumen?.scene?.systems?.rtBenefits?.data, null, { timeout: 30000 }); await wait(800);
++    const re = await S(() => JSON.parse(JSON.stringify(window.kilumen.scene.systems.rtBenefits.company.board)));
++    check(v.plat, 'reload: new ranks persisted', re.rod_steady_grip === 1 && re.skill_tidal_audit === 1 && re.store_discount == null, JSON.stringify(re));
++    await ctx.close();
++  }
++} finally { await browser.close(); server.kill(); }
++const KNOWN = /capture_poses\/.*hold_points\.json/;
++report.errors = report.errors.filter((e) => !KNOWN.test(e));
++check('all', 'no page / console errors', report.errors.length === 0, report.errors.slice(0, 5).join(' | '));
++fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify(report, null, 2));
++const fails = report.checks.filter((c) => !c.ok); console.log('checks', report.checks.length, 'fails', fails.length);
++process.exitCode = fails.length ? 1 : 0;
+-- 
+2.47.3
+

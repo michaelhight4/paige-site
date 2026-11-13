@@ -1,0 +1,42 @@
+{
+ "_status": "design data, not wired",
+ "id_cap": {
+  "after_r5": 14,
+  "after_r6": 16
+ },
+ "regionFlags": {
+  "5": "beat_master_frostspire",
+  "6": "beat_master_mirefen"
+ },
+ "nodes": [
+  {
+   "id": "benefit_r5_waders",
+   "region": 5,
+   "name": "Company Waders",
+   "effect": "No slowdown on bog tiles",
+   "cost": 1
+  },
+  {
+   "id": "benefit_r5_mosspay",
+   "region": 5,
+   "name": "Moss Bonus",
+   "effect": "+10% prize money in Mirefen",
+   "cost": 1
+  },
+  {
+   "id": "benefit_r6_tidepass",
+   "region": 6,
+   "name": "Tide Pass",
+   "effect": "Shows tide times on the Tidewater map",
+   "cost": 1
+  },
+  {
+   "id": "benefit_r6_glidecert",
+   "region": 6,
+   "name": "Glide Certificate",
+   "effect": "Tideglide crossing time cut by 25%",
+   "cost": 1
+  }
+ ],
+ "note": "Raise the ID cap 12\u219214 after Master 4, 14\u219216 after Master 5, using regionFlags."
+}

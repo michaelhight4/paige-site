@@ -1,0 +1,34 @@
+// RITA crystal resupply (Oct 23 2026, coder; Gary 2:39 PM CT): out of dominance crystals during the opening test run
+// (lab_brookhollow: test_run_started set, test_run_done not, fewer than OPEN.need caught + registered) -> once back in
+// the overworld (no script / battle / dialogue / fade), RITA says the company will supply more but it reflects on your
+// check, and the bag is restocked to OPEN.crystals. Repeatable until the run is done; never after. No coin cost (flavour).
+// Restock happens without RITA too (?cv=0 / mode off) so the run can never soft-lock. Save: _dirty -> the usual step save;
+// company_voice.js checkpoints before showing and never saves while the strip is up.
+import { OPEN, ownedLogged } from '../overworld/intro.js';
+
+export function resupplyDue(s) {
+  const F = s.flags;
+  if (!F?.has(OPEN.runStarted) || F.has(OPEN.runDone)) return false;
+  if (s.busy || s.fade || s.dialog?.active || s.battle) return false; // only back in the overworld
+  const bag = s.systems?.bag; if (!bag) return false;
+  if (bag.count(OPEN.crystalItem) > 0) return false;
+  const n = Math.max(0, ownedLogged(s) - (s.counters?.[OPEN.base] || 0));
+  return n < OPEN.need;
+}
+
+export function checkResupply(s) {
+  if (!resupplyDue(s)) return false;
+  s.systems.bag.add(OPEN.crystalItem, OPEN.crystals);
+  s._dirty = true;
+  s.log?.push?.({ tick: s.tick, type: 'crystalResupply', count: OPEN.crystals });
+  const cv = s.companyVoice || globalThis.window?.kilumen?.companyVoice;
+  cv?.emit?.('crystal_resupply', { count: OPEN.crystals });
+  return true;
+}
+
+export function attachCrystalResupply(s) {
+  if (!s || s._crystalResupply || typeof s.step !== 'function') return;
+  s._crystalResupply = true;
+  const step = s.step.bind(s);
+  s.step = (snap) => { step(snap); try { checkResupply(s); } catch (e) { console.error('crystal resupply:', e); } };
+}

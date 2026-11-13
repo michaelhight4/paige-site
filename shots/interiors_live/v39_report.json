@@ -1,0 +1,77 @@
+{
+ "errors": [],
+ "pc": {
+  "version": "http://127.0.0.1:8811/kilumen/favicon.ico?v=v0.2.39-alpha",
+  "ix2": true,
+  "devchip": false,
+  "rooms": [
+   {
+    "map": "house_1f",
+    "got": "house_1f",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "house_1f",
+    "got": "house_1f",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "shop_int",
+    "got": "shop_int",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "shop_int",
+    "got": "shop_int",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   }
+  ],
+  "exit": {
+   "map": "house_1f",
+   "x": 5,
+   "y": 8
+  },
+  "save": "no save() method"
+ },
+ "phone": {
+  "version": "http://127.0.0.1:8811/kilumen/favicon.ico?v=v0.2.39-alpha",
+  "ix2": true,
+  "devchip": false,
+  "rooms": [
+   {
+    "map": "house_1f",
+    "got": "house_1f",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "house_1f",
+    "got": "house_1f",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "shop_int",
+    "got": "shop_int",
+    "phase": "day",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   },
+   {
+    "map": "shop_int",
+    "got": "shop_int",
+    "phase": "night",
+    "mapUrl": "art/world/overworld/maps/house_1f_v2.json"
+   }
+  ],
+  "exit": {
+   "map": "house_1f",
+   "x": 5,
+   "y": 8
+  },
+  "save": "no save() method"
+ }
+}

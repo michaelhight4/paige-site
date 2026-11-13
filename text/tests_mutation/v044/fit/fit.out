@@ -1,0 +1,10 @@
+1280x720 plain {"font":"18.72px","textW":427.921875,"box":[150,575,980,116],"overDpad":0,"overBtns":0,"over":0,"ex":[]}
+1280x720 portrait {"font":"18.72px","textW":427.921875,"box":[150,575,980,116],"overDpad":0,"overBtns":0,"over":0,"ex":[]}
+1920x1080 plain {"font":"28.08px","textW":642.421875,"box":[470,863,980,174],"overDpad":0,"overBtns":0,"over":0,"ex":[]}
+1920x1080 portrait {"font":"28.08px","textW":642.421875,"box":[470,863,980,174],"overDpad":0,"overBtns":0,"over":0,"ex":[]}
+844x390 plain {"font":"17px","textW":388.953125,"box":[34,269,776,105],"overDpad":true,"overBtns":true,"over":0,"ex":[]}
+844x390 portrait {"font":"17px","textW":388.953125,"box":[34,269,776,105],"overDpad":true,"overBtns":true,"over":0,"ex":[]}
+800x360 plain {"font":"17px","textW":388.953125,"box":[32,240,736,105],"overDpad":true,"overBtns":true,"over":0,"ex":[]}
+800x360 portrait {"font":"17px","textW":388.953125,"box":[32,240,736,105],"overDpad":true,"overBtns":true,"over":0,"ex":[]}
+1024x768 plain {"font":"19.968px","textW":456.515625,"box":[41,613,942,124],"overDpad":true,"overBtns":true,"over":0,"ex":[]}
+1024x768 portrait {"font":"19.968px","textW":456.515625,"box":[41,613,942,124],"overDpad":true,"overBtns":true,"over":0,"ex":[]}

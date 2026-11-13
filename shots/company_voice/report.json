@@ -1,0 +1,107 @@
+{
+  "shots": {
+    "pc_kilindex_new": {
+      "mode": "full",
+      "showing": {
+        "event": "kilindex_new",
+        "page": 0,
+        "text": "Good job 658981! New creatures help boost company asset value!",
+        "speaker": "RT Comms"
+      },
+      "queue": [],
+      "burst": [],
+      "shown": [
+        "kilindex_new"
+      ],
+      "lastHideWhy": null,
+      "saveLock": "company_voice",
+      "walk": {
+        "before": {
+          "x": 34,
+          "y": 26
+        },
+        "after": {
+          "x": 32,
+          "y": 26,
+          "up": true
+        }
+      },
+      "tapDismiss": true
+    },
+    "pc_master": {
+      "mode": "full",
+      "showing": {
+        "event": "master_beaten",
+        "page": 1,
+        "text": "Asset value up. The board is delighted. Not with you.",
+        "speaker": "RT Comms"
+      },
+      "queue": [],
+      "burst": [],
+      "shown": [
+        "master_beaten"
+      ],
+      "lastHideWhy": null
+    },
+    "pc_options": {
+      "opt": "ok",
+      "row": true
+    },
+    "pc_default_off": {
+      "cv": null,
+      "strip": false
+    },
+    "phone_kilindex_new": {
+      "mode": "full",
+      "showing": {
+        "event": "kilindex_new",
+        "page": 0,
+        "text": "Good job 830950! New creatures help boost company asset value!",
+        "speaker": "RT Comms"
+      },
+      "queue": [],
+      "burst": [],
+      "shown": [
+        "kilindex_new"
+      ],
+      "lastHideWhy": null,
+      "saveLock": "company_voice",
+      "walk": {
+        "before": {
+          "x": 34,
+          "y": 26
+        },
+        "after": {
+          "x": 32,
+          "y": 26,
+          "up": true
+        }
+      },
+      "tapDismiss": true
+    },
+    "phone_master": {
+      "mode": "full",
+      "showing": {
+        "event": "master_beaten",
+        "page": 1,
+        "text": "Asset value up. The board is delighted. Not with you.",
+        "speaker": "RT Comms"
+      },
+      "queue": [],
+      "burst": [],
+      "shown": [
+        "master_beaten"
+      ],
+      "lastHideWhy": null
+    },
+    "phone_options": {
+      "opt": "ok",
+      "row": true
+    },
+    "phone_default_off": {
+      "cv": null,
+      "strip": false
+    }
+  },
+  "errors": []
+}

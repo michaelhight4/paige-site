@@ -1,0 +1,144 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "coin_number": 3,
+ "zone": "revival_heights",
+ "hall_map": "revival_hall_int (to come)",
+ "flag": "beat_master_revival",
+ "coin_name_suggestion": "Prism Coin",
+ "coin_name_note": "player text says \"coin\" (CRITICAL_PATH); name needs Gary + web clash check",
+ "master": {
+  "id": "master_revival_heights",
+  "class": "master",
+  "name_suggestion": "Cassia Lume",
+  "element": "light (PROPOSED: crystal city, RT HQ)",
+  "team": [
+   {
+    "species": "halovy",
+    "level": 25
+   },
+   {
+    "species": "gildfinch",
+    "level": 26
+   },
+   {
+    "species": "fleecelight",
+    "level": 26
+   },
+   {
+    "species": "lampwick",
+    "level": 28
+   }
+  ],
+  "base": 120,
+  "base_status": "existing",
+  "prize": 3360,
+  "sight_range": 0,
+  "sight_rule": "masters never spot: talk to them",
+  "text_ref": "overworld_lines.json masters.revival_heights (TODO Text Bot)"
+ },
+ "hall_trainers": [
+  {
+   "id": "tr_hall_revival_heights_h1",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Mags",
+   "team": [
+    {
+     "species": "halovy",
+     "level": 24
+    },
+    {
+     "species": "glarekit",
+     "level": 24
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 1200,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.hall_revival_heights.h1"
+  },
+  {
+   "id": "tr_hall_revival_heights_h2",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Dov",
+   "team": [
+    {
+     "species": "prismwing",
+     "level": 25
+    },
+    {
+     "species": "glimmerlamb",
+     "level": 25
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 1250,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.hall_revival_heights.h2"
+  },
+  {
+   "id": "tr_hall_revival_heights_h3",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Fen",
+   "team": [
+    {
+     "species": "tollkin",
+     "level": 26
+    },
+    {
+     "species": "dawnfin",
+     "level": 26
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 1300,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.hall_revival_heights.h3"
+  },
+  {
+   "id": "tr_hall_revival_heights_h4",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Hollis",
+   "team": [
+    {
+     "species": "candlewren",
+     "level": 26
+    },
+    {
+     "species": "halovy",
+     "level": 26
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 1300,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.hall_revival_heights.h4",
+   "note": "beside the last prism"
+  }
+ ],
+ "puzzle": {
+  "status": "outline",
+  "name_suggestion": "Prism relay",
+  "outline": "A violet crystal beam enters from the ceiling. Rotating prisms (4 facings, A to turn) bounce it; a lit receiver crystal opens its door. Three rooms, each adding one prism. Room 3: the beam must pass two receivers in a row. Helpers stand in beam-free alcoves. Story tie-in: the same violet crystal as the Brookhollow field office.",
+  "teaches": "routing/planning; uses the existing crystal_barrier lit/dim tiles"
+ },
+ "reward": {
+  "coin": "Prism Coin",
+  "money": 3360,
+  "gift_item": {
+   "id": "energy_tonic",
+   "qty": 2
+  },
+  "opens": "gate_frostspire_bridge + gate_revival_checkpoint (shortcut)",
+  "also": "Lumen Line Pass from the pass clerk; Branch Access Card at HQ (SOUL 8.2d)"
+ },
+ "team_size": 4,
+ "ace_level": 28
+}

@@ -1,0 +1,146 @@
+[
+ {
+  "plat": "pc",
+  "scene": "fernwick_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_fernwick_hall_int_lobby.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "saltmere_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_saltmere_hall_int_lobby.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "revival_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_revival_hall_int_lobby.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "frostspire_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_frostspire_hall_int_lobby.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "mirefen_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_mirefen_hall_int_lobby.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "tidewater_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_tidewater_hall_int_lobby.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "lanternport_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_lanternport_hall_int_lobby.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "scene": "cindervale_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "pc_cindervale_hall_int_lobby.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "fernwick_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_fernwick_hall_int_lobby.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "saltmere_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_saltmere_hall_int_lobby.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "revival_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_revival_hall_int_lobby.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "frostspire_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_frostspire_hall_int_lobby.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "mirefen_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_mirefen_hall_int_lobby.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "tidewater_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_tidewater_hall_int_lobby.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "lanternport_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_lanternport_hall_int_lobby.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "scene": "cindervale_hall_int_lobby",
+  "errors": [],
+  "missing": [],
+  "shots": [
+   "phone_cindervale_hall_int_lobby.png"
+  ]
+ }
+]

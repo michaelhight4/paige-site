@@ -1,0 +1,17 @@
+{
+ "_meta": {
+  "what": "DEX-format entries for creatures added after DEX_450 (Gary 2:18 PM CT Oct 23 2026: stonepede line gets a larger armored 3rd form; spinelet gets its own 3-stage line). Read by tools/sync_creatures.mjs and creatures/_overnight/tools/new_evos_build.py, merged over design/DEX_450.json (DEX_450 itself is not edited).",
+  "dex_no": "451+ are PROVISIONAL numbers (outside the 450 plan) until Gary/World Design slot them. DEX_450 #82 thornmound (old planned spinelet evo, never drawn) is superseded by pricklon/geodurchin in the game data; DEX_450 not changed.",
+  "added": "2026-10-23 coder (new evos)"
+ },
+ "creatures": [
+  {"dex_no": 451, "id": "vaultpede", "name": "Vaultpede", "types": ["earth", "bug"], "evolution": {"stage": 3, "line_length": 3, "line": ["stonepede", "columnpede", "vaultpede"], "evolves_from": "columnpede", "method": "level 32", "evolves_to": null}, "first_zone": "greystone", "rarity": "rare", "size_class": "huge", "visual_brief": "Larger, bulkier armored columnpede: heavy coil of thick grey stone segments, each under an overlapping slate armor plate, violet crystal studs on the plates, wide helmet head plate with violet crystal, bone horn antennae, rust legs. Palette: grey segments, rust legs, bone white, violet.", "flavour": "", "existing_art": true, "status": "draft"},
+  {"dex_no": 452, "id": "pricklon", "name": "Pricklon", "types": ["earth"], "evolution": {"stage": 2, "line_length": 3, "line": ["spinelet", "pricklon", "geodurchin"], "evolves_from": "spinelet", "method": "level 16", "evolves_to": "geodurchin"}, "first_zone": "thornwood", "rarity": "uncommon", "size_class": "medium", "visual_brief": "Bigger four-legged hedgehog standing up, denser brown quills, three-point violet crystal cluster on the back, crystal fleck on the brow. Palette: brown spines, cream face, black nose, violet.", "flavour": "", "existing_art": true, "status": "draft"},
+  {"dex_no": 453, "id": "geodurchin", "name": "Geodurchin", "types": ["earth"], "evolution": {"stage": 3, "line_length": 3, "line": ["spinelet", "pricklon", "geodurchin"], "evolves_from": "pricklon", "method": "level 32", "evolves_to": null}, "first_zone": "thornwood", "rarity": "rare", "size_class": "large", "visual_brief": "Big heavy hedgehog with a high dome of long quills and a geode-like cluster of violet crystal spires growing out of its back. Palette: brown spines, cream face, black nose, violet.", "flavour": "", "existing_art": true, "status": "draft"}
+ ],
+ "evolution_overrides": {
+  "stonepede": {"line_length": 3, "line": ["stonepede", "columnpede", "vaultpede"]},
+  "columnpede": {"line_length": 3, "line": ["stonepede", "columnpede", "vaultpede"], "evolves_to": "vaultpede"},
+  "spinelet": {"line_length": 3, "line": ["spinelet", "pricklon", "geodurchin"], "evolves_to": "pricklon"}
+ }
+}

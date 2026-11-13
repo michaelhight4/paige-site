@@ -1,0 +1,5447 @@
+{
+ "_meta": {
+  "built": "2026-10-23",
+  "by": "tools/build_creature_plan.mjs",
+  "status": "PLAN DATA, NOT WIRED. Placeholder numbers for Gary; original Kilumen ids/names only (DEX_450), existing skill names only.",
+  "shape": "SPECIES entry fields (id,name,el,dex,rarity,stage,prevo,evo,evoLevel,baseStats,catchRate,baseXp,skillPool) + learnset [{level, skill}] in the src/overnight/learnsets.js data shape",
+  "wiring": "Not loaded. Optional hook (not applied): src/overnight/index.js line 59 `ov.learn = flags.learnsets ? { data: null } : null` could pass {species: learnset} from this file; runtime evoLevel for synced species comes from tools/sync_creatures.mjs (16*(stage-1)) and would need the DEX level there."
+ },
+ "order": [
+  "tumbloam",
+  "cindrip",
+  "rillop",
+  "peeplark",
+  "nibbin",
+  "dewmite",
+  "huskling",
+  "gauzewing",
+  "cloverkin",
+  "hushowl",
+  "mumblet",
+  "thistlepup",
+  "puffwhirl",
+  "pebblant",
+  "glintfly",
+  "flickermole",
+  "sailquill",
+  "halovy",
+  "gloamtick",
+  "burlbeetle",
+  "pondkin",
+  "burrowmane",
+  "emberlunx",
+  "brookhorn",
+  "larkspar",
+  "gnawford",
+  "puddlenip",
+  "cairnant",
+  "beaconfly",
+  "cobblepup",
+  "briarlet",
+  "bramblehog",
+  "thornpod",
+  "lancebeetle",
+  "spinelet",
+  "flockpup",
+  "bleatling",
+  "crowkin",
+  "grainling",
+  "sheafguard",
+  "millwhirl",
+  "foalgust",
+  "loamworm",
+  "glimmerlamb",
+  "fleecelight",
+  "tinderwren",
+  "ditchsnap",
+  "snapmoor",
+  "rooftrove",
+  "cogwhisk",
+  "gearwarden",
+  "plashcrown",
+  "eavesgrim",
+  "lampwick",
+  "foldwing",
+  "pennantail",
+  "velvetabby",
+  "pinchkin",
+  "brinepipit",
+  "blubbet",
+  "sandstarlet",
+  "medulet",
+  "whelkin",
+  "moatling",
+  "ankerling",
+  "finnip",
+  "ribboneel",
+  "pouchbill",
+  "quaymouser",
+  "polypip",
+  "spratwyrm"
+ ],
+ "species": {
+  "tumbloam": {
+   "id": "tumbloam",
+   "name": "Tumbloam",
+   "el": [
+    "earth"
+   ],
+   "dex": 1,
+   "rarity": "rare",
+   "region_first_needed": 1,
+   "stage": 0,
+   "prevo": null,
+   "evo": "burrowmane",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 45,
+    "atk": 45,
+    "def": 45,
+    "spa": 45,
+    "spd": 45,
+    "spe": 45
+   },
+   "catchRate": 0.36,
+   "baseXp": 60,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "rippleshot"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from src/battle/data/creatures.js (hand-written 16: flat STAGE_BASE by line stage)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "cindrip": {
+   "id": "cindrip",
+   "name": "Cindrip",
+   "el": [
+    "fire"
+   ],
+   "dex": 4,
+   "rarity": "rare",
+   "region_first_needed": 1,
+   "stage": 0,
+   "prevo": null,
+   "evo": "emberlunx",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 45,
+    "atk": 45,
+    "def": 45,
+    "spa": 45,
+    "spd": 45,
+    "spe": 45
+   },
+   "catchRate": 0.36,
+   "baseXp": 60,
+   "skillPool": "fire",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "sparksneeze"
+    },
+    {
+     "level": 1,
+     "skill": "coalcharge"
+    },
+    {
+     "level": 1,
+     "skill": "snoutshove"
+    },
+    {
+     "level": 1,
+     "skill": "ashpuff"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from src/battle/data/creatures.js (hand-written 16: flat STAGE_BASE by line stage)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "rillop": {
+   "id": "rillop",
+   "name": "Rillop",
+   "el": [
+    "water"
+   ],
+   "dex": 7,
+   "rarity": "rare",
+   "region_first_needed": 1,
+   "stage": 0,
+   "prevo": null,
+   "evo": "brookhorn",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 45,
+    "atk": 45,
+    "def": 45,
+    "spa": 45,
+    "spd": 45,
+    "spe": 45
+   },
+   "catchRate": 0.36,
+   "baseXp": 60,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "haloflash"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from src/battle/data/creatures.js (hand-written 16: flat STAGE_BASE by line stage)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "peeplark": {
+   "id": "peeplark",
+   "name": "Peeplark",
+   "el": [
+    "wind",
+    "bird"
+   ],
+   "dex": 10,
+   "rarity": "common",
+   "region_first_needed": 1,
+   "stage": 0,
+   "prevo": null,
+   "evo": "larkspar",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 43,
+    "atk": 47,
+    "def": 40,
+    "spa": 48,
+    "spd": 44,
+    "spe": 62
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "wind",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "gustdart"
+    },
+    {
+     "level": 1,
+     "skill": "streamerlash"
+    },
+    {
+     "level": 1,
+     "skill": "swoop"
+    },
+    {
+     "level": 1,
+     "skill": "tailwind"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "haloflash"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "nibbin": {
+   "id": "nibbin",
+   "name": "Nibbin",
+   "el": [
+    "earth"
+   ],
+   "dex": 13,
+   "rarity": "common",
+   "region_first_needed": 1,
+   "stage": 0,
+   "prevo": null,
+   "evo": "gnawford",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 52,
+    "atk": 50,
+    "def": 59,
+    "spa": 38,
+    "spd": 45,
+    "spe": 40
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "haloflash"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "dewmite": {
+   "id": "dewmite",
+   "name": "Dewmite",
+   "el": [
+    "grass",
+    "bug"
+   ],
+   "dex": 15,
+   "rarity": "common",
+   "region_first_needed": 1,
+   "stage": 0,
+   "prevo": null,
+   "evo": "huskling",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 48,
+    "atk": 47,
+    "def": 51,
+    "spa": 47,
+    "spd": 50,
+    "spe": 42
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "sparksneeze"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "huskling": {
+   "id": "huskling",
+   "name": "Huskling",
+   "el": [
+    "grass",
+    "bug"
+   ],
+   "dex": 16,
+   "rarity": "uncommon",
+   "region_first_needed": 1,
+   "stage": 1,
+   "prevo": "dewmite",
+   "evo": "gauzewing",
+   "evoLevel": 7,
+   "evoMethod": "level 7",
+   "baseStats": {
+    "hp": 66,
+    "atk": 65,
+    "def": 69,
+    "spa": 64,
+    "spd": 69,
+    "spe": 57
+   },
+   "catchRate": 0.32,
+   "baseXp": 90,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "lanternhaunt"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "gauzewing": {
+   "id": "gauzewing",
+   "name": "Gauzewing",
+   "el": [
+    "grass",
+    "wind"
+   ],
+   "dex": 17,
+   "rarity": "rare",
+   "region_first_needed": 1,
+   "stage": 2,
+   "prevo": "huskling",
+   "evo": null,
+   "evoLevel": 10,
+   "evoMethod": "level 10",
+   "baseStats": {
+    "hp": 87,
+    "atk": 82,
+    "def": 86,
+    "spa": 91,
+    "spd": 91,
+    "spe": 82
+   },
+   "catchRate": 0.12,
+   "baseXp": 140,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "gustdart"
+    },
+    {
+     "level": 14,
+     "skill": "streamerlash"
+    },
+    {
+     "level": 20,
+     "skill": "swoop"
+    },
+    {
+     "level": 27,
+     "skill": "tailwind"
+    },
+    {
+     "level": 34,
+     "skill": "pounce"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "cloverkin": {
+   "id": "cloverkin",
+   "name": "Cloverkin",
+   "el": [
+    "grass"
+   ],
+   "dex": 18,
+   "rarity": "common",
+   "region_first_needed": 1,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 70,
+    "atk": 63,
+    "def": 70,
+    "spa": 70,
+    "spd": 73,
+    "spe": 53
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "sparksneeze"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "hushowl": {
+   "id": "hushowl",
+   "name": "Hushowl",
+   "el": [
+    "dark",
+    "bird"
+   ],
+   "dex": 20,
+   "rarity": "uncommon",
+   "region_first_needed": 1,
+   "stage": 0,
+   "prevo": null,
+   "evo": "vesperowl",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 44,
+    "atk": 56,
+    "def": 44,
+    "spa": 49,
+    "spd": 44,
+    "spe": 59
+   },
+   "catchRate": 0.48,
+   "baseXp": 50,
+   "skillPool": "dark",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "lanternhaunt"
+    },
+    {
+     "level": 1,
+     "skill": "duskbite"
+    },
+    {
+     "level": 1,
+     "skill": "fadeout"
+    },
+    {
+     "level": 1,
+     "skill": "earflick"
+    },
+    {
+     "level": 8,
+     "skill": "gustdart"
+    },
+    {
+     "level": 14,
+     "skill": "streamerlash"
+    },
+    {
+     "level": 20,
+     "skill": "swoop"
+    },
+    {
+     "level": 27,
+     "skill": "tailwind"
+    },
+    {
+     "level": 34,
+     "skill": "pounce"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "mumblet": {
+   "id": "mumblet",
+   "name": "Mumblet",
+   "el": [
+    "mystic",
+    "spirit"
+   ],
+   "dex": 22,
+   "rarity": "uncommon",
+   "region_first_needed": 1,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 67,
+    "atk": 59,
+    "def": 63,
+    "spa": 85,
+    "spd": 77,
+    "spe": 65
+   },
+   "catchRate": 0.48,
+   "baseXp": 50,
+   "skillPool": "mystic",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "threadweave"
+    },
+    {
+     "level": 1,
+     "skill": "beadspark"
+    },
+    {
+     "level": 1,
+     "skill": "unravel"
+    },
+    {
+     "level": 1,
+     "skill": "ferretdash"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "shellroll"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "thistlepup": {
+   "id": "thistlepup",
+   "name": "Thistlepup",
+   "el": [
+    "grass"
+   ],
+   "dex": 23,
+   "rarity": "common",
+   "region_first_needed": 1,
+   "stage": 0,
+   "prevo": null,
+   "evo": "thistlehound",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 50,
+    "atk": 45,
+    "def": 50,
+    "spa": 50,
+    "spd": 52,
+    "spe": 38
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "puffwhirl": {
+   "id": "puffwhirl",
+   "name": "Puffwhirl",
+   "el": [
+    "wind"
+   ],
+   "dex": 25,
+   "rarity": "common",
+   "region_first_needed": 1,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 60,
+    "atk": 63,
+    "def": 57,
+    "spa": 70,
+    "spd": 63,
+    "spe": 87
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "wind",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "gustdart"
+    },
+    {
+     "level": 1,
+     "skill": "streamerlash"
+    },
+    {
+     "level": 1,
+     "skill": "swoop"
+    },
+    {
+     "level": 1,
+     "skill": "tailwind"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "sparksneeze"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "pebblant": {
+   "id": "pebblant",
+   "name": "Pebblant",
+   "el": [
+    "earth",
+    "bug"
+   ],
+   "dex": 26,
+   "rarity": "common",
+   "region_first_needed": 1,
+   "stage": 0,
+   "prevo": null,
+   "evo": "cairnant",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 50,
+    "atk": 51,
+    "def": 57,
+    "spa": 39,
+    "spd": 45,
+    "spe": 43
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "haloflash"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "glintfly": {
+   "id": "glintfly",
+   "name": "Glintfly",
+   "el": [
+    "light",
+    "bug"
+   ],
+   "dex": 28,
+   "rarity": "uncommon",
+   "region_first_needed": 1,
+   "stage": 0,
+   "prevo": null,
+   "evo": "beaconfly",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 47,
+    "atk": 46,
+    "def": 47,
+    "spa": 56,
+    "spd": 52,
+    "spe": 48
+   },
+   "catchRate": 0.48,
+   "baseXp": 50,
+   "skillPool": "light",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "haloflash"
+    },
+    {
+     "level": 1,
+     "skill": "dawnglow"
+    },
+    {
+     "level": 1,
+     "skill": "flutter"
+    },
+    {
+     "level": 1,
+     "skill": "gleam"
+    },
+    {
+     "level": 8,
+     "skill": "shellroll"
+    },
+    {
+     "level": 14,
+     "skill": "mossslam"
+    },
+    {
+     "level": 20,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 27,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 34,
+     "skill": "pounce"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "flickermole": {
+   "id": "flickermole",
+   "name": "Flickermole",
+   "el": [
+    "fire",
+    "magma"
+   ],
+   "dex": 30,
+   "rarity": "uncommon",
+   "region_first_needed": 1,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 68,
+    "atk": 75,
+    "def": 67,
+    "spa": 79,
+    "spd": 61,
+    "spe": 66
+   },
+   "catchRate": 0.48,
+   "baseXp": 50,
+   "skillPool": "fire",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "sparksneeze"
+    },
+    {
+     "level": 1,
+     "skill": "coalcharge"
+    },
+    {
+     "level": 1,
+     "skill": "snoutshove"
+    },
+    {
+     "level": 1,
+     "skill": "ashpuff"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "lanternhaunt"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "sailquill": {
+   "id": "sailquill",
+   "name": "Sailquill",
+   "el": [
+    "wind",
+    "bird"
+   ],
+   "dex": 31,
+   "rarity": "common",
+   "region_first_needed": 1,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 60,
+    "atk": 60,
+    "def": 60,
+    "spa": 60,
+    "spd": 60,
+    "spe": 60
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "wind",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "gustdart"
+    },
+    {
+     "level": 1,
+     "skill": "streamerlash"
+    },
+    {
+     "level": 1,
+     "skill": "swoop"
+    },
+    {
+     "level": 1,
+     "skill": "tailwind"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from src/battle/data/creatures.js (hand-written 16: flat STAGE_BASE by line stage)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "halovy": {
+   "id": "halovy",
+   "name": "Halovy",
+   "el": [
+    "light",
+    "angelic"
+   ],
+   "dex": 32,
+   "rarity": "rare",
+   "region_first_needed": 1,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 60,
+    "atk": 60,
+    "def": 60,
+    "spa": 60,
+    "spd": 60,
+    "spe": 60
+   },
+   "catchRate": 0.36,
+   "baseXp": 60,
+   "skillPool": "light",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "haloflash"
+    },
+    {
+     "level": 1,
+     "skill": "dawnglow"
+    },
+    {
+     "level": 1,
+     "skill": "flutter"
+    },
+    {
+     "level": 1,
+     "skill": "gleam"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "rippleshot"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from src/battle/data/creatures.js (hand-written 16: flat STAGE_BASE by line stage)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "gloamtick": {
+   "id": "gloamtick",
+   "name": "Gloamtick",
+   "el": [
+    "dark",
+    "ghost"
+   ],
+   "dex": 33,
+   "rarity": "uncommon",
+   "region_first_needed": 1,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 60,
+    "atk": 60,
+    "def": 60,
+    "spa": 60,
+    "spd": 60,
+    "spe": 60
+   },
+   "catchRate": 0.48,
+   "baseXp": 50,
+   "skillPool": "dark",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "lanternhaunt"
+    },
+    {
+     "level": 1,
+     "skill": "duskbite"
+    },
+    {
+     "level": 1,
+     "skill": "fadeout"
+    },
+    {
+     "level": 1,
+     "skill": "earflick"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from src/battle/data/creatures.js (hand-written 16: flat STAGE_BASE by line stage)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "burlbeetle": {
+   "id": "burlbeetle",
+   "name": "Burlbeetle",
+   "el": [
+    "earth",
+    "bug"
+   ],
+   "dex": 34,
+   "rarity": "common",
+   "region_first_needed": 1,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 60,
+    "atk": 60,
+    "def": 60,
+    "spa": 60,
+    "spd": 60,
+    "spe": 60
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from src/battle/data/creatures.js (hand-written 16: flat STAGE_BASE by line stage)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "pondkin": {
+   "id": "pondkin",
+   "name": "Pondkin",
+   "el": [
+    "water",
+    "swamp"
+   ],
+   "dex": 45,
+   "rarity": "common",
+   "region_first_needed": 1,
+   "stage": 0,
+   "prevo": null,
+   "evo": "reedmoot",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 51,
+    "atk": 46,
+    "def": 48,
+    "spa": 48,
+    "spd": 51,
+    "spe": 40
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "lanternhaunt"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "burrowmane": {
+   "id": "burrowmane",
+   "name": "Burrowmane",
+   "el": [
+    "earth"
+   ],
+   "dex": 2,
+   "rarity": "rare",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "tumbloam",
+   "evo": "bastonox",
+   "evoLevel": 16,
+   "evoMethod": "level 16",
+   "baseStats": {
+    "hp": 60,
+    "atk": 60,
+    "def": 60,
+    "spa": 60,
+    "spd": 60,
+    "spe": 60
+   },
+   "catchRate": 0.24,
+   "baseXp": 100,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from src/battle/data/creatures.js (hand-written 16: flat STAGE_BASE by line stage)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "emberlunx": {
+   "id": "emberlunx",
+   "name": "Emberlunx",
+   "el": [
+    "fire"
+   ],
+   "dex": 5,
+   "rarity": "rare",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "cindrip",
+   "evo": "forgeharrow",
+   "evoLevel": 16,
+   "evoMethod": "level 16",
+   "baseStats": {
+    "hp": 60,
+    "atk": 60,
+    "def": 60,
+    "spa": 60,
+    "spd": 60,
+    "spe": 60
+   },
+   "catchRate": 0.24,
+   "baseXp": 100,
+   "skillPool": "fire",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "sparksneeze"
+    },
+    {
+     "level": 1,
+     "skill": "coalcharge"
+    },
+    {
+     "level": 1,
+     "skill": "snoutshove"
+    },
+    {
+     "level": 1,
+     "skill": "ashpuff"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "shellroll"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from src/battle/data/creatures.js (hand-written 16: flat STAGE_BASE by line stage)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "brookhorn": {
+   "id": "brookhorn",
+   "name": "Brookhorn",
+   "el": [
+    "water"
+   ],
+   "dex": 8,
+   "rarity": "rare",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "rillop",
+   "evo": "tidemarrow",
+   "evoLevel": 16,
+   "evoMethod": "level 16",
+   "baseStats": {
+    "hp": 60,
+    "atk": 60,
+    "def": 60,
+    "spa": 60,
+    "spd": 60,
+    "spe": 60
+   },
+   "catchRate": 0.24,
+   "baseXp": 100,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "shellroll"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from src/battle/data/creatures.js (hand-written 16: flat STAGE_BASE by line stage)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "larkspar": {
+   "id": "larkspar",
+   "name": "Larkspar",
+   "el": [
+    "wind",
+    "bird"
+   ],
+   "dex": 11,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "peeplark",
+   "evo": "galespar",
+   "evoLevel": 14,
+   "evoMethod": "level 14",
+   "baseStats": {
+    "hp": 59,
+    "atk": 65,
+    "def": 55,
+    "spa": 66,
+    "spd": 61,
+    "spe": 84
+   },
+   "catchRate": 0.32,
+   "baseXp": 90,
+   "skillPool": "wind",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "gustdart"
+    },
+    {
+     "level": 1,
+     "skill": "streamerlash"
+    },
+    {
+     "level": 1,
+     "skill": "swoop"
+    },
+    {
+     "level": 1,
+     "skill": "tailwind"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "gnawford": {
+   "id": "gnawford",
+   "name": "Gnawford",
+   "el": [
+    "earth"
+   ],
+   "dex": 14,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "nibbin",
+   "evo": null,
+   "evoLevel": 18,
+   "evoMethod": "level 18",
+   "baseStats": {
+    "hp": 72,
+    "atk": 68,
+    "def": 81,
+    "spa": 52,
+    "spd": 62,
+    "spe": 55
+   },
+   "catchRate": 0.32,
+   "baseXp": 90,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "puddlenip": {
+   "id": "puddlenip",
+   "name": "Puddlenip",
+   "el": [
+    "water",
+    "rain"
+   ],
+   "dex": 19,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 72,
+    "atk": 65,
+    "def": 68,
+    "spa": 74,
+    "spd": 76,
+    "spe": 61
+   },
+   "catchRate": 0.48,
+   "baseXp": 50,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "threadweave"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "cairnant": {
+   "id": "cairnant",
+   "name": "Cairnant",
+   "el": [
+    "earth",
+    "bug"
+   ],
+   "dex": 27,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "pebblant",
+   "evo": null,
+   "evoLevel": 20,
+   "evoMethod": "level 20",
+   "baseStats": {
+    "hp": 69,
+    "atk": 69,
+    "def": 78,
+    "spa": 53,
+    "spd": 62,
+    "spe": 59
+   },
+   "catchRate": 0.32,
+   "baseXp": 90,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "beaconfly": {
+   "id": "beaconfly",
+   "name": "Beaconfly",
+   "el": [
+    "light",
+    "bug"
+   ],
+   "dex": 29,
+   "rarity": "rare",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "glintfly",
+   "evo": null,
+   "evoLevel": 21,
+   "evoMethod": "level 21",
+   "baseStats": {
+    "hp": 64,
+    "atk": 62,
+    "def": 65,
+    "spa": 76,
+    "spd": 71,
+    "spe": 66
+   },
+   "catchRate": 0.24,
+   "baseXp": 100,
+   "skillPool": "light",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "haloflash"
+    },
+    {
+     "level": 1,
+     "skill": "dawnglow"
+    },
+    {
+     "level": 1,
+     "skill": "flutter"
+    },
+    {
+     "level": 1,
+     "skill": "gleam"
+    },
+    {
+     "level": 8,
+     "skill": "shellroll"
+    },
+    {
+     "level": 14,
+     "skill": "mossslam"
+    },
+    {
+     "level": 20,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 27,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 34,
+     "skill": "pounce"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "cobblepup": {
+   "id": "cobblepup",
+   "name": "Cobblepup",
+   "el": [
+    "earth"
+   ],
+   "dex": 56,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 73,
+    "atk": 70,
+    "def": 83,
+    "spa": 53,
+    "spd": 63,
+    "spe": 57
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "briarlet": {
+   "id": "briarlet",
+   "name": "Briarlet",
+   "el": [
+    "grass"
+   ],
+   "dex": 61,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "bramblehog",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 50,
+    "atk": 45,
+    "def": 50,
+    "spa": 50,
+    "spd": 52,
+    "spe": 38
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "lanternhaunt"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "bramblehog": {
+   "id": "bramblehog",
+   "name": "Bramblehog",
+   "el": [
+    "grass"
+   ],
+   "dex": 62,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "briarlet",
+   "evo": "thornhusk",
+   "evoLevel": 17,
+   "evoMethod": "level 17",
+   "baseStats": {
+    "hp": 68,
+    "atk": 62,
+    "def": 68,
+    "spa": 68,
+    "spd": 72,
+    "spe": 52
+   },
+   "catchRate": 0.32,
+   "baseXp": 90,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "rippleshot"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "thornpod": {
+   "id": "thornpod",
+   "name": "Thornpod",
+   "el": [
+    "grass",
+    "bug"
+   ],
+   "dex": 65,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "nettlegrub",
+   "evo": "lancebeetle",
+   "evoLevel": 8,
+   "evoMethod": "level 8",
+   "baseStats": {
+    "hp": 66,
+    "atk": 65,
+    "def": 69,
+    "spa": 64,
+    "spd": 69,
+    "spe": 57
+   },
+   "catchRate": 0.32,
+   "baseXp": 90,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "lancebeetle": {
+   "id": "lancebeetle",
+   "name": "Lancebeetle",
+   "el": [
+    "earth",
+    "bug"
+   ],
+   "dex": 66,
+   "rarity": "rare",
+   "region_first_needed": 2,
+   "stage": 2,
+   "prevo": "thornpod",
+   "evo": null,
+   "evoLevel": 12,
+   "evoMethod": "level 12",
+   "baseStats": {
+    "hp": 91,
+    "atk": 92,
+    "def": 104,
+    "spa": 70,
+    "spd": 82,
+    "spe": 79
+   },
+   "catchRate": 0.12,
+   "baseXp": 140,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "gustdart"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "spinelet": {
+   "id": "spinelet",
+   "name": "Spinelet",
+   "el": [
+    "earth"
+   ],
+   "dex": 81,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "thornmound",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 52,
+    "atk": 50,
+    "def": 59,
+    "spa": 38,
+    "spd": 45,
+    "spe": 40
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "flockpup": {
+   "id": "flockpup",
+   "name": "Flockpup",
+   "el": [
+    "earth"
+   ],
+   "dex": 88,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "flockward",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 52,
+    "atk": 50,
+    "def": 59,
+    "spa": 38,
+    "spd": 45,
+    "spe": 40
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "gustdart"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "bleatling": {
+   "id": "bleatling",
+   "name": "Bleatling",
+   "el": [
+    "earth"
+   ],
+   "dex": 90,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "hornwall",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 52,
+    "atk": 50,
+    "def": 59,
+    "spa": 38,
+    "spd": 45,
+    "spe": 40
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "gustdart"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "crowkin": {
+   "id": "crowkin",
+   "name": "Crowkin",
+   "el": [
+    "dark",
+    "bird"
+   ],
+   "dex": 92,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "rookmantle",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 43,
+    "atk": 54,
+    "def": 42,
+    "spa": 47,
+    "spd": 43,
+    "spe": 57
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "dark",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "lanternhaunt"
+    },
+    {
+     "level": 1,
+     "skill": "duskbite"
+    },
+    {
+     "level": 1,
+     "skill": "fadeout"
+    },
+    {
+     "level": 1,
+     "skill": "earflick"
+    },
+    {
+     "level": 8,
+     "skill": "gustdart"
+    },
+    {
+     "level": 14,
+     "skill": "streamerlash"
+    },
+    {
+     "level": 20,
+     "skill": "swoop"
+    },
+    {
+     "level": 27,
+     "skill": "tailwind"
+    },
+    {
+     "level": 34,
+     "skill": "pounce"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "grainling": {
+   "id": "grainling",
+   "name": "Grainling",
+   "el": [
+    "grass"
+   ],
+   "dex": 95,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "sheafguard",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 50,
+    "atk": 45,
+    "def": 50,
+    "spa": 50,
+    "spd": 52,
+    "spe": 38
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "lanternhaunt"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "sheafguard": {
+   "id": "sheafguard",
+   "name": "Sheafguard",
+   "el": [
+    "grass"
+   ],
+   "dex": 96,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "grainling",
+   "evo": null,
+   "evoLevel": 20,
+   "evoMethod": "level 20",
+   "baseStats": {
+    "hp": 68,
+    "atk": 62,
+    "def": 68,
+    "spa": 68,
+    "spd": 72,
+    "spe": 52
+   },
+   "catchRate": 0.32,
+   "baseXp": 90,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "haloflash"
+    }
+   ],
+   "art": false,
+   "sources": {
+    "stats": "computed with the sync placeholder formula (tools/sync_creatures.mjs placeholderStats, copied)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "millwhirl": {
+   "id": "millwhirl",
+   "name": "Millwhirl",
+   "el": [
+    "wind"
+   ],
+   "dex": 97,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 60,
+    "atk": 63,
+    "def": 57,
+    "spa": 70,
+    "spd": 63,
+    "spe": 87
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "wind",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "gustdart"
+    },
+    {
+     "level": 1,
+     "skill": "streamerlash"
+    },
+    {
+     "level": 1,
+     "skill": "swoop"
+    },
+    {
+     "level": 1,
+     "skill": "tailwind"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "shellroll"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "foalgust": {
+   "id": "foalgust",
+   "name": "Foalgust",
+   "el": [
+    "wind"
+   ],
+   "dex": 98,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "stridegale",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 44,
+    "atk": 47,
+    "def": 42,
+    "spa": 52,
+    "spd": 47,
+    "spe": 64
+   },
+   "catchRate": 0.48,
+   "baseXp": 50,
+   "skillPool": "wind",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "gustdart"
+    },
+    {
+     "level": 1,
+     "skill": "streamerlash"
+    },
+    {
+     "level": 1,
+     "skill": "swoop"
+    },
+    {
+     "level": 1,
+     "skill": "tailwind"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "lanternhaunt"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "loamworm": {
+   "id": "loamworm",
+   "name": "Loamworm",
+   "el": [
+    "earth"
+   ],
+   "dex": 102,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 73,
+    "atk": 70,
+    "def": 83,
+    "spa": 53,
+    "spd": 63,
+    "spe": 57
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "glimmerlamb": {
+   "id": "glimmerlamb",
+   "name": "Glimmerlamb",
+   "el": [
+    "light",
+    "angelic"
+   ],
+   "dex": 103,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "fleecelight",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 48,
+    "atk": 42,
+    "def": 45,
+    "spa": 60,
+    "spd": 56,
+    "spe": 45
+   },
+   "catchRate": 0.48,
+   "baseXp": 50,
+   "skillPool": "light",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "haloflash"
+    },
+    {
+     "level": 1,
+     "skill": "dawnglow"
+    },
+    {
+     "level": 1,
+     "skill": "flutter"
+    },
+    {
+     "level": 1,
+     "skill": "gleam"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "lanternhaunt"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "fleecelight": {
+   "id": "fleecelight",
+   "name": "Fleecelight",
+   "el": [
+    "light",
+    "angelic"
+   ],
+   "dex": 104,
+   "rarity": "rare",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "glimmerlamb",
+   "evo": null,
+   "evoLevel": 26,
+   "evoMethod": "level 26",
+   "baseStats": {
+    "hp": 65,
+    "atk": 57,
+    "def": 62,
+    "spa": 82,
+    "spd": 76,
+    "spe": 62
+   },
+   "catchRate": 0.24,
+   "baseXp": 100,
+   "skillPool": "light",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "haloflash"
+    },
+    {
+     "level": 1,
+     "skill": "dawnglow"
+    },
+    {
+     "level": 1,
+     "skill": "flutter"
+    },
+    {
+     "level": 1,
+     "skill": "gleam"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "tinderwren": {
+   "id": "tinderwren",
+   "name": "Tinderwren",
+   "el": [
+    "fire",
+    "bird"
+   ],
+   "dex": 105,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 62,
+    "atk": 71,
+    "def": 59,
+    "spa": 75,
+    "spd": 60,
+    "spe": 73
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "fire",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "sparksneeze"
+    },
+    {
+     "level": 1,
+     "skill": "coalcharge"
+    },
+    {
+     "level": 1,
+     "skill": "snoutshove"
+    },
+    {
+     "level": 1,
+     "skill": "ashpuff"
+    },
+    {
+     "level": 8,
+     "skill": "gustdart"
+    },
+    {
+     "level": 14,
+     "skill": "streamerlash"
+    },
+    {
+     "level": 20,
+     "skill": "swoop"
+    },
+    {
+     "level": 27,
+     "skill": "tailwind"
+    },
+    {
+     "level": 34,
+     "skill": "pounce"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "ditchsnap": {
+   "id": "ditchsnap",
+   "name": "Ditchsnap",
+   "el": [
+    "water",
+    "swamp"
+   ],
+   "dex": 107,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "snapmoor",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 51,
+    "atk": 46,
+    "def": 48,
+    "spa": 48,
+    "spd": 51,
+    "spe": 40
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "snapmoor": {
+   "id": "snapmoor",
+   "name": "Snapmoor",
+   "el": [
+    "water",
+    "swamp"
+   ],
+   "dex": 108,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "ditchsnap",
+   "evo": null,
+   "evoLevel": 30,
+   "evoMethod": "level 30",
+   "baseStats": {
+    "hp": 70,
+    "atk": 63,
+    "def": 66,
+    "spa": 66,
+    "spd": 70,
+    "spe": 55
+   },
+   "catchRate": 0.32,
+   "baseXp": 90,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "threadweave"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "rooftrove": {
+   "id": "rooftrove",
+   "name": "Rooftrove",
+   "el": [
+    "dark"
+   ],
+   "dex": 110,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "rafterat",
+   "evo": null,
+   "evoLevel": 24,
+   "evoMethod": "level 24",
+   "baseStats": {
+    "hp": 59,
+    "atk": 75,
+    "def": 59,
+    "spa": 65,
+    "spd": 59,
+    "spe": 75
+   },
+   "catchRate": 0.32,
+   "baseXp": 90,
+   "skillPool": "dark",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "lanternhaunt"
+    },
+    {
+     "level": 1,
+     "skill": "duskbite"
+    },
+    {
+     "level": 1,
+     "skill": "fadeout"
+    },
+    {
+     "level": 1,
+     "skill": "earflick"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "haloflash"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "cogwhisk": {
+   "id": "cogwhisk",
+   "name": "Cogwhisk",
+   "el": [
+    "mystic"
+   ],
+   "dex": 112,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "gearwarden",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 47,
+    "atk": 42,
+    "def": 44,
+    "spa": 62,
+    "spd": 54,
+    "spe": 47
+   },
+   "catchRate": 0.48,
+   "baseXp": 50,
+   "skillPool": "mystic",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "threadweave"
+    },
+    {
+     "level": 1,
+     "skill": "beadspark"
+    },
+    {
+     "level": 1,
+     "skill": "unravel"
+    },
+    {
+     "level": 1,
+     "skill": "ferretdash"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "lanternhaunt"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "gearwarden": {
+   "id": "gearwarden",
+   "name": "Gearwarden",
+   "el": [
+    "mystic"
+   ],
+   "dex": 113,
+   "rarity": "rare",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "cogwhisk",
+   "evo": null,
+   "evoLevel": 30,
+   "evoMethod": "level 30",
+   "baseStats": {
+    "hp": 64,
+    "atk": 57,
+    "def": 61,
+    "spa": 84,
+    "spd": 74,
+    "spe": 64
+   },
+   "catchRate": 0.24,
+   "baseXp": 100,
+   "skillPool": "mystic",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "threadweave"
+    },
+    {
+     "level": 1,
+     "skill": "beadspark"
+    },
+    {
+     "level": 1,
+     "skill": "unravel"
+    },
+    {
+     "level": 1,
+     "skill": "ferretdash"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "haloflash"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "plashcrown": {
+   "id": "plashcrown",
+   "name": "Plashcrown",
+   "el": [
+    "water",
+    "rain"
+   ],
+   "dex": 115,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "fountling",
+   "evo": null,
+   "evoLevel": 26,
+   "evoMethod": "level 26",
+   "baseStats": {
+    "hp": 67,
+    "atk": 61,
+    "def": 64,
+    "spa": 69,
+    "spd": 72,
+    "spe": 57
+   },
+   "catchRate": 0.32,
+   "baseXp": 90,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "eavesgrim": {
+   "id": "eavesgrim",
+   "name": "Eavesgrim",
+   "el": [
+    "earth",
+    "demon"
+   ],
+   "dex": 117,
+   "rarity": "rare",
+   "region_first_needed": 2,
+   "stage": 1,
+   "prevo": "gargolet",
+   "evo": null,
+   "evoLevel": 30,
+   "evoMethod": "level 30",
+   "baseStats": {
+    "hp": 71,
+    "atk": 74,
+    "def": 77,
+    "spa": 60,
+    "spd": 62,
+    "spe": 60
+   },
+   "catchRate": 0.24,
+   "baseXp": 100,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "lanternhaunt"
+    },
+    {
+     "level": 14,
+     "skill": "duskbite"
+    },
+    {
+     "level": 20,
+     "skill": "fadeout"
+    },
+    {
+     "level": 27,
+     "skill": "earflick"
+    },
+    {
+     "level": 34,
+     "skill": "pounce"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "lampwick": {
+   "id": "lampwick",
+   "name": "Lampwick",
+   "el": [
+    "light",
+    "spirit"
+   ],
+   "dex": 118,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 64,
+    "atk": 57,
+    "def": 61,
+    "spa": 81,
+    "spd": 74,
+    "spe": 62
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "light",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "haloflash"
+    },
+    {
+     "level": 1,
+     "skill": "dawnglow"
+    },
+    {
+     "level": 1,
+     "skill": "flutter"
+    },
+    {
+     "level": 1,
+     "skill": "gleam"
+    },
+    {
+     "level": 8,
+     "skill": "threadweave"
+    },
+    {
+     "level": 14,
+     "skill": "beadspark"
+    },
+    {
+     "level": 20,
+     "skill": "unravel"
+    },
+    {
+     "level": 27,
+     "skill": "ferretdash"
+    },
+    {
+     "level": 34,
+     "skill": "pounce"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "foldwing": {
+   "id": "foldwing",
+   "name": "Foldwing",
+   "el": [
+    "wind",
+    "bird"
+   ],
+   "dex": 119,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 62,
+    "atk": 69,
+    "def": 59,
+    "spa": 71,
+    "spd": 65,
+    "spe": 90
+   },
+   "catchRate": 0.48,
+   "baseXp": 50,
+   "skillPool": "wind",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "gustdart"
+    },
+    {
+     "level": 1,
+     "skill": "streamerlash"
+    },
+    {
+     "level": 1,
+     "skill": "swoop"
+    },
+    {
+     "level": 1,
+     "skill": "tailwind"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "shellroll"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "pennantail": {
+   "id": "pennantail",
+   "name": "Pennantail",
+   "el": [
+    "wind"
+   ],
+   "dex": 120,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 60,
+    "atk": 63,
+    "def": 57,
+    "spa": 70,
+    "spd": 63,
+    "spe": 87
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "wind",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "gustdart"
+    },
+    {
+     "level": 1,
+     "skill": "streamerlash"
+    },
+    {
+     "level": 1,
+     "skill": "swoop"
+    },
+    {
+     "level": 1,
+     "skill": "tailwind"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "haloflash"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "velvetabby": {
+   "id": "velvetabby",
+   "name": "Velvetabby",
+   "el": [
+    "dark"
+   ],
+   "dex": 122,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 62,
+    "atk": 80,
+    "def": 62,
+    "spa": 69,
+    "spd": 62,
+    "spe": 80
+   },
+   "catchRate": 0.48,
+   "baseXp": 50,
+   "skillPool": "dark",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "lanternhaunt"
+    },
+    {
+     "level": 1,
+     "skill": "duskbite"
+    },
+    {
+     "level": 1,
+     "skill": "fadeout"
+    },
+    {
+     "level": 1,
+     "skill": "earflick"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "shellroll"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "pinchkin": {
+   "id": "pinchkin",
+   "name": "Pinchkin",
+   "el": [
+    "water",
+    "sea"
+   ],
+   "dex": 127,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "bulwarkrab",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 51,
+    "atk": 46,
+    "def": 48,
+    "spa": 49,
+    "spd": 51,
+    "spe": 40
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "haloflash"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "brinepipit": {
+   "id": "brinepipit",
+   "name": "Brinepipit",
+   "el": [
+    "wind",
+    "bird"
+   ],
+   "dex": 129,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "spraytern",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 43,
+    "atk": 47,
+    "def": 40,
+    "spa": 48,
+    "spd": 44,
+    "spe": 62
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "wind",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "gustdart"
+    },
+    {
+     "level": 1,
+     "skill": "streamerlash"
+    },
+    {
+     "level": 1,
+     "skill": "swoop"
+    },
+    {
+     "level": 1,
+     "skill": "tailwind"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "blubbet": {
+   "id": "blubbet",
+   "name": "Blubbet",
+   "el": [
+    "water",
+    "sea"
+   ],
+   "dex": 131,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "brineseal",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 53,
+    "atk": 48,
+    "def": 50,
+    "spa": 51,
+    "spd": 53,
+    "spe": 41
+   },
+   "catchRate": 0.48,
+   "baseXp": 50,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "gustdart"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "sandstarlet": {
+   "id": "sandstarlet",
+   "name": "Sandstarlet",
+   "el": [
+    "water",
+    "sea"
+   ],
+   "dex": 134,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 72,
+    "atk": 64,
+    "def": 68,
+    "spa": 69,
+    "spd": 71,
+    "spe": 56
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "lanternhaunt"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "medulet": {
+   "id": "medulet",
+   "name": "Medulet",
+   "el": [
+    "water",
+    "ghost"
+   ],
+   "dex": 135,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "lanternbell",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 47,
+    "atk": 45,
+    "def": 46,
+    "spa": 52,
+    "spd": 52,
+    "spe": 43
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "lanternhaunt"
+    },
+    {
+     "level": 14,
+     "skill": "duskbite"
+    },
+    {
+     "level": 20,
+     "skill": "fadeout"
+    },
+    {
+     "level": 27,
+     "skill": "earflick"
+    },
+    {
+     "level": 34,
+     "skill": "pounce"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "whelkin": {
+   "id": "whelkin",
+   "name": "Whelkin",
+   "el": [
+    "water",
+    "sea"
+   ],
+   "dex": 137,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 72,
+    "atk": 64,
+    "def": 68,
+    "spa": 69,
+    "spd": 71,
+    "spe": 56
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "gustdart"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "moatling": {
+   "id": "moatling",
+   "name": "Moatling",
+   "el": [
+    "earth",
+    "ghost"
+   ],
+   "dex": 138,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "sandkeep",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 51,
+    "atk": 50,
+    "def": 57,
+    "spa": 45,
+    "spd": 48,
+    "spe": 45
+   },
+   "catchRate": 0.48,
+   "baseXp": 50,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "lanternhaunt"
+    },
+    {
+     "level": 14,
+     "skill": "duskbite"
+    },
+    {
+     "level": 20,
+     "skill": "fadeout"
+    },
+    {
+     "level": 27,
+     "skill": "earflick"
+    },
+    {
+     "level": 34,
+     "skill": "pounce"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "ankerling": {
+   "id": "ankerling",
+   "name": "Ankerling",
+   "el": [
+    "earth",
+    "sea"
+   ],
+   "dex": 140,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 74,
+    "atk": 69,
+    "def": 79,
+    "spa": 57,
+    "spd": 64,
+    "spe": 56
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "earth",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "shellroll"
+    },
+    {
+     "level": 1,
+     "skill": "mossslam"
+    },
+    {
+     "level": 1,
+     "skill": "hornnudge"
+    },
+    {
+     "level": 1,
+     "skill": "burrowdown"
+    },
+    {
+     "level": 8,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 14,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 20,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 27,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 34,
+     "skill": "pounce"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "finnip": {
+   "id": "finnip",
+   "name": "Finnip",
+   "el": [
+    "water",
+    "sea"
+   ],
+   "dex": 141,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "rakefin",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 53,
+    "atk": 48,
+    "def": 50,
+    "spa": 51,
+    "spd": 53,
+    "spe": 41
+   },
+   "catchRate": 0.48,
+   "baseXp": 50,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "ribboneel": {
+   "id": "ribboneel",
+   "name": "Ribboneel",
+   "el": [
+    "water",
+    "sea"
+   ],
+   "dex": 144,
+   "rarity": "uncommon",
+   "region_first_needed": 2,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 75,
+    "atk": 67,
+    "def": 70,
+    "spa": 72,
+    "spd": 74,
+    "spe": 58
+   },
+   "catchRate": 0.48,
+   "baseXp": 50,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "pouchbill": {
+   "id": "pouchbill",
+   "name": "Pouchbill",
+   "el": [
+    "wind",
+    "bird"
+   ],
+   "dex": 146,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 60,
+    "atk": 66,
+    "def": 57,
+    "spa": 68,
+    "spd": 62,
+    "spe": 87
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "wind",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "gustdart"
+    },
+    {
+     "level": 1,
+     "skill": "streamerlash"
+    },
+    {
+     "level": 1,
+     "skill": "swoop"
+    },
+    {
+     "level": 1,
+     "skill": "tailwind"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "shellroll"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "quaymouser": {
+   "id": "quaymouser",
+   "name": "Quaymouser",
+   "el": [
+    "water"
+   ],
+   "dex": 149,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": -1,
+   "prevo": null,
+   "evo": null,
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 70,
+    "atk": 63,
+    "def": 67,
+    "spa": 70,
+    "spd": 73,
+    "spe": 57
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "sparksneeze"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "polypip": {
+   "id": "polypip",
+   "name": "Polypip",
+   "el": [
+    "water",
+    "sea"
+   ],
+   "dex": 150,
+   "rarity": "common",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "reefcrown",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 51,
+    "atk": 46,
+    "def": 48,
+    "spa": 49,
+    "spd": 51,
+    "spe": 40
+   },
+   "catchRate": 0.6,
+   "baseXp": 50,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "pounce"
+    },
+    {
+     "level": 14,
+     "skill": "nudge"
+    },
+    {
+     "level": 20,
+     "skill": "stomp"
+    },
+    {
+     "level": 27,
+     "skill": "huff"
+    },
+    {
+     "level": 34,
+     "skill": "threadweave"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  },
+  "spratwyrm": {
+   "id": "spratwyrm",
+   "name": "Spratwyrm",
+   "el": [
+    "water",
+    "dragos"
+   ],
+   "dex": 153,
+   "rarity": "rare",
+   "region_first_needed": 2,
+   "stage": 0,
+   "prevo": null,
+   "evo": "kelpwyrm",
+   "evoLevel": null,
+   "evoMethod": null,
+   "baseStats": {
+    "hp": 53,
+    "atk": 51,
+    "def": 51,
+    "spa": 53,
+    "spd": 54,
+    "spe": 45
+   },
+   "catchRate": 0.36,
+   "baseXp": 60,
+   "skillPool": "water",
+   "learnset": [
+    {
+     "level": 1,
+     "skill": "rippleshot"
+    },
+    {
+     "level": 1,
+     "skill": "frillsplash"
+    },
+    {
+     "level": 1,
+     "skill": "pebbletoss"
+    },
+    {
+     "level": 1,
+     "skill": "whiskertickle"
+    },
+    {
+     "level": 8,
+     "skill": "threadweave"
+    },
+    {
+     "level": 14,
+     "skill": "beadspark"
+    },
+    {
+     "level": 20,
+     "skill": "unravel"
+    },
+    {
+     "level": 27,
+     "skill": "ferretdash"
+    },
+    {
+     "level": 34,
+     "skill": "pounce"
+    }
+   ],
+   "art": true,
+   "sources": {
+    "stats": "copied from SPECIES (synced, sync placeholder formula)",
+    "evolution": "design/DEX_450.json evolution.method",
+    "learnset": "src/overnight/learnsets.js learnsetFor() over existing PLACEHOLDER_SKILLS names (no new skill names)"
+   },
+   "placeholder": {
+    "stats": true,
+    "catchRate": true,
+    "baseXp": true,
+    "learnset": true
+   }
+  }
+ }
+}

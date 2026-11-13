@@ -1,0 +1,267 @@
+{
+  "refs": {
+    "844x390": {
+      "css": [
+        844,
+        390
+      ],
+      "backing": [
+        2532,
+        1170
+      ],
+      "dpr": 3,
+      "zoom": 2,
+      "sheetScale": 2,
+      "playerScale": 2,
+      "tileScale": 2,
+      "smoothing": false
+    },
+    "844x340": {
+      "css": [
+        844,
+        340
+      ],
+      "backing": [
+        2532,
+        1020
+      ],
+      "dpr": 3,
+      "zoom": 2,
+      "sheetScale": 2,
+      "playerScale": 2,
+      "tileScale": 2,
+      "smoothing": false
+    }
+  },
+  "report": [
+    {
+      "case": "land_portrait_land",
+      "ios": false,
+      "ok": true,
+      "steps": [
+        {
+          "size": [
+            844,
+            390
+          ],
+          "css": [
+            844,
+            390
+          ],
+          "backing": [
+            2532,
+            1170
+          ],
+          "dpr": 3,
+          "zoom": 2,
+          "sheetScale": 2,
+          "playerScale": 2,
+          "tileScale": 2,
+          "smoothing": false,
+          "ok": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "portrait_start_land",
+      "ios": false,
+      "ok": true,
+      "steps": [
+        {
+          "size": [
+            844,
+            390
+          ],
+          "css": [
+            844,
+            390
+          ],
+          "backing": [
+            2532,
+            1170
+          ],
+          "dpr": 3,
+          "zoom": 2,
+          "sheetScale": 2,
+          "playerScale": 2,
+          "tileScale": 2,
+          "smoothing": false,
+          "ok": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "portrait_start_bars_land",
+      "ios": false,
+      "ok": true,
+      "steps": [
+        {
+          "size": [
+            844,
+            340
+          ],
+          "css": [
+            844,
+            340
+          ],
+          "backing": [
+            2532,
+            1020
+          ],
+          "dpr": 3,
+          "zoom": 2,
+          "sheetScale": 2,
+          "playerScale": 2,
+          "tileScale": 2,
+          "smoothing": false,
+          "ok": true
+        },
+        {
+          "size": [
+            844,
+            390
+          ],
+          "css": [
+            844,
+            390
+          ],
+          "backing": [
+            2532,
+            1170
+          ],
+          "dpr": 3,
+          "zoom": 2,
+          "sheetScale": 2,
+          "playerScale": 2,
+          "tileScale": 2,
+          "smoothing": false,
+          "ok": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "portrait_turn_during_load",
+      "ios": false,
+      "ok": false,
+      "steps": [
+        {
+          "size": [
+            844,
+            390
+          ],
+          "css": [
+            844,
+            390
+          ],
+          "backing": [
+            1170,
+            1992
+          ],
+          "dpr": 3,
+          "zoom": 4,
+          "sheetScale": 1,
+          "playerScale": 1,
+          "tileScale": 1,
+          "smoothing": false,
+          "ok": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "back_and_forth_x4",
+      "ios": false,
+      "ok": true,
+      "steps": [
+        {
+          "size": [
+            844,
+            390
+          ],
+          "css": [
+            844,
+            390
+          ],
+          "backing": [
+            2532,
+            1170
+          ],
+          "dpr": 3,
+          "zoom": 2,
+          "sheetScale": 2,
+          "playerScale": 2,
+          "tileScale": 2,
+          "smoothing": false,
+          "ok": true
+        },
+        {
+          "size": [
+            844,
+            340
+          ],
+          "css": [
+            844,
+            340
+          ],
+          "backing": [
+            2532,
+            1020
+          ],
+          "dpr": 3,
+          "zoom": 2,
+          "sheetScale": 2,
+          "playerScale": 2,
+          "tileScale": 2,
+          "smoothing": false,
+          "ok": true
+        },
+        {
+          "size": [
+            844,
+            390
+          ],
+          "css": [
+            844,
+            390
+          ],
+          "backing": [
+            2532,
+            1170
+          ],
+          "dpr": 3,
+          "zoom": 2,
+          "sheetScale": 2,
+          "playerScale": 2,
+          "tileScale": 2,
+          "smoothing": false,
+          "ok": true
+        },
+        {
+          "size": [
+            844,
+            390
+          ],
+          "css": [
+            844,
+            390
+          ],
+          "backing": [
+            2532,
+            1170
+          ],
+          "dpr": 3,
+          "zoom": 2,
+          "sheetScale": 2,
+          "playerScale": 2,
+          "tileScale": 2,
+          "smoothing": false,
+          "ok": true
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

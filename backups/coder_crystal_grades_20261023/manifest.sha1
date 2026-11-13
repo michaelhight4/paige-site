@@ -1,0 +1,7 @@
+da39a3ee5e6b4b0d3255bfef95601890afd80709  ./manifest.sha1
+2f1da1903a0300a3f96e8ed6855df475e541e12d  ./src/systems/data/shops.json
+19ce00336f2e37f42599cb0bedf62d4d8f009d83  ./src/systems/catch_net.js
+d063f912cc81a366a1826dc42fe39899d1a52e72  ./src/systems/shop.js
+194e143f577faa44b257333db539d3d02f9e5647  ./src/systems/items.js
+82944f890a5d6ae93cc9b2773607c289c61bc457  ./package.json
+b9fca7d92ad6508e88768a8de5048adf4d90c64a  ./dev_notes/kilumen.md

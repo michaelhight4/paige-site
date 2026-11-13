@@ -1,0 +1,39 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "lanternport",
+ "route_id": null,
+ "kind": "city (port, rail)",
+ "map_status": "to_come",
+ "story_step": "10 (coin 7)",
+ "story_order": 22,
+ "level_band": "Ron 5 L47; hall see halls/lanternport.json",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "lp_pier",
+   "item": "tonic_large",
+   "hidden": false,
+   "placement_hint": "pier end"
+  },
+  {
+   "id": "lp_hidden_crate",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "placement_hint": "warehouse crate"
+  },
+  {
+   "id": "lp_lighthouse",
+   "item": "energy_tonic",
+   "hidden": false,
+   "placement_hint": "lighthouse stair"
+  },
+  {
+   "id": "lp_station",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "placement_hint": "station alley"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

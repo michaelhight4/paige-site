@@ -1,0 +1,139 @@
+{
+ "name": "ondravel_reveal",
+ "kind": "overworld",
+ "status": "DRAFT - needs Gary approval before wiring",
+ "sheet": "ondravel_reveal.png",
+ "frame_w": 64,
+ "frame_h": 64,
+ "frames": 17,
+ "cols": 17,
+ "rows": 1,
+ "layout": "row-major frames",
+ "ms": [
+  80,
+  80,
+  80,
+  80,
+  70,
+  70,
+  70,
+  70,
+  70,
+  70,
+  70,
+  70,
+  90,
+  90,
+  90,
+  90,
+  400
+ ],
+ "total_ms": 1640,
+ "loop": false,
+ "anchor": {
+  "x": 32,
+  "y": 63,
+  "meaning": "bottom-centre of frame = centre-bottom of map cell"
+ },
+ "tile_px": 64,
+ "art_px_scale": 1,
+ "footprint_tiles": [
+  1,
+  1
+ ],
+ "covered_squares": [
+  [
+   0,
+   0
+  ]
+ ],
+ "collision_squares": [
+  [
+   0,
+   0
+  ]
+ ],
+ "notes": "One-shot before the summit face-off: water ring wells up, body rises behind a bright waterline, antler glints, settles. Last frame == idle_down f0; then play idle_down.",
+ "readability": {
+  "grass_0": {
+   "dawn": {
+    "mean": 0.878,
+    "worst_frame": 0.806
+   },
+   "day": {
+    "mean": 0.914,
+    "worst_frame": 0.89
+   },
+   "dusk": {
+    "mean": 0.851,
+    "worst_frame": 0.806
+   },
+   "night": {
+    "mean": 0.758,
+    "worst_frame": 0.721
+   }
+  },
+  "cave_0": {
+   "dawn": {
+    "mean": 0.871,
+    "worst_frame": 0.84
+   },
+   "day": {
+    "mean": 0.902,
+    "worst_frame": 0.874
+   },
+   "dusk": {
+    "mean": 0.782,
+    "worst_frame": 0.71
+   },
+   "night": {
+    "mean": 0.655,
+    "worst_frame": 0.61
+   }
+  },
+  "snow_0": {
+   "dawn": {
+    "mean": 0.75,
+    "worst_frame": 0.581
+   },
+   "day": {
+    "mean": 0.751,
+    "worst_frame": 0.581
+   },
+   "dusk": {
+    "mean": 0.75,
+    "worst_frame": 0.581
+   },
+   "night": {
+    "mean": 0.726,
+    "worst_frame": 0.581
+   }
+  },
+  "floor_stone": {
+   "dawn": {
+    "mean": 0.69,
+    "worst_frame": 0.496
+   },
+   "day": {
+    "mean": 0.693,
+    "worst_frame": 0.496
+   },
+   "dusk": {
+    "mean": 0.654,
+    "worst_frame": 0.496
+   },
+   "night": {
+    "mean": 0.641,
+    "worst_frame": 0.49
+   }
+  }
+ },
+ "readability_rule": "px with |dLuma|>=28 vs ToD-graded background under them (sprite LUT; tank: tile snapped to palette, lit LUT for night-glow colours); pass >= 0.5 per phase",
+ "night_readability_worst_bg": 0.641,
+ "night_worst_frame": 0.49,
+ "readability_min_all_phases": 0.641,
+ "seam_ratio": null,
+ "tex_bytes_rgba": 278528,
+ "png_bytes": 4062,
+ "avg_opaque_px_per_frame": 602
+}

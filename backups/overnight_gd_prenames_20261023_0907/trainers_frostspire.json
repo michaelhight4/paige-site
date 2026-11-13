@@ -1,0 +1,102 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "frostspire",
+ "route_id": null,
+ "kind": "biome (snow peaks)",
+ "map_status": "to_come",
+ "story_step": "7 (coin 4, Skylift)",
+ "story_order": 14,
+ "level_band": "wild 29-33, trainers 30-33; hall see halls/frostspire.json",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_frostspire_a",
+   "class": "climber",
+   "class_display_suggestion": "Climber",
+   "name_suggestion": "Dara",
+   "team": [
+    {
+     "species": "spirewing",
+     "level": 31
+    },
+    {
+     "species": "skyrender",
+     "level": 31
+    }
+   ],
+   "base": 45,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1395,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.frostspire.a",
+   "note": "lower slope"
+  },
+  {
+   "id": "tr_frostspire_b",
+   "class": "skater",
+   "class_display_suggestion": "Skater",
+   "name_suggestion": "Elm",
+   "team": [
+    {
+     "species": "frostlop",
+     "level": 31
+    },
+    {
+     "species": "sailquill",
+     "level": 32
+    }
+   ],
+   "base": 35,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1120,
+   "sight_range": 5,
+   "text_ref": "TODO Text Bot: trainers.frostspire.b",
+   "note": "packed-snow sled run top"
+  },
+  {
+   "id": "tr_frostspire_c",
+   "class": "scholar",
+   "class_display_suggestion": "Scholar",
+   "name_suggestion": "Flint",
+   "team": [
+    {
+     "species": "halovy",
+     "level": 32
+    },
+    {
+     "species": "chimelet",
+     "level": 32
+    }
+   ],
+   "base": 60,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1920,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.frostspire.c",
+   "note": "shrine (Shrines of the North flavour)"
+  },
+  {
+   "id": "tr_frostspire_d",
+   "class": "veteran",
+   "class_display_suggestion": "Veteran",
+   "name_suggestion": "Greer",
+   "team": [
+    {
+     "species": "snowgrouse",
+     "level": 33
+    },
+    {
+     "species": "peakbrute",
+     "level": 33
+    }
+   ],
+   "base": 80,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 2640,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.frostspire.d",
+   "note": "optional peak hut"
+  }
+ ],
+ "hall": "halls/frostspire.json"
+}

@@ -1,0 +1,246 @@
+// Company voice (Oct 23 2026, coder; Gary 12:19-12:22 PM CT): src/systems/company_voice.js + data/company_voice.json,
+// employee number src/systems/employee_id.js. Node only; browser shots: tests/company_voice_shots.mjs.
+// Run: node --test tests/company_voice.test.mjs
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { Overworld } from '../src/overworld/overworld.js';
+import { SaveStore, freshSave, migrate } from '../src/overworld/save.js';
+import { CONFIG } from '../src/config.js';
+import { CompanyVoice, attachCompanyVoice, companyVoiceEnabled, FALLBACK } from '../src/systems/company_voice.js';
+import { employeeIdFor, employeeIdOf, EMPLOYEE_ID_RE } from '../src/systems/employee_id.js';
+
+const CFG = JSON.parse(fs.readFileSync(new URL('../data/company_voice.json', import.meta.url)));
+const memStorage = () => { const m = new Map(); return { getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k) }; };
+const P = Overworld.prototype;
+
+/** Scene stub with the REAL save-lock / save path (Overworld.prototype) and a real SaveStore. */
+function stub({ flags = ['got_starter'], storage = memStorage() } = {}) {
+  const store = new SaveStore(storage);
+  const sys = { kilindex: { caughtCount: 1 }, company: { idLevel: 1, board: {} }, applyBattleResult: (r) => r };
+  const s = {
+    flags: new Set(flags), seen: {}, log: [], busy: false, fade: null, dialog: { active: false }, tick: 0, ms: 0, store, systems: sys, lines: {},
+    _saveLocks: new Map(), saveGuards: [], _dirty: false, saves: 0, map: null, player: {}, intro: null,
+    textVars() { return { employee_id: employeeIdOf(this) }; },
+    saveData() { return { flags: [...this.flags], seen: this.seen }; },
+    step() { this.tick++; if (this._dirty && !this.busy && !this.fade) this.saveNow(); },
+  };
+  for (const k of ['saveLockReason', 'lockSave', 'checkpoint', 'saveNow']) s[k] = P[k].bind(s);
+  Object.defineProperty(s, 'saveLocked', { get: () => !!s.saveLockReason() });
+  const save = s.saveNow; s.saveNow = () => { const ok = save(); if (ok) s.saves++; return ok; };
+  return { s, store, storage, sys };
+}
+async function voice(opts = {}) {
+  const t = stub(opts);
+  const cv = await attachCompanyVoice(t.s, { cfg: CFG, query: new URLSearchParams('cv=1'), storage: opts.modeStorage ?? memStorage(), now: () => t.s.ms, doc: null, ui: () => opts.ui || null });
+  return { ...t, cv };
+}
+/** Advance the game clock by ms in 100 ms ticks. */
+const run = (s, ms, snap = {}) => { for (let t = 0; t < ms; t += 100) { s.ms += 100; s.step(snap); } };
+
+test('flag: DEFAULT OFF (no ?cv=1 -> null, nothing wrapped); ?cv=1 on', async () => {
+  assert.equal(CFG.default_on, false);
+  assert.equal(companyVoiceEnabled(new URLSearchParams('')), false);
+  assert.equal(companyVoiceEnabled(new URLSearchParams('cv=0')), false);
+  assert.equal(companyVoiceEnabled(new URLSearchParams('cv=1')), true);
+  const { s } = stub(); const step = s.step, push = s.log.push;
+  assert.equal(await attachCompanyVoice(s, { query: new URLSearchParams('') }), null);
+  assert.equal(s.step, step); assert.equal(s.log.push, push); assert.equal(s.saveGuards.length, 0); assert.equal(s.companyVoice, undefined);
+  const main = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
+  assert.match(main, /if \(q\.get\('cv'\) === '1'\) import\('\.\/systems\/company_voice\.js'\)/); // not even loaded without ?cv=1
+});
+
+test('employee ID: 6 digits, bare, stable across save / load; old saves get one on load', () => {
+  const f = freshSave();
+  assert.match(f.company.employeeId, EMPLOYEE_ID_RE);
+  assert.equal(f.company.employeeId, employeeIdFor(f.saveId));
+  assert.equal(employeeIdFor('k123'), employeeIdFor('k123'));
+  assert.notEqual(employeeIdFor('k123'), employeeIdFor('k124'));
+  for (let i = 0; i < 500; i++) { const id = employeeIdFor('k' + i); assert.match(id, /^\d{6}$/); assert.notEqual(id, '000000'); }
+  // save -> load -> save -> load: same number
+  const storage = memStorage(), a = new SaveStore(storage);
+  assert.ok(a.save({ flags: ['got_starter'], party: [] }));
+  const l1 = new SaveStore(storage).load(), b = new SaveStore(storage); b.load();
+  assert.ok(b.save({ ...l1 }));
+  const l2 = new SaveStore(storage).load();
+  assert.match(l1.company.employeeId, /^\d{6}$/);
+  assert.equal(l2.company.employeeId, l1.company.employeeId);
+  assert.equal(l1.company.employeeId, employeeIdFor(l1.saveId));
+  // an old save with no employeeId (company block from before this pass) gets the derived one, and keeps it
+  const raw = JSON.parse(storage.getItem('kilumen.save.v1')); delete raw.company.employeeId; storage.setItem('kilumen.save.v1', JSON.stringify(raw));
+  const old = new SaveStore(storage).load();
+  assert.equal(old.company.employeeId, l1.company.employeeId);
+  // a v1 save (migrated): deterministic id -> deterministic number
+  const v1 = { v: 1, flags: ['x'], party: [], seen: {}, counters: {}, clock: { day: 0, min: 480 } };
+  assert.equal(employeeIdFor(migrate(structuredClone(v1)).saveId), employeeIdFor(migrate(structuredClone(v1)).saveId));
+});
+
+test('{employee_id} text var on the real Overworld.textVars; Gary\'s model line renders the bare number', async () => {
+  const { s, cv } = await voice();
+  const vars = P.textVars.call({ party: [], config: CONFIG, flags: new Set(), lines: {}, opts: {}, input: null, promptVars: () => ({}), store: s.store, systems: s.systems });
+  assert.match(vars.employee_id, /^\d{6}$/);
+  assert.equal(vars.employee_id, s.store.extra.company.employeeId);
+  assert.equal(FALLBACK.kilindex_new[0], 'Good job {employee_id}! New creatures help boost company asset value!');
+  const id = employeeIdOf(s);
+  assert.deepEqual(cv.pages('kilindex_new', { count: 2 }), [`Good job ${id}! New creatures help boost company asset value!`]);
+  // Text Bot key wins over the fallback, still filled with the number
+  s.lines = { system_company_voice: { first_catch: { pages: ['{employee_id}: asset logged.'] }, speaker: { labels: { name: 'Comms' } } } };
+  assert.deepEqual(cv.pages('first_catch'), [`${id}: asset logged.`]);
+  assert.equal(cv.speaker(), 'Comms');
+  // every fallback line addresses the player by number and never by name
+  for (const [k, pages] of Object.entries(FALLBACK)) if (k !== 'speaker') { assert.match(pages[0], /\{employee_id\}/, k); assert.doesNotMatch(pages.join(' '), /\{player\}|\{nick\}/, k); }
+});
+
+test('an event fires once (once-per-save keys survive in scene.seen)', async () => {
+  const { s, cv } = await voice();
+  s.systems.applyBattleResult({ outcome: 'caught', caught: { species: 'rillop' } });
+  run(s, 2000);
+  assert.equal(cv.state().showing?.event, 'first_catch');
+  assert.match(cv.state().showing.text, /^Good job \d{6}! First asset acquired\.$/);
+  run(s, 15000); assert.equal(cv.current, null);
+  run(s, 30000);
+  s.systems.applyBattleResult({ outcome: 'caught', caught: { species: 'peeplark' } });
+  run(s, 30000);
+  assert.deepEqual(cv.state().shown, ['first_catch']);
+  assert.equal(s.seen['cv#first_catch'], true);
+  // area: once per map, re-entering never repeats
+  s.log.push({ type: 'areaSign', map: 'route1', title: 'Trail 1' }); run(s, 30000);
+  s.log.push({ type: 'areaSign', map: 'route1', title: 'Trail 1' }); run(s, 60000);
+  assert.deepEqual(cv.state().shown, ['first_catch', 'area_new']);
+});
+
+test('burst: max 1 per burst (highest priority wins); cooldown + queue between bursts', async () => {
+  const { s, sys, cv } = await voice();
+  run(s, 200); // baselines (Kilindex 1, ID level 1)
+  // one catch = first catch + Kilindex entry #2 in the same moment -> one message
+  sys.applyBattleResult({ outcome: 'caught', caught: { species: 'rillop' } }); sys.kilindex.caughtCount = 2;
+  run(s, 2000);
+  assert.equal(cv.state().showing.event, 'first_catch');
+  assert.deepEqual(cv.state().queue, []);
+  // a Master win while it is still up -> queued, waits for the global cooldown after the hide
+  s.log.push({ type: 'flag', flag: 'beat_master_fernwick', on: true });
+  run(s, 2000);
+  assert.deepEqual(cv.state().queue, ['master_beaten']);
+  cv.advance('a'); cv.advance('a'); assert.equal(cv.current, null);
+  const hid = s.ms;
+  run(s, CFG.timing.global_cooldown_ms - 500);
+  assert.equal(cv.current, null, 'global cooldown holds the queue');
+  run(s, 1000);
+  assert.equal(cv.state().showing.event, 'master_beaten');
+  assert.ok(s.ms - hid >= CFG.timing.global_cooldown_ms);
+  assert.match(cv.state().showing.text, /^\d{6}: Fernwick Master beaten\.$/);
+  // Kilindex: entries 3,4 = "first few"; 5..9 silent; 10 = milestone
+  cv.hide(); run(s, 61000); // kilindex_new has its own 60 s cooldown (entry #2 fired with the first catch)
+  sys.kilindex.caughtCount = 9; run(s, 25000);
+  assert.deepEqual(cv.state().shown, ['first_catch', 'master_beaten', 'kilindex_new']); // 3 and 4 in one burst -> one message
+  sys.kilindex.caughtCount = 10; run(s, 30000);
+  assert.equal(cv.state().shown.at(-1), 'kilindex_milestone');
+  // ID level up + board node: both fire (diffs of the company block)
+  run(s, 25000); sys.company.idLevel = 2; run(s, 30000);
+  assert.equal(cv.state().shown.at(-1), 'id_level_up');
+  sys.company.board = { store_discount: 1 }; run(s, 30000);
+  assert.equal(cv.state().shown.at(-1), 'board_node');
+});
+
+test('never during battle / dialogue / script / phone UI; a message up hides at once if one starts', async () => {
+  const ui = { active: false };
+  const { s, cv } = await voice({ ui });
+  s.busy = true; // a script (wild battle, trainer talk, cutscene)
+  s.systems.applyBattleResult({ outcome: 'caught', caught: { species: 'rillop' } });
+  run(s, 10000);
+  assert.equal(cv.current, null, 'script running: nothing shows');
+  s.busy = false; s.dialog.active = true; run(s, 5000);
+  assert.equal(cv.current, null, 'dialogue open: nothing shows');
+  s.dialog.active = false; ui.active = true; run(s, 5000);
+  assert.equal(cv.current, null, 'battle screen / phone menu open: nothing shows');
+  const release = s.lockSave('trainer_approach'); ui.active = false; run(s, 5000);
+  assert.equal(cv.current, null, 'trainer walk-up: nothing shows'); release();
+  run(s, 2000);
+  assert.equal(cv.state().showing?.event, 'first_catch', 'shows once everything is clear');
+  s.dialog.active = true; run(s, 100);
+  assert.equal(cv.current, null); assert.equal(cv.lastHideWhy, 'interrupted:dialogue');
+});
+
+test('mode: Off silences everything; Milestones only drops flavour events; saved', async () => {
+  const modeStorage = memStorage();
+  const { s, cv } = await voice({ modeStorage });
+  assert.equal(cv.mode, 'full');
+  assert.equal(cv.cycleMode(), 'milestones'); assert.equal(cv.modeLabel(), 'Milestones only');
+  s.log.push({ type: 'areaSign', map: 'route1', title: 'Trail 1' }); run(s, 30000);
+  assert.equal(cv.state().shown.length, 0, 'area_new is a Full-mode event');
+  s.log.push({ type: 'flag', flag: 'beat_master_fernwick', on: true }); run(s, 3000);
+  assert.equal(cv.state().showing?.event, 'master_beaten');
+  cv.setMode('off');
+  assert.equal(cv.current, null, 'Off hides a message on screen');
+  s.systems.applyBattleResult({ outcome: 'caught', caught: { species: 'rillop' } });
+  s.log.push({ type: 'flag', flag: 'beat_master_saltmere', on: true });
+  s.systems.company.idLevel = 3;
+  run(s, 60000);
+  assert.deepEqual(cv.state().shown, ['master_beaten']);
+  assert.equal(s.seen['cv#first_catch'], undefined, 'Off does not burn once-events');
+  const again = new CompanyVoice(s, CFG, { storage: modeStorage });
+  assert.equal(again.mode, 'off', 'mode saved');
+});
+
+test('save rule: checkpoint right before, no save while a message is up, normal save after', async () => {
+  const { s, cv, storage } = await voice();
+  s.systems.applyBattleResult({ outcome: 'caught', caught: { species: 'rillop' } });
+  let atShow = null; const show = cv.show.bind(cv);
+  cv.show = (item) => { const n = s.saves; show(item); atShow = { before: n, after: s.saves }; };
+  run(s, 1600);
+  assert.ok(cv.current, 'showing');
+  assert.equal(atShow.after, atShow.before + 1, 'checkpoint save right before it showed');
+  const before = s.saves - 1;
+  assert.equal(JSON.parse(storage.getItem('kilumen.save.v1')).seen['cv#first_catch'], true, 'the checkpoint carries the once-marker');
+  assert.equal(s.saveLockReason(), 'company_voice');
+  s._dirty = true;
+  assert.equal(s.saveNow(), false, 'autosave / pagehide refused mid-message');
+  assert.equal(s.checkpoint('x'), false);
+  run(s, 1000); assert.ok(cv.current); assert.equal(s.saves, before + 1, 'step loop autosave refused too');
+  cv.advance('a'); cv.advance('a');
+  assert.equal(cv.current, null);
+  run(s, 100);
+  assert.equal(s.saves, before + 2, 'normal save once it is gone');
+  assert.equal(s.saveLockReason(), null);
+});
+
+test('input: A (F on PC) dismisses and is eaten (no talk); auto-hides without input', async () => {
+  const { s, cv } = await voice();
+  const seen = []; const inner = s.step; // the wrapped step passes the filtered snap to the original
+  s.systems.applyBattleResult({ outcome: 'caught', caught: { species: 'rillop' } });
+  run(s, 1600);
+  assert.equal(cv.current.page, 0);
+  const passed = cv.input({ a: true }); seen.push(passed.a);
+  assert.equal(passed.a, false, 'A eaten');
+  assert.equal(cv.current.page, 1, 'A -> next page');
+  assert.equal(cv.input({ a: true }).a, false, 'held A still eaten');
+  cv.input({ a: false }); cv.input({ a: true });
+  assert.equal(cv.current, null, 'A on the last page dismisses');
+  assert.equal(cv.input({ a: false }).a, false); assert.equal(cv.input({ a: true }).a, true, 'fresh A press goes to the game again');
+  // auto-hide
+  s.log.push({ type: 'flag', flag: 'beat_master_fernwick', on: true }); run(s, 25000);
+  assert.ok(cv.state().shown.includes('master_beaten'));
+  run(s, 15000);
+  assert.equal(cv.current, null); assert.equal(cv.lastHideWhy, 'timer');
+  void inner; void seen;
+});
+
+test('start gate: nothing before got_starter (the opening owns that stretch)', async () => {
+  const { s, cv } = await voice({ flags: [] });
+  s.log.push({ type: 'areaSign', map: 'brookhollow', title: 'Brookhollow' });
+  run(s, 30000);
+  assert.equal(cv.state().shown.length, 0);
+});
+
+test('data + text rules: every event has a fallback, tiers valid, no blocked player words', () => {
+  const blocked = /\b(routes?|PP|shiny|super effective|pok[eé]dex|pok[eé] ?ball|gotcha|nurse|throw|weed|ADA|FICSIT)\b/i;
+  for (const [name, ev] of Object.entries(CFG.events)) {
+    assert.ok(FALLBACK[ev.line], name);
+    assert.ok(['milestone', 'full'].includes(ev.tier), name);
+    assert.ok(Number.isFinite(ev.priority), name);
+  }
+  for (const pages of Object.values(FALLBACK)) for (const p of [].concat(pages)) { assert.doesNotMatch(p, blocked, p); assert.ok(p.length <= 80, p); }
+  const brief = fs.readFileSync(new URL('../data/textbot_requests_company_voice.md', import.meta.url), 'utf8');
+  for (const ev of Object.values(CFG.events)) assert.match(brief, new RegExp(`system_company_voice\\.${ev.line}\\b`));
+  assert.match(brief, /Good job 001893! New creatures help boost company asset value!/);
+});

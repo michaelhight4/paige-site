@@ -1,0 +1,414 @@
+[
+ {
+  "view": "pc_1366x768",
+  "mode": "npc",
+  "fail": [],
+  "typing": {
+   "opacity": 0,
+   "hidden": false,
+   "rv": true
+  },
+  "lead": {
+   "shown": true,
+   "text": "Press F",
+   "opacity": 1,
+   "anim": "dlg-hint-in, dlg-hint-bob",
+   "color": "rgb(255, 210, 63)",
+   "bg": "rgb(26, 18, 38)",
+   "list": false,
+   "thought": false,
+   "inside": true,
+   "bottomRight": true,
+   "textOverlap": false,
+   "moreOverlap": false,
+   "hint": {
+    "l": 1067.03125,
+    "t": 702.2056274414062,
+    "r": 1132.4375,
+    "b": 724.2837524414062
+   },
+   "boxR": {
+    "l": 193,
+    "t": 591.234375,
+    "r": 1173,
+    "b": 737.28125
+   }
+  },
+  "axe": []
+ },
+ {
+  "view": "pc_1366x768",
+  "mode": "npc_reduced",
+  "fail": [],
+  "typing": {
+   "opacity": 1,
+   "hidden": false,
+   "rv": false
+  },
+  "lead": {
+   "shown": true,
+   "text": "Press F",
+   "opacity": 1,
+   "anim": "none",
+   "color": "rgb(255, 210, 63)",
+   "bg": "rgb(26, 18, 38)",
+   "list": false,
+   "thought": false,
+   "inside": true,
+   "bottomRight": true,
+   "textOverlap": false,
+   "moreOverlap": false,
+   "hint": {
+    "l": 1067.03125,
+    "t": 705.203125,
+    "r": 1132.4375,
+    "b": 727.28125
+   },
+   "boxR": {
+    "l": 193,
+    "t": 591.234375,
+    "r": 1173,
+    "b": 737.28125
+   }
+  },
+  "axe": []
+ },
+ {
+  "view": "pc_1366x768",
+  "mode": "thought",
+  "fail": [],
+  "typing": {
+   "opacity": 0,
+   "hidden": false,
+   "rv": true
+  },
+  "lead": {
+   "shown": true,
+   "text": "Press F",
+   "opacity": 1,
+   "anim": "dlg-hint-in, dlg-hint-bob",
+   "color": "rgb(255, 210, 63)",
+   "bg": "rgb(26, 18, 38)",
+   "list": false,
+   "thought": true,
+   "inside": true,
+   "bottomRight": true,
+   "textOverlap": false,
+   "moreOverlap": false,
+   "hint": {
+    "l": 1067.03125,
+    "t": 703.1624755859375,
+    "r": 1132.4375,
+    "b": 725.2406005859375
+   },
+   "boxR": {
+    "l": 193,
+    "t": 613.484375,
+    "r": 1173,
+    "b": 737.28125
+   }
+  },
+  "axe": []
+ },
+ {
+  "view": "pc_1366x768",
+  "mode": "choice",
+  "fail": [],
+  "typing": {
+   "opacity": 0,
+   "hidden": false,
+   "rv": true
+  },
+  "lead": {
+   "shown": true,
+   "text": "Press F",
+   "opacity": 1,
+   "anim": "dlg-hint-in, dlg-hint-bob",
+   "color": "rgb(255, 210, 63)",
+   "bg": "rgb(26, 18, 38)",
+   "list": false,
+   "thought": false,
+   "inside": true,
+   "bottomRight": true,
+   "textOverlap": false,
+   "moreOverlap": false,
+   "hint": {
+    "l": 1067.03125,
+    "t": 704.0477905273438,
+    "r": 1132.4375,
+    "b": 726.1258544921875
+   },
+   "boxR": {
+    "l": 193,
+    "t": 591.234375,
+    "r": 1173,
+    "b": 737.28125
+   }
+  },
+  "list": {
+   "shown": false,
+   "text": "Press F",
+   "opacity": 1,
+   "anim": "dlg-hint-in, dlg-hint-bob",
+   "color": "rgb(255, 210, 63)",
+   "bg": "rgb(26, 18, 38)",
+   "list": true,
+   "thought": false,
+   "inside": null,
+   "bottomRight": null,
+   "textOverlap": null,
+   "moreOverlap": null,
+   "hint": null,
+   "boxR": {
+    "l": 193,
+    "t": 517.328125,
+    "r": 1173,
+    "b": 737.28125
+   }
+  },
+  "axe": []
+ },
+ {
+  "view": "pc_1366x768",
+  "mode": "long",
+  "fail": [],
+  "typing": {
+   "opacity": 0,
+   "hidden": false,
+   "rv": true
+  },
+  "lead": {
+   "shown": true,
+   "text": "Press F",
+   "opacity": 1,
+   "anim": "dlg-hint-in, dlg-hint-bob",
+   "color": "rgb(255, 210, 63)",
+   "bg": "rgb(26, 18, 38)",
+   "list": false,
+   "thought": false,
+   "inside": true,
+   "bottomRight": true,
+   "textOverlap": false,
+   "moreOverlap": false,
+   "hint": {
+    "l": 1067.03125,
+    "t": 705.12451171875,
+    "r": 1132.4375,
+    "b": 727.20263671875
+   },
+   "boxR": {
+    "l": 193,
+    "t": 562.28125,
+    "r": 1173,
+    "b": 737.28125
+   }
+  },
+  "axe": []
+ },
+ {
+  "view": "iphone_844x390",
+  "mode": "npc",
+  "fail": [],
+  "typing": {
+   "opacity": 0,
+   "hidden": false,
+   "rv": true
+  },
+  "lead": {
+   "shown": true,
+   "text": "Tap",
+   "opacity": 1,
+   "anim": "dlg-hint-in, dlg-hint-bob",
+   "color": "rgb(255, 210, 63)",
+   "bg": "rgb(26, 18, 38)",
+   "list": false,
+   "thought": false,
+   "inside": true,
+   "bottomRight": true,
+   "textOverlap": false,
+   "moreOverlap": false,
+   "hint": {
+    "l": 571.046875,
+    "t": 349.30694580078125,
+    "r": 610.203125,
+    "b": 369.01007080078125
+   },
+   "boxR": {
+    "l": 8,
+    "t": 249.015625,
+    "r": 648,
+    "b": 382
+   }
+  },
+  "axe": []
+ },
+ {
+  "view": "iphone_844x390",
+  "mode": "npc_reduced",
+  "fail": [],
+  "typing": {
+   "opacity": 1,
+   "hidden": false,
+   "rv": false
+  },
+  "lead": {
+   "shown": true,
+   "text": "Tap",
+   "opacity": 1,
+   "anim": "none",
+   "color": "rgb(255, 210, 63)",
+   "bg": "rgb(26, 18, 38)",
+   "list": false,
+   "thought": false,
+   "inside": true,
+   "bottomRight": true,
+   "textOverlap": false,
+   "moreOverlap": false,
+   "hint": {
+    "l": 571.046875,
+    "t": 352.296875,
+    "r": 610.203125,
+    "b": 372
+   },
+   "boxR": {
+    "l": 8,
+    "t": 249.015625,
+    "r": 648,
+    "b": 382
+   }
+  },
+  "axe": []
+ },
+ {
+  "view": "iphone_844x390",
+  "mode": "thought",
+  "fail": [],
+  "typing": {
+   "opacity": 0,
+   "hidden": false,
+   "rv": true
+  },
+  "lead": {
+   "shown": true,
+   "text": "Tap",
+   "opacity": 1,
+   "anim": "dlg-hint-in, dlg-hint-bob",
+   "color": "rgb(255, 210, 63)",
+   "bg": "rgb(26, 18, 38)",
+   "list": false,
+   "thought": true,
+   "inside": true,
+   "bottomRight": true,
+   "textOverlap": false,
+   "moreOverlap": false,
+   "hint": {
+    "l": 571.046875,
+    "t": 350.25604248046875,
+    "r": 610.203125,
+    "b": 369.95916748046875
+   },
+   "boxR": {
+    "l": 8,
+    "t": 276.609375,
+    "r": 648,
+    "b": 382
+   }
+  },
+  "axe": []
+ },
+ {
+  "view": "iphone_844x390",
+  "mode": "choice",
+  "fail": [],
+  "typing": {
+   "opacity": 0,
+   "hidden": false,
+   "rv": true
+  },
+  "lead": {
+   "shown": true,
+   "text": "Tap",
+   "opacity": 1,
+   "anim": "dlg-hint-in, dlg-hint-bob",
+   "color": "rgb(255, 210, 63)",
+   "bg": "rgb(26, 18, 38)",
+   "list": false,
+   "thought": false,
+   "inside": true,
+   "bottomRight": true,
+   "textOverlap": false,
+   "moreOverlap": false,
+   "hint": {
+    "l": 571.046875,
+    "t": 351.2448425292969,
+    "r": 610.203125,
+    "b": 370.9479675292969
+   },
+   "boxR": {
+    "l": 8,
+    "t": 249.015625,
+    "r": 648,
+    "b": 382
+   }
+  },
+  "list": {
+   "shown": false,
+   "text": "Tap",
+   "opacity": 1,
+   "anim": "dlg-hint-in, dlg-hint-bob",
+   "color": "rgb(255, 210, 63)",
+   "bg": "rgb(26, 18, 38)",
+   "list": true,
+   "thought": false,
+   "inside": null,
+   "bottomRight": null,
+   "textOverlap": null,
+   "moreOverlap": null,
+   "hint": null,
+   "boxR": {
+    "l": 8,
+    "t": 137.65625,
+    "r": 836,
+    "b": 382
+   }
+  },
+  "axe": []
+ },
+ {
+  "view": "iphone_844x390",
+  "mode": "long",
+  "fail": [],
+  "typing": {
+   "opacity": 0,
+   "hidden": false,
+   "rv": true
+  },
+  "lead": {
+   "shown": true,
+   "text": "Tap",
+   "opacity": 1,
+   "anim": "dlg-hint-in, dlg-hint-bob",
+   "color": "rgb(255, 210, 63)",
+   "bg": "rgb(26, 18, 38)",
+   "list": false,
+   "thought": false,
+   "inside": true,
+   "bottomRight": true,
+   "textOverlap": false,
+   "moreOverlap": false,
+   "hint": {
+    "l": 571.046875,
+    "t": 352.2183837890625,
+    "r": 610.203125,
+    "b": 371.9215087890625
+   },
+   "boxR": {
+    "l": 8,
+    "t": 224.375,
+    "r": 648,
+    "b": 382
+   }
+  },
+  "axe": []
+ }
+]

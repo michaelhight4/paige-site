@@ -1,0 +1,232 @@
+{
+ "_meta": {
+  "set": "cute_r7",
+  "region": 7,
+  "note": "Cute set for region 7 (Lanternport). DESIGN ONLY, not built. 2 rare + 4 uncommon. All single-stage.",
+  "hold_from_encounters": true,
+  "dex_no": "unassigned until Gary/World Design slot them",
+  "wild": {
+   "why": "Proposed region 7 zones",
+   "zone": "lanternport",
+   "slots": [
+    {
+     "species": "wickmote",
+     "level": [
+      54,
+      57
+     ],
+     "weight": 4,
+     "zone": "lanternport"
+    },
+    {
+     "species": "fogkin",
+     "level": [
+      54,
+      57
+     ],
+     "weight": 4,
+     "zone": "route_fernwick_lanternport"
+    },
+    {
+     "species": "paperpaw",
+     "level": [
+      54,
+      57
+     ],
+     "weight": 4,
+     "zone": "lanternport"
+    },
+    {
+     "species": "lensmoth",
+     "level": [
+      61,
+      64
+     ],
+     "weight": 2,
+     "zone": "route_fernwick_lanternport"
+    },
+    {
+     "species": "bellbuoy",
+     "level": [
+      54,
+      57
+     ],
+     "weight": 4,
+     "zone": "lanternport"
+    },
+    {
+     "species": "hushlet",
+     "level": [
+      61,
+      64
+     ],
+     "weight": 2,
+     "zone": "lanternport"
+    }
+   ]
+  }
+ },
+ "creatures": [
+  {
+   "id": "wickmote",
+   "name": "Wickmote",
+   "types": [
+    "spirit",
+    "light"
+   ],
+   "first_zone": "lanternport",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "lanternport",
+   "visual_brief": "Little candle-stub creature with a soft wax body, a dripping topknot and a calm flame halo. Palette: cream wax, warm amber, soft orange, violet. Crystal: violet crystal set in its wax chest.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "wickmote"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Sits in empty windows so homes never look dark.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "id": "fogkin",
+   "name": "Fogkin",
+   "types": [
+    "ghost",
+    "sea"
+   ],
+   "first_zone": "route_fernwick_lanternport",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "route_fernwick_lanternport",
+   "visual_brief": "Puff of harbour fog with round eyes and two little mitten-arms, trailing wisps. Palette: pale grey, mist blue, white, violet. Crystal: violet crystal floating in its middle.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "fogkin"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Follows lost sailors home, then vanishes when they open the door.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "id": "paperpaw",
+   "name": "Paperpaw",
+   "types": [
+    "spirit"
+   ],
+   "first_zone": "lanternport",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "lanternport",
+   "visual_brief": "Folded-paper lantern kitten, pleated body glowing from inside, tassel tail. Palette: rice-paper white, red trim, warm glow, violet. Crystal: violet crystal on its tassel.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "paperpaw"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Floats on festival nights and naps folded flat by day.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "id": "lensmoth",
+   "name": "Lensmoth",
+   "types": [
+    "light",
+    "bug"
+   ],
+   "first_zone": "route_fernwick_lanternport",
+   "rarity": "rare",
+   "size_class": "small",
+   "habitat": "route_fernwick_lanternport",
+   "visual_brief": "Fluffy round moth with lace-pattern wings that shine like a lamp's lens, feathery antennae. Palette: ivory, honey, dusk blue, violet. Crystal: violet crystal on its fuzzy chest.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "lensmoth"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Collects at lighthouse windows; keepers count them to guess the weather.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "id": "bellbuoy",
+   "name": "Bellbuoy",
+   "types": [
+    "sea",
+    "spirit"
+   ],
+   "first_zone": "lanternport",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "lanternport",
+   "visual_brief": "Round little buoy-bodied creature with a tiny bell for a tail and stubby legs, red and white stripes. Palette: buoy red, white, brass, violet. Crystal: violet crystal on its top cap.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "bellbuoy"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Rings gently when a ship is near the rocks.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "id": "hushlet",
+   "name": "Hushlet",
+   "types": [
+    "ghost",
+    "wind"
+   ],
+   "first_zone": "lanternport",
+   "rarity": "rare",
+   "size_class": "small",
+   "habitat": "lanternport",
+   "visual_brief": "Puffball owlet with a lantern-glass eye ring and silent fringed feathers, half see-through. Palette: smoke grey, pale lilac, amber eyes, violet. Crystal: violet crystal on its forehead.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "hushlet"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Never makes a sound; you only know it is there when the lamps flicker.",
+   "existing_art": false,
+   "status": "draft"
+  }
+ ]
+}

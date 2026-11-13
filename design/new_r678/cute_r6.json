@@ -1,0 +1,231 @@
+{
+ "_meta": {
+  "set": "cute_r6",
+  "region": 6,
+  "note": "Cute set for region 6 (Tidewater). DESIGN ONLY, not built. 2 rare + 4 uncommon. All single-stage.",
+  "hold_from_encounters": true,
+  "dex_no": "unassigned until Gary/World Design slot them",
+  "wild": {
+   "why": "Proposed region 6 zones",
+   "zone": "tidewater_coast",
+   "slots": [
+    {
+     "species": "puffgill",
+     "level": [
+      43,
+      46
+     ],
+     "weight": 4,
+     "zone": "tidewater_coast"
+    },
+    {
+     "species": "kelpkit",
+     "level": [
+      43,
+      46
+     ],
+     "weight": 4,
+     "zone": "route_coast"
+    },
+    {
+     "species": "drizzlop",
+     "level": [
+      46,
+      49
+     ],
+     "weight": 2,
+     "zone": "tidewater_coast"
+    },
+    {
+     "species": "cocklet",
+     "level": [
+      43,
+      46
+     ],
+     "weight": 4,
+     "zone": "tidewater_coast_cave"
+    },
+    {
+     "species": "foamfawn",
+     "level": [
+      46,
+      49
+     ],
+     "weight": 2,
+     "zone": "route_coast"
+    },
+    {
+     "species": "nubbinray",
+     "level": [
+      43,
+      46
+     ],
+     "weight": 4,
+     "zone": "tidewater_coast"
+    }
+   ]
+  }
+ },
+ "creatures": [
+  {
+   "id": "puffgill",
+   "name": "Puffgill",
+   "types": [
+    "sea"
+   ],
+   "first_zone": "tidewater_coast",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "tidewater_coast",
+   "visual_brief": "Round baby sea-robin fish with fan-like pectoral 'wings' it flaps on sand; big glossy eyes, pink belly. Palette: coral pink, sand, teal, violet. Crystal: small violet crystal on its brow.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "puffgill"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Hops along the tideline on its fins and sulks when a wave knocks it over.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "id": "kelpkit",
+   "name": "Kelpkit",
+   "types": [
+    "sea",
+    "grass"
+   ],
+   "first_zone": "route_coast",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "route_coast",
+   "visual_brief": "Sea-otter kit wrapped in a kelp blanket like a scarf, holding a tiny shell; floats belly-up. Palette: cocoa brown, kelp green, cream, violet. Crystal: violet crystal on the shell it holds.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "kelpkit"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Ties itself to kelp so it does not drift away while it naps.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "id": "drizzlop",
+   "name": "Drizzlop",
+   "types": [
+    "rain",
+    "bird"
+   ],
+   "first_zone": "tidewater_coast",
+   "rarity": "rare",
+   "size_class": "small",
+   "habitat": "tidewater_coast",
+   "visual_brief": "Chubby storm-petrel chick, grey down puffed like a raincloud, little webbed feet; a drip hangs off its beak. Palette: storm grey, white, slate blue, violet. Crystal: violet crystal tuft on its head.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "drizzlop"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Only sings when it rains, then sings all night.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "id": "cocklet",
+   "name": "Cocklet",
+   "types": [
+    "sea",
+    "earth"
+   ],
+   "first_zone": "tidewater_coast_cave",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "tidewater_coast_cave",
+   "visual_brief": "Tiny hermit-snail creature living in a ribbed cockle shell, two stalk eyes and a soft peach body. Palette: peach, cream shell, rose, violet. Crystal: violet crystal on the shell's hinge.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "cocklet"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Swaps shells with friends as a sign of trust.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "id": "foamfawn",
+   "name": "Foamfawn",
+   "types": [
+    "water",
+    "wind"
+   ],
+   "first_zone": "route_coast",
+   "rarity": "rare",
+   "size_class": "small",
+   "habitat": "route_coast",
+   "visual_brief": "Small sea-spray fawn with a seafoam mane and frothy tail, hooves leave bubbles. Palette: aqua, white foam, pale gold, violet. Crystal: violet crystal on its forehead.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "foamfawn"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Seen only where waves hit the rocks hardest, playing in the spray.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "id": "nubbinray",
+   "name": "Nubbinray",
+   "types": [
+    "sea"
+   ],
+   "first_zone": "tidewater_coast",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "tidewater_coast",
+   "visual_brief": "Pocket-sized round ray, smiling underside, freckled back, stubby tail with a bow-like fin. Palette: dusty blue, pale cream, navy freckles, violet. Crystal: violet crystal at tail tip.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "nubbinray"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Glides in rock pools and lets children stroke its back.",
+   "existing_art": false,
+   "status": "draft"
+  }
+ ]
+}

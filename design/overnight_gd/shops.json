@@ -1,0 +1,386 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "schema": "same shape as src/systems/data/shops.json regions (stock tiers by coins held). basePrices of existing ids are approved as-is and NOT changed.",
+ "approved_basePrices": {
+  "tonic_small": 200,
+  "tonic_large": 600,
+  "energy_tonic": 1500,
+  "calm_tea": 250,
+  "trail_mix": 100,
+  "feed_bag_small": 150,
+  "feed_bag": 400,
+  "vigor_seed": 1200,
+  "dominance_crystal": 200,
+  "dominance_crystal_plus": 600,
+  "crystal_dust": 80
+ },
+ "proposed_new_items": {
+  "tonic_max": {
+   "role": "restores a lot of health (between tonic_large and full)",
+   "price_proposed": 1200
+  },
+  "tonic_full": {
+   "role": "restores all health",
+   "price_proposed": 2500
+  },
+  "revive_draught": {
+   "role": "wakes a fainted creature at half health",
+   "price_proposed": 1500
+  },
+  "dominance_crystal_hi": {
+   "role": "grade-2 capture crystal (above Prime Crystal)",
+   "price_proposed": 1200
+  },
+  "hush_spray": {
+   "role": "Repel (Hush Spray, already named in overworld_lines.json); id not in items.js yet",
+   "price_proposed": 350
+  },
+  "clear_tea": {
+   "role": "cures every status (calm_tea cures one)",
+   "price_proposed": 600
+  },
+  "_note": "NEW ids + prices are PROPOSALS: not in src/systems/items.js; Coder adds ids, Text Bot names, Gary approves prices. Remove from stock if declined."
+ },
+ "proposed_trainer_classes": {
+  "_note": "add to trainerMoney.classes (else code uses default 40) or pass baseAmount per trainer",
+  "classes": {
+   "angler": 35,
+   "birder": 35,
+   "beetle_keeper": 25,
+   "courier": 45,
+   "harbour_hand": 45,
+   "diver": 50,
+   "ranger": 55,
+   "lamplighter": 50,
+   "smith": 55,
+   "scholar": 60,
+   "fogwalker": 45,
+   "climber": 45,
+   "gardener": 40,
+   "veteran": 80,
+   "battle_master": 150,
+   "camper": 30,
+   "rail_worker": 50,
+   "skater": 35
+  }
+ },
+ "regions": {
+  "brookhollow": {
+   "city": "Brookhollow",
+   "copay": 100,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "dominance_crystal",
+      "tonic_small",
+      "calm_tea",
+      "trail_mix",
+      "feed_bag_small"
+     ]
+    },
+    {
+     "coins": 1,
+     "items": [
+      "tonic_large",
+      "feed_bag",
+      "energy_tonic"
+     ]
+    },
+    {
+     "coins": 3,
+     "items": [
+      "dominance_crystal_plus",
+      "vigor_seed"
+     ]
+    }
+   ],
+   "_source": "existing (copied unchanged)",
+   "proposed_extra_tiers": [
+    {
+     "coins": 5,
+     "items": [
+      "hush_spray",
+      "revive_draught"
+     ]
+    }
+   ]
+  },
+  "fernwick": {
+   "city": "Fernwick",
+   "copay": 150,
+   "prices": {
+    "tonic_small": 220,
+    "trail_mix": 90,
+    "feed_bag_small": 140
+   },
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "dominance_crystal",
+      "tonic_small",
+      "tonic_large",
+      "calm_tea",
+      "trail_mix",
+      "feed_bag_small",
+      "feed_bag"
+     ]
+    },
+    {
+     "coins": 1,
+     "items": [
+      "dominance_crystal_plus",
+      "energy_tonic"
+     ]
+    },
+    {
+     "coins": 3,
+     "items": [
+      "vigor_seed"
+     ]
+    }
+   ],
+   "_source": "existing (copied unchanged)",
+   "proposed_extra_tiers": [
+    {
+     "coins": 5,
+     "items": [
+      "hush_spray",
+      "revive_draught"
+     ]
+    }
+   ]
+  },
+  "saltmere": {
+   "city": "Saltmere",
+   "copay": 200,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "dominance_crystal",
+      "dominance_crystal_plus",
+      "tonic_small",
+      "tonic_large",
+      "calm_tea",
+      "trail_mix",
+      "feed_bag_small",
+      "feed_bag",
+      "energy_tonic"
+     ]
+    },
+    {
+     "coins": 2,
+     "items": [
+      "hush_spray"
+     ]
+    },
+    {
+     "coins": 3,
+     "items": [
+      "vigor_seed"
+     ]
+    }
+   ],
+   "speciality": "harbour: crystals + feeds"
+  },
+  "revival_heights": {
+   "city": "Revival Heights",
+   "copay": 250,
+   "prices": {
+    "energy_tonic": 1500
+   },
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "dominance_crystal",
+      "dominance_crystal_plus",
+      "tonic_small",
+      "tonic_large",
+      "calm_tea",
+      "feed_bag",
+      "energy_tonic",
+      "vigor_seed",
+      "hush_spray"
+     ]
+    },
+    {
+     "coins": 3,
+     "items": [
+      "tonic_max",
+      "revive_draught",
+      "dominance_crystal_hi"
+     ]
+    }
+   ],
+   "speciality": "RT HQ store: first town with tonic_max / revive / grade-2 crystal"
+  },
+  "frostspire": {
+   "city": "Frostspire lodge stall",
+   "copay": 250,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "tonic_large",
+      "tonic_max",
+      "calm_tea",
+      "clear_tea",
+      "energy_tonic",
+      "feed_bag",
+      "dominance_crystal_plus"
+     ]
+    }
+   ],
+   "speciality": "small stall, no cheap crystals"
+  },
+  "mirefen": {
+   "city": "Mirefen stilt stall",
+   "copay": 250,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "tonic_large",
+      "tonic_max",
+      "calm_tea",
+      "clear_tea",
+      "revive_draught",
+      "hush_spray",
+      "feed_bag",
+      "dominance_crystal_hi"
+     ]
+    }
+   ],
+   "speciality": "cures + Hush Spray (bog)"
+  },
+  "tidewater_coast": {
+   "city": "Tidewater beach hut",
+   "copay": 300,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "tonic_max",
+      "revive_draught",
+      "clear_tea",
+      "energy_tonic",
+      "hush_spray",
+      "dominance_crystal_hi",
+      "feed_bag"
+     ]
+    }
+   ],
+   "speciality": "small"
+  },
+  "lanternport": {
+   "city": "Lanternport",
+   "copay": 300,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "dominance_crystal",
+      "dominance_crystal_plus",
+      "dominance_crystal_hi",
+      "tonic_small",
+      "tonic_large",
+      "tonic_max",
+      "calm_tea",
+      "clear_tea",
+      "revive_draught",
+      "hush_spray",
+      "trail_mix",
+      "feed_bag",
+      "energy_tonic",
+      "vigor_seed"
+     ]
+    },
+    {
+     "coins": 7,
+     "items": [
+      "tonic_full"
+     ]
+    }
+   ],
+   "speciality": "port market: widest stock"
+  },
+  "aurelith": {
+   "city": "Aurelith",
+   "copay": 300,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "dominance_crystal",
+      "tonic_small",
+      "tonic_large",
+      "calm_tea",
+      "trail_mix",
+      "feed_bag_small",
+      "feed_bag"
+     ]
+    },
+    {
+     "coins": 3,
+     "items": [
+      "dominance_crystal_plus",
+      "energy_tonic",
+      "vigor_seed",
+      "hush_spray"
+     ]
+    },
+    {
+     "coins": 6,
+     "items": [
+      "tonic_max",
+      "revive_draught",
+      "dominance_crystal_hi",
+      "clear_tea"
+     ]
+    },
+    {
+     "coins": 8,
+     "items": [
+      "tonic_full"
+     ]
+    }
+   ],
+   "speciality": "first seen at step 4; stock grows with coins"
+  },
+  "cindervale": {
+   "city": "Cindervale",
+   "copay": 300,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "dominance_crystal_plus",
+      "dominance_crystal_hi",
+      "tonic_large",
+      "tonic_max",
+      "tonic_full",
+      "clear_tea",
+      "revive_draught",
+      "energy_tonic",
+      "hush_spray",
+      "feed_bag",
+      "vigor_seed"
+     ]
+    }
+   ],
+   "speciality": "last town: full stock"
+  }
+ },
+ "no_shop_note": "Biome Masters (Frostspire, Mirefen, Tidewater) get small stalls so every coin stop has a heal + shop; open question."
+}

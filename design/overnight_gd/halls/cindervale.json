@@ -1,0 +1,152 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "coin_number": 8,
+ "zone": "cindervale",
+ "hall_map": "cindervale_hall_int (to come; forge hall)",
+ "flag": "beat_master_cindervale",
+ "coin_name_suggestion": "Forge Coin",
+ "coin_name_note": "player text says \"coin\" (CRITICAL_PATH); name needs Gary + web clash check",
+ "master": {
+  "id": "master_cindervale",
+  "class": "master",
+  "name_suggestion": "Brannock Fell",
+  "element": "fire + magma",
+  "team": [
+   {
+    "species": "slagrook",
+    "level": 51
+   },
+   {
+    "species": "sparkplume",
+    "level": 51
+   },
+   {
+    "species": "charlurcher",
+    "level": 52
+   },
+   {
+    "species": "kilnowl",
+    "level": 53
+   },
+   {
+    "species": "embermink",
+    "level": 53
+   },
+   {
+    "species": "glyphforge",
+    "level": 55
+   }
+  ],
+  "base": 120,
+  "base_status": "existing",
+  "prize": 6600,
+  "sight_range": 0,
+  "sight_rule": "masters never spot: talk to them",
+  "text_ref": "overworld_lines.json masters.cindervale (TODO Text Bot)"
+ },
+ "hall_trainers": [
+  {
+   "id": "tr_hall_cindervale_h1",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Jem",
+   "team": [
+    {
+     "species": "slagrook",
+     "level": 49
+    },
+    {
+     "species": "foundrax",
+     "level": 50
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 2500,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.hall_cindervale.h1",
+   "note": "smith outfit"
+  },
+  {
+   "id": "tr_hall_cindervale_h2",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Kerr",
+   "team": [
+    {
+     "species": "pyrogrim",
+     "level": 50
+    },
+    {
+     "species": "sunderhoof",
+     "level": 50
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 2500,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.hall_cindervale.h2"
+  },
+  {
+   "id": "tr_hall_cindervale_h3",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Lark",
+   "team": [
+    {
+     "species": "ingotitan",
+     "level": 51
+    },
+    {
+     "species": "slagrook",
+     "level": 51
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 2550,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.hall_cindervale.h3"
+  },
+  {
+   "id": "tr_hall_cindervale_h4",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Mabry",
+   "team": [
+    {
+     "species": "kilnant",
+     "level": 51
+    },
+    {
+     "species": "cinderwraith",
+     "level": 52
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 2600,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.hall_cindervale.h4",
+   "note": "last before the anvil dais"
+  }
+ ],
+ "puzzle": {
+  "status": "outline",
+  "name_suggestion": "Quench channels",
+  "outline": "Lava channels cross the forge floor. Spring taps fill a bucket (holds 3 pours). Pour on a lava tile to cool it to stone for good. Taps are few, so plan which tiles to cool. Bellows tiles push heat back and re-melt nearby cooled tiles (2 rooms). Reset lever at the door.",
+  "teaches": "resource planning; last and hardest hall"
+ },
+ "reward": {
+  "coin": "Forge Coin",
+  "money": 6600,
+  "gift_item": {
+   "id": "vigor_seed",
+   "qty": 3
+  },
+  "opens": "all_badges -> gate_aurelith_arena"
+ },
+ "team_size": 6,
+ "ace_level": 55
+}

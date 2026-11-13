@@ -1,0 +1,3 @@
+# Tideglide and storm-flood rules
+**Tideglide** (field move, unlocked by beating Master 5): lets you cross marked shallow sea tiles riding your creature. It only works on `glide` tiles. Random encounters use the tidewater_coast table at 0.6x rate. It is blocked during a storm.
+**Storm-flood** (Mirefen + coast): a timed weather state that lasts 1 in 4 day segments. While it is active, `flood` tiles become impassable and `glide` tiles open in Mirefen. Swamp encounters shift by +2 levels, and one rare slot opens (deluvane). It is announced by a sky tint and a line from Old Gus. It never traps the player: every flooded path has a dry detour.

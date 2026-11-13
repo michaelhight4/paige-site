@@ -1,0 +1,80 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_saltmere_mirefen",
+ "route_id": "saltmere-mirefen",
+ "kind": "route (causeway)",
+ "map_status": "to_come",
+ "story_step": "8 (alt entry)",
+ "story_order": 18,
+ "level_band": "wild 32-35, trainers 33-35",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_route_saltmere_mirefen_a",
+   "class": "harbour_hand",
+   "class_display_suggestion": "Harbour Hand",
+   "name_suggestion": "Wilde",
+   "team": [
+    {
+     "species": "floepaddle",
+     "level": 33
+    },
+    {
+     "species": "dewbell",
+     "level": 34
+    }
+   ],
+   "base": 45,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1530,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_saltmere_mirefen.a",
+   "note": "drained causeway"
+  },
+  {
+   "id": "tr_route_saltmere_mirefen_b",
+   "class": "angler",
+   "class_display_suggestion": "Angler",
+   "name_suggestion": "Yves",
+   "team": [
+    {
+     "species": "floepaddle",
+     "level": 34
+    },
+    {
+     "species": "rimewyrm",
+     "level": 34
+    }
+   ],
+   "base": 35,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1190,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_saltmere_mirefen.b",
+   "note": "causeway sluice"
+  },
+  {
+   "id": "tr_route_saltmere_mirefen_c",
+   "class": "fogwalker",
+   "class_display_suggestion": "Bog Walker",
+   "name_suggestion": "Ansel",
+   "team": [
+    {
+     "species": "gloamtick",
+     "level": 35
+    },
+    {
+     "species": "snapmoor",
+     "level": 35
+    }
+   ],
+   "base": 45,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1575,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_saltmere_mirefen.c",
+   "note": "marsh end"
+  }
+ ],
+ "hall": null
+}

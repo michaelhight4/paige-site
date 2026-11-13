@@ -1,0 +1,51 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "sunmeadow_fields",
+ "route_id": null,
+ "kind": "biome (meadow; Croft)",
+ "map_status": "partial (route1 strip built; main meadow to come)",
+ "story_step": "8",
+ "story_order": 15,
+ "level_band": "wild 30-34, trainers 31-35",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "smf_barrier",
+   "item": "tonic_large",
+   "hidden": false,
+   "placement_hint": "just past the barrier stubs"
+  },
+  {
+   "id": "smf_croft",
+   "item": "feed_bag",
+   "hidden": false,
+   "placement_hint": "Croft paddock gate"
+  },
+  {
+   "id": "smf_loop",
+   "item": "vigor_seed",
+   "hidden": false,
+   "placement_hint": "bike loop island"
+  },
+  {
+   "id": "smf_hidden_flowers",
+   "item": "energy_tonic",
+   "hidden": true,
+   "placement_hint": "flower ring"
+  },
+  {
+   "id": "smf_north",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "placement_hint": "north meadow"
+  },
+  {
+   "id": "smf_hidden_stile",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "placement_hint": "stile"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

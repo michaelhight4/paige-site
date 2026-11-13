@@ -1,0 +1,72 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route1",
+ "route_id": null,
+ "kind": "route",
+ "map_status": "built",
+ "story_step": "1",
+ "story_order": 2,
+ "level_band": "wild 2-6, trainers 4-6",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_route1_a",
+   "class": "kid",
+   "class_display_suggestion": "Trail Kid",
+   "name_suggestion": "Pip",
+   "team": [
+    {
+     "species": "nibbin",
+     "level": 4
+    }
+   ],
+   "base": 20,
+   "base_status": "existing",
+   "prize": 80,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route1.a",
+   "note": "existing npc trainer_r1_a (12,20)"
+  },
+  {
+   "id": "tr_route1_b",
+   "class": "beetle_keeper",
+   "class_display_suggestion": "Beetle Keeper",
+   "name_suggestion": "Tam",
+   "team": [
+    {
+     "species": "burlbeetle",
+     "level": 4
+    },
+    {
+     "species": "pebblant",
+     "level": 5
+    }
+   ],
+   "base": 25,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 125,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route1.b",
+   "note": "existing npc trainer_r1_b (31,13), optional"
+  },
+  {
+   "id": "tr_route1_c",
+   "class": "birder",
+   "class_display_suggestion": "Birdwatcher",
+   "name_suggestion": "Wren",
+   "team": [
+    {
+     "species": "sailquill",
+     "level": 6
+    }
+   ],
+   "base": 35,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 210,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route1.c",
+   "note": "existing npc trainer_r1_c (34,9)"
+  }
+ ],
+ "hall": null
+}

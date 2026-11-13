@@ -1,0 +1,1567 @@
+[
+ {
+  "dev": "pc",
+  "tag": "heal_brookhollow_npcs",
+  "map": "heal_brookhollow",
+  "npc": "technician",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "touch": false,
+  "file": "pc_heal_brookhollow_npcs.png",
+  "ids": [
+   "heal_brookhollow_carer",
+   "heal_brookhollow_technician",
+   "heal_brookhollow_storage_user"
+  ],
+  "stand": [
+   5,
+   3,
+   "left"
+  ],
+  "target": {
+   "tile": {
+    "left": 576,
+    "top": 184,
+    "right": 704,
+    "bottom": 312
+   },
+   "sprite": {
+    "left": 576,
+    "top": 56,
+    "right": 704,
+    "bottom": 312
+   }
+  },
+  "platform": "pc",
+  "zoom": 2,
+  "cam": {
+   "x": -32,
+   "y": 100
+  },
+  "mapPx": {
+   "w": 896,
+   "h": 640
+  },
+  "viewNative": {
+   "w": 960,
+   "h": 540
+  },
+  "dlg": null,
+  "dlgText": null,
+  "battle": null,
+  "portrait": null,
+  "toast": null,
+  "btns": [],
+  "pinnedBottom": true,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ },
+ {
+  "dev": "pc",
+  "tag": "lab_brookhollow_npcs",
+  "map": "lab_brookhollow",
+  "npc": "researcher",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "touch": false,
+  "file": "pc_lab_brookhollow_npcs.png",
+  "ids": [
+   "lab_brookhollow_researcher",
+   "lab_brookhollow_aide"
+  ],
+  "stand": [
+   6,
+   4,
+   "right"
+  ],
+  "target": {
+   "tile": {
+    "left": 960,
+    "top": 476,
+    "right": 1088,
+    "bottom": 604
+   },
+   "sprite": {
+    "left": 960,
+    "top": 348,
+    "right": 1088,
+    "bottom": 604
+   }
+  },
+  "platform": "pc",
+  "zoom": 2,
+  "cam": {
+   "x": -32,
+   "y": 18
+  },
+  "mapPx": {
+   "w": 896,
+   "h": 704
+  },
+  "viewNative": {
+   "w": 960,
+   "h": 540
+  },
+  "dlg": null,
+  "dlgText": null,
+  "battle": null,
+  "portrait": null,
+  "toast": null,
+  "btns": [],
+  "pinnedBottom": false,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ },
+ {
+  "dev": "pc",
+  "tag": "home_brookhollow_b_npcs",
+  "map": "home_brookhollow_b",
+  "npc": "parent",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "touch": false,
+  "file": "pc_home_brookhollow_b_npcs.png",
+  "ids": [
+   "home_brookhollow_b_parent",
+   "scholar"
+  ],
+  "stand": [
+   7,
+   4,
+   "right"
+  ],
+  "target": {
+   "tile": {
+    "left": 1216,
+    "top": 312,
+    "right": 1344,
+    "bottom": 440
+   },
+   "sprite": {
+    "left": 1216,
+    "top": 184,
+    "right": 1344,
+    "bottom": 440
+   }
+  },
+  "platform": "pc",
+  "zoom": 2,
+  "cam": {
+   "x": -96,
+   "y": 100
+  },
+  "mapPx": {
+   "w": 768,
+   "h": 640
+  },
+  "viewNative": {
+   "w": 960,
+   "h": 540
+  },
+  "dlg": null,
+  "dlgText": null,
+  "battle": null,
+  "portrait": null,
+  "toast": null,
+  "btns": [],
+  "pinnedBottom": true,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ },
+ {
+  "dev": "pc",
+  "tag": "short_interior_home_brookhollow_a",
+  "map": "home_brookhollow_a",
+  "npc": "owner",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "touch": false,
+  "file": "pc_short_interior_home_brookhollow_a.png",
+  "ids": [
+   "home_brookhollow_a_owner"
+  ],
+  "stand": [
+   3,
+   5,
+   "up"
+  ],
+  "target": {
+   "tile": {
+    "left": 704,
+    "top": 540,
+    "right": 832,
+    "bottom": 668
+   },
+   "sprite": {
+    "left": 704,
+    "top": 412,
+    "right": 832,
+    "bottom": 668
+   }
+  },
+  "platform": "pc",
+  "zoom": 2,
+  "cam": {
+   "x": -160,
+   "y": -14
+  },
+  "mapPx": {
+   "w": 640,
+   "h": 512
+  },
+  "viewNative": {
+   "w": 960,
+   "h": 540
+  },
+  "dlg": null,
+  "dlgText": null,
+  "battle": null,
+  "portrait": null,
+  "toast": null,
+  "btns": [],
+  "pinnedBottom": null,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ },
+ {
+  "dev": "pc",
+  "tag": "dialogue_heal_technician",
+  "map": "heal_brookhollow",
+  "npc": "technician",
+  "talk": true,
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "touch": false,
+  "file": "pc_dialogue_heal_technician.png",
+  "ids": [
+   "heal_brookhollow_carer",
+   "heal_brookhollow_technician",
+   "heal_brookhollow_storage_user"
+  ],
+  "stand": [
+   5,
+   3,
+   "left"
+  ],
+  "target": {
+   "tile": {
+    "left": 576,
+    "top": 184,
+    "right": 704,
+    "bottom": 312
+   },
+   "sprite": {
+    "left": 576,
+    "top": 56,
+    "right": 704,
+    "bottom": 312
+   }
+  },
+  "platform": "pc",
+  "zoom": 2,
+  "cam": {
+   "x": -32,
+   "y": 100
+  },
+  "mapPx": {
+   "w": 896,
+   "h": 640
+  },
+  "viewNative": {
+   "w": 960,
+   "h": 540
+  },
+  "dlg": {
+   "left": 470,
+   "top": 863,
+   "right": 1450,
+   "bottom": 1037
+  },
+  "dlgText": "River damp gets into the polisher here.\n▼",
+  "battle": null,
+  "portrait": null,
+  "toast": null,
+  "btns": [],
+  "pinnedBottom": true,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ },
+ {
+  "dev": "pc",
+  "tag": "dialogue_prompts_toast",
+  "map": "home_fernwick_a",
+  "npc": "parent",
+  "prompts": true,
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "touch": false,
+  "file": "pc_dialogue_prompts_toast.png",
+  "ids": [
+   "home_fernwick_a_parent"
+  ],
+  "stand": [
+   2,
+   4,
+   "right"
+  ],
+  "target": {
+   "tile": {
+    "left": 576,
+    "top": 312,
+    "right": 704,
+    "bottom": 440
+   },
+   "sprite": {
+    "left": 576,
+    "top": 184,
+    "right": 704,
+    "bottom": 440
+   }
+  },
+  "platform": "pc",
+  "zoom": 2,
+  "cam": {
+   "x": -96,
+   "y": 100
+  },
+  "mapPx": {
+   "w": 768,
+   "h": 640
+  },
+  "viewNative": {
+   "w": 960,
+   "h": 540
+  },
+  "dlg": {
+   "left": 470,
+   "top": 858,
+   "right": 1450,
+   "bottom": 1037
+  },
+  "dlgText": "Tip\nHold the X key to run. Works everywhere, even indoors.\n▼",
+  "battle": null,
+  "portrait": null,
+  "toast": {
+   "left": 718,
+   "top": 780,
+   "right": 1202,
+   "bottom": 846
+  },
+  "btns": [],
+  "pinnedBottom": true,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ },
+ {
+  "dev": "pc",
+  "tag": "battle_image_route1",
+  "map": "route1",
+  "battle": {
+   "left": 1302,
+   "top": 661,
+   "right": 1430,
+   "bottom": 917
+  },
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "touch": false,
+  "file": "pc_battle_image_route1.png",
+  "ids": [
+   "trainer_r1_a",
+   "trainer_r1_b",
+   "trainer_r1_c"
+  ],
+  "stand": null,
+  "target": null,
+  "platform": "pc",
+  "zoom": 2,
+  "cam": {
+   "x": 0,
+   "y": 0
+  },
+  "mapPx": {
+   "w": 2816,
+   "h": 2176
+  },
+  "viewNative": {
+   "w": 960,
+   "h": 540
+  },
+  "dlg": {
+   "left": 470,
+   "top": 863,
+   "right": 1450,
+   "bottom": 1037
+  },
+  "dlgText": "You looked my way. That means a battle!\n▼",
+  "portrait": {
+   "left": 470,
+   "top": 648,
+   "right": 705,
+   "bottom": 1037
+  },
+  "toast": {
+   "left": 842,
+   "top": 785,
+   "right": 1164,
+   "bottom": 851
+  },
+  "btns": [],
+  "pinnedBottom": false,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ },
+ {
+  "dev": "mobile",
+  "tag": "heal_brookhollow_npcs",
+  "map": "heal_brookhollow",
+  "npc": "technician",
+  "w": 844,
+  "h": 390,
+  "dpr": 2,
+  "touch": true,
+  "file": "mobile_heal_brookhollow_npcs.png",
+  "ids": [
+   "heal_brookhollow_carer",
+   "heal_brookhollow_technician",
+   "heal_brookhollow_storage_user"
+  ],
+  "stand": [
+   5,
+   3,
+   "left"
+  ],
+  "target": {
+   "tile": {
+    "left": 256,
+    "top": 163,
+    "right": 320,
+    "bottom": 227
+   },
+   "sprite": {
+    "left": 256,
+    "top": 99,
+    "right": 320,
+    "bottom": 227
+   }
+  },
+  "platform": "mobile",
+  "zoom": 2,
+  "cam": {
+   "x": 0,
+   "y": 29
+  },
+  "mapPx": {
+   "w": 896,
+   "h": 640
+  },
+  "viewNative": {
+   "w": 844,
+   "h": 390
+  },
+  "dlg": null,
+  "dlgText": null,
+  "battle": null,
+  "portrait": null,
+  "toast": null,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 198,
+     "right": 134,
+     "bottom": 256
+    }
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 256,
+     "right": 76,
+     "bottom": 314
+    }
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 256,
+     "right": 192,
+     "bottom": 314
+    }
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 314,
+     "right": 134,
+     "bottom": 372
+    }
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 516,
+     "top": 324,
+     "right": 572,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 586,
+     "top": 324,
+     "right": 642,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 656,
+     "top": 284,
+     "right": 732,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 746,
+     "top": 284,
+     "right": 822,
+     "bottom": 360
+    }
+   }
+  ],
+  "pinnedBottom": false,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ },
+ {
+  "dev": "mobile",
+  "tag": "lab_brookhollow_npcs",
+  "map": "lab_brookhollow",
+  "npc": "researcher",
+  "w": 844,
+  "h": 390,
+  "dpr": 2,
+  "touch": true,
+  "file": "mobile_lab_brookhollow_npcs.png",
+  "ids": [
+   "lab_brookhollow_researcher",
+   "lab_brookhollow_aide"
+  ],
+  "stand": [
+   6,
+   4,
+   "right"
+  ],
+  "target": {
+   "tile": {
+    "left": 448,
+    "top": 163,
+    "right": 512,
+    "bottom": 227
+   },
+   "sprite": {
+    "left": 448,
+    "top": 99,
+    "right": 512,
+    "bottom": 227
+   }
+  },
+  "platform": "mobile",
+  "zoom": 2,
+  "cam": {
+   "x": 0,
+   "y": 93
+  },
+  "mapPx": {
+   "w": 896,
+   "h": 704
+  },
+  "viewNative": {
+   "w": 844,
+   "h": 390
+  },
+  "dlg": null,
+  "dlgText": null,
+  "battle": null,
+  "portrait": null,
+  "toast": null,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 198,
+     "right": 134,
+     "bottom": 256
+    }
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 256,
+     "right": 76,
+     "bottom": 314
+    }
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 256,
+     "right": 192,
+     "bottom": 314
+    }
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 314,
+     "right": 134,
+     "bottom": 372
+    }
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 516,
+     "top": 324,
+     "right": 572,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 586,
+     "top": 324,
+     "right": 642,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 656,
+     "top": 284,
+     "right": 732,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 746,
+     "top": 284,
+     "right": 822,
+     "bottom": 360
+    }
+   }
+  ],
+  "pinnedBottom": false,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ },
+ {
+  "dev": "mobile",
+  "tag": "home_brookhollow_b_npcs",
+  "map": "home_brookhollow_b",
+  "npc": "parent",
+  "w": 844,
+  "h": 390,
+  "dpr": 2,
+  "touch": true,
+  "file": "mobile_home_brookhollow_b_npcs.png",
+  "ids": [
+   "home_brookhollow_b_parent",
+   "scholar"
+  ],
+  "stand": [
+   7,
+   4,
+   "right"
+  ],
+  "target": {
+   "tile": {
+    "left": 550,
+    "top": 163,
+    "right": 614,
+    "bottom": 227
+   },
+   "sprite": {
+    "left": 550,
+    "top": 99,
+    "right": 614,
+    "bottom": 227
+   }
+  },
+  "platform": "mobile",
+  "zoom": 2,
+  "cam": {
+   "x": -38,
+   "y": 93
+  },
+  "mapPx": {
+   "w": 768,
+   "h": 640
+  },
+  "viewNative": {
+   "w": 844,
+   "h": 390
+  },
+  "dlg": null,
+  "dlgText": null,
+  "battle": null,
+  "portrait": null,
+  "toast": null,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 198,
+     "right": 134,
+     "bottom": 256
+    }
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 256,
+     "right": 76,
+     "bottom": 314
+    }
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 256,
+     "right": 192,
+     "bottom": 314
+    }
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 314,
+     "right": 134,
+     "bottom": 372
+    }
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 516,
+     "top": 324,
+     "right": 572,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 586,
+     "top": 324,
+     "right": 642,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 656,
+     "top": 284,
+     "right": 732,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 746,
+     "top": 284,
+     "right": 822,
+     "bottom": 360
+    }
+   }
+  ],
+  "pinnedBottom": false,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ },
+ {
+  "dev": "mobile",
+  "tag": "short_interior_home_brookhollow_a",
+  "map": "home_brookhollow_a",
+  "npc": "owner",
+  "w": 844,
+  "h": 390,
+  "dpr": 2,
+  "touch": true,
+  "file": "mobile_short_interior_home_brookhollow_a.png",
+  "ids": [
+   "home_brookhollow_a_owner"
+  ],
+  "stand": [
+   3,
+   5,
+   "up"
+  ],
+  "target": {
+   "tile": {
+    "left": 294,
+    "top": 134,
+    "right": 358,
+    "bottom": 198
+   },
+   "sprite": {
+    "left": 294,
+    "top": 70,
+    "right": 358,
+    "bottom": 198
+   }
+  },
+  "platform": "mobile",
+  "zoom": 2,
+  "cam": {
+   "x": -102,
+   "y": 122
+  },
+  "mapPx": {
+   "w": 640,
+   "h": 512
+  },
+  "viewNative": {
+   "w": 844,
+   "h": 390
+  },
+  "dlg": null,
+  "dlgText": null,
+  "battle": null,
+  "portrait": null,
+  "toast": null,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 198,
+     "right": 134,
+     "bottom": 256
+    }
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 256,
+     "right": 76,
+     "bottom": 314
+    }
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 256,
+     "right": 192,
+     "bottom": 314
+    }
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 314,
+     "right": 134,
+     "bottom": 372
+    }
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 516,
+     "top": 324,
+     "right": 572,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 586,
+     "top": 324,
+     "right": 642,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 656,
+     "top": 284,
+     "right": 732,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 746,
+     "top": 284,
+     "right": 822,
+     "bottom": 360
+    }
+   }
+  ],
+  "pinnedBottom": true,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ },
+ {
+  "dev": "mobile",
+  "tag": "dialogue_heal_technician",
+  "map": "heal_brookhollow",
+  "npc": "technician",
+  "talk": true,
+  "w": 844,
+  "h": 390,
+  "dpr": 2,
+  "touch": true,
+  "file": "mobile_dialogue_heal_technician.png",
+  "ids": [
+   "heal_brookhollow_carer",
+   "heal_brookhollow_technician",
+   "heal_brookhollow_storage_user"
+  ],
+  "stand": [
+   5,
+   3,
+   "left"
+  ],
+  "target": {
+   "tile": {
+    "left": 256,
+    "top": 163,
+    "right": 320,
+    "bottom": 227
+   },
+   "sprite": {
+    "left": 256,
+    "top": 99,
+    "right": 320,
+    "bottom": 227
+   }
+  },
+  "platform": "mobile",
+  "zoom": 2,
+  "cam": {
+   "x": 0,
+   "y": 29
+  },
+  "mapPx": {
+   "w": 896,
+   "h": 640
+  },
+  "viewNative": {
+   "w": 844,
+   "h": 390
+  },
+  "dlg": {
+   "left": 8,
+   "top": 277,
+   "right": 648,
+   "bottom": 382
+  },
+  "dlgText": "River damp gets into the polisher here.\n▼",
+  "battle": null,
+  "portrait": null,
+  "toast": null,
+  "btns": [
+   {
+    "id": "b",
+    "rect": {
+     "left": 656,
+     "top": 284,
+     "right": 732,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 746,
+     "top": 284,
+     "right": 822,
+     "bottom": 360
+    }
+   }
+  ],
+  "pinnedBottom": false,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ },
+ {
+  "dev": "mobile",
+  "tag": "dialogue_prompts_toast",
+  "map": "home_fernwick_a",
+  "npc": "parent",
+  "prompts": true,
+  "w": 844,
+  "h": 390,
+  "dpr": 2,
+  "touch": true,
+  "file": "mobile_dialogue_prompts_toast.png",
+  "ids": [
+   "home_fernwick_a_parent"
+  ],
+  "stand": [
+   2,
+   4,
+   "right"
+  ],
+  "target": {
+   "tile": {
+    "left": 230,
+    "top": 163,
+    "right": 294,
+    "bottom": 227
+   },
+   "sprite": {
+    "left": 230,
+    "top": 99,
+    "right": 294,
+    "bottom": 227
+   }
+  },
+  "platform": "mobile",
+  "zoom": 2,
+  "cam": {
+   "x": -38,
+   "y": 93
+  },
+  "mapPx": {
+   "w": 768,
+   "h": 640
+  },
+  "viewNative": {
+   "w": 844,
+   "h": 390
+  },
+  "dlg": {
+   "left": 8,
+   "top": 252,
+   "right": 648,
+   "bottom": 382
+  },
+  "dlgText": "Tip\nHold the B button to run. Works everywhere, even indoors.\n▼",
+  "battle": null,
+  "portrait": null,
+  "toast": {
+   "left": 185,
+   "top": 211,
+   "right": 471,
+   "bottom": 246
+  },
+  "btns": [
+   {
+    "id": "b",
+    "rect": {
+     "left": 656,
+     "top": 284,
+     "right": 732,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 746,
+     "top": 284,
+     "right": 822,
+     "bottom": 360
+    }
+   }
+  ],
+  "pinnedBottom": false,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ },
+ {
+  "dev": "mobile",
+  "tag": "battle_image_route1",
+  "map": "route1",
+  "battle": {
+   "left": 544,
+   "top": 79,
+   "right": 640,
+   "bottom": 271
+  },
+  "w": 844,
+  "h": 390,
+  "dpr": 2,
+  "touch": true,
+  "file": "mobile_battle_image_route1.png",
+  "ids": [
+   "trainer_r1_a",
+   "trainer_r1_b",
+   "trainer_r1_c"
+  ],
+  "stand": null,
+  "target": null,
+  "platform": "mobile",
+  "zoom": 2,
+  "cam": {
+   "x": 0,
+   "y": 0
+  },
+  "mapPx": {
+   "w": 2816,
+   "h": 2176
+  },
+  "viewNative": {
+   "w": 844,
+   "h": 390
+  },
+  "dlg": {
+   "left": 8,
+   "top": 277,
+   "right": 648,
+   "bottom": 382
+  },
+  "dlgText": "You looked my way. That means a battle!\n▼",
+  "portrait": {
+   "left": 8,
+   "top": 164,
+   "right": 140,
+   "bottom": 382
+  },
+  "toast": {
+   "left": 247,
+   "top": 236,
+   "right": 437,
+   "bottom": 271
+  },
+  "btns": [
+   {
+    "id": "b",
+    "rect": {
+     "left": 656,
+     "top": 284,
+     "right": 732,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 746,
+     "top": 284,
+     "right": 822,
+     "bottom": 360
+    }
+   }
+  ],
+  "pinnedBottom": false,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ },
+ {
+  "dev": "phone2340",
+  "tag": "hall_guide_2340",
+  "map": "fernwick_hall_int",
+  "npc": "guide",
+  "stand": [
+   10,
+   15,
+   "down"
+  ],
+  "facing": "down",
+  "w": 780,
+  "h": 360,
+  "dpr": 3,
+  "touch": true,
+  "file": "phone2340_hall_guide_2340.png",
+  "ids": [
+   "helper_1",
+   "helper_2",
+   "master_fernwick",
+   "guide"
+  ],
+  "target": {
+   "tile": {
+    "left": 433,
+    "top": 189,
+    "right": 475,
+    "bottom": 232
+   },
+   "sprite": {
+    "left": 433,
+    "top": 147,
+    "right": 475,
+    "bottom": 232
+   }
+  },
+  "platform": "mobile",
+  "zoom": 2,
+  "cam": {
+   "x": -73,
+   "y": 612
+  },
+  "mapPx": {
+   "w": 1024,
+   "h": 1152
+  },
+  "viewNative": {
+   "w": 1170,
+   "h": 540
+  },
+  "dlg": null,
+  "dlgText": null,
+  "battle": null,
+  "portrait": null,
+  "toast": null,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 168,
+     "right": 134,
+     "bottom": 226
+    }
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 226,
+     "right": 76,
+     "bottom": 284
+    }
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 226,
+     "right": 192,
+     "bottom": 284
+    }
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 284,
+     "right": 134,
+     "bottom": 342
+    }
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 452,
+     "top": 294,
+     "right": 508,
+     "bottom": 330
+    }
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 522,
+     "top": 294,
+     "right": 578,
+     "bottom": 330
+    }
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 592,
+     "top": 254,
+     "right": 668,
+     "bottom": 330
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 682,
+     "top": 254,
+     "right": 758,
+     "bottom": 330
+    }
+   }
+  ],
+  "pinnedBottom": true,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ },
+ {
+  "dev": "mobile",
+  "tag": "hall_guide",
+  "map": "fernwick_hall_int",
+  "npc": "guide",
+  "stand": [
+   10,
+   15,
+   "down"
+  ],
+  "facing": "down",
+  "w": 844,
+  "h": 390,
+  "dpr": 2,
+  "touch": true,
+  "file": "mobile_hall_guide.png",
+  "ids": [
+   "helper_1",
+   "helper_2",
+   "master_fernwick",
+   "guide"
+  ],
+  "target": {
+   "tile": {
+    "left": 396,
+    "top": 134,
+    "right": 460,
+    "bottom": 198
+   },
+   "sprite": {
+    "left": 396,
+    "top": 70,
+    "right": 460,
+    "bottom": 198
+   }
+  },
+  "platform": "mobile",
+  "zoom": 2,
+  "cam": {
+   "x": 180,
+   "y": 762
+  },
+  "mapPx": {
+   "w": 1024,
+   "h": 1152
+  },
+  "viewNative": {
+   "w": 844,
+   "h": 390
+  },
+  "dlg": null,
+  "dlgText": null,
+  "battle": null,
+  "portrait": null,
+  "toast": null,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 198,
+     "right": 134,
+     "bottom": 256
+    }
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 256,
+     "right": 76,
+     "bottom": 314
+    }
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 256,
+     "right": 192,
+     "bottom": 314
+    }
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 314,
+     "right": 134,
+     "bottom": 372
+    }
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 516,
+     "top": 324,
+     "right": 572,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 586,
+     "top": 324,
+     "right": 642,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 656,
+     "top": 284,
+     "right": 732,
+     "bottom": 360
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 746,
+     "top": 284,
+     "right": 822,
+     "bottom": 360
+    }
+   }
+  ],
+  "pinnedBottom": true,
+  "overlaps": {
+   "dlg": [],
+   "toast": [],
+   "battle": [],
+   "portrait": [],
+   "targetTile": [],
+   "targetSprite": []
+  },
+  "errors": []
+ }
+]

@@ -1,0 +1,27 @@
+{
+ "target": "https://paigegames.net/kilumen/",
+ "after": {
+  "map": "brookhollow",
+  "x": 17,
+  "y": 15,
+  "facing": "down",
+  "size": [
+   34,
+   32
+  ],
+  "padding": null,
+  "code": 1,
+  "cam": null,
+  "zoom": 2,
+  "warps": [
+   "house_1f@5,7",
+   "heal_brookhollow@6,19",
+   "shop_int@16,19",
+   "office_int@28,8",
+   "home_brookhollow_a@15,7",
+   "home_brookhollow_b@28,19",
+   "lab_brookhollow@16,27"
+  ]
+ },
+ "errors": []
+}

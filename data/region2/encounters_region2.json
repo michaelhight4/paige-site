@@ -1,0 +1,877 @@
+{
+ "_status": "STAGED 2026-10-23 by coder (region-2 groundwork). NOT LIVE: nothing in the game reads this file. Wire in after region 1 ships.",
+ "_generated_by": "tools/region2/build_region2.mjs from tools/region2/region2_spec.mjs (edit the spec, not this file)",
+ "_what": "Region-2 wild tables, encounters.json zone shape (src/battle/encounters.js). Weights: common 30 / uncommon 15 / rare 5 / very rare 1. No slot below the species' legal min level (max of game evoLevel and DEX evo level).",
+ "zones": {
+  "route_east_grass": {
+   "method": "grass",
+   "rate": 0.0833,
+   "slots": [
+    {
+     "species": "sailquill",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "spinelet",
+     "level": [
+      12,
+      15
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "flockpup",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "bleatling",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "grainling",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "millwhirl",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 30,
+     "tier": "common",
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ]
+    },
+    {
+     "species": "crowkin",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 30,
+     "tier": "common",
+     "time": [
+      "dusk",
+      "night"
+     ]
+    },
+    {
+     "species": "gloamtick",
+     "level": [
+      13,
+      16
+     ],
+     "weight": 15,
+     "tier": "uncommon",
+     "time": [
+      "dusk",
+      "night"
+     ]
+    },
+    {
+     "species": "foalgust",
+     "level": [
+      12,
+      15
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "glimmerlamb",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "halovy",
+     "level": [
+      15,
+      16
+     ],
+     "weight": 5,
+     "tier": "rare",
+     "time": [
+      "dawn"
+     ]
+    }
+   ],
+   "band": "wild 12-16",
+   "maps": [
+    "route_east"
+   ],
+   "source": "STAGED region 2 (coder 2026-10-23); start point design/overnight_gd/encounters_route_brookhollow_aurelith.json re_grass",
+   "staged": true,
+   "rollable_when_wired": true,
+   "pending_art": [
+    "dashhare",
+    "strawhaunt",
+    "milestoner"
+   ],
+   "note": "Main East Road grass (5 rects). First wild zone after Master 1; player arrives ~L10-11."
+  },
+  "route_east_reeds": {
+   "method": "grass",
+   "rate": 0.0833,
+   "slots": [
+    {
+     "species": "ditchsnap",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "loamworm",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "sailquill",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "tinderwren",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 30,
+     "tier": "common",
+     "time": [
+      "dawn",
+      "day"
+     ]
+    },
+    {
+     "species": "burlbeetle",
+     "level": [
+      12,
+      15
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "gloamtick",
+     "level": [
+      13,
+      16
+     ],
+     "weight": 15,
+     "tier": "uncommon",
+     "time": [
+      "dusk",
+      "night"
+     ]
+    },
+    {
+     "species": "foalgust",
+     "level": [
+      12,
+      15
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "halovy",
+     "level": [
+      15,
+      16
+     ],
+     "weight": 5,
+     "tier": "rare",
+     "time": [
+      "dawn"
+     ]
+    }
+   ],
+   "band": "wild 12-16",
+   "maps": [
+    "route_east"
+   ],
+   "source": "STAGED region 2 (coder 2026-10-23); start point design/overnight_gd/encounters_route_brookhollow_aurelith.json re_grass (reed strip)",
+   "staged": true,
+   "rollable_when_wired": true,
+   "pending_art": [
+    "dashhare"
+   ],
+   "note": "Forced reed strip (46,19)-(48,20) by the river. Own table now (was a copy of route_east_grass): wet-ground species."
+  },
+  "route_aurelith_saltmere_grass": {
+   "method": "grass",
+   "rate": 0.0833,
+   "slots": [
+    {
+     "species": "sailquill",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "medulet",
+     "level": [
+      15,
+      17
+     ],
+     "weight": 30,
+     "tier": "common",
+     "time": [
+      "dusk",
+      "night"
+     ]
+    },
+    {
+     "species": "ankerling",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "railmite",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "pennantail",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 30,
+     "tier": "common",
+     "time": [
+      "dawn",
+      "day"
+     ]
+    },
+    {
+     "species": "brinepipit",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "pouchbill",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "lampwick",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 30,
+     "tier": "common",
+     "time": [
+      "dusk",
+      "night"
+     ]
+    },
+    {
+     "species": "gloamtick",
+     "level": [
+      16,
+      18
+     ],
+     "weight": 15,
+     "tier": "uncommon",
+     "time": [
+      "dusk",
+      "night"
+     ]
+    },
+    {
+     "species": "larkspar",
+     "level": [
+      16,
+      18
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "huskling",
+     "level": [
+      16,
+      18
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "gildfinch",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 15,
+     "tier": "uncommon",
+     "time": [
+      "dawn",
+      "day"
+     ]
+    },
+    {
+     "species": "cogwhisk",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "tollkin",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 15,
+     "tier": "uncommon",
+     "time": [
+      "night"
+     ]
+    },
+    {
+     "species": "moatling",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "halovy",
+     "level": [
+      17,
+      18
+     ],
+     "weight": 5,
+     "tier": "rare",
+     "time": [
+      "dawn"
+     ]
+    },
+    {
+     "species": "frondhart",
+     "level": [
+      18,
+      18
+     ],
+     "weight": 5,
+     "tier": "rare"
+    }
+   ],
+   "band": "wild 15-18",
+   "maps": [
+    "route_aurelith_saltmere"
+   ],
+   "source": "STAGED region 2 (coder 2026-10-23); start point design/overnight_gd/encounters_route_saltmere_aurelith.json sa_dune_grass",
+   "staged": true,
+   "rollable_when_wired": true,
+   "pending_art": [
+    "rafterat",
+    "gildcub"
+   ],
+   "note": "Salt Road dune grass (6 rects). Coast/town species; gauzewing (game evo 32) left out."
+  },
+  "thornwood_grass": {
+   "method": "grass",
+   "rate": 0.0833,
+   "slots": [
+    {
+     "species": "briarlet",
+     "level": [
+      9,
+      13
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "burlbeetle",
+     "level": [
+      9,
+      13
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "spinelet",
+     "level": [
+      9,
+      13
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "sailquill",
+     "level": [
+      9,
+      13
+     ],
+     "weight": 30,
+     "tier": "common",
+     "time": [
+      "dawn",
+      "day"
+     ]
+    },
+    {
+     "species": "gloamtick",
+     "level": [
+      10,
+      13
+     ],
+     "weight": 15,
+     "tier": "uncommon",
+     "time": [
+      "dusk",
+      "night"
+     ]
+    },
+    {
+     "species": "thornpod",
+     "level": [
+      9,
+      13
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "tumbloam",
+     "level": [
+      9,
+      12
+     ],
+     "weight": 5,
+     "tier": "rare"
+    }
+   ],
+   "band": "wild 9-13",
+   "maps": [
+    "thornwood"
+   ],
+   "source": "STAGED region 2 (coder 2026-10-23); start point design/overnight_gd/encounters_thornwood.json",
+   "staged": true,
+   "rollable_when_wired": true,
+   "border_map": "thornwood is reachable before Master 2 from Fernwick; region-1 map, not edited",
+   "pending_art": [
+    "nettlegrub",
+    "acornip",
+    "pipistrix",
+    "mossloth",
+    "tappeck",
+    "ivyadder",
+    "twigling",
+    "thornfinch",
+    "knothaunt",
+    "oakenward",
+    "shadevix",
+    "silkwick",
+    "gleamcap",
+    "sigilmoth",
+    "imprick"
+   ],
+   "note": "BORDER MAP (reachable from Fernwick before Master 2; map is region-1 territory, not touched). Live table has burrowmane 9-13 (below evo 16); this staged table drops it. Lancebeetle (game evo 32) and bramblehog (16/17) also left out."
+  },
+  "route_east_water": {
+   "method": "water (Tideglide)",
+   "rate": 0.0667,
+   "slots": [
+    {
+     "species": "musselin",
+     "level": [
+      28,
+      32
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "ditchsnap",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "streambarb",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "snapmoor",
+     "level": [
+      30,
+      32
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    }
+   ],
+   "band": "wild 25-32",
+   "maps": [
+    "route_east"
+   ],
+   "source": "STAGED region 2 (coder 2026-10-23); start point design/overnight_gd/encounters_route_brookhollow_aurelith.json re_river",
+   "staged": true,
+   "rollable_when_wired": false,
+   "revisit": "Tideglide (water runtime not built; encounters.js skips /^water/)",
+   "pending_art": [],
+   "note": "River on East Road. route_east has no water rect yet (map gap)."
+  },
+  "route_aurelith_saltmere_water": {
+   "method": "water (Tideglide)",
+   "rate": 0.0667,
+   "slots": [
+    {
+     "species": "whelkin",
+     "level": [
+      28,
+      34
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "medulet",
+     "level": [
+      28,
+      34
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "ankerling",
+     "level": [
+      28,
+      34
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "plashcrown",
+     "level": [
+      28,
+      34
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "ribboneel",
+     "level": [
+      30,
+      34
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "streambarb",
+     "level": [
+      28,
+      34
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "rakefin",
+     "level": [
+      28,
+      33
+     ],
+     "weight": 5,
+     "tier": "rare"
+    },
+    {
+     "species": "eftwarden",
+     "level": [
+      28,
+      34
+     ],
+     "weight": 5,
+     "tier": "rare",
+     "time": [
+      "dusk",
+      "night"
+     ]
+    }
+   ],
+   "band": "wild 28-34",
+   "maps": [
+    "route_aurelith_saltmere"
+   ],
+   "source": "STAGED region 2 (coder 2026-10-23); start point design/overnight_gd/encounters_route_saltmere_aurelith.json",
+   "staged": true,
+   "rollable_when_wired": false,
+   "revisit": "Tideglide (water runtime not built; encounters.js skips /^water/)",
+   "pending_art": [
+    "fountling"
+   ],
+   "note": "Salt Road cove water. No water rect on the map yet (map gap)."
+  },
+  "saltmere_water": {
+   "method": "water (Tideglide)",
+   "rate": 0.0667,
+   "slots": [
+    {
+     "species": "pinchkin",
+     "level": [
+      28,
+      35
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "sandstarlet",
+     "level": [
+      28,
+      35
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "brinecube",
+     "level": [
+      28,
+      35
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "quaymouser",
+     "level": [
+      28,
+      35
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "polypip",
+     "level": [
+      28,
+      35
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "whelkin",
+     "level": [
+      28,
+      35
+     ],
+     "weight": 30,
+     "tier": "common"
+    },
+    {
+     "species": "bulwarkrab",
+     "level": [
+      30,
+      34
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "spraytern",
+     "level": [
+      32,
+      35
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "blubbet",
+     "level": [
+      28,
+      35
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "finnip",
+     "level": [
+      28,
+      35
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "brineseal",
+     "level": [
+      28,
+      30
+     ],
+     "weight": 5,
+     "tier": "rare"
+    },
+    {
+     "species": "dawnfin",
+     "level": [
+      28,
+      35
+     ],
+     "weight": 5,
+     "tier": "rare",
+     "time": [
+      "dawn"
+     ]
+    },
+    {
+     "species": "spratwyrm",
+     "level": [
+      28,
+      35
+     ],
+     "weight": 5,
+     "tier": "rare",
+     "time": [
+      "dusk",
+      "night"
+     ]
+    }
+   ],
+   "band": "wild 28-35",
+   "maps": [
+    "saltmere"
+   ],
+   "source": "STAGED region 2 (coder 2026-10-23); start point design/overnight_gd/encounters_saltmere.json sm_harbour",
+   "staged": true,
+   "rollable_when_wired": false,
+   "revisit": "Tideglide (water runtime not built; encounters.js skips /^water/)",
+   "pending_art": [
+    "inkmantle",
+    "kelpwyrm",
+    "lanternbell",
+    "inklet",
+    "reefcrown"
+   ],
+   "note": "Harbour rect (14,30)-(43,30) exists on the map."
+  },
+  "thornwood_pond": {
+   "method": "water (Tideglide)",
+   "rate": 0.0667,
+   "slots": [
+    {
+     "species": "puddlenip",
+     "level": [
+      26,
+      30
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "streambarb",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    },
+    {
+     "species": "reedmoot",
+     "level": [
+      24,
+      30
+     ],
+     "weight": 15,
+     "tier": "uncommon"
+    }
+   ],
+   "band": "wild 24-30",
+   "maps": [
+    "thornwood"
+   ],
+   "source": "STAGED region 2 (coder 2026-10-23); start point design/overnight_gd/encounters_thornwood.json (gd_draft pond)",
+   "staged": true,
+   "rollable_when_wired": false,
+   "revisit": "Tideglide (water runtime not built; encounters.js skips /^water/)",
+   "border_map": "thornwood is reachable before Master 2 from Fernwick; region-1 map, not edited",
+   "pending_art": [],
+   "note": "Border map, gd_draft only (no pond zone in the live tables)."
+  }
+ }
+}

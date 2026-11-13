@@ -1,0 +1,153 @@
+{
+ "profile": "pc",
+ "steps": [
+  {
+   "name": "ron_briefing",
+   "ok": true,
+   "map": "house_1f",
+   "party": []
+  },
+  {
+   "name": "promoted",
+   "ok": true,
+   "map": "lab_brookhollow",
+   "party": []
+  },
+  {
+   "name": "starter",
+   "ok": true,
+   "map": "lab_brookhollow",
+   "party": [
+    "tumbloam:L5:hp19/?"
+   ]
+  },
+  {
+   "name": "test_run_started",
+   "ok": true,
+   "map": "lab_brookhollow",
+   "party": [
+    "tumbloam:L5:hp19/?"
+   ],
+   "crystals": 5
+  }
+ ],
+ "error": "Error: page.evaluate: Target page, context or browser has been closed",
+ "areaSigns": [
+  {
+   "map": "brookhollow",
+   "title": "Brookhollow",
+   "shown": true,
+   "text": "TownBrookhollow",
+   "banner": {
+    "l": 16,
+    "t": 16,
+    "r": 252.140625,
+    "b": 69.3125
+   },
+   "top": {
+    "l": 984.828125,
+    "t": 16,
+    "r": 1264,
+    "b": 60
+   },
+   "dpad": null,
+   "overlapTop": false,
+   "overlapDpad": false,
+   "hiddenAfterMs": 2421
+  },
+  {
+   "map": "route1",
+   "title": "Route 1 - Sunmeadow Fields",
+   "shown": true,
+   "text": "RouteRoute 1 - Sunmeadow Fields",
+   "banner": {
+    "l": 16,
+    "t": 16,
+    "r": 377.234375,
+    "b": 69.3125
+   },
+   "top": {
+    "l": 984.828125,
+    "t": 16,
+    "r": 1264,
+    "b": 60
+   },
+   "dpad": null,
+   "overlapTop": false,
+   "overlapDpad": false,
+   "hiddenAfterMs": 2420
+  },
+  {
+   "map": "brookhollow",
+   "title": "Brookhollow",
+   "shown": true,
+   "text": "TownBrookhollow",
+   "banner": {
+    "l": 16,
+    "t": 16,
+    "r": 252.140625,
+    "b": 69.3125
+   },
+   "top": {
+    "l": 984.828125,
+    "t": 16,
+    "r": 1264,
+    "b": 60
+   },
+   "dpad": null,
+   "overlapTop": false,
+   "overlapDpad": false,
+   "hiddenAfterMs": 2428
+  }
+ ],
+ "texts": [
+  "D: ...The river again. Cold water, and someone on the bank, watching.▼",
+  "D: Just a dream. Probably.▼",
+  "D: I smell toast downstairs. Ron's up early for once.▼",
+  "D: Work's at nine. Better get down there before he eats mine.▼",
+  "D: RonMorning. You look like you slept in the river.▼",
+  "D: RonWork's been dead all week. They cleared out three desks on Friday.▼",
+  "D: RonAnd now the boss wants to see us both. First thing. No reason given.▼",
+  "D: RonThat's either really good or really bad. My money's on bad.▼",
+  "D: RonField office, same as always. Go on, I'll be right behind you.▼",
+  "D: RonAnd don't be late. I'm not covering for you again.▼",
+  "D: ManagerSit down. Relax, this isn't that conversation.▼",
+  "D: ManagerOur field team stopped reporting in. All of them. Two weeks now.▼",
+  "D: ManagerTheir last check-in came from Greystone Caverns. Since then, nothing.▼",
+  "D: RonSo the desks on Friday... that wasn't layoffs?▼",
+  "D: ManagerNo. That was us boxing up their things. Which I'd like to undo.▼",
+  "D: ManagerAs of today, you two are field researchers. Congratulations.▼",
+  "D: RonIs there a raise in this?▼",
+  "D: ManagerThere's a creature in this. Lab's next door. Come on.▼",
+  "D: Lab TechThree cradles. Three creatures. Each one's been raised here since it hatched.▼",
+  "D: ManagerThey're in the cases with the lights spinning over them. Go and look.▼",
+  "D: ManagerPick one. You'll be together a long while, so don't just go by looks.▼",
+  "D: RonI'm going by looks.▼",
+  "D: Take Tumbloam as your partner?YesNo▼",
+  "D: RonThen I'll take this one. It looked at me first.▼",
+  "D: Lab TechTumbloam seems to like you. That's a good start.▼",
+  "D: ManagerBefore anyone signs anything, a test run.▼",
+  "D: ManagerGo out to the tall grass. Catch two wild creatures and log them in the Kilindex.▼",
+  "D: ManagerThese crystals are on the company. Hold one up when a creature's worn down.▼",
+  "D: ManagerTwo creatures, logged. Then come back here. Don't wander off to Fernwick.▼",
+  "D: RonRace you.▼",
+  "D: ManagerIt's not a race. ...Fine. It's a race.▼",
+  "D: You got 5 dominance crystals.▼",
+  "D: Company property. Try to bring some back.▼",
+  "D: Brookhollow branch. Field team? Sit, sit.▼",
+  "D: You look like weather. Want me to rest your team?Rest my teamNot now▼",
+  "D: Hand them over. Quick recalibrate and polish...▼",
+  "D: Whirr... click... ding.▼"
+ ],
+ "errs": [],
+ "shots": [
+  "shots/playcheck_master1/pc/01_new_game.png",
+  "shots/playcheck_master1/pc/02_ron_briefing.png",
+  "shots/playcheck_master1/pc/03_area_brookhollow.png",
+  "shots/playcheck_master1/pc/04_promoted.png",
+  "shots/playcheck_master1/pc/05_starter.png",
+  "shots/playcheck_master1/pc/06_test_run_started.png",
+  "shots/playcheck_master1/pc/07_area_route1.png"
+ ],
+ "battles": 1
+}

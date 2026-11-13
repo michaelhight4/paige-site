@@ -1,0 +1,219 @@
+{
+ "_status": "Names (Mallup, Gavelgill, Sledgemaw) and type Water/Sea confirmed by Gary 2026-10-29; stats/levels pending Gary; not wired",
+ "line": "hammerhead (3-stage)",
+ "reference": "breakerfin (DEX 326, water/sea, upright muscular dolphin); stat curve 296/405/517 = the existing 3-stage sea lines (finnip/rakefin, reefhatch/reefshell/atollback)",
+ "concept_sheet": "/workspace/kilumen_r56_creatures/hammerhead_line/concept_sheet.png did NOT exist at 2:25 PM CT; check visual briefs against it when Character models delivers",
+ "dex_slots": {
+  "proposed": [
+   483,
+   484,
+   485
+  ],
+  "why": "Kilindex 1-450 is full (region 6 = 302-340, then 341 is Lanternport); synced extras use 451-478 (472-478 provisional cute_r4) and 479-482 is the Jestrix line (dev/jestrix-line). 483-485 is the next free run with no renumbering.",
+  "alternative": "341-343 (directly after Tidewater) only if Coder renumbers 341-478 by +3; not recommended"
+ },
+ "types_note": "Confirmed by Gary 2026-10-29: Water/Sea (water primary, sea sub-element, like breakerfin).",
+ "skillPool": "sea (set explicitly; do not rely on the el[0] alias)",
+ "stages": [
+  {
+   "stage": 1,
+   "dex_no": 483,
+   "id": "mallup",
+   "name": "Mallup",
+   "types": [
+    "water",
+    "sea"
+   ],
+   "rarity": "uncommon",
+   "size_class": "small",
+   "evolves_to": "gavelgill",
+   "evo_level": 32,
+   "base_stats": {
+    "hp": 52,
+    "atk": 60,
+    "def": 50,
+    "spa": 40,
+    "spd": 46,
+    "spe": 48,
+    "total": 296
+   },
+   "catch_rate": 0.45,
+   "base_xp": 55,
+   "visual_brief": "Stocky shark pup standing upright on its tail fin, small mallet-shaped head, chubby finned arms. Palette: steel blue, white belly, dark fin tips, violet. Crystal: violet crystal centred on the hammer brow.",
+   "personality": "PLACEHOLDER (Text Bot): headbutts driftwood to practise; proud of every bump.",
+   "flavour": "PLACEHOLDER (Text Bot): system_kilindex.entries.mallup.blurb",
+   "name_status": "confirmed by Gary 2026-10-29",
+   "type_status": "confirmed by Gary 2026-10-29"
+  },
+  {
+   "stage": 2,
+   "dex_no": 484,
+   "id": "gavelgill",
+   "name": "Gavelgill",
+   "types": [
+    "water",
+    "sea"
+   ],
+   "rarity": "rare",
+   "size_class": "medium",
+   "evolves_from": "mallup",
+   "evolves_to": "sledgemaw",
+   "evo_level": 46,
+   "base_stats": {
+    "hp": 70,
+    "atk": 84,
+    "def": 68,
+    "spa": 56,
+    "spd": 62,
+    "spe": 65,
+    "total": 405
+   },
+   "catch_rate": 0.3,
+   "base_xp": 110,
+   "visual_brief": "Upright teen shark, broad chest and arms like breakerfin, full hammer head with an eye at each end, gill stripes like a belt. Palette as stage 1. Crystal: brow crystal plus one on the chest.",
+   "personality": "PLACEHOLDER (Text Bot): stands guard on the rocks; settles every argument with a stare.",
+   "flavour": "PLACEHOLDER (Text Bot): system_kilindex.entries.gavelgill.blurb",
+   "name_status": "confirmed by Gary 2026-10-29",
+   "type_status": "confirmed by Gary 2026-10-29"
+  },
+  {
+   "stage": 3,
+   "dex_no": 485,
+   "id": "sledgemaw",
+   "name": "Sledgemaw",
+   "types": [
+    "water",
+    "sea"
+   ],
+   "rarity": "rare",
+   "size_class": "large",
+   "evolves_from": "gavelgill",
+   "base_stats": {
+    "hp": 88,
+    "atk": 104,
+    "def": 84,
+    "spa": 76,
+    "spd": 77,
+    "spe": 88,
+    "total": 517
+   },
+   "catch_rate": 0.15,
+   "base_xp": 190,
+   "visual_brief": "Big upright muscular hammerhead, bulkier than breakerfin, huge forearm fins, wide hammer head with a notch, tail planted like a stance. Palette as stage 1. Crystal: row along the back plus one on the brow.",
+   "personality": "PLACEHOLDER (Text Bot): the reef's quiet bouncer; gentle with small fry.",
+   "flavour": "PLACEHOLDER (Text Bot): system_kilindex.entries.sledgemaw.blurb",
+   "name_status": "confirmed by Gary 2026-10-29",
+   "type_status": "confirmed by Gary 2026-10-29"
+  }
+ ],
+ "stat_notes": "Physical-leaning: Might is highest and Speed second. Sea attacks are Special in the engine, so Sp. stats stay near the line average to keep Brine Lash useful. Physical damage comes from Stomp and Kelp Lash. Sledgemaw's 517 total equals atollback and tuskwallow.",
+ "learnset": [
+  [
+   "undertow",
+   1
+  ],
+  [
+   "rippleshot",
+   1
+  ],
+  [
+   "pounce",
+   1
+  ],
+  [
+   "pebbletoss",
+   12
+  ],
+  [
+   "stomp",
+   20
+  ],
+  [
+   "brinelash",
+   28
+  ],
+  [
+   "kelplash",
+   38
+  ],
+  [
+   "frillsplash",
+   42
+  ]
+ ],
+ "learnset_note": "Move ids come from the src/ui/data.js pools and moves_swamp_sea.json. Gavelgill (L32-45) learns Kelp Lash at 38.",
+ "names_check": "mallup / gavelgill / sledgemaw: no match in DEX_450, creatures_synced or the r56_creatures folders; no blocked words; no fin-/tide- names, avoiding confusion with finnip/rakefin/breakerfin/tidemarrow.",
+ "appearances": {
+  "wild": [
+   {
+    "map": "route_coast",
+    "zone": "water (Tideglide)",
+    "species": "mallup",
+    "level": [
+     35,
+     37
+    ],
+    "weight": 10,
+    "rate_note": "take 10 from the largest slot in the water zone of overnight_gd/encounters_route_brookhollow_tidewater.json"
+   },
+   {
+    "map": "tidewater_coast",
+    "zone": "tc_sea",
+    "species": "mallup",
+    "level": [
+     36,
+     38
+    ],
+    "weight": 10,
+    "rate_note": "barnaclump 55 -> 45"
+   },
+   {
+    "map": "tidewater_coast_cave",
+    "zone": "tc_grotto (research)",
+    "species": "gavelgill",
+    "level": [
+     40,
+     42
+    ],
+    "weight": 5,
+    "catch_mult": 0.5,
+    "rate_note": "gloamtick 40 -> 35"
+   }
+  ],
+  "trainers": [
+   {
+    "id": "tr_route_coast_b",
+    "add": {
+     "species": "mallup",
+     "level": 36,
+     "skills": [
+      "undertow",
+      "rippleshot",
+      "stomp",
+      "pebbletoss"
+     ]
+    }
+   },
+   {
+    "id": "tr_tidewater_coast_e",
+    "add": {
+     "species": "gavelgill",
+     "level": 39,
+     "skills": [
+      "brinelash",
+      "stomp",
+      "undertow",
+      "rippleshot"
+     ]
+    }
+   }
+  ],
+  "masters_ron": "Not added; the M6 and Ron 6 teams are unchanged, so no re-sim was needed."
+ },
+ "coder_wiring": [
+  "add 3 species (dex 483-485, el, baseStats, evoLevel 32/46, skillPool sea)",
+  "needs the sea pool + kelplash from moves_swamp_sea.json",
+  "encounter edits above",
+  "art under art/characters/pixel/creatures/<id>/ when Character models delivers"
+ ]
+}

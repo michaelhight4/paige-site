@@ -1,0 +1,238 @@
+{
+ "_meta": {
+  "set": "cute_r2",
+  "region": 2,
+  "note": "Cute creature set for region 2 (Gary Oct 23 2026: 6 cute ones per region; dev notes: 'each later region's build includes its own 6 cute creatures'). All single-stage. Built by coder_cute_r2 (Oct 27 2026).",
+  "hold_from_encounters": false,
+  "dex_no": "PROVISIONAL numbers continuing after cute_r1 (454-459), until Gary/World Design slot them. DEX_450 itself is not edited; tools/sync_creatures.mjs reads design/cute_sets/cute_r*.json.",
+  "wild": {
+   "why": "Region 2 cute set lives in region 2 grass (East Trail and the Aurelith-Saltmere salt road), mixed with existing spawns",
+   "zone": "route_east_grass",
+   "slots": [
+    {
+     "species": "haysquee",
+     "level": [
+      12,
+      15
+     ],
+     "weight": 4
+    },
+    {
+     "species": "okapip",
+     "level": [
+      13,
+      16
+     ],
+     "weight": 4
+    },
+    {
+     "species": "dunehop",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 4,
+     "zone": "route_aurelith_saltmere_grass"
+    },
+    {
+     "species": "belugoo",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 4,
+     "zone": "route_aurelith_saltmere_grass"
+    },
+    {
+     "species": "crownlet",
+     "level": [
+      13,
+      16
+     ],
+     "weight": 2,
+     "time": [
+      "dawn",
+      "day"
+     ]
+    },
+    {
+     "species": "kinkalume",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 2,
+     "zone": "route_aurelith_saltmere_grass",
+     "time": [
+      "dusk",
+      "night"
+     ]
+    }
+   ]
+  }
+ },
+ "creatures": [
+  {
+   "id": "haysquee",
+   "name": "Haysquee",
+   "types": [
+    "grass",
+    "earth"
+   ],
+   "first_zone": "route_east",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "East Trail hay meadows and field edges",
+   "visual_brief": "Chubby baby guinea pig: honey-gold and cream patchy fur, russet eye patch, head rosette, tiny pink ears, crown of woven golden hay with a red clover. Crystal: small violet crystal set in the hay crown.",
+   "dex_no": 460,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "haysquee"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "dunehop",
+   "name": "Dunehop",
+   "types": [
+    "wind",
+    "earth"
+   ],
+   "first_zone": "route_aurelith_saltmere",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "Salt road dunes between Aurelith and Saltmere",
+   "visual_brief": "Baby jerboa-like dune hopper: sandy-beige body, cream belly, huge round pink-lined ears, long springy hind feet, very long thin tail ending in a sea-salt white puff with pale aqua tips. Crystal: small violet crystal between its ears.",
+   "dex_no": 461,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "dunehop"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "belugoo",
+   "name": "Belugoo",
+   "types": [
+    "water",
+    "sea"
+   ],
+   "first_zone": "route_aurelith_saltmere",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "Saltmere shore tide pools and wet sand",
+   "visual_brief": "Baby beluga calf that wriggles on land: pearly white skin with lilac shading, rounded melon forehead, happy smile, small flipper arms, curled tail fluke, natural navy sailor-collar marking. Crystal: small violet crystal on top of its head.",
+   "dex_no": 462,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "belugoo"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "okapip",
+   "name": "Okapip",
+   "types": [
+    "earth",
+    "mystic"
+   ],
+   "first_zone": "route_east",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "Shady thickets along East Trail",
+   "visual_brief": "Baby okapi calf: chocolate velvet body, cream face with dark muzzle, cream-and-brown striped legs and rump with tiny lilac sparkles, big soft ears, two rounded head nubs. Crystal: small violet crystal between its ears.",
+   "dex_no": 463,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "okapip"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "crownlet",
+   "name": "Crownlet",
+   "types": [
+    "light",
+    "bird"
+   ],
+   "first_zone": "route_east",
+   "rarity": "rare",
+   "size_class": "small",
+   "habitat": "Sunny hedgerows on East Trail at dawn",
+   "visual_brief": "Round rose-pink and cream songbird chick puffball with an orange beak, fanned pink-and-white tail, and a crown of blue bellflowers. Crystal: small violet crystal at the centre of the flower crown.",
+   "dex_no": 464,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "crownlet"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  },
+  {
+   "id": "kinkalume",
+   "name": "Kinkalume",
+   "types": [
+    "dark",
+    "fire"
+   ],
+   "first_zone": "route_aurelith_saltmere",
+   "rarity": "rare",
+   "size_class": "small",
+   "habitat": "Salt road palms and lamp posts after dusk",
+   "visual_brief": "Baby kinkajou: honey-gold fluffy fur, cream face, amber eyes, long prehensile tail curled into a hook that carries a small glowing orange paper lantern. Crystal: small violet crystal on its forehead.",
+   "dex_no": 465,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "kinkalume"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "",
+   "existing_art": true,
+   "status": "draft"
+  }
+ ]
+}

@@ -1,0 +1,43 @@
+{
+  "$id": "kilumen:common",
+  "$comment": "Shared pieces for Kilumen data schemas (Ajv, tests/data_schemas.test.mjs). Added Oct 23, 2026.",
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9_]+$", "minLength": 1 },
+    "level": { "type": "integer", "minimum": 1, "maximum": 100 },
+    "levelRange": { "type": "array", "items": { "$ref": "#/$defs/level" }, "minItems": 2, "maxItems": 2 },
+    "phase": { "enum": ["dawn", "day", "dusk", "night"] },
+    "teamMember": {
+      "type": "object",
+      "required": ["species", "level"],
+      "properties": {
+        "species": { "$ref": "#/$defs/id" },
+        "level": { "$ref": "#/$defs/level" },
+        "battle_species": { "$ref": "#/$defs/id" },
+        "stand_in": { "type": "boolean" }
+      }
+    },
+    "encounterSlot": {
+      "type": "object",
+      "required": ["species", "level", "weight"],
+      "properties": {
+        "species": { "$ref": "#/$defs/id" },
+        "level": { "$ref": "#/$defs/levelRange" },
+        "weight": { "type": "number", "exclusiveMinimum": 0 },
+        "time": { "type": "array", "items": { "$ref": "#/$defs/phase" }, "minItems": 1, "uniqueItems": true },
+        "weather": { "type": "array", "items": { "enum": ["clear", "storm"] }, "minItems": 1, "uniqueItems": true },
+        "flood": { "type": "boolean" },
+        "note": { "type": "string" }
+      }
+    },
+    "encounterZone": {
+      "type": "object",
+      "required": ["method", "rate", "slots"],
+      "properties": {
+        "method": { "type": "string", "minLength": 1 },
+        "rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "slots": { "type": "array", "items": { "$ref": "#/$defs/encounterSlot" }, "minItems": 1 },
+        "maps": { "type": "array", "items": { "$ref": "#/$defs/id" }, "uniqueItems": true }
+      }
+    }
+  }
+}

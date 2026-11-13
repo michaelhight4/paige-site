@@ -1,0 +1,50 @@
+{
+  "$id": "kilumen:quests",
+  "$comment": "data/quests.json (built from design/overnight_quests; format in design/overnight_quests/SCHEMA.md).",
+  "type": "object",
+  "required": ["quests"],
+  "properties": {
+    "quests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "type", "zone", "steps", "reward", "prerequisites"],
+        "properties": {
+          "id": { "$ref": "kilumen:common#/$defs/id" },
+          "title": { "type": "string", "minLength": 1 },
+          "type": { "enum": ["main", "side"] },
+          "zone": { "$ref": "kilumen:common#/$defs/id" },
+          "order": { "type": "number" },
+          "giver": { "type": ["object", "null"], "properties": { "npc": { "type": "string" }, "map": { "type": "string" } } },
+          "start": { "enum": ["auto", "npc"] },
+          "turn_in": { "enum": ["auto", "npc"] },
+          "prerequisites": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "steps": {
+            "type": "array", "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["id", "desc"],
+              "properties": {
+                "id": { "$ref": "kilumen:common#/$defs/id" },
+                "desc": { "type": "string", "minLength": 1 },
+                "map": { "type": ["string", "null"] },
+                "at": { "type": ["object", "null"], "required": ["x", "y"], "properties": { "x": { "type": "integer", "minimum": 0 }, "y": { "type": "integer", "minimum": 0 } } },
+                "flag": { "type": ["string", "null"] },
+                "optional": { "type": "boolean" }
+              }
+            }
+          },
+          "reward": {
+            "type": "object",
+            "properties": {
+              "items_placeholder": { "type": "array", "items": { "type": "object", "required": ["id", "qty"], "properties": { "id": { "$ref": "kilumen:common#/$defs/id" }, "qty": { "type": "integer", "minimum": 1 } } } },
+              "money_placeholder": { "type": "integer", "minimum": 0 },
+              "flags": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+            }
+          },
+          "lines": { "type": "array", "items": { "type": "object", "required": ["npc", "text"], "properties": { "npc": { "type": "string" }, "context": { "type": "string" }, "text": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 } } } }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+cb0e135e1b644b6b2a6edb6c44736428  ./interiors_new/gen/ix_furniture.py
+1f7c0c8debb781362a1e928f9fc6ab83  ./interiors_new/tiles_1x/i_furniture.png
+c32f57b864b64150bc8c747001f03b97  ./interiors_new/tiles_2x/i_furniture.png
+fde81d919558b578c85615fbe5caec56  ./interiors_new/tiles_3x/i_furniture.png
+bc8d92284c2f3b6ca0bcb73dd7785822  ./tiles_1x/interior.png
+5c30a7df749871105b058731859bcf60  ./tiles_2x/interior.png
+61071273a25ca9f2b7d575cb8bce60a1  ./tiles_3x/interior.png
+f64a09438907a590122bd336ba77d9a0  ./tools/gen_tiles.py

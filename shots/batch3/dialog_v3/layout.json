@@ -1,0 +1,4636 @@
+[
+ {
+  "plat": "mobile",
+  "w": 844,
+  "h": 390,
+  "dpr": 2,
+  "mode": "say",
+  "file": "mobile_844x390_dpr2_say.png",
+  "box": {
+   "left": 8,
+   "top": 273.66,
+   "right": 648,
+   "bottom": 382,
+   "w": 640,
+   "h": 108.34
+  },
+  "layout": "beside",
+  "name": {
+   "left": 198,
+   "top": 293.66,
+   "right": 300.7,
+   "bottom": 323.36,
+   "w": 102.7,
+   "h": 29.7
+  },
+  "portrait": {
+   "left": 8,
+   "top": 163.61,
+   "right": 139.8,
+   "bottom": 382,
+   "w": 131.8,
+   "h": 218.39
+  },
+  "list": null,
+  "battle": {
+   "left": 544,
+   "top": 75.5,
+   "right": 640,
+   "bottom": 267.5,
+   "w": 96,
+   "h": 192
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 198,
+     "right": 134,
+     "bottom": 256,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 256,
+     "right": 76,
+     "bottom": 314,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 256,
+     "right": 192,
+     "bottom": 314,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 314,
+     "right": 134,
+     "bottom": 372,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 516,
+     "top": 324,
+     "right": 572,
+     "bottom": 360,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 586,
+     "top": 324,
+     "right": 642,
+     "bottom": 360,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 656,
+     "top": 284,
+     "right": 732,
+     "bottom": 360,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 746,
+     "top": 284,
+     "right": 822,
+     "bottom": 360,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": true,
+   "battleDeviceScale": 3,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": "closed"
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 844,
+  "h": 390,
+  "dpr": 2,
+  "mode": "say_toast",
+  "file": "mobile_844x390_dpr2_say_toast.png",
+  "box": {
+   "left": 8,
+   "top": 273.66,
+   "right": 648,
+   "bottom": 382,
+   "w": 640,
+   "h": 108.34
+  },
+  "layout": "beside",
+  "name": {
+   "left": 198,
+   "top": 293.66,
+   "right": 300.7,
+   "bottom": 323.36,
+   "w": 102.7,
+   "h": 29.7
+  },
+  "portrait": {
+   "left": 8,
+   "top": 163.61,
+   "right": 139.8,
+   "bottom": 382,
+   "w": 131.8,
+   "h": 218.39
+  },
+  "list": null,
+  "battle": {
+   "left": 544,
+   "top": 75.5,
+   "right": 640,
+   "bottom": 267.5,
+   "w": 96,
+   "h": 192
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": {
+   "left": 229.15,
+   "top": 233.11,
+   "right": 430.85,
+   "bottom": 268,
+   "w": 201.7,
+   "h": 34.89
+  },
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 198,
+     "right": 134,
+     "bottom": 256,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 256,
+     "right": 76,
+     "bottom": 314,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 256,
+     "right": 192,
+     "bottom": 314,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 314,
+     "right": 134,
+     "bottom": 372,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 516,
+     "top": 324,
+     "right": 572,
+     "bottom": 360,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 586,
+     "top": 324,
+     "right": 642,
+     "bottom": 360,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 656,
+     "top": 284,
+     "right": 732,
+     "bottom": 360,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 746,
+     "top": 284,
+     "right": 822,
+     "bottom": 360,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": true,
+   "battleDeviceScale": 3,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": true,
+   "toastFront": true,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": "closed"
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 844,
+  "h": 390,
+  "dpr": 2,
+  "mode": "ask",
+  "file": "mobile_844x390_dpr2_ask.png",
+  "box": {
+   "left": 142,
+   "top": 159.09,
+   "right": 648,
+   "bottom": 382,
+   "w": 506,
+   "h": 222.91
+  },
+  "layout": "beside",
+  "name": {
+   "left": 332,
+   "top": 179.09,
+   "right": 434.7,
+   "bottom": 208.8,
+   "w": 102.7,
+   "h": 29.7
+  },
+  "portrait": {
+   "left": 142,
+   "top": 163.61,
+   "right": 273.8,
+   "bottom": 382,
+   "w": 131.8,
+   "h": 218.39
+  },
+  "list": {
+   "left": 338,
+   "top": 270.08,
+   "right": 618,
+   "bottom": 356,
+   "w": 280,
+   "h": 85.92
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 198,
+     "right": 134,
+     "bottom": 256,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 256,
+     "right": 76,
+     "bottom": 314,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 256,
+     "right": 192,
+     "bottom": 314,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 314,
+     "right": 134,
+     "bottom": 372,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 516,
+     "top": 324,
+     "right": 572,
+     "bottom": 360,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 586,
+     "top": 324,
+     "right": 642,
+     "bottom": 360,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 656,
+     "top": 284,
+     "right": 732,
+     "bottom": 360,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 746,
+     "top": 284,
+     "right": 822,
+     "bottom": 360,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b,down,up",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": 1
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 844,
+  "h": 390,
+  "dpr": 2,
+  "mode": "inbox",
+  "file": "mobile_844x390_dpr2_inbox.png",
+  "box": {
+   "left": 142,
+   "top": 208.38,
+   "right": 648,
+   "bottom": 382,
+   "w": 506,
+   "h": 173.63
+  },
+  "layout": "beside",
+  "name": {
+   "left": 166,
+   "top": 228.38,
+   "right": 237.95,
+   "bottom": 258.08,
+   "w": 71.95,
+   "h": 29.7
+  },
+  "portrait": null,
+  "list": {
+   "left": 172,
+   "top": 270.08,
+   "right": 618,
+   "bottom": 356,
+   "w": 446,
+   "h": 85.92
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 198,
+     "right": 134,
+     "bottom": 256,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 256,
+     "right": 76,
+     "bottom": 314,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 256,
+     "right": 192,
+     "bottom": 314,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 314,
+     "right": 134,
+     "bottom": 372,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 516,
+     "top": 324,
+     "right": 572,
+     "bottom": 360,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 586,
+     "top": 324,
+     "right": 642,
+     "bottom": 360,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 656,
+     "top": 284,
+     "right": 732,
+     "bottom": 360,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 746,
+     "top": 284,
+     "right": 822,
+     "bottom": 360,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b,down,up",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": {
+    "opened": "Kit: Rematch soon",
+    "res": "closed"
+   }
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 780,
+  "h": 360,
+  "dpr": 3,
+  "mode": "say",
+  "file": "mobile_780x360_dpr3_say.png",
+  "box": {
+   "left": 8,
+   "top": 243.66,
+   "right": 584,
+   "bottom": 352,
+   "w": 576,
+   "h": 108.34
+  },
+  "layout": "beside",
+  "name": {
+   "left": 198,
+   "top": 263.66,
+   "right": 300.7,
+   "bottom": 293.36,
+   "w": 102.7,
+   "h": 29.7
+  },
+  "portrait": {
+   "left": 8,
+   "top": 150.41,
+   "right": 129.66,
+   "bottom": 352,
+   "w": 121.66,
+   "h": 201.59
+  },
+  "list": null,
+  "battle": {
+   "left": 490.67,
+   "top": 70.02,
+   "right": 576,
+   "bottom": 240.67,
+   "w": 85.33,
+   "h": 170.66
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 168,
+     "right": 134,
+     "bottom": 226,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 226,
+     "right": 76,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 226,
+     "right": 192,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 284,
+     "right": 134,
+     "bottom": 342,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 452,
+     "top": 294,
+     "right": 508,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 522,
+     "top": 294,
+     "right": 578,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 592,
+     "top": 254,
+     "right": 668,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 682,
+     "top": 254,
+     "right": 758,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": true,
+   "battleDeviceScale": 4,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": "closed"
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 780,
+  "h": 360,
+  "dpr": 3,
+  "mode": "say_toast",
+  "file": "mobile_780x360_dpr3_say_toast.png",
+  "box": {
+   "left": 8,
+   "top": 243.66,
+   "right": 584,
+   "bottom": 352,
+   "w": 576,
+   "h": 108.34
+  },
+  "layout": "beside",
+  "name": {
+   "left": 198,
+   "top": 263.66,
+   "right": 300.7,
+   "bottom": 293.36,
+   "w": 102.7,
+   "h": 29.7
+  },
+  "portrait": {
+   "left": 8,
+   "top": 150.41,
+   "right": 129.66,
+   "bottom": 352,
+   "w": 121.66,
+   "h": 201.59
+  },
+  "list": null,
+  "battle": {
+   "left": 490.67,
+   "top": 70.02,
+   "right": 576,
+   "bottom": 240.67,
+   "w": 85.33,
+   "h": 170.66
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": {
+   "left": 209.15,
+   "top": 206.11,
+   "right": 410.85,
+   "bottom": 241,
+   "w": 201.7,
+   "h": 34.89
+  },
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 168,
+     "right": 134,
+     "bottom": 226,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 226,
+     "right": 76,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 226,
+     "right": 192,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 284,
+     "right": 134,
+     "bottom": 342,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 452,
+     "top": 294,
+     "right": 508,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 522,
+     "top": 294,
+     "right": 578,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 592,
+     "top": 254,
+     "right": 668,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 682,
+     "top": 254,
+     "right": 758,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": true,
+   "battleDeviceScale": 4,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": true,
+   "toastFront": true,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": "closed"
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 780,
+  "h": 360,
+  "dpr": 3,
+  "mode": "ask",
+  "file": "mobile_780x360_dpr3_ask.png",
+  "box": {
+   "left": 142,
+   "top": 129.09,
+   "right": 584,
+   "bottom": 352,
+   "w": 442,
+   "h": 222.91
+  },
+  "layout": "beside",
+  "name": {
+   "left": 332,
+   "top": 149.09,
+   "right": 434.7,
+   "bottom": 178.8,
+   "w": 102.7,
+   "h": 29.7
+  },
+  "portrait": {
+   "left": 142,
+   "top": 150.41,
+   "right": 263.66,
+   "bottom": 352,
+   "w": 121.66,
+   "h": 201.59
+  },
+  "list": {
+   "left": 338,
+   "top": 240.08,
+   "right": 554,
+   "bottom": 326,
+   "w": 216,
+   "h": 85.92
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 168,
+     "right": 134,
+     "bottom": 226,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 226,
+     "right": 76,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 226,
+     "right": 192,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 284,
+     "right": 134,
+     "bottom": 342,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 452,
+     "top": 294,
+     "right": 508,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 522,
+     "top": 294,
+     "right": 578,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 592,
+     "top": 254,
+     "right": 668,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 682,
+     "top": 254,
+     "right": 758,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b,down,up",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": 1
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 780,
+  "h": 360,
+  "dpr": 3,
+  "mode": "inbox",
+  "file": "mobile_780x360_dpr3_inbox.png",
+  "box": {
+   "left": 142,
+   "top": 178.38,
+   "right": 584,
+   "bottom": 352,
+   "w": 442,
+   "h": 173.63
+  },
+  "layout": "beside",
+  "name": {
+   "left": 166,
+   "top": 198.38,
+   "right": 237.95,
+   "bottom": 228.08,
+   "w": 71.95,
+   "h": 29.7
+  },
+  "portrait": null,
+  "list": {
+   "left": 172,
+   "top": 240.08,
+   "right": 554,
+   "bottom": 326,
+   "w": 382,
+   "h": 85.92
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 168,
+     "right": 134,
+     "bottom": 226,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 226,
+     "right": 76,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 226,
+     "right": 192,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 284,
+     "right": 134,
+     "bottom": 342,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 452,
+     "top": 294,
+     "right": 508,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 522,
+     "top": 294,
+     "right": 578,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 592,
+     "top": 254,
+     "right": 668,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 682,
+     "top": 254,
+     "right": 758,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b,down,up",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": {
+    "opened": "Kit: Rematch soon",
+    "res": "closed"
+   }
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 800,
+  "h": 360,
+  "dpr": 3,
+  "mode": "say",
+  "file": "mobile_800x360_dpr3_say.png",
+  "box": {
+   "left": 8,
+   "top": 243.66,
+   "right": 604,
+   "bottom": 352,
+   "w": 596,
+   "h": 108.34
+  },
+  "layout": "beside",
+  "name": {
+   "left": 198,
+   "top": 263.66,
+   "right": 300.7,
+   "bottom": 293.36,
+   "w": 102.7,
+   "h": 29.7
+  },
+  "portrait": {
+   "left": 8,
+   "top": 150.41,
+   "right": 129.66,
+   "bottom": 352,
+   "w": 121.66,
+   "h": 201.59
+  },
+  "list": null,
+  "battle": {
+   "left": 510.67,
+   "top": 70.02,
+   "right": 596,
+   "bottom": 240.67,
+   "w": 85.33,
+   "h": 170.66
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 168,
+     "right": 134,
+     "bottom": 226,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 226,
+     "right": 76,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 226,
+     "right": 192,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 284,
+     "right": 134,
+     "bottom": 342,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 472,
+     "top": 294,
+     "right": 528,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 542,
+     "top": 294,
+     "right": 598,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 612,
+     "top": 254,
+     "right": 688,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 702,
+     "top": 254,
+     "right": 778,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": true,
+   "battleDeviceScale": 4,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": "closed"
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 800,
+  "h": 360,
+  "dpr": 3,
+  "mode": "say_toast",
+  "file": "mobile_800x360_dpr3_say_toast.png",
+  "box": {
+   "left": 8,
+   "top": 243.66,
+   "right": 604,
+   "bottom": 352,
+   "w": 596,
+   "h": 108.34
+  },
+  "layout": "beside",
+  "name": {
+   "left": 198,
+   "top": 263.66,
+   "right": 300.7,
+   "bottom": 293.36,
+   "w": 102.7,
+   "h": 29.7
+  },
+  "portrait": {
+   "left": 8,
+   "top": 150.41,
+   "right": 129.66,
+   "bottom": 352,
+   "w": 121.66,
+   "h": 201.59
+  },
+  "list": null,
+  "battle": {
+   "left": 510.67,
+   "top": 70.02,
+   "right": 596,
+   "bottom": 240.67,
+   "w": 85.33,
+   "h": 170.66
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": {
+   "left": 219.15,
+   "top": 206.11,
+   "right": 420.85,
+   "bottom": 241,
+   "w": 201.7,
+   "h": 34.89
+  },
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 168,
+     "right": 134,
+     "bottom": 226,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 226,
+     "right": 76,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 226,
+     "right": 192,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 284,
+     "right": 134,
+     "bottom": 342,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 472,
+     "top": 294,
+     "right": 528,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 542,
+     "top": 294,
+     "right": 598,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 612,
+     "top": 254,
+     "right": 688,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 702,
+     "top": 254,
+     "right": 778,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": true,
+   "battleDeviceScale": 4,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": true,
+   "toastFront": true,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": "closed"
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 800,
+  "h": 360,
+  "dpr": 3,
+  "mode": "ask",
+  "file": "mobile_800x360_dpr3_ask.png",
+  "box": {
+   "left": 142,
+   "top": 129.09,
+   "right": 604,
+   "bottom": 352,
+   "w": 462,
+   "h": 222.91
+  },
+  "layout": "beside",
+  "name": {
+   "left": 332,
+   "top": 149.09,
+   "right": 434.7,
+   "bottom": 178.8,
+   "w": 102.7,
+   "h": 29.7
+  },
+  "portrait": {
+   "left": 142,
+   "top": 150.41,
+   "right": 263.66,
+   "bottom": 352,
+   "w": 121.66,
+   "h": 201.59
+  },
+  "list": {
+   "left": 338,
+   "top": 240.08,
+   "right": 574,
+   "bottom": 326,
+   "w": 236,
+   "h": 85.92
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 168,
+     "right": 134,
+     "bottom": 226,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 226,
+     "right": 76,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 226,
+     "right": 192,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 284,
+     "right": 134,
+     "bottom": 342,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 472,
+     "top": 294,
+     "right": 528,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 542,
+     "top": 294,
+     "right": 598,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 612,
+     "top": 254,
+     "right": 688,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 702,
+     "top": 254,
+     "right": 778,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b,down,up",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": 1
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 800,
+  "h": 360,
+  "dpr": 3,
+  "mode": "inbox",
+  "file": "mobile_800x360_dpr3_inbox.png",
+  "box": {
+   "left": 142,
+   "top": 178.38,
+   "right": 604,
+   "bottom": 352,
+   "w": 462,
+   "h": 173.63
+  },
+  "layout": "beside",
+  "name": {
+   "left": 166,
+   "top": 198.38,
+   "right": 237.95,
+   "bottom": 228.08,
+   "w": 71.95,
+   "h": 29.7
+  },
+  "portrait": null,
+  "list": {
+   "left": 172,
+   "top": 240.08,
+   "right": 574,
+   "bottom": 326,
+   "w": 402,
+   "h": 85.92
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 168,
+     "right": 134,
+     "bottom": 226,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 226,
+     "right": 76,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 226,
+     "right": 192,
+     "bottom": 284,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 284,
+     "right": 134,
+     "bottom": 342,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 472,
+     "top": 294,
+     "right": 528,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 542,
+     "top": 294,
+     "right": 598,
+     "bottom": 330,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 612,
+     "top": 254,
+     "right": 688,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 702,
+     "top": 254,
+     "right": 778,
+     "bottom": 330,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b,down,up",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": {
+    "opened": "Kit: Rematch soon",
+    "res": "closed"
+   }
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 932,
+  "h": 430,
+  "dpr": 2,
+  "mode": "say",
+  "file": "mobile_932x430_dpr2_say.png",
+  "box": {
+   "left": 8,
+   "top": 313.66,
+   "right": 736,
+   "bottom": 422,
+   "w": 728,
+   "h": 108.34
+  },
+  "layout": "beside",
+  "name": {
+   "left": 198,
+   "top": 333.66,
+   "right": 300.7,
+   "bottom": 363.36,
+   "w": 102.7,
+   "h": 29.7
+  },
+  "portrait": {
+   "left": 8,
+   "top": 181.2,
+   "right": 153.31,
+   "bottom": 422,
+   "w": 145.31,
+   "h": 240.8
+  },
+  "list": null,
+  "battle": {
+   "left": 632,
+   "top": 118.5,
+   "right": 728,
+   "bottom": 310.5,
+   "w": 96,
+   "h": 192
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 238,
+     "right": 134,
+     "bottom": 296,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 296,
+     "right": 76,
+     "bottom": 354,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 296,
+     "right": 192,
+     "bottom": 354,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 354,
+     "right": 134,
+     "bottom": 412,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 604,
+     "top": 364,
+     "right": 660,
+     "bottom": 400,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 674,
+     "top": 364,
+     "right": 730,
+     "bottom": 400,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 744,
+     "top": 324,
+     "right": 820,
+     "bottom": 400,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 834,
+     "top": 324,
+     "right": 910,
+     "bottom": 400,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": true,
+   "battleDeviceScale": 3,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": "closed"
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 932,
+  "h": 430,
+  "dpr": 2,
+  "mode": "say_toast",
+  "file": "mobile_932x430_dpr2_say_toast.png",
+  "box": {
+   "left": 8,
+   "top": 313.66,
+   "right": 736,
+   "bottom": 422,
+   "w": 728,
+   "h": 108.34
+  },
+  "layout": "beside",
+  "name": {
+   "left": 198,
+   "top": 333.66,
+   "right": 300.7,
+   "bottom": 363.36,
+   "w": 102.7,
+   "h": 29.7
+  },
+  "portrait": {
+   "left": 8,
+   "top": 181.2,
+   "right": 153.31,
+   "bottom": 422,
+   "w": 145.31,
+   "h": 240.8
+  },
+  "list": null,
+  "battle": {
+   "left": 632,
+   "top": 118.5,
+   "right": 728,
+   "bottom": 310.5,
+   "w": 96,
+   "h": 192
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": {
+   "left": 292.15,
+   "top": 276.11,
+   "right": 493.85,
+   "bottom": 311,
+   "w": 201.7,
+   "h": 34.89
+  },
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 238,
+     "right": 134,
+     "bottom": 296,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 296,
+     "right": 76,
+     "bottom": 354,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 296,
+     "right": 192,
+     "bottom": 354,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 354,
+     "right": 134,
+     "bottom": 412,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 604,
+     "top": 364,
+     "right": 660,
+     "bottom": 400,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 674,
+     "top": 364,
+     "right": 730,
+     "bottom": 400,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 744,
+     "top": 324,
+     "right": 820,
+     "bottom": 400,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 834,
+     "top": 324,
+     "right": 910,
+     "bottom": 400,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": true,
+   "battleDeviceScale": 3,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": true,
+   "toastFront": true,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": "closed"
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 932,
+  "h": 430,
+  "dpr": 2,
+  "mode": "ask",
+  "file": "mobile_932x430_dpr2_ask.png",
+  "box": {
+   "left": 142,
+   "top": 223.73,
+   "right": 736,
+   "bottom": 422,
+   "w": 594,
+   "h": 198.27
+  },
+  "layout": "beside",
+  "name": {
+   "left": 332,
+   "top": 243.73,
+   "right": 434.7,
+   "bottom": 273.44,
+   "w": 102.7,
+   "h": 29.7
+  },
+  "portrait": {
+   "left": 142,
+   "top": 181.2,
+   "right": 287.31,
+   "bottom": 422,
+   "w": 145.31,
+   "h": 240.8
+  },
+  "list": {
+   "left": 338,
+   "top": 310.08,
+   "right": 706,
+   "bottom": 396,
+   "w": 368,
+   "h": 85.92
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 238,
+     "right": 134,
+     "bottom": 296,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 296,
+     "right": 76,
+     "bottom": 354,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 296,
+     "right": 192,
+     "bottom": 354,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 354,
+     "right": 134,
+     "bottom": 412,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 604,
+     "top": 364,
+     "right": 660,
+     "bottom": 400,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 674,
+     "top": 364,
+     "right": 730,
+     "bottom": 400,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 744,
+     "top": 324,
+     "right": 820,
+     "bottom": 400,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 834,
+     "top": 324,
+     "right": 910,
+     "bottom": 400,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b,down,up",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": 1
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 932,
+  "h": 430,
+  "dpr": 2,
+  "mode": "inbox",
+  "file": "mobile_932x430_dpr2_inbox.png",
+  "box": {
+   "left": 142,
+   "top": 248.38,
+   "right": 736,
+   "bottom": 422,
+   "w": 594,
+   "h": 173.63
+  },
+  "layout": "beside",
+  "name": {
+   "left": 166,
+   "top": 268.38,
+   "right": 237.95,
+   "bottom": 298.08,
+   "w": 71.95,
+   "h": 29.7
+  },
+  "portrait": null,
+  "list": {
+   "left": 172,
+   "top": 310.08,
+   "right": 706,
+   "bottom": 396,
+   "w": 534,
+   "h": 85.92
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 238,
+     "right": 134,
+     "bottom": 296,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 296,
+     "right": 76,
+     "bottom": 354,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 296,
+     "right": 192,
+     "bottom": 354,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 354,
+     "right": 134,
+     "bottom": 412,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 604,
+     "top": 364,
+     "right": 660,
+     "bottom": 400,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 674,
+     "top": 364,
+     "right": 730,
+     "bottom": 400,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 744,
+     "top": 324,
+     "right": 820,
+     "bottom": 400,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 834,
+     "top": 324,
+     "right": 910,
+     "bottom": 400,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b,down,up",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": {
+    "opened": "Kit: Rematch soon",
+    "res": "closed"
+   }
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 1024,
+  "h": 768,
+  "dpr": 2,
+  "mode": "say",
+  "file": "mobile_1024x768_dpr2_say.png",
+  "box": {
+   "left": 8,
+   "top": 636.2,
+   "right": 828,
+   "bottom": 760,
+   "w": 820,
+   "h": 123.8
+  },
+  "layout": "beside",
+  "name": {
+   "left": 198,
+   "top": 657.2,
+   "right": 312.72,
+   "bottom": 690.34,
+   "w": 114.72,
+   "h": 33.14
+  },
+  "portrait": {
+   "left": 8,
+   "top": 500,
+   "right": 164.91,
+   "bottom": 760,
+   "w": 156.91,
+   "h": 260
+  },
+  "list": null,
+  "battle": {
+   "left": 660,
+   "top": 310,
+   "right": 820,
+   "bottom": 630,
+   "w": 160,
+   "h": 320
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 576,
+     "right": 134,
+     "bottom": 634,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 634,
+     "right": 76,
+     "bottom": 692,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 634,
+     "right": 192,
+     "bottom": 692,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 692,
+     "right": 134,
+     "bottom": 750,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 696,
+     "top": 702,
+     "right": 752,
+     "bottom": 738,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 766,
+     "top": 702,
+     "right": 822,
+     "bottom": 738,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 836,
+     "top": 662,
+     "right": 912,
+     "bottom": 738,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 926,
+     "top": 662,
+     "right": 1002,
+     "bottom": 738,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": true,
+   "battleDeviceScale": 5,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": "closed"
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 1024,
+  "h": 768,
+  "dpr": 2,
+  "mode": "say_toast",
+  "file": "mobile_1024x768_dpr2_say_toast.png",
+  "box": {
+   "left": 8,
+   "top": 636.2,
+   "right": 828,
+   "bottom": 760,
+   "w": 820,
+   "h": 123.8
+  },
+  "layout": "beside",
+  "name": {
+   "left": 198,
+   "top": 657.2,
+   "right": 312.72,
+   "bottom": 690.34,
+   "w": 114.72,
+   "h": 33.14
+  },
+  "portrait": {
+   "left": 8,
+   "top": 500,
+   "right": 164.91,
+   "bottom": 760,
+   "w": 156.91,
+   "h": 260
+  },
+  "list": null,
+  "battle": {
+   "left": 660,
+   "top": 310,
+   "right": 820,
+   "bottom": 630,
+   "w": 160,
+   "h": 320
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": {
+   "left": 311.15,
+   "top": 595.11,
+   "right": 512.85,
+   "bottom": 630,
+   "w": 201.7,
+   "h": 34.89
+  },
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 576,
+     "right": 134,
+     "bottom": 634,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 634,
+     "right": 76,
+     "bottom": 692,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 634,
+     "right": 192,
+     "bottom": 692,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 692,
+     "right": 134,
+     "bottom": 750,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 696,
+     "top": 702,
+     "right": 752,
+     "bottom": 738,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 766,
+     "top": 702,
+     "right": 822,
+     "bottom": 738,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 836,
+     "top": 662,
+     "right": 912,
+     "bottom": 738,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 926,
+     "top": 662,
+     "right": 1002,
+     "bottom": 738,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": true,
+   "battleDeviceScale": 5,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": true,
+   "toastFront": true,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": "closed"
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 1024,
+  "h": 768,
+  "dpr": 2,
+  "mode": "ask",
+  "file": "mobile_1024x768_dpr2_ask.png",
+  "box": {
+   "left": 142,
+   "top": 540.05,
+   "right": 828,
+   "bottom": 760,
+   "w": 686,
+   "h": 219.95
+  },
+  "layout": "beside",
+  "name": {
+   "left": 332,
+   "top": 561.05,
+   "right": 446.72,
+   "bottom": 594.19,
+   "w": 114.72,
+   "h": 33.14
+  },
+  "portrait": {
+   "left": 142,
+   "top": 500,
+   "right": 298.91,
+   "bottom": 760,
+   "w": 156.91,
+   "h": 260
+  },
+  "list": {
+   "left": 338,
+   "top": 635.14,
+   "right": 798,
+   "bottom": 734,
+   "w": 460,
+   "h": 98.86
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 576,
+     "right": 134,
+     "bottom": 634,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 634,
+     "right": 76,
+     "bottom": 692,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 634,
+     "right": 192,
+     "bottom": 692,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 692,
+     "right": 134,
+     "bottom": 750,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 696,
+     "top": 702,
+     "right": 752,
+     "bottom": 738,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 766,
+     "top": 702,
+     "right": 822,
+     "bottom": 738,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 836,
+     "top": 662,
+     "right": 912,
+     "bottom": 738,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 926,
+     "top": 662,
+     "right": 1002,
+     "bottom": 738,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b,down,up",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": 1
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 1024,
+  "h": 768,
+  "dpr": 2,
+  "mode": "inbox",
+  "file": "mobile_1024x768_dpr2_inbox.png",
+  "box": {
+   "left": 142,
+   "top": 569,
+   "right": 828,
+   "bottom": 760,
+   "w": 686,
+   "h": 191
+  },
+  "layout": "beside",
+  "name": {
+   "left": 166,
+   "top": 590,
+   "right": 244.58,
+   "bottom": 623.14,
+   "w": 78.58,
+   "h": 33.14
+  },
+  "portrait": null,
+  "list": {
+   "left": 172,
+   "top": 635.14,
+   "right": 798,
+   "bottom": 734,
+   "w": 626,
+   "h": 98.86
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 576,
+     "right": 134,
+     "bottom": 634,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 634,
+     "right": 76,
+     "bottom": 692,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 634,
+     "right": 192,
+     "bottom": 692,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 692,
+     "right": 134,
+     "bottom": 750,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 696,
+     "top": 702,
+     "right": 752,
+     "bottom": 738,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 766,
+     "top": 702,
+     "right": 822,
+     "bottom": 738,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 836,
+     "top": 662,
+     "right": 912,
+     "bottom": 738,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 926,
+     "top": 662,
+     "right": 1002,
+     "bottom": 738,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b,down,up",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": {
+    "opened": "Kit: Rematch soon",
+    "res": "closed"
+   }
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 780,
+  "h": 330,
+  "dpr": 2,
+  "mode": "say",
+  "file": "mobile_780x330_dpr2_say.png",
+  "box": {
+   "left": 8,
+   "top": 213.66,
+   "right": 584,
+   "bottom": 322,
+   "w": 576,
+   "h": 108.34
+  },
+  "layout": "beside",
+  "name": {
+   "left": 198,
+   "top": 233.66,
+   "right": 300.7,
+   "bottom": 263.36,
+   "w": 102.7,
+   "h": 29.7
+  },
+  "portrait": {
+   "left": 8,
+   "top": 122,
+   "right": 128.7,
+   "bottom": 322,
+   "w": 120.7,
+   "h": 200
+  },
+  "list": null,
+  "battle": {
+   "left": 512,
+   "top": 82.5,
+   "right": 576,
+   "bottom": 210.5,
+   "w": 64,
+   "h": 128
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 138,
+     "right": 134,
+     "bottom": 196,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 196,
+     "right": 76,
+     "bottom": 254,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 196,
+     "right": 192,
+     "bottom": 254,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 254,
+     "right": 134,
+     "bottom": 312,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 452,
+     "top": 264,
+     "right": 508,
+     "bottom": 300,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 522,
+     "top": 264,
+     "right": 578,
+     "bottom": 300,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 592,
+     "top": 224,
+     "right": 668,
+     "bottom": 300,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 682,
+     "top": 224,
+     "right": 758,
+     "bottom": 300,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": true,
+   "battleDeviceScale": 2,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": "closed"
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 780,
+  "h": 330,
+  "dpr": 2,
+  "mode": "say_toast",
+  "file": "mobile_780x330_dpr2_say_toast.png",
+  "box": {
+   "left": 8,
+   "top": 213.66,
+   "right": 584,
+   "bottom": 322,
+   "w": 576,
+   "h": 108.34
+  },
+  "layout": "beside",
+  "name": {
+   "left": 198,
+   "top": 233.66,
+   "right": 300.7,
+   "bottom": 263.36,
+   "w": 102.7,
+   "h": 29.7
+  },
+  "portrait": {
+   "left": 8,
+   "top": 122,
+   "right": 128.7,
+   "bottom": 322,
+   "w": 120.7,
+   "h": 200
+  },
+  "list": null,
+  "battle": {
+   "left": 512,
+   "top": 82.5,
+   "right": 576,
+   "bottom": 210.5,
+   "w": 64,
+   "h": 128
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": {
+   "left": 219.15,
+   "top": 176.11,
+   "right": 420.85,
+   "bottom": 211,
+   "w": 201.7,
+   "h": 34.89
+  },
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 138,
+     "right": 134,
+     "bottom": 196,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 196,
+     "right": 76,
+     "bottom": 254,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 196,
+     "right": 192,
+     "bottom": 254,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 254,
+     "right": 134,
+     "bottom": 312,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 452,
+     "top": 264,
+     "right": 508,
+     "bottom": 300,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 522,
+     "top": 264,
+     "right": 578,
+     "bottom": 300,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 592,
+     "top": 224,
+     "right": 668,
+     "bottom": 300,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 682,
+     "top": 224,
+     "right": 758,
+     "bottom": 300,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": true,
+   "battleDeviceScale": 2,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": true,
+   "toastFront": true,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": "closed"
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 780,
+  "h": 330,
+  "dpr": 2,
+  "mode": "ask",
+  "file": "mobile_780x330_dpr2_ask.png",
+  "box": {
+   "left": 142,
+   "top": 99.09,
+   "right": 584,
+   "bottom": 322,
+   "w": 442,
+   "h": 222.91
+  },
+  "layout": "beside",
+  "name": {
+   "left": 332,
+   "top": 119.09,
+   "right": 434.7,
+   "bottom": 148.8,
+   "w": 102.7,
+   "h": 29.7
+  },
+  "portrait": {
+   "left": 142,
+   "top": 122,
+   "right": 262.7,
+   "bottom": 322,
+   "w": 120.7,
+   "h": 200
+  },
+  "list": {
+   "left": 338,
+   "top": 210.08,
+   "right": 554,
+   "bottom": 296,
+   "w": 216,
+   "h": 85.92
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 138,
+     "right": 134,
+     "bottom": 196,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 196,
+     "right": 76,
+     "bottom": 254,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 196,
+     "right": 192,
+     "bottom": 254,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 254,
+     "right": 134,
+     "bottom": 312,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 452,
+     "top": 264,
+     "right": 508,
+     "bottom": 300,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 522,
+     "top": 264,
+     "right": 578,
+     "bottom": 300,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 592,
+     "top": 224,
+     "right": 668,
+     "bottom": 300,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 682,
+     "top": 224,
+     "right": 758,
+     "bottom": 300,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b,down,up",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": 1
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 780,
+  "h": 330,
+  "dpr": 2,
+  "mode": "inbox",
+  "file": "mobile_780x330_dpr2_inbox.png",
+  "box": {
+   "left": 142,
+   "top": 148.38,
+   "right": 584,
+   "bottom": 322,
+   "w": 442,
+   "h": 173.63
+  },
+  "layout": "beside",
+  "name": {
+   "left": 166,
+   "top": 168.38,
+   "right": 237.95,
+   "bottom": 198.08,
+   "w": 71.95,
+   "h": 29.7
+  },
+  "portrait": null,
+  "list": {
+   "left": 172,
+   "top": 210.08,
+   "right": 554,
+   "bottom": 296,
+   "w": 382,
+   "h": 85.92
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 138,
+     "right": 134,
+     "bottom": 196,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 196,
+     "right": 76,
+     "bottom": 254,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 196,
+     "right": 192,
+     "bottom": 254,
+     "w": 58,
+     "h": 58
+    },
+    "visible": false
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 254,
+     "right": 134,
+     "bottom": 312,
+     "w": 58,
+     "h": 58
+    },
+    "visible": true
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 452,
+     "top": 264,
+     "right": 508,
+     "bottom": 300,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 522,
+     "top": 264,
+     "right": 578,
+     "bottom": 300,
+     "w": 56,
+     "h": 36
+    },
+    "visible": false
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 592,
+     "top": 224,
+     "right": 668,
+     "bottom": 300,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 682,
+     "top": 224,
+     "right": 758,
+     "bottom": 300,
+     "w": 76,
+     "h": 76
+    },
+    "visible": true
+   }
+  ],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": "a,b,down,up",
+   "visibleBefore": "a,b,debug,down,left,right,select,up",
+   "visibleAfterClose": "a,b,debug,down,left,right,select,up",
+   "closedOrPicked": {
+    "opened": "Kit: Rematch soon",
+    "res": "closed"
+   }
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 1280,
+  "h": 720,
+  "dpr": 1,
+  "mode": "say",
+  "file": "pc_1280x720_dpr1_say.png",
+  "box": {
+   "left": 150,
+   "top": 575.14,
+   "right": 1130,
+   "bottom": 691.2,
+   "w": 980,
+   "h": 116.06
+  },
+  "layout": null,
+  "name": {
+   "left": 320.8,
+   "top": 597.14,
+   "right": 430.45,
+   "bottom": 628.84,
+   "w": 109.66,
+   "h": 31.7
+  },
+  "portrait": {
+   "left": 150,
+   "top": 432.02,
+   "right": 306.42,
+   "bottom": 691.2,
+   "w": 156.42,
+   "h": 259.19
+  },
+  "list": null,
+  "battle": {
+   "left": 982,
+   "top": 315.2,
+   "right": 1110,
+   "bottom": 571.2,
+   "w": 128,
+   "h": 256
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": true,
+   "battleDeviceScale": 2,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": null,
+   "visibleBefore": null,
+   "visibleAfterClose": null,
+   "closedOrPicked": null
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 1280,
+  "h": 720,
+  "dpr": 1,
+  "mode": "say_toast",
+  "file": "pc_1280x720_dpr1_say_toast.png",
+  "box": {
+   "left": 150,
+   "top": 575.14,
+   "right": 1130,
+   "bottom": 691.2,
+   "w": 980,
+   "h": 116.06
+  },
+  "layout": null,
+  "name": {
+   "left": 320.8,
+   "top": 597.14,
+   "right": 430.45,
+   "bottom": 628.84,
+   "w": 109.66,
+   "h": 31.7
+  },
+  "portrait": {
+   "left": 150,
+   "top": 432.02,
+   "right": 306.42,
+   "bottom": 691.2,
+   "w": 156.42,
+   "h": 259.19
+  },
+  "list": null,
+  "battle": {
+   "left": 982,
+   "top": 315.2,
+   "right": 1110,
+   "bottom": 571.2,
+   "w": 128,
+   "h": 256
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": {
+   "left": 508.88,
+   "top": 507.41,
+   "right": 755.12,
+   "bottom": 563,
+   "w": 246.23,
+   "h": 55.59
+  },
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": true,
+   "battleDeviceScale": 2,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": true,
+   "toastFront": true,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": null,
+   "visibleBefore": null,
+   "visibleAfterClose": null,
+   "closedOrPicked": null
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 1280,
+  "h": 720,
+  "dpr": 1,
+  "mode": "ask",
+  "file": "pc_1280x720_dpr1_ask.png",
+  "box": {
+   "left": 150,
+   "top": 478.94,
+   "right": 1130,
+   "bottom": 691.2,
+   "w": 980,
+   "h": 212.27
+  },
+  "layout": null,
+  "name": {
+   "left": 320.8,
+   "top": 500.94,
+   "right": 430.45,
+   "bottom": 532.64,
+   "w": 109.66,
+   "h": 31.7
+  },
+  "portrait": {
+   "left": 150,
+   "top": 432.02,
+   "right": 306.42,
+   "bottom": 691.2,
+   "w": 156.42,
+   "h": 259.19
+  },
+  "list": {
+   "left": 326.8,
+   "top": 571.78,
+   "right": 1100,
+   "bottom": 665.2,
+   "w": 773.2,
+   "h": 93.42
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": null,
+   "visibleBefore": null,
+   "visibleAfterClose": null,
+   "closedOrPicked": null
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 1280,
+  "h": 720,
+  "dpr": 1,
+  "mode": "inbox",
+  "file": "pc_1280x720_dpr1_inbox.png",
+  "box": {
+   "left": 150,
+   "top": 506.08,
+   "right": 1130,
+   "bottom": 691.2,
+   "w": 980,
+   "h": 185.13
+  },
+  "layout": null,
+  "name": {
+   "left": 174,
+   "top": 528.08,
+   "right": 249.78,
+   "bottom": 559.78,
+   "w": 75.78,
+   "h": 31.7
+  },
+  "portrait": null,
+  "list": {
+   "left": 180,
+   "top": 571.78,
+   "right": 1100,
+   "bottom": 665.2,
+   "w": 920,
+   "h": 93.42
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": null,
+   "visibleBefore": null,
+   "visibleAfterClose": null,
+   "closedOrPicked": null
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "mode": "say",
+  "file": "pc_1920x1080_dpr1_say.png",
+  "box": {
+   "left": 470,
+   "top": 862.72,
+   "right": 1450,
+   "bottom": 1036.81,
+   "w": 980,
+   "h": 174.09
+  },
+  "layout": null,
+  "name": {
+   "left": 727.19,
+   "top": 886.72,
+   "right": 874.67,
+   "bottom": 929.3,
+   "w": 147.48,
+   "h": 42.58
+  },
+  "portrait": {
+   "left": 470,
+   "top": 648.02,
+   "right": 704.64,
+   "bottom": 1036.81,
+   "w": 234.64,
+   "h": 388.8
+  },
+  "list": null,
+  "battle": {
+   "left": 1302,
+   "top": 660.81,
+   "right": 1430,
+   "bottom": 916.81,
+   "w": 128,
+   "h": 256
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": false,
+   "battleDeviceScale": 2,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": null,
+   "visibleBefore": null,
+   "visibleAfterClose": null,
+   "closedOrPicked": null
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "mode": "say_toast",
+  "file": "pc_1920x1080_dpr1_say_toast.png",
+  "box": {
+   "left": 470,
+   "top": 862.72,
+   "right": 1450,
+   "bottom": 1036.81,
+   "w": 980,
+   "h": 174.09
+  },
+  "layout": null,
+  "name": {
+   "left": 727.19,
+   "top": 886.72,
+   "right": 874.67,
+   "bottom": 929.3,
+   "w": 147.48,
+   "h": 42.58
+  },
+  "portrait": {
+   "left": 470,
+   "top": 648.02,
+   "right": 704.64,
+   "bottom": 1036.81,
+   "w": 234.64,
+   "h": 388.8
+  },
+  "list": null,
+  "battle": {
+   "left": 1302,
+   "top": 660.81,
+   "right": 1430,
+   "bottom": 916.81,
+   "w": 128,
+   "h": 256
+  },
+  "battleNatural": [
+   64,
+   128
+  ],
+  "toast": {
+   "left": 832.36,
+   "top": 784.92,
+   "right": 1173.64,
+   "bottom": 851,
+   "w": 341.28,
+   "h": 66.08
+  },
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": false,
+   "battleDeviceScale": 2,
+   "battleIntegerScale": true,
+   "battlePortrait": false,
+   "toastAboveBox": true,
+   "toastFront": true,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": null,
+   "visibleBefore": null,
+   "visibleAfterClose": null,
+   "closedOrPicked": null
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "mode": "ask",
+  "file": "pc_1920x1080_dpr1_ask.png",
+  "box": {
+   "left": 470,
+   "top": 757.42,
+   "right": 1450,
+   "bottom": 1036.81,
+   "w": 980,
+   "h": 279.39
+  },
+  "layout": null,
+  "name": {
+   "left": 727.19,
+   "top": 781.42,
+   "right": 874.67,
+   "bottom": 824,
+   "w": 147.48,
+   "h": 42.58
+  },
+  "portrait": {
+   "left": 470,
+   "top": 648.02,
+   "right": 704.64,
+   "bottom": 1036.81,
+   "w": 234.64,
+   "h": 388.8
+  },
+  "list": {
+   "left": 733.19,
+   "top": 876.7,
+   "right": 1420,
+   "bottom": 1010.81,
+   "w": 686.81,
+   "h": 134.11
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": null,
+   "visibleBefore": null,
+   "visibleAfterClose": null,
+   "closedOrPicked": null
+  },
+  "fail": false,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "mode": "inbox",
+  "file": "pc_1920x1080_dpr1_inbox.png",
+  "box": {
+   "left": 470,
+   "top": 798.13,
+   "right": 1450,
+   "bottom": 1036.81,
+   "w": 980,
+   "h": 238.69
+  },
+  "layout": null,
+  "name": {
+   "left": 494,
+   "top": 822.13,
+   "right": 590.67,
+   "bottom": 864.7,
+   "w": 96.67,
+   "h": 42.58
+  },
+  "portrait": null,
+  "list": {
+   "left": 500,
+   "top": 876.7,
+   "right": 1420,
+   "bottom": 1010.81,
+   "w": 920,
+   "h": 134.11
+  },
+  "battle": null,
+  "battleNatural": null,
+  "toast": null,
+  "toastZ": 5,
+  "dlgZ": 4,
+  "btns": [],
+  "active": true,
+  "checks": {
+   "boxButtons": [],
+   "portraitButtons": [],
+   "battleButtons": [],
+   "toastButtons": [],
+   "listButtons": [],
+   "off": [],
+   "battleAboveBox": null,
+   "battleDeviceScale": null,
+   "battleIntegerScale": null,
+   "battlePortrait": false,
+   "toastAboveBox": null,
+   "toastFront": null,
+   "toastBattle": false,
+   "toastPortrait": false,
+   "visibleDuring": null,
+   "visibleBefore": null,
+   "visibleAfterClose": null,
+   "closedOrPicked": null
+  },
+  "fail": false,
+  "errors": []
+ }
+]

@@ -1,0 +1,33 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "cindervale",
+ "route_id": null,
+ "kind": "town (volcano)",
+ "map_status": "to_come",
+ "story_step": "11 (coin 8 -> all_badges)",
+ "story_order": 25,
+ "level_band": "hall see halls/cindervale.json",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "cv_forge",
+   "item": "tonic_large",
+   "hidden": false,
+   "placement_hint": "forge yard"
+  },
+  {
+   "id": "cv_hidden_anvil",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "placement_hint": "old anvil"
+  },
+  {
+   "id": "cv_spring",
+   "item": "vigor_seed",
+   "hidden": false,
+   "placement_hint": "hot spring path"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

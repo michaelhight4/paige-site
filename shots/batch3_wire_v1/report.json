@@ -1,0 +1,21 @@
+{
+ "results": [
+  "PASS pc_1080p: platform profile pc",
+  "PASS pc_1080p: Mirefen hall grade night (day outside)",
+  "PASS pc_1080p: one lamp lit [2067,2067,2068,2067]",
+  "PASS pc_1080p: sight system spotted [\"mirefen_hall_int_h1\"]",
+  "PASS pc_1080p: engine battle opened from the hall trainer",
+  "PASS pc_1080p: battle foes [\"mirewump\",\"mirewump\"]",
+  "PASS pc_1080p: sign read \"SLUICE WHEELS\nEach wheel lifts a pan, drops the next.\"",
+  "PASS pc_1080p: no page errors []",
+  "PASS phone_844x390: platform profile mobile",
+  "PASS phone_844x390: Mirefen hall grade night (day outside)",
+  "PASS phone_844x390: one lamp lit [2067,2067,2068,2067]",
+  "PASS phone_844x390: sight system spotted [\"mirefen_hall_int_h1\"]",
+  "PASS phone_844x390: engine battle opened from the hall trainer",
+  "PASS phone_844x390: battle foes [\"mirewump\",\"mirewump\"]",
+  "PASS phone_844x390: sign read \"SLUICE WHEELS\nEach wheel lifts a pan, drops the next.\"",
+  "PASS phone_844x390: no page errors []"
+ ],
+ "failures": 0
+}

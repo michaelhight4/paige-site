@@ -1,0 +1,102 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "route_fernwick_lanternport",
+ "route_id": "fernwick-lanternport",
+ "kind": "route (tide-lock shortcut home)",
+ "map_status": "to_come",
+ "story_step": "after coin 7",
+ "story_order": 23,
+ "level_band": "wild 44-47, trainers 45-47",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "tr_route_fernwick_lanternport_a",
+   "class": "angler",
+   "class_display_suggestion": "Angler",
+   "name_suggestion": "Umber",
+   "team": [
+    {
+     "species": "moorcoil",
+     "level": 45
+    },
+    {
+     "species": "mooncrab",
+     "level": 46
+    }
+   ],
+   "base": 35,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 1610,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_fernwick_lanternport.a",
+   "note": "lock basin"
+  },
+  {
+   "id": "tr_route_fernwick_lanternport_b",
+   "class": "lamplighter",
+   "class_display_suggestion": "Lamplighter",
+   "name_suggestion": "Viggo",
+   "team": [
+    {
+     "species": "gloamtick",
+     "level": 46
+    },
+    {
+     "species": "lanternkeep",
+     "level": 46
+    }
+   ],
+   "base": 50,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 2300,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_fernwick_lanternport.b",
+   "note": "canal lamps"
+  },
+  {
+   "id": "tr_route_fernwick_lanternport_c",
+   "class": "ranger",
+   "class_display_suggestion": "Ranger",
+   "name_suggestion": "Wyn",
+   "team": [
+    {
+     "species": "parasoleaf",
+     "level": 46
+    },
+    {
+     "species": "netspinner",
+     "level": 47
+    }
+   ],
+   "base": 55,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 2585,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.route_fernwick_lanternport.c",
+   "note": "forest edge near Fernwick"
+  },
+  {
+   "id": "tr_route_fernwick_lanternport_d",
+   "class": "veteran",
+   "class_display_suggestion": "Veteran",
+   "name_suggestion": "Xan",
+   "team": [
+    {
+     "species": "runeskein",
+     "level": 47
+    },
+    {
+     "species": "novarch",
+     "level": 47
+    }
+   ],
+   "base": 80,
+   "base_status": "PROPOSED (add to shops.json trainerMoney.classes or pass baseAmount)",
+   "prize": 3760,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.route_fernwick_lanternport.d",
+   "note": "optional"
+  }
+ ],
+ "hall": null
+}

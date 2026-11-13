@@ -1,0 +1,123 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "coin_number": 4,
+ "zone": "frostspire",
+ "hall_map": "frostspire_hall_int (to come)",
+ "flag": "beat_master_frostspire",
+ "coin_name_suggestion": "Aerie Coin",
+ "coin_name_note": "player text says \"coin\" (CRITICAL_PATH); name needs Gary + web clash check",
+ "master": {
+  "id": "master_frostspire",
+  "class": "master",
+  "name_suggestion": "Hale Corrie",
+  "element": "bird + wind (PROPOSED: Skylift reward = a flying creature carries you)",
+  "team": [
+   {
+    "species": "sailquill",
+    "level": 31
+   },
+   {
+    "species": "highkite",
+    "level": 32
+   },
+   {
+    "species": "pouchbill",
+    "level": 33
+   },
+   {
+    "species": "gildfinch",
+    "level": 35
+   }
+  ],
+  "base": 120,
+  "base_status": "existing",
+  "prize": 4200,
+  "sight_range": 0,
+  "sight_rule": "masters never spot: talk to them",
+  "text_ref": "overworld_lines.json masters.frostspire (TODO Text Bot)"
+ },
+ "hall_trainers": [
+  {
+   "id": "tr_hall_frostspire_h1",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Rue",
+   "team": [
+    {
+     "species": "sailquill",
+     "level": 30
+    },
+    {
+     "species": "snowgrouse",
+     "level": 30
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 1500,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.hall_frostspire.h1"
+  },
+  {
+   "id": "tr_hall_frostspire_h2",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Bram",
+   "team": [
+    {
+     "species": "highkite",
+     "level": 31
+    },
+    {
+     "species": "signalwren",
+     "level": 31
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 1550,
+   "sight_range": 4,
+   "text_ref": "TODO Text Bot: trainers.hall_frostspire.h2"
+  },
+  {
+   "id": "tr_hall_frostspire_h3",
+   "class": "helper",
+   "class_display_suggestion": "Hall Helper",
+   "name_suggestion": "Tilly",
+   "team": [
+    {
+     "species": "spraytern",
+     "level": 32
+    },
+    {
+     "species": "sailquill",
+     "level": 32
+    }
+   ],
+   "base": 50,
+   "base_status": "existing",
+   "prize": 1600,
+   "sight_range": 5,
+   "text_ref": "TODO Text Bot: trainers.hall_frostspire.h3",
+   "note": "on the top ledge"
+  }
+ ],
+ "puzzle": {
+  "status": "outline",
+  "name_suggestion": "Gust lanes",
+  "outline": "An open-roof hall on the peak. Wind vents push the player along a lane until a windbreak banner stops them. Bell ropes switch which vents blow (2 states). Feathers on the floor show the current direction. Find the vent setting that carries you up the ledges to the eyrie. Falling off a lane drops you to the floor below (no reset needed).",
+  "teaches": "forced movement + toggles; original framing: wind, not ice"
+ },
+ "reward": {
+  "coin": "Aerie Coin",
+  "money": 4200,
+  "gift_item": {
+   "id": "tonic_large",
+   "qty": 3
+  },
+  "opens": "gate_route1_east + gate_saltmere_causeway + gate_sunmeadow_north",
+  "field_skill": "Skylift (has_skylift)"
+ },
+ "team_size": 4,
+ "ace_level": 35
+}

@@ -1,0 +1,38 @@
+/* Online play overlay (stage 1, DRAFT). Top-centre so it never covers the HUD banner (top-left), the
+   clock/menu (top-right), the d-pad (bottom-left) or A/B (bottom-right). Mobile buttons >= 44px. */
+.ol-layer { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+.ol-tag { position: absolute; left: 0; top: 0; display: flex; flex-direction: column; align-items: center; will-change: transform; }
+.ol-tag-name { font: 600 12px/1.2 system-ui, sans-serif; color: #fff; background: rgba(20, 24, 40, .72); padding: 1px 6px; border-radius: 6px; white-space: nowrap; margin-bottom: 2px; }
+.ol-tag.mine .ol-tag-name { display: none; }
+.ol-bubble { font: 600 14px/1.25 system-ui, sans-serif; color: #1d2030; background: #fffdf4; border: 2px solid #1d2030; border-radius: 10px; padding: 3px 8px; max-width: 220px; text-align: center; margin-bottom: 4px; white-space: normal; width: max-content; }
+.ol-bubble.typed { font-style: italic; }
+.ol-bubble[hidden] { display: none; }
+.ol-bar { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 8px); left: 50%; transform: translateX(-50%); z-index: 3; display: flex; gap: 6px; align-items: center;
+  background: rgba(20, 24, 40, .78); color: #fff; border-radius: 12px; padding: 4px 6px 4px 10px; font: 600 13px/1.2 system-ui, sans-serif; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+.ol-label { white-space: nowrap; max-width: 34vw; overflow: hidden; text-overflow: ellipsis; }
+.ol-btn { min-height: var(--ol-btn, 36px); min-width: var(--ol-btn, 36px); padding: 0 10px; border-radius: 10px; border: 2px solid #1d2030; background: #fffdf4; color: #1d2030; font: 600 14px/1 system-ui, sans-serif; cursor: pointer; touch-action: manipulation; }
+.ol-btn:disabled { opacity: .45; }
+.ol-btn:focus-visible { outline: 3px solid #ffd23f; outline-offset: 1px; }
+.ol-panel { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 8px + var(--ol-btn, 36px) + 16px); left: 50%; transform: translateX(-50%); z-index: 4;
+  background: rgba(20, 24, 40, .92); color: #fff; border-radius: 14px; padding: 10px; width: min(92vw, 520px); max-height: calc(100vh - var(--ol-btn, 36px) - 40px); overflow: auto;
+  font: 500 14px/1.3 system-ui, sans-serif; touch-action: manipulation; }
+.ol-panel[hidden] { display: none; }
+.ol-phrases { display: grid; grid-template-columns: repeat(var(--ol-cols, 2), 1fr); gap: 6px; }
+.ol-typed { display: flex; gap: 6px; margin-top: 8px; }
+.ol-typed[hidden] { display: none; }
+.ol-input { flex: 1; min-height: var(--ol-btn, 36px); border-radius: 10px; border: 2px solid #1d2030; padding: 0 8px; font: 500 16px system-ui, sans-serif; }
+.ol-close { margin-top: 8px; width: 100%; }
+.ol-list { list-style: none; margin: 6px 0; padding: 0; display: grid; gap: 6px; }
+.ol-row { display: flex; gap: 6px; align-items: center; }
+.ol-row .ol-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ol-report { background: #ffe2dd; }
+.ol-me { margin: 0 0 4px; opacity: .85; }
+.ol-setting { display: flex; gap: 8px; align-items: center; min-height: var(--ol-btn, 36px); }
+.ol-setting input { width: 22px; height: 22px; }
+.ol-flash { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 8px + var(--ol-btn, 36px) + 16px); left: 50%; transform: translateX(-50%); z-index: 5; background: #fffdf4; color: #1d2030; border: 2px solid #1d2030; border-radius: 10px; padding: 6px 12px; font: 600 14px system-ui, sans-serif; opacity: 0; pointer-events: none; transition: opacity .2s; }
+.ol-flash.show { opacity: 1; }
+/* Mobile is landscape-only: a short, wide panel; the bar stays compact. */
+body.ol-mobile .ol-panel { width: min(70vw, 640px); max-height: calc(100vh - var(--ol-btn, 44px) - 28px); padding: 8px; }
+body.ol-mobile .ol-label { max-width: 26vw; font-size: 12px; }
+body.ui-open .ol-bar, body.ui-open .ol-panel { visibility: hidden; }
+@media (prefers-reduced-motion: reduce) { .ol-flash { transition: none; } }

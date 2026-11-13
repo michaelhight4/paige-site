@@ -1,0 +1,115 @@
+{
+ "label": "before",
+ "extra": "",
+ "shots": [
+  {
+   "file": "brookhollow_day_pc.png",
+   "w": 1280,
+   "h": 720,
+   "zoom": 2,
+   "phase": "day",
+   "hour": 12,
+   "nightfx": null
+  },
+  {
+   "file": "brookhollow_dusk_pc.png",
+   "w": 1280,
+   "h": 720,
+   "zoom": 2,
+   "phase": "dusk",
+   "hour": 18,
+   "nightfx": null
+  },
+  {
+   "file": "brookhollow_night_pc.png",
+   "w": 1280,
+   "h": 720,
+   "zoom": 2,
+   "phase": "night",
+   "hour": 22,
+   "nightfx": null
+  },
+  {
+   "file": "fernwick_day_pc.png",
+   "w": 1280,
+   "h": 720,
+   "zoom": 2,
+   "phase": "day",
+   "hour": 12,
+   "nightfx": null
+  },
+  {
+   "file": "fernwick_dusk_pc.png",
+   "w": 1280,
+   "h": 720,
+   "zoom": 2,
+   "phase": "dusk",
+   "hour": 18,
+   "nightfx": null
+  },
+  {
+   "file": "fernwick_night_pc.png",
+   "w": 1280,
+   "h": 720,
+   "zoom": 2,
+   "phase": "night",
+   "hour": 22,
+   "nightfx": null
+  },
+  {
+   "file": "brookhollow_day_phone.png",
+   "w": 2532,
+   "h": 1170,
+   "zoom": 2,
+   "phase": "day",
+   "hour": 12,
+   "nightfx": null
+  },
+  {
+   "file": "brookhollow_dusk_phone.png",
+   "w": 2532,
+   "h": 1170,
+   "zoom": 2,
+   "phase": "dusk",
+   "hour": 18,
+   "nightfx": null
+  },
+  {
+   "file": "brookhollow_night_phone.png",
+   "w": 2532,
+   "h": 1170,
+   "zoom": 2,
+   "phase": "night",
+   "hour": 22,
+   "nightfx": null
+  },
+  {
+   "file": "fernwick_day_phone.png",
+   "w": 2532,
+   "h": 1170,
+   "zoom": 2,
+   "phase": "day",
+   "hour": 12,
+   "nightfx": null
+  },
+  {
+   "file": "fernwick_dusk_phone.png",
+   "w": 2532,
+   "h": 1170,
+   "zoom": 2,
+   "phase": "dusk",
+   "hour": 18,
+   "nightfx": null
+  },
+  {
+   "file": "fernwick_night_phone.png",
+   "w": 2532,
+   "h": 1170,
+   "zoom": 2,
+   "phase": "night",
+   "hour": 22,
+   "nightfx": null
+  }
+ ],
+ "errors": []
+}

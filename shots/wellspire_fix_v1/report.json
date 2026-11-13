@@ -1,0 +1,17 @@
+[
+ {
+  "plat": "pc",
+  "errors": [],
+  "shots": [
+   "pc_01_cairnfold_doors.png",
+   "pc_02_heal_cairnfold.png",
+   "pc_03_shop_cairnfold.png",
+   "pc_04_shop_int_pet.png",
+   "pc_05_lodge_shop.png",
+   "pc_06_merit_announcer.png",
+   "pc_07_cloudline.png",
+   "pc_08_cloudway.png",
+   "pc_09_skylift_counter.png"
+  ]
+ }
+]

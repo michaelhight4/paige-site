@@ -1,0 +1,957 @@
+[
+ {
+  "plat": "pc",
+  "w": 1280,
+  "h": 720,
+  "dpr": 1,
+  "touch": false,
+  "file": "pc_1280x720.png",
+  "platform": "pc",
+  "bodyClass": "platform-pc",
+  "coarse": false,
+  "zoom": 2,
+  "canvasH": 720,
+  "dlg": {
+   "left": 150,
+   "top": 552,
+   "right": 1130,
+   "bottom": 691,
+   "width": 980,
+   "height": 139
+  },
+  "dlgBottomVar": "4vh",
+  "touchShown": false,
+  "btns": [],
+  "rotateShown": false,
+  "overlaps": [],
+  "dlgOffscreen": false,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "touch": false,
+  "file": "pc_1920x1080.png",
+  "platform": "pc",
+  "bodyClass": "platform-pc",
+  "coarse": false,
+  "zoom": 2,
+  "canvasH": 1080,
+  "dlg": {
+   "left": 470,
+   "top": 858,
+   "right": 1450,
+   "bottom": 1037,
+   "width": 980,
+   "height": 179
+  },
+  "dlgBottomVar": "4vh",
+  "touchShown": false,
+  "btns": [],
+  "rotateShown": false,
+  "overlaps": [],
+  "dlgOffscreen": false,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 2560,
+  "h": 1440,
+  "dpr": 1,
+  "touch": false,
+  "file": "pc_2560x1440.png",
+  "platform": "pc",
+  "bodyClass": "platform-pc",
+  "coarse": false,
+  "zoom": 3,
+  "canvasH": 1440,
+  "dlg": {
+   "left": 790,
+   "top": 1172,
+   "right": 1770,
+   "bottom": 1382,
+   "width": 980,
+   "height": 211
+  },
+  "dlgBottomVar": "4vh",
+  "touchShown": false,
+  "btns": [],
+  "rotateShown": false,
+  "overlaps": [],
+  "dlgOffscreen": false,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 1440,
+  "h": 900,
+  "dpr": 1,
+  "touch": false,
+  "file": "pc_1440x900.png",
+  "platform": "pc",
+  "bodyClass": "platform-pc",
+  "coarse": false,
+  "zoom": 2,
+  "canvasH": 900,
+  "dlg": {
+   "left": 230,
+   "top": 707,
+   "right": 1210,
+   "bottom": 864,
+   "width": 980,
+   "height": 157
+  },
+  "dlgBottomVar": "4vh",
+  "touchShown": false,
+  "btns": [],
+  "rotateShown": false,
+  "overlaps": [],
+  "dlgOffscreen": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 844,
+  "h": 390,
+  "dpr": 2,
+  "touch": true,
+  "file": "mobile_844x390.png",
+  "platform": "mobile",
+  "bodyClass": "platform-mobile landscape-only touch-ui",
+  "coarse": true,
+  "zoom": 2,
+  "canvasH": 780,
+  "dlg": {
+   "left": 34,
+   "top": 60,
+   "right": 810,
+   "bottom": 190,
+   "width": 776,
+   "height": 130
+  },
+  "dlgBottomVar": "calc(200px + 0px)",
+  "touchShown": true,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 198,
+     "right": 134,
+     "bottom": 256,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 256,
+     "right": 76,
+     "bottom": 314,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 256,
+     "right": 192,
+     "bottom": 314,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 314,
+     "right": 134,
+     "bottom": 372,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 516,
+     "top": 324,
+     "right": 572,
+     "bottom": 360,
+     "width": 56,
+     "height": 36
+    }
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 586,
+     "top": 324,
+     "right": 642,
+     "bottom": 360,
+     "width": 56,
+     "height": 36
+    }
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 656,
+     "top": 284,
+     "right": 732,
+     "bottom": 360,
+     "width": 76,
+     "height": 76
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 746,
+     "top": 284,
+     "right": 822,
+     "bottom": 360,
+     "width": 76,
+     "height": 76
+    }
+   }
+  ],
+  "rotateShown": false,
+  "overlaps": [],
+  "dlgOffscreen": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 932,
+  "h": 430,
+  "dpr": 2,
+  "touch": true,
+  "file": "mobile_932x430.png",
+  "platform": "mobile",
+  "bodyClass": "platform-mobile landscape-only touch-ui",
+  "coarse": true,
+  "zoom": 2,
+  "canvasH": 860,
+  "dlg": {
+   "left": 37,
+   "top": 100,
+   "right": 895,
+   "bottom": 230,
+   "width": 857,
+   "height": 130
+  },
+  "dlgBottomVar": "calc(200px + 0px)",
+  "touchShown": true,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 238,
+     "right": 134,
+     "bottom": 296,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 296,
+     "right": 76,
+     "bottom": 354,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 296,
+     "right": 192,
+     "bottom": 354,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 354,
+     "right": 134,
+     "bottom": 412,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 604,
+     "top": 364,
+     "right": 660,
+     "bottom": 400,
+     "width": 56,
+     "height": 36
+    }
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 674,
+     "top": 364,
+     "right": 730,
+     "bottom": 400,
+     "width": 56,
+     "height": 36
+    }
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 744,
+     "top": 324,
+     "right": 820,
+     "bottom": 400,
+     "width": 76,
+     "height": 76
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 834,
+     "top": 324,
+     "right": 910,
+     "bottom": 400,
+     "width": 76,
+     "height": 76
+    }
+   }
+  ],
+  "rotateShown": false,
+  "overlaps": [],
+  "dlgOffscreen": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 780,
+  "h": 360,
+  "dpr": 2,
+  "touch": true,
+  "file": "mobile_780x360.png",
+  "platform": "mobile",
+  "bodyClass": "platform-mobile landscape-only touch-ui",
+  "coarse": true,
+  "zoom": 2,
+  "canvasH": 720,
+  "dlg": {
+   "left": 31,
+   "top": 30,
+   "right": 749,
+   "bottom": 160,
+   "width": 718,
+   "height": 130
+  },
+  "dlgBottomVar": "calc(200px + 0px)",
+  "touchShown": true,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 168,
+     "right": 134,
+     "bottom": 226,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 226,
+     "right": 76,
+     "bottom": 284,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 226,
+     "right": 192,
+     "bottom": 284,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 284,
+     "right": 134,
+     "bottom": 342,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 452,
+     "top": 294,
+     "right": 508,
+     "bottom": 330,
+     "width": 56,
+     "height": 36
+    }
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 522,
+     "top": 294,
+     "right": 578,
+     "bottom": 330,
+     "width": 56,
+     "height": 36
+    }
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 592,
+     "top": 254,
+     "right": 668,
+     "bottom": 330,
+     "width": 76,
+     "height": 76
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 682,
+     "top": 254,
+     "right": 758,
+     "bottom": 330,
+     "width": 76,
+     "height": 76
+    }
+   }
+  ],
+  "rotateShown": false,
+  "overlaps": [],
+  "dlgOffscreen": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 1024,
+  "h": 768,
+  "dpr": 2,
+  "touch": true,
+  "file": "mobile_1024x768.png",
+  "platform": "mobile",
+  "bodyClass": "platform-mobile landscape-only touch-ui",
+  "coarse": true,
+  "zoom": 3,
+  "canvasH": 1536,
+  "dlg": {
+   "left": 41,
+   "top": 425,
+   "right": 983,
+   "bottom": 568,
+   "width": 942,
+   "height": 143
+  },
+  "dlgBottomVar": "calc(200px + 0px)",
+  "touchShown": true,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 576,
+     "right": 134,
+     "bottom": 634,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 634,
+     "right": 76,
+     "bottom": 692,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 634,
+     "right": 192,
+     "bottom": 692,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 692,
+     "right": 134,
+     "bottom": 750,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 696,
+     "top": 702,
+     "right": 752,
+     "bottom": 738,
+     "width": 56,
+     "height": 36
+    }
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 766,
+     "top": 702,
+     "right": 822,
+     "bottom": 738,
+     "width": 56,
+     "height": 36
+    }
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 836,
+     "top": 662,
+     "right": 912,
+     "bottom": 738,
+     "width": 76,
+     "height": 76
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 926,
+     "top": 662,
+     "right": 1002,
+     "bottom": 738,
+     "width": 76,
+     "height": 76
+    }
+   }
+  ],
+  "rotateShown": false,
+  "overlaps": [],
+  "dlgOffscreen": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 390,
+  "h": 844,
+  "dpr": 2,
+  "touch": true,
+  "portrait": true,
+  "file": "mobile_portrait_390x844.png",
+  "platform": "mobile",
+  "bodyClass": "platform-mobile landscape-only touch-ui needs-landscape",
+  "coarse": true,
+  "zoom": 3,
+  "canvasH": 1688,
+  "dlg": {
+   "left": 16,
+   "top": 460,
+   "right": 374,
+   "bottom": 644,
+   "width": 359,
+   "height": 184
+  },
+  "dlgBottomVar": "calc(200px + 0px)",
+  "touchShown": true,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 652,
+     "right": 134,
+     "bottom": 710,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 710,
+     "right": 76,
+     "bottom": 768,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 710,
+     "right": 192,
+     "bottom": 768,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 768,
+     "right": 134,
+     "bottom": 826,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 62,
+     "top": 778,
+     "right": 118,
+     "bottom": 814,
+     "width": 56,
+     "height": 36
+    }
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 132,
+     "top": 778,
+     "right": 188,
+     "bottom": 814,
+     "width": 56,
+     "height": 36
+    }
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 202,
+     "top": 738,
+     "right": 278,
+     "bottom": 814,
+     "width": 76,
+     "height": 76
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 292,
+     "top": 738,
+     "right": 368,
+     "bottom": 814,
+     "width": 76,
+     "height": 76
+    }
+   }
+  ],
+  "rotateShown": true,
+  "overlaps": [],
+  "dlgOffscreen": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 780,
+  "h": 360,
+  "dpr": 3,
+  "touch": true,
+  "tag": "2340x1080",
+  "file": "mobile_780x360_dpr3.png",
+  "platform": "mobile",
+  "bodyClass": "platform-mobile landscape-only touch-ui",
+  "coarse": true,
+  "zoom": 2,
+  "canvasH": 1080,
+  "dlg": {
+   "left": 31,
+   "top": 30,
+   "right": 749,
+   "bottom": 160,
+   "width": 718,
+   "height": 130
+  },
+  "dlgBottomVar": "calc(200px + 0px)",
+  "touchShown": true,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 168,
+     "right": 134,
+     "bottom": 226,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 226,
+     "right": 76,
+     "bottom": 284,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 226,
+     "right": 192,
+     "bottom": 284,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 284,
+     "right": 134,
+     "bottom": 342,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 452,
+     "top": 294,
+     "right": 508,
+     "bottom": 330,
+     "width": 56,
+     "height": 36
+    }
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 522,
+     "top": 294,
+     "right": 578,
+     "bottom": 330,
+     "width": 56,
+     "height": 36
+    }
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 592,
+     "top": 254,
+     "right": 668,
+     "bottom": 330,
+     "width": 76,
+     "height": 76
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 682,
+     "top": 254,
+     "right": 758,
+     "bottom": 330,
+     "width": 76,
+     "height": 76
+    }
+   }
+  ],
+  "rotateShown": false,
+  "overlaps": [],
+  "dlgOffscreen": false,
+  "errors": []
+ },
+ {
+  "plat": "mobile",
+  "w": 800,
+  "h": 360,
+  "dpr": 3,
+  "touch": true,
+  "tag": "2400x1080",
+  "file": "mobile_800x360_dpr3.png",
+  "platform": "mobile",
+  "bodyClass": "platform-mobile landscape-only touch-ui",
+  "coarse": true,
+  "zoom": 2,
+  "canvasH": 1080,
+  "dlg": {
+   "left": 32,
+   "top": 30,
+   "right": 768,
+   "bottom": 160,
+   "width": 736,
+   "height": 130
+  },
+  "dlgBottomVar": "calc(200px + 0px)",
+  "touchShown": true,
+  "btns": [
+   {
+    "id": "up",
+    "rect": {
+     "left": 76,
+     "top": 168,
+     "right": 134,
+     "bottom": 226,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "left",
+    "rect": {
+     "left": 18,
+     "top": 226,
+     "right": 76,
+     "bottom": 284,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "right",
+    "rect": {
+     "left": 134,
+     "top": 226,
+     "right": 192,
+     "bottom": 284,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "down",
+    "rect": {
+     "left": 76,
+     "top": 284,
+     "right": 134,
+     "bottom": 342,
+     "width": 58,
+     "height": 58
+    }
+   },
+   {
+    "id": "debug",
+    "rect": {
+     "left": 472,
+     "top": 294,
+     "right": 528,
+     "bottom": 330,
+     "width": 56,
+     "height": 36
+    }
+   },
+   {
+    "id": "select",
+    "rect": {
+     "left": 542,
+     "top": 294,
+     "right": 598,
+     "bottom": 330,
+     "width": 56,
+     "height": 36
+    }
+   },
+   {
+    "id": "b",
+    "rect": {
+     "left": 612,
+     "top": 254,
+     "right": 688,
+     "bottom": 330,
+     "width": 76,
+     "height": 76
+    }
+   },
+   {
+    "id": "a",
+    "rect": {
+     "left": 702,
+     "top": 254,
+     "right": 778,
+     "bottom": 330,
+     "width": 76,
+     "height": 76
+    }
+   }
+  ],
+  "rotateShown": false,
+  "overlaps": [],
+  "dlgOffscreen": false,
+  "errors": []
+ },
+ {
+  "override": "?platform=mobile",
+  "want": "mobile",
+  "id": "mobile",
+  "touch": true,
+  "cls": "platform-mobile landscape-only touch-ui"
+ },
+ {
+  "override": "?touch=1",
+  "want": "mobile",
+  "id": "mobile",
+  "touch": true,
+  "cls": "platform-mobile landscape-only touch-ui"
+ },
+ {
+  "override": "?platform=pc",
+  "want": "pc",
+  "id": "pc",
+  "touch": false,
+  "cls": "platform-pc"
+ }
+]

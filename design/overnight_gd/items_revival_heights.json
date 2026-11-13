@@ -1,0 +1,34 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "revival_heights",
+ "route_id": null,
+ "kind": "city (rail-only, RT HQ)",
+ "map_status": "to_come",
+ "story_step": "6 (coin 3, Lumen Line Pass)",
+ "story_order": 11,
+ "level_band": "Ron 3 L27; hall see halls/revival_heights.json",
+ "existing_placed": [],
+ "existing_note": null,
+ "proposed": [
+  {
+   "id": "rh_plaza",
+   "item": "tonic_large",
+   "hidden": true,
+   "placement_hint": "plaza planter"
+  },
+  {
+   "id": "rh_station",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "placement_hint": "Central station platform end"
+  },
+  {
+   "id": "rh_hq_gift",
+   "item": "energy_tonic",
+   "hidden": false,
+   "placement_hint": "HQ reception: Branch Access Card scene bonus (SOUL 8.2d)",
+   "gift": true
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

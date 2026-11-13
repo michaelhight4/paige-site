@@ -1,0 +1,41 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "greystone_caverns",
+ "route_id": null,
+ "kind": "biome (cave)",
+ "map_status": "partial (entrance + B1 built; B2 planned)",
+ "story_step": "after coin 1 (optional, open), crossed at step 6 to Frostspire pass",
+ "story_order": 5,
+ "level_band": "PROPOSED entrance 12-16, B1 14-18, B2 (planned) 24-28",
+ "existing_placed": [
+  "gs_item",
+  "gs_west_dead_end",
+  "gs_sw_dead_end",
+  "b1_item",
+  "b1_hidden",
+  "b1_north_dead_end",
+  "b1_east_dead_end"
+ ],
+ "existing_note": "already in maps/*.json items[] (ITEM_PLACEHOLDERS.json placed); not duplicated here",
+ "proposed": [
+  {
+   "id": "gs_b2_track_end",
+   "item": "vigor_seed",
+   "hidden": false,
+   "placement_hint": "B2 bike mine-track end (bike only)"
+  },
+  {
+   "id": "gs_b2_camp_stove",
+   "item": "tonic_large",
+   "hidden": true,
+   "placement_hint": "B2 cold camp stove (club note tier 2)"
+  },
+  {
+   "id": "gs_b2_dead_end",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "placement_hint": "B2 dead end"
+  }
+ ],
+ "flag_rule": "item_<map>_<id> (one flag per pickup)"
+}

@@ -1,0 +1,1144 @@
+{
+ "_meta": {
+  "built": "2026-10-23",
+  "by": "tools/build_creature_plan.mjs",
+  "rule": "needed = every species used by the region wild pools that roll today + its trainers' active teams (all Ron starter branches) + starters (region 1) + evolutions reachable under the region trainer cap. Each species counted once (region 2 lists only extras). Water tables are inert at runtime (no Tideglide) and listed separately.",
+  "region1_level_cap": 10,
+  "region2_level_cap": 21
+ },
+ "region1_through_master1": [
+  {
+   "species": "tumbloam",
+   "name": "Tumbloam",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "starter (Brookhollow lab)",
+    "trainer fernwick.ron_rival_1",
+    "wild sunmeadow_grass (hand-made)"
+   ],
+   "gaps": [
+    "stats: placeholder (flat 45/60/80 by stage, creatures.js)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "cindrip",
+   "name": "Cindrip",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "starter (Brookhollow lab)",
+    "trainer fernwick.ron_rival_1"
+   ],
+   "gaps": [
+    "stats: placeholder (flat 45/60/80 by stage, creatures.js)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "rillop",
+   "name": "Rillop",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "starter (Brookhollow lab)",
+    "trainer fernwick.ron_rival_1",
+    "wild sunmeadow_grass (hand-made)"
+   ],
+   "gaps": [
+    "stats: placeholder (flat 45/60/80 by stage, creatures.js)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "peeplark",
+   "name": "Peeplark",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer fernwick.ron_rival_1",
+    "trainer fernwick_hall_int.helper_1",
+    "trainer route1.trainer_r1_b",
+    "wild sunmeadow_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "nibbin",
+   "name": "Nibbin",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer fernwick_hall_int.helper_1",
+    "trainer fernwick_hall_int.master_fernwick",
+    "trainer route1.trainer_r1_c",
+    "wild sunmeadow_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "gnawford",
+   "name": "Gnawford",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer fernwick_hall_int.master_fernwick"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: runtime evoLevel 16 vs DEX level 18"
+   ]
+  },
+  {
+   "species": "dewmite",
+   "name": "Dewmite",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer fernwick_hall_int.helper_2",
+    "trainer route1.trainer_r1_b",
+    "wild sunmeadow_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "huskling",
+   "name": "Huskling",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "evolves from dewmite at L7 (inside the region's level cap 10)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: runtime evoLevel 16 vs DEX level 7"
+   ]
+  },
+  {
+   "species": "gauzewing",
+   "name": "Gauzewing",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "evolves from huskling at L10 (inside the region's level cap 10)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: runtime evoLevel 32 vs DEX level 10"
+   ]
+  },
+  {
+   "species": "cloverkin",
+   "name": "Cloverkin",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route1.trainer_r1_c",
+    "wild sunmeadow_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "hushowl",
+   "name": "Hushowl",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild sunmeadow_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "mumblet",
+   "name": "Mumblet",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild sunmeadow_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "thistlepup",
+   "name": "Thistlepup",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild sunmeadow_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "puffwhirl",
+   "name": "Puffwhirl",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild sunmeadow_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "pebblant",
+   "name": "Pebblant",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer fernwick_hall_int.helper_2",
+    "trainer fernwick_hall_int.master_fernwick",
+    "wild sunmeadow_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "glintfly",
+   "name": "Glintfly",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild sunmeadow_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "flickermole",
+   "name": "Flickermole",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild sunmeadow_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "sailquill",
+   "name": "Sailquill",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route1.trainer_r1_a",
+    "wild sunmeadow_grass (hand-made)"
+   ],
+   "gaps": [
+    "stats: placeholder (flat 45/60/80 by stage, creatures.js)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "halovy",
+   "name": "Halovy",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild sunmeadow_grass (hand-made)"
+   ],
+   "gaps": [
+    "stats: placeholder (flat 45/60/80 by stage, creatures.js)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "gloamtick",
+   "name": "Gloamtick",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route1.trainer_r1_c",
+    "wild sunmeadow_grass (hand-made)"
+   ],
+   "gaps": [
+    "stats: placeholder (flat 45/60/80 by stage, creatures.js)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "burlbeetle",
+   "name": "Burlbeetle",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route1.trainer_r1_a",
+    "wild sunmeadow_grass (hand-made)"
+   ],
+   "gaps": [
+    "stats: placeholder (flat 45/60/80 by stage, creatures.js)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  }
+ ],
+ "region2_extra_through_master2": [
+  {
+   "species": "burrowmane",
+   "name": "Burrowmane",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer saltmere.saltmere_ron_2",
+    "wild thornwood_grass (hand-made)"
+   ],
+   "gaps": [
+    "stats: placeholder (flat 45/60/80 by stage, creatures.js)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "emberlunx",
+   "name": "Emberlunx",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer saltmere.saltmere_ron_2"
+   ],
+   "gaps": [
+    "stats: placeholder (flat 45/60/80 by stage, creatures.js)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "brookhorn",
+   "name": "Brookhorn",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer saltmere.saltmere_ron_2"
+   ],
+   "gaps": [
+    "stats: placeholder (flat 45/60/80 by stage, creatures.js)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "larkspar",
+   "name": "Larkspar",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "evolves from peeplark at L14 (inside the region's level cap 21)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: runtime evoLevel 16 vs DEX level 14"
+   ]
+  },
+  {
+   "species": "puddlenip",
+   "name": "Puddlenip",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_east.route_east_trainer_2"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "cairnant",
+   "name": "Cairnant",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "evolves from pebblant at L20 (inside the region's level cap 21)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: runtime evoLevel 16 vs DEX level 20"
+   ]
+  },
+  {
+   "species": "beaconfly",
+   "name": "Beaconfly",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "evolves from glintfly at L21 (inside the region's level cap 21)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: runtime evoLevel 16 vs DEX level 21"
+   ]
+  },
+  {
+   "species": "pondkin",
+   "name": "Pondkin",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_east.route_east_trainer_2"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "cobblepup",
+   "name": "Cobblepup",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer gd:thornwood.tr_thornwood_c"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "briarlet",
+   "name": "Briarlet",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer gd:thornwood.tr_thornwood_c",
+    "trainer thornwood.trainer_tw_b",
+    "wild thornwood_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "bramblehog",
+   "name": "Bramblehog",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer saltmere.saltmere_ron_2",
+    "trainer thornwood.trainer_tw_b",
+    "wild thornwood_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: runtime evoLevel 16 vs DEX level 17",
+    "evolution: link to thornhusk missing at runtime (thornhusk has no art)"
+   ]
+  },
+  {
+   "species": "thornpod",
+   "name": "Thornpod",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer thornwood.trainer_tw_bug",
+    "wild thornwood_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: runtime evoLevel none vs DEX level 8",
+    "evolution: link from nettlegrub missing at runtime (nettlegrub has no art)"
+   ]
+  },
+  {
+   "species": "lancebeetle",
+   "name": "Lancebeetle",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer gd:thornwood.tr_thornwood_e",
+    "trainer saltmere.saltmere_ron_2",
+    "wild thornwood_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: runtime evoLevel 32 vs DEX level 12"
+   ]
+  },
+  {
+   "species": "spinelet",
+   "name": "Spinelet",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_east_grass (hand-made)",
+    "wild route_east_reeds (hand-made)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: link to thornmound missing at runtime (thornmound has no art)"
+   ]
+  },
+  {
+   "species": "flockpup",
+   "name": "Flockpup",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_east.route_east_trainer_1",
+    "wild route_east_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: link to flockward missing at runtime (flockward has no art)"
+   ]
+  },
+  {
+   "species": "bleatling",
+   "name": "Bleatling",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_east.route_east_trainer_5",
+    "wild route_east_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: link to hornwall missing at runtime (hornwall has no art)"
+   ]
+  },
+  {
+   "species": "crowkin",
+   "name": "Crowkin",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_east.route_east_trainer_6",
+    "wild route_east_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: link to rookmantle missing at runtime (rookmantle has no art)"
+   ]
+  },
+  {
+   "species": "grainling",
+   "name": "Grainling",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_aurelith_saltmere.route_aurelith_saltmere_trainer_4",
+    "trainer saltmere.saltmere_ron_2",
+    "wild route_east_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: link to sheafguard missing at runtime (sheafguard has no art)"
+   ]
+  },
+  {
+   "species": "sheafguard",
+   "name": "Sheafguard",
+   "art": false,
+   "registered": false,
+   "used_by": [
+    "evolves from grainling at L20 (inside the region's level cap 21)"
+   ],
+   "gaps": [
+    "art: none (no finished sprite set)",
+    "data: not registered in SPECIES (no stats/skills in game)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "millwhirl",
+   "name": "Millwhirl",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_east.route_east_trainer_4",
+    "wild route_east_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "foalgust",
+   "name": "Foalgust",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_east_grass (hand-made)",
+    "wild route_east_reeds (hand-made)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: link to stridegale missing at runtime (stridegale has no art)"
+   ]
+  },
+  {
+   "species": "loamworm",
+   "name": "Loamworm",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_east.route_east_trainer_5",
+    "wild route_east_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "glimmerlamb",
+   "name": "Glimmerlamb",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_east_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "fleecelight",
+   "name": "Fleecelight",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_east_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: runtime evoLevel 16 vs DEX level 26"
+   ]
+  },
+  {
+   "species": "tinderwren",
+   "name": "Tinderwren",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_aurelith_saltmere.route_aurelith_saltmere_trainer_5",
+    "wild route_east_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "ditchsnap",
+   "name": "Ditchsnap",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_east.route_east_trainer_2",
+    "wild route_east_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "snapmoor",
+   "name": "Snapmoor",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_east_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: runtime evoLevel 16 vs DEX level 30"
+   ]
+  },
+  {
+   "species": "rooftrove",
+   "name": "Rooftrove",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_aurelith_saltmere_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: runtime evoLevel none vs DEX level 24",
+    "evolution: link from rafterat missing at runtime (rafterat has no art)"
+   ]
+  },
+  {
+   "species": "cogwhisk",
+   "name": "Cogwhisk",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_aurelith_saltmere_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "gearwarden",
+   "name": "Gearwarden",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_aurelith_saltmere_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: runtime evoLevel 16 vs DEX level 30"
+   ]
+  },
+  {
+   "species": "plashcrown",
+   "name": "Plashcrown",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_aurelith_saltmere_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: runtime evoLevel none vs DEX level 26",
+    "evolution: link from fountling missing at runtime (fountling has no art)"
+   ]
+  },
+  {
+   "species": "eavesgrim",
+   "name": "Eavesgrim",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_aurelith_saltmere_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: runtime evoLevel 16 vs DEX level 30"
+   ]
+  },
+  {
+   "species": "lampwick",
+   "name": "Lampwick",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_aurelith_saltmere_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "foldwing",
+   "name": "Foldwing",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_aurelith_saltmere_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "pennantail",
+   "name": "Pennantail",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_aurelith_saltmere_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "velvetabby",
+   "name": "Velvetabby",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_aurelith_saltmere_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "pinchkin",
+   "name": "Pinchkin",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_aurelith_saltmere.route_aurelith_saltmere_trainer_1"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "brinepipit",
+   "name": "Brinepipit",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_aurelith_saltmere.route_aurelith_saltmere_trainer_1",
+    "trainer route_aurelith_saltmere.route_aurelith_saltmere_trainer_2",
+    "wild route_aurelith_saltmere_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "blubbet",
+   "name": "Blubbet",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_aurelith_saltmere.route_aurelith_saltmere_trainer_3",
+    "trainer saltmere_hall_int.saltmere_hall_int_h1"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "sandstarlet",
+   "name": "Sandstarlet",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_aurelith_saltmere.route_aurelith_saltmere_trainer_3",
+    "trainer route_aurelith_saltmere.route_aurelith_saltmere_trainer_6",
+    "trainer saltmere_hall_int.saltmere_hall_int_h1"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "medulet",
+   "name": "Medulet",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer saltmere_hall_int.saltmere_hall_int_h2",
+    "wild route_aurelith_saltmere_grass (hand-made)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: link to lanternbell missing at runtime (lanternbell has no art)"
+   ]
+  },
+  {
+   "species": "whelkin",
+   "name": "Whelkin",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_aurelith_saltmere.route_aurelith_saltmere_trainer_6",
+    "trainer saltmere_hall_int.saltmere_hall_int_h2"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "moatling",
+   "name": "Moatling",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer route_aurelith_saltmere.route_aurelith_saltmere_trainer_4"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: link to sandkeep missing at runtime (sandkeep has no art)"
+   ]
+  },
+  {
+   "species": "ankerling",
+   "name": "Ankerling",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_aurelith_saltmere_grass (hand-made)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "finnip",
+   "name": "Finnip",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer saltmere_hall_int.saltmere_hall_int_h3"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "ribboneel",
+   "name": "Ribboneel",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer saltmere_hall_int.saltmere_hall_int_h3"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "pouchbill",
+   "name": "Pouchbill",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "wild route_aurelith_saltmere_grass (sync_added placeholder slot, rolls at runtime)"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "quaymouser",
+   "name": "Quaymouser",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer saltmere_hall_int.saltmere_hall_int_master"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)"
+   ]
+  },
+  {
+   "species": "polypip",
+   "name": "Polypip",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer saltmere_hall_int.saltmere_hall_int_master"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: link to reefcrown missing at runtime (reefcrown has no art)"
+   ]
+  },
+  {
+   "species": "spratwyrm",
+   "name": "Spratwyrm",
+   "art": true,
+   "registered": true,
+   "used_by": [
+    "trainer saltmere_hall_int.saltmere_hall_int_master"
+   ],
+   "gaps": [
+    "stats: placeholder (sync formula)",
+    "blurb: TODO Text Bot (not ours)",
+    "learnset: none in repo (placeholder learnset built in data/creature_data_firsthalf.json)",
+    "evolution: link to kelpwyrm missing at runtime (kelpwyrm has no art)"
+   ]
+  }
+ ],
+ "later_water_revisit_species_r1_r2": [
+  {
+   "species": "dartling",
+   "art": true,
+   "tables": [
+    "bh_river_fish"
+   ]
+  },
+  {
+   "species": "streambarb",
+   "art": true,
+   "tables": [
+    "route_east_water",
+    "thornwood_pond"
+   ]
+  },
+  {
+   "species": "musselin",
+   "art": true,
+   "tables": [
+    "route_east_water"
+   ]
+  },
+  {
+   "species": "reedmoot",
+   "art": true,
+   "tables": [
+    "thornwood_pond"
+   ]
+  },
+  {
+   "species": "bulwarkrab",
+   "art": true,
+   "tables": [
+    "saltmere_water"
+   ]
+  },
+  {
+   "species": "spraytern",
+   "art": true,
+   "tables": [
+    "saltmere_water"
+   ]
+  },
+  {
+   "species": "brineseal",
+   "art": true,
+   "tables": [
+    "saltmere_water"
+   ]
+  },
+  {
+   "species": "rakefin",
+   "art": true,
+   "tables": [
+    "route_aurelith_saltmere_water"
+   ]
+  }
+ ],
+ "no_art_for_art_bot": [
+  {
+   "species": "sheafguard",
+   "name": "Sheafguard",
+   "region": 2,
+   "dex": 96,
+   "types": [
+    "grass"
+   ],
+   "used_by": [
+    "evolves from grainling at L20 (inside the region's level cap 21)"
+   ]
+  }
+ ]
+}

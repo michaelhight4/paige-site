@@ -1,0 +1,105 @@
+{
+ "_status": "DRAFT 2026-10-23 (overnight GD pass). Not signed off by Gary. Levels/prizes are proposals.",
+ "map": "revival_heights",
+ "route_id": null,
+ "kind": "city (rail-only, RT HQ)",
+ "map_status": "to_come",
+ "story_step": "6 (coin 3, Lumen Line Pass)",
+ "story_order": 11,
+ "level_band": "Ron 3 L27; hall see halls/revival_heights.json",
+ "prize_formula": "prize = base x highest level in team (src/systems/shop.js awardBattleMoney; gold_coin x1.5 not included)",
+ "trainers": [
+  {
+   "id": "ron_3",
+   "class": "ron",
+   "class_display_suggestion": "Ron",
+   "name_suggestion": "Ron",
+   "teams_by_player_starter": {
+    "if_player_took_tumbloam": [
+     {
+      "species": "sailquill",
+      "level": 24
+     },
+     {
+      "species": "glassvine",
+      "level": 25
+     },
+     {
+      "species": "mirrorkin",
+      "level": 25
+     },
+     {
+      "species": "emberlunx",
+      "level": 27
+     }
+    ],
+    "if_player_took_cindrip": [
+     {
+      "species": "sailquill",
+      "level": 24
+     },
+     {
+      "species": "topiarix",
+      "level": 25
+     },
+     {
+      "species": "reverion",
+      "level": 25
+     },
+     {
+      "species": "brookhorn",
+      "level": 27
+     }
+    ],
+    "if_player_took_rillop": [
+     {
+      "species": "sailquill",
+      "level": 24
+     },
+     {
+      "species": "sproutwyrm",
+      "level": 25
+     },
+     {
+      "species": "cogwhisk",
+      "level": 25
+     },
+     {
+      "species": "burrowmane",
+      "level": 27
+     }
+    ]
+   },
+   "base": 60,
+   "base_status": "existing",
+   "prize": 1620,
+   "sight_range": 0,
+   "flag": "beat_rival_ron_3",
+   "text_ref": "TODO Text Bot: ron.battle_3 (opens with bin line 3, STORY_RULINGS_SOUL)",
+   "note": "After the layoff warning letter. He loses for real and laughs it off too fast (6.1). Minor Ron motif."
+  },
+  {
+   "id": "tr_revival_heights_plaza",
+   "class": "researcher",
+   "class_display_suggestion": "Field Researcher",
+   "name_suggestion": "TBD_NAME_3",
+   "team": [
+    {
+     "species": "halovy",
+     "level": 25
+    },
+    {
+     "species": "prismite",
+     "level": 26
+    }
+   ],
+   "base": 60,
+   "base_status": "existing",
+   "prize": 1560,
+   "sight_range": 3,
+   "text_ref": "TODO Text Bot: trainers.revival_heights.plaza",
+   "note": "HQ plaza, optional"
+  }
+ ],
+ "hall": "halls/revival_heights.json"
+}

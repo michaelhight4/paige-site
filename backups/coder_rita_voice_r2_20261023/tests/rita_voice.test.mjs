@@ -1,0 +1,89 @@
+// RITA voice wiring (Oct 23 2026): variant key -> manifest page, slot fill, region scope, text-only fallback.
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync, existsSync } from 'node:fs';
+import { pageFor, sequenceFor, planFor, loadVoiceOn, RitaVoice, attachRitaVoice, VOICE_KEY } from '../src/systems/rita_voice.js';
+import { CompanyVoice } from '../src/systems/company_voice.js';
+
+const M = JSON.parse(readFileSync(new URL('../assets/audio/rita/manifest.json', import.meta.url)));
+const LINES = JSON.parse(readFileSync(new URL('../text/overworld_lines.json', import.meta.url))).system_company_voice;
+const CFG = JSON.parse(readFileSync(new URL('../data/company_voice.json', import.meta.url)));
+
+test('every region 1 manifest line matches the current text and all its clips exist', () => {
+  const keys = Object.keys(M.lines);
+  assert.ok(keys.length >= 80, 'region 1 lines voiced');
+  for (const k of keys) {
+    assert.equal(M.lines[k].region, 'region_1');
+    const pages = (LINES[k].pages || LINES[k]).slice(0, CFG.timing.max_pages);
+    M.lines[k].pages.forEach((p, i) => assert.equal(p.src, pages[i], `${k} page ${i} stale`));
+  }
+  for (const stem of Object.keys(M.clips)) for (const ext of M.formats) assert.ok(existsSync(new URL(`../assets/audio/rita/${stem}.${ext}`, import.meta.url)), stem + '.' + ext);
+});
+
+test('region 2+ lines are not voiced yet (text only)', () => {
+  for (const [k, v] of Object.entries(LINES)) if (v?.region > 1) assert.equal(M.lines[k], undefined, k);
+});
+
+test('variant key picks its own clips; another variant text never plays', () => {
+  const pick = { key: 'first_catch_3', raw: LINES.first_catch_3.pages, vars: { employee_id: '001893', creature: 'Nibbin' } };
+  const plan = planFor(M, { voice: pick, page: 0 });
+  assert.ok(plan, 'first_catch_3 page 0 has a plan');
+  assert.equal(plan.key, 'first_catch_3');
+  assert.equal(pageFor(M, { ...pick, raw: LINES.first_catch_2.pages }, 0), null, 'mismatched text = silent');
+});
+
+test('employee id reads digit by digit; slots fill from names / numbers', () => {
+  const seq = sequenceFor(M, { segs: [{ s: 'employee_id' }, { p: 220 }, { s: 'area' }] }, { employee_id: '001893', area: 'Trail 1' });
+  const clips = seq.filter((x) => x.c).map((x) => x.c);
+  assert.deepEqual(clips.slice(0, 6), ['0', '0', '1', '8', '9', '3'].map((d) => M.digits[d]));
+  assert.equal(clips[6], M.names.area['trail 1']);
+  assert.equal(sequenceFor(M, { segs: [{ s: 'area' }] }, { area: 'Saltmere' }), null, 'no clip for a region 2 name -> silent');
+  assert.equal(sequenceFor(M, { segs: [{ s: 'employee_id' }] }, { employee_id: '' }), null);
+});
+
+test('company_voice records the exact variant key it showed (and none for FALLBACK)', () => {
+  const scene = { lines: { system_company_voice: LINES }, seen: {}, flags: new Set(), log: [] };
+  const cv = new CompanyVoice(scene, { ...CFG, maxRegion: 1 }, { rng: () => 0.99 });
+  const pages = cv.pages('first_catch', { creature: 'Nibbin' });
+  assert.match(cv.lastPick.key, /^first_catch(_\d)?$/);
+  assert.deepEqual(cv.lastPick.raw, (LINES[cv.lastPick.key].pages).slice(0, 2));
+  assert.equal(pages.length, cv.lastPick.raw.length);
+  cv.pages('master_beaten', { key: 'saltmere', master: 'Saltmere' }); // region 2 line hidden at maxRegion 1 -> generic
+  assert.ok(!/saltmere/.test(cv.lastPick.key));
+  const bare = new CompanyVoice({ lines: {}, seen: {} }, { ...CFG, maxRegion: 1 });
+  bare.pages('first_catch', {});
+  assert.equal(bare.lastPick.key, null, 'FALLBACK text has no voice');
+});
+
+test('toggle defaults on and persists; locked / muted / off = silent, no throw', async () => {
+  const store = new Map(); const storage = { getItem: (k) => store.get(k) ?? null, setItem: (k, v) => store.set(k, v) };
+  assert.equal(loadVoiceOn(storage), true);
+  const cv = { now: () => 0, current: null };
+  const rv = attachRitaVoice(cv, { storage, audio: () => ({ unlocked: false, settings: { master: 1, muted: false } }), win: null });
+  assert.equal(rv.toggle(), false); assert.equal(JSON.parse(store.get(VOICE_KEY)).on, false); assert.equal(loadVoiceOn(storage), false);
+  rv.setOn(true);
+  const cur = { voice: { key: 'first_catch', raw: LINES.first_catch.pages, vars: { employee_id: '001893' } }, page: 0, pageEnd: 10 };
+  cv.current = cur;
+  assert.equal(await rv.onPage(cur), false); // audio locked (before first tap)
+  const muted = new RitaVoice(cv, { audio: () => ({ unlocked: true, settings: { master: 1, muted: true }, voiceOut: () => ({}) }) });
+  assert.equal(await muted.onPage(cur), false);
+});
+
+test('plays once unlocked, stretches the page timer, stops on the next page (no overlap)', async () => {
+  const started = []; const stopped = [];
+  const ctx = { currentTime: 0, decodeAudioData: async () => ({ duration: 0.3 }), createBufferSource: () => { const s = { connect() {}, disconnect() {}, start: (t) => started.push(t), stop: () => stopped.push(1) }; return s; } };
+  const out = { context: ctx };
+  const audio = { unlocked: true, settings: { master: 0.8, muted: false }, voiceOut: () => out };
+  const fetch = async (u) => (u.endsWith('manifest.json') ? { ok: true, json: async () => M } : { ok: true, arrayBuffer: async () => new ArrayBuffer(8) });
+  const cv = { now: () => 1000, current: null };
+  const rv = new RitaVoice(cv, { audio: () => audio, fetch, doc: null });
+  const cur = { voice: { key: 'kilindex_new', raw: LINES.kilindex_new.pages, vars: { employee_id: '001893' } }, page: 0, pageEnd: 1500 };
+  cv.current = cur;
+  assert.equal(await rv.onPage(cur), true);
+  assert.ok(started.length >= 7, 'digits + fragments scheduled');
+  assert.ok(cur.pageEnd > 1500 + 1000, 'timer stretched to the voice');
+  const n = started.length; rv.stop('page');
+  assert.equal(stopped.length, n); assert.equal(rv.sources.length, 0);
+  const bad = new RitaVoice(cv, { audio: () => audio, fetch: async (u) => (u.endsWith('manifest.json') ? { ok: true, json: async () => M } : { ok: false, status: 404 }), doc: null });
+  assert.equal(await bad.onPage(cur), false, 'missing clip -> silent text');
+});

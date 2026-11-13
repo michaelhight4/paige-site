@@ -1,0 +1,325 @@
+{
+  "checks": [
+    {
+      "plat": "pc1080",
+      "what": "default off: no contacts API without ?contacts=1",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc1080",
+      "what": "swap offer shows Yes / No",
+      "ok": true,
+      "info": "{\"name\":\"Odette\",\"text\":\"Swap numbers? I'll text you when I'm ready for round two.\",\"choices\":[\"Sure\",\"Maybe later\"],\"shown\":true}"
+    },
+    {
+      "plat": "pc1080",
+      "what": "swap offer: .dlg-box inside the viewport",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "plat": "pc1080",
+      "what": "swap offer: axe-core (incl. color-contrast) on .dlg-wrap",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc1080",
+      "what": "Odette added after Yes",
+      "ok": true,
+      "info": "[\"Odette\"]"
+    },
+    {
+      "plat": "pc1080",
+      "what": "contacts screen visible (stage opacity 1) in the shot",
+      "ok": true,
+      "info": "1"
+    },
+    {
+      "plat": "pc1080",
+      "what": "Contacts list shows 3 rows with a Rematch chip",
+      "ok": true,
+      "info": "[\"Odette · Lab Intern\",\"Dorian · Rock CollectorRematch\",\"Sabine · Hall Hopeful\"]"
+    },
+    {
+      "plat": "pc1080",
+      "what": "contacts menu: [data-scr=\"contacts\"] .ui-row, #ctinfo inside the viewport",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "plat": "pc1080",
+      "what": "row A opens Call / Remove / Back",
+      "ok": true,
+      "info": "[\"Call\",\"Remove\",\"Back\",\"Call\",\"Remove\",\"Back\"]"
+    },
+    {
+      "plat": "pc1080",
+      "what": "contacts pick: axe-core (incl. color-contrast) on .ui-root",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc1080",
+      "what": "contacts screen frame no larger than the existing Bag screen frame",
+      "ok": true,
+      "info": "stage bottom 1037 vs bag 1037 (viewport 1080)"
+    },
+    {
+      "plat": "pc1080",
+      "what": "contacts menu: axe-core (incl. color-contrast) on .ui-root",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc1080",
+      "what": "ping system line shows",
+      "ok": true,
+      "info": "{\"r\":{\"block\":\"settling\",\"res\":{\"key\":\"fernwick.trainer_fw_a\",\"kind\":\"tip\",\"text\":[\"Sabine: \\\"Heard a rare Halovy shows up on Trail 1 at dawn. Worth a look!\\\"\"]}},\"d\":{\"name\":\"\",\"text\":\"Your phone pings. Text from Sabine.\",\"choices\":[],\"shown\":true}}"
+    },
+    {
+      "plat": "pc1080",
+      "what": "ping: .dlg-box inside the viewport",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "plat": "pc1080",
+      "what": "ping: axe-core (incl. color-contrast) on .dlg-wrap",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc1080",
+      "what": "ping text from the trainer",
+      "ok": true,
+      "info": "{\"name\":\"Sabine\",\"text\":\"Sabine: \\\"Heard a rare Halovy shows up on Trail 1 at dawn. Worth a look!\\\"\",\"choices\":[],\"shown\":true}"
+    },
+    {
+      "plat": "pc1080",
+      "what": "save locked while the ping shows",
+      "ok": true,
+      "info": "script"
+    },
+    {
+      "plat": "pc768",
+      "what": "default off: no contacts API without ?contacts=1",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc768",
+      "what": "swap offer shows Yes / No",
+      "ok": true,
+      "info": "{\"name\":\"Odette\",\"text\":\"Swap numbers? I'll text you when I'm ready for round two.\",\"choices\":[\"Sure\",\"Maybe later\"],\"shown\":true}"
+    },
+    {
+      "plat": "pc768",
+      "what": "swap offer: .dlg-box inside the viewport",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "plat": "pc768",
+      "what": "swap offer: axe-core (incl. color-contrast) on .dlg-wrap",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc768",
+      "what": "Odette added after Yes",
+      "ok": true,
+      "info": "[\"Odette\"]"
+    },
+    {
+      "plat": "pc768",
+      "what": "contacts screen visible (stage opacity 1) in the shot",
+      "ok": true,
+      "info": "1"
+    },
+    {
+      "plat": "pc768",
+      "what": "Contacts list shows 3 rows with a Rematch chip",
+      "ok": true,
+      "info": "[\"Odette · Lab Intern\",\"Dorian · Rock CollectorRematch\",\"Sabine · Hall Hopeful\"]"
+    },
+    {
+      "plat": "pc768",
+      "what": "contacts menu: [data-scr=\"contacts\"] .ui-row, #ctinfo inside the viewport",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "plat": "pc768",
+      "what": "row A opens Call / Remove / Back",
+      "ok": true,
+      "info": "[\"Call\",\"Remove\",\"Back\",\"Call\",\"Remove\",\"Back\"]"
+    },
+    {
+      "plat": "pc768",
+      "what": "contacts pick: axe-core (incl. color-contrast) on .ui-root",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc768",
+      "what": "contacts screen frame no larger than the existing Bag screen frame",
+      "ok": true,
+      "info": "stage bottom 737 vs bag 737 (viewport 768)"
+    },
+    {
+      "plat": "pc768",
+      "what": "contacts menu: axe-core (incl. color-contrast) on .ui-root",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc768",
+      "what": "ping system line shows",
+      "ok": true,
+      "info": "{\"r\":{\"block\":\"settling\",\"res\":{\"key\":\"fernwick.trainer_fw_a\",\"kind\":\"tip\",\"text\":[\"Sabine: \\\"Heard a rare Halovy shows up on Trail 1 at dawn. Worth a look!\\\"\"]}},\"d\":{\"name\":\"\",\"text\":\"Your phone pings. Text from Sabine.\",\"choices\":[],\"shown\":true}}"
+    },
+    {
+      "plat": "pc768",
+      "what": "ping: .dlg-box inside the viewport",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "plat": "pc768",
+      "what": "ping: axe-core (incl. color-contrast) on .dlg-wrap",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "pc768",
+      "what": "ping text from the trainer",
+      "ok": true,
+      "info": "{\"name\":\"Sabine\",\"text\":\"Sabine: \\\"Heard a rare Halovy shows up on Trail 1 at dawn. Worth a look!\\\"\",\"choices\":[],\"shown\":true}"
+    },
+    {
+      "plat": "pc768",
+      "what": "save locked while the ping shows",
+      "ok": true,
+      "info": "script"
+    },
+    {
+      "plat": "phone",
+      "what": "default off: no contacts API without ?contacts=1",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "phone",
+      "what": "swap offer shows Yes / No",
+      "ok": true,
+      "info": "{\"name\":\"Odette\",\"text\":\"Swap numbers? I'll text you when I'm ready for round two.\",\"choices\":[\"Sure\",\"Maybe later\"],\"shown\":true}"
+    },
+    {
+      "plat": "phone",
+      "what": "swap offer: .dlg-box inside the viewport",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "plat": "phone",
+      "what": "swap offer: axe-core (incl. color-contrast) on .dlg-wrap",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "phone",
+      "what": "Odette added after Yes",
+      "ok": true,
+      "info": "[\"Odette\"]"
+    },
+    {
+      "plat": "phone",
+      "what": "contacts screen visible (stage opacity 1) in the shot",
+      "ok": true,
+      "info": "1"
+    },
+    {
+      "plat": "phone",
+      "what": "Contacts list shows 3 rows with a Rematch chip",
+      "ok": true,
+      "info": "[\"Odette · Lab Intern\",\"Dorian · Rock CollectorRematch\",\"Sabine · Hall Hopeful\"]"
+    },
+    {
+      "plat": "phone",
+      "what": "contacts menu: [data-scr=\"contacts\"] .ui-row, #ctinfo inside the viewport",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "plat": "phone",
+      "what": "row A opens Call / Remove / Back",
+      "ok": true,
+      "info": "[\"Call\",\"Remove\",\"Back\",\"Call\",\"Remove\",\"Back\"]"
+    },
+    {
+      "plat": "phone",
+      "what": "contacts pick: axe-core (incl. color-contrast) on .ui-root",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "phone",
+      "what": "contacts screen frame no larger than the existing Bag screen frame",
+      "ok": true,
+      "info": "stage bottom 384 vs bag 384 (viewport 390)"
+    },
+    {
+      "plat": "phone",
+      "what": "contacts menu: axe-core (incl. color-contrast) on .ui-root",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "phone",
+      "what": "ping system line shows",
+      "ok": true,
+      "info": "{\"r\":{\"block\":\"settling\",\"res\":{\"key\":\"fernwick.trainer_fw_a\",\"kind\":\"tip\",\"text\":[\"Sabine: \\\"Heard a rare Halovy shows up on Trail 1 at dawn. Worth a look!\\\"\"]}},\"d\":{\"name\":\"\",\"text\":\"Your phone pings. Text from Sabine.\",\"choices\":[],\"shown\":true}}"
+    },
+    {
+      "plat": "phone",
+      "what": "ping: .dlg-box inside the viewport",
+      "ok": true,
+      "info": "[]"
+    },
+    {
+      "plat": "phone",
+      "what": "ping: axe-core (incl. color-contrast) on .dlg-wrap",
+      "ok": true,
+      "info": ""
+    },
+    {
+      "plat": "phone",
+      "what": "ping text from the trainer",
+      "ok": true,
+      "info": "{\"name\":\"Sabine\",\"text\":\"Sabine: \\\"Heard a rare Halovy shows up on Trail 1 at dawn. Worth a look!\\\"\",\"choices\":[],\"shown\":true}"
+    },
+    {
+      "plat": "phone",
+      "what": "save locked while the ping shows",
+      "ok": true,
+      "info": "script"
+    }
+  ],
+  "errors": [],
+  "preExisting": [
+    "pc1080 swap offer: aria-dialog-name",
+    "pc1080 contacts pick: aria-dialog-name",
+    "pc1080 contacts menu: aria-dialog-name",
+    "pc1080 ping: aria-dialog-name",
+    "pc768 swap offer: aria-dialog-name",
+    "pc768 contacts pick: aria-dialog-name",
+    "pc768 contacts menu: aria-dialog-name",
+    "pc768 ping: aria-dialog-name",
+    "phone swap offer: aria-dialog-name",
+    "phone contacts pick: aria-dialog-name",
+    "phone contacts menu: aria-dialog-name",
+    "phone ping: aria-dialog-name"
+  ]
+}

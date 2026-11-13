@@ -1,0 +1,496 @@
+# World data pass (Oct 22 2026, 8:17-8:26 PM CT requests). Owned by World Design. Reads (never writes) Text Bot's and Animator's files.
+#   apply(MAPS)      : before layers are frozen: company_terminal prop, wall windows, trainer sight_range, item flags + new items
+#   tag(res)         : after layers exist: per-map tags (shallow, crystal, firefly_zone, bird_perch)
+#   check(res, bfs)  : items (reachable, unique flags, visible items never block), sight lines, tags, encounter-table coverage, puzzle runtime
+#   write(res)       : encounters/encounters.json, items/ITEM_PLACEHOLDERS.json, puzzles/<map>.runtime.json
+# Classic monster games are a STRUCTURAL reference only (behaviour): no names, numbers or text are copied.
+import json, os, re, collections
+import build
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+DIRS = dict(up=(0, -1), down=(0, 1), left=(-1, 0), right=(1, 0))
+
+# ---------------- items: generic placeholder ids (Text Bot names them; Coder maps them to pockets) ----------------
+PLACEHOLDER_ITEMS = {
+    'tonic_small': dict(pocket='medicine', role='restores a little health (placeholder)'),
+    'tonic_large': dict(pocket='medicine', role='restores more health (placeholder)'),
+    'energy_tonic': dict(pocket='medicine', role='already in maps: restores energy (placeholder)'),
+    'calm_tea': dict(pocket='medicine', role='status cure (placeholder)'),
+    'trail_mix': dict(pocket='snacks', role='Trail Buddy snack / Warmth (placeholder)'),
+    'feed_bag_small': dict(pocket='snacks', role='already in maps (placeholder)'),
+    'feed_bag': dict(pocket='snacks', role='already in maps (placeholder)'),
+    'vigor_seed': dict(pocket='growth', role='already in maps: stat seed (placeholder)'),
+    'crystal_dust': dict(pocket='crystals', role='crafting / sell item (placeholder)'),
+    'dominance_crystal': dict(pocket='crystals', role='already in maps: capture crystal (placeholder)'),
+    'dominance_crystal_plus': dict(pocket='crystals', role='already in maps: better capture crystal (placeholder)'),
+    'coin_pouch_small': dict(pocket='money', role='a little money (placeholder)'),
+    'TBD': dict(pocket='?', role='interiors worker placeholder: Story/Text Bot to choose'),
+    'TBD_backroom_reward': dict(pocket='?', role='interiors worker placeholder: back-room story reward'),
+}
+# new items (World Design, Oct 22): (map, id, x, y, item, hidden, why). Cells picked from dead ends / behind trees / quiet corners and
+# verified every build by check(): walkable, reachable, never on a warp, npc, sign stand or spot stand; visible ones never block a target.
+NEW_ITEMS = [
+    ('brookhollow', 'bh_north_trees', 13, 2, 'trail_mix', False, 'dead end behind the north tree line'),
+    ('brookhollow', 'bh_west_nook', 3, 8, 'tonic_small', True, 'dead-end nook west of the houses'),
+    ('brookhollow', 'bh_east_corner', 31, 15, 'crystal_dust', True, 'dead end on the east edge'),
+    ('route1', 'r1_ne_corner', 42, 1, 'tonic_small', False, 'north-east corner dead end behind the trees'),
+    ('route1', 'r1_tree_gap', 17, 13, 'trail_mix', True, 'behind the tree by the pond meadow'),
+    ('fernwick', 'fw_north_trees', 19, 2, 'calm_tea', False, 'dead end behind the north tree line'),
+    ('fernwick', 'fw_east_tree', 29, 9, 'coin_pouch_small', True, 'behind the east edge tree'),
+    ('thornwood', 'tw_glade_tree', 22, 11, 'crystal_dust', True, 'behind a tree next to the crystal ore'),
+    ('thornwood', 'tw_se_tree', 32, 21, 'tonic_large', True, 'behind a tree, south-east'),
+    ('greystone_entrance', 'gs_west_dead_end', 3, 4, 'crystal_dust', False, 'dead end, north-west cave pocket'),
+    ('greystone_entrance', 'gs_sw_dead_end', 1, 11, 'calm_tea', True, 'dead end, west wall'),
+    ('greystone_b1', 'b1_north_dead_end', 10, 3, 'crystal_dust', True, 'dead end (hidden: boulder puzzle map, nothing solid added)'),
+    ('greystone_b1', 'b1_east_dead_end', 24, 16, 'tonic_small', True, 'dead end (hidden: boulder puzzle map)'),
+    ('mirefen_bog', 'mf_sw_dead_end', 0, 15, 'calm_tea', True, 'dead end, south-west reeds'),
+    ('mirefen_bog', 'mf_south_dead_end', 20, 17, 'trail_mix', False, 'dead end on the south edge'),
+    ('lantern_rest', 'lr_south_nook', 7, 13, 'crystal_dust', True, 'nook below the glade'),
+    ('house_1f', 'h1f_corner', 10, 3, 'coin_pouch_small', True, 'beside the stairs, east corner'),   # stairs_v3: (11,3) is now the stairs warp
+    ('house_2f', 'h2f_corner', 9, 3, 'tonic_small', True, 'corner by the bed'),
+    ('office_int', 'office_corner', 15, 11, 'tonic_small', True, 'quiet corner by the door wall'),
+    ('lab_brookhollow', 'lab_corner', 13, 8, 'trail_mix', False, 'dead-end corner beside the benches'),
+    ('home_brookhollow_b', 'hbb_corner', 0, 3, 'crystal_dust', True, 'corner under the stairs'),
+    ('home_fernwick_a', 'hfa_corner', 11, 3, 'trail_mix', True, 'corner beside the stairs'),
+    ('rt_branch_backroom', 'rtb_corner', 7, 5, 'crystal_dust', True, 'back-room corner'),
+]
+SHARED_SKIP = ('heal_brookhollow', 'shop_int', 'station_int', 'home_saltmere_a')   # shared/spare maps get no NEW items (one flag would serve every town)
+
+# ---------------- Text Bot v0.4.2/0.4.3 spots ----------------
+WINDOW_STATES = {ph: f'window_{ph}_b' for ph in ('dawn', 'day', 'dusk', 'night')}
+WINDOWS = {   # map -> [(spot id, x, text_was)] ; window_day_t on wall row 1, window_day_b (= interact cell) on wall row 2, stand row 3 facing up
+    'home_brookhollow_b': [('window_1', 2, 'unplaced.windows.house_int_b.window_1 (was maps.house_int_b.window_1)'),
+                           ('window_2', 4, 'unplaced.windows.house_int_b.window_2 (was maps.house_int_b.window_2)'),
+                           ('window_kitchen', 7, 'unplaced.windows.house_int_a.window_1 (was maps.house_int_a.window_1; follows the cook)')],
+    'home_fernwick_a': [('window_1', 4, 'unplaced.windows.house_int_c.window_1 (was maps.house_int_c.window_1)'),
+                        ('window_2', 9, 'unplaced.windows.house_int_c.window_2 (was maps.house_int_c.window_2)')],
+}
+OLD_WIN = {'home_brookhollow_b': [3, 6], 'home_fernwick_a': [5, 8]}   # interiors-kit static windows: their stand cells are blocked (TV/plant), replaced by plain wall
+TERMINAL = dict(x=12, y=4, stand=(11, 4), face='right', tile='i_company_terminal')
+HEAL = ('heal_brookhollow', 'heal_fernwick')
+COOK = dict(text_was='unplaced.npcs.house_int_a.cook (was maps.house_int_a.cook)', gives='Berry Snack', gift='once')
+
+def _ids():
+    return {n: t['id'] for n, t in build.BYNAME.items()}
+
+TERMINAL_PENDING = -1
+def late_tiles(res):
+    # i_company_terminal is a NEW core tile. Core ids are handed out in order, and finalize() still makes transition tiles
+    # while maps are built, so it is registered only after every map is final (run.py, after the res loop): no existing id moves.
+    import world_props
+    t = world_props.register(build.reg) or build.BYNAME['i_company_terminal']
+    global _NAMES; _NAMES = None
+    for nm in HEAL:
+        D = res[nm][2]
+        for r in D:
+            for x, v in enumerate(r):
+                if v == TERMINAL_PENDING: r[x] = t['id']
+    return t['id']
+
+def apply(MAPS):
+    ID = _ids(); M = {m.name: m for m in MAPS}; log = []
+    # company_terminal (Revival Tech) replaces i_pc at (12,4) in both heal maps; spot id kept
+    for nm in HEAL:
+        m = M[nm]; G, D, O, C, E = m.pre
+        assert (m.deco[4][12] or '').startswith('i_pc'), (nm, m.deco[4][12])
+        D[4][12] = TERMINAL_PENDING; m.deco[4][12] = 'i_company_terminal'; C[4][12] = 1   # id filled by late_tiles() once every core tile exists
+        log.append(f'{nm}: i_company_terminal at (12,4)')
+    # wall windows (Text Bot v0.4.2 unplaced.windows): core window_<phase> tiles, so the glass follows time_of_day like house_1f
+    for nm, wins in WINDOWS.items():
+        m = M[nm]; G, D, O, C, E = m.pre
+        assert _name_of(G[1][0]).startswith('i_wall_upper') and not _name_of(G[1][0]).startswith('i_wall_upper_win'), (nm, _name_of(G[1][0]))
+        for x in OLD_WIN[nm]:
+            assert _name_of(G[1][x]).startswith('i_wall_upper_win'), (nm, x, _name_of(G[1][x]))
+            G[1][x] = G[1][0]
+        for sid, x, was in wins:
+            assert C[1][x] == 1 and C[2][x] == 1 and C[3][x] == 0 and not m.deco[1][x] and not m.deco[2][x], (nm, sid)
+            D[1][x] = ID['window_day_t']; D[2][x] = ID['window_day_b']; m.deco[1][x] = 'window_day_t'; m.deco[2][x] = 'window_day_b'
+        log.append(f'{nm}: windows at x={[w[1] for w in wins]} (old kit windows at x={OLD_WIN[nm]} -> plain wall)')
+    # trainer sight (parity F17): numeric field from the old notes
+    for m in MAPS:
+        for n in m.npcs + getattr(m, 'npcs_pending', []):
+            k = str(n.get('kind', ''))
+            if k.startswith('trainer'):
+                mt = re.search(r'sight (\d+)', n.get('note', '') or '')
+                n['sight_range'] = int(mt.group(1)) if mt else 3
+                n['sight_rule'] = 'see OVERWORLD_README "Trainer line of sight"' + ('' if mt else ' (default 3: no sight in the old note)')
+            elif k == 'master': n['sight_range'] = 0; n['sight_rule'] = 'masters never spot: talk to them'
+    # items: unique pickup flags + new items
+    seen = set()
+    for m in MAPS:
+        for i, it in enumerate(m.items):
+            if not it.get('id'): it['id'] = f'{m.name}_item_{i + 1}'
+        for (mn, iid, x, y, item, hidden, why) in NEW_ITEMS:
+            if mn == m.name and not any(it['id'] == iid for it in m.items):
+                m.items.append(dict(id=iid, x=x, y=y, item=item, hidden=hidden, note=why))
+        for it in m.items:
+            it['flag'] = f'item_{m.name}_{it["id"]}' if not it['id'].startswith(m.name) else f'item_{it["id"]}'
+            it.setdefault('hidden', False)
+            if m.name in SHARED_SKIP or m.name.startswith('home_lanternport_c') or m.name in ('home_brookhollow_a', 'home_fernwick_c'):
+                it['flag_scope'] = 'shared map: one pickup for the whole game (the flag is global, not per town)'
+            assert it['flag'] not in seen, it['flag']; seen.add(it['flag'])
+    log += audit_fixes(MAPS)
+    return log
+
+# ---------------- interior scale audit fixes (qa/interior_scale_audit/REPORT.md, 8:38 PM steering) ----------------
+# Imported interiors (interiors_new is input) are edited here, in source, so every run.py regeneration keeps them.
+# Core maps (house_1f, office_int, shop_int, fernwick_hall_int) are edited in tools/maps.py; chairs are solid via build.py (tile 'chair' = block).
+HEAL_SOFA = dict(old=[(0, 7), (1, 7), (2, 7)], new=[(0, 3), (1, 3), (2, 3)])   # plant, sofa L, sofa R: row 7 (under the d-pad) -> row 3
+LAP_NAP = dict(x=2, y=4, big=(1, 4), follow=(2, 5), sofa=(2, 3))
+HEAL_DROP_MAT = (7, 9)                                                         # second exit mat: one-tile exits everywhere
+CRADLES = [('cradle_1', 5, 6), ('cradle_2', 7, 6), ('cradle_3', 9, 6)]         # i_crystal_display 1x2 at rows 5-6; read from row 7 facing up
+LAB_AIDE = dict(x=10, y=6, facing='right')                                     # was (10,8) under the A/B buttons; faces the desk at (11,6)
+CHAIR = lambda n: bool(n) and (n == 'chair' or n.startswith('i_chair'))
+
+def audit_fixes(MAPS):
+    M = {m.name: m for m in MAPS}; log = []
+    for nm in HEAL:
+        m = M[nm]; G, D, O, C, E = m.pre
+        for (ox, oy), (nx, ny) in zip(HEAL_SOFA['old'], HEAL_SOFA['new']):
+            assert m.deco[oy][ox] and not m.deco[ny][nx] and C[ny][nx] == 0, (nm, (ox, oy), m.deco[oy][ox], (nx, ny), m.deco[ny][nx])
+            D[ny][nx], m.deco[ny][nx], C[ny][nx] = D[oy][ox], m.deco[oy][ox], 1
+            D[oy][ox], m.deco[oy][ox], C[oy][ox] = 0, None, 0
+        x, y = HEAL_DROP_MAT
+        assert (m.deco[y][x] or '').startswith('i_mat') and C[y][x] == 4, (nm, m.deco[y][x], C[y][x])
+        D[y][x], m.deco[y][x], C[y][x] = 0, None, 0
+        m.warps = [w for w in m.warps if (w['x'], w['y']) != (x, y)]
+        log.append(f'{nm}: sofa+plant row 7 -> (0..2,3); exit mat/warp (7,9) removed (one-tile exit at (6,9))')
+    m = M['lab_brookhollow']; G, D, O, C, E = m.pre; tp = m.soul.setdefault('text_pending', {})
+    signs = tp.get('signs', []); old = {s['id']: s for s in signs if s['id'].startswith('cradle_')}
+    tp['signs'] = [s for s in signs if not s['id'].startswith('cradle_')]
+    spots = tp.setdefault('interact_spots', [])
+    for sid, x, y in CRADLES:
+        assert (m.deco[y][x] or '').startswith('i_crystal_display') and C[y + 1][x] == 0, (sid, m.deco[y][x])
+        if any(s['id'] == sid for s in spots): continue
+        spots.append(dict(id=sid, kind='prop', x=x, y=y, stand=[x, y + 1], face='up', tile='i_crystal_display', pending_story_call=True,
+                          story_flag='got_starter', text_ref=(old.get(sid) or {}).get('text_ref', f'maps.lab_brookhollow.{sid}'),
+                          note='starter cradle (story.starter_choice): text waits on Story; was a sign at the same cell'))
+    m.soul.setdefault('story', {}).setdefault('starter_choice', {})['cradle_spots'] = [c[0] for c in CRADLES]
+    for n in tp.get('npcs', []):
+        if n['id'] == 'lab_brookhollow_aide':
+            assert C[LAB_AIDE['y']][LAB_AIDE['x']] == 0
+            n.update(LAB_AIDE); n['note'] = n.get('note', '') + ' | at (10,6) facing the desk (11,6): talk from (10,7) facing up (was 10,8, under the touch buttons)'
+    log.append('lab_brookhollow: cradle_1..3 interact_spots (5,6)/(7,6)/(9,6) stand row 7 facing up; aide (10,8) -> (10,6) facing right')
+    return log
+
+# ---------------- Text Bot id check (8:39 PM): every spot id Text Bot has text for must exist in the built maps ----------------
+LINES = os.environ.get('KILUMEN_LINES') or '/workspace/kilumen/text/overworld_lines.json'   # KILUMEN_LINES = a temp copy for checks (never edit Text Bot's file)
+def _ids_in(o, acc):
+    if isinstance(o, dict):
+        if isinstance(o.get('id'), str): acc.add(o['id'])
+        for k, v in o.items():
+            if k not in ('layers', 'puzzle', 'tags', 'fog'): _ids_in(v, acc)
+    elif isinstance(o, list):
+        for v in o: _ids_in(v, acc)
+    return acc
+def map_ids(m):
+    """ids a map exposes: npcs, signs, items, interact_spots, *_pending, soul.text_pending (in-memory Map or a maps/*.json dict)"""
+    if isinstance(m, dict): return _ids_in(m, set())
+    acc = set()
+    for k in ('npcs', 'signs', 'items', 'interact_spots', 'npcs_pending', 'signs_pending', 'soul'): _ids_in(getattr(m, k, None), acc)
+    return acc
+def check_text_ids(maps_by_name, lines_path=LINES):
+    """-> (problems, n_checked). maps_by_name: name -> Map or maps/*.json dict. Ids come from overworld_lines.json maps.<map>.<id> and
+    unplaced.<section>.<key>.proposed_spot (map + proposed_id / npc). Unplaced entries with proposed_spot null are text-only (skipped)."""
+    L = json.load(open(lines_path)); P = []; n = 0; ids = {}
+    _sp = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scripted_text_ids.json')
+    SCRIPTED = json.load(open(_sp)) if os.path.exists(_sp) else {}   # ids played by code (intro.js), not by a placed spot
+    def has(nm, sid):
+        if sid in SCRIPTED.get(nm, []): return True
+        if nm not in maps_by_name: return False
+        if nm not in ids: ids[nm] = map_ids(maps_by_name[nm])
+        return sid in ids[nm]
+    for nm, spots in L.get('maps', {}).items():
+        for sid in spots:
+            if sid.startswith('_') or sid == 'area_name': continue   # area_name = map display name (area sign), not an object id (Oct 23 2026)
+            n += 1
+            if not has(nm, sid): P.append(f'TEXT IDS: maps.{nm}.{sid} has text but {nm} has no npc/sign/spot/item with id {sid}' + ('' if nm in maps_by_name else ' (map not built)'))
+    for sec, entries in L.get('unplaced', {}).items():
+        if not isinstance(entries, dict): continue
+        for key, e in entries.items():
+            if key.startswith('_') or not isinstance(e, dict) or not e.get('proposed_spot'): continue
+            p = e['proposed_spot']; sid = p.get('proposed_id') or p.get('npc') or p.get('id'); nm = p.get('map')
+            if not (nm and sid): continue
+            n += 1
+            if not has(nm, sid): P.append(f'TEXT IDS: unplaced.{sec}.{key} -> {nm}.{sid} is missing after the build')
+    return P, n
+
+_NAMES = None
+def _name_of(i):
+    global _NAMES
+    if _NAMES is None: _NAMES = {t['id']: n for n, t in build.BYNAME.items()}
+    return _NAMES.get(i, '') or ''
+
+GEOM_PROPS = {   # map -> spot ids whose text Text Bot keeps at maps.<map>.<id> (v0.4.5); cell found from the tiles, not a table of coords
+    'home_brookhollow_b': ['tv'], 'home_lanternport_c': ['tv', 'bookcase'], 'home_brookhollow_a': ['bookcase'], 'home_fernwick_c': ['bookcase'],
+    'home_saltmere_a': ['bookcase'], 'home_fernwick_a': ['bookcase']}
+GEOM_TILE = {'tv': r'i_tv', 'bookcase': r'i_bookcase_[a-z]+_1_0'}
+GEOM_TILE_KEY = {'tv': 'i_tv', 'bookcase': 'i_bookcase'}
+
+def text_spots(MAPS):
+    """Text Bot v0.4.2/0.4.3 spot proposals -> World ids in text_pending (Text Bot moves the text there)."""
+    M = {m.name: m for m in MAPS}; added = []
+    def tp(nm): return M[nm].soul.setdefault('text_pending', {}).setdefault('interact_spots', [])
+    # TV / bookcase spots (8:53 PM): emitted from map geometry like the windows; unplaced.props is no longer read.
+    # Spot = the object's bottom cell (i_tv, or i_bookcase_<set>_1_0), stand = the floor cell below it, facing up.
+    for nm, kinds in GEOM_PROPS.items():
+        if nm not in M: continue
+        m = M[nm]
+        for sid in kinds:
+            pat = re.compile(GEOM_TILE[sid]); hits = [(x, y) for y, r in enumerate(m.deco) for x, n in enumerate(r) if n and pat.fullmatch(n)]
+            assert len(hits) == 1, (nm, sid, hits)
+            x, y = hits[0]; C = m.pre[3]
+            assert C[y + 1][x] == 0, (nm, sid, 'stand cell blocked', (x, y + 1))
+            if any(s['id'] == sid for s in tp(nm)): continue
+            sp = dict(id=sid, kind='prop', x=x, y=y, stand=[x, y + 1], face='up', tile=GEOM_TILE_KEY[sid],
+                      note=f'{sid} spot from map geometry (tools/world_data.py GEOM_PROPS); text = overworld_lines.json maps.{nm}.{sid}')
+            tp(nm).append(sp); added.append((nm, sp))
+    for nm, wins in WINDOWS.items():
+        for sid, x, was in wins:
+            sp = dict(id=sid, kind='prop', x=x, y=2, stand=[x, 3], face='up', tile='window_', text_was=was, states_by_phase=dict(WINDOW_STATES),
+                      note='wall window (rows 1-2), same rule as house_1f: engine swaps window_<phase>_t/_b to the current time_of_day phase')
+            tp(nm).append(sp); added.append((nm, sp))
+    for nm in HEAL:
+        sp = dict(id='lap_nap_seat', kind='trigger', x=LAP_NAP['x'], y=LAP_NAP['y'], stand=[LAP_NAP['x'], LAP_NAP['y']], face='up', tile='',
+                  trigger_when={'standing_still_s': 30}, big_creature_slot=list(LAP_NAP['big']), follow_slot=list(LAP_NAP['follow']),
+                  note=('Animator lap_nap hook: idle 30 s on (2,4) facing up (the sofa stand), after a heal this visit, Trail Buddy out. Sofa = (1,3)-(2,3) above. '
+                        'Big creatures (bastonox, forgeharrow, tidemarrow) use (1,4) facing up; wake-up follow slot (2,5). Carer at (6,3) faces left for the line. '
+                        'Text: the sofa entry e10_lap_nap. Moved from (1,8) out of the touch d-pad zone (scale audit, Oct 22)'))
+        tp(nm).append(sp); added.append((nm, sp))
+        for s in tp(nm):
+            if s['id'] == 'company_terminal': s['tile'] = TERMINAL['tile']; s['note'] = 'Revival Tech company terminal (storage / company tasks); solid prop, read by facing + A'
+    for n in M['home_brookhollow_b'].soul['text_pending']['npcs']:
+        if n['id'] == 'home_brookhollow_b_parent': n.update(COOK); n['kind'] = 'villager_cook' if n.get('kind') == 'TBD' else n['kind']; added.append(('home_brookhollow_b', n))
+    return added
+
+# ---------------- tags (Animator soul data, 8:26 PM) ----------------
+FIREFLY_RECTS = {'fernwick': [(14, 19, 19, 20)]}   # walkable bank round the town pond (pond = x15-18 y20-21)
+def tag(res):
+    out = {}
+    for nm, (m, G, D, O, C, E) in res.items():
+        t = collections.defaultdict(list)
+        for y in range(m.h):
+            for x in range(m.w):
+                g, d = _name_of(G[y][x]), _name_of(D[y][x])
+                walk = C[y][x] in (0, 7)
+                if walk and any(n.startswith(('water>', 'cave_water>')) or n.startswith('x_reeds_water') for n in (g, d)): t['shallow'].append([x, y])
+                if d == 'crystal' or d.startswith('crystal_cluster') or d.startswith('crystal_ore'): t['crystal'].append([x, y])
+                if nm == 'route1' and walk and g.startswith(('trail', 'trail>')) and not E[y][x]: t['bird_perch'].append([x, y])
+                if nm == 'thornwood' and walk and g.startswith('grass') and not E[y][x]:
+                    op = sum(1 for dy in range(-2, 3) for dx in range(-2, 3) if 0 <= x + dx < m.w and 0 <= y + dy < m.h and C[y + dy][x + dx] == 0)
+                    if op >= 18: t['firefly_zone'].append([x, y])
+        _ox, _oy = getattr(m, 'pad_offset', (0, 0))   # centre_pad
+        for (x0, y0, x1, y1) in [(a + _ox, b + _oy, c + _ox, d + _oy) for a, b, c, d in FIREFLY_RECTS.get(nm, [])]:
+            t['firefly_zone'] += [[x, y] for y in range(y0, y1 + 1) for x in range(x0, x1 + 1) if C[y][x] in (0, 7)]
+        if t:
+            t = dict(t); t['_rules'] = TAG_RULES; m.tags = t; out[nm] = {k: len(v) for k, v in t.items() if k != '_rules'}
+    return out
+TAG_RULES = {
+    'shallow': 'walkable land cells with a water edge (shore tiles water>grass/sand/path, cave_water>cave, x_reeds_water): wade splash + ripple (Animator soul data)',
+    'crystal': 'violet crystal tiles (not barriers or switches): fireflies dim within 2 tiles (back to bright outside 2.5)',
+    'firefly_zone': 'firefly home cells: Night (Dusk: half count); fernwick pond bank x14-19 y19-20 (walkable cells round the pond) + open thornwood glades',
+    'bird_perch': 'route1 trail cells outside grass: bird groups (day/dusk, no rain); scatter when the player RUNS or BIKES within 3 tiles (Chebyshev), never on walk',
+}
+
+# ---------------- encounters (parity C1/C2/C5/C8) ----------------
+LV = {'sunmeadow_grass': (2, 4), 'thornwood_grass': (9, 13), 'greystone_glowfern': (20, 25), 'mirefen_grass_w': (33, 37), 'mirefen_grass_ne': (33, 37),
+      'mirefen_grass_s': (34, 38), 'mirefen_bog_surf': (34, 39)}
+def _s(sp, a, b, w, **c): return dict(species=sp, level=[a, b], weight=w, **c)
+def tables():
+    T = {}
+    def lv(z, d=0): a, b = LV[z]; return a + d, b + d
+    a, b = lv('sunmeadow_grass')
+    T['sunmeadow_grass'] = dict(method='grass', rate=round(1 / 12, 4), slots=[
+        # Gary 11:42 AM CT Oct 23 2026: "Yes, cap Route 1 at levels 2-4 with first-stage creatures only" -> band 2-4 (LV), no evolved
+        # forms (burrowmane, stage 2 of tumbloam, dropped), halovy 5-6 -> 3-4. tools/sync_creatures.mjs keeps placeholder slots in line.
+        _s('tumbloam', a, b, 30), _s('sailquill', a, b, 30, time=['dawn', 'day', 'dusk']),
+        _s('gloamtick', a + 1, b, 15, time=['dusk', 'night']), _s('halovy', a + 1, b, 2, time=['dawn']),
+        _s('rillop', a, b, 18, weather=['storm'], flood=True, note='storm variant only: floodwater washes river creatures into the grass'),
+        _s('burlbeetle', a, b, 20)])
+    a, b = lv('thornwood_grass')
+    T['thornwood_grass'] = dict(method='grass', rate=round(1 / 12, 4), slots=[
+        _s('burlbeetle', a, b, 35), _s('burrowmane', a, b, 25), _s('tumbloam', a, b - 1, 15), _s('gloamtick', a + 1, b, 15, time=['dusk', 'night']),
+        _s('sailquill', a, b, 10, time=['dawn', 'day'])])
+    a, b = lv('greystone_glowfern')
+    T['greystone_glowfern'] = dict(method='cave_fern', rate=round(1 / 12, 4), slots=[
+        _s('burrowmane', a, b, 30), _s('bastonox', b, b + 2, 5), _s('gloamtick', a, b, 30), _s('slagrook', a, b, 20), _s('tumbloam', a, b - 2, 15)])
+    for z, w in (('mirefen_grass_w', 0), ('mirefen_grass_ne', 1), ('mirefen_grass_s', 2)):
+        a, b = lv(z)
+        T[z] = dict(method='grass', rate=round(1 / 12, 4), slots=[
+            _s('mirewump', a, b, 35), _s('brookhorn', a, b, 20), _s('burlbeetle', a, b, 15), _s('runeskein', b, b + 1, 3 + w, time=['night']),
+            _s('sailquill', a, b, 15, weather=['storm', 'clear'], time=['day', 'dusk']), _s('gloamtick', a, b, 12, time=['dusk', 'night'])])
+    a, b = lv('mirefen_bog_surf')
+    T['mirefen_bog_surf'] = dict(method='water (Tideglide)', rate=round(1 / 15, 4), slots=[
+        _s('mirewump', a, b, 45), _s('brookhorn', a, b, 35), _s('tidemarrow', b, b + 2, 5), _s('rillop', a - 4, a, 15, weather=['storm'], flood=True)])
+    _ov = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'encounters_overnight.json')   # OVERNIGHT DRAFT tables (TODO_ROSTER)
+    if os.path.exists(_ov): T.update(json.load(open(_ov)))
+    return T
+CONDITIONS = {'time': 'optional list of phases (dawn/day/dusk/night, time_of_day/grades.json schedule); slot only rolls in those phases',
+              'weather': 'optional list (clear/storm); storm = storm_season set (route1 loads route1_storm)', 'flood': 'true = only on flooded variants / floodwater cells',
+              'no condition': 'slot always eligible'}
+
+_DEX = {c['id'] for c in json.load(open('/workspace/kilumen/design/DEX_450.json'))['creatures']}   # OVERNIGHT DRAFT
+def write(res, MAPS):
+    os.makedirs(f'{OUT}/encounters', exist_ok=True); os.makedirs(f'{OUT}/items', exist_ok=True); os.makedirs(f'{OUT}/puzzles', exist_ok=True)
+    T = tables(); arts = sorted(d for d in os.listdir('/workspace/kilumen/art/characters/pixel/creatures') if re.fullmatch(r'[a-z0-9_]+', d) and not d.startswith('_'))   # Coder test #62: skip stray folders (--help/, _overnight/)
+    zones_used = collections.defaultdict(set)
+    for nm, (m, *_r) in res.items():
+        for z in m.enc_zones: zones_used[z['table']].add(nm)
+    doc = dict(version='0.1.0', date='2026-10-22', owner='World Design', placeholder_species=True,
+               note=('Placeholder tables (parity C1/C2/C5/C8). Species are the 16 creatures that have art; Story Bot/Gary own the final pools. '
+                     'Levels follow the CRITICAL_PATH order (route1 before coin 1, thornwood before coin 2, greystone before coin 4, mirefen at coin 5). '
+                     'Structural reference only: no names, numbers or text from any other game.'),
+               roll=dict(per='step onto an encounter cell (layer code 1 grass / 2 cave) or a zone rect', rate='chance per step (zone.rate)',
+                         pick='weighted by slot.weight among slots whose conditions match; level uniform in [lo, hi]',
+                         forced='zone rects with forced:true are the critical-path chokepoints (forced_grass)', running_or_biking='same rate (MOVEMENT.md)'),
+               variant_roll=dict(hook='encounters.variant_roll(zone, slot, context) -> variant id or null', called='after the species + level are picked, before the battle starts',
+                                 variants=['normal', 'enraged (DD: off-grass ambush, always Enraged)', 'colour variant (rare; odds are Coder/Gary)'],
+                                 default='null -> normal; World supplies no odds'),
+               conditions=CONDITIONS, species_with_art=arts,
+               zones={z: dict(T[z], maps=sorted(zones_used.get(z, []))) for z in T})
+    for z in doc['zones'].values():
+        for s in z['slots']: assert s['species'] in arts or s['species'] in _DEX, s   # OVERNIGHT DRAFT: Game dev tables use DEX_450 ids; art may come later
+    doc['species_without_art'] = sorted({s['species'] for z in doc['zones'].values() for s in z['slots']} - set(arts))
+    json.dump(doc, open(f'{OUT}/encounters/encounters.json', 'w'), indent=1)
+    rows = []
+    for m in MAPS:
+        for it in m.items: rows.append(dict(map=m.name, id=it['id'], item=it['item'], hidden=it['hidden'], flag=it['flag'], x=it['x'], y=it['y']))
+    json.dump(dict(note=('Generic placeholder item ids used in maps/*.json items[]. Text Bot: please give each a name + pickup line; Coder: pockets are a hint. '
+                         'Visible items are solid (supply satchel prop); hidden ones are walkable and found by facing + A.'),
+                   items=PLACEHOLDER_ITEMS, placed=rows), open(f'{OUT}/items/ITEM_PLACEHOLDERS.json', 'w'), indent=1)
+    for nm, (m, *_r) in res.items():
+        if not m.puzzle or not m.puzzle.get('switches') or nm != 'fernwick_hall_int': continue
+        P = m.puzzle
+        rt = dict(map=nm, version='0.1.0', solved_flag='puzzle_fernwick_hall_solved', note='Runtime data for the Fernwick Hall puzzle; same model as tools/run.py solve() (BFS-verified every build).',
+                  switches=[dict(s, save_key=f'{nm}.sw.{s["id"]}') for s in P['switches']],
+                  gates=[dict(g, save_key=f'{nm}.gate.{g["id"]}', closed_collision=6, open_collision=0) for g in P['gates']],
+                  channels={c: dict(switches=[s['id'] for s in P['switches'] if s['channel'] == c], gates=[g['id'] for g in P['gates'] if g['channel'] == c],
+                                    opens_when='every switch on this channel is ON') for c in sorted({s['channel'] for s in P['switches']})},
+                  modes=dict(latch='a plate turns ON when stepped on (player or boulder) and stays ON; saved', toggle='touching a crystal (face it + A) flips it and every id in toggles; saved',
+                             hold='ON only while something stands on it; not saved'),
+                  initial_state={s['id']: s['start_on'] for s in P['switches']},
+                  state_schema=dict(save=f'{nm}.state', fields={'on': 'list of switch ids that are ON', 'solved': 'bool'}),
+                  solved_when='every gate open (channels A and B complete)', on_solved=['set flag puzzle_fernwick_hall_solved', 'gates stay open on reload (state saved)'],
+                  reset='never resets once solved; before that the state persists across exits', goal=P['goal'], verified=P.get('verified'), rules=P['rules'], solution=P['solution'])
+        P['runtime'] = f'puzzles/{nm}.runtime.json'
+        json.dump(rt, open(f'{OUT}/puzzles/{nm}.runtime.json', 'w'), indent=1)
+    return doc
+
+def check(res, bfs, MAPS):
+    P = []; flags = set(); T = tables()
+    for nm, (m, G, D, O, C, E) in res.items():
+        for z in m.enc_zones:
+            if z['table'] not in T: P.append(f'{nm}: encounter zone table {z["table"]} has no encounters.json table')
+        if nm in ('route1_storm',): continue
+        occ = {(w['x'], w['y']) for w in m.warps}
+        tp = (getattr(m, 'soul', None) or {}).get('text_pending', {})
+        spots = list(getattr(m, 'interact_spots', [])) + tp.get('interact_spots', [])
+        stands = {tuple(s['stand']) for s in spots}
+        people = m.npcs + getattr(m, 'npcs_pending', []) + tp.get('npcs', [])
+        for it in m.items:
+            if it['flag'] in flags: P.append(f'{nm}: duplicate item flag {it["flag"]}')
+            flags.add(it['flag'])
+            xy = (it['x'], it['y'])
+            if xy in occ or xy in stands or any((n['x'], n['y']) == xy for n in people): P.append(f'{nm}: item {it["id"]} on a warp/spot stand/npc')
+        # reachability: from every warp/exit cell, with visible items solid
+        Cs = [r[:] for r in C]
+        for it in m.items:
+            if not it['hidden']: Cs[it['y']][it['x']] = 1
+        starts = [(w['x'], w['y']) for w in m.warps] or [(n['x'], n['y']) for n in m.npcs[:1]]
+        if not starts: continue
+        import progression
+        Cf = progression.state_C(m, C, set(progression.STORY_FLAGS)); Csf = progression.state_C(m, Cs, set(progression.STORY_FLAGS))
+        reach = set(); reach_s = set()
+        for s in starts[:1]:
+            reach |= _bfs(m, Cf, s, getattr(m, 'puzzle', None)); reach_s |= _bfs(m, Csf, s, getattr(m, 'puzzle', None))
+        for it in m.items:
+            xy = (it['x'], it['y'])
+            ok = xy in reach if it['hidden'] else any((xy[0] + dx, xy[1] + dy) in reach_s for dx, dy in DIRS.values())
+            if not ok and _in_bike_area(m, xy): continue   # bike ramp pockets: reach is proven by run.py's bike checks (one-way ramps)
+            if not ok and any(xy in {tuple(c) for c in o.get('pocket_cells', [])} for o in getattr(m, 'field_obstacles', [])): continue   # BATCH 3 job 0: field-skill pockets; sealed + skill reach proven by zz_overnight (BATCH3 pockets sealed)
+            if not ok: P.append(f'{nm}: item {it["id"]} at {xy} not reachable')
+        lost = [p for p in reach if p not in reach_s and Cs[p[1]][p[0]] != 1]
+        if lost: P.append(f'{nm}: visible items cut off {lost[:4]}')
+        for n in people:
+            if 'sight_range' in n and n['sight_range']:
+                dx, dy = DIRS[n['facing']]; cells = []
+                for k in range(1, n['sight_range'] + 1):
+                    x, y = n['x'] + dx * k, n['y'] + dy * k
+                    if not (0 <= x < m.w and 0 <= y < m.h) or Cf[y][x] not in (0, 7): break
+                    cells.append((x, y))
+                if not cells: P.append(f'{nm}: trainer {n["id"]} sight is blocked at once')
+                n['sight_cells'] = [list(c) for c in cells]
+        if progression.INDOOR_OR_CAVE(nm):
+            for y in range(m.h):          # generic chair rule: every chair tile is solid indoors (scale audit C3)
+                for x in range(m.w):
+                    if CHAIR(_name_of(D[y][x])) and C[y][x] != 1: P.append(f'{nm}: chair at ({x},{y}) is walkable ({C[y][x]})')
+        for sp in tp.get('interact_spots', []):   # same geometry rules run.py applies to interact_spots
+            sx, sy = sp['stand']
+            if Cf[sy][sx] not in (0, 7): P.append(f"{nm}: pending spot {sp['id']} stand ({sx},{sy}) is blocked")
+            if sp['kind'] != 'trigger':
+                dx, dy = DIRS[sp['face']]
+                if (sx + dx, sy + dy) != (sp['x'], sp['y']): P.append(f"{nm}: pending spot {sp['id']} stand+face does not reach ({sp['x']},{sp['y']})")
+                if sp.get('tile') and not _name_of(D[sp['y']][sp['x']]).startswith(sp['tile']):
+                    P.append(f"{nm}: pending spot {sp['id']} expects {sp['tile']}* at ({sp['x']},{sp['y']}), found {_name_of(D[sp['y']][sp['x']]) or 'nothing'}")
+        for k, v in (getattr(m, 'tags', None) or {}).items():
+            if k in ('_rules', 'crystal'): continue
+            for x, y in v:
+                if C[y][x] not in (0, 7): P.append(f'{nm}: tag {k} on blocked ({x},{y})')
+    for nm in [m.name for m in MAPS if m.name in HEAL]:
+        m, G, D, O, C, E = res[nm]
+        for c in ((LAP_NAP['x'], LAP_NAP['y']), LAP_NAP['big'], LAP_NAP['follow']):
+            if C[c[1]][c[0]] not in (0, 7): P.append(f'{nm}: lap nap cell {c} blocked')
+        sx, sy = LAP_NAP['sofa']
+        if _name_of(D[sy][sx]).find('sofa') < 0 or _name_of(D[sy][sx - 1]).find('sofa') < 0: P.append(f'{nm}: no sofa at (1,3)-(2,3) above the lap-nap cell (2,4)')
+        if any((w['x'], w['y']) == HEAL_DROP_MAT for w in m.warps) or C[HEAL_DROP_MAT[1]][HEAL_DROP_MAT[0]] == 4: P.append(f'{nm}: second exit mat (7,9) is back')
+        if _name_of(D[4][12]) != 'i_company_terminal': P.append(f'{nm}: no company terminal at (12,4)')
+    return P
+
+def _in_bike_area(m, xy):
+    for a in ((getattr(m, 'bike', None) or {}).get('areas') or []):
+        c = a.get('cells')
+        if isinstance(c, str):
+            mm = re.match(r'x(\d+)-(\d+),\s*y(\d+)-(\d+)', c)
+            if mm and int(mm[1]) <= xy[0] <= int(mm[2]) and int(mm[3]) <= xy[1] <= int(mm[4]): return True
+        elif isinstance(c, list) and list(xy) in [list(v) for v in c]: return True
+    return False
+
+def _bfs(m, C, s, puzzle):
+    # gates (6) count as open for reachability: the puzzle itself is solved by run.py solve()
+    q = collections.deque([s]); seen = {s}
+    while q:
+        x, y = q.popleft()
+        for dx, dy in DIRS.values():
+            a, b = x + dx, y + dy
+            if 0 <= a < m.w and 0 <= b < m.h and (a, b) not in seen:
+                c = C[b][a]
+                if c in (0, 4, 6, 7) or (c == 5 and puzzle):
+                    seen.add((a, b)); q.append((a, b))
+                elif c == 2 and dy == 1 and b + 1 < m.h and C[b + 1][a] in (0, 7) and (a, b + 1) not in seen:
+                    seen.add((a, b + 1)); q.append((a, b + 1))
+    return seen
+
+# ---------------- zones (Text Bot v0.4.2/0.4.3 meta.zone_wiring_todo) ----------------
+SPARE = ('station_int', 'home_saltmere_a')   # Text Bot meta.spare_maps: no door leads there; not wired
+ZONE_EXTRA = {'lanternport': ['home_lanternport_c', 'home_lanternport_c_2f']}   # shared H3 named for Lanternport (town not built yet): listed so its zone lines can fire later
+def zone_wiring(wl, rows):
+    import interiors_merge as I
+    zof = {}
+    for z in wl['zones']:
+        for mp in z['maps']: zof.setdefault(mp, z['id'])
+    subs = I.SUB_FLOORS
+    for z in wl['zones']:
+        add = []
+        for r in rows:
+            if zof.get(r['exterior']) == z['id'] and r['to'] not in SPARE:
+                add += [r['to']] + list(subs.get(r['to'], []))
+                if r['to'].startswith('heal_'): add.append('rt_branch_backroom')
+        add += ZONE_EXTRA.get(z['id'], [])
+        z['maps'] = [m for m in z['maps'] if m not in I.RETIRED]
+        for mp in add:
+            if mp not in z['maps']: z['maps'].append(mp)
+    wl['zone_resolution'] = dict(
+        for_coder=('A map may be listed in several zones (shared interiors: heal_brookhollow, shop_int, H1-H4 homes, rt_branch_backroom, their 2F maps). '
+                   'zone() = the zone whose maps list holds the outdoor map of the door the player came in by (lastDoor.map); '
+                   'on 2F/back-room maps follow the $return chain to that outdoor door first. Unique maps are listed once.'),
+        spare_maps=list(SPARE), retired_removed=list(I.RETIRED),
+        note='Generated by tools/world_data.zone_wiring from world_layout interior_doors (Text Bot v0.4.2/0.4.3 meta.zone_wiring_todo).')

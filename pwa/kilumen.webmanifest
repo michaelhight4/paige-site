@@ -1,0 +1,18 @@
+{
+  "id": "kilumen-game",
+  "name": "Kilumen: Start of a Journey",
+  "short_name": "Kilumen",
+  "description": "Kilumen dev build (installable test; PWA is off unless ?pwa=1).",
+  "start_url": "../index.html?pwa=1",
+  "scope": "../",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#0b0d1a",
+  "theme_color": "#0b0d1a",
+  "icons": [
+    { "src": "icons/PLACEHOLDER_keyart_crop_192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/PLACEHOLDER_keyart_crop_512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/PLACEHOLDER_keyart_crop_maskable_512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

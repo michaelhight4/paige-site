@@ -1,0 +1,1149 @@
+{
+ "meta": {
+  "status": "DRAFT design only, not in game",
+  "count": 35,
+  "note": "NEW creatures for regions 6-8; not DEX_450 entries; dex_no provisional"
+ },
+ "creatures": [
+  {
+   "dex_no": "N6-01",
+   "id": "puffgill",
+   "name": "Puffgill",
+   "types": [
+    "sea"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "puffgill"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 6,
+   "first_zone": "tidewater_coast",
+   "wild_level": [
+    43,
+    49
+   ],
+   "rarity": "uncommon",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Round baby sea-robin fish with fan-like pectoral 'wings' it flaps on sand; big glossy eyes, pink belly. Palette: coral pink, sand, teal, violet. Crystal: small violet crystal on its brow.",
+   "flavour": "Hops along the tideline on its fins and sulks when a wave knocks it over.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N6-02",
+   "id": "kelpkit",
+   "name": "Kelpkit",
+   "types": [
+    "sea",
+    "grass"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "kelpkit"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 6,
+   "first_zone": "route_coast",
+   "wild_level": [
+    43,
+    49
+   ],
+   "rarity": "uncommon",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Sea-otter kit wrapped in a kelp blanket like a scarf, holding a tiny shell; floats belly-up. Palette: cocoa brown, kelp green, cream, violet. Crystal: violet crystal on the shell it holds.",
+   "flavour": "Ties itself to kelp so it does not drift away while it naps.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N6-03",
+   "id": "drizzlop",
+   "name": "Drizzlop",
+   "types": [
+    "rain",
+    "bird"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "drizzlop"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 6,
+   "first_zone": "tidewater_coast",
+   "wild_level": [
+    43,
+    49
+   ],
+   "rarity": "rare",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Chubby storm-petrel chick, grey down puffed like a raincloud, little webbed feet; a drip hangs off its beak. Palette: storm grey, white, slate blue, violet. Crystal: violet crystal tuft on its head.",
+   "flavour": "Only sings when it rains, then sings all night.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N6-04",
+   "id": "cocklet",
+   "name": "Cocklet",
+   "types": [
+    "sea",
+    "earth"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "cocklet"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 6,
+   "first_zone": "tidewater_coast_cave",
+   "wild_level": [
+    43,
+    49
+   ],
+   "rarity": "uncommon",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Tiny hermit-snail creature living in a ribbed cockle shell, two stalk eyes and a soft peach body. Palette: peach, cream shell, rose, violet. Crystal: violet crystal on the shell's hinge.",
+   "flavour": "Swaps shells with friends as a sign of trust.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N6-05",
+   "id": "foamfawn",
+   "name": "Foamfawn",
+   "types": [
+    "water",
+    "wind"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "foamfawn"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 6,
+   "first_zone": "route_coast",
+   "wild_level": [
+    43,
+    49
+   ],
+   "rarity": "rare",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Small sea-spray fawn with a seafoam mane and frothy tail, hooves leave bubbles. Palette: aqua, white foam, pale gold, violet. Crystal: violet crystal on its forehead.",
+   "flavour": "Seen only where waves hit the rocks hardest, playing in the spray.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N6-06",
+   "id": "nubbinray",
+   "name": "Nubbinray",
+   "types": [
+    "sea"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "nubbinray"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 6,
+   "first_zone": "tidewater_coast",
+   "wild_level": [
+    43,
+    49
+   ],
+   "rarity": "uncommon",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Pocket-sized round ray, smiling underside, freckled back, stubby tail with a bow-like fin. Palette: dusty blue, pale cream, navy freckles, violet. Crystal: violet crystal at tail tip.",
+   "flavour": "Glides in rock pools and lets children stroke its back.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N6-07",
+   "id": "shoalpup",
+   "name": "Shoalpup",
+   "types": [
+    "sea",
+    "water"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 3,
+    "line": [
+     "shoalpup",
+     "swellhound",
+     "breakwarden"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": "swellhound"
+   },
+   "region": 6,
+   "first_zone": "route_coast",
+   "wild_level": [
+    43,
+    49
+   ],
+   "rarity": "uncommon",
+   "size_class": "medium",
+   "cute": false,
+   "visual_brief": "Harbour-seal pup with barnacle-studded flippers and a rope-knot collar pattern. Palette: speckled grey, cream, rope tan, violet. Crystal: violet crystal on its collar.",
+   "flavour": "Barks at boats until someone throws it a fish.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N6-08",
+   "id": "swellhound",
+   "name": "Swellhound",
+   "types": [
+    "sea",
+    "water"
+   ],
+   "evolution": {
+    "stage": 2,
+    "line_length": 3,
+    "line": [
+     "shoalpup",
+     "swellhound",
+     "breakwarden"
+    ],
+    "evolves_from": "shoalpup",
+    "method": "level 44",
+    "evolves_to": "breakwarden"
+   },
+   "region": 6,
+   "first_zone": "route_coast",
+   "wild_level": [
+    43,
+    49
+   ],
+   "rarity": "uncommon",
+   "size_class": "medium",
+   "cute": false,
+   "visual_brief": "Lean adolescent sea-lion hound, long neck and powerful fore-flippers, barnacle crust spreading into shoulder pads, rope-knot pattern now a thick ruff. Palette: speckled grey, cream, rope tan, violet. Crystal: violet crystal on its ruff.",
+   "flavour": "Guards one stretch of pier and barks the tide in and out.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N6-09",
+   "id": "breakwarden",
+   "name": "Breakwarden",
+   "types": [
+    "sea",
+    "earth"
+   ],
+   "evolution": {
+    "stage": 3,
+    "line_length": 3,
+    "line": [
+     "shoalpup",
+     "swellhound",
+     "breakwarden"
+    ],
+    "evolves_from": "swellhound",
+    "method": "level 48",
+    "evolves_to": null
+   },
+   "region": 6,
+   "first_zone": "tidewater_coast",
+   "wild_level": [
+    43,
+    49
+   ],
+   "rarity": "uncommon",
+   "size_class": "large",
+   "cute": false,
+   "visual_brief": "Massive walrus-like guardian with basalt-plate shoulders like a sea wall, two long coral tusks. Palette: slate grey, coral red, foam white, violet. Crystal: violet crystal clusters on the shoulder plates.",
+   "flavour": "Lies across harbour mouths during storms so the waves break on it instead of the boats.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N6-10",
+   "id": "galecrest",
+   "name": "Galecrest",
+   "types": [
+    "wind",
+    "sea"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "galecrest"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 6,
+   "first_zone": "route_coast",
+   "wild_level": [
+    43,
+    49
+   ],
+   "rarity": "rare",
+   "size_class": "medium",
+   "cute": false,
+   "visual_brief": "Slim sea-wyvern with wing-like flipper fins, a forked tail fin and a white wind-blown crest like breaking surf. Palette: teal, cream, white, violet. Crystal: violet crystal at the base of its crest.",
+   "flavour": "Rides storm fronts from coast to coast and is always the first to sense one coming.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N6-11",
+   "id": "undertusk",
+   "name": "Undertusk",
+   "types": [
+    "sea",
+    "dark"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "undertusk"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 6,
+   "first_zone": "tidewater_coast_cave",
+   "wild_level": [
+    43,
+    49
+   ],
+   "rarity": "very rare",
+   "size_class": "large",
+   "cute": false,
+   "visual_brief": "Deep-water narwhal-eel hybrid with a spiral tusk of dark nacre and glowing bioluminescent side dots. Palette: abyss navy, pearl, cyan glow, violet. Crystal: violet crystal at the tusk base.",
+   "flavour": "Surfaces in the sea cave once a season; fishermen leave the cave quiet that night.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N7-01",
+   "id": "wickmote",
+   "name": "Wickmote",
+   "types": [
+    "spirit",
+    "light"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "wickmote"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 7,
+   "first_zone": "lanternport",
+   "wild_level": [
+    54,
+    64
+   ],
+   "rarity": "uncommon",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Little candle-stub creature with a soft wax body, a dripping topknot and a calm flame halo. Palette: cream wax, warm amber, soft orange, violet. Crystal: violet crystal set in its wax chest.",
+   "flavour": "Sits in empty windows so homes never look dark.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N7-02",
+   "id": "fogkin",
+   "name": "Fogkin",
+   "types": [
+    "ghost",
+    "sea"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "fogkin"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 7,
+   "first_zone": "route_fernwick_lanternport",
+   "wild_level": [
+    54,
+    64
+   ],
+   "rarity": "uncommon",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Puff of harbour fog with round eyes and two little mitten-arms, trailing wisps. Palette: pale grey, mist blue, white, violet. Crystal: violet crystal floating in its middle.",
+   "flavour": "Follows lost sailors home, then vanishes when they open the door.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N7-03",
+   "id": "paperpaw",
+   "name": "Paperpaw",
+   "types": [
+    "spirit"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "paperpaw"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 7,
+   "first_zone": "lanternport",
+   "wild_level": [
+    54,
+    64
+   ],
+   "rarity": "uncommon",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Folded-paper lantern kitten, pleated body glowing from inside, tassel tail. Palette: rice-paper white, red trim, warm glow, violet. Crystal: violet crystal on its tassel.",
+   "flavour": "Floats on festival nights and naps folded flat by day.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N7-04",
+   "id": "lensmoth",
+   "name": "Lensmoth",
+   "types": [
+    "light",
+    "bug"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "lensmoth"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 7,
+   "first_zone": "route_fernwick_lanternport",
+   "wild_level": [
+    54,
+    64
+   ],
+   "rarity": "rare",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Fluffy round moth with lace-pattern wings that shine like a lamp's lens, feathery antennae. Palette: ivory, honey, dusk blue, violet. Crystal: violet crystal on its fuzzy chest.",
+   "flavour": "Collects at lighthouse windows; keepers count them to guess the weather.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N7-05",
+   "id": "bellbuoy",
+   "name": "Bellbuoy",
+   "types": [
+    "sea",
+    "spirit"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "bellbuoy"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 7,
+   "first_zone": "lanternport",
+   "wild_level": [
+    54,
+    64
+   ],
+   "rarity": "uncommon",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Round little buoy-bodied creature with a tiny bell for a tail and stubby legs, red and white stripes. Palette: buoy red, white, brass, violet. Crystal: violet crystal on its top cap.",
+   "flavour": "Rings gently when a ship is near the rocks.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N7-06",
+   "id": "hushlet",
+   "name": "Hushlet",
+   "types": [
+    "ghost",
+    "wind"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "hushlet"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 7,
+   "first_zone": "lanternport",
+   "wild_level": [
+    54,
+    64
+   ],
+   "rarity": "rare",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Puffball owlet with a lantern-glass eye ring and silent fringed feathers, half see-through. Palette: smoke grey, pale lilac, amber eyes, violet. Crystal: violet crystal on its forehead.",
+   "flavour": "Never makes a sound; you only know it is there when the lamps flicker.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N7-07",
+   "id": "lampwisp",
+   "name": "Lampwisp",
+   "types": [
+    "ghost",
+    "light"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 3,
+    "line": [
+     "lampwisp",
+     "lanternshade",
+     "beaconwraith"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": "lanternshade"
+   },
+   "region": 7,
+   "first_zone": "lanternport",
+   "wild_level": [
+    54,
+    64
+   ],
+   "rarity": "uncommon",
+   "size_class": "medium",
+   "cute": false,
+   "visual_brief": "Hollow ship-lantern with a ghostly flame face inside and a chain handle like a tail. Palette: tarnished brass, teal flame, dark iron, violet. Crystal: violet crystal on the lantern's peak.",
+   "flavour": "Swings in the wind on the docks long after the ships have gone.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N7-08",
+   "id": "lanternshade",
+   "name": "Lanternshade",
+   "types": [
+    "ghost",
+    "light"
+   ],
+   "evolution": {
+    "stage": 2,
+    "line_length": 3,
+    "line": [
+     "lampwisp",
+     "lanternshade",
+     "beaconwraith"
+    ],
+    "evolves_from": "lampwisp",
+    "method": "level 56",
+    "evolves_to": "beaconwraith"
+   },
+   "region": 7,
+   "first_zone": "lanternport",
+   "wild_level": [
+    54,
+    64
+   ],
+   "rarity": "uncommon",
+   "size_class": "medium",
+   "cute": false,
+   "visual_brief": "Small hooded wisp-spirit with a ragged teal-grey cloak and two thin arms, carrying its old brass lantern like a heart in its chest; teal flame eyes. Palette: tarnished brass, teal flame, slate, violet. Crystal: violet crystal on its hood tip.",
+   "flavour": "Walks the docks at night checking every mooring rope.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N7-09",
+   "id": "beaconwraith",
+   "name": "Beaconwraith",
+   "types": [
+    "ghost",
+    "light"
+   ],
+   "evolution": {
+    "stage": 3,
+    "line_length": 3,
+    "line": [
+     "lampwisp",
+     "lanternshade",
+     "beaconwraith"
+    ],
+    "evolves_from": "lanternshade",
+    "method": "level 62",
+    "evolves_to": null
+   },
+   "region": 7,
+   "first_zone": "lanternport",
+   "wild_level": [
+    54,
+    64
+   ],
+   "rarity": "uncommon",
+   "size_class": "large",
+   "cute": false,
+   "visual_brief": "Tall floating wraith with a long tattered sail-cloth robe and wide sleeve-wings; a caged brass beacon lantern glows teal in its chest and casts a beam from its eyes; antler-like brass crown. Palette: brass, slate, teal beam, violet. Crystal: violet crystal at the heart of the lamp.",
+   "flavour": "Its beam shows the safe way in, but only to those who mean the harbour no harm.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N7-10",
+   "id": "tidelore",
+   "name": "Tidelore",
+   "types": [
+    "mystic",
+    "sea"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "tidelore"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 7,
+   "first_zone": "lanternport",
+   "wild_level": [
+    54,
+    64
+   ],
+   "rarity": "rare",
+   "size_class": "large",
+   "cute": false,
+   "visual_brief": "Old sea-turtle sage with a chart-map shell and barnacle spectacles, a scroll of tide tables on its back. Palette: sea green, parchment, brass, violet. Crystal: violet crystal on the shell's top.",
+   "flavour": "Remembers every ship that ever sailed from Lanternport.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N7-11",
+   "id": "veilfin",
+   "name": "Veilfin",
+   "types": [
+    "spirit",
+    "ghost"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "veilfin"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 7,
+   "first_zone": "route_fernwick_lanternport",
+   "wild_level": [
+    54,
+    64
+   ],
+   "rarity": "very rare",
+   "size_class": "large",
+   "cute": false,
+   "visual_brief": "Large ghost-fish with veil fins like curtains of light that swims through the air at night. Palette: midnight, pale aqua, silver, violet. Crystal: violet crystal behind its eyes.",
+   "flavour": "Said to carry home the lights of ships that never came back.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N8-01",
+   "id": "ashbun",
+   "name": "Ashbun",
+   "types": [
+    "fire"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "ashbun"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 8,
+   "first_zone": "route_cindervale",
+   "wild_level": [
+    58,
+    68
+   ],
+   "rarity": "uncommon",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Rabbit kit with ash-grey fluff and ember-tipped ears that glow when it is happy. Palette: ash grey, ember orange, charcoal, violet. Crystal: violet crystal between its ears.",
+   "flavour": "Dust-bathes in warm ash and sneezes little sparks.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N8-02",
+   "id": "pumicub",
+   "name": "Pumicub",
+   "types": [
+    "earth",
+    "magma"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "pumicub"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 8,
+   "first_zone": "cindervale",
+   "wild_level": [
+    58,
+    68
+   ],
+   "rarity": "uncommon",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Round bear cub made of light pumice stone, holes all over, floats in hot springs. Palette: pumice beige, warm grey, lava orange, violet. Crystal: violet crystal on its tummy.",
+   "flavour": "Bobs in the hot springs and refuses to get out.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N8-03",
+   "id": "emberkip",
+   "name": "Emberkip",
+   "types": [
+    "fire",
+    "bird"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 3,
+    "line": [
+     "emberkip",
+     "flarekite",
+     "pyrevane"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": "flarekite"
+   },
+   "region": 8,
+   "first_zone": "cindervale_road",
+   "wild_level": [
+    58,
+    68
+   ],
+   "rarity": "rare",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Fluffy chick whose down is soft flame-orange, tiny coal beak, tail like a struck match. Palette: flame orange, yellow, soot black, violet. Crystal: violet crystal on its head tuft.",
+   "flavour": "Warms eggs in cold nests for any bird that asks.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N8-04",
+   "id": "flarekite",
+   "name": "Flarekite",
+   "types": [
+    "fire",
+    "bird"
+   ],
+   "evolution": {
+    "stage": 2,
+    "line_length": 3,
+    "line": [
+     "emberkip",
+     "flarekite",
+     "pyrevane"
+    ],
+    "evolves_from": "emberkip",
+    "method": "level 62",
+    "evolves_to": "pyrevane"
+   },
+   "region": 8,
+   "first_zone": "cindervale_road",
+   "wild_level": [
+    58,
+    68
+   ],
+   "rarity": "rare",
+   "size_class": "medium",
+   "cute": false,
+   "visual_brief": "Young firebird with a slim kite-like body, flame-orange and yellow feathers, soot-black wingtips, coal-black beak and two long ribbon tail streamers with match-head tips; flame crest. Palette: flame orange, yellow, soot black, violet. Crystal: violet crystal in its flame crest.",
+   "flavour": "Rides the hot updrafts over the lava fields, practising dives it is not ready for.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N8-05",
+   "id": "pyrevane",
+   "name": "Pyrevane",
+   "types": [
+    "fire",
+    "bird"
+   ],
+   "evolution": {
+    "stage": 3,
+    "line_length": 3,
+    "line": [
+     "emberkip",
+     "flarekite",
+     "pyrevane"
+    ],
+    "evolves_from": "flarekite",
+    "method": "level 68",
+    "evolves_to": null
+   },
+   "region": 8,
+   "first_zone": "cindervale",
+   "wild_level": [
+    58,
+    68
+   ],
+   "rarity": "rare",
+   "size_class": "large",
+   "cute": false,
+   "visual_brief": "Majestic firebird perched on charred basalt, broad wings raised in a crescent like a weathervane, layered orange, gold and ember-red feathers edged in soot black, long ember-curl tail fan, crown of swept-back flame plumes. Palette: flame orange, gold, ember red, soot black, violet. Crystal: violet crystal cradled in its flame crown.",
+   "flavour": "Turns on the caldera rim to face the wind; old miners read its heading like a weathervane before a flare-up.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N8-06",
+   "id": "smoglet",
+   "name": "Smoglet",
+   "types": [
+    "dark",
+    "fire"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "smoglet"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 8,
+   "first_zone": "route_cindervale",
+   "wild_level": [
+    58,
+    68
+   ],
+   "rarity": "uncommon",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Chubby velvet mole pup, soot black with big pink digging paws, a glowing ember-red nose and smoke curling off its back. Palette: soot black, pink, ember red, smoke grey, violet. Crystal: violet crystal on top of its head.",
+   "flavour": "Tunnels up through warm chimneys and pops out covered in soot.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N8-07",
+   "id": "geysquirt",
+   "name": "Geysquirt",
+   "types": [
+    "water",
+    "magma"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "geysquirt"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 8,
+   "first_zone": "cindervale",
+   "wild_level": [
+    58,
+    68
+   ],
+   "rarity": "uncommon",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Small long-tailed newt with a blowhole on its back that puffs steam, cream mineral-crust spots. Palette: terracotta, clay red, cream, steam white, violet. Crystal: violet crystal on its tail.",
+   "flavour": "Spouts steam to say hello and to say goodbye.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N8-08",
+   "id": "cinderpip",
+   "name": "Cinderpip",
+   "types": [
+    "fire",
+    "earth"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "cinderpip"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 8,
+   "first_zone": "cindervale_road",
+   "wild_level": [
+    58,
+    68
+   ],
+   "rarity": "rare",
+   "size_class": "small",
+   "cute": true,
+   "visual_brief": "Tiny armadillo with cooled-lava shell bands showing glowing cracks, curls into a warm ball. Palette: basalt black, lava glow, rust, violet. Crystal: violet crystal at the shell peak.",
+   "flavour": "Miners carry one in winter as a hand warmer.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N8-09",
+   "id": "forgehorn",
+   "name": "Forgehorn",
+   "types": [
+    "magma",
+    "earth"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 3,
+    "line": [
+     "forgehorn",
+     "smeltbull",
+     "anvilaurox"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": "smeltbull"
+   },
+   "region": 8,
+   "first_zone": "route_cindervale",
+   "wild_level": [
+    58,
+    68
+   ],
+   "rarity": "uncommon",
+   "size_class": "medium",
+   "cute": false,
+   "visual_brief": "Young ox with a glowing iron-ore horn and slag-crusted flanks, sparks at its hooves. Palette: iron grey, molten orange, rust, violet. Crystal: violet crystal on its brow.",
+   "flavour": "Butts rocks to test them, then eats the ones with ore inside.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N8-10",
+   "id": "smeltbull",
+   "name": "Smeltbull",
+   "types": [
+    "magma",
+    "earth"
+   ],
+   "evolution": {
+    "stage": 2,
+    "line_length": 3,
+    "line": [
+     "forgehorn",
+     "smeltbull",
+     "anvilaurox"
+    ],
+    "evolves_from": "forgehorn",
+    "method": "level 60",
+    "evolves_to": "anvilaurox"
+   },
+   "region": 8,
+   "first_zone": "route_cindervale",
+   "wild_level": [
+    58,
+    68
+   ],
+   "rarity": "uncommon",
+   "size_class": "large",
+   "cute": false,
+   "visual_brief": "Muscular young bull with two curved ore horns glowing at the tips, slag-plate shoulders with lava seams, bellows-like nostrils puffing sparks. Palette: iron grey, molten orange, rust, violet. Crystal: violet crystal on its brow plate.",
+   "flavour": "Snorts sparks into ore seams to soften the rock before it digs.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N8-11",
+   "id": "anvilaurox",
+   "name": "Anvilaurox",
+   "types": [
+    "magma",
+    "earth"
+   ],
+   "evolution": {
+    "stage": 3,
+    "line_length": 3,
+    "line": [
+     "forgehorn",
+     "smeltbull",
+     "anvilaurox"
+    ],
+    "evolves_from": "smeltbull",
+    "method": "level 66",
+    "evolves_to": null
+   },
+   "region": 8,
+   "first_zone": "cindervale",
+   "wild_level": [
+    58,
+    68
+   ],
+   "rarity": "uncommon",
+   "size_class": "huge",
+   "cute": false,
+   "visual_brief": "Towering aurochs with an anvil-flat skull plate, lava channels running down its back like a forge's gutters. Palette: blackened iron, molten orange, ash, violet. Crystal: violet crystal clusters along the spine.",
+   "flavour": "Smiths say the best blades were hammered on its back while it slept.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N8-12",
+   "id": "slagdrake",
+   "name": "Slagdrake",
+   "types": [
+    "fire",
+    "dark"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "slagdrake"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 8,
+   "first_zone": "cindervale_road",
+   "wild_level": [
+    58,
+    68
+   ],
+   "rarity": "rare",
+   "size_class": "large",
+   "cute": false,
+   "visual_brief": "Low wingless drake with crusted slag scales and a plume of dark smoke for a mane. Palette: charcoal, ember red, smoke purple-grey, violet. Crystal: violet crystal on its chest.",
+   "flavour": "Sleeps in cooling lava flows and wakes in a bad mood.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "dex_no": "N8-13",
+   "id": "calderune",
+   "name": "Calderune",
+   "types": [
+    "magma",
+    "mystic"
+   ],
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "calderune"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "region": 8,
+   "first_zone": "cindervale",
+   "wild_level": [
+    58,
+    68
+   ],
+   "rarity": "very rare",
+   "size_class": "huge",
+   "cute": false,
+   "visual_brief": "Ancient stone serpent-turtle whose shell is a small crater with a lava pool; rune-cut plates glow. Palette: obsidian, magma gold, ash, violet. Crystal: violet crystal standing in the crater pool.",
+   "flavour": "When it stirs, the whole vale feels warm for a week.",
+   "existing_art": false,
+   "status": "draft"
+  }
+ ]
+}

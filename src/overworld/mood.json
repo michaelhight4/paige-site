@@ -1,0 +1,114 @@
+{
+  "_note": "Cinematic mood layers v1 (Oct 23, 2026; Gary approved the EASY set only at 11:31 AM CT): per-area colour tint, soft vignette, ambient particles, sun rays through cloud gaps. NOT approved (never add here): blurred foreground framing, lens flares, fog, camera zooms. Read by src/overworld/mood.js. Coder-owned: map files stay World Design's. A map preset extends one of `defaults` (outdoor | indoor | cave; picked by clock.js INDOOR_OR_CAVE when `extends` is missing) and may list `areas` (tile rects [x, y, w, h], first match wins) that override it. Every number is a CAP checked by tests/mood.test.mjs: tint alpha <= 0.2, vignette alpha <= 0.45, ray alpha <= 0.2.",
+  "_fields": {
+    "tint": "{color, alpha (a flat source-over wash, baked with the vignette into one cached native-res layer: no full-screen blend op, cheap on phones), phases: {dawn, day, dusk, night} strength 0..1}. Scaled by the scene grade name (indoors = day); night is 0 everywhere so the night grade/LUT look stays as is.",
+    "vignette": "{color, alpha (corner darkness), inner (0..1 radius where it starts), phases}. Native-res, cached; one drawImage per frame.",
+    "particles": "[{kind: motes | dust | fireflies | leaves | snow | embers, density (per 480x270 native px view), phases: [..] (missing = all)}]. Off under reduced motion and in rain. Profile mood.particles scales the count, mood.maxParticles caps it.",
+    "rays": "{color, alpha, minCoverage (cloud coverage 0..1), length, width} or false. Outdoor + day/dawn/dusk only, strength = living.js cloudLevel (stepped 1/8, 0 at night), anchored on clear holes in the cloud mask so they drift with the cloud shadows."
+  },
+  "defaults": {
+    "outdoor": {
+      "tint": { "color": "#f8eabe", "alpha": 0.06, "phases": { "dawn": 0.7, "day": 1, "dusk": 0.6, "night": 0 } },
+      "vignette": { "color": "#1a1226", "alpha": 0.26, "inner": 0.5, "phases": { "dawn": 1, "day": 1, "dusk": 1, "night": 0.7 } },
+      "particles": [
+        { "kind": "motes", "density": 14, "phases": ["dawn", "day"] },
+        { "kind": "fireflies", "density": 6, "phases": ["dusk", "night"] }
+      ],
+      "rays": { "color": "#f8eabe", "alpha": 0.14, "minCoverage": 0.4, "length": 220, "width": 34 }
+    },
+    "indoor": {
+      "tint": { "color": "#f8eabe", "alpha": 0.036, "phases": { "dawn": 1, "day": 1, "dusk": 1, "night": 0 } },
+      "vignette": { "color": "#1a1226", "alpha": 0.22, "inner": 0.55, "phases": { "dawn": 1, "day": 1, "dusk": 1, "night": 0.7 } },
+      "particles": [ { "kind": "dust", "density": 6 } ],
+      "rays": false
+    },
+    "cave": {
+      "tint": { "color": "#4a70ba", "alpha": 0.072, "phases": { "dawn": 1, "day": 1, "dusk": 1, "night": 0 } },
+      "vignette": { "color": "#1a1226", "alpha": 0.4, "inner": 0.42, "phases": { "dawn": 1, "day": 1, "dusk": 1, "night": 0.8 } },
+      "particles": [ { "kind": "dust", "density": 8 } ],
+      "rays": false
+    }
+  },
+  "maps": {
+    "brookhollow": {
+      "_why": "Home village: warm afternoon gold, light vignette, sunlit dust; fireflies at dusk/night by the river.",
+      "extends": "outdoor",
+      "tint": { "color": "#fcd668", "alpha": 0.06 },
+      "vignette": { "alpha": 0.24 }
+    },
+    "route1": {
+      "_why": "Sunmeadow Fields: the brightest, most open grade (pollen-gold), the most motes; rays read best over the open grass.",
+      "extends": "outdoor",
+      "tint": { "color": "#fcd668", "alpha": 0.072 },
+      "vignette": { "alpha": 0.22, "inner": 0.55 },
+      "particles": [
+        { "kind": "motes", "density": 18, "phases": ["dawn", "day"] },
+        { "kind": "fireflies", "density": 7, "phases": ["dusk", "night"] }
+      ],
+      "rays": { "alpha": 0.15 }
+    },
+    "route1_storm": {
+      "_why": "Storm variant of Route 1 (region_pulls R1): grey-cool, heavier vignette, no motes or rays (rain is handled by living.js wet too).",
+      "extends": "outdoor",
+      "tint": { "color": "#827a84", "alpha": 0.072 },
+      "vignette": { "alpha": 0.34 },
+      "particles": [],
+      "rays": false
+    },
+    "fernwick": {
+      "_why": "Woodland town by the pond: green-gold canopy light, falling leaves by day, fireflies on the pond bank at dusk/night.",
+      "extends": "outdoor",
+      "tint": { "color": "#a6d460", "alpha": 0.06 },
+      "vignette": { "alpha": 0.28 },
+      "particles": [
+        { "kind": "motes", "density": 8, "phases": ["dawn", "day"] },
+        { "kind": "leaves", "density": 7, "phases": ["dawn", "day"] },
+        { "kind": "fireflies", "density": 9, "phases": ["dusk", "night"] }
+      ]
+    },
+    "fernwick_hall_int": {
+      "_why": "Master 1's hall: warm lamp-lit wood, a stronger vignette to frame the arena, slow dust.",
+      "extends": "indoor",
+      "tint": { "color": "#e29d40", "alpha": 0.048 },
+      "vignette": { "alpha": 0.32, "inner": 0.48 }
+    },
+    "greystone_entrance": {
+      "_why": "Cave mouth: cool blue, deep corners, drifting dust.",
+      "extends": "cave",
+      "vignette": { "alpha": 0.36 }
+    },
+    "greystone_b1": {
+      "_why": "Greystone B1 (Gary named it with region 1): the coolest, darkest-framed grade; crystal-violet hint in the tint.",
+      "extends": "cave",
+      "tint": { "color": "#4a70ba", "alpha": 0.084 }
+    },
+    "thornwood": {
+      "_why": "Forest (next to region 1, not in Gary's list; data only): deep green, leaves, fireflies in the glades.",
+      "extends": "outdoor",
+      "tint": { "color": "#52983a", "alpha": 0.06 },
+      "vignette": { "alpha": 0.32, "inner": 0.45 },
+      "particles": [
+        { "kind": "leaves", "density": 10, "phases": ["dawn", "day", "dusk"] },
+        { "kind": "fireflies", "density": 10, "phases": ["dusk", "night"] }
+      ]
+    },
+    "frostspire": {
+      "_why": "Snow only where it fits (later region; data only, not reviewed).",
+      "extends": "outdoor",
+      "tint": { "color": "#c6ecfa", "alpha": 0.06 },
+      "particles": [ { "kind": "snow", "density": 16 } ]
+    },
+    "frostspire_pass": {
+      "_why": "Snow only where it fits (later region; data only, not reviewed).",
+      "extends": "outdoor",
+      "tint": { "color": "#c6ecfa", "alpha": 0.06 },
+      "particles": [ { "kind": "snow", "density": 14 } ]
+    },
+    "cindervale": {
+      "_why": "Embers only where they fit (later region; data only, not reviewed).",
+      "extends": "outdoor",
+      "tint": { "color": "#f08868", "alpha": 0.06 },
+      "particles": [ { "kind": "embers", "density": 8, "phases": ["dusk", "night"] }, { "kind": "motes", "density": 8, "phases": ["dawn", "day"] } ]
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+ "_status": "DRAFT layout (overnight Coder pass, Oct 23 2026) from Game dev outline in design/overnight_gd/halls/tidewater_coast.json. Hall map not built yet: World Design to place it; solvability is checked by tests/progression.test.mjs.",
+ "zone": "tidewater_coast",
+ "map": "tidewater_hall_int",
+ "kind": "tide",
+ "name_placeholder": "Tide clock",
+ "solved_flag": "puzzle_tidewater_coast_hall_solved",
+ "low": 3,
+ "high": 3,
+ "needs": "has_tideglide",
+ "grid": [
+  "##########",
+  "#G~~~~~.H#",
+  "#######.##",
+  "#O______.#",
+  "#.....S..#",
+  "##########"
+ ],
+ "verified": {
+  "shortest_solution": "U R U U AR L L L L L L",
+  "length": 11,
+  "states_explored": 91,
+  "legend": "U/D/L/R step, A<dir> = face + A"
+ }
+}

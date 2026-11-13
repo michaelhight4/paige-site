@@ -1,0 +1,132 @@
+[
+  {
+    "ok": true,
+    "msg": "pc: trainer spotted -> walk-up -> battle open"
+  },
+  {
+    "ok": true,
+    "msg": "pc: save refused in battle (lock 'trainer_approach')"
+  },
+  {
+    "ok": true,
+    "msg": "pc: on disk mid-battle = pre-approach spot {\"map\":\"mirefen_hall_int\",\"x\":6,\"y\":15,\"facing\":\"left\"}"
+  },
+  {
+    "ok": true,
+    "msg": "pc: on disk mid-battle, trainer not beaten"
+  },
+  {
+    "ok": true,
+    "msg": "pc: reopened at the pre-approach spot {\"map\":\"mirefen_hall_int\",\"x\":6,\"y\":15,\"facing\":\"left\",\"beaten\":false}"
+  },
+  {
+    "ok": true,
+    "msg": "pc: trainer not beaten after reopen"
+  },
+  {
+    "ok": true,
+    "msg": "pc: the trainer spots you again (interaction replays)"
+  },
+  {
+    "ok": true,
+    "msg": "pc: no page errors "
+  },
+  {
+    "view": "pc",
+    "setup": {
+      "c": {
+        "x": 6,
+        "y": 15
+      },
+      "out": {
+        "x": 7,
+        "y": 15
+      },
+      "facing": "left",
+      "party": 1
+    },
+    "mid": {
+      "map": "mirefen_hall_int",
+      "x": 6,
+      "y": 15,
+      "facing": "left"
+    },
+    "back": {
+      "map": "mirefen_hall_int",
+      "x": 6,
+      "y": 15,
+      "facing": "left",
+      "beaten": false
+    },
+    "shots": [
+      "pc_1_spotted.png",
+      "pc_2_in_battle_before_close.png",
+      "pc_3_reopened.png"
+    ]
+  },
+  {
+    "ok": true,
+    "msg": "phone: trainer spotted -> walk-up -> battle open"
+  },
+  {
+    "ok": true,
+    "msg": "phone: save refused in battle (lock 'trainer_approach')"
+  },
+  {
+    "ok": true,
+    "msg": "phone: on disk mid-battle = pre-approach spot {\"map\":\"mirefen_hall_int\",\"x\":6,\"y\":15,\"facing\":\"left\"}"
+  },
+  {
+    "ok": true,
+    "msg": "phone: on disk mid-battle, trainer not beaten"
+  },
+  {
+    "ok": true,
+    "msg": "phone: reopened at the pre-approach spot {\"map\":\"mirefen_hall_int\",\"x\":6,\"y\":15,\"facing\":\"left\",\"beaten\":false}"
+  },
+  {
+    "ok": true,
+    "msg": "phone: trainer not beaten after reopen"
+  },
+  {
+    "ok": true,
+    "msg": "phone: the trainer spots you again (interaction replays)"
+  },
+  {
+    "ok": true,
+    "msg": "phone: no page errors "
+  },
+  {
+    "view": "phone",
+    "setup": {
+      "c": {
+        "x": 6,
+        "y": 15
+      },
+      "out": {
+        "x": 7,
+        "y": 15
+      },
+      "facing": "left",
+      "party": 1
+    },
+    "mid": {
+      "map": "mirefen_hall_int",
+      "x": 6,
+      "y": 15,
+      "facing": "left"
+    },
+    "back": {
+      "map": "mirefen_hall_int",
+      "x": 6,
+      "y": 15,
+      "facing": "left",
+      "beaten": false
+    },
+    "shots": [
+      "phone_1_spotted.png",
+      "phone_2_in_battle_before_close.png",
+      "phone_3_reopened.png"
+    ]
+  }
+]

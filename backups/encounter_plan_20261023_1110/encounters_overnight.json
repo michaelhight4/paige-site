@@ -1,0 +1,1307 @@
+{
+ "route_east_grass": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "spinelet",
+    "level": [
+     12,
+     15
+    ],
+    "weight": 25
+   },
+   {
+    "species": "sailquill",
+    "level": [
+     12,
+     16
+    ],
+    "weight": 25
+   },
+   {
+    "species": "burlbeetle",
+    "level": [
+     12,
+     15
+    ],
+    "weight": 20
+   },
+   {
+    "species": "gloamtick",
+    "level": [
+     13,
+     16
+    ],
+    "weight": 15,
+    "time": [
+     "dusk",
+     "night"
+    ]
+   },
+   {
+    "species": "foalgust",
+    "level": [
+     12,
+     15
+    ],
+    "weight": 10
+   },
+   {
+    "species": "halovy",
+    "level": [
+     15,
+     16
+    ],
+    "weight": 5,
+    "time": [
+     "dawn"
+    ]
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_brookhollow_aurelith.json zone re_grass (grass)",
+  "band": "wild 12-16, trainers 13-17"
+ },
+ "route_east_water": {
+  "method": "water (Tideglide)",
+  "rate": 0.0667,
+  "slots": [
+   {
+    "species": "streambarb",
+    "level": [
+     25,
+     30
+    ],
+    "weight": 55
+   },
+   {
+    "species": "musselin",
+    "level": [
+     28,
+     32
+    ],
+    "weight": 40
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_brookhollow_aurelith.json zone re_river (water (Tideglide, revisit))",
+  "band": "wild 12-16, trainers 13-17"
+ },
+ "route_aurelith_saltmere_grass": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "sailquill",
+    "level": [
+     15,
+     18
+    ],
+    "weight": 30
+   },
+   {
+    "species": "medulet",
+    "level": [
+     15,
+     17
+    ],
+    "weight": 20
+   },
+   {
+    "species": "ankerling",
+    "level": [
+     15,
+     18
+    ],
+    "weight": 20
+   },
+   {
+    "species": "burlbeetle",
+    "level": [
+     15,
+     17
+    ],
+    "weight": 15
+   },
+   {
+    "species": "gloamtick",
+    "level": [
+     16,
+     18
+    ],
+    "weight": 10,
+    "time": [
+     "dusk",
+     "night"
+    ]
+   },
+   {
+    "species": "halovy",
+    "level": [
+     17,
+     18
+    ],
+    "weight": 5,
+    "time": [
+     "dawn"
+    ]
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_saltmere_aurelith.json zone sa_dune_grass (grass)",
+  "band": "wild 15-18, trainers 16-19"
+ },
+ "route_aurelith_saltmere_water": {
+  "method": "water (Tideglide)",
+  "rate": 0.0667,
+  "slots": [
+   {
+    "species": "rakefin",
+    "level": [
+     28,
+     33
+    ],
+    "weight": 60
+   },
+   {
+    "species": "ribboneel",
+    "level": [
+     30,
+     34
+    ],
+    "weight": 15
+   },
+   {
+    "species": "whelkin",
+    "level": [
+     28,
+     32
+    ],
+    "weight": 25
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_saltmere_aurelith.json zone sa_creek (water (Tideglide, revisit))",
+  "band": "wild 15-18, trainers 16-19"
+ },
+ "saltmere_water": {
+  "method": "water (Tideglide)",
+  "rate": 0.0667,
+  "slots": [
+   {
+    "species": "bulwarkrab",
+    "level": [
+     30,
+     34
+    ],
+    "weight": 55
+   },
+   {
+    "species": "spraytern",
+    "level": [
+     32,
+     35
+    ],
+    "weight": 15
+   },
+   {
+    "species": "brineseal",
+    "level": [
+     28,
+     30
+    ],
+    "weight": 30
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_saltmere.json zone sm_harbour (water (Tideglide, revisit))",
+  "band": "Ron 2 L20; hall see halls/saltmere.json"
+ },
+ "route_revival_grass": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "gargolet",
+    "level": [
+     20,
+     24
+    ],
+    "weight": 25
+   },
+   {
+    "species": "burlbeetle",
+    "level": [
+     20,
+     23
+    ],
+    "weight": 20
+   },
+   {
+    "species": "sproutwyrm",
+    "level": [
+     20,
+     24
+    ],
+    "weight": 20
+   },
+   {
+    "species": "sailquill",
+    "level": [
+     20,
+     24
+    ],
+    "weight": 15,
+    "time": [
+     "dawn",
+     "day",
+     "dusk"
+    ]
+   },
+   {
+    "species": "gloamtick",
+    "level": [
+     21,
+     24
+    ],
+    "weight": 15,
+    "time": [
+     "dusk",
+     "night"
+    ]
+   },
+   {
+    "species": "halovy",
+    "level": [
+     22,
+     24
+    ],
+    "weight": 5,
+    "time": [
+     "dawn"
+    ]
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_thornwood_revival.json zone tr_grass (grass)",
+  "band": "wild 20-24, trainers 21-25"
+ },
+ "route_revival_tr_crystal_grass": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "halovy",
+    "level": [
+     22,
+     24
+    ],
+    "weight": 30
+   },
+   {
+    "species": "gildfinch",
+    "level": [
+     21,
+     24
+    ],
+    "weight": 40
+   },
+   {
+    "species": "tollkin",
+    "level": [
+     23,
+     24
+    ],
+    "weight": 5,
+    "time": [
+     "night"
+    ]
+   },
+   {
+    "species": "railmite",
+    "level": [
+     21,
+     23
+    ],
+    "weight": 25
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_thornwood_revival.json zone tr_crystal_grass (grass (crystal-lit))",
+  "band": "wild 20-24, trainers 21-25"
+ },
+ "route_revival_saltmere_grass": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "sailquill",
+    "level": [
+     26,
+     29
+    ],
+    "weight": 30
+   },
+   {
+    "species": "spraytern",
+    "level": [
+     26,
+     29
+    ],
+    "weight": 20
+   },
+   {
+    "species": "chiselbug",
+    "level": [
+     26,
+     29
+    ],
+    "weight": 20
+   },
+   {
+    "species": "glarekit",
+    "level": [
+     26,
+     28
+    ],
+    "weight": 15
+   },
+   {
+    "species": "gloamtick",
+    "level": [
+     27,
+     29
+    ],
+    "weight": 15,
+    "time": [
+     "dusk",
+     "night"
+    ]
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_revival_saltmere.json zone rs_grass (grass)",
+  "band": "wild 26-29, trainers 27-30"
+ },
+ "frostspire_pass_grass": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "sailquill",
+    "level": [
+     27,
+     31
+    ],
+    "weight": 30
+   },
+   {
+    "species": "snowgrouse",
+    "level": [
+     27,
+     31
+    ],
+    "weight": 30
+   },
+   {
+    "species": "delvelet",
+    "level": [
+     27,
+     30
+    ],
+    "weight": 15
+   },
+   {
+    "species": "gloamtick",
+    "level": [
+     28,
+     31
+    ],
+    "weight": 10,
+    "time": [
+     "dusk",
+     "night"
+    ]
+   },
+   {
+    "species": "signalwren",
+    "level": [
+     28,
+     31
+    ],
+    "weight": 15
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_greystone_frostspire.json zone fp_snowfern (grass (snow-fern, forced band))",
+  "band": "wild 27-31, trainers 28-31, Ron 4 L32"
+ },
+ "frostspire_grass": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "skyrender",
+    "level": [
+     29,
+     33
+    ],
+    "weight": 35
+   },
+   {
+    "species": "sailquill",
+    "level": [
+     29,
+     33
+    ],
+    "weight": 25
+   },
+   {
+    "species": "signalwren",
+    "level": [
+     30,
+     33
+    ],
+    "weight": 20
+   },
+   {
+    "species": "halovy",
+    "level": [
+     31,
+     33
+    ],
+    "weight": 5,
+    "time": [
+     "dawn"
+    ]
+   },
+   {
+    "species": "snowroller",
+    "level": [
+     29,
+     32
+    ],
+    "weight": 15
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_frostspire.json zone fs_snow (grass (deep snow))",
+  "band": "wild 29-33, trainers 30-33; hall see halls/frostspire.json"
+ },
+ "frostspire_cave": {
+  "method": "cave",
+  "rate": 0.05,
+  "slots": [
+   {
+    "species": "gloamtick",
+    "level": [
+     30,
+     33
+    ],
+    "weight": 40
+   },
+   {
+    "species": "mantleox",
+    "level": [
+     31,
+     33
+    ],
+    "weight": 25
+   },
+   {
+    "species": "squallwhirl",
+    "level": [
+     30,
+     32
+    ],
+    "weight": 35
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_frostspire.json zone fs_ice_cave (cave)",
+  "band": "wild 29-33, trainers 30-33; hall see halls/frostspire.json"
+ },
+ "route_revival_sunmeadow_grass": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "northling",
+    "level": [
+     31,
+     34
+    ],
+    "weight": 40
+   },
+   {
+    "species": "halovy",
+    "level": [
+     32,
+     34
+    ],
+    "weight": 20
+   },
+   {
+    "species": "snowmuff",
+    "level": [
+     31,
+     34
+    ],
+    "weight": 20
+   },
+   {
+    "species": "glyphmage",
+    "level": [
+     33,
+     34
+    ],
+    "weight": 5,
+    "time": [
+     "night"
+    ]
+   },
+   {
+    "species": "sailquill",
+    "level": [
+     31,
+     34
+    ],
+    "weight": 15,
+    "time": [
+     "dawn",
+     "day",
+     "dusk"
+    ]
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_revival_sunmeadow.json zone rsf_crystal (grass (crystal-lit))",
+  "band": "wild 31-34, trainers 32-34"
+ },
+ "sunmeadow_fields_grass": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "sailquill",
+    "level": [
+     30,
+     34
+    ],
+    "weight": 25
+   },
+   {
+    "species": "glisterdew",
+    "level": [
+     30,
+     34
+    ],
+    "weight": 25
+   },
+   {
+    "species": "burlbeetle",
+    "level": [
+     30,
+     33
+    ],
+    "weight": 15
+   },
+   {
+    "species": "snowmuff",
+    "level": [
+     31,
+     34
+    ],
+    "weight": 15
+   },
+   {
+    "species": "halovy",
+    "level": [
+     32,
+     34
+    ],
+    "weight": 8,
+    "time": [
+     "dawn"
+    ]
+   },
+   {
+    "species": "gloamtick",
+    "level": [
+     31,
+     34
+    ],
+    "weight": 12,
+    "time": [
+     "dusk",
+     "night"
+    ]
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_sunmeadow_fields.json zone smf_meadow (grass)",
+  "band": "wild 30-34, trainers 31-35"
+ },
+ "sunmeadow_fields_water": {
+  "method": "water (Tideglide)",
+  "rate": 0.0667,
+  "slots": [
+   {
+    "species": "dewbell",
+    "level": [
+     30,
+     34
+    ],
+    "weight": 60
+   },
+   {
+    "species": "floepaddle",
+    "level": [
+     28,
+     30
+    ],
+    "weight": 30
+   },
+   {
+    "species": "bulwarkrab",
+    "level": [
+     34,
+     35
+    ],
+    "weight": 10
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_sunmeadow_fields.json zone smf_stream (water (Tideglide))",
+  "band": "wild 30-34, trainers 31-35"
+ },
+ "route_sunmeadow_mirefen_grass": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "frostweevil",
+    "level": [
+     32,
+     35
+    ],
+    "weight": 30
+   },
+   {
+    "species": "eftwarden",
+    "level": [
+     32,
+     35
+    ],
+    "weight": 25
+   },
+   {
+    "species": "burlbeetle",
+    "level": [
+     32,
+     35
+    ],
+    "weight": 15
+   },
+   {
+    "species": "gloamtick",
+    "level": [
+     33,
+     35
+    ],
+    "weight": 15,
+    "time": [
+     "dusk",
+     "night"
+    ]
+   },
+   {
+    "species": "sailquill",
+    "level": [
+     32,
+     35
+    ],
+    "weight": 15,
+    "time": [
+     "dawn",
+     "day",
+     "dusk"
+    ]
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_sunmeadow_mirefen.json zone smm_reeds (grass (reeds))",
+  "band": "wild 32-35, trainers 33-36"
+ },
+ "route_saltmere_mirefen_grass": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "frostweevil",
+    "level": [
+     32,
+     35
+    ],
+    "weight": 30
+   },
+   {
+    "species": "bulwarkrab",
+    "level": [
+     32,
+     35
+    ],
+    "weight": 25
+   },
+   {
+    "species": "reedmoot",
+    "level": [
+     32,
+     35
+    ],
+    "weight": 20
+   },
+   {
+    "species": "sailquill",
+    "level": [
+     32,
+     35
+    ],
+    "weight": 15,
+    "time": [
+     "dawn",
+     "day",
+     "dusk"
+    ]
+   },
+   {
+    "species": "gloamtick",
+    "level": [
+     33,
+     35
+    ],
+    "weight": 10,
+    "time": [
+     "dusk",
+     "night"
+    ]
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_saltmere_mirefen.json zone sme_marsh (grass (salt marsh))",
+  "band": "wild 32-35, trainers 33-35"
+ },
+ "route_saltmere_mirefen_water": {
+  "method": "water (Tideglide)",
+  "rate": 0.0667,
+  "slots": [
+   {
+    "species": "spraytern",
+    "level": [
+     32,
+     36
+    ],
+    "weight": 50
+   },
+   {
+    "species": "paleminnow",
+    "level": [
+     32,
+     35
+    ],
+    "weight": 30
+   },
+   {
+    "species": "brineseal",
+    "level": [
+     35,
+     36
+    ],
+    "weight": 20
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_saltmere_mirefen.json zone sme_channel (water (Tideglide))",
+  "band": "wild 32-35, trainers 33-35"
+ },
+ "route_coast_grass": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "sailquill",
+    "level": [
+     38,
+     42
+    ],
+    "weight": 30
+   },
+   {
+    "species": "spraytern",
+    "level": [
+     38,
+     42
+    ],
+    "weight": 25
+   },
+   {
+    "species": "parasoleaf",
+    "level": [
+     38,
+     41
+    ],
+    "weight": 20,
+    "weather": [
+     "storm"
+    ]
+   },
+   {
+    "species": "burlbeetle",
+    "level": [
+     38,
+     41
+    ],
+    "weight": 10
+   },
+   {
+    "species": "gloamtick",
+    "level": [
+     39,
+     42
+    ],
+    "weight": 15,
+    "time": [
+     "dusk",
+     "night"
+    ]
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_brookhollow_tidewater.json zone ct_dune (grass (dune))",
+  "band": "wild 38-42, trainers 39-43"
+ },
+ "route_coast_water": {
+  "method": "water (Tideglide)",
+  "rate": 0.0667,
+  "slots": [
+   {
+    "species": "peatbellow",
+    "level": [
+     36,
+     40
+    ],
+    "weight": 30
+   },
+   {
+    "species": "mirejaw",
+    "level": [
+     38,
+     42
+    ],
+    "weight": 35
+   },
+   {
+    "species": "drenchcrab",
+    "level": [
+     38,
+     42
+    ],
+    "weight": 25
+   },
+   {
+    "species": "tuskwallow",
+    "level": [
+     41,
+     43
+    ],
+    "weight": 10
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_brookhollow_tidewater.json zone ct_flood (water (Tideglide, floodwater))",
+  "band": "wild 38-42, trainers 39-43"
+ },
+ "tidewater_coast_grass": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "sailquill",
+    "level": [
+     40,
+     44
+    ],
+    "weight": 35
+   },
+   {
+    "species": "nudiblume",
+    "level": [
+     40,
+     44
+    ],
+    "weight": 30
+   },
+   {
+    "species": "burlbeetle",
+    "level": [
+     40,
+     43
+    ],
+    "weight": 10
+   },
+   {
+    "species": "gloamtick",
+    "level": [
+     41,
+     44
+    ],
+    "weight": 15,
+    "time": [
+     "dusk",
+     "night"
+    ]
+   },
+   {
+    "species": "halovy",
+    "level": [
+     43,
+     44
+    ],
+    "weight": 10,
+    "time": [
+     "dawn"
+    ]
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_tidewater_coast.json zone tc_dune (grass (dune))",
+  "band": "wild 40-45, trainers 41-45; hall see halls/tidewater_coast.json"
+ },
+ "tidewater_coast_water": {
+  "method": "water (Tideglide)",
+  "rate": 0.0667,
+  "slots": [
+   {
+    "species": "barnaclump",
+    "level": [
+     40,
+     45
+    ],
+    "weight": 55
+   },
+   {
+    "species": "hullwhale",
+    "level": [
+     42,
+     45
+    ],
+    "weight": 25
+   },
+   {
+    "species": "wavelin",
+    "level": [
+     40,
+     44
+    ],
+    "weight": 20
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_tidewater_coast.json zone tc_sea (water (Tideglide, sea lane))",
+  "band": "wild 40-45, trainers 41-45; hall see halls/tidewater_coast.json"
+ },
+ "tidewater_coast_cave": {
+  "method": "cave",
+  "rate": 0.05,
+  "slots": [
+   {
+    "species": "gloamtick",
+    "level": [
+     41,
+     45
+    ],
+    "weight": 40
+   },
+   {
+    "species": "pearlisk",
+    "level": [
+     41,
+     45
+    ],
+    "weight": 40
+   },
+   {
+    "species": "runeskein",
+    "level": [
+     44,
+     45
+    ],
+    "weight": 20,
+    "time": [
+     "night"
+    ]
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_tidewater_coast.json zone tc_grotto (cave)",
+  "band": "wild 40-45, trainers 41-45; hall see halls/tidewater_coast.json"
+ },
+ "lanternport_water": {
+  "method": "water (Tideglide)",
+  "rate": 0.0667,
+  "slots": [
+   {
+    "species": "mooncrab",
+    "level": [
+     42,
+     46
+    ],
+    "weight": 60
+   },
+   {
+    "species": "seaglint",
+    "level": [
+     43,
+     46
+    ],
+    "weight": 25
+   },
+   {
+    "species": "reefshell",
+    "level": [
+     42,
+     45
+    ],
+    "weight": 15
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_lanternport.json zone lp_harbour (water (Tideglide))",
+  "band": "Ron 5 L47; hall see halls/lanternport.json"
+ },
+ "route_fernwick_lanternport_grass": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "driftknot",
+    "level": [
+     44,
+     47
+    ],
+    "weight": 30
+   },
+   {
+    "species": "shorehound",
+    "level": [
+     44,
+     47
+    ],
+    "weight": 20
+   },
+   {
+    "species": "sailquill",
+    "level": [
+     44,
+     47
+    ],
+    "weight": 20,
+    "time": [
+     "dawn",
+     "day",
+     "dusk"
+    ]
+   },
+   {
+    "species": "gloamtick",
+    "level": [
+     44,
+     47
+    ],
+    "weight": 20,
+    "time": [
+     "dusk",
+     "night"
+    ]
+   },
+   {
+    "species": "halovy",
+    "level": [
+     46,
+     47
+    ],
+    "weight": 10,
+    "time": [
+     "dawn"
+    ]
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_fernwick_lanternport.json zone fl_grass (grass)",
+  "band": "wild 44-47, trainers 45-47"
+ },
+ "route_fernwick_lanternport_water": {
+  "method": "water (Tideglide)",
+  "rate": 0.0667,
+  "slots": [
+   {
+    "species": "sluicekin",
+    "level": [
+     44,
+     47
+    ],
+    "weight": 50
+   },
+   {
+    "species": "reefshell",
+    "level": [
+     40,
+     44
+    ],
+    "weight": 30
+   },
+   {
+    "species": "seaglint",
+    "level": [
+     46,
+     47
+    ],
+    "weight": 20
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_fernwick_lanternport.json zone fl_canal (water (Tideglide))",
+  "band": "wild 44-47, trainers 45-47"
+ },
+ "route_cindervale_grass": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "slagrook",
+    "level": [
+     46,
+     50
+    ],
+    "weight": 30
+   },
+   {
+    "species": "obsidiax",
+    "level": [
+     46,
+     50
+    ],
+    "weight": 25
+   },
+   {
+    "species": "brimtoad",
+    "level": [
+     46,
+     50
+    ],
+    "weight": 15
+   },
+   {
+    "species": "pumicepuff",
+    "level": [
+     47,
+     50
+    ],
+    "weight": 15
+   },
+   {
+    "species": "gloamtick",
+    "level": [
+     47,
+     50
+    ],
+    "weight": 15,
+    "time": [
+     "dusk",
+     "night"
+    ]
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_aurelith_cindervale.json zone ac_ash (grass (ash grass))",
+  "band": "wild 46-50, trainers 47-51"
+ },
+ "route_cindervale_cave": {
+  "method": "cave",
+  "rate": 0.05,
+  "slots": [
+   {
+    "species": "slagrook",
+    "level": [
+     47,
+     50
+    ],
+    "weight": 40
+   },
+   {
+    "species": "pumicepuff",
+    "level": [
+     47,
+     50
+    ],
+    "weight": 40
+   },
+   {
+    "species": "pharolith",
+    "level": [
+     50,
+     50
+    ],
+    "weight": 5
+   },
+   {
+    "species": "sunbasilisk",
+    "level": [
+     47,
+     50
+    ],
+    "weight": 15
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_aurelith_cindervale.json zone ac_tube (cave (lava tube))",
+  "band": "wild 46-50, trainers 47-51"
+ },
+ "route_east_reeds": {
+  "method": "grass",
+  "rate": 0.0833,
+  "slots": [
+   {
+    "species": "spinelet",
+    "level": [
+     12,
+     15
+    ],
+    "weight": 25
+   },
+   {
+    "species": "sailquill",
+    "level": [
+     12,
+     16
+    ],
+    "weight": 25
+   },
+   {
+    "species": "burlbeetle",
+    "level": [
+     12,
+     15
+    ],
+    "weight": 20
+   },
+   {
+    "species": "gloamtick",
+    "level": [
+     13,
+     16
+    ],
+    "weight": 15,
+    "time": [
+     "dusk",
+     "night"
+    ]
+   },
+   {
+    "species": "foalgust",
+    "level": [
+     12,
+     15
+    ],
+    "weight": 10
+   },
+   {
+    "species": "halovy",
+    "level": [
+     15,
+     16
+    ],
+    "weight": 5,
+    "time": [
+     "dawn"
+    ]
+   }
+  ],
+  "source": "Game dev design/overnight_gd/encounters_route_brookhollow_aurelith.json zone re_grass (grass) (copied for this strip)",
+  "band": "wild 12-16, trainers 13-17"
+ }
+}

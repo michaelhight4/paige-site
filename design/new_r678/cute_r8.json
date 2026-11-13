@@ -1,0 +1,234 @@
+{
+ "_meta": {
+  "set": "cute_r8",
+  "region": 8,
+  "note": "Cute set for region 8 (Cindervale). DESIGN ONLY, not built. 2 rare + 4 uncommon. All single-stage except Emberkip, the cute base of the 3-stage Emberkip > Flarekite (Lv 62) > Pyrevane (Lv 68) line (Gary, Oct 31 2026); Flarekite and Pyrevane live in NEW_35, not here.",
+  "hold_from_encounters": true,
+  "dex_no": "unassigned until Gary/World Design slot them",
+  "wild": {
+   "why": "Proposed region 8 zones",
+   "zone": "cindervale",
+   "slots": [
+    {
+     "species": "ashbun",
+     "level": [
+      58,
+      61
+     ],
+     "weight": 4,
+     "zone": "route_cindervale"
+    },
+    {
+     "species": "pumicub",
+     "level": [
+      58,
+      61
+     ],
+     "weight": 4,
+     "zone": "cindervale"
+    },
+    {
+     "species": "emberkip",
+     "level": [
+      58,
+      61
+     ],
+     "weight": 2,
+     "zone": "cindervale_road"
+    },
+    {
+     "species": "smoglet",
+     "level": [
+      58,
+      61
+     ],
+     "weight": 4,
+     "zone": "route_cindervale"
+    },
+    {
+     "species": "geysquirt",
+     "level": [
+      58,
+      61
+     ],
+     "weight": 4,
+     "zone": "cindervale"
+    },
+    {
+     "species": "cinderpip",
+     "level": [
+      65,
+      68
+     ],
+     "weight": 2,
+     "zone": "cindervale_road"
+    }
+   ]
+  }
+ },
+ "creatures": [
+  {
+   "id": "ashbun",
+   "name": "Ashbun",
+   "types": [
+    "fire"
+   ],
+   "first_zone": "route_cindervale",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "route_cindervale",
+   "visual_brief": "Rabbit kit with ash-grey fluff and ember-tipped ears that glow when it is happy. Palette: ash grey, ember orange, charcoal, violet. Crystal: violet crystal between its ears.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "ashbun"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Dust-bathes in warm ash and sneezes little sparks.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "id": "pumicub",
+   "name": "Pumicub",
+   "types": [
+    "earth",
+    "magma"
+   ],
+   "first_zone": "cindervale",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "cindervale",
+   "visual_brief": "Round bear cub made of light pumice stone, holes all over, floats in hot springs. Palette: pumice beige, warm grey, lava orange, violet. Crystal: violet crystal on its tummy.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "pumicub"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Bobs in the hot springs and refuses to get out.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "id": "emberkip",
+   "name": "Emberkip",
+   "types": [
+    "fire",
+    "bird"
+   ],
+   "first_zone": "cindervale_road",
+   "rarity": "rare",
+   "size_class": "small",
+   "habitat": "cindervale_road",
+   "visual_brief": "Fluffy chick whose down is soft flame-orange, tiny coal beak, tail like a struck match. Palette: flame orange, yellow, soot black, violet. Crystal: violet crystal on its head tuft.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 3,
+    "line": [
+     "emberkip",
+     "flarekite",
+     "pyrevane"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": "flarekite"
+   },
+   "flavour": "Warms eggs in cold nests for any bird that asks.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "id": "smoglet",
+   "name": "Smoglet",
+   "types": [
+    "dark",
+    "fire"
+   ],
+   "first_zone": "route_cindervale",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "route_cindervale",
+   "visual_brief": "Chubby velvet mole pup, soot black with big pink digging paws, a glowing ember-red nose and smoke curling off its back. Palette: soot black, pink, ember red, smoke grey, violet. Crystal: violet crystal on top of its head.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "smoglet"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Tunnels up through warm chimneys and pops out covered in soot.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "id": "geysquirt",
+   "name": "Geysquirt",
+   "types": [
+    "water",
+    "magma"
+   ],
+   "first_zone": "cindervale",
+   "rarity": "uncommon",
+   "size_class": "small",
+   "habitat": "cindervale",
+   "visual_brief": "Small long-tailed newt with a blowhole on its back that puffs steam, cream mineral-crust spots. Palette: terracotta, clay red, cream, steam white, violet. Crystal: violet crystal on its tail.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "geysquirt"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Spouts steam to say hello and to say goodbye.",
+   "existing_art": false,
+   "status": "draft"
+  },
+  {
+   "id": "cinderpip",
+   "name": "Cinderpip",
+   "types": [
+    "fire",
+    "earth"
+   ],
+   "first_zone": "cindervale_road",
+   "rarity": "rare",
+   "size_class": "small",
+   "habitat": "cindervale_road",
+   "visual_brief": "Tiny armadillo with cooled-lava shell bands showing glowing cracks, curls into a warm ball. Palette: basalt black, lava glow, rust, violet. Crystal: violet crystal at the shell peak.",
+   "dex_no": null,
+   "evolution": {
+    "stage": 1,
+    "line_length": 1,
+    "line": [
+     "cinderpip"
+    ],
+    "evolves_from": null,
+    "method": null,
+    "evolves_to": null
+   },
+   "flavour": "Miners carry one in winter as a hand warmer.",
+   "existing_art": false,
+   "status": "draft"
+  }
+ ]
+}

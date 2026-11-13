@@ -1,0 +1,55 @@
+{
+ "errors": [],
+ "shots": [
+  "pc_1_saltmere.png",
+  "pc_2_hall.png",
+  "pc_3_master2_battle.png",
+  "pc_4_rt_perks.png",
+  "phone_1_saltmere.png",
+  "phone_2_hall.png",
+  "phone_3_master2_battle.png",
+  "phone_4_rt_perks.png"
+ ],
+ "checks": [
+  {
+   "plat": "pc",
+   "what": "saltmere map",
+   "ok": true
+  },
+  {
+   "plat": "pc",
+   "what": "hall map",
+   "ok": true
+  },
+  {
+   "plat": "pc",
+   "what": "RT region 2 (cap 6)",
+   "ok": true
+  },
+  {
+   "plat": "pc",
+   "what": "Master 2 battle opens",
+   "ok": true
+  },
+  {
+   "plat": "phone",
+   "what": "saltmere map",
+   "ok": true
+  },
+  {
+   "plat": "phone",
+   "what": "hall map",
+   "ok": true
+  },
+  {
+   "plat": "phone",
+   "what": "RT region 2 (cap 6)",
+   "ok": true
+  },
+  {
+   "plat": "phone",
+   "what": "Master 2 battle opens",
+   "ok": true
+  }
+ ]
+}

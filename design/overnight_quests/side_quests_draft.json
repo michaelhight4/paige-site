@@ -1,0 +1,3794 @@
+{
+  "_meta": {
+    "version": "0.1-draft",
+    "status": "DRAFT",
+    "written": "2026-10-23",
+    "notes": "Side quests only (type 'side'). Format follows design/overnight_quests/SCHEMA.md. Nothing here is wired into the game. Lines are quest dialogue only; existing Text Bot lines are mirrored word for word where a quest reuses them (marked in notes). Zone 'order' values assume main orders 10,20,30... in play order (brookhollow 10, route1 20, fernwick 30, thornwood 40, greystone_caverns 50, saltmere 60, revival_heights 70, frostspire 80, sunmeadow_fields 85, mirefen 90, tidewater_coast 100, lanternport 110, cindervale 120, aurelith 130); re-key if the main draft uses different numbers."
+  },
+  "quests": [
+    {
+      "id": "sq_bean_thief",
+      "title": "The Bean Thief",
+      "type": "side",
+      "zone": "brookhollow",
+      "order": 11,
+      "map_status": "built",
+      "giver": {
+        "npc": "villager_garden",
+        "map": "brookhollow"
+      },
+      "prerequisites": [
+        "got_starter"
+      ],
+      "steps": [
+        {
+          "id": "sq_bean_thief_s1",
+          "desc": "Talk to the gardener about the eaten beans.",
+          "map": "brookhollow",
+          "at": {
+            "x": 18,
+            "y": 13
+          },
+          "sets_flag": "sq_bean_thief_start",
+          "condition": null
+        },
+        {
+          "id": "sq_bean_thief_s2",
+          "desc": "Stake out the bean rows at Night and spot the culprit (a Tumbloam).",
+          "map": "brookhollow",
+          "at": null,
+          "sets_flag": "sq_bean_thief_seen",
+          "condition": "phase == Night"
+        },
+        {
+          "id": "sq_bean_thief_s3",
+          "desc": "Leave Trail Mix at the end of the row so the Tumbloam has its own snack.",
+          "map": "brookhollow",
+          "at": null,
+          "sets_flag": "sq_bean_thief_fed",
+          "condition": "has_item trail_mix"
+        },
+        {
+          "id": "sq_bean_thief_s4",
+          "desc": "Tell the gardener.",
+          "map": "brookhollow",
+          "at": {
+            "x": 18,
+            "y": 13
+          },
+          "sets_flag": "sq_bean_thief_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "watering_can",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_bean_thief_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "villager_garden",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Something's eating my beans. Neat little bites, every night.",
+            "Sit up tonight and catch the culprit? Gently. It's probably small."
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_bean_thief_s2",
+          "text": [
+            "A little ball-shaped creature rolls between the bean rows.",
+            "It's a Tumbloam, nibbling very politely."
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_bean_thief_s3",
+          "text": [
+            "You leave some Trail Mix at the end of the row.",
+            "The Tumbloam rolls over to it. Fair trade."
+          ]
+        },
+        {
+          "npc": "villager_garden",
+          "context": "in_progress",
+          "step": null,
+          "text": [
+            "Night's when it comes. Bring a snack. It's only hungry, not bad."
+          ]
+        },
+        {
+          "npc": "villager_garden",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "A Tumbloam! I knew it. Polite little thief.",
+            "Here, my old watering can. Grow something of your own."
+          ]
+        }
+      ],
+      "notes": [
+        "Builds on the gardener's existing default line (beans eaten, 'Probably a Tumbloam'). Feeds the SOUL_PLAYBOOK 1.5 garden: 'the garden NPC gives [the watering can] after a small favour'.",
+        "World to pick the bean-row tile near villager_garden (18,13); 'at' left null.",
+        "Trail Mix sources already on the map: brookhollow bh_north_trees (13,2), route1 r1_tree_gap (17,13)."
+      ],
+      "new_ids": [
+        "sq_bean_thief_start",
+        "sq_bean_thief_seen",
+        "sq_bean_thief_fed",
+        "sq_bean_thief_done",
+        "watering_can (item)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_first_five",
+      "title": "Meet Five",
+      "type": "side",
+      "zone": "brookhollow",
+      "order": 12,
+      "map_status": "built",
+      "giver": {
+        "npc": "lab_brookhollow_aide",
+        "map": "lab_brookhollow"
+      },
+      "prerequisites": [
+        "got_starter"
+      ],
+      "steps": [
+        {
+          "id": "sq_first_five_s1",
+          "desc": "Get the aide's tip: meet five different creatures.",
+          "map": "lab_brookhollow",
+          "at": null,
+          "sets_flag": "sq_first_five_start",
+          "condition": null
+        },
+        {
+          "id": "sq_first_five_s2",
+          "desc": "Meet five different species (seen, not caught) in the Kilindex.",
+          "map": "route1",
+          "at": null,
+          "sets_flag": "sq_first_five_met",
+          "condition": "kilindex_seen >= 5"
+        },
+        {
+          "id": "sq_first_five_s3",
+          "desc": "Report back to the aide.",
+          "map": "lab_brookhollow",
+          "at": null,
+          "sets_flag": "sq_first_five_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "dominance_crystal",
+            "qty": 3
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_first_five_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "lab_brookhollow_aide",
+          "context": "start",
+          "step": null,
+          "text": [
+            "First field lesson: meet five different creatures.",
+            "Not catch. Meet. Then come tell me about them."
+          ]
+        },
+        {
+          "npc": "lab_brookhollow_aide",
+          "context": "in_progress",
+          "step": null,
+          "text": [
+            "Grass, water, trees. They're all out there, hiding badly."
+          ]
+        },
+        {
+          "npc": "lab_brookhollow_aide",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Five! And you didn't skip the boring ones.",
+            "Here, three crystals. Company issue. Meet first, then decide."
+          ]
+        }
+      ],
+      "notes": [
+        "Follows the aide's existing tip line ('the Kilindex logs every creature you meet... Meet everything. Write it down.').",
+        "Condition needs a Kilindex seen-count hook from Coder."
+      ],
+      "new_ids": [
+        "sq_first_five_start",
+        "sq_first_five_met",
+        "sq_first_five_done"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_fisher_fly",
+      "title": "A Fly for the Fisher",
+      "type": "side",
+      "zone": "brookhollow",
+      "order": 13,
+      "map_status": "built",
+      "giver": {
+        "npc": "fisher",
+        "map": "brookhollow"
+      },
+      "prerequisites": [
+        "flg_promoted"
+      ],
+      "steps": [
+        {
+          "id": "sq_fisher_fly_s1",
+          "desc": "Hear the fisher out: the river's too low for his old lures.",
+          "map": "brookhollow",
+          "at": {
+            "x": 21,
+            "y": 17
+          },
+          "sets_flag": "sq_fisher_fly_start",
+          "condition": null
+        },
+        {
+          "id": "sq_fisher_fly_s2",
+          "desc": "Ask the fly-tier in Fernwick for a hand-tied fly.",
+          "map": "home_fernwick_c",
+          "at": null,
+          "sets_flag": "sq_fisher_fly_got",
+          "condition": null
+        },
+        {
+          "id": "sq_fisher_fly_s3",
+          "desc": "Bring the fly back to the fisher.",
+          "map": "brookhollow",
+          "at": {
+            "x": 21,
+            "y": 17
+          },
+          "sets_flag": "sq_fisher_fly_given",
+          "condition": null
+        },
+        {
+          "id": "sq_fisher_fly_s4",
+          "desc": "Meet him on the bridge at Dusk to see it work.",
+          "map": "brookhollow",
+          "at": {
+            "x": 23,
+            "y": 13
+          },
+          "sets_flag": "sq_fisher_fly_done",
+          "condition": "phase == Dusk"
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "feed_bag",
+            "qty": 1
+          }
+        ],
+        "money": 200,
+        "flags": [
+          "sq_fisher_fly_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "fisher",
+          "context": "start",
+          "step": null,
+          "text": [
+            "River's too low for my old lures. Need something smaller.",
+            "Fella in Fernwick ties flies. Ask him for one?"
+          ]
+        },
+        {
+          "npc": "home_fernwick_c_hobbyist",
+          "context": "step",
+          "step": "sq_fisher_fly_s2",
+          "text": [
+            "A fly for the Brookhollow fisher? Twelve years, and finally a customer.",
+            "Take this one. It's the easy knot. My best knot."
+          ]
+        },
+        {
+          "npc": "fisher",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Hand-tied. Look at that.",
+            "Come to the bridge at dusk. I'll show you how it's done."
+          ]
+        },
+        {
+          "npc": "fisher",
+          "context": "step",
+          "step": "sq_fisher_fly_s4",
+          "text": [
+            "Caught nothing. Best evening I've had all year.",
+            "Tell him the fly works. It's not a lie, exactly."
+          ]
+        }
+      ],
+      "notes": [
+        "Uses the fisher's Dusk move to the bridge (23,13) from SOUL_PLAYBOOK 2.2 (schedule system not built yet).",
+        "Pairs two existing jokes: the fisher's low river and the hobbyist who has 'caught one fish'. No surveyor/field-team talk in quest lines."
+      ],
+      "new_ids": [
+        "sq_fisher_fly_start",
+        "sq_fisher_fly_got",
+        "sq_fisher_fly_given",
+        "sq_fisher_fly_done",
+        "hand_tied_fly (key item)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_bin_day",
+      "title": "Bin Day Is Tomorrow",
+      "type": "side",
+      "zone": "brookhollow",
+      "order": 14,
+      "map_status": "built",
+      "giver": {
+        "npc": "prop:bin_ron",
+        "map": "brookhollow"
+      },
+      "prerequisites": [
+        "flg_promoted"
+      ],
+      "steps": [
+        {
+          "id": "sq_bin_day_s1",
+          "desc": "Inspect Ron's bin by the front door. Bin day is 'tomorrow'.",
+          "map": "brookhollow",
+          "at": {
+            "x": 7,
+            "y": 8
+          },
+          "sets_flag": "sq_bin_day_seen",
+          "condition": null
+        },
+        {
+          "id": "sq_bin_day_s2",
+          "desc": "After each Master coin one more bag appears (up to 8; flies from bag 6). Text Bot's bin_1..bin_8 lines play; nothing to do.",
+          "map": "brookhollow",
+          "at": {
+            "x": 7,
+            "y": 8
+          },
+          "sets_flag": "sq_bin_day_bag_8",
+          "condition": "all_badges"
+        },
+        {
+          "id": "sq_bin_day_s3",
+          "desc": "Between coin 8 and the finale, inspect the full bin: E5 Bin Monument. 8 more presses and a Mirewump pops out (rare catch).",
+          "map": "brookhollow",
+          "at": {
+            "x": 7,
+            "y": 8
+          },
+          "sets_flag": "sq_bin_monument",
+          "condition": "all_badges && !finale_done"
+        },
+        {
+          "id": "sq_bin_day_s4",
+          "desc": "After the finale, Ron takes the bags out: last overworld beat before the credits.",
+          "map": "brookhollow",
+          "at": {
+            "x": 7,
+            "y": 8
+          },
+          "sets_flag": "sq_bin_day_done",
+          "condition": "finale_done"
+        }
+      ],
+      "reward": {
+        "items": [],
+        "money": 0,
+        "flags": [
+          "sq_bin_day_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_bin_day_s3",
+          "text": [
+            "This is no longer a bin. It is a landmark."
+          ]
+        },
+        {
+          "npc": "ron",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Told you. Tomorrow."
+          ]
+        }
+      ],
+      "notes": [
+        "Canon: STORY_RULINGS_SOUL #3 and SOUL_PLAYBOOK 2.3 / E5. Both lines above are quoted word for word from those rulings; Text Bot owns all other bin lines (bin_1..bin_8, bin_empty).",
+        "The payoff scene has no other dialogue (ruling). E5 is missable on purpose: after the finale the bin is empty.",
+        "Brief said this gag uses ron_in_party. Per STORY_RULINGS_CLUB, ron_in_party is the flag for Ron's one-time dance at The Firefly (Text Bot line club_int.rebel_dj ron_gag), not for the bins. The bins run on coin flags. Gary: confirm, or say if Ron should also comment on the bin when ron_in_party.",
+        "All steps are on built maps, but the later steps need all 8 coins (later zones) and the finale."
+      ],
+      "new_ids": [
+        "sq_bin_day_seen",
+        "sq_bin_day_bag_8",
+        "sq_bin_monument",
+        "sq_bin_day_done"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_dana",
+      "title": "Dana's Desk",
+      "type": "side",
+      "zone": "brookhollow",
+      "order": 15,
+      "map_status": "map pending",
+      "giver": {
+        "npc": "prop:dana_desk",
+        "map": "office_int"
+      },
+      "prerequisites": [
+        "flg_promoted"
+      ],
+      "steps": [
+        {
+          "id": "sq_dana_s1",
+          "desc": "Check Dana's cleared desk: a second sticky note in odd shorthand.",
+          "map": "office_int",
+          "at": null,
+          "sets_flag": "sq_dana_desk_note",
+          "condition": null
+        },
+        {
+          "id": "sq_dana_s2",
+          "desc": "Find Dana's unsent drafts in the company inbox (secret E3); they decode the shorthand.",
+          "map": "house_2f",
+          "at": null,
+          "sets_flag": "sq_dana_note",
+          "condition": null
+        },
+        {
+          "id": "sq_dana_s3",
+          "desc": "Find small scratched initials near the Greystone camp.",
+          "map": "greystone_b1",
+          "at": null,
+          "sets_flag": "sq_dana_greystone",
+          "condition": "camp_restored_greystone"
+        },
+        {
+          "id": "sq_dana_s4",
+          "desc": "Post-game: find Dana on Frostspire and battle her.",
+          "map": "frostspire",
+          "at": null,
+          "sets_flag": "sq_dana_met",
+          "condition": "finale_done"
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "dana_team_card",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_dana_met"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_dana_s1",
+          "text": [
+            "Under the 'soon' note there's another. Shorthand: 'FS. N face. Sat.'",
+            "Means nothing to you. Yet."
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_dana_s2",
+          "text": [
+            "Unsent draft from Dana. Subject: 'Going up.'",
+            "'Frostspire. North face. Don't wait for me.'"
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_dana_s3",
+          "text": [
+            "Scratched small into the rock: 'D. was here. Briefly.'"
+          ]
+        },
+        {
+          "npc": "dana",
+          "context": "step",
+          "step": "sq_dana_s4",
+          "text": [
+            "You found the note. Took you long enough.",
+            "I didn't vanish. I quit. Then I climbed. Fancy a match?"
+          ]
+        },
+        {
+          "npc": "dana",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Good fight. Here's my team card. Frame it or don't.",
+            "Tell the office I said hi. Actually, don't."
+          ]
+        }
+      ],
+      "notes": [
+        "SOUL_PLAYBOOK 8.5-B. Dana appears ONLY in the post-game Frostspire fight (Story Bot). She is not one of the four field-team members; she quit.",
+        "The shorthand decodes to a climbing trip, matching Text Bot's existing dana_gone_climbing desk line. Nothing about the field team's discovery.",
+        "OPEN for Gary/Story Bot: 8.5-B puts Dana's initials 'at a camp' in Greystone. That could hint Dana was with the field team. Draft keeps it vague ('Briefly.'); cut the step if it muddies 'she quit'.",
+        "Dana's sprite/NPC id 'dana' and the Frostspire spot are new."
+      ],
+      "new_ids": [
+        "sq_dana_desk_note",
+        "dana (npc)",
+        "dana_team_card (item)",
+        "frostspire (map)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_ron_job",
+      "title": "Ron's Other Job",
+      "type": "side",
+      "zone": "brookhollow",
+      "order": 16,
+      "map_status": "map pending",
+      "giver": {
+        "npc": "ron",
+        "map": "house_1f"
+      },
+      "prerequisites": [
+        "beat_master_saltmere"
+      ],
+      "steps": [
+        {
+          "id": "sq_ron_job_s1",
+          "desc": "Read Ron's CV on the house_1f table.",
+          "map": "house_1f",
+          "at": null,
+          "sets_flag": "sq_ron_cv",
+          "condition": null
+        },
+        {
+          "id": "sq_ron_job_s2",
+          "desc": "Ron mentions an interview at the Lumen Line (gag).",
+          "map": "station_int",
+          "at": null,
+          "sets_flag": "sq_ron_interview_1",
+          "condition": "ron_in_party"
+        },
+        {
+          "id": "sq_ron_job_s3",
+          "desc": "Ron mentions an interview at a Saltmere fishmonger (gag).",
+          "map": "saltmere",
+          "at": null,
+          "sets_flag": "sq_ron_interview_2",
+          "condition": "ron_in_party"
+        },
+        {
+          "id": "sq_ron_job_s4",
+          "desc": "After the Revival Heights layoff letter (main story), Ron says a short sincere line.",
+          "map": "revival_heights",
+          "at": null,
+          "sets_flag": "sq_ron_letter",
+          "condition": null
+        },
+        {
+          "id": "sq_ron_job_s5",
+          "desc": "Post-game: Nan Wexley hires Ron part-time at the Croft.",
+          "map": "sunmeadow_croft",
+          "at": null,
+          "sets_flag": "sq_ron_croft",
+          "condition": "finale_done"
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "ron_croft_apron",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_ron_croft"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_ron_job_s1",
+          "text": [
+            "Ron's CV. 'Skills: punctual (mostly), team player, bins.'",
+            "Someone has crossed out 'bins'."
+          ]
+        },
+        {
+          "npc": "ron",
+          "context": "step",
+          "step": "sq_ron_job_s2",
+          "text": [
+            "Lumen Line wanted a conductor. I said 'all aboard' too loud.",
+            "Apparently there's a right volume."
+          ]
+        },
+        {
+          "npc": "ron",
+          "context": "step",
+          "step": "sq_ron_job_s3",
+          "text": [
+            "Fishmonger job. I named every fish. They said that's 'a problem'."
+          ]
+        },
+        {
+          "npc": "ron",
+          "context": "step",
+          "step": "sq_ron_job_s4",
+          "text": [
+            "It's fine. It's just a letter.",
+            "Thanks for not saying anything. That helps, {nick}."
+          ]
+        },
+        {
+          "npc": "nan_wexley",
+          "context": "step",
+          "step": "sq_ron_job_s5",
+          "text": [
+            "Ron, is it? Can you carry feed without naming it?",
+            "...Fine. Name it. You start Monday."
+          ]
+        },
+        {
+          "npc": "ron",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Part-time, {nick}! Real job. They use names here."
+          ]
+        }
+      ],
+      "notes": [
+        "SOUL_PLAYBOOK 8.5-F. The letter scene itself is main story (Ron's music turns minor only there, STORY_RULINGS_SOUL #4); this quest only adds one quiet line after it. Main worker: merge or drop step 4 if your scene covers it.",
+        "Interview gags use ron_in_party as a condition; if Ron isn't travelling then, play them as phone texts instead.",
+        "Uses Croft NPC nan_wexley and map sunmeadow_croft (proposed ids in SOUL_PLAYBOOK 8.3, unbuilt).",
+        "Grouped under brookhollow because the giver (Ron, house_1f) is there; the quest runs from coin 2 to post-game."
+      ],
+      "new_ids": [
+        "sq_ron_interview_1",
+        "sq_ron_interview_2",
+        "ron_croft_apron (item)",
+        "nan_wexley (npc, proposed SP 8.3)",
+        "sunmeadow_croft (map, proposed SP 8.3)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_kid_joke",
+      "title": "The Kid's Last Joke",
+      "type": "side",
+      "zone": "brookhollow",
+      "order": 17,
+      "map_status": "built",
+      "giver": {
+        "npc": "kid",
+        "map": "brookhollow"
+      },
+      "prerequisites": [
+        "beat_master_revival"
+      ],
+      "steps": [
+        {
+          "id": "sq_kid_joke_s1",
+          "desc": "The kid's joke falls flat. His dad stopped laughing.",
+          "map": "brookhollow",
+          "at": {
+            "x": 12,
+            "y": 20
+          },
+          "sets_flag": "sq_kid_flat",
+          "condition": null
+        },
+        {
+          "id": "sq_kid_joke_s2",
+          "desc": "Visit the parent, who is reading job ads.",
+          "map": "home_fernwick_a",
+          "at": null,
+          "sets_flag": "sq_kid_ads",
+          "condition": null
+        },
+        {
+          "id": "sq_kid_joke_s3",
+          "desc": "Take a 'We're hiring Care Associates!' form from a heal-centre suggestion box.",
+          "map": "heal_brookhollow",
+          "at": null,
+          "sets_flag": "sq_kid_form",
+          "condition": null
+        },
+        {
+          "id": "sq_kid_joke_s4",
+          "desc": "Give the form to the parent.",
+          "map": "home_fernwick_a",
+          "at": null,
+          "sets_flag": "sq_kid_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "calm_tea",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_kid_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "kid",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Why did the crystal quit? ...I forget the rest.",
+            "Dad stopped laughing. He reads job ads at breakfast now."
+          ]
+        },
+        {
+          "npc": "home_fernwick_a_parent",
+          "context": "step",
+          "step": "sq_kid_joke_s2",
+          "text": [
+            "Job ads. 'Must love paperwork.' I do not love paperwork."
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_kid_joke_s3",
+          "text": [
+            "A flyer: 'We're hiring Care Associates!'",
+            "You take a form. Nobody stops you."
+          ]
+        },
+        {
+          "npc": "home_fernwick_a_parent",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Care Associate? Looking after creatures all day?",
+            "...I'd actually like that. Thanks."
+          ]
+        },
+        {
+          "npc": "kid",
+          "context": "after",
+          "step": null,
+          "text": [
+            "Why don't Tumbloams get lost? They always know which way is down.",
+            "Dad laughed. Twice."
+          ]
+        }
+      ],
+      "notes": [
+        "SOUL_PLAYBOOK 8.5-E. Its parent id 'parent_c in house_int_c, Fernwick warp (22,6)' is out of date: that warp now goes to home_fernwick_a, whose NPC is home_fernwick_a_parent. Used that here.",
+        "OPEN for Gary: 8.5-E puts the Brookhollow kid's parent in a Fernwick house, and the kid's own line says 'My mom says'. Keep the Fernwick parent, or move the parent to a Brookhollow home?",
+        "Result per 8.5-E: the parent later appears as a Care Associate at the Fernwick branch (needs a Coder/World swap). Form can come from either suggestion_box (heal_brookhollow or heal_fernwick)."
+      ],
+      "new_ids": [
+        "sq_kid_flat",
+        "sq_kid_form",
+        "rehire_form (key item)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_fork_regulars",
+      "title": "Fork Road Regulars",
+      "type": "side",
+      "zone": "route1",
+      "order": 21,
+      "map_status": "built",
+      "giver": {
+        "npc": "trainer_r1_b",
+        "map": "route1"
+      },
+      "prerequisites": [
+        "got_starter"
+      ],
+      "steps": [
+        {
+          "id": "sq_fork_regulars_s1",
+          "desc": "Beat trainer_r1_b; she dares you to beat the other two Route 1 trainers.",
+          "map": "route1",
+          "at": {
+            "x": 31,
+            "y": 13
+          },
+          "sets_flag": "beat_trainer_r1_b",
+          "condition": null
+        },
+        {
+          "id": "sq_fork_regulars_s2",
+          "desc": "Beat trainer_r1_a.",
+          "map": "route1",
+          "at": {
+            "x": 12,
+            "y": 20
+          },
+          "sets_flag": "beat_trainer_r1_a",
+          "condition": null
+        },
+        {
+          "id": "sq_fork_regulars_s3",
+          "desc": "Beat trainer_r1_c.",
+          "map": "route1",
+          "at": {
+            "x": 34,
+            "y": 9
+          },
+          "sets_flag": "beat_trainer_r1_c",
+          "condition": null
+        },
+        {
+          "id": "sq_fork_regulars_s4",
+          "desc": "Go back and gloat.",
+          "map": "route1",
+          "at": {
+            "x": 31,
+            "y": 13
+          },
+          "sets_flag": "sq_fork_regulars_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "trail_mix",
+            "qty": 2
+          },
+          {
+            "id": "tonic_small",
+            "qty": 1
+          }
+        ],
+        "money": 300,
+        "flags": [
+          "sq_fork_regulars_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "trainer_r1_b",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Not bad. The other two on this road think they're better than me.",
+            "Beat them both, then come back and gloat."
+          ]
+        },
+        {
+          "npc": "trainer_r1_b",
+          "context": "in_progress",
+          "step": null,
+          "text": [
+            "Still one left. I can see them from here, smirking."
+          ]
+        },
+        {
+          "npc": "trainer_r1_b",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Both of them? Ha! They'll never hear the end of it.",
+            "Trail Mix. Trainers' lunch. You earned it."
+          ]
+        }
+      ],
+      "notes": [
+        "Trainer-defeat flags don't exist yet; beat_trainer_r1_a/b/c are proposed. Use the engine's ids if Coder already has a pattern.",
+        "Hook for SOUL_PLAYBOOK 1.11 rematch calls: she can swap numbers here.",
+        "Gender of trainer_r1_b is not set anywhere; 'she' is a draft choice."
+      ],
+      "new_ids": [
+        "beat_trainer_r1_a",
+        "beat_trainer_r1_b",
+        "beat_trainer_r1_c",
+        "sq_fork_regulars_done"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_over_the_wall",
+      "title": "Over the Wall",
+      "type": "side",
+      "zone": "route1",
+      "order": 22,
+      "map_status": "map pending",
+      "giver": {
+        "npc": "trainer_r1_c",
+        "map": "route1"
+      },
+      "prerequisites": [
+        "got_starter"
+      ],
+      "steps": [
+        {
+          "id": "sq_over_the_wall_s1",
+          "desc": "trainer_r1_c wonders what's past the Sunmeadow shine.",
+          "map": "route1",
+          "at": {
+            "x": 34,
+            "y": 9
+          },
+          "sets_flag": "sq_over_the_wall_start",
+          "condition": null
+        },
+        {
+          "id": "sq_over_the_wall_s2",
+          "desc": "Once the barrier dims, pick a bloom in Sunmeadow Fields.",
+          "map": "sunmeadow_fields",
+          "at": null,
+          "sets_flag": "sq_over_the_wall_bloom",
+          "condition": "beat_master_frostspire"
+        },
+        {
+          "id": "sq_over_the_wall_s3",
+          "desc": "Bring it back to trainer_r1_c.",
+          "map": "route1",
+          "at": {
+            "x": 34,
+            "y": 9
+          },
+          "sets_flag": "sq_over_the_wall_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "energy_tonic",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_over_the_wall_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "trainer_r1_c",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Every day I stare at that shine. What's even over there?",
+            "If it ever opens, bring me something back. Anything."
+          ]
+        },
+        {
+          "npc": "trainer_r1_c",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "A flower. From the other side. It smells like... a flower.",
+            "Perfect. Have this Pep Remedy. Pricey stuff, so don't waste it."
+          ]
+        }
+      ],
+      "notes": [
+        "Builds on trainer_r1_c's existing line 'Sunmeadow's walled off, so you're getting me instead.'",
+        "The Route 1 barrier dims at beat_master_frostspire (progression.py).",
+        "Reward is one Pep Remedy (energy_tonic): expensive by design, so it's a late, single reward."
+      ],
+      "new_ids": [
+        "sq_over_the_wall_start",
+        "sq_over_the_wall_bloom",
+        "sq_over_the_wall_done",
+        "sunmeadow_bloom (key item)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_missing_note",
+      "title": "The Missing Note",
+      "type": "side",
+      "zone": "fernwick",
+      "order": 31,
+      "map_status": "map pending",
+      "giver": {
+        "npc": "rebel_dj",
+        "map": "club_int"
+      },
+      "prerequisites": [],
+      "steps": [
+        {
+          "id": "sq_missing_note_s1",
+          "desc": "Talk to the DJ at The Firefly (Dusk or Night). Four old records are missing.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "flg_missing_note_started",
+          "condition": "phase in (Dusk, Night)"
+        },
+        {
+          "id": "sq_missing_note_s2",
+          "desc": "Find an Old Record in Fernwick.",
+          "map": "fernwick",
+          "at": {
+            "x": 27,
+            "y": 5
+          },
+          "sets_flag": "item_fernwick_old_record",
+          "condition": null
+        },
+        {
+          "id": "sq_missing_note_s3",
+          "desc": "Find an Old Record in Thornwood.",
+          "map": "thornwood",
+          "at": {
+            "x": 5,
+            "y": 15
+          },
+          "sets_flag": "item_thornwood_old_record",
+          "condition": null
+        },
+        {
+          "id": "sq_missing_note_s4",
+          "desc": "Find an Old Record on Route 1.",
+          "map": "route1",
+          "at": {
+            "x": 20,
+            "y": 23
+          },
+          "sets_flag": "item_route1_old_record",
+          "condition": null
+        },
+        {
+          "id": "sq_missing_note_s5",
+          "desc": "Find the last Old Record in Lanternport (map pending).",
+          "map": "lanternport",
+          "at": null,
+          "sets_flag": "item_lanternport_old_record",
+          "condition": "beat_master_tidewater"
+        },
+        {
+          "id": "sq_missing_note_s6",
+          "desc": "Bring all four back to the DJ.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "flg_missing_note_done",
+          "condition": "flg_record_4 && phase in (Dusk, Night)"
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "firefly_lantern",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "flg_missing_note_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "rebel_dj",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Dreamed this tune years back. Five notes. I only ever get four.",
+            "Five notes, and the last one's gone. Reckon it's on an old record.",
+            "Four of mine went missing years back. Find them?"
+          ]
+        },
+        {
+          "npc": "rebel_dj",
+          "context": "step",
+          "step": "sq_missing_note_s2",
+          "text": [
+            "That's one! Hear that bassline? Always meant to be there."
+          ]
+        },
+        {
+          "npc": "rebel_dj",
+          "context": "step",
+          "step": "sq_missing_note_s3",
+          "text": [
+            "Two. Strings now. Starting to sound like a river."
+          ]
+        },
+        {
+          "npc": "rebel_dj",
+          "context": "step",
+          "step": "sq_missing_note_s4",
+          "text": [
+            "Three. Someone hummed this exact bit to me once. Odd."
+          ]
+        },
+        {
+          "npc": "rebel_dj",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Four. That's all of them. Let me stitch it together...",
+            "Take this firefly lantern. Warms up a room. Warms up a camp, too."
+          ]
+        },
+        {
+          "npc": "rebel_dj",
+          "context": "after",
+          "step": null,
+          "text": [
+            "Still missing one. It'll turn up."
+          ]
+        },
+        {
+          "npc": "rebel_dj",
+          "context": "after",
+          "step": null,
+          "text": [
+            "Last note turned up. Turns out the tune was always meant to end there."
+          ]
+        },
+        {
+          "npc": "rebel_patron_3",
+          "context": "after",
+          "step": null,
+          "text": [
+            "Now THAT I can dance to. Badly."
+          ]
+        }
+      ],
+      "notes": [
+        "ALL lines are Text Bot's existing club_int.rebel_dj / rebel_patron_3 lines, copied word for word (overworld_lines.json v0.4.9 and STORY_RULINGS_CLUB). Don't edit them here.",
+        "Records are map items 'old_record'. Any pickup sets the LOWEST unset flg_record_N, so the in-progress lines follow how many you've found, not which map. Step order is just a suggestion.",
+        "Record 1-3 lines are keyed to flg_record_1..3 (Text Bot). The step key on each line is only for readers.",
+        "Record 4 is held in Lanternport (map pending); condition beat_master_tidewater is a guess for when Lanternport opens.",
+        "Reward is lantern only (ruling). The DJ is asleep at dawn/day.",
+        "Text Bot gating: note_reward needs flg_record_4. note_close ('Still missing one') plays AFTER flg_missing_note_done: the fifth note of the dream is still missing. tune_finished ('Last note turned up...') plays at finale_done, and so does patron_3's 'Badly' line (Text Bot to confirm the patron gate).",
+        "Separate Text Bot gag, not part of the quest: rebel_dj ron_gag (ron_in_party, once).",
+        "NOT canon, so not in lines: any link between the tune and the field team or the Riverbank Stranger."
+      ],
+      "new_ids": [
+        "item_lanternport_old_record (pickup flag for the Lanternport map item)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_paint_job",
+      "title": "Mixing Colours",
+      "type": "side",
+      "zone": "fernwick",
+      "order": 32,
+      "map_status": "built",
+      "giver": {
+        "npc": "rebel_paint_vendor",
+        "map": "club_int"
+      },
+      "prerequisites": [],
+      "steps": [
+        {
+          "id": "sq_paint_job_s1",
+          "desc": "The paint vendor has run out of greens, browns and reds.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_paint_job_start",
+          "condition": "phase in (Dusk, Night)"
+        },
+        {
+          "id": "sq_paint_job_s2",
+          "desc": "Pick fern dye leaves in Thornwood.",
+          "map": "thornwood",
+          "at": null,
+          "sets_flag": "sq_paint_job_fern",
+          "condition": null
+        },
+        {
+          "id": "sq_paint_job_s3",
+          "desc": "Dig river clay from the Brookhollow riverbank.",
+          "map": "brookhollow",
+          "at": null,
+          "sets_flag": "sq_paint_job_clay",
+          "condition": null
+        },
+        {
+          "id": "sq_paint_job_s4",
+          "desc": "Ask the juice counter for leftover berry pulp.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_paint_job_berry",
+          "condition": null
+        },
+        {
+          "id": "sq_paint_job_s5",
+          "desc": "Bring all three to the paint vendor.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_paint_job_done",
+          "condition": "phase in (Dusk, Night)"
+        }
+      ],
+      "reward": {
+        "items": [],
+        "money": 0,
+        "flags": [
+          "sq_paint_job_done",
+          "paint_free_coat"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "rebel_paint_vendor",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Out of greens, browns and reds. Can't paint a Cindrip without red.",
+            "Bring me fern leaves, river clay and berry pulp?"
+          ]
+        },
+        {
+          "npc": "rebel_bartender",
+          "context": "step",
+          "step": "sq_paint_job_s4",
+          "text": [
+            "Berry pulp? Left over from the shakes. Take the lot."
+          ]
+        },
+        {
+          "npc": "rebel_paint_vendor",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Fern, clay, berry. That's three colours back on the shelf.",
+            "Free coat on any creature you like. Paint's cosmetic. Won't make anyone stronger."
+          ]
+        },
+        {
+          "npc": "rebel_paint_vendor",
+          "context": "after",
+          "step": null,
+          "text": [
+            "Took me three weeks to get a Cindrip's shade right."
+          ]
+        }
+      ],
+      "notes": [
+        "Cosmetic only: the reward is one free paint job (no stats).",
+        "'Paint's cosmetic. Won't make anyone stronger.' and the three-weeks line are the vendor's existing lines, copied word for word.",
+        "Shop open Dusk/Night (ruling). The rebel_bartender id is fine as an id; player text calls them 'the juice counter'.",
+        "World to pick tiles for the fern patch and clay bank (at = null)."
+      ],
+      "new_ids": [
+        "sq_paint_job_start",
+        "sq_paint_job_fern",
+        "sq_paint_job_clay",
+        "sq_paint_job_berry",
+        "sq_paint_job_done",
+        "paint_free_coat",
+        "fern_dye (key item)",
+        "river_clay (key item)",
+        "berry_pulp (key item)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_tell_the_counter",
+      "title": "Ticks on the Flyer",
+      "type": "side",
+      "zone": "fernwick",
+      "order": 33,
+      "map_status": "built",
+      "giver": {
+        "npc": "rebel_bartender",
+        "map": "club_int"
+      },
+      "prerequisites": [
+        "beat_master_fernwick"
+      ],
+      "steps": [
+        {
+          "id": "sq_tell_the_counter_s1",
+          "desc": "Read the MISSING flyer and its pinned notes at The Firefly.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_counter_start",
+          "condition": null
+        },
+        {
+          "id": "sq_tell_the_counter_s2",
+          "desc": "Thornwood camp restored: tell the juice counter.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_counter_thornwood",
+          "condition": "camp_restored_thornwood"
+        },
+        {
+          "id": "sq_tell_the_counter_s3",
+          "desc": "Greystone camp restored: tell the juice counter.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_counter_greystone",
+          "condition": "camp_restored_greystone"
+        },
+        {
+          "id": "sq_tell_the_counter_s4",
+          "desc": "Frostspire camp restored: tell the juice counter.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_counter_frostspire",
+          "condition": "camp_restored_frostspire"
+        },
+        {
+          "id": "sq_tell_the_counter_s5",
+          "desc": "Mirefen camp restored: tell the juice counter.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_counter_mirefen",
+          "condition": "camp_restored_mirefen"
+        },
+        {
+          "id": "sq_tell_the_counter_s6",
+          "desc": "After the team is home, come back to The Firefly.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_counter_done",
+          "condition": "field_team_home"
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "pond_berry_juice",
+            "qty": 1
+          },
+          {
+            "id": "mossberry_shake",
+            "qty": 1
+          },
+          {
+            "id": "fern_mint_tea",
+            "qty": 1
+          },
+          {
+            "id": "firefly_shake",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_counter_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "rebel_bartender",
+          "context": "start",
+          "step": null,
+          "text": [
+            "That flyer's been up a long time. Notes keep getting pinned to it.",
+            "Find anything out there, tell me first. I'll make it worth your while."
+          ]
+        },
+        {
+          "npc": "rebel_bartender",
+          "context": "step",
+          "step": "sq_tell_the_counter_s2",
+          "text": [
+            "Thornwood camp? Someone was there. Not lately, but someone.",
+            "Pond Berry Juice. On the house."
+          ]
+        },
+        {
+          "npc": "rebel_bartender",
+          "context": "step",
+          "step": "sq_tell_the_counter_s3",
+          "text": [
+            "Greystone too. Bet the stove still works.",
+            "Mossberry Shake. Thick enough to stand a spoon in."
+          ]
+        },
+        {
+          "npc": "rebel_bartender",
+          "context": "step",
+          "step": "sq_tell_the_counter_s4",
+          "text": [
+            "Frostspire? In that cold? Here, warm up.",
+            "Fern Mint Tea. My own blend."
+          ]
+        },
+        {
+          "npc": "rebel_bartender",
+          "context": "step",
+          "step": "sq_tell_the_counter_s5",
+          "text": [
+            "Mirefen. That's every camp, then.",
+            "Firefly Shake. I only make these for big news."
+          ]
+        },
+        {
+          "npc": "rebel_bartender",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "You did it. Look at that flyer. Every name ticked.",
+            "Shakes for the whole room tonight. Even the bouncer smiled."
+          ]
+        }
+      ],
+      "notes": [
+        "Side piece on top of the main worker's camp restorations. The main draft owns the camps; this quest only reacts to camp_restored_* flags.",
+        "Text Bot owns the flyer, the pinned notes and the per-camp ticks ('FOUND THE CAMP. NOT THEM.', 'FOUND. ALL FOUR.'). This quest adds no flyer text.",
+        "Note tiers (ruling): note_thornwood and note_greystone at beat_master_fernwick, note_frostspire at beat_master_revival, note_mirefen at beat_master_frostspire.",
+        "Player text calls this NPC 'the juice counter' (rebel_bartender is used only as the id). Drinks are juices, teas and milkshakes only.",
+        "NOT canon, so not in lines: the counter or other regulars belonging to the Riverbank Stranger's people. The lines only show a regular who cares.",
+        "Every step happens at club_int (built). It only waits on camp flags, and the Frostspire camp is on an unbuilt map."
+      ],
+      "new_ids": [
+        "sq_counter_start",
+        "sq_counter_thornwood",
+        "sq_counter_greystone",
+        "sq_counter_frostspire",
+        "sq_counter_mirefen",
+        "sq_counter_done"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_open_mic",
+      "title": "Dance of the Firefly",
+      "type": "side",
+      "zone": "fernwick",
+      "order": 34,
+      "map_status": "built",
+      "giver": {
+        "npc": "rebel_patron_3",
+        "map": "club_int"
+      },
+      "prerequisites": [],
+      "steps": [
+        {
+          "id": "sq_open_mic_s1",
+          "desc": "Patron_3 signed up for open mic with a dance they don't know.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_open_mic_start",
+          "condition": "phase == Night"
+        },
+        {
+          "id": "sq_open_mic_s2",
+          "desc": "Read the dance steps poster in the back room.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_open_mic_steps",
+          "condition": null
+        },
+        {
+          "id": "sq_open_mic_s3",
+          "desc": "Step on the dance-floor tiles in order: left, left, back, spin.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_open_mic_danced",
+          "condition": "phase == Night"
+        },
+        {
+          "id": "sq_open_mic_s4",
+          "desc": "Tell patron_3.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_open_mic_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "firefly_shake",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_open_mic_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "rebel_patron_3",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Open mic's coming. I'm doing a dance. I don't know a dance.",
+            "Someone pinned the steps up out back. Learn them, show me?"
+          ]
+        },
+        {
+          "npc": "prop:dance_steps_poster",
+          "context": "step",
+          "step": "sq_open_mic_s2",
+          "text": [
+            "DANCE OF THE FIREFLY: Left. Left. Back. Spin.",
+            "(Spin optional. Dignity also optional.)"
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_open_mic_s3",
+          "text": [
+            "You stumble. Somebody claps anyway. Try again."
+          ]
+        },
+        {
+          "npc": "rebel_patron_3",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Left, left, back, spin... I've got it! Sort of.",
+            "Firefly Shake's on me. Don't tell Dov."
+          ]
+        }
+      ],
+      "notes": [
+        "Local puzzle. The tiles are 4 floor tiles near the DJ booth (prop ids club_floor_tile_1..4). A wrong order resets. World/Coder to place them.",
+        "Ties to the existing flyer_open_mic line ('...earplugs if Dov signs up'). Dov stays offscreen.",
+        "The back room is open from the first visit (ruling)."
+      ],
+      "new_ids": [
+        "sq_open_mic_start",
+        "sq_open_mic_steps",
+        "sq_open_mic_danced",
+        "sq_open_mic_done",
+        "dance_steps_poster (prop)",
+        "club_floor_tile_1..4 (props)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_biscuit",
+      "title": "Answers to Biscuit",
+      "type": "side",
+      "zone": "fernwick",
+      "order": 35,
+      "map_status": "built",
+      "giver": {
+        "npc": "prop:flyer_lost_creature",
+        "map": "club_int"
+      },
+      "prerequisites": [
+        "flg_promoted"
+      ],
+      "steps": [
+        {
+          "id": "sq_biscuit_s1",
+          "desc": "Read the LOST flyer at The Firefly: a Tumbloam called Biscuit.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_biscuit_start",
+          "condition": null
+        },
+        {
+          "id": "sq_biscuit_s2",
+          "desc": "Find Biscuit stuck below the Route 1 ledges.",
+          "map": "route1",
+          "at": {
+            "x": 22,
+            "y": 17
+          },
+          "sets_flag": "sq_biscuit_found",
+          "condition": null
+        },
+        {
+          "id": "sq_biscuit_s3",
+          "desc": "Go the long way around and come at Biscuit from above so it rolls toward the exit.",
+          "map": "route1",
+          "at": null,
+          "sets_flag": "sq_biscuit_freed",
+          "condition": null
+        },
+        {
+          "id": "sq_biscuit_s4",
+          "desc": "Bring the news to the owner.",
+          "map": "fernwick",
+          "at": null,
+          "sets_flag": "sq_biscuit_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "feed_bag_small",
+            "qty": 2
+          }
+        ],
+        "money": 300,
+        "flags": [
+          "sq_biscuit_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_biscuit_s2",
+          "text": [
+            "Below the ledge, a Tumbloam rolls down, tries to climb, rolls down again.",
+            "It looks pleased with itself anyway."
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_biscuit_s3",
+          "text": [
+            "You come at it from above. It rolls the right way, straight home."
+          ]
+        },
+        {
+          "npc": "prue_hollin",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Biscuit! You rolled off again, didn't you?",
+            "Thank you. It's not much. Biscuit says thanks too."
+          ]
+        }
+      ],
+      "notes": [
+        "The flyer text is Text Bot's existing club_int.flyer_lost_creature. This quest adds no flyer lines.",
+        "Ledge puzzle: Route 1 has one-way ledges (sign_r1_ledge 22,17). Tumbloams roll downhill, so the player must loop around and come from above.",
+        "OPEN for Gary: three different uses of 'Biscuit'. (1) this lost-flyer Tumbloam, (2) the T5 trade Tumbloam from Prue Hollin, (3) Ron's nickname line. Draft makes (1) and (2) the same creature: Prue posted the flyer, and later trades Biscuit to you because 'it likes you better'. Owner npc prue_hollin and her map are not placed yet.",
+        "If Gary keeps them separate, swap the owner to a new Fernwick NPC."
+      ],
+      "new_ids": [
+        "sq_biscuit_start",
+        "sq_biscuit_found",
+        "sq_biscuit_freed",
+        "sq_biscuit_done",
+        "prue_hollin (npc, T5 trade; placement TBD)",
+        "biscuit_tumbloam (scripted overworld creature)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_fireflies",
+      "title": "Where the Fireflies Went",
+      "type": "side",
+      "zone": "fernwick",
+      "order": 36,
+      "map_status": "built",
+      "giver": {
+        "npc": "elder",
+        "map": "fernwick"
+      },
+      "prerequisites": [
+        "has_survey_parcel"
+      ],
+      "steps": [
+        {
+          "id": "sq_fireflies_s1",
+          "desc": "At Night, count the fireflies at the pond for the elder. Only 3 left.",
+          "map": "fernwick",
+          "at": {
+            "x": 7,
+            "y": 20
+          },
+          "sets_flag": "sq_fireflies_start",
+          "condition": "phase == Night"
+        },
+        {
+          "id": "sq_fireflies_s2",
+          "desc": "Plant lumen moss in the Thornwood scar.",
+          "map": "thornwood",
+          "at": {
+            "x": 27,
+            "y": 11
+          },
+          "sets_flag": "sq_fireflies_scar_1",
+          "condition": null
+        },
+        {
+          "id": "sq_fireflies_s3",
+          "desc": "Plant lumen moss in the Greystone entrance scar.",
+          "map": "greystone_entrance",
+          "at": {
+            "x": 16,
+            "y": 12
+          },
+          "sets_flag": "sq_fireflies_scar_2",
+          "condition": null
+        },
+        {
+          "id": "sq_fireflies_s4",
+          "desc": "Plant lumen moss in one more Greystone dig scar (spot TBD by World Design).",
+          "map": "greystone_b1",
+          "at": null,
+          "sets_flag": "sq_fireflies_scar_3",
+          "condition": null
+        },
+        {
+          "id": "sq_fireflies_s5",
+          "desc": "Count again at the pond at Night: 12 fireflies.",
+          "map": "fernwick",
+          "at": {
+            "x": 16,
+            "y": 20
+          },
+          "sets_flag": "sq_fireflies_done",
+          "condition": "phase == Night"
+        }
+      ],
+      "reward": {
+        "items": [],
+        "money": 0,
+        "flags": [
+          "sq_fireflies_done",
+          "skill_glowcall"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "elder",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Count them with me? ...Three. There used to be dozens.",
+            "Lumen moss heals cut ground. Plant some where old crystal was dug out?"
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_fireflies_s2",
+          "text": [
+            "You press lumen moss into the scar. It glows, faintly."
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_fireflies_s3",
+          "text": [
+            "You press lumen moss into the scar. It glows, faintly."
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_fireflies_s4",
+          "text": [
+            "You press lumen moss into the scar. It glows, faintly."
+          ]
+        },
+        {
+          "npc": "elder",
+          "context": "in_progress",
+          "step": null,
+          "text": [
+            "Three scars, I'd guess. The land remembers every one."
+          ]
+        },
+        {
+          "npc": "elder",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Count again. ...Ten, eleven, twelve. Twelve!",
+            "Let me teach you Glowcall. Dark places won't seem so dark."
+          ]
+        }
+      ],
+      "notes": [
+        "SOUL_PLAYBOOK 8.5-D. Pond tiles x15-18, y20-21; at (16,20) is a placeholder.",
+        "Prereq has_survey_parcel is a guess so Greystone is reachable. The elder gives lumen moss x3 at the start. The Trail Buddy hums at each scar (SP 1.2). A full firefly return stays an ending moment (SP 6.5); 12 is the side-quest result.",
+        "Glowcall is a FIELD SKILL (unlock TBD in FIELD_SKILLS.md), so it's given as flag skill_glowcall (proposed), not an item. OPEN: the skill's effect and the third Greystone scar (World Design).",
+        "'The digging' is local colour only. It must not imply the Vane memo or Vane's motive (not canon)."
+      ],
+      "new_ids": [
+        "sq_fireflies_start",
+        "sq_fireflies_scar_1",
+        "sq_fireflies_scar_2",
+        "sq_fireflies_scar_3",
+        "sq_fireflies_done",
+        "lumen_moss (key item)",
+        "skill_glowcall (flag, field skill)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_courier_last_route",
+      "title": "The Last Parcel",
+      "type": "side",
+      "zone": "fernwick",
+      "order": 37,
+      "map_status": "built",
+      "giver": {
+        "npc": "villager_f1",
+        "map": "fernwick"
+      },
+      "prerequisites": [
+        "flg_promoted"
+      ],
+      "steps": [
+        {
+          "id": "sq_courier_last_route_s1",
+          "desc": "The ex-courier still has one parcel he never delivered.",
+          "map": "fernwick",
+          "at": {
+            "x": 20,
+            "y": 10
+          },
+          "sets_flag": "sq_courier_start",
+          "condition": null
+        },
+        {
+          "id": "sq_courier_last_route_s2",
+          "desc": "Deliver it to the house with the kettle in Brookhollow.",
+          "map": "home_brookhollow_a",
+          "at": null,
+          "sets_flag": "sq_courier_delivered",
+          "condition": null
+        },
+        {
+          "id": "sq_courier_last_route_s3",
+          "desc": "Tell the ex-courier.",
+          "map": "fernwick",
+          "at": {
+            "x": 20,
+            "y": 10
+          },
+          "sets_flag": "sq_courier_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "tonic_small",
+            "qty": 2
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_courier_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "villager_f1",
+          "context": "start",
+          "step": null,
+          "text": [
+            "My last parcel. Never got delivered. Then the job went.",
+            "Brookhollow, the house with the kettle. Would you?"
+          ]
+        },
+        {
+          "npc": "home_brookhollow_a_owner",
+          "context": "step",
+          "step": "sq_courier_last_route_s2",
+          "text": [
+            "A parcel? For me? Postmarked two years ago.",
+            "A new kettle whistle! Now it can sing again."
+          ]
+        },
+        {
+          "npc": "villager_f1",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Delivered. My route's finally done. Thank you.",
+            "Take these. Couriers always carry spares."
+          ]
+        }
+      ],
+      "notes": [
+        "Builds on villager_f1's ex-courier lines and the home_brookhollow_a_owner kettle line.",
+        "Delivery quest. The parcel is a key item that is removed on delivery."
+      ],
+      "new_ids": [
+        "sq_courier_start",
+        "sq_courier_delivered",
+        "sq_courier_done",
+        "old_parcel (key item)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_fort_sign",
+      "title": "KEEP OUT (please)",
+      "type": "side",
+      "zone": "fernwick",
+      "order": 38,
+      "map_status": "built",
+      "giver": {
+        "npc": "home_lanternport_c_kid",
+        "map": "home_lanternport_c"
+      },
+      "prerequisites": [],
+      "steps": [
+        {
+          "id": "sq_fort_sign_s1",
+          "desc": "The kid wants a scary sign for the fort.",
+          "map": "home_lanternport_c",
+          "at": null,
+          "sets_flag": "sq_fort_sign_start",
+          "condition": null
+        },
+        {
+          "id": "sq_fort_sign_s2",
+          "desc": "Ask the painter at The Firefly (Dusk or Night).",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_fort_sign_painted",
+          "condition": "phase in (Dusk, Night)"
+        },
+        {
+          "id": "sq_fort_sign_s3",
+          "desc": "Bring the sign to the kid.",
+          "map": "home_lanternport_c",
+          "at": null,
+          "sets_flag": "sq_fort_sign_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "trail_mix",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_fort_sign_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "home_lanternport_c_kid",
+          "context": "start",
+          "step": null,
+          "text": [
+            "My fort needs a sign. A scary one.",
+            "The painter at the club could do it. Ask?"
+          ]
+        },
+        {
+          "npc": "rebel_paint_vendor",
+          "context": "step",
+          "step": "sq_fort_sign_s2",
+          "text": [
+            "A fort sign? Scary? Leave it with me.",
+            "Done. 'KEEP OUT (please).' Manners matter."
+          ]
+        },
+        {
+          "npc": "home_lanternport_c_kid",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Perfect. Now nobody gets in. Unless they ask nicely.",
+            "You can come in. You know the password."
+          ]
+        }
+      ],
+      "notes": [
+        "home_lanternport_c is the id of a house in FERNWICK (warp 16,18). The id is misleading; flagged for World Design.",
+        "Builds on the kid's existing fort / password 'please' line.",
+        "Optional: a prop 'fort_sign' appears in the house after the quest."
+      ],
+      "new_ids": [
+        "sq_fort_sign_start",
+        "sq_fort_sign_painted",
+        "sq_fort_sign_done",
+        "fort_sign (key item + prop)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_burlbeetle_count",
+      "title": "Stumps That Blink",
+      "type": "side",
+      "zone": "thornwood",
+      "order": 41,
+      "map_status": "built",
+      "giver": {
+        "npc": "trainer_tw_bug",
+        "map": "thornwood"
+      },
+      "prerequisites": [
+        "beat_master_fernwick"
+      ],
+      "steps": [
+        {
+          "id": "sq_burlbeetle_count_s1",
+          "desc": "The bug catcher can't tell Burlbeetles from stumps.",
+          "map": "thornwood",
+          "at": {
+            "x": 11,
+            "y": 15
+          },
+          "sets_flag": "sq_burlbeetle_start",
+          "condition": null
+        },
+        {
+          "id": "sq_burlbeetle_count_s2",
+          "desc": "Find the five stumps that blink.",
+          "map": "thornwood",
+          "at": null,
+          "sets_flag": "sq_burlbeetle_found_5",
+          "condition": "burlbeetle_stump_1..5 all checked"
+        },
+        {
+          "id": "sq_burlbeetle_count_s3",
+          "desc": "Report the count.",
+          "map": "thornwood",
+          "at": {
+            "x": 11,
+            "y": 15
+          },
+          "sets_flag": "sq_burlbeetle_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "vigor_seed",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_burlbeetle_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "trainer_tw_bug",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Burlbeetles look like stumps. I've counted three. I think.",
+            "Find the ones that blink. Stumps don't blink."
+          ]
+        },
+        {
+          "npc": "prop:burlbeetle_stump_1",
+          "context": "step",
+          "step": "sq_burlbeetle_count_s2",
+          "text": [
+            "The stump blinks at you. Then pretends it didn't."
+          ]
+        },
+        {
+          "npc": "trainer_tw_bug",
+          "context": "in_progress",
+          "step": null,
+          "text": [
+            "Tap every stump. The real stumps won't mind."
+          ]
+        },
+        {
+          "npc": "trainer_tw_bug",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Five! I'd counted two of those as actual stumps.",
+            "Here, a Vigor Seed. For keeping your eyes open."
+          ]
+        }
+      ],
+      "notes": [
+        "Builds on trainer_tw_bug's existing joke that Burlbeetles look like stumps.",
+        "Five new stump props (burlbeetle_stump_1..5). The same blink line plays on each. World to place them on Thornwood tree-edge tiles; a sixth decoy stump says 'Just a stump.'",
+        "The quest starts after beat_master_fernwick, so the trainer has already been battled."
+      ],
+      "new_ids": [
+        "sq_burlbeetle_start",
+        "sq_burlbeetle_found_5",
+        "sq_burlbeetle_done",
+        "burlbeetle_stump_1..5 (props)",
+        "burlbeetle_stump_decoy (prop)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_stuck_with_me",
+      "title": "Lunch on the Trail",
+      "type": "side",
+      "zone": "thornwood",
+      "order": 42,
+      "map_status": "built",
+      "giver": {
+        "npc": "trainer_tw_b",
+        "map": "thornwood"
+      },
+      "prerequisites": [
+        "beat_master_fernwick"
+      ],
+      "steps": [
+        {
+          "id": "sq_stuck_with_me_s1",
+          "desc": "The hiker by the blocked east trail is hungry.",
+          "map": "thornwood",
+          "at": {
+            "x": 27,
+            "y": 16
+          },
+          "sets_flag": "sq_lunch_start",
+          "condition": null
+        },
+        {
+          "id": "sq_stuck_with_me_s2",
+          "desc": "Get a packed lunch from the juice counter at The Firefly.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_lunch_got",
+          "condition": null
+        },
+        {
+          "id": "sq_stuck_with_me_s3",
+          "desc": "Bring it back.",
+          "map": "thornwood",
+          "at": {
+            "x": 27,
+            "y": 16
+          },
+          "sets_flag": "sq_lunch_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "energy_tonic",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_lunch_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "trainer_tw_b",
+          "context": "start",
+          "step": null,
+          "text": [
+            "East trail's blocked and I've waited all day.",
+            "Didn't pack lunch. Didn't think I'd need it. Help?"
+          ]
+        },
+        {
+          "npc": "rebel_bartender",
+          "context": "step",
+          "step": "sq_stuck_with_me_s2",
+          "text": [
+            "Packed lunch for Thornwood? Sandwich and a Pond Berry Juice. Off you go."
+          ]
+        },
+        {
+          "npc": "trainer_tw_b",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Sandwich! You're a hero. A small, sandwich-shaped hero.",
+            "Take this Pep Remedy. Bought it for the trip. Trip's off."
+          ]
+        }
+      ],
+      "notes": [
+        "Builds on trainer_tw_b's existing 'east trail's blocked' line. Run only while the east trail is still blocked (Coder: use whatever flag unblocks sign_tw_east).",
+        "Pep Remedy (energy_tonic) is pricey, so one is a generous reward, and the line explains why he has it.",
+        "Player text calls the NPC 'the juice counter'; rebel_bartender is used only as the id."
+      ],
+      "new_ids": [
+        "sq_lunch_start",
+        "sq_lunch_got",
+        "sq_lunch_done",
+        "packed_lunch (key item)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_cave_sketch",
+      "title": "Honest Map",
+      "type": "side",
+      "zone": "greystone_caverns",
+      "order": 51,
+      "map_status": "built",
+      "giver": {
+        "npc": "hiker",
+        "map": "greystone_entrance"
+      },
+      "prerequisites": [
+        "has_survey_parcel"
+      ],
+      "steps": [
+        {
+          "id": "sq_cave_sketch_s1",
+          "desc": "The hiker is sketching the caves and hates dead ends.",
+          "map": "greystone_entrance",
+          "at": {
+            "x": 15,
+            "y": 10
+          },
+          "sets_flag": "sq_sketch_start",
+          "condition": null
+        },
+        {
+          "id": "sq_cave_sketch_s2",
+          "desc": "Check the west dead end.",
+          "map": "greystone_entrance",
+          "at": {
+            "x": 3,
+            "y": 4
+          },
+          "sets_flag": "sq_sketch_1",
+          "condition": null
+        },
+        {
+          "id": "sq_cave_sketch_s3",
+          "desc": "Check the south-west dead end.",
+          "map": "greystone_entrance",
+          "at": {
+            "x": 1,
+            "y": 11
+          },
+          "sets_flag": "sq_sketch_2",
+          "condition": null
+        },
+        {
+          "id": "sq_cave_sketch_s4",
+          "desc": "Check the north dead end on B1.",
+          "map": "greystone_b1",
+          "at": {
+            "x": 10,
+            "y": 3
+          },
+          "sets_flag": "sq_sketch_3",
+          "condition": null
+        },
+        {
+          "id": "sq_cave_sketch_s5",
+          "desc": "Check the east dead end on B1.",
+          "map": "greystone_b1",
+          "at": {
+            "x": 24,
+            "y": 16
+          },
+          "sets_flag": "sq_sketch_4",
+          "condition": null
+        },
+        {
+          "id": "sq_cave_sketch_s6",
+          "desc": "Report back.",
+          "map": "greystone_entrance",
+          "at": {
+            "x": 15,
+            "y": 10
+          },
+          "sets_flag": "sq_sketch_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "crystal_dust",
+            "qty": 2
+          }
+        ],
+        "money": 500,
+        "flags": [
+          "sq_sketch_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "hiker",
+          "context": "start",
+          "step": null,
+          "text": [
+            "I'm sketching the caves. Dead ends are the worst part.",
+            "Peek into four for me? Just tell me what's there."
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_cave_sketch_s2",
+          "text": [
+            "Dead end. You make a note for the hiker."
+          ]
+        },
+        {
+          "npc": "hiker",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Four dead ends. My map's finally honest.",
+            "Here, some crystal dust I dug up. Can't sketch with it."
+          ]
+        }
+      ],
+      "notes": [
+        "All four spots are existing dead-end item tiles (gs_west_dead_end, gs_sw_dead_end, b1_north_dead_end, b1_east_dead_end), so the player gets the hidden items on the way.",
+        "The system line repeats at each dead end (steps 2-5). The (1,11) spot sits next to the lantern_rest warp (0,11), a soft nudge toward the memorial.",
+        "Prereq has_survey_parcel is a guess at when Greystone opens."
+      ],
+      "new_ids": [
+        "sq_sketch_start",
+        "sq_sketch_1",
+        "sq_sketch_2",
+        "sq_sketch_3",
+        "sq_sketch_4",
+        "sq_sketch_done"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_flowers_old_hal",
+      "title": "Ferns for Old Hal",
+      "type": "side",
+      "zone": "greystone_caverns",
+      "order": 52,
+      "map_status": "built",
+      "giver": {
+        "npc": "elder",
+        "map": "fernwick"
+      },
+      "prerequisites": [
+        "has_survey_parcel"
+      ],
+      "steps": [
+        {
+          "id": "sq_flowers_old_hal_s1",
+          "desc": "The Fernwick elder asks you to take ferns to Old Hal's stone.",
+          "map": "fernwick",
+          "at": {
+            "x": 7,
+            "y": 20
+          },
+          "sets_flag": "sq_hal_start",
+          "condition": null
+        },
+        {
+          "id": "sq_flowers_old_hal_s2",
+          "desc": "Lay the ferns at Old Hal's stone in the Lantern Rest.",
+          "map": "lantern_rest",
+          "at": null,
+          "sets_flag": "sq_hal_laid",
+          "condition": null
+        },
+        {
+          "id": "sq_flowers_old_hal_s3",
+          "desc": "Tell the elder.",
+          "map": "fernwick",
+          "at": {
+            "x": 7,
+            "y": 20
+          },
+          "sets_flag": "sq_hal_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "trail_mix",
+            "qty": 2
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_hal_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "elder",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Old Hal fixed my roof twice. Never charged me once.",
+            "He rests past Greystone now. Take him these ferns?"
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_flowers_old_hal_s2",
+          "text": [
+            "You lay the ferns by the stone. OLD HAL & CINDER."
+          ]
+        },
+        {
+          "npc": "keeper",
+          "context": "step",
+          "step": "sq_flowers_old_hal_s2",
+          "text": [
+            "Hal's got visitors. Good. Cinder would've chewed those ferns."
+          ]
+        },
+        {
+          "npc": "elder",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Thank you. Roof's still dry. That's Hal's doing.",
+            "I baked these for him. He'd want you to have them."
+          ]
+        }
+      ],
+      "notes": [
+        "Builds on lantern_rest stone_6 ('OLD HAL & CINDER Fixed every roof in Fernwick'). The stone text is World/Text-owned; the system line only names it.",
+        "Zone is greystone_caverns because the main step is at lantern_rest; the giver is in Fernwick. Lantern Rest is off greystone_entrance (0,11).",
+        "Gentle tone: a memorial errand, no sadness beat beyond the keeper's line. Follows STORY_ART_LESSONS: show, don't explain."
+      ],
+      "new_ids": [
+        "sq_hal_start",
+        "sq_hal_laid",
+        "sq_hal_done",
+        "fern_posy (key item)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_lucky",
+      "title": "The Lucky-Crystal Seller",
+      "type": "side",
+      "zone": "saltmere",
+      "order": 61,
+      "map_status": "map pending",
+      "giver": {
+        "npc": "lucky_crystal_seller",
+        "map": "saltmere"
+      },
+      "prerequisites": [
+        "beat_master_fernwick"
+      ],
+      "steps": [
+        {
+          "id": "sq_lucky_s1",
+          "desc": "Buy a lucky crystal from the seller in any city (1 of 4).",
+          "map": "saltmere",
+          "at": null,
+          "sets_flag": "sq_lucky_1",
+          "condition": null
+        },
+        {
+          "id": "sq_lucky_s2",
+          "desc": "Buy another in a different city (2 of 4).",
+          "map": "revival_heights",
+          "at": null,
+          "sets_flag": "sq_lucky_2",
+          "condition": null
+        },
+        {
+          "id": "sq_lucky_s3",
+          "desc": "Buy another in a different city (3 of 4).",
+          "map": "lanternport",
+          "at": null,
+          "sets_flag": "sq_lucky_3",
+          "condition": null
+        },
+        {
+          "id": "sq_lucky_s4",
+          "desc": "Buy another in a different city (4 of 4). A compliance memo lands in your inbox.",
+          "map": "cindervale",
+          "at": null,
+          "sets_flag": "sq_lucky_4",
+          "condition": null
+        },
+        {
+          "id": "sq_lucky_s5",
+          "desc": "After the ending, visit the seller, who has finally gone honest.",
+          "map": "aurelith",
+          "at": null,
+          "sets_flag": "sq_lucky_done",
+          "condition": "sq_lucky_4 && finale_done"
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "glass_crystal",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_lucky_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "lucky_crystal_seller",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Lucky crystal! Brings luck. Pretty much guaranteed.",
+            "Looks a lot like glass. That's how you know it's lucky."
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_lucky_s4",
+          "text": [
+            "Inbox: 'Unauthorised crystal resale under investigation. Please report sellers.'",
+            "You decide not to."
+          ]
+        },
+        {
+          "npc": "lucky_crystal_seller",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Clear crystals. 100% nothing.",
+            "Finally honest."
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "after",
+          "step": null,
+          "text": [
+            "Your Glass Crystal does nothing. Your Trail Buddy loves it anyway."
+          ]
+        }
+      ],
+      "notes": [
+        "SOUL_PLAYBOOK 8.5-C. The seller's start and turn_in lines are Text Bot's existing unplaced_npcs.lucky_crystal_seller lines (default, seller_ending), copied word for word. Per-city pitches (seller_saltmere, seller_revival, seller_lanternport, seller_cindervale, seller_aurelith) play on each purchase and aren't repeated here.",
+        "Any 4 of the 5 cities count. Step maps are just examples. The memo text paraphrases 8.5-C; Text Bot may own inbox copy.",
+        "Ruling (STORY_RULINGS_SOUL #3): the crystals are plain glass. Never imply they do anything.",
+        "Zone is saltmere, the first city he appears in. The seller npc is still unplaced (proposed)."
+      ],
+      "new_ids": [
+        "lucky_crystal (shop item, cosmetic, no effect)",
+        "glass_crystal (held item, no effect)",
+        "lucky_crystal_seller (npc placement)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_first_weigh_in",
+      "title": "Thursday Weigh-In",
+      "type": "side",
+      "zone": "saltmere",
+      "order": 62,
+      "map_status": "map pending",
+      "giver": {
+        "npc": "weigh_in_host",
+        "map": "saltmere"
+      },
+      "prerequisites": [
+        "beat_master_fernwick"
+      ],
+      "steps": [
+        {
+          "id": "sq_first_weigh_in_s1",
+          "desc": "Meet the harbour weigh-in host (any day).",
+          "map": "saltmere",
+          "at": null,
+          "sets_flag": "sq_weigh_start",
+          "condition": null
+        },
+        {
+          "id": "sq_first_weigh_in_s2",
+          "desc": "On a Thursday, enter a creature of the featured species.",
+          "map": "saltmere",
+          "at": null,
+          "sets_flag": "sq_weigh_entered",
+          "condition": "weekday == thu"
+        },
+        {
+          "id": "sq_first_weigh_in_s3",
+          "desc": "Beat the record holder on the board (heaviest OR lightest).",
+          "map": "saltmere",
+          "at": null,
+          "sets_flag": "sq_weigh_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [],
+        "money": 0,
+        "flags": [
+          "sq_weigh_done",
+          "ribbon_weigh_in"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "weigh_in_host",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Thursdays we weigh creatures. Heaviest wins. Lightest also wins.",
+            "Bring the featured species. Crowd's free. Cheering's mandatory."
+          ]
+        },
+        {
+          "npc": "weigh_in_host",
+          "context": "in_progress",
+          "step": null,
+          "text": [
+            "Not Thursday yet. The scales need their rest."
+          ]
+        },
+        {
+          "npc": "weigh_in_host",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "New record! Somebody fetch the chalk!",
+            "Here's your ribbon. It shows on the Kilindex card. Forever."
+          ]
+        }
+      ],
+      "notes": [
+        "Intro quest for the SOUL_PLAYBOOK 1.6 Weigh-In system (needs weekday clock 1.4, harbour scales prop). The quest only teaches it. Weekly contests continue without it.",
+        "weigh_in_host is a new NPC. The record board shows an NPC holder name. Text Bot to name them."
+      ],
+      "new_ids": [
+        "sq_weigh_start",
+        "sq_weigh_entered",
+        "sq_weigh_done",
+        "ribbon_weigh_in",
+        "weigh_in_host (npc)",
+        "harbour_scales (prop)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_bottle_44",
+      "title": "Attempt Forty-Four",
+      "type": "side",
+      "zone": "saltmere",
+      "order": 63,
+      "map_status": "built",
+      "giver": {
+        "npc": "home_saltmere_a_hobbyist",
+        "map": "home_saltmere_a"
+      },
+      "prerequisites": [
+        "beat_master_fernwick"
+      ],
+      "steps": [
+        {
+          "id": "sq_bottle_44_s1",
+          "desc": "The ship-in-a-bottle builder snapped another mast.",
+          "map": "home_saltmere_a",
+          "at": null,
+          "sets_flag": "sq_bottle_start",
+          "condition": null
+        },
+        {
+          "id": "sq_bottle_44_s2",
+          "desc": "Find a thin, straight twig in Thornwood's glade.",
+          "map": "thornwood",
+          "at": {
+            "x": 22,
+            "y": 11
+          },
+          "sets_flag": "sq_bottle_twig",
+          "condition": null
+        },
+        {
+          "id": "sq_bottle_44_s3",
+          "desc": "Bring it back.",
+          "map": "home_saltmere_a",
+          "at": null,
+          "sets_flag": "sq_bottle_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "coin_pouch_small",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_bottle_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "home_saltmere_a_hobbyist",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Attempt forty-three. The mast snapped. Again.",
+            "Thornwood twigs grow thin and straight. Bring me one?"
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_bottle_44_s2",
+          "text": [
+            "A twig as straight as a pencil. Perfect for a tiny mast."
+          ]
+        },
+        {
+          "npc": "home_saltmere_a_hobbyist",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Forty-four. It's in. It's standing. Don't breathe.",
+            "...Perfect. Take this pouch. I'd only spend it on more tiny ships."
+          ]
+        }
+      ],
+      "notes": [
+        "Builds on the hobbyist's existing '43rd attempt' line. Backtrack fetch to a built map; the twig is next to the existing tw_glade_tree item (22,11).",
+        "The home_saltmere_a interior map exists, so map_status is 'built', but the Saltmere town map is to_come. The quest can't be reached until the town exists."
+      ],
+      "new_ids": [
+        "sq_bottle_start",
+        "sq_bottle_twig",
+        "sq_bottle_done",
+        "thin_twig (key item)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_lost_lanyard",
+      "title": "No Lanyard, No Lift",
+      "type": "side",
+      "zone": "revival_heights",
+      "order": 71,
+      "map_status": "map pending",
+      "giver": {
+        "npc": "rh_intern",
+        "map": "revival_heights"
+      },
+      "prerequisites": [
+        "beat_master_saltmere"
+      ],
+      "steps": [
+        {
+          "id": "sq_lost_lanyard_s1",
+          "desc": "A Revival Tech intern has lost their lanyard.",
+          "map": "revival_heights",
+          "at": null,
+          "sets_flag": "sq_lanyard_start",
+          "condition": null
+        },
+        {
+          "id": "sq_lost_lanyard_s2",
+          "desc": "Look under the benches at the Lumen Line station.",
+          "map": "station_int",
+          "at": null,
+          "sets_flag": "sq_lanyard_found",
+          "condition": null
+        },
+        {
+          "id": "sq_lost_lanyard_s3",
+          "desc": "Return it.",
+          "map": "revival_heights",
+          "at": null,
+          "sets_flag": "sq_lanyard_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "tonic_small",
+            "qty": 2
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_lanyard_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "rh_intern",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Lost my lanyard. No lanyard, no lift. No lift, no job.",
+            "Last had it at the station. Could you look?"
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_lost_lanyard_s2",
+          "text": [
+            "Under a bench: a lanyard. 'INTERN. Smile! You're Revival Tech.'"
+          ]
+        },
+        {
+          "npc": "rh_intern",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "My lanyard! I can take the lift again. Forty floors.",
+            "Have these. Lobby freebies. Everyone gets some."
+          ]
+        }
+      ],
+      "notes": [
+        "Small company-life piece. Office humour, no plot. Fits the grey-morality tone: staff are just people.",
+        "rh_intern is a new NPC. station_int exists in overworld_lines; World to confirm which city's station holds the bench (Revival Heights is rail-linked)."
+      ],
+      "new_ids": [
+        "sq_lanyard_start",
+        "sq_lanyard_found",
+        "sq_lanyard_done",
+        "rh_intern (npc)",
+        "intern_lanyard (key item)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_cold_hands",
+      "title": "Cold Hands",
+      "type": "side",
+      "zone": "frostspire",
+      "order": 81,
+      "map_status": "map pending",
+      "giver": {
+        "npc": "frostspire_climber",
+        "map": "frostspire"
+      },
+      "prerequisites": [
+        "beat_master_revival"
+      ],
+      "steps": [
+        {
+          "id": "sq_cold_hands_s1",
+          "desc": "A climber's hands are too cold to tie knots.",
+          "map": "frostspire",
+          "at": null,
+          "sets_flag": "sq_cold_start",
+          "condition": null
+        },
+        {
+          "id": "sq_cold_hands_s2",
+          "desc": "Bring something warm: Fern Mint Tea from The Firefly.",
+          "map": "club_int",
+          "at": null,
+          "sets_flag": "sq_cold_tea",
+          "condition": "has_item fern_mint_tea"
+        },
+        {
+          "id": "sq_cold_hands_s3",
+          "desc": "Give it to the climber.",
+          "map": "frostspire",
+          "at": null,
+          "sets_flag": "sq_cold_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "tonic_large",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_cold_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "frostspire_climber",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Hands are too cold to tie a knot.",
+            "Anything warm? Tea, maybe? I'll make it worth your while."
+          ]
+        },
+        {
+          "npc": "frostspire_climber",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Fern mint. That's the stuff. Fingers are back.",
+            "Take this Big Remedy. Mountains eat Small ones."
+          ]
+        }
+      ],
+      "notes": [
+        "Thin canon for Frostspire (no placed NPCs). New climber NPC. The Frostspire camp is main-worker territory, so this stays clear of it.",
+        "Dana's post-game fight (sq_dana) also happens on Frostspire. The climber could later say 'Someone's up the north face' as a nudge (optional Text Bot line).",
+        "fern_mint_tea is an existing item (also given in sq_tell_the_counter)."
+      ],
+      "new_ids": [
+        "sq_cold_start",
+        "sq_cold_tea",
+        "sq_cold_done",
+        "frostspire_climber (npc)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_past_the_shine",
+      "title": "Past the Shine",
+      "type": "side",
+      "zone": "sunmeadow_fields",
+      "order": 86,
+      "map_status": "map pending",
+      "giver": {
+        "npc": "prop:sign_r1_ne",
+        "map": "route1"
+      },
+      "prerequisites": [
+        "beat_master_frostspire"
+      ],
+      "steps": [
+        {
+          "id": "sq_past_the_shine_s1",
+          "desc": "Read the Route 1 sign: 'Wexley's Croft – past the shine'.",
+          "map": "route1",
+          "at": {
+            "x": 40,
+            "y": 3
+          },
+          "sets_flag": "sq_shine_start",
+          "condition": null
+        },
+        {
+          "id": "sq_past_the_shine_s2",
+          "desc": "Find the Croft in Sunmeadow and meet Nan Wexley.",
+          "map": "sunmeadow_croft",
+          "at": null,
+          "sets_flag": "sq_shine_met",
+          "condition": null
+        },
+        {
+          "id": "sq_past_the_shine_s3",
+          "desc": "Herd three loose Tumbloams back into the paddock.",
+          "map": "sunmeadow_croft",
+          "at": null,
+          "sets_flag": "sq_shine_herded",
+          "condition": null
+        },
+        {
+          "id": "sq_past_the_shine_s4",
+          "desc": "Tell Nan.",
+          "map": "sunmeadow_croft",
+          "at": null,
+          "sets_flag": "sq_shine_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "feed_bag",
+            "qty": 2
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_shine_done",
+          "croft_open"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "nan_wexley",
+          "context": "start",
+          "step": null,
+          "text": [
+            "A visitor! Good. Three Tumbloams got out. Again.",
+            "Herd them back in? Come at them from uphill."
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_past_the_shine_s3",
+          "text": [
+            "The Tumbloam rolls downhill, straight into the paddock."
+          ]
+        },
+        {
+          "npc": "nan_wexley",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "All three. You've done this before, haven't you?",
+            "Croft's open to you now. Bring anyone who needs looking after."
+          ]
+        }
+      ],
+      "notes": [
+        "Intro to the SOUL_PLAYBOOK 8.3 Croft (Nan Ottilie Wexley, Ferris, maps sunmeadow_croft / croft_int, all proposed). The sign text is quoted from 8.3; World/Text own the sign.",
+        "Gate: the Route 1 barrier dims at beat_master_frostspire.",
+        "Uses the same 'Tumbloams roll downhill' rule as sq_biscuit so the mechanic is taught once and reused.",
+        "Player text says 'herd' (house banned-word list)."
+      ],
+      "new_ids": [
+        "sq_shine_start",
+        "sq_shine_met",
+        "sq_shine_herded",
+        "sq_shine_done",
+        "croft_open",
+        "nan_wexley (npc, proposed SP 8.3)",
+        "sunmeadow_croft (map, proposed SP 8.3)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_ask_nicely",
+      "title": "Ask Nicely",
+      "type": "side",
+      "zone": "mirefen",
+      "order": 91,
+      "map_status": "built",
+      "giver": {
+        "npc": "mirefen_angler",
+        "map": "mirefen_bog"
+      },
+      "prerequisites": [
+        "beat_master_frostspire"
+      ],
+      "steps": [
+        {
+          "id": "sq_ask_nicely_s1",
+          "desc": "Ask the quiet angler about the field notebook (flyer note: 'Ask nicely').",
+          "map": "mirefen_bog",
+          "at": null,
+          "sets_flag": "sq_nicely_start",
+          "condition": null
+        },
+        {
+          "id": "sq_ask_nicely_s2",
+          "desc": "Sit with them at Dusk without talking.",
+          "map": "mirefen_bog",
+          "at": null,
+          "sets_flag": "sq_nicely_sat",
+          "condition": "phase == Dusk"
+        },
+        {
+          "id": "sq_ask_nicely_s3",
+          "desc": "Ask again.",
+          "map": "mirefen_bog",
+          "at": null,
+          "sets_flag": "sq_nicely_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "field_notebook",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_nicely_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "mirefen_angler",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Notebook? Maybe. I like the quiet. Sit a while first."
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_ask_nicely_s2",
+          "text": [
+            "You sit. The bog bubbles. Nobody says anything for ages.",
+            "It's nice, actually."
+          ]
+        },
+        {
+          "npc": "mirefen_angler",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "You can sit still. Rare, that.",
+            "Found this in the reeds. Someone's field notes. Yours now."
+          ]
+        },
+        {
+          "npc": "mirefen_angler",
+          "context": "after",
+          "step": null,
+          "text": [
+            "I just like the quiet."
+          ]
+        }
+      ],
+      "notes": [
+        "Follows the club note_mirefen tier (beat_master_frostspire): 'Mirefen fisher found a field notebook... Ask nicely'. The 'after' line is the angler's existing default, word for word.",
+        "OVERLAP RISK with the main worker: if the main quest uses the notebook to find the Mirefen camp, merge this in as its opening, or keep it side-only and make the notebook a keepsake. Notebook contents are not written here (no reveal of the field team's discovery).",
+        "Phase name 'Dusk' follows the phase list (dawn, day, dusk, night)."
+      ],
+      "new_ids": [
+        "sq_nicely_start",
+        "sq_nicely_sat",
+        "sq_nicely_done",
+        "field_notebook (key item)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_lumen_chain",
+      "title": "The Lumen Chain",
+      "type": "side",
+      "zone": "mirefen",
+      "order": 92,
+      "map_status": "built",
+      "giver": {
+        "npc": "corwen_fell",
+        "map": "mirefen_bog"
+      },
+      "prerequisites": [
+        "has_bike"
+      ],
+      "steps": [
+        {
+          "id": "sq_lumen_chain_s1",
+          "desc": "Trade with Corwen on the bog islet at Night to get Purl, then read Purl's old letter at any heal-centre terminal.",
+          "map": "mirefen_bog",
+          "at": {
+            "x": 13,
+            "y": 3
+          },
+          "sets_flag": "sq_chain_letter",
+          "condition": "trade_t6_done && phase == Night"
+        },
+        {
+          "id": "sq_lumen_chain_s2",
+          "desc": "Deliver the letter to Lune on Route 1's high corner at Night and trade for Matins.",
+          "map": "route1",
+          "at": {
+            "x": 40,
+            "y": 1
+          },
+          "sets_flag": "sq_chain_lune",
+          "condition": "phase == Night"
+        },
+        {
+          "id": "sq_lumen_chain_s3",
+          "desc": "Deliver Lune's reply to Ivo below the caves and trade for Wick.",
+          "map": "greystone_b1",
+          "at": {
+            "x": 24,
+            "y": 17
+          },
+          "sets_flag": "sq_chain_ivo",
+          "condition": null
+        },
+        {
+          "id": "sq_lumen_chain_s4",
+          "desc": "Take Wick to the Lantern Rest. His lantern brightens at one stone.",
+          "map": "lantern_rest",
+          "at": null,
+          "sets_flag": "sq_chain_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "framed_letter",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_chain_done",
+          "wick_trail_glow"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_lumen_chain_s1",
+          "text": [
+            "An old letter, never delivered. 'To L. Ashby, Route 1, the high corner.'"
+          ]
+        },
+        {
+          "npc": "lune_ashby",
+          "context": "step",
+          "step": "sq_lumen_chain_s2",
+          "text": [
+            "Corwen's handwriting. Took the long way, didn't it?",
+            "Take my reply below the caves? To I. Stannard."
+          ]
+        },
+        {
+          "npc": "ivo_stannard",
+          "context": "step",
+          "step": "sq_lumen_chain_s3",
+          "text": [
+            "Lune still writes. Good.",
+            "Take Wick to the Lantern Rest. There's someone he'd like to see."
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_lumen_chain_s4",
+          "text": [
+            "Wick's lantern brightens at one stone. It stays bright."
+          ]
+        },
+        {
+          "npc": "keeper",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "That's Ivo's Wick. Look at that lantern go.",
+            "Ivo asked me to frame this letter for you. Hang it somewhere warm."
+          ]
+        }
+      ],
+      "notes": [
+        "SOUL_PLAYBOOK 8.5-A plus 8.4 trades T6, T4, T3. Trade asks and swaps are Text Bot's (about 8 pages per trader); these lines are only the chain beats.",
+        "Each trade can also be done on its own; the chain is one-way (Purl to Matins to Wick).",
+        "OPEN: which Lantern Rest stone Wick brightens at (8.4 T3: 'the light of Ivo's old canary-creature'). Maybe stone_blank? Keep the ruling that it becomes a bench in mind. Gary/World to pick.",
+        "OPEN: trader 'Lune Ashby' shares a surname with field-team member Pell Ashby. Intended family link, or rename? Not hinted in lines.",
+        "Theme (notes only): lumen is passed on through people.",
+        "Zone is mirefen because the chain starts with Corwen (T6)."
+      ],
+      "new_ids": [
+        "sq_chain_lune",
+        "sq_chain_ivo",
+        "wick_trail_glow",
+        "framed_letter (item, Field Camp decor)",
+        "corwen_fell / lune_ashby / ivo_stannard (npcs, SP 8.4)",
+        "trade_t6_done / trade_t4_done / trade_t3_done (SP 8.4)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_count_day",
+      "title": "Count Day",
+      "type": "side",
+      "zone": "mirefen",
+      "order": 93,
+      "map_status": "built",
+      "giver": {
+        "npc": "mirefen_census_clerk",
+        "map": "mirefen_bog"
+      },
+      "prerequisites": [
+        "has_bike"
+      ],
+      "steps": [
+        {
+          "id": "sq_count_day_s1",
+          "desc": "The census clerk explains the daily Mirefen Count.",
+          "map": "mirefen_bog",
+          "at": null,
+          "sets_flag": "sq_count_start",
+          "condition": null
+        },
+        {
+          "id": "sq_count_day_s2",
+          "desc": "Check today's spotlight species on the company terminal.",
+          "map": "mirefen_bog",
+          "at": null,
+          "sets_flag": "sq_count_spotlight",
+          "condition": null
+        },
+        {
+          "id": "sq_count_day_s3",
+          "desc": "Finish one count (20 nets, no battles; binoculars work as the scope).",
+          "map": "mirefen_bog",
+          "at": null,
+          "sets_flag": "sq_count_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [],
+        "money": 300,
+        "flags": [
+          "sq_count_done",
+          "mirefen_count_unlocked"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "mirefen_census_clerk",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Company census. Twenty nets, no battles, one scope.",
+            "Today's spotlight is on the terminal. Count carefully. Head office checks."
+          ]
+        },
+        {
+          "npc": "mirefen_census_clerk",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Clean count. Head office will love it. Or ignore it.",
+            "Come back tomorrow. The spotlight changes daily."
+          ]
+        }
+      ],
+      "notes": [
+        "Intro quest for SOUL_PLAYBOOK 1.10 Mirefen Count. The daily repeat is a system, not this quest.",
+        "mirefen_census_clerk is a new NPC. Survey nets are a special-area tool (Coder)."
+      ],
+      "new_ids": [
+        "sq_count_start",
+        "sq_count_spotlight",
+        "sq_count_done",
+        "mirefen_count_unlocked",
+        "mirefen_census_clerk (npc)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_sea_glass",
+      "title": "Sea Glass",
+      "type": "side",
+      "zone": "tidewater_coast",
+      "order": 101,
+      "map_status": "map pending",
+      "giver": {
+        "npc": "tidewater_beachcomber",
+        "map": "tidewater_coast"
+      },
+      "prerequisites": [
+        "has_tideglide"
+      ],
+      "steps": [
+        {
+          "id": "sq_sea_glass_s1",
+          "desc": "A beachcomber collects sea glass, but the best bits are offshore.",
+          "map": "tidewater_coast",
+          "at": null,
+          "sets_flag": "sq_glass_start",
+          "condition": null
+        },
+        {
+          "id": "sq_sea_glass_s2",
+          "desc": "Glide out and pick up three pieces of sea glass on the sandbars.",
+          "map": "tidewater_coast",
+          "at": null,
+          "sets_flag": "sq_glass_3",
+          "condition": null
+        },
+        {
+          "id": "sq_sea_glass_s3",
+          "desc": "Bring them back.",
+          "map": "tidewater_coast",
+          "at": null,
+          "sets_flag": "sq_glass_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "feed_bag",
+            "qty": 1
+          }
+        ],
+        "money": 400,
+        "flags": [
+          "sq_glass_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "tidewater_beachcomber",
+          "context": "start",
+          "step": null,
+          "text": [
+            "The good sea glass washes up on the sandbars. Can't swim.",
+            "Three pieces? Green's my favourite. Any colour, really."
+          ]
+        },
+        {
+          "npc": "system",
+          "context": "step",
+          "step": "sq_sea_glass_s2",
+          "text": [
+            "A piece of sea glass, worn smooth as a pebble."
+          ]
+        },
+        {
+          "npc": "tidewater_beachcomber",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Look at that green. Worn smooth as a mint.",
+            "Here. For the trip back."
+          ]
+        }
+      ],
+      "notes": [
+        "Placeholder for Tidewater Coast, which has very little canon (no NPCs, no map). Uses has_tideglide so the new move gets a quick side use.",
+        "Wording deliberately avoids comparing sea glass to bottles (house rule: no hints at drinking)."
+      ],
+      "new_ids": [
+        "sq_glass_start",
+        "sq_glass_3",
+        "sq_glass_done",
+        "tidewater_beachcomber (npc)",
+        "sea_glass (key item)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_forecast",
+      "title": "The Keeper's Forecasts",
+      "type": "side",
+      "zone": "lanternport",
+      "order": 111,
+      "map_status": "map pending",
+      "giver": {
+        "npc": "lighthouse_keeper",
+        "map": "lanternport"
+      },
+      "prerequisites": [
+        "beat_master_tidewater"
+      ],
+      "steps": [
+        {
+          "id": "sq_forecast_s1",
+          "desc": "Read the lighthouse keeper's weekly forecast board.",
+          "map": "lanternport",
+          "at": null,
+          "sets_flag": "sq_forecast_start",
+          "condition": null
+        },
+        {
+          "id": "sq_forecast_s2",
+          "desc": "Be in the forecast zone during the forecast weather or phase (1 of 5).",
+          "map": "any",
+          "at": null,
+          "sets_flag": "sq_forecast_1",
+          "condition": null
+        },
+        {
+          "id": "sq_forecast_s3",
+          "desc": "Correct forecast 2 of 5.",
+          "map": "any",
+          "at": null,
+          "sets_flag": "sq_forecast_2",
+          "condition": null
+        },
+        {
+          "id": "sq_forecast_s4",
+          "desc": "Correct forecast 3 of 5.",
+          "map": "any",
+          "at": null,
+          "sets_flag": "sq_forecast_3",
+          "condition": null
+        },
+        {
+          "id": "sq_forecast_s5",
+          "desc": "Correct forecast 4 of 5.",
+          "map": "any",
+          "at": null,
+          "sets_flag": "sq_forecast_4",
+          "condition": null
+        },
+        {
+          "id": "sq_forecast_s6",
+          "desc": "Correct forecast 5 of 5.",
+          "map": "any",
+          "at": null,
+          "sets_flag": "sq_forecast_5",
+          "condition": null
+        },
+        {
+          "id": "sq_forecast_s7",
+          "desc": "The last forecast: meteor night at Lanternport. A Cosmic creature appears.",
+          "map": "lanternport",
+          "at": null,
+          "sets_flag": "sq_forecast_done",
+          "condition": "sq_forecast_5 && phase == Night"
+        }
+      ],
+      "reward": {
+        "items": [],
+        "money": 0,
+        "flags": [
+          "sq_forecast_done",
+          "app_sky_almanac"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "lighthouse_keeper",
+          "context": "start",
+          "step": null,
+          "text": [
+            "Forecast's on the board. I'm right more often than not.",
+            "Go and check. Come back and tell me I'm a genius."
+          ]
+        },
+        {
+          "npc": "lighthouse_keeper",
+          "context": "in_progress",
+          "step": null,
+          "text": [
+            "Right again? Of course. The sky tells me things."
+          ]
+        },
+        {
+          "npc": "lighthouse_keeper",
+          "context": "step",
+          "step": "sq_forecast_s7",
+          "text": [
+            "Tonight's the big one. Look up. Then look out."
+          ]
+        },
+        {
+          "npc": "lighthouse_keeper",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Five out of five, plus a meteor. I'm framing that.",
+            "Here, the Sky Almanac for your phone. Next meteor night's in it."
+          ]
+        }
+      ],
+      "notes": [
+        "SOUL_PLAYBOOK 8.5-G. Needs the weather/phase system and the meteor night (1.7). The scripted Cosmic encounter belongs to Story/Code.",
+        "Forecast steps are generated from the board (zone + weather/phase). Map and position are null by design.",
+        "lighthouse_keeper is a new NPC (Lanternport is still planned). Lanternport also holds Missing Note record 4 (see sq_missing_note)."
+      ],
+      "new_ids": [
+        "sq_forecast_start",
+        "sq_forecast_1..5 (SP 8.5-G)",
+        "sq_forecast_done",
+        "app_sky_almanac",
+        "lighthouse_keeper (npc)",
+        "forecast_board (prop)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_warm_stones",
+      "title": "Baked on the Rocks",
+      "type": "side",
+      "zone": "cindervale",
+      "order": 121,
+      "map_status": "map pending",
+      "giver": {
+        "npc": "cindervale_baker",
+        "map": "cindervale"
+      },
+      "prerequisites": [
+        "beat_master_lanternport"
+      ],
+      "steps": [
+        {
+          "id": "sq_warm_stones_s1",
+          "desc": "A baker cooks on the warm ground but is out of mossberries.",
+          "map": "cindervale",
+          "at": null,
+          "sets_flag": "sq_stones_start",
+          "condition": null
+        },
+        {
+          "id": "sq_warm_stones_s2",
+          "desc": "Pick mossberries in Fernwick (bush by the east tree).",
+          "map": "fernwick",
+          "at": {
+            "x": 29,
+            "y": 9
+          },
+          "sets_flag": "sq_stones_berries",
+          "condition": null
+        },
+        {
+          "id": "sq_warm_stones_s3",
+          "desc": "Bring them back.",
+          "map": "cindervale",
+          "at": null,
+          "sets_flag": "sq_stones_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "trail_mix",
+            "qty": 2
+          }
+        ],
+        "money": 300,
+        "flags": [
+          "sq_stones_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "cindervale_baker",
+          "context": "start",
+          "step": null,
+          "text": [
+            "The ground's warm enough to bake on. Cheapest oven around.",
+            "Out of mossberries, though. Fernwick grows the best. Fetch some?"
+          ]
+        },
+        {
+          "npc": "cindervale_baker",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "Mossberry buns, fresh off the hot rocks.",
+            "Take a few. Careful, they're lava-hot. That's a joke. Mostly."
+          ]
+        }
+      ],
+      "notes": [
+        "Placeholder for Cindervale, which has thin canon (only the lucky-crystal seller line). New baker NPC.",
+        "No volcano-fume wording or gags, per house rules. Heat comes from warm ground only.",
+        "World to pick the bush tile; (29,9) is near the existing fw_east_tree item."
+      ],
+      "new_ids": [
+        "sq_stones_start",
+        "sq_stones_berries",
+        "sq_stones_done",
+        "cindervale_baker (npc)",
+        "mossberries (key item)"
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "sq_ticket_stub",
+      "title": "A Stub from Aurelith",
+      "type": "side",
+      "zone": "aurelith",
+      "order": 131,
+      "map_status": "map pending",
+      "giver": {
+        "npc": "home_fernwick_a_kid",
+        "map": "home_fernwick_a"
+      },
+      "prerequisites": [
+        "all_badges"
+      ],
+      "steps": [
+        {
+          "id": "sq_ticket_stub_s1",
+          "desc": "The Fernwick kid who wants to beat all eight Masters hears you did it.",
+          "map": "home_fernwick_a",
+          "at": null,
+          "sets_flag": "sq_stub_start",
+          "condition": null
+        },
+        {
+          "id": "sq_ticket_stub_s2",
+          "desc": "Ask the arena usher in Aurelith for a spare ticket stub.",
+          "map": "aurelith",
+          "at": null,
+          "sets_flag": "sq_stub_got",
+          "condition": null
+        },
+        {
+          "id": "sq_ticket_stub_s3",
+          "desc": "Bring it to the kid.",
+          "map": "home_fernwick_a",
+          "at": null,
+          "sets_flag": "sq_stub_done",
+          "condition": null
+        }
+      ],
+      "reward": {
+        "items": [
+          {
+            "id": "feed_bag_small",
+            "qty": 1
+          }
+        ],
+        "money": 0,
+        "flags": [
+          "sq_stub_done"
+        ]
+      },
+      "lines": [
+        {
+          "npc": "home_fernwick_a_kid",
+          "context": "start",
+          "step": null,
+          "text": [
+            "You've got all eight coins? ALL eight?",
+            "Bring me something from Aurelith. Anything! Please!"
+          ]
+        },
+        {
+          "npc": "aurelith_usher",
+          "context": "step",
+          "step": "sq_ticket_stub_s2",
+          "text": [
+            "A spare stub for a kid? Here. Tell them the Masters say hi."
+          ]
+        },
+        {
+          "npc": "home_fernwick_a_kid",
+          "context": "turn_in",
+          "step": null,
+          "text": [
+            "A real stub! From the real arena!",
+            "I'm beating all eight. Then you. Then I'm having a nap."
+          ]
+        }
+      ],
+      "notes": [
+        "Pays off home_fernwick_a_kid's existing 'beat all 8 Masters' line. Player text says 'coins' (never the banned alternative).",
+        "aurelith_usher is a new NPC. Aurelith is rail-only and to_come.",
+        "Zone is aurelith because the key step is there; the giver is in Fernwick."
+      ],
+      "new_ids": [
+        "sq_stub_start",
+        "sq_stub_got",
+        "sq_stub_done",
+        "aurelith_usher (npc)",
+        "arena_ticket_stub (key item)"
+      ],
+      "status": "DRAFT"
+    }
+  ]
+}
