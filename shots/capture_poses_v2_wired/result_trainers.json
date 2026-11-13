@@ -1,0 +1,1474 @@
+{
+ "when": "Fri Oct 23 2026 00:25:28 GMT-0500 (Central Daylight Time)",
+ "fails": 23,
+ "results": [
+  "PASS [pc1280_1x day tr_bugcatcher_f caught] bone_v2 pose strip used for this character - 403 frames, char tr_bugcatcher_f",
+  "PASS [pc1280_1x day tr_bugcatcher_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x day tr_bugcatcher_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.19,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day tr_bugcatcher_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.19, bottom spread 0.00",
+  "PASS [pc1280_1x day tr_bugcatcher_f caught] no console errors",
+  "PASS [pc1280_1x day tr_camper_f caught] bone_v2 pose strip used for this character - 402 frames, char tr_camper_f",
+  "PASS [pc1280_1x day tr_camper_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x day tr_camper_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.13,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day tr_camper_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.34, bottom spread 0.00",
+  "PASS [pc1280_1x day tr_camper_f caught] no console errors",
+  "PASS [pc1280_1x day tr_gymtrainer_f caught] bone_v2 pose strip used for this character - 402 frames, char tr_gymtrainer_f",
+  "PASS [pc1280_1x day tr_gymtrainer_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x day tr_gymtrainer_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.1,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day tr_gymtrainer_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.11, bottom spread 0.00",
+  "PASS [pc1280_1x day tr_gymtrainer_f caught] no console errors",
+  "PASS [pc1280_1x day tr_gymtrainer_m caught] bone_v2 pose strip used for this character - 403 frames, char tr_gymtrainer_m",
+  "PASS [pc1280_1x day tr_gymtrainer_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x day tr_gymtrainer_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.31,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day tr_gymtrainer_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.30, bottom spread 0.00",
+  "PASS [pc1280_1x day tr_gymtrainer_m caught] no console errors",
+  "PASS [pc1280_1x day tr_hiker_f caught] bone_v2 pose strip used for this character - 403 frames, char tr_hiker_f",
+  "PASS [pc1280_1x day tr_hiker_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x day tr_hiker_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.42,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day tr_hiker_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.41, bottom spread 0.00",
+  "PASS [pc1280_1x day tr_hiker_f caught] no console errors",
+  "PASS [pc1280_1x day tr_hiker_m caught] bone_v2 pose strip used for this character - 403 frames, char tr_hiker_m",
+  "PASS [pc1280_1x day tr_hiker_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x day tr_hiker_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.31,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day tr_hiker_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.30, bottom spread 0.00",
+  "PASS [pc1280_1x day tr_hiker_m caught] no console errors",
+  "PASS [pc1280_1x day tr_lass_f caught] bone_v2 pose strip used for this character - 403 frames, char tr_lass_f",
+  "PASS [pc1280_1x day tr_lass_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x day tr_lass_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.38,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day tr_lass_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.37, bottom spread 0.00",
+  "PASS [pc1280_1x day tr_lass_f caught] no console errors",
+  "PASS [pc1280_1x day tr_master_fernwick_m caught] bone_v2 pose strip used for this character - 403 frames, char tr_master_fernwick_m",
+  "PASS [pc1280_1x day tr_master_fernwick_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x day tr_master_fernwick_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.19,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day tr_master_fernwick_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.27, bottom spread 0.00",
+  "PASS [pc1280_1x day tr_master_fernwick_m caught] no console errors",
+  "PASS [pc1280_1x day tr_master_saltmere_f caught] bone_v2 pose strip used for this character - 400 frames, char tr_master_saltmere_f",
+  "PASS [pc1280_1x day tr_master_saltmere_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x day tr_master_saltmere_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.42,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day tr_master_saltmere_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.41, bottom spread 0.00",
+  "PASS [pc1280_1x day tr_master_saltmere_f caught] no console errors",
+  "PASS [pc1280_1x day tr_ranger_m caught] bone_v2 pose strip used for this character - 403 frames, char tr_ranger_m",
+  "PASS [pc1280_1x day tr_ranger_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x day tr_ranger_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.19,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day tr_ranger_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.19, bottom spread 0.00",
+  "PASS [pc1280_1x day tr_ranger_m caught] no console errors",
+  "PASS [pc1280_1x day tr_scientist_f caught] bone_v2 pose strip used for this character - 402 frames, char tr_scientist_f",
+  "PASS [pc1280_1x day tr_scientist_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x day tr_scientist_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.13,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day tr_scientist_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.24, bottom spread 0.00",
+  "PASS [pc1280_1x day tr_scientist_f caught] no console errors",
+  "PASS [pc1280_1x day tr_scientist_m caught] bone_v2 pose strip used for this character - 403 frames, char tr_scientist_m",
+  "PASS [pc1280_1x day tr_scientist_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x day tr_scientist_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.15,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day tr_scientist_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.30, bottom spread 0.00",
+  "PASS [pc1280_1x day tr_scientist_m caught] no console errors",
+  "PASS [pc1280_1x day tr_swimmer_f caught] bone_v2 pose strip used for this character - 403 frames, char tr_swimmer_f",
+  "PASS [pc1280_1x day tr_swimmer_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x day tr_swimmer_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.22,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day tr_swimmer_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.21, bottom spread 0.00",
+  "PASS [pc1280_1x day tr_swimmer_f caught] no console errors",
+  "PASS [pc1280_1x day tr_swimmer_m caught] bone_v2 pose strip used for this character - 402 frames, char tr_swimmer_m",
+  "PASS [pc1280_1x day tr_swimmer_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x day tr_swimmer_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.13,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day tr_swimmer_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.24, bottom spread 0.00",
+  "PASS [pc1280_1x day tr_swimmer_m caught] no console errors",
+  "PASS [pc1280_1x day tr_youngster_m caught] bone_v2 pose strip used for this character - 402 frames, char tr_youngster_m",
+  "PASS [pc1280_1x day tr_youngster_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x day tr_youngster_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.02,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day tr_youngster_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.30, bottom spread 0.00",
+  "PASS [pc1280_1x day tr_youngster_m caught] no console errors",
+  "PASS [pc1280_1x night tr_bugcatcher_f caught] bone_v2 pose strip used for this character - 399 frames, char tr_bugcatcher_f",
+  "PASS [pc1280_1x night tr_bugcatcher_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x night tr_bugcatcher_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.38,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night tr_bugcatcher_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.37, bottom spread 0.00",
+  "PASS [pc1280_1x night tr_bugcatcher_f caught] no console errors",
+  "PASS [pc1280_1x night tr_camper_f caught] bone_v2 pose strip used for this character - 402 frames, char tr_camper_f",
+  "PASS [pc1280_1x night tr_camper_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x night tr_camper_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.04,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night tr_camper_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.38, bottom spread 0.00",
+  "PASS [pc1280_1x night tr_camper_f caught] no console errors",
+  "PASS [pc1280_1x night tr_gymtrainer_f caught] bone_v2 pose strip used for this character - 397 frames, char tr_gymtrainer_f",
+  "PASS [pc1280_1x night tr_gymtrainer_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x night tr_gymtrainer_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.06,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night tr_gymtrainer_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.05, bottom spread 0.00",
+  "PASS [pc1280_1x night tr_gymtrainer_f caught] no console errors",
+  "PASS [pc1280_1x night tr_gymtrainer_m caught] bone_v2 pose strip used for this character - 386 frames, char tr_gymtrainer_m",
+  "PASS [pc1280_1x night tr_gymtrainer_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x night tr_gymtrainer_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.31,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night tr_gymtrainer_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.30, bottom spread 0.00",
+  "PASS [pc1280_1x night tr_gymtrainer_m caught] no console errors",
+  "PASS [pc1280_1x night tr_hiker_f caught] bone_v2 pose strip used for this character - 401 frames, char tr_hiker_f",
+  "PASS [pc1280_1x night tr_hiker_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x night tr_hiker_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.08,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night tr_hiker_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.47, bottom spread 0.00",
+  "PASS [pc1280_1x night tr_hiker_f caught] no console errors",
+  "PASS [pc1280_1x night tr_hiker_m caught] bone_v2 pose strip used for this character - 397 frames, char tr_hiker_m",
+  "PASS [pc1280_1x night tr_hiker_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x night tr_hiker_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.34,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night tr_hiker_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.34, bottom spread 0.00",
+  "PASS [pc1280_1x night tr_hiker_m caught] no console errors",
+  "PASS [pc1280_1x night tr_lass_f caught] bone_v2 pose strip used for this character - 400 frames, char tr_lass_f",
+  "PASS [pc1280_1x night tr_lass_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x night tr_lass_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.28,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night tr_lass_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.27, bottom spread 0.00",
+  "PASS [pc1280_1x night tr_lass_f caught] no console errors",
+  "PASS [pc1280_1x night tr_master_fernwick_m caught] bone_v2 pose strip used for this character - 402 frames, char tr_master_fernwick_m",
+  "PASS [pc1280_1x night tr_master_fernwick_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x night tr_master_fernwick_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.31,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night tr_master_fernwick_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.30, bottom spread 0.00",
+  "PASS [pc1280_1x night tr_master_fernwick_m caught] no console errors",
+  "PASS [pc1280_1x night tr_master_saltmere_f caught] bone_v2 pose strip used for this character - 402 frames, char tr_master_saltmere_f",
+  "PASS [pc1280_1x night tr_master_saltmere_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x night tr_master_saltmere_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.42,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night tr_master_saltmere_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.41, bottom spread 0.00",
+  "PASS [pc1280_1x night tr_master_saltmere_f caught] no console errors",
+  "PASS [pc1280_1x night tr_ranger_m caught] bone_v2 pose strip used for this character - 403 frames, char tr_ranger_m",
+  "PASS [pc1280_1x night tr_ranger_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x night tr_ranger_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.25,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night tr_ranger_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.24, bottom spread 0.00",
+  "PASS [pc1280_1x night tr_ranger_m caught] no console errors",
+  "PASS [pc1280_1x night tr_scientist_f caught] bone_v2 pose strip used for this character - 403 frames, char tr_scientist_f",
+  "PASS [pc1280_1x night tr_scientist_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x night tr_scientist_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.31,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night tr_scientist_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.30, bottom spread 0.00",
+  "PASS [pc1280_1x night tr_scientist_f caught] no console errors",
+  "PASS [pc1280_1x night tr_scientist_m caught] bone_v2 pose strip used for this character - 402 frames, char tr_scientist_m",
+  "PASS [pc1280_1x night tr_scientist_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x night tr_scientist_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.13,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night tr_scientist_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.27, bottom spread 0.00",
+  "PASS [pc1280_1x night tr_scientist_m caught] no console errors",
+  "PASS [pc1280_1x night tr_swimmer_f caught] bone_v2 pose strip used for this character - 403 frames, char tr_swimmer_f",
+  "PASS [pc1280_1x night tr_swimmer_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x night tr_swimmer_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.22,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night tr_swimmer_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.21, bottom spread 0.00",
+  "PASS [pc1280_1x night tr_swimmer_f caught] no console errors",
+  "PASS [pc1280_1x night tr_swimmer_m caught] bone_v2 pose strip used for this character - 403 frames, char tr_swimmer_m",
+  "PASS [pc1280_1x night tr_swimmer_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x night tr_swimmer_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.22,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night tr_swimmer_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.21, bottom spread 0.00",
+  "PASS [pc1280_1x night tr_swimmer_m caught] no console errors",
+  "PASS [pc1280_1x night tr_youngster_m caught] bone_v2 pose strip used for this character - 403 frames, char tr_youngster_m",
+  "PASS [pc1280_1x night tr_youngster_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [pc1280_1x night tr_youngster_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.34,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"raise/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night tr_youngster_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.47, bottom spread 0.00",
+  "PASS [pc1280_1x night tr_youngster_m caught] no console errors",
+  "PASS [phone844_2x day tr_bugcatcher_f caught] bone_v2 pose strip used for this character - 378 frames, char tr_bugcatcher_f",
+  "PASS [phone844_2x day tr_bugcatcher_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_bugcatcher_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.11,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_bugcatcher_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.38, bottom spread 0.00",
+  "PASS [phone844_2x day tr_bugcatcher_f caught] no console errors",
+  "PASS [phone844_2x day tr_camper_f caught] bone_v2 pose strip used for this character - 380 frames, char tr_camper_f",
+  "PASS [phone844_2x day tr_camper_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_camper_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.15,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_camper_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.41, bottom spread 0.00",
+  "PASS [phone844_2x day tr_camper_f caught] no console errors",
+  "PASS [phone844_2x day tr_gymtrainer_f caught] bone_v2 pose strip used for this character - 360 frames, char tr_gymtrainer_f",
+  "PASS [phone844_2x day tr_gymtrainer_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_gymtrainer_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.5,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_gymtrainer_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.49, bottom spread 0.00",
+  "PASS [phone844_2x day tr_gymtrainer_f caught] no console errors",
+  "PASS [phone844_2x day tr_gymtrainer_m caught] bone_v2 pose strip used for this character - 378 frames, char tr_gymtrainer_m",
+  "PASS [phone844_2x day tr_gymtrainer_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_gymtrainer_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.11,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_gymtrainer_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.49, bottom spread 0.00",
+  "PASS [phone844_2x day tr_gymtrainer_m caught] no console errors",
+  "PASS [phone844_2x day tr_hiker_f caught] bone_v2 pose strip used for this character - 375 frames, char tr_hiker_f",
+  "PASS [phone844_2x day tr_hiker_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_hiker_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.13,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_hiker_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.49, bottom spread 0.00",
+  "PASS [phone844_2x day tr_hiker_f caught] no console errors",
+  "PASS [phone844_2x day tr_hiker_m caught] bone_v2 pose strip used for this character - 380 frames, char tr_hiker_m",
+  "PASS [phone844_2x day tr_hiker_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_hiker_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.21,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_hiker_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.45, bottom spread 0.00",
+  "PASS [phone844_2x day tr_hiker_m caught] no console errors",
+  "PASS [phone844_2x day tr_lass_f caught] bone_v2 pose strip used for this character - 378 frames, char tr_lass_f",
+  "PASS [phone844_2x day tr_lass_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_lass_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.46,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_lass_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.45, bottom spread 0.00",
+  "PASS [phone844_2x day tr_lass_f caught] no console errors",
+  "FAIL [phone844_2x day tr_master_fernwick_m caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x day tr_master_saltmere_f caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x day tr_ranger_m caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x day tr_scientist_f caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x day tr_scientist_m caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x day tr_swimmer_f caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x day tr_swimmer_m caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x day tr_youngster_m caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x night tr_bugcatcher_f caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x night tr_camper_f caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x night tr_gymtrainer_f caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x night tr_gymtrainer_m caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x night tr_hiker_f caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x night tr_hiker_m caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x night tr_lass_f caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x night tr_master_fernwick_m caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x night tr_master_saltmere_f caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x night tr_ranger_m caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x night tr_scientist_f caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x night tr_scientist_m caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x night tr_swimmer_f caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x night tr_swimmer_m caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n",
+  "FAIL [phone844_2x night tr_youngster_m caught] ran - TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.ax-catch')\n"
+ ],
+ "summary": [
+  {
+   "tag": "pc1280_1x day tr_bugcatcher_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "tr_bugcatcher_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.1929704303188081,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.18609619140625,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 153,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day tr_camper_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "tr_camper_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.12917350952423437,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.341796875,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 188.99998474121094,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day tr_gymtrainer_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "tr_gymtrainer_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.09607727552370077,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.1134033203125,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 180,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day tr_gymtrainer_m caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "tr_gymtrainer_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.3078766837136211,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.30100250244140625,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 207,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day tr_hiker_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "tr_hiker_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.41977698749952014,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.41290283203125,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 144,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day tr_hiker_m caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "tr_hiker_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.3078728690175548,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.3009986877441406,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 234,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day tr_lass_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "tr_lass_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.3798752615583939,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.3730010986328125,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 153,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day tr_master_fernwick_m caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "tr_master_fernwick_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.19297424501302074,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.268798828125,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 225,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day tr_master_saltmere_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "tr_master_saltmere_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.41977317280289966,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.4128990173339844,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 234,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day tr_ranger_m caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "tr_ranger_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.19297424501302074,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006879848177233518
+   },
+   "cxSpread": 0.18610000610351562,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 216,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day tr_scientist_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "tr_scientist_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.12917350952423437,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.236602783203125,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 188.99998474121094,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day tr_scientist_m caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "tr_scientist_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.1484758476944773,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952909145,
+    "hold/absorb": 0.006879543952909145,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.3037986755371094,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 225,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day tr_swimmer_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "tr_swimmer_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.21827329937856887,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.21139907836914062,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 216,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day tr_swimmer_m caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "tr_swimmer_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.12917350952423437,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.23659896850585938,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 224.99998474121094,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day tr_youngster_m caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "tr_youngster_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.02217236466871808,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.303802490234375,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 153,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night tr_bugcatcher_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "tr_bugcatcher_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.3798752615583939,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.3730010986328125,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 153,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night tr_camper_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "tr_camper_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.0404746743152309,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.38269805908203125,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 189,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night tr_gymtrainer_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "tr_gymtrainer_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.05847218937343098,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.05159759521484375,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 180,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night tr_gymtrainer_m caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "tr_gymtrainer_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.3078766837136211,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006880324714082139
+   },
+   "cxSpread": 0.30100250244140625,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 207,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night tr_hiker_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "tr_hiker_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.08197820777865711,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.4741973876953125,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 144,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night tr_hiker_m caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "tr_hiker_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.34257516023718787,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.33570098876953125,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 234,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night tr_lass_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "tr_lass_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.2756730207051822,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.268798828125,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 153,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night tr_master_fernwick_m caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "tr_master_fernwick_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.3078728690175548,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.3009986877441406,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 225,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night tr_master_saltmere_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "tr_master_saltmere_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.41977317280289966,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.4128990173339844,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 234,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night tr_ranger_m caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "tr_ranger_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.24587261876903957,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.23900604248046875,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 215.99998474121094,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night tr_scientist_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "tr_scientist_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.3078766837136211,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.30100250244140625,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 189,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night tr_scientist_m caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "tr_scientist_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.12917350952423437,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952909145,
+    "hold/absorb": 0.006879543952909145,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.268798828125,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 224.99998474121094,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night tr_swimmer_f caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "tr_swimmer_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.21827329937856887,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.21139907836914062,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 216,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night tr_swimmer_m caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "tr_swimmer_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.21827329937856887,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.21139907836914062,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 225,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night tr_youngster_m caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "tr_youngster_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.34257516023718787,
+    "hold/raise": 0.006878418566937399,
+    "hold/beam": 0.006879543952902044,
+    "hold/absorb": 0.006879543952902044,
+    "hold/pulse_3": 0.006878418566937399,
+    "hold/lock_bloom": 0.006878418566937399,
+    "raise/lock_bloom": 0.006878418566937399
+   },
+   "cxSpread": 0.4741973876953125,
+   "bottomSpread": 0,
+   "k": 2.25,
+   "trainerW": 153,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_bugcatcher_f caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_bugcatcher_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.10517501831054688,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004366133873349891,
+    "hold/absorb": 0.004366133873349891,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.0043773651123046875
+   },
+   "cxSpread": 0.3784980773925781,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 82.875,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_camper_f caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_camper_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.14997482299804688,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.00441595119990763,
+    "hold/absorb": 0.00441595119990763,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004380226135253906
+   },
+   "cxSpread": 0.41400146484375,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 102.375,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_gymtrainer_f caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_gymtrainer_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.4957771301269531,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.0044017752100682685,
+    "hold/absorb": 0.0044017752100682685,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004380226135253906
+   },
+   "cxSpread": 0.4913978576660156,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 97.50000762939453,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_gymtrainer_m caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_gymtrainer_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.10517501831054688,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004351795606415729,
+    "hold/absorb": 0.004351795606415729,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004380226135253906
+   },
+   "cxSpread": 0.4913978576660156,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 112.125,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_hiker_f caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_hiker_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.1337738037109375,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004351795606415729,
+    "hold/absorb": 0.004351795606415729,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.0043811798095703125
+   },
+   "cxSpread": 0.4913978576660156,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 78,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_hiker_m caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_hiker_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.2063751220703125,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004366133873349891,
+    "hold/absorb": 0.004366133873349891,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004379630088806152
+   },
+   "cxSpread": 0.45159912109375,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 126.75,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_lass_f caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_lass_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.45897674560546875,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.0044017752100682685,
+    "hold/absorb": 0.0044017752100682685,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.0043792724609375
+   },
+   "cxSpread": 0.4546012878417969,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 82.875,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  }
+ ]
+}

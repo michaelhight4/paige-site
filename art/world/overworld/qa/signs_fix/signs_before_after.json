@@ -1,0 +1,275 @@
+[
+ {
+  "map": "aurelith",
+  "id": "aurelith_sign",
+  "before": [
+   14,
+   10
+  ],
+  "after": [
+   14,
+   11
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "aurelith",
+  "id": "aurelith_arena_sign",
+  "before": [
+   14,
+   2
+  ],
+  "after": [
+   15,
+   3
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "cindervale",
+  "id": "cindervale_sign",
+  "before": [
+   14,
+   10
+  ],
+  "after": [
+   14,
+   11
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "frostspire",
+  "id": "frostspire_sign",
+  "before": [
+   14,
+   10
+  ],
+  "after": [
+   14,
+   11
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "frostspire_pass",
+  "id": "frostspire_pass_sign",
+  "before": [
+   22,
+   35
+  ],
+  "after": [
+   22,
+   36
+  ],
+  "read_from": "left"
+ },
+ {
+  "map": "lanternport",
+  "id": "lanternport_sign",
+  "before": [
+   14,
+   10
+  ],
+  "after": [
+   14,
+   11
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "mirefen",
+  "id": "mirefen_sign",
+  "before": [
+   14,
+   10
+  ],
+  "after": [
+   14,
+   11
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "revival_heights",
+  "id": "revival_heights_sign",
+  "before": [
+   14,
+   10
+  ],
+  "after": [
+   14,
+   11
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "route_aurelith_saltmere",
+  "id": "route_aurelith_saltmere_sign",
+  "before": [
+   2,
+   10
+  ],
+  "after": [
+   3,
+   11
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "route_cindervale",
+  "id": "route_cindervale_sign",
+  "before": [
+   9,
+   8
+  ],
+  "after": [
+   14,
+   3
+  ],
+  "read_from": "left"
+ },
+ {
+  "map": "route_coast",
+  "id": "route_coast_sign",
+  "before": [
+   14,
+   2
+  ],
+  "after": [
+   14,
+   3
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "route_east",
+  "id": "route_east_sign",
+  "before": [
+   2,
+   10
+  ],
+  "after": [
+   3,
+   11
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "route_fernwick_lanternport",
+  "id": "route_fernwick_lanternport_sign",
+  "before": [
+   10,
+   21
+  ],
+  "after": [
+   10,
+   22
+  ],
+  "read_from": "left"
+ },
+ {
+  "map": "route_revival",
+  "id": "route_revival_sign",
+  "before": [
+   2,
+   19
+  ],
+  "after": [
+   3,
+   20
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "route_revival_saltmere",
+  "id": "route_revival_saltmere_sign",
+  "before": [
+   15,
+   2
+  ],
+  "after": [
+   14,
+   3
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "route_saltmere_mirefen",
+  "id": "route_saltmere_mirefen_sign",
+  "before": [
+   2,
+   10
+  ],
+  "after": [
+   3,
+   11
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "route_sunmeadow_mirefen",
+  "id": "route_sunmeadow_mirefen_sign",
+  "before": [
+   2,
+   8
+  ],
+  "after": [
+   3,
+   9
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "saltmere",
+  "id": "saltmere_sign",
+  "before": [
+   14,
+   10
+  ],
+  "after": [
+   14,
+   11
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "saltmere",
+  "id": "saltmere_hall_sign",
+  "before": [
+   7,
+   21
+  ],
+  "after": [
+   8,
+   20
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "sunmeadow_fields",
+  "id": "sunmeadow_fields_sign",
+  "before": [
+   2,
+   6
+  ],
+  "after": [
+   3,
+   6
+  ],
+  "read_from": "down"
+ },
+ {
+  "map": "tidewater_coast",
+  "id": "tidewater_coast_sign",
+  "before": [
+   14,
+   10
+  ],
+  "after": [
+   14,
+   11
+  ],
+  "read_from": "down"
+ }
+]

@@ -1,0 +1,21 @@
+{
+ "note": "DRAFT: tiles the staged maps use that live tileset.json does not have yet. They carry staged PLACEHOLDER ids 6001+ (free block: the ids after the live core range, live core max 1822, belong to the autotile port); every other id in the staged maps is the LIVE id of the same-named tile (nothing renumbered). Images: sandbox build (tools/run.py in staging/sandbox); a real run.py on promotion registers them by name, last.",
+ "live_core_max": 1822,
+ "unknown_ids": [],
+ "ids": {
+  "6001": {
+   "name": "snowpine_top",
+   "maps": [
+    "frostspire",
+    "frostspire_pass"
+   ]
+  },
+  "6002": {
+   "name": "snowpine_base",
+   "maps": [
+    "frostspire",
+    "frostspire_pass"
+   ]
+  }
+ }
+}

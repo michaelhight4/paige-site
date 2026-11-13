@@ -1,0 +1,1178 @@
+{
+ "when": "Fri Oct 23 2026 00:36:35 GMT-0500 (Central Daylight Time)",
+ "fails": 0,
+ "results": [
+  "PASS [phone844_2x day tr_bugcatcher_f caught] bone_v2 pose strip used for this character - 360 frames, char tr_bugcatcher_f",
+  "PASS [phone844_2x day tr_bugcatcher_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_bugcatcher_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.08,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_bugcatcher_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.08, bottom spread 0.00",
+  "PASS [phone844_2x day tr_bugcatcher_f caught] no console errors",
+  "PASS [phone844_2x day tr_camper_f caught] bone_v2 pose strip used for this character - 340 frames, char tr_camper_f",
+  "PASS [phone844_2x day tr_camper_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_camper_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.39,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_camper_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.39, bottom spread 0.00",
+  "PASS [phone844_2x day tr_camper_f caught] no console errors",
+  "PASS [phone844_2x day tr_gymtrainer_f caught] bone_v2 pose strip used for this character - 370 frames, char tr_gymtrainer_f",
+  "PASS [phone844_2x day tr_gymtrainer_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_gymtrainer_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.28,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_gymtrainer_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.27, bottom spread 0.00",
+  "PASS [phone844_2x day tr_gymtrainer_f caught] no console errors",
+  "PASS [phone844_2x day tr_gymtrainer_m caught] bone_v2 pose strip used for this character - 372 frames, char tr_gymtrainer_m",
+  "PASS [phone844_2x day tr_gymtrainer_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_gymtrainer_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.05,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_gymtrainer_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.05, bottom spread 0.00",
+  "PASS [phone844_2x day tr_gymtrainer_m caught] no console errors",
+  "PASS [phone844_2x day tr_hiker_f caught] bone_v2 pose strip used for this character - 379 frames, char tr_hiker_f",
+  "PASS [phone844_2x day tr_hiker_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_hiker_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.33,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_hiker_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.33, bottom spread 0.00",
+  "PASS [phone844_2x day tr_hiker_f caught] no console errors",
+  "PASS [phone844_2x day tr_hiker_m caught] bone_v2 pose strip used for this character - 369 frames, char tr_hiker_m",
+  "PASS [phone844_2x day tr_hiker_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_hiker_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.46,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_hiker_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.45, bottom spread 0.00",
+  "PASS [phone844_2x day tr_hiker_m caught] no console errors",
+  "PASS [phone844_2x day tr_lass_f caught] bone_v2 pose strip used for this character - 375 frames, char tr_lass_f",
+  "PASS [phone844_2x day tr_lass_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_lass_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.3,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_lass_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.30, bottom spread 0.00",
+  "PASS [phone844_2x day tr_lass_f caught] no console errors",
+  "PASS [phone844_2x day tr_master_fernwick_m caught] bone_v2 pose strip used for this character - 380 frames, char tr_master_fernwick_m",
+  "PASS [phone844_2x day tr_master_fernwick_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_master_fernwick_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.13,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_master_fernwick_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.13, bottom spread 0.00",
+  "PASS [phone844_2x day tr_master_fernwick_m caught] no console errors",
+  "PASS [phone844_2x day tr_master_saltmere_f caught] bone_v2 pose strip used for this character - 372 frames, char tr_master_saltmere_f",
+  "PASS [phone844_2x day tr_master_saltmere_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_master_saltmere_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.39,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_master_saltmere_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.41, bottom spread 0.00",
+  "PASS [phone844_2x day tr_master_saltmere_f caught] no console errors",
+  "PASS [phone844_2x day tr_ranger_m caught] bone_v2 pose strip used for this character - 370 frames, char tr_ranger_m",
+  "PASS [phone844_2x day tr_ranger_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_ranger_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.39,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_ranger_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.39, bottom spread 0.00",
+  "PASS [phone844_2x day tr_ranger_m caught] no console errors",
+  "PASS [phone844_2x day tr_scientist_f caught] bone_v2 pose strip used for this character - 376 frames, char tr_scientist_f",
+  "PASS [phone844_2x day tr_scientist_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_scientist_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.19,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_scientist_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.18, bottom spread 0.00",
+  "PASS [phone844_2x day tr_scientist_f caught] no console errors",
+  "PASS [phone844_2x day tr_scientist_m caught] bone_v2 pose strip used for this character - 378 frames, char tr_scientist_m",
+  "PASS [phone844_2x day tr_scientist_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_scientist_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.07,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_scientist_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.38, bottom spread 0.00",
+  "PASS [phone844_2x day tr_scientist_m caught] no console errors",
+  "PASS [phone844_2x day tr_swimmer_f caught] bone_v2 pose strip used for this character - 367 frames, char tr_swimmer_f",
+  "PASS [phone844_2x day tr_swimmer_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_swimmer_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.3,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_swimmer_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.35, bottom spread 0.00",
+  "PASS [phone844_2x day tr_swimmer_f caught] no console errors",
+  "PASS [phone844_2x day tr_swimmer_m caught] bone_v2 pose strip used for this character - 368 frames, char tr_swimmer_m",
+  "PASS [phone844_2x day tr_swimmer_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_swimmer_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.15,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_swimmer_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.15, bottom spread 0.00",
+  "PASS [phone844_2x day tr_swimmer_m caught] no console errors",
+  "PASS [phone844_2x day tr_youngster_m caught] bone_v2 pose strip used for this character - 375 frames, char tr_youngster_m",
+  "PASS [phone844_2x day tr_youngster_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x day tr_youngster_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.17,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x day tr_youngster_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.41, bottom spread 0.00",
+  "PASS [phone844_2x day tr_youngster_m caught] no console errors",
+  "PASS [phone844_2x night tr_bugcatcher_f caught] bone_v2 pose strip used for this character - 376 frames, char tr_bugcatcher_f",
+  "PASS [phone844_2x night tr_bugcatcher_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_bugcatcher_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.17,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_bugcatcher_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.16, bottom spread 0.00",
+  "PASS [phone844_2x night tr_bugcatcher_f caught] no console errors",
+  "PASS [phone844_2x night tr_camper_f caught] bone_v2 pose strip used for this character - 376 frames, char tr_camper_f",
+  "PASS [phone844_2x night tr_camper_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_camper_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.19,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_camper_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.18, bottom spread 0.00",
+  "PASS [phone844_2x night tr_camper_f caught] no console errors",
+  "PASS [phone844_2x night tr_gymtrainer_f caught] bone_v2 pose strip used for this character - 374 frames, char tr_gymtrainer_f",
+  "PASS [phone844_2x night tr_gymtrainer_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_gymtrainer_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.19,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_gymtrainer_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.31, bottom spread 0.00",
+  "PASS [phone844_2x night tr_gymtrainer_f caught] no console errors",
+  "PASS [phone844_2x night tr_gymtrainer_m caught] bone_v2 pose strip used for this character - 379 frames, char tr_gymtrainer_m",
+  "PASS [phone844_2x night tr_gymtrainer_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_gymtrainer_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.5,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_gymtrainer_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.49, bottom spread 0.00",
+  "PASS [phone844_2x night tr_gymtrainer_m caught] no console errors",
+  "PASS [phone844_2x night tr_hiker_f caught] bone_v2 pose strip used for this character - 376 frames, char tr_hiker_f",
+  "PASS [phone844_2x night tr_hiker_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_hiker_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.25,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_hiker_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.49, bottom spread 0.00",
+  "PASS [phone844_2x night tr_hiker_f caught] no console errors",
+  "PASS [phone844_2x night tr_hiker_m caught] bone_v2 pose strip used for this character - 375 frames, char tr_hiker_m",
+  "PASS [phone844_2x night tr_hiker_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_hiker_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.13,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_hiker_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.13, bottom spread 0.00",
+  "PASS [phone844_2x night tr_hiker_m caught] no console errors",
+  "PASS [phone844_2x night tr_lass_f caught] bone_v2 pose strip used for this character - 380 frames, char tr_lass_f",
+  "PASS [phone844_2x night tr_lass_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_lass_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.28,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_lass_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.27, bottom spread 0.00",
+  "PASS [phone844_2x night tr_lass_f caught] no console errors",
+  "PASS [phone844_2x night tr_master_fernwick_m caught] bone_v2 pose strip used for this character - 381 frames, char tr_master_fernwick_m",
+  "PASS [phone844_2x night tr_master_fernwick_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_master_fernwick_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.19,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_master_fernwick_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.31, bottom spread 0.00",
+  "PASS [phone844_2x night tr_master_fernwick_m caught] no console errors",
+  "PASS [phone844_2x night tr_master_saltmere_f caught] bone_v2 pose strip used for this character - 382 frames, char tr_master_saltmere_f",
+  "PASS [phone844_2x night tr_master_saltmere_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_master_saltmere_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.15,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_master_saltmere_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.41, bottom spread 0.00",
+  "PASS [phone844_2x night tr_master_saltmere_f caught] no console errors",
+  "PASS [phone844_2x night tr_ranger_m caught] bone_v2 pose strip used for this character - 382 frames, char tr_ranger_m",
+  "PASS [phone844_2x night tr_ranger_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_ranger_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.11,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_ranger_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.41, bottom spread 0.00",
+  "PASS [phone844_2x night tr_ranger_m caught] no console errors",
+  "PASS [phone844_2x night tr_scientist_f caught] bone_v2 pose strip used for this character - 371 frames, char tr_scientist_f",
+  "PASS [phone844_2x night tr_scientist_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_scientist_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.19,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_scientist_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.28, bottom spread 0.00",
+  "PASS [phone844_2x night tr_scientist_f caught] no console errors",
+  "PASS [phone844_2x night tr_scientist_m caught] bone_v2 pose strip used for this character - 371 frames, char tr_scientist_m",
+  "PASS [phone844_2x night tr_scientist_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_scientist_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.15,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_scientist_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.15, bottom spread 0.00",
+  "PASS [phone844_2x night tr_scientist_m caught] no console errors",
+  "PASS [phone844_2x night tr_swimmer_f caught] bone_v2 pose strip used for this character - 358 frames, char tr_swimmer_f",
+  "PASS [phone844_2x night tr_swimmer_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_swimmer_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.13,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_swimmer_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.13, bottom spread 0.00",
+  "PASS [phone844_2x night tr_swimmer_f caught] no console errors",
+  "PASS [phone844_2x night tr_swimmer_m caught] bone_v2 pose strip used for this character - 361 frames, char tr_swimmer_m",
+  "PASS [phone844_2x night tr_swimmer_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_swimmer_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.5,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_swimmer_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.49, bottom spread 0.00",
+  "PASS [phone844_2x night tr_swimmer_m caught] no console errors",
+  "PASS [phone844_2x night tr_youngster_m caught] bone_v2 pose strip used for this character - 362 frames, char tr_youngster_m",
+  "PASS [phone844_2x night tr_youngster_m caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_youngster_m caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.23,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_youngster_m caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.49, bottom spread 0.00",
+  "PASS [phone844_2x night tr_youngster_m caught] no console errors"
+ ],
+ "summary": [
+  {
+   "tag": "phone844_2x day tr_bugcatcher_f caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_bugcatcher_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.08107376098632812,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004366133873349891,
+    "hold/absorb": 0.004366133873349891,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.07669448852539062,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 82.87500762939453,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_camper_f caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_camper_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.39087677001953125,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.00441595119990763,
+    "hold/absorb": 0.00441595119990763,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.3865013122558594,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 102.375,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_gymtrainer_f caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_gymtrainer_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.2758750915527344,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.0044017752100682685,
+    "hold/absorb": 0.0044017752100682685,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.2714996337890625,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 97.5,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_gymtrainer_m caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_gymtrainer_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.052677154541015625,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004351795606415729,
+    "hold/absorb": 0.004351795606415729,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.048305511474609375,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 112.12499237060547,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_hiker_f caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_hiker_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.3299751281738281,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004351795606415729,
+    "hold/absorb": 0.004351795606415729,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.3255958557128906,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 78.00000762939453,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_hiker_m caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_hiker_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.45897483825683594,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004366133873349891,
+    "hold/absorb": 0.004366133873349891,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.4546031951904297,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 126.74999237060547,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_lass_f caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_lass_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.3020744323730469,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.0044017752100682685,
+    "hold/absorb": 0.0044017752100682685,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.297698974609375,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 82.875,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_master_fernwick_m caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_master_fernwick_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.1337757110595703,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004366133873349891,
+    "hold/absorb": 0.004366133873349891,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.1293964385986328,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 121.87500762939453,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_master_saltmere_f caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_master_saltmere_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.39087486267089844,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004366133873351112,
+    "hold/absorb": 0.004366133873351112,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.4139995574951172,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 126.74999237060547,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_ranger_m caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_ranger_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.39087677001953125,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.0044017752100682685,
+    "hold/absorb": 0.0044017752100682685,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.3865013122558594,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 117,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_scientist_f caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_scientist_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.18627548217773438,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004351795606415729,
+    "hold/absorb": 0.004351795606415729,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.1819000244140625,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 102.375,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_scientist_m caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_scientist_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.07067489624023438,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.0044017752100682685,
+    "hold/absorb": 0.0044017752100682685,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.3784961700439453,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 121.875,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_swimmer_f caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_swimmer_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.3020744323730469,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.0044017752100682685,
+    "hold/absorb": 0.0044017752100682685,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375934600830078
+   },
+   "cxSpread": 0.3450965881347656,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 117,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_swimmer_m caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_swimmer_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.14997482299804688,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004351795606415729,
+    "hold/absorb": 0.004351795606415729,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.145599365234375,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 121.875,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day tr_youngster_m caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "tr_youngster_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.16747665405273438,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.0044017752100682685,
+    "hold/absorb": 0.0044017752100682685,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.0043773651123046875
+   },
+   "cxSpread": 0.41400146484375,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 82.875,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night tr_bugcatcher_f caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_bugcatcher_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.16747665405273438,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004366133873349891,
+    "hold/absorb": 0.004366133873349891,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.1631011962890625,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 82.875,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night tr_camper_f caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_camper_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.18627548217773438,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.00441595119990763,
+    "hold/absorb": 0.00441595119990763,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.1819000244140625,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 102.375,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night tr_gymtrainer_f caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_gymtrainer_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.18627548217773438,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.0044017752100682685,
+    "hold/absorb": 0.0044017752100682685,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004380226135253906
+   },
+   "cxSpread": 0.3138008117675781,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 97.5,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night tr_gymtrainer_m caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_gymtrainer_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.4957771301269531,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004351795606415729,
+    "hold/absorb": 0.004351795606415729,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375934600830078
+   },
+   "cxSpread": 0.4913978576660156,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 112.12500762939453,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night tr_hiker_f caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_hiker_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.2511749267578125,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004351795606415729,
+    "hold/absorb": 0.004351795606415729,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.0043773651123046875
+   },
+   "cxSpread": 0.4913978576660156,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 78,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night tr_hiker_m caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_hiker_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.1337757110595703,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004366133873349891,
+    "hold/absorb": 0.004366133873349891,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.1293964385986328,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 126.75000762939453,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night tr_lass_f caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_lass_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.2758750915527344,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.0044017752100682685,
+    "hold/absorb": 0.0044017752100682685,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.2714996337890625,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 82.875,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night tr_master_fernwick_m caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_master_fernwick_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.18627548217773438,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004366133873349891,
+    "hold/absorb": 0.004366133873349891,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.0043801069259643555
+   },
+   "cxSpread": 0.3138008117675781,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 121.875,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night tr_master_saltmere_f caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_master_saltmere_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.14997482299804688,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004366133873351112,
+    "hold/absorb": 0.004366133873351112,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.4139995574951172,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 126.75,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night tr_ranger_m caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_ranger_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.10517501831054688,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.0044017752100682685,
+    "hold/absorb": 0.0044017752100682685,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004376888275146484
+   },
+   "cxSpread": 0.41400146484375,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 117,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night tr_scientist_f caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_scientist_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.18627548217773438,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004351795606415729,
+    "hold/absorb": 0.004351795606415729,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004376411437988281
+   },
+   "cxSpread": 0.2843971252441406,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 102.375,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night tr_scientist_m caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_scientist_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.14997482299804688,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.0044017752100682685,
+    "hold/absorb": 0.0044017752100682685,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.145599365234375,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 121.875,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night tr_swimmer_f caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_swimmer_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.1337738037109375,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.0044017752100682685,
+    "hold/absorb": 0.0044017752100682685,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.12939834594726562,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 117,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night tr_swimmer_m caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_swimmer_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.4957752227783203,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.004351795606415729,
+    "hold/absorb": 0.004351795606415729,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.004375457763671875
+   },
+   "cxSpread": 0.4913959503173828,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 121.87500762939453,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night tr_youngster_m caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_youngster_m",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.22807693481445312,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.0044017752100682685,
+    "hold/absorb": 0.0044017752100682685,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.0043773651123046875
+   },
+   "cxSpread": 0.4913978576660156,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 82.87500762939453,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  }
+ ]
+}

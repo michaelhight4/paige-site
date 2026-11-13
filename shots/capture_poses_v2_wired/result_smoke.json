@@ -1,0 +1,48 @@
+{
+ "when": "Fri Oct 23 2026 00:10:02 GMT-0500 (Central Daylight Time)",
+ "fails": 0,
+ "results": [
+  "PASS [pc1280_1x day cal caught] bone_v2 pose strip used for this character - 403 frames, char cal",
+  "PASS [pc1280_1x day cal caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [pc1280_1x day cal caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.19,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"lowered/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day cal caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.19, bottom spread 0.00",
+  "PASS [pc1280_1x day cal caught] no console errors"
+ ],
+ "summary": [
+  {
+   "tag": "pc1280_1x day cal caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "cal",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.1929628009303831,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_3": 0.006893667762705492,
+    "hold/lock_bloom": 0.006893667762705492,
+    "lowered/lock_bloom": 0.006893667762705492
+   },
+   "cxSpread": 0.18609619140625,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 204,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  }
+ ]
+}

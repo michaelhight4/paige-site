@@ -1,0 +1,20 @@
+--- /workspace/kilumen/art/world/overworld/tools/interiors_merge.py	2026-10-22 20:46:00.043976775 -0500
++++ /workspace/kilumen/art/world/overworld/qa/overnight_maps/staging/sandbox/overworld/tools/interiors_merge.py	2026-10-23 00:25:16.236320995 -0500
+@@ -28,7 +28,7 @@
+     dict(id='H3', map='home_lanternport_c', size='12x10 + 2F', style='teal parquet family home: kitchen, sofa, TV; bedroom upstairs', floors=2, upstairs='home_lanternport_c_2f'),
+     dict(id='H4', map='home_saltmere_a', size='12x9', style='driftwood-and-stone seaside room, teal rug', floors=1),
+ ]
+-AREAS = ['brookhollow', 'fernwick']          # rotation offset = index (later towns append here: saltmere, cindervale, ...)
++AREAS = ['brookhollow', 'fernwick'] + ['aurelith', 'saltmere', 'revival_heights', 'frostspire', 'mirefen', 'tidewater_coast', 'lanternport', 'cindervale']   # OVERNIGHT DRAFT          # rotation offset = index (later towns append here: saltmere, cindervale, ...)
+ CHAINS = {'heal': 'heal_brookhollow', 'mart': 'shop_int', 'station': 'station_int'}   # one shared map per chain
+ UNIQUE = {   # story-unique interiors and WHY (sources: CRITICAL_PATH.md, overworld_lines.json, SOUL_PLAYBOOK 8.1-8.5 + easter eggs)
+     'house_1f': "player's house 1F: Ron, E2 3 a.m. Static (TV), 8.5-F Ron's CV",
+@@ -45,7 +45,7 @@
+ IMPORT = (['heal_brookhollow', 'heal_fernwick', 'rt_branch_backroom', 'lab_brookhollow', 'home_brookhollow_b', 'home_brookhollow_b_2f',
+            'home_fernwick_a', 'home_fernwick_a_2f'] + [d['map'] for d in HOME_POOL] + ['home_lanternport_c_2f'])
+ RETIRED = ['house_int_a', 'house_int_b', 'house_int_c', 'heal_centre_int']   # old shared maps: kept in maps/, nothing warps to them
+-EXTERIOR_TOWNS = ('brookhollow', 'fernwick')
++EXTERIOR_TOWNS = ('brookhollow', 'fernwick') + tuple(['aurelith', 'saltmere', 'revival_heights', 'frostspire', 'mirefen', 'tidewater_coast', 'lanternport', 'cindervale'])   # OVERNIGHT DRAFT
+ STAFF_FLAG = 'has_branch_card'               # overrides INTERIORS.md 'rt_backroom_open' (Gary, Oct 22)
+ 
+ # ---------------- Text Bot carry-over (kept OUT of npcs/signs/interact_spots until Text Bot re-keys them) ----------------

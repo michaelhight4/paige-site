@@ -1,0 +1,10 @@
+AUTOTILE: 488 new tiles (1578..2065); port cells: brookhollow 8+0, route1 0+1, fernwick 3+0, thornwood 0+0, greystone_entrance 10+0, greystone_b1 15+0, lantern_rest 0+0, route1_storm 1+0
+CLUB: 58 tiles, 90 cells reachable from the door, problems: none
+Traceback (most recent call last):
+  File "/tmp/kil_integ_dry/overworld/tools/run.py", line 163, in <module>
+    _wdp = world_data.check(res, bfs, MAPS); report += _wdp; WD_DOC = world_data.write(res, MAPS)
+                                                                      ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/tmp/kil_integ_dry/overworld/tools/world_data.py", line 346, in write
+    for s in z['slots']: assert s['species'] in arts, s
+                                ^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'species': 'spinelet', 'level': [12, 15], 'weight': 25}

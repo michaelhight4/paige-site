@@ -1,0 +1,20 @@
+--- world_data.py (live)
++++ world_data.py (greystone DRAFT)
+@@ -288,7 +288,7 @@
+ }
+ 
+ # ---------------- encounters (parity C1/C2/C5/C8) ----------------
+-LV = {'sunmeadow_grass': (2, 5), 'thornwood_grass': (9, 13), 'greystone_glowfern': (20, 25), 'mirefen_grass_w': (33, 37), 'mirefen_grass_ne': (33, 37),
++LV = {'sunmeadow_grass': (2, 5), 'thornwood_grass': (9, 13), 'greystone_glowfern': (12, 16), 'mirefen_grass_w': (33, 37), 'mirefen_grass_ne': (33, 37),
+       'mirefen_grass_s': (34, 38), 'mirefen_bog_surf': (34, 39)}
+ def _s(sp, a, b, w, **c): return dict(species=sp, level=[a, b], weight=w, **c)
+ def tables():
+@@ -307,6 +307,8 @@
+     a, b = lv('greystone_glowfern')
+     T['greystone_glowfern'] = dict(method='cave_fern', rate=round(1 / 12, 4), slots=[
+         _s('burrowmane', a, b, 30), _s('bastonox', b, b + 2, 5), _s('gloamtick', a, b, 30), _s('slagrook', a, b, 20), _s('tumbloam', a, b - 2, 15)])
++    T['greystone_glowfern']['draft'] = ('DRAFT (Oct 23 2026, map integrator): re-banded from L20-27 to L12-18 per Game dev overnight_gd '
++                                         '(Greystone opens right after coin 1). Not signed off by Gary; revert = LV (20, 25) and drop this key.')
+     for z, w in (('mirefen_grass_w', 0), ('mirefen_grass_ne', 1), ('mirefen_grass_s', 2)):
+         a, b = lv(z)
+         T[z] = dict(method='grass', rate=round(1 / 12, 4), slots=[

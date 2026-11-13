@@ -1,0 +1,11 @@
+--- /workspace/kilumen/art/world/overworld/tools/build.py	2026-10-22 21:07:52.463149940 -0500
++++ /workspace/kilumen/art/world/overworld/qa/overnight_maps/staging/sandbox/overworld/tools/build.py	2026-10-23 00:44:57.168377733 -0500
+@@ -266,7 +266,7 @@
+                 elif dt['coll'] != 'walk': c = COLL[dt['coll']]
+                 if dt['enc']: E[y][x] = 1
+             if m.terr[y][x] == 'cave' and c == 0 and m.name.startswith('greystone'): E[y][x] = 2
+-            if O[y][x] and byid[O[y][x]]['name'] in ('tree_top', 'treed_top') and c == 0: c = 1  # canopy hides the tile
++            if O[y][x] and byid[O[y][x]]['name'] in ('tree_top', 'treed_top', 'snowpine_top') and c == 0: c = 1  # canopy hides the tile
+             C[y][x] = c
+     for (x, y), v in m.cforce.items(): C[y][x] = v
+     for wp in m.warps: C[wp['y']][wp['x']] = 4

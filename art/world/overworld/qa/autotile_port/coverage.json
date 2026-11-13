@@ -1,0 +1,343 @@
+{
+ "tileset.json:cave_water>cave": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0,
+   1,
+   2
+  ],
+  "raw_names": 41
+ },
+ "tileset.json:mud>grass_dark": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0,
+   1,
+   2
+  ],
+  "raw_names": 36
+ },
+ "tileset.json:path>grass": {
+  "blob47_w0": 34,
+  "of": 46,
+  "wobble_variants": [
+   0,
+   1,
+   2
+  ],
+  "raw_names": 70
+ },
+ "tileset.json:path>grass_dark": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ },
+ "tileset.json:sand>grass": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0,
+   1,
+   2
+  ],
+  "raw_names": 39
+ },
+ "tileset.json:snow>grass": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ },
+ "tileset.json:trail>grass": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0,
+   1,
+   2
+  ],
+  "raw_names": 52
+ },
+ "tileset.json:trail>grass_dark": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0,
+   1,
+   2
+  ],
+  "raw_names": 48
+ },
+ "tileset.json:water>grass": {
+  "blob47_w0": 32,
+  "of": 46,
+  "wobble_variants": [
+   0,
+   1,
+   2
+  ],
+  "raw_names": 51
+ },
+ "tileset.json:water>grass_dark": {
+  "blob47_w0": 1,
+  "of": 46,
+  "wobble_variants": [
+   0,
+   1,
+   2
+  ],
+  "raw_names": 6
+ },
+ "tileset.json:water>path": {
+  "blob47_w0": 2,
+  "of": 46,
+  "wobble_variants": [
+   0,
+   1,
+   2
+  ],
+  "raw_names": 6
+ },
+ "tileset.json:water>sand": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0,
+   1,
+   2
+  ],
+  "raw_names": 35
+ },
+ "tileset.json:water>trail": {
+  "blob47_w0": 0,
+  "of": 46,
+  "wobble_variants": [
+   0,
+   2
+  ],
+  "raw_names": 1
+ },
+ "tileset.json:x_bog>moss": {
+  "blob47_w0": 32,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 32
+ },
+ "tileset.json:x_bog>mud": {
+  "blob47_w0": 31,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 31
+ },
+ "tileset.json:x_deep>water": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ },
+ "tileset.json:x_flood>grass": {
+  "blob47_w0": 3,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 3
+ },
+ "tileset.json:x_flood>path": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ },
+ "tileset.json:x_ice>snow": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ },
+ "tileset.json:x_mud>moss": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ },
+ "tileset.json:x_path>grass": {
+  "blob47_w0": 6,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 6
+ },
+ "tileset.json:x_snow>grass": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ },
+ "tileset.json:x_water>flood": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ },
+ "tileset.json:x_water>grass": {
+  "blob47_w0": 1,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 1
+ },
+ "tileset.json:x_water>path": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ },
+ "tileset.json:xm_flood>grass": {
+  "blob47_w0": 1,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 1
+ },
+ "tileset.json:xm_flood>trail": {
+  "blob47_w0": 6,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 6
+ },
+ "tileset.json:xm_water>flood": {
+  "blob47_w0": 3,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 3
+ },
+ "tileset_extra.json:x_bog>moss": {
+  "blob47_w0": 32,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 32
+ },
+ "tileset_extra.json:x_bog>mud": {
+  "blob47_w0": 31,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 31
+ },
+ "tileset_extra.json:x_deep>water": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ },
+ "tileset_extra.json:x_flood>grass": {
+  "blob47_w0": 3,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 3
+ },
+ "tileset_extra.json:x_flood>path": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ },
+ "tileset_extra.json:x_ice>snow": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ },
+ "tileset_extra.json:x_mud>moss": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ },
+ "tileset_extra.json:x_path>grass": {
+  "blob47_w0": 6,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 6
+ },
+ "tileset_extra.json:x_snow>grass": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ },
+ "tileset_extra.json:x_water>flood": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ },
+ "tileset_extra.json:x_water>grass": {
+  "blob47_w0": 1,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 1
+ },
+ "tileset_extra.json:x_water>path": {
+  "blob47_w0": 30,
+  "of": 46,
+  "wobble_variants": [
+   0
+  ],
+  "raw_names": 30
+ }
+}

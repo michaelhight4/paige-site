@@ -1,0 +1,9 @@
+CLUB: 58 tiles, 90 cells reachable from the door, problems: none
+Traceback (most recent call last):
+  File "/tmp/kil_integ_noport/overworld/tools/run.py", line 161, in <module>
+    _wdp = world_data.check(res, bfs, MAPS); report += _wdp; WD_DOC = world_data.write(res, MAPS)
+                                                                      ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/tmp/kil_integ_noport/overworld/tools/world_data.py", line 344, in write
+    for s in z['slots']: assert s['species'] in arts, s
+                                ^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'species': 'foalgust', 'level': [12, 15], 'weight': 10}

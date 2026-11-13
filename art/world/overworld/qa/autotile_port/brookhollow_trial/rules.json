@@ -1,0 +1,48 @@
+{
+ "source": "World Design tools/build.py resolve() + ground.py (vhash, NV=4, NW=3) + build.WATER_NV=3, expressed as data",
+ "priority": {
+  "grass": 0,
+  "grass_dark": 0,
+  "cave": 0,
+  "mud": 1,
+  "sand": 1,
+  "snow": 1,
+  "path": 2,
+  "trail": 2,
+  "water": 3,
+  "cave_water": 3
+ },
+ "intgrid": {
+  "grass": 1,
+  "grass_dark": 2,
+  "cave": 3,
+  "mud": 4,
+  "sand": 5,
+  "snow": 6,
+  "path": 7,
+  "trail": 8,
+  "water": 9,
+  "cave_water": 10,
+  "cavewall": 11
+ },
+ "neighbours": {
+  "sides": [
+   "N",
+   "E",
+   "S",
+   "W"
+  ],
+  "diags": [
+   "NE",
+   "SE",
+   "SW",
+   "NW"
+  ],
+  "bit": "1 = neighbour terrain has LOWER priority (the edge faces it); off-map = same"
+ },
+ "edge_tile": "{T}>{A}_{sides}_{diags}{wob}  (A = most common lower neighbour; wob = \"\" if w==0 else \"_w{w}\")",
+ "base_tile": "{T}_{v} (v = vhash % 4); water/cave_water: {T} if v%3==0 else {T}_{v%3}",
+ "variant_hash": "vhash(x,y) (ground.py); base v = h % 4, edge wobble w = (h >> 8) % 3",
+ "cavewall": "face_l if S is floor; face_u if S2 is floor; else side_e/side_w/side_ew/top by floor within x+-1, y..y+2",
+ "not_rule_placed": "decoration/overlay layers (trees, ledges, cliffs, tall grass, fences, buildings) keep their own placement code"
+}

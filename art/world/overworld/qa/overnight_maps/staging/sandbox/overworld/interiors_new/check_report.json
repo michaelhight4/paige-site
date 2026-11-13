@@ -1,0 +1,271 @@
+{
+ "hall_aurelith": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": true
+ },
+ "hall_cindervale": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": true
+ },
+ "hall_lanternport": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": true
+ },
+ "hall_revival_heights": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": true
+ },
+ "hall_saltmere": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": true
+ },
+ "heal_aurelith": {
+  "errors": [],
+  "warnings": [
+   "3 walkable cells unreachable: [(5, 3), (7, 3), (8, 3)]"
+  ],
+  "puzzle_verified": null
+ },
+ "heal_brookhollow": {
+  "errors": [],
+  "warnings": [
+   "3 walkable cells unreachable: [(5, 3), (7, 3), (8, 3)]"
+  ],
+  "puzzle_verified": null
+ },
+ "heal_cindervale": {
+  "errors": [],
+  "warnings": [
+   "3 walkable cells unreachable: [(5, 3), (7, 3), (8, 3)]"
+  ],
+  "puzzle_verified": null
+ },
+ "heal_fernwick": {
+  "errors": [],
+  "warnings": [
+   "3 walkable cells unreachable: [(5, 3), (7, 3), (8, 3)]"
+  ],
+  "puzzle_verified": null
+ },
+ "heal_lanternport": {
+  "errors": [],
+  "warnings": [
+   "3 walkable cells unreachable: [(5, 3), (7, 3), (8, 3)]"
+  ],
+  "puzzle_verified": null
+ },
+ "heal_revival_heights": {
+  "errors": [],
+  "warnings": [
+   "3 walkable cells unreachable: [(5, 3), (7, 3), (8, 3)]"
+  ],
+  "puzzle_verified": null
+ },
+ "heal_saltmere": {
+  "errors": [],
+  "warnings": [
+   "3 walkable cells unreachable: [(5, 3), (7, 3), (8, 3)]"
+  ],
+  "puzzle_verified": null
+ },
+ "home_aurelith_a": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_aurelith_a_2f": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_aurelith_b": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_brookhollow_a": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_brookhollow_b": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_brookhollow_b_2f": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_cindervale_a": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_cindervale_b": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_cindervale_b_2f": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_fernwick_a": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_fernwick_a_2f": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_fernwick_b": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_fernwick_c": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_lanternport_a": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_lanternport_b": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_lanternport_c": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_lanternport_c_2f": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_revival_heights_a": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_revival_heights_a_2f": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_revival_heights_b": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_revival_heights_c": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_saltmere_a": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_saltmere_b": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_saltmere_b_2f": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "home_saltmere_c": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "lab_brookhollow": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "mart_aurelith": {
+  "errors": [],
+  "warnings": [
+   "2 walkable cells unreachable: [(0, 3), (1, 3)]"
+  ],
+  "puzzle_verified": null
+ },
+ "mart_cindervale": {
+  "errors": [],
+  "warnings": [
+   "2 walkable cells unreachable: [(10, 3), (11, 3)]"
+  ],
+  "puzzle_verified": null
+ },
+ "mart_lanternport": {
+  "errors": [],
+  "warnings": [
+   "2 walkable cells unreachable: [(10, 3), (11, 3)]"
+  ],
+  "puzzle_verified": null
+ },
+ "mart_revival_heights": {
+  "errors": [],
+  "warnings": [
+   "2 walkable cells unreachable: [(0, 3), (1, 3)]"
+  ],
+  "puzzle_verified": null
+ },
+ "mart_saltmere": {
+  "errors": [],
+  "warnings": [
+   "2 walkable cells unreachable: [(0, 3), (1, 3)]"
+  ],
+  "puzzle_verified": null
+ },
+ "rt_branch_backroom": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "rt_hq_lobby": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "station_aurelith": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "station_lanternport": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "station_revival_heights": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ },
+ "station_saltmere": {
+  "errors": [],
+  "warnings": [],
+  "puzzle_verified": null
+ }
+}

@@ -1,0 +1,275 @@
+{
+ "_note": "Coder's region 2 hand-edits (Oct 23 2026) captured from the live maps/*.json at 14:45 CT by the region2_wd pass. tools/region2_handedits.py applies them AFTER centre_pad (coords are current padded coords): each listed entity replaces any same-id entity in npcs/signs/interact_spots and is removed from text_pending / npcs_pending / signs_pending; drop_items removes items; exit_offsets overrides exits[].offset by 'to'. Edit here, not in the live JSON.",
+ "maps": {
+  "thornwood": {
+   "npcs": [
+    {
+     "id": "thornwood_c_gardener",
+     "x": 36,
+     "y": 13,
+     "facing": "down",
+     "kind": "trainer_hooded",
+     "note": "DRAFT batch 2 (01:25 CT): Gardener Kit (tr_thornwood_c), pond-side clearing facing the path; coder region 2 (Oct 23 2026): promoted from text_pending (lines exist); team = src/battle/data/trainer_teams.js (region 2 levels)",
+     "gd_id": "tr_thornwood_c",
+     "gd_class": "gardener",
+     "team": [
+      {
+       "species": "cobblepup",
+       "level": 13
+      },
+      {
+       "species": "briarlet",
+       "level": 14
+      }
+     ],
+     "sight": 3,
+     "sight_range": 3,
+     "prize": 480,
+     "sight_cells": [
+      [
+       36,
+       14
+      ],
+      [
+       36,
+       15
+      ]
+     ]
+    },
+    {
+     "id": "thornwood_d_kid",
+     "x": 39,
+     "y": 19,
+     "facing": "right",
+     "kind": "trainer_hooded",
+     "note": "DRAFT batch 2 (01:25 CT): Trail Kid Lio (tr_thornwood_d), mud patch by the east log gate; coder region 2 (Oct 23 2026): promoted from text_pending (lines exist); team = src/battle/data/trainer_teams.js (region 2 levels)",
+     "gd_id": "tr_thornwood_d",
+     "gd_class": "kid",
+     "team": [
+      {
+       "species": "gloamtick",
+       "level": 13
+      }
+     ],
+     "sight": 3,
+     "sight_range": 3,
+     "prize": 240,
+     "sight_cells": [
+      [
+       40,
+       19
+      ],
+      [
+       41,
+       19
+      ]
+     ]
+    },
+    {
+     "id": "thornwood_e_researcher",
+     "x": 27,
+     "y": 10,
+     "facing": "up",
+     "kind": "trainer_hooded",
+     "note": "DRAFT batch 2 (01:25 CT): Field Researcher Nell (tr_thornwood_e), by the cave-mouth camp (Greystone warp); coder region 2 (Oct 23 2026): promoted from text_pending (lines exist); team = src/battle/data/trainer_teams.js (region 2 levels)",
+     "gd_id": "tr_thornwood_e",
+     "gd_class": "researcher",
+     "team": [
+      {
+       "species": "thornpod",
+       "level": 14
+      },
+      {
+       "species": "burlbeetle",
+       "level": 15
+      }
+     ],
+     "sight": 4,
+     "sight_range": 4,
+     "prize": 780,
+     "sight_cells": [
+      [
+       27,
+       9
+      ]
+     ]
+    }
+   ],
+   "interact_spots": [
+    {
+     "id": "camp_thornwood",
+     "kind": "prop",
+     "x": 18,
+     "y": 24,
+     "stand": [
+      18,
+      25
+     ],
+     "face": "up",
+     "tile": "camp_",
+     "sets_flag": "camp_restored_thornwood",
+     "active_when": "beat_master_fernwick",
+     "text_ref": "overworld_lines.json maps.thornwood.camp_thornwood",
+     "note": "Thornwood camp: west side patch off the trail (x4-6, y16-18), west of gate_thornwood_east (x33). Reachable in state 0; note tier beat_master_fernwick; coder region 2 (Oct 23 2026): promoted from text_pending (lines exist)"
+    }
+   ]
+  },
+  "station_int": {
+   "npcs": [
+    {
+     "id": "station_clerk",
+     "x": 9,
+     "y": 8,
+     "facing": "down",
+     "kind": "clerk",
+     "note": "ticket clerk behind the counter (talk from y=10); coder region 2 (Oct 23 2026): promoted from text_pending (lines exist)"
+    },
+    {
+     "id": "station_traveller",
+     "x": 7,
+     "y": 6,
+     "facing": "up",
+     "kind": "villager",
+     "note": "waiting passenger; coder region 2 (Oct 23 2026): promoted from text_pending (lines exist)"
+    }
+   ],
+   "signs": [
+    {
+     "id": "restricted_airspace",
+     "x": 14,
+     "y": 2,
+     "text": "Government restricted airspace: arrivals by rail only",
+     "note": "text drawn on x_sign_restricted_0_0/_0_1 (blank board) - read from y=5; coder region 2 (Oct 23 2026): promoted from text_pending (lines exist)"
+    },
+    {
+     "id": "timetable",
+     "x": 3,
+     "y": 2,
+     "text": "TBD: departures",
+     "note": "x_timetable board; coder region 2 (Oct 23 2026): promoted from text_pending (lines exist)"
+    }
+   ]
+  },
+  "home_saltmere_a": {
+   "npcs": [
+    {
+     "id": "home_saltmere_a_hobbyist",
+     "x": 2,
+     "y": 4,
+     "facing": "left",
+     "kind": "villager",
+     "note": "regional hobby corner; coder region 2 (Oct 23 2026): promoted from text_pending (lines exist)"
+    }
+   ],
+   "interact_spots": [
+    {
+     "id": "bookcase",
+     "kind": "prop",
+     "x": 2,
+     "y": 2,
+     "stand": [
+      2,
+      3
+     ],
+     "face": "up",
+     "tile": "i_bookcase",
+     "note": "bookcase spot from map geometry (tools/world_data.py GEOM_PROPS); text = overworld_lines.json maps.home_saltmere_a.bookcase; coder region 2 (Oct 23 2026): promoted from text_pending (lines exist)"
+    }
+   ]
+  },
+  "saltmere": {
+   "signs": [
+    {
+     "id": "saltmere_hall_int_sign_hall_outside",
+     "x": 23,
+     "y": 28,
+     "text": "DRAFT dev label: hall waymarker on the square; the Master's Hall door is at (24,27)",
+     "kind": "sign",
+     "note": "DRAFT batch 2 (01:25 CT): hall waymarker. coder region 2 (Oct 23 2026): the old note pointed at the pre-padding door (12,20) = padded (24,27), the real saltmere_hall_int door (warp x24 y27); post moved by region2_wd (request 3) from (30,22) to (23,28), beside the door, left of the door landing; read from below (23,29)",
+     "read_from": "down"
+    }
+   ],
+   "drop_items": [
+    "saltmere_item_4"
+   ],
+   "exit_offsets": {
+    "route_revival_saltmere": -2,
+    "route_saltmere_mirefen": 3
+   },
+   "why": {
+    "saltmere_item_4": "coder: now a gift from the office clerk (src/systems/npc_gifts.js), see saltmere_office_int_clerk note"
+   },
+   "npcs": [
+    {
+     "id": "saltmere_ron_2",
+     "x": 30,
+     "y": 10,
+     "facing": "left",
+     "kind": "rival",
+     "note": "DRAFT: GD ron_2 Ron 'Ron' L17-20; sight 0; hint: Harbour, before the hall. Ron jealous of your employee ID level (6.1).",
+     "gd_id": "ron_2",
+     "gd_class": "ron",
+     "team": {
+      "if_player_took_tumbloam": [
+       {
+        "species": "sailquill",
+        "level": 17
+       },
+       {
+        "species": "grainling",
+        "level": 18
+       },
+       {
+        "species": "emberlunx",
+        "level": 20
+       }
+      ],
+      "if_player_took_cindrip": [
+       {
+        "species": "sailquill",
+        "level": 17
+       },
+       {
+        "species": "bramblehog",
+        "level": 18
+       },
+       {
+        "species": "brookhorn",
+        "level": 20
+       }
+      ],
+      "if_player_took_rillop": [
+       {
+        "species": "sailquill",
+        "level": 17
+       },
+       {
+        "species": "lancebeetle",
+        "level": 18
+       },
+       {
+        "species": "burrowmane",
+        "level": 20
+       }
+      ]
+     },
+     "sight": 0,
+     "prize": 1200,
+     "text_ref": "overworld_lines.json maps.saltmere.saltmere_ron_2"
+    }
+   ]
+  },
+  "saltmere_office_int": {
+   "npcs": [
+    {
+     "id": "saltmere_office_int_clerk",
+     "x": 5,
+     "y": 3,
+     "facing": "down",
+     "kind": "clerk",
+     "note": "DRAFT: takes the Survey Parcel (needs has_survey_parcel) -> gives Courier Bike, sets has_bike (CRITICAL_PATH saltmere_office_clerk); coder region 2 (Oct 23 2026): gives the Courier Bike + 3x Prime Crystal (was floor item saltmere_item_4) - src/systems/npc_gifts.js"
+    }
+   ]
+  }
+ }
+}

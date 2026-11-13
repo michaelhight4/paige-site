@@ -1,0 +1,1610 @@
+{
+ "when": "Fri Oct 23 2026 00:39:02 GMT-0500 (Central Daylight Time)",
+ "fails": 0,
+ "results": [
+  "PASS [pc1280_1x day cal caught] bone_v2 pose strip used for this character - 398 frames, char cal",
+  "PASS [pc1280_1x day cal caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [pc1280_1x day cal caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.22,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"lowered/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day cal caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.21, bottom spread 0.00",
+  "PASS [pc1280_1x day cal caught] no console errors",
+  "PASS [pc1280_1x day cal breakout] bone_v2 pose strip used for this character - 312 frames, char cal",
+  "PASS [pc1280_1x day cal breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [pc1280_1x day cal breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.03,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_1\":0.01,\"hold_strain/breakout_fire\":0.01}",
+  "PASS [pc1280_1x day cal breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.43, bottom spread 0.00",
+  "PASS [pc1280_1x day cal breakout] no console errors",
+  "PASS [pc1280_1x day mira caught] bone_v2 pose strip used for this character - 396 frames, char mira",
+  "PASS [pc1280_1x day mira caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [pc1280_1x day mira caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.17,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"lowered/lock_bloom\":0.01}",
+  "PASS [pc1280_1x day mira caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.16, bottom spread 0.00",
+  "PASS [pc1280_1x day mira caught] no console errors",
+  "PASS [pc1280_1x day mira breakout] bone_v2 pose strip used for this character - 313 frames, char mira",
+  "PASS [pc1280_1x day mira breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [pc1280_1x day mira breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.25,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_1\":0.01,\"hold_strain/breakout_fire\":0.01}",
+  "PASS [pc1280_1x day mira breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.24, bottom spread 0.00",
+  "PASS [pc1280_1x day mira breakout] no console errors",
+  "PASS [pc1280_1x night cal caught] bone_v2 pose strip used for this character - 403 frames, char cal",
+  "PASS [pc1280_1x night cal caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [pc1280_1x night cal caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.06,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"lowered/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night cal caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.05, bottom spread 0.00",
+  "PASS [pc1280_1x night cal caught] no console errors",
+  "PASS [pc1280_1x night cal breakout] bone_v2 pose strip used for this character - 312 frames, char cal",
+  "PASS [pc1280_1x night cal breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [pc1280_1x night cal breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.08,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_1\":0.01,\"hold_strain/breakout_fire\":0.01}",
+  "PASS [pc1280_1x night cal breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.47, bottom spread 0.00",
+  "PASS [pc1280_1x night cal breakout] no console errors",
+  "PASS [pc1280_1x night mira caught] bone_v2 pose strip used for this character - 400 frames, char mira",
+  "PASS [pc1280_1x night mira caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [pc1280_1x night mira caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.31,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"lowered/lock_bloom\":0.01}",
+  "PASS [pc1280_1x night mira caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.30, bottom spread 0.00",
+  "PASS [pc1280_1x night mira caught] no console errors",
+  "PASS [pc1280_1x night mira breakout] bone_v2 pose strip used for this character - 313 frames, char mira",
+  "PASS [pc1280_1x night mira breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [pc1280_1x night mira breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.34,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_1\":0.01,\"hold_strain/breakout_fire\":0.01}",
+  "PASS [pc1280_1x night mira breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.34, bottom spread 0.00",
+  "PASS [pc1280_1x night mira breakout] no console errors",
+  "PASS [pc1280_2x day cal caught] bone_v2 pose strip used for this character - 274 frames, char cal",
+  "PASS [pc1280_2x day cal caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [pc1280_2x day cal caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.22,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"lowered/lock_bloom\":0.01}",
+  "PASS [pc1280_2x day cal caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.21, bottom spread 0.00",
+  "PASS [pc1280_2x day cal caught] no console errors",
+  "PASS [pc1280_2x day cal breakout] bone_v2 pose strip used for this character - 217 frames, char cal",
+  "PASS [pc1280_2x day cal breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [pc1280_2x day cal breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.15,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_1\":0.01,\"hold_strain/breakout_fire\":0.01}",
+  "PASS [pc1280_2x day cal breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.30, bottom spread 0.00",
+  "PASS [pc1280_2x day cal breakout] no console errors",
+  "PASS [pc1280_2x day mira caught] bone_v2 pose strip used for this character - 274 frames, char mira",
+  "PASS [pc1280_2x day mira caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [pc1280_2x day mira caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.28,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"lowered/lock_bloom\":0.01}",
+  "PASS [pc1280_2x day mira caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.27, bottom spread 0.00",
+  "PASS [pc1280_2x day mira caught] no console errors",
+  "PASS [pc1280_2x day mira breakout] bone_v2 pose strip used for this character - 228 frames, char mira",
+  "PASS [pc1280_2x day mira breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [pc1280_2x day mira breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.13,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_1\":0.01,\"hold_strain/breakout_fire\":0.01}",
+  "PASS [pc1280_2x day mira breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.12, bottom spread 0.00",
+  "PASS [pc1280_2x day mira breakout] no console errors",
+  "PASS [pc1280_2x night cal caught] bone_v2 pose strip used for this character - 240 frames, char cal",
+  "PASS [pc1280_2x night cal caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [pc1280_2x night cal caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.31,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"lowered/lock_bloom\":0.01}",
+  "PASS [pc1280_2x night cal caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.30, bottom spread 0.00",
+  "PASS [pc1280_2x night cal caught] no console errors",
+  "PASS [pc1280_2x night cal breakout] bone_v2 pose strip used for this character - 171 frames, char cal",
+  "PASS [pc1280_2x night cal breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [pc1280_2x night cal breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.19,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_1\":0.01,\"hold_strain/breakout_fire\":0.01}",
+  "PASS [pc1280_2x night cal breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.19, bottom spread 0.00",
+  "PASS [pc1280_2x night cal breakout] no console errors",
+  "PASS [pc1280_2x night mira caught] bone_v2 pose strip used for this character - 227 frames, char mira",
+  "PASS [pc1280_2x night mira caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [pc1280_2x night mira caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.03,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_3\":0.01,\"hold/lock_bloom\":0.01,\"lowered/lock_bloom\":0.01}",
+  "PASS [pc1280_2x night mira caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.02, bottom spread 0.00",
+  "PASS [pc1280_2x night mira caught] no console errors",
+  "PASS [pc1280_2x night mira breakout] bone_v2 pose strip used for this character - 197 frames, char mira",
+  "PASS [pc1280_2x night mira breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [pc1280_2x night mira breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.28,\"hold/raise\":0.01,\"hold/beam\":0.01,\"hold/absorb\":0.01,\"hold/pulse_1\":0.01,\"hold_strain/breakout_fire\":0.01}",
+  "PASS [pc1280_2x night mira breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.27, bottom spread 0.00",
+  "PASS [pc1280_2x night mira breakout] no console errors",
+  "PASS [phone844_1x day cal caught] bone_v2 pose strip used for this character - 402 frames, char cal",
+  "PASS [phone844_1x day cal caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [phone844_1x day cal caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.36,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"lowered/lock_bloom\":0}",
+  "PASS [phone844_1x day cal caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.36, bottom spread 0.00",
+  "PASS [phone844_1x day cal caught] no console errors",
+  "PASS [phone844_1x day cal breakout] bone_v2 pose strip used for this character - 314 frames, char cal",
+  "PASS [phone844_1x day cal breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [phone844_1x day cal breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.17,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_1\":0,\"hold_strain/breakout_fire\":0}",
+  "PASS [phone844_1x day cal breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.16, bottom spread 0.00",
+  "PASS [phone844_1x day cal breakout] no console errors",
+  "PASS [phone844_1x day mira caught] bone_v2 pose strip used for this character - 403 frames, char mira",
+  "PASS [phone844_1x day mira caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [phone844_1x day mira caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.19,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"lowered/lock_bloom\":0}",
+  "PASS [phone844_1x day mira caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.18, bottom spread 0.00",
+  "PASS [phone844_1x day mira caught] no console errors",
+  "PASS [phone844_1x day mira breakout] bone_v2 pose strip used for this character - 314 frames, char mira",
+  "PASS [phone844_1x day mira breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [phone844_1x day mira breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.15,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_1\":0,\"hold_strain/breakout_fire\":0}",
+  "PASS [phone844_1x day mira breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.49, bottom spread 0.00",
+  "PASS [phone844_1x day mira breakout] no console errors",
+  "PASS [phone844_1x night cal caught] bone_v2 pose strip used for this character - 403 frames, char cal",
+  "PASS [phone844_1x night cal caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [phone844_1x night cal caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.15,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"lowered/lock_bloom\":0}",
+  "PASS [phone844_1x night cal caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.15, bottom spread 0.00",
+  "PASS [phone844_1x night cal caught] no console errors",
+  "PASS [phone844_1x night cal breakout] bone_v2 pose strip used for this character - 314 frames, char cal",
+  "PASS [phone844_1x night cal breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [phone844_1x night cal breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.25,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_1\":0,\"hold_strain/breakout_fire\":0}",
+  "PASS [phone844_1x night cal breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.49, bottom spread 0.00",
+  "PASS [phone844_1x night cal breakout] no console errors",
+  "PASS [phone844_1x night mira caught] bone_v2 pose strip used for this character - 403 frames, char mira",
+  "PASS [phone844_1x night mira caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [phone844_1x night mira caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.25,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"lowered/lock_bloom\":0}",
+  "PASS [phone844_1x night mira caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.35, bottom spread 0.00",
+  "PASS [phone844_1x night mira caught] no console errors",
+  "PASS [phone844_1x night mira breakout] bone_v2 pose strip used for this character - 314 frames, char mira",
+  "PASS [phone844_1x night mira breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [phone844_1x night mira breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.3,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_1\":0,\"hold_strain/breakout_fire\":0}",
+  "PASS [phone844_1x night mira breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.38, bottom spread 0.00",
+  "PASS [phone844_1x night mira breakout] no console errors",
+  "PASS [phone844_2x day cal caught] bone_v2 pose strip used for this character - 373 frames, char cal",
+  "PASS [phone844_2x day cal caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [phone844_2x day cal caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.39,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"lowered/lock_bloom\":0}",
+  "PASS [phone844_2x day cal caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.39, bottom spread 0.00",
+  "PASS [phone844_2x day cal caught] no console errors",
+  "PASS [phone844_2x day cal breakout] bone_v2 pose strip used for this character - 292 frames, char cal",
+  "PASS [phone844_2x day cal breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [phone844_2x day cal breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.11,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_1\":0,\"hold_strain/breakout_fire\":0}",
+  "PASS [phone844_2x day cal breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.10, bottom spread 0.00",
+  "PASS [phone844_2x day cal breakout] no console errors",
+  "PASS [phone844_2x day mira caught] bone_v2 pose strip used for this character - 371 frames, char mira",
+  "PASS [phone844_2x day mira caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [phone844_2x day mira caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.3,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"lowered/lock_bloom\":0}",
+  "PASS [phone844_2x day mira caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.30, bottom spread 0.00",
+  "PASS [phone844_2x day mira caught] no console errors",
+  "PASS [phone844_2x day mira breakout] bone_v2 pose strip used for this character - 290 frames, char mira",
+  "PASS [phone844_2x day mira breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [phone844_2x day mira breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.17,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_1\":0,\"hold_strain/breakout_fire\":0}",
+  "PASS [phone844_2x day mira breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.16, bottom spread 0.00",
+  "PASS [phone844_2x day mira breakout] no console errors",
+  "PASS [phone844_2x night cal caught] bone_v2 pose strip used for this character - 370 frames, char cal",
+  "PASS [phone844_2x night cal caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [phone844_2x night cal caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.25,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"lowered/lock_bloom\":0}",
+  "PASS [phone844_2x night cal caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.25, bottom spread 0.00",
+  "PASS [phone844_2x night cal caught] no console errors",
+  "PASS [phone844_2x night cal breakout] bone_v2 pose strip used for this character - 292 frames, char cal",
+  "PASS [phone844_2x night cal breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [phone844_2x night cal breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.19,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_1\":0,\"hold_strain/breakout_fire\":0}",
+  "PASS [phone844_2x night cal breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.18, bottom spread 0.00",
+  "PASS [phone844_2x night cal breakout] no console errors",
+  "PASS [phone844_2x night mira caught] bone_v2 pose strip used for this character - 383 frames, char mira",
+  "PASS [phone844_2x night mira caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [phone844_2x night mira caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.21,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"lowered/lock_bloom\":0}",
+  "PASS [phone844_2x night mira caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.35, bottom spread 0.00",
+  "PASS [phone844_2x night mira caught] no console errors",
+  "PASS [phone844_2x night mira breakout] bone_v2 pose strip used for this character - 290 frames, char mira",
+  "PASS [phone844_2x night mira breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [phone844_2x night mira breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.17,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_1\":0,\"hold_strain/breakout_fire\":0}",
+  "PASS [phone844_2x night mira breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.16, bottom spread 0.00",
+  "PASS [phone844_2x night mira breakout] no console errors",
+  "PASS [iphone844_2x day cal caught] bone_v2 pose strip used for this character - 306 frames, char cal",
+  "PASS [iphone844_2x day cal caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [iphone844_2x day cal caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.17,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"lowered/lock_bloom\":0}",
+  "PASS [iphone844_2x day cal caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.16, bottom spread 0.00",
+  "PASS [iphone844_2x day cal caught] no console errors",
+  "PASS [iphone844_2x day cal breakout] bone_v2 pose strip used for this character - 147 frames, char cal",
+  "PASS [iphone844_2x day cal breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [iphone844_2x day cal breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.33,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_1\":0,\"hold_strain/breakout_fire\":0}",
+  "PASS [iphone844_2x day cal breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.41, bottom spread 0.00",
+  "PASS [iphone844_2x day cal breakout] no console errors",
+  "PASS [iphone844_2x day mira caught] bone_v2 pose strip used for this character - 285 frames, char mira",
+  "PASS [iphone844_2x day mira caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [iphone844_2x day mira caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.23,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"lowered/lock_bloom\":0}",
+  "PASS [iphone844_2x day mira caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.22, bottom spread 0.00",
+  "PASS [iphone844_2x day mira caught] no console errors",
+  "PASS [iphone844_2x day mira breakout] bone_v2 pose strip used for this character - 196 frames, char mira",
+  "PASS [iphone844_2x day mira breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [iphone844_2x day mira breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.5,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_1\":0,\"hold_strain/breakout_fire\":0}",
+  "PASS [iphone844_2x day mira breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.49, bottom spread 0.00",
+  "PASS [iphone844_2x day mira breakout] no console errors",
+  "PASS [iphone844_2x night cal caught] bone_v2 pose strip used for this character - 220 frames, char cal",
+  "PASS [iphone844_2x night cal caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [iphone844_2x night cal caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"lowered/lock_bloom\":0}",
+  "PASS [iphone844_2x night cal caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.16, bottom spread 0.00",
+  "PASS [iphone844_2x night cal caught] no console errors",
+  "PASS [iphone844_2x night cal breakout] bone_v2 pose strip used for this character - 186 frames, char cal",
+  "PASS [iphone844_2x night cal breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [iphone844_2x night cal breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_1\":0,\"hold_strain/breakout_fire\":0}",
+  "PASS [iphone844_2x night cal breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.00, bottom spread 0.00",
+  "PASS [iphone844_2x night cal breakout] no console errors",
+  "PASS [iphone844_2x night mira caught] bone_v2 pose strip used for this character - 306 frames, char mira",
+  "PASS [iphone844_2x night mira caught] pose frames seen - seen raise,hold,lowered; expected raise,hold,lowered",
+  "PASS [iphone844_2x night mira caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.28,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"lowered/lock_bloom\":0}",
+  "PASS [iphone844_2x night mira caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.28, bottom spread 0.00",
+  "PASS [iphone844_2x night mira caught] no console errors",
+  "PASS [iphone844_2x night mira breakout] bone_v2 pose strip used for this character - 250 frames, char mira",
+  "PASS [iphone844_2x night mira breakout] pose frames seen - seen raise,hold,hold_strain,lowered; expected raise,hold,hold_strain,lowered",
+  "PASS [iphone844_2x night mira breakout] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.28,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_1\":0,\"hold_strain/breakout_fire\":0}",
+  "PASS [iphone844_2x night mira breakout] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.31, bottom spread 0.00",
+  "PASS [iphone844_2x night mira breakout] no console errors",
+  "PASS [pc1280_1x rollback &poses=0] art capture runs with the old trainer sheet, no pose - {\"pose\":\"\",\"bg\":\"url(\\\"art/characters/pixel/humans/cal/overworld/cal_chibi_sheet_3x.png\\\")\",\"art\":\"raise,beam,absorb,pulse_3,lock_bloom\"}",
+  "PASS [pc1280_1x rollback &fxart=0] placeholder capture (no art), no pose - {\"pose\":\"\",\"bg\":\"url(\\\"art/characters/pixel/humans/cal/overworld/cal_chibi_sheet_3x.png\\\")\",\"art\":\"\"}"
+ ],
+ "summary": [
+  {
+   "tag": "pc1280_1x day cal caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "cal",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.21826948468368948,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_3": 0.006893667762705492,
+    "hold/lock_bloom": 0.006893667762705492,
+    "lowered/lock_bloom": 0.006893667762705492
+   },
+   "cxSpread": 0.21140289306640625,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 204,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day cal breakout",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "cal",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.027268548995850322,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_1": 0.006893667762705492,
+    "hold_strain/breakout_fire": 0.006879543952916244
+   },
+   "cxSpread": 0.42679595947265625,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 204.00001525878906,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day mira caught",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "mira",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.1696931687889154,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_3": 0.006893667762705492,
+    "hold/lock_bloom": 0.006893667762705492,
+    "lowered/lock_bloom": 0.006893667762705492
+   },
+   "cxSpread": 0.16280364990234375,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 192,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x day mira breakout",
+   "profKey": "pc1280_1x",
+   "phase": "day",
+   "ch": "mira",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.24588787755058025,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_1": 0.006893667762705492,
+    "hold_strain/breakout_fire": 0.006879543952916244
+   },
+   "cxSpread": 0.23900604248046875,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 191.99998474121094,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night cal caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "cal",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.05846456004541174,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_3": 0.006893667762705492,
+    "hold/lock_bloom": 0.006893667762705492,
+    "lowered/lock_bloom": 0.006893667762705492
+   },
+   "cxSpread": 0.05159759521484375,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 204,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night cal breakout",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "cal",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.0819705784179623,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_1": 0.006893667762705492,
+    "hold_strain/breakout_fire": 0.006879543952916244
+   },
+   "cxSpread": 0.47420501708984375,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 204,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night mira caught",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "mira",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.30789194249788626,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_3": 0.006893667762705492,
+    "hold/lock_bloom": 0.006893667762705492,
+    "lowered/lock_bloom": 0.006893667762705492
+   },
+   "cxSpread": 0.30100250244140625,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 192,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_1x night mira breakout",
+   "profKey": "pc1280_1x",
+   "phase": "night",
+   "ch": "mira",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.3425904190223756,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_1": 0.006893667762705492,
+    "hold_strain/breakout_fire": 0.006879543952916244
+   },
+   "cxSpread": 0.33570098876953125,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 192,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_2x day cal caught",
+   "profKey": "pc1280_2x",
+   "phase": "day",
+   "ch": "cal",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.21826948468368948,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_3": 0.006893667762705492,
+    "hold/lock_bloom": 0.006893667762705492,
+    "lowered/lock_bloom": 0.006893667762705492
+   },
+   "cxSpread": 0.21140289306640625,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 204,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_2x day cal breakout",
+   "profKey": "pc1280_2x",
+   "phase": "day",
+   "ch": "cal",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.14846821831026064,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_1": 0.006893667762705492,
+    "hold_strain/breakout_fire": 0.006879543952916244
+   },
+   "cxSpread": 0.303802490234375,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 204,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_2x day mira caught",
+   "profKey": "pc1280_2x",
+   "phase": "day",
+   "ch": "mira",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.27568827948826113,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_3": 0.006893667762705492,
+    "hold/lock_bloom": 0.006893667762705492,
+    "lowered/lock_bloom": 0.006893667762705492
+   },
+   "cxSpread": 0.268798828125,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 192,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_2x day mira breakout",
+   "profKey": "pc1280_2x",
+   "phase": "day",
+   "ch": "mira",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.1291887682860465,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_1": 0.006893667762705492,
+    "hold_strain/breakout_fire": 0.006879543952916244
+   },
+   "cxSpread": 0.12230682373046875,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 191.99998474121094,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_2x night cal caught",
+   "profKey": "pc1280_2x",
+   "phase": "night",
+   "ch": "cal",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.3078690543214886,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_3": 0.006893667762705492,
+    "hold/lock_bloom": 0.006893667762705492,
+    "lowered/lock_bloom": 0.006893667762705492
+   },
+   "cxSpread": 0.30100250244140625,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 204,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_2x night cal breakout",
+   "profKey": "pc1280_2x",
+   "phase": "night",
+   "ch": "cal",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.1929628009303831,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_1": 0.006893667762705492,
+    "hold_strain/breakout_fire": 0.006879543952916244
+   },
+   "cxSpread": 0.18609619140625,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 204,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_2x night mira caught",
+   "profKey": "pc1280_2x",
+   "phase": "night",
+   "ch": "mira",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.027291436262840148,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_3": 0.006893667762705492,
+    "hold/lock_bloom": 0.006893667762705492,
+    "lowered/lock_bloom": 0.006893667762705492
+   },
+   "cxSpread": 0.02039337158203125,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 192.00001525878906,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "pc1280_2x night mira breakout",
+   "profKey": "pc1280_2x",
+   "phase": "night",
+   "ch": "mira",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.27568827948826113,
+    "hold/raise": 0.006893667762705492,
+    "hold/beam": 0.006879543952916244,
+    "hold/absorb": 0.006879543952916244,
+    "hold/pulse_1": 0.006893667762705492,
+    "hold_strain/breakout_fire": 0.006879543952916244
+   },
+   "cxSpread": 0.268798828125,
+   "bottomSpread": 0,
+   "k": 3,
+   "trainerW": 192,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_1x day cal caught",
+   "profKey": "phone844_1x",
+   "phase": "day",
+   "ch": "cal",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.35958099365234375,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_3": 0.0043792724609375,
+    "hold/lock_bloom": 0.0043792724609375,
+    "lowered/lock_bloom": 0.004367828369140625
+   },
+   "cxSpread": 0.3551979064941406,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 110.50000762939453,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_1x day cal breakout",
+   "profKey": "phone844_1x",
+   "phase": "day",
+   "ch": "cal",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.16748046875,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_1": 0.0043792724609375,
+    "hold_strain/breakout_fire": 0.004900573945975375
+   },
+   "cxSpread": 0.1631011962890625,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 110.5,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_1x day mira caught",
+   "profKey": "phone844_1x",
+   "phase": "day",
+   "ch": "mira",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.186279296875,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_3": 0.0043792724609375,
+    "hold/lock_bloom": 0.0043792724609375,
+    "lowered/lock_bloom": 0.004367828369140625
+   },
+   "cxSpread": 0.1819000244140625,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 104,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_1x day mira breakout",
+   "profKey": "phone844_1x",
+   "phase": "day",
+   "ch": "mira",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.1499786376953125,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_1": 0.0043792724609375,
+    "hold_strain/breakout_fire": 0.004900573945975375
+   },
+   "cxSpread": 0.4913978576660156,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 104,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_1x night cal caught",
+   "profKey": "phone844_1x",
+   "phase": "night",
+   "ch": "cal",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.1499786376953125,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_3": 0.0043792724609375,
+    "hold/lock_bloom": 0.0043792724609375,
+    "lowered/lock_bloom": 0.004367828369140625
+   },
+   "cxSpread": 0.145599365234375,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 110.5,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_1x night cal breakout",
+   "profKey": "phone844_1x",
+   "phase": "night",
+   "ch": "cal",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.2511787414550781,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_1": 0.0043792724609375,
+    "hold_strain/breakout_fire": 0.004900573945975375
+   },
+   "cxSpread": 0.4913978576660156,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 110.5,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_1x night mira caught",
+   "profKey": "phone844_1x",
+   "phase": "night",
+   "ch": "mira",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.2511787414550781,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_3": 0.0043792724609375,
+    "hold/lock_bloom": 0.0043792724609375,
+    "lowered/lock_bloom": 0.00437164306640625
+   },
+   "cxSpread": 0.3450965881347656,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 104,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_1x night mira breakout",
+   "profKey": "phone844_1x",
+   "phase": "night",
+   "ch": "mira",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.3020782470703125,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_1": 0.0043792724609375,
+    "hold_strain/breakout_fire": 0.004900573945975375
+   },
+   "cxSpread": 0.3784980773925781,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 104,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day cal caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "cal",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.3908805847167969,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_3": 0.0043792724609375,
+    "hold/lock_bloom": 0.0043792724609375,
+    "lowered/lock_bloom": 0.004367828369140625
+   },
+   "cxSpread": 0.3865013122558594,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 110.5,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day cal breakout",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "cal",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.1051788330078125,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_1": 0.0043792724609375,
+    "hold_strain/breakout_fire": 0.004900573945975375
+   },
+   "cxSpread": 0.100799560546875,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 110.5,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day mira caught",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "mira",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.3020782470703125,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_3": 0.0043792724609375,
+    "hold/lock_bloom": 0.0043792724609375,
+    "lowered/lock_bloom": 0.004367828369140625
+   },
+   "cxSpread": 0.297698974609375,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 104,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x day mira breakout",
+   "profKey": "phone844_2x",
+   "phase": "day",
+   "ch": "mira",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.16748046875,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_1": 0.0043792724609375,
+    "hold_strain/breakout_fire": 0.004900573945975375
+   },
+   "cxSpread": 0.1631011962890625,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 104,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night cal caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "cal",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.2511787414550781,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_3": 0.0043792724609375,
+    "hold/lock_bloom": 0.0043792724609375,
+    "lowered/lock_bloom": 0.004367828369140625
+   },
+   "cxSpread": 0.24679946899414062,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 110.5,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night cal breakout",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "cal",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.186279296875,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_1": 0.0043792724609375,
+    "hold_strain/breakout_fire": 0.004900573945975375
+   },
+   "cxSpread": 0.1819000244140625,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 110.5,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night mira caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "mira",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.20637893676757812,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_3": 0.0043792724609375,
+    "hold/lock_bloom": 0.0043792724609375,
+    "lowered/lock_bloom": 0.00437164306640625
+   },
+   "cxSpread": 0.3450965881347656,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 104,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "phone844_2x night mira breakout",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "mira",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.16748046875,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004900573945975375,
+    "hold/absorb": 0.004900573945975375,
+    "hold/pulse_1": 0.0043792724609375,
+    "hold_strain/breakout_fire": 0.004900573945975375
+   },
+   "cxSpread": 0.1631011962890625,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 104,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "iphone844_2x day cal caught",
+   "profKey": "iphone844_2x",
+   "phase": "day",
+   "ch": "cal",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.16748046875,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004375000000010232,
+    "hold/absorb": 0.004375000000010232,
+    "hold/pulse_3": 0.0043792724609375,
+    "hold/lock_bloom": 0.0043792724609375,
+    "lowered/lock_bloom": 0.00437164306640625
+   },
+   "cxSpread": 0.16460037231445312,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 110.5,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "iphone844_2x day cal breakout",
+   "profKey": "iphone844_2x",
+   "phase": "day",
+   "ch": "cal",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.32997894287109375,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004375000000010232,
+    "hold/absorb": 0.004375000000010232,
+    "hold/pulse_1": 0.0043792724609375,
+    "hold_strain/breakout_fire": 0.004375000000010232
+   },
+   "cxSpread": 0.41400146484375,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 110.50000762939453,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "iphone844_2x day mira caught",
+   "profKey": "iphone844_2x",
+   "phase": "day",
+   "ch": "mira",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.22808074951171875,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004375000000010232,
+    "hold/absorb": 0.004375000000010232,
+    "hold/pulse_3": 0.0043792724609375,
+    "hold/lock_bloom": 0.0043792724609375,
+    "lowered/lock_bloom": 0.00437164306640625
+   },
+   "cxSpread": 0.22369766235351562,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 104.00000762939453,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "iphone844_2x day mira breakout",
+   "profKey": "iphone844_2x",
+   "phase": "day",
+   "ch": "mira",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.49578094482421875,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004375000000010232,
+    "hold/absorb": 0.004375000000010232,
+    "hold/pulse_1": 0.0043792724609375,
+    "hold_strain/breakout_fire": 0.004375000000010232
+   },
+   "cxSpread": 0.4913978576660156,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 104.00000762939453,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "iphone844_2x night cal caught",
+   "profKey": "iphone844_2x",
+   "phase": "night",
+   "ch": "cal",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.0043792724609375,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004375000000010232,
+    "hold/absorb": 0.004375000000010232,
+    "hold/pulse_3": 0.0043792724609375,
+    "hold/lock_bloom": 0.0043792724609375,
+    "lowered/lock_bloom": 0.00437164306640625
+   },
+   "cxSpread": 0.16460037231445312,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 110.5,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "iphone844_2x night cal breakout",
+   "profKey": "iphone844_2x",
+   "phase": "night",
+   "ch": "cal",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.0043792724609375,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004375000000010232,
+    "hold/absorb": 0.004375000000010232,
+    "hold/pulse_1": 0.0043792724609375,
+    "hold_strain/breakout_fire": 0.004375000000010232
+   },
+   "cxSpread": 0,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 110.5,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "iphone844_2x night mira caught",
+   "profKey": "iphone844_2x",
+   "phase": "night",
+   "ch": "mira",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.27587890625,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004375000000010232,
+    "hold/absorb": 0.004375000000010232,
+    "hold/pulse_3": 0.0043792724609375,
+    "hold/lock_bloom": 0.0043792724609375,
+    "lowered/lock_bloom": 0.00437164306640625
+   },
+   "cxSpread": 0.2843971252441406,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 104,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  },
+  {
+   "tag": "iphone844_2x night mira breakout",
+   "profKey": "iphone844_2x",
+   "phase": "night",
+   "ch": "mira",
+   "outcome": "breakout",
+   "poses": [
+    "raise",
+    "hold",
+    "hold_strain",
+    "lowered"
+   ],
+   "err": {
+    "raise/raise": 0.27587890625,
+    "hold/raise": 0.0043792724609375,
+    "hold/beam": 0.004375000000010232,
+    "hold/absorb": 0.004375000000010232,
+    "hold/pulse_1": 0.0043792724609375,
+    "hold_strain/breakout_fire": 0.004375000000010232
+   },
+   "cxSpread": 0.3138008117675781,
+   "bottomSpread": 0,
+   "k": 1.625,
+   "trainerW": 104,
+   "motion": {
+    "pose": "lowered",
+    "art": "raise,beam,absorb,pulse_1,breakout_fire"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  }
+ ]
+}

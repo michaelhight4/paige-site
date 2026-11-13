@@ -1,0 +1,132 @@
+{
+ "cells": 1088,
+ "changed_cells": 0,
+ "changed": [],
+ "placement": {
+  "exact": 1088
+ },
+ "three_way_junction_cells": [
+  [
+   22,
+   11
+  ],
+  [
+   22,
+   12
+  ],
+  [
+   22,
+   13
+  ],
+  [
+   22,
+   14
+  ],
+  [
+   24,
+   11
+  ],
+  [
+   24,
+   12
+  ],
+  [
+   24,
+   20
+  ],
+  [
+   24,
+   21
+  ]
+ ],
+ "ids_exist": true,
+ "other_layers_identical": true,
+ "entities_identical": true,
+ "walk_rule_unchanged": true,
+ "edit_demo": {
+  "origin": [
+   25,
+   23
+  ],
+  "painted_cells": 15,
+  "cells_retiled_by_rules": 15,
+  "placement_of_retiled": {
+   "blob_key_fallback": 8,
+   "exact": 4,
+   "wobble_fallback": 3
+  },
+  "gapfill_tiles_FLAGGED": [],
+  "missing": [],
+  "fallbacks": [
+   [
+    27,
+    23,
+    "water>grass_1001_1011",
+    "blob_key_fallback"
+   ],
+   [
+    29,
+    23,
+    "water>grass_1100_1001_w1",
+    "blob_key_fallback"
+   ],
+   [
+    27,
+    24,
+    "water>grass_0011_0011",
+    "blob_key_fallback"
+   ],
+   [
+    29,
+    24,
+    "water>grass_0000_1100_w1",
+    "wobble_fallback"
+   ],
+   [
+    30,
+    24,
+    "water>grass_1110_1100_w1",
+    "blob_key_fallback"
+   ],
+   [
+    28,
+    25,
+    "water>grass_0011_0110",
+    "blob_key_fallback"
+   ],
+   [
+    29,
+    25,
+    "water>grass_0110_0110_w2",
+    "blob_key_fallback"
+   ],
+   [
+    29,
+    26,
+    "path>grass_0101_1100_w2",
+    "blob_key_fallback"
+   ],
+   [
+    25,
+    27,
+    "path>grass_1010_1100_w1",
+    "wobble_fallback"
+   ],
+   [
+    28,
+    27,
+    "path>grass_1010_0111",
+    "blob_key_fallback"
+   ],
+   [
+    29,
+    27,
+    "path>grass_0110_1111_w2",
+    "wobble_fallback"
+   ]
+  ]
+ },
+ "pixel_diff_day": 0,
+ "pixel_diff_night": 0,
+ "live_files_unchanged": true
+}

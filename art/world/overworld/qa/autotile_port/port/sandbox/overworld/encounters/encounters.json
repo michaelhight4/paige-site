@@ -1,0 +1,505 @@
+{
+ "version": "0.1.0",
+ "date": "2026-10-22",
+ "owner": "World Design",
+ "placeholder_species": true,
+ "note": "Placeholder tables (parity C1/C2/C5/C8). Species are the 16 creatures that have art; Story Bot/Gary own the final pools. Levels follow the CRITICAL_PATH order (route1 before coin 1, thornwood before coin 2, greystone before coin 4, mirefen at coin 5). Structural reference only: no names, numbers or text from any other game.",
+ "roll": {
+  "per": "step onto an encounter cell (layer code 1 grass / 2 cave) or a zone rect",
+  "rate": "chance per step (zone.rate)",
+  "pick": "weighted by slot.weight among slots whose conditions match; level uniform in [lo, hi]",
+  "forced": "zone rects with forced:true are the critical-path chokepoints (forced_grass)",
+  "running_or_biking": "same rate (MOVEMENT.md)"
+ },
+ "variant_roll": {
+  "hook": "encounters.variant_roll(zone, slot, context) -> variant id or null",
+  "called": "after the species + level are picked, before the battle starts",
+  "variants": [
+   "normal",
+   "enraged (DD: off-grass ambush, always Enraged)",
+   "colour variant (rare; odds are Coder/Gary)"
+  ],
+  "default": "null -> normal; World supplies no odds"
+ },
+ "conditions": {
+  "time": "optional list of phases (dawn/day/dusk/night, time_of_day/grades.json schedule); slot only rolls in those phases",
+  "weather": "optional list (clear/storm); storm = storm_season set (route1 loads route1_storm)",
+  "flood": "true = only on flooded variants / floodwater cells",
+  "no condition": "slot always eligible"
+ },
+ "species_with_art": [
+  "_overnight",
+  "bastonox",
+  "brookhorn",
+  "burlbeetle",
+  "burrowmane",
+  "cindrip",
+  "columnpede",
+  "emberlunx",
+  "forgeharrow",
+  "gloamtick",
+  "halovy",
+  "humstone",
+  "mirewump",
+  "olmling",
+  "rillop",
+  "runeskein",
+  "sailquill",
+  "slagrook",
+  "stonepede",
+  "tidemarrow",
+  "tumbloam"
+ ],
+ "zones": {
+  "sunmeadow_grass": {
+   "method": "grass",
+   "rate": 0.0833,
+   "slots": [
+    {
+     "species": "tumbloam",
+     "level": [
+      2,
+      5
+     ],
+     "weight": 30
+    },
+    {
+     "species": "sailquill",
+     "level": [
+      2,
+      5
+     ],
+     "weight": 30,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ]
+    },
+    {
+     "species": "burrowmane",
+     "level": [
+      5,
+      6
+     ],
+     "weight": 5
+    },
+    {
+     "species": "gloamtick",
+     "level": [
+      3,
+      5
+     ],
+     "weight": 15,
+     "time": [
+      "dusk",
+      "night"
+     ]
+    },
+    {
+     "species": "halovy",
+     "level": [
+      5,
+      6
+     ],
+     "weight": 2,
+     "time": [
+      "dawn"
+     ]
+    },
+    {
+     "species": "rillop",
+     "level": [
+      2,
+      5
+     ],
+     "weight": 18,
+     "weather": [
+      "storm"
+     ],
+     "flood": true,
+     "note": "storm variant only: floodwater washes river creatures into the grass"
+    },
+    {
+     "species": "burlbeetle",
+     "level": [
+      2,
+      5
+     ],
+     "weight": 20
+    }
+   ],
+   "maps": [
+    "route1",
+    "route1_storm"
+   ]
+  },
+  "thornwood_grass": {
+   "method": "grass",
+   "rate": 0.0833,
+   "slots": [
+    {
+     "species": "burlbeetle",
+     "level": [
+      9,
+      13
+     ],
+     "weight": 35
+    },
+    {
+     "species": "burrowmane",
+     "level": [
+      9,
+      13
+     ],
+     "weight": 25
+    },
+    {
+     "species": "tumbloam",
+     "level": [
+      9,
+      12
+     ],
+     "weight": 15
+    },
+    {
+     "species": "gloamtick",
+     "level": [
+      10,
+      13
+     ],
+     "weight": 15,
+     "time": [
+      "dusk",
+      "night"
+     ]
+    },
+    {
+     "species": "sailquill",
+     "level": [
+      9,
+      13
+     ],
+     "weight": 10,
+     "time": [
+      "dawn",
+      "day"
+     ]
+    }
+   ],
+   "maps": [
+    "thornwood"
+   ]
+  },
+  "greystone_glowfern": {
+   "method": "cave_fern",
+   "rate": 0.0833,
+   "slots": [
+    {
+     "species": "burrowmane",
+     "level": [
+      20,
+      25
+     ],
+     "weight": 30
+    },
+    {
+     "species": "bastonox",
+     "level": [
+      25,
+      27
+     ],
+     "weight": 5
+    },
+    {
+     "species": "gloamtick",
+     "level": [
+      20,
+      25
+     ],
+     "weight": 30
+    },
+    {
+     "species": "slagrook",
+     "level": [
+      20,
+      25
+     ],
+     "weight": 20
+    },
+    {
+     "species": "tumbloam",
+     "level": [
+      20,
+      23
+     ],
+     "weight": 15
+    }
+   ],
+   "maps": [
+    "greystone_entrance"
+   ]
+  },
+  "mirefen_grass_w": {
+   "method": "grass",
+   "rate": 0.0833,
+   "slots": [
+    {
+     "species": "mirewump",
+     "level": [
+      33,
+      37
+     ],
+     "weight": 35
+    },
+    {
+     "species": "brookhorn",
+     "level": [
+      33,
+      37
+     ],
+     "weight": 20
+    },
+    {
+     "species": "burlbeetle",
+     "level": [
+      33,
+      37
+     ],
+     "weight": 15
+    },
+    {
+     "species": "runeskein",
+     "level": [
+      37,
+      38
+     ],
+     "weight": 3,
+     "time": [
+      "night"
+     ]
+    },
+    {
+     "species": "sailquill",
+     "level": [
+      33,
+      37
+     ],
+     "weight": 15,
+     "weather": [
+      "storm",
+      "clear"
+     ],
+     "time": [
+      "day",
+      "dusk"
+     ]
+    },
+    {
+     "species": "gloamtick",
+     "level": [
+      33,
+      37
+     ],
+     "weight": 12,
+     "time": [
+      "dusk",
+      "night"
+     ]
+    }
+   ],
+   "maps": [
+    "mirefen_bog"
+   ]
+  },
+  "mirefen_grass_ne": {
+   "method": "grass",
+   "rate": 0.0833,
+   "slots": [
+    {
+     "species": "mirewump",
+     "level": [
+      33,
+      37
+     ],
+     "weight": 35
+    },
+    {
+     "species": "brookhorn",
+     "level": [
+      33,
+      37
+     ],
+     "weight": 20
+    },
+    {
+     "species": "burlbeetle",
+     "level": [
+      33,
+      37
+     ],
+     "weight": 15
+    },
+    {
+     "species": "runeskein",
+     "level": [
+      37,
+      38
+     ],
+     "weight": 4,
+     "time": [
+      "night"
+     ]
+    },
+    {
+     "species": "sailquill",
+     "level": [
+      33,
+      37
+     ],
+     "weight": 15,
+     "weather": [
+      "storm",
+      "clear"
+     ],
+     "time": [
+      "day",
+      "dusk"
+     ]
+    },
+    {
+     "species": "gloamtick",
+     "level": [
+      33,
+      37
+     ],
+     "weight": 12,
+     "time": [
+      "dusk",
+      "night"
+     ]
+    }
+   ],
+   "maps": [
+    "mirefen_bog"
+   ]
+  },
+  "mirefen_grass_s": {
+   "method": "grass",
+   "rate": 0.0833,
+   "slots": [
+    {
+     "species": "mirewump",
+     "level": [
+      34,
+      38
+     ],
+     "weight": 35
+    },
+    {
+     "species": "brookhorn",
+     "level": [
+      34,
+      38
+     ],
+     "weight": 20
+    },
+    {
+     "species": "burlbeetle",
+     "level": [
+      34,
+      38
+     ],
+     "weight": 15
+    },
+    {
+     "species": "runeskein",
+     "level": [
+      38,
+      39
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ]
+    },
+    {
+     "species": "sailquill",
+     "level": [
+      34,
+      38
+     ],
+     "weight": 15,
+     "weather": [
+      "storm",
+      "clear"
+     ],
+     "time": [
+      "day",
+      "dusk"
+     ]
+    },
+    {
+     "species": "gloamtick",
+     "level": [
+      34,
+      38
+     ],
+     "weight": 12,
+     "time": [
+      "dusk",
+      "night"
+     ]
+    }
+   ],
+   "maps": [
+    "mirefen_bog"
+   ]
+  },
+  "mirefen_bog_surf": {
+   "method": "water (Tideglide)",
+   "rate": 0.0667,
+   "slots": [
+    {
+     "species": "mirewump",
+     "level": [
+      34,
+      39
+     ],
+     "weight": 45
+    },
+    {
+     "species": "brookhorn",
+     "level": [
+      34,
+      39
+     ],
+     "weight": 35
+    },
+    {
+     "species": "tidemarrow",
+     "level": [
+      39,
+      41
+     ],
+     "weight": 5
+    },
+    {
+     "species": "rillop",
+     "level": [
+      30,
+      34
+     ],
+     "weight": 15,
+     "weather": [
+      "storm"
+     ],
+     "flood": true
+    }
+   ],
+   "maps": [
+    "mirefen_bog"
+   ]
+  }
+ }
+}

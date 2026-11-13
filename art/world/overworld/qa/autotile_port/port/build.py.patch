@@ -1,0 +1,185 @@
+--- tools/build.py	2026-10-22 21:07:52.463149940 -0500
++++ qa/autotile_port/port/sandbox/overworld/tools/build.py	2026-10-23 00:34:08.229494991 -0500
+@@ -1,4 +1,4 @@
+-import sys, json, os, collections, hashlib
++import sys, json, os, collections, hashlib, re
+ sys.path.insert(0, os.path.dirname(__file__))
+ from gen_tiles import *
+ from buildings import building
+@@ -12,14 +12,57 @@
+ # ---------------- registry ----------------
+ TILES = []; BYNAME = {}
+ OUTLINE_CATS = ('deco', 'overlay', 'interior', 'puzzle')
++# ---- tile id ledger (autotile port, Oct 23 2026): ids never move. tools/tile_id_ledger.json = every core tile name -> its frozen id.
++# A listed name must get exactly its ledger id (asserted). A NEW name (not listed) is held back with a temporary id and only
++# numbered by assign_new() at the very end of the run (after club.late), so it lands after the last legacy tile.
++_HERE = os.path.dirname(os.path.abspath(__file__))
++LEDGER = json.load(open(os.path.join(_HERE, 'tile_id_ledger.json')))
++LEDGER_IDS = LEDGER['ids']; NEW_TILES = []; _PINNED = [False]; NEW_TMP0 = 900000
++def _core_count(): return sum(1 for _t in TILES if not _t.get('ext') and not _t.get('new_pending'))
+ def reg(name, cat, frames, coll='walk', enc=0, ms=None, notes=None, raw=False, states=None, anim=None, ysort=False):
+     if name in BYNAME: return BYNAME[name]
++    lid = LEDGER_IDS.get(name)
++    if lid is not None and LEDGER['on_demand_first'] <= lid <= LEDGER['on_demand_last'] and not _PINNED[0]: pin_on_demand()
++    if name in BYNAME: return BYNAME[name]
+     frames = frames if isinstance(frames, list) else [frames]
+     if not raw: frames = [pixelize(ground.clean_deco(f) if cat in OUTLINE_CATS else f, outline=cat in OUTLINE_CATS) for f in frames]   # deco: object + one shadow colour only   # true-grid pixel art, palette-snapped
+-    t = dict(id=sum(1 for _t in TILES if not _t.get('ext')) + 1, name=name, cat=cat, frames=frames, coll=coll, enc=enc, ms=ms, notes=notes, states=states, anim=anim, ysort=ysort)
++    if lid is None:
++        t = dict(id=NEW_TMP0 + len(NEW_TILES) + 1, name=name, cat=cat, frames=frames, coll=coll, enc=enc, ms=ms, notes=notes, states=states, anim=anim, ysort=ysort, new_pending=True)
++        NEW_TILES.append(t); TILES.append(t); BYNAME[name] = t; return t
++    t = dict(id=_core_count() + 1, name=name, cat=cat, frames=frames, coll=coll, enc=enc, ms=ms, notes=notes, states=states, anim=anim, ysort=ysort)
++    assert t['id'] == lid, f'tile id ledger: {name} would get id {t["id"]}, ledger says {lid} (ids must never move)'
+     TILES.append(t); BYNAME[name] = t; return t
+ 
+-PRIO = {'grass': 0, 'grass_dark': 0, 'cave': 0, 'mud': 1, 'sand': 1, 'snow': 1, 'path': 2, 'trail': 2, 'water': 3, 'cave_water': 3}
++def pin_on_demand():
++    """Register every legacy on-demand edge tile (ledger ids on_demand_first..last) in ledger order, the first time one is needed,
++    so a cell that now uses a new junction tile can never drop an old tile and shift the ids after it."""
++    _PINNED[0] = True
++    for nm, i in sorted(LEDGER_IDS.items(), key=lambda kv: kv[1]):
++        if not (LEDGER['on_demand_first'] <= i <= LEDGER['on_demand_last']) or nm in BYNAME: continue
++        B_, A_, ss, dd, wv = re.match(r'^(?:xm_)?(.+?)>(.+)_([01]{4})_([01]{4})(?:_w(\d))?$', nm).groups()
++        trans_tile(B_, A_, tuple(c == '1' for c in ss), tuple(c == '1' for c in dd), int(wv or 0))
++        assert nm in BYNAME, f'pin_on_demand could not rebuild {nm}'
++
++def assign_new(res):
++    """End of run (run.py, after club.late): number the held-back NEW tiles after the last legacy id, move them to the end of
++    TILES (so every existing sheet index stays put) and patch the temporary ids in every map grid."""
++    base = _core_count(); remap = {}; late = {n: i for i, n in enumerate(LEDGER.get('late', []))}
++    miss = [n for n in late if n not in BYNAME]
++    if miss: print(f'WARNING tile id ledger: {len(miss)} late tile(s) no longer built, later new ids shift: {miss[:5]}')
++    NEW_TILES.sort(key=lambda t: late.get(t['name'], len(late)))     # stable: late-ledger order first, then creation order
++    for k, t in enumerate(NEW_TILES):
++        remap[t['id']] = base + k + 1; t['id'] = base + k + 1; t.pop('new_pending')
++        TILES.remove(t); TILES.append(t)
++    for v in res.values():
++        for L in v[1:]:
++            for r in L:
++                for x, c in enumerate(r):
++                    if c in remap: r[x] = remap[c]
++    return [(t['name'], t['id']) for t in NEW_TILES]
++
++# ---- autotile rules (tools/autotile_rules.json is the source of truth; build.py only executes them)
++RULES = json.load(open(os.path.join(_HERE, 'autotile_rules.json')))
++PRIO = dict(RULES['priority'])   # was a literal here; same values
+ BASEFN = {'grass': lambda s: grass(s), 'grass_dark': lambda s: grass(s, 1), 'path': path, 'trail': ground.trail, 'sand': sand, 'snow': snow, 'mud': mud, 'cave': cavefloor}
+ BASECACHE = {}
+ def base_img(t, v):
+@@ -70,6 +113,27 @@
+     for m in range(1, 16): trans_tile(B, A, tuple(bool(m >> i & 1) for i in range(4)), (False,) * 4)
+     for m in range(1, 16): trans_tile(B, A, (False,) * 4, tuple(bool(m >> i & 1) for i in range(4)))
+ 
++# P6 (autotile port): fill the thin pairs to all 46 blob configs (rules.json thin_pairs); new names are numbered last (ledger)
++def blob46():
++    out = []
++    for s4 in range(16):
++        sd = [bool(s4 >> i & 1) for i in range(4)]            # N E S W
++        free = [not sd[0] and not sd[1], not sd[1] and not sd[2], not sd[2] and not sd[3], not sd[3] and not sd[0]]   # NE SE SW NW
++        for d4 in range(16):
++            dg = [bool(d4 >> i & 1) for i in range(4)]
++            if any(dg[i] and not free[i] for i in range(4)) or (not any(sd) and not any(dg)): continue
++            out.append((tuple(sd), tuple(dg)))
++    return out
++BLOB46 = blob46(); assert len(BLOB46) == 46
++def _tt_name(B, A, sd, dg, w): return f'{B}>{A}_' + ''.join('1' if v else '0' for v in sd) + '_' + ''.join('1' if v else '0' for v in dg) + (f'_w{w}' if w else '')
++for _B, _A in RULES['thin_pairs']['full_w0']:
++    for _sd, _dg in BLOB46:
++        if _tt_name(_B, _A, _sd, _dg, 0) not in LEDGER_IDS: trans_tile(_B, _A, _sd, _dg, 0)
++for _B, _A in RULES['thin_pairs']['wobbles']:
++    for _w in range(1, NW):
++        for _sd, _dg in BLOB46:
++            if _tt_name(_B, _A, _sd, _dg, _w) not in LEDGER_IDS: trans_tile(_B, _A, _sd, _dg, _w)
++
+ # deco
+ RUSTLE = dict(type='rustle', trigger='on_enter', frame_ms=90, loop=False, sync='tall_grass_* and tall_grass_front_*/tips_* of the cell')
+ for nm, frs, kind in tallgrass.variants():
+@@ -205,8 +269,54 @@
+     def exit(s, edge, a, b, to, offset=0, note=''):
+         s.exits.append(dict(edge=edge, start=a, end=b, to=to, offset=offset, note=note))
+ 
++ROLLOUT = set(RULES['maps'])
++def junction_tile(B, U, A, sides, diags, us, ud, w=0):
++    """P4: 3-way edge (B over U over A), hand-made WD recipe: the bank of B is drawn over a U>A edge instead of plain A."""
++    nm = f'{B}>{U}+{A}_' + ''.join('1' if s else '0' for s in sides) + '_' + ''.join('1' if s else '0' for s in diags) + '_' \
++         + ''.join('1' if s else '0' for s in us) + '_' + ''.join('1' if s else '0' for s in ud) + (f'_w{w}' if w else '')
++    if nm in BYNAME: return BYNAME[nm]
++    kw = dict(wobf=ground.wob_fn(w), enoise=ground.edge_noise(w)) if w else {}
++    under = transition(base_img(U, 0), base_img(A, 0), us, ud, 'soft', **kw).convert('RGBA') if (any(us) or any(ud)) else base_img(U, 0).convert('RGBA')
++    if B in ('water', 'cave_water'):
++        bank = cliff('m', 'l', True).convert('RGB').convert('RGBA') if B == 'cave_water' else None
++        fr = [transition(f, under, sides, diags, 'water', bank, **kw) for f in (WATERF if B == 'water' else CWATERF)]
++        return reg(nm, 'transition', fr, 'water', ms=220, notes='3-way junction (autotile port P4): B bank over a U>A edge')
++    return reg(nm, 'transition', transition(base_img(B, 0), under, sides, diags, 'soft', **kw), 'walk', notes='3-way junction (autotile port P4)')
++
++def cavewall_corner(row, e, w_):
++    """P5: end of a cave wall face run (floor on the E/W side of the face): cliff end cap(s) over the cave floor."""
++    nm = f'cavewall_face_{row}_' + ('ew' if e and w_ else 'e' if e else 'w')
++    if nm in BYNAME: return BYNAME[nm]
++    face = np.array(cliff('m', row, True), float); al = np.ones(face.shape[:2])
++    if w_: al = np.minimum(al, np.array(cliff('l', row, True), float)[..., 3] / 255)
++    if e: al = np.minimum(al, np.array(cliff('r', row, True), float)[..., 3] / 255)
++    fl = np.array(base_img('cave', 0).convert('RGBA').resize(cliff('m', row, True).size), float)
++    out = fl * (1 - al[..., None]) + face * al[..., None]; out[..., 3] = 255
++    return reg(nm, 'terrain', Image.fromarray(out.astype('uint8'), 'RGBA'), 'block', notes='cave wall face end (autotile port P5)')
++
++STRIP_FAM = RULES['strips']['families']
++def strip_rule(m):
++    """P5: ledge/cliff strips pick l/m/r from same-family row neighbours (rules.json strips)."""
++    ch = []
++    def fam(v):
++        if not v: return None
++        for f in STRIP_FAM:
++            if v.startswith(f) and len(v) == len(f) + (1 if f.endswith('_') else 1) and v[-1] in 'lmr': return f
++        return None
++    for y in range(m.h):
++        for x in range(m.w):
++            v = m.deco[y][x]; f = fam(v)
++            if not f: continue
++            jn = lambda xx: 0 <= xx < m.w and (fam(m.deco[y][xx]) == f or (m.deco[y][xx] or '').startswith(tuple(RULES['strips'].get('joins', []))))
++            W = jn(x - 1); E = jn(x + 1)
++            if not W and not E: continue
++            p = 'm' if W and E else ('r' if W else 'l'); nv = v[:-1] + p
++            if nv != v and nv in BYNAME: ch.append((x, y, v, nv)); m.deco[y][x] = nv
++    m.strip_changes = ch
++
+ def resolve(m):
+     G = [[0] * m.w for _ in range(m.h)]; anim = set()
++    port = m.name in ROLLOUT; m.port_cells = []      # autotile port: junction / cave-corner rules only on the rolled-out maps
+     def tr(x, y):
+         if 0 <= x < m.w and 0 <= y < m.h: return m.terr[y][x]
+         return None
+@@ -223,6 +333,9 @@
+                     fl = lambda xx: any(tr(xx, yy) not in ('cavewall', None) for yy in (y, y + 1, y + 2))
+                     e, w_ = fl(x + 1), fl(x - 1)
+                     nm = 'cavewall_side_ew' if e and w_ else 'cavewall_side_e' if e else 'cavewall_side_w' if w_ else 'cavewall_top'
++                if port and nm.startswith('cavewall_face_') and RULES['cavewall']['corners']['enabled']:
++                    fe, fw = tr(x + 1, y) not in ('cavewall', None), tr(x - 1, y) not in ('cavewall', None)
++                    if fe or fw: G[y][x] = cavewall_corner(nm[-1], fe, fw)['id']; m.port_cells.append((x, y, 'cave_corner')); continue
+                 G[y][x] = BYNAME[nm]['id']; continue
+             if t in ('floor_wood', 'floor_tile', 'floor_tile_heal', 'rug', 'void', 'floor_carpet', 'floor_stone', 'floor_arena'): G[y][x] = BYNAME[t]['id']; continue
+             p = PRIO[t]
+@@ -236,6 +349,15 @@
+                 else: G[y][x] = BYNAME[f'{t}_{ground_variant(x, y)}']['id']      # position hash, see ground.vhash / README §6
+                 continue
+             A = collections.Counter(lows).most_common(1)[0][0]
++            J = RULES['junction']
++            if port and J['enabled'] and len({PRIO[v] for v in lows}) > 1 and not ({t} | set(lows)) & set(J['skip_terrains']):
++                U = max(lows, key=lambda v: (PRIO[v], lows.count(v)))
++                rest = [v for v in lows if PRIO[v] < PRIO[U]]; A2 = collections.Counter(rest).most_common(1)[0][0]
++                below = lambda xx, yy: (lambda n: n is not None and n in PRIO and PRIO[n] < PRIO[U])(tr(xx, yy))
++                us = (below(x, y - 1), below(x + 1, y), below(x, y + 1), below(x - 1, y))
++                ud = (below(x + 1, y - 1), below(x + 1, y + 1), below(x - 1, y + 1), below(x - 1, y - 1))
++                G[y][x] = junction_tile(t, U, A2, tuple(bool(v) for v in sides), tuple(bool(v) for v in diags), us, ud, wobble_variant(x, y))['id']
++                m.port_cells.append((x, y, 'junction')); continue
+             G[y][x] = trans_tile(t, A, tuple(bool(v) for v in sides), tuple(bool(v) for v in diags), wobble_variant(x, y))['id']
+     return G
+ 
+@@ -252,6 +374,7 @@
+             if n and y > 0 and m.over[y - 1][x] is None: m.over[y - 1][x] = f'{kind}_tips_{e}{w}_v{v}'
+ 
+ def finalize(m):
++    if m.name in ROLLOUT and RULES['strips']['enabled']: strip_rule(m)
+     place_tall_grass(m)
+     G = resolve(m); byid = {t['id']: t for t in TILES}
+     D = [[BYNAME[v]['id'] if v else 0 for v in row] for row in m.deco]

@@ -1,0 +1,203 @@
+{
+ "PC 1920x1080": {
+  "arrival (7,13)": {
+   "zoom": 2,
+   "view_tiles": [
+    15.0,
+    8.44
+   ],
+   "camera": [
+    -32,
+    420
+   ],
+   "focus_under_touch": false,
+   "needed_cells_under_touch": []
+  },
+  "juice counter talk (2,11)": {
+   "zoom": 2,
+   "view_tiles": [
+    15.0,
+    8.44
+   ],
+   "camera": [
+    -32,
+    420
+   ],
+   "focus_under_touch": false,
+   "needed_cells_under_touch": []
+  },
+  "DJ talk (11,11)": {
+   "zoom": 2,
+   "view_tiles": [
+    15.0,
+    8.44
+   ],
+   "camera": [
+    -32,
+    420
+   ],
+   "focus_under_touch": false,
+   "needed_cells_under_touch": []
+  },
+  "flyer wall (7,3)": {
+   "zoom": 2,
+   "view_tiles": [
+    15.0,
+    8.44
+   ],
+   "camera": [
+    -32,
+    0
+   ],
+   "focus_under_touch": false,
+   "needed_cells_under_touch": []
+  },
+  "paint vendor talk (11,4)": {
+   "zoom": 2,
+   "view_tiles": [
+    15.0,
+    8.44
+   ],
+   "camera": [
+    -32,
+    18
+   ],
+   "focus_under_touch": false,
+   "needed_cells_under_touch": []
+  }
+ },
+ "Phone 844x390 @3": {
+  "arrival (7,13)": {
+   "zoom": 2,
+   "view_tiles": [
+    19.78,
+    9.14
+   ],
+   "camera": [
+    -185,
+    375
+   ],
+   "focus_under_touch": false,
+   "needed_cells_under_touch": []
+  },
+  "juice counter talk (2,11)": {
+   "zoom": 2,
+   "view_tiles": [
+    19.78,
+    9.14
+   ],
+   "camera": [
+    -185,
+    375
+   ],
+   "focus_under_touch": false,
+   "needed_cells_under_touch": []
+  },
+  "DJ talk (11,11)": {
+   "zoom": 2,
+   "view_tiles": [
+    19.78,
+    9.14
+   ],
+   "camera": [
+    -185,
+    375
+   ],
+   "focus_under_touch": false,
+   "needed_cells_under_touch": []
+  },
+  "flyer wall (7,3)": {
+   "zoom": 2,
+   "view_tiles": [
+    19.78,
+    9.14
+   ],
+   "camera": [
+    -185,
+    0
+   ],
+   "focus_under_touch": false,
+   "needed_cells_under_touch": []
+  },
+  "paint vendor talk (11,4)": {
+   "zoom": 2,
+   "view_tiles": [
+    19.78,
+    9.14
+   ],
+   "camera": [
+    -185,
+    0
+   ],
+   "focus_under_touch": false,
+   "needed_cells_under_touch": []
+  }
+ },
+ "Phone 2340x1080 (851x393 @2.75)": {
+  "arrival (7,13)": {
+   "zoom": 2,
+   "view_tiles": [
+    18.28,
+    8.45
+   ],
+   "camera": [
+    -137,
+    419
+   ],
+   "focus_under_touch": false,
+   "needed_cells_under_touch": []
+  },
+  "juice counter talk (2,11)": {
+   "zoom": 2,
+   "view_tiles": [
+    18.28,
+    8.45
+   ],
+   "camera": [
+    -137,
+    419
+   ],
+   "focus_under_touch": false,
+   "needed_cells_under_touch": []
+  },
+  "DJ talk (11,11)": {
+   "zoom": 2,
+   "view_tiles": [
+    18.28,
+    8.45
+   ],
+   "camera": [
+    -137,
+    419
+   ],
+   "focus_under_touch": false,
+   "needed_cells_under_touch": []
+  },
+  "flyer wall (7,3)": {
+   "zoom": 2,
+   "view_tiles": [
+    18.28,
+    8.45
+   ],
+   "camera": [
+    -137,
+    0
+   ],
+   "focus_under_touch": false,
+   "needed_cells_under_touch": []
+  },
+  "paint vendor talk (11,4)": {
+   "zoom": 2,
+   "view_tiles": [
+    18.28,
+    8.45
+   ],
+   "camera": [
+    -137,
+    18
+   ],
+   "focus_under_touch": false,
+   "needed_cells_under_touch": []
+  }
+ }
+}

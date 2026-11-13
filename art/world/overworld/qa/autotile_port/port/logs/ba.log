@@ -1,0 +1,9 @@
+brookhollow 8 cells {'day': 240, 'night': 240}
+route1 1 cells {'day': 220, 'night': 220}
+fernwick 3 cells {'day': 380, 'night': 380}
+thornwood 0 cells {'day': 0, 'night': 0}
+lantern_rest 0 cells {'day': 0, 'night': 0}
+greystone_entrance 10 cells {'day': 2416, 'night': 2416}
+greystone_b1 15 cells {'day': 3587, 'night': 3587}
+route1_storm 1 cells {'day': 135, 'night': 135}
+EXIT 0

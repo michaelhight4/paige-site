@@ -1,0 +1,5 @@
+de49a5174dc9782551cbda10fe42098e5f176a4f  overnight_maps.py
+e483227626518541f6744ea4f28eb6455f58173b  encounters_overnight.json
+bbeb1f48c77c775c3c7d70dea9d4a7f245fd29e3  patches/interiors_merge.py.diff
+317685caa43c41413ddab95923261198154b2e3b  patches/progression.py.diff
+f04bcd3023e50dae7a27bc6bbeacdb056247f77a  patches/world_data.py.diff

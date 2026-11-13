@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/tmp/kil_integ_noport/overworld/tools/run.py", line 22, in <module>
+    MAPS += interiors_merge.import_maps(Map, BYNAME); IX_ROWS = interiors_merge.hookup(MAPS)
+                                                                ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/tmp/kil_integ_noport/overworld/tools/interiors_merge.py", line 152, in hookup
+    ext = M[area]
+          ~^^^^^^
+KeyError: 'aurelith'

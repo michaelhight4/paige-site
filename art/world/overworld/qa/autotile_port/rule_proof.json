@@ -1,0 +1,39 @@
+{
+ "brookhollow": {
+  "cells": 1088,
+  "identical": 1088,
+  "sample_diffs": [],
+  "3way_cells": 8
+ },
+ "route1": {
+  "cells": 1496,
+  "identical": 1496,
+  "sample_diffs": []
+ },
+ "fernwick": {
+  "cells": 720,
+  "identical": 720,
+  "sample_diffs": [],
+  "3way_cells": 3
+ },
+ "thornwood": {
+  "cells": 1080,
+  "identical": 1080,
+  "sample_diffs": []
+ },
+ "lantern_rest": {
+  "cells": 240,
+  "identical": 240,
+  "sample_diffs": []
+ },
+ "greystone_entrance": {
+  "cells": 616,
+  "identical": 616,
+  "sample_diffs": []
+ },
+ "greystone_b1": {
+  "cells": 720,
+  "identical": 720,
+  "sample_diffs": []
+ }
+}

@@ -1,0 +1,22 @@
+--- tools/run.py	2026-10-22 21:24:19.648491984 -0500
++++ qa/autotile_port/port/sandbox/overworld/tools/run.py	2026-10-23 00:20:55.829747030 -0500
+@@ -104,6 +104,8 @@
+ 
+ WD_TERMINAL_ID = world_data.late_tiles(res)   # new core tile registered after every map is final (ids stay stable)
+ CLUB_TILES = club.late(res)                    # club tiles after the terminal: new ids at the end, placeholders patched
++AUTOTILE_NEW = _bd.assign_new(res)            # autotile port (Oct 23): tiles not in tools/tile_id_ledger.json get ids after the last legacy id
++print(f'AUTOTILE: {len(AUTOTILE_NEW)} new tiles ({AUTOTILE_NEW[0][1] if AUTOTILE_NEW else "-"}..{AUTOTILE_NEW[-1][1] if AUTOTILE_NEW else "-"}); port cells: ' + ', '.join(f'{m.name} {len(getattr(m, "port_cells", []))}+{len(getattr(m, "strip_changes", []))}' for m in MAPS + VARIANTS if m.name in _bd.ROLLOUT))
+ furniture_depth.apply_frames(_bd.TILES, only={'i_company_terminal'})   # FIX (Oct 22): the call above ran before late_tiles registered the terminal (no-op); run it now
+ CLUB_BAD, CLUB_REACH = club.verify(res); report += [f'club_int: {b}' for b in CLUB_BAD]; print(f'CLUB: {len(CLUB_TILES)} tiles, {CLUB_REACH} cells reachable from the door, problems: {CLUB_BAD or "none"}')
+ WD_TAGS = world_data.tag(res)                # Animator soul data: tags.shallow / crystal / firefly_zone / bird_perch
+@@ -213,6 +215,10 @@
+                 warps=m.warps, exits=m.exits, npcs=[dict(n, text_ref=f'overworld_lines.json maps.{name}.{n["id"]}') for n in m.npcs],
+                 signs=[dict(s, text_ref=f'overworld_lines.json maps.{name}.{s["id"]}', text_note='dev label only; final text = text_ref') for s in m.signs], items=m.items, encounter_zones=m.enc_zones)
+     if getattr(m, 'fog_layer', None): data['layers']['fog'] = m.fog_layer; data['fog'] = m.fog_meta
++    if name in _bd.ROLLOUT:   # autotile port: semantic terrain grid (codes in tools/autotile_rules.json); top-level key, engine ignores it, bridge keeps it
++        _tc = _bd.RULES['terrain_codes']; _bad = {t for r in m.terr for t in r if t not in _tc}
++        assert not _bad, f'{name}: terrain without a code in autotile_rules.json: {_bad}'
++        data['terrain'] = dict(rules='tools/autotile_rules.json', grid=[[_tc[t] for t in r] for r in m.terr])
+     if hasattr(m, 'npcs_pending'):
+         data['source'] = m.source
+         data['npcs_pending_text'] = [dict(n, text_ref=extra_merge.PENDING_REF.get((name, n['id']), f'overworld_lines.json maps.{name}.{n["id"]} (key requested from Text Bot)')) for n in m.npcs_pending]

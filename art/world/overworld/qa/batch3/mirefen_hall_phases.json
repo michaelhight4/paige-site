@@ -1,0 +1,75 @@
+{
+ "tile_size_1x": 64,
+ "ids": {
+  "reed_lamp_unlit": 2067,
+  "reed_lamp_lit": 2068
+ },
+ "lamp_cells": [
+  [
+   1,
+   8
+  ],
+  [
+   9,
+   8
+  ],
+  [
+   1,
+   10
+  ],
+  [
+   9,
+   10
+  ]
+ ],
+ "tint": {
+  "kind": "darkness",
+  "grade": "night",
+  "phases": [
+   "dawn",
+   "day",
+   "dusk",
+   "night"
+  ],
+  "rule": "draw the WHOLE map with time_of_day grade \"night\" (grades.json palette swap, emissive masks lit) at every phase; overrides the indoor day rule for this map only. Plain darkening: no fog, haze or vapour layer (GQC line 354).",
+  "lights": {
+   "tile_unlit": "reed_lamp_unlit",
+   "tile_lit": "reed_lamp_lit",
+   "cells": [
+    [
+     1,
+     8
+    ],
+    [
+     9,
+     8
+    ],
+    [
+     1,
+     10
+    ],
+    [
+     9,
+     10
+    ]
+   ],
+   "note": "hall starts dark: every lamp cell shows reed_lamp_unlit; the runtime swaps a cell to reed_lamp_lit when that lamp is lit (data/hall_puzzles/mirefen.json darkness: order 3,1,4,2) and its light pool reveals the boardwalk"
+  },
+  "src": "World Design batch 3 (Oct 23 2026)"
+ },
+ "mean_luma": {
+  "dawn/A": 118.7,
+  "dawn/B": 73.3,
+  "dawn/C": 73.4,
+  "day/A": 118.7,
+  "day/B": 73.3,
+  "day/C": 73.4,
+  "dusk/A": 118.7,
+  "dusk/B": 73.3,
+  "dusk/C": 73.4,
+  "night/A": 118.7,
+  "night/B": 73.3,
+  "night/C": 73.4
+ },
+ "off_palette_pixels": []
+}

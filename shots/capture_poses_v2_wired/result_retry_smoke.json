@@ -1,0 +1,49 @@
+{
+ "when": "Fri Oct 23 2026 00:29:49 GMT-0500 (Central Daylight Time)",
+ "fails": 0,
+ "results": [
+  "PASS [phone844_2x night tr_lass_f caught] bone_v2 pose strip used for this character - 335 frames, char tr_lass_f",
+  "PASS [phone844_2x night tr_lass_f caught] pose frames seen - seen raise,hold; expected raise,hold",
+  "PASS [phone844_2x night tr_lass_f caught] crystal anchor on the hand (<= 1.5 css px) while the trainer stands still - {\"raise/raise\":0.12,\"hold/raise\":0,\"hold/beam\":0,\"hold/absorb\":0,\"hold/pulse_3\":0,\"hold/lock_bloom\":0,\"raise/lock_bloom\":0}",
+  "PASS [phone844_2x night tr_lass_f caught] feet / centre line fixed across pose frames (<= 0.5 px) - cx spread 0.49, bottom spread 0.00",
+  "PASS [phone844_2x night tr_lass_f caught] no console errors",
+  "PASS [pc1280_1x rollback &poses=0] art capture runs with the old trainer sheet, no pose - {\"pose\":\"\",\"bg\":\"url(\\\"art/characters/pixel/humans/cal/overworld/cal_chibi_sheet_3x.png\\\")\",\"art\":\"raise,beam,absorb,pulse_3,lock_bloom\"}",
+  "PASS [pc1280_1x rollback &fxart=0] placeholder capture (no art), no pose - {\"pose\":\"\",\"bg\":\"url(\\\"art/characters/pixel/humans/cal/overworld/cal_chibi_sheet_3x.png\\\")\",\"art\":\"\"}"
+ ],
+ "summary": [
+  {
+   "tag": "phone844_2x night tr_lass_f caught",
+   "profKey": "phone844_2x",
+   "phase": "night",
+   "ch": "tr_lass_f",
+   "outcome": "caught",
+   "poses": [
+    "raise",
+    "hold"
+   ],
+   "err": {
+    "raise/raise": 0.11887359619140625,
+    "hold/raise": 0.004375457763671875,
+    "hold/beam": 0.0044017752100682685,
+    "hold/absorb": 0.0044017752100682685,
+    "hold/pulse_3": 0.004375457763671875,
+    "hold/lock_bloom": 0.004375457763671875,
+    "raise/lock_bloom": 0.0043773651123046875
+   },
+   "cxSpread": 0.4913978576660156,
+   "bottomSpread": 0,
+   "k": 1.21875,
+   "trainerW": 82.875,
+   "motion": {
+    "pose": "raise",
+    "art": "raise,beam,absorb,pulse_3,lock_bloom"
+   },
+   "infos": [
+    "[capture poses] ron: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] vane: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] riverbank_stranger: no bone_v2 data (no hold_points.json) -> old pose + default hold point [64,128]",
+    "[capture poses] bone_v2: 17/20 characters; fallback (old pose): ron, vane, riverbank_stranger"
+   ]
+  }
+ ]
+}

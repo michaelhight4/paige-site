@@ -1,0 +1,1295 @@
+[
+ {
+  "exterior": "brookhollow",
+  "door": [
+   17,
+   14
+  ],
+  "to": "house_1f",
+  "arrival": [
+   5,
+   8
+  ],
+  "kind": "unique",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "brookhollow (17,15)"
+  ],
+  "why": "player's house 1F: Ron, E2 3 a.m. Static (TV), 8.5-F Ron's CV"
+ },
+ {
+  "exterior": "brookhollow",
+  "door": [
+   18,
+   26
+  ],
+  "to": "heal_brookhollow",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "heal (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "brookhollow",
+  "door": [
+   28,
+   26
+  ],
+  "to": "shop_int",
+  "arrival": [
+   5,
+   7
+  ],
+  "kind": "mart (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "brookhollow",
+  "door": [
+   40,
+   15
+  ],
+  "to": "office_int",
+  "arrival": [
+   7,
+   10
+  ],
+  "kind": "unique",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "brookhollow (40,16)"
+  ],
+  "why": "RT field office: promotion cutscene (critical path), E9 The Crystal Stares Back, 8.5-B Dana's Desk"
+ },
+ {
+  "exterior": "brookhollow",
+  "door": [
+   27,
+   14
+  ],
+  "to": "home_brookhollow_a",
+  "arrival": [
+   5,
+   6
+  ],
+  "kind": "home (shared H1)",
+  "recolour": "identity",
+  "scheme": "identity",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "brookhollow",
+  "door": [
+   40,
+   26
+  ],
+  "to": "home_brookhollow_b",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "unique",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "brookhollow (40,27)"
+  ],
+  "why": "E13 The Fireside Book: the scholar + his bookcase (was house_int_b)"
+ },
+ {
+  "exterior": "brookhollow",
+  "door": [
+   28,
+   34
+  ],
+  "to": "lab_brookhollow",
+  "arrival": [
+   7,
+   9
+  ],
+  "kind": "unique",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "brookhollow (28,35)"
+  ],
+  "why": "Lumen Lab: starter choice (got_starter) and 8.1 lab-tech onboarding"
+ },
+ {
+  "exterior": "fernwick",
+  "door": [
+   17,
+   13
+  ],
+  "to": "heal_fernwick",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "unique",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "fernwick (17,14)",
+   "fernwick (18,14)"
+  ],
+  "why": "8.5-E: parent_c later works here as a Care Associate (the Fernwick branch needs its own state)"
+ },
+ {
+  "exterior": "fernwick",
+  "door": [
+   28,
+   13
+  ],
+  "to": "shop_int",
+  "arrival": [
+   5,
+   7
+  ],
+  "kind": "mart (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "fernwick",
+  "door": [
+   34,
+   13
+  ],
+  "to": "home_fernwick_a",
+  "arrival": [
+   5,
+   8
+  ],
+  "kind": "unique",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "fernwick (34,14)"
+  ],
+  "why": "8.5-E The Kid's Last Joke: parent_c (job ads) + kid_c, TV (was house_int_c, door fernwick (22,6))"
+ },
+ {
+  "exterior": "fernwick",
+  "door": [
+   28,
+   25
+  ],
+  "to": "home_lanternport_c",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "home (shared H3)",
+  "recolour": "h3_slate",
+  "scheme": "slate",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "fernwick",
+  "door": [
+   17,
+   24
+  ],
+  "to": "home_fernwick_c",
+  "arrival": [
+   7,
+   7
+  ],
+  "kind": "home (shared H2)",
+  "recolour": "h2_ochre",
+  "scheme": "ochre",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "fernwick",
+  "door": [
+   35,
+   25
+  ],
+  "to": "fernwick_hall_int",
+  "arrival": [
+   7,
+   16
+  ],
+  "kind": "unique",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "fernwick (35,26)"
+  ],
+  "why": "Master of Fernwick hall: gating puzzle + coin (beat_master_fernwick, critical path)"
+ },
+ {
+  "exterior": "aurelith",
+  "door": [
+   17,
+   18
+  ],
+  "to": "heal_brookhollow",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "heal (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "aurelith",
+  "door": [
+   23,
+   18
+  ],
+  "to": "shop_int",
+  "arrival": [
+   5,
+   7
+  ],
+  "kind": "mart (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "aurelith",
+  "door": [
+   33,
+   18
+  ],
+  "to": "station_int",
+  "arrival": [
+   9,
+   11
+  ],
+  "kind": "other",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "aurelith",
+  "door": [
+   39,
+   18
+  ],
+  "to": "home_lanternport_c",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "home (shared H3)",
+  "recolour": "h3_sky",
+  "scheme": "sky",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "aurelith",
+  "door": [
+   16,
+   27
+  ],
+  "to": "home_saltmere_a",
+  "arrival": [
+   4,
+   7
+  ],
+  "kind": "home (shared H4)",
+  "recolour": "identity",
+  "scheme": "identity",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "aurelith",
+  "door": [
+   23,
+   27
+  ],
+  "to": "home_brookhollow_a",
+  "arrival": [
+   5,
+   6
+  ],
+  "kind": "home (shared H1)",
+  "recolour": "h1_sage",
+  "scheme": "sage",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "aurelith",
+  "door": [
+   39,
+   27
+  ],
+  "to": "home_fernwick_c",
+  "arrival": [
+   7,
+   7
+  ],
+  "kind": "home (shared H2)",
+  "recolour": "h2_rose",
+  "scheme": "rose",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "saltmere",
+  "door": [
+   17,
+   18
+  ],
+  "to": "heal_brookhollow",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "heal (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "saltmere",
+  "door": [
+   23,
+   18
+  ],
+  "to": "shop_int",
+  "arrival": [
+   5,
+   7
+  ],
+  "kind": "mart (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "saltmere",
+  "door": [
+   33,
+   18
+  ],
+  "to": "station_int",
+  "arrival": [
+   9,
+   11
+  ],
+  "kind": "other",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "saltmere",
+  "door": [
+   39,
+   18
+  ],
+  "to": "home_saltmere_a",
+  "arrival": [
+   4,
+   7
+  ],
+  "kind": "home (shared H4)",
+  "recolour": "h4_rose",
+  "scheme": "rose",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "saltmere",
+  "door": [
+   17,
+   27
+  ],
+  "to": "saltmere_office_int",
+  "arrival": [
+   7,
+   7
+  ],
+  "kind": "other",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "saltmere (17,28)"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "saltmere",
+  "door": [
+   24,
+   27
+  ],
+  "to": "saltmere_hall_int",
+  "arrival": [
+   5,
+   14
+  ],
+  "kind": "other",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "saltmere (24,28)"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "saltmere",
+  "door": [
+   32,
+   27
+  ],
+  "to": "home_brookhollow_a",
+  "arrival": [
+   5,
+   6
+  ],
+  "kind": "home (shared H1)",
+  "recolour": "h1_ochre",
+  "scheme": "ochre",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "saltmere",
+  "door": [
+   39,
+   27
+  ],
+  "to": "home_fernwick_c",
+  "arrival": [
+   7,
+   7
+  ],
+  "kind": "home (shared H2)",
+  "recolour": "h2_slate",
+  "scheme": "slate",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "revival_heights",
+  "door": [
+   17,
+   18
+  ],
+  "to": "heal_brookhollow",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "heal (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "revival_heights",
+  "door": [
+   23,
+   18
+  ],
+  "to": "shop_int",
+  "arrival": [
+   5,
+   7
+  ],
+  "kind": "mart (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "revival_heights",
+  "door": [
+   33,
+   18
+  ],
+  "to": "station_int",
+  "arrival": [
+   9,
+   11
+  ],
+  "kind": "other",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "revival_heights",
+  "door": [
+   39,
+   18
+  ],
+  "to": "home_brookhollow_a",
+  "arrival": [
+   5,
+   6
+  ],
+  "kind": "home (shared H1)",
+  "recolour": "h1_teal",
+  "scheme": "teal",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "revival_heights",
+  "door": [
+   16,
+   27
+  ],
+  "to": "home_fernwick_c",
+  "arrival": [
+   7,
+   7
+  ],
+  "kind": "home (shared H2)",
+  "recolour": "h2_sky",
+  "scheme": "sky",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "revival_heights",
+  "door": [
+   24,
+   27
+  ],
+  "to": "revival_hall_int",
+  "arrival": [
+   6,
+   25
+  ],
+  "kind": "other",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "revival_heights (24,28)"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "revival_heights",
+  "door": [
+   32,
+   27
+  ],
+  "to": "home_lanternport_c",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "home (shared H3)",
+  "recolour": "identity",
+  "scheme": "identity",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "revival_heights",
+  "door": [
+   39,
+   27
+  ],
+  "to": "home_saltmere_a",
+  "arrival": [
+   4,
+   7
+  ],
+  "kind": "home (shared H4)",
+  "recolour": "h4_sage",
+  "scheme": "sage",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "frostspire",
+  "door": [
+   17,
+   18
+  ],
+  "to": "heal_brookhollow",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "heal (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "frostspire",
+  "door": [
+   23,
+   18
+  ],
+  "to": "shop_int",
+  "arrival": [
+   5,
+   7
+  ],
+  "kind": "mart (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "frostspire",
+  "door": [
+   32,
+   18
+  ],
+  "to": "home_fernwick_c",
+  "arrival": [
+   7,
+   7
+  ],
+  "kind": "home (shared H2)",
+  "recolour": "h2_sage",
+  "scheme": "sage",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "frostspire",
+  "door": [
+   39,
+   18
+  ],
+  "to": "home_lanternport_c",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "home (shared H3)",
+  "recolour": "h3_rose",
+  "scheme": "rose",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "frostspire",
+  "door": [
+   24,
+   27
+  ],
+  "to": "frostspire_hall_int",
+  "arrival": [
+   6,
+   14
+  ],
+  "kind": "other",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "frostspire (24,28)"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "frostspire",
+  "door": [
+   32,
+   27
+  ],
+  "to": "home_saltmere_a",
+  "arrival": [
+   4,
+   7
+  ],
+  "kind": "home (shared H4)",
+  "recolour": "h4_ochre",
+  "scheme": "ochre",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "mirefen",
+  "door": [
+   17,
+   18
+  ],
+  "to": "heal_brookhollow",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "heal (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "mirefen",
+  "door": [
+   23,
+   18
+  ],
+  "to": "shop_int",
+  "arrival": [
+   5,
+   7
+  ],
+  "kind": "mart (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "mirefen",
+  "door": [
+   32,
+   18
+  ],
+  "to": "home_lanternport_c",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "home (shared H3)",
+  "recolour": "h3_slate",
+  "scheme": "slate",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "mirefen",
+  "door": [
+   39,
+   18
+  ],
+  "to": "home_saltmere_a",
+  "arrival": [
+   4,
+   7
+  ],
+  "kind": "home (shared H4)",
+  "recolour": "h4_teal",
+  "scheme": "teal",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "mirefen",
+  "door": [
+   24,
+   27
+  ],
+  "to": "mirefen_hall_int",
+  "arrival": [
+   5,
+   17
+  ],
+  "kind": "other",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "mirefen (24,28)"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "mirefen",
+  "door": [
+   32,
+   27
+  ],
+  "to": "home_brookhollow_a",
+  "arrival": [
+   5,
+   6
+  ],
+  "kind": "home (shared H1)",
+  "recolour": "h1_sky",
+  "scheme": "sky",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "mirefen",
+  "door": [
+   39,
+   27
+  ],
+  "to": "home_fernwick_c",
+  "arrival": [
+   7,
+   7
+  ],
+  "kind": "home (shared H2)",
+  "recolour": "identity",
+  "scheme": "identity",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "tidewater_coast",
+  "door": [
+   17,
+   18
+  ],
+  "to": "heal_brookhollow",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "heal (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "tidewater_coast",
+  "door": [
+   23,
+   18
+  ],
+  "to": "shop_int",
+  "arrival": [
+   5,
+   7
+  ],
+  "kind": "mart (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "tidewater_coast",
+  "door": [
+   39,
+   18
+  ],
+  "to": "home_saltmere_a",
+  "arrival": [
+   4,
+   7
+  ],
+  "kind": "home (shared H4)",
+  "recolour": "identity",
+  "scheme": "identity",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "tidewater_coast",
+  "door": [
+   24,
+   27
+  ],
+  "to": "tidewater_hall_int",
+  "arrival": [
+   6,
+   12
+  ],
+  "kind": "other",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "tidewater_coast (24,28)"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "tidewater_coast",
+  "door": [
+   32,
+   27
+  ],
+  "to": "home_brookhollow_a",
+  "arrival": [
+   5,
+   6
+  ],
+  "kind": "home (shared H1)",
+  "recolour": "h1_sage",
+  "scheme": "sage",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "lanternport",
+  "door": [
+   17,
+   18
+  ],
+  "to": "heal_brookhollow",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "heal (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "lanternport",
+  "door": [
+   23,
+   18
+  ],
+  "to": "shop_int",
+  "arrival": [
+   5,
+   7
+  ],
+  "kind": "mart (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "lanternport",
+  "door": [
+   33,
+   18
+  ],
+  "to": "station_int",
+  "arrival": [
+   9,
+   11
+  ],
+  "kind": "other",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "lanternport",
+  "door": [
+   39,
+   18
+  ],
+  "to": "home_brookhollow_a",
+  "arrival": [
+   5,
+   6
+  ],
+  "kind": "home (shared H1)",
+  "recolour": "h1_ochre",
+  "scheme": "ochre",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "lanternport",
+  "door": [
+   16,
+   27
+  ],
+  "to": "home_fernwick_c",
+  "arrival": [
+   7,
+   7
+  ],
+  "kind": "home (shared H2)",
+  "recolour": "h2_slate",
+  "scheme": "slate",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "lanternport",
+  "door": [
+   24,
+   27
+  ],
+  "to": "lanternport_hall_int",
+  "arrival": [
+   5,
+   19
+  ],
+  "kind": "other",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "lanternport (24,28)"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "lanternport",
+  "door": [
+   32,
+   27
+  ],
+  "to": "home_lanternport_c",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "home (shared H3)",
+  "recolour": "h3_teal",
+  "scheme": "teal",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "lanternport",
+  "door": [
+   39,
+   27
+  ],
+  "to": "home_saltmere_a",
+  "arrival": [
+   4,
+   7
+  ],
+  "kind": "home (shared H4)",
+  "recolour": "h4_sky",
+  "scheme": "sky",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "cindervale",
+  "door": [
+   17,
+   18
+  ],
+  "to": "heal_brookhollow",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "heal (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "cindervale",
+  "door": [
+   23,
+   18
+  ],
+  "to": "shop_int",
+  "arrival": [
+   5,
+   7
+  ],
+  "kind": "mart (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "cindervale",
+  "door": [
+   32,
+   18
+  ],
+  "to": "home_fernwick_c",
+  "arrival": [
+   7,
+   7
+  ],
+  "kind": "home (shared H2)",
+  "recolour": "h2_sky",
+  "scheme": "sky",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "cindervale",
+  "door": [
+   39,
+   18
+  ],
+  "to": "home_lanternport_c",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "home (shared H3)",
+  "recolour": "identity",
+  "scheme": "identity",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "cindervale",
+  "door": [
+   24,
+   27
+  ],
+  "to": "cindervale_hall_int",
+  "arrival": [
+   6,
+   15
+  ],
+  "kind": "other",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "cindervale (24,28)"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "cindervale",
+  "door": [
+   32,
+   27
+  ],
+  "to": "home_saltmere_a",
+  "arrival": [
+   4,
+   7
+  ],
+  "kind": "home (shared H4)",
+  "recolour": "h4_sage",
+  "scheme": "sage",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ }
+]

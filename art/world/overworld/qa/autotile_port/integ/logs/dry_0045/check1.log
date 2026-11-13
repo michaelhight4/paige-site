@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/tmp/kil_integ_noport/overworld/tools/run.py", line 8, in <module>
+    from maps import *
+  File "/tmp/kil_integ_noport/overworld/tools/maps.py", line 1, in <module>
+    from build import *
+  File "/tmp/kil_integ_noport/overworld/tools/build.py", line 167, in <module>
+    __import__(_mod).register(reg, reg_multi) if hasattr(__import__(_mod), 'register') else None
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/tmp/kil_integ_noport/overworld/tools/interiors_merge.py", line 87, in register
+    furniture_fix.apply_interior_sheets(); _SH.clear()   # furniture-colour rule: interiors_new sheets = pristine copy + swaps (idempotent)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/kil_integ_noport/overworld/tools/furniture_fix.py", line 51, in apply_interior_sheets
+    a = np.array(Image.open(src).convert('RGBA'))
+                 ~~~~~~~~~~^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/PIL/Image.py", line 3639, in open
+    fp = builtins.open(filename, "rb")
+  File "/tmp/kil_integ_noport/overworld/tools/runguard.py", line 56, in open_
+    return real_open(file, mode, *a, **k)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/kil_integ_noport/overworld/qa/furniture_colours/before/tiles_1x/i_brand.png'

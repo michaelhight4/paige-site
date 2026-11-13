@@ -1,0 +1,13 @@
+STEP1 (world_data patch+encounters) CHECK EXIT 0
+WORLD DATA: OK
+TEXT IDS: OK (143 ids from overworld_lines.json present)
+PROGRESSION: PASS
+TEXT IDS (maps/*.json on disk): OK (143 ids)
+--check: nothing written (33 write calls suppressed); in-memory problems: 0
+STEP2 (interiors_merge+progression patches + 28-map hook) CHECK EXIT 0
+WORLD DATA: OK
+TEXT IDS: OK (143 ids from overworld_lines.json present)
+PROGRESSION: PASS
+TEXT IDS (maps/*.json on disk): OK (143 ids)
+--check: nothing written (33 write calls suppressed); in-memory problems: 0
+logs /workspace/kilumen/art/world/overworld/qa/autotile_port/integ/logs/dry_0054

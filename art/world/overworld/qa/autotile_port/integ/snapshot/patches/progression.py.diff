@@ -1,0 +1,68 @@
+--- /workspace/kilumen/art/world/overworld/tools/progression.py	2026-10-22 21:58:37.561332653 -0500
++++ /workspace/kilumen/art/world/overworld/qa/overnight_maps/staging/sandbox/overworld/tools/progression.py	2026-10-23 00:40:27.722282997 -0500
+@@ -55,6 +55,10 @@
+     ('aurelith', 'aurelith_arena', 'all_badges', 'arena gate'),
+ ]
+ EARN = {f['id']: f['earned_at'] for f in FLAGS}
++# OVERNIGHT DRAFT (World Design, Oct 23 2026): coin flags are earned at the built hall goal (when the hall map exists)
++HALL_EARN = {'beat_master_saltmere': 'saltmere_hall_int', 'beat_master_revival': 'revival_hall_int', 'beat_master_frostspire': 'frostspire_hall_int',
++             'beat_master_mirefen': 'mirefen_hall_int', 'beat_master_tidewater': 'tidewater_hall_int', 'beat_master_lanternport': 'lanternport_hall_int',
++             'beat_master_cindervale': 'cindervale_hall_int'}
+ # planned gate ids (Text Bot ids where they exist: gate_frostspire_bridge, gate_coast_road_flood, gate_cindervale_giant)
+ GATE_IDS = {('frostspire_pass', 'frostspire'): 'gate_frostspire_bridge', ('brookhollow_south_road', 'tidewater_coast'): 'gate_coast_road_flood',
+             ('aurelith', 'cindervale'): 'gate_cindervale_giant', ('saltmere', 'mirefen'): 'gate_saltmere_causeway',
+@@ -190,6 +194,7 @@
+                 m = maps[a]; Cf = state_C(m, Cs[a], flags); R = ramps(m)
+                 got = reach(m, Cf, list(seen_cells[a]) , 'has_bike' in flags and outdoor(a), R)
+                 add_cells(a, got)
++                if outdoor(a): add_zone(a)   # OVERNIGHT: a built outdoor map is also its zone node
+                 for wp in m.warps:
+                     if (wp['x'], wp['y']) in got and wp['to'] in maps: add_cells(wp['to'], [(wp['tx'], wp['ty'])])
+                 for ex in m.exits:
+@@ -199,12 +204,13 @@
+                         if ex['to'] in maps:
+                             t = maps[ex['to']]; j = i + ex['offset']; opp = {'north': 'south', 'south': 'north', 'east': 'west', 'west': 'east'}[ex['edge']]
+                             add_cells(ex['to'], [{'north': (j, 0), 'south': (j, t.h - 1), 'west': (0, j), 'east': (t.w - 1, j)}[opp]])
+-                        else: add_zone(f"stub:{a}:{ex['to']}")
++                        else: add_zone(f"stub:{a}:{ex['to']}"); add_zone(ex['to'])   # OVERNIGHT: unbuilt target zone
+                 if fly and outdoor(a) and visited:
+                     for mp, fp in visited.items(): add_cells(mp, [fp])
+             else:
+                 for x, y, fl, _ in ZONE_EDGES:
+                     if fl and fl not in flags: continue
++                    if x in maps and y in maps: continue   # OVERNIGHT: both ends built -> the map geometry (exits + story gates) rules
+                     for s, t in ((x, y), (y, x)):
+                         if s == a:
+                             if t.startswith('stub:'):
+@@ -212,14 +218,18 @@
+                                 add_zone(t)
+                                 add_cells(mp, [{'north': (i, 0), 'south': (i, m.h - 1), 'west': (0, i), 'east': (m.w - 1, i)}[ex['edge']] for i in range(ex['start'], ex['end'] + 1)])
+                             else: add_zone(t)
++                            if t in maps:   # OVERNIGHT: zone hop into a built map enters at its exits named after the source zone
++                                tm = maps[t]
++                                for ex in tm.exits:
++                                    if ex['to'] == a: add_cells(t, [{'north': (i, 0), 'south': (i, tm.h - 1), 'west': (0, i), 'east': (tm.w - 1, i)}[ex['edge']] for i in range(ex['start'], ex['end'] + 1)])
+                 if rail and a in TOWNS and TOWNS[a]['rail']:
+                     for z in visited_rail: add_zone(z)
+         return seen_cells, zones
+     def earned(f, cells, zones):
+-        where, what = EARN[f]
++        where, what = (HALL_EARN[f], 'goal') if HALL_EARN.get(f) in maps else EARN[f]
+         if where == 'zone': return what in zones
+         m = maps[where]
+-        if what == 'goal': p = (m.puzzle['goal']['x'], m.puzzle['goal']['y'])
++        if what == 'goal': p = tuple(m.hall_puzzle['goal']) if m.puzzle is None and getattr(m, 'hall_puzzle', None) else (m.puzzle['goal']['x'], m.puzzle['goal']['y'])  # overnight halls: JSON puzzle goal G
+         else: n = next(n for n in m.npcs if n['id'] == what.split(':')[1]); p = (n['x'], n['y'])
+         return any(abs(p[0] - c[0]) + abs(p[1] - c[1]) <= 1 for c in cells[where])
+     flags = set(); fly_pts = {mp: (m.fly_point['x'], m.fly_point['y']) for mp, m in maps.items() if m.fly_point}
+@@ -249,7 +259,9 @@
+             for g in m.story_gates:
+                 if g['flag'] == f:
+                     pts = entries(m); b = pick(pts, g['blocks']['to_entry'])
+-                    if any(p in cells[mp] for p in b): P.append(f"world: gate {g['id']} far side reachable before {f} (no detour forced)")
++                    if any(p in cells[mp] for p in b):
++                        if str(g.get('detour') or '').startswith('shortcut'): N.append(f"world: gate {g['id']} is a shortcut lock (both sides reachable before {f}; declared detour='shortcut: ...')")   # OVERNIGHT
++                        else: P.append(f"world: gate {g['id']} far side reachable before {f} (no detour forced)")
+                     else: N.append(f"world: gate {g['id']} forces a detour until {f} (far side unreached in state {k})")
+         for x, y, fl, desc in ZONE_EDGES:
+             if fl == f:

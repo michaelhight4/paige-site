@@ -1,0 +1,11 @@
+--- /workspace/kilumen/art/world/overworld/tools/world_data.py	2026-10-22 20:57:10.673454015 -0500
++++ world_data.py	2026-10-23 00:25:16.236320995 -0500
+@@ -315,6 +315,8 @@
+     a, b = lv('mirefen_bog_surf')
+     T['mirefen_bog_surf'] = dict(method='water (Tideglide)', rate=round(1 / 15, 4), slots=[
+         _s('mirewump', a, b, 45), _s('brookhorn', a, b, 35), _s('tidemarrow', b, b + 2, 5), _s('rillop', a - 4, a, 15, weather=['storm'], flood=True)])
++    _ov = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'encounters_overnight.json')   # OVERNIGHT DRAFT tables (TODO_ROSTER)
++    if os.path.exists(_ov): T.update(json.load(open(_ov)))
+     return T
+ CONDITIONS = {'time': 'optional list of phases (dawn/day/dusk/night, time_of_day/grades.json schedule); slot only rolls in those phases',
+               'weather': 'optional list (clear/storm); storm = storm_season set (route1 loads route1_storm)', 'flood': 'true = only on flooded variants / floodwater cells',

@@ -1,0 +1,198 @@
+saltmere_hall_int: missing spots ['saltmere_hall_int_guide', 'saltmere_hall_int_h1', 'saltmere_hall_int_h2', 'saltmere_hall_int_h3', 'saltmere_hall_int_master']
+route_coast: missing spots ['route_coast_sign', 'route_coast_trainer_1', 'route_coast_trainer_2', 'route_coast_trainer_3', 'route_coast_trainer_4', 'route_coast_trainer_5', 'route_coast_trainer_6']
+route_fernwick_lanternport: missing spots ['route_fernwick_lanternport_lock_keeper', 'route_fernwick_lanternport_sign', 'route_fernwick_lanternport_trainer_1', 'route_fernwick_lanternport_trainer_2', 'route_fernwick_lanternport_trainer_3', 'route_fernwick_lanternport_trainer_4']
+revival_heights: missing spots ['revival_heights_airspace_officer', 'revival_heights_lucky_crystal_seller', 'revival_heights_pass_clerk', 'revival_heights_ron_3', 'revival_heights_rt_guard', 'revival_heights_sign', 'revival_heights_trainer_1']
+lanternport_hall_int: missing spots ['lanternport_hall_int_guide', 'lanternport_hall_int_h1', 'lanternport_hall_int_h2', 'lanternport_hall_int_h3', 'lanternport_hall_int_master']
+frostspire: missing spots ['frostspire_sign', 'frostspire_skylift_tutor', 'frostspire_trainer_1', 'frostspire_trainer_2', 'frostspire_trainer_3', 'frostspire_trainer_4', 'frostspire_villager_1']
+aurelith: missing spots ['aurelith_airspace_officer', 'aurelith_arena_doorman', 'aurelith_arena_sign', 'aurelith_lucky_crystal_seller', 'aurelith_ron_6', 'aurelith_sign', 'aurelith_villager_1', 'aurelith_villager_2']
+route_cindervale: missing spots ['route_cindervale_sign', 'route_cindervale_trainer_1', 'route_cindervale_trainer_2', 'route_cindervale_trainer_3', 'route_cindervale_trainer_4', 'route_cindervale_trainer_5', 'route_cindervale_trainer_6']
+frostspire_pass: missing spots ['frostspire_pass_ron_4', 'frostspire_pass_rt_engineer', 'frostspire_pass_sign', 'frostspire_pass_trainer_1', 'frostspire_pass_trainer_2', 'frostspire_pass_trainer_3', 'frostspire_pass_trainer_4', 'frostspire_pass_trainer_5']
+lanternport: missing spots ['lanternport_lighthouse_keeper', 'lanternport_ron_5', 'lanternport_sign', 'lanternport_trainer_1', 'lanternport_villager_1']
+route_aurelith_saltmere: missing spots ['route_aurelith_saltmere_sign', 'route_aurelith_saltmere_trainer_1', 'route_aurelith_saltmere_trainer_2', 'route_aurelith_saltmere_trainer_3', 'route_aurelith_saltmere_trainer_4', 'route_aurelith_saltmere_trainer_5', 'route_aurelith_saltmere_trainer_6']
+mirefen_hall_int: missing spots ['mirefen_hall_int_guide', 'mirefen_hall_int_h1', 'mirefen_hall_int_h2', 'mirefen_hall_int_h3', 'mirefen_hall_int_master']
+route_saltmere_mirefen: missing spots ['route_saltmere_mirefen_sign', 'route_saltmere_mirefen_trainer_1', 'route_saltmere_mirefen_trainer_2', 'route_saltmere_mirefen_trainer_3']
+route_revival: missing spots ['route_revival_sign', 'route_revival_trainer_1', 'route_revival_trainer_2', 'route_revival_trainer_3', 'route_revival_trainer_4', 'route_revival_trainer_5', 'route_revival_trainer_6', 'route_revival_trainer_7']
+route_sunmeadow_mirefen: missing spots ['route_sunmeadow_mirefen_sign', 'route_sunmeadow_mirefen_trainer_1', 'route_sunmeadow_mirefen_trainer_2', 'route_sunmeadow_mirefen_trainer_3', 'route_sunmeadow_mirefen_trainer_4', 'route_sunmeadow_mirefen_trainer_5']
+route_east: missing spots ['route_east_sign', 'route_east_trainer_1', 'route_east_trainer_2', 'route_east_trainer_3', 'route_east_trainer_4', 'route_east_trainer_5', 'route_east_trainer_6']
+saltmere: missing spots ['saltmere_causeway_local', 'saltmere_fisher', 'saltmere_hall_sign', 'saltmere_ron_2', 'saltmere_sign', 'saltmere_villager_1']
+frostspire_hall_int: missing spots ['frostspire_hall_int_guide', 'frostspire_hall_int_h1', 'frostspire_hall_int_h2', 'frostspire_hall_int_h3', 'frostspire_hall_int_master']
+cindervale: missing spots ['cindervale_sign', 'cindervale_smith', 'cindervale_trainer_1', 'cindervale_villager_1']
+mirefen: missing spots ['mirefen_sign', 'mirefen_tideglide_giver', 'mirefen_trainer_1', 'mirefen_trainer_2', 'mirefen_trainer_3', 'mirefen_trainer_4', 'mirefen_trainer_5', 'mirefen_villager_1']
+tidewater_coast: missing spots ['tidewater_coast_lifeguard', 'tidewater_coast_sign', 'tidewater_coast_trainer_1', 'tidewater_coast_trainer_2', 'tidewater_coast_trainer_3', 'tidewater_coast_trainer_4', 'tidewater_coast_trainer_5', 'tidewater_coast_trainer_6', 'tidewater_coast_villager_1']
+route_revival_saltmere: missing spots ['route_revival_saltmere_sign', 'route_revival_saltmere_trainer_1', 'route_revival_saltmere_trainer_2', 'route_revival_saltmere_trainer_3', 'route_revival_saltmere_trainer_4']
+revival_hall_int: missing spots ['revival_hall_int_guide', 'revival_hall_int_h1', 'revival_hall_int_h2', 'revival_hall_int_h3', 'revival_hall_int_h4', 'revival_hall_int_master']
+cindervale_hall_int: missing spots ['cindervale_hall_int_guide', 'cindervale_hall_int_h1', 'cindervale_hall_int_h2', 'cindervale_hall_int_h3', 'cindervale_hall_int_h4', 'cindervale_hall_int_master']
+tidewater_hall_int: missing spots ['tidewater_hall_int_guide', 'tidewater_hall_int_h1', 'tidewater_hall_int_h2', 'tidewater_hall_int_h3', 'tidewater_hall_int_h4', 'tidewater_hall_int_master']
+sunmeadow_fields: missing spots ['sunmeadow_fields_sign', 'sunmeadow_fields_trainer_1', 'sunmeadow_fields_trainer_2', 'sunmeadow_fields_trainer_3', 'sunmeadow_fields_trainer_4', 'sunmeadow_fields_trainer_5', 'sunmeadow_fields_trainer_6']
+saltmere_office_int: missing spots ['saltmere_office_int_clerk', 'saltmere_office_int_coworker']
+route_revival_sunmeadow: missing spots ['route_revival_sunmeadow_sign', 'route_revival_sunmeadow_trainer_1', 'route_revival_sunmeadow_trainer_2', 'route_revival_sunmeadow_trainer_3']
+saltmere_hall_int: pending-text spot saltmere_hall_int_h1 has no text
+saltmere_hall_int: pending-text spot saltmere_hall_int_guide has no text
+saltmere_hall_int: pending-text spot saltmere_hall_int_h2 has no text
+saltmere_hall_int: pending-text spot saltmere_hall_int_h3 has no text
+saltmere_hall_int: pending-text spot saltmere_hall_int_master has no text
+route_coast: pending-text spot route_coast_trainer_5 has no text
+route_coast: pending-text spot route_coast_trainer_1 has no text
+route_coast: pending-text spot route_coast_trainer_6 has no text
+route_coast: pending-text spot route_coast_trainer_3 has no text
+route_coast: pending-text spot route_coast_trainer_4 has no text
+route_coast: pending-text spot route_coast_sign has no text
+route_coast: pending-text spot route_coast_trainer_2 has no text
+route_fernwick_lanternport: pending-text spot route_fernwick_lanternport_trainer_1 has no text
+route_fernwick_lanternport: pending-text spot route_fernwick_lanternport_trainer_4 has no text
+route_fernwick_lanternport: pending-text spot route_fernwick_lanternport_lock_keeper has no text
+route_fernwick_lanternport: pending-text spot route_fernwick_lanternport_trainer_3 has no text
+route_fernwick_lanternport: pending-text spot route_fernwick_lanternport_sign has no text
+route_fernwick_lanternport: pending-text spot route_fernwick_lanternport_trainer_2 has no text
+revival_heights: pending-text spot revival_heights_pass_clerk has no text
+revival_heights: pending-text spot revival_heights_rt_guard has no text
+revival_heights: pending-text spot revival_heights_ron_3 has no text
+revival_heights: pending-text spot revival_heights_trainer_1 has no text
+revival_heights: pending-text spot revival_heights_lucky_crystal_seller has no text
+revival_heights: pending-text spot revival_heights_sign has no text
+revival_heights: pending-text spot revival_heights_airspace_officer has no text
+lanternport_hall_int: pending-text spot lanternport_hall_int_h1 has no text
+lanternport_hall_int: pending-text spot lanternport_hall_int_master has no text
+lanternport_hall_int: pending-text spot lanternport_hall_int_guide has no text
+lanternport_hall_int: pending-text spot lanternport_hall_int_h3 has no text
+lanternport_hall_int: pending-text spot lanternport_hall_int_h2 has no text
+frostspire: pending-text spot frostspire_trainer_1 has no text
+frostspire: pending-text spot frostspire_villager_1 has no text
+frostspire: pending-text spot frostspire_trainer_2 has no text
+frostspire: pending-text spot frostspire_trainer_3 has no text
+frostspire: pending-text spot frostspire_trainer_4 has no text
+frostspire: pending-text spot frostspire_sign has no text
+frostspire: pending-text spot frostspire_skylift_tutor has no text
+aurelith: pending-text spot aurelith_ron_6 has no text
+aurelith: pending-text spot aurelith_lucky_crystal_seller has no text
+aurelith: pending-text spot aurelith_villager_1 has no text
+aurelith: pending-text spot aurelith_arena_doorman has no text
+aurelith: pending-text spot aurelith_sign has no text
+aurelith: pending-text spot aurelith_arena_sign has no text
+aurelith: pending-text spot aurelith_airspace_officer has no text
+aurelith: pending-text spot aurelith_villager_2 has no text
+route_cindervale: pending-text spot route_cindervale_trainer_3 has no text
+route_cindervale: pending-text spot route_cindervale_trainer_5 has no text
+route_cindervale: pending-text spot route_cindervale_trainer_6 has no text
+route_cindervale: pending-text spot route_cindervale_sign has no text
+route_cindervale: pending-text spot route_cindervale_trainer_2 has no text
+route_cindervale: pending-text spot route_cindervale_trainer_1 has no text
+route_cindervale: pending-text spot route_cindervale_trainer_4 has no text
+frostspire_pass: pending-text spot frostspire_pass_ron_4 has no text
+frostspire_pass: pending-text spot frostspire_pass_trainer_1 has no text
+frostspire_pass: pending-text spot frostspire_pass_trainer_2 has no text
+frostspire_pass: pending-text spot frostspire_pass_trainer_4 has no text
+frostspire_pass: pending-text spot frostspire_pass_sign has no text
+frostspire_pass: pending-text spot frostspire_pass_rt_engineer has no text
+frostspire_pass: pending-text spot frostspire_pass_trainer_5 has no text
+frostspire_pass: pending-text spot frostspire_pass_trainer_3 has no text
+lanternport: pending-text spot lanternport_trainer_1 has no text
+lanternport: pending-text spot lanternport_villager_1 has no text
+lanternport: pending-text spot lanternport_lighthouse_keeper has no text
+lanternport: pending-text spot lanternport_sign has no text
+lanternport: pending-text spot lanternport_ron_5 has no text
+route_aurelith_saltmere: pending-text spot route_aurelith_saltmere_trainer_2 has no text
+route_aurelith_saltmere: pending-text spot route_aurelith_saltmere_trainer_4 has no text
+route_aurelith_saltmere: pending-text spot route_aurelith_saltmere_sign has no text
+route_aurelith_saltmere: pending-text spot route_aurelith_saltmere_trainer_1 has no text
+route_aurelith_saltmere: pending-text spot route_aurelith_saltmere_trainer_6 has no text
+route_aurelith_saltmere: pending-text spot route_aurelith_saltmere_trainer_5 has no text
+route_aurelith_saltmere: pending-text spot route_aurelith_saltmere_trainer_3 has no text
+mirefen_hall_int: pending-text spot mirefen_hall_int_guide has no text
+mirefen_hall_int: pending-text spot mirefen_hall_int_h2 has no text
+mirefen_hall_int: pending-text spot mirefen_hall_int_h1 has no text
+mirefen_hall_int: pending-text spot mirefen_hall_int_h3 has no text
+mirefen_hall_int: pending-text spot mirefen_hall_int_master has no text
+route_saltmere_mirefen: pending-text spot route_saltmere_mirefen_trainer_1 has no text
+route_saltmere_mirefen: pending-text spot route_saltmere_mirefen_sign has no text
+route_saltmere_mirefen: pending-text spot route_saltmere_mirefen_trainer_3 has no text
+route_saltmere_mirefen: pending-text spot route_saltmere_mirefen_trainer_2 has no text
+route_revival: pending-text spot route_revival_trainer_3 has no text
+route_revival: pending-text spot route_revival_trainer_1 has no text
+route_revival: pending-text spot route_revival_trainer_2 has no text
+route_revival: pending-text spot route_revival_sign has no text
+route_revival: pending-text spot route_revival_trainer_5 has no text
+route_revival: pending-text spot route_revival_trainer_4 has no text
+route_revival: pending-text spot route_revival_trainer_7 has no text
+route_revival: pending-text spot route_revival_trainer_6 has no text
+route_sunmeadow_mirefen: pending-text spot route_sunmeadow_mirefen_trainer_1 has no text
+route_sunmeadow_mirefen: pending-text spot route_sunmeadow_mirefen_trainer_4 has no text
+route_sunmeadow_mirefen: pending-text spot route_sunmeadow_mirefen_trainer_2 has no text
+route_sunmeadow_mirefen: pending-text spot route_sunmeadow_mirefen_sign has no text
+route_sunmeadow_mirefen: pending-text spot route_sunmeadow_mirefen_trainer_3 has no text
+route_sunmeadow_mirefen: pending-text spot route_sunmeadow_mirefen_trainer_5 has no text
+route_east: pending-text spot route_east_trainer_4 has no text
+route_east: pending-text spot route_east_sign has no text
+route_east: pending-text spot route_east_trainer_5 has no text
+route_east: pending-text spot route_east_trainer_6 has no text
+route_east: pending-text spot route_east_trainer_2 has no text
+route_east: pending-text spot route_east_trainer_3 has no text
+route_east: pending-text spot route_east_trainer_1 has no text
+saltmere: pending-text spot saltmere_fisher has no text
+saltmere: pending-text spot saltmere_villager_1 has no text
+saltmere: pending-text spot saltmere_sign has no text
+saltmere: pending-text spot saltmere_ron_2 has no text
+saltmere: pending-text spot saltmere_causeway_local has no text
+saltmere: pending-text spot saltmere_hall_sign has no text
+frostspire_hall_int: pending-text spot frostspire_hall_int_h3 has no text
+frostspire_hall_int: pending-text spot frostspire_hall_int_master has no text
+frostspire_hall_int: pending-text spot frostspire_hall_int_guide has no text
+frostspire_hall_int: pending-text spot frostspire_hall_int_h1 has no text
+frostspire_hall_int: pending-text spot frostspire_hall_int_h2 has no text
+cindervale: pending-text spot cindervale_villager_1 has no text
+cindervale: pending-text spot cindervale_smith has no text
+cindervale: pending-text spot cindervale_trainer_1 has no text
+cindervale: pending-text spot cindervale_sign has no text
+mirefen: pending-text spot mirefen_trainer_5 has no text
+mirefen: pending-text spot mirefen_trainer_2 has no text
+mirefen: pending-text spot mirefen_villager_1 has no text
+mirefen: pending-text spot mirefen_trainer_1 has no text
+mirefen: pending-text spot mirefen_tideglide_giver has no text
+mirefen: pending-text spot mirefen_trainer_4 has no text
+mirefen: pending-text spot mirefen_trainer_3 has no text
+mirefen: pending-text spot mirefen_sign has no text
+tidewater_coast: pending-text spot tidewater_coast_lifeguard has no text
+tidewater_coast: pending-text spot tidewater_coast_trainer_4 has no text
+tidewater_coast: pending-text spot tidewater_coast_trainer_2 has no text
+tidewater_coast: pending-text spot tidewater_coast_trainer_3 has no text
+tidewater_coast: pending-text spot tidewater_coast_trainer_6 has no text
+tidewater_coast: pending-text spot tidewater_coast_trainer_5 has no text
+tidewater_coast: pending-text spot tidewater_coast_sign has no text
+tidewater_coast: pending-text spot tidewater_coast_villager_1 has no text
+tidewater_coast: pending-text spot tidewater_coast_trainer_1 has no text
+route_revival_saltmere: pending-text spot route_revival_saltmere_trainer_1 has no text
+route_revival_saltmere: pending-text spot route_revival_saltmere_trainer_3 has no text
+route_revival_saltmere: pending-text spot route_revival_saltmere_trainer_4 has no text
+route_revival_saltmere: pending-text spot route_revival_saltmere_sign has no text
+route_revival_saltmere: pending-text spot route_revival_saltmere_trainer_2 has no text
+revival_hall_int: pending-text spot revival_hall_int_h3 has no text
+revival_hall_int: pending-text spot revival_hall_int_master has no text
+revival_hall_int: pending-text spot revival_hall_int_guide has no text
+revival_hall_int: pending-text spot revival_hall_int_h2 has no text
+revival_hall_int: pending-text spot revival_hall_int_h1 has no text
+revival_hall_int: pending-text spot revival_hall_int_h4 has no text
+cindervale_hall_int: pending-text spot cindervale_hall_int_h4 has no text
+cindervale_hall_int: pending-text spot cindervale_hall_int_h2 has no text
+cindervale_hall_int: pending-text spot cindervale_hall_int_h3 has no text
+cindervale_hall_int: pending-text spot cindervale_hall_int_h1 has no text
+cindervale_hall_int: pending-text spot cindervale_hall_int_guide has no text
+cindervale_hall_int: pending-text spot cindervale_hall_int_master has no text
+tidewater_hall_int: pending-text spot tidewater_hall_int_h2 has no text
+tidewater_hall_int: pending-text spot tidewater_hall_int_h1 has no text
+tidewater_hall_int: pending-text spot tidewater_hall_int_master has no text
+tidewater_hall_int: pending-text spot tidewater_hall_int_guide has no text
+tidewater_hall_int: pending-text spot tidewater_hall_int_h4 has no text
+tidewater_hall_int: pending-text spot tidewater_hall_int_h3 has no text
+sunmeadow_fields: pending-text spot sunmeadow_fields_trainer_2 has no text
+sunmeadow_fields: pending-text spot sunmeadow_fields_trainer_5 has no text
+sunmeadow_fields: pending-text spot sunmeadow_fields_trainer_4 has no text
+sunmeadow_fields: pending-text spot sunmeadow_fields_trainer_1 has no text
+sunmeadow_fields: pending-text spot sunmeadow_fields_sign has no text
+sunmeadow_fields: pending-text spot sunmeadow_fields_trainer_3 has no text
+sunmeadow_fields: pending-text spot sunmeadow_fields_trainer_6 has no text
+saltmere_office_int: pending-text spot saltmere_office_int_coworker has no text
+saltmere_office_int: pending-text spot saltmere_office_int_clerk has no text
+route_revival_sunmeadow: pending-text spot route_revival_sunmeadow_trainer_1 has no text
+route_revival_sunmeadow: pending-text spot route_revival_sunmeadow_trainer_2 has no text
+route_revival_sunmeadow: pending-text spot route_revival_sunmeadow_trainer_3 has no text
+route_revival_sunmeadow: pending-text spot route_revival_sunmeadow_sign has no text

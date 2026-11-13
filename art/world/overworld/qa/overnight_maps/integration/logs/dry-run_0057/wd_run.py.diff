@@ -1,0 +1,18 @@
+--- /workspace/kilumen/art/world/overworld/qa/overnight_maps/integration/logs/dry-run_0057/tools_base/run.py	2026-10-23 00:57:38.820635506 -0500
++++ /workspace/kilumen/art/world/overworld/qa/overnight_maps/staging/sandbox/overworld/tools/run.py	2026-10-23 00:51:03.858042566 -0500
+@@ -28,6 +28,7 @@
+ import furniture_depth, furniture_colours as _FCD   # interior depth (Gary, Oct 22): tall tops -> overlay above characters, bases stay solid on decoration
+ import build as _bd; furniture_depth.apply_frames(_bd.TILES, only={'i_company_terminal'})   # late core tile (world_data)
+ DEPTH_LOG = furniture_depth.lift_tops(MAPS, set(_FCD.SCOPE + interiors_merge.RETIRED) - {'station_int'}); WD_LOG += DEPTH_LOG
++import overnight_tiles; overnight_tiles.apply(MAPS)   # SANDBOX (overnight maps): record green trees on snow (swapped after the last tile)
+ VARIANTS = storm.make_variants(MAPS)          # route1_storm (flooded east lowland), stored in maps/ but not a separate place
+ MAPNAMES = {m.name for m in MAPS + VARIANTS}
+ res = {}; report = []; notes = []
+@@ -106,6 +107,7 @@
+ CLUB_TILES = club.late(res)                    # club tiles after the terminal: new ids at the end, placeholders patched
+ furniture_depth.apply_frames(_bd.TILES, only={'i_company_terminal'})   # FIX (Oct 22): the call above ran before late_tiles registered the terminal (no-op); run it now
+ CLUB_BAD, CLUB_REACH = club.verify(res); report += [f'club_int: {b}' for b in CLUB_BAD]; print(f'CLUB: {len(CLUB_TILES)} tiles, {CLUB_REACH} cells reachable from the door, problems: {CLUB_BAD or "none"}')
++OVN_LOG = overnight_tiles.late(res); print('\n'.join(OVN_LOG))   # SANDBOX (overnight maps): snow pine pair registered LAST, ids patched like club.late
+ WD_TAGS = world_data.tag(res)                # Animator soul data: tags.shallow / crystal / firefly_zone / bird_perch
+ # ---------------- connectivity (all story flags set: gates open; per-flag states are checked by progression.check) ----------------
+ import progression

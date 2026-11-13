@@ -1,0 +1,27 @@
+--- /workspace/kilumen/art/world/overworld/tools/world_data.py	2026-10-22 20:57:10.673454015 -0500
++++ /workspace/kilumen/art/world/overworld/qa/overnight_maps/staging/sandbox/overworld/tools/world_data.py	2026-10-23 00:43:49.552836342 -0500
+@@ -315,11 +315,14 @@
+     a, b = lv('mirefen_bog_surf')
+     T['mirefen_bog_surf'] = dict(method='water (Tideglide)', rate=round(1 / 15, 4), slots=[
+         _s('mirewump', a, b, 45), _s('brookhorn', a, b, 35), _s('tidemarrow', b, b + 2, 5), _s('rillop', a - 4, a, 15, weather=['storm'], flood=True)])
++    _ov = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'encounters_overnight.json')   # OVERNIGHT DRAFT tables (TODO_ROSTER)
++    if os.path.exists(_ov): T.update(json.load(open(_ov)))
+     return T
+ CONDITIONS = {'time': 'optional list of phases (dawn/day/dusk/night, time_of_day/grades.json schedule); slot only rolls in those phases',
+               'weather': 'optional list (clear/storm); storm = storm_season set (route1 loads route1_storm)', 'flood': 'true = only on flooded variants / floodwater cells',
+               'no condition': 'slot always eligible'}
+ 
++_DEX = {c['id'] for c in json.load(open('/workspace/kilumen/design/DEX_450.json'))['creatures']}   # OVERNIGHT DRAFT
+ def write(res, MAPS):
+     os.makedirs(f'{OUT}/encounters', exist_ok=True); os.makedirs(f'{OUT}/items', exist_ok=True); os.makedirs(f'{OUT}/puzzles', exist_ok=True)
+     T = tables(); arts = sorted(os.listdir('/workspace/kilumen/art/characters/pixel/creatures'))
+@@ -339,7 +342,8 @@
+                conditions=CONDITIONS, species_with_art=arts,
+                zones={z: dict(T[z], maps=sorted(zones_used.get(z, []))) for z in T})
+     for z in doc['zones'].values():
+-        for s in z['slots']: assert s['species'] in arts, s
++        for s in z['slots']: assert s['species'] in arts or s['species'] in _DEX, s   # OVERNIGHT DRAFT: Game dev tables use DEX_450 ids; art may come later
++    doc['species_without_art'] = sorted({s['species'] for z in doc['zones'].values() for s in z['slots']} - set(arts))
+     json.dump(doc, open(f'{OUT}/encounters/encounters.json', 'w'), indent=1)
+     rows = []
+     for m in MAPS:

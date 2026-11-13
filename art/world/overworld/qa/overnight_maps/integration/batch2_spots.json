@@ -1,0 +1,830 @@
+[
+[
+"thornwood",
+"trainer_hooded",
+"thornwood_c_gardener",
+24,
+6,
+"down",
+"Gardener Kit (tr_thornwood_c), pond-side clearing facing the path"
+],
+[
+"thornwood",
+"trainer_hooded",
+"thornwood_d_kid",
+27,
+12,
+"right",
+"Trail Kid Lio (tr_thornwood_d), mud patch by the east log gate"
+],
+[
+"thornwood",
+"trainer_hooded",
+"thornwood_e_researcher",
+15,
+3,
+"up",
+"Field Researcher Nell (tr_thornwood_e), by the cave-mouth camp (Greystone warp)"
+],
+[
+"greystone_b1",
+"trainer_hooded",
+"greystone_caverns_c_researcher",
+8,
+7,
+"down",
+"Field Researcher Mags (tr_greystone_c), B1 near the camp by the entrance ladder"
+],
+[
+"shop_int",
+"clerk_variant",
+"shop_int_clerk_aurelith",
+2,
+3,
+"down",
+"region line variant of shop_int.clerk for aurelith (same clerk, same cell)"
+],
+[
+"shop_int",
+"clerk_variant",
+"shop_int_clerk_saltmere",
+2,
+3,
+"down",
+"region line variant of shop_int.clerk for saltmere (same clerk, same cell)"
+],
+[
+"shop_int",
+"clerk_variant",
+"shop_int_clerk_revival_heights",
+2,
+3,
+"down",
+"region line variant of shop_int.clerk for revival_heights (same clerk, same cell)"
+],
+[
+"shop_int",
+"clerk_variant",
+"shop_int_clerk_frostspire",
+2,
+3,
+"down",
+"region line variant of shop_int.clerk for frostspire (same clerk, same cell)"
+],
+[
+"shop_int",
+"clerk_variant",
+"shop_int_clerk_mirefen",
+2,
+3,
+"down",
+"region line variant of shop_int.clerk for mirefen (same clerk, same cell)"
+],
+[
+"shop_int",
+"clerk_variant",
+"shop_int_clerk_tidewater_coast",
+2,
+3,
+"down",
+"region line variant of shop_int.clerk for tidewater_coast (same clerk, same cell)"
+],
+[
+"shop_int",
+"clerk_variant",
+"shop_int_clerk_lanternport",
+2,
+3,
+"down",
+"region line variant of shop_int.clerk for lanternport (same clerk, same cell)"
+],
+[
+"shop_int",
+"clerk_variant",
+"shop_int_clerk_cindervale",
+2,
+3,
+"down",
+"region line variant of shop_int.clerk for cindervale (same clerk, same cell)"
+],
+[
+"route_east",
+"hint",
+"route_east_re_hidden_grass_hint",
+30,
+9,
+"-",
+"sparkle/inspect hint on pickup route_east_item_3 (calm_tea, GD re_hidden_grass)"
+],
+[
+"route_east",
+"hint",
+"route_east_re_hidden_post_hint",
+22,
+10,
+"-",
+"sparkle/inspect hint on pickup route_east_item_4 (coin_pouch_small, GD re_hidden_post)"
+],
+[
+"aurelith",
+"hint",
+"aurelith_au_fountain_hint",
+7,
+17,
+"-",
+"sparkle/inspect hint on pickup aurelith_item_1 (coin_pouch_small, GD au_fountain)"
+],
+[
+"route_aurelith_saltmere",
+"hint",
+"route_aurelith_saltmere_sa_salt_pan_hint",
+5,
+20,
+"-",
+"sparkle/inspect hint on pickup route_aurelith_saltmere_item_1 (crystal_dust, GD sa_salt_pan)"
+],
+[
+"route_aurelith_saltmere",
+"hint",
+"route_aurelith_saltmere_sa_hidden_post_hint",
+23,
+5,
+"-",
+"sparkle/inspect hint on pickup route_aurelith_saltmere_item_4 (feed_bag, GD sa_hidden_post)"
+],
+[
+"saltmere",
+"hint",
+"saltmere_sm_islet_hint",
+26,
+4,
+"-",
+"sparkle/inspect hint on pickup saltmere_item_1 (gold_coin, GD sm_islet)"
+],
+[
+"saltmere",
+"hint",
+"saltmere_sm_hidden_crate_hint",
+30,
+20,
+"-",
+"sparkle/inspect hint on pickup saltmere_item_3 (coin_pouch_small, GD sm_hidden_crate)"
+],
+[
+"route_revival",
+"hint",
+"route_revival_tr_stakes_hint",
+18,
+15,
+"-",
+"sparkle/inspect hint on pickup route_revival_item_2 (crystal_dust, GD tr_stakes)"
+],
+[
+"route_revival",
+"hint",
+"route_revival_tr_circle_hint",
+37,
+9,
+"-",
+"sparkle/inspect hint on pickup route_revival_item_3 (vigor_seed, GD tr_circle)"
+],
+[
+"route_revival",
+"hint",
+"route_revival_tr_hidden_tree_hint",
+16,
+13,
+"-",
+"sparkle/inspect hint on pickup route_revival_item_4 (coin_pouch_small, GD tr_hidden_tree)"
+],
+[
+"revival_heights",
+"hint",
+"revival_heights_rh_plaza_hint",
+11,
+14,
+"-",
+"sparkle/inspect hint on pickup revival_heights_item_1 (tonic_large, GD rh_plaza)"
+],
+[
+"route_revival_saltmere",
+"hint",
+"route_revival_saltmere_rs_flats_hint",
+13,
+13,
+"-",
+"sparkle/inspect hint on pickup route_revival_saltmere_item_1 (crystal_dust, GD rs_flats)"
+],
+[
+"route_revival_saltmere",
+"hint",
+"route_revival_saltmere_rs_hidden_hint",
+10,
+17,
+"-",
+"sparkle/inspect hint on pickup route_revival_saltmere_item_2 (vigor_seed, GD rs_hidden)"
+],
+[
+"frostspire_pass",
+"hint",
+"frostspire_pass_fp_bridge_hint",
+7,
+33,
+"-",
+"sparkle/inspect hint on pickup frostspire_pass_item_2 (energy_tonic, GD fp_bridge)"
+],
+[
+"frostspire_pass",
+"hint",
+"frostspire_pass_fp_camp_hint",
+9,
+33,
+"-",
+"sparkle/inspect hint on pickup frostspire_pass_item_3 (feed_bag, GD fp_camp)"
+],
+[
+"frostspire",
+"hint",
+"frostspire_fs_shrine_hint",
+30,
+17,
+"-",
+"sparkle/inspect hint on pickup frostspire_item_2 (calm_tea, GD fs_shrine)"
+],
+[
+"frostspire",
+"hint",
+"frostspire_fs_hidden_cairn_hint",
+2,
+2,
+"-",
+"sparkle/inspect hint on pickup frostspire_item_5 (coin_pouch_small, GD fs_hidden_cairn)"
+],
+[
+"sunmeadow_fields",
+"hint",
+"sunmeadow_fields_smf_hidden_flowers_hint",
+14,
+22,
+"-",
+"sparkle/inspect hint on pickup sunmeadow_fields_item_3 (energy_tonic, GD smf_hidden_flowers)"
+],
+[
+"sunmeadow_fields",
+"hint",
+"sunmeadow_fields_smf_hidden_stile_hint",
+33,
+10,
+"-",
+"sparkle/inspect hint on pickup sunmeadow_fields_item_4 (coin_pouch_small, GD smf_hidden_stile)"
+],
+[
+"route_revival_sunmeadow",
+"hint",
+"route_revival_sunmeadow_rsf_hidden_hint",
+11,
+25,
+"-",
+"sparkle/inspect hint on pickup route_revival_sunmeadow_item_1 (crystal_dust, GD rsf_hidden)"
+],
+[
+"route_sunmeadow_mirefen",
+"hint",
+"route_sunmeadow_mirefen_smm_fence_hint",
+2,
+7,
+"-",
+"sparkle/inspect hint on pickup route_sunmeadow_mirefen_item_2 (tonic_large, GD smm_fence)"
+],
+[
+"route_sunmeadow_mirefen",
+"hint",
+"route_sunmeadow_mirefen_smm_hidden_hint",
+25,
+19,
+"-",
+"sparkle/inspect hint on pickup route_sunmeadow_mirefen_item_3 (vigor_seed, GD smm_hidden)"
+],
+[
+"route_saltmere_mirefen",
+"hint",
+"route_saltmere_mirefen_sme_hidden_hint",
+25,
+23,
+"-",
+"sparkle/inspect hint on pickup route_saltmere_mirefen_item_2 (crystal_dust, GD sme_hidden)"
+],
+[
+"mirefen",
+"hint",
+"mirefen_mf_hidden_lights_hint",
+29,
+3,
+"-",
+"sparkle/inspect hint on pickup mirefen_item_4 (energy_tonic, GD mf_hidden_lights)"
+],
+[
+"route_coast",
+"hint",
+"route_coast_ct_hidden_dune_hint",
+15,
+10,
+"-",
+"sparkle/inspect hint on pickup route_coast_item_4 (energy_tonic, GD ct_hidden_dune)"
+],
+[
+"route_coast",
+"hint",
+"route_coast_ct_hidden_buoy_hint",
+14,
+23,
+"-",
+"sparkle/inspect hint on pickup route_coast_item_5 (coin_pouch_small, GD ct_hidden_buoy)"
+],
+[
+"tidewater_coast",
+"hint",
+"tidewater_coast_tc_pools_hint",
+22,
+7,
+"-",
+"sparkle/inspect hint on pickup tidewater_coast_item_1 (tonic_large, GD tc_pools)"
+],
+[
+"tidewater_coast",
+"hint",
+"tidewater_coast_tc_hidden_wreck_hint",
+31,
+2,
+"-",
+"sparkle/inspect hint on pickup tidewater_coast_item_5 (coin_pouch_small, GD tc_hidden_wreck)"
+],
+[
+"lanternport",
+"hint",
+"lanternport_lp_hidden_crate_hint",
+29,
+2,
+"-",
+"sparkle/inspect hint on pickup lanternport_item_2 (coin_pouch_small, GD lp_hidden_crate)"
+],
+[
+"route_fernwick_lanternport",
+"hint",
+"route_fernwick_lanternport_fl_hidden_hint",
+14,
+13,
+"-",
+"sparkle/inspect hint on pickup route_fernwick_lanternport_item_2 (vigor_seed, GD fl_hidden)"
+],
+[
+"route_cindervale",
+"hint",
+"route_cindervale_ac_slope_hint",
+9,
+9,
+"-",
+"sparkle/inspect hint on pickup route_cindervale_item_2 (tonic_large, GD ac_slope)"
+],
+[
+"route_cindervale",
+"hint",
+"route_cindervale_ac_hidden_vent_hint",
+3,
+29,
+"-",
+"sparkle/inspect hint on pickup route_cindervale_item_4 (coin_pouch_small, GD ac_hidden_vent)"
+],
+[
+"cindervale",
+"hint",
+"cindervale_cv_hidden_anvil_hint",
+9,
+14,
+"-",
+"sparkle/inspect hint on pickup cindervale_item_2 (coin_pouch_small, GD cv_hidden_anvil)"
+],
+[
+"route_fernwick_lanternport",
+"sign",
+"route_fernwick_lanternport_lock_board",
+25,
+10,
+"-",
+"TIDE-LOCK board beside the lock keeper"
+],
+[
+"mirefen",
+"look",
+"mirefen_bog_lights",
+30,
+3,
+"-",
+"look spot: the little bog lights, next to the mf_hidden_lights pickup (mirefen town, not the mirefen_bog map)"
+],
+[
+"tidewater_coast",
+"sign",
+"tidewater_coast_tide_board",
+18,
+14,
+"-",
+"TIDE BOARD near the tide arch"
+],
+[
+"frostspire",
+"sign",
+"frostspire_sled_run_top",
+18,
+3,
+"-",
+"SLED RUN sign at the top of the one-way run"
+],
+[
+"route_cindervale",
+"look",
+"route_aurelith_cindervale_giant_hollow",
+10,
+17,
+"-",
+"look spot: the giant hollow (route_cindervale = GD route_aurelith_cindervale)"
+],
+[
+"saltmere_hall_int",
+"plaque",
+"saltmere_hall_int_sign_sluices",
+0,
+12,
+"right",
+"wall plaque in the lobby, read facing the wall"
+],
+[
+"saltmere",
+"sign",
+"saltmere_hall_int_sign_hall_outside",
+18,
+15,
+"-",
+"outside sign by the saltmere_hall_int door (12,20) in saltmere"
+],
+[
+"saltmere_hall_int",
+"prop",
+"saltmere_hall_int_drying_rack",
+9,
+8,
+"-",
+"drying rack (grid R): wheel order as salt stripes"
+],
+[
+"saltmere_hall_int",
+"prop",
+"saltmere_hall_int_reset_tile",
+1,
+9,
+"-",
+"reset tile on the start row, left of S"
+],
+[
+"revival_hall_int",
+"plaque",
+"revival_hall_int_sign_prisms",
+0,
+23,
+"right",
+"wall plaque in the lobby, read facing the wall"
+],
+[
+"revival_heights",
+"sign",
+"revival_hall_int_sign_hall_outside",
+8,
+16,
+"-",
+"outside sign by the revival_hall_int door (12,20) in revival_heights"
+],
+[
+"revival_hall_int",
+"prop",
+"revival_hall_int_receiver_dim",
+5,
+7,
+"-",
+"receiver 1 (grid r) unlit state"
+],
+[
+"revival_hall_int",
+"prop",
+"revival_hall_int_receiver_lit",
+5,
+7,
+"-",
+"receiver 1 (grid r) lit state, same cell"
+],
+[
+"revival_hall_int",
+"prop",
+"revival_hall_int_violet_note",
+9,
+20,
+"-",
+"note on the carpet cell (grid R)"
+],
+[
+"frostspire_hall_int",
+"plaque",
+"frostspire_hall_int_sign_gusts",
+0,
+12,
+"right",
+"wall plaque in the lobby, read facing the wall"
+],
+[
+"frostspire",
+"sign",
+"frostspire_hall_int_sign_hall_outside",
+8,
+16,
+"-",
+"outside sign by the frostspire_hall_int door (12,20) in frostspire"
+],
+[
+"frostspire_hall_int",
+"prop",
+"frostspire_hall_int_bell_rope",
+2,
+6,
+"-",
+"bell rope (grid e)"
+],
+[
+"frostspire_hall_int",
+"prop",
+"frostspire_hall_int_bell_rope_pulled",
+2,
+6,
+"-",
+"bell rope pulled state, same cell"
+],
+[
+"frostspire_hall_int",
+"prop",
+"frostspire_hall_int_feathers",
+3,
+5,
+"-",
+"feathers on the first gust lane cell (grid n)"
+],
+[
+"mirefen_hall_int",
+"plaque",
+"mirefen_hall_int_sign_boardwalk",
+0,
+15,
+"right",
+"wall plaque in the lobby, read facing the wall"
+],
+[
+"mirefen",
+"sign",
+"mirefen_hall_int_sign_hall_outside",
+8,
+16,
+"-",
+"outside sign by the mirefen_hall_int door (12,20) in mirefen"
+],
+[
+"mirefen_hall_int",
+"prop",
+"mirefen_hall_int_reed_lamp",
+1,
+8,
+"-",
+"reed_lamp: reed lamp 1 (grid 1); same text for lamps 1-4 by state"
+],
+[
+"mirefen_hall_int",
+"prop",
+"mirefen_hall_int_reed_lamp_lit",
+1,
+8,
+"-",
+"reed_lamp_lit: reed lamp 1 (grid 1); same text for lamps 1-4 by state"
+],
+[
+"mirefen_hall_int",
+"prop",
+"mirefen_hall_int_reed_lamp_wrong",
+1,
+8,
+"-",
+"reed_lamp_wrong: reed lamp 1 (grid 1); same text for lamps 1-4 by state"
+],
+[
+"mirefen_hall_int",
+"prop",
+"mirefen_hall_int_sinking_plank",
+5,
+7,
+"-",
+"sinking plank (grid s, first)"
+],
+[
+"tidewater_hall_int",
+"plaque",
+"tidewater_hall_int_sign_tide_clock",
+0,
+10,
+"right",
+"wall plaque in the lobby, read facing the wall"
+],
+[
+"tidewater_coast",
+"sign",
+"tidewater_hall_int_sign_hall_outside",
+8,
+16,
+"-",
+"outside sign by the tidewater_hall_int door (12,20) in tidewater_coast"
+],
+[
+"tidewater_hall_int",
+"prop",
+"tidewater_hall_int_shell_clock",
+1,
+6,
+"-",
+"shell clock (grid O)"
+],
+[
+"tidewater_hall_int",
+"prop",
+"tidewater_hall_int_shell_switch_high",
+8,
+4,
+"-",
+"shell switch (grid H), high state, same cell"
+],
+[
+"tidewater_hall_int",
+"prop",
+"tidewater_hall_int_shell_switch_low",
+8,
+4,
+"-",
+"shell switch (grid H), low state, same cell"
+],
+[
+"tidewater_hall_int",
+"prop",
+"tidewater_hall_int_shell_switch_off",
+8,
+4,
+"-",
+"shell switch (grid H), off state, same cell"
+],
+[
+"lanternport_hall_int",
+"plaque",
+"lanternport_hall_int_sign_lens",
+0,
+17,
+"right",
+"wall plaque in the lobby, read facing the wall"
+],
+[
+"lanternport_hall_int",
+"plaque",
+"lanternport_hall_int_sign_top_floor",
+10,
+17,
+"left",
+"wall plaque in the lobby, read facing the wall"
+],
+[
+"lanternport",
+"sign",
+"lanternport_hall_int_sign_hall_outside",
+8,
+16,
+"-",
+"outside sign by the lanternport_hall_int door (12,20) in lanternport"
+],
+[
+"lanternport_hall_int",
+"prop",
+"lanternport_hall_int_lens",
+8,
+13,
+"-",
+"lens at the foot of the tower, ground floor"
+],
+[
+"lanternport_hall_int",
+"prop",
+"lanternport_hall_int_lamp_post",
+4,
+6,
+"-",
+"lamp post (grid g, top floor first lamp)"
+],
+[
+"lanternport_hall_int",
+"prop",
+"lanternport_hall_int_lamps_out",
+4,
+6,
+"-",
+"lamps-out state of the lamp post, same cell"
+],
+[
+"lanternport_hall_int",
+"prop",
+"lanternport_hall_int_window_top",
+9,
+4,
+"-",
+"window on the top floor east wall"
+],
+[
+"cindervale_hall_int",
+"plaque",
+"cindervale_hall_int_sign_quench",
+0,
+13,
+"right",
+"wall plaque in the lobby, read facing the wall"
+],
+[
+"cindervale_hall_int",
+"plaque",
+"cindervale_hall_int_sign_reset_lever",
+10,
+13,
+"left",
+"wall plaque in the lobby, read facing the wall"
+],
+[
+"cindervale",
+"sign",
+"cindervale_hall_int_sign_hall_outside",
+8,
+16,
+"-",
+"outside sign by the cindervale_hall_int door (12,20) in cindervale"
+],
+[
+"cindervale_hall_int",
+"prop",
+"cindervale_hall_int_spring_tap",
+2,
+10,
+"-",
+"spring tap (grid T, left)"
+],
+[
+"cindervale_hall_int",
+"prop",
+"cindervale_hall_int_spring_tap_dry",
+2,
+10,
+"-",
+"dry state, same cell"
+],
+[
+"cindervale_hall_int",
+"prop",
+"cindervale_hall_int_pour",
+5,
+7,
+"-",
+"pour spot (grid B)"
+],
+[
+"cindervale_hall_int",
+"prop",
+"cindervale_hall_int_poured",
+5,
+7,
+"-",
+"poured state, same cell"
+],
+[
+"cindervale_hall_int",
+"prop",
+"cindervale_hall_int_bellows",
+8,
+10,
+"-",
+"bellows (grid T, right)"
+],
+[
+"cindervale_hall_int",
+"prop",
+"cindervale_hall_int_remelt",
+2,
+7,
+"-",
+"remelt (grid R)"
+]
+]

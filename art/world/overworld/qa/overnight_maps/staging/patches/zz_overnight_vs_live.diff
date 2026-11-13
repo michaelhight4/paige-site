@@ -1,0 +1,25 @@
+--- maps_new/zz_overnight.py	2026-10-23 01:07:51.705886033 -0500
++++ qa/overnight_maps/staging/overnight_maps.py	2026-10-23 01:08:12.949872740 -0500
+@@ -625,8 +625,7 @@
+     ON[_n].item_audit = _l
+     if _l: ITEM_AUDIT[_n] = _l
+ 
+-# ===================================================================================================================
+-# INTEGRATOR POSTFIX (Oct 23 2026 ~00:55 CT, appended at integration; staged source unchanged)
++# STAGED POSTFIX (01:08 CT): integrator postfix taken over 1:1 from live maps_new/zz_overnight.py (~00:55 CT) so staging == live source; label fix (a) is now also in pocket() above
+ #  (a) blocked word: the player-visible pocket label is now 'Glow Remedy' (item ids like energy_tonic / tonic_small stay as they are)
+ #  (b) GAME_QUALITY_CHECKLIST line 354: no smoke, haze or fog anywhere -> visible fog/mist/haze/smoke words replaced,
+ #      mirefen_hall_int is a DARKNESS puzzle lit by reed lamps (no fog layer)
+@@ -660,7 +659,11 @@
+     for _c, (_x, _y) in _lamps.items(): _h.deco[_y][_x] = 'lamp'      # art TODO: dedicated reed_lamp tile (unlit/lit pair)
+     _hp['overlay'] = dict(kind='darkness', light='reed_lamp', lamps={c: _lamps[c] for c in sorted(_lamps)}, order=['3', '1', '4', '2'],
+                           reveal='hall starts dark; lighting the reed lamps in the croak order (3,1,4,2) lights the boardwalk path to G; unlit cells stay dark',
+-                          note='GQC line 354: no fog/haze/smoke. Replaces the hall JSON cue "fog layer = existing mirefen fog" (Coder: update the cue/runtime view to darkness).')
++                          note='GQC line 354 (no obscuring vapour effects). Replaces the old visual cue in data/hall_puzzles/mirefen.json (Coder: update the cue/runtime view to darkness).')
+     _hp['cue'] = 'frogs croak the order (sound) + a ripple and lamp glow by each reed lamp (visual); darkness overlay, lamps light the path'
+     _SCRUB_LOG.append('mirefen_hall_int: darkness overlay + 4 reed lamps')
++# 01:08 CT (staging): Game dev trainer class 'fogwalker' is shown as a class label -> 'lampwalker' (gd_id links stay; Game dev to rename the class in overnight_gd)
++for _n in ON_ORDER:
++    for _np in getattr(ON[_n], 'npcs_pending', []) or []:
++        if str(_np.get('gd_class', '')).lower() == 'fogwalker': _np['gd_class'] = 'lampwalker'; _SCRUB_LOG.append(f'{_n}.{_np["id"]}: gd_class fogwalker -> lampwalker')
+ print('OVERNIGHT POSTFIX:', _SCRUB_LOG)

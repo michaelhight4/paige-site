@@ -1,0 +1,10 @@
+--- /workspace/kilumen/art/world/overworld/tools/run.py	2026-10-22 21:24:19.648491984 -0500
++++ /workspace/kilumen/art/world/overworld/qa/overnight_maps/staging/sandbox/overworld/tools/run.py	2026-10-23 00:44:57.168377733 -0500
+@@ -28,6 +28,7 @@
+ import furniture_depth, furniture_colours as _FCD   # interior depth (Gary, Oct 22): tall tops -> overlay above characters, bases stay solid on decoration
+ import build as _bd; furniture_depth.apply_frames(_bd.TILES, only={'i_company_terminal'})   # late core tile (world_data)
+ DEPTH_LOG = furniture_depth.lift_tops(MAPS, set(_FCD.SCOPE + interiors_merge.RETIRED) - {'station_int'}); WD_LOG += DEPTH_LOG
++import overnight_tiles; OVN_LOG = overnight_tiles.apply(MAPS); print('\n'.join(OVN_LOG))   # SANDBOX (overnight maps): snow pine registered last
+ VARIANTS = storm.make_variants(MAPS)          # route1_storm (flooded east lowland), stored in maps/ but not a separate place
+ MAPNAMES = {m.name for m in MAPS + VARIANTS}
+ res = {}; report = []; notes = []

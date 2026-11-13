@@ -1,0 +1,1146 @@
+{
+ "exit": 0,
+ "gd": {
+  "route_east": {
+   "gd_map": "route_brookhollow_aurelith",
+   "trainers_placed": 6,
+   "trainers_waiting": [],
+   "items_placed": 6,
+   "tables": [
+    "route_east_grass<-re_grass",
+    "route_east_water<-re_river"
+   ],
+   "tables_unplaced": [
+    "route_east_water"
+   ],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "aurelith": {
+   "gd_map": "aurelith",
+   "trainers_placed": 1,
+   "trainers_waiting": [
+    "tr_aurelith_arena_1",
+    "tr_aurelith_arena_2",
+    "tr_aurelith_arena_3",
+    "tr_aurelith_arena_4"
+   ],
+   "items_placed": 3,
+   "tables": [],
+   "tables_unplaced": [],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "route_aurelith_saltmere": {
+   "gd_map": "route_saltmere_aurelith",
+   "trainers_placed": 6,
+   "trainers_waiting": [],
+   "items_placed": 5,
+   "tables": [
+    "route_aurelith_saltmere_grass<-sa_dune_grass",
+    "route_aurelith_saltmere_water<-sa_creek"
+   ],
+   "tables_unplaced": [
+    "route_aurelith_saltmere_water"
+   ],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "saltmere": {
+   "gd_map": "saltmere",
+   "trainers_placed": 1,
+   "trainers_waiting": [],
+   "items_placed": 4,
+   "tables": [
+    "saltmere_water<-sm_harbour"
+   ],
+   "tables_unplaced": [],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "route_revival": {
+   "gd_map": "route_thornwood_revival",
+   "trainers_placed": 7,
+   "trainers_waiting": [],
+   "items_placed": 6,
+   "tables": [
+    "route_revival_grass<-tr_grass",
+    "route_revival_tr_crystal_grass<-tr_crystal_grass"
+   ],
+   "tables_unplaced": [
+    "route_revival_tr_crystal_grass"
+   ],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "revival_heights": {
+   "gd_map": "revival_heights",
+   "trainers_placed": 2,
+   "trainers_waiting": [],
+   "items_placed": 3,
+   "tables": [],
+   "tables_unplaced": [],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "route_revival_saltmere": {
+   "gd_map": "route_revival_saltmere",
+   "trainers_placed": 4,
+   "trainers_waiting": [],
+   "items_placed": 3,
+   "tables": [
+    "route_revival_saltmere_grass<-rs_grass"
+   ],
+   "tables_unplaced": [],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "frostspire_pass": {
+   "gd_map": "route_greystone_frostspire",
+   "trainers_placed": 6,
+   "trainers_waiting": [],
+   "items_placed": 4,
+   "tables": [
+    "frostspire_pass_grass<-fp_snowfern"
+   ],
+   "tables_unplaced": [],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "frostspire": {
+   "gd_map": "frostspire",
+   "trainers_placed": 4,
+   "trainers_waiting": [],
+   "items_placed": 5,
+   "tables": [
+    "frostspire_grass<-fs_snow",
+    "frostspire_cave<-fs_ice_cave"
+   ],
+   "tables_unplaced": [
+    "frostspire_cave"
+   ],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "route_revival_sunmeadow": {
+   "gd_map": "route_revival_sunmeadow",
+   "trainers_placed": 3,
+   "trainers_waiting": [],
+   "items_placed": 2,
+   "tables": [
+    "route_revival_sunmeadow_grass<-rsf_crystal"
+   ],
+   "tables_unplaced": [],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "sunmeadow_fields": {
+   "gd_map": "sunmeadow_fields",
+   "trainers_placed": 6,
+   "trainers_waiting": [],
+   "items_placed": 6,
+   "tables": [
+    "sunmeadow_fields_grass<-smf_meadow",
+    "sunmeadow_fields_water<-smf_stream"
+   ],
+   "tables_unplaced": [],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "route_sunmeadow_mirefen": {
+   "gd_map": "route_sunmeadow_mirefen",
+   "trainers_placed": 5,
+   "trainers_waiting": [],
+   "items_placed": 4,
+   "tables": [
+    "route_sunmeadow_mirefen_grass<-smm_reeds"
+   ],
+   "tables_unplaced": [],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "mirefen": {
+   "gd_map": "mirefen",
+   "trainers_placed": 5,
+   "trainers_waiting": [],
+   "items_placed": 4,
+   "tables": [],
+   "tables_unplaced": [],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "route_saltmere_mirefen": {
+   "gd_map": "route_saltmere_mirefen",
+   "trainers_placed": 3,
+   "trainers_waiting": [],
+   "items_placed": 3,
+   "tables": [
+    "route_saltmere_mirefen_grass<-sme_marsh",
+    "route_saltmere_mirefen_water<-sme_channel"
+   ],
+   "tables_unplaced": [],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "route_coast": {
+   "gd_map": "route_brookhollow_tidewater",
+   "trainers_placed": 6,
+   "trainers_waiting": [],
+   "items_placed": 6,
+   "tables": [
+    "route_coast_grass<-ct_dune",
+    "route_coast_water<-ct_flood"
+   ],
+   "tables_unplaced": [],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "tidewater_coast": {
+   "gd_map": "tidewater_coast",
+   "trainers_placed": 6,
+   "trainers_waiting": [],
+   "items_placed": 6,
+   "tables": [
+    "tidewater_coast_grass<-tc_dune",
+    "tidewater_coast_water<-tc_sea",
+    "tidewater_coast_cave<-tc_grotto"
+   ],
+   "tables_unplaced": [
+    "tidewater_coast_cave"
+   ],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "lanternport": {
+   "gd_map": "lanternport",
+   "trainers_placed": 2,
+   "trainers_waiting": [],
+   "items_placed": 4,
+   "tables": [
+    "lanternport_water<-lp_harbour"
+   ],
+   "tables_unplaced": [],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "route_fernwick_lanternport": {
+   "gd_map": "route_fernwick_lanternport",
+   "trainers_placed": 4,
+   "trainers_waiting": [],
+   "items_placed": 3,
+   "tables": [
+    "route_fernwick_lanternport_grass<-fl_grass",
+    "route_fernwick_lanternport_water<-fl_canal"
+   ],
+   "tables_unplaced": [
+    "route_fernwick_lanternport_water"
+   ],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "route_cindervale": {
+   "gd_map": "route_aurelith_cindervale",
+   "trainers_placed": 6,
+   "trainers_waiting": [],
+   "items_placed": 5,
+   "tables": [
+    "route_cindervale_grass<-ac_ash",
+    "route_cindervale_cave<-ac_tube"
+   ],
+   "tables_unplaced": [
+    "route_cindervale_cave"
+   ],
+   "trainers_short": 0,
+   "items_short": 0
+  },
+  "cindervale": {
+   "gd_map": "cindervale",
+   "trainers_placed": 1,
+   "trainers_waiting": [],
+   "items_placed": 3,
+   "tables": [],
+   "tables_unplaced": [],
+   "trainers_short": 0,
+   "items_short": 0
+  }
+ },
+ "item_audit": {
+  "route_east": [
+   "route_east_brush_pocket_1: canopy over pocket cell (34,10) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_east_brush_pocket_1: canopy over pocket cell (35,10) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_east_brush_pocket_1: canopy over pocket cell (33,9) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_east_boulder_pocket_2: canopy over pocket cell (8,19) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_east_boulder_pocket_2: canopy over pocket cell (9,19) lifted, tree base below -> rock (pocket stays sealed)"
+  ],
+  "route_aurelith_saltmere": [
+   "route_aurelith_saltmere_brush_pocket_1: canopy over pocket cell (31,19) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_aurelith_saltmere_brush_pocket_1: canopy over pocket cell (32,19) lifted, tree base below -> rock (pocket stays sealed)"
+  ],
+  "route_revival": [
+   "route_revival_boulder_pocket_1: canopy over pocket cell (30,19) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_revival_boulder_pocket_1: canopy over pocket cell (31,19) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_revival_brush_pocket_2: canopy over pocket cell (28,5) lifted, tree base below -> rock (pocket stays sealed)"
+  ],
+  "route_revival_saltmere": [
+   "route_revival_saltmere_brush_pocket_1: canopy over pocket cell (21,19) lifted, tree base below -> rock (pocket stays sealed)"
+  ],
+  "frostspire_pass": [
+   "frostspire_pass_boulder_pocket_1: canopy over pocket cell (9,11) lifted, tree base below -> rock (pocket stays sealed)",
+   "frostspire_pass_boulder_pocket_1: canopy over pocket cell (8,11) lifted, tree base below -> rock (pocket stays sealed)",
+   "frostspire_pass_boulder_pocket_1: canopy over pocket cell (10,10) lifted, tree base below -> rock (pocket stays sealed)"
+  ],
+  "route_revival_sunmeadow": [
+   "route_revival_sunmeadow_brush_pocket_1: canopy over pocket cell (16,4) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_revival_sunmeadow_brush_pocket_1: canopy over pocket cell (17,4) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_revival_sunmeadow_brush_pocket_1: canopy over pocket cell (15,3) lifted, tree base below -> rock (pocket stays sealed)"
+  ],
+  "sunmeadow_fields": [
+   "sunmeadow_fields_brush_pocket_1: canopy over pocket cell (36,8) lifted, tree base below -> rock (pocket stays sealed)",
+   "sunmeadow_fields_water_pocket_2: canopy over pocket cell (4,12) lifted, tree base below -> rock (pocket stays sealed)",
+   "sunmeadow_fields_water_pocket_2: canopy over pocket cell (5,12) lifted, tree base below -> rock (pocket stays sealed)",
+   "sunmeadow_fields_pocket_2: outside its pocket at (4, 9) -> (5, 12) (tucked 3/4 sides)"
+  ],
+  "route_sunmeadow_mirefen": [
+   "route_sunmeadow_mirefen_water_pocket_1: canopy over pocket cell (7,17) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_sunmeadow_mirefen_water_pocket_1: canopy over pocket cell (6,17) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_sunmeadow_mirefen_water_pocket_1: canopy over pocket cell (8,16) lifted, tree base below -> rock (pocket stays sealed)"
+  ],
+  "route_saltmere_mirefen": [
+   "route_saltmere_mirefen_boulder_pocket_1: canopy over pocket cell (23,24) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_saltmere_mirefen_boulder_pocket_1: canopy over pocket cell (22,24) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_saltmere_mirefen_boulder_pocket_1: canopy over pocket cell (24,23) lifted, tree base below -> rock (pocket stays sealed)"
+  ],
+  "route_coast": [
+   "route_coast_brush_pocket_1: canopy over pocket cell (18,9) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_coast_brush_pocket_1: canopy over pocket cell (19,9) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_coast_brush_pocket_1: canopy over pocket cell (17,8) lifted, tree base below -> rock (pocket stays sealed)"
+  ],
+  "route_fernwick_lanternport": [
+   "route_fernwick_lanternport_brush_pocket_1: canopy over pocket cell (20,11) lifted, tree base below -> rock (pocket stays sealed)"
+  ],
+  "route_cindervale": [
+   "route_cindervale_boulder_pocket_1: canopy over pocket cell (8,33) lifted, tree base below -> rock (pocket stays sealed)",
+   "route_cindervale_boulder_pocket_1: canopy over pocket cell (9,33) lifted, tree base below -> rock (pocket stays sealed)"
+  ]
+ },
+ "snow_pine": [
+  "snowpine_top=1823 snowpine_base=1824 (registered last)",
+  "frostspire_pass: 826 green trees -> snow pine",
+  "frostspire: 220 green trees -> snow pine"
+ ],
+ "maps": {
+  "route_east": {
+   "size": "40x26",
+   "exits": [
+    "west 12-13 -> brookhollow (off 0)",
+    "east 12-13 -> aurelith (off 0)",
+    "south 30-31 -> route_coast (off -18)"
+   ],
+   "warps": [],
+   "zones": [
+    "route_east_grass",
+    "route_east_reeds"
+   ],
+   "trainers": [
+    "route_east_trainer_1",
+    "route_east_trainer_2",
+    "route_east_trainer_3",
+    "route_east_trainer_4",
+    "route_east_trainer_5",
+    "route_east_trainer_6"
+   ],
+   "refs": [
+    "maps.route_east.route_east_trainer_1",
+    "maps.route_east.route_east_trainer_2",
+    "maps.route_east.route_east_trainer_3",
+    "maps.route_east.route_east_trainer_4",
+    "maps.route_east.route_east_trainer_5",
+    "maps.route_east.route_east_trainer_6",
+    "maps.route_east.route_east_sign"
+   ],
+   "obstacles": [
+    "brush@(33,9)",
+    "boulder@(8,17)",
+    "forced fg_route_east_reeds"
+   ]
+  },
+  "aurelith": {
+   "size": "34x26",
+   "exits": [
+    "north 16-17 -> aurelith_arena (off 0)",
+    "west 12-13 -> route_east (off 0)",
+    "east 12-13 -> route_aurelith_saltmere (off 0)",
+    "south 16-17 -> route_cindervale (off -4)"
+   ],
+   "warps": [
+    "(5,11) -> heal_brookhollow",
+    "(11,11) -> shop_int",
+    "(21,11) -> station_int",
+    "(27,11) -> home_lanternport_c",
+    "(4,20) -> home_saltmere_a",
+    "(11,20) -> home_brookhollow_a",
+    "(27,20) -> home_fernwick_c"
+   ],
+   "zones": [],
+   "trainers": [],
+   "refs": [
+    "maps.aurelith.aurelith_arena_doorman",
+    "maps.aurelith.aurelith_airspace_officer",
+    "maps.aurelith.aurelith_lucky_crystal_seller",
+    "maps.aurelith.aurelith_villager_1",
+    "maps.aurelith.aurelith_villager_2",
+    "maps.aurelith.aurelith_ron_6",
+    "maps.aurelith.aurelith_sign",
+    "maps.aurelith.aurelith_arena_sign"
+   ],
+   "obstacles": [
+    "gate gate_aurelith_arena (all_badges)"
+   ]
+  },
+  "route_aurelith_saltmere": {
+   "size": "40x26",
+   "exits": [
+    "west 12-13 -> aurelith (off 0)",
+    "east 12-13 -> saltmere (off 0)"
+   ],
+   "warps": [],
+   "zones": [
+    "route_aurelith_saltmere_grass"
+   ],
+   "trainers": [
+    "route_aurelith_saltmere_trainer_1",
+    "route_aurelith_saltmere_trainer_2",
+    "route_aurelith_saltmere_trainer_3",
+    "route_aurelith_saltmere_trainer_4",
+    "route_aurelith_saltmere_trainer_5",
+    "route_aurelith_saltmere_trainer_6"
+   ],
+   "refs": [
+    "maps.route_aurelith_saltmere.route_aurelith_saltmere_trainer_1",
+    "maps.route_aurelith_saltmere.route_aurelith_saltmere_trainer_2",
+    "maps.route_aurelith_saltmere.route_aurelith_saltmere_trainer_3",
+    "maps.route_aurelith_saltmere.route_aurelith_saltmere_trainer_4",
+    "maps.route_aurelith_saltmere.route_aurelith_saltmere_trainer_5",
+    "maps.route_aurelith_saltmere.route_aurelith_saltmere_trainer_6",
+    "maps.route_aurelith_saltmere.route_aurelith_saltmere_sign"
+   ],
+   "obstacles": [
+    "brush@(31,17)"
+   ]
+  },
+  "saltmere": {
+   "size": "34x26",
+   "exits": [
+    "west 12-13 -> route_aurelith_saltmere (off 0)",
+    "north 16-17 -> route_revival_saltmere (off 0)",
+    "east 12-13 -> route_saltmere_mirefen (off 0)"
+   ],
+   "warps": [
+    "(5,11) -> heal_brookhollow",
+    "(11,11) -> shop_int",
+    "(21,11) -> station_int",
+    "(27,11) -> home_saltmere_a",
+    "(5,20) -> saltmere_office_int",
+    "(12,20) -> saltmere_hall_int",
+    "(20,20) -> home_brookhollow_a",
+    "(27,20) -> home_fernwick_c"
+   ],
+   "zones": [
+    "saltmere_water"
+   ],
+   "trainers": [],
+   "refs": [
+    "maps.saltmere.saltmere_causeway_local",
+    "maps.saltmere.saltmere_fisher",
+    "maps.saltmere.saltmere_villager_1",
+    "maps.saltmere.saltmere_ron_2",
+    "maps.saltmere.saltmere_sign",
+    "maps.saltmere.saltmere_hall_sign"
+   ],
+   "obstacles": []
+  },
+  "saltmere_office_int": {
+   "size": "12x9",
+   "exits": [],
+   "warps": [
+    "(7,8) -> saltmere"
+   ],
+   "zones": [],
+   "trainers": [],
+   "refs": [
+    "maps.saltmere_office_int.saltmere_office_int_clerk",
+    "maps.saltmere_office_int.saltmere_office_int_coworker"
+   ],
+   "obstacles": []
+  },
+  "route_revival": {
+   "size": "40x30",
+   "exits": [
+    "west 21-22 -> thornwood (off 0)",
+    "east 12-13 -> revival_heights (off 0)"
+   ],
+   "warps": [],
+   "zones": [
+    "route_revival_grass"
+   ],
+   "trainers": [
+    "route_revival_trainer_1",
+    "route_revival_trainer_2",
+    "route_revival_trainer_3",
+    "route_revival_trainer_4",
+    "route_revival_trainer_5",
+    "route_revival_trainer_6",
+    "route_revival_trainer_7"
+   ],
+   "refs": [
+    "maps.route_revival.route_revival_trainer_1",
+    "maps.route_revival.route_revival_trainer_2",
+    "maps.route_revival.route_revival_trainer_3",
+    "maps.route_revival.route_revival_trainer_4",
+    "maps.route_revival.route_revival_trainer_5",
+    "maps.route_revival.route_revival_trainer_6",
+    "maps.route_revival.route_revival_trainer_7",
+    "maps.route_revival.route_revival_sign"
+   ],
+   "obstacles": [
+    "boulder@(30,17)",
+    "brush@(27,6)"
+   ]
+  },
+  "revival_heights": {
+   "size": "34x26",
+   "exits": [
+    "west 12-13 -> route_revival (off 0)",
+    "south 16-17 -> route_revival_saltmere (off -4)",
+    "north 16-17 -> route_revival_sunmeadow (off -4)"
+   ],
+   "warps": [
+    "(5,11) -> heal_brookhollow",
+    "(11,11) -> shop_int",
+    "(21,11) -> station_int",
+    "(27,11) -> home_brookhollow_a",
+    "(4,20) -> home_fernwick_c",
+    "(12,20) -> revival_hall_int",
+    "(20,20) -> home_lanternport_c",
+    "(27,20) -> home_saltmere_a"
+   ],
+   "zones": [],
+   "trainers": [
+    "revival_heights_trainer_1"
+   ],
+   "refs": [
+    "maps.revival_heights.revival_heights_rt_guard",
+    "maps.revival_heights.revival_heights_pass_clerk",
+    "maps.revival_heights.revival_heights_airspace_officer",
+    "maps.revival_heights.revival_heights_lucky_crystal_seller",
+    "maps.revival_heights.revival_heights_ron_3",
+    "maps.revival_heights.revival_heights_trainer_1",
+    "maps.revival_heights.revival_heights_sign"
+   ],
+   "obstacles": [
+    "gate gate_revival_checkpoint (beat_master_revival)"
+   ]
+  },
+  "route_revival_saltmere": {
+   "size": "26x40",
+   "exits": [
+    "north 12-13 -> revival_heights (off 4)",
+    "south 16-17 -> saltmere (off 0)"
+   ],
+   "warps": [],
+   "zones": [
+    "route_revival_saltmere_grass"
+   ],
+   "trainers": [
+    "route_revival_saltmere_trainer_1",
+    "route_revival_saltmere_trainer_2",
+    "route_revival_saltmere_trainer_3",
+    "route_revival_saltmere_trainer_4"
+   ],
+   "refs": [
+    "maps.route_revival_saltmere.route_revival_saltmere_trainer_1",
+    "maps.route_revival_saltmere.route_revival_saltmere_trainer_2",
+    "maps.route_revival_saltmere.route_revival_saltmere_trainer_3",
+    "maps.route_revival_saltmere.route_revival_saltmere_trainer_4",
+    "maps.route_revival_saltmere.route_revival_saltmere_sign"
+   ],
+   "obstacles": [
+    "brush@(20,20)"
+   ]
+  },
+  "frostspire_pass": {
+   "size": "30x40",
+   "exits": [
+    "south 20-21 -> greystone_b1 (off 0)",
+    "north 14-15 -> frostspire (off 2)"
+   ],
+   "warps": [],
+   "zones": [
+    "frostspire_pass_grass"
+   ],
+   "trainers": [
+    "frostspire_pass_trainer_1",
+    "frostspire_pass_trainer_2",
+    "frostspire_pass_trainer_3",
+    "frostspire_pass_trainer_4",
+    "frostspire_pass_trainer_5"
+   ],
+   "refs": [
+    "maps.frostspire_pass.frostspire_pass_rt_engineer",
+    "maps.frostspire_pass.frostspire_pass_ron_4",
+    "maps.frostspire_pass.frostspire_pass_trainer_1",
+    "maps.frostspire_pass.frostspire_pass_trainer_2",
+    "maps.frostspire_pass.frostspire_pass_trainer_3",
+    "maps.frostspire_pass.frostspire_pass_trainer_4",
+    "maps.frostspire_pass.frostspire_pass_trainer_5",
+    "maps.frostspire_pass.frostspire_pass_sign"
+   ],
+   "obstacles": [
+    "boulder@(10,10)",
+    "gate gate_frostspire_bridge (beat_master_revival)",
+    "forced fg_frostspire_pass_ferns"
+   ]
+  },
+  "frostspire": {
+   "size": "34x26",
+   "exits": [
+    "south 16-17 -> frostspire_pass (off -2)"
+   ],
+   "warps": [
+    "(5,11) -> heal_brookhollow",
+    "(11,11) -> shop_int",
+    "(20,11) -> home_fernwick_c",
+    "(27,11) -> home_lanternport_c",
+    "(12,20) -> frostspire_hall_int",
+    "(20,20) -> home_saltmere_a"
+   ],
+   "zones": [
+    "frostspire_grass"
+   ],
+   "trainers": [
+    "frostspire_trainer_1",
+    "frostspire_trainer_2",
+    "frostspire_trainer_3",
+    "frostspire_trainer_4"
+   ],
+   "refs": [
+    "maps.frostspire.frostspire_villager_1",
+    "maps.frostspire.frostspire_skylift_tutor",
+    "maps.frostspire.frostspire_trainer_1",
+    "maps.frostspire.frostspire_trainer_2",
+    "maps.frostspire.frostspire_trainer_3",
+    "maps.frostspire.frostspire_trainer_4",
+    "maps.frostspire.frostspire_sign"
+   ],
+   "obstacles": []
+  },
+  "route_revival_sunmeadow": {
+   "size": "26x40",
+   "exits": [
+    "south 12-13 -> revival_heights (off 4)",
+    "north 10-11 -> sunmeadow_fields (off 8)"
+   ],
+   "warps": [],
+   "zones": [
+    "route_revival_sunmeadow_grass"
+   ],
+   "trainers": [
+    "route_revival_sunmeadow_trainer_1",
+    "route_revival_sunmeadow_trainer_2",
+    "route_revival_sunmeadow_trainer_3"
+   ],
+   "refs": [
+    "maps.route_revival_sunmeadow.route_revival_sunmeadow_trainer_1",
+    "maps.route_revival_sunmeadow.route_revival_sunmeadow_trainer_2",
+    "maps.route_revival_sunmeadow.route_revival_sunmeadow_trainer_3",
+    "maps.route_revival_sunmeadow.route_revival_sunmeadow_sign"
+   ],
+   "obstacles": [
+    "brush@(15,3)",
+    "gate gate_sunmeadow_north (beat_master_frostspire)"
+   ]
+  },
+  "sunmeadow_fields": {
+   "size": "40x30",
+   "exits": [
+    "west 4-5 -> route1 (off 0)",
+    "south 18-19 -> route_revival_sunmeadow (off -8)",
+    "east 14-15 -> route_sunmeadow_mirefen (off -4)"
+   ],
+   "warps": [],
+   "zones": [
+    "sunmeadow_fields_grass",
+    "sunmeadow_fields_water"
+   ],
+   "trainers": [
+    "sunmeadow_fields_trainer_1",
+    "sunmeadow_fields_trainer_2",
+    "sunmeadow_fields_trainer_3",
+    "sunmeadow_fields_trainer_4",
+    "sunmeadow_fields_trainer_5",
+    "sunmeadow_fields_trainer_6"
+   ],
+   "refs": [
+    "maps.sunmeadow_fields.sunmeadow_fields_trainer_1",
+    "maps.sunmeadow_fields.sunmeadow_fields_trainer_2",
+    "maps.sunmeadow_fields.sunmeadow_fields_trainer_3",
+    "maps.sunmeadow_fields.sunmeadow_fields_trainer_4",
+    "maps.sunmeadow_fields.sunmeadow_fields_trainer_5",
+    "maps.sunmeadow_fields.sunmeadow_fields_trainer_6",
+    "maps.sunmeadow_fields.sunmeadow_fields_sign"
+   ],
+   "obstacles": [
+    "brush@(35,9)",
+    "water@(4,10)"
+   ]
+  },
+  "route_sunmeadow_mirefen": {
+   "size": "40x26",
+   "exits": [
+    "west 10-11 -> sunmeadow_fields (off 4)",
+    "east 12-13 -> mirefen (off 0)"
+   ],
+   "warps": [],
+   "zones": [
+    "route_sunmeadow_mirefen_grass"
+   ],
+   "trainers": [
+    "route_sunmeadow_mirefen_trainer_1",
+    "route_sunmeadow_mirefen_trainer_2",
+    "route_sunmeadow_mirefen_trainer_3",
+    "route_sunmeadow_mirefen_trainer_4",
+    "route_sunmeadow_mirefen_trainer_5"
+   ],
+   "refs": [
+    "maps.route_sunmeadow_mirefen.route_sunmeadow_mirefen_trainer_1",
+    "maps.route_sunmeadow_mirefen.route_sunmeadow_mirefen_trainer_2",
+    "maps.route_sunmeadow_mirefen.route_sunmeadow_mirefen_trainer_3",
+    "maps.route_sunmeadow_mirefen.route_sunmeadow_mirefen_trainer_4",
+    "maps.route_sunmeadow_mirefen.route_sunmeadow_mirefen_trainer_5",
+    "maps.route_sunmeadow_mirefen.route_sunmeadow_mirefen_sign"
+   ],
+   "obstacles": [
+    "water@(8,16)",
+    "forced fg_route_sunmeadow_mirefen_neck"
+   ]
+  },
+  "mirefen": {
+   "size": "34x26",
+   "exits": [
+    "west 12-13 -> route_sunmeadow_mirefen (off 0)",
+    "south 16-17 -> route_saltmere_mirefen (off 14)"
+   ],
+   "warps": [
+    "(5,11) -> heal_brookhollow",
+    "(11,11) -> shop_int",
+    "(20,11) -> home_lanternport_c",
+    "(27,11) -> home_saltmere_a",
+    "(12,20) -> mirefen_hall_int",
+    "(20,20) -> home_brookhollow_a",
+    "(27,20) -> home_fernwick_c"
+   ],
+   "zones": [],
+   "trainers": [
+    "mirefen_trainer_1",
+    "mirefen_trainer_2",
+    "mirefen_trainer_3",
+    "mirefen_trainer_4",
+    "mirefen_trainer_5"
+   ],
+   "refs": [
+    "maps.mirefen.mirefen_tideglide_giver",
+    "maps.mirefen.mirefen_villager_1",
+    "maps.mirefen.mirefen_trainer_1",
+    "maps.mirefen.mirefen_trainer_2",
+    "maps.mirefen.mirefen_trainer_3",
+    "maps.mirefen.mirefen_trainer_4",
+    "maps.mirefen.mirefen_trainer_5",
+    "maps.mirefen.mirefen_sign"
+   ],
+   "obstacles": []
+  },
+  "route_saltmere_mirefen": {
+   "size": "40x30",
+   "exits": [
+    "west 12-13 -> saltmere (off 0)",
+    "north 30-31 -> mirefen (off -14)"
+   ],
+   "warps": [],
+   "zones": [
+    "route_saltmere_mirefen_grass",
+    "route_saltmere_mirefen_water"
+   ],
+   "trainers": [
+    "route_saltmere_mirefen_trainer_1",
+    "route_saltmere_mirefen_trainer_2",
+    "route_saltmere_mirefen_trainer_3"
+   ],
+   "refs": [
+    "maps.route_saltmere_mirefen.route_saltmere_mirefen_trainer_1",
+    "maps.route_saltmere_mirefen.route_saltmere_mirefen_trainer_2",
+    "maps.route_saltmere_mirefen.route_saltmere_mirefen_trainer_3",
+    "maps.route_saltmere_mirefen.route_saltmere_mirefen_sign"
+   ],
+   "obstacles": [
+    "boulder@(24,23)",
+    "gate gate_saltmere_causeway (beat_master_frostspire)"
+   ]
+  },
+  "route_coast": {
+   "size": "26x36",
+   "exits": [
+    "north 12-13 -> route_east (off 18)",
+    "south 14-15 -> tidewater_coast (off 2)"
+   ],
+   "warps": [],
+   "zones": [
+    "route_coast_grass",
+    "route_coast_water"
+   ],
+   "trainers": [
+    "route_coast_trainer_1",
+    "route_coast_trainer_2",
+    "route_coast_trainer_3",
+    "route_coast_trainer_4",
+    "route_coast_trainer_5",
+    "route_coast_trainer_6"
+   ],
+   "refs": [
+    "maps.route_coast.route_coast_trainer_1",
+    "maps.route_coast.route_coast_trainer_2",
+    "maps.route_coast.route_coast_trainer_3",
+    "maps.route_coast.route_coast_trainer_4",
+    "maps.route_coast.route_coast_trainer_5",
+    "maps.route_coast.route_coast_trainer_6",
+    "maps.route_coast.route_coast_sign"
+   ],
+   "obstacles": [
+    "brush@(17,8)",
+    "gate gate_coast_road_flood (has_tideglide)"
+   ]
+  },
+  "tidewater_coast": {
+   "size": "34x26",
+   "exits": [
+    "north 16-17 -> route_coast (off -2)",
+    "west 12-13 -> lanternport (off 0)"
+   ],
+   "warps": [
+    "(5,11) -> heal_brookhollow",
+    "(11,11) -> shop_int",
+    "(27,11) -> home_saltmere_a",
+    "(12,20) -> tidewater_hall_int",
+    "(20,20) -> home_brookhollow_a"
+   ],
+   "zones": [
+    "tidewater_coast_grass",
+    "tidewater_coast_water"
+   ],
+   "trainers": [
+    "tidewater_coast_trainer_1",
+    "tidewater_coast_trainer_2",
+    "tidewater_coast_trainer_3",
+    "tidewater_coast_trainer_4",
+    "tidewater_coast_trainer_5",
+    "tidewater_coast_trainer_6"
+   ],
+   "refs": [
+    "maps.tidewater_coast.tidewater_coast_villager_1",
+    "maps.tidewater_coast.tidewater_coast_lifeguard",
+    "maps.tidewater_coast.tidewater_coast_trainer_1",
+    "maps.tidewater_coast.tidewater_coast_trainer_2",
+    "maps.tidewater_coast.tidewater_coast_trainer_3",
+    "maps.tidewater_coast.tidewater_coast_trainer_4",
+    "maps.tidewater_coast.tidewater_coast_trainer_5",
+    "maps.tidewater_coast.tidewater_coast_trainer_6",
+    "maps.tidewater_coast.tidewater_coast_sign"
+   ],
+   "obstacles": []
+  },
+  "lanternport": {
+   "size": "34x26",
+   "exits": [
+    "east 12-13 -> tidewater_coast (off 0)",
+    "north 16-17 -> route_fernwick_lanternport (off -8)"
+   ],
+   "warps": [
+    "(5,11) -> heal_brookhollow",
+    "(11,11) -> shop_int",
+    "(21,11) -> station_int",
+    "(27,11) -> home_brookhollow_a",
+    "(4,20) -> home_fernwick_c",
+    "(12,20) -> lanternport_hall_int",
+    "(20,20) -> home_lanternport_c",
+    "(27,20) -> home_saltmere_a"
+   ],
+   "zones": [
+    "lanternport_water"
+   ],
+   "trainers": [
+    "lanternport_trainer_1"
+   ],
+   "refs": [
+    "maps.lanternport.lanternport_lighthouse_keeper",
+    "maps.lanternport.lanternport_villager_1",
+    "maps.lanternport.lanternport_ron_5",
+    "maps.lanternport.lanternport_trainer_1",
+    "maps.lanternport.lanternport_sign"
+   ],
+   "obstacles": []
+  },
+  "route_fernwick_lanternport": {
+   "size": "40x26",
+   "exits": [
+    "south 8-9 -> lanternport (off 8)",
+    "east 9-10 -> fernwick (off 0)"
+   ],
+   "warps": [],
+   "zones": [
+    "route_fernwick_lanternport_grass"
+   ],
+   "trainers": [
+    "route_fernwick_lanternport_trainer_1",
+    "route_fernwick_lanternport_trainer_2",
+    "route_fernwick_lanternport_trainer_3",
+    "route_fernwick_lanternport_trainer_4"
+   ],
+   "refs": [
+    "maps.route_fernwick_lanternport.route_fernwick_lanternport_lock_keeper",
+    "maps.route_fernwick_lanternport.route_fernwick_lanternport_trainer_1",
+    "maps.route_fernwick_lanternport.route_fernwick_lanternport_trainer_2",
+    "maps.route_fernwick_lanternport.route_fernwick_lanternport_trainer_3",
+    "maps.route_fernwick_lanternport.route_fernwick_lanternport_trainer_4",
+    "maps.route_fernwick_lanternport.route_fernwick_lanternport_sign"
+   ],
+   "obstacles": [
+    "brush@(19,12)",
+    "gate gate_lanternport_tidelock (beat_master_lanternport)"
+   ]
+  },
+  "route_cindervale": {
+   "size": "26x40",
+   "exits": [
+    "north 12-13 -> aurelith (off 4)",
+    "south 14-15 -> cindervale (off 2)"
+   ],
+   "warps": [],
+   "zones": [
+    "route_cindervale_grass"
+   ],
+   "trainers": [
+    "route_cindervale_trainer_1",
+    "route_cindervale_trainer_2",
+    "route_cindervale_trainer_3",
+    "route_cindervale_trainer_4",
+    "route_cindervale_trainer_5",
+    "route_cindervale_trainer_6"
+   ],
+   "refs": [
+    "maps.route_cindervale.route_cindervale_trainer_1",
+    "maps.route_cindervale.route_cindervale_trainer_2",
+    "maps.route_cindervale.route_cindervale_trainer_3",
+    "maps.route_cindervale.route_cindervale_trainer_4",
+    "maps.route_cindervale.route_cindervale_trainer_5",
+    "maps.route_cindervale.route_cindervale_trainer_6",
+    "maps.route_cindervale.route_cindervale_sign"
+   ],
+   "obstacles": [
+    "boulder@(8,31)",
+    "gate gate_cindervale_giant (beat_master_lanternport)"
+   ]
+  },
+  "cindervale": {
+   "size": "34x26",
+   "exits": [
+    "north 16-17 -> route_cindervale (off -2)"
+   ],
+   "warps": [
+    "(5,11) -> heal_brookhollow",
+    "(11,11) -> shop_int",
+    "(20,11) -> home_fernwick_c",
+    "(27,11) -> home_lanternport_c",
+    "(12,20) -> cindervale_hall_int",
+    "(20,20) -> home_saltmere_a"
+   ],
+   "zones": [],
+   "trainers": [
+    "cindervale_trainer_1"
+   ],
+   "refs": [
+    "maps.cindervale.cindervale_smith",
+    "maps.cindervale.cindervale_villager_1",
+    "maps.cindervale.cindervale_trainer_1",
+    "maps.cindervale.cindervale_sign"
+   ],
+   "obstacles": []
+  },
+  "saltmere_hall_int": {
+   "size": "11x16",
+   "exits": [],
+   "warps": [
+    "(5,15) -> saltmere",
+    "(6,15) -> saltmere"
+   ],
+   "zones": [],
+   "trainers": [
+    "saltmere_hall_int_master",
+    "saltmere_hall_int_h1",
+    "saltmere_hall_int_h2",
+    "saltmere_hall_int_h3"
+   ],
+   "refs": [
+    "maps.saltmere_hall_int.saltmere_hall_int_master",
+    "maps.saltmere_hall_int.saltmere_hall_int_h1",
+    "maps.saltmere_hall_int.saltmere_hall_int_h2",
+    "maps.saltmere_hall_int.saltmere_hall_int_h3",
+    "maps.saltmere_hall_int.saltmere_hall_int_guide"
+   ],
+   "obstacles": []
+  },
+  "revival_hall_int": {
+   "size": "11x27",
+   "exits": [],
+   "warps": [
+    "(6,26) -> revival_heights",
+    "(7,26) -> revival_heights"
+   ],
+   "zones": [],
+   "trainers": [
+    "revival_hall_int_master",
+    "revival_hall_int_h1",
+    "revival_hall_int_h2",
+    "revival_hall_int_h3",
+    "revival_hall_int_h4"
+   ],
+   "refs": [
+    "maps.revival_hall_int.revival_hall_int_master",
+    "maps.revival_hall_int.revival_hall_int_h1",
+    "maps.revival_hall_int.revival_hall_int_h2",
+    "maps.revival_hall_int.revival_hall_int_h3",
+    "maps.revival_hall_int.revival_hall_int_h4",
+    "maps.revival_hall_int.revival_hall_int_guide"
+   ],
+   "obstacles": []
+  },
+  "frostspire_hall_int": {
+   "size": "11x16",
+   "exits": [],
+   "warps": [
+    "(6,15) -> frostspire",
+    "(7,15) -> frostspire"
+   ],
+   "zones": [],
+   "trainers": [
+    "frostspire_hall_int_master",
+    "frostspire_hall_int_h1",
+    "frostspire_hall_int_h2",
+    "frostspire_hall_int_h3"
+   ],
+   "refs": [
+    "maps.frostspire_hall_int.frostspire_hall_int_master",
+    "maps.frostspire_hall_int.frostspire_hall_int_h1",
+    "maps.frostspire_hall_int.frostspire_hall_int_h2",
+    "maps.frostspire_hall_int.frostspire_hall_int_h3",
+    "maps.frostspire_hall_int.frostspire_hall_int_guide"
+   ],
+   "obstacles": []
+  },
+  "mirefen_hall_int": {
+   "size": "11x19",
+   "exits": [],
+   "warps": [
+    "(5,18) -> mirefen",
+    "(6,18) -> mirefen"
+   ],
+   "zones": [],
+   "trainers": [
+    "mirefen_hall_int_master",
+    "mirefen_hall_int_h1",
+    "mirefen_hall_int_h2",
+    "mirefen_hall_int_h3"
+   ],
+   "refs": [
+    "maps.mirefen_hall_int.mirefen_hall_int_master",
+    "maps.mirefen_hall_int.mirefen_hall_int_h1",
+    "maps.mirefen_hall_int.mirefen_hall_int_h2",
+    "maps.mirefen_hall_int.mirefen_hall_int_h3",
+    "maps.mirefen_hall_int.mirefen_hall_int_guide"
+   ],
+   "obstacles": []
+  },
+  "tidewater_hall_int": {
+   "size": "11x14",
+   "exits": [],
+   "warps": [
+    "(6,13) -> tidewater_coast",
+    "(7,13) -> tidewater_coast"
+   ],
+   "zones": [],
+   "trainers": [
+    "tidewater_hall_int_master",
+    "tidewater_hall_int_h1",
+    "tidewater_hall_int_h2",
+    "tidewater_hall_int_h3",
+    "tidewater_hall_int_h4"
+   ],
+   "refs": [
+    "maps.tidewater_hall_int.tidewater_hall_int_master",
+    "maps.tidewater_hall_int.tidewater_hall_int_h1",
+    "maps.tidewater_hall_int.tidewater_hall_int_h2",
+    "maps.tidewater_hall_int.tidewater_hall_int_h3",
+    "maps.tidewater_hall_int.tidewater_hall_int_h4",
+    "maps.tidewater_hall_int.tidewater_hall_int_guide"
+   ],
+   "obstacles": []
+  },
+  "lanternport_hall_int": {
+   "size": "11x21",
+   "exits": [],
+   "warps": [
+    "(5,20) -> lanternport",
+    "(6,20) -> lanternport"
+   ],
+   "zones": [],
+   "trainers": [
+    "lanternport_hall_int_master",
+    "lanternport_hall_int_h1",
+    "lanternport_hall_int_h2",
+    "lanternport_hall_int_h3"
+   ],
+   "refs": [
+    "maps.lanternport_hall_int.lanternport_hall_int_master",
+    "maps.lanternport_hall_int.lanternport_hall_int_h1",
+    "maps.lanternport_hall_int.lanternport_hall_int_h2",
+    "maps.lanternport_hall_int.lanternport_hall_int_h3",
+    "maps.lanternport_hall_int.lanternport_hall_int_guide"
+   ],
+   "obstacles": []
+  },
+  "cindervale_hall_int": {
+   "size": "11x17",
+   "exits": [],
+   "warps": [
+    "(6,16) -> cindervale",
+    "(7,16) -> cindervale"
+   ],
+   "zones": [],
+   "trainers": [
+    "cindervale_hall_int_master",
+    "cindervale_hall_int_h1",
+    "cindervale_hall_int_h2",
+    "cindervale_hall_int_h3",
+    "cindervale_hall_int_h4"
+   ],
+   "refs": [
+    "maps.cindervale_hall_int.cindervale_hall_int_master",
+    "maps.cindervale_hall_int.cindervale_hall_int_h1",
+    "maps.cindervale_hall_int.cindervale_hall_int_h2",
+    "maps.cindervale_hall_int.cindervale_hall_int_h3",
+    "maps.cindervale_hall_int.cindervale_hall_int_h4",
+    "maps.cindervale_hall_int.cindervale_hall_int_guide"
+   ],
+   "obstacles": []
+  }
+ },
+ "t": "01:09 CDT"
+}

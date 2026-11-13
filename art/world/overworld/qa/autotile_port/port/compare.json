@@ -1,0 +1,304 @@
+{
+"brookhollow.json": {
+"layers": {
+"ground": [
+[
+22,
+11,
+"water>grass_0001_0011_w2",
+"water>path+grass_0001_0011_0001_0001_w2"
+],
+[
+24,
+11,
+"water>grass_0100_1100_w2",
+"water>path+grass_0100_1100_0100_1000_w2"
+],
+[
+22,
+12,
+"water>path_0001_0011",
+"water>path+grass_0001_0011_0000_0001"
+],
+[
+24,
+12,
+"water>path_0100_1100_w1",
+"water>path+grass_0100_1100_0000_1000_w1"
+],
+[
+22,
+13,
+"water>path_0001_0011",
+"water>path+grass_0001_0011_0000_0010"
+],
+[
+22,
+14,
+"water>grass_0001_0011_w2",
+"water>path+grass_0001_0011_0001_0010_w2"
+],
+[
+24,
+20,
+"water>path_0100_1100_w2",
+"water>path+grass_0100_1100_0000_0100_w2"
+],
+[
+24,
+21,
+"water>grass_0100_1100_w1",
+"water>path+grass_0100_1100_0100_0100_w1"
+]
+]
+},
+"keys": [
+"terrain"
+],
+"other": []
+},
+"fernwick.json": {
+"layers": {
+"ground": [
+[
+15,
+20,
+"water>path_1001_1011_w1",
+"water>path+grass_1001_1011_0001_0010_w1"
+],
+[
+16,
+20,
+"water>path_1000_1001_w2",
+"water>path+grass_1000_1001_0000_1000_w2"
+],
+[
+17,
+20,
+"water>grass_1000_1001",
+"water>path+grass_1000_1001_1000_1000"
+]
+]
+},
+"keys": [
+"terrain"
+],
+"other": []
+},
+"greystone_b1.json": {
+"layers": {
+"ground": [
+[
+19,
+0,
+"cavewall_face_u",
+"cavewall_face_u_e"
+],
+[
+22,
+0,
+"cavewall_face_l",
+"cavewall_face_l_w"
+],
+[
+19,
+1,
+"cavewall_face_l",
+"cavewall_face_l_e"
+],
+[
+18,
+3,
+"cavewall_face_u",
+"cavewall_face_u_e"
+],
+[
+22,
+3,
+"cavewall_face_u",
+"cavewall_face_u_w"
+],
+[
+19,
+4,
+"cavewall_face_l",
+"cavewall_face_l_e"
+],
+[
+22,
+4,
+"cavewall_face_l",
+"cavewall_face_l_w"
+],
+[
+11,
+5,
+"cavewall_face_u",
+"cavewall_face_u_w"
+],
+[
+13,
+5,
+"cavewall_face_u",
+"cavewall_face_u_e"
+],
+[
+11,
+6,
+"cavewall_face_l",
+"cavewall_face_l_w"
+],
+[
+13,
+6,
+"cavewall_face_l",
+"cavewall_face_l_e"
+],
+[
+18,
+14,
+"cavewall_face_u",
+"cavewall_face_u_e"
+],
+[
+21,
+14,
+"cavewall_face_u",
+"cavewall_face_u_w"
+],
+[
+18,
+15,
+"cavewall_face_l",
+"cavewall_face_l_e"
+],
+[
+21,
+15,
+"cavewall_face_l",
+"cavewall_face_l_w"
+]
+]
+},
+"keys": [
+"terrain"
+],
+"other": []
+},
+"greystone_entrance.json": {
+"layers": {
+"ground": [
+[
+2,
+9,
+"cavewall_face_u",
+"cavewall_face_u_e"
+],
+[
+2,
+10,
+"cavewall_face_l",
+"cavewall_face_l_e"
+],
+[
+9,
+10,
+"cavewall_face_u",
+"cavewall_face_u_w"
+],
+[
+11,
+10,
+"cavewall_face_u",
+"cavewall_face_u_e"
+],
+[
+9,
+11,
+"cavewall_face_l",
+"cavewall_face_l_w"
+],
+[
+11,
+11,
+"cavewall_face_l",
+"cavewall_face_l_e"
+],
+[
+19,
+13,
+"cavewall_face_u",
+"cavewall_face_u_w"
+],
+[
+21,
+13,
+"cavewall_face_u",
+"cavewall_face_u_e"
+],
+[
+19,
+14,
+"cavewall_face_l",
+"cavewall_face_l_w"
+],
+[
+21,
+14,
+"cavewall_face_l",
+"cavewall_face_l_e"
+]
+]
+},
+"keys": [
+"terrain"
+],
+"other": []
+},
+"lantern_rest.json": {
+"layers": {},
+"keys": [
+"terrain"
+],
+"other": []
+},
+"route1.json": {
+"layers": {
+"decoration": [
+[
+28,
+12,
+"ledge_m",
+"ledge_r"
+]
+]
+},
+"keys": [
+"terrain"
+],
+"other": []
+},
+"thornwood.json": {
+"layers": {},
+"keys": [
+"terrain"
+],
+"other": []
+},
+"variants/route1_storm.json": {
+"layers": {
+"ground": [
+[
+32,
+13,
+"water>grass_0101_1100_w1",
+"water>trail+grass_0101_1100_0101_0100_w1"
+]
+]
+},
+"keys": [
+"terrain"
+],
+"other": []
+}
+}
