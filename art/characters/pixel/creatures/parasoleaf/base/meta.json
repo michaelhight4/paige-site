@@ -1,0 +1,80 @@
+{
+ "parasoleaf_front": {
+  "scale": 0.12836970474967907,
+  "org": [
+   255,
+   78
+  ],
+  "size": [
+   63,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 20
+ },
+ "parasoleaf_back": {
+  "scale": 0.14245014245014245,
+  "org": [
+   245,
+   136
+  ],
+  "size": [
+   77,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 12
+ },
+ "parasoleaf_ow_down": {
+  "scale": 0.1270718232044199,
+  "org": [
+   53,
+   166
+  ],
+  "size": [
+   31,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "parasoleaf_ow_left": {
+  "scale": 0.12602739726027398,
+  "org": [
+   370,
+   167
+  ],
+  "size": [
+   32,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "parasoleaf_ow_right": {
+  "scale": 0.12637362637362637,
+  "org": [
+   690,
+   167
+  ],
+  "size": [
+   31,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "parasoleaf_ow_up": {
+  "scale": 0.12921348314606743,
+  "org": [
+   1016,
+   171
+  ],
+  "size": [
+   29,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ }
+}

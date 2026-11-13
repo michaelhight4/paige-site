@@ -1,0 +1,17 @@
+{
+ "creature": "lurelamp",
+ "concept": "Abyss Ember",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#1a1226": "#2c2320",
+  "#1e4078": "#6a442e",
+  "#2c64a8": "#c46e2e",
+  "#30488c": "#92623e",
+  "#342842": "#3e3a48",
+  "#3e3a48": "#54444e",
+  "#4a70ba": "#ba8856",
+  "#f8eabe": "#ccc6c2"
+ },
+ "rule": "crystal violets never swapped"
+}

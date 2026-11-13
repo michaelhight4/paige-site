@@ -1,0 +1,70 @@
+{
+ "huskling_front": {
+  "scale": 0.10672358591248667,
+  "org": [
+   247,
+   32
+  ],
+  "size": [
+   57,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 20
+ },
+ "huskling_back": {
+  "scale": 0.1148105625717566,
+  "org": [
+   260,
+   68
+  ],
+  "size": [
+   59,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 18
+ },
+ "huskling_ow_down": {
+  "scale": 0.11083123425692695,
+  "org": [
+   64,
+   145
+  ],
+  "size": [
+   24,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 18
+ },
+ "huskling_ow_left": {
+  "scale": 0.11195928753180662,
+  "org": [
+   382,
+   148
+  ],
+  "size": [
+   23,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "huskling_ow_right": {
+  "mirror_of": "huskling_ow_left"
+ },
+ "huskling_ow_up": {
+  "scale": 0.1111111111111111,
+  "org": [
+   997,
+   148
+  ],
+  "size": [
+   24,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ }
+}

@@ -1,0 +1,70 @@
+{
+ "moatling_front": {
+  "scale": 0.1187648456057007,
+  "org": [
+   198,
+   66
+  ],
+  "size": [
+   76,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 23
+ },
+ "moatling_back": {
+  "scale": 0.11695906432748537,
+  "org": [
+   197,
+   63
+  ],
+  "size": [
+   75,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 24
+ },
+ "moatling_ow_down": {
+  "scale": 0.10918114143920596,
+  "org": [
+   39,
+   127
+  ],
+  "size": [
+   33,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 18
+ },
+ "moatling_ow_left": {
+  "scale": 0.10918114143920596,
+  "org": [
+   373,
+   129
+  ],
+  "size": [
+   27,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 18
+ },
+ "moatling_ow_right": {
+  "mirror_of": "moatling_ow_left"
+ },
+ "moatling_ow_up": {
+  "scale": 0.12054794520547946,
+  "org": [
+   967,
+   173
+  ],
+  "size": [
+   33,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 21
+ }
+}

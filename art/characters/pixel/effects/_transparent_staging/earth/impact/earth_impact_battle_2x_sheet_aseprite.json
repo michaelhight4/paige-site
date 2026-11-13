@@ -1,0 +1,92 @@
+{ "frames": [
+   {
+    "filename": "earth_impact_0",
+    "frame": { "x": 0, "y": 0, "w": 236, "h": 112 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 236, "h": 112 },
+    "sourceSize": { "w": 236, "h": 112 },
+    "duration": 100
+   },
+   {
+    "filename": "earth_impact_1",
+    "frame": { "x": 236, "y": 0, "w": 236, "h": 112 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 236, "h": 112 },
+    "sourceSize": { "w": 236, "h": 112 },
+    "duration": 100
+   },
+   {
+    "filename": "earth_impact_2",
+    "frame": { "x": 472, "y": 0, "w": 236, "h": 112 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 236, "h": 112 },
+    "sourceSize": { "w": 236, "h": 112 },
+    "duration": 100
+   },
+   {
+    "filename": "earth_impact_3",
+    "frame": { "x": 708, "y": 0, "w": 236, "h": 112 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 236, "h": 112 },
+    "sourceSize": { "w": 236, "h": 112 },
+    "duration": 100
+   },
+   {
+    "filename": "earth_impact_4",
+    "frame": { "x": 944, "y": 0, "w": 236, "h": 112 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 236, "h": 112 },
+    "sourceSize": { "w": 236, "h": 112 },
+    "duration": 100
+   },
+   {
+    "filename": "earth_impact_5",
+    "frame": { "x": 1180, "y": 0, "w": 236, "h": 112 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 236, "h": 112 },
+    "sourceSize": { "w": 236, "h": 112 },
+    "duration": 100
+   },
+   {
+    "filename": "earth_impact_6",
+    "frame": { "x": 1416, "y": 0, "w": 236, "h": 112 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 236, "h": 112 },
+    "sourceSize": { "w": 236, "h": 112 },
+    "duration": 100
+   },
+   {
+    "filename": "earth_impact_7",
+    "frame": { "x": 1652, "y": 0, "w": 236, "h": 112 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 236, "h": 112 },
+    "sourceSize": { "w": 236, "h": 112 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3.18.6-x64",
+  "image": "earth_impact_battle_2x_sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 1888, "h": 112 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "impact", "from": 0, "to": 7, "direction": "forward", "color": "#000000ff" }
+  ],
+  "layers": [
+   { "name": "fx", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+   { "name": "impact_centre", "keys": [{ "frame": 0, "bounds": {"x": 116, "y": 40, "w": 2, "h": 2 } }] }
+  ]
+ }
+}

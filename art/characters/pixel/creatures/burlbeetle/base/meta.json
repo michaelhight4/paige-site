@@ -1,0 +1,177 @@
+{
+ "burlbeetle_front": {
+  "scale": 0.1251564455569462,
+  "org": [
+   114,
+   79
+  ],
+  "size": [
+   106,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "box": null,
+  "colours": 14,
+  "legfix": [
+   [
+    60,
+    78,
+    72,
+    100,
+    -10,
+    -4
+   ],
+   [
+    80,
+    98,
+    72,
+    100,
+    8,
+    -4
+   ]
+  ]
+ },
+ "burlbeetle_back": {
+  "scale": 0.12755102040816327,
+  "org": [
+   154,
+   84
+  ],
+  "size": [
+   94,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "box": null,
+  "colours": 16,
+  "legfix": [
+   [
+    60,
+    78,
+    72,
+    100,
+    -9,
+    -4
+   ]
+  ]
+ },
+ "burlbeetle_ow_down": {
+  "scale": 0.13664596273291926,
+  "org": [
+   21,
+   174
+  ],
+  "size": [
+   38,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "box": [
+   0,
+   0,
+   307,
+   720
+  ],
+  "colours": 12,
+  "legfix": [
+   [
+    0,
+    11,
+    30,
+    44,
+    5,
+    -3
+   ],
+   [
+    27,
+    38,
+    30,
+    44,
+    -5,
+    -3
+   ]
+  ]
+ },
+ "burlbeetle_ow_left": {
+  "scale": 0.13664596273291926,
+  "org": [
+   317,
+   174
+  ],
+  "size": [
+   43,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "box": [
+   307,
+   0,
+   640,
+   720
+  ],
+  "colours": 11,
+  "legfix": [
+   [
+    22,
+    29,
+    31,
+    44,
+    -5,
+    -2
+   ],
+   [
+    22,
+    29,
+    31,
+    44,
+    5,
+    -2
+   ]
+  ]
+ },
+ "burlbeetle_ow_up": {
+  "scale": 0.13580246913580246,
+  "org": [
+   982,
+   174
+  ],
+  "size": [
+   37,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "box": [
+   974,
+   0,
+   1280,
+   720
+  ],
+  "colours": 10,
+  "legfix": [
+   [
+    0,
+    12,
+    30,
+    44,
+    4,
+    -3
+   ],
+   [
+    25,
+    37,
+    30,
+    44,
+    -4,
+    -3
+   ]
+  ]
+ },
+ "burlbeetle_ow_right": {
+  "mirror_of": "burlbeetle_ow_left",
+  "size": [
+   43,
+   44
+  ],
+  "colours": 11
+ }
+}

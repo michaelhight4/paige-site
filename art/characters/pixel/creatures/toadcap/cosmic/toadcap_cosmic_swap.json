@@ -1,0 +1,22 @@
+{
+ "creature": "toadcap",
+ "concept": "Bluecap",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#18382c": "#29252b",
+  "#244e34": "#342842",
+  "#24522e": "#342842",
+  "#2c2320": "#29252b",
+  "#367634": "#30488c",
+  "#38683e": "#30488c",
+  "#462c22": "#244e34",
+  "#52983a": "#4a70ba",
+  "#54864e": "#4a70ba",
+  "#78ba48": "#3e9c92",
+  "#a6d460": "#70cab8",
+  "#e8ce92": "#a6d460",
+  "#ecdec4": "#c6ecfa"
+ },
+ "rule": "crystal violets never swapped"
+}

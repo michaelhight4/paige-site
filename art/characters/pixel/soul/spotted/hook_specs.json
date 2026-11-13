@@ -1,0 +1,51 @@
+{
+ "trigger": "trainer line-of-sight hits the player (any NPC trainer; company/RT trainers use spark_rt)",
+ "sequence": [
+  {
+   "step": "freeze player input; player finishes current 16 px step, then stands",
+   "ms": 160
+  },
+  {
+   "step": "eye_glint: 2 frames x 50 ms on the trainer (eye_points.json; facing left/right = one eye)",
+   "ms": 100
+  },
+  {
+   "step": "spark frame 00 (pop) above trainer head",
+   "ms": 50
+  },
+  {
+   "step": "hop: trainer sprite y offset HOP_DY px per frame, spark rides along (spark frame 01 held)",
+   "hop_dy_px": [
+    0,
+    -3,
+    -6,
+    -7,
+    -6,
+    -3,
+    0
+   ],
+   "hop_ms": [
+    120,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40
+   ],
+   "ms": 360
+  },
+  {
+   "step": "spark frames 02 (120 ms), 03 (80 ms) then remove",
+   "ms": 200
+  },
+  {
+   "step": "trainer walks toward the player at normal walk speed (16 px / 62 ms per frame) until adjacent, then dialogue",
+   "ms": null
+  }
+ ],
+ "spark_anchor": "spark bottom-centre (12,23) at (sprite_x + 32, sprite_y + head_top - 2); head_top per NPC in eye_points.json",
+ "emotes": "spotted/emotes/emote_<name>: play 00 once (60 ms) then loop 01/02 (260 ms each); bottom-centre (12,23) at head_top - 1",
+ "reduced_motion": "skip hop (keep spark frame 01 for 360 ms)",
+ "sfx_note": "not art: a short rising chime on spark frame 01"
+}

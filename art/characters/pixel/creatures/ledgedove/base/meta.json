@@ -1,0 +1,70 @@
+{
+ "ledgedove_front": {
+  "scale": 0.10554803788903924,
+  "org": [
+   207,
+   148
+  ],
+  "size": [
+   77,
+   78
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 15
+ },
+ "ledgedove_back": {
+  "scale": 0.1092436974789916,
+  "org": [
+   254,
+   144
+  ],
+  "size": [
+   73,
+   78
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 14
+ },
+ "ledgedove_ow_down": {
+  "scale": 0.11396011396011396,
+  "org": [
+   44,
+   166
+  ],
+  "size": [
+   28,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ },
+ "ledgedove_ow_left": {
+  "scale": 0.11331444759206799,
+  "org": [
+   350,
+   167
+  ],
+  "size": [
+   37,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ },
+ "ledgedove_ow_up": {
+  "scale": 0.11204481792717087,
+  "org": [
+   1005,
+   167
+  ],
+  "size": [
+   25,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 9
+ },
+ "ledgedove_ow_right": {
+  "mirror_of": "ledgedove_ow_left"
+ }
+}

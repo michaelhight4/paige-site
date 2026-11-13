@@ -1,0 +1,22 @@
+{
+ "creature": "eftling",
+ "concept": "Sunken Gold",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#367634": "#54864e",
+  "#52983a": "#ba8856",
+  "#78ba48": "#ba8856",
+  "#92623e": "#a23432",
+  "#a6d460": "#ccaa6e",
+  "#ba8856": "#d2608c",
+  "#c46e2e": "#a23432",
+  "#ccaa6e": "#d2608c",
+  "#d46616": "#a23432",
+  "#deb478": "#d2608c",
+  "#e29d40": "#d05440",
+  "#e8ce92": "#f6a0ba",
+  "#ecdec4": "#ccc6c2"
+ },
+ "rule": "crystal violets never swapped"
+}

@@ -1,0 +1,12 @@
+{
+ "creature": "mournlily",
+ "concept": "Duskbloom",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#342842": "#3e3a48",
+  "#3e3a48": "#54444e",
+  "#ecdec4": "#c6ecfa"
+ },
+ "rule": "crystal violets never swapped"
+}

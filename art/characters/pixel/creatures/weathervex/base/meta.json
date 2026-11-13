@@ -1,0 +1,80 @@
+{
+ "weathervex_front": {
+  "scale": 0.09408926417370325,
+  "org": [
+   188,
+   90
+  ],
+  "size": [
+   71,
+   78
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 22
+ },
+ "weathervex_back": {
+  "scale": 0.09219858156028368,
+  "org": [
+   161,
+   48
+  ],
+  "size": [
+   61,
+   78
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 19
+ },
+ "weathervex_ow_down": {
+  "scale": 0.09615384615384616,
+  "org": [
+   53,
+   123
+  ],
+  "size": [
+   17,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "weathervex_ow_left": {
+  "scale": 0.09501187648456057,
+  "org": [
+   284,
+   123
+  ],
+  "size": [
+   34,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 18
+ },
+ "weathervex_ow_right": {
+  "scale": 0.09501187648456057,
+  "org": [
+   665,
+   123
+  ],
+  "size": [
+   33,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "weathervex_ow_up": {
+  "scale": 0.09803921568627451,
+  "org": [
+   1069,
+   123
+  ],
+  "size": [
+   16,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ }
+}

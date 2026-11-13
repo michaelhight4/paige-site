@@ -1,0 +1,21 @@
+{
+ "creature": "glimslug",
+ "concept": "Ember Glow",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#462c22": "#342842",
+  "#52983a": "#92623e",
+  "#78ba48": "#d05440",
+  "#a6d460": "#d2608c",
+  "#ba8856": "#d2608c",
+  "#ccaa6e": "#d2608c",
+  "#daa2ba": "#a8a0a4",
+  "#deb478": "#d2608c",
+  "#e8ce92": "#f6a0ba",
+  "#eea23c": "#d2608c",
+  "#f8eabe": "#f6a0ba",
+  "#fcd668": "#d2608c"
+ },
+ "rule": "crystal violets never swapped"
+}

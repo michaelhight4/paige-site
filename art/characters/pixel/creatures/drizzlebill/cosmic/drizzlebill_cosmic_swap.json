@@ -1,0 +1,18 @@
+{
+ "creature": "drizzlebill",
+ "concept": "Sunken Gold",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#246e6c": "#1e4078",
+  "#3e9c92": "#2c64a8",
+  "#5e5866": "#92623e",
+  "#70cab8": "#4692ce",
+  "#827a84": "#ba8856",
+  "#a8a0a4": "#ccaa6e",
+  "#ccaa6e": "#ccc6c2",
+  "#ccc6c2": "#deb478",
+  "#e8ce92": "#ecdec4"
+ },
+ "rule": "crystal violets never swapped"
+}

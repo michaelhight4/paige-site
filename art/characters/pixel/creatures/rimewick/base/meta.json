@@ -1,0 +1,70 @@
+{
+ "rimewick_front": {
+  "scale": 0.11494252873563218,
+  "org": [
+   153,
+   41
+  ],
+  "size": [
+   85,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 17
+ },
+ "rimewick_back": {
+  "scale": 0.11641443538998836,
+  "org": [
+   303,
+   42
+  ],
+  "size": [
+   48,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 9
+ },
+ "rimewick_ow_down": {
+  "scale": 0.10328638497652583,
+  "org": [
+   60,
+   117
+  ],
+  "size": [
+   21,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "rimewick_ow_left": {
+  "scale": 0.10328638497652583,
+  "org": [
+   332,
+   116
+  ],
+  "size": [
+   33,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 10
+ },
+ "rimewick_ow_right": {
+  "mirror_of": "rimewick_ow_left"
+ },
+ "rimewick_ow_up": {
+  "scale": 0.10328638497652583,
+  "org": [
+   1017,
+   117
+  ],
+  "size": [
+   20,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 8
+ }
+}

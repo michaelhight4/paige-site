@@ -1,0 +1,80 @@
+{
+ "mooncrab_front": {
+  "scale": 0.13732394366197184,
+  "org": [
+   196,
+   231
+  ],
+  "size": [
+   90,
+   78
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 16
+ },
+ "mooncrab_back": {
+  "scale": 0.1387900355871886,
+  "org": [
+   211,
+   224
+  ],
+  "size": [
+   86,
+   78
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 13
+ },
+ "mooncrab_ow_down": {
+  "scale": 0.14285714285714285,
+  "org": [
+   27,
+   202
+  ],
+  "size": [
+   41,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "mooncrab_ow_left": {
+  "scale": 0.14652014652014653,
+  "org": [
+   350,
+   202
+  ],
+  "size": [
+   41,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "mooncrab_ow_right": {
+  "scale": 0.14336917562724014,
+  "org": [
+   659,
+   202
+  ],
+  "size": [
+   40,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ },
+ "mooncrab_ow_up": {
+  "scale": 0.14705882352941177,
+  "org": [
+   967,
+   203
+  ],
+  "size": [
+   41,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 10
+ }
+}

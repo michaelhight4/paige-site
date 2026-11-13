@@ -1,0 +1,80 @@
+{
+ "reefshell_front": {
+  "scale": 0.17699115044247787,
+  "org": [
+   201,
+   231
+  ],
+  "size": [
+   118,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 22
+ },
+ "reefshell_back": {
+  "scale": 0.18050541516245489,
+  "org": [
+   234,
+   251
+  ],
+  "size": [
+   104,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 20
+ },
+ "reefshell_ow_down": {
+  "scale": 0.18253968253968253,
+  "org": [
+   30,
+   211
+  ],
+  "size": [
+   49,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 19
+ },
+ "reefshell_ow_left": {
+  "scale": 0.17624521072796934,
+  "org": [
+   326,
+   211
+  ],
+  "size": [
+   54,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "reefshell_ow_right": {
+  "scale": 0.17624521072796934,
+  "org": [
+   666,
+   211
+  ],
+  "size": [
+   52,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "reefshell_ow_up": {
+  "scale": 0.1796875,
+  "org": [
+   992,
+   212
+  ],
+  "size": [
+   47,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ }
+}

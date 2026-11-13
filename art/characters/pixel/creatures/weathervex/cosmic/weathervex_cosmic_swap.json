@@ -1,0 +1,22 @@
+{
+ "creature": "weathervex",
+ "concept": "Gilded Gale",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#18382c": "#462c22",
+  "#1a1226": "#29252b",
+  "#244e34": "#54444e",
+  "#342842": "#244e34",
+  "#367634": "#6a442e",
+  "#38683e": "#6a442e",
+  "#462c22": "#342842",
+  "#54864e": "#87604d",
+  "#6a3019": "#6e222a",
+  "#6a442e": "#6e222a",
+  "#78ba48": "#d05440",
+  "#92623e": "#a23432",
+  "#a23432": "#30488c"
+ },
+ "rule": "crystal violets never swapped"
+}

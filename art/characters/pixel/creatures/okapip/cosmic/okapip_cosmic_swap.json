@@ -1,0 +1,19 @@
+{
+ "creature": "okapip",
+ "concept": "Moondust",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#342842": "#1a1226",
+  "#462c22": "#3e3a48",
+  "#5e5866": "#30488c",
+  "#6a442e": "#54444e",
+  "#87604d": "#5e5866",
+  "#92623e": "#827a84",
+  "#ba8856": "#a8a0a4",
+  "#ccaa6e": "#ccc6c2",
+  "#deb478": "#fcf6e8",
+  "#e8ce92": "#ecdec4"
+ },
+ "rule": "crystal violets never swapped"
+}

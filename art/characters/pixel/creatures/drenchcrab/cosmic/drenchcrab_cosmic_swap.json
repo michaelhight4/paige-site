@@ -1,0 +1,21 @@
+{
+ "creature": "drenchcrab",
+ "concept": "Sunken Gold",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#3e3a48": "#462c22",
+  "#462c22": "#3e3a48",
+  "#54444e": "#6a442e",
+  "#5e5866": "#92623e",
+  "#6a442e": "#54444e",
+  "#827a84": "#ba8856",
+  "#87604d": "#5e5866",
+  "#92623e": "#827a84",
+  "#a8a0a4": "#ccaa6e",
+  "#ba8856": "#a8a0a4",
+  "#ccc6c2": "#deb478",
+  "#e8ce92": "#ecdec4"
+ },
+ "rule": "crystal violets never swapped"
+}

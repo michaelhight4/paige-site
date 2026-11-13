@@ -1,0 +1,80 @@
+{
+ "hullwhale_front": {
+  "scale": 0.1493975903614458,
+  "org": [
+   165,
+   299
+  ],
+  "size": [
+   124,
+   67
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 15
+ },
+ "hullwhale_back": {
+  "scale": 0.17758369723435224,
+  "org": [
+   164,
+   165
+  ],
+  "size": [
+   120,
+   122
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 13
+ },
+ "hullwhale_ow_down": {
+  "scale": 0.22745098039215686,
+  "org": [
+   27,
+   231
+  ],
+  "size": [
+   58,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "hullwhale_ow_left": {
+  "scale": 0.17575757575757575,
+  "org": [
+   332,
+   245
+  ],
+  "size": [
+   58,
+   37
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ },
+ "hullwhale_ow_right": {
+  "scale": 0.18770226537216828,
+  "org": [
+   671,
+   245
+  ],
+  "size": [
+   58,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ },
+ "hullwhale_ow_up": {
+  "scale": 0.23076923076923078,
+  "org": [
+   1008,
+   234
+  ],
+  "size": [
+   57,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 10
+ }
+}

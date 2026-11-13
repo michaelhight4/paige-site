@@ -1,0 +1,53 @@
+{
+ "anchor": "all buddy frames are 64x64 with foot (32,61), identical to <c>_ow_<dir>_stand: draw at (tileX*64, tileY*64) + walk offset.",
+ "follow": {
+  "delay": "one tile behind: buddy takes the cell the player just left, moving with the same 16 px per frame / 62 ms cadence",
+  "stairs_warps": "on warp the buddy appears on the cell behind the player facing the same way",
+  "ledges": "hop frames during the ledge arc",
+  "bike_run": "run: same cycle at the run frame rate; bike: buddy returns to its ball (hidden) - our choice, the playbook does not cover it"
+ },
+ "reaction_table_hook": "talk to buddy -> emote + one-liner by place/weather/time/Warmth (text owned by Text Bot). Emote anchor (12,23) at (buddy_x+32, buddy_y+bbox_top-1). Pair: happy=hop+heart, music zones=hop+note, rare item=hop+sparkle, rain=dots (cindrip: shakeoff), night=yawn, Enraged nearby=flinch+anger, crystal ore=uneasy+sweat.",
+ "idle": {
+  "after_ms": 6000,
+  "cycle": [
+   "sniff",
+   "yawn",
+   "sit"
+  ],
+  "gap_ms": [
+   3000,
+   6000
+  ],
+  "note": "pick randomly, never the same twice in a row; cancel on player move"
+ },
+ "crystal_unease": {
+  "trigger": "buddy within 1 tile of a crystal ore / dig scar tile (thornwood (27,11), greystone_entrance (16,12) ...)",
+  "play": "turn to face the crystal, emote sweat once, loop <c>_uneasy_<dir>",
+  "audio": "low unhappy sound (Audio)",
+  "exit": "when the player moves away, resume follow"
+ },
+ "sailquill_flight": {
+  "lift_px": 14,
+  "bob_px": [
+   0,
+   -1,
+   -2,
+   -1
+  ],
+  "bob_ms": 140,
+  "shadow": "specials/flight_shadow under foot point",
+  "bridge_circle": {
+   "radius_px": 44,
+   "period_ms": 1800,
+   "direction": "counter-clockwise",
+   "facing": "pick the 4-dir frame closest to the tangent",
+   "trigger": "player standing on a bridge cell"
+  },
+  "flies_ahead": "when walking straight 3+ tiles: target cell = one tile AHEAD of the player instead of behind"
+ },
+ "rillop_wade": "Brookhollow river edge: when the path runs beside the river (x22..24), the buddy may take the adjacent water cell and uses specials/rillop_wade_<dir>",
+ "tumbloam_bench": "when the player stands still 2 s next to a bench, tumbloam steps onto the bench cell and plays specials/tumbloam_bench_down",
+ "gloamtick_flare": "within 2 tiles of a grave / memorial stone: play specials/gloamtick_flare_<dir> once, 6 s cooldown",
+ "cindrip_rain": "cindrip never enters puddle cells (pathing: take the next cell of the player trail that is not a puddle, catch up after). Shake off when rain starts and after leaving a rain zone.",
+ "reduced_motion": "hop -> single 1-frame 2 px lift; shakeoff -> frame 00 + 06 only; uneasy -> frame 00 held (no shiver); idles unchanged."
+}

@@ -1,0 +1,315 @@
+{
+ "piece": "item_pickup",
+ "status": "DRAFT - not approved by Gary, NOT wired into game code",
+ "owner": "Animator",
+ "generated_by": "art/characters/pixel/fx_extra/_tools/gen_item_pickup.py",
+ "generated_at": "2026-10-22T23:12:41-05:00",
+ "paths_relative_to": "/workspace/kilumen",
+ "palette": "art/world/overworld/palette.hex (64 colours) + full transparency; alpha is 0 or 255 only",
+ "scale_rule": "draw 1x frames scaled by an integer (2x/3x) with nearest-neighbour only; *_2x files are exact nearest copies",
+ "sheet_layout": "horizontal strip; frame i rect = [i*w, 0, w, h] (rects[] lists them)",
+ "emissive_rule": "emissive 'all' -> grade with grades.<g>.lit (lut_<g>_lit.png); 'none' -> grades.<g>.sprite; 'mask' -> per pixel by <name>_emissive_sheet.png. Draw order: palette swaps -> grade.",
+ "about": "Overworld item pickup FX (MECHANICS_PARITY F18): supply satchel prop, pickup open, hidden-item sparkle. Original soft drawstring supply bag with a violet crystal toggle bead (no ball/orb motif, no case/briefcase shape).",
+ "hooks": {
+  "hidden_hint": {
+   "period_ms": 6000,
+   "period_jitter_ms": [
+    -800,
+    800
+   ],
+   "radius_tiles": 2,
+   "distance": "chebyshev",
+   "offset_jitter_px": [
+    -4,
+    4
+   ],
+   "at_tile_px": [
+    32,
+    40
+   ],
+   "stop_when": "picked up or player > 2 tiles"
+  },
+  "pickup": {
+   "text_frame": 4,
+   "collision_off_frame": 7,
+   "sfx_frame": 2,
+   "hidden_variant": "pickup_open with no satchel: code draws only the light/sparkle pixels (they are the emissive-mask pixels of frames 1-8)"
+  },
+  "layering": "satchel_idle draws as a y-sorted prop (feet = tile bottom); pickup_open uses the same sort key; hidden_sparkle above ground, below the player",
+  "ownership": "The supply bag is a map PROP and World Design may own the final prop art. This soft-bag draft is the Animator reference; if World Design paints the prop, point satchel_idle at their tile and keep pickup_open (the light/sparkle pixels still work over it).",
+  "reduced_motion": "satchel glint off; pickup_open frames 0,3,7; hidden sparkle keeps playing (it is the hint) but at size 2 max"
+ },
+ "tod_check": {
+  "idle_grass": {
+   "gif_2x": "art/characters/pixel/fx_extra/item_pickup/_preview/satchel_idle_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/item_pickup/_preview/satchel_idle_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.747,
+    "day": 0.769,
+    "dusk": 0.639,
+    "night": 0.58
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "pickup": {
+   "gif_2x": "art/characters/pixel/fx_extra/item_pickup/_preview/pickup_open_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/item_pickup/_preview/pickup_open_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.785,
+    "day": 0.805,
+    "dusk": 0.738,
+    "night": 0.635
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "hidden": {
+   "gif_2x": "art/characters/pixel/fx_extra/item_pickup/_preview/hidden_sparkle_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/item_pickup/_preview/hidden_sparkle_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.798,
+    "day": 0.801,
+    "dusk": 0.816,
+    "night": 0.773
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  }
+ },
+ "anims": {
+  "satchel_idle": {
+   "kind": "prop_loop",
+   "frames": 4,
+   "frame_size": [
+    64,
+    64
+   ],
+   "ms_per_frame": [
+    1800,
+    80,
+    110,
+    80
+   ],
+   "total_ms": 2070,
+   "loop": true,
+   "anchor": {
+    "canvas_px": [
+     0,
+     0
+    ],
+    "meaning": "top-left of the item tile (64x64, prop sits bottom-centre)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     64,
+     64
+    ],
+    [
+     64,
+     0,
+     64,
+     64
+    ],
+    [
+     128,
+     0,
+     64,
+     64
+    ],
+    [
+     192,
+     0,
+     64,
+     64
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/item_pickup/satchel_idle/satchel_idle_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/item_pickup/satchel_idle/satchel_idle_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/item_pickup/satchel_idle/satchel_idle_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/item_pickup/satchel_idle/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/item_pickup/satchel_idle/2x",
+   "emissive": "mask",
+   "emissive_sheet": "art/characters/pixel/fx_extra/item_pickup/satchel_idle/satchel_idle_emissive_sheet.png",
+   "notes": "Supply satchel prop (visible item, solid). Soft drawstring bag; the crystal toggle bead glints every ~2 s. Emissive mask = bead + glint only; the cloth uses the sprite grade."
+  },
+  "pickup_open": {
+   "kind": "overlay",
+   "frames": 9,
+   "frame_size": [
+    64,
+    96
+   ],
+   "ms_per_frame": [
+    70,
+    60,
+    60,
+    70,
+    90,
+    90,
+    90,
+    100,
+    80
+   ],
+   "total_ms": 710,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     0,
+     32
+    ],
+    "meaning": "canvas (0,32) = top-left of the item tile; 32 px headroom above"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     64,
+     96
+    ],
+    [
+     64,
+     0,
+     64,
+     96
+    ],
+    [
+     128,
+     0,
+     64,
+     96
+    ],
+    [
+     192,
+     0,
+     64,
+     96
+    ],
+    [
+     256,
+     0,
+     64,
+     96
+    ],
+    [
+     320,
+     0,
+     64,
+     96
+    ],
+    [
+     384,
+     0,
+     64,
+     96
+    ],
+    [
+     448,
+     0,
+     64,
+     96
+    ],
+    [
+     512,
+     0,
+     64,
+     96
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/item_pickup/pickup_open/pickup_open_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/item_pickup/pickup_open/pickup_open_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/item_pickup/pickup_open/pickup_open_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/item_pickup/pickup_open/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/item_pickup/pickup_open/2x",
+   "emissive": "mask",
+   "emissive_sheet": "art/characters/pixel/fx_extra/item_pickup/pickup_open/pickup_open_emissive_sheet.png",
+   "notes": "Player faces + A: the cord loosens, the neck opens, a light rises and pops into a ring of sparkles, the satchel dithers away (Bayer, no poof/smoke). Show the \"found X\" text on frame 4; remove the solid prop collision on frame 7."
+  },
+  "hidden_sparkle": {
+   "kind": "overlay",
+   "frames": 8,
+   "frame_size": [
+    16,
+    16
+   ],
+   "ms_per_frame": [
+    60,
+    60,
+    80,
+    120,
+    80,
+    60,
+    60,
+    40
+   ],
+   "total_ms": 560,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     8,
+     8
+    ],
+    "meaning": "centre; draw at tile px (32,40) + jitter"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     16,
+     16
+    ],
+    [
+     16,
+     0,
+     16,
+     16
+    ],
+    [
+     32,
+     0,
+     16,
+     16
+    ],
+    [
+     48,
+     0,
+     16,
+     16
+    ],
+    [
+     64,
+     0,
+     16,
+     16
+    ],
+    [
+     80,
+     0,
+     16,
+     16
+    ],
+    [
+     96,
+     0,
+     16,
+     16
+    ],
+    [
+     112,
+     0,
+     16,
+     16
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/item_pickup/hidden_sparkle/hidden_sparkle_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/item_pickup/hidden_sparkle/hidden_sparkle_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/item_pickup/hidden_sparkle/hidden_sparkle_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/item_pickup/hidden_sparkle/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/item_pickup/hidden_sparkle/2x",
+   "emissive": "all",
+   "notes": "Hidden-item hint. Plays once every ~6 s while the player is within 2 tiles (Chebyshev). Facing + A picks it up; then play pickup_open frames 1-8 without the satchel (code: skip the satchel layer)."
+  }
+ }
+}

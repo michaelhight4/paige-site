@@ -1,0 +1,126 @@
+{
+ "trigger": {
+  "map": "heal_centre_int",
+  "interact_spot": "sofa (1,7)",
+  "player_tile": [
+   1,
+   8
+  ],
+  "facing": "up",
+  "condition": "player idle (no input) 30 000 ms on (1,8) facing up, after a heal this visit; Trail Buddy out (not in ball); once per in-game day gives +2 Warmth (flag), the scene itself can replay",
+  "cancel": "any input during the 30 s resets the timer"
+ },
+ "sequence": [
+  "1. player: <name>_sofa_sit_down (7 fr, 64x160 canvas, anchor (32,157) on the (1,8) foot point). Lock input.",
+  "2. buddy walks to (1,8) (normal follow step, facing up), then hops into the lap: use its up walk1 frame, tween its foot from (96, 8*64+61) to the lap point over 6 frames; add the HOP lift (px up) per frame; land with a 1-frame vscale(3) squash (= settle frame 0).",
+  "3. buddy: <c>_lap_settle (7 fr) then <c>_lap_sleep loop; after the first sleep frame show emote_zzz (spotted/emotes) loop at zzz_anchor, 600 ms per frame.",
+  "4. player: <name>_sofa_seated loop (draw the buddy AFTER the player).",
+  "5. after 2 s of sleep: healer line (text) \"Don't move. Those are the rules.\" - healer at (6,3) faces left toward the sofa while it shows.",
+  "6. any input: buddy <c>_lap_wake, hop down (HOP reversed) to (1,8)->(1,9) follow slot, then <name>_sofa_stand_up; unlock."
+ ],
+ "lap_point_px": {
+  "cal": [
+   96,
+   508
+  ],
+  "mira": [
+   96,
+   508
+  ]
+ },
+ "hop_lift": [
+  [
+   -6,
+   70
+  ],
+  [
+   -14,
+   60
+  ],
+  [
+   -18,
+   60
+  ],
+  [
+   -14,
+   60
+  ],
+  [
+   -4,
+   60
+  ],
+  [
+   0,
+   80
+  ]
+ ],
+ "zzz_anchor": "emote bottom-centre at (bbox right-6+12, bbox top-1) of the current sleep frame, i.e. top-right of the curled buddy; see zzz_anchor_per_creature",
+ "big_creatures": "bastonox, forgeharrow, tidemarrow (96x96) do not fit a lap: walk to (2,8), face up, <c>_feet_sleep loop with emote_zzz; same text and Warmth",
+ "draw_order": "sofa (decoration) < player < buddy < emote",
+ "reduced_motion": "skip the hop tween (cut straight to settle frame 6) and the breathing loops (hold frame 0)",
+ "music_sfx_note": "not art: a soft purr/snore every 2 sleep cycles is suggested",
+ "zzz_anchor_per_creature": {
+  "brookhorn": [
+   52,
+   24
+  ],
+  "burlbeetle": [
+   55,
+   31
+  ],
+  "burrowmane": [
+   55,
+   24
+  ],
+  "cindrip": [
+   54,
+   30
+  ],
+  "emberlunx": [
+   50,
+   24
+  ],
+  "gloamtick": [
+   55,
+   26
+  ],
+  "halovy": [
+   58,
+   24
+  ],
+  "mirewump": [
+   52,
+   31
+  ],
+  "rillop": [
+   53,
+   28
+  ],
+  "runeskein": [
+   48,
+   30
+  ],
+  "sailquill": [
+   58,
+   27
+  ],
+  "slagrook": [
+   55,
+   27
+  ],
+  "tumbloam": [
+   54,
+   28
+  ]
+ },
+ "seated_hip": {
+  "cal": [
+   32,
+   82
+  ],
+  "mira": [
+   32,
+   82
+  ]
+ }
+}

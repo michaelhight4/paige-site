@@ -1,0 +1,70 @@
+{
+ "bramblehog_front": {
+  "scale": 0.14102564102564102,
+  "org": [
+   161,
+   111
+  ],
+  "size": [
+   107,
+   110
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 19
+ },
+ "bramblehog_back": {
+  "scale": 0.1388888888888889,
+  "org": [
+   272,
+   101
+  ],
+  "size": [
+   71,
+   110
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 13
+ },
+ "bramblehog_ow_down": {
+  "scale": 0.1694915254237288,
+  "org": [
+   46,
+   200
+  ],
+  "size": [
+   32,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 18
+ },
+ "bramblehog_ow_left": {
+  "scale": 0.15730337078651685,
+  "org": [
+   274,
+   203
+  ],
+  "size": [
+   56,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "bramblehog_ow_right": {
+  "mirror_of": "bramblehog_ow_left"
+ },
+ "bramblehog_ow_up": {
+  "scale": 0.17006802721088435,
+  "org": [
+   1053,
+   201
+  ],
+  "size": [
+   32,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 9
+ }
+}

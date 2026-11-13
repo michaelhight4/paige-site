@@ -1,0 +1,70 @@
+{
+ "mournhorn_front": {
+  "scale": 0.12633832976445397,
+  "org": [
+   191,
+   50
+  ],
+  "size": [
+   86,
+   118
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 21
+ },
+ "mournhorn_back": {
+  "scale": 0.128680479825518,
+  "org": [
+   174,
+   51
+  ],
+  "size": [
+   82,
+   118
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 17
+ },
+ "mournhorn_ow_down": {
+  "scale": 0.10337972166998012,
+  "org": [
+   78,
+   95
+  ],
+  "size": [
+   23,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "mournhorn_ow_left": {
+  "scale": 0.10337972166998012,
+  "org": [
+   370,
+   95
+  ],
+  "size": [
+   29,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "mournhorn_ow_up": {
+  "scale": 0.10358565737051793,
+  "org": [
+   1003,
+   95
+  ],
+  "size": [
+   22,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "mournhorn_ow_right": {
+  "mirror_of": "mournhorn_ow_left"
+ }
+}

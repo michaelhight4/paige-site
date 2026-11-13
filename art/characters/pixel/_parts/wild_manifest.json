@@ -1,0 +1,7838 @@
+{
+ "spec": {
+  "battle": "128px native (+2x)",
+  "overworld": "64x64 cell native (+2x, +3x)",
+  "palette": "/workspace/kilumen/art/world/overworld/palette.png",
+  "display": "3x for 1440p, 2x for 1080p, nearest-neighbour",
+  "idle_ms": [
+   180,
+   160,
+   200,
+   160
+  ]
+ },
+ "creatures": {
+  "sailquill": {
+   "counts": {
+    "files": 111,
+    "battle_static": 4,
+    "idle_frames_per_view": 4,
+    "idle_frame_files": 16,
+    "ow_frame_files": 60,
+    "ow_frames_per_direction": "1 stand + 4 walk",
+    "gifs": 12
+   },
+   "files": [
+    {
+     "path": "creatures/sailquill/README.md",
+     "bytes": 741,
+     "role": "readme"
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_back_idle/sailquill_back_idle_f0.png",
+     "bytes": 4229,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_back_idle/sailquill_back_idle_f0_2x.png",
+     "bytes": 5439,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_back_idle/sailquill_back_idle_f1.png",
+     "bytes": 4223,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_back_idle/sailquill_back_idle_f1_2x.png",
+     "bytes": 5460,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_back_idle/sailquill_back_idle_f2.png",
+     "bytes": 4344,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_back_idle/sailquill_back_idle_f2_2x.png",
+     "bytes": 5563,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_back_idle/sailquill_back_idle_f3.png",
+     "bytes": 4223,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_back_idle/sailquill_back_idle_f3_2x.png",
+     "bytes": 5460,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_back_idle_2x.gif",
+     "bytes": 18406,
+     "role": "battle back idle loop GIF 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_back_idle_sheet.png",
+     "bytes": 7569,
+     "role": "battle back idle sheet (4 frames horizontal)",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_back_idle_sheet_2x.png",
+     "bytes": 10174,
+     "role": "battle back idle sheet (4 frames horizontal) 2x",
+     "px": [
+      1024,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_front_idle/sailquill_front_idle_f0.png",
+     "bytes": 5175,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_front_idle/sailquill_front_idle_f0_2x.png",
+     "bytes": 6417,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_front_idle/sailquill_front_idle_f1.png",
+     "bytes": 5104,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_front_idle/sailquill_front_idle_f1_2x.png",
+     "bytes": 6308,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_front_idle/sailquill_front_idle_f2.png",
+     "bytes": 5294,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_front_idle/sailquill_front_idle_f2_2x.png",
+     "bytes": 6480,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_front_idle/sailquill_front_idle_f3.png",
+     "bytes": 5104,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_front_idle/sailquill_front_idle_f3_2x.png",
+     "bytes": 6308,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_front_idle_2x.gif",
+     "bytes": 21904,
+     "role": "battle front idle loop GIF 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_front_idle_sheet.png",
+     "bytes": 9310,
+     "role": "battle front idle sheet (4 frames horizontal)",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/anim/sailquill_front_idle_sheet_2x.png",
+     "bytes": 11534,
+     "role": "battle front idle sheet (4 frames horizontal) 2x",
+     "px": [
+      1024,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/base/meta.json",
+     "bytes": 1208,
+     "role": "base metadata (scale, crop, fixes)"
+    },
+    {
+     "path": "creatures/sailquill/base/sailquill_back.png",
+     "bytes": 4095,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      114,
+      116
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/base/sailquill_front.png",
+     "bytes": 5070,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      116,
+      116
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/base/sailquill_ow_down.png",
+     "bytes": 1574,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      45,
+      50
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/base/sailquill_ow_left.png",
+     "bytes": 1346,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      41,
+      50
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/base/sailquill_ow_right.png",
+     "bytes": 1323,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      39,
+      50
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/base/sailquill_ow_up.png",
+     "bytes": 1075,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      42,
+      50
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/battle/sailquill_back_128.png",
+     "bytes": 4229,
+     "role": "battle static back (player side) sprite 128px native",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/battle/sailquill_back_128_2x.png",
+     "bytes": 5439,
+     "role": "battle static back (player side) sprite 128px native, 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/battle/sailquill_front_128.png",
+     "bytes": 5175,
+     "role": "battle static front sprite 128px native",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/battle/sailquill_front_128_2x.png",
+     "bytes": 6417,
+     "role": "battle static front sprite 128px native, 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_down_stand.png",
+     "bytes": 1662,
+     "role": "overworld frame down stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_down_stand_2x.png",
+     "bytes": 2043,
+     "role": "overworld frame down stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_down_stand_3x.png",
+     "bytes": 2400,
+     "role": "overworld frame down stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_down_walk0.png",
+     "bytes": 1696,
+     "role": "overworld frame down walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_down_walk0_2x.png",
+     "bytes": 2074,
+     "role": "overworld frame down walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_down_walk0_3x.png",
+     "bytes": 2440,
+     "role": "overworld frame down walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_down_walk1.png",
+     "bytes": 1662,
+     "role": "overworld frame down walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_down_walk1_2x.png",
+     "bytes": 2043,
+     "role": "overworld frame down walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_down_walk1_3x.png",
+     "bytes": 2400,
+     "role": "overworld frame down walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_down_walk2.png",
+     "bytes": 1681,
+     "role": "overworld frame down walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_down_walk2_2x.png",
+     "bytes": 2065,
+     "role": "overworld frame down walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_down_walk2_3x.png",
+     "bytes": 2423,
+     "role": "overworld frame down walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_down_walk3.png",
+     "bytes": 1662,
+     "role": "overworld frame down walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_down_walk3_2x.png",
+     "bytes": 2043,
+     "role": "overworld frame down walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_down_walk3_3x.png",
+     "bytes": 2400,
+     "role": "overworld frame down walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_left_stand.png",
+     "bytes": 1457,
+     "role": "overworld frame left stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_left_stand_2x.png",
+     "bytes": 1746,
+     "role": "overworld frame left stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_left_stand_3x.png",
+     "bytes": 2091,
+     "role": "overworld frame left stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_left_walk0.png",
+     "bytes": 1533,
+     "role": "overworld frame left walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_left_walk0_2x.png",
+     "bytes": 1851,
+     "role": "overworld frame left walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_left_walk0_3x.png",
+     "bytes": 2198,
+     "role": "overworld frame left walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_left_walk1.png",
+     "bytes": 1457,
+     "role": "overworld frame left walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_left_walk1_2x.png",
+     "bytes": 1746,
+     "role": "overworld frame left walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_left_walk1_3x.png",
+     "bytes": 2091,
+     "role": "overworld frame left walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_left_walk2.png",
+     "bytes": 1552,
+     "role": "overworld frame left walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_left_walk2_2x.png",
+     "bytes": 1863,
+     "role": "overworld frame left walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_left_walk2_3x.png",
+     "bytes": 2220,
+     "role": "overworld frame left walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_left_walk3.png",
+     "bytes": 1457,
+     "role": "overworld frame left walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_left_walk3_2x.png",
+     "bytes": 1746,
+     "role": "overworld frame left walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_left_walk3_3x.png",
+     "bytes": 2091,
+     "role": "overworld frame left walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_right_stand.png",
+     "bytes": 1436,
+     "role": "overworld frame right stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_right_stand_2x.png",
+     "bytes": 1853,
+     "role": "overworld frame right stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_right_stand_3x.png",
+     "bytes": 2166,
+     "role": "overworld frame right stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_right_walk0.png",
+     "bytes": 1479,
+     "role": "overworld frame right walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_right_walk0_2x.png",
+     "bytes": 1897,
+     "role": "overworld frame right walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_right_walk0_3x.png",
+     "bytes": 2206,
+     "role": "overworld frame right walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_right_walk1.png",
+     "bytes": 1436,
+     "role": "overworld frame right walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_right_walk1_2x.png",
+     "bytes": 1853,
+     "role": "overworld frame right walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_right_walk1_3x.png",
+     "bytes": 2166,
+     "role": "overworld frame right walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_right_walk2.png",
+     "bytes": 1491,
+     "role": "overworld frame right walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_right_walk2_2x.png",
+     "bytes": 1900,
+     "role": "overworld frame right walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_right_walk2_3x.png",
+     "bytes": 2212,
+     "role": "overworld frame right walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_right_walk3.png",
+     "bytes": 1436,
+     "role": "overworld frame right walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_right_walk3_2x.png",
+     "bytes": 1853,
+     "role": "overworld frame right walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_right_walk3_3x.png",
+     "bytes": 2166,
+     "role": "overworld frame right walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_up_stand.png",
+     "bytes": 1144,
+     "role": "overworld frame up stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_up_stand_2x.png",
+     "bytes": 1489,
+     "role": "overworld frame up stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_up_stand_3x.png",
+     "bytes": 1763,
+     "role": "overworld frame up stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_up_walk0.png",
+     "bytes": 1150,
+     "role": "overworld frame up walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_up_walk0_2x.png",
+     "bytes": 1501,
+     "role": "overworld frame up walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_up_walk0_3x.png",
+     "bytes": 1791,
+     "role": "overworld frame up walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_up_walk1.png",
+     "bytes": 1144,
+     "role": "overworld frame up walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_up_walk1_2x.png",
+     "bytes": 1489,
+     "role": "overworld frame up walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_up_walk1_3x.png",
+     "bytes": 1763,
+     "role": "overworld frame up walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_up_walk2.png",
+     "bytes": 1157,
+     "role": "overworld frame up walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_up_walk2_2x.png",
+     "bytes": 1514,
+     "role": "overworld frame up walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_up_walk2_3x.png",
+     "bytes": 1799,
+     "role": "overworld frame up walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_up_walk3.png",
+     "bytes": 1144,
+     "role": "overworld frame up walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_up_walk3_2x.png",
+     "bytes": 1489,
+     "role": "overworld frame up walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow/sailquill_ow_up_walk3_3x.png",
+     "bytes": 1763,
+     "role": "overworld frame up walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow_sheet.png",
+     "bytes": 9617,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) native",
+     "px": [
+      320,
+      256
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow_sheet_2x.png",
+     "bytes": 12705,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) 2x",
+     "px": [
+      640,
+      512
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow_sheet_3x.png",
+     "bytes": 16085,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) 3x",
+     "px": [
+      960,
+      768
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow_walk_all_2x.gif",
+     "bytes": 20210,
+     "role": "overworld walk GIF, all 4 directions side by side 2x",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow_walk_all_3x.gif",
+     "bytes": 33315,
+     "role": "overworld walk GIF, all 4 directions side by side 3x",
+     "px": [
+      768,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow_walk_down_2x.gif",
+     "bytes": 6908,
+     "role": "overworld walk GIF (down) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow_walk_down_3x.gif",
+     "bytes": 10903,
+     "role": "overworld walk GIF (down) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow_walk_left_2x.gif",
+     "bytes": 5567,
+     "role": "overworld walk GIF (left) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow_walk_left_3x.gif",
+     "bytes": 8654,
+     "role": "overworld walk GIF (left) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow_walk_right_2x.gif",
+     "bytes": 5440,
+     "role": "overworld walk GIF (right) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow_walk_right_3x.gif",
+     "bytes": 8415,
+     "role": "overworld walk GIF (right) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow_walk_up_2x.gif",
+     "bytes": 4473,
+     "role": "overworld walk GIF (up) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/overworld/sailquill_ow_walk_up_3x.gif",
+     "bytes": 7004,
+     "role": "overworld walk GIF (up) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/sailquill/raw/battle_back.jpg",
+     "bytes": 176051,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/raw/battle_back_v1_3streamers_rejected.jpg",
+     "bytes": 167002,
+     "role": "source: generated painted/pixel-style art used as snap input (REJECTED variant, kept for reference)",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/raw/battle_front.jpg",
+     "bytes": 177936,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/sailquill/raw/ow_views.png",
+     "bytes": 408881,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1280,
+      720
+     ],
+     "frames": 1
+    }
+   ]
+  },
+  "halovy": {
+   "counts": {
+    "files": 110,
+    "battle_static": 4,
+    "idle_frames_per_view": 4,
+    "idle_frame_files": 16,
+    "ow_frame_files": 60,
+    "ow_frames_per_direction": "1 stand + 4 walk",
+    "gifs": 12
+   },
+   "files": [
+    {
+     "path": "creatures/halovy/README.md",
+     "bytes": 851,
+     "role": "readme"
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_back_idle/halovy_back_idle_f0.png",
+     "bytes": 6192,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_back_idle/halovy_back_idle_f0_2x.png",
+     "bytes": 7399,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_back_idle/halovy_back_idle_f1.png",
+     "bytes": 6289,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_back_idle/halovy_back_idle_f1_2x.png",
+     "bytes": 7551,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_back_idle/halovy_back_idle_f2.png",
+     "bytes": 6526,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_back_idle/halovy_back_idle_f2_2x.png",
+     "bytes": 7748,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_back_idle/halovy_back_idle_f3.png",
+     "bytes": 6289,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_back_idle/halovy_back_idle_f3_2x.png",
+     "bytes": 7551,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_back_idle_2x.gif",
+     "bytes": 27524,
+     "role": "battle back idle loop GIF 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_back_idle_sheet.png",
+     "bytes": 11473,
+     "role": "battle back idle sheet (4 frames horizontal)",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_back_idle_sheet_2x.png",
+     "bytes": 13997,
+     "role": "battle back idle sheet (4 frames horizontal) 2x",
+     "px": [
+      1024,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_front_idle/halovy_front_idle_f0.png",
+     "bytes": 6626,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_front_idle/halovy_front_idle_f0_2x.png",
+     "bytes": 7964,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_front_idle/halovy_front_idle_f1.png",
+     "bytes": 6753,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_front_idle/halovy_front_idle_f1_2x.png",
+     "bytes": 8069,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_front_idle/halovy_front_idle_f2.png",
+     "bytes": 7053,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_front_idle/halovy_front_idle_f2_2x.png",
+     "bytes": 8307,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_front_idle/halovy_front_idle_f3.png",
+     "bytes": 6753,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_front_idle/halovy_front_idle_f3_2x.png",
+     "bytes": 8069,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_front_idle_2x.gif",
+     "bytes": 29237,
+     "role": "battle front idle loop GIF 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_front_idle_sheet.png",
+     "bytes": 12113,
+     "role": "battle front idle sheet (4 frames horizontal)",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/anim/halovy_front_idle_sheet_2x.png",
+     "bytes": 14597,
+     "role": "battle front idle sheet (4 frames horizontal) 2x",
+     "px": [
+      1024,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/base/halovy_back.png",
+     "bytes": 6012,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      103,
+      122
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/base/halovy_front.png",
+     "bytes": 6471,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      107,
+      122
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/base/halovy_ow_down.png",
+     "bytes": 1738,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      43,
+      54
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/base/halovy_ow_left.png",
+     "bytes": 1883,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      39,
+      54
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/base/halovy_ow_right.png",
+     "bytes": 1928,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      39,
+      54
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/base/halovy_ow_up.png",
+     "bytes": 1713,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      43,
+      54
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/base/meta.json",
+     "bytes": 1085,
+     "role": "base metadata (scale, crop, fixes)"
+    },
+    {
+     "path": "creatures/halovy/battle/halovy_back_128.png",
+     "bytes": 6192,
+     "role": "battle static back (player side) sprite 128px native",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/battle/halovy_back_128_2x.png",
+     "bytes": 7399,
+     "role": "battle static back (player side) sprite 128px native, 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/battle/halovy_front_128.png",
+     "bytes": 6626,
+     "role": "battle static front sprite 128px native",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/battle/halovy_front_128_2x.png",
+     "bytes": 7964,
+     "role": "battle static front sprite 128px native, 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_down_stand.png",
+     "bytes": 1845,
+     "role": "overworld frame down stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_down_stand_2x.png",
+     "bytes": 2274,
+     "role": "overworld frame down stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_down_stand_3x.png",
+     "bytes": 2693,
+     "role": "overworld frame down stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_down_walk0.png",
+     "bytes": 1857,
+     "role": "overworld frame down walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_down_walk0_2x.png",
+     "bytes": 2308,
+     "role": "overworld frame down walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_down_walk0_3x.png",
+     "bytes": 2733,
+     "role": "overworld frame down walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_down_walk1.png",
+     "bytes": 1845,
+     "role": "overworld frame down walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_down_walk1_2x.png",
+     "bytes": 2274,
+     "role": "overworld frame down walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_down_walk1_3x.png",
+     "bytes": 2693,
+     "role": "overworld frame down walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_down_walk2.png",
+     "bytes": 1876,
+     "role": "overworld frame down walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_down_walk2_2x.png",
+     "bytes": 2312,
+     "role": "overworld frame down walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_down_walk2_3x.png",
+     "bytes": 2732,
+     "role": "overworld frame down walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_down_walk3.png",
+     "bytes": 1845,
+     "role": "overworld frame down walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_down_walk3_2x.png",
+     "bytes": 2274,
+     "role": "overworld frame down walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_down_walk3_3x.png",
+     "bytes": 2693,
+     "role": "overworld frame down walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_left_stand.png",
+     "bytes": 2015,
+     "role": "overworld frame left stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_left_stand_2x.png",
+     "bytes": 2381,
+     "role": "overworld frame left stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_left_stand_3x.png",
+     "bytes": 2786,
+     "role": "overworld frame left stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_left_walk0.png",
+     "bytes": 2112,
+     "role": "overworld frame left walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_left_walk0_2x.png",
+     "bytes": 2487,
+     "role": "overworld frame left walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_left_walk0_3x.png",
+     "bytes": 2899,
+     "role": "overworld frame left walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_left_walk1.png",
+     "bytes": 2015,
+     "role": "overworld frame left walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_left_walk1_2x.png",
+     "bytes": 2381,
+     "role": "overworld frame left walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_left_walk1_3x.png",
+     "bytes": 2786,
+     "role": "overworld frame left walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_left_walk2.png",
+     "bytes": 2054,
+     "role": "overworld frame left walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_left_walk2_2x.png",
+     "bytes": 2412,
+     "role": "overworld frame left walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_left_walk2_3x.png",
+     "bytes": 2823,
+     "role": "overworld frame left walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_left_walk3.png",
+     "bytes": 2015,
+     "role": "overworld frame left walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_left_walk3_2x.png",
+     "bytes": 2381,
+     "role": "overworld frame left walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_left_walk3_3x.png",
+     "bytes": 2786,
+     "role": "overworld frame left walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_right_stand.png",
+     "bytes": 2064,
+     "role": "overworld frame right stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_right_stand_2x.png",
+     "bytes": 2502,
+     "role": "overworld frame right stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_right_stand_3x.png",
+     "bytes": 2949,
+     "role": "overworld frame right stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_right_walk0.png",
+     "bytes": 2111,
+     "role": "overworld frame right walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_right_walk0_2x.png",
+     "bytes": 2598,
+     "role": "overworld frame right walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_right_walk0_3x.png",
+     "bytes": 3027,
+     "role": "overworld frame right walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_right_walk1.png",
+     "bytes": 2064,
+     "role": "overworld frame right walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_right_walk1_2x.png",
+     "bytes": 2502,
+     "role": "overworld frame right walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_right_walk1_3x.png",
+     "bytes": 2949,
+     "role": "overworld frame right walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_right_walk2.png",
+     "bytes": 2089,
+     "role": "overworld frame right walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_right_walk2_2x.png",
+     "bytes": 2551,
+     "role": "overworld frame right walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_right_walk2_3x.png",
+     "bytes": 2979,
+     "role": "overworld frame right walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_right_walk3.png",
+     "bytes": 2064,
+     "role": "overworld frame right walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_right_walk3_2x.png",
+     "bytes": 2502,
+     "role": "overworld frame right walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_right_walk3_3x.png",
+     "bytes": 2949,
+     "role": "overworld frame right walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_up_stand.png",
+     "bytes": 1814,
+     "role": "overworld frame up stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_up_stand_2x.png",
+     "bytes": 2193,
+     "role": "overworld frame up stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_up_stand_3x.png",
+     "bytes": 2597,
+     "role": "overworld frame up stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_up_walk0.png",
+     "bytes": 1839,
+     "role": "overworld frame up walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_up_walk0_2x.png",
+     "bytes": 2209,
+     "role": "overworld frame up walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_up_walk0_3x.png",
+     "bytes": 2635,
+     "role": "overworld frame up walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_up_walk1.png",
+     "bytes": 1814,
+     "role": "overworld frame up walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_up_walk1_2x.png",
+     "bytes": 2193,
+     "role": "overworld frame up walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_up_walk1_3x.png",
+     "bytes": 2597,
+     "role": "overworld frame up walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_up_walk2.png",
+     "bytes": 1827,
+     "role": "overworld frame up walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_up_walk2_2x.png",
+     "bytes": 2204,
+     "role": "overworld frame up walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_up_walk2_3x.png",
+     "bytes": 2628,
+     "role": "overworld frame up walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_up_walk3.png",
+     "bytes": 1814,
+     "role": "overworld frame up walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_up_walk3_2x.png",
+     "bytes": 2193,
+     "role": "overworld frame up walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow/halovy_ow_up_walk3_3x.png",
+     "bytes": 2597,
+     "role": "overworld frame up walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow_sheet.png",
+     "bytes": 12920,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) native",
+     "px": [
+      320,
+      256
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow_sheet_2x.png",
+     "bytes": 16358,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) 2x",
+     "px": [
+      640,
+      512
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow_sheet_3x.png",
+     "bytes": 20581,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) 3x",
+     "px": [
+      960,
+      768
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow_walk_all_2x.gif",
+     "bytes": 26925,
+     "role": "overworld walk GIF, all 4 directions side by side 2x",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow_walk_all_3x.gif",
+     "bytes": 45441,
+     "role": "overworld walk GIF, all 4 directions side by side 3x",
+     "px": [
+      768,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow_walk_down_2x.gif",
+     "bytes": 7599,
+     "role": "overworld walk GIF (down) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow_walk_down_3x.gif",
+     "bytes": 12249,
+     "role": "overworld walk GIF (down) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow_walk_left_2x.gif",
+     "bytes": 7620,
+     "role": "overworld walk GIF (left) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow_walk_left_3x.gif",
+     "bytes": 12286,
+     "role": "overworld walk GIF (left) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow_walk_right_2x.gif",
+     "bytes": 7600,
+     "role": "overworld walk GIF (right) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow_walk_right_3x.gif",
+     "bytes": 12262,
+     "role": "overworld walk GIF (right) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow_walk_up_2x.gif",
+     "bytes": 7533,
+     "role": "overworld walk GIF (up) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/overworld/halovy_ow_walk_up_3x.gif",
+     "bytes": 12288,
+     "role": "overworld walk GIF (up) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/halovy/raw/battle_back.jpg",
+     "bytes": 204485,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/raw/battle_front.jpg",
+     "bytes": 234747,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/halovy/raw/ow_views.jpg",
+     "bytes": 193514,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1280,
+      720
+     ],
+     "frames": 1
+    }
+   ]
+  },
+  "gloamtick": {
+   "counts": {
+    "files": 111,
+    "battle_static": 4,
+    "idle_frames_per_view": 4,
+    "idle_frame_files": 16,
+    "ow_frame_files": 60,
+    "ow_frames_per_direction": "1 stand + 4 walk",
+    "gifs": 12
+   },
+   "files": [
+    {
+     "path": "creatures/gloamtick/README.md",
+     "bytes": 979,
+     "role": "readme"
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_back_idle/gloamtick_back_idle_f0.png",
+     "bytes": 4758,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_back_idle/gloamtick_back_idle_f0_2x.png",
+     "bytes": 5959,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_back_idle/gloamtick_back_idle_f1.png",
+     "bytes": 4625,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_back_idle/gloamtick_back_idle_f1_2x.png",
+     "bytes": 5837,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_back_idle/gloamtick_back_idle_f2.png",
+     "bytes": 5001,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_back_idle/gloamtick_back_idle_f2_2x.png",
+     "bytes": 6128,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_back_idle/gloamtick_back_idle_f3.png",
+     "bytes": 4625,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_back_idle/gloamtick_back_idle_f3_2x.png",
+     "bytes": 5837,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_back_idle_2x.gif",
+     "bytes": 20797,
+     "role": "battle back idle loop GIF 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_back_idle_sheet.png",
+     "bytes": 9656,
+     "role": "battle back idle sheet (4 frames horizontal)",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_back_idle_sheet_2x.png",
+     "bytes": 12268,
+     "role": "battle back idle sheet (4 frames horizontal) 2x",
+     "px": [
+      1024,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_front_idle/gloamtick_front_idle_f0.png",
+     "bytes": 6072,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_front_idle/gloamtick_front_idle_f0_2x.png",
+     "bytes": 7379,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_front_idle/gloamtick_front_idle_f1.png",
+     "bytes": 6022,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_front_idle/gloamtick_front_idle_f1_2x.png",
+     "bytes": 7404,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_front_idle/gloamtick_front_idle_f2.png",
+     "bytes": 6321,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_front_idle/gloamtick_front_idle_f2_2x.png",
+     "bytes": 7634,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_front_idle/gloamtick_front_idle_f3.png",
+     "bytes": 6022,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_front_idle/gloamtick_front_idle_f3_2x.png",
+     "bytes": 7404,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_front_idle_2x.gif",
+     "bytes": 27210,
+     "role": "battle front idle loop GIF 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_front_idle_sheet.png",
+     "bytes": 11744,
+     "role": "battle front idle sheet (4 frames horizontal)",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/anim/gloamtick_front_idle_sheet_2x.png",
+     "bytes": 14239,
+     "role": "battle front idle sheet (4 frames horizontal) 2x",
+     "px": [
+      1024,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/base/gloamtick_back.png",
+     "bytes": 4562,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      97,
+      118
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/base/gloamtick_front.png",
+     "bytes": 5892,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      101,
+      118
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/base/gloamtick_ow_down.png",
+     "bytes": 1880,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      41,
+      52
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/base/gloamtick_ow_left.png",
+     "bytes": 1440,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      37,
+      52
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/base/gloamtick_ow_right.png",
+     "bytes": 1482,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      37,
+      52
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/base/gloamtick_ow_up.png",
+     "bytes": 1237,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      37,
+      52
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/base/meta.json",
+     "bytes": 1106,
+     "role": "base metadata (scale, crop, fixes)"
+    },
+    {
+     "path": "creatures/gloamtick/battle/gloamtick_back_128.png",
+     "bytes": 4758,
+     "role": "battle static back (player side) sprite 128px native",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/battle/gloamtick_back_128_2x.png",
+     "bytes": 5959,
+     "role": "battle static back (player side) sprite 128px native, 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/battle/gloamtick_front_128.png",
+     "bytes": 6072,
+     "role": "battle static front sprite 128px native",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/battle/gloamtick_front_128_2x.png",
+     "bytes": 7379,
+     "role": "battle static front sprite 128px native, 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_down_stand.png",
+     "bytes": 1968,
+     "role": "overworld frame down stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_down_stand_2x.png",
+     "bytes": 2354,
+     "role": "overworld frame down stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_down_stand_3x.png",
+     "bytes": 2825,
+     "role": "overworld frame down stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_down_walk0.png",
+     "bytes": 1972,
+     "role": "overworld frame down walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_down_walk0_2x.png",
+     "bytes": 2350,
+     "role": "overworld frame down walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_down_walk0_3x.png",
+     "bytes": 2816,
+     "role": "overworld frame down walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_down_walk1.png",
+     "bytes": 1968,
+     "role": "overworld frame down walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_down_walk1_2x.png",
+     "bytes": 2354,
+     "role": "overworld frame down walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_down_walk1_3x.png",
+     "bytes": 2825,
+     "role": "overworld frame down walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_down_walk2.png",
+     "bytes": 1970,
+     "role": "overworld frame down walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_down_walk2_2x.png",
+     "bytes": 2349,
+     "role": "overworld frame down walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_down_walk2_3x.png",
+     "bytes": 2821,
+     "role": "overworld frame down walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_down_walk3.png",
+     "bytes": 1968,
+     "role": "overworld frame down walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_down_walk3_2x.png",
+     "bytes": 2354,
+     "role": "overworld frame down walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_down_walk3_3x.png",
+     "bytes": 2825,
+     "role": "overworld frame down walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_left_stand.png",
+     "bytes": 1572,
+     "role": "overworld frame left stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_left_stand_2x.png",
+     "bytes": 1931,
+     "role": "overworld frame left stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_left_stand_3x.png",
+     "bytes": 2312,
+     "role": "overworld frame left stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_left_walk0.png",
+     "bytes": 1576,
+     "role": "overworld frame left walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_left_walk0_2x.png",
+     "bytes": 1938,
+     "role": "overworld frame left walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_left_walk0_3x.png",
+     "bytes": 2311,
+     "role": "overworld frame left walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_left_walk1.png",
+     "bytes": 1572,
+     "role": "overworld frame left walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_left_walk1_2x.png",
+     "bytes": 1931,
+     "role": "overworld frame left walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_left_walk1_3x.png",
+     "bytes": 2311,
+     "role": "overworld frame left walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_left_walk2.png",
+     "bytes": 1571,
+     "role": "overworld frame left walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_left_walk2_2x.png",
+     "bytes": 1932,
+     "role": "overworld frame left walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_left_walk2_3x.png",
+     "bytes": 2310,
+     "role": "overworld frame left walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_left_walk3.png",
+     "bytes": 1572,
+     "role": "overworld frame left walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_left_walk3_2x.png",
+     "bytes": 1931,
+     "role": "overworld frame left walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_left_walk3_3x.png",
+     "bytes": 2312,
+     "role": "overworld frame left walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_right_stand.png",
+     "bytes": 1611,
+     "role": "overworld frame right stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_right_stand_2x.png",
+     "bytes": 1956,
+     "role": "overworld frame right stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_right_stand_3x.png",
+     "bytes": 2341,
+     "role": "overworld frame right stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_right_walk0.png",
+     "bytes": 1615,
+     "role": "overworld frame right walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_right_walk0_2x.png",
+     "bytes": 1967,
+     "role": "overworld frame right walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_right_walk0_3x.png",
+     "bytes": 2346,
+     "role": "overworld frame right walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_right_walk1.png",
+     "bytes": 1611,
+     "role": "overworld frame right walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_right_walk1_2x.png",
+     "bytes": 1956,
+     "role": "overworld frame right walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_right_walk1_3x.png",
+     "bytes": 2340,
+     "role": "overworld frame right walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_right_walk2.png",
+     "bytes": 1617,
+     "role": "overworld frame right walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_right_walk2_2x.png",
+     "bytes": 1961,
+     "role": "overworld frame right walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_right_walk2_3x.png",
+     "bytes": 2342,
+     "role": "overworld frame right walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_right_walk3.png",
+     "bytes": 1611,
+     "role": "overworld frame right walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_right_walk3_2x.png",
+     "bytes": 1956,
+     "role": "overworld frame right walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_right_walk3_3x.png",
+     "bytes": 2341,
+     "role": "overworld frame right walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_up_stand.png",
+     "bytes": 1358,
+     "role": "overworld frame up stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_up_stand_2x.png",
+     "bytes": 1691,
+     "role": "overworld frame up stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_up_stand_3x.png",
+     "bytes": 2028,
+     "role": "overworld frame up stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_up_walk0.png",
+     "bytes": 1364,
+     "role": "overworld frame up walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_up_walk0_2x.png",
+     "bytes": 1692,
+     "role": "overworld frame up walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_up_walk0_3x.png",
+     "bytes": 2021,
+     "role": "overworld frame up walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_up_walk1.png",
+     "bytes": 1358,
+     "role": "overworld frame up walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_up_walk1_2x.png",
+     "bytes": 1691,
+     "role": "overworld frame up walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_up_walk1_3x.png",
+     "bytes": 2029,
+     "role": "overworld frame up walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_up_walk2.png",
+     "bytes": 1360,
+     "role": "overworld frame up walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_up_walk2_2x.png",
+     "bytes": 1687,
+     "role": "overworld frame up walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_up_walk2_3x.png",
+     "bytes": 2019,
+     "role": "overworld frame up walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_up_walk3.png",
+     "bytes": 1358,
+     "role": "overworld frame up walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_up_walk3_2x.png",
+     "bytes": 1691,
+     "role": "overworld frame up walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow/gloamtick_ow_up_walk3_3x.png",
+     "bytes": 2028,
+     "role": "overworld frame up walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow_sheet.png",
+     "bytes": 11158,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) native",
+     "px": [
+      320,
+      256
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow_sheet_2x.png",
+     "bytes": 13808,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) 2x",
+     "px": [
+      640,
+      512
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow_sheet_3x.png",
+     "bytes": 17614,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) 3x",
+     "px": [
+      960,
+      768
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow_walk_all_2x.gif",
+     "bytes": 23680,
+     "role": "overworld walk GIF, all 4 directions side by side 2x",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow_walk_all_3x.gif",
+     "bytes": 38932,
+     "role": "overworld walk GIF, all 4 directions side by side 3x",
+     "px": [
+      768,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow_walk_down_2x.gif",
+     "bytes": 7671,
+     "role": "overworld walk GIF (down) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow_walk_down_3x.gif",
+     "bytes": 12401,
+     "role": "overworld walk GIF (down) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow_walk_left_2x.gif",
+     "bytes": 6258,
+     "role": "overworld walk GIF (left) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow_walk_left_3x.gif",
+     "bytes": 9903,
+     "role": "overworld walk GIF (left) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow_walk_right_2x.gif",
+     "bytes": 6365,
+     "role": "overworld walk GIF (right) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow_walk_right_3x.gif",
+     "bytes": 10085,
+     "role": "overworld walk GIF (right) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow_walk_up_2x.gif",
+     "bytes": 5821,
+     "role": "overworld walk GIF (up) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/overworld/gloamtick_ow_walk_up_3x.gif",
+     "bytes": 9166,
+     "role": "overworld walk GIF (up) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/gloamtick/raw/battle_back.jpg",
+     "bytes": 154058,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/raw/battle_front.jpg",
+     "bytes": 198424,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/raw/ow_views.jpg",
+     "bytes": 181534,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1280,
+      720
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/gloamtick/raw/ow_views_spare_wings_rejected.jpg",
+     "bytes": 168662,
+     "role": "source: generated painted/pixel-style art used as snap input (REJECTED variant, kept for reference)",
+     "px": [
+      1280,
+      720
+     ],
+     "frames": 1
+    }
+   ]
+  },
+  "runeskein": {
+   "counts": {
+    "files": 110,
+    "battle_static": 4,
+    "idle_frames_per_view": 4,
+    "idle_frame_files": 16,
+    "ow_frame_files": 60,
+    "ow_frames_per_direction": "1 stand + 4 walk",
+    "gifs": 12
+   },
+   "files": [
+    {
+     "path": "creatures/runeskein/README.md",
+     "bytes": 791,
+     "role": "readme"
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_back_idle/runeskein_back_idle_f0.png",
+     "bytes": 4785,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_back_idle/runeskein_back_idle_f0_2x.png",
+     "bytes": 6033,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_back_idle/runeskein_back_idle_f1.png",
+     "bytes": 4809,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_back_idle/runeskein_back_idle_f1_2x.png",
+     "bytes": 6099,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_back_idle/runeskein_back_idle_f2.png",
+     "bytes": 4976,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_back_idle/runeskein_back_idle_f2_2x.png",
+     "bytes": 6249,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_back_idle/runeskein_back_idle_f3.png",
+     "bytes": 4809,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_back_idle/runeskein_back_idle_f3_2x.png",
+     "bytes": 6099,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_back_idle_2x.gif",
+     "bytes": 19501,
+     "role": "battle back idle loop GIF 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_back_idle_sheet.png",
+     "bytes": 7563,
+     "role": "battle back idle sheet (4 frames horizontal)",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_back_idle_sheet_2x.png",
+     "bytes": 10000,
+     "role": "battle back idle sheet (4 frames horizontal) 2x",
+     "px": [
+      1024,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_front_idle/runeskein_front_idle_f0.png",
+     "bytes": 5923,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_front_idle/runeskein_front_idle_f0_2x.png",
+     "bytes": 7275,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_front_idle/runeskein_front_idle_f1.png",
+     "bytes": 5989,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_front_idle/runeskein_front_idle_f1_2x.png",
+     "bytes": 7311,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_front_idle/runeskein_front_idle_f2.png",
+     "bytes": 6136,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_front_idle/runeskein_front_idle_f2_2x.png",
+     "bytes": 7486,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_front_idle/runeskein_front_idle_f3.png",
+     "bytes": 5989,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_front_idle/runeskein_front_idle_f3_2x.png",
+     "bytes": 7311,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_front_idle_2x.gif",
+     "bytes": 24395,
+     "role": "battle front idle loop GIF 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_front_idle_sheet.png",
+     "bytes": 9528,
+     "role": "battle front idle sheet (4 frames horizontal)",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/anim/runeskein_front_idle_sheet_2x.png",
+     "bytes": 12115,
+     "role": "battle front idle sheet (4 frames horizontal) 2x",
+     "px": [
+      1024,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/base/meta.json",
+     "bytes": 1104,
+     "role": "base metadata (scale, crop, fixes)"
+    },
+    {
+     "path": "creatures/runeskein/base/runeskein_back.png",
+     "bytes": 4588,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      94,
+      100
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/base/runeskein_front.png",
+     "bytes": 5717,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      99,
+      100
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/base/runeskein_ow_down.png",
+     "bytes": 1513,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      27,
+      46
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/base/runeskein_ow_left.png",
+     "bytes": 1893,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      49,
+      46
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/base/runeskein_ow_right.png",
+     "bytes": 1889,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      49,
+      46
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/base/runeskein_ow_up.png",
+     "bytes": 1288,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      23,
+      46
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/battle/runeskein_back_128.png",
+     "bytes": 4785,
+     "role": "battle static back (player side) sprite 128px native",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/battle/runeskein_back_128_2x.png",
+     "bytes": 6033,
+     "role": "battle static back (player side) sprite 128px native, 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/battle/runeskein_front_128.png",
+     "bytes": 5923,
+     "role": "battle static front sprite 128px native",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/battle/runeskein_front_128_2x.png",
+     "bytes": 7275,
+     "role": "battle static front sprite 128px native, 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_down_stand.png",
+     "bytes": 1657,
+     "role": "overworld frame down stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_down_stand_2x.png",
+     "bytes": 2082,
+     "role": "overworld frame down stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_down_stand_3x.png",
+     "bytes": 2393,
+     "role": "overworld frame down stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_down_walk0.png",
+     "bytes": 1695,
+     "role": "overworld frame down walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_down_walk0_2x.png",
+     "bytes": 2086,
+     "role": "overworld frame down walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_down_walk0_3x.png",
+     "bytes": 2412,
+     "role": "overworld frame down walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_down_walk1.png",
+     "bytes": 1657,
+     "role": "overworld frame down walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_down_walk1_2x.png",
+     "bytes": 2082,
+     "role": "overworld frame down walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_down_walk1_3x.png",
+     "bytes": 2393,
+     "role": "overworld frame down walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_down_walk2.png",
+     "bytes": 1676,
+     "role": "overworld frame down walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_down_walk2_2x.png",
+     "bytes": 2074,
+     "role": "overworld frame down walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_down_walk2_3x.png",
+     "bytes": 2401,
+     "role": "overworld frame down walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_down_walk3.png",
+     "bytes": 1657,
+     "role": "overworld frame down walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_down_walk3_2x.png",
+     "bytes": 2082,
+     "role": "overworld frame down walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_down_walk3_3x.png",
+     "bytes": 2393,
+     "role": "overworld frame down walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_left_stand.png",
+     "bytes": 1982,
+     "role": "overworld frame left stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_left_stand_2x.png",
+     "bytes": 2466,
+     "role": "overworld frame left stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_left_stand_3x.png",
+     "bytes": 2813,
+     "role": "overworld frame left stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_left_walk0.png",
+     "bytes": 2017,
+     "role": "overworld frame left walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_left_walk0_2x.png",
+     "bytes": 2494,
+     "role": "overworld frame left walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_left_walk0_3x.png",
+     "bytes": 2845,
+     "role": "overworld frame left walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_left_walk1.png",
+     "bytes": 1982,
+     "role": "overworld frame left walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_left_walk1_2x.png",
+     "bytes": 2466,
+     "role": "overworld frame left walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_left_walk1_3x.png",
+     "bytes": 2813,
+     "role": "overworld frame left walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_left_walk2.png",
+     "bytes": 1990,
+     "role": "overworld frame left walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_left_walk2_2x.png",
+     "bytes": 2449,
+     "role": "overworld frame left walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_left_walk2_3x.png",
+     "bytes": 2798,
+     "role": "overworld frame left walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_left_walk3.png",
+     "bytes": 1982,
+     "role": "overworld frame left walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_left_walk3_2x.png",
+     "bytes": 2466,
+     "role": "overworld frame left walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_left_walk3_3x.png",
+     "bytes": 2813,
+     "role": "overworld frame left walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_right_stand.png",
+     "bytes": 1975,
+     "role": "overworld frame right stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_right_stand_2x.png",
+     "bytes": 2482,
+     "role": "overworld frame right stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_right_stand_3x.png",
+     "bytes": 2824,
+     "role": "overworld frame right stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_right_walk0.png",
+     "bytes": 1997,
+     "role": "overworld frame right walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_right_walk0_2x.png",
+     "bytes": 2506,
+     "role": "overworld frame right walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_right_walk0_3x.png",
+     "bytes": 2846,
+     "role": "overworld frame right walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_right_walk1.png",
+     "bytes": 1975,
+     "role": "overworld frame right walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_right_walk1_2x.png",
+     "bytes": 2482,
+     "role": "overworld frame right walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_right_walk1_3x.png",
+     "bytes": 2824,
+     "role": "overworld frame right walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_right_walk2.png",
+     "bytes": 2011,
+     "role": "overworld frame right walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_right_walk2_2x.png",
+     "bytes": 2502,
+     "role": "overworld frame right walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_right_walk2_3x.png",
+     "bytes": 2852,
+     "role": "overworld frame right walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_right_walk3.png",
+     "bytes": 1975,
+     "role": "overworld frame right walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_right_walk3_2x.png",
+     "bytes": 2482,
+     "role": "overworld frame right walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_right_walk3_3x.png",
+     "bytes": 2824,
+     "role": "overworld frame right walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_up_stand.png",
+     "bytes": 1433,
+     "role": "overworld frame up stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_up_stand_2x.png",
+     "bytes": 1867,
+     "role": "overworld frame up stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_up_stand_3x.png",
+     "bytes": 2152,
+     "role": "overworld frame up stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_up_walk0.png",
+     "bytes": 1440,
+     "role": "overworld frame up walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_up_walk0_2x.png",
+     "bytes": 1885,
+     "role": "overworld frame up walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_up_walk0_3x.png",
+     "bytes": 2162,
+     "role": "overworld frame up walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_up_walk1.png",
+     "bytes": 1433,
+     "role": "overworld frame up walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_up_walk1_2x.png",
+     "bytes": 1867,
+     "role": "overworld frame up walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_up_walk1_3x.png",
+     "bytes": 2152,
+     "role": "overworld frame up walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_up_walk2.png",
+     "bytes": 1422,
+     "role": "overworld frame up walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_up_walk2_2x.png",
+     "bytes": 1878,
+     "role": "overworld frame up walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_up_walk2_3x.png",
+     "bytes": 2150,
+     "role": "overworld frame up walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_up_walk3.png",
+     "bytes": 1433,
+     "role": "overworld frame up walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_up_walk3_2x.png",
+     "bytes": 1867,
+     "role": "overworld frame up walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow/runeskein_ow_up_walk3_3x.png",
+     "bytes": 2152,
+     "role": "overworld frame up walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow_sheet.png",
+     "bytes": 11109,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) native",
+     "px": [
+      320,
+      256
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow_sheet_2x.png",
+     "bytes": 14443,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) 2x",
+     "px": [
+      640,
+      512
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow_sheet_3x.png",
+     "bytes": 17494,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) 3x",
+     "px": [
+      960,
+      768
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow_walk_all_2x.gif",
+     "bytes": 24143,
+     "role": "overworld walk GIF, all 4 directions side by side 2x",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow_walk_all_3x.gif",
+     "bytes": 39863,
+     "role": "overworld walk GIF, all 4 directions side by side 3x",
+     "px": [
+      768,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow_walk_down_2x.gif",
+     "bytes": 6373,
+     "role": "overworld walk GIF (down) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow_walk_down_3x.gif",
+     "bytes": 9958,
+     "role": "overworld walk GIF (down) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow_walk_left_2x.gif",
+     "bytes": 7679,
+     "role": "overworld walk GIF (left) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow_walk_left_3x.gif",
+     "bytes": 12187,
+     "role": "overworld walk GIF (left) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow_walk_right_2x.gif",
+     "bytes": 7663,
+     "role": "overworld walk GIF (right) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow_walk_right_3x.gif",
+     "bytes": 12144,
+     "role": "overworld walk GIF (right) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow_walk_up_2x.gif",
+     "bytes": 5504,
+     "role": "overworld walk GIF (up) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/overworld/runeskein_ow_walk_up_3x.gif",
+     "bytes": 8527,
+     "role": "overworld walk GIF (up) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/runeskein/raw/battle_back.jpg",
+     "bytes": 202266,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/raw/battle_front.jpg",
+     "bytes": 270599,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/runeskein/raw/ow_views.jpg",
+     "bytes": 186612,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1280,
+      720
+     ],
+     "frames": 1
+    }
+   ]
+  },
+  "burlbeetle": {
+   "counts": {
+    "files": 117,
+    "battle_static": 4,
+    "idle_frames_per_view": 4,
+    "idle_frame_files": 16,
+    "ow_frame_files": 60,
+    "ow_frames_per_direction": "1 stand + 4 walk",
+    "gifs": 12
+   },
+   "files": [
+    {
+     "path": "creatures/burlbeetle/README.md",
+     "bytes": 972,
+     "role": "readme"
+    },
+    {
+     "path": "creatures/burlbeetle/_work/burlbeetle_back_prefix.png",
+     "bytes": 5295,
+     "role": "reference: base before Burlbeetle 6-leg fix",
+     "px": [
+      94,
+      100
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/_work/burlbeetle_front_prefix.png",
+     "bytes": 6147,
+     "role": "reference: base before Burlbeetle 6-leg fix",
+     "px": [
+      106,
+      100
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/_work/burlbeetle_ow_down_prefix.png",
+     "bytes": 1581,
+     "role": "reference: base before Burlbeetle 6-leg fix",
+     "px": [
+      38,
+      44
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/_work/burlbeetle_ow_left_prefix.png",
+     "bytes": 1554,
+     "role": "reference: base before Burlbeetle 6-leg fix",
+     "px": [
+      43,
+      44
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/_work/burlbeetle_ow_up_prefix.png",
+     "bytes": 1427,
+     "role": "reference: base before Burlbeetle 6-leg fix",
+     "px": [
+      37,
+      44
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_back_idle/burlbeetle_back_idle_f0.png",
+     "bytes": 5674,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_back_idle/burlbeetle_back_idle_f0_2x.png",
+     "bytes": 6866,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_back_idle/burlbeetle_back_idle_f1.png",
+     "bytes": 5658,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_back_idle/burlbeetle_back_idle_f1_2x.png",
+     "bytes": 6845,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_back_idle/burlbeetle_back_idle_f2.png",
+     "bytes": 5742,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_back_idle/burlbeetle_back_idle_f2_2x.png",
+     "bytes": 6989,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_back_idle/burlbeetle_back_idle_f3.png",
+     "bytes": 5658,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_back_idle/burlbeetle_back_idle_f3_2x.png",
+     "bytes": 6845,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_back_idle_2x.gif",
+     "bytes": 23973,
+     "role": "battle back idle loop GIF 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_back_idle_sheet.png",
+     "bytes": 9613,
+     "role": "battle back idle sheet (4 frames horizontal)",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_back_idle_sheet_2x.png",
+     "bytes": 12470,
+     "role": "battle back idle sheet (4 frames horizontal) 2x",
+     "px": [
+      1024,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_front_idle/burlbeetle_front_idle_f0.png",
+     "bytes": 6506,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_front_idle/burlbeetle_front_idle_f0_2x.png",
+     "bytes": 7620,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_front_idle/burlbeetle_front_idle_f1.png",
+     "bytes": 6536,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_front_idle/burlbeetle_front_idle_f1_2x.png",
+     "bytes": 7641,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_front_idle/burlbeetle_front_idle_f2.png",
+     "bytes": 6668,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_front_idle/burlbeetle_front_idle_f2_2x.png",
+     "bytes": 7781,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_front_idle/burlbeetle_front_idle_f3.png",
+     "bytes": 6536,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_front_idle/burlbeetle_front_idle_f3_2x.png",
+     "bytes": 7641,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_front_idle_2x.gif",
+     "bytes": 28337,
+     "role": "battle front idle loop GIF 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_front_idle_sheet.png",
+     "bytes": 10784,
+     "role": "battle front idle sheet (4 frames horizontal)",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/anim/burlbeetle_front_idle_sheet_2x.png",
+     "bytes": 13872,
+     "role": "battle front idle sheet (4 frames horizontal) 2x",
+     "px": [
+      1024,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/base/burlbeetle_back.png",
+     "bytes": 5399,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      94,
+      100
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/base/burlbeetle_front.png",
+     "bytes": 6289,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      106,
+      100
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/base/burlbeetle_ow_down.png",
+     "bytes": 1601,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      38,
+      44
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/base/burlbeetle_ow_left.png",
+     "bytes": 1612,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      43,
+      44
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/base/burlbeetle_ow_right.png",
+     "bytes": 1643,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      43,
+      44
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/base/burlbeetle_ow_up.png",
+     "bytes": 1430,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      37,
+      44
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/base/meta.json",
+     "bytes": 1723,
+     "role": "base metadata (scale, crop, fixes)"
+    },
+    {
+     "path": "creatures/burlbeetle/battle/burlbeetle_back_128.png",
+     "bytes": 5674,
+     "role": "battle static back (player side) sprite 128px native",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/battle/burlbeetle_back_128_2x.png",
+     "bytes": 6866,
+     "role": "battle static back (player side) sprite 128px native, 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/battle/burlbeetle_front_128.png",
+     "bytes": 6506,
+     "role": "battle static front sprite 128px native",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/battle/burlbeetle_front_128_2x.png",
+     "bytes": 7620,
+     "role": "battle static front sprite 128px native, 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_down_stand.png",
+     "bytes": 1722,
+     "role": "overworld frame down stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_down_stand_2x.png",
+     "bytes": 2051,
+     "role": "overworld frame down stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_down_stand_3x.png",
+     "bytes": 2413,
+     "role": "overworld frame down stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_down_walk0.png",
+     "bytes": 1755,
+     "role": "overworld frame down walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_down_walk0_2x.png",
+     "bytes": 2068,
+     "role": "overworld frame down walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_down_walk0_3x.png",
+     "bytes": 2432,
+     "role": "overworld frame down walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_down_walk1.png",
+     "bytes": 1722,
+     "role": "overworld frame down walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_down_walk1_2x.png",
+     "bytes": 2051,
+     "role": "overworld frame down walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_down_walk1_3x.png",
+     "bytes": 2413,
+     "role": "overworld frame down walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_down_walk2.png",
+     "bytes": 1769,
+     "role": "overworld frame down walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_down_walk2_2x.png",
+     "bytes": 2078,
+     "role": "overworld frame down walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_down_walk2_3x.png",
+     "bytes": 2434,
+     "role": "overworld frame down walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_down_walk3.png",
+     "bytes": 1722,
+     "role": "overworld frame down walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_down_walk3_2x.png",
+     "bytes": 2051,
+     "role": "overworld frame down walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_down_walk3_3x.png",
+     "bytes": 2413,
+     "role": "overworld frame down walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_left_stand.png",
+     "bytes": 1726,
+     "role": "overworld frame left stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_left_stand_2x.png",
+     "bytes": 2014,
+     "role": "overworld frame left stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_left_stand_3x.png",
+     "bytes": 2380,
+     "role": "overworld frame left stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_left_walk0.png",
+     "bytes": 1723,
+     "role": "overworld frame left walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_left_walk0_2x.png",
+     "bytes": 2024,
+     "role": "overworld frame left walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_left_walk0_3x.png",
+     "bytes": 2403,
+     "role": "overworld frame left walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_left_walk1.png",
+     "bytes": 1726,
+     "role": "overworld frame left walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_left_walk1_2x.png",
+     "bytes": 2014,
+     "role": "overworld frame left walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_left_walk1_3x.png",
+     "bytes": 2380,
+     "role": "overworld frame left walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_left_walk2.png",
+     "bytes": 1712,
+     "role": "overworld frame left walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_left_walk2_2x.png",
+     "bytes": 2008,
+     "role": "overworld frame left walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_left_walk2_3x.png",
+     "bytes": 2363,
+     "role": "overworld frame left walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_left_walk3.png",
+     "bytes": 1726,
+     "role": "overworld frame left walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_left_walk3_2x.png",
+     "bytes": 2014,
+     "role": "overworld frame left walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_left_walk3_3x.png",
+     "bytes": 2380,
+     "role": "overworld frame left walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_right_stand.png",
+     "bytes": 1750,
+     "role": "overworld frame right stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_right_stand_2x.png",
+     "bytes": 2029,
+     "role": "overworld frame right stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_right_stand_3x.png",
+     "bytes": 2398,
+     "role": "overworld frame right stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_right_walk0.png",
+     "bytes": 1774,
+     "role": "overworld frame right walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_right_walk0_2x.png",
+     "bytes": 2028,
+     "role": "overworld frame right walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_right_walk0_3x.png",
+     "bytes": 2410,
+     "role": "overworld frame right walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_right_walk1.png",
+     "bytes": 1750,
+     "role": "overworld frame right walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_right_walk1_2x.png",
+     "bytes": 2029,
+     "role": "overworld frame right walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_right_walk1_3x.png",
+     "bytes": 2398,
+     "role": "overworld frame right walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_right_walk2.png",
+     "bytes": 1762,
+     "role": "overworld frame right walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_right_walk2_2x.png",
+     "bytes": 2037,
+     "role": "overworld frame right walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_right_walk2_3x.png",
+     "bytes": 2396,
+     "role": "overworld frame right walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_right_walk3.png",
+     "bytes": 1750,
+     "role": "overworld frame right walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_right_walk3_2x.png",
+     "bytes": 2029,
+     "role": "overworld frame right walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_right_walk3_3x.png",
+     "bytes": 2398,
+     "role": "overworld frame right walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_up_stand.png",
+     "bytes": 1542,
+     "role": "overworld frame up stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_up_stand_2x.png",
+     "bytes": 1815,
+     "role": "overworld frame up stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_up_stand_3x.png",
+     "bytes": 2170,
+     "role": "overworld frame up stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_up_walk0.png",
+     "bytes": 1558,
+     "role": "overworld frame up walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_up_walk0_2x.png",
+     "bytes": 1823,
+     "role": "overworld frame up walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_up_walk0_3x.png",
+     "bytes": 2179,
+     "role": "overworld frame up walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_up_walk1.png",
+     "bytes": 1542,
+     "role": "overworld frame up walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_up_walk1_2x.png",
+     "bytes": 1815,
+     "role": "overworld frame up walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_up_walk1_3x.png",
+     "bytes": 2170,
+     "role": "overworld frame up walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_up_walk2.png",
+     "bytes": 1577,
+     "role": "overworld frame up walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_up_walk2_2x.png",
+     "bytes": 1822,
+     "role": "overworld frame up walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_up_walk2_3x.png",
+     "bytes": 2186,
+     "role": "overworld frame up walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_up_walk3.png",
+     "bytes": 1542,
+     "role": "overworld frame up walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_up_walk3_2x.png",
+     "bytes": 1815,
+     "role": "overworld frame up walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow/burlbeetle_ow_up_walk3_3x.png",
+     "bytes": 2170,
+     "role": "overworld frame up walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow_sheet.png",
+     "bytes": 11410,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) native",
+     "px": [
+      320,
+      256
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow_sheet_2x.png",
+     "bytes": 14089,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) 2x",
+     "px": [
+      640,
+      512
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow_sheet_3x.png",
+     "bytes": 17855,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) 3x",
+     "px": [
+      960,
+      768
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow_walk_all_2x.gif",
+     "bytes": 22648,
+     "role": "overworld walk GIF, all 4 directions side by side 2x",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow_walk_all_3x.gif",
+     "bytes": 38295,
+     "role": "overworld walk GIF, all 4 directions side by side 3x",
+     "px": [
+      768,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow_walk_down_2x.gif",
+     "bytes": 6744,
+     "role": "overworld walk GIF (down) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow_walk_down_3x.gif",
+     "bytes": 10800,
+     "role": "overworld walk GIF (down) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow_walk_left_2x.gif",
+     "bytes": 6708,
+     "role": "overworld walk GIF (left) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow_walk_left_3x.gif",
+     "bytes": 10748,
+     "role": "overworld walk GIF (left) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow_walk_right_2x.gif",
+     "bytes": 6684,
+     "role": "overworld walk GIF (right) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow_walk_right_3x.gif",
+     "bytes": 10731,
+     "role": "overworld walk GIF (right) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow_walk_up_2x.gif",
+     "bytes": 6165,
+     "role": "overworld walk GIF (up) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/overworld/burlbeetle_ow_walk_up_3x.gif",
+     "bytes": 9844,
+     "role": "overworld walk GIF (up) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/burlbeetle/raw/battle_back.jpg",
+     "bytes": 231671,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/raw/battle_back_v2_4legs_rejected.jpg",
+     "bytes": 223396,
+     "role": "source: generated painted/pixel-style art used as snap input (REJECTED variant, kept for reference)",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/raw/battle_front.jpg",
+     "bytes": 263101,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/raw/battle_front_v1_5legs.jpg",
+     "bytes": 291178,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/burlbeetle/raw/ow_views.jpg",
+     "bytes": 219355,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1280,
+      720
+     ],
+     "frames": 1
+    }
+   ]
+  },
+  "mirewump": {
+   "counts": {
+    "files": 110,
+    "battle_static": 4,
+    "idle_frames_per_view": 4,
+    "idle_frame_files": 16,
+    "ow_frame_files": 60,
+    "ow_frames_per_direction": "1 stand + 4 walk",
+    "gifs": 12
+   },
+   "files": [
+    {
+     "path": "creatures/mirewump/README.md",
+     "bytes": 798,
+     "role": "readme"
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_back_idle/mirewump_back_idle_f0.png",
+     "bytes": 5978,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_back_idle/mirewump_back_idle_f0_2x.png",
+     "bytes": 7482,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_back_idle/mirewump_back_idle_f1.png",
+     "bytes": 5891,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_back_idle/mirewump_back_idle_f1_2x.png",
+     "bytes": 7306,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_back_idle/mirewump_back_idle_f2.png",
+     "bytes": 6008,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_back_idle/mirewump_back_idle_f2_2x.png",
+     "bytes": 7436,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_back_idle/mirewump_back_idle_f3.png",
+     "bytes": 5891,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_back_idle/mirewump_back_idle_f3_2x.png",
+     "bytes": 7306,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_back_idle_2x.gif",
+     "bytes": 25491,
+     "role": "battle back idle loop GIF 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_back_idle_sheet.png",
+     "bytes": 10831,
+     "role": "battle back idle sheet (4 frames horizontal)",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_back_idle_sheet_2x.png",
+     "bytes": 13750,
+     "role": "battle back idle sheet (4 frames horizontal) 2x",
+     "px": [
+      1024,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_front_idle/mirewump_front_idle_f0.png",
+     "bytes": 6786,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_front_idle/mirewump_front_idle_f0_2x.png",
+     "bytes": 8139,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_front_idle/mirewump_front_idle_f1.png",
+     "bytes": 6727,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_front_idle/mirewump_front_idle_f1_2x.png",
+     "bytes": 8033,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_front_idle/mirewump_front_idle_f2.png",
+     "bytes": 6877,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_front_idle/mirewump_front_idle_f2_2x.png",
+     "bytes": 8157,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_front_idle/mirewump_front_idle_f3.png",
+     "bytes": 6727,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_front_idle/mirewump_front_idle_f3_2x.png",
+     "bytes": 8033,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_front_idle_2x.gif",
+     "bytes": 28648,
+     "role": "battle front idle loop GIF 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_front_idle_sheet.png",
+     "bytes": 11382,
+     "role": "battle front idle sheet (4 frames horizontal)",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/anim/mirewump_front_idle_sheet_2x.png",
+     "bytes": 14202,
+     "role": "battle front idle sheet (4 frames horizontal) 2x",
+     "px": [
+      1024,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/base/meta.json",
+     "bytes": 1188,
+     "role": "base metadata (scale, crop, fixes)"
+    },
+    {
+     "path": "creatures/mirewump/base/mirewump_back.png",
+     "bytes": 5666,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      83,
+      100
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/base/mirewump_front.png",
+     "bytes": 6558,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      102,
+      100
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/base/mirewump_ow_down.png",
+     "bytes": 1405,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      31,
+      44
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/base/mirewump_ow_left.png",
+     "bytes": 1737,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      52,
+      44
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/base/mirewump_ow_right.png",
+     "bytes": 1757,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      51,
+      44
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/base/mirewump_ow_up.png",
+     "bytes": 1459,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      31,
+      44
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/battle/mirewump_back_128.png",
+     "bytes": 5978,
+     "role": "battle static back (player side) sprite 128px native",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/battle/mirewump_back_128_2x.png",
+     "bytes": 7482,
+     "role": "battle static back (player side) sprite 128px native, 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/battle/mirewump_front_128.png",
+     "bytes": 6786,
+     "role": "battle static front sprite 128px native",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/battle/mirewump_front_128_2x.png",
+     "bytes": 8139,
+     "role": "battle static front sprite 128px native, 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_down_stand.png",
+     "bytes": 1537,
+     "role": "overworld frame down stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_down_stand_2x.png",
+     "bytes": 1907,
+     "role": "overworld frame down stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_down_stand_3x.png",
+     "bytes": 2227,
+     "role": "overworld frame down stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_down_walk0.png",
+     "bytes": 1612,
+     "role": "overworld frame down walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_down_walk0_2x.png",
+     "bytes": 1964,
+     "role": "overworld frame down walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_down_walk0_3x.png",
+     "bytes": 2290,
+     "role": "overworld frame down walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_down_walk1.png",
+     "bytes": 1537,
+     "role": "overworld frame down walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_down_walk1_2x.png",
+     "bytes": 1907,
+     "role": "overworld frame down walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_down_walk1_3x.png",
+     "bytes": 2227,
+     "role": "overworld frame down walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_down_walk2.png",
+     "bytes": 1581,
+     "role": "overworld frame down walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_down_walk2_2x.png",
+     "bytes": 1938,
+     "role": "overworld frame down walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_down_walk2_3x.png",
+     "bytes": 2261,
+     "role": "overworld frame down walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_down_walk3.png",
+     "bytes": 1537,
+     "role": "overworld frame down walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_down_walk3_2x.png",
+     "bytes": 1907,
+     "role": "overworld frame down walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_down_walk3_3x.png",
+     "bytes": 2227,
+     "role": "overworld frame down walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_left_stand.png",
+     "bytes": 1810,
+     "role": "overworld frame left stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_left_stand_2x.png",
+     "bytes": 2170,
+     "role": "overworld frame left stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_left_stand_3x.png",
+     "bytes": 2509,
+     "role": "overworld frame left stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_left_walk0.png",
+     "bytes": 1813,
+     "role": "overworld frame left walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_left_walk0_2x.png",
+     "bytes": 2184,
+     "role": "overworld frame left walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_left_walk0_3x.png",
+     "bytes": 2527,
+     "role": "overworld frame left walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_left_walk1.png",
+     "bytes": 1810,
+     "role": "overworld frame left walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_left_walk1_2x.png",
+     "bytes": 2170,
+     "role": "overworld frame left walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_left_walk1_3x.png",
+     "bytes": 2509,
+     "role": "overworld frame left walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_left_walk2.png",
+     "bytes": 1789,
+     "role": "overworld frame left walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_left_walk2_2x.png",
+     "bytes": 2165,
+     "role": "overworld frame left walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_left_walk2_3x.png",
+     "bytes": 2511,
+     "role": "overworld frame left walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_left_walk3.png",
+     "bytes": 1810,
+     "role": "overworld frame left walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_left_walk3_2x.png",
+     "bytes": 2170,
+     "role": "overworld frame left walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_left_walk3_3x.png",
+     "bytes": 2509,
+     "role": "overworld frame left walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_right_stand.png",
+     "bytes": 1828,
+     "role": "overworld frame right stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_right_stand_2x.png",
+     "bytes": 2193,
+     "role": "overworld frame right stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_right_stand_3x.png",
+     "bytes": 2544,
+     "role": "overworld frame right stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_right_walk0.png",
+     "bytes": 1846,
+     "role": "overworld frame right walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_right_walk0_2x.png",
+     "bytes": 2208,
+     "role": "overworld frame right walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_right_walk0_3x.png",
+     "bytes": 2548,
+     "role": "overworld frame right walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_right_walk1.png",
+     "bytes": 1828,
+     "role": "overworld frame right walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_right_walk1_2x.png",
+     "bytes": 2193,
+     "role": "overworld frame right walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_right_walk1_3x.png",
+     "bytes": 2544,
+     "role": "overworld frame right walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_right_walk2.png",
+     "bytes": 1834,
+     "role": "overworld frame right walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_right_walk2_2x.png",
+     "bytes": 2202,
+     "role": "overworld frame right walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_right_walk2_3x.png",
+     "bytes": 2533,
+     "role": "overworld frame right walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_right_walk3.png",
+     "bytes": 1828,
+     "role": "overworld frame right walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_right_walk3_2x.png",
+     "bytes": 2193,
+     "role": "overworld frame right walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_right_walk3_3x.png",
+     "bytes": 2544,
+     "role": "overworld frame right walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_up_stand.png",
+     "bytes": 1579,
+     "role": "overworld frame up stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_up_stand_2x.png",
+     "bytes": 2058,
+     "role": "overworld frame up stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_up_stand_3x.png",
+     "bytes": 2399,
+     "role": "overworld frame up stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_up_walk0.png",
+     "bytes": 1600,
+     "role": "overworld frame up walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_up_walk0_2x.png",
+     "bytes": 2100,
+     "role": "overworld frame up walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_up_walk0_3x.png",
+     "bytes": 2445,
+     "role": "overworld frame up walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_up_walk1.png",
+     "bytes": 1579,
+     "role": "overworld frame up walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_up_walk1_2x.png",
+     "bytes": 2058,
+     "role": "overworld frame up walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_up_walk1_3x.png",
+     "bytes": 2399,
+     "role": "overworld frame up walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_up_walk2.png",
+     "bytes": 1596,
+     "role": "overworld frame up walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_up_walk2_2x.png",
+     "bytes": 2097,
+     "role": "overworld frame up walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_up_walk2_3x.png",
+     "bytes": 2435,
+     "role": "overworld frame up walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_up_walk3.png",
+     "bytes": 1579,
+     "role": "overworld frame up walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_up_walk3_2x.png",
+     "bytes": 2058,
+     "role": "overworld frame up walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow/mirewump_ow_up_walk3_3x.png",
+     "bytes": 2399,
+     "role": "overworld frame up walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow_sheet.png",
+     "bytes": 11382,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) native",
+     "px": [
+      320,
+      256
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow_sheet_2x.png",
+     "bytes": 14377,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) 2x",
+     "px": [
+      640,
+      512
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow_sheet_3x.png",
+     "bytes": 17864,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) 3x",
+     "px": [
+      960,
+      768
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow_walk_all_2x.gif",
+     "bytes": 24894,
+     "role": "overworld walk GIF, all 4 directions side by side 2x",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow_walk_all_3x.gif",
+     "bytes": 40863,
+     "role": "overworld walk GIF, all 4 directions side by side 3x",
+     "px": [
+      768,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow_walk_down_2x.gif",
+     "bytes": 6176,
+     "role": "overworld walk GIF (down) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow_walk_down_3x.gif",
+     "bytes": 9868,
+     "role": "overworld walk GIF (down) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow_walk_left_2x.gif",
+     "bytes": 7058,
+     "role": "overworld walk GIF (left) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow_walk_left_3x.gif",
+     "bytes": 11361,
+     "role": "overworld walk GIF (left) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow_walk_right_2x.gif",
+     "bytes": 7207,
+     "role": "overworld walk GIF (right) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow_walk_right_3x.gif",
+     "bytes": 11643,
+     "role": "overworld walk GIF (right) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow_walk_up_2x.gif",
+     "bytes": 6463,
+     "role": "overworld walk GIF (up) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/overworld/mirewump_ow_walk_up_3x.gif",
+     "bytes": 10288,
+     "role": "overworld walk GIF (up) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/mirewump/raw/battle_back.jpg",
+     "bytes": 208034,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/raw/battle_front.jpg",
+     "bytes": 244758,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/mirewump/raw/ow_views.jpg",
+     "bytes": 178412,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1280,
+      720
+     ],
+     "frames": 1
+    }
+   ]
+  },
+  "slagrook": {
+   "counts": {
+    "files": 111,
+    "battle_static": 4,
+    "idle_frames_per_view": 4,
+    "idle_frame_files": 16,
+    "ow_frame_files": 60,
+    "ow_frames_per_direction": "1 stand + 4 walk",
+    "gifs": 12
+   },
+   "files": [
+    {
+     "path": "creatures/slagrook/README.md",
+     "bytes": 796,
+     "role": "readme"
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_back_idle/slagrook_back_idle_f0.png",
+     "bytes": 5819,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_back_idle/slagrook_back_idle_f0_2x.png",
+     "bytes": 7423,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_back_idle/slagrook_back_idle_f1.png",
+     "bytes": 5857,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_back_idle/slagrook_back_idle_f1_2x.png",
+     "bytes": 7329,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_back_idle/slagrook_back_idle_f2.png",
+     "bytes": 5833,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_back_idle/slagrook_back_idle_f2_2x.png",
+     "bytes": 7360,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_back_idle/slagrook_back_idle_f3.png",
+     "bytes": 5857,
+     "role": "battle back idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_back_idle/slagrook_back_idle_f3_2x.png",
+     "bytes": 7329,
+     "role": "battle back idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_back_idle_2x.gif",
+     "bytes": 26293,
+     "role": "battle back idle loop GIF 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_back_idle_sheet.png",
+     "bytes": 12026,
+     "role": "battle back idle sheet (4 frames horizontal)",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_back_idle_sheet_2x.png",
+     "bytes": 15555,
+     "role": "battle back idle sheet (4 frames horizontal) 2x",
+     "px": [
+      1024,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_front_idle/slagrook_front_idle_f0.png",
+     "bytes": 6389,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_front_idle/slagrook_front_idle_f0_2x.png",
+     "bytes": 8033,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_front_idle/slagrook_front_idle_f1.png",
+     "bytes": 6387,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_front_idle/slagrook_front_idle_f1_2x.png",
+     "bytes": 7983,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_front_idle/slagrook_front_idle_f2.png",
+     "bytes": 6484,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_front_idle/slagrook_front_idle_f2_2x.png",
+     "bytes": 8094,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_front_idle/slagrook_front_idle_f3.png",
+     "bytes": 6387,
+     "role": "battle front idle frame",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_front_idle/slagrook_front_idle_f3_2x.png",
+     "bytes": 7983,
+     "role": "battle front idle frame 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_front_idle_2x.gif",
+     "bytes": 26472,
+     "role": "battle front idle loop GIF 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_front_idle_sheet.png",
+     "bytes": 13006,
+     "role": "battle front idle sheet (4 frames horizontal)",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/anim/slagrook_front_idle_sheet_2x.png",
+     "bytes": 16767,
+     "role": "battle front idle sheet (4 frames horizontal) 2x",
+     "px": [
+      1024,
+      256
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/base/meta.json",
+     "bytes": 1202,
+     "role": "base metadata (scale, crop, fixes)"
+    },
+    {
+     "path": "creatures/slagrook/base/slagrook_back.png",
+     "bytes": 5639,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      105,
+      116
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/base/slagrook_front.png",
+     "bytes": 6201,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      107,
+      116
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/base/slagrook_ow_down.png",
+     "bytes": 1568,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      37,
+      50
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/base/slagrook_ow_left.png",
+     "bytes": 1680,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      42,
+      50
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/base/slagrook_ow_right.png",
+     "bytes": 1892,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      42,
+      50
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/base/slagrook_ow_up.png",
+     "bytes": 1506,
+     "role": "base: cleaned palette-snapped sprite (single source for all frames of this view)",
+     "px": [
+      37,
+      50
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/battle/slagrook_back_128.png",
+     "bytes": 5819,
+     "role": "battle static back (player side) sprite 128px native",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/battle/slagrook_back_128_2x.png",
+     "bytes": 7423,
+     "role": "battle static back (player side) sprite 128px native, 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/battle/slagrook_front_128.png",
+     "bytes": 6389,
+     "role": "battle static front sprite 128px native",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/battle/slagrook_front_128_2x.png",
+     "bytes": 8033,
+     "role": "battle static front sprite 128px native, 2x",
+     "px": [
+      256,
+      256
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_down_stand.png",
+     "bytes": 1674,
+     "role": "overworld frame down stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_down_stand_2x.png",
+     "bytes": 2085,
+     "role": "overworld frame down stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_down_stand_3x.png",
+     "bytes": 2464,
+     "role": "overworld frame down stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_down_walk0.png",
+     "bytes": 1673,
+     "role": "overworld frame down walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_down_walk0_2x.png",
+     "bytes": 2106,
+     "role": "overworld frame down walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_down_walk0_3x.png",
+     "bytes": 2483,
+     "role": "overworld frame down walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_down_walk1.png",
+     "bytes": 1674,
+     "role": "overworld frame down walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_down_walk1_2x.png",
+     "bytes": 2085,
+     "role": "overworld frame down walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_down_walk1_3x.png",
+     "bytes": 2464,
+     "role": "overworld frame down walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_down_walk2.png",
+     "bytes": 1660,
+     "role": "overworld frame down walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_down_walk2_2x.png",
+     "bytes": 2090,
+     "role": "overworld frame down walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_down_walk2_3x.png",
+     "bytes": 2471,
+     "role": "overworld frame down walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_down_walk3.png",
+     "bytes": 1674,
+     "role": "overworld frame down walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_down_walk3_2x.png",
+     "bytes": 2085,
+     "role": "overworld frame down walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_down_walk3_3x.png",
+     "bytes": 2464,
+     "role": "overworld frame down walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_left_stand.png",
+     "bytes": 1780,
+     "role": "overworld frame left stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_left_stand_2x.png",
+     "bytes": 2234,
+     "role": "overworld frame left stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_left_stand_3x.png",
+     "bytes": 2654,
+     "role": "overworld frame left stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_left_walk0.png",
+     "bytes": 1759,
+     "role": "overworld frame left walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_left_walk0_2x.png",
+     "bytes": 2199,
+     "role": "overworld frame left walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_left_walk0_3x.png",
+     "bytes": 2595,
+     "role": "overworld frame left walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_left_walk1.png",
+     "bytes": 1780,
+     "role": "overworld frame left walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_left_walk1_2x.png",
+     "bytes": 2234,
+     "role": "overworld frame left walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_left_walk1_3x.png",
+     "bytes": 2654,
+     "role": "overworld frame left walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_left_walk2.png",
+     "bytes": 1787,
+     "role": "overworld frame left walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_left_walk2_2x.png",
+     "bytes": 2213,
+     "role": "overworld frame left walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_left_walk2_3x.png",
+     "bytes": 2614,
+     "role": "overworld frame left walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_left_walk3.png",
+     "bytes": 1780,
+     "role": "overworld frame left walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_left_walk3_2x.png",
+     "bytes": 2234,
+     "role": "overworld frame left walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_left_walk3_3x.png",
+     "bytes": 2654,
+     "role": "overworld frame left walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_right_stand.png",
+     "bytes": 1995,
+     "role": "overworld frame right stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_right_stand_2x.png",
+     "bytes": 2397,
+     "role": "overworld frame right stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_right_stand_3x.png",
+     "bytes": 2813,
+     "role": "overworld frame right stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_right_walk0.png",
+     "bytes": 2018,
+     "role": "overworld frame right walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_right_walk0_2x.png",
+     "bytes": 2399,
+     "role": "overworld frame right walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_right_walk0_3x.png",
+     "bytes": 2809,
+     "role": "overworld frame right walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_right_walk1.png",
+     "bytes": 1995,
+     "role": "overworld frame right walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_right_walk1_2x.png",
+     "bytes": 2397,
+     "role": "overworld frame right walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_right_walk1_3x.png",
+     "bytes": 2813,
+     "role": "overworld frame right walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_right_walk2.png",
+     "bytes": 1991,
+     "role": "overworld frame right walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_right_walk2_2x.png",
+     "bytes": 2403,
+     "role": "overworld frame right walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_right_walk2_3x.png",
+     "bytes": 2817,
+     "role": "overworld frame right walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_right_walk3.png",
+     "bytes": 1995,
+     "role": "overworld frame right walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_right_walk3_2x.png",
+     "bytes": 2397,
+     "role": "overworld frame right walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_right_walk3_3x.png",
+     "bytes": 2813,
+     "role": "overworld frame right walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_up_stand.png",
+     "bytes": 1610,
+     "role": "overworld frame up stand (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_up_stand_2x.png",
+     "bytes": 2148,
+     "role": "overworld frame up stand (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_up_stand_3x.png",
+     "bytes": 2503,
+     "role": "overworld frame up stand (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_up_walk0.png",
+     "bytes": 1628,
+     "role": "overworld frame up walk0 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_up_walk0_2x.png",
+     "bytes": 2134,
+     "role": "overworld frame up walk0 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_up_walk0_3x.png",
+     "bytes": 2507,
+     "role": "overworld frame up walk0 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_up_walk1.png",
+     "bytes": 1610,
+     "role": "overworld frame up walk1 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_up_walk1_2x.png",
+     "bytes": 2148,
+     "role": "overworld frame up walk1 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_up_walk1_3x.png",
+     "bytes": 2503,
+     "role": "overworld frame up walk1 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_up_walk2.png",
+     "bytes": 1618,
+     "role": "overworld frame up walk2 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_up_walk2_2x.png",
+     "bytes": 2139,
+     "role": "overworld frame up walk2 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_up_walk2_3x.png",
+     "bytes": 2502,
+     "role": "overworld frame up walk2 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_up_walk3.png",
+     "bytes": 1610,
+     "role": "overworld frame up walk3 (64x64 cell) native",
+     "px": [
+      64,
+      64
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_up_walk3_2x.png",
+     "bytes": 2148,
+     "role": "overworld frame up walk3 (64x64 cell) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow/slagrook_ow_up_walk3_3x.png",
+     "bytes": 2503,
+     "role": "overworld frame up walk3 (64x64 cell) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow_sheet.png",
+     "bytes": 11637,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) native",
+     "px": [
+      320,
+      256
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow_sheet_2x.png",
+     "bytes": 14771,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) 2x",
+     "px": [
+      640,
+      512
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow_sheet_3x.png",
+     "bytes": 18466,
+     "role": "overworld sheet: rows down,left,right,up; cols stand,walk0-3 (64x64 cells) 3x",
+     "px": [
+      960,
+      768
+     ],
+     "frames": 20
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow_walk_all_2x.gif",
+     "bytes": 24249,
+     "role": "overworld walk GIF, all 4 directions side by side 2x",
+     "px": [
+      512,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow_walk_all_3x.gif",
+     "bytes": 40724,
+     "role": "overworld walk GIF, all 4 directions side by side 3x",
+     "px": [
+      768,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow_walk_down_2x.gif",
+     "bytes": 6450,
+     "role": "overworld walk GIF (down) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow_walk_down_3x.gif",
+     "bytes": 10300,
+     "role": "overworld walk GIF (down) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow_walk_left_2x.gif",
+     "bytes": 6992,
+     "role": "overworld walk GIF (left) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow_walk_left_3x.gif",
+     "bytes": 11323,
+     "role": "overworld walk GIF (left) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow_walk_right_2x.gif",
+     "bytes": 7114,
+     "role": "overworld walk GIF (right) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow_walk_right_3x.gif",
+     "bytes": 11495,
+     "role": "overworld walk GIF (right) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow_walk_up_2x.gif",
+     "bytes": 6632,
+     "role": "overworld walk GIF (up) 2x",
+     "px": [
+      128,
+      128
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/overworld/slagrook_ow_walk_up_3x.gif",
+     "bytes": 10647,
+     "role": "overworld walk GIF (up) 3x",
+     "px": [
+      192,
+      192
+     ],
+     "frames": 4
+    },
+    {
+     "path": "creatures/slagrook/raw/battle_back.jpg",
+     "bytes": 197633,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/raw/battle_front.jpg",
+     "bytes": 236009,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1024,
+      1024
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/raw/ow_views.jpg",
+     "bytes": 195327,
+     "role": "source: generated painted/pixel-style art used as snap input",
+     "px": [
+      1280,
+      720
+     ],
+     "frames": 1
+    },
+    {
+     "path": "creatures/slagrook/raw/ow_views_spare_smoke_rejected.jpg",
+     "bytes": 197496,
+     "role": "source: generated painted/pixel-style art used as snap input (REJECTED variant, kept for reference)",
+     "px": [
+      1280,
+      720
+     ],
+     "frames": 1
+    }
+   ]
+  }
+ },
+ "qa_problems": []
+}

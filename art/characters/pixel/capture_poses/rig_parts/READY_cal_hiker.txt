@@ -1,0 +1,17 @@
+RIG PARTS READY (DRAFT, awaiting Gary - not wired) - 2026-10-22 23:42 CDT
+Layers are full canvas, palette-only, alpha 0/255, cut from the ORIGINAL sprites. Stack bottom->top: body, arm_relaxed, arm_extend_upper, arm_extend_fore.
+cal (64x96, back view, extend_side screen_right = Cal's own right arm):
+  /workspace/kilumen/art/characters/pixel/capture_poses/rig_parts/cal/body.png
+  /workspace/kilumen/art/characters/pixel/capture_poses/rig_parts/cal/arm_extend_upper.png
+  /workspace/kilumen/art/characters/pixel/capture_poses/rig_parts/cal/arm_extend_fore.png
+  /workspace/kilumen/art/characters/pixel/capture_poses/rig_parts/cal/arm_relaxed.png
+  /workspace/kilumen/art/characters/pixel/capture_poses/rig_parts/cal/rig.json   shoulder [44,41] elbow [45,50] wrist [46,57] hand_center [46,62]
+  /workspace/kilumen/art/characters/pixel/capture_poses/rig_parts/cal/_check/parts_3x.png  /workspace/kilumen/art/characters/pixel/capture_poses/rig_parts/cal/_check/check.json
+tr_hiker_m (64x128, front view, extend_side screen_left = the arm on the screen-left side, anatomically his right):
+  /workspace/kilumen/art/characters/pixel/capture_poses/rig_parts/tr_hiker_m/body.png
+  /workspace/kilumen/art/characters/pixel/capture_poses/rig_parts/tr_hiker_m/arm_extend_upper.png
+  /workspace/kilumen/art/characters/pixel/capture_poses/rig_parts/tr_hiker_m/arm_extend_fore.png
+  /workspace/kilumen/art/characters/pixel/capture_poses/rig_parts/tr_hiker_m/arm_relaxed.png
+  /workspace/kilumen/art/characters/pixel/capture_poses/rig_parts/tr_hiker_m/rig.json   shoulder [11,44] elbow [9,59] wrist [8,73] hand_center [8,78]
+  /workspace/kilumen/art/characters/pixel/capture_poses/rig_parts/tr_hiker_m/_check/parts_3x.png  /workspace/kilumen/art/characters/pixel/capture_poses/rig_parts/tr_hiker_m/_check/check.json
+Recompose check: the only differences from the original are the 1px INK outline on the extending arm's cut (inner) edge, which is needed so the arm reads when it rotates (cal 19 px, tr_hiker_m 34 px; listed in _check/check.json). Fills under the arms are hidden in the recompose.

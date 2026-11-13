@@ -1,0 +1,80 @@
+{
+ "cinderwraith_front": {
+  "scale": 0.13470319634703196,
+  "org": [
+   297,
+   71
+  ],
+  "size": [
+   64,
+   118
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 14
+ },
+ "cinderwraith_back": {
+  "scale": 0.1345496009122007,
+  "org": [
+   288,
+   72
+  ],
+  "size": [
+   58,
+   118
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 13
+ },
+ "cinderwraith_ow_down": {
+  "scale": 0.09252669039145907,
+  "org": [
+   67,
+   65
+  ],
+  "size": [
+   24,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ },
+ "cinderwraith_ow_left": {
+  "scale": 0.09252669039145907,
+  "org": [
+   397,
+   65
+  ],
+  "size": [
+   20,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "cinderwraith_ow_right": {
+  "scale": 0.09285714285714286,
+  "org": [
+   680,
+   66
+  ],
+  "size": [
+   20,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ },
+ "cinderwraith_ow_up": {
+  "scale": 0.09236234458259325,
+  "org": [
+   961,
+   70
+  ],
+  "size": [
+   24,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ }
+}

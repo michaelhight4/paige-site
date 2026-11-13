@@ -1,0 +1,22 @@
+{
+ "creature": "wreckwarden",
+ "concept": "Rosewreck",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#18382c": "#2c1a12",
+  "#246e6c": "#6e222a",
+  "#2c2320": "#29252b",
+  "#38683e": "#30488c",
+  "#3e3a48": "#54444e",
+  "#3e9c92": "#a23432",
+  "#462c22": "#244e34",
+  "#54864e": "#5e5866",
+  "#6a442e": "#246e6c",
+  "#70cab8": "#d2608c",
+  "#87604d": "#54864e",
+  "#ccaa6e": "#70cab8",
+  "#ecdec4": "#c6ecfa"
+ },
+ "rule": "crystal violets never swapped"
+}

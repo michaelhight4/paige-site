@@ -1,0 +1,21 @@
+{
+ "creature": "fernlume",
+ "concept": "Autumn Fern",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#18382c": "#462c22",
+  "#244e34": "#462c22",
+  "#246e6c": "#87604d",
+  "#342842": "#244e34",
+  "#38683e": "#6a442e",
+  "#3e9c92": "#ba8856",
+  "#54864e": "#87604d",
+  "#70cab8": "#ccaa6e",
+  "#78ba48": "#d2608c",
+  "#a6d460": "#d2608c",
+  "#e8ce92": "#f6a0ba",
+  "#ecdec4": "#ccc6c2"
+ },
+ "rule": "crystal violets never swapped"
+}

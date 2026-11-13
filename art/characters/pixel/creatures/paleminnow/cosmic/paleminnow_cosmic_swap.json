@@ -1,0 +1,16 @@
+{
+ "creature": "paleminnow",
+ "concept": "Glacier",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#3e3a48": "#54444e",
+  "#87604d": "#4a70ba",
+  "#d2608c": "#70cab8",
+  "#daa2ba": "#ccc6c2",
+  "#ecdec4": "#c6ecfa",
+  "#f08868": "#70cab8",
+  "#f6a0ba": "#c6ecfa"
+ },
+ "rule": "crystal violets never swapped"
+}

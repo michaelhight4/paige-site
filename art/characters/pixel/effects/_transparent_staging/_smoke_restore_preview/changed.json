@@ -1,0 +1,42 @@
+{
+ "fire": {
+  "impact": true,
+  "travel_p2f": true,
+  "travel_f2p": true
+ },
+ "magma": {
+  "impact": true,
+  "travel_p2f": true,
+  "travel_f2p": true
+ },
+ "devil": {
+  "impact": true,
+  "travel_p2f": false,
+  "travel_f2p": false
+ },
+ "demon": {
+  "impact": true,
+  "travel_p2f": true,
+  "travel_f2p": true
+ },
+ "earth": {
+  "impact": true,
+  "travel_p2f": true,
+  "travel_f2p": true
+ },
+ "swamp": {
+  "impact": true,
+  "travel_p2f": false,
+  "travel_f2p": false
+ },
+ "bug": {
+  "impact": true,
+  "travel_p2f": true,
+  "travel_f2p": true
+ },
+ "ghost": {
+  "impact": true,
+  "travel_p2f": true,
+  "travel_f2p": true
+ }
+}

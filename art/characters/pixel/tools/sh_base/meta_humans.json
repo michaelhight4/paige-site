@@ -1,0 +1,347 @@
+{
+ "pilot_cal_normal": {
+  "src": "/workspace/kilumen/art/characters/pixel_pilot/base/cal_normal.png",
+  "remapped": true,
+  "size": [
+   45,
+   124
+  ],
+  "colors": 13
+ },
+ "pilot_cal_chibi_down": {
+  "src": "/workspace/kilumen/art/characters/pixel_pilot/base/cal_chibi_down.png",
+  "remapped": true,
+  "size": [
+   39,
+   90
+  ],
+  "colors": 12
+ },
+ "pilot_cal_chibi_left": {
+  "src": "/workspace/kilumen/art/characters/pixel_pilot/base/cal_chibi_left.png",
+  "remapped": true,
+  "size": [
+   36,
+   90
+  ],
+  "colors": 11
+ },
+ "pilot_cal_chibi_right": {
+  "src": "/workspace/kilumen/art/characters/pixel_pilot/base/cal_chibi_right.png",
+  "remapped": true,
+  "size": [
+   35,
+   90
+  ],
+  "colors": 11
+ },
+ "pilot_cal_chibi_up": {
+  "src": "/workspace/kilumen/art/characters/pixel_pilot/base/cal_chibi_up.png",
+  "remapped": true,
+  "size": [
+   36,
+   90
+  ],
+  "colors": 10
+ },
+ "ron_trainer": {
+  "src": "ron_normal.jpg",
+  "box": [
+   70,
+   18,
+   360,
+   680
+  ],
+  "scale": 0.18787878787878787,
+  "size": [
+   54,
+   124
+  ],
+  "colors": 19
+ },
+ "ron_chibi_down": {
+  "src": "ron_chibi.jpg",
+  "box": [
+   88,
+   48,
+   333,
+   625
+  ],
+  "scale": 0.1565217391304348,
+  "size": [
+   38,
+   90
+  ],
+  "colors": 19
+ },
+ "ron_chibi_left": {
+  "src": "ron_chibi.jpg",
+  "box": [
+   390,
+   50,
+   629,
+   627
+  ],
+  "scale": 0.1565217391304348,
+  "size": [
+   37,
+   90
+  ],
+  "colors": 16
+ },
+ "ron_chibi_right": {
+  "src": "ron_chibi.jpg",
+  "box": [
+   685,
+   50,
+   914,
+   627
+  ],
+  "scale": 0.1565217391304348,
+  "size": [
+   36,
+   90
+  ],
+  "colors": 17
+ },
+ "ron_chibi_up": {
+  "src": "ron_chibi.jpg",
+  "box": [
+   979,
+   55,
+   1205,
+   626
+  ],
+  "scale": 0.15817223198594024,
+  "size": [
+   35,
+   90
+  ],
+  "colors": 15
+ },
+ "mira_trainer": {
+  "src": "mira_normal.jpg",
+  "box": [
+   87,
+   21,
+   309,
+   674
+  ],
+  "scale": 0.19047619047619047,
+  "size": [
+   42,
+   124
+  ],
+  "colors": 13
+ },
+ "mira_chibi_down": {
+  "src": "mira_chibi.jpg",
+  "box": [
+   91,
+   45,
+   315,
+   631
+  ],
+  "scale": 0.1541095890410959,
+  "size": [
+   34,
+   90
+  ],
+  "colors": 17
+ },
+ "mira_chibi_left": {
+  "src": "mira_chibi.jpg",
+  "box": [
+   387,
+   54,
+   636,
+   631
+  ],
+  "scale": 0.1565217391304348,
+  "size": [
+   39,
+   90
+  ],
+  "colors": 14
+ },
+ "mira_chibi_right": {
+  "src": "mira_chibi.jpg",
+  "box": [
+   675,
+   65,
+   917,
+   631
+  ],
+  "scale": 0.1595744680851064,
+  "size": [
+   38,
+   90
+  ],
+  "colors": 15
+ },
+ "mira_chibi_up": {
+  "src": "mira_chibi.jpg",
+  "box": [
+   990,
+   62,
+   1201,
+   631
+  ],
+  "scale": 0.15873015873015872,
+  "size": [
+   33,
+   90
+  ],
+  "colors": 14
+ },
+ "vane_trainer": {
+  "src": "vane_normal.jpg",
+  "box": [
+   95,
+   19,
+   299,
+   686
+  ],
+  "scale": 0.18646616541353384,
+  "size": [
+   38,
+   124
+  ],
+  "colors": 13
+ },
+ "vane_chibi_down": {
+  "src": "vane_chibi.jpg",
+  "box": [
+   95,
+   43,
+   303,
+   647
+  ],
+  "scale": 0.14950166112956811,
+  "size": [
+   31,
+   90
+  ],
+  "colors": 16
+ },
+ "vane_chibi_left": {
+  "src": "vane_chibi.jpg",
+  "box": [
+   399,
+   65,
+   615,
+   647
+  ],
+  "scale": 0.15517241379310345,
+  "size": [
+   33,
+   90
+  ],
+  "colors": 15
+ },
+ "vane_chibi_right": {
+  "src": "vane_chibi.jpg",
+  "box": [
+   689,
+   64,
+   903,
+   647
+  ],
+  "scale": 0.1549053356282272,
+  "size": [
+   33,
+   90
+  ],
+  "colors": 17
+ },
+ "vane_chibi_up": {
+  "src": "vane_chibi.jpg",
+  "box": [
+   995,
+   51,
+   1193,
+   646
+  ],
+  "scale": 0.15177065767284992,
+  "size": [
+   30,
+   90
+  ],
+  "colors": 13
+ },
+ "stranger_trainer": {
+  "src": "stranger_normal.jpg",
+  "box": [
+   58,
+   27,
+   362,
+   686
+  ],
+  "scale": 0.1887366818873668,
+  "size": [
+   57,
+   124
+  ],
+  "colors": 15
+ },
+ "stranger_chibi_down": {
+  "src": "stranger_chibi.jpg",
+  "box": [
+   41,
+   63,
+   343,
+   633
+  ],
+  "scale": 0.15845070422535212,
+  "size": [
+   48,
+   90
+  ],
+  "colors": 17
+ },
+ "stranger_chibi_left": {
+  "src": "stranger_chibi.jpg",
+  "box": [
+   361,
+   68,
+   624,
+   636
+  ],
+  "scale": 0.15901060070671377,
+  "size": [
+   42,
+   90
+  ],
+  "colors": 17
+ },
+ "stranger_chibi_right": {
+  "src": "stranger_chibi.jpg",
+  "box": [
+   677,
+   68,
+   934,
+   636
+  ],
+  "scale": 0.15901060070671377,
+  "size": [
+   41,
+   90
+  ],
+  "colors": 17
+ },
+ "stranger_chibi_up": {
+  "src": "stranger_chibi.jpg",
+  "box": [
+   965,
+   69,
+   1248,
+   633
+  ],
+  "scale": 0.1601423487544484,
+  "size": [
+   45,
+   90
+  ],
+  "colors": 16
+ }
+}

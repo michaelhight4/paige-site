@@ -1,0 +1,15 @@
+{
+ "creature": "facetarch",
+ "concept": "Citrine Arch",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#1a1226": "#2c2320",
+  "#342842": "#244e34",
+  "#4692ce": "#e29d40",
+  "#4a70ba": "#ccaa6e",
+  "#7ac2e8": "#deb478",
+  "#c6ecfa": "#ecdec4"
+ },
+ "rule": "crystal violets never swapped"
+}

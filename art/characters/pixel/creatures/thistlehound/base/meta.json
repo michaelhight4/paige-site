@@ -1,0 +1,80 @@
+{
+ "thistlehound_front": {
+  "scale": 0.13053097345132744,
+  "org": [
+   145,
+   46
+  ],
+  "size": [
+   109,
+   118
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 18
+ },
+ "thistlehound_back": {
+  "scale": 0.14842767295597484,
+  "org": [
+   94,
+   102
+  ],
+  "size": [
+   110,
+   118
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 20
+ },
+ "thistlehound_ow_down": {
+  "scale": 0.15789473684210525,
+  "org": [
+   35,
+   180
+  ],
+  "size": [
+   27,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "thistlehound_ow_left": {
+  "scale": 0.15718157181571815,
+  "org": [
+   256,
+   182
+  ],
+  "size": [
+   58,
+   53
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "thistlehound_ow_right": {
+  "scale": 0.1589041095890411,
+  "org": [
+   654,
+   183
+  ],
+  "size": [
+   58,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 19
+ },
+ "thistlehound_ow_up": {
+  "scale": 0.1588235294117647,
+  "org": [
+   1069,
+   183
+  ],
+  "size": [
+   28,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 18
+ }
+}

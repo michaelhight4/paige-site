@@ -1,0 +1,222 @@
+{
+ "stage": "/workspace/kilumen/art/characters/pixel/effects/_transparent_staging",
+ "checked": 3,
+ "passed": 3,
+ "failed": 0,
+ "fail_counts": {},
+ "live_files_state": [
+  "swapped (staged redraw pending)"
+ ],
+ "live_files_consistent": true,
+ "results": [
+  {
+   "el": "fire",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "night_readability": true
+   },
+   "errors": [],
+   "size": [
+    120,
+    140
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    114,
+    132
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     120,
+     140
+    ],
+    "frames": 8
+   },
+   "anchor": [
+    60,
+    90
+   ],
+   "night_readability": 0.649,
+   "aseprite": "present, not read (no aseprite-py venv)"
+  },
+  {
+   "el": "fire",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "night_readability": true
+   },
+   "errors": [],
+   "size": [
+    324,
+    204
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    316,
+    198
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     320,
+     204
+    ],
+    "frames": 7
+   },
+   "anchor": [
+    [
+     58,
+     150
+    ],
+    [
+     290,
+     28
+    ]
+   ],
+   "night_readability": 0.667,
+   "aseprite": "present, not read (no aseprite-py venv)"
+  },
+  {
+   "el": "fire",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "night_readability": true
+   },
+   "errors": [],
+   "size": [
+    344,
+    208
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    336,
+    200
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     340,
+     208
+    ],
+    "frames": 7
+   },
+   "anchor": [
+    [
+     280,
+     28
+    ],
+    [
+     36,
+     168
+    ]
+   ],
+   "night_readability": 0.657,
+   "aseprite": "present, not read (no aseprite-py venv)"
+  }
+ ],
+ "live_files": [
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/fire/impact/fire_impact_battle_2x.gif",
+   "size": [
+    120,
+    140
+   ],
+   "sha256": "aabb4fec1eae2f3b9084ee78fe3f0ef41e154832583824753bc2ea126958796e",
+   "state": "swapped (staged redraw pending)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/fire/travel_p2f/fire_travel_p2f_battle_2x.gif",
+   "size": [
+    320,
+    204
+   ],
+   "sha256": "b742933413a10b2cf2ba9a8bf0ba793d754602cb194dcc88916fc54a27fd65c1",
+   "state": "swapped (staged redraw pending)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/fire/travel_f2p/fire_travel_f2p_battle_2x.gif",
+   "size": [
+    340,
+    208
+   ],
+   "sha256": "1a2157f74022121152b56bf922621157750388e64f5139609a2b92c4c39b78e7",
+   "state": "swapped (staged redraw pending)"
+  }
+ ]
+}

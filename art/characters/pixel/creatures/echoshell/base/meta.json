@@ -1,0 +1,70 @@
+{
+ "echoshell_front": {
+  "scale": 0.1262135922330097,
+  "org": [
+   248,
+   172
+  ],
+  "size": [
+   69,
+   78
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 21
+ },
+ "echoshell_back": {
+  "scale": 0.12580645161290321,
+  "org": [
+   313,
+   173
+  ],
+  "size": [
+   58,
+   78
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 12
+ },
+ "echoshell_ow_down": {
+  "scale": 0.11661807580174927,
+  "org": [
+   59,
+   161
+  ],
+  "size": [
+   26,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "echoshell_ow_left": {
+  "scale": 0.11661807580174927,
+  "org": [
+   337,
+   161
+  ],
+  "size": [
+   33,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "echoshell_ow_up": {
+  "scale": 0.11627906976744186,
+  "org": [
+   1007,
+   160
+  ],
+  "size": [
+   27,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "echoshell_ow_right": {
+  "mirror_of": "echoshell_ow_left"
+ }
+}

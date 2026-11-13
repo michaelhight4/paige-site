@@ -1,0 +1,224 @@
+{
+ "cindrip_front": {
+  "scale": 0.13316261203585147,
+  "org": [
+   112,
+   101
+  ],
+  "size": [
+   112,
+   104
+  ],
+  "src": "cindrip_front.jpg",
+  "box": null
+ },
+ "cindrip_back": {
+  "scale": 0.1570827489481066,
+  "org": [
+   209,
+   120
+  ],
+  "size": [
+   107,
+   112
+  ],
+  "src": "cindrip_back.jpg",
+  "box": null
+ },
+ "emberlunx": {
+  "scale": 0.1343784994400896,
+  "org": [
+   141,
+   51
+  ],
+  "size": [
+   108,
+   120
+  ],
+  "src": "emberlunx.jpg",
+  "box": null
+ },
+ "forgeharrow": {
+  "scale": 0.1687289088863892,
+  "org": [
+   130,
+   42
+  ],
+  "size": [
+   145,
+   150
+  ],
+  "src": "forgeharrow.jpg",
+  "box": null
+ },
+ "cal_chibi_down": {
+  "scale": 0.15789473684210525,
+  "org": [
+   86,
+   55
+  ],
+  "size": [
+   39,
+   90
+  ],
+  "src": "cal_chibi.jpg",
+  "box": [
+   78,
+   47,
+   339,
+   633
+  ]
+ },
+ "cal_chibi_left": {
+  "scale": 0.15761821366024517,
+  "org": [
+   396,
+   55
+  ],
+  "size": [
+   36,
+   90
+  ],
+  "src": "cal_chibi.jpg",
+  "box": [
+   388,
+   47,
+   635,
+   634
+  ]
+ },
+ "cal_chibi_right": {
+  "scale": 0.15761821366024517,
+  "org": [
+   689,
+   55
+  ],
+  "size": [
+   35,
+   90
+  ],
+  "src": "cal_chibi.jpg",
+  "box": [
+   681,
+   47,
+   921,
+   634
+  ]
+ },
+ "cal_chibi_up": {
+  "scale": 0.15845070422535212,
+  "org": [
+   977,
+   57
+  ],
+  "size": [
+   36,
+   90
+  ],
+  "src": "cal_chibi.jpg",
+  "box": [
+   969,
+   49,
+   1213,
+   633
+  ]
+ },
+ "cal_normal": {
+  "scale": 0.19682539682539682,
+  "org": [
+   92,
+   28
+  ],
+  "size": [
+   45,
+   124
+  ],
+  "src": "cal_normal.jpg",
+  "box": [
+   84,
+   20,
+   327,
+   666
+  ]
+ },
+ "ron_chibi": {
+  "scale": 0.09868421052631579,
+  "org": [
+   307,
+   29
+  ],
+  "size": [
+   40,
+   90
+  ],
+  "src": "ron_chibi.jpg",
+  "box": null
+ },
+ "cindrip_ow_down": {
+  "scale": 0.06566347469220246,
+  "org": [
+   253,
+   92
+  ],
+  "size": [
+   34,
+   48
+  ],
+  "src": "cindrip_ow_front.jpg",
+  "box": null
+ },
+ "cindrip_ow_left": {
+  "scale": 0.13711583924349882,
+  "org": [
+   38,
+   206
+  ],
+  "size": [
+   58,
+   38
+  ],
+  "src": "cindrip_ow_views.jpg",
+  "box": [
+   37,
+   205,
+   462,
+   484
+  ]
+ },
+ "cindrip_ow_right": {
+  "scale": 0.1351981351981352,
+  "org": [
+   473,
+   206
+  ],
+  "size": [
+   58,
+   37
+  ],
+  "src": "cindrip_ow_views.jpg",
+  "box": [
+   472,
+   205,
+   903,
+   483
+  ]
+ },
+ "cindrip_ow_up": {
+  "scale": 0.15081967213114755,
+  "org": [
+   960,
+   192
+  ],
+  "size": [
+   35,
+   46
+  ],
+  "src": "cindrip_ow_views.jpg",
+  "box": [
+   959,
+   191,
+   1196,
+   498
+  ]
+ }
+}

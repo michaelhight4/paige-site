@@ -1,0 +1,70 @@
+{
+ "candlewren_front": {
+  "scale": 0.129366106080207,
+  "org": [
+   252,
+   107
+  ],
+  "size": [
+   74,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 20
+ },
+ "candlewren_back": {
+  "scale": 0.12919896640826872,
+  "org": [
+   275,
+   94
+  ],
+  "size": [
+   61,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 17
+ },
+ "candlewren_ow_down": {
+  "scale": 0.11859838274932614,
+  "org": [
+   53,
+   147
+  ],
+  "size": [
+   27,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "candlewren_ow_left": {
+  "scale": 0.11733333333333333,
+  "org": [
+   352,
+   147
+  ],
+  "size": [
+   33,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "candlewren_ow_right": {
+  "mirror_of": "candlewren_ow_left"
+ },
+ "candlewren_ow_up": {
+  "scale": 0.11956521739130435,
+  "org": [
+   1006,
+   149
+  ],
+  "size": [
+   26,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ }
+}

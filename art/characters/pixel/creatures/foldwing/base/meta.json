@@ -1,0 +1,70 @@
+{
+ "foldwing_front": {
+  "scale": 0.11049723756906077,
+  "org": [
+   97,
+   64
+  ],
+  "size": [
+   89,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 18
+ },
+ "foldwing_back": {
+  "scale": 0.12562814070351758,
+  "org": [
+   121,
+   97
+  ],
+  "size": [
+   99,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 17
+ },
+ "foldwing_ow_down": {
+  "scale": 0.15331010452961671,
+  "org": [
+   44,
+   200
+  ],
+  "size": [
+   42,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "foldwing_ow_left": {
+  "scale": 0.14666666666666667,
+  "org": [
+   348,
+   201
+  ],
+  "size": [
+   41,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "foldwing_ow_right": {
+  "mirror_of": "foldwing_ow_left"
+ },
+ "foldwing_ow_up": {
+  "scale": 0.15827338129496402,
+  "org": [
+   968,
+   218
+  ],
+  "size": [
+   44,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 10
+ }
+}

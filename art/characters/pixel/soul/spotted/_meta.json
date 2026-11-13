@@ -1,0 +1,423 @@
+{
+ "spark": {
+  "kind": "overlay",
+  "frames": 4,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   50,
+   450,
+   120,
+   80
+  ],
+  "total_ms": 700,
+  "loop": false,
+  "anchor": [
+   12,
+   23
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/spotted/spark/1x/spark_00.png",
+    "art/characters/pixel/soul/spotted/spark/1x/spark_01.png",
+    "art/characters/pixel/soul/spotted/spark/1x/spark_02.png",
+    "art/characters/pixel/soul/spotted/spark/1x/spark_03.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/spotted/spark/2x/spark_00_2x.png",
+    "art/characters/pixel/soul/spotted/spark/2x/spark_01_2x.png",
+    "art/characters/pixel/soul/spotted/spark/2x/spark_02_2x.png",
+    "art/characters/pixel/soul/spotted/spark/2x/spark_03_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/spotted/spark/spark_sheet.png",
+   "2x": "art/characters/pixel/soul/spotted/spark/spark_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/spotted/spark/spark_2x.gif",
+  "notes": "Frame 01 is THE spark (the playbook's 1-frame symbol); 00/02/03 are optional pop-in/afterglow. Place bottom-centre (12,23) at (sprite_x+32, sprite_y+head_top-2)."
+ },
+ "spark_rt": {
+  "kind": "overlay",
+  "frames": 4,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   50,
+   450,
+   120,
+   80
+  ],
+  "total_ms": 700,
+  "loop": false,
+  "anchor": [
+   12,
+   23
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/spotted/spark_rt/1x/spark_rt_00.png",
+    "art/characters/pixel/soul/spotted/spark_rt/1x/spark_rt_01.png",
+    "art/characters/pixel/soul/spotted/spark_rt/1x/spark_rt_02.png",
+    "art/characters/pixel/soul/spotted/spark_rt/1x/spark_rt_03.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/spotted/spark_rt/2x/spark_rt_00_2x.png",
+    "art/characters/pixel/soul/spotted/spark_rt/2x/spark_rt_01_2x.png",
+    "art/characters/pixel/soul/spotted/spark_rt/2x/spark_rt_02_2x.png",
+    "art/characters/pixel/soul/spotted/spark_rt/2x/spark_rt_03_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/spotted/spark_rt/spark_rt_sheet.png",
+   "2x": "art/characters/pixel/soul/spotted/spark_rt/spark_rt_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/spotted/spark_rt/spark_rt_2x.gif",
+  "notes": "Company (RT) NPC variant: tiny RT gem-shield logo. Same timing/anchor as spark."
+ },
+ "eye_glint": {
+  "kind": "overlay",
+  "frames": 2,
+  "size": [
+   5,
+   5
+  ],
+  "ms_per_frame": [
+   50,
+   50
+  ],
+  "total_ms": 100,
+  "loop": false,
+  "anchor": [
+   2,
+   2
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/spotted/eye_glint/1x/eye_glint_00.png",
+    "art/characters/pixel/soul/spotted/eye_glint/1x/eye_glint_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/spotted/eye_glint/2x/eye_glint_00_2x.png",
+    "art/characters/pixel/soul/spotted/eye_glint/2x/eye_glint_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/spotted/eye_glint/eye_glint_sheet.png",
+   "2x": "art/characters/pixel/soul/spotted/eye_glint/eye_glint_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*5"
+  },
+  "gif_2x": "art/characters/pixel/soul/spotted/eye_glint/eye_glint_2x.gif",
+  "notes": "Eyes flash: draw one per eye, centre (2,2) at (sprite_x+eye_lx|eye_rx, sprite_y+eye_y) from eye_points.json (down-facing frame; for left/right facing use the single eye on the facing side, see README)."
+ },
+ "emotes/emote_heart": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   60,
+   260,
+   260
+  ],
+  "total_ms": 580,
+  "loop": true,
+  "anchor": [
+   12,
+   23
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_heart/1x/emote_heart_00.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_heart/1x/emote_heart_01.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_heart/1x/emote_heart_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_heart/2x/emote_heart_00_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_heart/2x/emote_heart_01_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_heart/2x/emote_heart_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/spotted/emotes/emote_heart/emote_heart_sheet.png",
+   "2x": "art/characters/pixel/soul/spotted/emotes/emote_heart/emote_heart_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/spotted/emotes/emote_heart/emote_heart_2x.gif",
+  "notes": "Play 00 once, then loop 01,02 (~1 s total), then remove. Bottom-centre (12,23) at head_top-1."
+ },
+ "emotes/emote_sweat": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   60,
+   260,
+   260
+  ],
+  "total_ms": 580,
+  "loop": true,
+  "anchor": [
+   12,
+   23
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_sweat/1x/emote_sweat_00.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_sweat/1x/emote_sweat_01.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_sweat/1x/emote_sweat_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_sweat/2x/emote_sweat_00_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_sweat/2x/emote_sweat_01_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_sweat/2x/emote_sweat_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/spotted/emotes/emote_sweat/emote_sweat_sheet.png",
+   "2x": "art/characters/pixel/soul/spotted/emotes/emote_sweat/emote_sweat_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/spotted/emotes/emote_sweat/emote_sweat_2x.gif",
+  "notes": "Play 00 once, then loop 01,02 (~1 s total), then remove. Bottom-centre (12,23) at head_top-1."
+ },
+ "emotes/emote_dots": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   60,
+   260,
+   260
+  ],
+  "total_ms": 580,
+  "loop": true,
+  "anchor": [
+   12,
+   23
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_dots/1x/emote_dots_00.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_dots/1x/emote_dots_01.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_dots/1x/emote_dots_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_dots/2x/emote_dots_00_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_dots/2x/emote_dots_01_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_dots/2x/emote_dots_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/spotted/emotes/emote_dots/emote_dots_sheet.png",
+   "2x": "art/characters/pixel/soul/spotted/emotes/emote_dots/emote_dots_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/spotted/emotes/emote_dots/emote_dots_2x.gif",
+  "notes": "Play 00 once, then loop 01,02 (~1 s total), then remove. Bottom-centre (12,23) at head_top-1."
+ },
+ "emotes/emote_note": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   60,
+   260,
+   260
+  ],
+  "total_ms": 580,
+  "loop": true,
+  "anchor": [
+   12,
+   23
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_note/1x/emote_note_00.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_note/1x/emote_note_01.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_note/1x/emote_note_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_note/2x/emote_note_00_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_note/2x/emote_note_01_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_note/2x/emote_note_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/spotted/emotes/emote_note/emote_note_sheet.png",
+   "2x": "art/characters/pixel/soul/spotted/emotes/emote_note/emote_note_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/spotted/emotes/emote_note/emote_note_2x.gif",
+  "notes": "Play 00 once, then loop 01,02 (~1 s total), then remove. Bottom-centre (12,23) at head_top-1."
+ },
+ "emotes/emote_zzz": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   60,
+   260,
+   260
+  ],
+  "total_ms": 580,
+  "loop": true,
+  "anchor": [
+   12,
+   23
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_zzz/1x/emote_zzz_00.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_zzz/1x/emote_zzz_01.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_zzz/1x/emote_zzz_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_zzz/2x/emote_zzz_00_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_zzz/2x/emote_zzz_01_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_zzz/2x/emote_zzz_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/spotted/emotes/emote_zzz/emote_zzz_sheet.png",
+   "2x": "art/characters/pixel/soul/spotted/emotes/emote_zzz/emote_zzz_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/spotted/emotes/emote_zzz/emote_zzz_2x.gif",
+  "notes": "Play 00 once, then loop 01,02 (~1 s total), then remove. Bottom-centre (12,23) at head_top-1."
+ },
+ "emotes/emote_anger": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   60,
+   260,
+   260
+  ],
+  "total_ms": 580,
+  "loop": true,
+  "anchor": [
+   12,
+   23
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_anger/1x/emote_anger_00.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_anger/1x/emote_anger_01.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_anger/1x/emote_anger_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_anger/2x/emote_anger_00_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_anger/2x/emote_anger_01_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_anger/2x/emote_anger_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/spotted/emotes/emote_anger/emote_anger_sheet.png",
+   "2x": "art/characters/pixel/soul/spotted/emotes/emote_anger/emote_anger_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/spotted/emotes/emote_anger/emote_anger_2x.gif",
+  "notes": "Play 00 once, then loop 01,02 (~1 s total), then remove. Bottom-centre (12,23) at head_top-1."
+ },
+ "emotes/emote_question": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   60,
+   260,
+   260
+  ],
+  "total_ms": 580,
+  "loop": true,
+  "anchor": [
+   12,
+   23
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_question/1x/emote_question_00.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_question/1x/emote_question_01.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_question/1x/emote_question_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_question/2x/emote_question_00_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_question/2x/emote_question_01_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_question/2x/emote_question_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/spotted/emotes/emote_question/emote_question_sheet.png",
+   "2x": "art/characters/pixel/soul/spotted/emotes/emote_question/emote_question_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/spotted/emotes/emote_question/emote_question_2x.gif",
+  "notes": "Play 00 once, then loop 01,02 (~1 s total), then remove. Bottom-centre (12,23) at head_top-1."
+ },
+ "emotes/emote_sparkle": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   60,
+   260,
+   260
+  ],
+  "total_ms": 580,
+  "loop": true,
+  "anchor": [
+   12,
+   23
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_sparkle/1x/emote_sparkle_00.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_sparkle/1x/emote_sparkle_01.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_sparkle/1x/emote_sparkle_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/spotted/emotes/emote_sparkle/2x/emote_sparkle_00_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_sparkle/2x/emote_sparkle_01_2x.png",
+    "art/characters/pixel/soul/spotted/emotes/emote_sparkle/2x/emote_sparkle_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/spotted/emotes/emote_sparkle/emote_sparkle_sheet.png",
+   "2x": "art/characters/pixel/soul/spotted/emotes/emote_sparkle/emote_sparkle_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/spotted/emotes/emote_sparkle/emote_sparkle_2x.gif",
+  "notes": "Play 00 once, then loop 01,02 (~1 s total), then remove. Bottom-centre (12,23) at head_top-1."
+ }
+}

@@ -1,0 +1,70 @@
+{
+ "moorcoil_front": {
+  "scale": 0.12102564102564102,
+  "org": [
+   130,
+   31
+  ],
+  "size": [
+   97,
+   118
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 27
+ },
+ "moorcoil_back": {
+  "scale": 0.12227979274611399,
+  "org": [
+   144,
+   29
+  ],
+  "size": [
+   91,
+   118
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 27
+ },
+ "moorcoil_ow_down": {
+  "scale": 0.11954022988505747,
+  "org": [
+   29,
+   124
+  ],
+  "size": [
+   34,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "moorcoil_ow_left": {
+  "scale": 0.12093023255813953,
+  "org": [
+   341,
+   131
+  ],
+  "size": [
+   36,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "moorcoil_ow_up": {
+  "scale": 0.12590799031476999,
+  "org": [
+   988,
+   123
+  ],
+  "size": [
+   32,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "moorcoil_ow_right": {
+  "mirror_of": "moorcoil_ow_left"
+ }
+}

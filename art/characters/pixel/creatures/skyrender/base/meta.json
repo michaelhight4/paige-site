@@ -1,0 +1,70 @@
+{
+ "skyrender_front": {
+  "scale": 0.12588832487309645,
+  "org": [
+   20,
+   142
+  ],
+  "size": [
+   124,
+   90
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 23
+ },
+ "skyrender_back": {
+  "scale": 0.12796697626418987,
+  "org": [
+   28,
+   128
+  ],
+  "size": [
+   124,
+   95
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 18
+ },
+ "skyrender_ow_down": {
+  "scale": 0.13192612137203166,
+  "org": [
+   55,
+   148
+  ],
+  "size": [
+   29,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 19
+ },
+ "skyrender_ow_left": {
+  "scale": 0.13404825737265416,
+  "org": [
+   368,
+   151
+  ],
+  "size": [
+   35,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 20
+ },
+ "skyrender_ow_right": {
+  "mirror_of": "skyrender_ow_left"
+ },
+ "skyrender_ow_up": {
+  "scale": 0.13123359580052493,
+  "org": [
+   1016,
+   150
+  ],
+  "size": [
+   27,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ }
+}

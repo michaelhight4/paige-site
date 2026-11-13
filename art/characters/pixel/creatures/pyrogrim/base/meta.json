@@ -1,0 +1,80 @@
+{
+ "pyrogrim_front": {
+  "scale": 0.12343096234309624,
+  "org": [
+   184,
+   22
+  ],
+  "size": [
+   89,
+   118
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 19
+ },
+ "pyrogrim_back": {
+  "scale": 0.1277056277056277,
+  "org": [
+   182,
+   41
+  ],
+  "size": [
+   80,
+   118
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 17
+ },
+ "pyrogrim_ow_down": {
+  "scale": 0.09923664122137404,
+  "org": [
+   25,
+   84
+  ],
+  "size": [
+   32,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "pyrogrim_ow_left": {
+  "scale": 0.09792843691148775,
+  "org": [
+   387,
+   78
+  ],
+  "size": [
+   25,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "pyrogrim_ow_right": {
+  "scale": 0.09848484848484848,
+  "org": [
+   659,
+   80
+  ],
+  "size": [
+   25,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "pyrogrim_ow_up": {
+  "scale": 0.09811320754716982,
+  "org": [
+   945,
+   88
+  ],
+  "size": [
+   31,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ }
+}

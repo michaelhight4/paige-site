@@ -1,0 +1,22 @@
+{
+ "creature": "fernstag",
+ "concept": "Dusk Fern",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#24522e": "#462c22",
+  "#2c1a12": "#1a1226",
+  "#2c2320": "#29252b",
+  "#367634": "#6a3019",
+  "#38683e": "#6a442e",
+  "#462c22": "#342842",
+  "#52983a": "#a23432",
+  "#6a3019": "#1e4078",
+  "#6a442e": "#1e4078",
+  "#87604d": "#5e5866",
+  "#92623e": "#30488c",
+  "#ba8856": "#d2608c",
+  "#ccaa6e": "#d2608c"
+ },
+ "rule": "crystal violets never swapped"
+}

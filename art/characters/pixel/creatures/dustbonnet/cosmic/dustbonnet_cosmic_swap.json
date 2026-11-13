@@ -1,0 +1,17 @@
+{
+ "creature": "dustbonnet",
+ "concept": "Ashen Rose",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#1a1226": "#2c2320",
+  "#1e4078": "#6e222a",
+  "#2c64a8": "#a23432",
+  "#342842": "#3e3a48",
+  "#462c22": "#244e34",
+  "#4692ce": "#d05440",
+  "#4a70ba": "#d05440",
+  "#ecdec4": "#c6ecfa"
+ },
+ "rule": "crystal violets never swapped"
+}

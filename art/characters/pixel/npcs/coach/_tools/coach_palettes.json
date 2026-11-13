@@ -1,0 +1,11 @@
+{
+ "_note": "Coach trainer model: ONE base (tools build_coach.py) recoloured per town. Roles: jacket hi/mid/lo/deep, trim hi/mid/lo, pants hi/mid/lo. Colours are from art/world/overworld/palette.hex only. Add a town by adding a key here and re-running build_coach.py.",
+ "towns": {
+  "brookhollow": {"jacket": ["#52983a", "#367634", "#24522e", "#18382c"], "trim": ["#fcf6e8", "#f8eabe", "#ccaa6e"], "pants": ["#5e5866", "#3e3a48", "#29252b"]},
+  "fernwick":    {"jacket": ["#3e9c92", "#246e6c", "#244e34", "#18382c"], "trim": ["#fcd668", "#eea23c", "#c46e2e"], "pants": ["#5e5866", "#3e3a48", "#29252b"]},
+  "saltmere":    {"jacket": ["#4a70ba", "#2c64a8", "#1e4078", "#1a1226"], "trim": ["#fcf6e8", "#ccc6c2", "#a8a0a4"], "pants": ["#5e5866", "#3e3a48", "#29252b"]},
+  "cindervale":  {"jacket": ["#d05440", "#a23432", "#6e222a", "#561c0e"], "trim": ["#fcd668", "#e29d40", "#c46e2e"], "pants": ["#54444e", "#342842", "#1a1226"]},
+  "frostspire":  {"jacket": ["#7ac2e8", "#4692ce", "#30488c", "#1e4078"], "trim": ["#fcf6e8", "#c6ecfa", "#a8a0a4"], "pants": ["#5e5866", "#3e3a48", "#29252b"]},
+  "aurelith":    {"jacket": ["#8a4ace", "#603096", "#3a1e60", "#1a1226"], "trim": ["#fcd668", "#e29d40", "#c46e2e"], "pants": ["#54444e", "#342842", "#1a1226"]}
+ }
+}

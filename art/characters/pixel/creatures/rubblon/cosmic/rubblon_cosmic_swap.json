@@ -1,0 +1,17 @@
+{
+ "creature": "rubblon",
+ "concept": "Moondust",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#3e3a48": "#342842",
+  "#462c22": "#3e3a48",
+  "#54444e": "#1e4078",
+  "#5e5866": "#30488c",
+  "#6a442e": "#54444e",
+  "#827a84": "#2c64a8",
+  "#87604d": "#5e5866",
+  "#a8a0a4": "#4a70ba"
+ },
+ "rule": "crystal violets never swapped"
+}

@@ -1,0 +1,18 @@
+{
+ "creature": "lavalurk",
+ "concept": "Frostfire",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#3e3a48": "#1e4078",
+  "#462c22": "#3e3a48",
+  "#54444e": "#30488c",
+  "#561c0e": "#1e4078",
+  "#5e5866": "#2c64a8",
+  "#6a3019": "#30488c",
+  "#9f4013": "#2c64a8",
+  "#d46616": "#4692ce",
+  "#e29d40": "#7ac2e8"
+ },
+ "rule": "crystal violets never swapped"
+}

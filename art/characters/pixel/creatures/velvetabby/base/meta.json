@@ -1,0 +1,70 @@
+{
+ "velvetabby_front": {
+  "scale": 0.1187648456057007,
+  "org": [
+   123,
+   84
+  ],
+  "size": [
+   97,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 16
+ },
+ "velvetabby_back": {
+  "scale": 0.11947431302270012,
+  "org": [
+   187,
+   91
+  ],
+  "size": [
+   90,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 9
+ },
+ "velvetabby_ow_down": {
+  "scale": 0.1476510067114094,
+  "org": [
+   64,
+   198
+  ],
+  "size": [
+   27,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "velvetabby_ow_left": {
+  "scale": 0.15384615384615385,
+  "org": [
+   295,
+   205
+  ],
+  "size": [
+   50,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "velvetabby_ow_right": {
+  "mirror_of": "velvetabby_ow_left"
+ },
+ "velvetabby_ow_up": {
+  "scale": 0.1375,
+  "org": [
+   1054,
+   176
+  ],
+  "size": [
+   26,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 7
+ }
+}

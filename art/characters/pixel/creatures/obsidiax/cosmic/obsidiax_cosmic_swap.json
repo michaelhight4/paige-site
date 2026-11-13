@@ -1,0 +1,18 @@
+{
+ "creature": "obsidiax",
+ "concept": "Frostfire",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#3e3a48": "#1e4078",
+  "#462c22": "#3e3a48",
+  "#54444e": "#30488c",
+  "#5e5866": "#2c64a8",
+  "#6a3019": "#30488c",
+  "#6a442e": "#54444e",
+  "#92623e": "#827a84",
+  "#ba8856": "#a8a0a4",
+  "#c46e2e": "#4a70ba"
+ },
+ "rule": "crystal violets never swapped"
+}

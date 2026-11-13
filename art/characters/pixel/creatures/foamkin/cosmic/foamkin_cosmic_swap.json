@@ -1,0 +1,14 @@
+{
+ "creature": "foamkin",
+ "concept": "Sunken Gold",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#246e6c": "#1e4078",
+  "#3e3a48": "#462c22",
+  "#3e9c92": "#2c64a8",
+  "#70cab8": "#4692ce",
+  "#ccc6c2": "#deb478"
+ },
+ "rule": "crystal violets never swapped"
+}

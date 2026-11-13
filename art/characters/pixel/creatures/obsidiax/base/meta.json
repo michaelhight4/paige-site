@@ -1,0 +1,70 @@
+{
+ "obsidiax_front": {
+  "scale": 0.11123470522803114,
+  "org": [
+   153,
+   41
+  ],
+  "size": [
+   94,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 18
+ },
+ "obsidiax_back": {
+  "scale": 0.10741138560687433,
+  "org": [
+   137,
+   33
+  ],
+  "size": [
+   78,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 18
+ },
+ "obsidiax_ow_down": {
+  "scale": 0.11471321695760599,
+  "org": [
+   31,
+   132
+  ],
+  "size": [
+   25,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "obsidiax_ow_left": {
+  "scale": 0.11825192802056556,
+  "org": [
+   291,
+   140
+  ],
+  "size": [
+   45,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "obsidiax_ow_up": {
+  "scale": 0.11616161616161616,
+  "org": [
+   1036,
+   133
+  ],
+  "size": [
+   24,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "obsidiax_ow_right": {
+  "mirror_of": "obsidiax_ow_left"
+ }
+}

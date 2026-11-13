@@ -1,0 +1,80 @@
+{
+ "pumicepuff_front": {
+  "scale": 0.11782477341389729,
+  "org": [
+   193,
+   149
+  ],
+  "size": [
+   78,
+   78
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 18
+ },
+ "pumicepuff_back": {
+  "scale": 0.11782477341389729,
+  "org": [
+   195,
+   150
+  ],
+  "size": [
+   78,
+   78
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 12
+ },
+ "pumicepuff_ow_down": {
+  "scale": 0.1360544217687075,
+  "org": [
+   31,
+   192
+  ],
+  "size": [
+   39,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "pumicepuff_ow_left": {
+  "scale": 0.1360544217687075,
+  "org": [
+   359,
+   192
+  ],
+  "size": [
+   36,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ },
+ "pumicepuff_ow_right": {
+  "scale": 0.1360544217687075,
+  "org": [
+   657,
+   192
+  ],
+  "size": [
+   36,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ },
+ "pumicepuff_ow_up": {
+  "scale": 0.1360544217687075,
+  "org": [
+   964,
+   192
+  ],
+  "size": [
+   38,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ }
+}

@@ -1,0 +1,22 @@
+{
+ "creature": "embermink",
+ "concept": "Frostfire",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#462c22": "#3e3a48",
+  "#561c0e": "#1e4078",
+  "#6a3019": "#30488c",
+  "#6a442e": "#54444e",
+  "#87604d": "#5e5866",
+  "#92623e": "#827a84",
+  "#9f4013": "#2c64a8",
+  "#ba8856": "#a8a0a4",
+  "#c46e2e": "#4a70ba",
+  "#ccaa6e": "#ccc6c2",
+  "#d46616": "#4692ce",
+  "#deb478": "#fcf6e8",
+  "#e8ce92": "#ecdec4"
+ },
+ "rule": "crystal violets never swapped"
+}

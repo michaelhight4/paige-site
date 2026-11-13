@@ -1,0 +1,3469 @@
+[
+ {
+  "el": "fire",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   120,
+   140
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 60,
+   "y": 90,
+   "native": [
+    30,
+    45
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   120,
+   140
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "fire",
+  "anim": "travel_p2f",
+  "frames": 7,
+  "ms": [
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70
+  ],
+  "canvas_2x": [
+   324,
+   204
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    58,
+    150
+   ],
+   "end": [
+    290,
+    28
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    85,
+    86
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    170,
+    172
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   320,
+   204
+  ],
+  "live_frames": 7,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "fire",
+  "anim": "travel_f2p",
+  "frames": 7,
+  "ms": [
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70
+  ],
+  "canvas_2x": [
+   344,
+   208
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    280,
+    28
+   ],
+   "end": [
+    36,
+    168
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    48,
+    92
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    96,
+    184
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   340,
+   208
+  ],
+  "live_frames": 7,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "water",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   184,
+   128
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 90,
+   "y": 60,
+   "native": [
+    45,
+    30
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "water",
+  "anim": "travel_p2f",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   308,
+   220
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    48,
+    152
+   ],
+   "end": [
+    280,
+    30
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    90,
+    85
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    180,
+    170
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "water",
+  "anim": "travel_f2p",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   328,
+   184
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    280,
+    24
+   ],
+   "end": [
+    36,
+    164
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    48,
+    94
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    96,
+    188
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "earth",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100
+  ],
+  "canvas_2x": [
+   236,
+   112
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 116,
+   "y": 40,
+   "native": [
+    58,
+    20
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   236,
+   112
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": true,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 3
+ },
+ {
+  "el": "earth",
+  "anim": "travel_p2f",
+  "frames": 7,
+  "ms": [
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100
+  ],
+  "canvas_2x": [
+   312,
+   296
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    50,
+    178
+   ],
+   "end": [
+    282,
+    56
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    89,
+    72
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    178,
+    144
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   312,
+   292
+  ],
+  "live_frames": 7,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": true,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "earth",
+  "anim": "travel_f2p",
+  "frames": 7,
+  "ms": [
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100
+  ],
+  "canvas_2x": [
+   328,
+   236
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    274,
+    54
+   ],
+   "end": [
+    30,
+    194
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    51,
+    79
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    102,
+    158
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   324,
+   236
+  ],
+  "live_frames": 7,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "wind",
+  "anim": "impact",
+  "frames": 7,
+  "ms": [
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70
+  ],
+  "canvas_2x": [
+   168,
+   140
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 82,
+   "y": 88,
+   "native": [
+    41,
+    44
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "wind",
+  "anim": "travel_p2f",
+  "frames": 6,
+  "ms": [
+   60,
+   60,
+   60,
+   60,
+   60,
+   60
+  ],
+  "canvas_2x": [
+   292,
+   172
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    30,
+    148
+   ],
+   "end": [
+    262,
+    26
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    99,
+    87
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    198,
+    174
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [
+   0,
+   7
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "wind",
+  "anim": "travel_f2p",
+  "frames": 6,
+  "ms": [
+   60,
+   60,
+   60,
+   60,
+   60,
+   60
+  ],
+  "canvas_2x": [
+   304,
+   200
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    276,
+    24
+   ],
+   "end": [
+    32,
+    164
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    50,
+    94
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    100,
+    188
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [
+   0,
+   7
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "light",
+  "anim": "impact",
+  "frames": 7,
+  "ms": [
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70
+  ],
+  "canvas_2x": [
+   164,
+   160
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 80,
+   "y": 86,
+   "native": [
+    40,
+    43
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "light",
+  "anim": "travel_p2f",
+  "frames": 6,
+  "ms": [
+   50,
+   50,
+   50,
+   50,
+   50,
+   50
+  ],
+  "canvas_2x": [
+   288,
+   176
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    24,
+    150
+   ],
+   "end": [
+    256,
+    28
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    102,
+    86
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    204,
+    172
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [
+   0,
+   7
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "light",
+  "anim": "travel_f2p",
+  "frames": 6,
+  "ms": [
+   50,
+   50,
+   50,
+   50,
+   50,
+   50
+  ],
+  "canvas_2x": [
+   308,
+   204
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    282,
+    24
+   ],
+   "end": [
+    38,
+    164
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    47,
+    94
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    94,
+    188
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [
+   0,
+   7
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "dark",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   180,
+   164
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 88,
+   "y": 84,
+   "native": [
+    44,
+    42
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "dark",
+  "anim": "travel_p2f",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   324,
+   200
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    60,
+    150
+   ],
+   "end": [
+    292,
+    28
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    84,
+    86
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    168,
+    172
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "dark",
+  "anim": "travel_f2p",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   344,
+   220
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    282,
+    40
+   ],
+   "end": [
+    38,
+    180
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    47,
+    86
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    94,
+    172
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "mystic",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   132,
+   136
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 64,
+   "y": 64,
+   "native": [
+    32,
+    32
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "mystic",
+  "anim": "travel_p2f",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   288,
+   188
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    24,
+    152
+   ],
+   "end": [
+    256,
+    30
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    102,
+    85
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    204,
+    170
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "mystic",
+  "anim": "travel_f2p",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   304,
+   196
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    274,
+    22
+   ],
+   "end": [
+    30,
+    162
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    51,
+    95
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    102,
+    190
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "legendary",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   236,
+   204
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 116,
+   "y": 100,
+   "native": [
+    58,
+    50
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": true,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "legendary",
+  "anim": "travel_p2f",
+  "frames": 8,
+  "ms": [
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70
+  ],
+  "canvas_2x": [
+   340,
+   240
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    72,
+    154
+   ],
+   "end": [
+    304,
+    32
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    78,
+    84
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    156,
+    168
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "legendary",
+  "anim": "travel_f2p",
+  "frames": 8,
+  "ms": [
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70
+  ],
+  "canvas_2x": [
+   360,
+   220
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    286,
+    36
+   ],
+   "end": [
+    42,
+    176
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    45,
+    88
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    90,
+    176
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "grass",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   204,
+   184
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 100,
+   "y": 50,
+   "native": [
+    50,
+    25
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": true,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "grass",
+  "anim": "travel_p2f",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   328,
+   224
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    62,
+    150
+   ],
+   "end": [
+    294,
+    28
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    83,
+    86
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    166,
+    172
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "grass",
+  "anim": "travel_f2p",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   344,
+   208
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    284,
+    28
+   ],
+   "end": [
+    40,
+    168
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    46,
+    92
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    92,
+    184
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "bug",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70
+  ],
+  "canvas_2x": [
+   244,
+   156
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 120,
+   "y": 94,
+   "native": [
+    60,
+    47
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   244,
+   156
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": true,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "bug",
+  "anim": "travel_p2f",
+  "frames": 7,
+  "ms": [
+   60,
+   60,
+   60,
+   60,
+   60,
+   60,
+   60
+  ],
+  "canvas_2x": [
+   316,
+   188
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    28,
+    162
+   ],
+   "end": [
+    260,
+    40
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    100,
+    80
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    200,
+    160
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   316,
+   188
+  ],
+  "live_frames": 7,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "bug",
+  "anim": "travel_f2p",
+  "frames": 7,
+  "ms": [
+   60,
+   60,
+   60,
+   60,
+   60,
+   60,
+   60
+  ],
+  "canvas_2x": [
+   328,
+   212
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    294,
+    32
+   ],
+   "end": [
+    50,
+    172
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    41,
+    90
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    82,
+    180
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   328,
+   212
+  ],
+  "live_frames": 7,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "sea",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   212,
+   120
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 120,
+   "y": 46,
+   "native": [
+    60,
+    23
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": true,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "sea",
+  "anim": "travel_p2f",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   308,
+   204
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    46,
+    152
+   ],
+   "end": [
+    278,
+    30
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    91,
+    85
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    182,
+    170
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "sea",
+  "anim": "travel_f2p",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   328,
+   176
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    278,
+    14
+   ],
+   "end": [
+    34,
+    154
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    49,
+    99
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    98,
+    198
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "freshwater",
+  "anim": "impact",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   152,
+   132
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 74,
+   "y": 66,
+   "native": [
+    37,
+    33
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "freshwater",
+  "anim": "travel_p2f",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   312,
+   220
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    44,
+    156
+   ],
+   "end": [
+    276,
+    34
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    92,
+    83
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    184,
+    166
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "freshwater",
+  "anim": "travel_f2p",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   328,
+   216
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    276,
+    38
+   ],
+   "end": [
+    32,
+    178
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    50,
+    87
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    100,
+    174
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "swamp",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100
+  ],
+  "canvas_2x": [
+   140,
+   184
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 72,
+   "y": 90,
+   "native": [
+    36,
+    45
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   140,
+   184
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "swamp",
+  "anim": "travel_p2f",
+  "frames": 7,
+  "ms": [
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100
+  ],
+  "canvas_2x": [
+   308,
+   280
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    46,
+    152
+   ],
+   "end": [
+    278,
+    30
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    91,
+    85
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    182,
+    170
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   308,
+   280
+  ],
+  "live_frames": 7,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "swamp",
+  "anim": "travel_f2p",
+  "frames": 7,
+  "ms": [
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100
+  ],
+  "canvas_2x": [
+   336,
+   208
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    286,
+    34
+   ],
+   "end": [
+    42,
+    174
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    45,
+    89
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    90,
+    178
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   336,
+   208
+  ],
+  "live_frames": 7,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "rain",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   136,
+   184
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 66,
+   "y": 120,
+   "native": [
+    33,
+    60
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "rain",
+  "anim": "travel_p2f",
+  "frames": 7,
+  "ms": [
+   60,
+   60,
+   60,
+   60,
+   60,
+   60,
+   60
+  ],
+  "canvas_2x": [
+   288,
+   164
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    28,
+    140
+   ],
+   "end": [
+    260,
+    18
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    100,
+    91
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    200,
+    182
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "rain",
+  "anim": "travel_f2p",
+  "frames": 7,
+  "ms": [
+   60,
+   60,
+   60,
+   60,
+   60,
+   60,
+   60
+  ],
+  "canvas_2x": [
+   304,
+   192
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    274,
+    34
+   ],
+   "end": [
+    30,
+    174
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    51,
+    89
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    102,
+    178
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "magma",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100
+  ],
+  "canvas_2x": [
+   188,
+   132
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 94,
+   "y": 68,
+   "native": [
+    47,
+    34
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   188,
+   124
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "magma",
+  "anim": "travel_p2f",
+  "frames": 7,
+  "ms": [
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100
+  ],
+  "canvas_2x": [
+   332,
+   276
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    68,
+    178
+   ],
+   "end": [
+    300,
+    56
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    80,
+    72
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    160,
+    144
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   324,
+   268
+  ],
+  "live_frames": 7,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "magma",
+  "anim": "travel_f2p",
+  "frames": 7,
+  "ms": [
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100
+  ],
+  "canvas_2x": [
+   356,
+   236
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    286,
+    50
+   ],
+   "end": [
+    42,
+    190
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    45,
+    81
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    90,
+    162
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   344,
+   224
+  ],
+  "live_frames": 7,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "dragos",
+  "anim": "impact",
+  "frames": 7,
+  "ms": [
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70
+  ],
+  "canvas_2x": [
+   168,
+   172
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 88,
+   "y": 82,
+   "native": [
+    44,
+    41
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "dragos",
+  "anim": "travel_p2f",
+  "frames": 8,
+  "ms": [
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70
+  ],
+  "canvas_2x": [
+   288,
+   176
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    24,
+    144
+   ],
+   "end": [
+    256,
+    22
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    102,
+    89
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    204,
+    178
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "dragos",
+  "anim": "travel_f2p",
+  "frames": 8,
+  "ms": [
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70
+  ],
+  "canvas_2x": [
+   316,
+   192
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    280,
+    22
+   ],
+   "end": [
+    36,
+    162
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    48,
+    95
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    96,
+    190
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "bird",
+  "anim": "impact",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   164,
+   212
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 84,
+   "y": 68,
+   "native": [
+    42,
+    34
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": true,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "bird",
+  "anim": "travel_p2f",
+  "frames": 6,
+  "ms": [
+   60,
+   60,
+   60,
+   60,
+   60,
+   60
+  ],
+  "canvas_2x": [
+   288,
+   184
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    26,
+    152
+   ],
+   "end": [
+    258,
+    30
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    101,
+    85
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    202,
+    170
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [
+   0,
+   7
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "bird",
+  "anim": "travel_f2p",
+  "frames": 6,
+  "ms": [
+   60,
+   60,
+   60,
+   60,
+   60,
+   60
+  ],
+  "canvas_2x": [
+   312,
+   208
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    280,
+    26
+   ],
+   "end": [
+    36,
+    166
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    48,
+    93
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    96,
+    186
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [
+   0,
+   7
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "spirit",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   116,
+   168
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 56,
+   "y": 102,
+   "native": [
+    28,
+    51
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "spirit",
+  "anim": "travel_p2f",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   284,
+   192
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    32,
+    146
+   ],
+   "end": [
+    264,
+    24
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    98,
+    88
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    196,
+    176
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "spirit",
+  "anim": "travel_f2p",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   308,
+   192
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    270,
+    24
+   ],
+   "end": [
+    26,
+    164
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    53,
+    94
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    106,
+    188
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "ghost",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100
+  ],
+  "canvas_2x": [
+   188,
+   140
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 92,
+   "y": 80,
+   "native": [
+    46,
+    40
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   188,
+   140
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "ghost",
+  "anim": "travel_p2f",
+  "frames": 8,
+  "ms": [
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100
+  ],
+  "canvas_2x": [
+   292,
+   164
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    30,
+    142
+   ],
+   "end": [
+    262,
+    20
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    99,
+    90
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    198,
+    180
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   288,
+   160
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "ghost",
+  "anim": "travel_f2p",
+  "frames": 8,
+  "ms": [
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100,
+   100
+  ],
+  "canvas_2x": [
+   300,
+   184
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    270,
+    18
+   ],
+   "end": [
+    26,
+    158
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    53,
+    97
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    106,
+    194
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   296,
+   184
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "demon",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   136,
+   176
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 68,
+   "y": 86,
+   "native": [
+    34,
+    43
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   136,
+   176
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "demon",
+  "anim": "travel_p2f",
+  "frames": 7,
+  "ms": [
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70
+  ],
+  "canvas_2x": [
+   304,
+   188
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    42,
+    152
+   ],
+   "end": [
+    274,
+    30
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    93,
+    85
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    186,
+    170
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   304,
+   184
+  ],
+  "live_frames": 7,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "demon",
+  "anim": "travel_f2p",
+  "frames": 7,
+  "ms": [
+   70,
+   70,
+   70,
+   70,
+   70,
+   70,
+   70
+  ],
+  "canvas_2x": [
+   324,
+   208
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    282,
+    32
+   ],
+   "end": [
+    38,
+    172
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    47,
+    90
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    94,
+    180
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   324,
+   208
+  ],
+  "live_frames": 7,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "angelic",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   168,
+   144
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 84,
+   "y": 74,
+   "native": [
+    42,
+    37
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "angelic",
+  "anim": "travel_p2f",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   316,
+   240
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    54,
+    148
+   ],
+   "end": [
+    286,
+    26
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    87,
+    87
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    174,
+    174
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "angelic",
+  "anim": "travel_f2p",
+  "frames": 7,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   352,
+   192
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    280,
+    22
+   ],
+   "end": [
+    36,
+    162
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    48,
+    95
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    96,
+    190
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 9,
+  "live_scene_only_hold_frames": [
+   0,
+   8
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "god",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   188,
+   244
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 92,
+   "y": 164,
+   "native": [
+    46,
+    82
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": false,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": true,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "god",
+  "anim": "travel_p2f",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   308,
+   200
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    40,
+    156
+   ],
+   "end": [
+    272,
+    34
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    94,
+    83
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    188,
+    166
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "god",
+  "anim": "travel_f2p",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   336,
+   232
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    292,
+    40
+   ],
+   "end": [
+    48,
+    180
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    42,
+    86
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    84,
+    172
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": true,
+  "live_size": [
+   640,
+   480
+  ],
+  "live_frames": 10,
+  "live_scene_only_hold_frames": [
+   0,
+   9
+  ],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "devil",
+  "anim": "impact",
+  "frames": 8,
+  "ms": [
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80,
+   80
+  ],
+  "canvas_2x": [
+   112,
+   144
+  ],
+  "anchor": {
+   "type": "impact_centre",
+   "x": 54,
+   "y": 72,
+   "native": [
+    27,
+    36
+   ],
+   "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   112,
+   136
+  ],
+  "live_frames": 8,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "devil",
+  "anim": "travel_p2f",
+  "frames": 6,
+  "ms": [
+   60,
+   60,
+   60,
+   60,
+   60,
+   60
+  ],
+  "canvas_2x": [
+   284,
+   168
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    20,
+    150
+   ],
+   "end": [
+    252,
+    28
+   ],
+   "start_is": "player mouth (back sprite)",
+   "end_is": "foe centre",
+   "canvas_offset_on_pilot_screen_native": [
+    104,
+    86
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    208,
+    172
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   284,
+   168
+  ],
+  "live_frames": 6,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ },
+ {
+  "el": "devil",
+  "anim": "travel_f2p",
+  "frames": 6,
+  "ms": [
+   60,
+   60,
+   60,
+   60,
+   60,
+   60
+  ],
+  "canvas_2x": [
+   304,
+   208
+  ],
+  "anchor": {
+   "type": "screen_space_path",
+   "start": [
+    282,
+    26
+   ],
+   "end": [
+    38,
+    166
+   ],
+   "start_is": "foe mouth (front sprite)",
+   "end_is": "player centre",
+   "canvas_offset_on_pilot_screen_native": [
+    47,
+    93
+   ],
+   "canvas_offset_on_pilot_screen_2x": [
+    94,
+    186
+   ],
+   "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+  },
+  "source_eq_committed_1x": true,
+  "live_is_source_on_scene": false,
+  "live_size": [
+   304,
+   208
+  ],
+  "live_frames": 6,
+  "live_scene_only_hold_frames": [],
+  "effect_touches_source_canvas_edge": false,
+  "live_art_was_cut_at_old_canvas_edge": false,
+  "rendered_with_margin": true,
+  "margin_inner_diff_px": 0
+ }
+]

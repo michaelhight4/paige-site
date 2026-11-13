@@ -1,0 +1,48 @@
+{
+ "fish": {
+  "reuse": "tileset fish_shadow (1165, 4 fr x 200 ms, alpha-96 shadow) + fish_ripple (1166) at map.ambient.fish_spots - unchanged",
+  "jump": {
+   "asset": "fish_jump_right / fish_jump_left",
+   "frame": "64x96, draw at (spot_x*64, spot_y*64-32); bottom 64 px = the spot cell; waterline y=74",
+   "chance": "each visible shadow: one jump every 12-30 s (random), never two at once per map; not while raining; not at Night (shadows hide at Night? keep: Night allowed in brookhollow only if fish_spots visible)",
+   "sequence": "hide the shadow on frame 0, play 13 frames once (total 1.07 s), show the shadow again 1 tile right/left (where the fish landed: +34 px) and resume drifting",
+   "direction": "right or left at random; use the mirrored strip for left",
+   "layer": "over water, under characters (frames 2-6 above everything on the water row is fine: the fish stays inside the cell above)",
+   "sound": "small plip on frame 0, splash on frame 8"
+  }
+ },
+ "birds": {
+  "asset": "flock_bird_* (24x24, foot anchor (12,21), facing right; mirror for left) + flock_bird_shadow (8x3, centre (4,1))",
+  "where": "route1 dirt paths (playbook 2.5): spawn groups of 3-5 on path cells off-screen-ish, 6-14 px random offsets inside the cell; day/dusk only; none in rain",
+  "idle": "per bird random loop: peck (4 fr x 120 ms), look (hold 400-900 ms), hop (3 fr x 80 ms, moves 4-8 px), stand; desynchronise with random start",
+  "trigger": {
+   "run_or_bike": "player RUNNING or BIKING within 3 tiles (Chebyshev) of a bird -> whole group scatters, staggered 0-120 ms per bird",
+   "walk": "WALKING never scatters them (playbook: \"scatter when you run, not when you walk\"); a bird whose cell the player walks into hops 1 cell aside (hop x2) and keeps pecking",
+   "buddy": "the Trail Buddy never scatters them (Sailquill buddy: birds look up = look pose)"
+  },
+  "scatter": {
+   "frames": "flock_bird_takeoff (2 fr x 50 ms) then flock_bird_fly loop (4 fr x 50 ms)",
+   "path": "away from the player: dx = +-5 px/frame (40 ms tick), dy = -3 px/frame, plus random +-1 jitter; shadow stays on the ground and slides with dx, dissolves after 6 ticks",
+   "despawn": "when off-screen; respawn the group on another path cell 20-40 s later while it is off-camera"
+  },
+  "sound": "flutter burst on scatter (one per group)"
+ },
+ "fireflies": {
+  "asset": "firefly_bright (6 fr x 110 ms loop), firefly_dim (6 fr x 160 ms loop), firefly_dim_in (5 fr once; reverse = brighten). 9x9, centre (4,4). EMISSIVE: draw after the night grade, unaffected by it",
+  "where_when": "Night in fernwick (pond x15-18, y20-21) and thornwood (glades); Dusk: half count. Count in fernwick follows sq_fireflies: 3 at sq_fireflies_start, 12 at sq_fireflies_done (8.5-D)",
+  "motion": "code-driven drift per firefly: x = cx + 22*sin(t/1700 + p1) + 6*sin(t/530 + p2), y = cy + 10*sin(t/1100 + p3) - 4; cx,cy = home cell centre; random p1..p3",
+  "crystal_dim": "distance to the nearest crystal ore / dig-scar tile (thornwood (27,11), greystone_entrance (16,12), route1 crystal cluster): <= 2 tiles -> play firefly_dim_in once then firefly_dim; also push the home point 0.5 px/tick away; back outside 2.5 tiles -> reverse dim_in then bright. After the scar is planted with lumen moss (sq_fireflies_scar_N) the radius for that scar is 0",
+  "layer": "above characters"
+ },
+ "prints": {
+  "reuse": "tileset footprint_{snow,sand,mud}_{dir} for the player (unchanged rule: spawn on the cell left, 3 frames x 1333 ms, max 24)",
+  "pawprint": "pawprint_{sand,snow,mud}_{dir}: same rule for the Trail Buddy (replaces the human prints the tileset rule currently spawns for the follower). 3 frames x 1333 ms, 64x64 decal, cell top-left, under characters. Flying buddies (Sailquill) leave none",
+  "wet": "wetprint_{sand,ground}_{dir} (player) and wetpaw_{sand,ground}_{dir} (buddy): after leaving water/shallow (Tideglide dismount, wading Rillop, shallow cells) spawn on the next 6 cells left; frames full/60%/30% x 1000 ms; \"sand\" on sand ground, \"ground\" everywhere else except water; none on snow (snow prints win)"
+ },
+ "splash": {
+  "splash_ring": "6 fr (460 ms) once per step that ENDS on a shallow-water cell (and every buddy step while Rillop wades); 64x64 decal on that cell, under characters except the drops (fine to draw all of it under the feet)",
+  "wade_ring": "4 fr loop while standing in shallow water",
+  "shallow_cells": "there is no shallow-water tile yet: trigger on cells tagged shallow (World Design to add), and on Rillop wade cells; until then preview uses the route1 sand pond edge"
+ },
+ "reduced_motion": "birds still scatter but fly straight up-out in 6 ticks; fish jumps off (ripples stay); fireflies keep the pulse but drift amplitude halved"
+}

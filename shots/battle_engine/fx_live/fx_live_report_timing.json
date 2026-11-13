@@ -1,0 +1,2011 @@
+{
+ "at": "Thu Oct 22 2026 23:29:34 GMT-0500 (Central Daylight Time)",
+ "fails": 0,
+ "report": [
+  {
+   "tag": "iphone14/default/plain",
+   "name": "effects play in a normal battle (8 effect(s): water/travel_p2f, water/impact, fire/travel_f2p, fire/impact)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/plain",
+   "name": "live paths only",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/plain",
+   "name": "no scene flash during hits",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/plain",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "92.0x64.0 vs 184x128"
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 1: no scene flash (effect 92x64 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "11.0 ms"
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "11.0 ms"
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "92.0x64.0 vs 184x128"
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 2: no scene flash (effect 92x64 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "7.0 ms"
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "7.0 ms"
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "641 ms"
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "246x176 in 750x340"
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "travel removed after total_ms=560, impact follows",
+   "ok": true,
+   "info": "560 ms, impact +1 ms"
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "water/impact/water_impact_battle_2x.json, water/travel_p2f/water_travel_p2f_battle_2x.json, water/impact/water_impact_battle_2x.gif, water/travel_p2f/water_travel_p2f_battle_2x.gif, water/travel_f2p/water_travel_f2p_battle_2x.json, water/travel_f2p/water_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "60.0x70.0 vs 120x140"
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 1: no scene flash (effect 60x70 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "9.0 ms"
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "9.0 ms"
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "642 ms"
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "60.0x70.0 vs 120x140"
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 2: no scene flash (effect 60x70 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "256x163 in 750x340"
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "travel removed after total_ms=490, impact follows",
+   "ok": true,
+   "info": "490 ms, impact +1 ms"
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "fire/impact/fire_impact_battle_2x.json, fire/travel_p2f/fire_travel_p2f_battle_2x.json, fire/impact/fire_impact_battle_2x.gif, fire/travel_p2f/fire_travel_p2f_battle_2x.gif, fire/travel_f2p/fire_travel_f2p_battle_2x.json, fire/travel_f2p/fire_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "94.0x62.0 vs 188x124"
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 1: no scene flash (effect 94x62 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "10.0 ms"
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "10.0 ms"
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 1: removed after total_ms=800",
+   "ok": true,
+   "info": "801 ms"
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "94.0x62.0 vs 188x124"
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 2: no scene flash (effect 94x62 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 2: removed after total_ms=800",
+   "ok": true,
+   "info": "800 ms"
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "259x214 in 750x340"
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "travel removed after total_ms=700, impact follows",
+   "ok": true,
+   "info": "702 ms, impact +3 ms"
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "magma/impact/magma_impact_battle_2x.json, magma/travel_p2f/magma_travel_p2f_battle_2x.json, magma/impact/magma_impact_battle_2x.gif, magma/travel_p2f/magma_travel_p2f_battle_2x.gif, magma/travel_f2p/magma_travel_f2p_battle_2x.json, magma/travel_f2p/magma_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "56.0x68.0 vs 112x136"
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 1: no scene flash (effect 56x68 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "10.0 ms"
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "9.0 ms"
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "56.0x68.0 vs 112x136"
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 2: no scene flash (effect 56x68 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "2.0 ms"
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "2.0 ms"
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "641 ms"
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "devil/impact/devil_impact_battle_2x.json, devil/impact/devil_impact_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "94.0x122.0 vs 188x244"
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 1: no scene flash (effect 94x122 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "8.0 ms"
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "8.0 ms"
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "641 ms"
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "94.0x122.0 vs 188x244"
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 2: no scene flash (effect 94x122 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "2.0 ms"
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "2.0 ms"
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "641 ms"
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "god/impact/god_impact_battle_2x.json, god/impact/god_impact_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "102.0x92.0 vs 204x184"
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 1: no scene flash (effect 102x92 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "12.0 ms"
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "12.0 ms"
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "641 ms"
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "102.0x92.0 vs 204x184"
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 2: no scene flash (effect 102x92 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "643 ms"
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "grass/impact/grass_impact_battle_2x.json, grass/impact/grass_impact_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "82.0x80.0 vs 164x160"
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 1: no scene flash (effect 82x80 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "9.0 ms"
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "9.0 ms"
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 1: removed after total_ms=490",
+   "ok": true,
+   "info": "490 ms"
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "82.0x80.0 vs 164x160"
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 2: no scene flash (effect 82x80 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 2: removed after total_ms=490",
+   "ok": true,
+   "info": "490 ms"
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "230x141 in 750x340"
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "travel removed after total_ms=300, impact follows",
+   "ok": true,
+   "info": "300 ms, impact +1 ms"
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "light/travel_p2f/light_travel_p2f_battle_2x.json, light/impact/light_impact_battle_2x.json, light/travel_p2f/light_travel_p2f_battle_2x.gif, light/impact/light_impact_battle_2x.gif, light/travel_f2p/light_travel_f2p_battle_2x.json, light/travel_f2p/light_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/plain",
+   "name": "effects play in a normal battle (6 effect(s): water/travel_p2f, water/impact, dark/travel_f2p, dark/impact)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/plain",
+   "name": "live paths only",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/plain",
+   "name": "no scene flash during hits",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/plain",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "92.0x64.0 vs 184x128"
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 1: no scene flash (effect 92x64 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "18.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "18.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "641 ms"
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "92.0x64.0 vs 184x128"
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 2: no scene flash (effect 92x64 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "246x176 in 750x340"
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "travel removed after total_ms=560, impact follows",
+   "ok": true,
+   "info": "561 ms, impact +1 ms"
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "water/impact/water_impact_battle_2x.json, water/travel_p2f/water_travel_p2f_battle_2x.json, water/impact/water_impact_battle_2x.gif, water/travel_p2f/water_travel_p2f_battle_2x.gif, water/travel_f2p/water_travel_f2p_battle_2x.json, water/travel_f2p/water_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "60.0x70.0 vs 120x140"
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 1: no scene flash (effect 60x70 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "9.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "9.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "641 ms"
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "60.0x70.0 vs 120x140"
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 2: no scene flash (effect 60x70 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "641 ms"
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "256x163 in 750x340"
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "travel removed after total_ms=490, impact follows",
+   "ok": true,
+   "info": "491 ms, impact +0 ms"
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "fire/impact/fire_impact_battle_2x.json, fire/travel_p2f/fire_travel_p2f_battle_2x.json, fire/impact/fire_impact_battle_2x.gif, fire/travel_p2f/fire_travel_p2f_battle_2x.gif, fire/travel_f2p/fire_travel_f2p_battle_2x.json, fire/travel_f2p/fire_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "94.0x62.0 vs 188x124"
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 1: no scene flash (effect 94x62 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "9.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "9.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 1: removed after total_ms=800",
+   "ok": true,
+   "info": "802 ms"
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "94.0x62.0 vs 188x124"
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 2: no scene flash (effect 94x62 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 2: removed after total_ms=800",
+   "ok": true,
+   "info": "800 ms"
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "259x214 in 750x340"
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "travel removed after total_ms=700, impact follows",
+   "ok": true,
+   "info": "704 ms, impact +1 ms"
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "magma/impact/magma_impact_battle_2x.json, magma/travel_p2f/magma_travel_p2f_battle_2x.json, magma/impact/magma_impact_battle_2x.gif, magma/travel_p2f/magma_travel_p2f_battle_2x.gif, magma/travel_f2p/magma_travel_f2p_battle_2x.json, magma/travel_f2p/magma_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "56.0x68.0 vs 112x136"
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 1: no scene flash (effect 56x68 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "8.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "8.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "642 ms"
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "56.0x68.0 vs 112x136"
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 2: no scene flash (effect 56x68 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "2.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "2.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "644 ms"
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "227x134 in 750x340"
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "travel removed after total_ms=360, impact follows",
+   "ok": true,
+   "info": "361 ms, impact +0 ms"
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "devil/impact/devil_impact_battle_2x.json, devil/travel_p2f/devil_travel_p2f_battle_2x.json, devil/travel_p2f/devil_travel_p2f_battle_2x.gif, devil/impact/devil_impact_battle_2x.gif, devil/travel_f2p/devil_travel_f2p_battle_2x.json, devil/travel_f2p/devil_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "94.0x122.0 vs 188x244"
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 1: no scene flash (effect 94x122 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "9.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "9.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "94.0x122.0 vs 188x244"
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 2: no scene flash (effect 94x122 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "2.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "2.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "649 ms"
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "246x160 in 750x340"
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "travel removed after total_ms=640, impact follows",
+   "ok": true,
+   "info": "640 ms, impact +1 ms"
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "god/impact/god_impact_battle_2x.json, god/travel_p2f/god_travel_p2f_battle_2x.json, god/impact/god_impact_battle_2x.gif, god/travel_p2f/god_travel_p2f_battle_2x.gif, god/travel_f2p/god_travel_f2p_battle_2x.json, god/travel_f2p/god_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "102.0x92.0 vs 204x184"
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 1: no scene flash (effect 102x92 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "12.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "12.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "102.0x92.0 vs 204x184"
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 2: no scene flash (effect 102x92 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "1.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "262x179 in 750x340"
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "travel removed after total_ms=560, impact follows",
+   "ok": true,
+   "info": "557 ms, impact +1 ms"
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "grass/impact/grass_impact_battle_2x.json, grass/travel_p2f/grass_travel_p2f_battle_2x.json, grass/impact/grass_impact_battle_2x.gif, grass/travel_p2f/grass_travel_p2f_battle_2x.gif, grass/travel_f2p/grass_travel_f2p_battle_2x.json, grass/travel_f2p/grass_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "82.0x80.0 vs 164x160"
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 1: no scene flash (effect 82x80 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "11.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "11.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 1: removed after total_ms=490",
+   "ok": true,
+   "info": "492 ms"
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "82.0x80.0 vs 164x160"
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 2: no scene flash (effect 82x80 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "2.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "2.0 ms"
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 2: removed after total_ms=490",
+   "ok": true,
+   "info": "491 ms"
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "230x141 in 750x340"
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "travel removed after total_ms=300, impact follows",
+   "ok": true,
+   "info": "305 ms, impact +0 ms"
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "light/impact/light_impact_battle_2x.json, light/travel_p2f/light_travel_p2f_battle_2x.json, light/impact/light_impact_battle_2x.gif, light/travel_p2f/light_travel_p2f_battle_2x.gif, light/travel_f2p/light_travel_f2p_battle_2x.json, light/travel_f2p/light_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  }
+ ],
+ "shots": [
+  {
+   "tag": "iphone14/default/plain",
+   "turns": 2,
+   "effects": [
+    "water/travel_p2f",
+    "water/impact",
+    "fire/travel_f2p",
+    "fire/impact",
+    "water/travel_p2f",
+    "water/impact",
+    "fire/travel_f2p",
+    "fire/impact"
+   ],
+   "clip": null
+  },
+  {
+   "tag": "iphone14/default/water",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_default_water_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_default_water_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_default_water_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_default_fire_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_default_fire_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_default_fire_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_default_magma_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_default_magma_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_default_magma_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "shots": {
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_default_devil_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_default_devil_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/default/god",
+   "shots": {
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_default_god_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_default_god_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "shots": {
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_default_grass_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_default_grass_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/default/light",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_default_light_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_default_light_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_default_light_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/sd/plain",
+   "turns": 2,
+   "effects": [
+    "water/travel_p2f",
+    "water/impact",
+    "dark/travel_f2p",
+    "dark/impact",
+    "dark/travel_f2p",
+    "dark/impact"
+   ],
+   "clip": null
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_sd_water_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_sd_water_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_sd_water_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_sd_fire_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_sd_fire_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_sd_fire_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_sd_magma_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_sd_magma_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_sd_magma_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_sd_devil_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_sd_devil_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_sd_devil_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_sd_god_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_sd_god_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_sd_god_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_sd_grass_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_sd_grass_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_sd_grass_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_sd_light_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_sd_light_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_sd_light_3_impact_on_player_mirrored.png"
+   }
+  }
+ ]
+}

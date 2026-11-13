@@ -1,0 +1,119 @@
+{
+ "element": "fire",
+ "anim": "travel_f2p",
+ "description": "main type: tumbling fireball w/ flame tongue tail, embers, smoke; impact = flame burst then smoke",
+ "generated_by": "art/characters/pixel/effects/_tools/build_transparent_staging.py",
+ "generated_at": "2026-10-30T00:32:04-05:00",
+ "scale": 2,
+ "filter": "nearest",
+ "background": "fully transparent (1-bit alpha), palette-only opaque pixels",
+ "gif": "fire_travel_f2p_battle_2x.gif",
+ "gif_disposal": 2,
+ "loop": "gif loop=0 is set; play ONCE in game (remove after total_ms)",
+ "sheet": "fire_travel_f2p_battle_2x_sheet.png",
+ "sheet_layout": "horizontal strip, frame i at x=i*frame_w",
+ "frame_w": 344,
+ "frame_h": 208,
+ "frame_count": 7,
+ "frames": [
+  {
+   "i": 0,
+   "x": 0,
+   "y": 0,
+   "w": 344,
+   "h": 208,
+   "ms": 70
+  },
+  {
+   "i": 1,
+   "x": 344,
+   "y": 0,
+   "w": 344,
+   "h": 208,
+   "ms": 70
+  },
+  {
+   "i": 2,
+   "x": 688,
+   "y": 0,
+   "w": 344,
+   "h": 208,
+   "ms": 70
+  },
+  {
+   "i": 3,
+   "x": 1032,
+   "y": 0,
+   "w": 344,
+   "h": 208,
+   "ms": 70
+  },
+  {
+   "i": 4,
+   "x": 1376,
+   "y": 0,
+   "w": 344,
+   "h": 208,
+   "ms": 70
+  },
+  {
+   "i": 5,
+   "x": 1720,
+   "y": 0,
+   "w": 344,
+   "h": 208,
+   "ms": 70
+  },
+  {
+   "i": 6,
+   "x": 2064,
+   "y": 0,
+   "w": 344,
+   "h": 208,
+   "ms": 70
+  }
+ ],
+ "total_ms": 490,
+ "native_frame_w": 172,
+ "native_frame_h": 104,
+ "crop_in_source_canvas_native": {
+  "x": 8,
+  "y": 52,
+  "w": 172,
+  "h": 104,
+  "source_canvas": [
+   240,
+   176
+  ],
+  "note": "x/y relative to the old canvas; negative = art that the old canvas cut off"
+ },
+ "effect_bbox_native": [
+  3,
+  3,
+  168,
+  100
+ ],
+ "rendered_with_margin": true,
+ "anchor": {
+  "type": "screen_space_path",
+  "start": [
+   280,
+   28
+  ],
+  "end": [
+   36,
+   168
+  ],
+  "start_is": "foe mouth (front sprite)",
+  "end_is": "player centre",
+  "canvas_offset_on_pilot_screen_native": [
+   48,
+   92
+  ],
+  "canvas_offset_on_pilot_screen_2x": [
+   96,
+   184
+  ],
+  "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+ }
+}

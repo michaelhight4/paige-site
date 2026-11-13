@@ -1,0 +1,70 @@
+{
+ "humstone_front": {
+  "scale": 0.12106537530266344,
+  "org": [
+   197,
+   85
+  ],
+  "size": [
+   76,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 19
+ },
+ "humstone_back": {
+  "scale": 0.12437810945273632,
+  "org": [
+   218,
+   87
+  ],
+  "size": [
+   74,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 16
+ },
+ "humstone_ow_down": {
+  "scale": 0.12137203166226913,
+  "org": [
+   31,
+   150
+  ],
+  "size": [
+   36,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ },
+ "humstone_ow_left": {
+  "scale": 0.12137203166226913,
+  "org": [
+   383,
+   150
+  ],
+  "size": [
+   28,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "humstone_ow_up": {
+  "scale": 0.12137203166226913,
+  "org": [
+   956,
+   150
+  ],
+  "size": [
+   35,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ },
+ "humstone_ow_right": {
+  "mirror_of": "humstone_ow_left"
+ }
+}

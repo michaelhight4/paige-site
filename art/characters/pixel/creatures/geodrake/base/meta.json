@@ -1,0 +1,80 @@
+{
+ "geodrake_front": {
+  "scale": 0.1282316442605998,
+  "org": [
+   48,
+   101
+  ],
+  "size": [
+   124,
+   102
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 16
+ },
+ "geodrake_back": {
+  "scale": 0.129979035639413,
+  "org": [
+   31,
+   94
+  ],
+  "size": [
+   124,
+   102
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 14
+ },
+ "geodrake_ow_down": {
+  "scale": 0.1780821917808219,
+  "org": [
+   12,
+   197
+  ],
+  "size": [
+   44,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ },
+ "geodrake_ow_left": {
+  "scale": 0.15343915343915343,
+  "org": [
+   274,
+   200
+  ],
+  "size": [
+   58,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "geodrake_ow_right": {
+  "scale": 0.16111111111111112,
+  "org": [
+   661,
+   202
+  ],
+  "size": [
+   58,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ },
+ "geodrake_ow_up": {
+  "scale": 0.1824561403508772,
+  "org": [
+   1040,
+   205
+  ],
+  "size": [
+   42,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ }
+}

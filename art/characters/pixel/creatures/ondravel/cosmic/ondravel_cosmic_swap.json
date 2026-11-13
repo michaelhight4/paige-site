@@ -1,0 +1,25 @@
+{
+ "creature": "ondravel",
+ "concept": "Sunken Gold",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#1a1226": "#2c2320",
+  "#1e4078": "#92623e",
+  "#2c2320": "#29252b",
+  "#2c64a8": "#ba8856",
+  "#30488c": "#92623e",
+  "#342842": "#244e34",
+  "#462c22": "#18382c",
+  "#4692ce": "#e29d40",
+  "#4a70ba": "#ccaa6e",
+  "#6a442e": "#30488c",
+  "#7ac2e8": "#deb478",
+  "#87604d": "#4a70ba",
+  "#92623e": "#2c64a8",
+  "#ba8856": "#4a70ba",
+  "#c6ecfa": "#ecdec4",
+  "#ccaa6e": "#4a70ba"
+ },
+ "rule": "crystal violets never swapped"
+}

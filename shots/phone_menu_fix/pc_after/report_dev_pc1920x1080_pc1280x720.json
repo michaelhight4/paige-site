@@ -1,0 +1,156 @@
+[
+  {
+    "view": "pc1920x1080",
+    "scene": "title_menu",
+    "platform": "pc",
+    "scr": "title",
+    "uiOpen": true,
+    "controls": [],
+    "rows": 2,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-pc ui-skin ui-open",
+    "inner": [
+      1920,
+      1080
+    ],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/pc_after/dev_pc1920x1080_title_menu.png"
+  },
+  {
+    "view": "pc1920x1080",
+    "scene": "pause_menu",
+    "platform": "pc",
+    "scr": "phone",
+    "uiOpen": true,
+    "controls": [],
+    "rows": 9,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-pc ui-skin ui-open",
+    "inner": [
+      1920,
+      1080
+    ],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/pc_after/dev_pc1920x1080_pause_menu.png"
+  },
+  {
+    "view": "pc1920x1080",
+    "scene": "battle",
+    "platform": "pc",
+    "scr": "battle",
+    "uiOpen": true,
+    "controls": [],
+    "rows": 4,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-pc ui-skin ui-open",
+    "inner": [
+      1920,
+      1080
+    ],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/pc_after/dev_pc1920x1080_battle.png"
+  },
+  {
+    "view": "pc1920x1080",
+    "scene": "overworld",
+    "platform": "pc",
+    "scr": null,
+    "uiOpen": false,
+    "controls": [],
+    "rows": 0,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-pc ui-skin",
+    "inner": [
+      1920,
+      1080
+    ],
+    "controlsAfter": [],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/pc_after/dev_pc1920x1080_overworld.png"
+  },
+  {
+    "view": "pc1280x720",
+    "scene": "title_menu",
+    "platform": "pc",
+    "scr": "title",
+    "uiOpen": true,
+    "controls": [],
+    "rows": 2,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-pc ui-skin ui-open",
+    "inner": [
+      1280,
+      720
+    ],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/pc_after/dev_pc1280x720_title_menu.png"
+  },
+  {
+    "view": "pc1280x720",
+    "scene": "pause_menu",
+    "platform": "pc",
+    "scr": "phone",
+    "uiOpen": true,
+    "controls": [],
+    "rows": 9,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-pc ui-skin ui-open",
+    "inner": [
+      1280,
+      720
+    ],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/pc_after/dev_pc1280x720_pause_menu.png"
+  },
+  {
+    "view": "pc1280x720",
+    "scene": "battle",
+    "platform": "pc",
+    "scr": "battle",
+    "uiOpen": true,
+    "controls": [],
+    "rows": 4,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-pc ui-skin ui-open",
+    "inner": [
+      1280,
+      720
+    ],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/pc_after/dev_pc1280x720_battle.png"
+  },
+  {
+    "view": "pc1280x720",
+    "scene": "overworld",
+    "platform": "pc",
+    "scr": null,
+    "uiOpen": false,
+    "controls": [],
+    "rows": 0,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-pc ui-skin",
+    "inner": [
+      1280,
+      720
+    ],
+    "controlsAfter": [],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/pc_after/dev_pc1280x720_overworld.png"
+  }
+]

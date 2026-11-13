@@ -1,0 +1,70 @@
+{
+ "pharolith_front": {
+  "scale": 0.12642487046632125,
+  "org": [
+   135,
+   17
+  ],
+  "size": [
+   95,
+   122
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 15
+ },
+ "pharolith_back": {
+  "scale": 0.12748171368861025,
+  "org": [
+   182,
+   17
+  ],
+  "size": [
+   87,
+   122
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 15
+ },
+ "pharolith_ow_down": {
+  "scale": 0.09836065573770492,
+  "org": [
+   17,
+   59
+  ],
+  "size": [
+   38,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "pharolith_ow_left": {
+  "scale": 0.09818181818181818,
+  "org": [
+   417,
+   60
+  ],
+  "size": [
+   20,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "pharolith_ow_up": {
+  "scale": 0.09800362976406533,
+  "org": [
+   887,
+   59
+  ],
+  "size": [
+   36,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 10
+ },
+ "pharolith_ow_right": {
+  "mirror_of": "pharolith_ow_left"
+ }
+}

@@ -1,0 +1,291 @@
+{
+ "piece": "grass_leaves",
+ "status": "DRAFT - not approved by Gary, NOT wired into game code",
+ "owner": "Animator",
+ "generated_by": "art/characters/pixel/fx_extra/_tools/gen_grass_leaves.py",
+ "generated_at": "2026-10-22T23:12:42-05:00",
+ "paths_relative_to": "/workspace/kilumen",
+ "palette": "art/world/overworld/palette.hex (64 colours) + full transparency; alpha is 0 or 255 only",
+ "scale_rule": "draw 1x frames scaled by an integer (2x/3x) with nearest-neighbour only; *_2x files are exact nearest copies",
+ "sheet_layout": "horizontal strip; frame i rect = [i*w, 0, w, h] (rects[] lists them)",
+ "emissive_rule": "emissive 'all' -> grade with grades.<g>.lit (lut_<g>_lit.png); 'none' -> grades.<g>.sprite; 'mask' -> per pixel by <name>_emissive_sheet.png. Draw order: palette swaps -> grade.",
+ "about": "Tall-grass step leaves (MECHANICS_PARITY grass feedback). Leaves only, no dust or haze.",
+ "hooks": {
+  "trigger": "player (or a walking follower) ENTERS a tall_grass_* tile; start with the tile rustle (same ms)",
+  "pick": "alternate leaves_a / leaves_b per step (or random); skip when running on a bike over 3 grass tiles in a row: play every other step",
+  "not_on": "surf, cut-scenes",
+  "reduced_motion": "use leaves_reduced_motion",
+  "grade": "sprite grade (not emissive): leaves dim at night with the grass, the dark edge keeps them readable"
+ },
+ "tod_check": {
+  "a": {
+   "gif_2x": "art/characters/pixel/fx_extra/grass_leaves/_preview/leaves_a_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/grass_leaves/_preview/leaves_a_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.784,
+    "day": 0.822,
+    "dusk": 0.746,
+    "night": 0.686
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "b": {
+   "gif_2x": "art/characters/pixel/fx_extra/grass_leaves/_preview/leaves_b_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/grass_leaves/_preview/leaves_b_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.811,
+    "day": 0.842,
+    "dusk": 0.765,
+    "night": 0.656
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "rm": {
+   "gif_2x": "art/characters/pixel/fx_extra/grass_leaves/_preview/leaves_reduced_motion_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/grass_leaves/_preview/leaves_reduced_motion_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.787,
+    "day": 0.846,
+    "dusk": 0.743,
+    "night": 0.691
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  }
+ },
+ "anims": {
+  "leaves_a": {
+   "kind": "overlay",
+   "frames": 9,
+   "frame_size": [
+    64,
+    96
+   ],
+   "ms_per_frame": [
+    50,
+    50,
+    55,
+    60,
+    70,
+    80,
+    80,
+    80,
+    70
+   ],
+   "total_ms": 595,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     0,
+     32
+    ],
+    "meaning": "canvas (0,32) = top-left of the tall-grass tile the player stepped INTO"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     64,
+     96
+    ],
+    [
+     64,
+     0,
+     64,
+     96
+    ],
+    [
+     128,
+     0,
+     64,
+     96
+    ],
+    [
+     192,
+     0,
+     64,
+     96
+    ],
+    [
+     256,
+     0,
+     64,
+     96
+    ],
+    [
+     320,
+     0,
+     64,
+     96
+    ],
+    [
+     384,
+     0,
+     64,
+     96
+    ],
+    [
+     448,
+     0,
+     64,
+     96
+    ],
+    [
+     512,
+     0,
+     64,
+     96
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/grass_leaves/leaves_a/leaves_a_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/grass_leaves/leaves_a/leaves_a_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/grass_leaves/leaves_a/leaves_a_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/grass_leaves/leaves_a/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/grass_leaves/leaves_a/2x",
+   "emissive": "none",
+   "notes": "2 leaves pop out of the grass tops, tumble (4 poses) and fall back in. Sprite grade. Draw above the grass tile, below the player when the leaf is lower than the player's head (simplest: draw after the tile layer, before actors)."
+  },
+  "leaves_b": {
+   "kind": "overlay",
+   "frames": 9,
+   "frame_size": [
+    64,
+    96
+   ],
+   "ms_per_frame": [
+    50,
+    50,
+    55,
+    60,
+    70,
+    80,
+    80,
+    80,
+    70
+   ],
+   "total_ms": 595,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     0,
+     32
+    ],
+    "meaning": "same as leaves_a"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     64,
+     96
+    ],
+    [
+     64,
+     0,
+     64,
+     96
+    ],
+    [
+     128,
+     0,
+     64,
+     96
+    ],
+    [
+     192,
+     0,
+     64,
+     96
+    ],
+    [
+     256,
+     0,
+     64,
+     96
+    ],
+    [
+     320,
+     0,
+     64,
+     96
+    ],
+    [
+     384,
+     0,
+     64,
+     96
+    ],
+    [
+     448,
+     0,
+     64,
+     96
+    ],
+    [
+     512,
+     0,
+     64,
+     96
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/grass_leaves/leaves_b/leaves_b_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/grass_leaves/leaves_b/leaves_b_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/grass_leaves/leaves_b/leaves_b_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/grass_leaves/leaves_b/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/grass_leaves/leaves_b/2x",
+   "emissive": "none",
+   "notes": "1-leaf variant so repeated steps do not look identical."
+  },
+  "leaves_reduced_motion": {
+   "kind": "overlay",
+   "frames": 3,
+   "frame_size": [
+    64,
+    96
+   ],
+   "ms_per_frame": [
+    90,
+    120,
+    90
+   ],
+   "total_ms": 300,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     0,
+     32
+    ],
+    "meaning": "same as leaves_a"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     64,
+     96
+    ],
+    [
+     64,
+     0,
+     64,
+     96
+    ],
+    [
+     128,
+     0,
+     64,
+     96
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/grass_leaves/leaves_reduced_motion/leaves_reduced_motion_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/grass_leaves/leaves_reduced_motion/leaves_reduced_motion_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/grass_leaves/leaves_reduced_motion/leaves_reduced_motion_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/grass_leaves/leaves_reduced_motion/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/grass_leaves/leaves_reduced_motion/2x",
+   "emissive": "none",
+   "notes": "Reduced motion: one leaf peeks above the grass and settles; no arcs."
+  }
+ }
+}

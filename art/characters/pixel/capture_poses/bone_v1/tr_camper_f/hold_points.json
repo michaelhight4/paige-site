@@ -1,0 +1,38 @@
+{
+ "char_id": "tr_camper_f",
+ "anim": "capture_trainer",
+ "frames": [
+  "raise",
+  "hold"
+ ],
+ "frame_w": 84,
+ "frame_h": 128,
+ "hold_px": [
+  [
+   6,
+   62
+  ],
+  [
+   3,
+   37
+  ]
+ ],
+ "hold_px_by_frame": {
+  "raise": [
+   6,
+   62
+  ],
+  "hold": [
+   3,
+   37
+  ]
+ },
+ "pad": {
+  "left": 10,
+  "right": 10,
+  "top": 0,
+  "bottom": 0
+ },
+ "note": "hold_px = crystal centre just in front of the palm, 1x px in the frame's own top-left coords (after pad). Source canvas 64x128; pad shifts all source x by +10. DRAFT bone_v1, awaiting Gary.",
+ "status": "draft, awaiting Gary"
+}

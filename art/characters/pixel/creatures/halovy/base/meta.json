@@ -1,0 +1,95 @@
+{
+ "halovy_front": {
+  "scale": 0.13275299238302501,
+  "org": [
+   118,
+   36
+  ],
+  "size": [
+   107,
+   122
+  ],
+  "src": "raw/battle_front.jpg",
+  "box": null,
+  "colours": 14
+ },
+ "halovy_back": {
+  "scale": 0.1342134213421342,
+  "org": [
+   138,
+   39
+  ],
+  "size": [
+   103,
+   122
+  ],
+  "src": "raw/battle_back.jpg",
+  "box": null,
+  "colours": 15
+ },
+ "halovy_ow_down": {
+  "scale": 0.14555256064690028,
+  "org": [
+   25,
+   162
+  ],
+  "size": [
+   43,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "box": [
+   0,
+   0,
+   339,
+   720
+  ],
+  "colours": 14
+ },
+ "halovy_ow_left": {
+  "scale": 0.14594594594594595,
+  "org": [
+   359,
+   163
+  ],
+  "size": [
+   39,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "box": [
+   339,
+   0,
+   646,
+   720
+  ],
+  "colours": 15
+ },
+ "halovy_ow_up": {
+  "scale": 0.1447721179624665,
+  "org": [
+   960,
+   162
+  ],
+  "size": [
+   43,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "box": [
+   940,
+   0,
+   1280,
+   720
+  ],
+  "colours": 14
+ },
+ "halovy_ow_right": {
+  "mirror_of": "halovy_ow_left",
+  "size": [
+   39,
+   54
+  ],
+  "colours": 15
+ }
+}

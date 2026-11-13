@@ -1,0 +1,80 @@
+{
+ "cragmont_front": {
+  "scale": 0.13177470775770456,
+  "org": [
+   47,
+   36
+  ],
+  "size": [
+   124,
+   119
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 19
+ },
+ "cragmont_back": {
+  "scale": 0.13495575221238937,
+  "org": [
+   100,
+   33
+  ],
+  "size": [
+   116,
+   122
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 20
+ },
+ "cragmont_ow_down": {
+  "scale": 0.12529002320185614,
+  "org": [
+   12,
+   123
+  ],
+  "size": [
+   49,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "cragmont_ow_left": {
+  "scale": 0.12413793103448276,
+  "org": [
+   416,
+   122
+  ],
+  "size": [
+   27,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "cragmont_ow_right": {
+  "scale": 0.12442396313364056,
+  "org": [
+   664,
+   122
+  ],
+  "size": [
+   27,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "cragmont_ow_up": {
+  "scale": 0.12413793103448276,
+  "org": [
+   898,
+   121
+  ],
+  "size": [
+   46,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ }
+}

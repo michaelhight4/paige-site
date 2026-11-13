@@ -1,0 +1,673 @@
+{
+ "elements": {
+  "fire": {
+   "travel_p2f": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 8,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 8,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 9,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "water": {
+   "travel_p2f": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "earth": {
+   "travel_p2f": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 8,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "wind": {
+   "travel_p2f": {
+    "frames": 6,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 4,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 6,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 4,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 4,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "light": {
+   "travel_p2f": {
+    "frames": 6,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 4,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 6,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 4,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 4,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "dark": {
+   "travel_p2f": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 6,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "mystic": {
+   "travel_p2f": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 8,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "legendary": {
+   "travel_p2f": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 8,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 8,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 9,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "grass": {
+   "travel_p2f": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "bug": {
+   "travel_p2f": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 8,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 8,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 10,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "sea": {
+   "travel_p2f": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "freshwater": {
+   "travel_p2f": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 4,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "swamp": {
+   "travel_p2f": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "rain": {
+   "travel_p2f": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 6,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 6,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "magma": {
+   "travel_p2f": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 8,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 8,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 9,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "dragos": {
+   "travel_p2f": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 6,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 6,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 6,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "bird": {
+   "travel_p2f": {
+    "frames": 6,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 6,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 6,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 6,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "spirit": {
+   "travel_p2f": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "ghost": {
+   "travel_p2f": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 6,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "demon": {
+   "travel_p2f": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 8,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 8,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 10,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "angelic": {
+   "travel_p2f": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 7,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "god": {
+   "travel_p2f": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  },
+  "devil": {
+   "travel_p2f": {
+    "frames": 6,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "travel_f2p": {
+    "frames": 6,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 5,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   },
+   "impact": {
+    "frames": 8,
+    "palette_ok": true,
+    "nn_2x_ok": true,
+    "colours_used": 7,
+    "errors": [],
+    "warnings": [],
+    "pass": true
+   }
+  }
+ },
+ "ok": true,
+ "palette_colours": 64
+}

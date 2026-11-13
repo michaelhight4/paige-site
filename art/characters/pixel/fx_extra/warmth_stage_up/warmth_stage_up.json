@@ -1,0 +1,1199 @@
+{
+ "piece": "warmth_stage_up",
+ "status": "DRAFT - not approved by Gary, NOT wired into game code",
+ "owner": "Animator",
+ "generated_by": "art/characters/pixel/fx_extra/_tools/gen_warmth_stage_up.py",
+ "generated_at": "2026-10-22T23:12:43-05:00",
+ "paths_relative_to": "/workspace/kilumen",
+ "palette": "art/world/overworld/palette.hex (64 colours) + full transparency; alpha is 0 or 255 only",
+ "scale_rule": "draw 1x frames scaled by an integer (2x/3x) with nearest-neighbour only; *_2x files are exact nearest copies",
+ "sheet_layout": "horizontal strip; frame i rect = [i*w, 0, w, h] (rects[] lists them)",
+ "emissive_rule": "emissive 'all' -> grade with grades.<g>.lit (lut_<g>_lit.png); 'none' -> grades.<g>.sprite; 'mask' -> per pixel by <name>_emissive_sheet.png. Draw order: palette swaps -> grade.",
+ "about": "Warmth stage-up FX (SOUL_PLAYBOOK Warmth): one ring+sparkle per ramp family in the family's own stage-3 colours, stage pips (shape marker), crystal anchors.",
+ "hooks": {
+  "trigger": "Warmth crosses a stage threshold (warmth_tints.json thresholds 25/50/75) at a calm moment: after battle results or in the party screen; never mid-move",
+  "sequence": [
+   "stage_up_<family> at the crystal centroid of the current sprite frame",
+   "frame 3: swap to the new Warmth stage (palette swap via warmth_tints.json on the crystal mask)",
+   "stage_pips glyph updates to the new count on frame 3",
+   "chime SFX on frame 2"
+  ],
+  "family_lookup": "warmth_tints.json creatures.<name>.ramp_family",
+  "anchors": "art/characters/pixel/fx_extra/warmth_stage_up/crystal_anchors.json",
+  "stage_down": "no ring for losing Warmth: just swap, plus pips update (avoid rewarding loss with sparkle)",
+  "reduced_motion": "skip the ring; play frame 3 only for 300 ms, then swap",
+  "order": "cosmic swap -> Warmth swap -> ToD grade (cosmic_swaps.json)"
+ },
+ "tod_check": {
+  "ring_ember": {
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_ember_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_ember_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.727,
+    "day": 0.731,
+    "dusk": 0.729,
+    "night": 0.722
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "ring_seafoam": {
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_seafoam_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_seafoam_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.853,
+    "day": 0.853,
+    "dusk": 0.852,
+    "night": 0.842
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "ring_moss": {
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_moss_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_moss_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.853,
+    "day": 0.923,
+    "dusk": 0.795,
+    "night": 0.707
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "ring_candle": {
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_candle_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_candle_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.882,
+    "day": 0.882,
+    "dusk": 0.882,
+    "night": 0.878
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "ring_coral": {
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_coral_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_coral_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.882,
+    "day": 0.882,
+    "dusk": 0.882,
+    "night": 0.878
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "ring_crimson": {
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_crimson_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_crimson_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.948,
+    "day": 0.948,
+    "dusk": 0.934,
+    "night": 0.934
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "ring_dawn": {
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_dawn_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_dawn_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.878,
+    "day": 0.878,
+    "dusk": 0.878,
+    "night": 0.742
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "ring_molten": {
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_molten_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_molten_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 1.0,
+    "day": 1.0,
+    "dusk": 1.0,
+    "night": 1.0
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "ring_pond": {
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_pond_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_pond_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.882,
+    "day": 0.882,
+    "dusk": 0.882,
+    "night": 0.882
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "ring_sprout": {
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_sprout_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_up_sprout_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.747,
+    "day": 0.882,
+    "dusk": 0.742,
+    "night": 0.742
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "pips": {
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_pips_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/warmth_stage_up/_preview/stage_pips_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.641,
+    "day": 0.667,
+    "dusk": 0.641,
+    "night": 0.53
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  }
+ },
+ "anims": {
+  "rings/stage_up_candle": {
+   "kind": "overlay",
+   "frames": 10,
+   "frame_size": [
+    48,
+    48
+   ],
+   "ms_per_frame": [
+    50,
+    50,
+    60,
+    70,
+    70,
+    70,
+    80,
+    80,
+    90,
+    60
+   ],
+   "total_ms": 680,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     24,
+     24
+    ],
+    "meaning": "centre on the crystal centroid (crystal_anchors.json)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     48,
+     48
+    ],
+    [
+     48,
+     0,
+     48,
+     48
+    ],
+    [
+     96,
+     0,
+     48,
+     48
+    ],
+    [
+     144,
+     0,
+     48,
+     48
+    ],
+    [
+     192,
+     0,
+     48,
+     48
+    ],
+    [
+     240,
+     0,
+     48,
+     48
+    ],
+    [
+     288,
+     0,
+     48,
+     48
+    ],
+    [
+     336,
+     0,
+     48,
+     48
+    ],
+    [
+     384,
+     0,
+     48,
+     48
+    ],
+    [
+     432,
+     0,
+     48,
+     48
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_candle/stage_up_candle_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_candle/stage_up_candle_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_candle/stage_up_candle_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_candle/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_candle/2x",
+   "emissive": "all",
+   "notes": "Warmth stage-up ring for ramp family \"candle\" (stage-3 ramp ['6a3019', '9f4013', 'e29d40', 'fcd668', 'f8eabe', 'fcf6e8']). Swap the sprite to the new stage on frame 3 (peak)."
+  },
+  "rings/stage_up_coral": {
+   "kind": "overlay",
+   "frames": 10,
+   "frame_size": [
+    48,
+    48
+   ],
+   "ms_per_frame": [
+    50,
+    50,
+    60,
+    70,
+    70,
+    70,
+    80,
+    80,
+    90,
+    60
+   ],
+   "total_ms": 680,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     24,
+     24
+    ],
+    "meaning": "centre on the crystal centroid (crystal_anchors.json)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     48,
+     48
+    ],
+    [
+     48,
+     0,
+     48,
+     48
+    ],
+    [
+     96,
+     0,
+     48,
+     48
+    ],
+    [
+     144,
+     0,
+     48,
+     48
+    ],
+    [
+     192,
+     0,
+     48,
+     48
+    ],
+    [
+     240,
+     0,
+     48,
+     48
+    ],
+    [
+     288,
+     0,
+     48,
+     48
+    ],
+    [
+     336,
+     0,
+     48,
+     48
+    ],
+    [
+     384,
+     0,
+     48,
+     48
+    ],
+    [
+     432,
+     0,
+     48,
+     48
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_coral/stage_up_coral_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_coral/stage_up_coral_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_coral/stage_up_coral_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_coral/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_coral/2x",
+   "emissive": "all",
+   "notes": "Warmth stage-up ring for ramp family \"coral\" (stage-3 ramp ['a23432', 'd05440', 'f08868', 'fcd668', 'f8eabe', 'fcf6e8']). Swap the sprite to the new stage on frame 3 (peak)."
+  },
+  "rings/stage_up_crimson": {
+   "kind": "overlay",
+   "frames": 10,
+   "frame_size": [
+    48,
+    48
+   ],
+   "ms_per_frame": [
+    50,
+    50,
+    60,
+    70,
+    70,
+    70,
+    80,
+    80,
+    90,
+    60
+   ],
+   "total_ms": 680,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     24,
+     24
+    ],
+    "meaning": "centre on the crystal centroid (crystal_anchors.json)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     48,
+     48
+    ],
+    [
+     48,
+     0,
+     48,
+     48
+    ],
+    [
+     96,
+     0,
+     48,
+     48
+    ],
+    [
+     144,
+     0,
+     48,
+     48
+    ],
+    [
+     192,
+     0,
+     48,
+     48
+    ],
+    [
+     240,
+     0,
+     48,
+     48
+    ],
+    [
+     288,
+     0,
+     48,
+     48
+    ],
+    [
+     336,
+     0,
+     48,
+     48
+    ],
+    [
+     384,
+     0,
+     48,
+     48
+    ],
+    [
+     432,
+     0,
+     48,
+     48
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_crimson/stage_up_crimson_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_crimson/stage_up_crimson_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_crimson/stage_up_crimson_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_crimson/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_crimson/2x",
+   "emissive": "all",
+   "notes": "Warmth stage-up ring for ramp family \"crimson\" (stage-3 ramp ['2c1a12', '561c0e', '6e222a', 'a23432', 'd2608c', 'f6a0ba']). Swap the sprite to the new stage on frame 3 (peak)."
+  },
+  "rings/stage_up_dawn": {
+   "kind": "overlay",
+   "frames": 10,
+   "frame_size": [
+    48,
+    48
+   ],
+   "ms_per_frame": [
+    50,
+    50,
+    60,
+    70,
+    70,
+    70,
+    80,
+    80,
+    90,
+    60
+   ],
+   "total_ms": 680,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     24,
+     24
+    ],
+    "meaning": "centre on the crystal centroid (crystal_anchors.json)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     48,
+     48
+    ],
+    [
+     48,
+     0,
+     48,
+     48
+    ],
+    [
+     96,
+     0,
+     48,
+     48
+    ],
+    [
+     144,
+     0,
+     48,
+     48
+    ],
+    [
+     192,
+     0,
+     48,
+     48
+    ],
+    [
+     240,
+     0,
+     48,
+     48
+    ],
+    [
+     288,
+     0,
+     48,
+     48
+    ],
+    [
+     336,
+     0,
+     48,
+     48
+    ],
+    [
+     384,
+     0,
+     48,
+     48
+    ],
+    [
+     432,
+     0,
+     48,
+     48
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_dawn/stage_up_dawn_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_dawn/stage_up_dawn_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_dawn/stage_up_dawn_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_dawn/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_dawn/2x",
+   "emissive": "all",
+   "notes": "Warmth stage-up ring for ramp family \"dawn\" (stage-3 ramp ['6e222a', 'a23432', 'd2608c', 'f6a0ba', 'f8eabe', 'fcf6e8']). Swap the sprite to the new stage on frame 3 (peak)."
+  },
+  "rings/stage_up_ember": {
+   "kind": "overlay",
+   "frames": 10,
+   "frame_size": [
+    48,
+    48
+   ],
+   "ms_per_frame": [
+    50,
+    50,
+    60,
+    70,
+    70,
+    70,
+    80,
+    80,
+    90,
+    60
+   ],
+   "total_ms": 680,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     24,
+     24
+    ],
+    "meaning": "centre on the crystal centroid (crystal_anchors.json)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     48,
+     48
+    ],
+    [
+     48,
+     0,
+     48,
+     48
+    ],
+    [
+     96,
+     0,
+     48,
+     48
+    ],
+    [
+     144,
+     0,
+     48,
+     48
+    ],
+    [
+     192,
+     0,
+     48,
+     48
+    ],
+    [
+     240,
+     0,
+     48,
+     48
+    ],
+    [
+     288,
+     0,
+     48,
+     48
+    ],
+    [
+     336,
+     0,
+     48,
+     48
+    ],
+    [
+     384,
+     0,
+     48,
+     48
+    ],
+    [
+     432,
+     0,
+     48,
+     48
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_ember/stage_up_ember_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_ember/stage_up_ember_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_ember/stage_up_ember_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_ember/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_ember/2x",
+   "emissive": "all",
+   "notes": "Warmth stage-up ring for ramp family \"ember\" (stage-3 ramp ['6e222a', 'd46616', 'eea23c', 'fcd668', 'f8eabe', 'fcf6e8']). Swap the sprite to the new stage on frame 3 (peak)."
+  },
+  "rings/stage_up_molten": {
+   "kind": "overlay",
+   "frames": 10,
+   "frame_size": [
+    48,
+    48
+   ],
+   "ms_per_frame": [
+    50,
+    50,
+    60,
+    70,
+    70,
+    70,
+    80,
+    80,
+    90,
+    60
+   ],
+   "total_ms": 680,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     24,
+     24
+    ],
+    "meaning": "centre on the crystal centroid (crystal_anchors.json)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     48,
+     48
+    ],
+    [
+     48,
+     0,
+     48,
+     48
+    ],
+    [
+     96,
+     0,
+     48,
+     48
+    ],
+    [
+     144,
+     0,
+     48,
+     48
+    ],
+    [
+     192,
+     0,
+     48,
+     48
+    ],
+    [
+     240,
+     0,
+     48,
+     48
+    ],
+    [
+     288,
+     0,
+     48,
+     48
+    ],
+    [
+     336,
+     0,
+     48,
+     48
+    ],
+    [
+     384,
+     0,
+     48,
+     48
+    ],
+    [
+     432,
+     0,
+     48,
+     48
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_molten/stage_up_molten_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_molten/stage_up_molten_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_molten/stage_up_molten_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_molten/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_molten/2x",
+   "emissive": "all",
+   "notes": "Warmth stage-up ring for ramp family \"molten\" (stage-3 ramp ['c46e2e', 'eea23c', 'fcd668', 'f8eabe', 'fcf6e8', 'fcf6e8']). Swap the sprite to the new stage on frame 3 (peak)."
+  },
+  "rings/stage_up_moss": {
+   "kind": "overlay",
+   "frames": 10,
+   "frame_size": [
+    48,
+    48
+   ],
+   "ms_per_frame": [
+    50,
+    50,
+    60,
+    70,
+    70,
+    70,
+    80,
+    80,
+    90,
+    60
+   ],
+   "total_ms": 680,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     24,
+     24
+    ],
+    "meaning": "centre on the crystal centroid (crystal_anchors.json)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     48,
+     48
+    ],
+    [
+     48,
+     0,
+     48,
+     48
+    ],
+    [
+     96,
+     0,
+     48,
+     48
+    ],
+    [
+     144,
+     0,
+     48,
+     48
+    ],
+    [
+     192,
+     0,
+     48,
+     48
+    ],
+    [
+     240,
+     0,
+     48,
+     48
+    ],
+    [
+     288,
+     0,
+     48,
+     48
+    ],
+    [
+     336,
+     0,
+     48,
+     48
+    ],
+    [
+     384,
+     0,
+     48,
+     48
+    ],
+    [
+     432,
+     0,
+     48,
+     48
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_moss/stage_up_moss_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_moss/stage_up_moss_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_moss/stage_up_moss_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_moss/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_moss/2x",
+   "emissive": "all",
+   "notes": "Warmth stage-up ring for ramp family \"moss\" (stage-3 ramp ['24522e', '367634', '52983a', '78ba48', 'a6d460', 'f8eabe']). Swap the sprite to the new stage on frame 3 (peak)."
+  },
+  "rings/stage_up_pond": {
+   "kind": "overlay",
+   "frames": 10,
+   "frame_size": [
+    48,
+    48
+   ],
+   "ms_per_frame": [
+    50,
+    50,
+    60,
+    70,
+    70,
+    70,
+    80,
+    80,
+    90,
+    60
+   ],
+   "total_ms": 680,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     24,
+     24
+    ],
+    "meaning": "centre on the crystal centroid (crystal_anchors.json)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     48,
+     48
+    ],
+    [
+     48,
+     0,
+     48,
+     48
+    ],
+    [
+     96,
+     0,
+     48,
+     48
+    ],
+    [
+     144,
+     0,
+     48,
+     48
+    ],
+    [
+     192,
+     0,
+     48,
+     48
+    ],
+    [
+     240,
+     0,
+     48,
+     48
+    ],
+    [
+     288,
+     0,
+     48,
+     48
+    ],
+    [
+     336,
+     0,
+     48,
+     48
+    ],
+    [
+     384,
+     0,
+     48,
+     48
+    ],
+    [
+     432,
+     0,
+     48,
+     48
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_pond/stage_up_pond_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_pond/stage_up_pond_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_pond/stage_up_pond_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_pond/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_pond/2x",
+   "emissive": "all",
+   "notes": "Warmth stage-up ring for ramp family \"pond\" (stage-3 ramp ['2c64a8', '4692ce', '7ac2e8', 'c6ecfa', 'fcf6e8', 'fcf6e8']). Swap the sprite to the new stage on frame 3 (peak)."
+  },
+  "rings/stage_up_seafoam": {
+   "kind": "overlay",
+   "frames": 10,
+   "frame_size": [
+    48,
+    48
+   ],
+   "ms_per_frame": [
+    50,
+    50,
+    60,
+    70,
+    70,
+    70,
+    80,
+    80,
+    90,
+    60
+   ],
+   "total_ms": 680,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     24,
+     24
+    ],
+    "meaning": "centre on the crystal centroid (crystal_anchors.json)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     48,
+     48
+    ],
+    [
+     48,
+     0,
+     48,
+     48
+    ],
+    [
+     96,
+     0,
+     48,
+     48
+    ],
+    [
+     144,
+     0,
+     48,
+     48
+    ],
+    [
+     192,
+     0,
+     48,
+     48
+    ],
+    [
+     240,
+     0,
+     48,
+     48
+    ],
+    [
+     288,
+     0,
+     48,
+     48
+    ],
+    [
+     336,
+     0,
+     48,
+     48
+    ],
+    [
+     384,
+     0,
+     48,
+     48
+    ],
+    [
+     432,
+     0,
+     48,
+     48
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_seafoam/stage_up_seafoam_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_seafoam/stage_up_seafoam_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_seafoam/stage_up_seafoam_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_seafoam/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_seafoam/2x",
+   "emissive": "all",
+   "notes": "Warmth stage-up ring for ramp family \"seafoam\" (stage-3 ramp ['246e6c', '3e9c92', '70cab8', 'c6ecfa', 'fcf6e8', 'fcf6e8']). Swap the sprite to the new stage on frame 3 (peak)."
+  },
+  "rings/stage_up_sprout": {
+   "kind": "overlay",
+   "frames": 10,
+   "frame_size": [
+    48,
+    48
+   ],
+   "ms_per_frame": [
+    50,
+    50,
+    60,
+    70,
+    70,
+    70,
+    80,
+    80,
+    90,
+    60
+   ],
+   "total_ms": 680,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     24,
+     24
+    ],
+    "meaning": "centre on the crystal centroid (crystal_anchors.json)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     48,
+     48
+    ],
+    [
+     48,
+     0,
+     48,
+     48
+    ],
+    [
+     96,
+     0,
+     48,
+     48
+    ],
+    [
+     144,
+     0,
+     48,
+     48
+    ],
+    [
+     192,
+     0,
+     48,
+     48
+    ],
+    [
+     240,
+     0,
+     48,
+     48
+    ],
+    [
+     288,
+     0,
+     48,
+     48
+    ],
+    [
+     336,
+     0,
+     48,
+     48
+    ],
+    [
+     384,
+     0,
+     48,
+     48
+    ],
+    [
+     432,
+     0,
+     48,
+     48
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_sprout/stage_up_sprout_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_sprout/stage_up_sprout_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_sprout/stage_up_sprout_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_sprout/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/rings/stage_up_sprout/2x",
+   "emissive": "all",
+   "notes": "Warmth stage-up ring for ramp family \"sprout\" (stage-3 ramp ['38683e', '52983a', '78ba48', 'a6d460', 'f8eabe', 'fcf6e8']). Swap the sprite to the new stage on frame 3 (peak)."
+  },
+  "stage_pips": {
+   "kind": "state_frames",
+   "frames": 4,
+   "frame_size": [
+    23,
+    7
+   ],
+   "ms_per_frame": [
+    400,
+    400,
+    400,
+    400
+   ],
+   "total_ms": 1600,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     0,
+     0
+    ],
+    "meaning": "top-left; frame index = Warmth stage 0-3"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     23,
+     7
+    ],
+    [
+     23,
+     0,
+     23,
+     7
+    ],
+    [
+     46,
+     0,
+     23,
+     7
+    ],
+    [
+     69,
+     0,
+     23,
+     7
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/warmth_stage_up/stage_pips/stage_pips_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/warmth_stage_up/stage_pips/stage_pips_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/warmth_stage_up/stage_pips/stage_pips_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/stage_pips/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/warmth_stage_up/stage_pips/2x",
+   "emissive": "none",
+   "notes": "Colour-blind-safe shape marker: count of filled diamonds = stage (0 = three empty violet outlines, company control). Use beside the name in summary/party. ms are preview-only."
+  }
+ }
+}

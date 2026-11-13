@@ -1,0 +1,70 @@
+{
+ "lurelamp_front": {
+  "scale": 0.16145833333333334,
+  "org": [
+   144,
+   185
+  ],
+  "size": [
+   124,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 16
+ },
+ "lurelamp_back": {
+  "scale": 0.14549938347718866,
+  "org": [
+   240,
+   100
+  ],
+  "size": [
+   77,
+   118
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 12
+ },
+ "lurelamp_ow_down": {
+  "scale": 0.1716171617161716,
+  "org": [
+   49,
+   157
+  ],
+  "size": [
+   39,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "lurelamp_ow_left": {
+  "scale": 0.19047619047619047,
+  "org": [
+   342,
+   185
+  ],
+  "size": [
+   56,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ },
+ "lurelamp_ow_up": {
+  "scale": 0.14647887323943662,
+  "org": [
+   1025,
+   160
+  ],
+  "size": [
+   29,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 8
+ },
+ "lurelamp_ow_right": {
+  "mirror_of": "lurelamp_ow_left"
+ }
+}

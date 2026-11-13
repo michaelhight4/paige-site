@@ -1,0 +1,70 @@
+{
+ "chartmouse_front": {
+  "scale": 0.14772727272727273,
+  "org": [
+   170,
+   317
+  ],
+  "size": [
+   104,
+   68
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 15
+ },
+ "chartmouse_back": {
+  "scale": 0.14311926605504588,
+  "org": [
+   304,
+   246
+  ],
+  "size": [
+   75,
+   78
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 15
+ },
+ "chartmouse_ow_down": {
+  "scale": 0.16597510373443983,
+  "org": [
+   71,
+   236
+  ],
+  "size": [
+   36,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "chartmouse_ow_left": {
+  "scale": 0.15432098765432098,
+  "org": [
+   316,
+   244
+  ],
+  "size": [
+   50,
+   37
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "chartmouse_ow_up": {
+  "scale": 0.16260162601626016,
+  "org": [
+   1032,
+   232
+  ],
+  "size": [
+   37,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "chartmouse_ow_right": {
+  "mirror_of": "chartmouse_ow_left"
+ }
+}

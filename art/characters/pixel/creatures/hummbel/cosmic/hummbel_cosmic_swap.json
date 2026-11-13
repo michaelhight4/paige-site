@@ -1,0 +1,25 @@
+{
+ "creature": "hummbel",
+ "concept": "Frost Hive",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#2c1a12": "#29252b",
+  "#2c2320": "#29252b",
+  "#342842": "#3e3a48",
+  "#3e3a48": "#54444e",
+  "#462c22": "#18382c",
+  "#6a442e": "#30488c",
+  "#87604d": "#4a70ba",
+  "#92623e": "#2c64a8",
+  "#ba8856": "#4692ce",
+  "#c46e2e": "#4692ce",
+  "#ccaa6e": "#4692ce",
+  "#deb478": "#7ac2e8",
+  "#e29d40": "#4692ce",
+  "#ecdec4": "#ccc6c2",
+  "#eea23c": "#4692ce",
+  "#fcd668": "#4692ce"
+ },
+ "rule": "crystal violets never swapped"
+}

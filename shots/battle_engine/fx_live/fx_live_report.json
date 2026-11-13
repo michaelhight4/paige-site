@@ -1,0 +1,5585 @@
+{
+ "at": "Fri Oct 23 2026 00:26:34 GMT-0500 (Central Daylight Time)",
+ "fails": 0,
+ "report": [
+  {
+   "tag": "desktop/default/plain",
+   "name": "effects play in a normal battle (8 effect(s): water/travel_p2f, water/impact, fire/travel_f2p, fire/impact)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/plain",
+   "name": "live paths only",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/plain",
+   "name": "no scene flash during hits",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/plain",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "276.0x192.0 vs 184x128"
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "impact 1: no scene flash (effect 276x192 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "6.5 ms"
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "6.5 ms"
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "642 ms"
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "276.0x192.0 vs 184x128"
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "impact 2: no scene flash (effect 276x192 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "645 ms"
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "739x528 in 1920x1080"
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "travel removed after total_ms=560, impact follows",
+   "ok": true,
+   "info": "568 ms, impact +1 ms"
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "water/impact/water_impact_battle_2x.json, water/travel_p2f/water_travel_p2f_battle_2x.json, water/impact/water_impact_battle_2x.gif, water/travel_p2f/water_travel_p2f_battle_2x.gif, water/travel_f2p/water_travel_f2p_battle_2x.json, water/travel_f2p/water_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "desktop/default/water",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "180.0x210.0 vs 120x140"
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "impact 1: no scene flash (effect 180x210 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "4.7 ms"
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "4.6 ms"
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "180.0x210.0 vs 120x140"
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "impact 2: no scene flash (effect 180x210 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "641 ms"
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "768x490 in 1920x1080"
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "travel removed after total_ms=490, impact follows",
+   "ok": true,
+   "info": "490 ms, impact +0 ms"
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "fire/impact/fire_impact_battle_2x.json, fire/travel_p2f/fire_travel_p2f_battle_2x.json, fire/travel_p2f/fire_travel_p2f_battle_2x.gif, fire/impact/fire_impact_battle_2x.gif, fire/travel_f2p/fire_travel_f2p_battle_2x.json, fire/travel_f2p/fire_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "desktop/default/fire",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "282.0x186.0 vs 188x124"
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "impact 1: no scene flash (effect 282x186 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "4.2 ms"
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "4.1 ms"
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "impact 1: removed after total_ms=800",
+   "ok": true,
+   "info": "800 ms"
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "282.0x186.0 vs 188x124"
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "impact 2: no scene flash (effect 282x186 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "impact 2: removed after total_ms=800",
+   "ok": true,
+   "info": "800 ms"
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "778x643 in 1920x1080"
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "travel removed after total_ms=700, impact follows",
+   "ok": true,
+   "info": "701 ms, impact +1 ms"
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "magma/impact/magma_impact_battle_2x.json, magma/travel_p2f/magma_travel_p2f_battle_2x.json, magma/travel_p2f/magma_travel_p2f_battle_2x.gif, magma/impact/magma_impact_battle_2x.gif, magma/travel_f2p/magma_travel_f2p_battle_2x.json, magma/travel_f2p/magma_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "desktop/default/magma",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "168.0x204.0 vs 112x136"
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "impact 1: no scene flash (effect 168x204 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "4.8 ms"
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "4.8 ms"
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "168.0x204.0 vs 112x136"
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "impact 2: no scene flash (effect 168x204 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "647 ms"
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "682x403 in 1920x1080"
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "travel removed after total_ms=360, impact follows",
+   "ok": true,
+   "info": "360 ms, impact +1 ms"
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "devil/impact/devil_impact_battle_2x.json, devil/travel_p2f/devil_travel_p2f_battle_2x.json, devil/impact/devil_impact_battle_2x.gif, devil/travel_p2f/devil_travel_p2f_battle_2x.gif, devil/travel_f2p/devil_travel_f2p_battle_2x.json, devil/travel_f2p/devil_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "desktop/default/devil",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "282.0x366.0 vs 188x244"
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "impact 1: no scene flash (effect 282x366 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "3.2 ms"
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "3.2 ms"
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "282.0x366.0 vs 188x244"
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "impact 2: no scene flash (effect 282x366 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.9 ms"
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.9 ms"
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "649 ms"
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "739x480 in 1920x1080"
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "travel removed after total_ms=640, impact follows",
+   "ok": true,
+   "info": "640 ms, impact +1 ms"
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "god/impact/god_impact_battle_2x.json, god/travel_p2f/god_travel_p2f_battle_2x.json, god/impact/god_impact_battle_2x.gif, god/travel_p2f/god_travel_p2f_battle_2x.gif, god/travel_f2p/god_travel_f2p_battle_2x.json, god/travel_f2p/god_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "desktop/default/god",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "306.0x276.0 vs 204x184"
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "impact 1: no scene flash (effect 306x276 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "3.1 ms"
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "3.0 ms"
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "306.0x276.0 vs 204x184"
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "impact 2: no scene flash (effect 306x276 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "1.3 ms"
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "1.3 ms"
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "647 ms"
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "787x538 in 1920x1080"
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "travel removed after total_ms=560, impact follows",
+   "ok": true,
+   "info": "567 ms, impact +1 ms"
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "grass/impact/grass_impact_battle_2x.json, grass/travel_p2f/grass_travel_p2f_battle_2x.json, grass/impact/grass_impact_battle_2x.gif, grass/travel_p2f/grass_travel_p2f_battle_2x.gif, grass/travel_f2p/grass_travel_f2p_battle_2x.json, grass/travel_f2p/grass_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "desktop/default/grass",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "246.0x240.0 vs 164x160"
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "impact 1: no scene flash (effect 246x240 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "3.8 ms"
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "3.8 ms"
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "impact 1: removed after total_ms=490",
+   "ok": true,
+   "info": "490 ms"
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "246.0x240.0 vs 164x160"
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "impact 2: no scene flash (effect 246x240 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.4 ms"
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.4 ms"
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "impact 2: removed after total_ms=490",
+   "ok": true,
+   "info": "494 ms"
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "691x422 in 1920x1080"
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "travel removed after total_ms=300, impact follows",
+   "ok": true,
+   "info": "300 ms, impact +0 ms"
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "light/impact/light_impact_battle_2x.json, light/travel_p2f/light_travel_p2f_battle_2x.json, light/impact/light_impact_battle_2x.gif, light/travel_p2f/light_travel_p2f_battle_2x.gif, light/travel_f2p/light_travel_f2p_battle_2x.json, light/travel_f2p/light_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "desktop/default/light",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/plain",
+   "name": "effects play in a normal battle (6 effect(s): water/travel_p2f, water/impact, dark/travel_f2p, dark/impact)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/plain",
+   "name": "live paths only",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/plain",
+   "name": "no scene flash during hits",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/plain",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "276.0x192.0 vs 184x128"
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "impact 1: no scene flash (effect 276x192 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "3.5 ms"
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "3.5 ms"
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "276.0x192.0 vs 184x128"
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "impact 2: no scene flash (effect 276x192 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "739x528 in 1920x1080"
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "travel removed after total_ms=560, impact follows",
+   "ok": true,
+   "info": "562 ms, impact +0 ms"
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "water/impact/water_impact_battle_2x.json, water/travel_p2f/water_travel_p2f_battle_2x.json, water/impact/water_impact_battle_2x.gif, water/travel_p2f/water_travel_p2f_battle_2x.gif, water/travel_f2p/water_travel_f2p_battle_2x.json, water/travel_f2p/water_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "desktop/sd/water",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "180.0x210.0 vs 120x140"
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "impact 1: no scene flash (effect 180x210 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "3.1 ms"
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "3.1 ms"
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "180.0x210.0 vs 120x140"
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "impact 2: no scene flash (effect 180x210 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "768x490 in 1920x1080"
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "travel removed after total_ms=490, impact follows",
+   "ok": true,
+   "info": "490 ms, impact +0 ms"
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "fire/impact/fire_impact_battle_2x.json, fire/travel_p2f/fire_travel_p2f_battle_2x.json, fire/impact/fire_impact_battle_2x.gif, fire/travel_p2f/fire_travel_p2f_battle_2x.gif, fire/travel_f2p/fire_travel_f2p_battle_2x.json, fire/travel_f2p/fire_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "282.0x186.0 vs 188x124"
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "impact 1: no scene flash (effect 282x186 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "4.0 ms"
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "4.0 ms"
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "impact 1: removed after total_ms=800",
+   "ok": true,
+   "info": "800 ms"
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "282.0x186.0 vs 188x124"
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "impact 2: no scene flash (effect 282x186 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.4 ms"
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.4 ms"
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "impact 2: removed after total_ms=800",
+   "ok": true,
+   "info": "800 ms"
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "778x643 in 1920x1080"
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "travel removed after total_ms=700, impact follows",
+   "ok": true,
+   "info": "700 ms, impact +0 ms"
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "magma/impact/magma_impact_battle_2x.json, magma/travel_p2f/magma_travel_p2f_battle_2x.json, magma/impact/magma_impact_battle_2x.gif, magma/travel_p2f/magma_travel_p2f_battle_2x.gif, magma/travel_f2p/magma_travel_f2p_battle_2x.json, magma/travel_f2p/magma_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "168.0x204.0 vs 112x136"
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "impact 1: no scene flash (effect 168x204 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "4.6 ms"
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "4.6 ms"
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "168.0x204.0 vs 112x136"
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "impact 2: no scene flash (effect 168x204 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.4 ms"
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "682x403 in 1920x1080"
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "travel removed after total_ms=360, impact follows",
+   "ok": true,
+   "info": "370 ms, impact +1 ms"
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "devil/impact/devil_impact_battle_2x.json, devil/travel_p2f/devil_travel_p2f_battle_2x.json, devil/impact/devil_impact_battle_2x.gif, devil/travel_p2f/devil_travel_p2f_battle_2x.gif, devil/travel_f2p/devil_travel_f2p_battle_2x.json, devil/travel_f2p/devil_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "282.0x366.0 vs 188x244"
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "impact 1: no scene flash (effect 282x366 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "3.3 ms"
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "3.3 ms"
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "282.0x366.0 vs 188x244"
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "impact 2: no scene flash (effect 282x366 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.6 ms"
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.6 ms"
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "739x480 in 1920x1080"
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "travel removed after total_ms=640, impact follows",
+   "ok": true,
+   "info": "643 ms, impact +1 ms"
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "god/impact/god_impact_battle_2x.json, god/travel_p2f/god_travel_p2f_battle_2x.json, god/travel_p2f/god_travel_p2f_battle_2x.gif, god/impact/god_impact_battle_2x.gif, god/travel_f2p/god_travel_f2p_battle_2x.json, god/travel_f2p/god_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "desktop/sd/god",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "306.0x276.0 vs 204x184"
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "impact 1: no scene flash (effect 306x276 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "3.4 ms"
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "3.4 ms"
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "306.0x276.0 vs 204x184"
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "impact 2: no scene flash (effect 306x276 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.4 ms"
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.3 ms"
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "787x538 in 1920x1080"
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "travel removed after total_ms=560, impact follows",
+   "ok": true,
+   "info": "560 ms, impact +0 ms"
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "grass/impact/grass_impact_battle_2x.json, grass/travel_p2f/grass_travel_p2f_battle_2x.json, grass/impact/grass_impact_battle_2x.gif, grass/travel_p2f/grass_travel_p2f_battle_2x.gif, grass/travel_f2p/grass_travel_f2p_battle_2x.json, grass/travel_f2p/grass_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "246.0x240.0 vs 164x160"
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "impact 1: no scene flash (effect 246x240 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "3.2 ms"
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "3.2 ms"
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "impact 1: removed after total_ms=490",
+   "ok": true,
+   "info": "490 ms"
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "246.0x240.0 vs 164x160"
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=1.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "impact 2: no scene flash (effect 246x240 < scene 1920x1080, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.7 ms"
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.7 ms"
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "impact 2: removed after total_ms=490",
+   "ok": true,
+   "info": "490 ms"
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "691x422 in 1920x1080"
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "travel removed after total_ms=300, impact follows",
+   "ok": true,
+   "info": "300 ms, impact +1 ms"
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "light/impact/light_impact_battle_2x.json, light/travel_p2f/light_travel_p2f_battle_2x.json, light/impact/light_impact_battle_2x.gif, light/travel_p2f/light_travel_p2f_battle_2x.gif, light/travel_f2p/light_travel_f2p_battle_2x.json, light/travel_f2p/light_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "desktop/sd/light",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/plain",
+   "name": "effects play in a normal battle (6 effect(s): water/travel_p2f, water/impact, dark/travel_f2p, dark/impact)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/plain",
+   "name": "live paths only",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/plain",
+   "name": "no scene flash during hits",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/plain",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "92.0x64.0 vs 184x128"
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 1: no scene flash (effect 92x64 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "92.0x64.0 vs 184x128"
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "impact 2: no scene flash (effect 92x64 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "246x176 in 750x340"
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "water/impact/water_impact_battle_2x.json, water/travel_p2f/water_travel_p2f_battle_2x.json, water/impact/water_impact_battle_2x.gif, water/travel_p2f/water_travel_p2f_battle_2x.gif, water/travel_f2p/water_travel_f2p_battle_2x.json, water/travel_f2p/water_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/default/water",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "60.0x70.0 vs 120x140"
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 1: no scene flash (effect 60x70 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "60.0x70.0 vs 120x140"
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "impact 2: no scene flash (effect 60x70 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "256x163 in 750x340"
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "fire/impact/fire_impact_battle_2x.json, fire/travel_p2f/fire_travel_p2f_battle_2x.json, fire/travel_p2f/fire_travel_p2f_battle_2x.gif, fire/impact/fire_impact_battle_2x.gif, fire/travel_f2p/fire_travel_f2p_battle_2x.json, fire/travel_f2p/fire_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "94.0x62.0 vs 188x124"
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 1: no scene flash (effect 94x62 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "94.0x62.0 vs 188x124"
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "impact 2: no scene flash (effect 94x62 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "259x214 in 750x340"
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "magma/impact/magma_impact_battle_2x.json, magma/travel_p2f/magma_travel_p2f_battle_2x.json, magma/impact/magma_impact_battle_2x.gif, magma/travel_p2f/magma_travel_p2f_battle_2x.gif, magma/travel_f2p/magma_travel_f2p_battle_2x.json, magma/travel_f2p/magma_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "56.0x68.0 vs 112x136"
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 1: no scene flash (effect 56x68 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "56.0x68.0 vs 112x136"
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "impact 2: no scene flash (effect 56x68 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "227x134 in 750x340"
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "devil/travel_p2f/devil_travel_p2f_battle_2x.json, devil/impact/devil_impact_battle_2x.json, devil/impact/devil_impact_battle_2x.gif, devil/travel_p2f/devil_travel_p2f_battle_2x.gif, devil/travel_f2p/devil_travel_f2p_battle_2x.json, devil/travel_f2p/devil_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "94.0x122.0 vs 188x244"
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 1: no scene flash (effect 94x122 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "94.0x122.0 vs 188x244"
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "impact 2: no scene flash (effect 94x122 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "246x160 in 750x340"
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "god/impact/god_impact_battle_2x.json, god/travel_p2f/god_travel_p2f_battle_2x.json, god/impact/god_impact_battle_2x.gif, god/travel_p2f/god_travel_p2f_battle_2x.gif, god/travel_f2p/god_travel_f2p_battle_2x.json, god/travel_f2p/god_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/default/god",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "102.0x92.0 vs 204x184"
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 1: no scene flash (effect 102x92 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "102.0x92.0 vs 204x184"
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "impact 2: no scene flash (effect 102x92 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "262x179 in 750x340"
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "grass/impact/grass_impact_battle_2x.json, grass/travel_p2f/grass_travel_p2f_battle_2x.json, grass/travel_p2f/grass_travel_p2f_battle_2x.gif, grass/impact/grass_impact_battle_2x.gif, grass/travel_f2p/grass_travel_f2p_battle_2x.json, grass/travel_f2p/grass_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "82.0x80.0 vs 164x160"
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 1: no scene flash (effect 82x80 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "82.0x80.0 vs 164x160"
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "impact 2: no scene flash (effect 82x80 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "230x141 in 750x340"
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "light/impact/light_impact_battle_2x.json, light/travel_p2f/light_travel_p2f_battle_2x.json, light/impact/light_impact_battle_2x.gif, light/travel_p2f/light_travel_p2f_battle_2x.gif, light/travel_f2p/light_travel_f2p_battle_2x.json, light/travel_f2p/light_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/default/light",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/plain",
+   "name": "effects play in a normal battle (6 effect(s): water/travel_p2f, water/impact, dark/travel_f2p, dark/impact)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/plain",
+   "name": "live paths only",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/plain",
+   "name": "no scene flash during hits",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/plain",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "92.0x64.0 vs 184x128"
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 1: no scene flash (effect 92x64 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "92.0x64.0 vs 184x128"
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "impact 2: no scene flash (effect 92x64 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "246x176 in 750x340"
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "water/impact/water_impact_battle_2x.json, water/travel_p2f/water_travel_p2f_battle_2x.json, water/travel_p2f/water_travel_p2f_battle_2x.gif, water/impact/water_impact_battle_2x.gif, water/travel_f2p/water_travel_f2p_battle_2x.json, water/travel_f2p/water_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "60.0x70.0 vs 120x140"
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 1: no scene flash (effect 60x70 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "60.0x70.0 vs 120x140"
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "impact 2: no scene flash (effect 60x70 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "256x163 in 750x340"
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "fire/travel_p2f/fire_travel_p2f_battle_2x.json, fire/impact/fire_impact_battle_2x.json, fire/travel_p2f/fire_travel_p2f_battle_2x.gif, fire/impact/fire_impact_battle_2x.gif, fire/travel_f2p/fire_travel_f2p_battle_2x.json, fire/travel_f2p/fire_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "94.0x62.0 vs 188x124"
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 1: no scene flash (effect 94x62 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "94.0x62.0 vs 188x124"
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "impact 2: no scene flash (effect 94x62 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "259x214 in 750x340"
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "magma/impact/magma_impact_battle_2x.json, magma/travel_p2f/magma_travel_p2f_battle_2x.json, magma/impact/magma_impact_battle_2x.gif, magma/travel_p2f/magma_travel_p2f_battle_2x.gif, magma/travel_f2p/magma_travel_f2p_battle_2x.json, magma/travel_f2p/magma_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "56.0x68.0 vs 112x136"
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 1: no scene flash (effect 56x68 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "56.0x68.0 vs 112x136"
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "impact 2: no scene flash (effect 56x68 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "227x134 in 750x340"
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "devil/travel_p2f/devil_travel_p2f_battle_2x.json, devil/impact/devil_impact_battle_2x.json, devil/travel_p2f/devil_travel_p2f_battle_2x.gif, devil/impact/devil_impact_battle_2x.gif, devil/travel_f2p/devil_travel_f2p_battle_2x.json, devil/travel_f2p/devil_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "94.0x122.0 vs 188x244"
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 1: no scene flash (effect 94x122 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "94.0x122.0 vs 188x244"
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "impact 2: no scene flash (effect 94x122 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "246x160 in 750x340"
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "god/impact/god_impact_battle_2x.json, god/travel_p2f/god_travel_p2f_battle_2x.json, god/travel_p2f/god_travel_p2f_battle_2x.gif, god/impact/god_impact_battle_2x.gif, god/travel_f2p/god_travel_f2p_battle_2x.json, god/travel_f2p/god_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "102.0x92.0 vs 204x184"
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 1: no scene flash (effect 102x92 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "102.0x92.0 vs 204x184"
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "impact 2: no scene flash (effect 102x92 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "262x179 in 750x340"
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "grass/travel_p2f/grass_travel_p2f_battle_2x.json, grass/impact/grass_impact_battle_2x.json, grass/travel_p2f/grass_travel_p2f_battle_2x.gif, grass/impact/grass_impact_battle_2x.gif, grass/travel_f2p/grass_travel_f2p_battle_2x.json, grass/travel_f2p/grass_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "82.0x80.0 vs 164x160"
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 1: no scene flash (effect 82x80 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "82.0x80.0 vs 164x160"
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "impact 2: no scene flash (effect 82x80 < scene 750x340, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "230x141 in 750x340"
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "light/impact/light_impact_battle_2x.json, light/travel_p2f/light_travel_p2f_battle_2x.json, light/impact/light_impact_battle_2x.gif, light/travel_p2f/light_travel_p2f_battle_2x.gif, light/travel_f2p/light_travel_f2p_battle_2x.json, light/travel_f2p/light_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/plain",
+   "name": "effects play in a normal battle (6 effect(s): water/travel_p2f, water/impact, dark/travel_f2p, dark/impact)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/plain",
+   "name": "live paths only",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/plain",
+   "name": "no scene flash during hits",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/plain",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "92.0x64.0 vs 184x128"
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "impact 1: no scene flash (effect 92x64 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "3.1 ms"
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "3.1 ms"
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "645 ms"
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "92.0x64.0 vs 184x128"
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "impact 2: no scene flash (effect 92x64 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.6 ms"
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.6 ms"
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "246x176 in 863x360"
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "travel removed after total_ms=560, impact follows",
+   "ok": true,
+   "info": "574 ms, impact +1 ms"
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "water/impact/water_impact_battle_2x.json, water/travel_p2f/water_travel_p2f_battle_2x.json, water/impact/water_impact_battle_2x.gif, water/travel_p2f/water_travel_p2f_battle_2x.gif, water/travel_f2p/water_travel_f2p_battle_2x.json, water/travel_f2p/water_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "pixel7/default/water",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "60.0x70.0 vs 120x140"
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "impact 1: no scene flash (effect 60x70 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "3.2 ms"
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "3.2 ms"
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "60.0x70.0 vs 120x140"
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "impact 2: no scene flash (effect 60x70 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "256x163 in 863x360"
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "travel removed after total_ms=490, impact follows",
+   "ok": true,
+   "info": "490 ms, impact +0 ms"
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "fire/impact/fire_impact_battle_2x.json, fire/travel_p2f/fire_travel_p2f_battle_2x.json, fire/impact/fire_impact_battle_2x.gif, fire/travel_p2f/fire_travel_p2f_battle_2x.gif, fire/travel_f2p/fire_travel_f2p_battle_2x.json, fire/travel_f2p/fire_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "94.0x62.0 vs 188x124"
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "impact 1: no scene flash (effect 94x62 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "3.3 ms"
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "3.3 ms"
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "impact 1: removed after total_ms=800",
+   "ok": true,
+   "info": "800 ms"
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "94.0x62.0 vs 188x124"
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "impact 2: no scene flash (effect 94x62 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.6 ms"
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.6 ms"
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "impact 2: removed after total_ms=800",
+   "ok": true,
+   "info": "800 ms"
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "259x214 in 863x360"
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "travel removed after total_ms=700, impact follows",
+   "ok": true,
+   "info": "700 ms, impact +1 ms"
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "magma/impact/magma_impact_battle_2x.json, magma/travel_p2f/magma_travel_p2f_battle_2x.json, magma/impact/magma_impact_battle_2x.gif, magma/travel_p2f/magma_travel_p2f_battle_2x.gif, magma/travel_f2p/magma_travel_f2p_battle_2x.json, magma/travel_f2p/magma_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "56.0x68.0 vs 112x136"
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "impact 1: no scene flash (effect 56x68 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "2.0 ms"
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "2.0 ms"
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "56.0x68.0 vs 112x136"
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "impact 2: no scene flash (effect 56x68 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "227x134 in 863x360"
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "travel removed after total_ms=360, impact follows",
+   "ok": true,
+   "info": "360 ms, impact +0 ms"
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "devil/impact/devil_impact_battle_2x.json, devil/travel_p2f/devil_travel_p2f_battle_2x.json, devil/impact/devil_impact_battle_2x.gif, devil/travel_p2f/devil_travel_p2f_battle_2x.gif, devil/travel_f2p/devil_travel_f2p_battle_2x.json, devil/travel_f2p/devil_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "94.0x122.0 vs 188x244"
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "impact 1: no scene flash (effect 94x122 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "3.5 ms"
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "3.5 ms"
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "94.0x122.0 vs 188x244"
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "impact 2: no scene flash (effect 94x122 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "642 ms"
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "246x160 in 863x360"
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "travel removed after total_ms=640, impact follows",
+   "ok": true,
+   "info": "641 ms, impact +0 ms"
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "god/impact/god_impact_battle_2x.json, god/travel_p2f/god_travel_p2f_battle_2x.json, god/impact/god_impact_battle_2x.gif, god/travel_p2f/god_travel_p2f_battle_2x.gif, god/travel_f2p/god_travel_f2p_battle_2x.json, god/travel_f2p/god_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "pixel7/default/god",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "102.0x92.0 vs 204x184"
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "impact 1: no scene flash (effect 102x92 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "3.2 ms"
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "3.2 ms"
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "102.0x92.0 vs 204x184"
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "impact 2: no scene flash (effect 102x92 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "262x179 in 863x360"
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "travel removed after total_ms=560, impact follows",
+   "ok": true,
+   "info": "564 ms, impact +1 ms"
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "grass/impact/grass_impact_battle_2x.json, grass/travel_p2f/grass_travel_p2f_battle_2x.json, grass/impact/grass_impact_battle_2x.gif, grass/travel_p2f/grass_travel_p2f_battle_2x.gif, grass/travel_f2p/grass_travel_f2p_battle_2x.json, grass/travel_f2p/grass_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "travel effect shown (ranged skill)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "82.0x80.0 vs 164x160"
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "impact 1: no scene flash (effect 82x80 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "8.9 ms"
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "8.9 ms"
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "impact 1: removed after total_ms=490",
+   "ok": true,
+   "info": "490 ms"
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "82.0x80.0 vs 164x160"
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "impact 2: no scene flash (effect 82x80 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.7 ms"
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.7 ms"
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "impact 2: removed after total_ms=490",
+   "ok": true,
+   "info": "490 ms"
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "230x141 in 863x360"
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "travel removed after total_ms=300, impact follows",
+   "ok": true,
+   "info": "301 ms, impact +1 ms"
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "light/impact/light_impact_battle_2x.json, light/travel_p2f/light_travel_p2f_battle_2x.json, light/impact/light_impact_battle_2x.gif, light/travel_p2f/light_travel_p2f_battle_2x.gif, light/travel_f2p/light_travel_f2p_battle_2x.json, light/travel_f2p/light_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "pixel7/default/light",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/plain",
+   "name": "effects play in a normal battle (6 effect(s): water/travel_p2f, water/impact, dark/travel_f2p, dark/impact)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/plain",
+   "name": "live paths only",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/plain",
+   "name": "no scene flash during hits",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/plain",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "92.0x64.0 vs 184x128"
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "impact 1: no scene flash (effect 92x64 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "6.2 ms"
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "6.1 ms"
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "641 ms"
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "92.0x64.0 vs 184x128"
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "impact 2: no scene flash (effect 92x64 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "246x176 in 863x360"
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "travel removed after total_ms=560, impact follows",
+   "ok": true,
+   "info": "560 ms, impact +1 ms"
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "water/impact/water_impact_battle_2x.json, water/travel_p2f/water_travel_p2f_battle_2x.json, water/impact/water_impact_battle_2x.gif, water/travel_p2f/water_travel_p2f_battle_2x.gif, water/travel_f2p/water_travel_f2p_battle_2x.json, water/travel_f2p/water_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "60.0x70.0 vs 120x140"
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "impact 1: no scene flash (effect 60x70 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "5.1 ms"
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "5.1 ms"
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "60.0x70.0 vs 120x140"
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "impact 2: no scene flash (effect 60x70 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.7 ms"
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.7 ms"
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "638 ms"
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "256x163 in 863x360"
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "travel removed after total_ms=490, impact follows",
+   "ok": true,
+   "info": "497 ms, impact +0 ms"
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "fire/impact/fire_impact_battle_2x.json, fire/travel_p2f/fire_travel_p2f_battle_2x.json, fire/travel_p2f/fire_travel_p2f_battle_2x.gif, fire/impact/fire_impact_battle_2x.gif, fire/travel_f2p/fire_travel_f2p_battle_2x.json, fire/travel_f2p/fire_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "94.0x62.0 vs 188x124"
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "impact 1: no scene flash (effect 94x62 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "5.4 ms"
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "5.4 ms"
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "impact 1: removed after total_ms=800",
+   "ok": true,
+   "info": "800 ms"
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "94.0x62.0 vs 188x124"
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "impact 2: no scene flash (effect 94x62 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.7 ms"
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.7 ms"
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "impact 2: removed after total_ms=800",
+   "ok": true,
+   "info": "801 ms"
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "259x214 in 863x360"
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "travel removed after total_ms=700, impact follows",
+   "ok": true,
+   "info": "700 ms, impact +1 ms"
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "magma/impact/magma_impact_battle_2x.json, magma/travel_p2f/magma_travel_p2f_battle_2x.json, magma/impact/magma_impact_battle_2x.gif, magma/travel_p2f/magma_travel_p2f_battle_2x.gif, magma/travel_f2p/magma_travel_f2p_battle_2x.json, magma/travel_f2p/magma_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "56.0x68.0 vs 112x136"
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "impact 1: no scene flash (effect 56x68 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "9.9 ms"
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "9.9 ms"
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "645 ms"
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "56.0x68.0 vs 112x136"
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "impact 2: no scene flash (effect 56x68 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.4 ms"
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "641 ms"
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "227x134 in 863x360"
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "travel removed after total_ms=360, impact follows",
+   "ok": true,
+   "info": "368 ms, impact +0 ms"
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "devil/impact/devil_impact_battle_2x.json, devil/travel_p2f/devil_travel_p2f_battle_2x.json, devil/impact/devil_impact_battle_2x.gif, devil/travel_p2f/devil_travel_p2f_battle_2x.gif, devil/travel_f2p/devil_travel_f2p_battle_2x.json, devil/travel_f2p/devil_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "94.0x122.0 vs 188x244"
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "impact 1: no scene flash (effect 94x122 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "3.1 ms"
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "3.0 ms"
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "662 ms"
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "94.0x122.0 vs 188x244"
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "impact 2: no scene flash (effect 94x122 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.5 ms"
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "644 ms"
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "246x160 in 863x360"
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "travel removed after total_ms=640, impact follows",
+   "ok": true,
+   "info": "641 ms, impact +1 ms"
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "god/impact/god_impact_battle_2x.json, god/travel_p2f/god_travel_p2f_battle_2x.json, god/travel_p2f/god_travel_p2f_battle_2x.gif, god/impact/god_impact_battle_2x.gif, god/travel_f2p/god_travel_f2p_battle_2x.json, god/travel_f2p/god_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "102.0x92.0 vs 204x184"
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "impact 1: no scene flash (effect 102x92 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "5.7 ms"
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "5.7 ms"
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "impact 1: removed after total_ms=640",
+   "ok": true,
+   "info": "640 ms"
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "102.0x92.0 vs 204x184"
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "impact 2: no scene flash (effect 102x92 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.7 ms"
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.7 ms"
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "impact 2: removed after total_ms=640",
+   "ok": true,
+   "info": "649 ms"
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "262x179 in 863x360"
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "travel removed after total_ms=560, impact follows",
+   "ok": true,
+   "info": "560 ms, impact +1 ms"
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "grass/impact/grass_impact_battle_2x.json, grass/travel_p2f/grass_travel_p2f_battle_2x.json, grass/impact/grass_impact_battle_2x.gif, grass/travel_p2f/grass_travel_p2f_battle_2x.gif, grass/travel_f2p/grass_travel_f2p_battle_2x.json, grass/travel_f2p/grass_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "picked a skill",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "impact on foe shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "mirrored impact on the player creature shown",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "impact 1 (foe) natural aspect",
+   "ok": true,
+   "info": "82.0x80.0 vs 164x160"
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "impact 1 (foe) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "impact 1 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "impact 1: no scene flash (effect 82x80 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "impact 1: shake starts with the effect",
+   "ok": true,
+   "info": "22.2 ms"
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "impact 1: damage number starts with the effect",
+   "ok": true,
+   "info": "22.1 ms"
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "impact 1: removed after total_ms=490",
+   "ok": true,
+   "info": "501 ms"
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "impact 2 (player) natural aspect",
+   "ok": true,
+   "info": "82.0x80.0 vs 164x160"
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "impact 2 (player) scaled by the sprite pixel scale k=0.500",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "impact 2 mirrored only on the player side",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "impact 2: no scene flash (effect 82x80 < scene 863x360, no .b-flash)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "impact 2: shake starts with the effect",
+   "ok": true,
+   "info": "0.8 ms"
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "impact 2: damage number starts with the effect",
+   "ok": true,
+   "info": "0.8 ms"
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "impact 2: removed after total_ms=490",
+   "ok": true,
+   "info": "490 ms"
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "travel natural aspect",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "travel no scene flash",
+   "ok": true,
+   "info": "230x141 in 863x360"
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "travel removed after total_ms=300, impact follows",
+   "ok": true,
+   "info": "301 ms, impact +1 ms"
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "effects read from the live paths",
+   "ok": true,
+   "info": "light/impact/light_impact_battle_2x.json, light/travel_p2f/light_travel_p2f_battle_2x.json, light/impact/light_impact_battle_2x.gif, light/travel_p2f/light_travel_p2f_battle_2x.gif, light/travel_f2p/light_travel_f2p_battle_2x.json, light/travel_f2p/light_travel_f2p_battle_2x.gif"
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "name": "no console errors",
+   "ok": true,
+   "info": ""
+  }
+ ],
+ "shots": [
+  {
+   "tag": "desktop/default/plain",
+   "turns": 2,
+   "effects": [
+    "water/travel_p2f",
+    "water/impact",
+    "fire/travel_f2p",
+    "fire/impact",
+    "water/travel_p2f",
+    "water/impact",
+    "fire/travel_f2p",
+    "fire/impact"
+   ],
+   "clip": null
+  },
+  {
+   "tag": "desktop/default/water",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/desktop_default_water_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/desktop_default_water_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/desktop_default_water_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "desktop/default/fire",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/desktop_default_fire_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/desktop_default_fire_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/desktop_default_fire_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "desktop/default/magma",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/desktop_default_magma_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/desktop_default_magma_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/desktop_default_magma_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "desktop/default/devil",
+   "shots": {
+    "2_impact_on_foe": "shots/battle_engine/fx_live/desktop_default_devil_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/desktop_default_devil_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "desktop/default/god",
+   "shots": {
+    "2_impact_on_foe": "shots/battle_engine/fx_live/desktop_default_god_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/desktop_default_god_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "desktop/default/grass",
+   "shots": {
+    "2_impact_on_foe": "shots/battle_engine/fx_live/desktop_default_grass_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/desktop_default_grass_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "desktop/default/light",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/desktop_default_light_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/desktop_default_light_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/desktop_default_light_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "desktop/sd/plain",
+   "turns": 2,
+   "effects": [
+    "water/travel_p2f",
+    "water/impact",
+    "dark/travel_f2p",
+    "dark/impact",
+    "dark/travel_f2p",
+    "dark/impact"
+   ],
+   "clip": null
+  },
+  {
+   "tag": "desktop/sd/water",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/desktop_sd_water_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/desktop_sd_water_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/desktop_sd_water_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "desktop/sd/fire",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/desktop_sd_fire_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/desktop_sd_fire_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/desktop_sd_fire_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "desktop/sd/magma",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/desktop_sd_magma_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/desktop_sd_magma_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/desktop_sd_magma_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "desktop/sd/devil",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/desktop_sd_devil_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/desktop_sd_devil_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/desktop_sd_devil_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "desktop/sd/god",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/desktop_sd_god_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/desktop_sd_god_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/desktop_sd_god_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "desktop/sd/grass",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/desktop_sd_grass_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/desktop_sd_grass_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/desktop_sd_grass_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "desktop/sd/light",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/desktop_sd_light_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/desktop_sd_light_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/desktop_sd_light_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/default/plain",
+   "turns": 2,
+   "effects": [
+    "water/travel_p2f",
+    "water/impact",
+    "dark/travel_f2p",
+    "dark/impact",
+    "dark/travel_f2p",
+    "dark/impact"
+   ],
+   "clip": null
+  },
+  {
+   "tag": "iphone14/default/water",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_default_water_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_default_water_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_default_water_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/default/fire",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_default_fire_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_default_fire_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_default_fire_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/default/magma",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_default_magma_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_default_magma_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_default_magma_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/default/devil",
+   "shots": {
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_default_devil_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_default_devil_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/default/god",
+   "shots": {
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_default_god_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_default_god_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/default/grass",
+   "shots": {
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_default_grass_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_default_grass_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/default/light",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_default_light_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_default_light_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_default_light_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/sd/plain",
+   "turns": 2,
+   "effects": [
+    "water/travel_p2f",
+    "water/impact",
+    "dark/travel_f2p",
+    "dark/impact",
+    "dark/travel_f2p",
+    "dark/impact"
+   ],
+   "clip": null
+  },
+  {
+   "tag": "iphone14/sd/water",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_sd_water_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_sd_water_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_sd_water_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/sd/fire",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_sd_fire_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_sd_fire_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_sd_fire_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/sd/magma",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_sd_magma_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_sd_magma_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_sd_magma_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/sd/devil",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_sd_devil_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_sd_devil_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_sd_devil_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/sd/god",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_sd_god_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_sd_god_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_sd_god_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/sd/grass",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/iphone14_sd_grass_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_sd_grass_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_sd_grass_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "iphone14/sd/light",
+   "shots": {
+    "2_impact_on_foe": "shots/battle_engine/fx_live/iphone14_sd_light_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/iphone14_sd_light_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "pixel7/default/plain",
+   "turns": 2,
+   "effects": [
+    "water/travel_p2f",
+    "water/impact",
+    "dark/travel_f2p",
+    "dark/impact",
+    "dark/travel_f2p",
+    "dark/impact"
+   ],
+   "clip": null
+  },
+  {
+   "tag": "pixel7/default/water",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/pixel7_default_water_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/pixel7_default_water_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/pixel7_default_water_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "pixel7/default/fire",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/pixel7_default_fire_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/pixel7_default_fire_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/pixel7_default_fire_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "pixel7/default/magma",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/pixel7_default_magma_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/pixel7_default_magma_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/pixel7_default_magma_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "pixel7/default/devil",
+   "shots": {
+    "2_impact_on_foe": "shots/battle_engine/fx_live/pixel7_default_devil_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/pixel7_default_devil_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "pixel7/default/god",
+   "shots": {
+    "2_impact_on_foe": "shots/battle_engine/fx_live/pixel7_default_god_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/pixel7_default_god_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "pixel7/default/grass",
+   "shots": {
+    "2_impact_on_foe": "shots/battle_engine/fx_live/pixel7_default_grass_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/pixel7_default_grass_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "pixel7/default/light",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/pixel7_default_light_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/pixel7_default_light_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/pixel7_default_light_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "pixel7/sd/plain",
+   "turns": 2,
+   "effects": [
+    "water/travel_p2f",
+    "water/impact",
+    "dark/travel_f2p",
+    "dark/impact",
+    "dark/travel_f2p",
+    "dark/impact"
+   ],
+   "clip": null
+  },
+  {
+   "tag": "pixel7/sd/water",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/pixel7_sd_water_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/pixel7_sd_water_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/pixel7_sd_water_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "pixel7/sd/fire",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/pixel7_sd_fire_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/pixel7_sd_fire_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/pixel7_sd_fire_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "pixel7/sd/magma",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/pixel7_sd_magma_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/pixel7_sd_magma_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/pixel7_sd_magma_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "pixel7/sd/devil",
+   "shots": {
+    "2_impact_on_foe": "shots/battle_engine/fx_live/pixel7_sd_devil_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/pixel7_sd_devil_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "pixel7/sd/god",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/pixel7_sd_god_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/pixel7_sd_god_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/pixel7_sd_god_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "pixel7/sd/grass",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/pixel7_sd_grass_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/pixel7_sd_grass_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/pixel7_sd_grass_3_impact_on_player_mirrored.png"
+   }
+  },
+  {
+   "tag": "pixel7/sd/light",
+   "shots": {
+    "1_travel": "shots/battle_engine/fx_live/pixel7_sd_light_1_travel.png",
+    "2_impact_on_foe": "shots/battle_engine/fx_live/pixel7_sd_light_2_impact_on_foe.png",
+    "3_impact_on_player_mirrored": "shots/battle_engine/fx_live/pixel7_sd_light_3_impact_on_player_mirrored.png"
+   }
+  }
+ ]
+}

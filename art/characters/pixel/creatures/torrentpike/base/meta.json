@@ -1,0 +1,80 @@
+{
+ "torrentpike_front": {
+  "scale": 0.13839285714285715,
+  "org": [
+   80,
+   328
+  ],
+  "size": [
+   124,
+   48
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 16
+ },
+ "torrentpike_back": {
+  "scale": 0.16209150326797386,
+  "org": [
+   160,
+   234
+  ],
+  "size": [
+   124,
+   90
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 18
+ },
+ "torrentpike_ow_down": {
+  "scale": 0.2184873949579832,
+  "org": [
+   50,
+   211
+  ],
+  "size": [
+   35,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "torrentpike_ow_left": {
+  "scale": 0.14427860696517414,
+  "org": [
+   235,
+   218
+  ],
+  "size": [
+   58,
+   35
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "torrentpike_ow_right": {
+  "scale": 0.15425531914893617,
+  "org": [
+   674,
+   219
+  ],
+  "size": [
+   58,
+   37
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "torrentpike_ow_up": {
+  "scale": 0.1984732824427481,
+  "org": [
+   1080,
+   213
+  ],
+  "size": [
+   31,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ }
+}

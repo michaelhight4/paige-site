@@ -1,0 +1,328 @@
+{
+ "cal_back_capture": {
+  "frames": [
+   "raise",
+   "hold",
+   "hold_strain",
+   "lowered"
+  ],
+  "frame_w": 64,
+  "frame_h": 96,
+  "hold_px": [
+   [
+    31,
+    22
+   ],
+   [
+    31,
+    6
+   ],
+   [
+    31,
+    6
+   ],
+   [
+    31,
+    55
+   ]
+  ]
+ },
+ "mira_back_capture": {
+  "frames": [
+   "raise",
+   "hold",
+   "hold_strain",
+   "lowered"
+  ],
+  "frame_w": 64,
+  "frame_h": 96,
+  "hold_px": [
+   [
+    31,
+    22
+   ],
+   [
+    31,
+    6
+   ],
+   [
+    31,
+    6
+   ],
+   [
+    31,
+    57
+   ]
+  ]
+ },
+ "tr_bugcatcher_f_capture": {
+  "frames": [
+   "raise",
+   "hold"
+  ],
+  "frame_w": 64,
+  "frame_h": 128,
+  "hold_px": [
+   [
+    31,
+    60
+   ],
+   [
+    31,
+    25
+   ]
+  ]
+ },
+ "tr_camper_f_capture": {
+  "frames": [
+   "raise",
+   "hold"
+  ],
+  "frame_w": 64,
+  "frame_h": 128,
+  "hold_px": [
+   [
+    31,
+    47
+   ],
+   [
+    31,
+    12
+   ]
+  ]
+ },
+ "tr_gymtrainer_f_capture": {
+  "frames": [
+   "raise",
+   "hold"
+  ],
+  "frame_w": 64,
+  "frame_h": 128,
+  "hold_px": [
+   [
+    31,
+    42
+   ],
+   [
+    31,
+    4
+   ]
+  ]
+ },
+ "tr_gymtrainer_m_capture": {
+  "frames": [
+   "raise",
+   "hold"
+  ],
+  "frame_w": 64,
+  "frame_h": 128,
+  "hold_px": [
+   [
+    31,
+    37
+   ],
+   [
+    31,
+    4
+   ]
+  ]
+ },
+ "tr_hiker_f_capture": {
+  "frames": [
+   "raise",
+   "hold"
+  ],
+  "frame_w": 64,
+  "frame_h": 128,
+  "hold_px": [
+   [
+    31,
+    37
+   ],
+   [
+    31,
+    4
+   ]
+  ]
+ },
+ "tr_hiker_m_capture": {
+  "frames": [
+   "raise",
+   "hold"
+  ],
+  "frame_w": 64,
+  "frame_h": 128,
+  "hold_px": [
+   [
+    31,
+    41
+   ],
+   [
+    31,
+    6
+   ]
+  ]
+ },
+ "tr_lass_f_capture": {
+  "frames": [
+   "raise",
+   "hold"
+  ],
+  "frame_w": 64,
+  "frame_h": 128,
+  "hold_px": [
+   [
+    31,
+    63
+   ],
+   [
+    31,
+    25
+   ]
+  ]
+ },
+ "tr_master_fernwick_m_capture": {
+  "frames": [
+   "raise",
+   "hold"
+  ],
+  "frame_w": 64,
+  "frame_h": 128,
+  "hold_px": [
+   [
+    31,
+    45
+   ],
+   [
+    31,
+    4
+   ]
+  ]
+ },
+ "tr_master_saltmere_f_capture": {
+  "frames": [
+   "raise",
+   "hold"
+  ],
+  "frame_w": 64,
+  "frame_h": 128,
+  "hold_px": [
+   [
+    31,
+    37
+   ],
+   [
+    31,
+    4
+   ]
+  ]
+ },
+ "tr_ranger_m_capture": {
+  "frames": [
+   "raise",
+   "hold"
+  ],
+  "frame_w": 64,
+  "frame_h": 128,
+  "hold_px": [
+   [
+    31,
+    37
+   ],
+   [
+    31,
+    4
+   ]
+  ]
+ },
+ "tr_scientist_f_capture": {
+  "frames": [
+   "raise",
+   "hold"
+  ],
+  "frame_w": 64,
+  "frame_h": 128,
+  "hold_px": [
+   [
+    31,
+    37
+   ],
+   [
+    31,
+    4
+   ]
+  ]
+ },
+ "tr_scientist_m_capture": {
+  "frames": [
+   "raise",
+   "hold"
+  ],
+  "frame_w": 64,
+  "frame_h": 128,
+  "hold_px": [
+   [
+    31,
+    37
+   ],
+   [
+    31,
+    4
+   ]
+  ]
+ },
+ "tr_swimmer_f_capture": {
+  "frames": [
+   "raise",
+   "hold"
+  ],
+  "frame_w": 64,
+  "frame_h": 128,
+  "hold_px": [
+   [
+    31,
+    37
+   ],
+   [
+    31,
+    4
+   ]
+  ]
+ },
+ "tr_swimmer_m_capture": {
+  "frames": [
+   "raise",
+   "hold"
+  ],
+  "frame_w": 64,
+  "frame_h": 128,
+  "hold_px": [
+   [
+    31,
+    37
+   ],
+   [
+    31,
+    4
+   ]
+  ]
+ },
+ "tr_youngster_m_capture": {
+  "frames": [
+   "raise",
+   "hold"
+  ],
+  "frame_w": 64,
+  "frame_h": 128,
+  "hold_px": [
+   [
+    31,
+    63
+   ],
+   [
+    31,
+    25
+   ]
+  ]
+ }
+}

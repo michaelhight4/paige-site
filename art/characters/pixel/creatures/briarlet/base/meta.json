@@ -1,0 +1,80 @@
+{
+ "briarlet_front": {
+  "scale": 0.13531799729364005,
+  "org": [
+   147,
+   134
+  ],
+  "size": [
+   102,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 18
+ },
+ "briarlet_back": {
+  "scale": 0.13513513513513514,
+  "org": [
+   193,
+   132
+  ],
+  "size": [
+   87,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 12
+ },
+ "briarlet_ow_down": {
+  "scale": 0.14666666666666667,
+  "org": [
+   44,
+   189
+  ],
+  "size": [
+   34,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 18
+ },
+ "briarlet_ow_left": {
+  "scale": 0.15017064846416384,
+  "org": [
+   309,
+   195
+  ],
+  "size": [
+   48,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ },
+ "briarlet_ow_right": {
+  "scale": 0.1506849315068493,
+  "org": [
+   659,
+   195
+  ],
+  "size": [
+   49,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ },
+ "briarlet_ow_up": {
+  "scale": 0.14666666666666667,
+  "org": [
+   1021,
+   188
+  ],
+  "size": [
+   33,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ }
+}

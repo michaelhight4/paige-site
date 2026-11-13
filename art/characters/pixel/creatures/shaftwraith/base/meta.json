@@ -1,0 +1,70 @@
+{
+ "shaftwraith_front": {
+  "scale": 0.12910284463894967,
+  "org": [
+   146,
+   47
+  ],
+  "size": [
+   93,
+   118
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 18
+ },
+ "shaftwraith_back": {
+  "scale": 0.12784398699891658,
+  "org": [
+   170,
+   44
+  ],
+  "size": [
+   89,
+   118
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 16
+ },
+ "shaftwraith_ow_down": {
+  "scale": 0.10420841683366733,
+  "org": [
+   25,
+   97
+  ],
+  "size": [
+   32,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "shaftwraith_ow_left": {
+  "scale": 0.10612244897959183,
+  "org": [
+   355,
+   101
+  ],
+  "size": [
+   30,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "shaftwraith_ow_up": {
+  "scale": 0.10462776659959759,
+  "org": [
+   961,
+   101
+  ],
+  "size": [
+   31,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "shaftwraith_ow_right": {
+  "mirror_of": "shaftwraith_ow_left"
+ }
+}

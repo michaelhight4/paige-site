@@ -1,0 +1,20 @@
+{
+ "creature": "charlurcher",
+ "concept": "Bluevein",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#1a1226": "#2c2320",
+  "#2c1a12": "#29252b",
+  "#2c2320": "#29252b",
+  "#342842": "#3e3a48",
+  "#3e3a48": "#54444e",
+  "#462c22": "#18382c",
+  "#6a442e": "#30488c",
+  "#87604d": "#4a70ba",
+  "#92623e": "#2c64a8",
+  "#ba8856": "#4692ce",
+  "#c46e2e": "#4692ce"
+ },
+ "rule": "crystal violets never swapped"
+}

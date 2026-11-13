@@ -1,0 +1,26 @@
+{
+ "creature": "spinyclaw",
+ "concept": "Abyss Blue",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#2c1a12": "#1a1226",
+  "#2c2320": "#29252b",
+  "#462c22": "#342842",
+  "#561c0e": "#18382c",
+  "#6a3019": "#1e4078",
+  "#6a442e": "#1e4078",
+  "#6e222a": "#246e6c",
+  "#87604d": "#5e5866",
+  "#92623e": "#30488c",
+  "#a23432": "#4a70ba",
+  "#ba8856": "#4a70ba",
+  "#ccaa6e": "#4692ce",
+  "#d05440": "#4692ce",
+  "#daa2ba": "#c6ecfa",
+  "#deb478": "#4a70ba",
+  "#e8ce92": "#7ac2e8",
+  "#f08868": "#4692ce"
+ },
+ "rule": "crystal violets never swapped"
+}

@@ -1,0 +1,116 @@
+[
+  {
+    "view": "844x390",
+    "scene": "dialogue_choice",
+    "platform": "mobile",
+    "scr": null,
+    "uiOpen": false,
+    "controls": [],
+    "rows": 2,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-can-hide-a ui-can-hide-b ui-skin tp-hide-dpad tp-hide-sel tp-hide-dbg tp-hide-a tp-hide-b dlg-toast-lift ui-dlg-open",
+    "inner": [
+      844,
+      390
+    ],
+    "tapOk": 1,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/after/dev_844x390_dialogue_choice.png"
+  },
+  {
+    "view": "844x390_notch",
+    "scene": "dialogue_choice",
+    "platform": "mobile",
+    "scr": null,
+    "uiOpen": false,
+    "controls": [],
+    "rows": 2,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-can-hide-a ui-can-hide-b ui-skin tp-hide-dpad tp-hide-sel tp-hide-dbg tp-hide-a tp-hide-b dlg-toast-lift ui-dlg-open",
+    "inner": [
+      844,
+      390
+    ],
+    "tapOk": 1,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/after/dev_844x390_notch_dialogue_choice.png"
+  },
+  {
+    "view": "844x293_safaribars",
+    "scene": "dialogue_choice",
+    "platform": "mobile",
+    "scr": null,
+    "uiOpen": false,
+    "controls": [],
+    "rows": 2,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-can-hide-a ui-can-hide-b ui-skin tp-hide-dpad tp-hide-sel tp-hide-dbg tp-hide-a tp-hide-b dlg-toast-lift ui-dlg-open",
+    "inner": [
+      844,
+      293
+    ],
+    "tapOk": 1,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/after/dev_844x293_safaribars_dialogue_choice.png"
+  },
+  {
+    "view": "932x430",
+    "scene": "dialogue_choice",
+    "platform": "mobile",
+    "scr": null,
+    "uiOpen": false,
+    "controls": [],
+    "rows": 2,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-can-hide-a ui-can-hide-b ui-skin tp-hide-dpad tp-hide-sel tp-hide-dbg tp-hide-a tp-hide-b dlg-toast-lift ui-dlg-open",
+    "inner": [
+      932,
+      430
+    ],
+    "tapOk": 1,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/after/dev_932x430_dialogue_choice.png"
+  },
+  {
+    "view": "932x430_notch",
+    "scene": "dialogue_choice",
+    "platform": "mobile",
+    "scr": null,
+    "uiOpen": false,
+    "controls": [],
+    "rows": 2,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-can-hide-a ui-can-hide-b ui-skin tp-hide-dpad tp-hide-sel tp-hide-dbg tp-hide-a tp-hide-b dlg-toast-lift ui-dlg-open",
+    "inner": [
+      932,
+      430
+    ],
+    "tapOk": 1,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/after/dev_932x430_notch_dialogue_choice.png"
+  },
+  {
+    "view": "780x360",
+    "scene": "dialogue_choice",
+    "platform": "mobile",
+    "scr": null,
+    "uiOpen": false,
+    "controls": [],
+    "rows": 2,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-can-hide-a ui-can-hide-b ui-skin tp-hide-dpad tp-hide-sel tp-hide-dbg tp-hide-a tp-hide-b dlg-toast-lift ui-dlg-open",
+    "inner": [
+      780,
+      360
+    ],
+    "tapOk": 1,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/after/dev_780x360_dialogue_choice.png"
+  }
+]

@@ -1,0 +1,70 @@
+{
+ "cinderwyrm_front": {
+  "scale": 0.12882096069868995,
+  "org": [
+   122,
+   44
+  ],
+  "size": [
+   108,
+   118
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 15
+ },
+ "cinderwyrm_back": {
+  "scale": 0.13258426966292136,
+  "org": [
+   160,
+   50
+  ],
+  "size": [
+   107,
+   118
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 11
+ },
+ "cinderwyrm_ow_down": {
+  "scale": 0.10699588477366255,
+  "org": [
+   56,
+   99
+  ],
+  "size": [
+   27,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ },
+ "cinderwyrm_ow_left": {
+  "scale": 0.10993657505285412,
+  "org": [
+   328,
+   109
+  ],
+  "size": [
+   37,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ },
+ "cinderwyrm_ow_up": {
+  "scale": 0.10970464135021098,
+  "org": [
+   1032,
+   101
+  ],
+  "size": [
+   26,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 7
+ },
+ "cinderwyrm_ow_right": {
+  "mirror_of": "cinderwyrm_ow_left"
+ }
+}

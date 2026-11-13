@@ -1,0 +1,80 @@
+{
+ "gildfinch_front": {
+  "scale": 0.13908205841446453,
+  "org": [
+   278,
+   131
+  ],
+  "size": [
+   75,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 26
+ },
+ "gildfinch_back": {
+  "scale": 0.13315579227696406,
+  "org": [
+   318,
+   128
+  ],
+  "size": [
+   48,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 22
+ },
+ "gildfinch_ow_down": {
+  "scale": 0.1543859649122807,
+  "org": [
+   96,
+   187
+  ],
+  "size": [
+   24,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 22
+ },
+ "gildfinch_ow_left": {
+  "scale": 0.14521452145214522,
+  "org": [
+   361,
+   178
+  ],
+  "size": [
+   38,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 20
+ },
+ "gildfinch_ow_right": {
+  "scale": 0.14473684210526316,
+  "org": [
+   665,
+   178
+  ],
+  "size": [
+   37,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 22
+ },
+ "gildfinch_ow_up": {
+  "scale": 0.13793103448275862,
+  "org": [
+   1029,
+   179
+  ],
+  "size": [
+   20,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 19
+ }
+}

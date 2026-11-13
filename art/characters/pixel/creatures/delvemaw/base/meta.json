@@ -1,0 +1,70 @@
+{
+ "delvemaw_front": {
+  "scale": 0.1316348195329087,
+  "org": [
+   50,
+   134
+  ],
+  "size": [
+   124,
+   101
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 14
+ },
+ "delvemaw_back": {
+  "scale": 0.14957780458383596,
+  "org": [
+   100,
+   130
+  ],
+  "size": [
+   124,
+   109
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 11
+ },
+ "delvemaw_ow_down": {
+  "scale": 0.18309859154929578,
+  "org": [
+   21,
+   199
+  ],
+  "size": [
+   52,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "delvemaw_ow_left": {
+  "scale": 0.17682926829268292,
+  "org": [
+   321,
+   205
+  ],
+  "size": [
+   58,
+   49
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "delvemaw_ow_up": {
+  "scale": 0.1897810218978102,
+  "org": [
+   997,
+   205
+  ],
+  "size": [
+   50,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 9
+ },
+ "delvemaw_ow_right": {
+  "mirror_of": "delvemaw_ow_left"
+ }
+}

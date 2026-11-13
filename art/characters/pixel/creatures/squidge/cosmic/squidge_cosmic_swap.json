@@ -1,0 +1,16 @@
+{
+ "creature": "squidge",
+ "concept": "Seafoam",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#30488c": "#92623e",
+  "#342842": "#3e3a48",
+  "#3e3a48": "#54444e",
+  "#4a70ba": "#c46e2e",
+  "#daa2ba": "#a6d460",
+  "#ecdec4": "#c6ecfa",
+  "#f6a0ba": "#c6ecfa"
+ },
+ "rule": "crystal violets never swapped"
+}

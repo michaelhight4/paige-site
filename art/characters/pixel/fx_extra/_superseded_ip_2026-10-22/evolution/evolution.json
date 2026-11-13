@@ -1,0 +1,510 @@
+{
+ "piece": "evolution",
+ "status": "DRAFT - not approved by Gary, NOT wired into game code",
+ "owner": "Animator",
+ "generated_by": "art/characters/pixel/fx_extra/_tools/gen_evolution.py",
+ "generated_at": "2026-10-22T22:54:09-05:00",
+ "paths_relative_to": "/workspace/kilumen",
+ "palette": "art/world/overworld/palette.hex (64 colours) + full transparency; alpha is 0 or 255 only",
+ "scale_rule": "draw 1x frames scaled by an integer (2x/3x) with nearest-neighbour only; *_2x files are exact nearest copies",
+ "sheet_layout": "horizontal strip; frame i rect = [i*w, 0, w, h] (rects[] lists them)",
+ "emissive_rule": "emissive 'all' -> grade with grades.<g>.lit (lut_<g>_lit.png); 'none' -> grades.<g>.sprite; 'mask' -> per pixel by <name>_emissive_sheet.png. Draw order: palette swaps -> grade.",
+ "about": "Generic evolution overlay (MECHANICS_PARITY evolution). Works for every creature: code silhouettes the existing sprites; nothing is redrawn per creature.",
+ "hooks": {
+  "silhouette": {
+   "fill": "fcf6e8",
+   "outline_1px": "8a4ace",
+   "how": "code: every opaque pixel of the sprite -> fill; add a 1px 4-neighbour outline. Same for old and new sprite."
+  },
+  "alternation_schedule_ms": [
+   600,
+   500,
+   400,
+   320,
+   260,
+   200,
+   160,
+   120,
+   100,
+   80,
+   60,
+   60,
+   60
+  ],
+  "alternation_rule": "start on the OLD silhouette; each entry is how long to show the current silhouette before switching (old, new, old, ...). Total 2940 ms. B cancels at any point -> evo_cancel.",
+  "sequence": [
+   "old sprite normal + text",
+   "old sprite -> silhouette (hard cut) + evo_motes_rise loop",
+   "alternate by alternation_schedule_ms",
+   "evo_flash (swap to new sprite at frame 3)",
+   "evo_burst, new sprite normal colours, motes stop",
+   "jingle + \"evolved into\" text"
+  ],
+  "photosensitivity": "Max 3 full-screen flashes per second; this design has ONE full-screen flash. The alternation is a sprite-sized area. The fastest alternation step is 60 ms (~8 Hz) on a sprite-sized area; if Gary wants stricter, clamp schedule entries to >= 167 ms.",
+  "warmth_cosmic": "after the swap the new sprite gets the same Warmth stage and Cosmic flag (apply swaps before grading)",
+  "reduced_motion": "evo_reduced_motion instead of alternation+flash; keep motes off"
+ },
+ "tod_check": {
+  "motes": {
+   "gif_2x": "art/characters/pixel/fx_extra/evolution/_preview/evo_motes_rise_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/evolution/_preview/evo_motes_rise_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.922,
+    "day": 0.925,
+    "dusk": 0.984,
+    "night": 0.877
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "burst": {
+   "gif_2x": "art/characters/pixel/fx_extra/evolution/_preview/evo_burst_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/evolution/_preview/evo_burst_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.672,
+    "day": 0.701,
+    "dusk": 0.604,
+    "night": 0.618
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "cancel": {
+   "gif_2x": "art/characters/pixel/fx_extra/evolution/_preview/evo_cancel_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/evolution/_preview/evo_cancel_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.74,
+    "day": 0.753,
+    "dusk": 0.634,
+    "night": 0.634
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "rm": {
+   "gif_2x": "art/characters/pixel/fx_extra/evolution/_preview/evo_reduced_motion_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/evolution/_preview/evo_reduced_motion_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.871,
+    "day": 0.871,
+    "dusk": 0.87,
+    "night": 0.983
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "flash": {
+   "gif_2x": "art/characters/pixel/fx_extra/evolution/_preview/evo_flash_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/evolution/_preview/evo_flash_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.818,
+    "day": 0.818,
+    "dusk": 0.818,
+    "night": 0.818
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.0",
+   "passed": true,
+   "note": "full-screen white: readable by definition; dims at night (fcf6e8 is not a lit colour). Kept, judged by eye."
+  },
+  "silhouette_old": {
+   "gif_2x": "art/characters/pixel/fx_extra/evolution/_preview/evo_silhouette_cindrip_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/evolution/_preview/evo_silhouette_cindrip_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.99,
+    "day": 0.99,
+    "dusk": 0.99,
+    "night": 0.963
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true,
+   "note": "code-made silhouette (fcf6e8 + 8a4ace outline), checked because it is the main visual"
+  }
+ },
+ "anims": {
+  "evo_motes_rise": {
+   "kind": "overlay",
+   "frames": 8,
+   "frame_size": [
+    160,
+    160
+   ],
+   "ms_per_frame": [
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70
+   ],
+   "total_ms": 560,
+   "loop": true,
+   "anchor": {
+    "canvas_px": [
+     80,
+     157
+    ],
+    "meaning": "same bottom-centre anchor as the creature battle sprite (160 canvas; for 128 sprites the creature anchor [64,125] maps to this point)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     160,
+     160
+    ],
+    [
+     160,
+     0,
+     160,
+     160
+    ],
+    [
+     320,
+     0,
+     160,
+     160
+    ],
+    [
+     480,
+     0,
+     160,
+     160
+    ],
+    [
+     640,
+     0,
+     160,
+     160
+    ],
+    [
+     800,
+     0,
+     160,
+     160
+    ],
+    [
+     960,
+     0,
+     160,
+     160
+    ],
+    [
+     1120,
+     0,
+     160,
+     160
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/evolution/evo_motes_rise/evo_motes_rise_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/evolution/evo_motes_rise/evo_motes_rise_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/evolution/evo_motes_rise/evo_motes_rise_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/evolution/evo_motes_rise/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/evolution/evo_motes_rise/2x",
+   "emissive": "all",
+   "notes": "Light motes rising around the creature during \"What? X is evolving!\" and through the silhouette alternation."
+  },
+  "evo_flash": {
+   "kind": "overlay",
+   "frames": 8,
+   "frame_size": [
+    320,
+    240
+   ],
+   "ms_per_frame": [
+    60,
+    60,
+    60,
+    120,
+    120,
+    60,
+    60,
+    60
+   ],
+   "total_ms": 600,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     0,
+     0
+    ],
+    "meaning": "full 320x240 screen"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     320,
+     240
+    ],
+    [
+     320,
+     0,
+     320,
+     240
+    ],
+    [
+     640,
+     0,
+     320,
+     240
+    ],
+    [
+     960,
+     0,
+     320,
+     240
+    ],
+    [
+     1280,
+     0,
+     320,
+     240
+    ],
+    [
+     1600,
+     0,
+     320,
+     240
+    ],
+    [
+     1920,
+     0,
+     320,
+     240
+    ],
+    [
+     2240,
+     0,
+     320,
+     240
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/evolution/evo_flash/evo_flash_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/evolution/evo_flash/evo_flash_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/evolution/evo_flash/evo_flash_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/evolution/evo_flash/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/evolution/evo_flash/2x",
+   "emissive": "all",
+   "notes": "Single full-screen white flash in Bayer steps (never a blend). Starts when the schedule ends; swap to the new sprite on frame 3 (fully white). ONE flash only."
+  },
+  "evo_burst": {
+   "kind": "overlay",
+   "frames": 9,
+   "frame_size": [
+    160,
+    160
+   ],
+   "ms_per_frame": [
+    50,
+    50,
+    60,
+    60,
+    70,
+    80,
+    80,
+    90,
+    100
+   ],
+   "total_ms": 640,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     80,
+     157
+    ],
+    "meaning": "same bottom-centre anchor as the creature battle sprite (160 canvas; for 128 sprites the creature anchor [64,125] maps to this point)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     160,
+     160
+    ],
+    [
+     160,
+     0,
+     160,
+     160
+    ],
+    [
+     320,
+     0,
+     160,
+     160
+    ],
+    [
+     480,
+     0,
+     160,
+     160
+    ],
+    [
+     640,
+     0,
+     160,
+     160
+    ],
+    [
+     800,
+     0,
+     160,
+     160
+    ],
+    [
+     960,
+     0,
+     160,
+     160
+    ],
+    [
+     1120,
+     0,
+     160,
+     160
+    ],
+    [
+     1280,
+     0,
+     160,
+     160
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/evolution/evo_burst/evo_burst_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/evolution/evo_burst/evo_burst_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/evolution/evo_burst/evo_burst_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/evolution/evo_burst/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/evolution/evo_burst/2x",
+   "emissive": "all",
+   "notes": "Reveal burst around the new form, plays right after evo_flash frame 4."
+  },
+  "evo_cancel": {
+   "kind": "overlay",
+   "frames": 7,
+   "frame_size": [
+    160,
+    160
+   ],
+   "ms_per_frame": [
+    70,
+    70,
+    80,
+    80,
+    90,
+    100,
+    120
+   ],
+   "total_ms": 610,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     80,
+     157
+    ],
+    "meaning": "same bottom-centre anchor as the creature battle sprite (160 canvas; for 128 sprites the creature anchor [64,125] maps to this point)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     160,
+     160
+    ],
+    [
+     160,
+     0,
+     160,
+     160
+    ],
+    [
+     320,
+     0,
+     160,
+     160
+    ],
+    [
+     480,
+     0,
+     160,
+     160
+    ],
+    [
+     640,
+     0,
+     160,
+     160
+    ],
+    [
+     800,
+     0,
+     160,
+     160
+    ],
+    [
+     960,
+     0,
+     160,
+     160
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/evolution/evo_cancel/evo_cancel_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/evolution/evo_cancel/evo_cancel_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/evolution/evo_cancel/evo_cancel_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/evolution/evo_cancel/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/evolution/evo_cancel/2x",
+   "emissive": "all",
+   "notes": "Player pressed B: motes fall back and the ring closes; old sprite returns un-silhouetted on frame 0."
+  },
+  "evo_reduced_motion": {
+   "kind": "overlay",
+   "frames": 3,
+   "frame_size": [
+    160,
+    160
+   ],
+   "ms_per_frame": [
+    300,
+    400,
+    300
+   ],
+   "total_ms": 1000,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     80,
+     157
+    ],
+    "meaning": "same bottom-centre anchor as the creature battle sprite (160 canvas; for 128 sprites the creature anchor [64,125] maps to this point)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     160,
+     160
+    ],
+    [
+     160,
+     0,
+     160,
+     160
+    ],
+    [
+     320,
+     0,
+     160,
+     160
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/evolution/evo_reduced_motion/evo_reduced_motion_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/evolution/evo_reduced_motion/evo_reduced_motion_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/evolution/evo_reduced_motion/evo_reduced_motion_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/evolution/evo_reduced_motion/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/evolution/evo_reduced_motion/2x",
+   "emissive": "all",
+   "notes": "Reduced motion: no alternation, no full-screen flash. Show old sprite, play this, swap on frame 1."
+  }
+ }
+}

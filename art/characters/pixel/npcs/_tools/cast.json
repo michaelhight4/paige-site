@@ -1,0 +1,517 @@
+{
+ "cast": [
+  {
+   "id": "vil_gardener_f",
+   "kind": "villager",
+   "class": "gardener (adult woman)",
+   "th": 88
+  },
+  {
+   "id": "vil_fisher_m",
+   "kind": "villager",
+   "class": "fisherman (adult man)",
+   "th": 90
+  },
+  {
+   "id": "vil_kid_m",
+   "kind": "villager",
+   "class": "village boy (kid)",
+   "th": 70
+  },
+  {
+   "id": "vil_kid_f",
+   "kind": "villager",
+   "class": "village girl (kid)",
+   "th": 70
+  },
+  {
+   "id": "vil_guard_m",
+   "kind": "villager",
+   "class": "route guard (adult man)",
+   "th": 92
+  },
+  {
+   "id": "vil_receptionist_f",
+   "kind": "villager",
+   "class": "office receptionist (young woman)",
+   "th": 88
+  },
+  {
+   "id": "vil_manager_m",
+   "kind": "villager",
+   "class": "office manager (middle-aged man)",
+   "th": 90
+  },
+  {
+   "id": "vil_office_m",
+   "kind": "villager",
+   "class": "office worker (young man)",
+   "th": 89
+  },
+  {
+   "id": "vil_healer_f",
+   "kind": "villager",
+   "class": "heal-centre healer (woman)",
+   "th": 88,
+   "fixall": {
+    "54864e": "54444e"
+   }
+  },
+  {
+   "id": "vil_shopkeeper_m",
+   "kind": "villager",
+   "class": "shop clerk (man)",
+   "th": 88
+  },
+  {
+   "id": "vil_cook_f",
+   "kind": "villager",
+   "class": "home cook / mother (woman)",
+   "th": 86
+  },
+  {
+   "id": "vil_parent_m",
+   "kind": "villager",
+   "class": "father (adult man)",
+   "th": 90
+  },
+  {
+   "id": "vil_scholar_m",
+   "kind": "villager",
+   "class": "scholar (old man)",
+   "th": 86,
+   "flip": [
+    "up"
+   ]
+  },
+  {
+   "id": "vil_elder_f",
+   "kind": "villager",
+   "class": "elder (grandmother, cane)",
+   "th": 80,
+   "arms": false
+  },
+  {
+   "id": "vil_elder_m",
+   "kind": "villager",
+   "class": "elder (grandfather)",
+   "th": 80,
+   "arms": false,
+   "fixall": {
+    "fcd668": "e8ce92"
+   }
+  },
+  {
+   "id": "vil_courier_f",
+   "kind": "villager",
+   "class": "ex-courier (young woman)",
+   "th": 88,
+   "flip": [
+    "up"
+   ]
+  },
+  {
+   "id": "vil_dissident_m",
+   "kind": "villager",
+   "class": "forest dissident (young man)",
+   "th": 90
+  },
+  {
+   "id": "vil_worker_f",
+   "kind": "villager",
+   "class": "quarry/rail worker (woman)",
+   "th": 90
+  },
+  {
+   "id": "vil_officer_f",
+   "kind": "villager",
+   "class": "transit / airspace officer (woman)",
+   "th": 92,
+   "vswap": {
+    "up": {
+     "1e4078": "342842"
+    }
+   }
+  },
+  {
+   "id": "vil_kid_m_b",
+   "kind": "villager",
+   "class": "village boy (kid) - green-shirt swap",
+   "th": 70,
+   "base_of": "vil_kid_m",
+   "swap": {
+    "a23432": "367634",
+    "6e222a": "24522e",
+    "d05440": "52983a"
+   }
+  },
+  {
+   "id": "vil_kid_f_b",
+   "kind": "villager",
+   "class": "village girl (kid) - pink overalls / ginger swap",
+   "th": 70,
+   "base_of": "vil_kid_f",
+   "swap": {
+    "4a70ba": "d2608c",
+    "2c64a8": "a23432",
+    "30488c": "6e222a",
+    "fcd668": "e29d40"
+   }
+  },
+  {
+   "id": "vil_office_m_b",
+   "kind": "villager",
+   "class": "commuter / clerk (young man) - mint shirt swap",
+   "th": 89,
+   "base_of": "vil_office_m",
+   "swap": {
+    "7ac2e8": "70cab8",
+    "4692ce": "3e9c92",
+    "4a70ba": "246e6c",
+    "c46e2e": "6a442e"
+   }
+  },
+  {
+   "id": "vil_guard_m_b",
+   "kind": "villager",
+   "class": "station attendant / doorman (man) - navy+gold swap",
+   "th": 92,
+   "base_of": "vil_guard_m",
+   "swap": {
+    "8a4ace": "e29d40",
+    "603096": "c46e2e",
+    "3e3a48": "30488c",
+    "342842": "1e4078"
+   }
+  },
+  {
+   "id": "vil_receptionist_f_b",
+   "kind": "villager",
+   "class": "pass clerk / office clerk (woman) - burgundy suit swap",
+   "th": 88,
+   "base_of": "vil_receptionist_f",
+   "swap": {
+    "3e3a48": "6e222a",
+    "54444e": "a23432"
+   }
+  },
+  {
+   "id": "vil_gardener_f_b",
+   "kind": "villager",
+   "class": "farmer (woman) - blue apron swap",
+   "th": 88,
+   "base_of": "vil_gardener_f",
+   "swap": {
+    "38683e": "4a70ba",
+    "24522e": "30488c",
+    "54864e": "4692ce"
+   }
+  },
+  {
+   "id": "tr_youngster_m",
+   "kind": "trainer",
+   "class": "youngster (boy)",
+   "th": 72,
+   "por": [
+    "neutral",
+    "happy",
+    "angry"
+   ],
+   "tth": 104
+  },
+  {
+   "id": "tr_lass_f",
+   "kind": "trainer",
+   "class": "lass (girl)",
+   "th": 72,
+   "por": [
+    "neutral",
+    "happy",
+    "angry"
+   ],
+   "tth": 104
+  },
+  {
+   "id": "tr_camper_f",
+   "kind": "trainer",
+   "class": "camper (teen girl)",
+   "th": 84,
+   "por": [
+    "neutral",
+    "happy",
+    "angry"
+   ],
+   "tth": 116,
+   "hueboost": [
+    [
+     60,
+     170,
+     1.8
+    ]
+   ],
+   "hueboost_t": [
+    [
+     55,
+     170,
+     2.8
+    ]
+   ]
+  },
+  {
+   "id": "tr_bugcatcher_f",
+   "kind": "trainer",
+   "class": "bug catcher (girl)",
+   "th": 72,
+   "por": [
+    "neutral",
+    "happy",
+    "angry"
+   ],
+   "hueboost": [
+    [
+     70,
+     170,
+     1.4
+    ]
+   ],
+   "fillhue": [
+    [
+     36,
+     62,
+     0.5,
+     9,
+     "fcd668"
+    ]
+   ],
+   "fillhue_v": {
+    "right": [
+     [
+      40,
+      60,
+      0.35,
+      9,
+      "fcd668"
+     ]
+    ],
+    "down": []
+   },
+   "rowpaint": {
+    "down": [
+     [
+      27,
+      33,
+      0,
+      28,
+      "e8ce92",
+      "fcd668",
+      "f8eabe"
+     ]
+    ],
+    "right": [
+     [
+      27,
+      32,
+      9,
+      16,
+      "e8ce92",
+      "fcd668",
+      "fcd668"
+     ],
+     [
+      27,
+      32,
+      9,
+      16,
+      "ecdec4",
+      "f8eabe",
+      "f8eabe"
+     ]
+    ]
+   },
+   "tth": 104
+  },
+  {
+   "id": "tr_ranger_m",
+   "kind": "trainer",
+   "class": "forest ranger (man)",
+   "th": 92,
+   "por": [
+    "neutral",
+    "happy",
+    "angry"
+   ],
+   "hueboost": [
+    [
+     70,
+     170,
+     1.8
+    ]
+   ],
+   "hueboost_t": [
+    [
+     60,
+     170,
+     2.6
+    ]
+   ]
+  },
+  {
+   "id": "tr_hiker_m",
+   "kind": "trainer",
+   "class": "hiker (man)",
+   "th": 92,
+   "por": [
+    "neutral",
+    "happy",
+    "angry"
+   ]
+  },
+  {
+   "id": "tr_hiker_f",
+   "kind": "trainer",
+   "class": "hiker (woman)",
+   "th": 89,
+   "por": [
+    "neutral",
+    "happy",
+    "angry"
+   ],
+   "vswap": {
+    "right": {
+     "2c64a8": "246e6c"
+    }
+   }
+  },
+  {
+   "id": "tr_swimmer_m",
+   "kind": "trainer",
+   "class": "swimmer (man)",
+   "th": 89,
+   "por": [
+    "neutral",
+    "happy",
+    "angry"
+   ]
+  },
+  {
+   "id": "tr_swimmer_f",
+   "kind": "trainer",
+   "class": "swimmer (woman)",
+   "th": 89,
+   "por": [
+    "neutral",
+    "happy",
+    "angry"
+   ]
+  },
+  {
+   "id": "tr_scientist_m",
+   "kind": "trainer",
+   "class": "scientist (man)",
+   "th": 89,
+   "por": [
+    "neutral",
+    "happy",
+    "angry"
+   ]
+  },
+  {
+   "id": "tr_scientist_f",
+   "kind": "trainer",
+   "class": "scientist (woman)",
+   "th": 89,
+   "por": [
+    "neutral",
+    "happy",
+    "angry"
+   ]
+  },
+  {
+   "id": "tr_gymtrainer_m",
+   "kind": "trainer",
+   "class": "Fernwick hall trainee (young man)",
+   "th": 89,
+   "por": [
+    "neutral",
+    "happy",
+    "angry"
+   ]
+  },
+  {
+   "id": "tr_gymtrainer_f",
+   "kind": "trainer",
+   "class": "Fernwick hall trainee (young woman)",
+   "th": 89,
+   "por": [
+    "neutral",
+    "happy",
+    "angry"
+   ]
+  },
+  {
+   "id": "tr_master_fernwick_m",
+   "kind": "trainer",
+   "class": "Master of Fernwick (earth, man)",
+   "th": 94,
+   "por": [
+    "neutral",
+    "pleased",
+    "stern"
+   ],
+   "hueboost": [
+    [
+     70,
+     170,
+     1.8
+    ]
+   ]
+  },
+  {
+   "id": "tr_master_saltmere_f",
+   "kind": "trainer",
+   "class": "Master of Saltmere (coastal, woman)",
+   "th": 90,
+   "por": [
+    "neutral",
+    "grin",
+    "stern"
+   ]
+  },
+  {
+   "id": "vil_commuter_f",
+   "kind": "villager",
+   "class": "city commuter (woman, mustard coat) - Aurelith",
+   "th": 88
+  },
+  {
+   "id": "vil_business_m",
+   "kind": "villager",
+   "class": "businessman (suit, briefcase) - Aurelith",
+   "th": 92
+  },
+  {
+   "id": "vil_fan_m",
+   "kind": "villager",
+   "class": "stadium fan (teen, pennant) - Aurelith",
+   "th": 80
+  },
+  {
+   "id": "vil_stationguard_m",
+   "kind": "villager",
+   "class": "rail station guard (man) - Aurelith",
+   "th": 92
+  },
+  {
+   "id": "vil_clerk_f",
+   "kind": "villager",
+   "class": "department store clerk (woman) - Aurelith",
+   "th": 88
+  },
+  {
+   "id": "vil_tourist_f",
+   "kind": "villager",
+   "class": "tourist (sun hat, camera) - Aurelith",
+   "th": 88
+  }
+ ]
+}

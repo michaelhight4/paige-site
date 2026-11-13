@@ -1,0 +1,56 @@
+{
+ "char_id": "cal",
+ "anim": "capture_player",
+ "frames": [
+  "raise",
+  "hold",
+  "hold_strain",
+  "lowered"
+ ],
+ "frame_w": 68,
+ "frame_h": 96,
+ "hold_px": [
+  [
+   62,
+   52
+  ],
+  [
+   62,
+   29
+  ],
+  [
+   61,
+   29
+  ],
+  [
+   48,
+   64
+  ]
+ ],
+ "hold_px_by_frame": {
+  "raise": [
+   62,
+   52
+  ],
+  "hold": [
+   62,
+   29
+  ],
+  "hold_strain": [
+   61,
+   29
+  ],
+  "lowered": [
+   48,
+   64
+  ]
+ },
+ "pad": {
+  "left": 2,
+  "right": 2,
+  "top": 0,
+  "bottom": 0
+ },
+ "note": "hold_px = crystal centre just in front of the palm, 1x px in the frame's own top-left coords (after pad). Source canvas 64x96; pad shifts all source x by +2. DRAFT bone_v1, awaiting Gary.",
+ "status": "draft, awaiting Gary"
+}

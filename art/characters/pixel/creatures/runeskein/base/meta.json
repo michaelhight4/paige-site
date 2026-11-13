@@ -1,0 +1,95 @@
+{
+ "runeskein_front": {
+  "scale": 0.1026694045174538,
+  "org": [
+   55,
+   34
+  ],
+  "size": [
+   99,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "box": null,
+  "colours": 19
+ },
+ "runeskein_back": {
+  "scale": 0.11402508551881414,
+  "org": [
+   91,
+   69
+  ],
+  "size": [
+   94,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "box": null,
+  "colours": 17
+ },
+ "runeskein_ow_down": {
+  "scale": 0.15181518151815182,
+  "org": [
+   46,
+   157
+  ],
+  "size": [
+   27,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "box": [
+   0,
+   0,
+   244,
+   720
+  ],
+  "colours": 18
+ },
+ "runeskein_ow_left": {
+  "scale": 0.13256484149855907,
+  "org": [
+   264,
+   161
+  ],
+  "size": [
+   49,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "box": [
+   244,
+   0,
+   643,
+   720
+  ],
+  "colours": 19
+ },
+ "runeskein_ow_up": {
+  "scale": 0.1220159151193634,
+  "org": [
+   1055,
+   157
+  ],
+  "size": [
+   23,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "box": [
+   1036,
+   0,
+   1280,
+   720
+  ],
+  "colours": 18
+ },
+ "runeskein_ow_right": {
+  "mirror_of": "runeskein_ow_left",
+  "size": [
+   49,
+   46
+  ],
+  "colours": 19
+ }
+}

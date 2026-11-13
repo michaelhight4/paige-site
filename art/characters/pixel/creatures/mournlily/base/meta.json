@@ -1,0 +1,80 @@
+{
+ "mournlily_front": {
+  "scale": 0.1297016861219196,
+  "org": [
+   270,
+   131
+  ],
+  "size": [
+   62,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 11
+ },
+ "mournlily_back": {
+  "scale": 0.12886597938144329,
+  "org": [
+   300,
+   127
+  ],
+  "size": [
+   53,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 9
+ },
+ "mournlily_ow_down": {
+  "scale": 0.08949416342412451,
+  "org": [
+   69,
+   86
+  ],
+  "size": [
+   26,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 9
+ },
+ "mournlily_ow_left": {
+  "scale": 0.08932038834951456,
+  "org": [
+   382,
+   85
+  ],
+  "size": [
+   22,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 9
+ },
+ "mournlily_ow_right": {
+  "scale": 0.08932038834951456,
+  "org": [
+   670,
+   85
+  ],
+  "size": [
+   21,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 9
+ },
+ "mournlily_ow_up": {
+  "scale": 0.08949416342412451,
+  "org": [
+   946,
+   89
+  ],
+  "size": [
+   23,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 9
+ }
+}

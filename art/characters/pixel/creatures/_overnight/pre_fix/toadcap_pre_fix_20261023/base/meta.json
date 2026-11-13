@@ -1,0 +1,80 @@
+{
+ "toadcap_front": {
+  "scale": 0.12269938650306748,
+  "org": [
+   110,
+   97
+  ],
+  "size": [
+   102,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 23
+ },
+ "toadcap_back": {
+  "scale": 0.12578616352201258,
+  "org": [
+   141,
+   91
+  ],
+  "size": [
+   95,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 20
+ },
+ "toadcap_ow_down": {
+  "scale": 0.14696485623003194,
+  "org": [
+   24,
+   171
+  ],
+  "size": [
+   42,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 20
+ },
+ "toadcap_ow_left": {
+  "scale": 0.14838709677419354,
+  "org": [
+   350,
+   175
+  ],
+  "size": [
+   41,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 18
+ },
+ "toadcap_ow_right": {
+  "scale": 0.14935064935064934,
+  "org": [
+   668,
+   177
+  ],
+  "size": [
+   41,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "toadcap_ow_up": {
+  "scale": 0.152317880794702,
+  "org": [
+   988,
+   177
+  ],
+  "size": [
+   40,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ }
+}

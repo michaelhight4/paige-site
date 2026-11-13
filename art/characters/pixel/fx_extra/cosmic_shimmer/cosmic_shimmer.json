@@ -1,0 +1,455 @@
+{
+ "piece": "cosmic_shimmer",
+ "status": "DRAFT - not approved by Gary, NOT wired into game code",
+ "owner": "Animator",
+ "generated_by": "art/characters/pixel/fx_extra/_tools/gen_cosmic_shimmer.py",
+ "generated_at": "2026-10-22T23:12:44-05:00",
+ "paths_relative_to": "/workspace/kilumen",
+ "palette": "art/world/overworld/palette.hex (64 colours) + full transparency; alpha is 0 or 255 only",
+ "scale_rule": "draw 1x frames scaled by an integer (2x/3x) with nearest-neighbour only; *_2x files are exact nearest copies",
+ "sheet_layout": "horizontal strip; frame i rect = [i*w, 0, w, h] (rects[] lists them)",
+ "emissive_rule": "emissive 'all' -> grade with grades.<g>.lit (lut_<g>_lit.png); 'none' -> grades.<g>.sprite; 'mask' -> per pixel by <name>_emissive_sheet.png. Draw order: palette swaps -> grade.",
+ "about": "Cosmic variant VFX (cosmic_swaps.json \"vfx\" hand-off). Preview creature: tumbloam with its Cosmic swap.",
+ "hooks": {
+  "order": "cosmic swap -> Warmth swap -> ToD grade -> shimmer layers on top (shimmer is emissive: lit grade)",
+  "clip": "starfield pixel drawn only if sprite alpha > 0 AND crystal mask == 0 (crystals are never touched by Cosmic)",
+  "encounter": [
+   "cosmic_encounter_aura + starfield clipped to the foe, together, after the foe slides in",
+   "chime notes on aura frames 0/4/8",
+   "then starfield stops (or keep at 1 frame per 400 ms if Gary wants a subtle idle)"
+  ],
+  "icon_twinkle_period_ms": 4000,
+  "distinct_from": "Enraged uses red/ember shards; Cosmic uses cool ice-blue 4-point stars (c6ecfa/7ac2e8/4692ce)",
+  "reduced_motion": "no aura spiral: show aura frame 8 for 400 ms; starfield single static frame; icon twinkle stays (it is a marker)"
+ },
+ "tod_check": {
+  "aura": {
+   "gif_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/_preview/cosmic_encounter_aura_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/_preview/cosmic_encounter_aura_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.875,
+    "day": 0.875,
+    "dusk": 0.852,
+    "night": 0.644
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "field": {
+   "gif_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/_preview/cosmic_starfield_tile_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/_preview/cosmic_starfield_tile_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.925,
+    "day": 0.925,
+    "dusk": 0.81,
+    "night": 0.782
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "icon": {
+   "gif_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/_preview/cosmic_icon_twinkle_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/_preview/cosmic_icon_twinkle_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.697,
+    "day": 0.697,
+    "dusk": 0.697,
+    "night": 0.616
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "summary": {
+   "gif_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/_preview/cosmic_summary_sparkle_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/_preview/cosmic_summary_sparkle_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.667,
+    "day": 0.667,
+    "dusk": 0.667,
+    "night": 0.6
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  }
+ },
+ "anims": {
+  "cosmic_starfield_tile": {
+   "kind": "overlay",
+   "frames": 8,
+   "frame_size": [
+    32,
+    32
+   ],
+   "ms_per_frame": [
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90
+   ],
+   "total_ms": 720,
+   "loop": true,
+   "anchor": {
+    "canvas_px": [
+     0,
+     0
+    ],
+    "meaning": "seamless 32x32 tile; tile from the sprite top-left"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     32,
+     32
+    ],
+    [
+     32,
+     0,
+     32,
+     32
+    ],
+    [
+     64,
+     0,
+     32,
+     32
+    ],
+    [
+     96,
+     0,
+     32,
+     32
+    ],
+    [
+     128,
+     0,
+     32,
+     32
+    ],
+    [
+     160,
+     0,
+     32,
+     32
+    ],
+    [
+     192,
+     0,
+     32,
+     32
+    ],
+    [
+     224,
+     0,
+     32,
+     32
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_starfield_tile/cosmic_starfield_tile_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_starfield_tile/cosmic_starfield_tile_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_starfield_tile/cosmic_starfield_tile_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_starfield_tile/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_starfield_tile/2x",
+   "emissive": "all",
+   "notes": "Shimmer layer for a Cosmic creature: tile it over the sprite and keep a pixel only where the sprite is opaque AND outside the crystal mask (warmth/masks/...). Play for the encounter intro (~1.4 s) and loop on the summary screen."
+  },
+  "cosmic_encounter_aura": {
+   "kind": "overlay",
+   "frames": 14,
+   "frame_size": [
+    160,
+    160
+   ],
+   "ms_per_frame": [
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    100
+   ],
+   "total_ms": 880,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     80,
+     157
+    ],
+    "meaning": "same anchor as a 160x160 battle sprite (bottom-centre); for 128 sprites use [64,125] offset by (16,32)"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     160,
+     160
+    ],
+    [
+     160,
+     0,
+     160,
+     160
+    ],
+    [
+     320,
+     0,
+     160,
+     160
+    ],
+    [
+     480,
+     0,
+     160,
+     160
+    ],
+    [
+     640,
+     0,
+     160,
+     160
+    ],
+    [
+     800,
+     0,
+     160,
+     160
+    ],
+    [
+     960,
+     0,
+     160,
+     160
+    ],
+    [
+     1120,
+     0,
+     160,
+     160
+    ],
+    [
+     1280,
+     0,
+     160,
+     160
+    ],
+    [
+     1440,
+     0,
+     160,
+     160
+    ],
+    [
+     1600,
+     0,
+     160,
+     160
+    ],
+    [
+     1760,
+     0,
+     160,
+     160
+    ],
+    [
+     1920,
+     0,
+     160,
+     160
+    ],
+    [
+     2080,
+     0,
+     160,
+     160
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_encounter_aura/cosmic_encounter_aura_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_encounter_aura/cosmic_encounter_aura_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_encounter_aura/cosmic_encounter_aura_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_encounter_aura/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_encounter_aura/2x",
+   "emissive": "all",
+   "notes": "Encounter entry: 10 cool stars spiral in and up around the creature, one big glint top-right on frames 6-9. Play once with the 3-note chime (notes on frames 0, 4, 8)."
+  },
+  "cosmic_icon_twinkle": {
+   "kind": "overlay",
+   "frames": 8,
+   "frame_size": [
+    32,
+    32
+   ],
+   "ms_per_frame": [
+    60,
+    60,
+    70,
+    110,
+    70,
+    60,
+    60,
+    40
+   ],
+   "total_ms": 530,
+   "loop": false,
+   "anchor": {
+    "canvas_px": [
+     0,
+     0
+    ],
+    "meaning": "same top-left as the 32x32 party icon"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     32,
+     32
+    ],
+    [
+     32,
+     0,
+     32,
+     32
+    ],
+    [
+     64,
+     0,
+     32,
+     32
+    ],
+    [
+     96,
+     0,
+     32,
+     32
+    ],
+    [
+     128,
+     0,
+     32,
+     32
+    ],
+    [
+     160,
+     0,
+     32,
+     32
+    ],
+    [
+     192,
+     0,
+     32,
+     32
+    ],
+    [
+     224,
+     0,
+     32,
+     32
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_icon_twinkle/cosmic_icon_twinkle_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_icon_twinkle/cosmic_icon_twinkle_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_icon_twinkle/cosmic_icon_twinkle_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_icon_twinkle/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_icon_twinkle/2x",
+   "emissive": "all",
+   "notes": "Party-icon marker: plays once every 4000 ms (top-right corner, never on the crystal)."
+  },
+  "cosmic_summary_sparkle": {
+   "kind": "overlay",
+   "frames": 8,
+   "frame_size": [
+    24,
+    24
+   ],
+   "ms_per_frame": [
+    110,
+    110,
+    110,
+    110,
+    110,
+    110,
+    110,
+    110
+   ],
+   "total_ms": 880,
+   "loop": true,
+   "anchor": {
+    "canvas_px": [
+     12,
+     12
+    ],
+    "meaning": "centre; put beside the name on summary"
+   },
+   "rects": [
+    [
+     0,
+     0,
+     24,
+     24
+    ],
+    [
+     24,
+     0,
+     24,
+     24
+    ],
+    [
+     48,
+     0,
+     24,
+     24
+    ],
+    [
+     72,
+     0,
+     24,
+     24
+    ],
+    [
+     96,
+     0,
+     24,
+     24
+    ],
+    [
+     120,
+     0,
+     24,
+     24
+    ],
+    [
+     144,
+     0,
+     24,
+     24
+    ],
+    [
+     168,
+     0,
+     24,
+     24
+    ]
+   ],
+   "sheet": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_summary_sparkle/cosmic_summary_sparkle_sheet.png",
+   "sheet_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_summary_sparkle/cosmic_summary_sparkle_sheet_2x.png",
+   "gif_2x": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_summary_sparkle/cosmic_summary_sparkle_2x.gif",
+   "frames_1x_dir": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_summary_sparkle/1x",
+   "frames_2x_dir": "art/characters/pixel/fx_extra/cosmic_shimmer/cosmic_summary_sparkle/2x",
+   "emissive": "all",
+   "notes": "Summary/box badge: steady loop, also a colour-blind-safe shape marker for Cosmic."
+  }
+ }
+}

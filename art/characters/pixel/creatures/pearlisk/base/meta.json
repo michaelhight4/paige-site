@@ -1,0 +1,80 @@
+{
+ "pearlisk_front": {
+  "scale": 0.1752808988764045,
+  "org": [
+   289,
+   294
+  ],
+  "size": [
+   80,
+   78
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 13
+ },
+ "pearlisk_back": {
+  "scale": 0.18309859154929578,
+  "org": [
+   311,
+   296
+  ],
+  "size": [
+   77,
+   78
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 11
+ },
+ "pearlisk_ow_down": {
+  "scale": 0.1532567049808429,
+  "org": [
+   62,
+   214
+  ],
+  "size": [
+   40,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ },
+ "pearlisk_ow_left": {
+  "scale": 0.1520912547528517,
+  "org": [
+   374,
+   212
+  ],
+  "size": [
+   36,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ },
+ "pearlisk_ow_right": {
+  "scale": 0.1520912547528517,
+  "org": [
+   671,
+   212
+  ],
+  "size": [
+   35,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "pearlisk_ow_up": {
+  "scale": 0.15444015444015444,
+  "org": [
+   968,
+   212
+  ],
+  "size": [
+   38,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 7
+ }
+}

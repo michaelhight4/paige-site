@@ -1,0 +1,579 @@
+{
+ "piece": "tod_checks",
+ "status": "DRAFT - read-only checks of soul/ assets (soul/ is Animator-owned and was fixed at the source; this script only reads it)",
+ "owner": "Animator",
+ "generated_by": "art/characters/pixel/fx_extra/_tools/gen_tod_checks.py",
+ "generated_at": "2026-10-22T23:12:57-05:00",
+ "why": "soul/ spotted, transitions and hit feedback had no 4-phase ToD strips (Game dev inventory item 1-3)",
+ "grading_note": "Transitions: soul hook_specs say grade none (screen-space UI layer, ungraded); checked ungraded and, as a fallback, lit-graded. Spotted spark/emotes: shown with sprite grade and lit grade (recommend lit).",
+ "results": {
+  "spotted_spark_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_spark_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_spark_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.872,
+    "day": 0.882,
+    "dusk": 0.849,
+    "night": 0.742
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_spark_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_spark_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_spark_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.872,
+    "day": 0.882,
+    "dusk": 0.856,
+    "night": 0.79
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_spark_rt_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_spark_rt_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_spark_rt_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.752,
+    "day": 0.888,
+    "dusk": 0.693,
+    "night": 0.516
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_spark_rt_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_spark_rt_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_spark_rt_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.752,
+    "day": 0.888,
+    "dusk": 0.693,
+    "night": 0.681
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_eye_glint_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_eye_glint_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_eye_glint_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 1.0,
+    "day": 1.0,
+    "dusk": 0.976,
+    "night": 0.667
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_eye_glint_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_eye_glint_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_eye_glint_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 1.0,
+    "day": 1.0,
+    "dusk": 0.976,
+    "night": 0.667
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_heart_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_heart_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_heart_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.919,
+    "day": 0.923,
+    "dusk": 0.903,
+    "night": 0.789
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_heart_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_heart_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_heart_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.919,
+    "day": 0.923,
+    "dusk": 0.918,
+    "night": 0.817
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_sweat_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_sweat_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_sweat_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.922,
+    "day": 0.933,
+    "dusk": 0.905,
+    "night": 0.788
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_sweat_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_sweat_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_sweat_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.922,
+    "day": 0.933,
+    "dusk": 0.919,
+    "night": 0.816
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_dots_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_dots_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_dots_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.942,
+    "day": 0.942,
+    "dusk": 0.926,
+    "night": 0.809
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_dots_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_dots_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_dots_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.942,
+    "day": 0.942,
+    "dusk": 0.941,
+    "night": 0.837
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_note_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_note_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_note_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.935,
+    "day": 0.935,
+    "dusk": 0.921,
+    "night": 0.809
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_note_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_note_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_note_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.935,
+    "day": 0.935,
+    "dusk": 0.935,
+    "night": 0.834
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_zzz_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_zzz_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_zzz_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.932,
+    "day": 0.938,
+    "dusk": 0.918,
+    "night": 0.792
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_zzz_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_zzz_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_zzz_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.932,
+    "day": 0.938,
+    "dusk": 0.932,
+    "night": 0.825
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_anger_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_anger_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_anger_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.931,
+    "day": 0.935,
+    "dusk": 0.911,
+    "night": 0.8
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_anger_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_anger_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_anger_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.931,
+    "day": 0.935,
+    "dusk": 0.925,
+    "night": 0.828
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_question_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_question_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_question_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.942,
+    "day": 0.942,
+    "dusk": 0.927,
+    "night": 0.81
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_question_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_question_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_question_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.942,
+    "day": 0.942,
+    "dusk": 0.941,
+    "night": 0.838
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_sparkle_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_sparkle_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_sparkle_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.933,
+    "day": 0.936,
+    "dusk": 0.918,
+    "night": 0.794
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "spotted_emote_sparkle_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_sparkle_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/spotted_emote_sparkle_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.933,
+    "day": 0.936,
+    "dusk": 0.936,
+    "night": 0.826
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true
+  },
+  "transition_wild_leaf_screenspace": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_wild_leaf_screenspace_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_wild_leaf_screenspace_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.769,
+    "day": 0.766,
+    "dusk": 0.772,
+    "night": 0.6
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true,
+   "soul_spec_grade": "none"
+  },
+  "transition_wild_leaf_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_wild_leaf_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_wild_leaf_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.763,
+    "day": 0.766,
+    "dusk": 0.768,
+    "night": 0.617
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true,
+   "soul_spec_grade": "none"
+  },
+  "transition_enraged_shard_screenspace": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_enraged_shard_screenspace_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_enraged_shard_screenspace_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.751,
+    "day": 0.751,
+    "dusk": 0.855,
+    "night": 0.736
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true,
+   "soul_spec_grade": "none"
+  },
+  "transition_enraged_shard_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_enraged_shard_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_enraged_shard_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.719,
+    "day": 0.751,
+    "dusk": 0.711,
+    "night": 0.745
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true,
+   "soul_spec_grade": "none"
+  },
+  "transition_trainer_bars_screenspace": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_trainer_bars_screenspace_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_trainer_bars_screenspace_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.975,
+    "day": 0.856,
+    "dusk": 0.842,
+    "night": 0.772
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true,
+   "soul_spec_grade": "none"
+  },
+  "transition_trainer_bars_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_trainer_bars_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_trainer_bars_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.849,
+    "day": 0.856,
+    "dusk": 0.843,
+    "night": 0.77
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true,
+   "soul_spec_grade": "none"
+  },
+  "transition_ron_jacket_screenspace": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_ron_jacket_screenspace_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_ron_jacket_screenspace_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.828,
+    "day": 0.795,
+    "dusk": 0.746,
+    "night": 0.574
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true,
+   "soul_spec_grade": "none"
+  },
+  "transition_ron_jacket_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_ron_jacket_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_ron_jacket_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.748,
+    "day": 0.795,
+    "dusk": 0.742,
+    "night": 0.688
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true,
+   "soul_spec_grade": "none"
+  },
+  "transition_master_coin_screenspace": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_master_coin_screenspace_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_master_coin_screenspace_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.874,
+    "day": 0.818,
+    "dusk": 0.971,
+    "night": 0.925
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true,
+   "soul_spec_grade": "none"
+  },
+  "transition_master_coin_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_master_coin_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_master_coin_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.805,
+    "day": 0.818,
+    "dusk": 0.969,
+    "night": 0.966
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true,
+   "soul_spec_grade": "none"
+  },
+  "transition_guardian_whiteout_screenspace": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_guardian_whiteout_screenspace_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_guardian_whiteout_screenspace_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.996,
+    "day": 0.984,
+    "dusk": 1.0,
+    "night": 1.0
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true,
+   "soul_spec_grade": "none"
+  },
+  "transition_guardian_whiteout_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_guardian_whiteout_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_guardian_whiteout_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.984,
+    "day": 0.984,
+    "dusk": 0.937,
+    "night": 0.838
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true,
+   "soul_spec_grade": "none"
+  },
+  "transition_reduced_motion_fade_screenspace": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_reduced_motion_fade_screenspace_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_reduced_motion_fade_screenspace_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.998,
+    "day": 0.863,
+    "dusk": 0.863,
+    "night": 0.795
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true,
+   "soul_spec_grade": "none"
+  },
+  "transition_reduced_motion_fade_litgrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_reduced_motion_fade_litgrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/transition_reduced_motion_fade_litgrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.863,
+    "day": 0.863,
+    "dusk": 0.858,
+    "night": 0.794
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.5",
+   "passed": true,
+   "soul_spec_grade": "none"
+  },
+  "hit_cindrip_front_flash_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_cindrip_front_flash_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_cindrip_front_flash_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 1.0,
+    "day": 1.0,
+    "dusk": 1.0,
+    "night": 1.0
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.3",
+   "passed": true,
+   "note": "creature-replacement frames: pass >= 0.3 (most pixels are the creature body, which is meant to sit near the background luma in places)"
+  },
+  "hit_cindrip_front_faint_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_cindrip_front_faint_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_cindrip_front_faint_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.859,
+    "day": 0.861,
+    "dusk": 0.804,
+    "night": 0.686
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.3",
+   "passed": true,
+   "note": "creature-replacement frames: pass >= 0.3 (most pixels are the creature body, which is meant to sit near the background luma in places)"
+  },
+  "hit_cindrip_front_overuse_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_cindrip_front_overuse_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_cindrip_front_overuse_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.858,
+    "day": 0.86,
+    "dusk": 0.808,
+    "night": 0.685
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.3",
+   "passed": true,
+   "note": "creature-replacement frames: pass >= 0.3 (most pixels are the creature body, which is meant to sit near the background luma in places)"
+  },
+  "hit_bastonox_back_flash_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_bastonox_back_flash_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_bastonox_back_flash_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 1.0,
+    "day": 1.0,
+    "dusk": 1.0,
+    "night": 1.0
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.3",
+   "passed": true,
+   "note": "creature-replacement frames: pass >= 0.3 (most pixels are the creature body, which is meant to sit near the background luma in places)"
+  },
+  "hit_bastonox_back_faint_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_bastonox_back_faint_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_bastonox_back_faint_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.799,
+    "day": 0.811,
+    "dusk": 0.791,
+    "night": 0.678
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.3",
+   "passed": true,
+   "note": "creature-replacement frames: pass >= 0.3 (most pixels are the creature body, which is meant to sit near the background luma in places)"
+  },
+  "hit_bastonox_back_overuse_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_bastonox_back_overuse_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_bastonox_back_overuse_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.767,
+    "day": 0.778,
+    "dusk": 0.758,
+    "night": 0.621
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.3",
+   "passed": true,
+   "note": "creature-replacement frames: pass >= 0.3 (most pixels are the creature body, which is meant to sit near the background luma in places)"
+  },
+  "hit_tidemarrow_front_flash_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_tidemarrow_front_flash_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_tidemarrow_front_flash_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.917,
+    "day": 0.917,
+    "dusk": 0.917,
+    "night": 0.917
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.3",
+   "passed": true,
+   "note": "creature-replacement frames: pass >= 0.3 (most pixels are the creature body, which is meant to sit near the background luma in places)"
+  },
+  "hit_tidemarrow_front_faint_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_tidemarrow_front_faint_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_tidemarrow_front_faint_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.683,
+    "day": 0.707,
+    "dusk": 0.649,
+    "night": 0.47
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.3",
+   "passed": true,
+   "note": "creature-replacement frames: pass >= 0.3 (most pixels are the creature body, which is meant to sit near the background luma in places)"
+  },
+  "hit_tidemarrow_front_overuse_spritegrade": {
+   "gif_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_tidemarrow_front_overuse_spritegrade_tod_2x.gif",
+   "png_2x": "art/characters/pixel/fx_extra/tod_checks/_preview/hit_tidemarrow_front_overuse_spritegrade_tod_2x.png",
+   "readable_fraction": {
+    "dawn": 0.644,
+    "day": 0.675,
+    "dusk": 0.614,
+    "night": 0.427
+   },
+   "rule": "fraction of FX pixels with |dLuma|>=28 vs graded background under them, per phase; pass >= 0.3",
+   "passed": true,
+   "note": "creature-replacement frames: pass >= 0.3 (most pixels are the creature body, which is meant to sit near the background luma in places)"
+  }
+ },
+ "visual_review": {
+  "transitions_night": "Fixed in soul/ (Oct 22): wild_leaf, enraged_shard, ron_jacket and master_coin now use near-black fills with rims/detail from the 8 night-lit colours and are marked screen-space/ungraded. See the numbers above; night strips checked by eye.",
+  "spark": "spark brightened in soul/ (gen_spotted.py); see spotted_spark_* rows.",
+  "hit_feedback": "All pass. tidemarrow faint/overuse lowest at night (0.43-0.47) but above the 0.3 replacement-frame bar."
+ }
+}

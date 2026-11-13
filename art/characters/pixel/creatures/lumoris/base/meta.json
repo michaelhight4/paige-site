@@ -1,0 +1,80 @@
+{
+ "lumoris_front": {
+  "scale": 0.09885931558935361,
+  "org": [
+   187,
+   109
+  ],
+  "size": [
+   62,
+   78
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 20
+ },
+ "lumoris_back": {
+  "scale": 0.10209424083769633,
+  "org": [
+   195,
+   113
+  ],
+  "size": [
+   64,
+   78
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 15
+ },
+ "lumoris_ow_down": {
+  "scale": 0.10101010101010101,
+  "org": [
+   28,
+   146
+  ],
+  "size": [
+   29,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "lumoris_ow_left": {
+  "scale": 0.10075566750629723,
+  "org": [
+   358,
+   149
+  ],
+  "size": [
+   27,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "lumoris_ow_right": {
+  "scale": 0.10101010101010101,
+  "org": [
+   673,
+   150
+  ],
+  "size": [
+   27,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "lumoris_ow_up": {
+  "scale": 0.10075566750629723,
+  "org": [
+   977,
+   149
+  ],
+  "size": [
+   28,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 10
+ }
+}

@@ -1,0 +1,21 @@
+{
+ "creature": "nudiblume",
+ "concept": "Abyss Teal",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#342842": "#3e3a48",
+  "#3e3a48": "#54444e",
+  "#462c22": "#244e34",
+  "#6a442e": "#246e6c",
+  "#ba8856": "#70cab8",
+  "#c46e2e": "#3e9c92",
+  "#daa2ba": "#a6d460",
+  "#deb478": "#7ac2e8",
+  "#e29d40": "#70cab8",
+  "#ecdec4": "#c6ecfa",
+  "#eea23c": "#70cab8",
+  "#fcd668": "#7ac2e8"
+ },
+ "rule": "crystal violets never swapped"
+}

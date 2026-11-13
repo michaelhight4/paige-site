@@ -1,0 +1,14 @@
+{
+ "creature": "pearlisk",
+ "concept": "Abyss Pearl",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#342842": "#3e3a48",
+  "#3e3a48": "#54444e",
+  "#ba8856": "#4692ce",
+  "#daa2ba": "#ccc6c2",
+  "#ecdec4": "#c6ecfa"
+ },
+ "rule": "crystal violets never swapped"
+}

@@ -1,0 +1,80 @@
+{
+ "cascadorn_front": {
+  "scale": 0.15206185567010308,
+  "org": [
+   179,
+   134
+  ],
+  "size": [
+   100,
+   118
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 16
+ },
+ "cascadorn_back": {
+  "scale": 0.14731585518102372,
+  "org": [
+   248,
+   111
+  ],
+  "size": [
+   85,
+   118
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 15
+ },
+ "cascadorn_ow_down": {
+  "scale": 0.12807881773399016,
+  "org": [
+   35,
+   147
+  ],
+  "size": [
+   25,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "cascadorn_ow_left": {
+  "scale": 0.12121212121212122,
+  "org": [
+   265,
+   148
+  ],
+  "size": [
+   42,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "cascadorn_ow_right": {
+  "scale": 0.12093023255813953,
+  "org": [
+   675,
+   147
+  ],
+  "size": [
+   41,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "cascadorn_ow_up": {
+  "scale": 0.12530120481927712,
+  "org": [
+   1045,
+   143
+  ],
+  "size": [
+   25,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ }
+}

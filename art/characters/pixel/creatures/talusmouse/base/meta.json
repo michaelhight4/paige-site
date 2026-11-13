@@ -1,0 +1,70 @@
+{
+ "talusmouse_front": {
+  "scale": 0.12077294685990338,
+  "org": [
+   175,
+   90
+  ],
+  "size": [
+   77,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 18
+ },
+ "talusmouse_back": {
+  "scale": 0.11862396204033215,
+  "org": [
+   244,
+   90
+  ],
+  "size": [
+   65,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 9
+ },
+ "talusmouse_ow_down": {
+  "scale": 0.16541353383458646,
+  "org": [
+   85,
+   205
+  ],
+  "size": [
+   35,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 19
+ },
+ "talusmouse_ow_left": {
+  "scale": 0.1476510067114094,
+  "org": [
+   399,
+   180
+  ],
+  "size": [
+   36,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "talusmouse_ow_right": {
+  "mirror_of": "talusmouse_ow_left"
+ },
+ "talusmouse_ow_up": {
+  "scale": 0.14521452145214522,
+  "org": [
+   1007,
+   199
+  ],
+  "size": [
+   29,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 7
+ }
+}

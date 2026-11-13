@@ -1,0 +1,70 @@
+{
+ "cavernwing_front": {
+  "scale": 0.12375249500998003,
+  "org": [
+   11,
+   109
+  ],
+  "size": [
+   124,
+   95
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 18
+ },
+ "cavernwing_back": {
+  "scale": 0.12474849094567404,
+  "org": [
+   13,
+   106
+  ],
+  "size": [
+   124,
+   95
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 9
+ },
+ "cavernwing_ow_down": {
+  "scale": 0.15864022662889518,
+  "org": [
+   13,
+   190
+  ],
+  "size": [
+   56,
+   45
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "cavernwing_ow_left": {
+  "scale": 0.17006802721088435,
+  "org": [
+   395,
+   186
+  ],
+  "size": [
+   40,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "cavernwing_ow_right": {
+  "mirror_of": "cavernwing_ow_left"
+ },
+ "cavernwing_ow_up": {
+  "scale": 0.16422287390029325,
+  "org": [
+   926,
+   189
+  ],
+  "size": [
+   56,
+   47
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 9
+ }
+}

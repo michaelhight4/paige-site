@@ -1,0 +1,80 @@
+{
+ "bleachghast_front": {
+  "scale": 0.1310615989515072,
+  "org": [
+   286,
+   122
+  ],
+  "size": [
+   58,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 13
+ },
+ "bleachghast_back": {
+  "scale": 0.12987012987012986,
+  "org": [
+   301,
+   117
+  ],
+  "size": [
+   57,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 11
+ },
+ "bleachghast_ow_down": {
+  "scale": 0.09623430962343096,
+  "org": [
+   72,
+   93
+  ],
+  "size": [
+   24,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 10
+ },
+ "bleachghast_ow_left": {
+  "scale": 0.09563409563409564,
+  "org": [
+   400,
+   92
+  ],
+  "size": [
+   19,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 10
+ },
+ "bleachghast_ow_right": {
+  "scale": 0.09563409563409564,
+  "org": [
+   684,
+   93
+  ],
+  "size": [
+   19,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 9
+ },
+ "bleachghast_ow_up": {
+  "scale": 0.09603340292275574,
+  "org": [
+   966,
+   93
+  ],
+  "size": [
+   22,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 9
+ }
+}

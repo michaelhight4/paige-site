@@ -1,0 +1,70 @@
+{
+ "snowgrouse_front": {
+  "scale": 0.14684287812041116,
+  "org": [
+   213,
+   169
+  ],
+  "size": [
+   88,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 17
+ },
+ "snowgrouse_back": {
+  "scale": 0.14792899408284024,
+  "org": [
+   214,
+   167
+  ],
+  "size": [
+   88,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 12
+ },
+ "snowgrouse_ow_down": {
+  "scale": 0.13924050632911392,
+  "org": [
+   44,
+   191
+  ],
+  "size": [
+   38,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "snowgrouse_ow_left": {
+  "scale": 0.1414790996784566,
+  "org": [
+   373,
+   193
+  ],
+  "size": [
+   37,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "snowgrouse_ow_right": {
+  "mirror_of": "snowgrouse_ow_left"
+ },
+ "snowgrouse_ow_up": {
+  "scale": 0.1423948220064725,
+  "org": [
+   974,
+   194
+  ],
+  "size": [
+   37,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ }
+}

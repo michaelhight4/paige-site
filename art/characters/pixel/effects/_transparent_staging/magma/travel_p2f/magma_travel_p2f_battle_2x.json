@@ -1,0 +1,119 @@
+{
+ "element": "magma",
+ "anim": "travel_p2f",
+ "description": "sub type: crusted lava glob, drips, smoke; impact = splash, lava pool, geyser, fumes",
+ "generated_by": "art/characters/pixel/effects/_tools/build_transparent_staging.py",
+ "generated_at": "2026-10-30T00:32:04-05:00",
+ "scale": 2,
+ "filter": "nearest",
+ "background": "fully transparent (1-bit alpha), palette-only opaque pixels",
+ "gif": "magma_travel_p2f_battle_2x.gif",
+ "gif_disposal": 2,
+ "loop": "gif loop=0 is set; play ONCE in game (remove after total_ms)",
+ "sheet": "magma_travel_p2f_battle_2x_sheet.png",
+ "sheet_layout": "horizontal strip, frame i at x=i*frame_w",
+ "frame_w": 332,
+ "frame_h": 276,
+ "frame_count": 7,
+ "frames": [
+  {
+   "i": 0,
+   "x": 0,
+   "y": 0,
+   "w": 332,
+   "h": 276,
+   "ms": 100
+  },
+  {
+   "i": 1,
+   "x": 332,
+   "y": 0,
+   "w": 332,
+   "h": 276,
+   "ms": 100
+  },
+  {
+   "i": 2,
+   "x": 664,
+   "y": 0,
+   "w": 332,
+   "h": 276,
+   "ms": 100
+  },
+  {
+   "i": 3,
+   "x": 996,
+   "y": 0,
+   "w": 332,
+   "h": 276,
+   "ms": 100
+  },
+  {
+   "i": 4,
+   "x": 1328,
+   "y": 0,
+   "w": 332,
+   "h": 276,
+   "ms": 100
+  },
+  {
+   "i": 5,
+   "x": 1660,
+   "y": 0,
+   "w": 332,
+   "h": 276,
+   "ms": 100
+  },
+  {
+   "i": 6,
+   "x": 1992,
+   "y": 0,
+   "w": 332,
+   "h": 276,
+   "ms": 100
+  }
+ ],
+ "total_ms": 700,
+ "native_frame_w": 166,
+ "native_frame_h": 138,
+ "crop_in_source_canvas_native": {
+  "x": 40,
+  "y": 32,
+  "w": 166,
+  "h": 138,
+  "source_canvas": [
+   240,
+   176
+  ],
+  "note": "x/y relative to the old canvas; negative = art that the old canvas cut off"
+ },
+ "effect_bbox_native": [
+  3,
+  3,
+  163,
+  135
+ ],
+ "rendered_with_margin": true,
+ "anchor": {
+  "type": "screen_space_path",
+  "start": [
+   68,
+   178
+  ],
+  "end": [
+   300,
+   56
+  ],
+  "start_is": "player mouth (back sprite)",
+  "end_is": "foe centre",
+  "canvas_offset_on_pilot_screen_native": [
+   80,
+   72
+  ],
+  "canvas_offset_on_pilot_screen_2x": [
+   160,
+   144
+  ],
+  "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+ }
+}

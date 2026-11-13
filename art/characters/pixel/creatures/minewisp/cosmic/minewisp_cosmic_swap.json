@@ -1,0 +1,26 @@
+{
+ "creature": "minewisp",
+ "concept": "Lantern Amber",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#1a1226": "#2c2320",
+  "#1e4078": "#6a442e",
+  "#2c1a12": "#18382c",
+  "#2c2320": "#29252b",
+  "#2c64a8": "#92623e",
+  "#30488c": "#92623e",
+  "#342842": "#3e3a48",
+  "#3e3a48": "#54444e",
+  "#462c22": "#244e34",
+  "#4692ce": "#c46e2e",
+  "#4a70ba": "#ba8856",
+  "#6a442e": "#246e6c",
+  "#87604d": "#4a70ba",
+  "#92623e": "#4a70ba",
+  "#ba8856": "#4692ce",
+  "#ccaa6e": "#4692ce",
+  "#ecdec4": "#c6ecfa"
+ },
+ "rule": "crystal violets never swapped"
+}

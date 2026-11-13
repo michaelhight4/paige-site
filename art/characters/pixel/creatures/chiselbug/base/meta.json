@@ -1,0 +1,70 @@
+{
+ "chiselbug_front": {
+  "scale": 0.18989280245022971,
+  "org": [
+   183,
+   240
+  ],
+  "size": [
+   124,
+   96
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 17
+ },
+ "chiselbug_back": {
+  "scale": 0.18691588785046728,
+  "org": [
+   236,
+   235
+  ],
+  "size": [
+   106,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 11
+ },
+ "chiselbug_ow_down": {
+  "scale": 0.16988416988416988,
+  "org": [
+   52,
+   212
+  ],
+  "size": [
+   41,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "chiselbug_ow_left": {
+  "scale": 0.18565400843881857,
+  "org": [
+   338,
+   223
+  ],
+  "size": [
+   50,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "chiselbug_ow_right": {
+  "mirror_of": "chiselbug_ow_left"
+ },
+ "chiselbug_ow_up": {
+  "scale": 0.18181818181818182,
+  "org": [
+   1000,
+   223
+  ],
+  "size": [
+   44,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ }
+}

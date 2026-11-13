@@ -1,0 +1,35 @@
+{
+ "char_id": "tr_master_saltmere_f",
+ "canvas": [
+  64,
+  128
+ ],
+ "view": "front",
+ "extend_side": "screen_left",
+ "arm_used": "screen-left arm (trainer own right)",
+ "shoulder_px": [
+  14,
+  36
+ ],
+ "elbow_px": [
+  12,
+  53
+ ],
+ "wrist_px": [
+  10,
+  70
+ ],
+ "hand_center_px": [
+  11,
+  74
+ ],
+ "layers_bottom_to_top": [
+  "body.png",
+  "arm_relaxed.png",
+  "arm_extend_upper.png",
+  "arm_extend_fore.png"
+ ],
+ "outline_hex": "29252b",
+ "notes": "Front view: extend arm = the arm on the SCREEN-LEFT side of the image (anatomically the trainer's own RIGHT arm); it reaches toward screen-left / the player side.",
+ "status": "draft, awaiting Gary"
+}

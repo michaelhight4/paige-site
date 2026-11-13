@@ -1,0 +1,70 @@
+{
+ "kelpstrider_front": {
+  "scale": 0.12910284463894967,
+  "org": [
+   183,
+   44
+  ],
+  "size": [
+   102,
+   118
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 15
+ },
+ "kelpstrider_back": {
+  "scale": 0.13288288288288289,
+  "org": [
+   130,
+   43
+  ],
+  "size": [
+   94,
+   118
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 12
+ },
+ "kelpstrider_ow_down": {
+  "scale": 0.11764705882352941,
+  "org": [
+   73,
+   132
+  ],
+  "size": [
+   18,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ },
+ "kelpstrider_ow_left": {
+  "scale": 0.11764705882352941,
+  "org": [
+   289,
+   132
+  ],
+  "size": [
+   44,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ },
+ "kelpstrider_ow_up": {
+  "scale": 0.11845102505694761,
+  "org": [
+   1079,
+   135
+  ],
+  "size": [
+   16,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 9
+ },
+ "kelpstrider_ow_right": {
+  "mirror_of": "kelpstrider_ow_left"
+ }
+}

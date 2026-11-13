@@ -1,0 +1,2060 @@
+{
+ "cal/cal_sofa_seated": {
+  "kind": "human",
+  "frames": 3,
+  "size": [
+   64,
+   96
+  ],
+  "ms_per_frame": [
+   1400,
+   1200,
+   1300
+  ],
+  "total_ms": 3900,
+  "loop": true,
+  "anchor": [
+   32,
+   93
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_seated/1x/cal_sofa_seated_00.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_seated/1x/cal_sofa_seated_01.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_seated/1x/cal_sofa_seated_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_seated/2x/cal_sofa_seated_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_seated/2x/cal_sofa_seated_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_seated/2x/cal_sofa_seated_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/cal/cal_sofa_seated/cal_sofa_seated_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/cal/cal_sofa_seated/cal_sofa_seated_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/cal/cal_sofa_seated/cal_sofa_seated_2x.gif",
+  "notes": "Seated idle (1-row breathing). Draw at the sofa tile (1,7) like any 64x96 human frame. hip (32,82); lap point [32, 92]."
+ },
+ "cal/cal_sofa_sit_down": {
+  "kind": "overlay",
+  "frames": 7,
+  "size": [
+   64,
+   160
+  ],
+  "ms_per_frame": [
+   120,
+   140,
+   60,
+   60,
+   60,
+   80,
+   200
+  ],
+  "total_ms": 720,
+  "loop": false,
+  "anchor": [
+   32,
+   157
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/1x/cal_sofa_sit_down_00.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/1x/cal_sofa_sit_down_01.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/1x/cal_sofa_sit_down_02.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/1x/cal_sofa_sit_down_03.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/1x/cal_sofa_sit_down_04.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/1x/cal_sofa_sit_down_05.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/1x/cal_sofa_sit_down_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/2x/cal_sofa_sit_down_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/2x/cal_sofa_sit_down_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/2x/cal_sofa_sit_down_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/2x/cal_sofa_sit_down_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/2x/cal_sofa_sit_down_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/2x/cal_sofa_sit_down_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/2x/cal_sofa_sit_down_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/cal_sofa_sit_down_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/cal_sofa_sit_down_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/cal/cal_sofa_sit_down/cal_sofa_sit_down_2x.gif",
+  "notes": "64x160 canvas: bottom = bottom of row 8. Anchor (32,157) = foot point on STAND (1,8); canvas top-left = (1*64, 7*64-32)."
+ },
+ "cal/cal_sofa_stand_up": {
+  "kind": "overlay",
+  "frames": 7,
+  "size": [
+   64,
+   160
+  ],
+  "ms_per_frame": [
+   60,
+   60,
+   60,
+   60,
+   80,
+   120,
+   100
+  ],
+  "total_ms": 540,
+  "loop": false,
+  "anchor": [
+   32,
+   157
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/1x/cal_sofa_stand_up_00.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/1x/cal_sofa_stand_up_01.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/1x/cal_sofa_stand_up_02.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/1x/cal_sofa_stand_up_03.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/1x/cal_sofa_stand_up_04.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/1x/cal_sofa_stand_up_05.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/1x/cal_sofa_stand_up_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/2x/cal_sofa_stand_up_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/2x/cal_sofa_stand_up_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/2x/cal_sofa_stand_up_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/2x/cal_sofa_stand_up_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/2x/cal_sofa_stand_up_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/2x/cal_sofa_stand_up_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/2x/cal_sofa_stand_up_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/cal_sofa_stand_up_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/cal_sofa_stand_up_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/cal/cal_sofa_stand_up/cal_sofa_stand_up_2x.gif",
+  "notes": "Reverse of sit_down; ends facing down on (1,8)."
+ },
+ "mira/mira_sofa_seated": {
+  "kind": "human",
+  "frames": 3,
+  "size": [
+   64,
+   96
+  ],
+  "ms_per_frame": [
+   1400,
+   1200,
+   1300
+  ],
+  "total_ms": 3900,
+  "loop": true,
+  "anchor": [
+   32,
+   93
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_seated/1x/mira_sofa_seated_00.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_seated/1x/mira_sofa_seated_01.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_seated/1x/mira_sofa_seated_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_seated/2x/mira_sofa_seated_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_seated/2x/mira_sofa_seated_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_seated/2x/mira_sofa_seated_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/mira/mira_sofa_seated/mira_sofa_seated_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/mira/mira_sofa_seated/mira_sofa_seated_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/mira/mira_sofa_seated/mira_sofa_seated_2x.gif",
+  "notes": "Seated idle (1-row breathing). Draw at the sofa tile (1,7) like any 64x96 human frame. hip (32,82); lap point [32, 92]."
+ },
+ "mira/mira_sofa_sit_down": {
+  "kind": "overlay",
+  "frames": 7,
+  "size": [
+   64,
+   160
+  ],
+  "ms_per_frame": [
+   120,
+   140,
+   60,
+   60,
+   60,
+   80,
+   200
+  ],
+  "total_ms": 720,
+  "loop": false,
+  "anchor": [
+   32,
+   157
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/1x/mira_sofa_sit_down_00.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/1x/mira_sofa_sit_down_01.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/1x/mira_sofa_sit_down_02.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/1x/mira_sofa_sit_down_03.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/1x/mira_sofa_sit_down_04.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/1x/mira_sofa_sit_down_05.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/1x/mira_sofa_sit_down_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/2x/mira_sofa_sit_down_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/2x/mira_sofa_sit_down_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/2x/mira_sofa_sit_down_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/2x/mira_sofa_sit_down_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/2x/mira_sofa_sit_down_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/2x/mira_sofa_sit_down_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/2x/mira_sofa_sit_down_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/mira_sofa_sit_down_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/mira_sofa_sit_down_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/mira/mira_sofa_sit_down/mira_sofa_sit_down_2x.gif",
+  "notes": "64x160 canvas: bottom = bottom of row 8. Anchor (32,157) = foot point on STAND (1,8); canvas top-left = (1*64, 7*64-32)."
+ },
+ "mira/mira_sofa_stand_up": {
+  "kind": "overlay",
+  "frames": 7,
+  "size": [
+   64,
+   160
+  ],
+  "ms_per_frame": [
+   60,
+   60,
+   60,
+   60,
+   80,
+   120,
+   100
+  ],
+  "total_ms": 540,
+  "loop": false,
+  "anchor": [
+   32,
+   157
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/1x/mira_sofa_stand_up_00.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/1x/mira_sofa_stand_up_01.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/1x/mira_sofa_stand_up_02.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/1x/mira_sofa_stand_up_03.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/1x/mira_sofa_stand_up_04.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/1x/mira_sofa_stand_up_05.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/1x/mira_sofa_stand_up_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/2x/mira_sofa_stand_up_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/2x/mira_sofa_stand_up_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/2x/mira_sofa_stand_up_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/2x/mira_sofa_stand_up_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/2x/mira_sofa_stand_up_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/2x/mira_sofa_stand_up_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/2x/mira_sofa_stand_up_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/mira_sofa_stand_up_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/mira_sofa_stand_up_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/mira/mira_sofa_stand_up/mira_sofa_stand_up_2x.gif",
+  "notes": "Reverse of sit_down; ends facing down on (1,8)."
+ },
+ "buddies/brookhorn/brookhorn_lap_settle": {
+  "kind": "creature",
+  "frames": 7,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   70,
+   90,
+   120,
+   120,
+   160,
+   200,
+   400
+  ],
+  "total_ms": 1160,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/1x/brookhorn_lap_settle_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/1x/brookhorn_lap_settle_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/1x/brookhorn_lap_settle_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/1x/brookhorn_lap_settle_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/1x/brookhorn_lap_settle_04.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/1x/brookhorn_lap_settle_05.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/1x/brookhorn_lap_settle_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/2x/brookhorn_lap_settle_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/2x/brookhorn_lap_settle_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/2x/brookhorn_lap_settle_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/2x/brookhorn_lap_settle_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/2x/brookhorn_lap_settle_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/2x/brookhorn_lap_settle_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/2x/brookhorn_lap_settle_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/brookhorn_lap_settle_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/brookhorn_lap_settle_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_settle/brookhorn_lap_settle_2x.gif",
+  "notes": "After the hop: foot (32,61) on the lap point."
+ },
+ "buddies/brookhorn/brookhorn_lap_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1100,
+   1100
+  ],
+  "total_ms": 2200,
+  "loop": true,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_sleep/1x/brookhorn_lap_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_sleep/1x/brookhorn_lap_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_sleep/2x/brookhorn_lap_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_sleep/2x/brookhorn_lap_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_sleep/brookhorn_lap_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_sleep/brookhorn_lap_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_sleep/brookhorn_lap_sleep_2x.gif",
+  "notes": "Loop + emote_zzz at zzz_anchor."
+ },
+ "buddies/brookhorn/brookhorn_lap_wake": {
+  "kind": "creature",
+  "frames": 5,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   200,
+   120,
+   220,
+   100,
+   160
+  ],
+  "total_ms": 800,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_wake/1x/brookhorn_lap_wake_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_wake/1x/brookhorn_lap_wake_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_wake/1x/brookhorn_lap_wake_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_wake/1x/brookhorn_lap_wake_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_wake/1x/brookhorn_lap_wake_04.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_wake/2x/brookhorn_lap_wake_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_wake/2x/brookhorn_lap_wake_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_wake/2x/brookhorn_lap_wake_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_wake/2x/brookhorn_lap_wake_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_wake/2x/brookhorn_lap_wake_04_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_wake/brookhorn_lap_wake_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_wake/brookhorn_lap_wake_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/brookhorn/brookhorn_lap_wake/brookhorn_lap_wake_2x.gif",
+  "notes": "Stretch, then hop down (reverse HOP)."
+ },
+ "buddies/burlbeetle/burlbeetle_lap_settle": {
+  "kind": "creature",
+  "frames": 7,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   70,
+   90,
+   120,
+   120,
+   160,
+   200,
+   400
+  ],
+  "total_ms": 1160,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/1x/burlbeetle_lap_settle_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/1x/burlbeetle_lap_settle_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/1x/burlbeetle_lap_settle_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/1x/burlbeetle_lap_settle_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/1x/burlbeetle_lap_settle_04.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/1x/burlbeetle_lap_settle_05.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/1x/burlbeetle_lap_settle_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/2x/burlbeetle_lap_settle_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/2x/burlbeetle_lap_settle_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/2x/burlbeetle_lap_settle_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/2x/burlbeetle_lap_settle_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/2x/burlbeetle_lap_settle_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/2x/burlbeetle_lap_settle_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/2x/burlbeetle_lap_settle_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/burlbeetle_lap_settle_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/burlbeetle_lap_settle_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_settle/burlbeetle_lap_settle_2x.gif",
+  "notes": "After the hop: foot (32,61) on the lap point."
+ },
+ "buddies/burlbeetle/burlbeetle_lap_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1100,
+   1100
+  ],
+  "total_ms": 2200,
+  "loop": true,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_sleep/1x/burlbeetle_lap_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_sleep/1x/burlbeetle_lap_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_sleep/2x/burlbeetle_lap_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_sleep/2x/burlbeetle_lap_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_sleep/burlbeetle_lap_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_sleep/burlbeetle_lap_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_sleep/burlbeetle_lap_sleep_2x.gif",
+  "notes": "Loop + emote_zzz at zzz_anchor."
+ },
+ "buddies/burlbeetle/burlbeetle_lap_wake": {
+  "kind": "creature",
+  "frames": 5,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   200,
+   120,
+   220,
+   100,
+   160
+  ],
+  "total_ms": 800,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_wake/1x/burlbeetle_lap_wake_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_wake/1x/burlbeetle_lap_wake_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_wake/1x/burlbeetle_lap_wake_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_wake/1x/burlbeetle_lap_wake_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_wake/1x/burlbeetle_lap_wake_04.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_wake/2x/burlbeetle_lap_wake_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_wake/2x/burlbeetle_lap_wake_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_wake/2x/burlbeetle_lap_wake_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_wake/2x/burlbeetle_lap_wake_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_wake/2x/burlbeetle_lap_wake_04_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_wake/burlbeetle_lap_wake_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_wake/burlbeetle_lap_wake_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/burlbeetle/burlbeetle_lap_wake/burlbeetle_lap_wake_2x.gif",
+  "notes": "Stretch, then hop down (reverse HOP)."
+ },
+ "buddies/burrowmane/burrowmane_lap_settle": {
+  "kind": "creature",
+  "frames": 7,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   70,
+   90,
+   120,
+   120,
+   160,
+   200,
+   400
+  ],
+  "total_ms": 1160,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/1x/burrowmane_lap_settle_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/1x/burrowmane_lap_settle_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/1x/burrowmane_lap_settle_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/1x/burrowmane_lap_settle_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/1x/burrowmane_lap_settle_04.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/1x/burrowmane_lap_settle_05.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/1x/burrowmane_lap_settle_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/2x/burrowmane_lap_settle_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/2x/burrowmane_lap_settle_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/2x/burrowmane_lap_settle_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/2x/burrowmane_lap_settle_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/2x/burrowmane_lap_settle_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/2x/burrowmane_lap_settle_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/2x/burrowmane_lap_settle_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/burrowmane_lap_settle_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/burrowmane_lap_settle_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_settle/burrowmane_lap_settle_2x.gif",
+  "notes": "After the hop: foot (32,61) on the lap point."
+ },
+ "buddies/burrowmane/burrowmane_lap_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1100,
+   1100
+  ],
+  "total_ms": 2200,
+  "loop": true,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_sleep/1x/burrowmane_lap_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_sleep/1x/burrowmane_lap_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_sleep/2x/burrowmane_lap_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_sleep/2x/burrowmane_lap_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_sleep/burrowmane_lap_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_sleep/burrowmane_lap_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_sleep/burrowmane_lap_sleep_2x.gif",
+  "notes": "Loop + emote_zzz at zzz_anchor."
+ },
+ "buddies/burrowmane/burrowmane_lap_wake": {
+  "kind": "creature",
+  "frames": 5,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   200,
+   120,
+   220,
+   100,
+   160
+  ],
+  "total_ms": 800,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_wake/1x/burrowmane_lap_wake_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_wake/1x/burrowmane_lap_wake_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_wake/1x/burrowmane_lap_wake_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_wake/1x/burrowmane_lap_wake_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_wake/1x/burrowmane_lap_wake_04.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_wake/2x/burrowmane_lap_wake_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_wake/2x/burrowmane_lap_wake_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_wake/2x/burrowmane_lap_wake_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_wake/2x/burrowmane_lap_wake_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_wake/2x/burrowmane_lap_wake_04_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_wake/burrowmane_lap_wake_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_wake/burrowmane_lap_wake_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/burrowmane/burrowmane_lap_wake/burrowmane_lap_wake_2x.gif",
+  "notes": "Stretch, then hop down (reverse HOP)."
+ },
+ "buddies/cindrip/cindrip_lap_settle": {
+  "kind": "creature",
+  "frames": 7,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   70,
+   90,
+   120,
+   120,
+   160,
+   200,
+   400
+  ],
+  "total_ms": 1160,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/1x/cindrip_lap_settle_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/1x/cindrip_lap_settle_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/1x/cindrip_lap_settle_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/1x/cindrip_lap_settle_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/1x/cindrip_lap_settle_04.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/1x/cindrip_lap_settle_05.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/1x/cindrip_lap_settle_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/2x/cindrip_lap_settle_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/2x/cindrip_lap_settle_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/2x/cindrip_lap_settle_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/2x/cindrip_lap_settle_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/2x/cindrip_lap_settle_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/2x/cindrip_lap_settle_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/2x/cindrip_lap_settle_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/cindrip_lap_settle_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/cindrip_lap_settle_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_settle/cindrip_lap_settle_2x.gif",
+  "notes": "After the hop: foot (32,61) on the lap point."
+ },
+ "buddies/cindrip/cindrip_lap_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1100,
+   1100
+  ],
+  "total_ms": 2200,
+  "loop": true,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_sleep/1x/cindrip_lap_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_sleep/1x/cindrip_lap_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_sleep/2x/cindrip_lap_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_sleep/2x/cindrip_lap_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_sleep/cindrip_lap_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_sleep/cindrip_lap_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_sleep/cindrip_lap_sleep_2x.gif",
+  "notes": "Loop + emote_zzz at zzz_anchor."
+ },
+ "buddies/cindrip/cindrip_lap_wake": {
+  "kind": "creature",
+  "frames": 5,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   200,
+   120,
+   220,
+   100,
+   160
+  ],
+  "total_ms": 800,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_wake/1x/cindrip_lap_wake_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_wake/1x/cindrip_lap_wake_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_wake/1x/cindrip_lap_wake_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_wake/1x/cindrip_lap_wake_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_wake/1x/cindrip_lap_wake_04.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_wake/2x/cindrip_lap_wake_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_wake/2x/cindrip_lap_wake_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_wake/2x/cindrip_lap_wake_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_wake/2x/cindrip_lap_wake_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_wake/2x/cindrip_lap_wake_04_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_wake/cindrip_lap_wake_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_wake/cindrip_lap_wake_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/cindrip/cindrip_lap_wake/cindrip_lap_wake_2x.gif",
+  "notes": "Stretch, then hop down (reverse HOP)."
+ },
+ "buddies/emberlunx/emberlunx_lap_settle": {
+  "kind": "creature",
+  "frames": 7,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   70,
+   90,
+   120,
+   120,
+   160,
+   200,
+   400
+  ],
+  "total_ms": 1160,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/1x/emberlunx_lap_settle_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/1x/emberlunx_lap_settle_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/1x/emberlunx_lap_settle_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/1x/emberlunx_lap_settle_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/1x/emberlunx_lap_settle_04.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/1x/emberlunx_lap_settle_05.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/1x/emberlunx_lap_settle_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/2x/emberlunx_lap_settle_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/2x/emberlunx_lap_settle_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/2x/emberlunx_lap_settle_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/2x/emberlunx_lap_settle_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/2x/emberlunx_lap_settle_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/2x/emberlunx_lap_settle_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/2x/emberlunx_lap_settle_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/emberlunx_lap_settle_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/emberlunx_lap_settle_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_settle/emberlunx_lap_settle_2x.gif",
+  "notes": "After the hop: foot (32,61) on the lap point."
+ },
+ "buddies/emberlunx/emberlunx_lap_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1100,
+   1100
+  ],
+  "total_ms": 2200,
+  "loop": true,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_sleep/1x/emberlunx_lap_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_sleep/1x/emberlunx_lap_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_sleep/2x/emberlunx_lap_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_sleep/2x/emberlunx_lap_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_sleep/emberlunx_lap_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_sleep/emberlunx_lap_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_sleep/emberlunx_lap_sleep_2x.gif",
+  "notes": "Loop + emote_zzz at zzz_anchor."
+ },
+ "buddies/emberlunx/emberlunx_lap_wake": {
+  "kind": "creature",
+  "frames": 5,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   200,
+   120,
+   220,
+   100,
+   160
+  ],
+  "total_ms": 800,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_wake/1x/emberlunx_lap_wake_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_wake/1x/emberlunx_lap_wake_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_wake/1x/emberlunx_lap_wake_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_wake/1x/emberlunx_lap_wake_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_wake/1x/emberlunx_lap_wake_04.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_wake/2x/emberlunx_lap_wake_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_wake/2x/emberlunx_lap_wake_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_wake/2x/emberlunx_lap_wake_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_wake/2x/emberlunx_lap_wake_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_wake/2x/emberlunx_lap_wake_04_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_wake/emberlunx_lap_wake_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_wake/emberlunx_lap_wake_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/emberlunx/emberlunx_lap_wake/emberlunx_lap_wake_2x.gif",
+  "notes": "Stretch, then hop down (reverse HOP)."
+ },
+ "buddies/gloamtick/gloamtick_lap_settle": {
+  "kind": "creature",
+  "frames": 7,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   70,
+   90,
+   120,
+   120,
+   160,
+   200,
+   400
+  ],
+  "total_ms": 1160,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/1x/gloamtick_lap_settle_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/1x/gloamtick_lap_settle_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/1x/gloamtick_lap_settle_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/1x/gloamtick_lap_settle_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/1x/gloamtick_lap_settle_04.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/1x/gloamtick_lap_settle_05.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/1x/gloamtick_lap_settle_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/2x/gloamtick_lap_settle_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/2x/gloamtick_lap_settle_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/2x/gloamtick_lap_settle_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/2x/gloamtick_lap_settle_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/2x/gloamtick_lap_settle_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/2x/gloamtick_lap_settle_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/2x/gloamtick_lap_settle_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/gloamtick_lap_settle_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/gloamtick_lap_settle_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_settle/gloamtick_lap_settle_2x.gif",
+  "notes": "After the hop: foot (32,61) on the lap point."
+ },
+ "buddies/gloamtick/gloamtick_lap_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1100,
+   1100
+  ],
+  "total_ms": 2200,
+  "loop": true,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_sleep/1x/gloamtick_lap_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_sleep/1x/gloamtick_lap_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_sleep/2x/gloamtick_lap_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_sleep/2x/gloamtick_lap_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_sleep/gloamtick_lap_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_sleep/gloamtick_lap_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_sleep/gloamtick_lap_sleep_2x.gif",
+  "notes": "Loop + emote_zzz at zzz_anchor."
+ },
+ "buddies/gloamtick/gloamtick_lap_wake": {
+  "kind": "creature",
+  "frames": 5,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   200,
+   120,
+   220,
+   100,
+   160
+  ],
+  "total_ms": 800,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_wake/1x/gloamtick_lap_wake_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_wake/1x/gloamtick_lap_wake_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_wake/1x/gloamtick_lap_wake_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_wake/1x/gloamtick_lap_wake_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_wake/1x/gloamtick_lap_wake_04.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_wake/2x/gloamtick_lap_wake_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_wake/2x/gloamtick_lap_wake_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_wake/2x/gloamtick_lap_wake_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_wake/2x/gloamtick_lap_wake_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_wake/2x/gloamtick_lap_wake_04_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_wake/gloamtick_lap_wake_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_wake/gloamtick_lap_wake_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/gloamtick/gloamtick_lap_wake/gloamtick_lap_wake_2x.gif",
+  "notes": "Stretch, then hop down (reverse HOP)."
+ },
+ "buddies/halovy/halovy_lap_settle": {
+  "kind": "creature",
+  "frames": 7,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   70,
+   90,
+   120,
+   120,
+   160,
+   200,
+   400
+  ],
+  "total_ms": 1160,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/1x/halovy_lap_settle_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/1x/halovy_lap_settle_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/1x/halovy_lap_settle_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/1x/halovy_lap_settle_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/1x/halovy_lap_settle_04.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/1x/halovy_lap_settle_05.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/1x/halovy_lap_settle_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/2x/halovy_lap_settle_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/2x/halovy_lap_settle_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/2x/halovy_lap_settle_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/2x/halovy_lap_settle_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/2x/halovy_lap_settle_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/2x/halovy_lap_settle_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/2x/halovy_lap_settle_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/halovy_lap_settle_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/halovy_lap_settle_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_settle/halovy_lap_settle_2x.gif",
+  "notes": "After the hop: foot (32,61) on the lap point."
+ },
+ "buddies/halovy/halovy_lap_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1100,
+   1100
+  ],
+  "total_ms": 2200,
+  "loop": true,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_sleep/1x/halovy_lap_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_sleep/1x/halovy_lap_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_sleep/2x/halovy_lap_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_sleep/2x/halovy_lap_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_sleep/halovy_lap_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_sleep/halovy_lap_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_sleep/halovy_lap_sleep_2x.gif",
+  "notes": "Loop + emote_zzz at zzz_anchor."
+ },
+ "buddies/halovy/halovy_lap_wake": {
+  "kind": "creature",
+  "frames": 5,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   200,
+   120,
+   220,
+   100,
+   160
+  ],
+  "total_ms": 800,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_wake/1x/halovy_lap_wake_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_wake/1x/halovy_lap_wake_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_wake/1x/halovy_lap_wake_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_wake/1x/halovy_lap_wake_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_wake/1x/halovy_lap_wake_04.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_wake/2x/halovy_lap_wake_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_wake/2x/halovy_lap_wake_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_wake/2x/halovy_lap_wake_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_wake/2x/halovy_lap_wake_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_wake/2x/halovy_lap_wake_04_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_wake/halovy_lap_wake_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_wake/halovy_lap_wake_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/halovy/halovy_lap_wake/halovy_lap_wake_2x.gif",
+  "notes": "Stretch, then hop down (reverse HOP)."
+ },
+ "buddies/mirewump/mirewump_lap_settle": {
+  "kind": "creature",
+  "frames": 7,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   70,
+   90,
+   120,
+   120,
+   160,
+   200,
+   400
+  ],
+  "total_ms": 1160,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/1x/mirewump_lap_settle_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/1x/mirewump_lap_settle_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/1x/mirewump_lap_settle_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/1x/mirewump_lap_settle_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/1x/mirewump_lap_settle_04.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/1x/mirewump_lap_settle_05.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/1x/mirewump_lap_settle_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/2x/mirewump_lap_settle_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/2x/mirewump_lap_settle_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/2x/mirewump_lap_settle_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/2x/mirewump_lap_settle_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/2x/mirewump_lap_settle_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/2x/mirewump_lap_settle_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/2x/mirewump_lap_settle_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/mirewump_lap_settle_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/mirewump_lap_settle_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_settle/mirewump_lap_settle_2x.gif",
+  "notes": "After the hop: foot (32,61) on the lap point."
+ },
+ "buddies/mirewump/mirewump_lap_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1100,
+   1100
+  ],
+  "total_ms": 2200,
+  "loop": true,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_sleep/1x/mirewump_lap_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_sleep/1x/mirewump_lap_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_sleep/2x/mirewump_lap_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_sleep/2x/mirewump_lap_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_sleep/mirewump_lap_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_sleep/mirewump_lap_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_sleep/mirewump_lap_sleep_2x.gif",
+  "notes": "Loop + emote_zzz at zzz_anchor."
+ },
+ "buddies/mirewump/mirewump_lap_wake": {
+  "kind": "creature",
+  "frames": 5,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   200,
+   120,
+   220,
+   100,
+   160
+  ],
+  "total_ms": 800,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_wake/1x/mirewump_lap_wake_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_wake/1x/mirewump_lap_wake_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_wake/1x/mirewump_lap_wake_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_wake/1x/mirewump_lap_wake_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_wake/1x/mirewump_lap_wake_04.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_wake/2x/mirewump_lap_wake_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_wake/2x/mirewump_lap_wake_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_wake/2x/mirewump_lap_wake_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_wake/2x/mirewump_lap_wake_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_wake/2x/mirewump_lap_wake_04_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_wake/mirewump_lap_wake_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_wake/mirewump_lap_wake_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/mirewump/mirewump_lap_wake/mirewump_lap_wake_2x.gif",
+  "notes": "Stretch, then hop down (reverse HOP)."
+ },
+ "buddies/rillop/rillop_lap_settle": {
+  "kind": "creature",
+  "frames": 7,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   70,
+   90,
+   120,
+   120,
+   160,
+   200,
+   400
+  ],
+  "total_ms": 1160,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/1x/rillop_lap_settle_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/1x/rillop_lap_settle_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/1x/rillop_lap_settle_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/1x/rillop_lap_settle_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/1x/rillop_lap_settle_04.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/1x/rillop_lap_settle_05.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/1x/rillop_lap_settle_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/2x/rillop_lap_settle_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/2x/rillop_lap_settle_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/2x/rillop_lap_settle_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/2x/rillop_lap_settle_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/2x/rillop_lap_settle_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/2x/rillop_lap_settle_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/2x/rillop_lap_settle_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/rillop_lap_settle_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/rillop_lap_settle_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_settle/rillop_lap_settle_2x.gif",
+  "notes": "After the hop: foot (32,61) on the lap point."
+ },
+ "buddies/rillop/rillop_lap_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1100,
+   1100
+  ],
+  "total_ms": 2200,
+  "loop": true,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_sleep/1x/rillop_lap_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_sleep/1x/rillop_lap_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_sleep/2x/rillop_lap_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_sleep/2x/rillop_lap_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_sleep/rillop_lap_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_sleep/rillop_lap_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_sleep/rillop_lap_sleep_2x.gif",
+  "notes": "Loop + emote_zzz at zzz_anchor."
+ },
+ "buddies/rillop/rillop_lap_wake": {
+  "kind": "creature",
+  "frames": 5,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   200,
+   120,
+   220,
+   100,
+   160
+  ],
+  "total_ms": 800,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_wake/1x/rillop_lap_wake_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_wake/1x/rillop_lap_wake_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_wake/1x/rillop_lap_wake_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_wake/1x/rillop_lap_wake_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_wake/1x/rillop_lap_wake_04.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_wake/2x/rillop_lap_wake_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_wake/2x/rillop_lap_wake_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_wake/2x/rillop_lap_wake_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_wake/2x/rillop_lap_wake_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_wake/2x/rillop_lap_wake_04_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_wake/rillop_lap_wake_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_wake/rillop_lap_wake_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/rillop/rillop_lap_wake/rillop_lap_wake_2x.gif",
+  "notes": "Stretch, then hop down (reverse HOP)."
+ },
+ "buddies/runeskein/runeskein_lap_settle": {
+  "kind": "creature",
+  "frames": 7,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   70,
+   90,
+   120,
+   120,
+   160,
+   200,
+   400
+  ],
+  "total_ms": 1160,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/1x/runeskein_lap_settle_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/1x/runeskein_lap_settle_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/1x/runeskein_lap_settle_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/1x/runeskein_lap_settle_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/1x/runeskein_lap_settle_04.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/1x/runeskein_lap_settle_05.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/1x/runeskein_lap_settle_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/2x/runeskein_lap_settle_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/2x/runeskein_lap_settle_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/2x/runeskein_lap_settle_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/2x/runeskein_lap_settle_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/2x/runeskein_lap_settle_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/2x/runeskein_lap_settle_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/2x/runeskein_lap_settle_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/runeskein_lap_settle_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/runeskein_lap_settle_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_settle/runeskein_lap_settle_2x.gif",
+  "notes": "After the hop: foot (32,61) on the lap point."
+ },
+ "buddies/runeskein/runeskein_lap_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1100,
+   1100
+  ],
+  "total_ms": 2200,
+  "loop": true,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_sleep/1x/runeskein_lap_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_sleep/1x/runeskein_lap_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_sleep/2x/runeskein_lap_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_sleep/2x/runeskein_lap_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_sleep/runeskein_lap_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_sleep/runeskein_lap_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_sleep/runeskein_lap_sleep_2x.gif",
+  "notes": "Loop + emote_zzz at zzz_anchor."
+ },
+ "buddies/runeskein/runeskein_lap_wake": {
+  "kind": "creature",
+  "frames": 5,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   200,
+   120,
+   220,
+   100,
+   160
+  ],
+  "total_ms": 800,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_wake/1x/runeskein_lap_wake_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_wake/1x/runeskein_lap_wake_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_wake/1x/runeskein_lap_wake_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_wake/1x/runeskein_lap_wake_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_wake/1x/runeskein_lap_wake_04.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_wake/2x/runeskein_lap_wake_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_wake/2x/runeskein_lap_wake_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_wake/2x/runeskein_lap_wake_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_wake/2x/runeskein_lap_wake_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_wake/2x/runeskein_lap_wake_04_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_wake/runeskein_lap_wake_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_wake/runeskein_lap_wake_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/runeskein/runeskein_lap_wake/runeskein_lap_wake_2x.gif",
+  "notes": "Stretch, then hop down (reverse HOP)."
+ },
+ "buddies/sailquill/sailquill_lap_settle": {
+  "kind": "creature",
+  "frames": 7,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   70,
+   90,
+   120,
+   120,
+   160,
+   200,
+   400
+  ],
+  "total_ms": 1160,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/1x/sailquill_lap_settle_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/1x/sailquill_lap_settle_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/1x/sailquill_lap_settle_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/1x/sailquill_lap_settle_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/1x/sailquill_lap_settle_04.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/1x/sailquill_lap_settle_05.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/1x/sailquill_lap_settle_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/2x/sailquill_lap_settle_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/2x/sailquill_lap_settle_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/2x/sailquill_lap_settle_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/2x/sailquill_lap_settle_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/2x/sailquill_lap_settle_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/2x/sailquill_lap_settle_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/2x/sailquill_lap_settle_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/sailquill_lap_settle_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/sailquill_lap_settle_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_settle/sailquill_lap_settle_2x.gif",
+  "notes": "After the hop: foot (32,61) on the lap point."
+ },
+ "buddies/sailquill/sailquill_lap_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1100,
+   1100
+  ],
+  "total_ms": 2200,
+  "loop": true,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_sleep/1x/sailquill_lap_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_sleep/1x/sailquill_lap_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_sleep/2x/sailquill_lap_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_sleep/2x/sailquill_lap_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_sleep/sailquill_lap_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_sleep/sailquill_lap_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_sleep/sailquill_lap_sleep_2x.gif",
+  "notes": "Loop + emote_zzz at zzz_anchor."
+ },
+ "buddies/sailquill/sailquill_lap_wake": {
+  "kind": "creature",
+  "frames": 5,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   200,
+   120,
+   220,
+   100,
+   160
+  ],
+  "total_ms": 800,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_wake/1x/sailquill_lap_wake_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_wake/1x/sailquill_lap_wake_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_wake/1x/sailquill_lap_wake_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_wake/1x/sailquill_lap_wake_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_wake/1x/sailquill_lap_wake_04.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_wake/2x/sailquill_lap_wake_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_wake/2x/sailquill_lap_wake_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_wake/2x/sailquill_lap_wake_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_wake/2x/sailquill_lap_wake_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_wake/2x/sailquill_lap_wake_04_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_wake/sailquill_lap_wake_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_wake/sailquill_lap_wake_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/sailquill/sailquill_lap_wake/sailquill_lap_wake_2x.gif",
+  "notes": "Stretch, then hop down (reverse HOP)."
+ },
+ "buddies/slagrook/slagrook_lap_settle": {
+  "kind": "creature",
+  "frames": 7,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   70,
+   90,
+   120,
+   120,
+   160,
+   200,
+   400
+  ],
+  "total_ms": 1160,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/1x/slagrook_lap_settle_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/1x/slagrook_lap_settle_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/1x/slagrook_lap_settle_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/1x/slagrook_lap_settle_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/1x/slagrook_lap_settle_04.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/1x/slagrook_lap_settle_05.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/1x/slagrook_lap_settle_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/2x/slagrook_lap_settle_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/2x/slagrook_lap_settle_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/2x/slagrook_lap_settle_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/2x/slagrook_lap_settle_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/2x/slagrook_lap_settle_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/2x/slagrook_lap_settle_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/2x/slagrook_lap_settle_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/slagrook_lap_settle_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/slagrook_lap_settle_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_settle/slagrook_lap_settle_2x.gif",
+  "notes": "After the hop: foot (32,61) on the lap point."
+ },
+ "buddies/slagrook/slagrook_lap_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1100,
+   1100
+  ],
+  "total_ms": 2200,
+  "loop": true,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_sleep/1x/slagrook_lap_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_sleep/1x/slagrook_lap_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_sleep/2x/slagrook_lap_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_sleep/2x/slagrook_lap_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_sleep/slagrook_lap_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_sleep/slagrook_lap_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_sleep/slagrook_lap_sleep_2x.gif",
+  "notes": "Loop + emote_zzz at zzz_anchor."
+ },
+ "buddies/slagrook/slagrook_lap_wake": {
+  "kind": "creature",
+  "frames": 5,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   200,
+   120,
+   220,
+   100,
+   160
+  ],
+  "total_ms": 800,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_wake/1x/slagrook_lap_wake_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_wake/1x/slagrook_lap_wake_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_wake/1x/slagrook_lap_wake_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_wake/1x/slagrook_lap_wake_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_wake/1x/slagrook_lap_wake_04.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_wake/2x/slagrook_lap_wake_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_wake/2x/slagrook_lap_wake_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_wake/2x/slagrook_lap_wake_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_wake/2x/slagrook_lap_wake_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_wake/2x/slagrook_lap_wake_04_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_wake/slagrook_lap_wake_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_wake/slagrook_lap_wake_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/slagrook/slagrook_lap_wake/slagrook_lap_wake_2x.gif",
+  "notes": "Stretch, then hop down (reverse HOP)."
+ },
+ "buddies/tumbloam/tumbloam_lap_settle": {
+  "kind": "creature",
+  "frames": 7,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   70,
+   90,
+   120,
+   120,
+   160,
+   200,
+   400
+  ],
+  "total_ms": 1160,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/1x/tumbloam_lap_settle_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/1x/tumbloam_lap_settle_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/1x/tumbloam_lap_settle_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/1x/tumbloam_lap_settle_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/1x/tumbloam_lap_settle_04.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/1x/tumbloam_lap_settle_05.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/1x/tumbloam_lap_settle_06.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/2x/tumbloam_lap_settle_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/2x/tumbloam_lap_settle_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/2x/tumbloam_lap_settle_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/2x/tumbloam_lap_settle_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/2x/tumbloam_lap_settle_04_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/2x/tumbloam_lap_settle_05_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/2x/tumbloam_lap_settle_06_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/tumbloam_lap_settle_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/tumbloam_lap_settle_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_settle/tumbloam_lap_settle_2x.gif",
+  "notes": "After the hop: foot (32,61) on the lap point."
+ },
+ "buddies/tumbloam/tumbloam_lap_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1100,
+   1100
+  ],
+  "total_ms": 2200,
+  "loop": true,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_sleep/1x/tumbloam_lap_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_sleep/1x/tumbloam_lap_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_sleep/2x/tumbloam_lap_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_sleep/2x/tumbloam_lap_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_sleep/tumbloam_lap_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_sleep/tumbloam_lap_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_sleep/tumbloam_lap_sleep_2x.gif",
+  "notes": "Loop + emote_zzz at zzz_anchor."
+ },
+ "buddies/tumbloam/tumbloam_lap_wake": {
+  "kind": "creature",
+  "frames": 5,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   200,
+   120,
+   220,
+   100,
+   160
+  ],
+  "total_ms": 800,
+  "loop": false,
+  "anchor": [
+   32,
+   61
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_wake/1x/tumbloam_lap_wake_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_wake/1x/tumbloam_lap_wake_01.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_wake/1x/tumbloam_lap_wake_02.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_wake/1x/tumbloam_lap_wake_03.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_wake/1x/tumbloam_lap_wake_04.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_wake/2x/tumbloam_lap_wake_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_wake/2x/tumbloam_lap_wake_01_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_wake/2x/tumbloam_lap_wake_02_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_wake/2x/tumbloam_lap_wake_03_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_wake/2x/tumbloam_lap_wake_04_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_wake/tumbloam_lap_wake_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_wake/tumbloam_lap_wake_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/tumbloam/tumbloam_lap_wake/tumbloam_lap_wake_2x.gif",
+  "notes": "Stretch, then hop down (reverse HOP)."
+ },
+ "buddies/bastonox/bastonox_feet_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   96,
+   96
+  ],
+  "ms_per_frame": [
+   1300,
+   1300
+  ],
+  "total_ms": 2600,
+  "loop": true,
+  "anchor": [
+   48,
+   93
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/bastonox/bastonox_feet_sleep/1x/bastonox_feet_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/bastonox/bastonox_feet_sleep/1x/bastonox_feet_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/bastonox/bastonox_feet_sleep/2x/bastonox_feet_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/bastonox/bastonox_feet_sleep/2x/bastonox_feet_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/bastonox/bastonox_feet_sleep/bastonox_feet_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/bastonox/bastonox_feet_sleep/bastonox_feet_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*96"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/bastonox/bastonox_feet_sleep/bastonox_feet_sleep_2x.gif",
+  "notes": "Too big for a lap: curls on the floor at (2,8), against the player's shins (frame placed like a 96x96 overworld frame)."
+ },
+ "buddies/forgeharrow/forgeharrow_feet_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   96,
+   96
+  ],
+  "ms_per_frame": [
+   1300,
+   1300
+  ],
+  "total_ms": 2600,
+  "loop": true,
+  "anchor": [
+   48,
+   93
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/forgeharrow/forgeharrow_feet_sleep/1x/forgeharrow_feet_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/forgeharrow/forgeharrow_feet_sleep/1x/forgeharrow_feet_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/forgeharrow/forgeharrow_feet_sleep/2x/forgeharrow_feet_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/forgeharrow/forgeharrow_feet_sleep/2x/forgeharrow_feet_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/forgeharrow/forgeharrow_feet_sleep/forgeharrow_feet_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/forgeharrow/forgeharrow_feet_sleep/forgeharrow_feet_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*96"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/forgeharrow/forgeharrow_feet_sleep/forgeharrow_feet_sleep_2x.gif",
+  "notes": "Too big for a lap: curls on the floor at (2,8), against the player's shins (frame placed like a 96x96 overworld frame)."
+ },
+ "buddies/tidemarrow/tidemarrow_feet_sleep": {
+  "kind": "creature",
+  "frames": 2,
+  "size": [
+   96,
+   96
+  ],
+  "ms_per_frame": [
+   1300,
+   1300
+  ],
+  "total_ms": 2600,
+  "loop": true,
+  "anchor": [
+   48,
+   93
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/lap_nap/buddies/tidemarrow/tidemarrow_feet_sleep/1x/tidemarrow_feet_sleep_00.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tidemarrow/tidemarrow_feet_sleep/1x/tidemarrow_feet_sleep_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/lap_nap/buddies/tidemarrow/tidemarrow_feet_sleep/2x/tidemarrow_feet_sleep_00_2x.png",
+    "art/characters/pixel/soul/lap_nap/buddies/tidemarrow/tidemarrow_feet_sleep/2x/tidemarrow_feet_sleep_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/lap_nap/buddies/tidemarrow/tidemarrow_feet_sleep/tidemarrow_feet_sleep_sheet.png",
+   "2x": "art/characters/pixel/soul/lap_nap/buddies/tidemarrow/tidemarrow_feet_sleep/tidemarrow_feet_sleep_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*96"
+  },
+  "gif_2x": "art/characters/pixel/soul/lap_nap/buddies/tidemarrow/tidemarrow_feet_sleep/tidemarrow_feet_sleep_2x.gif",
+  "notes": "Too big for a lap: curls on the floor at (2,8), against the player's shins (frame placed like a 96x96 overworld frame)."
+ }
+}

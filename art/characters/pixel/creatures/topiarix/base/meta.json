@@ -1,0 +1,70 @@
+{
+ "topiarix_front": {
+  "scale": 0.1421188630490956,
+  "org": [
+   229,
+   98
+  ],
+  "size": [
+   81,
+   110
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 21
+ },
+ "topiarix_back": {
+  "scale": 0.13801756587202008,
+  "org": [
+   226,
+   89
+  ],
+  "size": [
+   80,
+   110
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 20
+ },
+ "topiarix_ow_down": {
+  "scale": 0.136986301369863,
+  "org": [
+   47,
+   150
+  ],
+  "size": [
+   35,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "topiarix_ow_left": {
+  "scale": 0.13850415512465375,
+  "org": [
+   361,
+   152
+  ],
+  "size": [
+   35,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 20
+ },
+ "topiarix_ow_right": {
+  "mirror_of": "topiarix_ow_left"
+ },
+ "topiarix_ow_up": {
+  "scale": 0.1366120218579235,
+  "org": [
+   985,
+   150
+  ],
+  "size": [
+   34,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 18
+ }
+}

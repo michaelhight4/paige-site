@@ -1,0 +1,80 @@
+{
+ "tollkin_front": {
+  "scale": 0.12562814070351758,
+  "org": [
+   121,
+   98
+  ],
+  "size": [
+   98,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 20
+ },
+ "tollkin_back": {
+  "scale": 0.1272264631043257,
+  "org": [
+   125,
+   97
+  ],
+  "size": [
+   98,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 14
+ },
+ "tollkin_ow_down": {
+  "scale": 0.1345565749235474,
+  "org": [
+   34,
+   173
+  ],
+  "size": [
+   43,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 19
+ },
+ "tollkin_ow_left": {
+  "scale": 0.1375,
+  "org": [
+   391,
+   174
+  ],
+  "size": [
+   29,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "tollkin_ow_right": {
+  "scale": 0.1375,
+  "org": [
+   684,
+   174
+  ],
+  "size": [
+   30,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 18
+ },
+ "tollkin_ow_up": {
+  "scale": 0.13793103448275862,
+  "org": [
+   936,
+   175
+  ],
+  "size": [
+   42,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 10
+ }
+}

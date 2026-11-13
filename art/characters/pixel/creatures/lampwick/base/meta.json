@@ -1,0 +1,80 @@
+{
+ "lampwick_front": {
+  "scale": 0.10989010989010989,
+  "org": [
+   299,
+   54
+  ],
+  "size": [
+   47,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 19
+ },
+ "lampwick_back": {
+  "scale": 0.1092896174863388,
+  "org": [
+   302,
+   52
+  ],
+  "size": [
+   46,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 19
+ },
+ "lampwick_ow_down": {
+  "scale": 0.09322033898305085,
+  "org": [
+   89,
+   92
+  ],
+  "size": [
+   20,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "lampwick_ow_left": {
+  "scale": 0.09322033898305085,
+  "org": [
+   405,
+   92
+  ],
+  "size": [
+   19,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "lampwick_ow_right": {
+  "scale": 0.09322033898305085,
+  "org": [
+   702,
+   93
+  ],
+  "size": [
+   18,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "lampwick_ow_up": {
+  "scale": 0.09282700421940929,
+  "org": [
+   986,
+   92
+  ],
+  "size": [
+   20,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ }
+}

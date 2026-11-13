@@ -1,0 +1,1097 @@
+{
+ "results": [
+  {
+   "prof": "desktop",
+   "name": "wild: command menu shows 4 commands",
+   "ok": true,
+   "info": "[\"Skills\",\"Pack\",\"Team\",\"Retreat\"]"
+  },
+  {
+   "prof": "desktop",
+   "name": "tap targets >= 44 px",
+   "ok": true,
+   "info": "[[346,114],[346,114],[346,114],[346,114]]"
+  },
+  {
+   "prof": "desktop",
+   "name": "commands: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "commands: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-1,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":-2,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "commands: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "commands: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "commands: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "commands: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "commands: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "commands: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "Team opens the party list",
+   "ok": true,
+   "info": "[\"Bubbles Lv.6HP 21/21\",\"Cindrip Lv.11HP 30/30\",\"Pebble Lv.6HP 21/21\",\"Sailquill Lv.7HP 25/25\",\"Lamp Lv.12HP 36/36\"]"
+  },
+  {
+   "prof": "desktop",
+   "name": "team: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "team: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":0,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":-1,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "team: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "team: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "team: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "team: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "team: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "team: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "switch resolves a turn and returns to commands",
+   "ok": true,
+   "info": "What will Cindrip do?"
+  },
+  {
+   "prof": "desktop",
+   "name": "Pack lists usable items",
+   "ok": true,
+   "info": "[\"Small Remedy ×5\",\"Big Remedy ×1\",\"Pep Remedy ×2\",\"Calm Tea ×1\",\"Dominance Crystal ×10\",\"Prime Crystal ×2\"]"
+  },
+  {
+   "prof": "desktop",
+   "name": "pack: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "pack: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-2,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":-1,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "pack: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "pack: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "pack: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "pack: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "pack: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "pack: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "B / back returns to commands",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "Skills shows energy",
+   "ok": true,
+   "info": "[\"Spark SneezeFire · En 15/15\",\"Coal ChargeFire · En 12/12\",\"Snout ShoveNormal · En 9/9\",\"Ash PuffDark · En 6/6\"]"
+  },
+  {
+   "prof": "desktop",
+   "name": "skills: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "skills: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":0,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":-1,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "skills: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "skills: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "skills: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "skills: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "skills: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "skills: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "16-char names: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "16-char names: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-2,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":0,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "16-char names: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "16-char names: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "16-char names: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "16-char names: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "16-char names: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "16-char names: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 1: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 1: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-2,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":0,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 1: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 1: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 1: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 1: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 1: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 1: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 2: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 2: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-2,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":0,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 2: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 2: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 2: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 2: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 2: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "turn 2: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "full wild KO ends the battle with a result",
+   "ok": true,
+   "info": "{\"outcome\":\"win\",\"bag\":{\"tonic_small\":5,\"tonic_large\":1,\"energy_tonic\":2,\"calm_tea\":1,\"trail_mix\":6,\"feed_bag\":2,\"vigor_seed\":1,\"dominance_crystal\":10,\"dominance_crystal_plus\":2,\"crystal_dust\":4},\"caught\":null} turns=3"
+  },
+  {
+   "prof": "desktop",
+   "name": "bseed=1,2,3,4: no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "crystal session commands: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "crystal session commands: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-1,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":-1,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "crystal session commands: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "crystal session commands: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "crystal session commands: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "crystal session commands: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "crystal session commands: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "crystal session commands: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "Pack shows a crystal in a wild battle",
+   "ok": true,
+   "info": "[\"Small Remedy ×5\",\"Big Remedy ×1\",\"Pep Remedy ×2\",\"Calm Tea ×1\",\"Dominance Crystal ×10\",\"Prime Crystal ×2\"]"
+  },
+  {
+   "prof": "desktop",
+   "name": "crystal throw resolves (caught or back to commands)",
+   "ok": true,
+   "info": "What will Bubbles do?"
+  },
+  {
+   "prof": "desktop",
+   "name": "retreat/crystal ends the wild battle",
+   "ok": true,
+   "info": "{\"outcome\":\"retreat\",\"bag\":{\"tonic_small\":5,\"tonic_large\":1,\"energy_tonic\":2,\"calm_tea\":1,\"trail_mix\":6,\"feed_bag\":2,\"vigor_seed\":1,\"dominance_crystal\":9,\"dominance_crystal_plus\":2,\"crystal_dust\":4},\"caught\":null}"
+  },
+  {
+   "prof": "desktop",
+   "name": "bseed=9,9,9,9: no console errors",
+   "ok": false,
+   "info": "Failed to load resource: the server responded with a status of 404 (File not found) | Failed to load resource: the server responded with a status of 404 (File not found) | Failed to load resource: the server responded with a status of 404 (File not found)"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild commands: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild commands: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-1,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":-1,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild commands: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild commands: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild commands: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild commands: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild commands: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild commands: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild commands: axe-core finds no violations (incl. color-contrast)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild skills: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild skills: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":0,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":-1,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild skills: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild skills: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild skills: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild skills: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild skills: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild skills: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild pack: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild pack: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-1,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":-2,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild pack: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild pack: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild pack: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild pack: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild pack: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild pack: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild team: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild team: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-2,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":0,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild team: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild team: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild team: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild team: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild team: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild team: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild after a turn: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild after a turn: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-2,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":0,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild after a turn: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild after a turn: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild after a turn: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild after a turn: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild after a turn: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 wild after a turn: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "hour=12&bseed=1,2,3,4: no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer commands: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer commands: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-1,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":-1,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer commands: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer commands: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer commands: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer commands: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer commands: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer commands: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer commands: axe-core finds no violations (incl. color-contrast)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer skills: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer skills: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":0,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":-1,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer skills: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer skills: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer skills: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer skills: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer skills: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer skills: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer pack: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer pack: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-1,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":-2,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer pack: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer pack: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer pack: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer pack: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer pack: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer pack: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer team: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer team: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-2,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":0,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer team: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer team: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer team: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer team: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer team: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer team: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer after a turn: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer after a turn: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":0,\"dx\":0,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":0,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer after a turn: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer after a turn: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer after a turn: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer after a turn: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer after a turn: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 trainer after a turn: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "hour=12&trainer=1&bseed=5,6,7,8: no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 old default screen commands: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 old default screen commands: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-1,\"dx\":0,\"ph\":102,\"pw\":505,\"ok\":true},\"ally\":{\"dy\":-2,\"dx\":-1,\"ph\":102,\"pw\":505,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 old default screen commands: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 old default screen commands: axe-core finds no violations (incl. color-contrast)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 old default screen skills: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 old default screen skills: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-6,\"dx\":0,\"ph\":102,\"pw\":505,\"ok\":true},\"ally\":{\"dy\":-6,\"dx\":-1,\"ph\":102,\"pw\":505,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "h12 old default screen skills: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "old screen hour=12&bseed=1,2,3,4: no console errors",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "trainer: retreat refused with the trainer line",
+   "ok": true,
+   "info": "No walking away from a trainer battle."
+  },
+  {
+   "prof": "desktop",
+   "name": "trainer: after the foe switch: no info card / party readout intersects a creature sprite, a platform, the other card or the panel",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "trainer: after the foe switch: both creatures' feet on their platform centre",
+   "ok": true,
+   "info": "{\"foe\":{\"dy\":-2,\"dx\":-1,\"ph\":126,\"pw\":420,\"ok\":true},\"ally\":{\"dy\":0,\"dx\":-1,\"ph\":150,\"pw\":528,\"ok\":true}}"
+  },
+  {
+   "prof": "desktop",
+   "name": "trainer: after the foe switch: foe card top-left, ally card bottom-right above the panel, foe top-right",
+   "ok": true,
+   "info": "{\"foeCardTopLeft\":true,\"allyCardBottomRight\":true,\"foeTopRight\":true}"
+  },
+  {
+   "prof": "desktop",
+   "name": "trainer: after the foe switch: party HP readout inside its card",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "trainer: after the foe switch: both creatures stand on platforms",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "trainer: after the foe switch: no plate covers a creature/platform or another plate",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "trainer: after the foe switch: no menu label cut",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "trainer: after the foe switch: both platforms fully visible (not covered, above the panel)",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "full trainer battle ends with win/lose",
+   "ok": true,
+   "info": "{\"outcome\":\"win\",\"bag\":{\"tonic_small\":5,\"tonic_large\":1,\"energy_tonic\":2,\"calm_tea\":1,\"trail_mix\":6,\"feed_bag\":2,\"vigor_seed\":1,\"dominance_crystal\":10,\"dominance_crystal_plus\":2,\"crystal_dust\":4},\"caught\":null}"
+  },
+  {
+   "prof": "desktop",
+   "name": "trainer sent out its second creature (forced switch) or lost first",
+   "ok": true,
+   "info": ""
+  },
+  {
+   "prof": "desktop",
+   "name": "command menu stays hidden while the \"sends out\" message plays",
+   "ok": true,
+   "info": "visible 0x"
+  },
+  {
+   "prof": "desktop",
+   "name": "trainer=1&bseed=5,6,7,8: no console errors",
+   "ok": true,
+   "info": ""
+  }
+ ],
+ "fails": 1
+}

@@ -1,0 +1,106 @@
+{
+ "sailquill_front": {
+  "scale": 0.13441483198146004,
+  "org": [
+   85,
+   58
+  ],
+  "size": [
+   116,
+   116
+  ],
+  "src": "raw/battle_front.jpg",
+  "box": null,
+  "colours": 18
+ },
+ "sailquill_back": {
+  "scale": 0.14163614163614163,
+  "org": [
+   108,
+   59
+  ],
+  "size": [
+   114,
+   116
+  ],
+  "src": "raw/battle_back.jpg",
+  "box": null,
+  "colours": 16
+ },
+ "sailquill_ow_down": {
+  "scale": 0.14925373134328357,
+  "org": [
+   21,
+   156
+  ],
+  "size": [
+   45,
+   50
+  ],
+  "src": "raw/ow_views.png",
+  "box": [
+   0,
+   0,
+   339,
+   720
+  ],
+  "colours": 15
+ },
+ "sailquill_ow_left": {
+  "scale": 0.14792899408284024,
+  "org": [
+   359,
+   158
+  ],
+  "size": [
+   41,
+   50
+  ],
+  "src": "raw/ow_views.png",
+  "box": [
+   339,
+   0,
+   653,
+   720
+  ],
+  "colours": 13
+ },
+ "sailquill_ow_right": {
+  "scale": 0.14792899408284024,
+  "org": [
+   668,
+   158
+  ],
+  "size": [
+   39,
+   50
+  ],
+  "src": "raw/ow_views.png",
+  "box": [
+   653,
+   0,
+   949,
+   720
+  ],
+  "colours": 16
+ },
+ "sailquill_ow_up": {
+  "scale": 0.14204545454545456,
+  "org": [
+   965,
+   155
+  ],
+  "size": [
+   42,
+   50
+  ],
+  "src": "raw/ow_views.png",
+  "box": [
+   949,
+   0,
+   1280,
+   720
+  ],
+  "colours": 13
+ }
+}

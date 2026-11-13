@@ -1,0 +1,70 @@
+{
+ "nudiblume_front": {
+  "scale": 0.1598360655737705,
+  "org": [
+   230,
+   270
+  ],
+  "size": [
+   99,
+   78
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 17
+ },
+ "nudiblume_back": {
+  "scale": 0.13953488372093023,
+  "org": [
+   287,
+   250
+  ],
+  "size": [
+   65,
+   78
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 15
+ },
+ "nudiblume_ow_down": {
+  "scale": 0.15444015444015444,
+  "org": [
+   41,
+   214
+  ],
+  "size": [
+   35,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "nudiblume_ow_left": {
+  "scale": 0.15748031496062992,
+  "org": [
+   311,
+   219
+  ],
+  "size": [
+   49,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "nudiblume_ow_up": {
+  "scale": 0.1520912547528517,
+  "org": [
+   1019,
+   219
+  ],
+  "size": [
+   33,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "nudiblume_ow_right": {
+  "mirror_of": "nudiblume_ow_left"
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "char_id": "tr_gymtrainer_m",
+ "anim": "capture_trainer",
+ "frames": [
+  "raise",
+  "hold"
+ ],
+ "frame_w": 92,
+ "frame_h": 128,
+ "hold_px": [
+  [
+   7,
+   55
+  ],
+  [
+   3,
+   34
+  ]
+ ],
+ "hold_px_by_frame": {
+  "raise": [
+   7,
+   55
+  ],
+  "hold": [
+   3,
+   34
+  ]
+ },
+ "pad": {
+  "left": 14,
+  "right": 14,
+  "top": 0,
+  "bottom": 0
+ },
+ "note": "hold_px = crystal centre just in front of the palm, 1x px in the frame's own top-left coords (after pad). Source canvas 64x128; pad shifts all source x by +14. DRAFT bone_v2, awaiting Gary.",
+ "status": "draft, awaiting Gary"
+}

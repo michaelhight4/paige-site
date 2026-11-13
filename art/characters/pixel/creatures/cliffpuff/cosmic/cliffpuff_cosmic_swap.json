@@ -1,0 +1,20 @@
+{
+ "creature": "cliffpuff",
+ "concept": "Aurora",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#1a1226": "#2c2320",
+  "#2c2320": "#29252b",
+  "#342842": "#3e3a48",
+  "#3e3a48": "#54444e",
+  "#462c22": "#244e34",
+  "#87604d": "#4a70ba",
+  "#9f4013": "#3e9c92",
+  "#c46e2e": "#4692ce",
+  "#d46616": "#4692ce",
+  "#e29d40": "#4692ce",
+  "#ecdec4": "#c6ecfa"
+ },
+ "rule": "crystal violets never swapped"
+}

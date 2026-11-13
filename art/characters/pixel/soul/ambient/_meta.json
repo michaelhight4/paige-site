@@ -1,0 +1,1834 @@
+{
+ "fish/fish_jump_right": {
+  "kind": "overlay",
+  "frames": 13,
+  "size": [
+   64,
+   96
+  ],
+  "ms_per_frame": [
+   90,
+   60,
+   60,
+   60,
+   60,
+   60,
+   60,
+   60,
+   80,
+   90,
+   110,
+   130,
+   150
+  ],
+  "total_ms": 1070,
+  "loop": false,
+  "anchor": [
+   0,
+   32
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/1x/fish_jump_right_00.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/1x/fish_jump_right_01.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/1x/fish_jump_right_02.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/1x/fish_jump_right_03.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/1x/fish_jump_right_04.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/1x/fish_jump_right_05.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/1x/fish_jump_right_06.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/1x/fish_jump_right_07.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/1x/fish_jump_right_08.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/1x/fish_jump_right_09.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/1x/fish_jump_right_10.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/1x/fish_jump_right_11.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/1x/fish_jump_right_12.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/2x/fish_jump_right_00_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/2x/fish_jump_right_01_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/2x/fish_jump_right_02_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/2x/fish_jump_right_03_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/2x/fish_jump_right_04_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/2x/fish_jump_right_05_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/2x/fish_jump_right_06_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/2x/fish_jump_right_07_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/2x/fish_jump_right_08_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/2x/fish_jump_right_09_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/2x/fish_jump_right_10_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/2x/fish_jump_right_11_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_right/2x/fish_jump_right_12_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/fish/fish_jump_right/fish_jump_right_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/fish/fish_jump_right/fish_jump_right_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/fish/fish_jump_right/fish_jump_right_2x.gif",
+  "notes": "Draw at (spot_x*64, spot_y*64-32). Hide fish_shadow during; resume it at +34 px."
+ },
+ "fish/fish_jump_left": {
+  "kind": "overlay",
+  "frames": 13,
+  "size": [
+   64,
+   96
+  ],
+  "ms_per_frame": [
+   90,
+   60,
+   60,
+   60,
+   60,
+   60,
+   60,
+   60,
+   80,
+   90,
+   110,
+   130,
+   150
+  ],
+  "total_ms": 1070,
+  "loop": false,
+  "anchor": [
+   0,
+   32
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/1x/fish_jump_left_00.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/1x/fish_jump_left_01.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/1x/fish_jump_left_02.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/1x/fish_jump_left_03.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/1x/fish_jump_left_04.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/1x/fish_jump_left_05.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/1x/fish_jump_left_06.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/1x/fish_jump_left_07.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/1x/fish_jump_left_08.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/1x/fish_jump_left_09.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/1x/fish_jump_left_10.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/1x/fish_jump_left_11.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/1x/fish_jump_left_12.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/2x/fish_jump_left_00_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/2x/fish_jump_left_01_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/2x/fish_jump_left_02_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/2x/fish_jump_left_03_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/2x/fish_jump_left_04_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/2x/fish_jump_left_05_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/2x/fish_jump_left_06_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/2x/fish_jump_left_07_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/2x/fish_jump_left_08_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/2x/fish_jump_left_09_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/2x/fish_jump_left_10_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/2x/fish_jump_left_11_2x.png",
+    "art/characters/pixel/soul/ambient/fish/fish_jump_left/2x/fish_jump_left_12_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/fish/fish_jump_left/fish_jump_left_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/fish/fish_jump_left/fish_jump_left_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/fish/fish_jump_left/fish_jump_left_2x.gif",
+  "notes": "Mirror of fish_jump_right (resume shadow at -34 px)."
+ },
+ "birds/flock_bird_peck_right": {
+  "kind": "overlay",
+  "frames": 4,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   160,
+   120,
+   140,
+   120
+  ],
+  "total_ms": 540,
+  "loop": true,
+  "anchor": [
+   12,
+   21
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_right/1x/flock_bird_peck_right_00.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_right/1x/flock_bird_peck_right_01.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_right/1x/flock_bird_peck_right_02.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_right/1x/flock_bird_peck_right_03.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_right/2x/flock_bird_peck_right_00_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_right/2x/flock_bird_peck_right_01_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_right/2x/flock_bird_peck_right_02_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_right/2x/flock_bird_peck_right_03_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/birds/flock_bird_peck_right/flock_bird_peck_right_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/birds/flock_bird_peck_right/flock_bird_peck_right_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/birds/flock_bird_peck_right/flock_bird_peck_right_2x.gif",
+  "notes": "Idle peck loop."
+ },
+ "birds/flock_bird_look_right": {
+  "kind": "overlay",
+  "frames": 1,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   600
+  ],
+  "total_ms": 600,
+  "loop": true,
+  "anchor": [
+   12,
+   21
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_look_right/1x/flock_bird_look_right_00.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_look_right/2x/flock_bird_look_right_00_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/birds/flock_bird_look_right/flock_bird_look_right_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/birds/flock_bird_look_right/flock_bird_look_right_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/birds/flock_bird_look_right/flock_bird_look_right_2x.gif",
+  "notes": "Hold 400-900 ms."
+ },
+ "birds/flock_bird_hop_right": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   80,
+   80,
+   80
+  ],
+  "total_ms": 240,
+  "loop": false,
+  "anchor": [
+   12,
+   21
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_hop_right/1x/flock_bird_hop_right_00.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_hop_right/1x/flock_bird_hop_right_01.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_hop_right/1x/flock_bird_hop_right_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_hop_right/2x/flock_bird_hop_right_00_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_hop_right/2x/flock_bird_hop_right_01_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_hop_right/2x/flock_bird_hop_right_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/birds/flock_bird_hop_right/flock_bird_hop_right_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/birds/flock_bird_hop_right/flock_bird_hop_right_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/birds/flock_bird_hop_right/flock_bird_hop_right_2x.gif",
+  "notes": "Move 4-8 px during frame 1."
+ },
+ "birds/flock_bird_takeoff_right": {
+  "kind": "overlay",
+  "frames": 2,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   50,
+   50
+  ],
+  "total_ms": 100,
+  "loop": false,
+  "anchor": [
+   12,
+   21
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_takeoff_right/1x/flock_bird_takeoff_right_00.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_takeoff_right/1x/flock_bird_takeoff_right_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_takeoff_right/2x/flock_bird_takeoff_right_00_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_takeoff_right/2x/flock_bird_takeoff_right_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/birds/flock_bird_takeoff_right/flock_bird_takeoff_right_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/birds/flock_bird_takeoff_right/flock_bird_takeoff_right_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/birds/flock_bird_takeoff_right/flock_bird_takeoff_right_2x.gif",
+  "notes": "Then fly loop."
+ },
+ "birds/flock_bird_fly_right": {
+  "kind": "overlay",
+  "frames": 4,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   50,
+   50,
+   50,
+   50
+  ],
+  "total_ms": 200,
+  "loop": true,
+  "anchor": [
+   12,
+   21
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_right/1x/flock_bird_fly_right_00.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_right/1x/flock_bird_fly_right_01.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_right/1x/flock_bird_fly_right_02.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_right/1x/flock_bird_fly_right_03.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_right/2x/flock_bird_fly_right_00_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_right/2x/flock_bird_fly_right_01_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_right/2x/flock_bird_fly_right_02_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_right/2x/flock_bird_fly_right_03_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/birds/flock_bird_fly_right/flock_bird_fly_right_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/birds/flock_bird_fly_right/flock_bird_fly_right_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/birds/flock_bird_fly_right/flock_bird_fly_right_2x.gif",
+  "notes": "Scatter flight loop."
+ },
+ "birds/flock_bird_peck_left": {
+  "kind": "overlay",
+  "frames": 4,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   160,
+   120,
+   140,
+   120
+  ],
+  "total_ms": 540,
+  "loop": true,
+  "anchor": [
+   12,
+   21
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_left/1x/flock_bird_peck_left_00.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_left/1x/flock_bird_peck_left_01.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_left/1x/flock_bird_peck_left_02.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_left/1x/flock_bird_peck_left_03.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_left/2x/flock_bird_peck_left_00_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_left/2x/flock_bird_peck_left_01_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_left/2x/flock_bird_peck_left_02_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_peck_left/2x/flock_bird_peck_left_03_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/birds/flock_bird_peck_left/flock_bird_peck_left_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/birds/flock_bird_peck_left/flock_bird_peck_left_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/birds/flock_bird_peck_left/flock_bird_peck_left_2x.gif",
+  "notes": "Idle peck loop."
+ },
+ "birds/flock_bird_look_left": {
+  "kind": "overlay",
+  "frames": 1,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   600
+  ],
+  "total_ms": 600,
+  "loop": true,
+  "anchor": [
+   12,
+   21
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_look_left/1x/flock_bird_look_left_00.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_look_left/2x/flock_bird_look_left_00_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/birds/flock_bird_look_left/flock_bird_look_left_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/birds/flock_bird_look_left/flock_bird_look_left_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/birds/flock_bird_look_left/flock_bird_look_left_2x.gif",
+  "notes": "Hold 400-900 ms."
+ },
+ "birds/flock_bird_hop_left": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   80,
+   80,
+   80
+  ],
+  "total_ms": 240,
+  "loop": false,
+  "anchor": [
+   12,
+   21
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_hop_left/1x/flock_bird_hop_left_00.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_hop_left/1x/flock_bird_hop_left_01.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_hop_left/1x/flock_bird_hop_left_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_hop_left/2x/flock_bird_hop_left_00_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_hop_left/2x/flock_bird_hop_left_01_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_hop_left/2x/flock_bird_hop_left_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/birds/flock_bird_hop_left/flock_bird_hop_left_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/birds/flock_bird_hop_left/flock_bird_hop_left_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/birds/flock_bird_hop_left/flock_bird_hop_left_2x.gif",
+  "notes": "Move 4-8 px during frame 1."
+ },
+ "birds/flock_bird_takeoff_left": {
+  "kind": "overlay",
+  "frames": 2,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   50,
+   50
+  ],
+  "total_ms": 100,
+  "loop": false,
+  "anchor": [
+   12,
+   21
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_takeoff_left/1x/flock_bird_takeoff_left_00.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_takeoff_left/1x/flock_bird_takeoff_left_01.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_takeoff_left/2x/flock_bird_takeoff_left_00_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_takeoff_left/2x/flock_bird_takeoff_left_01_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/birds/flock_bird_takeoff_left/flock_bird_takeoff_left_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/birds/flock_bird_takeoff_left/flock_bird_takeoff_left_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/birds/flock_bird_takeoff_left/flock_bird_takeoff_left_2x.gif",
+  "notes": "Then fly loop."
+ },
+ "birds/flock_bird_fly_left": {
+  "kind": "overlay",
+  "frames": 4,
+  "size": [
+   24,
+   24
+  ],
+  "ms_per_frame": [
+   50,
+   50,
+   50,
+   50
+  ],
+  "total_ms": 200,
+  "loop": true,
+  "anchor": [
+   12,
+   21
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_left/1x/flock_bird_fly_left_00.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_left/1x/flock_bird_fly_left_01.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_left/1x/flock_bird_fly_left_02.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_left/1x/flock_bird_fly_left_03.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_left/2x/flock_bird_fly_left_00_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_left/2x/flock_bird_fly_left_01_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_left/2x/flock_bird_fly_left_02_2x.png",
+    "art/characters/pixel/soul/ambient/birds/flock_bird_fly_left/2x/flock_bird_fly_left_03_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/birds/flock_bird_fly_left/flock_bird_fly_left_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/birds/flock_bird_fly_left/flock_bird_fly_left_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*24"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/birds/flock_bird_fly_left/flock_bird_fly_left_2x.gif",
+  "notes": "Scatter flight loop."
+ },
+ "birds/flock_bird_shadow": {
+  "kind": "overlay",
+  "frames": 1,
+  "size": [
+   8,
+   3
+  ],
+  "ms_per_frame": [
+   100
+  ],
+  "total_ms": 100,
+  "loop": true,
+  "anchor": [
+   4,
+   1
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_shadow/1x/flock_bird_shadow_00.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/birds/flock_bird_shadow/2x/flock_bird_shadow_00_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/birds/flock_bird_shadow/flock_bird_shadow_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/birds/flock_bird_shadow/flock_bird_shadow_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*8"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/birds/flock_bird_shadow/flock_bird_shadow_2x.gif",
+  "notes": "Ground shadow under a flying bird; dissolve after 6 ticks."
+ },
+ "fireflies/firefly_bright": {
+  "kind": "overlay",
+  "frames": 6,
+  "size": [
+   9,
+   9
+  ],
+  "ms_per_frame": [
+   110,
+   110,
+   110,
+   110,
+   110,
+   110
+  ],
+  "total_ms": 660,
+  "loop": true,
+  "anchor": [
+   4,
+   4
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/fireflies/firefly_bright/1x/firefly_bright_00.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_bright/1x/firefly_bright_01.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_bright/1x/firefly_bright_02.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_bright/1x/firefly_bright_03.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_bright/1x/firefly_bright_04.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_bright/1x/firefly_bright_05.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/fireflies/firefly_bright/2x/firefly_bright_00_2x.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_bright/2x/firefly_bright_01_2x.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_bright/2x/firefly_bright_02_2x.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_bright/2x/firefly_bright_03_2x.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_bright/2x/firefly_bright_04_2x.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_bright/2x/firefly_bright_05_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/fireflies/firefly_bright/firefly_bright_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/fireflies/firefly_bright/firefly_bright_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*9"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/fireflies/firefly_bright/firefly_bright_2x.gif",
+  "notes": "Emissive. Draw after the night grade."
+ },
+ "fireflies/firefly_dim": {
+  "kind": "overlay",
+  "frames": 6,
+  "size": [
+   9,
+   9
+  ],
+  "ms_per_frame": [
+   160,
+   160,
+   160,
+   160,
+   160,
+   160
+  ],
+  "total_ms": 960,
+  "loop": true,
+  "anchor": [
+   4,
+   4
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim/1x/firefly_dim_00.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim/1x/firefly_dim_01.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim/1x/firefly_dim_02.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim/1x/firefly_dim_03.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim/1x/firefly_dim_04.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim/1x/firefly_dim_05.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim/2x/firefly_dim_00_2x.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim/2x/firefly_dim_01_2x.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim/2x/firefly_dim_02_2x.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim/2x/firefly_dim_03_2x.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim/2x/firefly_dim_04_2x.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim/2x/firefly_dim_05_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/fireflies/firefly_dim/firefly_dim_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/fireflies/firefly_dim/firefly_dim_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*9"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/fireflies/firefly_dim/firefly_dim_2x.gif",
+  "notes": "Near crystal (<=2 tiles)."
+ },
+ "fireflies/firefly_dim_in": {
+  "kind": "overlay",
+  "frames": 5,
+  "size": [
+   9,
+   9
+  ],
+  "ms_per_frame": [
+   90,
+   90,
+   110,
+   130,
+   160
+  ],
+  "total_ms": 580,
+  "loop": false,
+  "anchor": [
+   4,
+   4
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim_in/1x/firefly_dim_in_00.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim_in/1x/firefly_dim_in_01.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim_in/1x/firefly_dim_in_02.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim_in/1x/firefly_dim_in_03.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim_in/1x/firefly_dim_in_04.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim_in/2x/firefly_dim_in_00_2x.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim_in/2x/firefly_dim_in_01_2x.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim_in/2x/firefly_dim_in_02_2x.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim_in/2x/firefly_dim_in_03_2x.png",
+    "art/characters/pixel/soul/ambient/fireflies/firefly_dim_in/2x/firefly_dim_in_04_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/fireflies/firefly_dim_in/firefly_dim_in_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/fireflies/firefly_dim_in/firefly_dim_in_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*9"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/fireflies/firefly_dim_in/firefly_dim_in_2x.gif",
+  "notes": "Bright -> dim once; reverse to brighten."
+ },
+ "prints/pawprint_sand_down": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1333,
+   1333,
+   1333
+  ],
+  "total_ms": 3999,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_down/1x/pawprint_sand_down_00.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_down/1x/pawprint_sand_down_01.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_down/1x/pawprint_sand_down_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_down/2x/pawprint_sand_down_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_down/2x/pawprint_sand_down_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_down/2x/pawprint_sand_down_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/pawprint_sand_down/pawprint_sand_down_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/pawprint_sand_down/pawprint_sand_down_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/pawprint_sand_down/pawprint_sand_down_2x.gif",
+  "notes": "Trail Buddy prints; same rule as tileset footprints."
+ },
+ "prints/pawprint_sand_up": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1333,
+   1333,
+   1333
+  ],
+  "total_ms": 3999,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_up/1x/pawprint_sand_up_00.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_up/1x/pawprint_sand_up_01.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_up/1x/pawprint_sand_up_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_up/2x/pawprint_sand_up_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_up/2x/pawprint_sand_up_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_up/2x/pawprint_sand_up_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/pawprint_sand_up/pawprint_sand_up_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/pawprint_sand_up/pawprint_sand_up_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/pawprint_sand_up/pawprint_sand_up_2x.gif",
+  "notes": "Trail Buddy prints; same rule as tileset footprints."
+ },
+ "prints/pawprint_sand_left": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1333,
+   1333,
+   1333
+  ],
+  "total_ms": 3999,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_left/1x/pawprint_sand_left_00.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_left/1x/pawprint_sand_left_01.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_left/1x/pawprint_sand_left_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_left/2x/pawprint_sand_left_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_left/2x/pawprint_sand_left_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_left/2x/pawprint_sand_left_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/pawprint_sand_left/pawprint_sand_left_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/pawprint_sand_left/pawprint_sand_left_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/pawprint_sand_left/pawprint_sand_left_2x.gif",
+  "notes": "Trail Buddy prints; same rule as tileset footprints."
+ },
+ "prints/pawprint_sand_right": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1333,
+   1333,
+   1333
+  ],
+  "total_ms": 3999,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_right/1x/pawprint_sand_right_00.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_right/1x/pawprint_sand_right_01.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_right/1x/pawprint_sand_right_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_right/2x/pawprint_sand_right_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_right/2x/pawprint_sand_right_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_sand_right/2x/pawprint_sand_right_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/pawprint_sand_right/pawprint_sand_right_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/pawprint_sand_right/pawprint_sand_right_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/pawprint_sand_right/pawprint_sand_right_2x.gif",
+  "notes": "Trail Buddy prints; same rule as tileset footprints."
+ },
+ "prints/pawprint_snow_down": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1333,
+   1333,
+   1333
+  ],
+  "total_ms": 3999,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_down/1x/pawprint_snow_down_00.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_down/1x/pawprint_snow_down_01.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_down/1x/pawprint_snow_down_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_down/2x/pawprint_snow_down_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_down/2x/pawprint_snow_down_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_down/2x/pawprint_snow_down_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/pawprint_snow_down/pawprint_snow_down_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/pawprint_snow_down/pawprint_snow_down_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/pawprint_snow_down/pawprint_snow_down_2x.gif",
+  "notes": "Trail Buddy prints; same rule as tileset footprints."
+ },
+ "prints/pawprint_snow_up": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1333,
+   1333,
+   1333
+  ],
+  "total_ms": 3999,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_up/1x/pawprint_snow_up_00.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_up/1x/pawprint_snow_up_01.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_up/1x/pawprint_snow_up_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_up/2x/pawprint_snow_up_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_up/2x/pawprint_snow_up_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_up/2x/pawprint_snow_up_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/pawprint_snow_up/pawprint_snow_up_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/pawprint_snow_up/pawprint_snow_up_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/pawprint_snow_up/pawprint_snow_up_2x.gif",
+  "notes": "Trail Buddy prints; same rule as tileset footprints."
+ },
+ "prints/pawprint_snow_left": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1333,
+   1333,
+   1333
+  ],
+  "total_ms": 3999,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_left/1x/pawprint_snow_left_00.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_left/1x/pawprint_snow_left_01.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_left/1x/pawprint_snow_left_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_left/2x/pawprint_snow_left_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_left/2x/pawprint_snow_left_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_left/2x/pawprint_snow_left_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/pawprint_snow_left/pawprint_snow_left_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/pawprint_snow_left/pawprint_snow_left_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/pawprint_snow_left/pawprint_snow_left_2x.gif",
+  "notes": "Trail Buddy prints; same rule as tileset footprints."
+ },
+ "prints/pawprint_snow_right": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1333,
+   1333,
+   1333
+  ],
+  "total_ms": 3999,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_right/1x/pawprint_snow_right_00.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_right/1x/pawprint_snow_right_01.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_right/1x/pawprint_snow_right_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_right/2x/pawprint_snow_right_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_right/2x/pawprint_snow_right_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_snow_right/2x/pawprint_snow_right_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/pawprint_snow_right/pawprint_snow_right_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/pawprint_snow_right/pawprint_snow_right_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/pawprint_snow_right/pawprint_snow_right_2x.gif",
+  "notes": "Trail Buddy prints; same rule as tileset footprints."
+ },
+ "prints/pawprint_mud_down": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1333,
+   1333,
+   1333
+  ],
+  "total_ms": 3999,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_down/1x/pawprint_mud_down_00.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_down/1x/pawprint_mud_down_01.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_down/1x/pawprint_mud_down_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_down/2x/pawprint_mud_down_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_down/2x/pawprint_mud_down_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_down/2x/pawprint_mud_down_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/pawprint_mud_down/pawprint_mud_down_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/pawprint_mud_down/pawprint_mud_down_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/pawprint_mud_down/pawprint_mud_down_2x.gif",
+  "notes": "Trail Buddy prints; same rule as tileset footprints."
+ },
+ "prints/pawprint_mud_up": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1333,
+   1333,
+   1333
+  ],
+  "total_ms": 3999,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_up/1x/pawprint_mud_up_00.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_up/1x/pawprint_mud_up_01.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_up/1x/pawprint_mud_up_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_up/2x/pawprint_mud_up_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_up/2x/pawprint_mud_up_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_up/2x/pawprint_mud_up_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/pawprint_mud_up/pawprint_mud_up_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/pawprint_mud_up/pawprint_mud_up_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/pawprint_mud_up/pawprint_mud_up_2x.gif",
+  "notes": "Trail Buddy prints; same rule as tileset footprints."
+ },
+ "prints/pawprint_mud_left": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1333,
+   1333,
+   1333
+  ],
+  "total_ms": 3999,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_left/1x/pawprint_mud_left_00.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_left/1x/pawprint_mud_left_01.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_left/1x/pawprint_mud_left_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_left/2x/pawprint_mud_left_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_left/2x/pawprint_mud_left_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_left/2x/pawprint_mud_left_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/pawprint_mud_left/pawprint_mud_left_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/pawprint_mud_left/pawprint_mud_left_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/pawprint_mud_left/pawprint_mud_left_2x.gif",
+  "notes": "Trail Buddy prints; same rule as tileset footprints."
+ },
+ "prints/pawprint_mud_right": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1333,
+   1333,
+   1333
+  ],
+  "total_ms": 3999,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_right/1x/pawprint_mud_right_00.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_right/1x/pawprint_mud_right_01.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_right/1x/pawprint_mud_right_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_right/2x/pawprint_mud_right_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_right/2x/pawprint_mud_right_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/pawprint_mud_right/2x/pawprint_mud_right_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/pawprint_mud_right/pawprint_mud_right_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/pawprint_mud_right/pawprint_mud_right_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/pawprint_mud_right/pawprint_mud_right_2x.gif",
+  "notes": "Trail Buddy prints; same rule as tileset footprints."
+ },
+ "prints/wetprint_sand_down": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_down/1x/wetprint_sand_down_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_down/1x/wetprint_sand_down_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_down/1x/wetprint_sand_down_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_down/2x/wetprint_sand_down_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_down/2x/wetprint_sand_down_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_down/2x/wetprint_sand_down_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetprint_sand_down/wetprint_sand_down_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetprint_sand_down/wetprint_sand_down_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetprint_sand_down/wetprint_sand_down_2x.gif",
+  "notes": "Player wet prints (shape = the world footprint tiles, recoloured)."
+ },
+ "prints/wetpaw_sand_down": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_down/1x/wetpaw_sand_down_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_down/1x/wetpaw_sand_down_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_down/1x/wetpaw_sand_down_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_down/2x/wetpaw_sand_down_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_down/2x/wetpaw_sand_down_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_down/2x/wetpaw_sand_down_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetpaw_sand_down/wetpaw_sand_down_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetpaw_sand_down/wetpaw_sand_down_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetpaw_sand_down/wetpaw_sand_down_2x.gif",
+  "notes": "Buddy wet prints."
+ },
+ "prints/wetprint_sand_up": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_up/1x/wetprint_sand_up_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_up/1x/wetprint_sand_up_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_up/1x/wetprint_sand_up_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_up/2x/wetprint_sand_up_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_up/2x/wetprint_sand_up_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_up/2x/wetprint_sand_up_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetprint_sand_up/wetprint_sand_up_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetprint_sand_up/wetprint_sand_up_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetprint_sand_up/wetprint_sand_up_2x.gif",
+  "notes": "Player wet prints (shape = the world footprint tiles, recoloured)."
+ },
+ "prints/wetpaw_sand_up": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_up/1x/wetpaw_sand_up_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_up/1x/wetpaw_sand_up_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_up/1x/wetpaw_sand_up_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_up/2x/wetpaw_sand_up_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_up/2x/wetpaw_sand_up_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_up/2x/wetpaw_sand_up_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetpaw_sand_up/wetpaw_sand_up_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetpaw_sand_up/wetpaw_sand_up_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetpaw_sand_up/wetpaw_sand_up_2x.gif",
+  "notes": "Buddy wet prints."
+ },
+ "prints/wetprint_sand_left": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_left/1x/wetprint_sand_left_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_left/1x/wetprint_sand_left_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_left/1x/wetprint_sand_left_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_left/2x/wetprint_sand_left_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_left/2x/wetprint_sand_left_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_left/2x/wetprint_sand_left_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetprint_sand_left/wetprint_sand_left_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetprint_sand_left/wetprint_sand_left_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetprint_sand_left/wetprint_sand_left_2x.gif",
+  "notes": "Player wet prints (shape = the world footprint tiles, recoloured)."
+ },
+ "prints/wetpaw_sand_left": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_left/1x/wetpaw_sand_left_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_left/1x/wetpaw_sand_left_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_left/1x/wetpaw_sand_left_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_left/2x/wetpaw_sand_left_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_left/2x/wetpaw_sand_left_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_left/2x/wetpaw_sand_left_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetpaw_sand_left/wetpaw_sand_left_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetpaw_sand_left/wetpaw_sand_left_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetpaw_sand_left/wetpaw_sand_left_2x.gif",
+  "notes": "Buddy wet prints."
+ },
+ "prints/wetprint_sand_right": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_right/1x/wetprint_sand_right_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_right/1x/wetprint_sand_right_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_right/1x/wetprint_sand_right_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_right/2x/wetprint_sand_right_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_right/2x/wetprint_sand_right_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_sand_right/2x/wetprint_sand_right_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetprint_sand_right/wetprint_sand_right_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetprint_sand_right/wetprint_sand_right_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetprint_sand_right/wetprint_sand_right_2x.gif",
+  "notes": "Player wet prints (shape = the world footprint tiles, recoloured)."
+ },
+ "prints/wetpaw_sand_right": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_right/1x/wetpaw_sand_right_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_right/1x/wetpaw_sand_right_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_right/1x/wetpaw_sand_right_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_right/2x/wetpaw_sand_right_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_right/2x/wetpaw_sand_right_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_sand_right/2x/wetpaw_sand_right_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetpaw_sand_right/wetpaw_sand_right_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetpaw_sand_right/wetpaw_sand_right_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetpaw_sand_right/wetpaw_sand_right_2x.gif",
+  "notes": "Buddy wet prints."
+ },
+ "prints/wetprint_ground_down": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_down/1x/wetprint_ground_down_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_down/1x/wetprint_ground_down_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_down/1x/wetprint_ground_down_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_down/2x/wetprint_ground_down_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_down/2x/wetprint_ground_down_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_down/2x/wetprint_ground_down_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetprint_ground_down/wetprint_ground_down_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetprint_ground_down/wetprint_ground_down_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetprint_ground_down/wetprint_ground_down_2x.gif",
+  "notes": "Player wet prints (shape = the world footprint tiles, recoloured)."
+ },
+ "prints/wetpaw_ground_down": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_down/1x/wetpaw_ground_down_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_down/1x/wetpaw_ground_down_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_down/1x/wetpaw_ground_down_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_down/2x/wetpaw_ground_down_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_down/2x/wetpaw_ground_down_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_down/2x/wetpaw_ground_down_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetpaw_ground_down/wetpaw_ground_down_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetpaw_ground_down/wetpaw_ground_down_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetpaw_ground_down/wetpaw_ground_down_2x.gif",
+  "notes": "Buddy wet prints."
+ },
+ "prints/wetprint_ground_up": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_up/1x/wetprint_ground_up_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_up/1x/wetprint_ground_up_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_up/1x/wetprint_ground_up_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_up/2x/wetprint_ground_up_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_up/2x/wetprint_ground_up_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_up/2x/wetprint_ground_up_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetprint_ground_up/wetprint_ground_up_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetprint_ground_up/wetprint_ground_up_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetprint_ground_up/wetprint_ground_up_2x.gif",
+  "notes": "Player wet prints (shape = the world footprint tiles, recoloured)."
+ },
+ "prints/wetpaw_ground_up": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_up/1x/wetpaw_ground_up_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_up/1x/wetpaw_ground_up_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_up/1x/wetpaw_ground_up_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_up/2x/wetpaw_ground_up_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_up/2x/wetpaw_ground_up_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_up/2x/wetpaw_ground_up_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetpaw_ground_up/wetpaw_ground_up_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetpaw_ground_up/wetpaw_ground_up_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetpaw_ground_up/wetpaw_ground_up_2x.gif",
+  "notes": "Buddy wet prints."
+ },
+ "prints/wetprint_ground_left": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_left/1x/wetprint_ground_left_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_left/1x/wetprint_ground_left_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_left/1x/wetprint_ground_left_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_left/2x/wetprint_ground_left_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_left/2x/wetprint_ground_left_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_left/2x/wetprint_ground_left_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetprint_ground_left/wetprint_ground_left_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetprint_ground_left/wetprint_ground_left_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetprint_ground_left/wetprint_ground_left_2x.gif",
+  "notes": "Player wet prints (shape = the world footprint tiles, recoloured)."
+ },
+ "prints/wetpaw_ground_left": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_left/1x/wetpaw_ground_left_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_left/1x/wetpaw_ground_left_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_left/1x/wetpaw_ground_left_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_left/2x/wetpaw_ground_left_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_left/2x/wetpaw_ground_left_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_left/2x/wetpaw_ground_left_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetpaw_ground_left/wetpaw_ground_left_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetpaw_ground_left/wetpaw_ground_left_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetpaw_ground_left/wetpaw_ground_left_2x.gif",
+  "notes": "Buddy wet prints."
+ },
+ "prints/wetprint_ground_right": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_right/1x/wetprint_ground_right_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_right/1x/wetprint_ground_right_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_right/1x/wetprint_ground_right_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_right/2x/wetprint_ground_right_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_right/2x/wetprint_ground_right_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetprint_ground_right/2x/wetprint_ground_right_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetprint_ground_right/wetprint_ground_right_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetprint_ground_right/wetprint_ground_right_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetprint_ground_right/wetprint_ground_right_2x.gif",
+  "notes": "Player wet prints (shape = the world footprint tiles, recoloured)."
+ },
+ "prints/wetpaw_ground_right": {
+  "kind": "overlay",
+  "frames": 3,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   1000,
+   1000,
+   1000
+  ],
+  "total_ms": 3000,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_right/1x/wetpaw_ground_right_00.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_right/1x/wetpaw_ground_right_01.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_right/1x/wetpaw_ground_right_02.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_right/2x/wetpaw_ground_right_00_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_right/2x/wetpaw_ground_right_01_2x.png",
+    "art/characters/pixel/soul/ambient/prints/wetpaw_ground_right/2x/wetpaw_ground_right_02_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/prints/wetpaw_ground_right/wetpaw_ground_right_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/prints/wetpaw_ground_right/wetpaw_ground_right_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/prints/wetpaw_ground_right/wetpaw_ground_right_2x.gif",
+  "notes": "Buddy wet prints."
+ },
+ "water/splash_ring": {
+  "kind": "overlay",
+  "frames": 6,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   50,
+   60,
+   70,
+   80,
+   90,
+   110
+  ],
+  "total_ms": 460,
+  "loop": false,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/water/splash_ring/1x/splash_ring_00.png",
+    "art/characters/pixel/soul/ambient/water/splash_ring/1x/splash_ring_01.png",
+    "art/characters/pixel/soul/ambient/water/splash_ring/1x/splash_ring_02.png",
+    "art/characters/pixel/soul/ambient/water/splash_ring/1x/splash_ring_03.png",
+    "art/characters/pixel/soul/ambient/water/splash_ring/1x/splash_ring_04.png",
+    "art/characters/pixel/soul/ambient/water/splash_ring/1x/splash_ring_05.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/water/splash_ring/2x/splash_ring_00_2x.png",
+    "art/characters/pixel/soul/ambient/water/splash_ring/2x/splash_ring_01_2x.png",
+    "art/characters/pixel/soul/ambient/water/splash_ring/2x/splash_ring_02_2x.png",
+    "art/characters/pixel/soul/ambient/water/splash_ring/2x/splash_ring_03_2x.png",
+    "art/characters/pixel/soul/ambient/water/splash_ring/2x/splash_ring_04_2x.png",
+    "art/characters/pixel/soul/ambient/water/splash_ring/2x/splash_ring_05_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/water/splash_ring/splash_ring_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/water/splash_ring/splash_ring_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/water/splash_ring/splash_ring_2x.gif",
+  "notes": "Once per step into shallow water; cell top-left; foot (32,58)."
+ },
+ "water/wade_ring": {
+  "kind": "overlay",
+  "frames": 4,
+  "size": [
+   64,
+   64
+  ],
+  "ms_per_frame": [
+   220,
+   220,
+   260,
+   220
+  ],
+  "total_ms": 920,
+  "loop": true,
+  "anchor": [
+   0,
+   0
+  ],
+  "paths": {
+   "1x": [
+    "art/characters/pixel/soul/ambient/water/wade_ring/1x/wade_ring_00.png",
+    "art/characters/pixel/soul/ambient/water/wade_ring/1x/wade_ring_01.png",
+    "art/characters/pixel/soul/ambient/water/wade_ring/1x/wade_ring_02.png",
+    "art/characters/pixel/soul/ambient/water/wade_ring/1x/wade_ring_03.png"
+   ],
+   "2x": [
+    "art/characters/pixel/soul/ambient/water/wade_ring/2x/wade_ring_00_2x.png",
+    "art/characters/pixel/soul/ambient/water/wade_ring/2x/wade_ring_01_2x.png",
+    "art/characters/pixel/soul/ambient/water/wade_ring/2x/wade_ring_02_2x.png",
+    "art/characters/pixel/soul/ambient/water/wade_ring/2x/wade_ring_03_2x.png"
+   ]
+  },
+  "sheet": {
+   "1x": "art/characters/pixel/soul/ambient/water/wade_ring/wade_ring_sheet.png",
+   "2x": "art/characters/pixel/soul/ambient/water/wade_ring/wade_ring_sheet_2x.png",
+   "layout": "horizontal strip, frame i at x=i*64"
+  },
+  "gif_2x": "art/characters/pixel/soul/ambient/water/wade_ring/wade_ring_2x.gif",
+  "notes": "Loop while standing in shallow water."
+ }
+}

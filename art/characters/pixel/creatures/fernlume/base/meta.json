@@ -1,0 +1,80 @@
+{
+ "fernlume_front": {
+  "scale": 0.14207650273224043,
+  "org": [
+   265,
+   230
+  ],
+  "size": [
+   79,
+   78
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 16
+ },
+ "fernlume_back": {
+  "scale": 0.14207650273224043,
+  "org": [
+   284,
+   232
+  ],
+  "size": [
+   76,
+   78
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 13
+ },
+ "fernlume_ow_down": {
+  "scale": 0.12195121951219512,
+  "org": [
+   83,
+   181
+  ],
+  "size": [
+   27,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "fernlume_ow_left": {
+  "scale": 0.12195121951219512,
+  "org": [
+   381,
+   181
+  ],
+  "size": [
+   30,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "fernlume_ow_right": {
+  "scale": 0.12195121951219512,
+  "org": [
+   658,
+   181
+  ],
+  "size": [
+   29,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "fernlume_ow_up": {
+  "scale": 0.12084592145015106,
+  "org": [
+   967,
+   182
+  ],
+  "size": [
+   27,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ }
+}

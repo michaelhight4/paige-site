@@ -1,0 +1,80 @@
+{
+ "wreckwarden_front": {
+  "scale": 0.12742980561555076,
+  "org": [
+   227,
+   37
+  ],
+  "size": [
+   80,
+   118
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 20
+ },
+ "wreckwarden_back": {
+  "scale": 0.12967032967032968,
+  "org": [
+   184,
+   38
+  ],
+  "size": [
+   79,
+   118
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 16
+ },
+ "wreckwarden_ow_down": {
+  "scale": 0.08888888888888889,
+  "org": [
+   31,
+   64
+  ],
+  "size": [
+   27,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "wreckwarden_ow_left": {
+  "scale": 0.08828522920203735,
+  "org": [
+   367,
+   57
+  ],
+  "size": [
+   23,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "wreckwarden_ow_right": {
+  "scale": 0.08873720136518772,
+  "org": [
+   664,
+   57
+  ],
+  "size": [
+   23,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "wreckwarden_ow_up": {
+  "scale": 0.08873720136518772,
+  "org": [
+   963,
+   65
+  ],
+  "size": [
+   25,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ }
+}

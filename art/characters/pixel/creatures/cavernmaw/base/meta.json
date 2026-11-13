@@ -1,0 +1,80 @@
+{
+ "cavernmaw_front": {
+  "scale": 0.13260869565217392,
+  "org": [
+   184,
+   21
+  ],
+  "size": [
+   77,
+   122
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 22
+ },
+ "cavernmaw_back": {
+  "scale": 0.1345093715545755,
+  "org": [
+   261,
+   38
+  ],
+  "size": [
+   70,
+   122
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 17
+ },
+ "cavernmaw_ow_down": {
+  "scale": 0.09872029250457039,
+  "org": [
+   46,
+   69
+  ],
+  "size": [
+   23,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 18
+ },
+ "cavernmaw_ow_left": {
+  "scale": 0.09908256880733946,
+  "org": [
+   342,
+   71
+  ],
+  "size": [
+   29,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "cavernmaw_ow_right": {
+  "scale": 0.09926470588235294,
+  "org": [
+   664,
+   72
+  ],
+  "size": [
+   29,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "cavernmaw_ow_up": {
+  "scale": 0.09872029250457039,
+  "org": [
+   1004,
+   70
+  ],
+  "size": [
+   23,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ }
+}

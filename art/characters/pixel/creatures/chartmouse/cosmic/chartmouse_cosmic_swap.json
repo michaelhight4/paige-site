@@ -1,0 +1,20 @@
+{
+ "creature": "chartmouse",
+ "concept": "Inkmap",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#2c2320": "#29252b",
+  "#462c22": "#18382c",
+  "#6a442e": "#30488c",
+  "#87604d": "#4a70ba",
+  "#ba8856": "#4692ce",
+  "#ccaa6e": "#4692ce",
+  "#deb478": "#7ac2e8",
+  "#e8ce92": "#7ac2e8",
+  "#ecdec4": "#ccc6c2",
+  "#f6a0ba": "#c6ecfa",
+  "#f8eabe": "#ccc6c2"
+ },
+ "rule": "crystal violets never swapped"
+}

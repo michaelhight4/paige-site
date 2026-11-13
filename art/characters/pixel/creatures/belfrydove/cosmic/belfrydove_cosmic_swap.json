@@ -1,0 +1,26 @@
+{
+ "creature": "belfrydove",
+ "concept": "Dawnchime",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#1a1226": "#2c2320",
+  "#1e4078": "#6e222a",
+  "#2c2320": "#29252b",
+  "#2c64a8": "#a23432",
+  "#30488c": "#9f4013",
+  "#342842": "#3e3a48",
+  "#3e3a48": "#54444e",
+  "#4a70ba": "#d05440",
+  "#6a442e": "#246e6c",
+  "#6e222a": "#38683e",
+  "#87604d": "#54864e",
+  "#ba8856": "#70cab8",
+  "#ccaa6e": "#70cab8",
+  "#d2608c": "#78ba48",
+  "#daa2ba": "#a6d460",
+  "#ecdec4": "#c6ecfa",
+  "#f08868": "#70cab8"
+ },
+ "rule": "crystal violets never swapped"
+}

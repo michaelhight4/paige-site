@@ -1,0 +1,764 @@
+{
+ "tumbloam_back": {
+  "src": "tumbloam_battle.jpg",
+  "box": [
+   724,
+   107,
+   1217,
+   590
+  ],
+  "scale": 0.21621621621621623,
+  "size": [
+   106,
+   104
+  ],
+  "colors": 18
+ },
+ "tumbloam_front": {
+  "src": "tumbloam_battle.jpg",
+  "box": [
+   69,
+   96,
+   634,
+   600
+  ],
+  "scale": 0.20717131474103587,
+  "size": [
+   117,
+   104
+  ],
+  "colors": 19
+ },
+ "tumbloam_ow_down": {
+  "src": "tumbloam_ow.jpg",
+  "box": [
+   39,
+   202,
+   256,
+   480
+  ],
+  "scale": 0.17391304347826086,
+  "size": [
+   37,
+   48
+  ],
+  "colors": 13
+ },
+ "tumbloam_ow_left": {
+  "src": "tumbloam_ow.jpg",
+  "box": [
+   297,
+   211,
+   644,
+   479
+  ],
+  "scale": 0.1681159420289855,
+  "size": [
+   58,
+   45
+  ],
+  "colors": 14
+ },
+ "tumbloam_ow_right": {
+  "src": "tumbloam_ow.jpg",
+  "box": [
+   652,
+   211,
+   997,
+   479
+  ],
+  "scale": 0.16909620991253643,
+  "size": [
+   58,
+   45
+  ],
+  "colors": 14
+ },
+ "tumbloam_ow_up": {
+  "src": "tumbloam_ow.jpg",
+  "box": [
+   1035,
+   204,
+   1243,
+   494
+  ],
+  "scale": 0.16666666666666666,
+  "size": [
+   34,
+   48
+  ],
+  "colors": 14
+ },
+ "burrowmane_back": {
+  "src": "burrowmane_battle.jpg",
+  "box": [
+   692,
+   92,
+   1198,
+   587
+  ],
+  "scale": 0.23935091277890466,
+  "size": [
+   121,
+   118
+  ],
+  "colors": 16
+ },
+ "burrowmane_front": {
+  "src": "burrowmane_battle.jpg",
+  "box": [
+   63,
+   100,
+   643,
+   568
+  ],
+  "scale": 0.21453287197231835,
+  "size": [
+   124,
+   100
+  ],
+  "colors": 16
+ },
+ "burrowmane_ow_down": {
+  "src": "burrowmane_ow.jpg",
+  "box": [
+   33,
+   203,
+   257,
+   495
+  ],
+  "scale": 0.18620689655172415,
+  "size": [
+   41,
+   54
+  ],
+  "colors": 12
+ },
+ "burrowmane_ow_left": {
+  "src": "burrowmane_ow.jpg",
+  "box": [
+   288,
+   217,
+   649,
+   493
+  ],
+  "scale": 0.1671309192200557,
+  "size": [
+   60,
+   46
+  ],
+  "colors": 14
+ },
+ "burrowmane_ow_right": {
+  "src": "burrowmane_ow.jpg",
+  "box": [
+   657,
+   213,
+   1010,
+   493
+  ],
+  "scale": 0.17094017094017094,
+  "size": [
+   60,
+   48
+  ],
+  "colors": 15
+ },
+ "burrowmane_ow_up": {
+  "src": "burrowmane_ow.jpg",
+  "box": [
+   1044,
+   201,
+   1249,
+   501
+  ],
+  "scale": 0.18120805369127516,
+  "size": [
+   37,
+   54
+  ],
+  "colors": 13
+ },
+ "bastonox_back": {
+  "src": "bastonox_battle.jpg",
+  "box": [
+   698,
+   63,
+   1257,
+   623
+  ],
+  "scale": 0.26881720430107525,
+  "size": [
+   150,
+   150
+  ],
+  "colors": 19
+ },
+ "bastonox_front": {
+  "src": "bastonox_battle.jpg",
+  "box": [
+   33,
+   48,
+   649,
+   645
+  ],
+  "scale": 0.25210084033613445,
+  "size": [
+   155,
+   150
+  ],
+  "colors": 20
+ },
+ "bastonox_ow_down": {
+  "src": "bastonox_ow.jpg",
+  "box": [
+   20,
+   191,
+   288,
+   479
+  ],
+  "scale": 0.27972027972027974,
+  "size": [
+   74,
+   80
+  ],
+  "colors": 18
+ },
+ "bastonox_ow_left": {
+  "src": "bastonox_ow.jpg",
+  "box": [
+   303,
+   200,
+   649,
+   479
+  ],
+  "scale": 0.2616279069767442,
+  "size": [
+   90,
+   72
+  ],
+  "colors": 18
+ },
+ "bastonox_ow_right": {
+  "src": "bastonox_ow.jpg",
+  "box": [
+   656,
+   199,
+   991,
+   479
+  ],
+  "scale": 0.2702702702702703,
+  "size": [
+   90,
+   75
+  ],
+  "colors": 18
+ },
+ "bastonox_ow_up": {
+  "src": "bastonox_ow.jpg",
+  "box": [
+   1012,
+   192,
+   1265,
+   487
+  ],
+  "scale": 0.27303754266211605,
+  "size": [
+   69,
+   80
+  ],
+  "colors": 18
+ },
+ "pilot_cindrip_front": {
+  "src": "/workspace/kilumen/art/characters/pixel_pilot/base/cindrip_front.png",
+  "remapped": true,
+  "size": [
+   112,
+   104
+  ],
+  "colors": 24
+ },
+ "pilot_cindrip_back": {
+  "src": "/workspace/kilumen/art/characters/pixel_pilot/base/cindrip_back.png",
+  "remapped": true,
+  "size": [
+   107,
+   112
+  ],
+  "colors": 20
+ },
+ "pilot_cindrip_ow_down": {
+  "src": "/workspace/kilumen/art/characters/pixel_pilot/base/cindrip_ow_down.png",
+  "remapped": true,
+  "size": [
+   34,
+   48
+  ],
+  "colors": 16
+ },
+ "pilot_cindrip_ow_left": {
+  "src": "/workspace/kilumen/art/characters/pixel_pilot/base/cindrip_ow_left.png",
+  "remapped": true,
+  "size": [
+   58,
+   38
+  ],
+  "colors": 14
+ },
+ "pilot_cindrip_ow_right": {
+  "src": "/workspace/kilumen/art/characters/pixel_pilot/base/cindrip_ow_right.png",
+  "remapped": true,
+  "size": [
+   58,
+   37
+  ],
+  "colors": 15
+ },
+ "pilot_cindrip_ow_up": {
+  "src": "/workspace/kilumen/art/characters/pixel_pilot/base/cindrip_ow_up.png",
+  "remapped": true,
+  "size": [
+   35,
+   46
+  ],
+  "colors": 15
+ },
+ "emberlunx_back": {
+  "src": "emberlunx_battle.jpg",
+  "box": [
+   689,
+   43,
+   1150,
+   626
+  ],
+  "scale": 0.20309810671256454,
+  "size": [
+   93,
+   118
+  ],
+  "colors": 20
+ },
+ "pilot_emberlunx": {
+  "src": "/workspace/kilumen/art/characters/pixel_pilot/base/emberlunx.png",
+  "remapped": true,
+  "size": [
+   108,
+   120
+  ],
+  "colors": 20
+ },
+ "emberlunx_ow_down": {
+  "src": "emberlunx_ow.jpg",
+  "box": [
+   50,
+   170,
+   226,
+   518
+  ],
+  "scale": 0.15606936416184972,
+  "size": [
+   27,
+   54
+  ],
+  "colors": 16
+ },
+ "emberlunx_ow_left": {
+  "src": "emberlunx_ow.jpg",
+  "box": [
+   260,
+   182,
+   641,
+   516
+  ],
+  "scale": 0.158311345646438,
+  "size": [
+   60,
+   53
+  ],
+  "colors": 16
+ },
+ "emberlunx_ow_right": {
+  "src": "emberlunx_ow.jpg",
+  "box": [
+   650,
+   181,
+   1022,
+   516
+  ],
+  "scale": 0.16216216216216217,
+  "size": [
+   60,
+   54
+  ],
+  "colors": 18
+ },
+ "emberlunx_ow_up": {
+  "src": "emberlunx_ow.jpg",
+  "box": [
+   1069,
+   172,
+   1235,
+   515
+  ],
+  "scale": 0.15835777126099707,
+  "size": [
+   26,
+   54
+  ],
+  "colors": 13
+ },
+ "forgeharrow_back": {
+  "src": "forgeharrow_battle.jpg",
+  "box": [
+   725,
+   39,
+   1169,
+   627
+  ],
+  "scale": 0.25597269624573377,
+  "size": [
+   113,
+   150
+  ],
+  "colors": 20
+ },
+ "pilot_forgeharrow": {
+  "src": "/workspace/kilumen/art/characters/pixel_pilot/base/forgeharrow.png",
+  "remapped": true,
+  "size": [
+   145,
+   150
+  ],
+  "colors": 21
+ },
+ "forgeharrow_ow_down": {
+  "src": "forgeharrow_ow.jpg",
+  "box": [
+   46,
+   173,
+   224,
+   514
+  ],
+  "scale": 0.2359882005899705,
+  "size": [
+   42,
+   80
+  ],
+  "colors": 20
+ },
+ "forgeharrow_ow_left": {
+  "src": "forgeharrow_ow.jpg",
+  "box": [
+   266,
+   188,
+   649,
+   508
+  ],
+  "scale": 0.23622047244094488,
+  "size": [
+   90,
+   75
+  ],
+  "colors": 20
+ },
+ "forgeharrow_ow_right": {
+  "src": "forgeharrow_ow.jpg",
+  "box": [
+   655,
+   188,
+   1028,
+   507
+  ],
+  "scale": 0.24258760107816713,
+  "size": [
+   90,
+   77
+  ],
+  "colors": 20
+ },
+ "forgeharrow_ow_up": {
+  "src": "forgeharrow_ow.jpg",
+  "box": [
+   1062,
+   173,
+   1238,
+   514
+  ],
+  "scale": 0.2359882005899705,
+  "size": [
+   41,
+   80
+  ],
+  "colors": 17
+ },
+ "rillop_back": {
+  "src": "rillop_battle.jpg",
+  "box": [
+   708,
+   105,
+   1192,
+   586
+  ],
+  "scale": 0.21711899791231734,
+  "size": [
+   105,
+   104
+  ],
+  "colors": 15
+ },
+ "rillop_front": {
+  "src": "rillop_battle.jpg",
+  "box": [
+   77,
+   115,
+   642,
+   562
+  ],
+  "scale": 0.21314387211367672,
+  "size": [
+   120,
+   95
+  ],
+  "colors": 18
+ },
+ "rillop_ow_down": {
+  "src": "rillop_ow.jpg",
+  "box": [
+   47,
+   204,
+   250,
+   477
+  ],
+  "scale": 0.17712177121771217,
+  "size": [
+   36,
+   48
+  ],
+  "colors": 14
+ },
+ "rillop_ow_left": {
+  "src": "rillop_ow.jpg",
+  "box": [
+   299,
+   207,
+   639,
+   481
+  ],
+  "scale": 0.17159763313609466,
+  "size": [
+   58,
+   47
+  ],
+  "colors": 12
+ },
+ "rillop_ow_right": {
+  "src": "rillop_ow.jpg",
+  "box": [
+   652,
+   208,
+   990,
+   481
+  ],
+  "scale": 0.17261904761904762,
+  "size": [
+   58,
+   47
+  ],
+  "colors": 12
+ },
+ "rillop_ow_up": {
+  "src": "rillop_ow.jpg",
+  "box": [
+   1038,
+   206,
+   1234,
+   495
+  ],
+  "scale": 0.1672473867595819,
+  "size": [
+   32,
+   48
+  ],
+  "colors": 8
+ },
+ "brookhorn_back": {
+  "src": "brookhorn_battle.jpg",
+  "box": [
+   685,
+   85,
+   1221,
+   595
+  ],
+  "scale": 0.23220973782771537,
+  "size": [
+   124,
+   118
+  ],
+  "colors": 16
+ },
+ "brookhorn_front": {
+  "src": "brookhorn_battle.jpg",
+  "box": [
+   58,
+   94,
+   674,
+   582
+  ],
+  "scale": 0.20195439739413681,
+  "size": [
+   124,
+   98
+  ],
+  "colors": 18
+ },
+ "brookhorn_ow_down": {
+  "src": "brookhorn_ow.jpg",
+  "box": [
+   47,
+   191,
+   227,
+   490
+  ],
+  "scale": 0.18181818181818182,
+  "size": [
+   32,
+   54
+  ],
+  "colors": 16
+ },
+ "brookhorn_ow_left": {
+  "src": "brookhorn_ow.jpg",
+  "box": [
+   289,
+   196,
+   648,
+   489
+  ],
+  "scale": 0.16806722689075632,
+  "size": [
+   60,
+   49
+  ],
+  "colors": 14
+ },
+ "brookhorn_ow_right": {
+  "src": "brookhorn_ow.jpg",
+  "box": [
+   659,
+   197,
+   1015,
+   488
+  ],
+  "scale": 0.1694915254237288,
+  "size": [
+   60,
+   49
+  ],
+  "colors": 14
+ },
+ "brookhorn_ow_up": {
+  "src": "brookhorn_ow.jpg",
+  "box": [
+   1065,
+   196,
+   1240,
+   503
+  ],
+  "scale": 0.17704918032786884,
+  "size": [
+   31,
+   54
+  ],
+  "colors": 14
+ },
+ "tidemarrow_back": {
+  "src": "tidemarrow_battle.jpg",
+  "box": [
+   704,
+   24,
+   1241,
+   640
+  ],
+  "scale": 0.24429967426710097,
+  "size": [
+   131,
+   150
+  ],
+  "colors": 19
+ },
+ "tidemarrow_front": {
+  "src": "tidemarrow_battle.jpg",
+  "box": [
+   52,
+   23,
+   628,
+   625
+  ],
+  "scale": 0.25,
+  "size": [
+   144,
+   150
+  ],
+  "colors": 19
+ },
+ "tidemarrow_ow_down": {
+  "src": "tidemarrow_ow.jpg",
+  "box": [
+   25,
+   139,
+   304,
+   529
+  ],
+  "scale": 0.20618556701030927,
+  "size": [
+   57,
+   80
+  ],
+  "colors": 18
+ },
+ "tidemarrow_ow_left": {
+  "src": "tidemarrow_ow.jpg",
+  "box": [
+   340,
+   139,
+   631,
+   527
+  ],
+  "scale": 0.21761658031088082,
+  "size": [
+   63,
+   84
+  ],
+  "colors": 17
+ },
+ "tidemarrow_ow_right": {
+  "src": "tidemarrow_ow.jpg",
+  "box": [
+   655,
+   139,
+   940,
+   527
+  ],
+  "scale": 0.21761658031088082,
+  "size": [
+   62,
+   84
+  ],
+  "colors": 16
+ },
+ "tidemarrow_ow_up": {
+  "src": "tidemarrow_ow.jpg",
+  "box": [
+   974,
+   140,
+   1258,
+   553
+  ],
+  "scale": 0.19464720194647203,
+  "size": [
+   55,
+   80
+  ],
+  "colors": 15
+ }
+}

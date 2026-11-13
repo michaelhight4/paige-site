@@ -1,0 +1,191 @@
+[
+  {
+    "target": "dev",
+    "case": "844_bars_to_full",
+    "from": [
+      844,
+      293
+    ],
+    "to": [
+      844,
+      390
+    ],
+    "resizedBeforeReady": false,
+    "inner": [
+      844,
+      390
+    ],
+    "css": [
+      844,
+      390
+    ],
+    "backing": [
+      2532,
+      879
+    ],
+    "dpr": 3,
+    "zoom": 2,
+    "sx": 1,
+    "sy": 0.7513,
+    "stretchPct": 33.1,
+    "ok": false,
+    "errors": []
+  },
+  {
+    "target": "dev",
+    "case": "844_full_to_bars",
+    "from": [
+      844,
+      390
+    ],
+    "to": [
+      844,
+      293
+    ],
+    "resizedBeforeReady": false,
+    "inner": [
+      844,
+      293
+    ],
+    "css": [
+      844,
+      293
+    ],
+    "backing": [
+      2532,
+      1170
+    ],
+    "dpr": 3,
+    "zoom": 2,
+    "sx": 1,
+    "sy": 1.3311,
+    "stretchPct": 24.87,
+    "ok": false,
+    "errors": []
+  },
+  {
+    "target": "dev",
+    "case": "844_portrait_to_land",
+    "from": [
+      390,
+      664
+    ],
+    "to": [
+      844,
+      293
+    ],
+    "resizedBeforeReady": false,
+    "inner": [
+      844,
+      293
+    ],
+    "css": [
+      844,
+      293
+    ],
+    "backing": [
+      1170,
+      1992
+    ],
+    "dpr": 3,
+    "zoom": 4,
+    "sx": 0.4621,
+    "sy": 2.2662,
+    "stretchPct": 79.61,
+    "ok": false,
+    "errors": []
+  },
+  {
+    "target": "dev",
+    "case": "932_bars_to_full",
+    "from": [
+      932,
+      333
+    ],
+    "to": [
+      932,
+      430
+    ],
+    "resizedBeforeReady": false,
+    "inner": [
+      932,
+      430
+    ],
+    "css": [
+      932,
+      430
+    ],
+    "backing": [
+      2796,
+      999
+    ],
+    "dpr": 3,
+    "zoom": 2,
+    "sx": 1,
+    "sy": 0.7744,
+    "stretchPct": 29.13,
+    "ok": false,
+    "errors": []
+  },
+  {
+    "target": "dev",
+    "case": "932_portrait_to_land",
+    "from": [
+      430,
+      740
+    ],
+    "to": [
+      932,
+      333
+    ],
+    "resizedBeforeReady": false,
+    "inner": [
+      932,
+      333
+    ],
+    "css": [
+      932,
+      333
+    ],
+    "backing": [
+      2796,
+      999
+    ],
+    "dpr": 3,
+    "zoom": 2,
+    "sx": 1,
+    "sy": 1,
+    "stretchPct": 0,
+    "ok": true,
+    "errors": []
+  },
+  {
+    "target": "dev",
+    "case": "844_steady",
+    "from": [
+      844,
+      390
+    ],
+    "to": null,
+    "resizedBeforeReady": false,
+    "inner": [
+      844,
+      390
+    ],
+    "css": [
+      844,
+      390
+    ],
+    "backing": [
+      2532,
+      1170
+    ],
+    "dpr": 3,
+    "zoom": 2,
+    "sx": 1,
+    "sy": 1,
+    "stretchPct": 0,
+    "ok": true,
+    "errors": []
+  }
+]

@@ -1,0 +1,15 @@
+{
+ "creature": "olmling",
+ "concept": "Sunken Gold",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#462c22": "#3e3a48",
+  "#54444e": "#6a442e",
+  "#87604d": "#5e5866",
+  "#ba8856": "#a8a0a4",
+  "#ccaa6e": "#ccc6c2",
+  "#ccc6c2": "#deb478"
+ },
+ "rule": "crystal violets never swapped"
+}

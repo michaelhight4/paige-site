@@ -1,0 +1,70 @@
+{
+ "snugworm_front": {
+  "scale": 0.11287988422575977,
+  "org": [
+   137,
+   143
+  ],
+  "size": [
+   93,
+   78
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 17
+ },
+ "snugworm_back": {
+  "scale": 0.1078838174273859,
+  "org": [
+   137,
+   135
+  ],
+  "size": [
+   81,
+   78
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 13
+ },
+ "snugworm_ow_down": {
+  "scale": 0.13745704467353953,
+  "org": [
+   37,
+   190
+  ],
+  "size": [
+   29,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "snugworm_ow_left": {
+  "scale": 0.13793103448275862,
+  "org": [
+   304,
+   191
+  ],
+  "size": [
+   46,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "snugworm_ow_up": {
+  "scale": 0.13651877133105803,
+  "org": [
+   1045,
+   193
+  ],
+  "size": [
+   27,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ },
+ "snugworm_ow_right": {
+  "mirror_of": "snugworm_ow_left"
+ }
+}

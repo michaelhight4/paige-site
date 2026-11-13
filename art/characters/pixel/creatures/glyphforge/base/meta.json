@@ -1,0 +1,80 @@
+{
+ "glyphforge_front": {
+  "scale": 0.12863070539419086,
+  "org": [
+   36,
+   162
+  ],
+  "size": [
+   124,
+   95
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 21
+ },
+ "glyphforge_back": {
+  "scale": 0.12943632567849686,
+  "org": [
+   45,
+   154
+  ],
+  "size": [
+   124,
+   96
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 16
+ },
+ "glyphforge_ow_down": {
+  "scale": 0.18125,
+  "org": [
+   25,
+   218
+  ],
+  "size": [
+   58,
+   49
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "glyphforge_ow_left": {
+  "scale": 0.1918819188191882,
+  "org": [
+   390,
+   219
+  ],
+  "size": [
+   45,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "glyphforge_ow_right": {
+  "scale": 0.1918819188191882,
+  "org": [
+   677,
+   219
+  ],
+  "size": [
+   44,
+   52
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "glyphforge_ow_up": {
+  "scale": 0.18892508143322476,
+  "org": [
+   946,
+   219
+  ],
+  "size": [
+   58,
+   51
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ }
+}

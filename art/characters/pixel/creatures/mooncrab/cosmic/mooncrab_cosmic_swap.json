@@ -1,0 +1,15 @@
+{
+ "creature": "mooncrab",
+ "concept": "Bluemoon",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#1a1226": "#2c2320",
+  "#2c2320": "#29252b",
+  "#342842": "#244e34",
+  "#7ac2e8": "#e8ce92",
+  "#c6ecfa": "#f8eabe",
+  "#ecdec4": "#ccc6c2"
+ },
+ "rule": "crystal violets never swapped"
+}

@@ -1,0 +1,310 @@
+{
+ "cal": {
+  "head_top": 4,
+  "eye_y": 29,
+  "eye_lx": 28,
+  "eye_rx": 35,
+  "auto": true
+ },
+ "mira": {
+  "head_top": 4,
+  "eye_y": 27,
+  "eye_lx": 23,
+  "eye_rx": 38,
+  "auto": true
+ },
+ "ron": {
+  "head_top": 4,
+  "eye_y": 25,
+  "eye_lx": 26,
+  "eye_rx": 40,
+  "auto": true
+ },
+ "vane": {
+  "head_top": 4,
+  "eye_y": 27,
+  "eye_lx": 28,
+  "eye_rx": 34,
+  "auto": true
+ },
+ "tr_bugcatcher_f": {
+  "head_top": 22,
+  "eye_y": 38,
+  "eye_lx": 24,
+  "eye_rx": 38,
+  "auto": true
+ },
+ "tr_camper_f": {
+  "head_top": 10,
+  "eye_y": 30,
+  "eye_lx": 29,
+  "eye_rx": 34,
+  "auto": true
+ },
+ "tr_gymtrainer_f": {
+  "head_top": 5,
+  "eye_y": 26,
+  "eye_lx": 28,
+  "eye_rx": 37,
+  "auto": true
+ },
+ "tr_gymtrainer_m": {
+  "head_top": 5,
+  "eye_y": 21,
+  "eye_lx": 28,
+  "eye_rx": 35,
+  "auto": true
+ },
+ "tr_hiker_f": {
+  "head_top": 5,
+  "eye_y": 21,
+  "eye_lx": 26,
+  "eye_rx": 36,
+  "auto": true
+ },
+ "tr_hiker_m": {
+  "head_top": 2,
+  "eye_y": 18,
+  "eye_lx": 29,
+  "eye_rx": 33,
+  "auto": true
+ },
+ "tr_lass_f": {
+  "head_top": 22,
+  "eye_y": 38,
+  "eye_lx": 28,
+  "eye_rx": 34,
+  "auto": true
+ },
+ "tr_master_fernwick_m": {
+  "head_top": 0,
+  "eye_y": 22,
+  "eye_lx": 27,
+  "eye_rx": 37,
+  "auto": false
+ },
+ "tr_master_saltmere_f": {
+  "head_top": 4,
+  "eye_y": 22,
+  "eye_lx": 27,
+  "eye_rx": 34,
+  "auto": true
+ },
+ "tr_ranger_m": {
+  "head_top": 2,
+  "eye_y": 24,
+  "eye_lx": 27,
+  "eye_rx": 37,
+  "auto": false
+ },
+ "tr_scientist_f": {
+  "head_top": 5,
+  "eye_y": 22,
+  "eye_lx": 28,
+  "eye_rx": 34,
+  "auto": true
+ },
+ "tr_scientist_m": {
+  "head_top": 5,
+  "eye_y": 23,
+  "eye_lx": 28,
+  "eye_rx": 35,
+  "auto": true
+ },
+ "tr_swimmer_f": {
+  "head_top": 5,
+  "eye_y": 23,
+  "eye_lx": 27,
+  "eye_rx": 35,
+  "auto": true
+ },
+ "tr_swimmer_m": {
+  "head_top": 5,
+  "eye_y": 21,
+  "eye_lx": 29,
+  "eye_rx": 34,
+  "auto": true
+ },
+ "tr_youngster_m": {
+  "head_top": 22,
+  "eye_y": 39,
+  "eye_lx": 26,
+  "eye_rx": 36,
+  "auto": true
+ },
+ "vil_cook_f": {
+  "head_top": 8,
+  "eye_y": 24,
+  "eye_lx": 29,
+  "eye_rx": 37,
+  "auto": true
+ },
+ "vil_courier_f": {
+  "head_top": 6,
+  "eye_y": 27,
+  "eye_lx": 29,
+  "eye_rx": 35,
+  "auto": true
+ },
+ "vil_dissident_m": {
+  "head_top": 4,
+  "eye_y": 20,
+  "eye_lx": 30,
+  "eye_rx": 37,
+  "auto": true
+ },
+ "vil_elder_f": {
+  "head_top": 14,
+  "eye_y": 37,
+  "eye_lx": 28,
+  "eye_rx": 34,
+  "auto": true
+ },
+ "vil_elder_m": {
+  "head_top": 14,
+  "eye_y": 30,
+  "eye_lx": 28,
+  "eye_rx": 35,
+  "auto": true
+ },
+ "vil_fisher_m": {
+  "head_top": 4,
+  "eye_y": 20,
+  "eye_lx": 23,
+  "eye_rx": 39,
+  "auto": true
+ },
+ "vil_gardener_f": {
+  "head_top": 6,
+  "eye_y": 23,
+  "eye_lx": 29,
+  "eye_rx": 37,
+  "auto": true
+ },
+ "vil_gardener_f_b": {
+  "head_top": 6,
+  "eye_y": 23,
+  "eye_lx": 29,
+  "eye_rx": 37,
+  "auto": true
+ },
+ "vil_guard_m": {
+  "head_top": 2,
+  "eye_y": 24,
+  "eye_lx": 27,
+  "eye_rx": 37,
+  "auto": false
+ },
+ "vil_guard_m_b": {
+  "head_top": 2,
+  "eye_y": 24,
+  "eye_lx": 27,
+  "eye_rx": 37,
+  "auto": false
+ },
+ "vil_healer_f": {
+  "head_top": 6,
+  "eye_y": 22,
+  "eye_lx": 27,
+  "eye_rx": 38,
+  "auto": true
+ },
+ "vil_kid_f": {
+  "head_top": 24,
+  "eye_y": 41,
+  "eye_lx": 29,
+  "eye_rx": 34,
+  "auto": true
+ },
+ "vil_kid_f_b": {
+  "head_top": 24,
+  "eye_y": 41,
+  "eye_lx": 29,
+  "eye_rx": 34,
+  "auto": true
+ },
+ "vil_kid_m": {
+  "head_top": 24,
+  "eye_y": 42,
+  "eye_lx": 24,
+  "eye_rx": 34,
+  "auto": true
+ },
+ "vil_kid_m_b": {
+  "head_top": 24,
+  "eye_y": 42,
+  "eye_lx": 24,
+  "eye_rx": 34,
+  "auto": true
+ },
+ "vil_manager_m": {
+  "head_top": 4,
+  "eye_y": 20,
+  "eye_lx": 28,
+  "eye_rx": 35,
+  "auto": true
+ },
+ "vil_office_m": {
+  "head_top": 5,
+  "eye_y": 27,
+  "eye_lx": 28,
+  "eye_rx": 33,
+  "auto": true
+ },
+ "vil_office_m_b": {
+  "head_top": 5,
+  "eye_y": 27,
+  "eye_lx": 28,
+  "eye_rx": 33,
+  "auto": true
+ },
+ "vil_officer_f": {
+  "head_top": 2,
+  "eye_y": 23,
+  "eye_lx": 29,
+  "eye_rx": 34,
+  "auto": true
+ },
+ "vil_parent_m": {
+  "head_top": 4,
+  "eye_y": 43,
+  "eye_lx": 25,
+  "eye_rx": 38,
+  "auto": true
+ },
+ "vil_receptionist_f": {
+  "head_top": 6,
+  "eye_y": 22,
+  "eye_lx": 30,
+  "eye_rx": 37,
+  "auto": true
+ },
+ "vil_receptionist_f_b": {
+  "head_top": 6,
+  "eye_y": 22,
+  "eye_lx": 30,
+  "eye_rx": 37,
+  "auto": true
+ },
+ "vil_scholar_m": {
+  "head_top": 8,
+  "eye_y": 29,
+  "eye_lx": 28,
+  "eye_rx": 34,
+  "auto": true
+ },
+ "vil_shopkeeper_m": {
+  "head_top": 6,
+  "eye_y": 24,
+  "eye_lx": 28,
+  "eye_rx": 34,
+  "auto": true
+ },
+ "vil_worker_f": {
+  "head_top": 4,
+  "eye_y": 26,
+  "eye_lx": 26,
+  "eye_rx": 35,
+  "auto": true
+ }
+}

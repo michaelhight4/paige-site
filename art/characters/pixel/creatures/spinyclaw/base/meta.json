@@ -1,0 +1,80 @@
+{
+ "spinyclaw_front": {
+  "scale": 0.15403726708074533,
+  "org": [
+   120,
+   202
+  ],
+  "size": [
+   124,
+   96
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 17
+ },
+ "spinyclaw_back": {
+  "scale": 0.12755102040816327,
+  "org": [
+   218,
+   107
+  ],
+  "size": [
+   76,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 13
+ },
+ "spinyclaw_ow_down": {
+  "scale": 0.1498371335504886,
+  "org": [
+   38,
+   185
+  ],
+  "size": [
+   34,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "spinyclaw_ow_left": {
+  "scale": 0.15436241610738255,
+  "org": [
+   300,
+   189
+  ],
+  "size": [
+   51,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ },
+ "spinyclaw_ow_right": {
+  "scale": 0.15436241610738255,
+  "org": [
+   655,
+   189
+  ],
+  "size": [
+   50,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ },
+ "spinyclaw_ow_up": {
+  "scale": 0.1503267973856209,
+  "org": [
+   1042,
+   186
+  ],
+  "size": [
+   31,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 8
+ }
+}

@@ -1,0 +1,17 @@
+{
+ "creature": "buoyling",
+ "concept": "Sunken Gold",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#3e3a48": "#462c22",
+  "#54444e": "#6a442e",
+  "#827a84": "#ba8856",
+  "#87604d": "#5e5866",
+  "#92623e": "#827a84",
+  "#a8a0a4": "#ccaa6e",
+  "#ccaa6e": "#ccc6c2",
+  "#ccc6c2": "#deb478"
+ },
+ "rule": "crystal violets never swapped"
+}

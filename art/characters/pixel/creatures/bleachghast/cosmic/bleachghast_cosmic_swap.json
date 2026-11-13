@@ -1,0 +1,11 @@
+{
+ "creature": "bleachghast",
+ "concept": "Living Reef",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#ecdec4": "#ccc6c2",
+  "#f6a0ba": "#c6ecfa"
+ },
+ "rule": "crystal violets never swapped"
+}

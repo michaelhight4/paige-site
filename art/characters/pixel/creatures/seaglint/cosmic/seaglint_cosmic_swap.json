@@ -1,0 +1,18 @@
+{
+ "creature": "seaglint",
+ "concept": "Rosequartz",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#246e6c": "#6e222a",
+  "#2c64a8": "#a23432",
+  "#342842": "#3e3a48",
+  "#3e3a48": "#54444e",
+  "#3e9c92": "#a23432",
+  "#4692ce": "#d05440",
+  "#70cab8": "#d2608c",
+  "#7ac2e8": "#f08868",
+  "#c6ecfa": "#ecdec4"
+ },
+ "rule": "crystal violets never swapped"
+}

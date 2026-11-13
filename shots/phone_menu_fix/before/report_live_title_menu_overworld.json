@@ -1,0 +1,511 @@
+[
+  {
+    "view": "844x390",
+    "scene": "title_menu",
+    "platform": "mobile",
+    "scr": "title",
+    "uiOpen": true,
+    "controls": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "rows": 2,
+    "overlaps": [
+      "up/New game:595",
+      "right/New game:1334",
+      "right/Options:1682",
+      "down/Options:493"
+    ],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-skin ui-open ui-hid-dpad ui-hid-sel ui-hid-dbg",
+    "inner": [
+      844,
+      390
+    ],
+    "tapOk": true,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_844x390_title_menu.png"
+  },
+  {
+    "view": "844x390",
+    "scene": "overworld",
+    "platform": "mobile",
+    "scr": "title",
+    "uiOpen": false,
+    "controls": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "rows": 0,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-skin",
+    "inner": [
+      844,
+      390
+    ],
+    "controlsAfter": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_844x390_overworld.png"
+  },
+  {
+    "view": "844x390_notch",
+    "scene": "title_menu",
+    "platform": "mobile",
+    "scr": "title",
+    "uiOpen": true,
+    "controls": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "rows": 2,
+    "overlaps": [
+      "up/New game:812",
+      "left/New game:264",
+      "left/Options:48",
+      "right/New game:2552",
+      "right/Options:464",
+      "down/Options:2900"
+    ],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-skin ui-open ui-hid-dpad ui-hid-sel ui-hid-dbg",
+    "inner": [
+      844,
+      390
+    ],
+    "tapOk": true,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_844x390_notch_title_menu.png"
+  },
+  {
+    "view": "844x390_notch",
+    "scene": "overworld",
+    "platform": "mobile",
+    "scr": "title",
+    "uiOpen": false,
+    "controls": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "rows": 0,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-skin",
+    "inner": [
+      844,
+      390
+    ],
+    "controlsAfter": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_844x390_notch_overworld.png"
+  },
+  {
+    "view": "844x293_safaribars",
+    "scene": "title_menu",
+    "platform": "mobile",
+    "scr": "title",
+    "uiOpen": true,
+    "controls": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "rows": 2,
+    "overlaps": [
+      "up/New game:1566",
+      "left/New game:186",
+      "left/Options:126",
+      "right/New game:1798",
+      "right/Options:1218",
+      "down/Options:2146"
+    ],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-skin ui-open ui-hid-dpad ui-hid-sel ui-hid-dbg",
+    "inner": [
+      844,
+      293
+    ],
+    "tapOk": true,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_844x293_safaribars_title_menu.png"
+  },
+  {
+    "view": "844x293_safaribars",
+    "scene": "overworld",
+    "platform": "mobile",
+    "scr": "title",
+    "uiOpen": false,
+    "controls": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "rows": 0,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-skin",
+    "inner": [
+      844,
+      293
+    ],
+    "controlsAfter": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_844x293_safaribars_overworld.png"
+  },
+  {
+    "view": "932x430",
+    "scene": "title_menu",
+    "platform": "mobile",
+    "scr": "title",
+    "uiOpen": true,
+    "controls": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "rows": 2,
+    "overlaps": [
+      "right/New game:620",
+      "right/Options:992"
+    ],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-skin ui-open ui-hid-dpad ui-hid-sel ui-hid-dbg",
+    "inner": [
+      932,
+      430
+    ],
+    "tapOk": true,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_932x430_title_menu.png"
+  },
+  {
+    "view": "932x430",
+    "scene": "overworld",
+    "platform": "mobile",
+    "scr": "title",
+    "uiOpen": false,
+    "controls": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "rows": 0,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-skin",
+    "inner": [
+      932,
+      430
+    ],
+    "controlsAfter": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_932x430_overworld.png"
+  },
+  {
+    "view": "932x430_notch",
+    "scene": "title_menu",
+    "platform": "mobile",
+    "scr": "title",
+    "uiOpen": true,
+    "controls": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "rows": 2,
+    "overlaps": [
+      "up/New game:544",
+      "right/New game:2378",
+      "right/Options:638",
+      "down/Options:1504"
+    ],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-skin ui-open ui-hid-dpad ui-hid-sel ui-hid-dbg",
+    "inner": [
+      932,
+      430
+    ],
+    "tapOk": true,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_932x430_notch_title_menu.png"
+  },
+  {
+    "view": "932x430_notch",
+    "scene": "overworld",
+    "platform": "mobile",
+    "scr": "title",
+    "uiOpen": false,
+    "controls": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "rows": 0,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-skin",
+    "inner": [
+      932,
+      430
+    ],
+    "controlsAfter": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_932x430_notch_overworld.png"
+  },
+  {
+    "view": "780x360",
+    "scene": "title_menu",
+    "platform": "mobile",
+    "scr": "title",
+    "uiOpen": true,
+    "controls": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "rows": 2,
+    "overlaps": [
+      "up/New game:1617",
+      "right/New game:1450",
+      "right/Options:1566",
+      "down/Options:1519"
+    ],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-skin ui-open ui-hid-dpad ui-hid-sel ui-hid-dbg",
+    "inner": [
+      780,
+      360
+    ],
+    "tapOk": true,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_780x360_title_menu.png"
+  },
+  {
+    "view": "780x360",
+    "scene": "overworld",
+    "platform": "mobile",
+    "scr": "title",
+    "uiOpen": false,
+    "controls": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "rows": 0,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-skin",
+    "inner": [
+      780,
+      360
+    ],
+    "controlsAfter": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a"
+    ],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_780x360_overworld.png"
+  },
+  {
+    "view": "390x844_portrait",
+    "scene": "title_menu",
+    "platform": "mobile",
+    "scr": "title",
+    "uiOpen": true,
+    "controls": [],
+    "rows": 2,
+    "overlaps": [],
+    "small": [
+      "Tap to start:134x40"
+    ],
+    "bodyCls": "platform-mobile landscape-only touch-ui needs-landscape dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-skin ui-open ui-hid-dpad ui-hid-sel ui-hid-dbg",
+    "inner": [
+      390,
+      844
+    ],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_390x844_portrait_title_menu.png"
+  },
+  {
+    "view": "pc1920x1080",
+    "scene": "title_menu",
+    "platform": "pc",
+    "scr": "title",
+    "uiOpen": true,
+    "controls": [],
+    "rows": 2,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-pc ui-skin ui-open",
+    "inner": [
+      1920,
+      1080
+    ],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_pc1920x1080_title_menu.png"
+  },
+  {
+    "view": "pc1920x1080",
+    "scene": "overworld",
+    "platform": "pc",
+    "scr": "title",
+    "uiOpen": false,
+    "controls": [],
+    "rows": 0,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-pc ui-skin",
+    "inner": [
+      1920,
+      1080
+    ],
+    "controlsAfter": [],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_pc1920x1080_overworld.png"
+  },
+  {
+    "view": "pc1280x720",
+    "scene": "title_menu",
+    "platform": "pc",
+    "scr": "title",
+    "uiOpen": true,
+    "controls": [],
+    "rows": 2,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-pc ui-skin ui-open",
+    "inner": [
+      1280,
+      720
+    ],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_pc1280x720_title_menu.png"
+  },
+  {
+    "view": "pc1280x720",
+    "scene": "overworld",
+    "platform": "pc",
+    "scr": "title",
+    "uiOpen": false,
+    "controls": [],
+    "rows": 0,
+    "overlaps": [],
+    "small": [],
+    "bodyCls": "platform-pc ui-skin",
+    "inner": [
+      1280,
+      720
+    ],
+    "controlsAfter": [],
+    "tapOk": null,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_pc1280x720_overworld.png"
+  }
+]

@@ -1,0 +1,19 @@
+{
+ "creature": "sparkplume",
+ "concept": "Frostfire",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#462c22": "#3e3a48",
+  "#561c0e": "#1e4078",
+  "#6a3019": "#30488c",
+  "#6a442e": "#54444e",
+  "#9f4013": "#2c64a8",
+  "#c46e2e": "#4a70ba",
+  "#d46616": "#4692ce",
+  "#e29d40": "#7ac2e8",
+  "#eea23c": "#c6ecfa",
+  "#fcd668": "#f8eabe"
+ },
+ "rule": "crystal violets never swapped"
+}

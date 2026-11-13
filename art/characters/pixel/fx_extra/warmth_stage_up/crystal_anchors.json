@@ -1,0 +1,8230 @@
+{
+ "status": "DRAFT",
+ "note": "Crystal centroid/bbox (sprite px, inclusive bbox [x0,y0,x1,y1]) per sprite from warmth/masks/<creature>/crystal_index.json + icon masks. null = no visible crystal in that frame (skip the ring or use the sprite centre).",
+ "creatures": {
+  "bastonox": {
+   "ramp_family": "moss",
+   "sprites": {
+    "anim/bastonox_back_idle/bastonox_back_idle_f0.png": {
+     "centroid": [
+      70,
+      69
+     ],
+     "bbox": [
+      6,
+      21,
+      130,
+      155
+     ],
+     "px": 1994,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/bastonox_back_idle/bastonox_back_idle_f1.png": {
+     "centroid": [
+      70,
+      68
+     ],
+     "bbox": [
+      6,
+      20,
+      130,
+      155
+     ],
+     "px": 1997,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/bastonox_back_idle/bastonox_back_idle_f2.png": {
+     "centroid": [
+      70,
+      67
+     ],
+     "bbox": [
+      6,
+      19,
+      130,
+      155
+     ],
+     "px": 1998,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/bastonox_back_idle/bastonox_back_idle_f3.png": {
+     "centroid": [
+      70,
+      68
+     ],
+     "bbox": [
+      6,
+      20,
+      130,
+      155
+     ],
+     "px": 1997,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/bastonox_front_idle/bastonox_front_idle_f0.png": {
+     "centroid": [
+      105,
+      46
+     ],
+     "bbox": [
+      31,
+      17,
+      155,
+      131
+     ],
+     "px": 1156,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/bastonox_front_idle/bastonox_front_idle_f1.png": {
+     "centroid": [
+      105,
+      45
+     ],
+     "bbox": [
+      31,
+      16,
+      155,
+      131
+     ],
+     "px": 1156,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/bastonox_front_idle/bastonox_front_idle_f2.png": {
+     "centroid": [
+      105,
+      44
+     ],
+     "bbox": [
+      31,
+      15,
+      155,
+      131
+     ],
+     "px": 1156,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/bastonox_front_idle/bastonox_front_idle_f3.png": {
+     "centroid": [
+      105,
+      45
+     ],
+     "bbox": [
+      31,
+      16,
+      155,
+      131
+     ],
+     "px": 1156,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "battle/bastonox_back_160.png": {
+     "centroid": [
+      70,
+      69
+     ],
+     "bbox": [
+      6,
+      21,
+      130,
+      155
+     ],
+     "px": 1994,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "battle/bastonox_front_160.png": {
+     "centroid": [
+      105,
+      46
+     ],
+     "bbox": [
+      31,
+      17,
+      155,
+      131
+     ],
+     "px": 1156,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_down_stand.png": {
+     "centroid": [
+      48,
+      32
+     ],
+     "bbox": [
+      22,
+      22,
+      74,
+      42
+     ],
+     "px": 289,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_down_walk0.png": {
+     "centroid": [
+      48,
+      31
+     ],
+     "bbox": [
+      22,
+      21,
+      74,
+      41
+     ],
+     "px": 289,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_down_walk1.png": {
+     "centroid": [
+      48,
+      32
+     ],
+     "bbox": [
+      22,
+      22,
+      74,
+      42
+     ],
+     "px": 289,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_down_walk2.png": {
+     "centroid": [
+      48,
+      31
+     ],
+     "bbox": [
+      22,
+      21,
+      74,
+      41
+     ],
+     "px": 289,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_down_walk3.png": {
+     "centroid": [
+      48,
+      32
+     ],
+     "bbox": [
+      22,
+      22,
+      74,
+      42
+     ],
+     "px": 289,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_left_stand.png": {
+     "centroid": [
+      57,
+      42
+     ],
+     "bbox": [
+      37,
+      26,
+      91,
+      84
+     ],
+     "px": 464,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_left_walk0.png": {
+     "centroid": [
+      57,
+      41
+     ],
+     "bbox": [
+      37,
+      25,
+      91,
+      84
+     ],
+     "px": 464,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_left_walk1.png": {
+     "centroid": [
+      57,
+      42
+     ],
+     "bbox": [
+      37,
+      26,
+      91,
+      84
+     ],
+     "px": 464,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_left_walk2.png": {
+     "centroid": [
+      57,
+      41
+     ],
+     "bbox": [
+      37,
+      25,
+      90,
+      82
+     ],
+     "px": 464,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_left_walk3.png": {
+     "centroid": [
+      57,
+      42
+     ],
+     "bbox": [
+      37,
+      26,
+      91,
+      84
+     ],
+     "px": 464,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_right_stand.png": {
+     "centroid": [
+      35,
+      41
+     ],
+     "bbox": [
+      3,
+      22,
+      56,
+      83
+     ],
+     "px": 505,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_right_walk0.png": {
+     "centroid": [
+      35,
+      40
+     ],
+     "bbox": [
+      3,
+      21,
+      56,
+      83
+     ],
+     "px": 506,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_right_walk1.png": {
+     "centroid": [
+      35,
+      41
+     ],
+     "bbox": [
+      3,
+      22,
+      56,
+      83
+     ],
+     "px": 505,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_right_walk2.png": {
+     "centroid": [
+      35,
+      40
+     ],
+     "bbox": [
+      4,
+      21,
+      56,
+      81
+     ],
+     "px": 507,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_right_walk3.png": {
+     "centroid": [
+      35,
+      41
+     ],
+     "bbox": [
+      3,
+      22,
+      56,
+      83
+     ],
+     "px": 505,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_up_stand.png": {
+     "centroid": [
+      47,
+      44
+     ],
+     "bbox": [
+      22,
+      22,
+      72,
+      92
+     ],
+     "px": 498,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_up_walk0.png": {
+     "centroid": [
+      47,
+      43
+     ],
+     "bbox": [
+      22,
+      21,
+      72,
+      92
+     ],
+     "px": 498,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_up_walk1.png": {
+     "centroid": [
+      47,
+      44
+     ],
+     "bbox": [
+      22,
+      22,
+      72,
+      92
+     ],
+     "px": 498,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_up_walk2.png": {
+     "centroid": [
+      47,
+      43
+     ],
+     "bbox": [
+      22,
+      21,
+      72,
+      92
+     ],
+     "px": 496,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/bastonox_ow/bastonox_ow_up_walk3.png": {
+     "centroid": [
+      47,
+      44
+     ],
+     "bbox": [
+      22,
+      22,
+      72,
+      92
+     ],
+     "px": 498,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "icons/bastonox_icon_f0.png": {
+     "centroid": [
+      20,
+      9
+     ],
+     "bbox": [
+      6,
+      4,
+      30,
+      25
+     ],
+     "px": 54,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/bastonox_icon_f1.png": {
+     "centroid": [
+      20,
+      10
+     ],
+     "bbox": [
+      6,
+      5,
+      30,
+      25
+     ],
+     "px": 54,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  },
+  "brookhorn": {
+   "ramp_family": "seafoam",
+   "sprites": {
+    "anim/brookhorn_back_idle/brookhorn_back_idle_f0.png": {
+     "centroid": [
+      13,
+      114
+     ],
+     "bbox": [
+      3,
+      105,
+      22,
+      121
+     ],
+     "px": 228,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/brookhorn_back_idle/brookhorn_back_idle_f1.png": {
+     "centroid": [
+      13,
+      114
+     ],
+     "bbox": [
+      3,
+      105,
+      22,
+      121
+     ],
+     "px": 228,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/brookhorn_back_idle/brookhorn_back_idle_f2.png": {
+     "centroid": [
+      13,
+      114
+     ],
+     "bbox": [
+      3,
+      105,
+      22,
+      121
+     ],
+     "px": 228,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/brookhorn_back_idle/brookhorn_back_idle_f3.png": {
+     "centroid": [
+      13,
+      114
+     ],
+     "bbox": [
+      3,
+      105,
+      22,
+      121
+     ],
+     "px": 228,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/brookhorn_front_idle/brookhorn_front_idle_f0.png": {
+     "centroid": [
+      118,
+      98
+     ],
+     "bbox": [
+      112,
+      94,
+      124,
+      103
+     ],
+     "px": 73,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/brookhorn_front_idle/brookhorn_front_idle_f1.png": {
+     "centroid": [
+      118,
+      98
+     ],
+     "bbox": [
+      112,
+      93,
+      124,
+      103
+     ],
+     "px": 82,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/brookhorn_front_idle/brookhorn_front_idle_f2.png": {
+     "centroid": [
+      118,
+      97
+     ],
+     "bbox": [
+      112,
+      92,
+      124,
+      103
+     ],
+     "px": 92,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/brookhorn_front_idle/brookhorn_front_idle_f3.png": {
+     "centroid": [
+      118,
+      98
+     ],
+     "bbox": [
+      112,
+      93,
+      124,
+      103
+     ],
+     "px": 82,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/brookhorn_back_128.png": {
+     "centroid": [
+      13,
+      114
+     ],
+     "bbox": [
+      3,
+      105,
+      22,
+      121
+     ],
+     "px": 228,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/brookhorn_front_128.png": {
+     "centroid": [
+      118,
+      98
+     ],
+     "bbox": [
+      112,
+      94,
+      124,
+      103
+     ],
+     "px": 73,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "overworld/brookhorn_ow/brookhorn_ow_down_stand.png": null,
+    "overworld/brookhorn_ow/brookhorn_ow_down_walk0.png": null,
+    "overworld/brookhorn_ow/brookhorn_ow_down_walk1.png": null,
+    "overworld/brookhorn_ow/brookhorn_ow_down_walk2.png": null,
+    "overworld/brookhorn_ow/brookhorn_ow_down_walk3.png": null,
+    "overworld/brookhorn_ow/brookhorn_ow_left_stand.png": {
+     "centroid": [
+      57,
+      52
+     ],
+     "bbox": [
+      55,
+      50,
+      60,
+      54
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/brookhorn_ow/brookhorn_ow_left_walk0.png": {
+     "centroid": [
+      57,
+      52
+     ],
+     "bbox": [
+      55,
+      50,
+      60,
+      54
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/brookhorn_ow/brookhorn_ow_left_walk1.png": {
+     "centroid": [
+      57,
+      52
+     ],
+     "bbox": [
+      55,
+      50,
+      60,
+      54
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/brookhorn_ow/brookhorn_ow_left_walk2.png": {
+     "centroid": [
+      56,
+      50
+     ],
+     "bbox": [
+      54,
+      48,
+      59,
+      52
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/brookhorn_ow/brookhorn_ow_left_walk3.png": {
+     "centroid": [
+      57,
+      52
+     ],
+     "bbox": [
+      55,
+      50,
+      60,
+      54
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/brookhorn_ow/brookhorn_ow_right_stand.png": {
+     "centroid": [
+      6,
+      52
+     ],
+     "bbox": [
+      3,
+      50,
+      8,
+      54
+     ],
+     "px": 21,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/brookhorn_ow/brookhorn_ow_right_walk0.png": {
+     "centroid": [
+      6,
+      52
+     ],
+     "bbox": [
+      3,
+      50,
+      8,
+      54
+     ],
+     "px": 21,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/brookhorn_ow/brookhorn_ow_right_walk1.png": {
+     "centroid": [
+      6,
+      52
+     ],
+     "bbox": [
+      3,
+      50,
+      8,
+      54
+     ],
+     "px": 21,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/brookhorn_ow/brookhorn_ow_right_walk2.png": {
+     "centroid": [
+      7,
+      50
+     ],
+     "bbox": [
+      4,
+      48,
+      9,
+      52
+     ],
+     "px": 21,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/brookhorn_ow/brookhorn_ow_right_walk3.png": {
+     "centroid": [
+      6,
+      52
+     ],
+     "bbox": [
+      3,
+      50,
+      8,
+      54
+     ],
+     "px": 21,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/brookhorn_ow/brookhorn_ow_up_stand.png": {
+     "centroid": [
+      31,
+      56
+     ],
+     "bbox": [
+      29,
+      52,
+      34,
+      60
+     ],
+     "px": 45,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/brookhorn_ow/brookhorn_ow_up_walk0.png": {
+     "centroid": [
+      31,
+      55
+     ],
+     "bbox": [
+      29,
+      50,
+      34,
+      60
+     ],
+     "px": 45,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/brookhorn_ow/brookhorn_ow_up_walk1.png": {
+     "centroid": [
+      31,
+      56
+     ],
+     "bbox": [
+      29,
+      52,
+      34,
+      60
+     ],
+     "px": 45,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/brookhorn_ow/brookhorn_ow_up_walk2.png": {
+     "centroid": [
+      31,
+      55
+     ],
+     "bbox": [
+      29,
+      50,
+      34,
+      60
+     ],
+     "px": 45,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/brookhorn_ow/brookhorn_ow_up_walk3.png": {
+     "centroid": [
+      31,
+      56
+     ],
+     "bbox": [
+      29,
+      52,
+      34,
+      60
+     ],
+     "px": 45,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "icons/brookhorn_icon_f0.png": {
+     "centroid": [
+      29,
+      24
+     ],
+     "bbox": [
+      28,
+      23,
+      30,
+      25
+     ],
+     "px": 6,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/brookhorn_icon_f1.png": {
+     "centroid": [
+      29,
+      24
+     ],
+     "bbox": [
+      28,
+      23,
+      30,
+      25
+     ],
+     "px": 6,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  },
+  "burlbeetle": {
+   "ramp_family": "sprout",
+   "sprites": {
+    "anim/burlbeetle_back_idle/burlbeetle_back_idle_f0.png": {
+     "centroid": [
+      66,
+      71
+     ],
+     "bbox": [
+      30,
+      57,
+      96,
+      110
+     ],
+     "px": 152,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/burlbeetle_back_idle/burlbeetle_back_idle_f1.png": {
+     "centroid": [
+      66,
+      70
+     ],
+     "bbox": [
+      30,
+      56,
+      96,
+      110
+     ],
+     "px": 152,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/burlbeetle_back_idle/burlbeetle_back_idle_f2.png": {
+     "centroid": [
+      66,
+      69
+     ],
+     "bbox": [
+      30,
+      55,
+      96,
+      110
+     ],
+     "px": 152,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/burlbeetle_back_idle/burlbeetle_back_idle_f3.png": {
+     "centroid": [
+      66,
+      70
+     ],
+     "bbox": [
+      30,
+      56,
+      96,
+      110
+     ],
+     "px": 152,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/burlbeetle_front_idle/burlbeetle_front_idle_f0.png": {
+     "centroid": [
+      73,
+      74
+     ],
+     "bbox": [
+      54,
+      54,
+      94,
+      110
+     ],
+     "px": 117,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/burlbeetle_front_idle/burlbeetle_front_idle_f1.png": {
+     "centroid": [
+      73,
+      73
+     ],
+     "bbox": [
+      54,
+      53,
+      94,
+      110
+     ],
+     "px": 117,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/burlbeetle_front_idle/burlbeetle_front_idle_f2.png": {
+     "centroid": [
+      73,
+      72
+     ],
+     "bbox": [
+      54,
+      52,
+      94,
+      110
+     ],
+     "px": 117,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/burlbeetle_front_idle/burlbeetle_front_idle_f3.png": {
+     "centroid": [
+      73,
+      73
+     ],
+     "bbox": [
+      54,
+      53,
+      94,
+      110
+     ],
+     "px": 117,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/burlbeetle_back_128.png": {
+     "centroid": [
+      66,
+      71
+     ],
+     "bbox": [
+      30,
+      57,
+      96,
+      110
+     ],
+     "px": 152,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/burlbeetle_front_128.png": {
+     "centroid": [
+      73,
+      74
+     ],
+     "bbox": [
+      54,
+      54,
+      94,
+      110
+     ],
+     "px": 117,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_down_stand.png": {
+     "centroid": [
+      25,
+      34
+     ],
+     "bbox": [
+      18,
+      32,
+      41,
+      37
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_down_walk0.png": {
+     "centroid": [
+      25,
+      33
+     ],
+     "bbox": [
+      18,
+      31,
+      41,
+      36
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_down_walk1.png": {
+     "centroid": [
+      25,
+      34
+     ],
+     "bbox": [
+      18,
+      32,
+      41,
+      37
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_down_walk2.png": {
+     "centroid": [
+      25,
+      33
+     ],
+     "bbox": [
+      18,
+      31,
+      41,
+      36
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_down_walk3.png": {
+     "centroid": [
+      25,
+      34
+     ],
+     "bbox": [
+      18,
+      32,
+      41,
+      37
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_left_stand.png": {
+     "centroid": [
+      36,
+      35
+     ],
+     "bbox": [
+      28,
+      32,
+      42,
+      38
+     ],
+     "px": 24,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_left_walk0.png": {
+     "centroid": [
+      36,
+      34
+     ],
+     "bbox": [
+      28,
+      31,
+      42,
+      37
+     ],
+     "px": 24,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_left_walk1.png": {
+     "centroid": [
+      36,
+      35
+     ],
+     "bbox": [
+      28,
+      32,
+      42,
+      38
+     ],
+     "px": 24,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_left_walk2.png": {
+     "centroid": [
+      36,
+      34
+     ],
+     "bbox": [
+      28,
+      31,
+      42,
+      37
+     ],
+     "px": 24,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_left_walk3.png": {
+     "centroid": [
+      36,
+      35
+     ],
+     "bbox": [
+      28,
+      32,
+      42,
+      38
+     ],
+     "px": 24,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_right_stand.png": {
+     "centroid": [
+      26,
+      35
+     ],
+     "bbox": [
+      20,
+      32,
+      34,
+      38
+     ],
+     "px": 24,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_right_walk0.png": {
+     "centroid": [
+      26,
+      34
+     ],
+     "bbox": [
+      20,
+      31,
+      34,
+      37
+     ],
+     "px": 24,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_right_walk1.png": {
+     "centroid": [
+      26,
+      35
+     ],
+     "bbox": [
+      20,
+      32,
+      34,
+      38
+     ],
+     "px": 24,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_right_walk2.png": {
+     "centroid": [
+      26,
+      34
+     ],
+     "bbox": [
+      20,
+      31,
+      34,
+      37
+     ],
+     "px": 24,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_right_walk3.png": {
+     "centroid": [
+      26,
+      35
+     ],
+     "bbox": [
+      20,
+      32,
+      34,
+      38
+     ],
+     "px": 24,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_up_stand.png": {
+     "centroid": [
+      28,
+      35
+     ],
+     "bbox": [
+      19,
+      32,
+      42,
+      38
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_up_walk0.png": {
+     "centroid": [
+      28,
+      34
+     ],
+     "bbox": [
+      19,
+      31,
+      42,
+      37
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_up_walk1.png": {
+     "centroid": [
+      28,
+      35
+     ],
+     "bbox": [
+      19,
+      32,
+      42,
+      38
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_up_walk2.png": {
+     "centroid": [
+      28,
+      34
+     ],
+     "bbox": [
+      19,
+      31,
+      42,
+      37
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burlbeetle_ow/burlbeetle_ow_up_walk3.png": {
+     "centroid": [
+      28,
+      35
+     ],
+     "bbox": [
+      19,
+      32,
+      42,
+      38
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "icons/burlbeetle_icon_f0.png": {
+     "centroid": [
+      17,
+      16
+     ],
+     "bbox": [
+      12,
+      10,
+      23,
+      26
+     ],
+     "px": 13,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/burlbeetle_icon_f1.png": {
+     "centroid": [
+      17,
+      16
+     ],
+     "bbox": [
+      12,
+      11,
+      23,
+      26
+     ],
+     "px": 13,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  },
+  "burrowmane": {
+   "ramp_family": "moss",
+   "sprites": {
+    "anim/burrowmane_back_idle/burrowmane_back_idle_f0.png": {
+     "centroid": [
+      11,
+      116
+     ],
+     "bbox": [
+      4,
+      107,
+      19,
+      124
+     ],
+     "px": 244,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/burrowmane_back_idle/burrowmane_back_idle_f1.png": {
+     "centroid": [
+      11,
+      116
+     ],
+     "bbox": [
+      4,
+      107,
+      19,
+      124
+     ],
+     "px": 244,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/burrowmane_back_idle/burrowmane_back_idle_f2.png": {
+     "centroid": [
+      11,
+      116
+     ],
+     "bbox": [
+      4,
+      107,
+      19,
+      124
+     ],
+     "px": 244,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/burrowmane_back_idle/burrowmane_back_idle_f3.png": {
+     "centroid": [
+      11,
+      116
+     ],
+     "bbox": [
+      4,
+      107,
+      19,
+      124
+     ],
+     "px": 244,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/burrowmane_front_idle/burrowmane_front_idle_f0.png": {
+     "centroid": [
+      119,
+      98
+     ],
+     "bbox": [
+      115,
+      92,
+      124,
+      102
+     ],
+     "px": 44,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/burrowmane_front_idle/burrowmane_front_idle_f1.png": {
+     "centroid": [
+      120,
+      98
+     ],
+     "bbox": [
+      115,
+      91,
+      124,
+      102
+     ],
+     "px": 51,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/burrowmane_front_idle/burrowmane_front_idle_f2.png": {
+     "centroid": [
+      120,
+      97
+     ],
+     "bbox": [
+      115,
+      90,
+      124,
+      102
+     ],
+     "px": 53,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/burrowmane_front_idle/burrowmane_front_idle_f3.png": {
+     "centroid": [
+      120,
+      98
+     ],
+     "bbox": [
+      115,
+      91,
+      124,
+      102
+     ],
+     "px": 51,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/burrowmane_back_128.png": {
+     "centroid": [
+      11,
+      116
+     ],
+     "bbox": [
+      4,
+      107,
+      19,
+      124
+     ],
+     "px": 244,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/burrowmane_front_128.png": {
+     "centroid": [
+      119,
+      98
+     ],
+     "bbox": [
+      115,
+      92,
+      124,
+      102
+     ],
+     "px": 44,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "overworld/burrowmane_ow/burrowmane_ow_down_stand.png": null,
+    "overworld/burrowmane_ow/burrowmane_ow_down_walk0.png": null,
+    "overworld/burrowmane_ow/burrowmane_ow_down_walk1.png": null,
+    "overworld/burrowmane_ow/burrowmane_ow_down_walk2.png": null,
+    "overworld/burrowmane_ow/burrowmane_ow_down_walk3.png": null,
+    "overworld/burrowmane_ow/burrowmane_ow_left_stand.png": {
+     "centroid": [
+      58,
+      52
+     ],
+     "bbox": [
+      57,
+      50,
+      60,
+      54
+     ],
+     "px": 15,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burrowmane_ow/burrowmane_ow_left_walk0.png": {
+     "centroid": [
+      58,
+      52
+     ],
+     "bbox": [
+      57,
+      50,
+      60,
+      54
+     ],
+     "px": 15,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burrowmane_ow/burrowmane_ow_left_walk1.png": {
+     "centroid": [
+      58,
+      52
+     ],
+     "bbox": [
+      57,
+      50,
+      60,
+      54
+     ],
+     "px": 15,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burrowmane_ow/burrowmane_ow_left_walk2.png": {
+     "centroid": [
+      57,
+      50
+     ],
+     "bbox": [
+      56,
+      48,
+      59,
+      52
+     ],
+     "px": 15,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burrowmane_ow/burrowmane_ow_left_walk3.png": {
+     "centroid": [
+      58,
+      52
+     ],
+     "bbox": [
+      57,
+      50,
+      60,
+      54
+     ],
+     "px": 15,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burrowmane_ow/burrowmane_ow_right_stand.png": {
+     "centroid": [
+      5,
+      52
+     ],
+     "bbox": [
+      3,
+      49,
+      8,
+      53
+     ],
+     "px": 19,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burrowmane_ow/burrowmane_ow_right_walk0.png": {
+     "centroid": [
+      5,
+      52
+     ],
+     "bbox": [
+      3,
+      49,
+      8,
+      53
+     ],
+     "px": 19,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burrowmane_ow/burrowmane_ow_right_walk1.png": {
+     "centroid": [
+      5,
+      52
+     ],
+     "bbox": [
+      3,
+      49,
+      8,
+      53
+     ],
+     "px": 19,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burrowmane_ow/burrowmane_ow_right_walk2.png": {
+     "centroid": [
+      6,
+      50
+     ],
+     "bbox": [
+      4,
+      48,
+      9,
+      51
+     ],
+     "px": 18,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burrowmane_ow/burrowmane_ow_right_walk3.png": {
+     "centroid": [
+      5,
+      52
+     ],
+     "bbox": [
+      3,
+      49,
+      8,
+      53
+     ],
+     "px": 19,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burrowmane_ow/burrowmane_ow_up_stand.png": {
+     "centroid": [
+      31,
+      56
+     ],
+     "bbox": [
+      28,
+      53,
+      34,
+      60
+     ],
+     "px": 44,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burrowmane_ow/burrowmane_ow_up_walk0.png": {
+     "centroid": [
+      31,
+      55
+     ],
+     "bbox": [
+      28,
+      51,
+      34,
+      59
+     ],
+     "px": 44,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burrowmane_ow/burrowmane_ow_up_walk1.png": {
+     "centroid": [
+      31,
+      56
+     ],
+     "bbox": [
+      28,
+      53,
+      34,
+      60
+     ],
+     "px": 44,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burrowmane_ow/burrowmane_ow_up_walk2.png": {
+     "centroid": [
+      31,
+      55
+     ],
+     "bbox": [
+      28,
+      51,
+      34,
+      60
+     ],
+     "px": 44,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/burrowmane_ow/burrowmane_ow_up_walk3.png": {
+     "centroid": [
+      31,
+      56
+     ],
+     "bbox": [
+      28,
+      53,
+      34,
+      60
+     ],
+     "px": 44,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "icons/burrowmane_icon_f0.png": {
+     "centroid": [
+      29,
+      24
+     ],
+     "bbox": [
+      28,
+      23,
+      30,
+      25
+     ],
+     "px": 5,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/burrowmane_icon_f1.png": {
+     "centroid": [
+      29,
+      24
+     ],
+     "bbox": [
+      28,
+      23,
+      30,
+      25
+     ],
+     "px": 5,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  },
+  "cindrip": {
+   "ramp_family": "ember",
+   "sprites": {
+    "anim/cindrip_back_idle/cindrip_back_idle_f0.png": {
+     "centroid": [
+      17,
+      117
+     ],
+     "bbox": [
+      11,
+      109,
+      24,
+      124
+     ],
+     "px": 183,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/cindrip_back_idle/cindrip_back_idle_f1.png": {
+     "centroid": [
+      17,
+      117
+     ],
+     "bbox": [
+      11,
+      109,
+      24,
+      124
+     ],
+     "px": 183,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/cindrip_back_idle/cindrip_back_idle_f2.png": {
+     "centroid": [
+      17,
+      117
+     ],
+     "bbox": [
+      11,
+      109,
+      24,
+      124
+     ],
+     "px": 183,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/cindrip_back_idle/cindrip_back_idle_f3.png": {
+     "centroid": [
+      17,
+      117
+     ],
+     "bbox": [
+      11,
+      109,
+      24,
+      124
+     ],
+     "px": 183,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/cindrip_front_idle/cindrip_front_idle_f0.png": {
+     "centroid": [
+      114,
+      97
+     ],
+     "bbox": [
+      110,
+      91,
+      118,
+      102
+     ],
+     "px": 58,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/cindrip_front_idle/cindrip_front_idle_f1.png": {
+     "centroid": [
+      114,
+      96
+     ],
+     "bbox": [
+      110,
+      90,
+      118,
+      102
+     ],
+     "px": 63,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/cindrip_front_idle/cindrip_front_idle_f2.png": {
+     "centroid": [
+      114,
+      96
+     ],
+     "bbox": [
+      110,
+      89,
+      118,
+      102
+     ],
+     "px": 68,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/cindrip_front_idle/cindrip_front_idle_f3.png": {
+     "centroid": [
+      114,
+      96
+     ],
+     "bbox": [
+      110,
+      90,
+      118,
+      102
+     ],
+     "px": 63,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/cindrip_back_128.png": {
+     "centroid": [
+      17,
+      117
+     ],
+     "bbox": [
+      11,
+      109,
+      24,
+      124
+     ],
+     "px": 183,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/cindrip_front_128.png": {
+     "centroid": [
+      114,
+      97
+     ],
+     "bbox": [
+      110,
+      91,
+      118,
+      102
+     ],
+     "px": 58,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "overworld/cindrip_ow/cindrip_ow_down_stand.png": null,
+    "overworld/cindrip_ow/cindrip_ow_down_walk0.png": null,
+    "overworld/cindrip_ow/cindrip_ow_down_walk1.png": null,
+    "overworld/cindrip_ow/cindrip_ow_down_walk2.png": null,
+    "overworld/cindrip_ow/cindrip_ow_down_walk3.png": null,
+    "overworld/cindrip_ow/cindrip_ow_left_stand.png": {
+     "centroid": [
+      57,
+      51
+     ],
+     "bbox": [
+      57,
+      49,
+      58,
+      52
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/cindrip_ow/cindrip_ow_left_walk0.png": {
+     "centroid": [
+      57,
+      50
+     ],
+     "bbox": [
+      57,
+      48,
+      58,
+      52
+     ],
+     "px": 6,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/cindrip_ow/cindrip_ow_left_walk1.png": {
+     "centroid": [
+      57,
+      51
+     ],
+     "bbox": [
+      57,
+      49,
+      58,
+      52
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/cindrip_ow/cindrip_ow_left_walk2.png": {
+     "centroid": [
+      57,
+      49
+     ],
+     "bbox": [
+      56,
+      48,
+      57,
+      50
+     ],
+     "px": 4,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/cindrip_ow/cindrip_ow_left_walk3.png": {
+     "centroid": [
+      57,
+      51
+     ],
+     "bbox": [
+      57,
+      49,
+      58,
+      52
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/cindrip_ow/cindrip_ow_right_stand.png": {
+     "centroid": [
+      6,
+      51
+     ],
+     "bbox": [
+      5,
+      50,
+      6,
+      52
+     ],
+     "px": 4,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/cindrip_ow/cindrip_ow_right_walk0.png": {
+     "centroid": [
+      6,
+      51
+     ],
+     "bbox": [
+      5,
+      49,
+      6,
+      52
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/cindrip_ow/cindrip_ow_right_walk1.png": {
+     "centroid": [
+      6,
+      51
+     ],
+     "bbox": [
+      5,
+      50,
+      6,
+      52
+     ],
+     "px": 4,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/cindrip_ow/cindrip_ow_right_walk2.png": {
+     "centroid": [
+      6,
+      51
+     ],
+     "bbox": [
+      5,
+      49,
+      6,
+      52
+     ],
+     "px": 4,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/cindrip_ow/cindrip_ow_right_walk3.png": {
+     "centroid": [
+      6,
+      51
+     ],
+     "bbox": [
+      5,
+      50,
+      6,
+      52
+     ],
+     "px": 4,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/cindrip_ow/cindrip_ow_up_stand.png": {
+     "centroid": [
+      31,
+      57
+     ],
+     "bbox": [
+      29,
+      54,
+      33,
+      60
+     ],
+     "px": 25,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/cindrip_ow/cindrip_ow_up_walk0.png": {
+     "centroid": [
+      31,
+      56
+     ],
+     "bbox": [
+      29,
+      52,
+      33,
+      59
+     ],
+     "px": 25,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/cindrip_ow/cindrip_ow_up_walk1.png": {
+     "centroid": [
+      31,
+      57
+     ],
+     "bbox": [
+      29,
+      54,
+      33,
+      60
+     ],
+     "px": 25,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/cindrip_ow/cindrip_ow_up_walk2.png": {
+     "centroid": [
+      31,
+      56
+     ],
+     "bbox": [
+      29,
+      53,
+      33,
+      60
+     ],
+     "px": 25,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/cindrip_ow/cindrip_ow_up_walk3.png": {
+     "centroid": [
+      31,
+      57
+     ],
+     "bbox": [
+      29,
+      54,
+      33,
+      60
+     ],
+     "px": 25,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "icons/cindrip_icon_f0.png": {
+     "centroid": [
+      29,
+      25
+     ],
+     "bbox": [
+      29,
+      24,
+      30,
+      26
+     ],
+     "px": 5,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/cindrip_icon_f1.png": {
+     "centroid": [
+      29,
+      25
+     ],
+     "bbox": [
+      29,
+      24,
+      30,
+      26
+     ],
+     "px": 5,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  },
+  "emberlunx": {
+   "ramp_family": "ember",
+   "sprites": {
+    "anim/emberlunx_back_idle/emberlunx_back_idle_f0.png": {
+     "centroid": [
+      23,
+      92
+     ],
+     "bbox": [
+      18,
+      88,
+      27,
+      96
+     ],
+     "px": 59,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/emberlunx_back_idle/emberlunx_back_idle_f1.png": {
+     "centroid": [
+      23,
+      91
+     ],
+     "bbox": [
+      18,
+      87,
+      27,
+      96
+     ],
+     "px": 69,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/emberlunx_back_idle/emberlunx_back_idle_f2.png": {
+     "centroid": [
+      23,
+      91
+     ],
+     "bbox": [
+      18,
+      86,
+      27,
+      96
+     ],
+     "px": 78,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/emberlunx_back_idle/emberlunx_back_idle_f3.png": {
+     "centroid": [
+      23,
+      91
+     ],
+     "bbox": [
+      18,
+      87,
+      27,
+      96
+     ],
+     "px": 69,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/emberlunx_front_idle/emberlunx_front_idle_f0.png": {
+     "centroid": [
+      113,
+      70
+     ],
+     "bbox": [
+      109,
+      67,
+      116,
+      75
+     ],
+     "px": 42,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/emberlunx_front_idle/emberlunx_front_idle_f1.png": {
+     "centroid": [
+      113,
+      69
+     ],
+     "bbox": [
+      109,
+      66,
+      116,
+      74
+     ],
+     "px": 42,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/emberlunx_front_idle/emberlunx_front_idle_f2.png": {
+     "centroid": [
+      113,
+      69
+     ],
+     "bbox": [
+      109,
+      65,
+      116,
+      75
+     ],
+     "px": 46,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/emberlunx_front_idle/emberlunx_front_idle_f3.png": {
+     "centroid": [
+      113,
+      69
+     ],
+     "bbox": [
+      109,
+      66,
+      116,
+      74
+     ],
+     "px": 42,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/emberlunx_back_128.png": {
+     "centroid": [
+      23,
+      92
+     ],
+     "bbox": [
+      18,
+      88,
+      27,
+      96
+     ],
+     "px": 59,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/emberlunx_front_128.png": {
+     "centroid": [
+      113,
+      70
+     ],
+     "bbox": [
+      109,
+      67,
+      116,
+      75
+     ],
+     "px": 42,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "overworld/emberlunx_ow/emberlunx_ow_down_stand.png": null,
+    "overworld/emberlunx_ow/emberlunx_ow_down_walk0.png": null,
+    "overworld/emberlunx_ow/emberlunx_ow_down_walk1.png": null,
+    "overworld/emberlunx_ow/emberlunx_ow_down_walk2.png": null,
+    "overworld/emberlunx_ow/emberlunx_ow_down_walk3.png": null,
+    "overworld/emberlunx_ow/emberlunx_ow_left_stand.png": {
+     "centroid": [
+      59,
+      46
+     ],
+     "bbox": [
+      58,
+      44,
+      60,
+      47
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/emberlunx_ow/emberlunx_ow_left_walk0.png": {
+     "centroid": [
+      59,
+      45
+     ],
+     "bbox": [
+      58,
+      43,
+      60,
+      47
+     ],
+     "px": 13,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/emberlunx_ow/emberlunx_ow_left_walk1.png": {
+     "centroid": [
+      59,
+      46
+     ],
+     "bbox": [
+      58,
+      44,
+      60,
+      47
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/emberlunx_ow/emberlunx_ow_left_walk2.png": {
+     "centroid": [
+      59,
+      45
+     ],
+     "bbox": [
+      58,
+      43,
+      60,
+      47
+     ],
+     "px": 13,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/emberlunx_ow/emberlunx_ow_left_walk3.png": {
+     "centroid": [
+      59,
+      46
+     ],
+     "bbox": [
+      58,
+      44,
+      60,
+      47
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/emberlunx_ow/emberlunx_ow_right_stand.png": {
+     "centroid": [
+      4,
+      45
+     ],
+     "bbox": [
+      3,
+      44,
+      5,
+      46
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/emberlunx_ow/emberlunx_ow_right_walk0.png": {
+     "centroid": [
+      4,
+      45
+     ],
+     "bbox": [
+      3,
+      43,
+      5,
+      46
+     ],
+     "px": 6,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/emberlunx_ow/emberlunx_ow_right_walk1.png": {
+     "centroid": [
+      4,
+      45
+     ],
+     "bbox": [
+      3,
+      44,
+      5,
+      46
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/emberlunx_ow/emberlunx_ow_right_walk2.png": {
+     "centroid": [
+      4,
+      45
+     ],
+     "bbox": [
+      3,
+      43,
+      5,
+      46
+     ],
+     "px": 6,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/emberlunx_ow/emberlunx_ow_right_walk3.png": {
+     "centroid": [
+      4,
+      45
+     ],
+     "bbox": [
+      3,
+      44,
+      5,
+      46
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/emberlunx_ow/emberlunx_ow_up_stand.png": {
+     "centroid": [
+      32,
+      55
+     ],
+     "bbox": [
+      30,
+      53,
+      33,
+      58
+     ],
+     "px": 21,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/emberlunx_ow/emberlunx_ow_up_walk0.png": {
+     "centroid": [
+      32,
+      54
+     ],
+     "bbox": [
+      30,
+      51,
+      33,
+      58
+     ],
+     "px": 21,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/emberlunx_ow/emberlunx_ow_up_walk1.png": {
+     "centroid": [
+      32,
+      55
+     ],
+     "bbox": [
+      30,
+      53,
+      33,
+      58
+     ],
+     "px": 21,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/emberlunx_ow/emberlunx_ow_up_walk2.png": {
+     "centroid": [
+      32,
+      54
+     ],
+     "bbox": [
+      30,
+      51,
+      33,
+      58
+     ],
+     "px": 21,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/emberlunx_ow/emberlunx_ow_up_walk3.png": {
+     "centroid": [
+      32,
+      55
+     ],
+     "bbox": [
+      30,
+      53,
+      33,
+      58
+     ],
+     "px": 21,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "icons/emberlunx_icon_f0.png": {
+     "centroid": [
+      30,
+      23
+     ],
+     "bbox": [
+      29,
+      22,
+      31,
+      23
+     ],
+     "px": 5,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/emberlunx_icon_f1.png": {
+     "centroid": [
+      30,
+      23
+     ],
+     "bbox": [
+      29,
+      22,
+      31,
+      23
+     ],
+     "px": 5,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  },
+  "forgeharrow": {
+   "ramp_family": "ember",
+   "sprites": {
+    "anim/forgeharrow_back_idle/forgeharrow_back_idle_f0.png": {
+     "centroid": [
+      67,
+      94
+     ],
+     "bbox": [
+      24,
+      57,
+      111,
+      141
+     ],
+     "px": 394,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/forgeharrow_back_idle/forgeharrow_back_idle_f1.png": {
+     "centroid": [
+      67,
+      93
+     ],
+     "bbox": [
+      24,
+      56,
+      111,
+      141
+     ],
+     "px": 394,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/forgeharrow_back_idle/forgeharrow_back_idle_f2.png": {
+     "centroid": [
+      67,
+      92
+     ],
+     "bbox": [
+      24,
+      55,
+      111,
+      141
+     ],
+     "px": 394,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/forgeharrow_back_idle/forgeharrow_back_idle_f3.png": {
+     "centroid": [
+      67,
+      93
+     ],
+     "bbox": [
+      24,
+      56,
+      111,
+      141
+     ],
+     "px": 394,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/forgeharrow_front_idle/forgeharrow_front_idle_f0.png": {
+     "centroid": [
+      95,
+      76
+     ],
+     "bbox": [
+      62,
+      51,
+      150,
+      107
+     ],
+     "px": 317,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/forgeharrow_front_idle/forgeharrow_front_idle_f1.png": {
+     "centroid": [
+      95,
+      75
+     ],
+     "bbox": [
+      62,
+      50,
+      150,
+      106
+     ],
+     "px": 317,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/forgeharrow_front_idle/forgeharrow_front_idle_f2.png": {
+     "centroid": [
+      97,
+      75
+     ],
+     "bbox": [
+      62,
+      49,
+      150,
+      107
+     ],
+     "px": 329,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/forgeharrow_front_idle/forgeharrow_front_idle_f3.png": {
+     "centroid": [
+      95,
+      75
+     ],
+     "bbox": [
+      62,
+      50,
+      150,
+      106
+     ],
+     "px": 317,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "battle/forgeharrow_back_160.png": {
+     "centroid": [
+      67,
+      94
+     ],
+     "bbox": [
+      24,
+      57,
+      111,
+      141
+     ],
+     "px": 394,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "battle/forgeharrow_front_160.png": {
+     "centroid": [
+      95,
+      76
+     ],
+     "bbox": [
+      62,
+      51,
+      150,
+      107
+     ],
+     "px": 317,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_down_stand.png": {
+     "centroid": [
+      48,
+      50
+     ],
+     "bbox": [
+      29,
+      46,
+      66,
+      54
+     ],
+     "px": 51,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_down_walk0.png": {
+     "centroid": [
+      48,
+      49
+     ],
+     "bbox": [
+      29,
+      45,
+      66,
+      53
+     ],
+     "px": 51,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_down_walk1.png": {
+     "centroid": [
+      48,
+      50
+     ],
+     "bbox": [
+      29,
+      46,
+      66,
+      54
+     ],
+     "px": 51,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_down_walk2.png": {
+     "centroid": [
+      48,
+      49
+     ],
+     "bbox": [
+      29,
+      45,
+      66,
+      53
+     ],
+     "px": 51,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_down_walk3.png": {
+     "centroid": [
+      48,
+      50
+     ],
+     "bbox": [
+      29,
+      46,
+      66,
+      54
+     ],
+     "px": 51,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_left_stand.png": {
+     "centroid": [
+      56,
+      56
+     ],
+     "bbox": [
+      36,
+      43,
+      91,
+      76
+     ],
+     "px": 138,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_left_walk0.png": {
+     "centroid": [
+      57,
+      56
+     ],
+     "bbox": [
+      36,
+      42,
+      91,
+      76
+     ],
+     "px": 143,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_left_walk1.png": {
+     "centroid": [
+      56,
+      56
+     ],
+     "bbox": [
+      36,
+      43,
+      91,
+      76
+     ],
+     "px": 138,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_left_walk2.png": {
+     "centroid": [
+      55,
+      55
+     ],
+     "bbox": [
+      36,
+      42,
+      91,
+      75
+     ],
+     "px": 136,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_left_walk3.png": {
+     "centroid": [
+      56,
+      56
+     ],
+     "bbox": [
+      36,
+      43,
+      91,
+      76
+     ],
+     "px": 138,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_right_stand.png": {
+     "centroid": [
+      41,
+      57
+     ],
+     "bbox": [
+      4,
+      43,
+      61,
+      76
+     ],
+     "px": 141,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_right_walk0.png": {
+     "centroid": [
+      39,
+      56
+     ],
+     "bbox": [
+      4,
+      42,
+      61,
+      76
+     ],
+     "px": 146,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_right_walk1.png": {
+     "centroid": [
+      41,
+      57
+     ],
+     "bbox": [
+      4,
+      43,
+      61,
+      76
+     ],
+     "px": 141,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_right_walk2.png": {
+     "centroid": [
+      42,
+      55
+     ],
+     "bbox": [
+      4,
+      42,
+      61,
+      74
+     ],
+     "px": 137,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_right_walk3.png": {
+     "centroid": [
+      41,
+      57
+     ],
+     "bbox": [
+      4,
+      43,
+      61,
+      76
+     ],
+     "px": 141,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_up_stand.png": {
+     "centroid": [
+      46,
+      65
+     ],
+     "bbox": [
+      32,
+      43,
+      61,
+      92
+     ],
+     "px": 137,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_up_walk0.png": {
+     "centroid": [
+      46,
+      64
+     ],
+     "bbox": [
+      32,
+      42,
+      61,
+      91
+     ],
+     "px": 137,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_up_walk1.png": {
+     "centroid": [
+      46,
+      65
+     ],
+     "bbox": [
+      32,
+      43,
+      61,
+      92
+     ],
+     "px": 137,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_up_walk2.png": {
+     "centroid": [
+      46,
+      64
+     ],
+     "bbox": [
+      32,
+      42,
+      61,
+      92
+     ],
+     "px": 137,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/forgeharrow_ow/forgeharrow_ow_up_walk3.png": {
+     "centroid": [
+      46,
+      65
+     ],
+     "bbox": [
+      32,
+      43,
+      61,
+      92
+     ],
+     "px": 137,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "icons/forgeharrow_icon_f0.png": {
+     "centroid": [
+      20,
+      18
+     ],
+     "bbox": [
+      11,
+      14,
+      30,
+      24
+     ],
+     "px": 19,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/forgeharrow_icon_f1.png": {
+     "centroid": [
+      20,
+      19
+     ],
+     "bbox": [
+      11,
+      15,
+      30,
+      24
+     ],
+     "px": 19,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  },
+  "gloamtick": {
+   "ramp_family": "candle",
+   "sprites": {
+    "anim/gloamtick_back_idle/gloamtick_back_idle_f0.png": {
+     "centroid": [
+      24,
+      99
+     ],
+     "bbox": [
+      18,
+      93,
+      30,
+      106
+     ],
+     "px": 134,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/gloamtick_back_idle/gloamtick_back_idle_f1.png": {
+     "centroid": [
+      24,
+      98
+     ],
+     "bbox": [
+      18,
+      92,
+      30,
+      105
+     ],
+     "px": 134,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/gloamtick_back_idle/gloamtick_back_idle_f2.png": {
+     "centroid": [
+      24,
+      97
+     ],
+     "bbox": [
+      18,
+      91,
+      30,
+      104
+     ],
+     "px": 134,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/gloamtick_back_idle/gloamtick_back_idle_f3.png": {
+     "centroid": [
+      24,
+      98
+     ],
+     "bbox": [
+      18,
+      92,
+      30,
+      105
+     ],
+     "px": 134,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/gloamtick_front_idle/gloamtick_front_idle_f0.png": {
+     "centroid": [
+      22,
+      101
+     ],
+     "bbox": [
+      16,
+      95,
+      28,
+      107
+     ],
+     "px": 110,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/gloamtick_front_idle/gloamtick_front_idle_f1.png": {
+     "centroid": [
+      22,
+      100
+     ],
+     "bbox": [
+      16,
+      94,
+      28,
+      106
+     ],
+     "px": 110,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/gloamtick_front_idle/gloamtick_front_idle_f2.png": {
+     "centroid": [
+      22,
+      99
+     ],
+     "bbox": [
+      16,
+      93,
+      28,
+      105
+     ],
+     "px": 110,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/gloamtick_front_idle/gloamtick_front_idle_f3.png": {
+     "centroid": [
+      22,
+      100
+     ],
+     "bbox": [
+      16,
+      94,
+      28,
+      106
+     ],
+     "px": 110,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/gloamtick_back_128.png": {
+     "centroid": [
+      24,
+      99
+     ],
+     "bbox": [
+      18,
+      93,
+      30,
+      106
+     ],
+     "px": 134,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/gloamtick_front_128.png": {
+     "centroid": [
+      22,
+      101
+     ],
+     "bbox": [
+      16,
+      95,
+      28,
+      107
+     ],
+     "px": 110,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_down_stand.png": {
+     "centroid": [
+      15,
+      52
+     ],
+     "bbox": [
+      13,
+      50,
+      16,
+      54
+     ],
+     "px": 12,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_down_walk0.png": {
+     "centroid": [
+      14,
+      51
+     ],
+     "bbox": [
+      12,
+      49,
+      15,
+      53
+     ],
+     "px": 12,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_down_walk1.png": {
+     "centroid": [
+      15,
+      50
+     ],
+     "bbox": [
+      13,
+      48,
+      16,
+      52
+     ],
+     "px": 12,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_down_walk2.png": {
+     "centroid": [
+      16,
+      51
+     ],
+     "bbox": [
+      14,
+      49,
+      17,
+      53
+     ],
+     "px": 12,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_down_walk3.png": {
+     "centroid": [
+      15,
+      52
+     ],
+     "bbox": [
+      13,
+      50,
+      16,
+      54
+     ],
+     "px": 12,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_left_stand.png": {
+     "centroid": [
+      16,
+      53
+     ],
+     "bbox": [
+      15,
+      51,
+      17,
+      55
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_left_walk0.png": {
+     "centroid": [
+      15,
+      52
+     ],
+     "bbox": [
+      14,
+      50,
+      16,
+      54
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_left_walk1.png": {
+     "centroid": [
+      16,
+      51
+     ],
+     "bbox": [
+      15,
+      49,
+      17,
+      53
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_left_walk2.png": {
+     "centroid": [
+      17,
+      52
+     ],
+     "bbox": [
+      16,
+      50,
+      18,
+      54
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_left_walk3.png": {
+     "centroid": [
+      16,
+      53
+     ],
+     "bbox": [
+      15,
+      51,
+      17,
+      55
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_right_stand.png": {
+     "centroid": [
+      46,
+      53
+     ],
+     "bbox": [
+      45,
+      51,
+      47,
+      55
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_right_walk0.png": {
+     "centroid": [
+      45,
+      52
+     ],
+     "bbox": [
+      44,
+      50,
+      46,
+      54
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_right_walk1.png": {
+     "centroid": [
+      46,
+      51
+     ],
+     "bbox": [
+      45,
+      49,
+      47,
+      53
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_right_walk2.png": {
+     "centroid": [
+      47,
+      52
+     ],
+     "bbox": [
+      46,
+      50,
+      48,
+      54
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_right_walk3.png": {
+     "centroid": [
+      46,
+      53
+     ],
+     "bbox": [
+      45,
+      51,
+      47,
+      55
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_up_stand.png": {
+     "centroid": [
+      46,
+      52
+     ],
+     "bbox": [
+      45,
+      50,
+      47,
+      54
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_up_walk0.png": {
+     "centroid": [
+      45,
+      51
+     ],
+     "bbox": [
+      44,
+      49,
+      46,
+      53
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_up_walk1.png": {
+     "centroid": [
+      46,
+      50
+     ],
+     "bbox": [
+      45,
+      48,
+      47,
+      52
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_up_walk2.png": {
+     "centroid": [
+      47,
+      51
+     ],
+     "bbox": [
+      46,
+      49,
+      48,
+      53
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/gloamtick_ow/gloamtick_ow_up_walk3.png": {
+     "centroid": [
+      46,
+      52
+     ],
+     "bbox": [
+      45,
+      50,
+      47,
+      54
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "icons/gloamtick_icon_f0.png": {
+     "centroid": [
+      5,
+      25
+     ],
+     "bbox": [
+      3,
+      23,
+      6,
+      26
+     ],
+     "px": 11,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/gloamtick_icon_f1.png": {
+     "centroid": [
+      5,
+      26
+     ],
+     "bbox": [
+      3,
+      24,
+      6,
+      27
+     ],
+     "px": 11,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  },
+  "halovy": {
+   "ramp_family": "dawn",
+   "sprites": {
+    "anim/halovy_back_idle/halovy_back_idle_f0.png": {
+     "centroid": [
+      63,
+      11
+     ],
+     "bbox": [
+      39,
+      7,
+      88,
+      14
+     ],
+     "px": 43,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/halovy_back_idle/halovy_back_idle_f1.png": {
+     "centroid": [
+      63,
+      11
+     ],
+     "bbox": [
+      39,
+      6,
+      88,
+      14
+     ],
+     "px": 45,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/halovy_back_idle/halovy_back_idle_f2.png": {
+     "centroid": [
+      63,
+      10
+     ],
+     "bbox": [
+      39,
+      5,
+      88,
+      14
+     ],
+     "px": 53,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/halovy_back_idle/halovy_back_idle_f3.png": {
+     "centroid": [
+      63,
+      11
+     ],
+     "bbox": [
+      39,
+      6,
+      88,
+      14
+     ],
+     "px": 45,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/halovy_front_idle/halovy_front_idle_f0.png": {
+     "centroid": [
+      61,
+      11
+     ],
+     "bbox": [
+      35,
+      7,
+      88,
+      14
+     ],
+     "px": 43,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/halovy_front_idle/halovy_front_idle_f1.png": {
+     "centroid": [
+      61,
+      10
+     ],
+     "bbox": [
+      35,
+      6,
+      88,
+      13
+     ],
+     "px": 43,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/halovy_front_idle/halovy_front_idle_f2.png": {
+     "centroid": [
+      61,
+      10
+     ],
+     "bbox": [
+      35,
+      5,
+      88,
+      14
+     ],
+     "px": 49,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/halovy_front_idle/halovy_front_idle_f3.png": {
+     "centroid": [
+      61,
+      10
+     ],
+     "bbox": [
+      35,
+      6,
+      88,
+      13
+     ],
+     "px": 43,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/halovy_back_128.png": {
+     "centroid": [
+      63,
+      11
+     ],
+     "bbox": [
+      39,
+      7,
+      88,
+      14
+     ],
+     "px": 43,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/halovy_front_128.png": {
+     "centroid": [
+      61,
+      11
+     ],
+     "bbox": [
+      35,
+      7,
+      88,
+      14
+     ],
+     "px": 43,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_down_stand.png": {
+     "centroid": [
+      33,
+      11
+     ],
+     "bbox": [
+      23,
+      10,
+      40,
+      11
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_down_walk0.png": {
+     "centroid": [
+      33,
+      10
+     ],
+     "bbox": [
+      23,
+      9,
+      40,
+      10
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_down_walk1.png": {
+     "centroid": [
+      33,
+      11
+     ],
+     "bbox": [
+      23,
+      10,
+      40,
+      11
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_down_walk2.png": {
+     "centroid": [
+      33,
+      10
+     ],
+     "bbox": [
+      23,
+      9,
+      40,
+      10
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_down_walk3.png": {
+     "centroid": [
+      33,
+      11
+     ],
+     "bbox": [
+      23,
+      10,
+      40,
+      11
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_left_stand.png": {
+     "centroid": [
+      29,
+      11
+     ],
+     "bbox": [
+      20,
+      10,
+      37,
+      11
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_left_walk0.png": {
+     "centroid": [
+      29,
+      10
+     ],
+     "bbox": [
+      20,
+      9,
+      37,
+      10
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_left_walk1.png": {
+     "centroid": [
+      29,
+      11
+     ],
+     "bbox": [
+      20,
+      10,
+      37,
+      11
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_left_walk2.png": {
+     "centroid": [
+      29,
+      10
+     ],
+     "bbox": [
+      20,
+      9,
+      37,
+      10
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_left_walk3.png": {
+     "centroid": [
+      29,
+      11
+     ],
+     "bbox": [
+      20,
+      10,
+      37,
+      11
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_right_stand.png": {
+     "centroid": [
+      33,
+      11
+     ],
+     "bbox": [
+      25,
+      10,
+      42,
+      11
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_right_walk0.png": {
+     "centroid": [
+      33,
+      10
+     ],
+     "bbox": [
+      25,
+      9,
+      42,
+      10
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_right_walk1.png": {
+     "centroid": [
+      33,
+      11
+     ],
+     "bbox": [
+      25,
+      10,
+      42,
+      11
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_right_walk2.png": {
+     "centroid": [
+      33,
+      10
+     ],
+     "bbox": [
+      25,
+      9,
+      42,
+      10
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_right_walk3.png": {
+     "centroid": [
+      33,
+      11
+     ],
+     "bbox": [
+      25,
+      10,
+      42,
+      11
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_up_stand.png": {
+     "centroid": [
+      32,
+      10
+     ],
+     "bbox": [
+      22,
+      10,
+      40,
+      11
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_up_walk0.png": {
+     "centroid": [
+      32,
+      10
+     ],
+     "bbox": [
+      22,
+      9,
+      40,
+      10
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_up_walk1.png": {
+     "centroid": [
+      32,
+      10
+     ],
+     "bbox": [
+      22,
+      10,
+      40,
+      11
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_up_walk2.png": {
+     "centroid": [
+      32,
+      10
+     ],
+     "bbox": [
+      22,
+      9,
+      40,
+      10
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/halovy_ow/halovy_ow_up_walk3.png": {
+     "centroid": [
+      32,
+      10
+     ],
+     "bbox": [
+      22,
+      10,
+      40,
+      11
+     ],
+     "px": 10,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "icons/halovy_icon_f0.png": {
+     "centroid": [
+      15,
+      4
+     ],
+     "bbox": [
+      9,
+      3,
+      21,
+      4
+     ],
+     "px": 4,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/halovy_icon_f1.png": {
+     "centroid": [
+      15,
+      4
+     ],
+     "bbox": [
+      9,
+      4,
+      21,
+      5
+     ],
+     "px": 4,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  },
+  "mirewump": {
+   "ramp_family": "pond",
+   "sprites": {
+    "anim/mirewump_back_idle/mirewump_back_idle_f0.png": {
+     "centroid": [
+      73,
+      68
+     ],
+     "bbox": [
+      39,
+      34,
+      95,
+      116
+     ],
+     "px": 349,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/mirewump_back_idle/mirewump_back_idle_f1.png": {
+     "centroid": [
+      73,
+      68
+     ],
+     "bbox": [
+      39,
+      33,
+      95,
+      116
+     ],
+     "px": 349,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/mirewump_back_idle/mirewump_back_idle_f2.png": {
+     "centroid": [
+      74,
+      67
+     ],
+     "bbox": [
+      39,
+      32,
+      95,
+      116
+     ],
+     "px": 350,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/mirewump_back_idle/mirewump_back_idle_f3.png": {
+     "centroid": [
+      73,
+      68
+     ],
+     "bbox": [
+      39,
+      33,
+      95,
+      116
+     ],
+     "px": 349,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/mirewump_front_idle/mirewump_front_idle_f0.png": {
+     "centroid": [
+      67,
+      52
+     ],
+     "bbox": [
+      29,
+      33,
+      113,
+      100
+     ],
+     "px": 216,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/mirewump_front_idle/mirewump_front_idle_f1.png": {
+     "centroid": [
+      68,
+      52
+     ],
+     "bbox": [
+      29,
+      32,
+      113,
+      100
+     ],
+     "px": 220,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/mirewump_front_idle/mirewump_front_idle_f2.png": {
+     "centroid": [
+      69,
+      52
+     ],
+     "bbox": [
+      29,
+      31,
+      113,
+      100
+     ],
+     "px": 224,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/mirewump_front_idle/mirewump_front_idle_f3.png": {
+     "centroid": [
+      68,
+      52
+     ],
+     "bbox": [
+      29,
+      32,
+      113,
+      100
+     ],
+     "px": 220,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/mirewump_back_128.png": {
+     "centroid": [
+      73,
+      68
+     ],
+     "bbox": [
+      39,
+      34,
+      95,
+      116
+     ],
+     "px": 349,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/mirewump_front_128.png": {
+     "centroid": [
+      67,
+      52
+     ],
+     "bbox": [
+      29,
+      33,
+      113,
+      100
+     ],
+     "px": 216,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_down_stand.png": {
+     "centroid": [
+      32,
+      27
+     ],
+     "bbox": [
+      26,
+      24,
+      41,
+      32
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_down_walk0.png": {
+     "centroid": [
+      32,
+      26
+     ],
+     "bbox": [
+      26,
+      23,
+      41,
+      31
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_down_walk1.png": {
+     "centroid": [
+      32,
+      27
+     ],
+     "bbox": [
+      26,
+      24,
+      41,
+      32
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_down_walk2.png": {
+     "centroid": [
+      32,
+      26
+     ],
+     "bbox": [
+      26,
+      23,
+      41,
+      31
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_down_walk3.png": {
+     "centroid": [
+      32,
+      27
+     ],
+     "bbox": [
+      26,
+      24,
+      41,
+      32
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_left_stand.png": {
+     "centroid": [
+      38,
+      34
+     ],
+     "bbox": [
+      27,
+      23,
+      56,
+      53
+     ],
+     "px": 37,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_left_walk0.png": {
+     "centroid": [
+      39,
+      34
+     ],
+     "bbox": [
+      27,
+      22,
+      56,
+      53
+     ],
+     "px": 39,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_left_walk1.png": {
+     "centroid": [
+      38,
+      34
+     ],
+     "bbox": [
+      27,
+      23,
+      56,
+      53
+     ],
+     "px": 37,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_left_walk2.png": {
+     "centroid": [
+      37,
+      32
+     ],
+     "bbox": [
+      27,
+      22,
+      55,
+      51
+     ],
+     "px": 35,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_left_walk3.png": {
+     "centroid": [
+      38,
+      34
+     ],
+     "bbox": [
+      27,
+      23,
+      56,
+      53
+     ],
+     "px": 37,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_right_stand.png": {
+     "centroid": [
+      26,
+      32
+     ],
+     "bbox": [
+      7,
+      23,
+      36,
+      53
+     ],
+     "px": 42,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_right_walk0.png": {
+     "centroid": [
+      26,
+      32
+     ],
+     "bbox": [
+      7,
+      22,
+      36,
+      53
+     ],
+     "px": 43,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_right_walk1.png": {
+     "centroid": [
+      26,
+      32
+     ],
+     "bbox": [
+      7,
+      23,
+      36,
+      53
+     ],
+     "px": 42,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_right_walk2.png": {
+     "centroid": [
+      27,
+      31
+     ],
+     "bbox": [
+      8,
+      22,
+      36,
+      51
+     ],
+     "px": 41,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_right_walk3.png": {
+     "centroid": [
+      26,
+      32
+     ],
+     "bbox": [
+      7,
+      23,
+      36,
+      53
+     ],
+     "px": 42,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_up_stand.png": {
+     "centroid": [
+      31,
+      40
+     ],
+     "bbox": [
+      23,
+      24,
+      38,
+      60
+     ],
+     "px": 71,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_up_walk0.png": {
+     "centroid": [
+      31,
+      39
+     ],
+     "bbox": [
+      23,
+      23,
+      38,
+      60
+     ],
+     "px": 70,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_up_walk1.png": {
+     "centroid": [
+      31,
+      40
+     ],
+     "bbox": [
+      23,
+      24,
+      38,
+      60
+     ],
+     "px": 71,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_up_walk2.png": {
+     "centroid": [
+      31,
+      39
+     ],
+     "bbox": [
+      23,
+      23,
+      38,
+      60
+     ],
+     "px": 72,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/mirewump_ow/mirewump_ow_up_walk3.png": {
+     "centroid": [
+      31,
+      40
+     ],
+     "bbox": [
+      23,
+      24,
+      38,
+      60
+     ],
+     "px": 71,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "icons/mirewump_icon_f0.png": {
+     "centroid": [
+      18,
+      10
+     ],
+     "bbox": [
+      8,
+      4,
+      30,
+      23
+     ],
+     "px": 22,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/mirewump_icon_f1.png": {
+     "centroid": [
+      18,
+      11
+     ],
+     "bbox": [
+      8,
+      5,
+      30,
+      23
+     ],
+     "px": 22,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  },
+  "rillop": {
+   "ramp_family": "seafoam",
+   "sprites": {
+    "anim/rillop_back_idle/rillop_back_idle_f0.png": {
+     "centroid": [
+      20,
+      117
+     ],
+     "bbox": [
+      12,
+      109,
+      27,
+      124
+     ],
+     "px": 212,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/rillop_back_idle/rillop_back_idle_f1.png": {
+     "centroid": [
+      20,
+      117
+     ],
+     "bbox": [
+      12,
+      109,
+      27,
+      124
+     ],
+     "px": 212,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/rillop_back_idle/rillop_back_idle_f2.png": {
+     "centroid": [
+      20,
+      117
+     ],
+     "bbox": [
+      12,
+      109,
+      27,
+      124
+     ],
+     "px": 212,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/rillop_back_idle/rillop_back_idle_f3.png": {
+     "centroid": [
+      20,
+      117
+     ],
+     "bbox": [
+      12,
+      109,
+      27,
+      124
+     ],
+     "px": 212,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/rillop_front_idle/rillop_front_idle_f0.png": {
+     "centroid": [
+      116,
+      102
+     ],
+     "bbox": [
+      109,
+      97,
+      122,
+      108
+     ],
+     "px": 92,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/rillop_front_idle/rillop_front_idle_f1.png": {
+     "centroid": [
+      116,
+      101
+     ],
+     "bbox": [
+      109,
+      96,
+      122,
+      108
+     ],
+     "px": 101,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/rillop_front_idle/rillop_front_idle_f2.png": {
+     "centroid": [
+      115,
+      101
+     ],
+     "bbox": [
+      109,
+      95,
+      122,
+      108
+     ],
+     "px": 108,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/rillop_front_idle/rillop_front_idle_f3.png": {
+     "centroid": [
+      116,
+      101
+     ],
+     "bbox": [
+      109,
+      96,
+      122,
+      108
+     ],
+     "px": 101,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/rillop_back_128.png": {
+     "centroid": [
+      20,
+      117
+     ],
+     "bbox": [
+      12,
+      109,
+      27,
+      124
+     ],
+     "px": 212,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/rillop_front_128.png": {
+     "centroid": [
+      116,
+      102
+     ],
+     "bbox": [
+      109,
+      97,
+      122,
+      108
+     ],
+     "px": 92,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_down_stand.png": {
+     "centroid": [
+      31,
+      56
+     ],
+     "bbox": [
+      29,
+      56,
+      34,
+      57
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_down_walk0.png": {
+     "centroid": [
+      31,
+      55
+     ],
+     "bbox": [
+      29,
+      54,
+      34,
+      57
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_down_walk1.png": {
+     "centroid": [
+      31,
+      56
+     ],
+     "bbox": [
+      29,
+      56,
+      34,
+      57
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_down_walk2.png": {
+     "centroid": [
+      31,
+      55
+     ],
+     "bbox": [
+      29,
+      54,
+      34,
+      57
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_down_walk3.png": {
+     "centroid": [
+      31,
+      56
+     ],
+     "bbox": [
+      29,
+      56,
+      34,
+      57
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_left_stand.png": {
+     "centroid": [
+      56,
+      53
+     ],
+     "bbox": [
+      54,
+      51,
+      59,
+      56
+     ],
+     "px": 25,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_left_walk0.png": {
+     "centroid": [
+      56,
+      53
+     ],
+     "bbox": [
+      54,
+      51,
+      59,
+      56
+     ],
+     "px": 25,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_left_walk1.png": {
+     "centroid": [
+      56,
+      53
+     ],
+     "bbox": [
+      54,
+      51,
+      59,
+      56
+     ],
+     "px": 25,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_left_walk2.png": {
+     "centroid": [
+      55,
+      51
+     ],
+     "bbox": [
+      53,
+      49,
+      58,
+      54
+     ],
+     "px": 25,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_left_walk3.png": {
+     "centroid": [
+      56,
+      53
+     ],
+     "bbox": [
+      54,
+      51,
+      59,
+      56
+     ],
+     "px": 25,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_right_stand.png": {
+     "centroid": [
+      7,
+      53
+     ],
+     "bbox": [
+      5,
+      50,
+      9,
+      56
+     ],
+     "px": 29,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_right_walk0.png": {
+     "centroid": [
+      7,
+      53
+     ],
+     "bbox": [
+      5,
+      50,
+      9,
+      56
+     ],
+     "px": 29,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_right_walk1.png": {
+     "centroid": [
+      7,
+      53
+     ],
+     "bbox": [
+      5,
+      50,
+      9,
+      56
+     ],
+     "px": 29,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_right_walk2.png": {
+     "centroid": [
+      8,
+      51
+     ],
+     "bbox": [
+      6,
+      48,
+      10,
+      54
+     ],
+     "px": 29,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_right_walk3.png": {
+     "centroid": [
+      7,
+      53
+     ],
+     "bbox": [
+      5,
+      50,
+      9,
+      56
+     ],
+     "px": 29,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_up_stand.png": {
+     "centroid": [
+      31,
+      57
+     ],
+     "bbox": [
+      29,
+      54,
+      34,
+      60
+     ],
+     "px": 35,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_up_walk0.png": {
+     "centroid": [
+      31,
+      56
+     ],
+     "bbox": [
+      29,
+      52,
+      34,
+      60
+     ],
+     "px": 35,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_up_walk1.png": {
+     "centroid": [
+      31,
+      57
+     ],
+     "bbox": [
+      29,
+      54,
+      34,
+      60
+     ],
+     "px": 35,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_up_walk2.png": {
+     "centroid": [
+      31,
+      56
+     ],
+     "bbox": [
+      29,
+      52,
+      34,
+      60
+     ],
+     "px": 35,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/rillop_ow/rillop_ow_up_walk3.png": {
+     "centroid": [
+      31,
+      57
+     ],
+     "bbox": [
+      29,
+      54,
+      34,
+      60
+     ],
+     "px": 35,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "icons/rillop_icon_f0.png": {
+     "centroid": [
+      29,
+      24
+     ],
+     "bbox": [
+      27,
+      23,
+      30,
+      25
+     ],
+     "px": 9,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/rillop_icon_f1.png": {
+     "centroid": [
+      29,
+      24
+     ],
+     "bbox": [
+      27,
+      23,
+      30,
+      25
+     ],
+     "px": 9,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  },
+  "runeskein": {
+   "ramp_family": "crimson",
+   "sprites": {
+    "anim/runeskein_back_idle/runeskein_back_idle_f0.png": {
+     "centroid": [
+      63,
+      32
+     ],
+     "bbox": [
+      60,
+      27,
+      66,
+      35
+     ],
+     "px": 34,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/runeskein_back_idle/runeskein_back_idle_f1.png": {
+     "centroid": [
+      63,
+      31
+     ],
+     "bbox": [
+      60,
+      26,
+      66,
+      35
+     ],
+     "px": 35,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/runeskein_back_idle/runeskein_back_idle_f2.png": {
+     "centroid": [
+      63,
+      31
+     ],
+     "bbox": [
+      60,
+      25,
+      66,
+      35
+     ],
+     "px": 40,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/runeskein_back_idle/runeskein_back_idle_f3.png": {
+     "centroid": [
+      63,
+      31
+     ],
+     "bbox": [
+      60,
+      26,
+      66,
+      35
+     ],
+     "px": 35,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/runeskein_front_idle/runeskein_front_idle_f0.png": {
+     "centroid": [
+      72,
+      31
+     ],
+     "bbox": [
+      69,
+      27,
+      74,
+      34
+     ],
+     "px": 30,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/runeskein_front_idle/runeskein_front_idle_f1.png": {
+     "centroid": [
+      72,
+      30
+     ],
+     "bbox": [
+      69,
+      26,
+      74,
+      33
+     ],
+     "px": 30,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/runeskein_front_idle/runeskein_front_idle_f2.png": {
+     "centroid": [
+      72,
+      30
+     ],
+     "bbox": [
+      69,
+      25,
+      74,
+      34
+     ],
+     "px": 33,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/runeskein_front_idle/runeskein_front_idle_f3.png": {
+     "centroid": [
+      72,
+      30
+     ],
+     "bbox": [
+      69,
+      26,
+      74,
+      33
+     ],
+     "px": 30,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/runeskein_back_128.png": {
+     "centroid": [
+      63,
+      32
+     ],
+     "bbox": [
+      60,
+      27,
+      66,
+      35
+     ],
+     "px": 34,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/runeskein_front_128.png": {
+     "centroid": [
+      72,
+      31
+     ],
+     "bbox": [
+      69,
+      27,
+      74,
+      34
+     ],
+     "px": 30,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_down_stand.png": {
+     "centroid": [
+      31,
+      19
+     ],
+     "bbox": [
+      30,
+      17,
+      32,
+      20
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_down_walk0.png": {
+     "centroid": [
+      31,
+      18
+     ],
+     "bbox": [
+      30,
+      16,
+      32,
+      19
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_down_walk1.png": {
+     "centroid": [
+      31,
+      19
+     ],
+     "bbox": [
+      30,
+      17,
+      32,
+      20
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_down_walk2.png": {
+     "centroid": [
+      31,
+      18
+     ],
+     "bbox": [
+      30,
+      16,
+      32,
+      19
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_down_walk3.png": {
+     "centroid": [
+      31,
+      19
+     ],
+     "bbox": [
+      30,
+      17,
+      32,
+      20
+     ],
+     "px": 9,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_left_stand.png": {
+     "centroid": [
+      25,
+      19
+     ],
+     "bbox": [
+      24,
+      17,
+      26,
+      20
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_left_walk0.png": {
+     "centroid": [
+      25,
+      18
+     ],
+     "bbox": [
+      24,
+      16,
+      26,
+      19
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_left_walk1.png": {
+     "centroid": [
+      25,
+      19
+     ],
+     "bbox": [
+      24,
+      17,
+      26,
+      20
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_left_walk2.png": {
+     "centroid": [
+      25,
+      18
+     ],
+     "bbox": [
+      24,
+      16,
+      26,
+      19
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_left_walk3.png": {
+     "centroid": [
+      25,
+      19
+     ],
+     "bbox": [
+      24,
+      17,
+      26,
+      20
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_right_stand.png": {
+     "centroid": [
+      37,
+      19
+     ],
+     "bbox": [
+      36,
+      17,
+      38,
+      20
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_right_walk0.png": {
+     "centroid": [
+      37,
+      18
+     ],
+     "bbox": [
+      36,
+      16,
+      38,
+      19
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_right_walk1.png": {
+     "centroid": [
+      37,
+      19
+     ],
+     "bbox": [
+      36,
+      17,
+      38,
+      20
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_right_walk2.png": {
+     "centroid": [
+      37,
+      18
+     ],
+     "bbox": [
+      36,
+      16,
+      38,
+      19
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_right_walk3.png": {
+     "centroid": [
+      37,
+      19
+     ],
+     "bbox": [
+      36,
+      17,
+      38,
+      20
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_up_stand.png": {
+     "centroid": [
+      31,
+      18
+     ],
+     "bbox": [
+      31,
+      17,
+      32,
+      19
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_up_walk0.png": {
+     "centroid": [
+      31,
+      17
+     ],
+     "bbox": [
+      31,
+      16,
+      32,
+      18
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_up_walk1.png": {
+     "centroid": [
+      31,
+      18
+     ],
+     "bbox": [
+      31,
+      17,
+      32,
+      19
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_up_walk2.png": {
+     "centroid": [
+      31,
+      17
+     ],
+     "bbox": [
+      31,
+      16,
+      32,
+      18
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/runeskein_ow/runeskein_ow_up_walk3.png": {
+     "centroid": [
+      31,
+      18
+     ],
+     "bbox": [
+      31,
+      17,
+      32,
+      19
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "icons/runeskein_icon_f0.png": {
+     "centroid": [
+      18,
+      3
+     ],
+     "bbox": [
+      17,
+      2,
+      18,
+      4
+     ],
+     "px": 5,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/runeskein_icon_f1.png": {
+     "centroid": [
+      18,
+      4
+     ],
+     "bbox": [
+      17,
+      3,
+      18,
+      5
+     ],
+     "px": 5,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  },
+  "sailquill": {
+   "ramp_family": "coral",
+   "sprites": {
+    "anim/sailquill_back_idle/sailquill_back_idle_f0.png": {
+     "centroid": [
+      10,
+      96
+     ],
+     "bbox": [
+      8,
+      84,
+      13,
+      107
+     ],
+     "px": 48,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/sailquill_back_idle/sailquill_back_idle_f1.png": {
+     "centroid": [
+      10,
+      95
+     ],
+     "bbox": [
+      8,
+      83,
+      13,
+      107
+     ],
+     "px": 48,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/sailquill_back_idle/sailquill_back_idle_f2.png": {
+     "centroid": [
+      10,
+      95
+     ],
+     "bbox": [
+      8,
+      82,
+      13,
+      107
+     ],
+     "px": 50,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/sailquill_back_idle/sailquill_back_idle_f3.png": {
+     "centroid": [
+      10,
+      95
+     ],
+     "bbox": [
+      8,
+      83,
+      13,
+      107
+     ],
+     "px": 48,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/sailquill_front_idle/sailquill_front_idle_f0.png": {
+     "centroid": [
+      117,
+      93
+     ],
+     "bbox": [
+      114,
+      81,
+      120,
+      103
+     ],
+     "px": 40,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/sailquill_front_idle/sailquill_front_idle_f1.png": {
+     "centroid": [
+      117,
+      92
+     ],
+     "bbox": [
+      114,
+      80,
+      120,
+      103
+     ],
+     "px": 40,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/sailquill_front_idle/sailquill_front_idle_f2.png": {
+     "centroid": [
+      117,
+      91
+     ],
+     "bbox": [
+      114,
+      79,
+      120,
+      103
+     ],
+     "px": 42,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/sailquill_front_idle/sailquill_front_idle_f3.png": {
+     "centroid": [
+      117,
+      92
+     ],
+     "bbox": [
+      114,
+      80,
+      120,
+      103
+     ],
+     "px": 40,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/sailquill_back_128.png": {
+     "centroid": [
+      10,
+      96
+     ],
+     "bbox": [
+      8,
+      84,
+      13,
+      107
+     ],
+     "px": 48,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/sailquill_front_128.png": {
+     "centroid": [
+      117,
+      93
+     ],
+     "bbox": [
+      114,
+      81,
+      120,
+      103
+     ],
+     "px": 40,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "overworld/sailquill_ow/sailquill_ow_down_stand.png": null,
+    "overworld/sailquill_ow/sailquill_ow_down_walk0.png": null,
+    "overworld/sailquill_ow/sailquill_ow_down_walk1.png": null,
+    "overworld/sailquill_ow/sailquill_ow_down_walk2.png": null,
+    "overworld/sailquill_ow/sailquill_ow_down_walk3.png": null,
+    "overworld/sailquill_ow/sailquill_ow_left_stand.png": {
+     "centroid": [
+      49,
+      49
+     ],
+     "bbox": [
+      48,
+      45,
+      50,
+      55
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/sailquill_ow/sailquill_ow_left_walk0.png": {
+     "centroid": [
+      49,
+      48
+     ],
+     "bbox": [
+      48,
+      44,
+      50,
+      55
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/sailquill_ow/sailquill_ow_left_walk1.png": {
+     "centroid": [
+      49,
+      49
+     ],
+     "bbox": [
+      48,
+      45,
+      50,
+      55
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/sailquill_ow/sailquill_ow_left_walk2.png": {
+     "centroid": [
+      49,
+      48
+     ],
+     "bbox": [
+      48,
+      44,
+      50,
+      55
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/sailquill_ow/sailquill_ow_left_walk3.png": {
+     "centroid": [
+      49,
+      49
+     ],
+     "bbox": [
+      48,
+      45,
+      50,
+      55
+     ],
+     "px": 7,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/sailquill_ow/sailquill_ow_right_stand.png": {
+     "centroid": [
+      14,
+      50
+     ],
+     "bbox": [
+      13,
+      46,
+      15,
+      55
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/sailquill_ow/sailquill_ow_right_walk0.png": {
+     "centroid": [
+      14,
+      49
+     ],
+     "bbox": [
+      13,
+      45,
+      15,
+      55
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/sailquill_ow/sailquill_ow_right_walk1.png": {
+     "centroid": [
+      14,
+      50
+     ],
+     "bbox": [
+      13,
+      46,
+      15,
+      55
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/sailquill_ow/sailquill_ow_right_walk2.png": {
+     "centroid": [
+      14,
+      49
+     ],
+     "bbox": [
+      13,
+      45,
+      15,
+      55
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/sailquill_ow/sailquill_ow_right_walk3.png": {
+     "centroid": [
+      14,
+      50
+     ],
+     "bbox": [
+      13,
+      46,
+      15,
+      55
+     ],
+     "px": 5,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/sailquill_ow/sailquill_ow_up_stand.png": {
+     "centroid": [
+      21,
+      59
+     ],
+     "bbox": [
+      21,
+      59,
+      22,
+      60
+     ],
+     "px": 3,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/sailquill_ow/sailquill_ow_up_walk0.png": {
+     "centroid": [
+      21,
+      58
+     ],
+     "bbox": [
+      21,
+      58,
+      22,
+      59
+     ],
+     "px": 3,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/sailquill_ow/sailquill_ow_up_walk1.png": {
+     "centroid": [
+      21,
+      59
+     ],
+     "bbox": [
+      21,
+      59,
+      22,
+      60
+     ],
+     "px": 3,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/sailquill_ow/sailquill_ow_up_walk2.png": {
+     "centroid": [
+      21,
+      59
+     ],
+     "bbox": [
+      21,
+      59,
+      22,
+      60
+     ],
+     "px": 3,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/sailquill_ow/sailquill_ow_up_walk3.png": {
+     "centroid": [
+      21,
+      59
+     ],
+     "bbox": [
+      21,
+      59,
+      22,
+      60
+     ],
+     "px": 3,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "icons/sailquill_icon_f0.png": {
+     "centroid": [
+      28,
+      22
+     ],
+     "bbox": [
+      28,
+      20,
+      29,
+      25
+     ],
+     "px": 6,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/sailquill_icon_f1.png": {
+     "centroid": [
+      28,
+      22
+     ],
+     "bbox": [
+      28,
+      20,
+      29,
+      25
+     ],
+     "px": 6,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  },
+  "slagrook": {
+   "ramp_family": "molten",
+   "sprites": {
+    "anim/slagrook_back_idle/slagrook_back_idle_f0.png": {
+     "centroid": [
+      44,
+      72
+     ],
+     "bbox": [
+      36,
+      60,
+      52,
+      84
+     ],
+     "px": 313,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/slagrook_back_idle/slagrook_back_idle_f1.png": {
+     "centroid": [
+      44,
+      71
+     ],
+     "bbox": [
+      36,
+      59,
+      52,
+      83
+     ],
+     "px": 313,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/slagrook_back_idle/slagrook_back_idle_f2.png": {
+     "centroid": [
+      44,
+      70
+     ],
+     "bbox": [
+      36,
+      58,
+      52,
+      82
+     ],
+     "px": 313,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/slagrook_back_idle/slagrook_back_idle_f3.png": {
+     "centroid": [
+      44,
+      71
+     ],
+     "bbox": [
+      36,
+      59,
+      52,
+      83
+     ],
+     "px": 313,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/slagrook_front_idle/slagrook_front_idle_f0.png": {
+     "centroid": [
+      100,
+      67
+     ],
+     "bbox": [
+      94,
+      58,
+      104,
+      77
+     ],
+     "px": 132,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/slagrook_front_idle/slagrook_front_idle_f1.png": {
+     "centroid": [
+      100,
+      66
+     ],
+     "bbox": [
+      94,
+      57,
+      104,
+      76
+     ],
+     "px": 132,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/slagrook_front_idle/slagrook_front_idle_f2.png": {
+     "centroid": [
+      100,
+      65
+     ],
+     "bbox": [
+      94,
+      56,
+      104,
+      75
+     ],
+     "px": 132,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/slagrook_front_idle/slagrook_front_idle_f3.png": {
+     "centroid": [
+      100,
+      66
+     ],
+     "bbox": [
+      94,
+      57,
+      104,
+      76
+     ],
+     "px": 132,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/slagrook_back_128.png": {
+     "centroid": [
+      44,
+      72
+     ],
+     "bbox": [
+      36,
+      60,
+      52,
+      84
+     ],
+     "px": 313,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/slagrook_front_128.png": {
+     "centroid": [
+      100,
+      67
+     ],
+     "bbox": [
+      94,
+      58,
+      104,
+      77
+     ],
+     "px": 132,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "overworld/slagrook_ow/slagrook_ow_down_stand.png": null,
+    "overworld/slagrook_ow/slagrook_ow_down_walk0.png": null,
+    "overworld/slagrook_ow/slagrook_ow_down_walk1.png": null,
+    "overworld/slagrook_ow/slagrook_ow_down_walk2.png": null,
+    "overworld/slagrook_ow/slagrook_ow_down_walk3.png": null,
+    "overworld/slagrook_ow/slagrook_ow_left_stand.png": {
+     "centroid": [
+      38,
+      38
+     ],
+     "bbox": [
+      35,
+      34,
+      40,
+      42
+     ],
+     "px": 33,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/slagrook_ow/slagrook_ow_left_walk0.png": {
+     "centroid": [
+      38,
+      37
+     ],
+     "bbox": [
+      35,
+      33,
+      40,
+      41
+     ],
+     "px": 33,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/slagrook_ow/slagrook_ow_left_walk1.png": {
+     "centroid": [
+      38,
+      38
+     ],
+     "bbox": [
+      35,
+      34,
+      40,
+      42
+     ],
+     "px": 33,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/slagrook_ow/slagrook_ow_left_walk2.png": {
+     "centroid": [
+      38,
+      37
+     ],
+     "bbox": [
+      35,
+      33,
+      40,
+      41
+     ],
+     "px": 33,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/slagrook_ow/slagrook_ow_left_walk3.png": {
+     "centroid": [
+      38,
+      38
+     ],
+     "bbox": [
+      35,
+      34,
+      40,
+      42
+     ],
+     "px": 33,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/slagrook_ow/slagrook_ow_right_stand.png": {
+     "centroid": [
+      24,
+      39
+     ],
+     "bbox": [
+      22,
+      34,
+      27,
+      42
+     ],
+     "px": 29,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/slagrook_ow/slagrook_ow_right_walk0.png": {
+     "centroid": [
+      24,
+      38
+     ],
+     "bbox": [
+      22,
+      33,
+      27,
+      41
+     ],
+     "px": 29,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/slagrook_ow/slagrook_ow_right_walk1.png": {
+     "centroid": [
+      24,
+      39
+     ],
+     "bbox": [
+      22,
+      34,
+      27,
+      42
+     ],
+     "px": 29,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/slagrook_ow/slagrook_ow_right_walk2.png": {
+     "centroid": [
+      24,
+      38
+     ],
+     "bbox": [
+      22,
+      33,
+      27,
+      41
+     ],
+     "px": 29,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/slagrook_ow/slagrook_ow_right_walk3.png": {
+     "centroid": [
+      24,
+      39
+     ],
+     "bbox": [
+      22,
+      34,
+      27,
+      42
+     ],
+     "px": 29,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/slagrook_ow/slagrook_ow_up_stand.png": {
+     "centroid": [
+      31,
+      41
+     ],
+     "bbox": [
+      28,
+      37,
+      34,
+      45
+     ],
+     "px": 45,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/slagrook_ow/slagrook_ow_up_walk0.png": {
+     "centroid": [
+      31,
+      40
+     ],
+     "bbox": [
+      28,
+      36,
+      34,
+      44
+     ],
+     "px": 45,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/slagrook_ow/slagrook_ow_up_walk1.png": {
+     "centroid": [
+      31,
+      41
+     ],
+     "bbox": [
+      28,
+      37,
+      34,
+      45
+     ],
+     "px": 45,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/slagrook_ow/slagrook_ow_up_walk2.png": {
+     "centroid": [
+      31,
+      40
+     ],
+     "bbox": [
+      28,
+      36,
+      34,
+      44
+     ],
+     "px": 45,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/slagrook_ow/slagrook_ow_up_walk3.png": {
+     "centroid": [
+      31,
+      41
+     ],
+     "bbox": [
+      28,
+      37,
+      34,
+      45
+     ],
+     "px": 45,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "icons/slagrook_icon_f0.png": {
+     "centroid": [
+      24,
+      16
+     ],
+     "bbox": [
+      23,
+      14,
+      25,
+      18
+     ],
+     "px": 10,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/slagrook_icon_f1.png": {
+     "centroid": [
+      24,
+      17
+     ],
+     "bbox": [
+      23,
+      15,
+      25,
+      19
+     ],
+     "px": 10,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  },
+  "tidemarrow": {
+   "ramp_family": "seafoam",
+   "sprites": {
+    "anim/tidemarrow_back_idle/tidemarrow_back_idle_f0.png": {
+     "centroid": [
+      43,
+      116
+     ],
+     "bbox": [
+      15,
+      29,
+      118,
+      154
+     ],
+     "px": 295,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/tidemarrow_back_idle/tidemarrow_back_idle_f1.png": {
+     "centroid": [
+      43,
+      116
+     ],
+     "bbox": [
+      15,
+      28,
+      118,
+      154
+     ],
+     "px": 295,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/tidemarrow_back_idle/tidemarrow_back_idle_f2.png": {
+     "centroid": [
+      45,
+      112
+     ],
+     "bbox": [
+      15,
+      27,
+      118,
+      154
+     ],
+     "px": 310,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/tidemarrow_back_idle/tidemarrow_back_idle_f3.png": {
+     "centroid": [
+      43,
+      116
+     ],
+     "bbox": [
+      15,
+      28,
+      118,
+      154
+     ],
+     "px": 295,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/tidemarrow_front_idle/tidemarrow_front_idle_f0.png": {
+     "centroid": [
+      97,
+      79
+     ],
+     "bbox": [
+      31,
+      27,
+      150,
+      137
+     ],
+     "px": 198,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/tidemarrow_front_idle/tidemarrow_front_idle_f1.png": {
+     "centroid": [
+      97,
+      79
+     ],
+     "bbox": [
+      31,
+      26,
+      150,
+      137
+     ],
+     "px": 198,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/tidemarrow_front_idle/tidemarrow_front_idle_f2.png": {
+     "centroid": [
+      96,
+      76
+     ],
+     "bbox": [
+      31,
+      25,
+      150,
+      137
+     ],
+     "px": 209,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "anim/tidemarrow_front_idle/tidemarrow_front_idle_f3.png": {
+     "centroid": [
+      97,
+      79
+     ],
+     "bbox": [
+      31,
+      26,
+      150,
+      137
+     ],
+     "px": 198,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "battle/tidemarrow_back_160.png": {
+     "centroid": [
+      43,
+      116
+     ],
+     "bbox": [
+      15,
+      29,
+      118,
+      154
+     ],
+     "px": 295,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "battle/tidemarrow_front_160.png": {
+     "centroid": [
+      97,
+      79
+     ],
+     "bbox": [
+      31,
+      27,
+      150,
+      137
+     ],
+     "px": 198,
+     "size": [
+      160,
+      160
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_down_stand.png": {
+     "centroid": [
+      48,
+      31
+     ],
+     "bbox": [
+      26,
+      26,
+      69,
+      37
+     ],
+     "px": 52,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_down_walk0.png": {
+     "centroid": [
+      48,
+      30
+     ],
+     "bbox": [
+      26,
+      25,
+      69,
+      36
+     ],
+     "px": 52,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_down_walk1.png": {
+     "centroid": [
+      48,
+      31
+     ],
+     "bbox": [
+      26,
+      26,
+      69,
+      37
+     ],
+     "px": 52,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_down_walk2.png": {
+     "centroid": [
+      48,
+      30
+     ],
+     "bbox": [
+      26,
+      25,
+      69,
+      36
+     ],
+     "px": 52,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_down_walk3.png": {
+     "centroid": [
+      48,
+      31
+     ],
+     "bbox": [
+      26,
+      26,
+      69,
+      37
+     ],
+     "px": 52,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_left_stand.png": {
+     "centroid": [
+      56,
+      58
+     ],
+     "bbox": [
+      29,
+      24,
+      76,
+      87
+     ],
+     "px": 66,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_left_walk0.png": {
+     "centroid": [
+      56,
+      58
+     ],
+     "bbox": [
+      29,
+      23,
+      76,
+      87
+     ],
+     "px": 66,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_left_walk1.png": {
+     "centroid": [
+      56,
+      58
+     ],
+     "bbox": [
+      29,
+      24,
+      76,
+      87
+     ],
+     "px": 66,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_left_walk2.png": {
+     "centroid": [
+      55,
+      57
+     ],
+     "bbox": [
+      29,
+      23,
+      75,
+      85
+     ],
+     "px": 66,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_left_walk3.png": {
+     "centroid": [
+      56,
+      58
+     ],
+     "bbox": [
+      29,
+      24,
+      76,
+      87
+     ],
+     "px": 66,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_right_stand.png": {
+     "centroid": [
+      36,
+      65
+     ],
+     "bbox": [
+      18,
+      22,
+      65,
+      88
+     ],
+     "px": 64,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_right_walk0.png": {
+     "centroid": [
+      36,
+      65
+     ],
+     "bbox": [
+      18,
+      21,
+      65,
+      88
+     ],
+     "px": 64,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_right_walk1.png": {
+     "centroid": [
+      36,
+      65
+     ],
+     "bbox": [
+      18,
+      22,
+      65,
+      88
+     ],
+     "px": 64,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_right_walk2.png": {
+     "centroid": [
+      37,
+      64
+     ],
+     "bbox": [
+      19,
+      21,
+      65,
+      86
+     ],
+     "px": 64,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_right_walk3.png": {
+     "centroid": [
+      36,
+      65
+     ],
+     "bbox": [
+      18,
+      22,
+      65,
+      88
+     ],
+     "px": 64,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_up_stand.png": {
+     "centroid": [
+      47,
+      71
+     ],
+     "bbox": [
+      32,
+      27,
+      68,
+      92
+     ],
+     "px": 59,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_up_walk0.png": {
+     "centroid": [
+      47,
+      70
+     ],
+     "bbox": [
+      32,
+      26,
+      68,
+      91
+     ],
+     "px": 59,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_up_walk1.png": {
+     "centroid": [
+      47,
+      71
+     ],
+     "bbox": [
+      32,
+      27,
+      68,
+      92
+     ],
+     "px": 59,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_up_walk2.png": {
+     "centroid": [
+      47,
+      70
+     ],
+     "bbox": [
+      32,
+      26,
+      68,
+      92
+     ],
+     "px": 59,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "overworld/tidemarrow_ow/tidemarrow_ow_up_walk3.png": {
+     "centroid": [
+      47,
+      71
+     ],
+     "bbox": [
+      32,
+      27,
+      68,
+      92
+     ],
+     "px": 59,
+     "size": [
+      96,
+      96
+     ]
+    },
+    "icons/tidemarrow_icon_f0.png": {
+     "centroid": [
+      18,
+      15
+     ],
+     "bbox": [
+      6,
+      6,
+      29,
+      26
+     ],
+     "px": 13,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/tidemarrow_icon_f1.png": {
+     "centroid": [
+      18,
+      15
+     ],
+     "bbox": [
+      6,
+      7,
+      29,
+      26
+     ],
+     "px": 13,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  },
+  "tumbloam": {
+   "ramp_family": "moss",
+   "sprites": {
+    "anim/tumbloam_back_idle/tumbloam_back_idle_f0.png": {
+     "centroid": [
+      107,
+      116
+     ],
+     "bbox": [
+      100,
+      107,
+      115,
+      123
+     ],
+     "px": 221,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/tumbloam_back_idle/tumbloam_back_idle_f1.png": {
+     "centroid": [
+      107,
+      116
+     ],
+     "bbox": [
+      100,
+      107,
+      115,
+      123
+     ],
+     "px": 221,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/tumbloam_back_idle/tumbloam_back_idle_f2.png": {
+     "centroid": [
+      107,
+      116
+     ],
+     "bbox": [
+      100,
+      107,
+      115,
+      123
+     ],
+     "px": 221,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/tumbloam_back_idle/tumbloam_back_idle_f3.png": {
+     "centroid": [
+      107,
+      116
+     ],
+     "bbox": [
+      100,
+      107,
+      115,
+      123
+     ],
+     "px": 221,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/tumbloam_front_idle/tumbloam_front_idle_f0.png": {
+     "centroid": [
+      115,
+      98
+     ],
+     "bbox": [
+      111,
+      92,
+      120,
+      104
+     ],
+     "px": 69,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/tumbloam_front_idle/tumbloam_front_idle_f1.png": {
+     "centroid": [
+      115,
+      98
+     ],
+     "bbox": [
+      111,
+      91,
+      120,
+      104
+     ],
+     "px": 73,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/tumbloam_front_idle/tumbloam_front_idle_f2.png": {
+     "centroid": [
+      115,
+      98
+     ],
+     "bbox": [
+      111,
+      90,
+      120,
+      104
+     ],
+     "px": 77,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "anim/tumbloam_front_idle/tumbloam_front_idle_f3.png": {
+     "centroid": [
+      115,
+      98
+     ],
+     "bbox": [
+      111,
+      91,
+      120,
+      104
+     ],
+     "px": 73,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/tumbloam_back_128.png": {
+     "centroid": [
+      107,
+      116
+     ],
+     "bbox": [
+      100,
+      107,
+      115,
+      123
+     ],
+     "px": 221,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "battle/tumbloam_front_128.png": {
+     "centroid": [
+      115,
+      98
+     ],
+     "bbox": [
+      111,
+      92,
+      120,
+      104
+     ],
+     "px": 69,
+     "size": [
+      128,
+      128
+     ]
+    },
+    "overworld/tumbloam_ow/tumbloam_ow_down_stand.png": null,
+    "overworld/tumbloam_ow/tumbloam_ow_down_walk0.png": null,
+    "overworld/tumbloam_ow/tumbloam_ow_down_walk1.png": null,
+    "overworld/tumbloam_ow/tumbloam_ow_down_walk2.png": null,
+    "overworld/tumbloam_ow/tumbloam_ow_down_walk3.png": null,
+    "overworld/tumbloam_ow/tumbloam_ow_left_stand.png": {
+     "centroid": [
+      57,
+      52
+     ],
+     "bbox": [
+      54,
+      49,
+      59,
+      54
+     ],
+     "px": 25,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/tumbloam_ow/tumbloam_ow_left_walk0.png": {
+     "centroid": [
+      57,
+      52
+     ],
+     "bbox": [
+      54,
+      49,
+      59,
+      54
+     ],
+     "px": 25,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/tumbloam_ow/tumbloam_ow_left_walk1.png": {
+     "centroid": [
+      57,
+      52
+     ],
+     "bbox": [
+      54,
+      49,
+      59,
+      54
+     ],
+     "px": 25,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/tumbloam_ow/tumbloam_ow_left_walk2.png": {
+     "centroid": [
+      56,
+      51
+     ],
+     "bbox": [
+      53,
+      49,
+      58,
+      52
+     ],
+     "px": 20,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/tumbloam_ow/tumbloam_ow_left_walk3.png": {
+     "centroid": [
+      57,
+      52
+     ],
+     "bbox": [
+      54,
+      49,
+      59,
+      54
+     ],
+     "px": 25,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/tumbloam_ow/tumbloam_ow_right_stand.png": {
+     "centroid": [
+      7,
+      52
+     ],
+     "bbox": [
+      4,
+      49,
+      10,
+      54
+     ],
+     "px": 26,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/tumbloam_ow/tumbloam_ow_right_walk0.png": {
+     "centroid": [
+      7,
+      52
+     ],
+     "bbox": [
+      4,
+      49,
+      10,
+      54
+     ],
+     "px": 26,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/tumbloam_ow/tumbloam_ow_right_walk1.png": {
+     "centroid": [
+      7,
+      52
+     ],
+     "bbox": [
+      4,
+      49,
+      10,
+      54
+     ],
+     "px": 26,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/tumbloam_ow/tumbloam_ow_right_walk2.png": {
+     "centroid": [
+      8,
+      50
+     ],
+     "bbox": [
+      5,
+      49,
+      11,
+      52
+     ],
+     "px": 22,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/tumbloam_ow/tumbloam_ow_right_walk3.png": {
+     "centroid": [
+      7,
+      52
+     ],
+     "bbox": [
+      4,
+      49,
+      10,
+      54
+     ],
+     "px": 26,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/tumbloam_ow/tumbloam_ow_up_stand.png": {
+     "centroid": [
+      32,
+      56
+     ],
+     "bbox": [
+      29,
+      53,
+      34,
+      60
+     ],
+     "px": 37,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/tumbloam_ow/tumbloam_ow_up_walk0.png": {
+     "centroid": [
+      32,
+      55
+     ],
+     "bbox": [
+      29,
+      51,
+      34,
+      60
+     ],
+     "px": 37,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/tumbloam_ow/tumbloam_ow_up_walk1.png": {
+     "centroid": [
+      32,
+      56
+     ],
+     "bbox": [
+      29,
+      53,
+      34,
+      60
+     ],
+     "px": 37,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/tumbloam_ow/tumbloam_ow_up_walk2.png": {
+     "centroid": [
+      32,
+      55
+     ],
+     "bbox": [
+      29,
+      51,
+      34,
+      60
+     ],
+     "px": 37,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "overworld/tumbloam_ow/tumbloam_ow_up_walk3.png": {
+     "centroid": [
+      32,
+      56
+     ],
+     "bbox": [
+      29,
+      53,
+      34,
+      60
+     ],
+     "px": 37,
+     "size": [
+      64,
+      64
+     ]
+    },
+    "icons/tumbloam_icon_f0.png": {
+     "centroid": [
+      29,
+      23
+     ],
+     "bbox": [
+      28,
+      21,
+      30,
+      24
+     ],
+     "px": 7,
+     "size": [
+      32,
+      32
+     ]
+    },
+    "icons/tumbloam_icon_f1.png": {
+     "centroid": [
+      29,
+      23
+     ],
+     "bbox": [
+      28,
+      21,
+      30,
+      24
+     ],
+     "px": 7,
+     "size": [
+      32,
+      32
+     ]
+    }
+   }
+  }
+ }
+}

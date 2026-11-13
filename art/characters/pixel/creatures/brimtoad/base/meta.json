@@ -1,0 +1,70 @@
+{
+ "brimtoad_front": {
+  "scale": 0.10773480662983426,
+  "org": [
+   108,
+   153
+  ],
+  "size": [
+   93,
+   78
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 16
+ },
+ "brimtoad_back": {
+  "scale": 0.1078838174273859,
+  "org": [
+   122,
+   141
+  ],
+  "size": [
+   87,
+   78
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 15
+ },
+ "brimtoad_ow_down": {
+  "scale": 0.14814814814814814,
+  "org": [
+   19,
+   202
+  ],
+  "size": [
+   44,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "brimtoad_ow_left": {
+  "scale": 0.15267175572519084,
+  "org": [
+   335,
+   212
+  ],
+  "size": [
+   45,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "brimtoad_ow_up": {
+  "scale": 0.16393442622950818,
+  "org": [
+   974,
+   221
+  ],
+  "size": [
+   47,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ },
+ "brimtoad_ow_right": {
+  "mirror_of": "brimtoad_ow_left"
+ }
+}

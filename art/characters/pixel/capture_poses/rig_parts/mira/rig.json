@@ -1,0 +1,35 @@
+{
+ "char_id": "mira",
+ "canvas": [
+  64,
+  96
+ ],
+ "view": "back",
+ "extend_side": "screen_right",
+ "arm_used": "own_right (screen-right, back view)",
+ "shoulder_px": [
+  44,
+  44
+ ],
+ "elbow_px": [
+  45,
+  52
+ ],
+ "wrist_px": [
+  46,
+  59
+ ],
+ "hand_center_px": [
+  46,
+  63
+ ],
+ "layers_bottom_to_top": [
+  "body.png",
+  "arm_relaxed.png",
+  "arm_extend_upper.png",
+  "arm_extend_fore.png"
+ ],
+ "outline_hex": "191210",
+ "notes": "Back view: extend arm = the player's own RIGHT arm, on the SCREEN-RIGHT side of the image; it reaches up-right toward the foe.",
+ "status": "draft, awaiting Gary"
+}

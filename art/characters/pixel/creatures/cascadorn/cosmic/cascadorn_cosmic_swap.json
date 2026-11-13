@@ -1,0 +1,15 @@
+{
+ "creature": "cascadorn",
+ "concept": "Sunken Gold",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#342842": "#244e34",
+  "#6a442e": "#1e4078",
+  "#d2608c": "#70cab8",
+  "#daa2ba": "#7ac2e8",
+  "#ecdec4": "#ccc6c2",
+  "#f6a0ba": "#c6ecfa"
+ },
+ "rule": "crystal violets never swapped"
+}

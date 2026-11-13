@@ -1,0 +1,68 @@
+[
+  {
+    "view": "844x390",
+    "scene": "ios_hint",
+    "platform": "mobile",
+    "scr": "title",
+    "uiOpen": true,
+    "controls": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a",
+      "fs-btn"
+    ],
+    "rows": 2,
+    "overlaps": [
+      "up/Got it:3074"
+    ],
+    "small": [
+      "Tap to start:134x40"
+    ],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-skin ui-open ui-hid-dpad ui-hid-sel ui-hid-dbg",
+    "inner": [
+      844,
+      390
+    ],
+    "tapOk": false,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_844x390_ios_hint.png"
+  },
+  {
+    "view": "844x293_safaribars",
+    "scene": "ios_hint",
+    "platform": "mobile",
+    "scr": "title",
+    "uiOpen": true,
+    "controls": [
+      "up",
+      "left",
+      "right",
+      "down",
+      "select",
+      "b",
+      "a",
+      "fs-btn"
+    ],
+    "rows": 2,
+    "overlaps": [
+      "up/Got it:290",
+      "left/Got it:2332",
+      "right/Got it:3074"
+    ],
+    "small": [
+      "Tap to start:134x40"
+    ],
+    "bodyCls": "platform-mobile landscape-only touch-ui dlg-tap ui-can-hide-dpad ui-can-hide-sel ui-can-hide-dbg ui-skin ui-open ui-hid-dpad ui-hid-sel ui-hid-dbg",
+    "inner": [
+      844,
+      293
+    ],
+    "tapOk": false,
+    "errors": [],
+    "shot": "shots/phone_menu_fix/before/live_844x293_safaribars_ios_hint.png"
+  }
+]

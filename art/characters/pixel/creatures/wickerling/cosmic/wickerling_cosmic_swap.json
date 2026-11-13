@@ -1,0 +1,27 @@
+{
+ "creature": "wickerling",
+ "concept": "Willow Green",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#2c1a12": "#18382c",
+  "#2c2320": "#29252b",
+  "#462c22": "#244e34",
+  "#561c0e": "#24522e",
+  "#6a3019": "#367634",
+  "#6a442e": "#38683e",
+  "#87604d": "#54864e",
+  "#92623e": "#52983a",
+  "#a23432": "#52983a",
+  "#ba8856": "#78ba48",
+  "#ccaa6e": "#70cab8",
+  "#d05440": "#78ba48",
+  "#d2608c": "#a6d460",
+  "#daa2ba": "#e8ce92",
+  "#deb478": "#70cab8",
+  "#e8ce92": "#a6d460",
+  "#ecdec4": "#c6ecfa",
+  "#f08868": "#a6d460"
+ },
+ "rule": "crystal violets never swapped"
+}

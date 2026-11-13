@@ -1,0 +1,70 @@
+{
+ "mossmote_front": {
+  "scale": 0.10909090909090909,
+  "org": [
+   160,
+   127
+  ],
+  "size": [
+   79,
+   78
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 21
+ },
+ "mossmote_back": {
+  "scale": 0.11001410437235543,
+  "org": [
+   173,
+   128
+  ],
+  "size": [
+   80,
+   78
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 19
+ },
+ "mossmote_ow_down": {
+  "scale": 0.1282051282051282,
+  "org": [
+   41,
+   182
+  ],
+  "size": [
+   29,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "mossmote_ow_left": {
+  "scale": 0.12903225806451613,
+  "org": [
+   312,
+   183
+  ],
+  "size": [
+   41,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "mossmote_ow_up": {
+  "scale": 0.12903225806451613,
+  "org": [
+   1021,
+   183
+  ],
+  "size": [
+   29,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "mossmote_ow_right": {
+  "mirror_of": "mossmote_ow_left"
+ }
+}

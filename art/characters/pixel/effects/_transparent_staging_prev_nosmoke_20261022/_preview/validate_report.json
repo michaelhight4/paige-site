@@ -1,0 +1,5458 @@
+{
+ "stage": "/workspace/kilumen/art/characters/pixel/effects/_transparent_staging",
+ "checked": 69,
+ "passed": 69,
+ "failed": 0,
+ "fail_counts": {},
+ "live_files_state": [
+  "full-scene (untouched)"
+ ],
+ "live_files_consistent": true,
+ "results": [
+  {
+   "el": "fire",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    120,
+    140
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    114,
+    132
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    60,
+    90
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "fire",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    320,
+    204
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    314,
+    198
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     56,
+     150
+    ],
+    [
+     288,
+     28
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "fire",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    340,
+    208
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    332,
+    200
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     280,
+     28
+    ],
+    [
+     36,
+     168
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "water",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    184,
+    128
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    176,
+    122
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    90,
+    60
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "water",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    308,
+    220
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    302,
+    214
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     48,
+     152
+    ],
+    [
+     280,
+     30
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "water",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    328,
+    184
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    322,
+    178
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     280,
+     24
+    ],
+    [
+     36,
+     164
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "earth",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    236,
+    112
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    228,
+    106
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    116,
+    40
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "earth",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    312,
+    292
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    304,
+    286
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     50,
+     178
+    ],
+    [
+     282,
+     56
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "earth",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    324,
+    236
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    318,
+    228
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     274,
+     54
+    ],
+    [
+     30,
+     194
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "wind",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    168,
+    140
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    160,
+    132
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    82,
+    88
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "wind",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    292,
+    172
+   ],
+   "frames": 6,
+   "effect_bbox_2x": [
+    6,
+    6,
+    284,
+    166
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 8
+   },
+   "anchor": [
+    [
+     30,
+     148
+    ],
+    [
+     262,
+     26
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "wind",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    304,
+    200
+   ],
+   "frames": 6,
+   "effect_bbox_2x": [
+    6,
+    6,
+    298,
+    194
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 8
+   },
+   "anchor": [
+    [
+     276,
+     24
+    ],
+    [
+     32,
+     164
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "light",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    164,
+    160
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    156,
+    152
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    80,
+    86
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "light",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    288,
+    176
+   ],
+   "frames": 6,
+   "effect_bbox_2x": [
+    6,
+    6,
+    280,
+    170
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 8
+   },
+   "anchor": [
+    [
+     24,
+     150
+    ],
+    [
+     256,
+     28
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "light",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    308,
+    204
+   ],
+   "frames": 6,
+   "effect_bbox_2x": [
+    6,
+    6,
+    302,
+    198
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 8
+   },
+   "anchor": [
+    [
+     282,
+     24
+    ],
+    [
+     38,
+     164
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "dark",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    180,
+    164
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    172,
+    158
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    88,
+    84
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "dark",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    324,
+    200
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    316,
+    194
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    [
+     60,
+     150
+    ],
+    [
+     292,
+     28
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": "solid black-violet ink orb (the projectile body with eye highlight and tendrils), not a trail - reviewed 2026-10-22"
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "dark",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    344,
+    220
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    336,
+    214
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    [
+     282,
+     40
+    ],
+    [
+     38,
+     180
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [
+     {
+      "frame": 0,
+      "at_native": [
+       141,
+       22
+      ],
+      "area": 99,
+      "drift_px": [
+       -9.1,
+       -0.5
+      ]
+     },
+     {
+      "frame": 1,
+      "at_native": [
+       132,
+       22
+      ],
+      "area": 99,
+      "drift_px": [
+       -23.4,
+       5.1
+      ]
+     },
+     {
+      "frame": 2,
+      "at_native": [
+       108,
+       27
+      ],
+      "area": 97,
+      "drift_px": [
+       -21.6,
+       11.5
+      ]
+     },
+     {
+      "frame": 3,
+      "at_native": [
+       87,
+       39
+      ],
+      "area": 131,
+      "drift_px": [
+       -16.4,
+       19.3
+      ]
+     }
+    ],
+    "n_pixel_flags": 4,
+    "reviewed": "solid black-violet ink orb (the projectile body with eye highlight and tendrils), not a trail - reviewed 2026-10-22"
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "mystic",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    132,
+    136
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    124,
+    128
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    64,
+    64
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "mystic",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    288,
+    188
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    282,
+    182
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     24,
+     152
+    ],
+    [
+     256,
+     30
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "mystic",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    304,
+    196
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    298,
+    188
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     274,
+     22
+    ],
+    [
+     30,
+     162
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "legendary",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    236,
+    204
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    228,
+    196
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    116,
+    100
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "legendary",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    340,
+    240
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    332,
+    234
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    [
+     72,
+     154
+    ],
+    [
+     304,
+     32
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "legendary",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    360,
+    220
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    352,
+    214
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    [
+     286,
+     36
+    ],
+    [
+     42,
+     176
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "grass",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    204,
+    184
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    196,
+    176
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    100,
+    50
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "grass",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    328,
+    224
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    320,
+    216
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     62,
+     150
+    ],
+    [
+     294,
+     28
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "grass",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    344,
+    208
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    338,
+    202
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     284,
+     28
+    ],
+    [
+     40,
+     168
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "bug",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    244,
+    156
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    236,
+    148
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    120,
+    94
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "bug",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    316,
+    188
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    310,
+    182
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     28,
+     162
+    ],
+    [
+     260,
+     40
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "bug",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    328,
+    212
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    322,
+    204
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     294,
+     32
+    ],
+    [
+     50,
+     172
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "sea",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    212,
+    120
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    206,
+    114
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    120,
+    46
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "sea",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    308,
+    204
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    300,
+    198
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     46,
+     152
+    ],
+    [
+     278,
+     30
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "sea",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    328,
+    176
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    322,
+    168
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     278,
+     14
+    ],
+    [
+     34,
+     154
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "freshwater",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    152,
+    132
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    144,
+    126
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    74,
+    66
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "freshwater",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    312,
+    220
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    304,
+    214
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     44,
+     156
+    ],
+    [
+     276,
+     34
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "freshwater",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    328,
+    216
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    322,
+    208
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     276,
+     38
+    ],
+    [
+     32,
+     178
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "swamp",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    140,
+    184
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    132,
+    176
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    72,
+    90
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "swamp",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    308,
+    280
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    302,
+    274
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     46,
+     152
+    ],
+    [
+     278,
+     30
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "swamp",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    336,
+    208
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    330,
+    200
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     286,
+     34
+    ],
+    [
+     42,
+     174
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "rain",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    136,
+    184
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    128,
+    178
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    66,
+    120
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [
+     "rain_impact: puffs",
+     "rain_impact: puffs",
+     "rain_impact: puffs"
+    ],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": "storm cloud that rains on the target (the move itself); grey puffs are a raincloud, not smoke - reviewed 2026-10-22, keep under Gary's eye"
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "rain",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    288,
+    164
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    282,
+    158
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     28,
+     140
+    ],
+    [
+     260,
+     18
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [
+     "rain_impact: puffs",
+     "rain_impact: puffs",
+     "rain_impact: puffs"
+    ],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": "tiny raincloud at the caster on frame 0 only - reviewed 2026-10-22"
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "rain",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    304,
+    192
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    296,
+    186
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     274,
+     34
+    ],
+    [
+     30,
+     174
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [
+     "rain_impact: puffs",
+     "rain_impact: puffs",
+     "rain_impact: puffs"
+    ],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": "tiny raincloud at the caster on frame 0 only - reviewed 2026-10-22"
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "magma",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    188,
+    124
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    182,
+    116
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    94,
+    60
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "magma",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    324,
+    268
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    318,
+    260
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     60,
+     168
+    ],
+    [
+     292,
+     46
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "magma",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    344,
+    224
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    338,
+    218
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     286,
+     40
+    ],
+    [
+     42,
+     180
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "dragos",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    168,
+    172
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    160,
+    164
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    88,
+    82
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "dragos",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    288,
+    176
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    282,
+    170
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    [
+     24,
+     144
+    ],
+    [
+     256,
+     22
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "dragos",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    316,
+    192
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    308,
+    186
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    [
+     280,
+     22
+    ],
+    [
+     36,
+     162
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "bird",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    164,
+    212
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    156,
+    206
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    84,
+    68
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "bird",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    288,
+    184
+   ],
+   "frames": 6,
+   "effect_bbox_2x": [
+    6,
+    6,
+    280,
+    178
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 8
+   },
+   "anchor": [
+    [
+     26,
+     152
+    ],
+    [
+     258,
+     30
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "bird",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    312,
+    208
+   ],
+   "frames": 6,
+   "effect_bbox_2x": [
+    6,
+    6,
+    306,
+    202
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 8
+   },
+   "anchor": [
+    [
+     280,
+     26
+    ],
+    [
+     36,
+     166
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "spirit",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    116,
+    168
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    110,
+    162
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    56,
+    102
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "spirit",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    284,
+    192
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    278,
+    184
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     32,
+     146
+    ],
+    [
+     264,
+     24
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "spirit",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    308,
+    192
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    302,
+    184
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     270,
+     24
+    ],
+    [
+     26,
+     164
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "ghost",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    188,
+    140
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    180,
+    132
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    92,
+    80
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": "the pale-grey ghost face itself (solid sheet body), not particles - reviewed 2026-10-22"
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "ghost",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    288,
+    160
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    282,
+    152
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    [
+     26,
+     142
+    ],
+    [
+     258,
+     20
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": "the pale-grey ghost body itself - reviewed 2026-10-22"
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "ghost",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    296,
+    184
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    290,
+    178
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    [
+     270,
+     18
+    ],
+    [
+     26,
+     158
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": "the pale-grey ghost body itself - reviewed 2026-10-22"
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "demon",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    136,
+    176
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    130,
+    168
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    68,
+    86
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "demon",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    304,
+    184
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    298,
+    178
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     42,
+     148
+    ],
+    [
+     274,
+     26
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "demon",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    324,
+    208
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    318,
+    202
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     282,
+     32
+    ],
+    [
+     38,
+     172
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "angelic",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    168,
+    144
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    160,
+    136
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    84,
+    74
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "angelic",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    316,
+    240
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    308,
+    234
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     54,
+     148
+    ],
+    [
+     286,
+     26
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "angelic",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    352,
+    192
+   ],
+   "frames": 7,
+   "effect_bbox_2x": [
+    6,
+    6,
+    346,
+    184
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 9
+   },
+   "anchor": [
+    [
+     280,
+     22
+    ],
+    [
+     36,
+     162
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "god",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    188,
+    244
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    180,
+    236
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    92,
+    164
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "god",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    308,
+    200
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    302,
+    192
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    [
+     40,
+     156
+    ],
+    [
+     272,
+     34
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "god",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    336,
+    232
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    328,
+    224
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    [
+     292,
+     40
+    ],
+    [
+     48,
+     180
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "devil",
+   "anim": "impact",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    112,
+    136
+   ],
+   "frames": 8,
+   "effect_bbox_2x": [
+    6,
+    6,
+    104,
+    128
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 10
+   },
+   "anchor": [
+    54,
+    64
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "devil",
+   "anim": "travel_p2f",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    284,
+    168
+   ],
+   "frames": 6,
+   "effect_bbox_2x": [
+    6,
+    6,
+    276,
+    162
+   ],
+   "padding_2x": [
+    6,
+    6,
+    8,
+    6
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 8
+   },
+   "anchor": [
+    [
+     20,
+     150
+    ],
+    [
+     252,
+     28
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  },
+  {
+   "el": "devil",
+   "anim": "travel_f2p",
+   "checks": {
+    "alpha_present": true,
+    "alpha_binary": true,
+    "corners_transparent_every_frame": true,
+    "opaque_colours_in_palette": true,
+    "size_below_640x480": true,
+    "even_dims": true,
+    "size_matches_json": true,
+    "bbox_matches_json": true,
+    "cropped_to_effect_padding": true,
+    "frame_count_matches": true,
+    "durations_match_json": true,
+    "disposal_2_every_frame": true,
+    "pixels_equal_2x_source_no_halo": true,
+    "sheet_equals_frames": true,
+    "sheet_alpha_binary": true,
+    "json_rects_tile_sheet": true,
+    "anchor_inside_canvas": true,
+    "not_full_scene": true,
+    "no_smoke": true,
+    "aseprite_size_frames_ms": true,
+    "aseprite_tag_layer": true,
+    "aseprite_pixels_equal_1x_source": true
+   },
+   "errors": [],
+   "size": [
+    304,
+    208
+   ],
+   "frames": 6,
+   "effect_bbox_2x": [
+    6,
+    6,
+    298,
+    200
+   ],
+   "padding_2x": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "live": {
+    "size": [
+     640,
+     480
+    ],
+    "frames": 8
+   },
+   "anchor": [
+    [
+     282,
+     26
+    ],
+    [
+     38,
+     166
+    ]
+   ],
+   "smoke": {
+    "ok": true,
+    "names": [],
+    "pixel_flags": [],
+    "n_pixel_flags": 0,
+    "reviewed": null
+   },
+   "aseprite": "checked"
+  }
+ ],
+ "live_files": [
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/fire/impact/fire_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "b4fda6e005d88c1102ba38947b1b1065b2dd74cad5e09bbf67d9d76976b9defa",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/fire/travel_p2f/fire_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "f2c7bcf1b59594b594163ab7b0e1ddaf0b61271073dab32e8712c4fd9782a108",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/fire/travel_f2p/fire_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "4c974384e9387782ecd3d5413546d4f05add33d82d970bba278d85b22fce4f70",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/water/impact/water_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "e4613812371820c2d089259972689bbfb25526fc89cf4a846a4f56ad47dd3ca5",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/water/travel_p2f/water_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "33bcfb13b0a369828000c309a82df414e044730b24d14fb8a5daa87820534561",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/water/travel_f2p/water_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "2e21c19f7deb8dcd82694769a6efd0f79ceb8ba1dfbfadea7a58f94ac4201578",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/earth/impact/earth_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "ae94c8df84c628d02aedecb4bd1ac3e36aa32239a86bb3c988db60059a2bb9ff",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/earth/travel_p2f/earth_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "10ad5ffcea36b01ee444d752c75bc75c3d269540a3a6f56b15ad81d85b5e66d8",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/earth/travel_f2p/earth_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "3e438a72205bac67d3fba3794368c69e6be460e977fd197eceb9ba7f574f8bf8",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/wind/impact/wind_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "0d9bdf1e0538ce2cf10b7b35caae22bef27974f55ea9b1ae2f2cb8b9acc76d1a",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/wind/travel_p2f/wind_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "ad6644accdb9563e6dffe4bf35a907fbb899b79d8f4f7f02970512ee77586fd6",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/wind/travel_f2p/wind_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "29818ad5f67738e46b3869782a1f9dd09cdefdfc1976c411a918678ea5c76769",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/light/impact/light_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "bd4b815785307d5ec6bbb1e60113f2fcff47deecbc0beddf8d47cec29355604e",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/light/travel_p2f/light_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "754f833b1333adf10a51b083dc8d91072fc5924e0cc94bb80e2be5d849b692e0",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/light/travel_f2p/light_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "e4369384b67f22db53f8e006758e53c600b722ac9873c1afcead28989f8d8d7b",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/dark/impact/dark_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "57416647f3f5846106addab1300be25753175b3d0c18862c548f81e193a1a793",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/dark/travel_p2f/dark_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "b3e68c6b8041f02d8c51985c3f484e10eef354d5a665ffe0d59fcc3a5728b7e8",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/dark/travel_f2p/dark_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "063b475f9c31407f8a27e19a8ab813ee2fdef0478b80d7d6a16abe9f36c604e8",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/mystic/impact/mystic_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "da04186ddc11d70b66d12407875d145c93b14496e213af1e0008bc0ed8a57ad1",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/mystic/travel_p2f/mystic_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "d409bab2f820e893fe84402f103473aa4cf26b54d46f72aa1e6528f4b21e0614",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/mystic/travel_f2p/mystic_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "b4d54aa62ebf5feffbda47758998142baf9ad38fbb9046e2c75c3dec9fd11ceb",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/legendary/impact/legendary_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "3bbe53fa4fc7f4389e71d671741dbe93c15b978ccf093ee28d0823df7817126b",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/legendary/travel_p2f/legendary_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "c03440545d478491ace3bbc3daf954a85a16c36085b538fb8008c5df83fac8c5",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/legendary/travel_f2p/legendary_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "29e3ec3b0991e4c49b7a1e1168fbad0e3ad30ac0ae919f9d7e3dc97890476ee4",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/grass/impact/grass_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "9989df06f96c6dc158e5b83bcf75553f72f6a2f622f82d88493788ec15cbf098",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/grass/travel_p2f/grass_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "9a954a1ebb2b199e15da37ca5a1361c6a51d88807021d7aace7177e869010cb7",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/grass/travel_f2p/grass_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "e039ec5ef6720f702abd65448cc2a5deb74a622a1f74b697b1133c254da8adc4",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/bug/impact/bug_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "842f734d427bdf09dc3d228ea51117ab30d45865c49e0a09ad91e10ee6b6e60f",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/bug/travel_p2f/bug_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "3a677c25e570051f0b764aac0ce0bc486d6fadc04b5aaa91873e46a5922db0d1",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/bug/travel_f2p/bug_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "6d138a21155b1bc76661faba226e955d221798f6463b329a95b539e0e59d7574",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/sea/impact/sea_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "996077e1d55d6c7fa19a86c18d4784918066e8b27616c3bce62269b0e04107cd",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/sea/travel_p2f/sea_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "c7f5b1960ba7a4205d39748ca2b5b4a3659f8366c43f968b805939157e61635f",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/sea/travel_f2p/sea_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "a7629d7b2f0f4449ac3a99efdb5f36b3c6ee5535c6ce29a9405b977ff9d1eb96",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/freshwater/impact/freshwater_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "6b9ffdb07e7621ddf0055233d084b3192b22b3cd557be4fc4aa5e667aff7314b",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/freshwater/travel_p2f/freshwater_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "8d6d569dbe22752846559cdd9ea9f71b5545bad024844d5c6c85dea5957206f3",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/freshwater/travel_f2p/freshwater_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "539fabc88b49006efe3675e52e3d16320383eec02c948294e27a04c85f732421",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/swamp/impact/swamp_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "b509230937e60a6a15b6a25dedff3412c3cb3cad205dfcddb5cd27f0f39011d0",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/swamp/travel_p2f/swamp_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "0c0e4d2b2a539d81d5fc4d74b400cff8a8ae322ab4553a23ea96e366130e5f97",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/swamp/travel_f2p/swamp_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "4755cb4f8e7c916cafb5a96a4492e5fac91e92cd3802945d682f108c524b976a",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/rain/impact/rain_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "b767b98e5eaad7e5a2b0f5e8c6b16de27d09b874cc7133870c8c1e2a5889077f",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/rain/travel_p2f/rain_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "b7d5b477c3d2647f0bc9344e1c61f879a3ef1a8cffea78fd310e9b0d8617bb2c",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/rain/travel_f2p/rain_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "724d5bd9275c413777195b50b0f7c84414b43694019c70f10a7e11bfbb696fdf",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/magma/impact/magma_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "da5246926aa29d255b2df2a2fa51859bf0833796373bbab5e15f5a17a94223e0",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/magma/travel_p2f/magma_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "7c3244d53a940d3e3de3f24373520a4e9469c9f100da89f6a6458a7fcc051eac",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/magma/travel_f2p/magma_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "a2f8e00543286bb192416db5bc220e8b29402dae264959fece2972f7b19c31fc",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/dragos/impact/dragos_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "c5c017514ad0943713be66cb62d110e7a55cc466e30089234b8b391591f0b030",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/dragos/travel_p2f/dragos_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "d764a050a0b71253a2fee8d07e6ec51d6776459967df8b1513ef0ef7d857eb9e",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/dragos/travel_f2p/dragos_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "5d6f8d02902b9e38a32de8791d3c9d4b1b8f3eecc62d472b6640e039cb3368d3",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/bird/impact/bird_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "8a45468711f9a8bf655ac1f3b36c8817c7c328d7f23303c2602650c76a57d3e4",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/bird/travel_p2f/bird_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "858d5b6c552a4fe2628fa58bfc608e3b237141a74b14cfd3691aa404dffc0c5d",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/bird/travel_f2p/bird_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "21be75567c2da1d365f7625af4a12768efa7745ed67d673e9105f105cb511085",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/spirit/impact/spirit_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "e2c97729e5c6e0c3e09fcfdfb095c2755d0acbbf91a5842512ec7dd4345100df",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/spirit/travel_p2f/spirit_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "dc53b915a593cd59f01b86288300558d57e68e422d714868064b32c084a2553d",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/spirit/travel_f2p/spirit_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "c8be9c79e1942c31873444ea4adee9aa6485ab0b73f43d4da0f5090e8fe57050",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/ghost/impact/ghost_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "b35d6c33d7d72d4d40d91a70ef92644839626e78ad454e48ce3a86de930d8f96",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/ghost/travel_p2f/ghost_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "c1f83e938159aa4c3d3a6213159cfece77996ef34ea1ec4490846a1ac2b5ebd7",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/ghost/travel_f2p/ghost_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "2686638250fd8514e39e05ce0cf11ce7296f08c89cb1d04f8dfb4c9b23377a12",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/demon/impact/demon_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "5e1656fd6b32afac7c5ee96a34a4d4084e5dfedbb524f76be7c5c26ef0a5fe0a",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/demon/travel_p2f/demon_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "26a3ca3880b7a970eb60c1ffc06985ae115a774794f448772d8eae27a9a10256",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/demon/travel_f2p/demon_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "45676e449888cf5f9fe5047e57bf45da424092d1cc0c1f1990c727dfb24e173d",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/angelic/impact/angelic_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "a235d5054260f6820697e659cb175f46d477192c817da5f80b42cb6429a5486a",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/angelic/travel_p2f/angelic_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "68e9d7247d19bae1f9a8111f34ee8d4786b781dd9395a8d9e4507ea8bd59ad7f",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/angelic/travel_f2p/angelic_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "cff7ce6b1ec1f3ac379fb416f0751bdabca5934be8f9a88be9c9608ca983099b",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/god/impact/god_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "3bb43187cbb4d30d5e698830b7f4cc62d405c2bd8b86e7589e8f4443bb38705d",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/god/travel_p2f/god_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "bb452aec865b7292e4aa00597caf22019830f5a59dce8b6d01ffa761582eadda",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/god/travel_f2p/god_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "344f4e56359738b9e66cb089f759860e2ac3a6d611b75cdeaeb2f2ba06ae187c",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/devil/impact/devil_impact_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "cfe482e461b29e3036a43b85ccf4a22be6f367c7a5bf82659b6c0b1e91ee5348",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/devil/travel_p2f/devil_travel_p2f_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "333a61a67959eb42a47b94f262e2f53623e87cbb1d40f4d897b6755513781b85",
+   "state": "full-scene (untouched)"
+  },
+  {
+   "path": "/workspace/kilumen/art/characters/pixel/effects/devil/travel_f2p/devil_travel_f2p_battle_2x.gif",
+   "size": [
+    640,
+    480
+   ],
+   "sha256": "c5726d6a10499daaf357c40045a757173a450320e87cd7193528ee5fe50fe9b0",
+   "state": "full-scene (untouched)"
+  }
+ ]
+}

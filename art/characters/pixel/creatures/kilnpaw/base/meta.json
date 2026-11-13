@@ -1,0 +1,70 @@
+{
+ "kilnpaw_front": {
+  "scale": 0.11600928074245939,
+  "org": [
+   90,
+   48
+  ],
+  "size": [
+   98,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 18
+ },
+ "kilnpaw_back": {
+  "scale": 0.1152073732718894,
+  "org": [
+   110,
+   38
+  ],
+  "size": [
+   94,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 17
+ },
+ "kilnpaw_ow_down": {
+  "scale": 0.11442786069651742,
+  "org": [
+   34,
+   130
+  ],
+  "size": [
+   23,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "kilnpaw_ow_left": {
+  "scale": 0.115,
+  "org": [
+   269,
+   131
+  ],
+  "size": [
+   42,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "kilnpaw_ow_up": {
+  "scale": 0.11471321695760599,
+  "org": [
+   1063,
+   133
+  ],
+  "size": [
+   22,
+   46
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ },
+ "kilnpaw_ow_right": {
+  "mirror_of": "kilnpaw_ow_left"
+ }
+}

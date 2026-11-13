@@ -1,0 +1,28 @@
+{
+ "creature": "shellbloom",
+ "concept": "Bluebell Shell",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#2c1a12": "#29252b",
+  "#2c2320": "#29252b",
+  "#38683e": "#54444e",
+  "#462c22": "#18382c",
+  "#52983a": "#a23432",
+  "#54864e": "#87604d",
+  "#6a442e": "#30488c",
+  "#6e222a": "#246e6c",
+  "#87604d": "#4a70ba",
+  "#a23432": "#3e9c92",
+  "#ba8856": "#4692ce",
+  "#ccaa6e": "#4692ce",
+  "#d05440": "#70cab8",
+  "#d2608c": "#70cab8",
+  "#daa2ba": "#ccc6c2",
+  "#deb478": "#7ac2e8",
+  "#e8ce92": "#7ac2e8",
+  "#ecdec4": "#ccc6c2",
+  "#f6a0ba": "#c6ecfa"
+ },
+ "rule": "crystal violets never swapped"
+}

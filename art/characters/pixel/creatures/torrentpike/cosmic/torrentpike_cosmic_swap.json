@@ -1,0 +1,26 @@
+{
+ "creature": "torrentpike",
+ "concept": "Tealfin",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#2c1a12": "#18382c",
+  "#2c2320": "#29252b",
+  "#38683e": "#54444e",
+  "#3e3a48": "#54444e",
+  "#462c22": "#244e34",
+  "#54864e": "#5e5866",
+  "#6a442e": "#246e6c",
+  "#78ba48": "#4a70ba",
+  "#87604d": "#54864e",
+  "#92623e": "#3e9c92",
+  "#9f4013": "#3e9c92",
+  "#c46e2e": "#3e9c92",
+  "#ccaa6e": "#70cab8",
+  "#deb478": "#7ac2e8",
+  "#e29d40": "#70cab8",
+  "#ecdec4": "#c6ecfa",
+  "#eea23c": "#70cab8"
+ },
+ "rule": "crystal violets never swapped"
+}

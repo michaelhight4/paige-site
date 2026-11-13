@@ -1,0 +1,14 @@
+{
+ "creature": "ingotitan",
+ "concept": "Moondust",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#462c22": "#3e3a48",
+  "#6a442e": "#54444e",
+  "#92623e": "#827a84",
+  "#ba8856": "#a8a0a4",
+  "#deb478": "#fcf6e8"
+ },
+ "rule": "crystal violets never swapped"
+}

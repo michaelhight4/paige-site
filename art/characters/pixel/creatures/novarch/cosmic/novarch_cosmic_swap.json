@@ -1,0 +1,16 @@
+{
+ "creature": "novarch",
+ "concept": "Solar Star",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#1a1226": "#2c2320",
+  "#1e4078": "#6a442e",
+  "#30488c": "#92623e",
+  "#342842": "#3e3a48",
+  "#4692ce": "#ba8856",
+  "#4a70ba": "#ba8856",
+  "#7ac2e8": "#deb478"
+ },
+ "rule": "crystal violets never swapped"
+}

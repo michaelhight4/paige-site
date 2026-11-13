@@ -1,0 +1,19 @@
+{
+ "creature": "stratodrake",
+ "concept": "Sunset Drake",
+ "status": "draft, awaiting Gary",
+ "wired": false,
+ "swap": {
+  "#1e4078": "#6a442e",
+  "#2c64a8": "#c46e2e",
+  "#30488c": "#92623e",
+  "#342842": "#3e3a48",
+  "#3e3a48": "#54444e",
+  "#4692ce": "#ba8856",
+  "#4a70ba": "#ba8856",
+  "#7ac2e8": "#deb478",
+  "#c6ecfa": "#ecdec4",
+  "#ecdec4": "#ccc6c2"
+ },
+ "rule": "crystal violets never swapped"
+}

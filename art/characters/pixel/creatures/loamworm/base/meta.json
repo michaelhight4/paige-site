@@ -1,0 +1,70 @@
+{
+ "loamworm_front": {
+  "scale": 0.13123359580052493,
+  "org": [
+   182,
+   132
+  ],
+  "size": [
+   88,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 22
+ },
+ "loamworm_back": {
+  "scale": 0.1314060446780552,
+  "org": [
+   210,
+   131
+  ],
+  "size": [
+   85,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 19
+ },
+ "loamworm_ow_down": {
+  "scale": 0.17391304347826086,
+  "org": [
+   60,
+   210
+  ],
+  "size": [
+   40,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 19
+ },
+ "loamworm_ow_left": {
+  "scale": 0.17886178861788618,
+  "org": [
+   352,
+   216
+  ],
+  "size": [
+   47,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 18
+ },
+ "loamworm_ow_right": {
+  "mirror_of": "loamworm_ow_left"
+ },
+ "loamworm_ow_up": {
+  "scale": 0.1981981981981982,
+  "org": [
+   987,
+   245
+  ],
+  "size": [
+   49,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ }
+}

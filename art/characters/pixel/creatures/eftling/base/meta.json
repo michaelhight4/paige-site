@@ -1,0 +1,70 @@
+{
+ "eftling_front": {
+  "scale": 0.12220916568742655,
+  "org": [
+   126,
+   182
+  ],
+  "size": [
+   104,
+   78
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 19
+ },
+ "eftling_back": {
+  "scale": 0.10012836970474968,
+  "org": [
+   104,
+   138
+  ],
+  "size": [
+   80,
+   78
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 14
+ },
+ "eftling_ow_down": {
+  "scale": 0.12618296529968454,
+  "org": [
+   34,
+   182
+  ],
+  "size": [
+   26,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "eftling_ow_left": {
+  "scale": 0.12539184952978055,
+  "org": [
+   279,
+   184
+  ],
+  "size": [
+   48,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "eftling_ow_up": {
+  "scale": 0.11940298507462686,
+  "org": [
+   1052,
+   184
+  ],
+  "size": [
+   23,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 11
+ },
+ "eftling_ow_right": {
+  "mirror_of": "eftling_ow_left"
+ }
+}

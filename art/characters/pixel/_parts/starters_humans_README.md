@@ -1,0 +1,1463 @@
+# Kilumen pixel conversion — starters + humans slice (Phase 3)
+
+Generated 2026-10-22 19:02 CDT. Scope: 9 starters + 5 humans (Phase 3 slice; wild creatures + effects handled by other workers).
+Palette: /workspace/kilumen/art/world/overworld/palette.png (official 64 colours; every sprite/frame pixel is on it). Off-palette / semi-alpha pixels found in sprites: 0.
+
+Pipeline = pixel_pilot pipeline (tools/sh_pxlib.py is pilot pxlib.py verbatim + helpers copied from pilot step3/4/5), then redmean remap to the official 64-colour palette. Build: `python3 tools/sh_build.py all && python3 tools/sh_parts.py && python3 tools/sh_readme.py` from pixel/.
+
+## Layout per starter (creatures/<name>/)
+- battle/<name>_{front,back}_<128|160>.png (+ _2x). 160 = Bastonox, Forgeharrow, Tidemarrow.
+- anim/<name>_{front,back}_idle/ f0–f3 (+ _2x), anim/<name>_{front,back}_idle_sheet(.png,_2x), _2x.gif (180/160/200/160 ms; bob + crystal/lava glow).
+- overworld/<name>_ow/<name>_ow_{down,left,right,up}_{stand,walk0..3}(.png,_2x,_3x); overworld/<name>_ow_sheet(.png,_2x,_3x) (rows down/left/right/up, cols stand+walk0-3); _walk_{dir}_{2,3}x.gif, _walk_all_{2,3}x.gif (130 ms). 64x64, or 96x96 for finals.
+- Cindrip rebuilt from pilot bases; Emberlunx/Forgeharrow battle FRONT = pilot bases (backs new). All remapped to the official palette.
+
+## Layout per human (humans/<cal|ron|mira|vane|riverbank_stranger>/)
+- trainer/<n>_trainer_64x128(.png,_2x,_3x)
+- overworld/<n>_chibi/... same naming as creatures (64x96, 150 ms); arm swing on Cal, Ron, Mira front/back walks.
+- portraits/<n>_<expr>.png, 512 px tall, transparent. Cal: neutral/happy/surprised (pilot copies). Ron: neutral/happy/angry (new clean-arc raws). Mira: neutral/cheerful/determined. Vane: composed/pleased/stern. Stranger: calm/kind/sorrowful.
+- NOTE: humans/cal/run_bike/ is NOT mine (another worker) and is excluded.
+
+## Shared (_parts/)
+- _parts/starters_humans_preview.png [2221, 5980]
+- _parts/starters_idle_montage_2x.gif [1920, 960]
+- _parts/starters_idle_montage_f0.png [960, 480]
+- _parts/starters_humans_manifest.json
+- _parts/starters_humans_README.md
+
+## Counts
+{"creature_files": 891, "human_files": 395, "tools": 85, "raw": 30, "parts": 5}
+
+## Every file
+
+### creatures/tumbloam (99 files)
+- creatures/tumbloam/anim/tumbloam_back_idle/tumbloam_back_idle_f0.png  128x128
+- creatures/tumbloam/anim/tumbloam_back_idle/tumbloam_back_idle_f0_2x.png  256x256
+- creatures/tumbloam/anim/tumbloam_back_idle/tumbloam_back_idle_f1.png  128x128
+- creatures/tumbloam/anim/tumbloam_back_idle/tumbloam_back_idle_f1_2x.png  256x256
+- creatures/tumbloam/anim/tumbloam_back_idle/tumbloam_back_idle_f2.png  128x128
+- creatures/tumbloam/anim/tumbloam_back_idle/tumbloam_back_idle_f2_2x.png  256x256
+- creatures/tumbloam/anim/tumbloam_back_idle/tumbloam_back_idle_f3.png  128x128
+- creatures/tumbloam/anim/tumbloam_back_idle/tumbloam_back_idle_f3_2x.png  256x256
+- creatures/tumbloam/anim/tumbloam_back_idle_2x.gif  256x256 4fr
+- creatures/tumbloam/anim/tumbloam_back_idle_sheet.png  512x128
+- creatures/tumbloam/anim/tumbloam_back_idle_sheet_2x.png  1024x256
+- creatures/tumbloam/anim/tumbloam_front_idle/tumbloam_front_idle_f0.png  128x128
+- creatures/tumbloam/anim/tumbloam_front_idle/tumbloam_front_idle_f0_2x.png  256x256
+- creatures/tumbloam/anim/tumbloam_front_idle/tumbloam_front_idle_f1.png  128x128
+- creatures/tumbloam/anim/tumbloam_front_idle/tumbloam_front_idle_f1_2x.png  256x256
+- creatures/tumbloam/anim/tumbloam_front_idle/tumbloam_front_idle_f2.png  128x128
+- creatures/tumbloam/anim/tumbloam_front_idle/tumbloam_front_idle_f2_2x.png  256x256
+- creatures/tumbloam/anim/tumbloam_front_idle/tumbloam_front_idle_f3.png  128x128
+- creatures/tumbloam/anim/tumbloam_front_idle/tumbloam_front_idle_f3_2x.png  256x256
+- creatures/tumbloam/anim/tumbloam_front_idle_2x.gif  256x256 4fr
+- creatures/tumbloam/anim/tumbloam_front_idle_sheet.png  512x128
+- creatures/tumbloam/anim/tumbloam_front_idle_sheet_2x.png  1024x256
+- creatures/tumbloam/battle/tumbloam_back_128.png  128x128
+- creatures/tumbloam/battle/tumbloam_back_128_2x.png  256x256
+- creatures/tumbloam/battle/tumbloam_front_128.png  128x128
+- creatures/tumbloam/battle/tumbloam_front_128_2x.png  256x256
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_down_stand.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_down_stand_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_down_stand_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_down_walk0.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_down_walk0_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_down_walk0_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_down_walk1.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_down_walk1_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_down_walk1_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_down_walk2.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_down_walk2_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_down_walk2_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_down_walk3.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_down_walk3_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_down_walk3_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_left_stand.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_left_stand_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_left_stand_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_left_walk0.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_left_walk0_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_left_walk0_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_left_walk1.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_left_walk1_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_left_walk1_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_left_walk2.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_left_walk2_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_left_walk2_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_left_walk3.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_left_walk3_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_left_walk3_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_right_stand.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_right_stand_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_right_stand_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_right_walk0.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_right_walk0_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_right_walk0_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_right_walk1.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_right_walk1_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_right_walk1_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_right_walk2.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_right_walk2_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_right_walk2_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_right_walk3.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_right_walk3_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_right_walk3_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_up_stand.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_up_stand_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_up_stand_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_up_walk0.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_up_walk0_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_up_walk0_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_up_walk1.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_up_walk1_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_up_walk1_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_up_walk2.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_up_walk2_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_up_walk2_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_up_walk3.png  64x64
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_up_walk3_2x.png  128x128
+- creatures/tumbloam/overworld/tumbloam_ow/tumbloam_ow_up_walk3_3x.png  192x192
+- creatures/tumbloam/overworld/tumbloam_ow_sheet.png  320x256
+- creatures/tumbloam/overworld/tumbloam_ow_sheet_2x.png  640x512
+- creatures/tumbloam/overworld/tumbloam_ow_sheet_3x.png  960x768
+- creatures/tumbloam/overworld/tumbloam_ow_walk_all_2x.gif  512x128 4fr
+- creatures/tumbloam/overworld/tumbloam_ow_walk_all_3x.gif  768x192 4fr
+- creatures/tumbloam/overworld/tumbloam_ow_walk_down_2x.gif  128x128 4fr
+- creatures/tumbloam/overworld/tumbloam_ow_walk_down_3x.gif  192x192 4fr
+- creatures/tumbloam/overworld/tumbloam_ow_walk_left_2x.gif  128x128 4fr
+- creatures/tumbloam/overworld/tumbloam_ow_walk_left_3x.gif  192x192 4fr
+- creatures/tumbloam/overworld/tumbloam_ow_walk_right_2x.gif  128x128 4fr
+- creatures/tumbloam/overworld/tumbloam_ow_walk_right_3x.gif  192x192 4fr
+- creatures/tumbloam/overworld/tumbloam_ow_walk_up_2x.gif  128x128 4fr
+- creatures/tumbloam/overworld/tumbloam_ow_walk_up_3x.gif  192x192 4fr
+
+### creatures/burrowmane (99 files)
+- creatures/burrowmane/anim/burrowmane_back_idle/burrowmane_back_idle_f0.png  128x128
+- creatures/burrowmane/anim/burrowmane_back_idle/burrowmane_back_idle_f0_2x.png  256x256
+- creatures/burrowmane/anim/burrowmane_back_idle/burrowmane_back_idle_f1.png  128x128
+- creatures/burrowmane/anim/burrowmane_back_idle/burrowmane_back_idle_f1_2x.png  256x256
+- creatures/burrowmane/anim/burrowmane_back_idle/burrowmane_back_idle_f2.png  128x128
+- creatures/burrowmane/anim/burrowmane_back_idle/burrowmane_back_idle_f2_2x.png  256x256
+- creatures/burrowmane/anim/burrowmane_back_idle/burrowmane_back_idle_f3.png  128x128
+- creatures/burrowmane/anim/burrowmane_back_idle/burrowmane_back_idle_f3_2x.png  256x256
+- creatures/burrowmane/anim/burrowmane_back_idle_2x.gif  256x256 4fr
+- creatures/burrowmane/anim/burrowmane_back_idle_sheet.png  512x128
+- creatures/burrowmane/anim/burrowmane_back_idle_sheet_2x.png  1024x256
+- creatures/burrowmane/anim/burrowmane_front_idle/burrowmane_front_idle_f0.png  128x128
+- creatures/burrowmane/anim/burrowmane_front_idle/burrowmane_front_idle_f0_2x.png  256x256
+- creatures/burrowmane/anim/burrowmane_front_idle/burrowmane_front_idle_f1.png  128x128
+- creatures/burrowmane/anim/burrowmane_front_idle/burrowmane_front_idle_f1_2x.png  256x256
+- creatures/burrowmane/anim/burrowmane_front_idle/burrowmane_front_idle_f2.png  128x128
+- creatures/burrowmane/anim/burrowmane_front_idle/burrowmane_front_idle_f2_2x.png  256x256
+- creatures/burrowmane/anim/burrowmane_front_idle/burrowmane_front_idle_f3.png  128x128
+- creatures/burrowmane/anim/burrowmane_front_idle/burrowmane_front_idle_f3_2x.png  256x256
+- creatures/burrowmane/anim/burrowmane_front_idle_2x.gif  256x256 4fr
+- creatures/burrowmane/anim/burrowmane_front_idle_sheet.png  512x128
+- creatures/burrowmane/anim/burrowmane_front_idle_sheet_2x.png  1024x256
+- creatures/burrowmane/battle/burrowmane_back_128.png  128x128
+- creatures/burrowmane/battle/burrowmane_back_128_2x.png  256x256
+- creatures/burrowmane/battle/burrowmane_front_128.png  128x128
+- creatures/burrowmane/battle/burrowmane_front_128_2x.png  256x256
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_down_stand.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_down_stand_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_down_stand_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_down_walk0.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_down_walk0_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_down_walk0_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_down_walk1.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_down_walk1_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_down_walk1_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_down_walk2.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_down_walk2_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_down_walk2_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_down_walk3.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_down_walk3_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_down_walk3_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_left_stand.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_left_stand_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_left_stand_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_left_walk0.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_left_walk0_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_left_walk0_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_left_walk1.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_left_walk1_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_left_walk1_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_left_walk2.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_left_walk2_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_left_walk2_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_left_walk3.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_left_walk3_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_left_walk3_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_right_stand.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_right_stand_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_right_stand_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_right_walk0.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_right_walk0_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_right_walk0_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_right_walk1.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_right_walk1_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_right_walk1_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_right_walk2.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_right_walk2_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_right_walk2_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_right_walk3.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_right_walk3_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_right_walk3_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_up_stand.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_up_stand_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_up_stand_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_up_walk0.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_up_walk0_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_up_walk0_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_up_walk1.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_up_walk1_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_up_walk1_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_up_walk2.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_up_walk2_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_up_walk2_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_up_walk3.png  64x64
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_up_walk3_2x.png  128x128
+- creatures/burrowmane/overworld/burrowmane_ow/burrowmane_ow_up_walk3_3x.png  192x192
+- creatures/burrowmane/overworld/burrowmane_ow_sheet.png  320x256
+- creatures/burrowmane/overworld/burrowmane_ow_sheet_2x.png  640x512
+- creatures/burrowmane/overworld/burrowmane_ow_sheet_3x.png  960x768
+- creatures/burrowmane/overworld/burrowmane_ow_walk_all_2x.gif  512x128 4fr
+- creatures/burrowmane/overworld/burrowmane_ow_walk_all_3x.gif  768x192 4fr
+- creatures/burrowmane/overworld/burrowmane_ow_walk_down_2x.gif  128x128 4fr
+- creatures/burrowmane/overworld/burrowmane_ow_walk_down_3x.gif  192x192 4fr
+- creatures/burrowmane/overworld/burrowmane_ow_walk_left_2x.gif  128x128 4fr
+- creatures/burrowmane/overworld/burrowmane_ow_walk_left_3x.gif  192x192 4fr
+- creatures/burrowmane/overworld/burrowmane_ow_walk_right_2x.gif  128x128 4fr
+- creatures/burrowmane/overworld/burrowmane_ow_walk_right_3x.gif  192x192 4fr
+- creatures/burrowmane/overworld/burrowmane_ow_walk_up_2x.gif  128x128 4fr
+- creatures/burrowmane/overworld/burrowmane_ow_walk_up_3x.gif  192x192 4fr
+
+### creatures/bastonox (99 files)
+- creatures/bastonox/anim/bastonox_back_idle/bastonox_back_idle_f0.png  160x160
+- creatures/bastonox/anim/bastonox_back_idle/bastonox_back_idle_f0_2x.png  320x320
+- creatures/bastonox/anim/bastonox_back_idle/bastonox_back_idle_f1.png  160x160
+- creatures/bastonox/anim/bastonox_back_idle/bastonox_back_idle_f1_2x.png  320x320
+- creatures/bastonox/anim/bastonox_back_idle/bastonox_back_idle_f2.png  160x160
+- creatures/bastonox/anim/bastonox_back_idle/bastonox_back_idle_f2_2x.png  320x320
+- creatures/bastonox/anim/bastonox_back_idle/bastonox_back_idle_f3.png  160x160
+- creatures/bastonox/anim/bastonox_back_idle/bastonox_back_idle_f3_2x.png  320x320
+- creatures/bastonox/anim/bastonox_back_idle_2x.gif  320x320 4fr
+- creatures/bastonox/anim/bastonox_back_idle_sheet.png  640x160
+- creatures/bastonox/anim/bastonox_back_idle_sheet_2x.png  1280x320
+- creatures/bastonox/anim/bastonox_front_idle/bastonox_front_idle_f0.png  160x160
+- creatures/bastonox/anim/bastonox_front_idle/bastonox_front_idle_f0_2x.png  320x320
+- creatures/bastonox/anim/bastonox_front_idle/bastonox_front_idle_f1.png  160x160
+- creatures/bastonox/anim/bastonox_front_idle/bastonox_front_idle_f1_2x.png  320x320
+- creatures/bastonox/anim/bastonox_front_idle/bastonox_front_idle_f2.png  160x160
+- creatures/bastonox/anim/bastonox_front_idle/bastonox_front_idle_f2_2x.png  320x320
+- creatures/bastonox/anim/bastonox_front_idle/bastonox_front_idle_f3.png  160x160
+- creatures/bastonox/anim/bastonox_front_idle/bastonox_front_idle_f3_2x.png  320x320
+- creatures/bastonox/anim/bastonox_front_idle_2x.gif  320x320 4fr
+- creatures/bastonox/anim/bastonox_front_idle_sheet.png  640x160
+- creatures/bastonox/anim/bastonox_front_idle_sheet_2x.png  1280x320
+- creatures/bastonox/battle/bastonox_back_160.png  160x160
+- creatures/bastonox/battle/bastonox_back_160_2x.png  320x320
+- creatures/bastonox/battle/bastonox_front_160.png  160x160
+- creatures/bastonox/battle/bastonox_front_160_2x.png  320x320
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_down_stand.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_down_stand_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_down_stand_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_down_walk0.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_down_walk0_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_down_walk0_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_down_walk1.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_down_walk1_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_down_walk1_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_down_walk2.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_down_walk2_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_down_walk2_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_down_walk3.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_down_walk3_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_down_walk3_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_left_stand.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_left_stand_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_left_stand_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_left_walk0.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_left_walk0_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_left_walk0_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_left_walk1.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_left_walk1_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_left_walk1_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_left_walk2.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_left_walk2_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_left_walk2_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_left_walk3.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_left_walk3_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_left_walk3_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_right_stand.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_right_stand_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_right_stand_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_right_walk0.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_right_walk0_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_right_walk0_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_right_walk1.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_right_walk1_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_right_walk1_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_right_walk2.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_right_walk2_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_right_walk2_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_right_walk3.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_right_walk3_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_right_walk3_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_up_stand.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_up_stand_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_up_stand_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_up_walk0.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_up_walk0_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_up_walk0_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_up_walk1.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_up_walk1_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_up_walk1_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_up_walk2.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_up_walk2_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_up_walk2_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_up_walk3.png  96x96
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_up_walk3_2x.png  192x192
+- creatures/bastonox/overworld/bastonox_ow/bastonox_ow_up_walk3_3x.png  288x288
+- creatures/bastonox/overworld/bastonox_ow_sheet.png  480x384
+- creatures/bastonox/overworld/bastonox_ow_sheet_2x.png  960x768
+- creatures/bastonox/overworld/bastonox_ow_sheet_3x.png  1440x1152
+- creatures/bastonox/overworld/bastonox_ow_walk_all_2x.gif  768x192 4fr
+- creatures/bastonox/overworld/bastonox_ow_walk_all_3x.gif  1152x288 4fr
+- creatures/bastonox/overworld/bastonox_ow_walk_down_2x.gif  192x192 4fr
+- creatures/bastonox/overworld/bastonox_ow_walk_down_3x.gif  288x288 4fr
+- creatures/bastonox/overworld/bastonox_ow_walk_left_2x.gif  192x192 4fr
+- creatures/bastonox/overworld/bastonox_ow_walk_left_3x.gif  288x288 4fr
+- creatures/bastonox/overworld/bastonox_ow_walk_right_2x.gif  192x192 4fr
+- creatures/bastonox/overworld/bastonox_ow_walk_right_3x.gif  288x288 4fr
+- creatures/bastonox/overworld/bastonox_ow_walk_up_2x.gif  192x192 4fr
+- creatures/bastonox/overworld/bastonox_ow_walk_up_3x.gif  288x288 4fr
+
+### creatures/cindrip (99 files)
+- creatures/cindrip/anim/cindrip_back_idle/cindrip_back_idle_f0.png  128x128
+- creatures/cindrip/anim/cindrip_back_idle/cindrip_back_idle_f0_2x.png  256x256
+- creatures/cindrip/anim/cindrip_back_idle/cindrip_back_idle_f1.png  128x128
+- creatures/cindrip/anim/cindrip_back_idle/cindrip_back_idle_f1_2x.png  256x256
+- creatures/cindrip/anim/cindrip_back_idle/cindrip_back_idle_f2.png  128x128
+- creatures/cindrip/anim/cindrip_back_idle/cindrip_back_idle_f2_2x.png  256x256
+- creatures/cindrip/anim/cindrip_back_idle/cindrip_back_idle_f3.png  128x128
+- creatures/cindrip/anim/cindrip_back_idle/cindrip_back_idle_f3_2x.png  256x256
+- creatures/cindrip/anim/cindrip_back_idle_2x.gif  256x256 4fr
+- creatures/cindrip/anim/cindrip_back_idle_sheet.png  512x128
+- creatures/cindrip/anim/cindrip_back_idle_sheet_2x.png  1024x256
+- creatures/cindrip/anim/cindrip_front_idle/cindrip_front_idle_f0.png  128x128
+- creatures/cindrip/anim/cindrip_front_idle/cindrip_front_idle_f0_2x.png  256x256
+- creatures/cindrip/anim/cindrip_front_idle/cindrip_front_idle_f1.png  128x128
+- creatures/cindrip/anim/cindrip_front_idle/cindrip_front_idle_f1_2x.png  256x256
+- creatures/cindrip/anim/cindrip_front_idle/cindrip_front_idle_f2.png  128x128
+- creatures/cindrip/anim/cindrip_front_idle/cindrip_front_idle_f2_2x.png  256x256
+- creatures/cindrip/anim/cindrip_front_idle/cindrip_front_idle_f3.png  128x128
+- creatures/cindrip/anim/cindrip_front_idle/cindrip_front_idle_f3_2x.png  256x256
+- creatures/cindrip/anim/cindrip_front_idle_2x.gif  256x256 4fr
+- creatures/cindrip/anim/cindrip_front_idle_sheet.png  512x128
+- creatures/cindrip/anim/cindrip_front_idle_sheet_2x.png  1024x256
+- creatures/cindrip/battle/cindrip_back_128.png  128x128
+- creatures/cindrip/battle/cindrip_back_128_2x.png  256x256
+- creatures/cindrip/battle/cindrip_front_128.png  128x128
+- creatures/cindrip/battle/cindrip_front_128_2x.png  256x256
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_down_stand.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_down_stand_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_down_stand_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_down_walk0.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_down_walk0_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_down_walk0_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_down_walk1.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_down_walk1_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_down_walk1_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_down_walk2.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_down_walk2_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_down_walk2_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_down_walk3.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_down_walk3_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_down_walk3_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_left_stand.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_left_stand_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_left_stand_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_left_walk0.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_left_walk0_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_left_walk0_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_left_walk1.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_left_walk1_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_left_walk1_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_left_walk2.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_left_walk2_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_left_walk2_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_left_walk3.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_left_walk3_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_left_walk3_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_right_stand.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_right_stand_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_right_stand_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_right_walk0.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_right_walk0_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_right_walk0_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_right_walk1.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_right_walk1_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_right_walk1_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_right_walk2.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_right_walk2_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_right_walk2_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_right_walk3.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_right_walk3_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_right_walk3_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_up_stand.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_up_stand_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_up_stand_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_up_walk0.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_up_walk0_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_up_walk0_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_up_walk1.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_up_walk1_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_up_walk1_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_up_walk2.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_up_walk2_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_up_walk2_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_up_walk3.png  64x64
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_up_walk3_2x.png  128x128
+- creatures/cindrip/overworld/cindrip_ow/cindrip_ow_up_walk3_3x.png  192x192
+- creatures/cindrip/overworld/cindrip_ow_sheet.png  320x256
+- creatures/cindrip/overworld/cindrip_ow_sheet_2x.png  640x512
+- creatures/cindrip/overworld/cindrip_ow_sheet_3x.png  960x768
+- creatures/cindrip/overworld/cindrip_ow_walk_all_2x.gif  512x128 4fr
+- creatures/cindrip/overworld/cindrip_ow_walk_all_3x.gif  768x192 4fr
+- creatures/cindrip/overworld/cindrip_ow_walk_down_2x.gif  128x128 4fr
+- creatures/cindrip/overworld/cindrip_ow_walk_down_3x.gif  192x192 4fr
+- creatures/cindrip/overworld/cindrip_ow_walk_left_2x.gif  128x128 4fr
+- creatures/cindrip/overworld/cindrip_ow_walk_left_3x.gif  192x192 4fr
+- creatures/cindrip/overworld/cindrip_ow_walk_right_2x.gif  128x128 4fr
+- creatures/cindrip/overworld/cindrip_ow_walk_right_3x.gif  192x192 4fr
+- creatures/cindrip/overworld/cindrip_ow_walk_up_2x.gif  128x128 4fr
+- creatures/cindrip/overworld/cindrip_ow_walk_up_3x.gif  192x192 4fr
+
+### creatures/emberlunx (99 files)
+- creatures/emberlunx/anim/emberlunx_back_idle/emberlunx_back_idle_f0.png  128x128
+- creatures/emberlunx/anim/emberlunx_back_idle/emberlunx_back_idle_f0_2x.png  256x256
+- creatures/emberlunx/anim/emberlunx_back_idle/emberlunx_back_idle_f1.png  128x128
+- creatures/emberlunx/anim/emberlunx_back_idle/emberlunx_back_idle_f1_2x.png  256x256
+- creatures/emberlunx/anim/emberlunx_back_idle/emberlunx_back_idle_f2.png  128x128
+- creatures/emberlunx/anim/emberlunx_back_idle/emberlunx_back_idle_f2_2x.png  256x256
+- creatures/emberlunx/anim/emberlunx_back_idle/emberlunx_back_idle_f3.png  128x128
+- creatures/emberlunx/anim/emberlunx_back_idle/emberlunx_back_idle_f3_2x.png  256x256
+- creatures/emberlunx/anim/emberlunx_back_idle_2x.gif  256x256 4fr
+- creatures/emberlunx/anim/emberlunx_back_idle_sheet.png  512x128
+- creatures/emberlunx/anim/emberlunx_back_idle_sheet_2x.png  1024x256
+- creatures/emberlunx/anim/emberlunx_front_idle/emberlunx_front_idle_f0.png  128x128
+- creatures/emberlunx/anim/emberlunx_front_idle/emberlunx_front_idle_f0_2x.png  256x256
+- creatures/emberlunx/anim/emberlunx_front_idle/emberlunx_front_idle_f1.png  128x128
+- creatures/emberlunx/anim/emberlunx_front_idle/emberlunx_front_idle_f1_2x.png  256x256
+- creatures/emberlunx/anim/emberlunx_front_idle/emberlunx_front_idle_f2.png  128x128
+- creatures/emberlunx/anim/emberlunx_front_idle/emberlunx_front_idle_f2_2x.png  256x256
+- creatures/emberlunx/anim/emberlunx_front_idle/emberlunx_front_idle_f3.png  128x128
+- creatures/emberlunx/anim/emberlunx_front_idle/emberlunx_front_idle_f3_2x.png  256x256
+- creatures/emberlunx/anim/emberlunx_front_idle_2x.gif  256x256 4fr
+- creatures/emberlunx/anim/emberlunx_front_idle_sheet.png  512x128
+- creatures/emberlunx/anim/emberlunx_front_idle_sheet_2x.png  1024x256
+- creatures/emberlunx/battle/emberlunx_back_128.png  128x128
+- creatures/emberlunx/battle/emberlunx_back_128_2x.png  256x256
+- creatures/emberlunx/battle/emberlunx_front_128.png  128x128
+- creatures/emberlunx/battle/emberlunx_front_128_2x.png  256x256
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_down_stand.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_down_stand_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_down_stand_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_down_walk0.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_down_walk0_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_down_walk0_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_down_walk1.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_down_walk1_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_down_walk1_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_down_walk2.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_down_walk2_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_down_walk2_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_down_walk3.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_down_walk3_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_down_walk3_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_left_stand.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_left_stand_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_left_stand_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_left_walk0.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_left_walk0_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_left_walk0_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_left_walk1.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_left_walk1_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_left_walk1_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_left_walk2.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_left_walk2_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_left_walk2_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_left_walk3.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_left_walk3_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_left_walk3_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_right_stand.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_right_stand_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_right_stand_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_right_walk0.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_right_walk0_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_right_walk0_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_right_walk1.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_right_walk1_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_right_walk1_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_right_walk2.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_right_walk2_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_right_walk2_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_right_walk3.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_right_walk3_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_right_walk3_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_up_stand.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_up_stand_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_up_stand_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_up_walk0.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_up_walk0_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_up_walk0_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_up_walk1.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_up_walk1_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_up_walk1_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_up_walk2.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_up_walk2_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_up_walk2_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_up_walk3.png  64x64
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_up_walk3_2x.png  128x128
+- creatures/emberlunx/overworld/emberlunx_ow/emberlunx_ow_up_walk3_3x.png  192x192
+- creatures/emberlunx/overworld/emberlunx_ow_sheet.png  320x256
+- creatures/emberlunx/overworld/emberlunx_ow_sheet_2x.png  640x512
+- creatures/emberlunx/overworld/emberlunx_ow_sheet_3x.png  960x768
+- creatures/emberlunx/overworld/emberlunx_ow_walk_all_2x.gif  512x128 4fr
+- creatures/emberlunx/overworld/emberlunx_ow_walk_all_3x.gif  768x192 4fr
+- creatures/emberlunx/overworld/emberlunx_ow_walk_down_2x.gif  128x128 4fr
+- creatures/emberlunx/overworld/emberlunx_ow_walk_down_3x.gif  192x192 4fr
+- creatures/emberlunx/overworld/emberlunx_ow_walk_left_2x.gif  128x128 4fr
+- creatures/emberlunx/overworld/emberlunx_ow_walk_left_3x.gif  192x192 4fr
+- creatures/emberlunx/overworld/emberlunx_ow_walk_right_2x.gif  128x128 4fr
+- creatures/emberlunx/overworld/emberlunx_ow_walk_right_3x.gif  192x192 4fr
+- creatures/emberlunx/overworld/emberlunx_ow_walk_up_2x.gif  128x128 4fr
+- creatures/emberlunx/overworld/emberlunx_ow_walk_up_3x.gif  192x192 4fr
+
+### creatures/forgeharrow (99 files)
+- creatures/forgeharrow/anim/forgeharrow_back_idle/forgeharrow_back_idle_f0.png  160x160
+- creatures/forgeharrow/anim/forgeharrow_back_idle/forgeharrow_back_idle_f0_2x.png  320x320
+- creatures/forgeharrow/anim/forgeharrow_back_idle/forgeharrow_back_idle_f1.png  160x160
+- creatures/forgeharrow/anim/forgeharrow_back_idle/forgeharrow_back_idle_f1_2x.png  320x320
+- creatures/forgeharrow/anim/forgeharrow_back_idle/forgeharrow_back_idle_f2.png  160x160
+- creatures/forgeharrow/anim/forgeharrow_back_idle/forgeharrow_back_idle_f2_2x.png  320x320
+- creatures/forgeharrow/anim/forgeharrow_back_idle/forgeharrow_back_idle_f3.png  160x160
+- creatures/forgeharrow/anim/forgeharrow_back_idle/forgeharrow_back_idle_f3_2x.png  320x320
+- creatures/forgeharrow/anim/forgeharrow_back_idle_2x.gif  320x320 4fr
+- creatures/forgeharrow/anim/forgeharrow_back_idle_sheet.png  640x160
+- creatures/forgeharrow/anim/forgeharrow_back_idle_sheet_2x.png  1280x320
+- creatures/forgeharrow/anim/forgeharrow_front_idle/forgeharrow_front_idle_f0.png  160x160
+- creatures/forgeharrow/anim/forgeharrow_front_idle/forgeharrow_front_idle_f0_2x.png  320x320
+- creatures/forgeharrow/anim/forgeharrow_front_idle/forgeharrow_front_idle_f1.png  160x160
+- creatures/forgeharrow/anim/forgeharrow_front_idle/forgeharrow_front_idle_f1_2x.png  320x320
+- creatures/forgeharrow/anim/forgeharrow_front_idle/forgeharrow_front_idle_f2.png  160x160
+- creatures/forgeharrow/anim/forgeharrow_front_idle/forgeharrow_front_idle_f2_2x.png  320x320
+- creatures/forgeharrow/anim/forgeharrow_front_idle/forgeharrow_front_idle_f3.png  160x160
+- creatures/forgeharrow/anim/forgeharrow_front_idle/forgeharrow_front_idle_f3_2x.png  320x320
+- creatures/forgeharrow/anim/forgeharrow_front_idle_2x.gif  320x320 4fr
+- creatures/forgeharrow/anim/forgeharrow_front_idle_sheet.png  640x160
+- creatures/forgeharrow/anim/forgeharrow_front_idle_sheet_2x.png  1280x320
+- creatures/forgeharrow/battle/forgeharrow_back_160.png  160x160
+- creatures/forgeharrow/battle/forgeharrow_back_160_2x.png  320x320
+- creatures/forgeharrow/battle/forgeharrow_front_160.png  160x160
+- creatures/forgeharrow/battle/forgeharrow_front_160_2x.png  320x320
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_down_stand.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_down_stand_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_down_stand_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_down_walk0.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_down_walk0_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_down_walk0_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_down_walk1.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_down_walk1_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_down_walk1_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_down_walk2.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_down_walk2_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_down_walk2_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_down_walk3.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_down_walk3_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_down_walk3_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_left_stand.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_left_stand_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_left_stand_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_left_walk0.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_left_walk0_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_left_walk0_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_left_walk1.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_left_walk1_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_left_walk1_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_left_walk2.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_left_walk2_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_left_walk2_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_left_walk3.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_left_walk3_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_left_walk3_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_right_stand.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_right_stand_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_right_stand_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_right_walk0.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_right_walk0_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_right_walk0_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_right_walk1.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_right_walk1_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_right_walk1_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_right_walk2.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_right_walk2_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_right_walk2_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_right_walk3.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_right_walk3_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_right_walk3_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_up_stand.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_up_stand_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_up_stand_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_up_walk0.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_up_walk0_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_up_walk0_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_up_walk1.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_up_walk1_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_up_walk1_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_up_walk2.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_up_walk2_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_up_walk2_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_up_walk3.png  96x96
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_up_walk3_2x.png  192x192
+- creatures/forgeharrow/overworld/forgeharrow_ow/forgeharrow_ow_up_walk3_3x.png  288x288
+- creatures/forgeharrow/overworld/forgeharrow_ow_sheet.png  480x384
+- creatures/forgeharrow/overworld/forgeharrow_ow_sheet_2x.png  960x768
+- creatures/forgeharrow/overworld/forgeharrow_ow_sheet_3x.png  1440x1152
+- creatures/forgeharrow/overworld/forgeharrow_ow_walk_all_2x.gif  768x192 4fr
+- creatures/forgeharrow/overworld/forgeharrow_ow_walk_all_3x.gif  1152x288 4fr
+- creatures/forgeharrow/overworld/forgeharrow_ow_walk_down_2x.gif  192x192 4fr
+- creatures/forgeharrow/overworld/forgeharrow_ow_walk_down_3x.gif  288x288 4fr
+- creatures/forgeharrow/overworld/forgeharrow_ow_walk_left_2x.gif  192x192 4fr
+- creatures/forgeharrow/overworld/forgeharrow_ow_walk_left_3x.gif  288x288 4fr
+- creatures/forgeharrow/overworld/forgeharrow_ow_walk_right_2x.gif  192x192 4fr
+- creatures/forgeharrow/overworld/forgeharrow_ow_walk_right_3x.gif  288x288 4fr
+- creatures/forgeharrow/overworld/forgeharrow_ow_walk_up_2x.gif  192x192 4fr
+- creatures/forgeharrow/overworld/forgeharrow_ow_walk_up_3x.gif  288x288 4fr
+
+### creatures/rillop (99 files)
+- creatures/rillop/anim/rillop_back_idle/rillop_back_idle_f0.png  128x128
+- creatures/rillop/anim/rillop_back_idle/rillop_back_idle_f0_2x.png  256x256
+- creatures/rillop/anim/rillop_back_idle/rillop_back_idle_f1.png  128x128
+- creatures/rillop/anim/rillop_back_idle/rillop_back_idle_f1_2x.png  256x256
+- creatures/rillop/anim/rillop_back_idle/rillop_back_idle_f2.png  128x128
+- creatures/rillop/anim/rillop_back_idle/rillop_back_idle_f2_2x.png  256x256
+- creatures/rillop/anim/rillop_back_idle/rillop_back_idle_f3.png  128x128
+- creatures/rillop/anim/rillop_back_idle/rillop_back_idle_f3_2x.png  256x256
+- creatures/rillop/anim/rillop_back_idle_2x.gif  256x256 4fr
+- creatures/rillop/anim/rillop_back_idle_sheet.png  512x128
+- creatures/rillop/anim/rillop_back_idle_sheet_2x.png  1024x256
+- creatures/rillop/anim/rillop_front_idle/rillop_front_idle_f0.png  128x128
+- creatures/rillop/anim/rillop_front_idle/rillop_front_idle_f0_2x.png  256x256
+- creatures/rillop/anim/rillop_front_idle/rillop_front_idle_f1.png  128x128
+- creatures/rillop/anim/rillop_front_idle/rillop_front_idle_f1_2x.png  256x256
+- creatures/rillop/anim/rillop_front_idle/rillop_front_idle_f2.png  128x128
+- creatures/rillop/anim/rillop_front_idle/rillop_front_idle_f2_2x.png  256x256
+- creatures/rillop/anim/rillop_front_idle/rillop_front_idle_f3.png  128x128
+- creatures/rillop/anim/rillop_front_idle/rillop_front_idle_f3_2x.png  256x256
+- creatures/rillop/anim/rillop_front_idle_2x.gif  256x256 4fr
+- creatures/rillop/anim/rillop_front_idle_sheet.png  512x128
+- creatures/rillop/anim/rillop_front_idle_sheet_2x.png  1024x256
+- creatures/rillop/battle/rillop_back_128.png  128x128
+- creatures/rillop/battle/rillop_back_128_2x.png  256x256
+- creatures/rillop/battle/rillop_front_128.png  128x128
+- creatures/rillop/battle/rillop_front_128_2x.png  256x256
+- creatures/rillop/overworld/rillop_ow/rillop_ow_down_stand.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_down_stand_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_down_stand_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_down_walk0.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_down_walk0_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_down_walk0_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_down_walk1.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_down_walk1_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_down_walk1_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_down_walk2.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_down_walk2_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_down_walk2_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_down_walk3.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_down_walk3_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_down_walk3_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_left_stand.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_left_stand_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_left_stand_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_left_walk0.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_left_walk0_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_left_walk0_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_left_walk1.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_left_walk1_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_left_walk1_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_left_walk2.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_left_walk2_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_left_walk2_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_left_walk3.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_left_walk3_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_left_walk3_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_right_stand.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_right_stand_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_right_stand_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_right_walk0.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_right_walk0_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_right_walk0_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_right_walk1.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_right_walk1_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_right_walk1_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_right_walk2.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_right_walk2_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_right_walk2_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_right_walk3.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_right_walk3_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_right_walk3_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_up_stand.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_up_stand_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_up_stand_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_up_walk0.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_up_walk0_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_up_walk0_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_up_walk1.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_up_walk1_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_up_walk1_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_up_walk2.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_up_walk2_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_up_walk2_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow/rillop_ow_up_walk3.png  64x64
+- creatures/rillop/overworld/rillop_ow/rillop_ow_up_walk3_2x.png  128x128
+- creatures/rillop/overworld/rillop_ow/rillop_ow_up_walk3_3x.png  192x192
+- creatures/rillop/overworld/rillop_ow_sheet.png  320x256
+- creatures/rillop/overworld/rillop_ow_sheet_2x.png  640x512
+- creatures/rillop/overworld/rillop_ow_sheet_3x.png  960x768
+- creatures/rillop/overworld/rillop_ow_walk_all_2x.gif  512x128 4fr
+- creatures/rillop/overworld/rillop_ow_walk_all_3x.gif  768x192 4fr
+- creatures/rillop/overworld/rillop_ow_walk_down_2x.gif  128x128 4fr
+- creatures/rillop/overworld/rillop_ow_walk_down_3x.gif  192x192 4fr
+- creatures/rillop/overworld/rillop_ow_walk_left_2x.gif  128x128 4fr
+- creatures/rillop/overworld/rillop_ow_walk_left_3x.gif  192x192 4fr
+- creatures/rillop/overworld/rillop_ow_walk_right_2x.gif  128x128 4fr
+- creatures/rillop/overworld/rillop_ow_walk_right_3x.gif  192x192 4fr
+- creatures/rillop/overworld/rillop_ow_walk_up_2x.gif  128x128 4fr
+- creatures/rillop/overworld/rillop_ow_walk_up_3x.gif  192x192 4fr
+
+### creatures/brookhorn (99 files)
+- creatures/brookhorn/anim/brookhorn_back_idle/brookhorn_back_idle_f0.png  128x128
+- creatures/brookhorn/anim/brookhorn_back_idle/brookhorn_back_idle_f0_2x.png  256x256
+- creatures/brookhorn/anim/brookhorn_back_idle/brookhorn_back_idle_f1.png  128x128
+- creatures/brookhorn/anim/brookhorn_back_idle/brookhorn_back_idle_f1_2x.png  256x256
+- creatures/brookhorn/anim/brookhorn_back_idle/brookhorn_back_idle_f2.png  128x128
+- creatures/brookhorn/anim/brookhorn_back_idle/brookhorn_back_idle_f2_2x.png  256x256
+- creatures/brookhorn/anim/brookhorn_back_idle/brookhorn_back_idle_f3.png  128x128
+- creatures/brookhorn/anim/brookhorn_back_idle/brookhorn_back_idle_f3_2x.png  256x256
+- creatures/brookhorn/anim/brookhorn_back_idle_2x.gif  256x256 4fr
+- creatures/brookhorn/anim/brookhorn_back_idle_sheet.png  512x128
+- creatures/brookhorn/anim/brookhorn_back_idle_sheet_2x.png  1024x256
+- creatures/brookhorn/anim/brookhorn_front_idle/brookhorn_front_idle_f0.png  128x128
+- creatures/brookhorn/anim/brookhorn_front_idle/brookhorn_front_idle_f0_2x.png  256x256
+- creatures/brookhorn/anim/brookhorn_front_idle/brookhorn_front_idle_f1.png  128x128
+- creatures/brookhorn/anim/brookhorn_front_idle/brookhorn_front_idle_f1_2x.png  256x256
+- creatures/brookhorn/anim/brookhorn_front_idle/brookhorn_front_idle_f2.png  128x128
+- creatures/brookhorn/anim/brookhorn_front_idle/brookhorn_front_idle_f2_2x.png  256x256
+- creatures/brookhorn/anim/brookhorn_front_idle/brookhorn_front_idle_f3.png  128x128
+- creatures/brookhorn/anim/brookhorn_front_idle/brookhorn_front_idle_f3_2x.png  256x256
+- creatures/brookhorn/anim/brookhorn_front_idle_2x.gif  256x256 4fr
+- creatures/brookhorn/anim/brookhorn_front_idle_sheet.png  512x128
+- creatures/brookhorn/anim/brookhorn_front_idle_sheet_2x.png  1024x256
+- creatures/brookhorn/battle/brookhorn_back_128.png  128x128
+- creatures/brookhorn/battle/brookhorn_back_128_2x.png  256x256
+- creatures/brookhorn/battle/brookhorn_front_128.png  128x128
+- creatures/brookhorn/battle/brookhorn_front_128_2x.png  256x256
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_down_stand.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_down_stand_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_down_stand_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_down_walk0.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_down_walk0_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_down_walk0_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_down_walk1.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_down_walk1_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_down_walk1_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_down_walk2.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_down_walk2_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_down_walk2_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_down_walk3.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_down_walk3_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_down_walk3_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_left_stand.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_left_stand_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_left_stand_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_left_walk0.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_left_walk0_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_left_walk0_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_left_walk1.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_left_walk1_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_left_walk1_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_left_walk2.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_left_walk2_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_left_walk2_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_left_walk3.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_left_walk3_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_left_walk3_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_right_stand.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_right_stand_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_right_stand_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_right_walk0.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_right_walk0_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_right_walk0_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_right_walk1.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_right_walk1_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_right_walk1_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_right_walk2.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_right_walk2_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_right_walk2_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_right_walk3.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_right_walk3_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_right_walk3_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_up_stand.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_up_stand_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_up_stand_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_up_walk0.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_up_walk0_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_up_walk0_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_up_walk1.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_up_walk1_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_up_walk1_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_up_walk2.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_up_walk2_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_up_walk2_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_up_walk3.png  64x64
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_up_walk3_2x.png  128x128
+- creatures/brookhorn/overworld/brookhorn_ow/brookhorn_ow_up_walk3_3x.png  192x192
+- creatures/brookhorn/overworld/brookhorn_ow_sheet.png  320x256
+- creatures/brookhorn/overworld/brookhorn_ow_sheet_2x.png  640x512
+- creatures/brookhorn/overworld/brookhorn_ow_sheet_3x.png  960x768
+- creatures/brookhorn/overworld/brookhorn_ow_walk_all_2x.gif  512x128 4fr
+- creatures/brookhorn/overworld/brookhorn_ow_walk_all_3x.gif  768x192 4fr
+- creatures/brookhorn/overworld/brookhorn_ow_walk_down_2x.gif  128x128 4fr
+- creatures/brookhorn/overworld/brookhorn_ow_walk_down_3x.gif  192x192 4fr
+- creatures/brookhorn/overworld/brookhorn_ow_walk_left_2x.gif  128x128 4fr
+- creatures/brookhorn/overworld/brookhorn_ow_walk_left_3x.gif  192x192 4fr
+- creatures/brookhorn/overworld/brookhorn_ow_walk_right_2x.gif  128x128 4fr
+- creatures/brookhorn/overworld/brookhorn_ow_walk_right_3x.gif  192x192 4fr
+- creatures/brookhorn/overworld/brookhorn_ow_walk_up_2x.gif  128x128 4fr
+- creatures/brookhorn/overworld/brookhorn_ow_walk_up_3x.gif  192x192 4fr
+
+### creatures/tidemarrow (99 files)
+- creatures/tidemarrow/anim/tidemarrow_back_idle/tidemarrow_back_idle_f0.png  160x160
+- creatures/tidemarrow/anim/tidemarrow_back_idle/tidemarrow_back_idle_f0_2x.png  320x320
+- creatures/tidemarrow/anim/tidemarrow_back_idle/tidemarrow_back_idle_f1.png  160x160
+- creatures/tidemarrow/anim/tidemarrow_back_idle/tidemarrow_back_idle_f1_2x.png  320x320
+- creatures/tidemarrow/anim/tidemarrow_back_idle/tidemarrow_back_idle_f2.png  160x160
+- creatures/tidemarrow/anim/tidemarrow_back_idle/tidemarrow_back_idle_f2_2x.png  320x320
+- creatures/tidemarrow/anim/tidemarrow_back_idle/tidemarrow_back_idle_f3.png  160x160
+- creatures/tidemarrow/anim/tidemarrow_back_idle/tidemarrow_back_idle_f3_2x.png  320x320
+- creatures/tidemarrow/anim/tidemarrow_back_idle_2x.gif  320x320 4fr
+- creatures/tidemarrow/anim/tidemarrow_back_idle_sheet.png  640x160
+- creatures/tidemarrow/anim/tidemarrow_back_idle_sheet_2x.png  1280x320
+- creatures/tidemarrow/anim/tidemarrow_front_idle/tidemarrow_front_idle_f0.png  160x160
+- creatures/tidemarrow/anim/tidemarrow_front_idle/tidemarrow_front_idle_f0_2x.png  320x320
+- creatures/tidemarrow/anim/tidemarrow_front_idle/tidemarrow_front_idle_f1.png  160x160
+- creatures/tidemarrow/anim/tidemarrow_front_idle/tidemarrow_front_idle_f1_2x.png  320x320
+- creatures/tidemarrow/anim/tidemarrow_front_idle/tidemarrow_front_idle_f2.png  160x160
+- creatures/tidemarrow/anim/tidemarrow_front_idle/tidemarrow_front_idle_f2_2x.png  320x320
+- creatures/tidemarrow/anim/tidemarrow_front_idle/tidemarrow_front_idle_f3.png  160x160
+- creatures/tidemarrow/anim/tidemarrow_front_idle/tidemarrow_front_idle_f3_2x.png  320x320
+- creatures/tidemarrow/anim/tidemarrow_front_idle_2x.gif  320x320 4fr
+- creatures/tidemarrow/anim/tidemarrow_front_idle_sheet.png  640x160
+- creatures/tidemarrow/anim/tidemarrow_front_idle_sheet_2x.png  1280x320
+- creatures/tidemarrow/battle/tidemarrow_back_160.png  160x160
+- creatures/tidemarrow/battle/tidemarrow_back_160_2x.png  320x320
+- creatures/tidemarrow/battle/tidemarrow_front_160.png  160x160
+- creatures/tidemarrow/battle/tidemarrow_front_160_2x.png  320x320
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_down_stand.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_down_stand_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_down_stand_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_down_walk0.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_down_walk0_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_down_walk0_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_down_walk1.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_down_walk1_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_down_walk1_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_down_walk2.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_down_walk2_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_down_walk2_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_down_walk3.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_down_walk3_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_down_walk3_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_left_stand.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_left_stand_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_left_stand_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_left_walk0.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_left_walk0_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_left_walk0_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_left_walk1.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_left_walk1_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_left_walk1_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_left_walk2.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_left_walk2_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_left_walk2_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_left_walk3.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_left_walk3_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_left_walk3_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_right_stand.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_right_stand_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_right_stand_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_right_walk0.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_right_walk0_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_right_walk0_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_right_walk1.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_right_walk1_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_right_walk1_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_right_walk2.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_right_walk2_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_right_walk2_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_right_walk3.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_right_walk3_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_right_walk3_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_up_stand.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_up_stand_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_up_stand_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_up_walk0.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_up_walk0_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_up_walk0_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_up_walk1.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_up_walk1_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_up_walk1_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_up_walk2.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_up_walk2_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_up_walk2_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_up_walk3.png  96x96
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_up_walk3_2x.png  192x192
+- creatures/tidemarrow/overworld/tidemarrow_ow/tidemarrow_ow_up_walk3_3x.png  288x288
+- creatures/tidemarrow/overworld/tidemarrow_ow_sheet.png  480x384
+- creatures/tidemarrow/overworld/tidemarrow_ow_sheet_2x.png  960x768
+- creatures/tidemarrow/overworld/tidemarrow_ow_sheet_3x.png  1440x1152
+- creatures/tidemarrow/overworld/tidemarrow_ow_walk_all_2x.gif  768x192 4fr
+- creatures/tidemarrow/overworld/tidemarrow_ow_walk_all_3x.gif  1152x288 4fr
+- creatures/tidemarrow/overworld/tidemarrow_ow_walk_down_2x.gif  192x192 4fr
+- creatures/tidemarrow/overworld/tidemarrow_ow_walk_down_3x.gif  288x288 4fr
+- creatures/tidemarrow/overworld/tidemarrow_ow_walk_left_2x.gif  192x192 4fr
+- creatures/tidemarrow/overworld/tidemarrow_ow_walk_left_3x.gif  288x288 4fr
+- creatures/tidemarrow/overworld/tidemarrow_ow_walk_right_2x.gif  192x192 4fr
+- creatures/tidemarrow/overworld/tidemarrow_ow_walk_right_3x.gif  288x288 4fr
+- creatures/tidemarrow/overworld/tidemarrow_ow_walk_up_2x.gif  192x192 4fr
+- creatures/tidemarrow/overworld/tidemarrow_ow_walk_up_3x.gif  288x288 4fr
+
+### humans/cal (79 files)
+- humans/cal/overworld/cal_chibi/cal_chibi_down_stand.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_down_stand_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_down_stand_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_down_walk0.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_down_walk0_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_down_walk0_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_down_walk1.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_down_walk1_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_down_walk1_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_down_walk2.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_down_walk2_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_down_walk2_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_down_walk3.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_down_walk3_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_down_walk3_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_left_stand.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_left_stand_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_left_stand_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_left_walk0.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_left_walk0_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_left_walk0_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_left_walk1.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_left_walk1_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_left_walk1_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_left_walk2.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_left_walk2_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_left_walk2_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_left_walk3.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_left_walk3_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_left_walk3_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_right_stand.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_right_stand_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_right_stand_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_right_walk0.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_right_walk0_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_right_walk0_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_right_walk1.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_right_walk1_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_right_walk1_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_right_walk2.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_right_walk2_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_right_walk2_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_right_walk3.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_right_walk3_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_right_walk3_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_up_stand.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_up_stand_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_up_stand_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_up_walk0.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_up_walk0_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_up_walk0_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_up_walk1.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_up_walk1_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_up_walk1_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_up_walk2.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_up_walk2_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_up_walk2_3x.png  192x288
+- humans/cal/overworld/cal_chibi/cal_chibi_up_walk3.png  64x96
+- humans/cal/overworld/cal_chibi/cal_chibi_up_walk3_2x.png  128x192
+- humans/cal/overworld/cal_chibi/cal_chibi_up_walk3_3x.png  192x288
+- humans/cal/overworld/cal_chibi_sheet.png  320x384
+- humans/cal/overworld/cal_chibi_sheet_2x.png  640x768
+- humans/cal/overworld/cal_chibi_sheet_3x.png  960x1152
+- humans/cal/overworld/cal_chibi_walk_all_2x.gif  512x192 4fr
+- humans/cal/overworld/cal_chibi_walk_all_3x.gif  768x288 4fr
+- humans/cal/overworld/cal_chibi_walk_down_2x.gif  128x192 4fr
+- humans/cal/overworld/cal_chibi_walk_down_3x.gif  192x288 4fr
+- humans/cal/overworld/cal_chibi_walk_left_2x.gif  128x192 4fr
+- humans/cal/overworld/cal_chibi_walk_left_3x.gif  192x288 4fr
+- humans/cal/overworld/cal_chibi_walk_right_2x.gif  128x192 4fr
+- humans/cal/overworld/cal_chibi_walk_right_3x.gif  192x288 4fr
+- humans/cal/overworld/cal_chibi_walk_up_2x.gif  128x192 4fr
+- humans/cal/overworld/cal_chibi_walk_up_3x.gif  192x288 4fr
+- humans/cal/portraits/cal_happy.png  324x512
+- humans/cal/portraits/cal_neutral.png  343x512
+- humans/cal/portraits/cal_surprised.png  338x512
+- humans/cal/trainer/cal_trainer_64x128.png  64x128
+- humans/cal/trainer/cal_trainer_64x128_2x.png  128x256
+- humans/cal/trainer/cal_trainer_64x128_3x.png  192x384
+
+### humans/ron (79 files)
+- humans/ron/overworld/ron_chibi/ron_chibi_down_stand.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_down_stand_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_down_stand_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_down_walk0.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_down_walk0_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_down_walk0_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_down_walk1.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_down_walk1_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_down_walk1_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_down_walk2.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_down_walk2_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_down_walk2_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_down_walk3.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_down_walk3_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_down_walk3_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_left_stand.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_left_stand_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_left_stand_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_left_walk0.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_left_walk0_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_left_walk0_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_left_walk1.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_left_walk1_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_left_walk1_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_left_walk2.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_left_walk2_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_left_walk2_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_left_walk3.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_left_walk3_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_left_walk3_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_right_stand.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_right_stand_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_right_stand_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_right_walk0.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_right_walk0_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_right_walk0_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_right_walk1.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_right_walk1_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_right_walk1_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_right_walk2.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_right_walk2_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_right_walk2_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_right_walk3.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_right_walk3_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_right_walk3_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_up_stand.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_up_stand_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_up_stand_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_up_walk0.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_up_walk0_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_up_walk0_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_up_walk1.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_up_walk1_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_up_walk1_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_up_walk2.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_up_walk2_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_up_walk2_3x.png  192x288
+- humans/ron/overworld/ron_chibi/ron_chibi_up_walk3.png  64x96
+- humans/ron/overworld/ron_chibi/ron_chibi_up_walk3_2x.png  128x192
+- humans/ron/overworld/ron_chibi/ron_chibi_up_walk3_3x.png  192x288
+- humans/ron/overworld/ron_chibi_sheet.png  320x384
+- humans/ron/overworld/ron_chibi_sheet_2x.png  640x768
+- humans/ron/overworld/ron_chibi_sheet_3x.png  960x1152
+- humans/ron/overworld/ron_chibi_walk_all_2x.gif  512x192 4fr
+- humans/ron/overworld/ron_chibi_walk_all_3x.gif  768x288 4fr
+- humans/ron/overworld/ron_chibi_walk_down_2x.gif  128x192 4fr
+- humans/ron/overworld/ron_chibi_walk_down_3x.gif  192x288 4fr
+- humans/ron/overworld/ron_chibi_walk_left_2x.gif  128x192 4fr
+- humans/ron/overworld/ron_chibi_walk_left_3x.gif  192x288 4fr
+- humans/ron/overworld/ron_chibi_walk_right_2x.gif  128x192 4fr
+- humans/ron/overworld/ron_chibi_walk_right_3x.gif  192x288 4fr
+- humans/ron/overworld/ron_chibi_walk_up_2x.gif  128x192 4fr
+- humans/ron/overworld/ron_chibi_walk_up_3x.gif  192x288 4fr
+- humans/ron/portraits/ron_angry.png  343x512
+- humans/ron/portraits/ron_happy.png  331x512
+- humans/ron/portraits/ron_neutral.png  339x512
+- humans/ron/trainer/ron_trainer_64x128.png  64x128
+- humans/ron/trainer/ron_trainer_64x128_2x.png  128x256
+- humans/ron/trainer/ron_trainer_64x128_3x.png  192x384
+
+### humans/mira (79 files)
+- humans/mira/overworld/mira_chibi/mira_chibi_down_stand.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_down_stand_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_down_stand_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_down_walk0.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_down_walk0_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_down_walk0_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_down_walk1.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_down_walk1_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_down_walk1_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_down_walk2.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_down_walk2_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_down_walk2_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_down_walk3.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_down_walk3_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_down_walk3_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_left_stand.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_left_stand_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_left_stand_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_left_walk0.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_left_walk0_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_left_walk0_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_left_walk1.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_left_walk1_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_left_walk1_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_left_walk2.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_left_walk2_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_left_walk2_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_left_walk3.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_left_walk3_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_left_walk3_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_right_stand.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_right_stand_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_right_stand_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_right_walk0.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_right_walk0_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_right_walk0_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_right_walk1.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_right_walk1_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_right_walk1_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_right_walk2.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_right_walk2_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_right_walk2_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_right_walk3.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_right_walk3_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_right_walk3_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_up_stand.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_up_stand_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_up_stand_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_up_walk0.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_up_walk0_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_up_walk0_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_up_walk1.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_up_walk1_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_up_walk1_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_up_walk2.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_up_walk2_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_up_walk2_3x.png  192x288
+- humans/mira/overworld/mira_chibi/mira_chibi_up_walk3.png  64x96
+- humans/mira/overworld/mira_chibi/mira_chibi_up_walk3_2x.png  128x192
+- humans/mira/overworld/mira_chibi/mira_chibi_up_walk3_3x.png  192x288
+- humans/mira/overworld/mira_chibi_sheet.png  320x384
+- humans/mira/overworld/mira_chibi_sheet_2x.png  640x768
+- humans/mira/overworld/mira_chibi_sheet_3x.png  960x1152
+- humans/mira/overworld/mira_chibi_walk_all_2x.gif  512x192 4fr
+- humans/mira/overworld/mira_chibi_walk_all_3x.gif  768x288 4fr
+- humans/mira/overworld/mira_chibi_walk_down_2x.gif  128x192 4fr
+- humans/mira/overworld/mira_chibi_walk_down_3x.gif  192x288 4fr
+- humans/mira/overworld/mira_chibi_walk_left_2x.gif  128x192 4fr
+- humans/mira/overworld/mira_chibi_walk_left_3x.gif  192x288 4fr
+- humans/mira/overworld/mira_chibi_walk_right_2x.gif  128x192 4fr
+- humans/mira/overworld/mira_chibi_walk_right_3x.gif  192x288 4fr
+- humans/mira/overworld/mira_chibi_walk_up_2x.gif  128x192 4fr
+- humans/mira/overworld/mira_chibi_walk_up_3x.gif  192x288 4fr
+- humans/mira/portraits/mira_cheerful.png  352x512
+- humans/mira/portraits/mira_determined.png  353x512
+- humans/mira/portraits/mira_neutral.png  352x512
+- humans/mira/trainer/mira_trainer_64x128.png  64x128
+- humans/mira/trainer/mira_trainer_64x128_2x.png  128x256
+- humans/mira/trainer/mira_trainer_64x128_3x.png  192x384
+
+### humans/vane (79 files)
+- humans/vane/overworld/vane_chibi/vane_chibi_down_stand.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_down_stand_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_down_stand_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_down_walk0.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_down_walk0_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_down_walk0_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_down_walk1.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_down_walk1_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_down_walk1_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_down_walk2.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_down_walk2_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_down_walk2_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_down_walk3.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_down_walk3_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_down_walk3_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_left_stand.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_left_stand_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_left_stand_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_left_walk0.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_left_walk0_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_left_walk0_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_left_walk1.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_left_walk1_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_left_walk1_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_left_walk2.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_left_walk2_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_left_walk2_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_left_walk3.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_left_walk3_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_left_walk3_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_right_stand.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_right_stand_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_right_stand_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_right_walk0.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_right_walk0_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_right_walk0_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_right_walk1.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_right_walk1_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_right_walk1_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_right_walk2.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_right_walk2_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_right_walk2_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_right_walk3.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_right_walk3_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_right_walk3_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_up_stand.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_up_stand_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_up_stand_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_up_walk0.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_up_walk0_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_up_walk0_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_up_walk1.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_up_walk1_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_up_walk1_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_up_walk2.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_up_walk2_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_up_walk2_3x.png  192x288
+- humans/vane/overworld/vane_chibi/vane_chibi_up_walk3.png  64x96
+- humans/vane/overworld/vane_chibi/vane_chibi_up_walk3_2x.png  128x192
+- humans/vane/overworld/vane_chibi/vane_chibi_up_walk3_3x.png  192x288
+- humans/vane/overworld/vane_chibi_sheet.png  320x384
+- humans/vane/overworld/vane_chibi_sheet_2x.png  640x768
+- humans/vane/overworld/vane_chibi_sheet_3x.png  960x1152
+- humans/vane/overworld/vane_chibi_walk_all_2x.gif  512x192 4fr
+- humans/vane/overworld/vane_chibi_walk_all_3x.gif  768x288 4fr
+- humans/vane/overworld/vane_chibi_walk_down_2x.gif  128x192 4fr
+- humans/vane/overworld/vane_chibi_walk_down_3x.gif  192x288 4fr
+- humans/vane/overworld/vane_chibi_walk_left_2x.gif  128x192 4fr
+- humans/vane/overworld/vane_chibi_walk_left_3x.gif  192x288 4fr
+- humans/vane/overworld/vane_chibi_walk_right_2x.gif  128x192 4fr
+- humans/vane/overworld/vane_chibi_walk_right_3x.gif  192x288 4fr
+- humans/vane/overworld/vane_chibi_walk_up_2x.gif  128x192 4fr
+- humans/vane/overworld/vane_chibi_walk_up_3x.gif  192x288 4fr
+- humans/vane/portraits/vane_composed.png  354x512
+- humans/vane/portraits/vane_pleased.png  344x512
+- humans/vane/portraits/vane_stern.png  353x512
+- humans/vane/trainer/vane_trainer_64x128.png  64x128
+- humans/vane/trainer/vane_trainer_64x128_2x.png  128x256
+- humans/vane/trainer/vane_trainer_64x128_3x.png  192x384
+
+### humans/riverbank_stranger (79 files)
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_down_stand.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_down_stand_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_down_stand_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_down_walk0.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_down_walk0_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_down_walk0_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_down_walk1.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_down_walk1_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_down_walk1_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_down_walk2.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_down_walk2_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_down_walk2_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_down_walk3.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_down_walk3_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_down_walk3_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_left_stand.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_left_stand_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_left_stand_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_left_walk0.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_left_walk0_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_left_walk0_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_left_walk1.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_left_walk1_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_left_walk1_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_left_walk2.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_left_walk2_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_left_walk2_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_left_walk3.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_left_walk3_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_left_walk3_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_right_stand.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_right_stand_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_right_stand_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_right_walk0.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_right_walk0_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_right_walk0_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_right_walk1.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_right_walk1_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_right_walk1_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_right_walk2.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_right_walk2_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_right_walk2_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_right_walk3.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_right_walk3_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_right_walk3_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_up_stand.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_up_stand_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_up_stand_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_up_walk0.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_up_walk0_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_up_walk0_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_up_walk1.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_up_walk1_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_up_walk1_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_up_walk2.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_up_walk2_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_up_walk2_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_up_walk3.png  64x96
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_up_walk3_2x.png  128x192
+- humans/riverbank_stranger/overworld/stranger_chibi/stranger_chibi_up_walk3_3x.png  192x288
+- humans/riverbank_stranger/overworld/stranger_chibi_sheet.png  320x384
+- humans/riverbank_stranger/overworld/stranger_chibi_sheet_2x.png  640x768
+- humans/riverbank_stranger/overworld/stranger_chibi_sheet_3x.png  960x1152
+- humans/riverbank_stranger/overworld/stranger_chibi_walk_all_2x.gif  512x192 4fr
+- humans/riverbank_stranger/overworld/stranger_chibi_walk_all_3x.gif  768x288 4fr
+- humans/riverbank_stranger/overworld/stranger_chibi_walk_down_2x.gif  128x192 4fr
+- humans/riverbank_stranger/overworld/stranger_chibi_walk_down_3x.gif  192x288 4fr
+- humans/riverbank_stranger/overworld/stranger_chibi_walk_left_2x.gif  128x192 4fr
+- humans/riverbank_stranger/overworld/stranger_chibi_walk_left_3x.gif  192x288 4fr
+- humans/riverbank_stranger/overworld/stranger_chibi_walk_right_2x.gif  128x192 4fr
+- humans/riverbank_stranger/overworld/stranger_chibi_walk_right_3x.gif  192x288 4fr
+- humans/riverbank_stranger/overworld/stranger_chibi_walk_up_2x.gif  128x192 4fr
+- humans/riverbank_stranger/overworld/stranger_chibi_walk_up_3x.gif  192x288 4fr
+- humans/riverbank_stranger/portraits/stranger_calm.png  379x512
+- humans/riverbank_stranger/portraits/stranger_kind.png  350x512
+- humans/riverbank_stranger/portraits/stranger_sorrowful.png  368x512
+- humans/riverbank_stranger/trainer/stranger_trainer_64x128.png  64x128
+- humans/riverbank_stranger/trainer/stranger_trainer_64x128_2x.png  128x256
+- humans/riverbank_stranger/trainer/stranger_trainer_64x128_3x.png  192x384
+
+### tools (sh_ only)
+- tools/sh_base/bastonox_back.png
+- tools/sh_base/bastonox_front.png
+- tools/sh_base/bastonox_ow_down.png
+- tools/sh_base/bastonox_ow_left.png
+- tools/sh_base/bastonox_ow_right.png
+- tools/sh_base/bastonox_ow_up.png
+- tools/sh_base/brookhorn_back.png
+- tools/sh_base/brookhorn_front.png
+- tools/sh_base/brookhorn_ow_down.png
+- tools/sh_base/brookhorn_ow_left.png
+- tools/sh_base/brookhorn_ow_right.png
+- tools/sh_base/brookhorn_ow_up.png
+- tools/sh_base/burrowmane_back.png
+- tools/sh_base/burrowmane_front.png
+- tools/sh_base/burrowmane_ow_down.png
+- tools/sh_base/burrowmane_ow_left.png
+- tools/sh_base/burrowmane_ow_right.png
+- tools/sh_base/burrowmane_ow_up.png
+- tools/sh_base/emberlunx_back.png
+- tools/sh_base/emberlunx_ow_down.png
+- tools/sh_base/emberlunx_ow_left.png
+- tools/sh_base/emberlunx_ow_right.png
+- tools/sh_base/emberlunx_ow_up.png
+- tools/sh_base/forgeharrow_back.png
+- tools/sh_base/forgeharrow_ow_down.png
+- tools/sh_base/forgeharrow_ow_left.png
+- tools/sh_base/forgeharrow_ow_right.png
+- tools/sh_base/forgeharrow_ow_up.png
+- tools/sh_base/meta_creatures.json
+- tools/sh_base/meta_humans.json
+- tools/sh_base/mira_chibi_down.png
+- tools/sh_base/mira_chibi_left.png
+- tools/sh_base/mira_chibi_right.png
+- tools/sh_base/mira_chibi_up.png
+- tools/sh_base/mira_trainer.png
+- tools/sh_base/pilot_cal_chibi_down.png
+- tools/sh_base/pilot_cal_chibi_left.png
+- tools/sh_base/pilot_cal_chibi_right.png
+- tools/sh_base/pilot_cal_chibi_up.png
+- tools/sh_base/pilot_cal_normal.png
+- tools/sh_base/pilot_cindrip_back.png
+- tools/sh_base/pilot_cindrip_front.png
+- tools/sh_base/pilot_cindrip_ow_down.png
+- tools/sh_base/pilot_cindrip_ow_left.png
+- tools/sh_base/pilot_cindrip_ow_right.png
+- tools/sh_base/pilot_cindrip_ow_up.png
+- tools/sh_base/pilot_emberlunx.png
+- tools/sh_base/pilot_forgeharrow.png
+- tools/sh_base/rillop_back.png
+- tools/sh_base/rillop_front.png
+- tools/sh_base/rillop_ow_down.png
+- tools/sh_base/rillop_ow_left.png
+- tools/sh_base/rillop_ow_right.png
+- tools/sh_base/rillop_ow_up.png
+- tools/sh_base/ron_chibi_down.png
+- tools/sh_base/ron_chibi_left.png
+- tools/sh_base/ron_chibi_right.png
+- tools/sh_base/ron_chibi_up.png
+- tools/sh_base/ron_trainer.png
+- tools/sh_base/stranger_chibi_down.png
+- tools/sh_base/stranger_chibi_left.png
+- tools/sh_base/stranger_chibi_right.png
+- tools/sh_base/stranger_chibi_up.png
+- tools/sh_base/stranger_trainer.png
+- tools/sh_base/tidemarrow_back.png
+- tools/sh_base/tidemarrow_front.png
+- tools/sh_base/tidemarrow_ow_down.png
+- tools/sh_base/tidemarrow_ow_left.png
+- tools/sh_base/tidemarrow_ow_right.png
+- tools/sh_base/tidemarrow_ow_up.png
+- tools/sh_base/tumbloam_back.png
+- tools/sh_base/tumbloam_front.png
+- tools/sh_base/tumbloam_ow_down.png
+- tools/sh_base/tumbloam_ow_left.png
+- tools/sh_base/tumbloam_ow_right.png
+- tools/sh_base/tumbloam_ow_up.png
+- tools/sh_base/vane_chibi_down.png
+- tools/sh_base/vane_chibi_left.png
+- tools/sh_base/vane_chibi_right.png
+- tools/sh_base/vane_chibi_up.png
+- tools/sh_base/vane_trainer.png
+- tools/sh_build.py
+- tools/sh_parts.py
+- tools/sh_pxlib.py
+- tools/sh_timing.log
+
+### raw (generated sources, 1280x720)
+- raw/bastonox_battle.jpg
+- raw/bastonox_ow.jpg
+- raw/brookhorn_battle.jpg
+- raw/brookhorn_ow.jpg
+- raw/burrowmane_battle.jpg
+- raw/burrowmane_ow.jpg
+- raw/emberlunx_battle.jpg
+- raw/emberlunx_ow.jpg
+- raw/forgeharrow_battle.jpg
+- raw/forgeharrow_ow.jpg
+- raw/mira_chibi.jpg
+- raw/mira_normal.jpg
+- raw/mira_normal_alt.jpg
+- raw/mira_portraits.jpg
+- raw/rillop_battle.jpg
+- raw/rillop_ow.jpg
+- raw/ron_chibi.jpg
+- raw/ron_normal.jpg
+- raw/ron_normal_alt.jpg
+- raw/ron_portraits.jpg
+- raw/stranger_chibi.jpg
+- raw/stranger_normal.jpg
+- raw/stranger_portraits.jpg
+- raw/tidemarrow_battle.jpg
+- raw/tidemarrow_ow.jpg
+- raw/tumbloam_battle.jpg
+- raw/tumbloam_ow.jpg
+- raw/vane_chibi.jpg
+- raw/vane_normal.jpg
+- raw/vane_portraits.jpg

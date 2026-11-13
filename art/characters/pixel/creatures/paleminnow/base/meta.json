@@ -1,0 +1,80 @@
+{
+ "paleminnow_front": {
+  "scale": 0.15339233038348082,
+  "org": [
+   215,
+   328
+  ],
+  "size": [
+   104,
+   59
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 13
+ },
+ "paleminnow_back": {
+  "scale": 0.16774193548387098,
+  "org": [
+   232,
+   283
+  ],
+  "size": [
+   92,
+   78
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 11
+ },
+ "paleminnow_ow_down": {
+  "scale": 0.20833333333333334,
+  "org": [
+   58,
+   244
+  ],
+  "size": [
+   36,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ },
+ "paleminnow_ow_left": {
+  "scale": 0.14836795252225518,
+  "org": [
+   299,
+   252
+  ],
+  "size": [
+   50,
+   30
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 10
+ },
+ "paleminnow_ow_right": {
+  "scale": 0.14492753623188406,
+  "org": [
+   668,
+   253
+  ],
+  "size": [
+   50,
+   29
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 10
+ },
+ "paleminnow_ow_up": {
+  "scale": 0.18867924528301888,
+  "org": [
+   1062,
+   248
+  ],
+  "size": [
+   31,
+   40
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 10
+ }
+}

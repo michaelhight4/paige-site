@@ -1,0 +1,80 @@
+{
+ "pouchbill_front": {
+  "scale": 0.16296296296296298,
+  "org": [
+   183,
+   169
+  ],
+  "size": [
+   104,
+   110
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 22
+ },
+ "pouchbill_back": {
+  "scale": 0.15804597701149425,
+  "org": [
+   215,
+   147
+  ],
+  "size": [
+   94,
+   110
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 20
+ },
+ "pouchbill_ow_down": {
+  "scale": 0.16501650165016502,
+  "org": [
+   49,
+   191
+  ],
+  "size": [
+   46,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 21
+ },
+ "pouchbill_ow_left": {
+  "scale": 0.16181229773462782,
+  "org": [
+   375,
+   191
+  ],
+  "size": [
+   40,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 21
+ },
+ "pouchbill_ow_right": {
+  "scale": 0.16181229773462782,
+  "org": [
+   658,
+   191
+  ],
+  "size": [
+   40,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 19
+ },
+ "pouchbill_ow_up": {
+  "scale": 0.16501650165016502,
+  "org": [
+   953,
+   192
+  ],
+  "size": [
+   45,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ }
+}
