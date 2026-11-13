@@ -1,0 +1,81 @@
+pc_tug cup day: 2
+/workspace/kilumen/shots/sports_ui_v2/before/pc_tug_1_coach.png
+/workspace/kilumen/shots/sports_ui_v2/before/pc_tug_2_pick_crew.png
+/workspace/kilumen/shots/sports_ui_v2/before/pc_tug_3_play.png
+pc_tug save during play: refused
+/workspace/kilumen/shots/sports_ui_v2/before/pc_tug_4_result.png
+pc_tug practice: {"won":true,"score":153,"p":0.85}
+/workspace/kilumen/shots/sports_ui_v2/before/pc_tug_5_cup_field.png
+/workspace/kilumen/shots/sports_ui_v2/before/pc_tug_6_cup_end.png
+pc_tug cup: {"phase":"champion","cup":{"place":1,"prize":600}}
+/workspace/kilumen/shots/sports_ui_v2/before/pc_tug.webm
+/workspace/kilumen/shots/sports_ui_v2/before/pc_major_0_locked.png
+pc_major locked: Town champions only: win the cup in 4 towns first (0/4).
+/workspace/kilumen/shots/sports_ui_v2/before/pc_major_1_intro.png
+pc_major intro save: refused
+pc_major after fee: coins 500; rounds signal_relay,lantern_catch,forge_push
+/workspace/kilumen/shots/sports_ui_v2/before/pc_major_2a_round1_card.png
+/workspace/kilumen/shots/sports_ui_v2/before/pc_major_2b_round1_play.png
+pc_major r1 play save: refused
+/workspace/kilumen/shots/sports_ui_v2/before/pc_major_2c_round1_table.png
+/workspace/kilumen/shots/sports_ui_v2/before/pc_major_3a_round2_card.png
+/workspace/kilumen/shots/sports_ui_v2/before/pc_major_3b_round2_play.png
+pc_major r2 play save: refused
+/workspace/kilumen/shots/sports_ui_v2/before/pc_major_3c_round2_table.png
+/workspace/kilumen/shots/sports_ui_v2/before/pc_major_4a_round3_card.png
+/workspace/kilumen/shots/sports_ui_v2/before/pc_major_4b_round3_play.png
+pc_major r3 play save: refused
+/workspace/kilumen/shots/sports_ui_v2/before/pc_major_4c_round3_table.png
+/workspace/kilumen/shots/sports_ui_v2/before/pc_major_5_champion.png
+pc_major champion save: refused
+/workspace/kilumen/shots/sports_ui_v2/before/pc_major_6_final.png
+pc_major end: {"phase":"major_final","coins":3500,"majorWins":1}
+pc_major after close save: refused
+/workspace/kilumen/shots/sports_ui_v2/before/pc_major_7_badges.png
+pc_major badges coming-soon plates: 0
+/workspace/kilumen/shots/sports_ui_v2/before/pc_major.webm
+phone_tug cup day: 2
+/workspace/kilumen/shots/sports_ui_v2/before/phone_tug_1_coach.png
+/workspace/kilumen/shots/sports_ui_v2/before/phone_tug_2_pick_crew.png
+/workspace/kilumen/shots/sports_ui_v2/before/phone_tug_3_play.png
+phone_tug save during play: refused
+/workspace/kilumen/shots/sports_ui_v2/before/phone_tug_4_result.png
+phone_tug practice: {"won":true,"score":153,"p":0.85}
+/workspace/kilumen/shots/sports_ui_v2/before/phone_tug_5_cup_field.png
+/workspace/kilumen/shots/sports_ui_v2/before/phone_tug_6_cup_end.png
+phone_tug cup: {"phase":"champion","cup":{"place":1,"prize":600}}
+/workspace/kilumen/shots/sports_ui_v2/before/phone_tug.webm
+/workspace/kilumen/shots/sports_ui_v2/before/phone_major_0_locked.png
+phone_major locked: Town champions only: win the cup in 4 towns first (0/4).
+/workspace/kilumen/shots/sports_ui_v2/before/phone_major_1_intro.png
+phone_major intro save: refused
+phone_major after fee: coins 500; rounds signal_relay,lantern_catch,forge_push
+/workspace/kilumen/shots/sports_ui_v2/before/phone_major_2a_round1_card.png
+/workspace/kilumen/shots/sports_ui_v2/before/phone_major_2b_round1_play.png
+phone_major r1 play save: refused
+/workspace/kilumen/shots/sports_ui_v2/before/phone_major_2c_round1_table.png
+/workspace/kilumen/shots/sports_ui_v2/before/phone_major_3a_round2_card.png
+/workspace/kilumen/shots/sports_ui_v2/before/phone_major_3b_round2_play.png
+phone_major r2 play save: refused
+/workspace/kilumen/shots/sports_ui_v2/before/phone_major_3c_round2_table.png
+/workspace/kilumen/shots/sports_ui_v2/before/phone_major_4a_round3_card.png
+/workspace/kilumen/shots/sports_ui_v2/before/phone_major_4b_round3_play.png
+phone_major r3 play save: refused
+/workspace/kilumen/shots/sports_ui_v2/before/phone_major_4c_round3_table.png
+/workspace/kilumen/shots/sports_ui_v2/before/phone_major_5_champion.png
+phone_major champion save: refused
+/workspace/kilumen/shots/sports_ui_v2/before/phone_major_6_final.png
+phone_major end: {"phase":"major_final","coins":3500,"majorWins":1}
+phone_major after close save: refused
+/workspace/kilumen/shots/sports_ui_v2/before/phone_major_7_badges.png
+phone_major badges coming-soon plates: 0
+/workspace/kilumen/shots/sports_ui_v2/before/phone_major.webm
+pc_tug practice: rAF {"frames":653,"p50":"16.7","p95":"16.7","max":"50.1"}
+pc_major r1 signal_relay: rAF {"frames":179,"p50":"16.7","p95":"16.8","max":"16.8"}
+pc_major r2 lantern_catch: rAF {"frames":180,"p50":"16.7","p95":"16.8","max":"16.8"}
+pc_major r3 forge_push: rAF {"frames":174,"p50":"16.7","p95":"16.8","max":"50.1"}
+phone_tug practice: rAF {"frames":604,"p50":"16.7","p95":"33.3","max":"83.3"}
+phone_major r1 signal_relay: rAF {"frames":176,"p50":"16.7","p95":"33.3","max":"49.9"}
+phone_major r2 lantern_catch: rAF {"frames":169,"p50":"16.7","p95":"33.3","max":"50.0"}
+phone_major r3 forge_push: rAF {"frames":174,"p50":"16.7","p95":"33.2","max":"49.9"}
+page errors: none

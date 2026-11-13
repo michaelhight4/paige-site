@@ -1,0 +1,98 @@
+[
+ {
+  "plat": "pc",
+  "gate": {
+   "map": "aurelith",
+   "fl": "got_starter,beat_master_fernwick,beat_master_saltmere,beat_master_revival,beat_master_frostspire,beat_master_mirefen,beat_master_tidewater,beat_master_lanternport,beat_master_cindervale,beat_rival_ron_1,beat_rival_ron_2,beat_rival_ron_3,beat_rival_ron_4,beat_rival_ron_5,got_held_wisp_charm,got_held_sap_vial,got_held_oath_lens,got_held_horncap_charm,visited_aurelith,all_badges,rita_installed,ron_in_aurelith,q_mq_thornwood_camp_on,q_mq_greystone_camp_on,q_mq_revival_heights_on,q_mq_frostspire_on,q_mq_sunmeadow_crossing_on,q_sq_past_the_shine_on,q_pq_cold_site_audit_on,q_pq_field_lead_on,q_mq_lanternport_on,q_mq_finale_on,q_mq_brookhollow_promotion_done,q_mq_saltmere_parcel_done,q_mq_mirefen_done,q_mq_cindervale_done",
+   "all_badges": true,
+   "ron6": true
+  }
+ },
+ {
+  "plat": "pc",
+  "lockedDuringCredits": "ending"
+ },
+ {
+  "plat": "pc",
+  "end": {
+   "map": "brookhollow",
+   "finale_done": true,
+   "game_cleared": {
+    "at": 1793304779497,
+    "day": 41,
+    "team": [
+     {
+      "species": "brookhorn",
+      "nickname": "Pip",
+      "level": 62
+     },
+     {
+      "species": "tumbloam",
+      "nickname": null,
+      "level": 60
+     },
+     {
+      "species": "gearwarden",
+      "nickname": null,
+      "level": 59
+     }
+    ]
+   },
+   "lock": "script"
+  }
+ },
+ {
+  "plat": "pc",
+  "errors": [
+   "404 /playtime.js?game=kilumen&v=v0.2.86-alpha"
+  ]
+ },
+ {
+  "plat": "phone",
+  "gate": {
+   "map": "aurelith",
+   "fl": "got_starter,beat_master_fernwick,beat_master_saltmere,beat_master_revival,beat_master_frostspire,beat_master_mirefen,beat_master_tidewater,beat_master_lanternport,beat_master_cindervale,beat_rival_ron_1,beat_rival_ron_2,beat_rival_ron_3,beat_rival_ron_4,beat_rival_ron_5,got_held_wisp_charm,got_held_sap_vial,got_held_oath_lens,got_held_horncap_charm,visited_aurelith,all_badges,rita_installed,ron_in_aurelith,q_mq_thornwood_camp_on,q_mq_greystone_camp_on,q_mq_revival_heights_on,q_mq_frostspire_on,q_mq_sunmeadow_crossing_on,q_sq_past_the_shine_on,q_pq_cold_site_audit_on,q_pq_field_lead_on,q_mq_lanternport_on,q_mq_finale_on,q_mq_brookhollow_promotion_done,q_mq_saltmere_parcel_done,q_mq_mirefen_done,q_mq_cindervale_done",
+   "all_badges": true,
+   "ron6": true
+  }
+ },
+ {
+  "plat": "phone",
+  "lockedDuringCredits": "ending"
+ },
+ {
+  "plat": "phone",
+  "end": {
+   "map": "brookhollow",
+   "finale_done": true,
+   "game_cleared": {
+    "at": 1793304868407,
+    "day": 41,
+    "team": [
+     {
+      "species": "brookhorn",
+      "nickname": "Pip",
+      "level": 62
+     },
+     {
+      "species": "tumbloam",
+      "nickname": null,
+      "level": 60
+     },
+     {
+      "species": "gearwarden",
+      "nickname": null,
+      "level": 59
+     }
+    ]
+   },
+   "lock": "script"
+  }
+ },
+ {
+  "plat": "phone",
+  "errors": [
+   "404 /playtime.js?game=kilumen&v=v0.2.86-alpha"
+  ]
+ }
+]

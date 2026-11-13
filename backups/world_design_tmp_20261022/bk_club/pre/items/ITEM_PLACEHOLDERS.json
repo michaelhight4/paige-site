@@ -1,0 +1,423 @@
+{
+ "note": "Generic placeholder item ids used in maps/*.json items[]. Text Bot: please give each a name + pickup line; Coder: pockets are a hint. Visible items are solid (supply satchel prop); hidden ones are walkable and found by facing + A.",
+ "items": {
+  "tonic_small": {
+   "pocket": "medicine",
+   "role": "restores a little health (placeholder)"
+  },
+  "tonic_large": {
+   "pocket": "medicine",
+   "role": "restores more health (placeholder)"
+  },
+  "energy_tonic": {
+   "pocket": "medicine",
+   "role": "already in maps: restores energy (placeholder)"
+  },
+  "calm_tea": {
+   "pocket": "medicine",
+   "role": "status cure (placeholder)"
+  },
+  "trail_mix": {
+   "pocket": "snacks",
+   "role": "Trail Buddy snack / Warmth (placeholder)"
+  },
+  "feed_bag_small": {
+   "pocket": "snacks",
+   "role": "already in maps (placeholder)"
+  },
+  "feed_bag": {
+   "pocket": "snacks",
+   "role": "already in maps (placeholder)"
+  },
+  "vigor_seed": {
+   "pocket": "growth",
+   "role": "already in maps: stat seed (placeholder)"
+  },
+  "crystal_dust": {
+   "pocket": "crystals",
+   "role": "crafting / sell item (placeholder)"
+  },
+  "dominance_crystal": {
+   "pocket": "crystals",
+   "role": "already in maps: capture crystal (placeholder)"
+  },
+  "dominance_crystal_plus": {
+   "pocket": "crystals",
+   "role": "already in maps: better capture crystal (placeholder)"
+  },
+  "coin_pouch_small": {
+   "pocket": "money",
+   "role": "a little money (placeholder)"
+  },
+  "TBD": {
+   "pocket": "?",
+   "role": "interiors worker placeholder: Story/Text Bot to choose"
+  },
+  "TBD_backroom_reward": {
+   "pocket": "?",
+   "role": "interiors worker placeholder: back-room story reward"
+  }
+ },
+ "placed": [
+  {
+   "map": "brookhollow",
+   "id": "hid_feed_1",
+   "item": "feed_bag_small",
+   "hidden": true,
+   "flag": "item_brookhollow_hid_feed_1",
+   "x": 29,
+   "y": 22
+  },
+  {
+   "map": "brookhollow",
+   "id": "bh_north_trees",
+   "item": "trail_mix",
+   "hidden": false,
+   "flag": "item_brookhollow_bh_north_trees",
+   "x": 13,
+   "y": 2
+  },
+  {
+   "map": "brookhollow",
+   "id": "bh_west_nook",
+   "item": "tonic_small",
+   "hidden": true,
+   "flag": "item_brookhollow_bh_west_nook",
+   "x": 3,
+   "y": 8
+  },
+  {
+   "map": "brookhollow",
+   "id": "bh_east_corner",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_brookhollow_bh_east_corner",
+   "x": 31,
+   "y": 15
+  },
+  {
+   "map": "route1",
+   "id": "r1_feed",
+   "item": "feed_bag_small",
+   "hidden": true,
+   "flag": "item_route1_r1_feed",
+   "x": 30,
+   "y": 6
+  },
+  {
+   "map": "route1",
+   "id": "r1_hidden_tonic",
+   "item": "energy_tonic",
+   "hidden": true,
+   "flag": "item_route1_r1_hidden_tonic",
+   "x": 38,
+   "y": 8
+  },
+  {
+   "map": "route1",
+   "id": "r1_crystal",
+   "item": "dominance_crystal",
+   "hidden": false,
+   "flag": "item_route1_r1_crystal",
+   "x": 8,
+   "y": 13
+  },
+  {
+   "map": "route1",
+   "id": "r1_ne_corner",
+   "item": "tonic_small",
+   "hidden": false,
+   "flag": "item_route1_r1_ne_corner",
+   "x": 42,
+   "y": 1
+  },
+  {
+   "map": "route1",
+   "id": "r1_tree_gap",
+   "item": "trail_mix",
+   "hidden": true,
+   "flag": "item_route1_r1_tree_gap",
+   "x": 17,
+   "y": 13
+  },
+  {
+   "map": "fernwick",
+   "id": "fw_north_trees",
+   "item": "calm_tea",
+   "hidden": false,
+   "flag": "item_fernwick_fw_north_trees",
+   "x": 19,
+   "y": 2
+  },
+  {
+   "map": "fernwick",
+   "id": "fw_east_tree",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "flag": "item_fernwick_fw_east_tree",
+   "x": 29,
+   "y": 9
+  },
+  {
+   "map": "thornwood",
+   "id": "tw_bike_cache",
+   "item": "vigor_seed",
+   "hidden": false,
+   "flag": "item_thornwood_tw_bike_cache",
+   "x": 18,
+   "y": 15
+  },
+  {
+   "map": "thornwood",
+   "id": "tw_feed",
+   "item": "feed_bag",
+   "hidden": true,
+   "flag": "item_thornwood_tw_feed",
+   "x": 5,
+   "y": 17
+  },
+  {
+   "map": "thornwood",
+   "id": "tw_hidden_seed",
+   "item": "vigor_seed",
+   "hidden": true,
+   "flag": "item_thornwood_tw_hidden_seed",
+   "x": 8,
+   "y": 25
+  },
+  {
+   "map": "thornwood",
+   "id": "tw_crystal",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "flag": "item_thornwood_tw_crystal",
+   "x": 7,
+   "y": 12
+  },
+  {
+   "map": "thornwood",
+   "id": "tw_tonic",
+   "item": "energy_tonic",
+   "hidden": false,
+   "flag": "item_thornwood_tw_tonic",
+   "x": 25,
+   "y": 17
+  },
+  {
+   "map": "thornwood",
+   "id": "tw_glade_tree",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_thornwood_tw_glade_tree",
+   "x": 22,
+   "y": 11
+  },
+  {
+   "map": "thornwood",
+   "id": "tw_se_tree",
+   "item": "tonic_large",
+   "hidden": true,
+   "flag": "item_thornwood_tw_se_tree",
+   "x": 32,
+   "y": 21
+  },
+  {
+   "map": "greystone_entrance",
+   "id": "gs_item",
+   "item": "energy_tonic",
+   "hidden": true,
+   "flag": "item_greystone_entrance_gs_item",
+   "x": 23,
+   "y": 15
+  },
+  {
+   "map": "greystone_entrance",
+   "id": "gs_west_dead_end",
+   "item": "crystal_dust",
+   "hidden": false,
+   "flag": "item_greystone_entrance_gs_west_dead_end",
+   "x": 3,
+   "y": 4
+  },
+  {
+   "map": "greystone_entrance",
+   "id": "gs_sw_dead_end",
+   "item": "calm_tea",
+   "hidden": true,
+   "flag": "item_greystone_entrance_gs_sw_dead_end",
+   "x": 1,
+   "y": 11
+  },
+  {
+   "map": "house_1f",
+   "id": "h1f_corner",
+   "item": "coin_pouch_small",
+   "hidden": true,
+   "flag": "item_house_1f_h1f_corner",
+   "x": 11,
+   "y": 3
+  },
+  {
+   "map": "house_2f",
+   "id": "h2f_corner",
+   "item": "tonic_small",
+   "hidden": true,
+   "flag": "item_house_2f_h2f_corner",
+   "x": 9,
+   "y": 3
+  },
+  {
+   "map": "greystone_b1",
+   "id": "b1_item",
+   "item": "dominance_crystal_plus",
+   "hidden": false,
+   "flag": "item_greystone_b1_b1_item",
+   "x": 22,
+   "y": 19
+  },
+  {
+   "map": "greystone_b1",
+   "id": "b1_hidden",
+   "item": "feed_bag",
+   "hidden": true,
+   "flag": "item_greystone_b1_b1_hidden",
+   "x": 3,
+   "y": 4
+  },
+  {
+   "map": "greystone_b1",
+   "id": "b1_north_dead_end",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_greystone_b1_b1_north_dead_end",
+   "x": 10,
+   "y": 3
+  },
+  {
+   "map": "greystone_b1",
+   "id": "b1_east_dead_end",
+   "item": "tonic_small",
+   "hidden": true,
+   "flag": "item_greystone_b1_b1_east_dead_end",
+   "x": 24,
+   "y": 16
+  },
+  {
+   "map": "office_int",
+   "id": "office_corner",
+   "item": "tonic_small",
+   "hidden": true,
+   "flag": "item_office_int_office_corner",
+   "x": 15,
+   "y": 11
+  },
+  {
+   "map": "lantern_rest",
+   "id": "lr_south_nook",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_lantern_rest_lr_south_nook",
+   "x": 7,
+   "y": 13
+  },
+  {
+   "map": "mirefen_bog",
+   "id": "mirefen_islet_item",
+   "item": "TBD",
+   "hidden": false,
+   "flag": "item_mirefen_bog_mirefen_islet_item",
+   "x": 12,
+   "y": 2
+  },
+  {
+   "map": "mirefen_bog",
+   "id": "mf_sw_dead_end",
+   "item": "calm_tea",
+   "hidden": true,
+   "flag": "item_mirefen_bog_mf_sw_dead_end",
+   "x": 0,
+   "y": 15
+  },
+  {
+   "map": "mirefen_bog",
+   "id": "mf_south_dead_end",
+   "item": "trail_mix",
+   "hidden": false,
+   "flag": "item_mirefen_bog_mf_south_dead_end",
+   "x": 20,
+   "y": 17
+  },
+  {
+   "map": "rt_branch_backroom",
+   "id": "rt_branch_backroom_item_1",
+   "item": "TBD_backroom_reward",
+   "hidden": false,
+   "flag": "item_rt_branch_backroom_item_1",
+   "x": 5,
+   "y": 3
+  },
+  {
+   "map": "rt_branch_backroom",
+   "id": "rtb_corner",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_rt_branch_backroom_rtb_corner",
+   "x": 7,
+   "y": 5
+  },
+  {
+   "map": "lab_brookhollow",
+   "id": "lab_corner",
+   "item": "trail_mix",
+   "hidden": false,
+   "flag": "item_lab_brookhollow_lab_corner",
+   "x": 13,
+   "y": 8
+  },
+  {
+   "map": "home_brookhollow_b",
+   "id": "hbb_corner",
+   "item": "crystal_dust",
+   "hidden": true,
+   "flag": "item_home_brookhollow_b_hbb_corner",
+   "x": 0,
+   "y": 3
+  },
+  {
+   "map": "home_brookhollow_b_2f",
+   "id": "home_brookhollow_b_2f_item_1",
+   "item": "TBD",
+   "hidden": false,
+   "flag": "item_home_brookhollow_b_2f_item_1",
+   "x": 0,
+   "y": 7
+  },
+  {
+   "map": "home_fernwick_a",
+   "id": "hfa_corner",
+   "item": "trail_mix",
+   "hidden": true,
+   "flag": "item_home_fernwick_a_hfa_corner",
+   "x": 11,
+   "y": 3
+  },
+  {
+   "map": "home_fernwick_a_2f",
+   "id": "home_fernwick_a_2f_item_1",
+   "item": "TBD",
+   "hidden": false,
+   "flag": "item_home_fernwick_a_2f_item_1",
+   "x": 9,
+   "y": 7
+  },
+  {
+   "map": "home_lanternport_c_2f",
+   "id": "home_lanternport_c_2f_item_1",
+   "item": "TBD",
+   "hidden": false,
+   "flag": "item_home_lanternport_c_2f_item_1",
+   "x": 0,
+   "y": 7
+  }
+ ]
+}

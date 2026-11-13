@@ -1,0 +1,378 @@
+{
+ "name": "rt_branch_backroom",
+ "title": "Revival Tech branch back room (staff only)",
+ "width": 8,
+ "height": 6,
+ "tile_size": 64,
+ "tileset": "../tileset_interiors.json",
+ "region": "revival",
+ "kind": "heal_backroom",
+ "layers": {
+  "ground": [
+   [
+    7467,
+    7467,
+    7467,
+    7467,
+    7467,
+    7467,
+    7467,
+    7467
+   ],
+   [
+    7468,
+    7468,
+    7468,
+    7468,
+    7468,
+    7468,
+    7468,
+    7468
+   ],
+   [
+    7470,
+    7470,
+    7470,
+    7470,
+    7470,
+    7470,
+    7470,
+    7470
+   ],
+   [
+    7464,
+    7464,
+    7464,
+    7464,
+    7464,
+    7464,
+    7464,
+    7464
+   ],
+   [
+    7464,
+    7464,
+    7464,
+    7465,
+    7464,
+    7466,
+    7465,
+    7464
+   ],
+   [
+    7464,
+    7465,
+    7464,
+    7464,
+    7464,
+    7464,
+    7465,
+    7464
+   ]
+  ],
+  "decoration": [
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    7487,
+    7487,
+    7481,
+    7471,
+    7472,
+    0,
+    0
+   ],
+   [
+    0,
+    7488,
+    7488,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    7489,
+    0,
+    0,
+    0,
+    0,
+    0,
+    7290,
+    7484
+   ],
+   [
+    7489,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    7489
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    7490,
+    0,
+    0,
+    0
+   ]
+  ],
+  "overlay": [
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  ],
+  "collision": [
+   [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   [
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1
+   ],
+   [
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    4,
+    0,
+    0,
+    0
+   ]
+  ],
+  "encounter": [
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  ]
+ },
+ "warps": [
+  {
+   "x": 4,
+   "y": 5,
+   "to": "$return",
+   "tx": 0,
+   "ty": 0,
+   "facing": "down",
+   "note": "back through the STAFF ONLY door into whichever branch the player came from",
+   "pair_with": {
+    "map": "<any heal_* branch>",
+    "door": "locked_warps[0] (10,2)",
+    "status": "shared back room; $return to the branch STAFF door approach (10,3)",
+    "interior_arrival": [
+     4,
+     4
+    ]
+   }
+  }
+ ],
+ "exits": [],
+ "npcs": [
+  {
+   "id": "rt_backroom_manager",
+   "x": 3,
+   "y": 3,
+   "facing": "down",
+   "kind": "rt_staff",
+   "note": "branch manager on break (story hook for when the door unlocks)",
+   "text_ref": "rt_branch.backroom_manager"
+  }
+ ],
+ "signs": [
+  {
+   "x": 6,
+   "y": 3,
+   "note": "shift-roster terminal",
+   "text_ref": "rt_branch.roster"
+  }
+ ],
+ "items": [
+  {
+   "x": 5,
+   "y": 3,
+   "item": "TBD_backroom_reward",
+   "hidden": false,
+   "note": "placeholder pick-up for the unlock event"
+  }
+ ],
+ "encounter_zones": [],
+ "movement": {
+  "run": true,
+  "bike": false,
+  "note": "running allowed everywhere (incl. indoors); bike outdoors only - see MOVEMENT.md"
+ },
+ "unlock_flag": "rt_backroom_open"
+}

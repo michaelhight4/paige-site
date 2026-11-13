@@ -1,0 +1,95 @@
+{
+ "rule": "Furniture never shares colour codes with the floor or walls (GAME_QUALITY_CHECKLIST, Oct 22 2026)",
+ "maps": {
+  "heal_brookhollow": [
+   "identity"
+  ],
+  "heal_fernwick": [
+   "identity"
+  ],
+  "rt_branch_backroom": [
+   "identity"
+  ],
+  "lab_brookhollow": [
+   "identity"
+  ],
+  "home_brookhollow_b": [
+   "identity"
+  ],
+  "home_brookhollow_b_2f": [
+   "identity"
+  ],
+  "home_fernwick_a": [
+   "identity"
+  ],
+  "home_fernwick_a_2f": [
+   "identity"
+  ],
+  "home_brookhollow_a": [
+   "identity",
+   "h1_sage",
+   "h1_rose",
+   "h1_ochre",
+   "h1_slate",
+   "h1_teal",
+   "h1_sky"
+  ],
+  "home_fernwick_c": [
+   "identity",
+   "h2_sage",
+   "h2_rose",
+   "h2_ochre",
+   "h2_slate",
+   "h2_teal",
+   "h2_sky"
+  ],
+  "home_lanternport_c": [
+   "identity",
+   "h3_sage",
+   "h3_rose",
+   "h3_ochre",
+   "h3_slate",
+   "h3_teal",
+   "h3_sky"
+  ],
+  "home_lanternport_c_2f": [
+   "identity",
+   "h3_sage",
+   "h3_rose",
+   "h3_ochre",
+   "h3_slate",
+   "h3_teal",
+   "h3_sky"
+  ],
+  "home_saltmere_a": [
+   "identity",
+   "h4_sage",
+   "h4_rose",
+   "h4_ochre",
+   "h4_slate",
+   "h4_teal",
+   "h4_sky"
+  ],
+  "shop_int": [
+   "identity"
+  ],
+  "station_int": [
+   "identity"
+  ],
+  "house_1f": [
+   "identity"
+  ],
+  "house_2f": [
+   "identity"
+  ],
+  "office_int": [
+   "identity"
+  ],
+  "fernwick_hall_int": [
+   "identity"
+  ]
+ },
+ "overlaps": 0,
+ "unique_tile_hex": 0,
+ "rows": []
+}

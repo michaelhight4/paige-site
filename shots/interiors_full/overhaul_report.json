@@ -1,0 +1,1092 @@
+{
+ "cells": {
+  "arena_ring_0_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "arena_ring_0_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "arena_ring_0_2": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "arena_ring_0_3": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "arena_ring_1_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "arena_ring_1_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "arena_ring_1_2": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "arena_ring_1_3": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "arena_ring_2_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "arena_ring_2_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "arena_ring_2_2": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "arena_ring_2_3": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "arena_ring_3_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "arena_ring_3_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "arena_ring_3_2": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "arena_ring_3_3": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "armchair": "kit:armchair_side_normal_teal_r_0_0",
+  "banner": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "barrel": "pass-3 finish",
+  "bed_0_0": "pass-3 finish",
+  "bed_1_0": "pass-3 finish",
+  "bookcase_0_0": "kit:bookshelf3_worn_brown_0_0",
+  "bookcase_0_1": "kit:bookshelf3_worn_brown_0_0",
+  "bookcase_1_0": "kit:bookshelf3_worn_brown_1_0",
+  "bookcase_1_1": "kit:bookshelf3_worn_brown_1_0",
+  "brazier": "pass-3 finish",
+  "chair": "pass-4 (already redrawn)",
+  "club_booth_l": "pass-3 finish",
+  "club_booth_r": "pass-3 finish",
+  "club_booth_table": "pass-3 finish",
+  "club_counter_blender": "pass-3 finish",
+  "club_counter_case": "pass-3 finish",
+  "club_counter_cups": "pass-3 finish",
+  "club_counter_fruit": "pass-3 finish",
+  "club_counter_plain": "pass-3 finish",
+  "club_dance_a": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_dance_b": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_dj_desk": "pass-3 finish (solid)",
+  "club_door_frame_b": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_door_frame_t": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_flyer_lost": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_flyer_mic": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_flyer_team": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_missing_imke": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_missing_marta": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_missing_pell": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_missing_teo": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_note_slot": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_paint_counter": "pass-3 finish (solid)",
+  "club_poster_firefly": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_poster_names": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_poster_notes": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_poster_stage": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "club_speaker": "pass-3 finish (solid)",
+  "club_stage_back": "pass-3 finish (solid)",
+  "club_stage_back_l": "pass-3 finish (solid)",
+  "club_stage_back_r": "pass-3 finish (solid)",
+  "club_stage_front": "pass-3 finish (solid)",
+  "club_stage_front_l": "pass-3 finish (solid)",
+  "club_stage_front_r": "pass-3 finish (solid)",
+  "club_stool": "pass-3 finish",
+  "club_wall_face": "wall_face",
+  "club_wall_upper": "wall_upper",
+  "cooler_0_0": "pass-3 finish",
+  "cooler_1_0": "pass-3 finish",
+  "counter_heal_l": "pass-3 finish",
+  "counter_heal_m": "pass-3 finish",
+  "counter_heal_r": "pass-3 finish",
+  "counter_shop_l": "pass-3 finish",
+  "counter_shop_m": "pass-3 finish",
+  "counter_shop_r": "pass-3 finish",
+  "crystal_display_0_0": "pass-3 finish",
+  "crystal_display_1_0": "pass-3 finish",
+  "cupboard_0_0": "kit:kitchen_counter3_normal_teal_0_0",
+  "cupboard_1_0": "kit:kitchen_counter3_normal_teal_1_0",
+  "dais_0_0": "pass-3 finish (solid)",
+  "dais_0_1": "pass-3 finish (solid)",
+  "dais_0_2": "pass-3 finish (solid)",
+  "dais_0_3": "pass-3 finish (solid)",
+  "dais_1_0": "pass-3 finish (solid)",
+  "dais_1_1": "pass-3 finish (solid)",
+  "dais_1_2": "pass-3 finish (solid)",
+  "dais_1_3": "pass-3 finish (solid)",
+  "desk_pc_0_0": "pass-3 finish",
+  "desk_pc_0_1": "pass-3 finish",
+  "dresser": "pass-3 finish",
+  "filing_0_0": "pass-3 finish",
+  "filing_1_0": "pass-3 finish",
+  "fireplace_0_0": "pass-3 finish",
+  "fireplace_0_1": "pass-3 finish",
+  "fireplace_1_0": "pass-3 finish",
+  "fireplace_1_1": "pass-3 finish",
+  "floor_arena": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "floor_carpet": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "floor_stone": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "floor_tile": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "floor_tile_heal": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "floor_wood": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "goods_0_0": "pass-3 finish",
+  "goods_1_0": "pass-3 finish",
+  "heal_machine_0_0": "pass-3 finish",
+  "heal_machine_1_0": "pass-3 finish",
+  "home_bookcase_cinder_0_0": "pass-4 (already redrawn)",
+  "home_bookcase_cinder_1_0": "pass-4 (already redrawn)",
+  "home_crates_0_0": "pass-4 (already redrawn)",
+  "home_crates_0_1": "pass-4 (already redrawn)",
+  "home_dresser_brook": "pass-3 finish",
+  "home_fishing_rods": "pass-4 (already redrawn)",
+  "home_globe": "pass-3 finish",
+  "home_kitchen_counter_0_0": "pass-4 (already redrawn)",
+  "home_kitchen_counter_1_0": "pass-4 (already redrawn)",
+  "home_kitchen_fridge_0_0": "pass-4 (already redrawn)",
+  "home_kitchen_fridge_1_0": "pass-4 (already redrawn)",
+  "home_kitchen_sink_0_0": "pass-4 (already redrawn)",
+  "home_kitchen_sink_1_0": "pass-4 (already redrawn)",
+  "home_kitchen_stove_0_0": "pass-4 (already redrawn)",
+  "home_kitchen_stove_1_0": "pass-4 (already redrawn)",
+  "home_lab_desk_0_1": "pass-3 finish",
+  "home_luggage": "pass-3 finish",
+  "home_radio": "pass-4 (already redrawn)",
+  "home_table_toast_0_0": "pass-4 (already redrawn)",
+  "home_table_toast_0_1": "pass-4 (already redrawn)",
+  "i_company_terminal": "pass-3 finish",
+  "iwall_face_hall": "wall_face",
+  "iwall_face_heal": "wall_face",
+  "iwall_face_house": "wall_face",
+  "iwall_face_house2": "wall_face",
+  "iwall_face_house3": "wall_face",
+  "iwall_face_office": "wall_face",
+  "iwall_face_shop": "wall_face",
+  "iwall_top": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "iwall_upper_hall": "wall_upper",
+  "iwall_upper_heal": "wall_upper",
+  "iwall_upper_house": "wall_upper",
+  "iwall_upper_house2": "wall_upper",
+  "iwall_upper_house3": "wall_upper",
+  "iwall_upper_office": "wall_upper",
+  "iwall_upper_shop": "wall_upper",
+  "kcounter": "kit:kitchen_counter3_normal_teal_1_0",
+  "pc": "pass-3 finish",
+  "pillar_0_0": "pass-3 finish",
+  "pillar_1_0": "pass-3 finish",
+  "plant": "pass-4 (already redrawn)",
+  "rail": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "rug": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "shelf_0_0": "pass-4 (already redrawn)",
+  "shelf_1_0": "pass-4 (already redrawn)",
+  "sofa_0_0": "pass-4 (already redrawn)",
+  "sofa_0_1": "pass-4 (already redrawn)",
+  "stairs_down": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "stairs_down_wall_l": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "stairs_down_wall_r": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "stairs_down_well": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "stairs_mat": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "stairs_up": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "stairs_up_base": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "stairs_up_mid": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "stairs_up_top": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "stairs_up_wall": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "stove_0_0": "kit:kitchen_stove3_normal_teal_0_0",
+  "stove_1_0": "kit:kitchen_stove3_normal_teal_1_0",
+  "table_0_0": "kit:dining_table_normal_red_0_0",
+  "table_0_1": "kit:dining_table_normal_red_0_1",
+  "tv": "pass-4 (already redrawn)",
+  "window_day_b": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "window_day_t": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "x_station_mat": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_anchor": "pass-3 finish",
+  "i_barrel": "pass-3 finish",
+  "i_bed_brook_0_0": "pass-3 finish",
+  "i_bed_brook_1_0": "pass-3 finish",
+  "i_bed_fern_0_0": "pass-3 finish",
+  "i_bed_fern_1_0": "pass-3 finish",
+  "i_bed_lantern_0_0": "pass-3 finish",
+  "i_bed_lantern_1_0": "pass-3 finish",
+  "i_bed_salt_0_0": "pass-3 finish",
+  "i_bed_salt_1_0": "pass-3 finish",
+  "i_bookcase_brook_0_0": "kit:bookshelf3_worn_brown_0_0",
+  "i_bookcase_brook_1_0": "kit:bookshelf3_worn_brown_1_0",
+  "i_bookcase_fern_0_0": "kit:bookshelf3_worn_brown_0_0",
+  "i_bookcase_fern_1_0": "kit:bookshelf3_worn_brown_1_0",
+  "i_bookcase_lantern_0_0": "kit:bookshelf3_worn_brown_0_0",
+  "i_bookcase_lantern_1_0": "kit:bookshelf3_worn_brown_1_0",
+  "i_bookcase_salt_0_0": "kit:bookshelf3_worn_brown_0_0",
+  "i_bookcase_salt_1_0": "kit:bookshelf3_worn_brown_1_0",
+  "i_chair_brook": "kit:chair3_worn_brown_r_0_0",
+  "i_chair_fern": "kit:chair3_normal_brown_r_0_0",
+  "i_chair_lantern": "kit:chair3_normal_brown_r_0_0",
+  "i_chair_salt": "kit:chair3_worn_brown_r_0_0",
+  "i_crystal_display_0_0": "pass-3 finish",
+  "i_crystal_display_1_0": "pass-3 finish",
+  "i_cupboard_brook_0_0": "kit:kitchen_counter3_worn_teal_0_0",
+  "i_cupboard_brook_1_0": "kit:kitchen_counter3_worn_teal_1_0",
+  "i_cupboard_fern_0_0": "kit:kitchen_counter3_normal_teal_0_0",
+  "i_cupboard_fern_1_0": "kit:kitchen_counter3_normal_teal_1_0",
+  "i_cupboard_lantern_0_0": "kit:kitchen_counter3_normal_teal_0_0",
+  "i_cupboard_lantern_1_0": "kit:kitchen_counter3_normal_teal_1_0",
+  "i_cupboard_salt_0_0": "kit:kitchen_counter3_normal_teal_0_0",
+  "i_cupboard_salt_1_0": "kit:kitchen_counter3_normal_teal_1_0",
+  "i_dresser_brook": "pass-3 finish",
+  "i_fireplace_0_0": "pass-3 finish",
+  "i_fireplace_0_1": "pass-3 finish",
+  "i_fireplace_1_0": "pass-3 finish",
+  "i_fireplace_1_1": "pass-3 finish",
+  "i_fishing_rods": "pass-3 finish",
+  "i_globe": "pass-3 finish",
+  "i_kitchen_fridge_0_0": "kit:fridge3_worn_teal_0_0",
+  "i_kitchen_fridge_1_0": "kit:fridge3_worn_teal_1_0",
+  "i_kitchen_sink_0_0": "kit:kitchen_sink3_worn_teal_0_0",
+  "i_kitchen_sink_1_0": "kit:kitchen_sink3_worn_teal_1_0",
+  "i_kitchen_stove_0_0": "kit:kitchen_stove3_worn_teal_0_0",
+  "i_kitchen_stove_1_0": "kit:kitchen_stove3_worn_teal_1_0",
+  "i_lab_desk_0_0": "pass-3 finish",
+  "i_lab_desk_0_1": "pass-3 finish",
+  "i_lab_machine_0_0": "pass-3 finish",
+  "i_lab_machine_1_0": "pass-3 finish",
+  "i_log_stool": "pass-3 finish",
+  "i_mat_brook": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_mat_fern": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_mat_lab": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_mat_lantern": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_mat_salt": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_net": "pass-3 finish",
+  "i_pc": "pass-3 finish",
+  "i_plant_coral": "pass-3 finish",
+  "i_plant_fern": "pass-3 finish",
+  "i_plant_flower": "pass-3 finish",
+  "i_plant_mushroom": "pass-3 finish",
+  "i_plant_palm_0_0": "kit:plant_tall3_normal_green_0_0",
+  "i_plant_palm_1_0": "kit:plant_tall3_normal_green_1_0",
+  "i_poster_route": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_radio": "kit:radio_worn_red_0_0",
+  "i_river_stones": "pass-3 finish",
+  "i_rug_red_0_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_red_0_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_red_0_2": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_red_2_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_red_2_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_red_2_2": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_sand_0_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_sand_0_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_sand_0_2": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_sand_1_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_sand_1_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_sand_1_2": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_sand_2_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_sand_2_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_sand_2_2": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_teal_0_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_teal_0_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_teal_0_2": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_teal_1_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_teal_1_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_teal_1_2": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_teal_2_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_teal_2_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_teal_2_2": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_violet_0_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_violet_0_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_violet_0_2": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_violet_2_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_violet_2_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rug_violet_2_2": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_salt_jars": "pass-3 finish",
+  "i_server_rack_0_0": "pass-3 finish",
+  "i_server_rack_1_0": "pass-3 finish",
+  "i_shelf_brook": "pass-3 finish",
+  "i_shelf_fern": "pass-3 finish",
+  "i_shelf_lantern": "pass-3 finish",
+  "i_shelf_salt": "pass-3 finish",
+  "i_ship_wheel": "pass-3 finish",
+  "i_sofa_brook_0_0": "kit:couch_low_worn_navy_0_0",
+  "i_sofa_brook_0_1": "kit:couch_low_worn_navy_0_1",
+  "i_sofa_fern_0_0": "kit:couch_low_normal_navy_0_0",
+  "i_sofa_fern_0_1": "kit:couch_low_normal_navy_0_1",
+  "i_sofa_lantern_0_0": "kit:couch_low_normal_navy_0_0",
+  "i_sofa_lantern_0_1": "kit:couch_low_normal_navy_0_1",
+  "i_specimen_tank_0_0": "pass-3 finish",
+  "i_specimen_tank_1_0": "pass-3 finish",
+  "i_stairs_down_wood": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_stairs_up_wood": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_table_brook_0_0": "kit:dining_table_normal_red_0_0",
+  "i_table_brook_0_1": "kit:dining_table_normal_red_0_1",
+  "i_table_fern_0_0": "kit:dining_table_normal_red_0_0",
+  "i_table_fern_0_1": "kit:dining_table_normal_red_0_1",
+  "i_table_lantern_0_0": "kit:dining_table_normal_red_0_0",
+  "i_table_lantern_0_1": "kit:dining_table_normal_red_0_1",
+  "i_table_salt_0_0": "kit:dining_table_normal_red_0_0",
+  "i_table_salt_0_1": "kit:dining_table_normal_red_0_1",
+  "i_table_small_brook": "kit:side3_worn_brown_0_0",
+  "i_terminal": "pass-3 finish",
+  "i_tv": "kit:crt3_back_worn_brown_0_0",
+  "i_counter_rt_l": "pass-3 finish",
+  "i_counter_rt_m": "pass-3 finish",
+  "i_counter_rt_r": "pass-3 finish",
+  "i_crystal_crate": "pass-3 finish",
+  "i_crystal_polisher_0_0": "pass-3 finish",
+  "i_crystal_polisher_0_1": "pass-3 finish",
+  "i_crystal_polisher_1_0": "pass-3 finish",
+  "i_crystal_polisher_1_1": "pass-3 finish",
+  "i_floor_rtbranch_a": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_rtbranch_b": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_rtbranch_c": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_locker_0_0": "pass-3 finish",
+  "i_locker_1_0": "pass-3 finish",
+  "i_mat_rtbranch": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_newsletter_rack": "pass-3 finish",
+  "i_rt_logo_panel_0_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rt_logo_panel_0_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rt_poster_care": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rt_poster_join": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_rt_poster_safety": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_staffdoor_locked_0_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_staffdoor_locked_1_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_suggestion_box": "pass-3 finish",
+  "i_wall_face_rtbranch": "wall_face",
+  "i_wall_top_rtbranch": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_wall_upper_rtbranch": "wall_upper",
+  "i_wall_upper_win_rtbranch": "wall_upper",
+  "i_wall_face_brook": "wall_face",
+  "i_wall_face_fern": "wall_face",
+  "i_wall_face_lab": "wall_face",
+  "i_wall_face_lantern": "wall_face",
+  "i_wall_face_salt": "wall_face",
+  "i_wall_top_brook": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_wall_top_fern": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_wall_top_lab": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_wall_top_lantern": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_wall_top_salt": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_wall_upper_brook": "wall_upper",
+  "i_wall_upper_fern": "wall_upper",
+  "i_wall_upper_lab": "wall_upper",
+  "i_wall_upper_lantern": "wall_upper",
+  "i_wall_upper_salt": "wall_upper",
+  "i_wall_upper_win_brook": "wall_upper",
+  "i_wall_upper_win_fern": "wall_upper",
+  "i_wall_upper_win_lab": "wall_upper",
+  "i_wall_upper_win_lantern": "wall_upper",
+  "i_wall_upper_win_salt": "wall_upper",
+  "i_floor_drift_a": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_drift_b": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_drift_c": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_lab_a": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_lab_b": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_lab_c": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_oak_a": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_oak_b": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_oak_c": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_parquet_a": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_parquet_b": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_parquet_c": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_pine_a": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_pine_b": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "i_floor_pine_c": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "x_bench_0_0": "pass-3 finish",
+  "x_bench_0_1": "pass-3 finish",
+  "x_iwall_face_station": "wall_face",
+  "x_iwall_top_station": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "x_iwall_upper_station": "wall_upper",
+  "x_platform_edge_n": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "x_platform_floor": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "x_rail_buffer": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "x_rail_h": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "x_sign_restricted_0_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "x_sign_restricted_0_1": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "x_station_floor": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "x_station_pillar_0_0": "pass-3 finish",
+  "x_station_pillar_1_0": "pass-3 finish",
+  "x_ticket_counter_l": "pass-3 finish",
+  "x_ticket_counter_m": "pass-3 finish",
+  "x_ticket_counter_r": "pass-3 finish",
+  "x_timetable_0_0": "kept (floor/wall-art/fixture, lit by runtime pass)",
+  "x_timetable_0_1": "kept (floor/wall-art/fixture, lit by runtime pass)"
+ },
+ "rooms": {
+  "cindervale_hall_int": {
+   "sheets": {
+    "interior.png": 187
+   },
+   "cells": 6,
+   "treated": 2,
+   "kept": [
+    "floor_arena",
+    "floor_carpet",
+    "floor_tile",
+    "iwall_top"
+   ],
+   "untouched": []
+  },
+  "club_int": {
+   "sheets": {
+    "interior.png": 250,
+    "i_furniture.png": 1
+   },
+   "cells": 41,
+   "treated": 22,
+   "kept": [
+    "club_dance_a",
+    "club_dance_b",
+    "club_door_frame_b",
+    "club_door_frame_t",
+    "club_flyer_lost",
+    "club_flyer_mic",
+    "club_flyer_team",
+    "club_missing_imke",
+    "club_missing_marta",
+    "club_missing_pell",
+    "club_missing_teo",
+    "club_note_slot",
+    "club_poster_firefly",
+    "club_poster_names",
+    "club_poster_notes",
+    "club_poster_stage",
+    "floor_carpet",
+    "floor_wood",
+    "iwall_top"
+   ],
+   "untouched": []
+  },
+  "fernwick_hall_int": {
+   "sheets": {
+    "interior.png": 356
+   },
+   "cells": 34,
+   "treated": 13,
+   "kept": [
+    "arena_ring_0_0",
+    "arena_ring_0_1",
+    "arena_ring_0_2",
+    "arena_ring_0_3",
+    "arena_ring_1_0",
+    "arena_ring_1_1",
+    "arena_ring_1_2",
+    "arena_ring_1_3",
+    "arena_ring_2_0",
+    "arena_ring_2_1",
+    "arena_ring_2_2",
+    "arena_ring_2_3",
+    "arena_ring_3_0",
+    "arena_ring_3_1",
+    "arena_ring_3_2",
+    "arena_ring_3_3",
+    "banner",
+    "floor_arena",
+    "floor_stone",
+    "iwall_top",
+    "rail"
+   ],
+   "untouched": []
+  },
+  "frostspire_hall_int": {
+   "sheets": {
+    "interior.png": 176
+   },
+   "cells": 5,
+   "treated": 2,
+   "kept": [
+    "floor_arena",
+    "floor_stone",
+    "iwall_top"
+   ],
+   "untouched": []
+  },
+  "heal_brookhollow": {
+   "sheets": {
+    "i_brand.png": 159,
+    "i_furniture.png": 12,
+    "interior.png": 1
+   },
+   "cells": 35,
+   "treated": 17,
+   "kept": [
+    "i_floor_rtbranch_a",
+    "i_floor_rtbranch_b",
+    "i_floor_rtbranch_c",
+    "i_mat_rtbranch",
+    "i_rt_logo_panel_0_0",
+    "i_rt_logo_panel_0_1",
+    "i_rt_poster_care",
+    "i_rt_poster_join",
+    "i_rt_poster_safety",
+    "i_rug_violet_0_0",
+    "i_rug_violet_0_1",
+    "i_rug_violet_0_2",
+    "i_rug_violet_2_0",
+    "i_rug_violet_2_1",
+    "i_rug_violet_2_2",
+    "i_staffdoor_locked_0_0",
+    "i_staffdoor_locked_1_0",
+    "i_wall_top_rtbranch"
+   ],
+   "untouched": []
+  },
+  "heal_centre_int": {
+   "sheets": {
+    "interior.png": 155
+   },
+   "cells": 14,
+   "treated": 11,
+   "kept": [
+    "floor_tile_heal",
+    "iwall_top",
+    "rug"
+   ],
+   "untouched": []
+  },
+  "heal_fernwick": {
+   "sheets": {
+    "i_brand.png": 159,
+    "i_furniture.png": 12,
+    "interior.png": 1
+   },
+   "cells": 35,
+   "treated": 17,
+   "kept": [
+    "i_floor_rtbranch_a",
+    "i_floor_rtbranch_b",
+    "i_floor_rtbranch_c",
+    "i_mat_rtbranch",
+    "i_rt_logo_panel_0_0",
+    "i_rt_logo_panel_0_1",
+    "i_rt_poster_care",
+    "i_rt_poster_join",
+    "i_rt_poster_safety",
+    "i_rug_violet_0_0",
+    "i_rug_violet_0_1",
+    "i_rug_violet_0_2",
+    "i_rug_violet_2_0",
+    "i_rug_violet_2_1",
+    "i_rug_violet_2_2",
+    "i_staffdoor_locked_0_0",
+    "i_staffdoor_locked_1_0",
+    "i_wall_top_rtbranch"
+   ],
+   "untouched": []
+  },
+  "heal_frostspire": {
+   "sheets": {
+    "i_brand.png": 136,
+    "interior.png": 1,
+    "i_furniture.png": 10
+   },
+   "cells": 35,
+   "treated": 17,
+   "kept": [
+    "i_floor_rtbranch_a",
+    "i_floor_rtbranch_b",
+    "i_floor_rtbranch_c",
+    "i_mat_rtbranch",
+    "i_rt_logo_panel_0_0",
+    "i_rt_logo_panel_0_1",
+    "i_rt_poster_care",
+    "i_rt_poster_join",
+    "i_rt_poster_safety",
+    "i_rug_violet_0_0",
+    "i_rug_violet_0_1",
+    "i_rug_violet_0_2",
+    "i_rug_violet_2_0",
+    "i_rug_violet_2_1",
+    "i_rug_violet_2_2",
+    "i_staffdoor_locked_0_0",
+    "i_staffdoor_locked_1_0",
+    "i_wall_top_rtbranch"
+   ],
+   "untouched": []
+  },
+  "heal_revival": {
+   "sheets": {
+    "i_brand.png": 136,
+    "interior.png": 1,
+    "i_furniture.png": 10
+   },
+   "cells": 35,
+   "treated": 17,
+   "kept": [
+    "i_floor_rtbranch_a",
+    "i_floor_rtbranch_b",
+    "i_floor_rtbranch_c",
+    "i_mat_rtbranch",
+    "i_rt_logo_panel_0_0",
+    "i_rt_logo_panel_0_1",
+    "i_rt_poster_care",
+    "i_rt_poster_join",
+    "i_rt_poster_safety",
+    "i_rug_violet_0_0",
+    "i_rug_violet_0_1",
+    "i_rug_violet_0_2",
+    "i_rug_violet_2_0",
+    "i_rug_violet_2_1",
+    "i_rug_violet_2_2",
+    "i_staffdoor_locked_0_0",
+    "i_staffdoor_locked_1_0",
+    "i_wall_top_rtbranch"
+   ],
+   "untouched": []
+  },
+  "heal_saltmere": {
+   "sheets": {
+    "i_brand.png": 136,
+    "interior.png": 1,
+    "i_furniture.png": 10
+   },
+   "cells": 35,
+   "treated": 17,
+   "kept": [
+    "i_floor_rtbranch_a",
+    "i_floor_rtbranch_b",
+    "i_floor_rtbranch_c",
+    "i_mat_rtbranch",
+    "i_rt_logo_panel_0_0",
+    "i_rt_logo_panel_0_1",
+    "i_rt_poster_care",
+    "i_rt_poster_join",
+    "i_rt_poster_safety",
+    "i_rug_violet_0_0",
+    "i_rug_violet_0_1",
+    "i_rug_violet_0_2",
+    "i_rug_violet_2_0",
+    "i_rug_violet_2_1",
+    "i_rug_violet_2_2",
+    "i_staffdoor_locked_0_0",
+    "i_staffdoor_locked_1_0",
+    "i_wall_top_rtbranch"
+   ],
+   "untouched": []
+  },
+  "home_brookhollow_a": {
+   "sheets": {
+    "i_wall.png": 30,
+    "i_floor.png": 50,
+    "i_furniture.png": 20
+   },
+   "cells": 27,
+   "treated": 16,
+   "kept": [
+    "i_floor_oak_a",
+    "i_floor_oak_b",
+    "i_floor_oak_c",
+    "i_mat_brook",
+    "i_rug_red_0_0",
+    "i_rug_red_0_1",
+    "i_rug_red_0_2",
+    "i_rug_red_2_0",
+    "i_rug_red_2_1",
+    "i_rug_red_2_2",
+    "i_wall_top_brook"
+   ],
+   "untouched": []
+  },
+  "home_brookhollow_b": {
+   "sheets": {
+    "i_wall.png": 36,
+    "i_floor.png": 84,
+    "interior.png": 6,
+    "i_furniture.png": 20
+   },
+   "cells": 27,
+   "treated": 19,
+   "kept": [
+    "i_floor_oak_a",
+    "i_floor_oak_b",
+    "i_floor_oak_c",
+    "i_mat_brook",
+    "i_stairs_up_wood",
+    "i_wall_top_brook",
+    "window_day_b",
+    "window_day_t"
+   ],
+   "untouched": []
+  },
+  "home_brookhollow_b_2f": {
+   "sheets": {
+    "i_wall.png": 30,
+    "i_floor.png": 50,
+    "i_furniture.png": 16
+   },
+   "cells": 21,
+   "treated": 10,
+   "kept": [
+    "i_floor_oak_a",
+    "i_floor_oak_b",
+    "i_floor_oak_c",
+    "i_rug_red_0_0",
+    "i_rug_red_0_1",
+    "i_rug_red_0_2",
+    "i_rug_red_2_0",
+    "i_rug_red_2_1",
+    "i_rug_red_2_2",
+    "i_stairs_down_wood",
+    "i_wall_top_brook"
+   ],
+   "untouched": []
+  },
+  "home_fernwick_a": {
+   "sheets": {
+    "i_wall.png": 36,
+    "i_floor.png": 84,
+    "interior.png": 4,
+    "i_furniture.png": 20
+   },
+   "cells": 27,
+   "treated": 19,
+   "kept": [
+    "i_floor_pine_a",
+    "i_floor_pine_b",
+    "i_floor_pine_c",
+    "i_mat_fern",
+    "i_stairs_up_wood",
+    "i_wall_top_fern",
+    "window_day_b",
+    "window_day_t"
+   ],
+   "untouched": []
+  },
+  "home_fernwick_a_2f": {
+   "sheets": {
+    "i_wall.png": 30,
+    "i_floor.png": 50,
+    "i_furniture.png": 16
+   },
+   "cells": 21,
+   "treated": 10,
+   "kept": [
+    "i_floor_pine_a",
+    "i_floor_pine_b",
+    "i_floor_pine_c",
+    "i_rug_sand_0_0",
+    "i_rug_sand_0_1",
+    "i_rug_sand_0_2",
+    "i_rug_sand_2_0",
+    "i_rug_sand_2_1",
+    "i_rug_sand_2_2",
+    "i_stairs_down_wood",
+    "i_wall_top_fern"
+   ],
+   "untouched": []
+  },
+  "home_fernwick_c": {
+   "sheets": {
+    "i_wall.png": 36,
+    "i_floor.png": 72,
+    "i_furniture.png": 26
+   },
+   "cells": 31,
+   "treated": 17,
+   "kept": [
+    "i_floor_pine_a",
+    "i_floor_pine_b",
+    "i_floor_pine_c",
+    "i_mat_fern",
+    "i_rug_sand_0_0",
+    "i_rug_sand_0_1",
+    "i_rug_sand_0_2",
+    "i_rug_sand_1_0",
+    "i_rug_sand_1_1",
+    "i_rug_sand_1_2",
+    "i_rug_sand_2_0",
+    "i_rug_sand_2_1",
+    "i_rug_sand_2_2",
+    "i_wall_top_fern"
+   ],
+   "untouched": []
+  },
+  "home_lanternport_c": {
+   "sheets": {
+    "i_wall.png": 36,
+    "i_floor.png": 84,
+    "i_furniture.png": 21
+   },
+   "cells": 27,
+   "treated": 21,
+   "kept": [
+    "i_floor_parquet_a",
+    "i_floor_parquet_b",
+    "i_floor_parquet_c",
+    "i_mat_lantern",
+    "i_stairs_up_wood",
+    "i_wall_top_lantern"
+   ],
+   "untouched": []
+  },
+  "home_lanternport_c_2f": {
+   "sheets": {
+    "i_wall.png": 30,
+    "i_floor.png": 50,
+    "i_furniture.png": 16
+   },
+   "cells": 21,
+   "treated": 10,
+   "kept": [
+    "i_floor_parquet_a",
+    "i_floor_parquet_b",
+    "i_floor_parquet_c",
+    "i_rug_teal_0_0",
+    "i_rug_teal_0_1",
+    "i_rug_teal_0_2",
+    "i_rug_teal_2_0",
+    "i_rug_teal_2_1",
+    "i_rug_teal_2_2",
+    "i_stairs_down_wood",
+    "i_wall_top_lantern"
+   ],
+   "untouched": []
+  },
+  "home_saltmere_a": {
+   "sheets": {
+    "i_wall.png": 36,
+    "i_floor.png": 72,
+    "i_furniture.png": 27
+   },
+   "cells": 33,
+   "treated": 19,
+   "kept": [
+    "i_floor_drift_a",
+    "i_floor_drift_b",
+    "i_floor_drift_c",
+    "i_mat_salt",
+    "i_rug_teal_0_0",
+    "i_rug_teal_0_1",
+    "i_rug_teal_0_2",
+    "i_rug_teal_1_0",
+    "i_rug_teal_1_1",
+    "i_rug_teal_1_2",
+    "i_rug_teal_2_0",
+    "i_rug_teal_2_1",
+    "i_rug_teal_2_2",
+    "i_wall_top_salt"
+   ],
+   "untouched": []
+  },
+  "house_1f": {
+   "sheets": {
+    "interior.png": 154
+   },
+   "cells": 36,
+   "treated": 25,
+   "kept": [
+    "floor_wood",
+    "iwall_top",
+    "rug",
+    "stairs_mat",
+    "stairs_up",
+    "stairs_up_base",
+    "stairs_up_mid",
+    "stairs_up_top",
+    "stairs_up_wall",
+    "window_day_b",
+    "window_day_t"
+   ],
+   "untouched": []
+  },
+  "house_2f": {
+   "sheets": {
+    "interior.png": 99,
+    "i_furniture.png": 1
+   },
+   "cells": 23,
+   "treated": 13,
+   "kept": [
+    "floor_wood",
+    "i_poster_route",
+    "iwall_top",
+    "rug",
+    "stairs_down",
+    "stairs_down_wall_l",
+    "stairs_down_wall_r",
+    "stairs_down_well",
+    "window_day_b",
+    "window_day_t"
+   ],
+   "untouched": []
+  },
+  "house_int_a": {
+   "sheets": {
+    "interior.png": 115
+   },
+   "cells": 19,
+   "treated": 14,
+   "kept": [
+    "floor_wood",
+    "iwall_top",
+    "rug",
+    "window_day_b",
+    "window_day_t"
+   ],
+   "untouched": []
+  },
+  "house_int_b": {
+   "sheets": {
+    "interior.png": 120
+   },
+   "cells": 18,
+   "treated": 13,
+   "kept": [
+    "floor_wood",
+    "iwall_top",
+    "rug",
+    "window_day_b",
+    "window_day_t"
+   ],
+   "untouched": []
+  },
+  "house_int_c": {
+   "sheets": {
+    "interior.png": 114
+   },
+   "cells": 16,
+   "treated": 11,
+   "kept": [
+    "floor_wood",
+    "iwall_top",
+    "rug",
+    "window_day_b",
+    "window_day_t"
+   ],
+   "untouched": []
+  },
+  "lab_brookhollow": {
+   "sheets": {
+    "i_wall.png": 42,
+    "i_floor.png": 112,
+    "i_furniture.png": 42
+   },
+   "cells": 32,
+   "treated": 21,
+   "kept": [
+    "i_floor_lab_a",
+    "i_floor_lab_b",
+    "i_floor_lab_c",
+    "i_mat_lab",
+    "i_rug_teal_0_0",
+    "i_rug_teal_0_1",
+    "i_rug_teal_0_2",
+    "i_rug_teal_2_0",
+    "i_rug_teal_2_1",
+    "i_rug_teal_2_2",
+    "i_wall_top_lab"
+   ],
+   "untouched": []
+  },
+  "lanternport_hall_int": {
+   "sheets": {
+    "interior.png": 231
+   },
+   "cells": 6,
+   "treated": 2,
+   "kept": [
+    "floor_arena",
+    "floor_carpet",
+    "floor_stone",
+    "iwall_top"
+   ],
+   "untouched": []
+  },
+  "mirefen_hall_int": {
+   "sheets": {
+    "interior.png": 161
+   },
+   "cells": 6,
+   "treated": 2,
+   "kept": [
+    "floor_arena",
+    "floor_carpet",
+    "floor_wood",
+    "iwall_top"
+   ],
+   "untouched": []
+  },
+  "office_int": {
+   "sheets": {
+    "interior.png": 220
+   },
+   "cells": 22,
+   "treated": 19,
+   "kept": [
+    "floor_carpet",
+    "iwall_top",
+    "rug"
+   ],
+   "untouched": []
+  },
+  "revival_hall_int": {
+   "sheets": {
+    "interior.png": 297
+   },
+   "cells": 6,
+   "treated": 2,
+   "kept": [
+    "floor_arena",
+    "floor_carpet",
+    "floor_tile",
+    "iwall_top"
+   ],
+   "untouched": []
+  },
+  "rt_branch_backroom": {
+   "sheets": {
+    "i_brand.png": 60,
+    "i_furniture.png": 1
+   },
+   "cells": 15,
+   "treated": 7,
+   "kept": [
+    "i_floor_rtbranch_a",
+    "i_floor_rtbranch_b",
+    "i_floor_rtbranch_c",
+    "i_mat_rtbranch",
+    "i_rt_logo_panel_0_0",
+    "i_rt_logo_panel_0_1",
+    "i_rt_poster_safety",
+    "i_wall_top_rtbranch"
+   ],
+   "untouched": []
+  },
+  "saltmere_hall_int": {
+   "sheets": {
+    "interior.png": 176
+   },
+   "cells": 6,
+   "treated": 2,
+   "kept": [
+    "floor_arena",
+    "floor_carpet",
+    "floor_stone",
+    "iwall_top"
+   ],
+   "untouched": []
+  },
+  "saltmere_office_int": {
+   "sheets": {
+    "interior.png": 122
+   },
+   "cells": 17,
+   "treated": 15,
+   "kept": [
+    "floor_carpet",
+    "iwall_top"
+   ],
+   "untouched": []
+  },
+  "shop_int": {
+   "sheets": {
+    "interior.png": 121
+   },
+   "cells": 10,
+   "treated": 8,
+   "kept": [
+    "floor_tile",
+    "iwall_top"
+   ],
+   "untouched": []
+  },
+  "station_int": {
+   "sheets": {
+    "x_furniture_fix.png": 284,
+    "interior.png": 2
+   },
+   "cells": 20,
+   "treated": 9,
+   "kept": [
+    "x_iwall_top_station",
+    "x_platform_edge_n",
+    "x_platform_floor",
+    "x_rail_buffer",
+    "x_rail_h",
+    "x_sign_restricted_0_0",
+    "x_sign_restricted_0_1",
+    "x_station_floor",
+    "x_station_mat",
+    "x_timetable_0_0",
+    "x_timetable_0_1"
+   ],
+   "untouched": []
+  },
+  "tidewater_hall_int": {
+   "sheets": {
+    "interior.png": 154
+   },
+   "cells": 6,
+   "treated": 2,
+   "kept": [
+    "floor_arena",
+    "floor_stone",
+    "floor_wood",
+    "iwall_top"
+   ],
+   "untouched": []
+  }
+ }
+}

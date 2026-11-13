@@ -1,0 +1,110 @@
+{
+ "pc_ver": "v0.2.84-alpha",
+ "pc": {
+  "door": {
+   "map": "heal_aurelith",
+   "lastDoor": {
+    "map": "aurelith",
+    "x": 17,
+    "y": 18
+   }
+  },
+  "res": {
+   "ms": 5151,
+   "machine": {
+    "x": 6,
+    "y": 1,
+    "base": "i_crystal_polisher",
+    "pt": [
+     63,
+     28
+    ]
+   },
+   "mapPx": [
+    447,
+    92
+   ],
+   "at": {
+    "x": 640,
+    "y": 184
+   },
+   "scale": 3.5,
+   "steps": [
+    "heal_cradle_open",
+    "heal_float_6",
+    "heal_scanner_sweep",
+    "heal_orbit_6",
+    "heal_glow_6",
+    "heal_done_ping",
+    "heal_float_6_back"
+   ],
+   "zoom": 1.75,
+   "variant": "heal_restore_fire"
+  },
+  "heal_start_s": 18.448,
+  "heal_end_s": 26.317,
+  "night": {
+   "hour": 23,
+   "phase": "night"
+  },
+  "outdoor": {
+   "map": "brookhollow",
+   "hour": 23,
+   "grade": "night"
+  }
+ },
+ "phone_ver": "v0.2.84-alpha",
+ "phone": {
+  "door": {
+   "map": "heal_aurelith",
+   "lastDoor": {
+    "map": "aurelith",
+    "x": 17,
+    "y": 18
+   }
+  },
+  "res": {
+   "ms": 5143,
+   "machine": {
+    "x": 6,
+    "y": 1,
+    "base": "i_crystal_polisher",
+    "pt": [
+     63,
+     28
+    ]
+   },
+   "mapPx": [
+    447,
+    92
+   ],
+   "at": {
+    "x": 422,
+    "y": 195
+   },
+   "scale": 1,
+   "steps": [
+    "heal_cradle_open",
+    "heal_float_6",
+    "heal_scanner_sweep",
+    "heal_orbit_6",
+    "heal_glow_6",
+    "heal_done_ping",
+    "heal_float_6_back"
+   ],
+   "zoom": 1.75,
+   "variant": "heal_restore_fire"
+  },
+  "heal_start_s": 18.902,
+  "heal_end_s": 26.717,
+  "night": {
+   "hour": 23,
+   "phase": "night"
+  },
+  "outdoor": {
+   "map": "brookhollow",
+   "hour": 23,
+   "grade": "night"
+  }
+ }
+}

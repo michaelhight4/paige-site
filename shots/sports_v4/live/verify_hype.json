@@ -1,0 +1,90 @@
+{
+ "desktop": {
+  "checks": [
+   "PASS practice: save refused mid-race (script)",
+   "PASS practice: gold unchanged 400",
+   "PASS practice: no champion screen (smaller win celebration on the scoreboard)",
+   "FAIL tourney entry: gold 400 -> 400",
+   "PASS tourney: gold math 400 - 150 = 250",
+   "PASS tourney: nothing saved mid-race (saved coins still 400)",
+   "FAIL tourney: phase intro seen",
+   "PASS tourney: phase countdown seen",
+   "PASS tourney: phase race seen",
+   "PASS tourney: phase final_stretch seen",
+   "PASS tourney: phase finish seen",
+   "PASS tourney: phase results seen",
+   "PASS saved once after close: 250",
+   "PASS no console errors ()"
+  ],
+  "fail": 2,
+  "errors": [],
+  "phases": {
+   "practice_r1_intro": 11854,
+   "practice_r1_countdown": 13436,
+   "practice_r1_race": 15368,
+   "practice_r1_final_stretch": 24983,
+   "practice_r1_finish": 27382,
+   "practice_r1_results": 30630,
+   "tourney_r0_results": 36787,
+   "tourney_r1_countdown": 39481,
+   "tourney_r1_race": 40019,
+   "tourney_r1_final_stretch": 49386,
+   "tourney_r1_finish": 51581,
+   "tourney_r1_results": 54929
+  },
+  "fps": [
+   {
+    "fps": 60,
+    "worstMs": 16.8
+   },
+   {
+    "fps": 60,
+    "worstMs": 16.8
+   }
+  ]
+ },
+ "phone": {
+  "checks": [
+   "PASS practice: save refused mid-race (script)",
+   "PASS practice: gold unchanged 400",
+   "PASS practice: no champion screen (smaller win celebration on the scoreboard)",
+   "FAIL tourney entry: gold 400 -> 400",
+   "PASS tourney: gold math 400 - 150 = 250",
+   "PASS tourney: nothing saved mid-race (saved coins still 400)",
+   "PASS tourney: phase intro seen",
+   "PASS tourney: phase countdown seen",
+   "PASS tourney: phase race seen",
+   "PASS tourney: phase final_stretch seen",
+   "PASS tourney: phase finish seen",
+   "PASS tourney: phase results seen",
+   "PASS saved once after close: 250",
+   "PASS no console errors ()"
+  ],
+  "fail": 1,
+  "errors": [],
+  "phases": {
+   "practice_r1_intro": 6632,
+   "practice_r1_countdown": 8227,
+   "practice_r1_race": 9862,
+   "practice_r1_final_stretch": 19660,
+   "practice_r1_finish": 21928,
+   "practice_r1_results": 24726,
+   "tourney_r1_intro": 31157,
+   "tourney_r1_countdown": 32816,
+   "tourney_r1_race": 34376,
+   "tourney_r1_final_stretch": 43525,
+   "tourney_r1_finish": 45878,
+   "tourney_r1_results": 49159
+  },
+  "fps": [
+   {
+    "fps": 60,
+    "worstMs": 16.8
+   },
+   {
+    "fps": 60,
+    "worstMs": 16.8
+   }
+  ]
+ }
+}

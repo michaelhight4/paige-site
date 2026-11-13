@@ -1,0 +1,250 @@
+[
+ {
+  "exterior": "brookhollow",
+  "door": [
+   5,
+   7
+  ],
+  "to": "house_1f",
+  "arrival": [
+   5,
+   8
+  ],
+  "kind": "unique",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "brookhollow (5,8)"
+  ],
+  "why": "player's house 1F: Ron, E2 3 a.m. Static (TV), 8.5-F Ron's CV"
+ },
+ {
+  "exterior": "brookhollow",
+  "door": [
+   6,
+   19
+  ],
+  "to": "heal_brookhollow",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "heal (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "brookhollow",
+  "door": [
+   16,
+   19
+  ],
+  "to": "shop_int",
+  "arrival": [
+   5,
+   7
+  ],
+  "kind": "mart (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "brookhollow",
+  "door": [
+   28,
+   8
+  ],
+  "to": "office_int",
+  "arrival": [
+   7,
+   10
+  ],
+  "kind": "unique",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "brookhollow (28,9)"
+  ],
+  "why": "RT field office: promotion cutscene (critical path), E9 The Crystal Stares Back, 8.5-B Dana's Desk"
+ },
+ {
+  "exterior": "brookhollow",
+  "door": [
+   15,
+   7
+  ],
+  "to": "home_brookhollow_a",
+  "arrival": [
+   5,
+   6
+  ],
+  "kind": "home (shared H1)",
+  "recolour": "identity",
+  "scheme": "identity",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "brookhollow",
+  "door": [
+   28,
+   19
+  ],
+  "to": "home_brookhollow_b",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "unique",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "brookhollow (28,20)"
+  ],
+  "why": "E13 The Fireside Book: the scholar + his bookcase (was house_int_b)"
+ },
+ {
+  "exterior": "brookhollow",
+  "door": [
+   16,
+   27
+  ],
+  "to": "lab_brookhollow",
+  "arrival": [
+   7,
+   9
+  ],
+  "kind": "unique",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "brookhollow (16,28)"
+  ],
+  "why": "Lumen Lab: starter choice (got_starter) and 8.1 lab-tech onboarding"
+ },
+ {
+  "exterior": "fernwick",
+  "door": [
+   5,
+   6
+  ],
+  "to": "heal_fernwick",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "unique",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "fernwick (5,7)",
+   "fernwick (6,7)"
+  ],
+  "why": "8.5-E: parent_c later works here as a Care Associate (the Fernwick branch needs its own state)"
+ },
+ {
+  "exterior": "fernwick",
+  "door": [
+   16,
+   6
+  ],
+  "to": "shop_int",
+  "arrival": [
+   5,
+   7
+  ],
+  "kind": "mart (shared chain)",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "fernwick",
+  "door": [
+   22,
+   6
+  ],
+  "to": "home_fernwick_a",
+  "arrival": [
+   5,
+   8
+  ],
+  "kind": "unique",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "fernwick (22,7)"
+  ],
+  "why": "8.5-E The Kid's Last Joke: parent_c (job ads) + kid_c, TV (was house_int_c, door fernwick (22,6))"
+ },
+ {
+  "exterior": "fernwick",
+  "door": [
+   16,
+   18
+  ],
+  "to": "home_lanternport_c",
+  "arrival": [
+   6,
+   8
+  ],
+  "kind": "home (shared H3)",
+  "recolour": "h3_slate",
+  "scheme": "slate",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "fernwick",
+  "door": [
+   5,
+   17
+  ],
+  "to": "home_fernwick_c",
+  "arrival": [
+   7,
+   7
+  ],
+  "kind": "home (shared H2)",
+  "recolour": "h2_ochre",
+  "scheme": "ochre",
+  "back": [
+   "$return"
+  ],
+  "why": ""
+ },
+ {
+  "exterior": "fernwick",
+  "door": [
+   23,
+   18
+  ],
+  "to": "fernwick_hall_int",
+  "arrival": [
+   7,
+   16
+  ],
+  "kind": "unique",
+  "recolour": null,
+  "scheme": null,
+  "back": [
+   "fernwick (23,19)"
+  ],
+  "why": "Master of Fernwick hall: gating puzzle + coin (beat_master_fernwick, critical path)"
+ }
+]

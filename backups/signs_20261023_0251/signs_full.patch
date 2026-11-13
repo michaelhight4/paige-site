@@ -1,0 +1,43 @@
+--- a/maps_new/zz_overnight.py
++++ b/maps_new/zz_overnight.py
+@@ -541,6 +541,10 @@
+     taken = {(e['x'], e['y']) for e in m.npcs_pending + m.signs_pending + m.items} | {(w['x'], w['y']) for w in m.warps}
+     for e in m.npcs_pending + m.signs_pending + m.items:
+         if not _blk(m, e['x'], e['y']): continue
++        # sign fix (Oct 23 2026, 3 AM CT): ps() puts the sign tile on the entry cell, and that tile blocks, so this pass used to
++        # move the sign's text entry one tile off its sign. A sign entry stays on its sign tile; the SIGNS pass at the end of
++        # this file checks the tile in front of it (read_from).
++        if any(e is s for s in m.signs_pending) and m.deco[e['y']][e['x']] == 'sign': continue
+         best = None
+         for r in range(1, 6):
+             for dy in range(-r, r + 1):
+@@ -930,3 +934,29 @@
+         assert not _blk(_m, 7, 29) and not any((e['x'], e['y']) == (7, 29) for e in _m.npcs + _m.signs + _m.items), 'route_cindervale (7,29) not free'
+         _it['x'] = 7; _it['note'] += ' [batch 3 job 0: (8,29) -> (7,29), off the boulder approach]'
+         print('BATCH3 job0: route_cindervale_item_1 (8,29) -> (7,29)')
++# ==== SIGNS (Oct 23 2026, 3 AM CT): every sign entry on its sign tile, readable from the tile in front of it ====
++# settle() no longer moves sign entries (see the sign fix there). Here every entry on a 'sign' tile in the overnight maps gets
++# read_from = the side the player stands on to read it: below first ('down', the front), else the side that faces the path
++# (left/right/up). That cell must be walkable, free of npcs/items/warps and reachable with no field skill (R0).
++_SIGNS = []; _SIGNS_LIFT = []
++_SIDE = (('down', 0, 1), ('left', -1, 0), ('right', 1, 0), ('up', 0, -1))
++for _n in ON_ORDER:
++    _mm = ON[_n]; _R0 = None
++    for _e in _mm.signs + _mm.signs_pending:
++        if _mm.deco[_e['y']][_e['x']] != 'sign': continue
++        assert '[settled from' not in (_e.get('note') or ''), (_n, _e['id'])
++        if _mm.over[_e['y']][_e['x']] in TOPS:   # sign hidden under a tree canopy (route_cindervale (14,3)): lift it; reach must not change
++            _r = (_reach(_mm, False), _reach(_mm, True)); _untop(_mm, _e['x'], _e['y'])
++            assert (_reach(_mm, False), _reach(_mm, True)) == _r, ('canopy lift changed reach', _n, _e['id'])
++            _SIGNS_LIFT.append((_n, _e['id'], _e['x'], _e['y'], _mm.deco[_e['y'] + 1][_e['x']]))
++        if _R0 is None:
++            _R0 = _reach(_mm, False)
++            _occ = {(o['x'], o['y']) for o in _mm.npcs + _mm.npcs_pending + _mm.items} | {(w['x'], w['y']) for w in _mm.warps}
++        _ok = [f for f, dx, dy in _SIDE if (_e['x'] + dx, _e['y'] + dy) in _R0 and not _blk(_mm, _e['x'] + dx, _e['y'] + dy) and (_e['x'] + dx, _e['y'] + dy) not in _occ]
++        assert _ok, ('sign not readable', _n, _e['id'], _e['x'], _e['y'])
++        if _e.get('read_from'): assert _e['read_from'] in _ok, ('read_from blocked', _n, _e['id'], _e['read_from'], _ok)
++        else: _e['read_from'] = _ok[0]
++        _SIGNS.append((_n, _e['id'], _e['x'], _e['y'], _e['read_from']))
++print('SIGNS on tile:', len(_SIGNS), 'read_from:', {f: sum(1 for s in _SIGNS if s[4] == f) for f, _, _ in _SIDE})
++for _s in _SIGNS: print('SIGN', *_s)
++print('SIGNS canopy lifted:', _SIGNS_LIFT)

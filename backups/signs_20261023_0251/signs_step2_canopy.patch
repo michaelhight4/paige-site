@@ -1,0 +1,26 @@
+--- a/maps_new/zz_overnight.py
++++ b/maps_new/zz_overnight.py
+@@ -938,13 +938,17 @@
+ # settle() no longer moves sign entries (see the sign fix there). Here every entry on a 'sign' tile in the overnight maps gets
+ # read_from = the side the player stands on to read it: below first ('down', the front), else the side that faces the path
+ # (left/right/up). That cell must be walkable, free of npcs/items/warps and reachable with no field skill (R0).
+-_SIGNS = []
++_SIGNS = []; _SIGNS_LIFT = []
+ _SIDE = (('down', 0, 1), ('left', -1, 0), ('right', 1, 0), ('up', 0, -1))
+ for _n in ON_ORDER:
+     _mm = ON[_n]; _R0 = None
+     for _e in _mm.signs + _mm.signs_pending:
+         if _mm.deco[_e['y']][_e['x']] != 'sign': continue
+         assert '[settled from' not in (_e.get('note') or ''), (_n, _e['id'])
++        if _mm.over[_e['y']][_e['x']] in TOPS:   # sign hidden under a tree canopy (route_cindervale (14,3)): lift it; reach must not change
++            _r = (_reach(_mm, False), _reach(_mm, True)); _untop(_mm, _e['x'], _e['y'])
++            assert (_reach(_mm, False), _reach(_mm, True)) == _r, ('canopy lift changed reach', _n, _e['id'])
++            _SIGNS_LIFT.append((_n, _e['id'], _e['x'], _e['y'], _mm.deco[_e['y'] + 1][_e['x']]))
+         if _R0 is None:
+             _R0 = _reach(_mm, False)
+             _occ = {(o['x'], o['y']) for o in _mm.npcs + _mm.npcs_pending + _mm.items} | {(w['x'], w['y']) for w in _mm.warps}
+@@ -955,3 +959,4 @@
+         _SIGNS.append((_n, _e['id'], _e['x'], _e['y'], _e['read_from']))
+ print('SIGNS on tile:', len(_SIGNS), 'read_from:', {f: sum(1 for s in _SIGNS if s[4] == f) for f, _, _ in _SIDE})
+ for _s in _SIGNS: print('SIGN', *_s)
++print('SIGNS canopy lifted:', _SIGNS_LIFT)

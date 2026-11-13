@@ -1,0 +1,111 @@
+{
+ "desktop": {
+  "checks": [
+   "PASS practice: save refused mid-race (script)",
+   "PASS practice: gold unchanged 400",
+   "PASS practice: no champion screen (smaller win celebration on the scoreboard)",
+   "PASS tourney: forced win (results say Champion)",
+   "PASS tourney: champion screen shown",
+   "PASS tourney: gold math 400 - 150 + 1000 = 1250",
+   "PASS tourney: nothing saved mid-race (saved coins still 400)",
+   "PASS tourney: phase intro seen",
+   "PASS tourney: phase countdown seen",
+   "PASS tourney: phase race seen",
+   "PASS tourney: phase final_stretch seen",
+   "PASS tourney: phase finish seen",
+   "PASS tourney: phase results seen",
+   "PASS saved once after close: 1250",
+   "PASS no console errors ()"
+  ],
+  "fail": 0,
+  "errors": [],
+  "phases": {
+   "practice_r1_intro": 5856,
+   "practice_r1_countdown": 7815,
+   "practice_r1_race": 9970,
+   "practice_r1_final_stretch": 30679,
+   "practice_r1_finish": 35878,
+   "practice_r1_results": 41511,
+   "practice_r2_intro": 47033,
+   "practice_r2_countdown": 49055,
+   "practice_r2_race": 51288,
+   "practice_r2_final_stretch": 72725,
+   "practice_r2_finish": 77991,
+   "practice_r2_results": 82767,
+   "tourney_r1_intro": 89122,
+   "tourney_r1_countdown": 91133,
+   "tourney_r1_race": 93297,
+   "tourney_r1_final_stretch": 114741,
+   "tourney_r1_finish": 119958,
+   "tourney_r1_results": 125190,
+   "tourney_r2_intro": 130725,
+   "tourney_r2_countdown": 132707,
+   "tourney_r2_race": 135227,
+   "tourney_r2_final_stretch": 156728,
+   "tourney_r2_finish": 161898,
+   "tourney_r2_results": 165089,
+   "tourney_r2_champion": 170573
+  },
+  "fps": [
+   {
+    "fps": 60,
+    "worstMs": 16.8
+   },
+   {
+    "fps": 59.7,
+    "worstMs": 133.3
+   },
+   {
+    "fps": 60,
+    "worstMs": 16.8
+   },
+   {
+    "fps": 59.8,
+    "worstMs": 33.4
+   }
+  ]
+ },
+ "phone": {
+  "checks": [
+   "PASS tourney: forced win (results say Champion)",
+   "PASS tourney: champion screen shown",
+   "PASS tourney: gold math 400 - 150 + 1000 = 1250",
+   "PASS tourney: nothing saved mid-race (saved coins still 400)",
+   "PASS tourney: phase intro seen",
+   "PASS tourney: phase countdown seen",
+   "PASS tourney: phase race seen",
+   "PASS tourney: phase final_stretch seen",
+   "PASS tourney: phase finish seen",
+   "PASS tourney: phase results seen",
+   "PASS saved once after close: 1250",
+   "PASS no console errors ()"
+  ],
+  "fail": 0,
+  "errors": [],
+  "phases": {
+   "tourney_r1_intro": 2719,
+   "tourney_r1_countdown": 4714,
+   "tourney_r1_race": 6837,
+   "tourney_r1_final_stretch": 27698,
+   "tourney_r1_finish": 32680,
+   "tourney_r1_results": 37345,
+   "tourney_r2_intro": 42868,
+   "tourney_r2_countdown": 44862,
+   "tourney_r2_race": 47110,
+   "tourney_r2_final_stretch": 68661,
+   "tourney_r2_finish": 73848,
+   "tourney_r2_results": 77161,
+   "tourney_r2_champion": 82647
+  },
+  "fps": [
+   {
+    "fps": 59.3,
+    "worstMs": 50
+   },
+   {
+    "fps": 59.8,
+    "worstMs": 100
+   }
+  ]
+ }
+}

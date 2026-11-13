@@ -1,0 +1,4963 @@
+{
+ "rule": "Furniture never shares colour codes with the floor or walls (GAME_QUALITY_CHECKLIST, Oct 22 2026)",
+ "note": "per-tile exact colour swaps, palette.hex only; ids unchanged. window_walls: wallpaper pixels (equal to the plain wall) follow the plain wall map.",
+ "tiles": {
+  "arena_ring_0_0": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "arena_ring_0_1": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "arena_ring_0_2": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "arena_ring_0_3": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "arena_ring_1_0": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "arena_ring_1_1": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "arena_ring_1_2": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "arena_ring_1_3": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "arena_ring_2_0": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "arena_ring_2_1": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "arena_ring_2_2": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "arena_ring_2_3": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "arena_ring_3_0": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "arena_ring_3_1": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "arena_ring_3_2": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "arena_ring_3_3": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "banner": {
+   "2c2320": "1a1226",
+   "3a1e60": "1e4078",
+   "603096": "30488c",
+   "6a442e": "561c0e",
+   "87604d": "54444e",
+   "8a4ace": "b076ec",
+   "92623e": "ba8856",
+   "fcd668": "e8ce92"
+  },
+  "bed_0_0": {
+   "2c2320": "191210",
+   "462c22": "54444e",
+   "6a3019": "561c0e",
+   "6a442e": "462c22",
+   "87604d": "827a84",
+   "ecdec4": "f8eabe"
+  },
+  "bed_1_0": {
+   "2c2320": "191210",
+   "462c22": "54444e",
+   "6a3019": "561c0e",
+   "6a442e": "462c22",
+   "87604d": "827a84",
+   "ecdec4": "f8eabe"
+  },
+  "bookcase_0_0": {
+   "2c2320": "191210",
+   "6a442e": "6e222a",
+   "827a84": "246e6c",
+   "87604d": "ba8856"
+  },
+  "bookcase_0_1": {
+   "2c2320": "191210",
+   "6a442e": "6e222a",
+   "827a84": "246e6c",
+   "87604d": "ba8856"
+  },
+  "bookcase_1_0": {
+   "2c2320": "191210",
+   "6a442e": "6e222a",
+   "827a84": "246e6c",
+   "87604d": "ba8856"
+  },
+  "bookcase_1_1": {
+   "2c2320": "191210",
+   "6a442e": "6e222a",
+   "827a84": "246e6c",
+   "87604d": "ba8856"
+  },
+  "chair": {
+   "2c2320": "191210",
+   "6a3019": "561c0e",
+   "6a442e": "6e222a",
+   "87604d": "a23432",
+   "92623e": "9f4013",
+   "ba8856": "f08868",
+   "c46e2e": "d46616"
+  },
+  "cooler_0_0": {
+   "7ac2e8": "3e9c92",
+   "827a84": "92623e",
+   "c6ecfa": "70cab8",
+   "ccc6c2": "daa2ba",
+   "ecdec4": "f8eabe"
+  },
+  "cooler_1_0": {
+   "7ac2e8": "3e9c92",
+   "827a84": "92623e",
+   "c6ecfa": "70cab8",
+   "ccc6c2": "daa2ba",
+   "ecdec4": "f8eabe"
+  },
+  "counter_shop_l": {
+   "2c2320": "2c1a12",
+   "462c22": "561c0e",
+   "6a442e": "6e222a",
+   "87604d": "a23432",
+   "92623e": "9f4013",
+   "ba8856": "c46e2e",
+   "ccaa6e": "deb478"
+  },
+  "counter_shop_m": {
+   "462c22": "2c1a12",
+   "6a442e": "561c0e",
+   "87604d": "6e222a",
+   "92623e": "9f4013",
+   "ba8856": "c46e2e",
+   "ccaa6e": "deb478"
+  },
+  "counter_shop_r": {
+   "2c2320": "2c1a12",
+   "462c22": "561c0e",
+   "6a442e": "6e222a",
+   "87604d": "a23432",
+   "92623e": "9f4013",
+   "ba8856": "c46e2e",
+   "ccaa6e": "deb478"
+  },
+  "crystal_display_0_0": {
+   "29252b": "191210",
+   "342842": "1a1226",
+   "3e3a48": "18382c",
+   "54444e": "462c22",
+   "5e5866": "246e6c",
+   "827a84": "92623e",
+   "c6ecfa": "70cab8",
+   "ccc6c2": "daa2ba"
+  },
+  "crystal_display_1_0": {
+   "29252b": "191210",
+   "342842": "1a1226",
+   "3e3a48": "18382c",
+   "54444e": "462c22",
+   "5e5866": "246e6c",
+   "827a84": "92623e",
+   "c6ecfa": "70cab8",
+   "ccc6c2": "daa2ba"
+  },
+  "dais_0_0": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "dais_0_1": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "dais_0_2": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "dais_0_3": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "dais_1_0": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "dais_1_1": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "dais_1_2": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "dais_1_3": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "desk_pc_0_0": {
+   "29252b": "000000",
+   "2c2320": "2c1a12",
+   "342842": "1e4078",
+   "3e3a48": "244e34",
+   "54444e": "18382c",
+   "6a442e": "6a3019",
+   "827a84": "246e6c",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "70cab8",
+   "ecdec4": "f8eabe"
+  },
+  "desk_pc_0_1": {
+   "29252b": "000000",
+   "2c2320": "2c1a12",
+   "342842": "1e4078",
+   "3e3a48": "244e34",
+   "54444e": "18382c",
+   "6a442e": "6a3019",
+   "827a84": "246e6c",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "70cab8",
+   "ecdec4": "f8eabe"
+  },
+  "filing_0_0": {
+   "54444e": "462c22",
+   "5e5866": "246e6c",
+   "827a84": "92623e",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "fcf6e8"
+  },
+  "filing_1_0": {
+   "54444e": "462c22",
+   "5e5866": "246e6c",
+   "827a84": "92623e",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "fcf6e8"
+  },
+  "floor_arena": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "floor_stone": {
+   "54444e": "3e3a48",
+   "deb478": "ccaa6e",
+   "ecdec4": "f8eabe"
+  },
+  "goods_0_0": {
+   "c6ecfa": "7ac2e8"
+  },
+  "goods_1_0": {
+   "c6ecfa": "7ac2e8"
+  },
+  "i_anchor": {
+   "5e5866": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "c6ecfa"
+  },
+  "i_barrel": {
+   "5e5866": "87604d"
+  },
+  "i_bed_brook_0_0": {
+   "462c22": "29252b",
+   "6a442e": "6a3019",
+   "92623e": "87604d",
+   "ba8856": "ccaa6e"
+  },
+  "i_bed_brook_1_0": {
+   "462c22": "29252b",
+   "6a442e": "6a3019",
+   "92623e": "87604d",
+   "ba8856": "ccaa6e"
+  },
+  "i_bed_fern_0_0": {
+   "24522e": "244e34",
+   "462c22": "29252b",
+   "6a442e": "6a3019",
+   "87604d": "827a84",
+   "ba8856": "c46e2e",
+   "deb478": "ccaa6e"
+  },
+  "i_bed_fern_1_0": {
+   "24522e": "244e34",
+   "462c22": "29252b",
+   "6a442e": "6a3019",
+   "87604d": "827a84",
+   "ba8856": "c46e2e",
+   "deb478": "ccaa6e"
+  },
+  "i_bed_lantern_0_0": {
+   "18382c": "2c2320",
+   "191210": "000000",
+   "244e34": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa",
+   "e29d40": "eea23c"
+  },
+  "i_bed_lantern_1_0": {
+   "18382c": "2c2320",
+   "191210": "000000",
+   "244e34": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa",
+   "e29d40": "eea23c"
+  },
+  "i_bed_salt_0_0": {
+   "1e4078": "30488c",
+   "2c64a8": "4a70ba",
+   "4692ce": "7ac2e8",
+   "54444e": "462c22",
+   "5e5866": "246e6c",
+   "827a84": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "c6ecfa",
+   "fcf6e8": "f4e2ff"
+  },
+  "i_bed_salt_1_0": {
+   "1e4078": "30488c",
+   "2c64a8": "4a70ba",
+   "4692ce": "7ac2e8",
+   "54444e": "462c22",
+   "5e5866": "246e6c",
+   "827a84": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "c6ecfa",
+   "fcf6e8": "f4e2ff"
+  },
+  "i_bookcase_brook_0_0": {
+   "191210": "000000",
+   "462c22": "2c1a12",
+   "6a442e": "6a3019",
+   "92623e": "87604d",
+   "ba8856": "ccaa6e"
+  },
+  "i_bookcase_brook_1_0": {
+   "191210": "000000",
+   "462c22": "2c1a12",
+   "6a442e": "6a3019",
+   "92623e": "87604d",
+   "ba8856": "ccaa6e"
+  },
+  "i_bookcase_fern_0_0": {
+   "191210": "000000",
+   "462c22": "2c2320",
+   "6a442e": "6a3019",
+   "87604d": "827a84",
+   "ba8856": "c46e2e",
+   "deb478": "ccaa6e"
+  },
+  "i_bookcase_fern_1_0": {
+   "191210": "000000",
+   "462c22": "2c2320",
+   "6a442e": "6a3019",
+   "87604d": "827a84",
+   "ba8856": "c46e2e",
+   "deb478": "ccaa6e"
+  },
+  "i_bookcase_lantern_0_0": {
+   "18382c": "2c2320",
+   "191210": "000000",
+   "244e34": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "6a442e": "6a3019",
+   "70cab8": "c6ecfa",
+   "e29d40": "eea23c"
+  },
+  "i_bookcase_lantern_1_0": {
+   "18382c": "2c2320",
+   "191210": "000000",
+   "244e34": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "6a442e": "6a3019",
+   "70cab8": "c6ecfa",
+   "e29d40": "eea23c"
+  },
+  "i_bookcase_salt_0_0": {
+   "191210": "000000",
+   "1e4078": "30488c",
+   "4a70ba": "3a1e60",
+   "54444e": "462c22",
+   "5e5866": "29252b",
+   "827a84": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "f4e2ff",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_bookcase_salt_1_0": {
+   "191210": "000000",
+   "1e4078": "30488c",
+   "4a70ba": "3a1e60",
+   "54444e": "462c22",
+   "5e5866": "29252b",
+   "827a84": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "f4e2ff",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_chair_brook": {
+   "462c22": "29252b",
+   "6a442e": "6e222a",
+   "92623e": "87604d",
+   "ba8856": "ccaa6e"
+  },
+  "i_chair_fern": {
+   "24522e": "244e34",
+   "462c22": "29252b",
+   "6a442e": "6a3019",
+   "87604d": "827a84",
+   "ba8856": "c46e2e",
+   "deb478": "ccaa6e"
+  },
+  "i_chair_lantern": {
+   "18382c": "2c2320",
+   "191210": "000000",
+   "244e34": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa"
+  },
+  "i_chair_salt": {
+   "1e4078": "3a1e60",
+   "2c64a8": "4a70ba",
+   "4692ce": "7ac2e8",
+   "54444e": "462c22",
+   "5e5866": "246e6c",
+   "827a84": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "c6ecfa"
+  },
+  "i_counter_rt_l": {
+   "5e5866": "54444e",
+   "ccc6c2": "7ac2e8",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_counter_rt_m": {
+   "ccc6c2": "7ac2e8",
+   "f4e2ff": "f6a0ba",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_counter_rt_r": {
+   "5e5866": "54444e",
+   "ccc6c2": "7ac2e8",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_crystal_crate": {
+   "2c2320": "29252b",
+   "5e5866": "54444e",
+   "f4e2ff": "f6a0ba",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_crystal_display_0_0": {
+   "5e5866": "54444e",
+   "827a84": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "7ac2e8",
+   "fcf6e8": "f4e2ff"
+  },
+  "i_crystal_display_1_0": {
+   "5e5866": "54444e",
+   "827a84": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "7ac2e8",
+   "fcf6e8": "f4e2ff"
+  },
+  "i_crystal_polisher_0_0": {
+   "191210": "000000",
+   "5e5866": "87604d",
+   "a8a0a4": "7ac2e8",
+   "ccc6c2": "70cab8",
+   "f4e2ff": "f6a0ba",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_crystal_polisher_0_1": {
+   "191210": "000000",
+   "5e5866": "87604d",
+   "a8a0a4": "7ac2e8",
+   "ccc6c2": "70cab8",
+   "f4e2ff": "f6a0ba",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_crystal_polisher_1_0": {
+   "191210": "000000",
+   "5e5866": "87604d",
+   "a8a0a4": "7ac2e8",
+   "ccc6c2": "70cab8",
+   "f4e2ff": "f6a0ba",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_crystal_polisher_1_1": {
+   "191210": "000000",
+   "5e5866": "87604d",
+   "a8a0a4": "7ac2e8",
+   "ccc6c2": "70cab8",
+   "f4e2ff": "f6a0ba",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_cupboard_brook_0_0": {
+   "462c22": "2c1a12",
+   "6a442e": "6a3019",
+   "92623e": "87604d",
+   "ba8856": "c46e2e"
+  },
+  "i_cupboard_brook_1_0": {
+   "462c22": "2c1a12",
+   "6a442e": "6a3019",
+   "92623e": "87604d",
+   "ba8856": "c46e2e"
+  },
+  "i_cupboard_fern_0_0": {
+   "6a442e": "6a3019",
+   "87604d": "827a84",
+   "ba8856": "92623e",
+   "deb478": "ccaa6e"
+  },
+  "i_cupboard_fern_1_0": {
+   "6a442e": "6a3019",
+   "87604d": "827a84",
+   "ba8856": "92623e",
+   "deb478": "ccaa6e"
+  },
+  "i_cupboard_lantern_0_0": {
+   "244e34": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa",
+   "e29d40": "eea23c"
+  },
+  "i_cupboard_lantern_1_0": {
+   "244e34": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa",
+   "e29d40": "eea23c"
+  },
+  "i_cupboard_salt_0_0": {
+   "5e5866": "342842",
+   "827a84": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "f4e2ff",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_cupboard_salt_1_0": {
+   "5e5866": "342842",
+   "827a84": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "f4e2ff",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_dresser_brook": {
+   "462c22": "2c1a12",
+   "6a442e": "6a3019",
+   "92623e": "87604d",
+   "ba8856": "ccaa6e"
+  },
+  "i_fireplace_0_0": {
+   "191210": "000000",
+   "6a442e": "5e5866",
+   "92623e": "87604d"
+  },
+  "i_fireplace_0_1": {
+   "191210": "000000",
+   "6a442e": "5e5866",
+   "92623e": "87604d"
+  },
+  "i_fireplace_1_0": {
+   "191210": "000000",
+   "6a442e": "5e5866",
+   "92623e": "87604d"
+  },
+  "i_fireplace_1_1": {
+   "191210": "000000",
+   "6a442e": "5e5866",
+   "92623e": "87604d"
+  },
+  "i_fishing_rods": {
+   "462c22": "29252b",
+   "6a442e": "6a3019",
+   "87604d": "92623e",
+   "deb478": "ccaa6e"
+  },
+  "i_floor_parquet_a": {
+   "246e6c": "244e34"
+  },
+  "i_floor_parquet_b": {
+   "246e6c": "244e34"
+  },
+  "i_floor_parquet_c": {
+   "246e6c": "244e34"
+  },
+  "i_floor_pine_a": {
+   "92623e": "f08868"
+  },
+  "i_floor_pine_b": {
+   "92623e": "f08868"
+  },
+  "i_floor_pine_c": {
+   "92623e": "f08868"
+  },
+  "i_floor_rtbranch_a": {
+   "b076ec": "d2608c",
+   "d6acff": "daa2ba"
+  },
+  "i_floor_rtbranch_b": {
+   "b076ec": "d2608c",
+   "d6acff": "daa2ba"
+  },
+  "i_floor_rtbranch_c": {
+   "b076ec": "d2608c",
+   "d6acff": "daa2ba"
+  },
+  "i_globe": {
+   "462c22": "29252b",
+   "6a442e": "6a3019",
+   "92623e": "c46e2e",
+   "e29d40": "eea23c"
+  },
+  "i_kitchen_fridge_0_0": {
+   "462c22": "2c2320",
+   "6a442e": "6a3019",
+   "92623e": "9f4013",
+   "ba8856": "c46e2e",
+   "e29d40": "eea23c"
+  },
+  "i_kitchen_fridge_1_0": {
+   "462c22": "2c2320",
+   "6a442e": "6a3019",
+   "92623e": "9f4013",
+   "ba8856": "c46e2e",
+   "e29d40": "eea23c"
+  },
+  "i_kitchen_sink_0_0": {
+   "462c22": "2c2320",
+   "6a442e": "6a3019",
+   "92623e": "9f4013",
+   "ba8856": "c46e2e",
+   "e29d40": "eea23c"
+  },
+  "i_kitchen_sink_1_0": {
+   "462c22": "2c2320",
+   "6a442e": "6a3019",
+   "92623e": "9f4013",
+   "ba8856": "c46e2e",
+   "e29d40": "eea23c"
+  },
+  "i_kitchen_stove_0_0": {
+   "191210": "000000",
+   "462c22": "2c2320",
+   "6a442e": "6a3019",
+   "92623e": "9f4013",
+   "ba8856": "c46e2e",
+   "e29d40": "eea23c"
+  },
+  "i_kitchen_stove_1_0": {
+   "191210": "000000",
+   "462c22": "2c2320",
+   "6a442e": "6a3019",
+   "92623e": "9f4013",
+   "ba8856": "c46e2e",
+   "e29d40": "eea23c"
+  },
+  "i_lab_desk_0_0": {
+   "191210": "000000",
+   "3e3a48": "54444e",
+   "5e5866": "6a442e",
+   "70cab8": "7ac2e8",
+   "827a84": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "ccaa6e",
+   "fcf6e8": "f4e2ff"
+  },
+  "i_lab_desk_0_1": {
+   "191210": "000000",
+   "3e3a48": "54444e",
+   "5e5866": "6a442e",
+   "70cab8": "7ac2e8",
+   "827a84": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "ccaa6e",
+   "fcf6e8": "f4e2ff"
+  },
+  "i_lab_machine_0_0": {
+   "246e6c": "244e34",
+   "3e3a48": "54444e",
+   "3e9c92": "54864e",
+   "5e5866": "6a442e",
+   "70cab8": "7ac2e8",
+   "827a84": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "c6ecfa"
+  },
+  "i_lab_machine_1_0": {
+   "246e6c": "244e34",
+   "3e3a48": "54444e",
+   "3e9c92": "54864e",
+   "5e5866": "6a442e",
+   "70cab8": "7ac2e8",
+   "827a84": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "c6ecfa"
+  },
+  "i_locker_0_0": {
+   "191210": "000000",
+   "5e5866": "54444e",
+   "a8a0a4": "7ac2e8"
+  },
+  "i_locker_1_0": {
+   "191210": "000000",
+   "5e5866": "54444e",
+   "a8a0a4": "7ac2e8"
+  },
+  "i_log_stool": {
+   "24522e": "244e34",
+   "6a442e": "6a3019",
+   "87604d": "827a84",
+   "ba8856": "c46e2e",
+   "deb478": "ccaa6e"
+  },
+  "i_net": {
+   "827a84": "246e6c",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_newsletter_rack": {
+   "5e5866": "54444e",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_pc": {
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "5e5866": "1e4078",
+   "70cab8": "7ac2e8",
+   "827a84": "87604d",
+   "a8a0a4": "f6a0ba",
+   "ccc6c2": "c6ecfa"
+  },
+  "i_plant_coral": {
+   "1e4078": "30488c"
+  },
+  "i_plant_fern": {
+   "18382c": "29252b",
+   "24522e": "54444e",
+   "2c1a12": "2c2320",
+   "6a442e": "561c0e"
+  },
+  "i_plant_flower": {
+   "92623e": "87604d"
+  },
+  "i_plant_mushroom": {
+   "2c2320": "29252b",
+   "462c22": "54444e",
+   "561c0e": "6a3019",
+   "6a442e": "92623e",
+   "87604d": "3e3a48",
+   "92623e": "c46e2e",
+   "a23432": "9f4013",
+   "ecdec4": "f8eabe",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_plant_palm_0_0": {
+   "18382c": "54444e",
+   "2c1a12": "29252b",
+   "462c22": "561c0e",
+   "6a442e": "6e222a",
+   "92623e": "87604d"
+  },
+  "i_plant_palm_1_0": {
+   "18382c": "54444e",
+   "2c1a12": "29252b",
+   "462c22": "561c0e",
+   "6a442e": "6e222a",
+   "92623e": "87604d"
+  },
+  "i_radio": {
+   "191210": "000000",
+   "2c1a12": "1a1226",
+   "2c2320": "29252b",
+   "462c22": "3e3a48",
+   "6a442e": "6a3019",
+   "92623e": "9f4013",
+   "ba8856": "c46e2e",
+   "deb478": "e29d40"
+  },
+  "i_river_stones": {
+   "54864e": "367634"
+  },
+  "i_rt_logo_panel_0_0": {
+   "191210": "000000",
+   "f4e2ff": "f6a0ba",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_rt_logo_panel_0_1": {
+   "191210": "000000",
+   "f4e2ff": "f6a0ba",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_rt_poster_care": {
+   "191210": "000000",
+   "5e5866": "54444e",
+   "f4e2ff": "f6a0ba",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_rt_poster_join": {
+   "191210": "000000"
+  },
+  "i_rt_poster_safety": {
+   "191210": "000000",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_rug_sand_0_0": {
+   "92623e": "6a3019",
+   "e8ce92": "ecdec4"
+  },
+  "i_rug_sand_0_1": {
+   "92623e": "6a3019",
+   "e8ce92": "ecdec4"
+  },
+  "i_rug_sand_0_2": {
+   "92623e": "6a3019",
+   "e8ce92": "ecdec4"
+  },
+  "i_rug_sand_1_0": {
+   "92623e": "6a3019",
+   "e8ce92": "ecdec4"
+  },
+  "i_rug_sand_1_1": {
+   "92623e": "6a3019",
+   "e8ce92": "ecdec4"
+  },
+  "i_rug_sand_1_2": {
+   "92623e": "6a3019",
+   "e8ce92": "ecdec4"
+  },
+  "i_rug_sand_2_0": {
+   "92623e": "6a3019",
+   "e8ce92": "ecdec4"
+  },
+  "i_rug_sand_2_1": {
+   "92623e": "6a3019",
+   "e8ce92": "ecdec4"
+  },
+  "i_rug_sand_2_2": {
+   "92623e": "6a3019",
+   "e8ce92": "ecdec4"
+  },
+  "i_rug_teal_0_0": {
+   "18382c": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa"
+  },
+  "i_rug_teal_0_1": {
+   "18382c": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa"
+  },
+  "i_rug_teal_0_2": {
+   "18382c": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa"
+  },
+  "i_rug_teal_1_0": {
+   "18382c": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa"
+  },
+  "i_rug_teal_1_1": {
+   "18382c": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa"
+  },
+  "i_rug_teal_1_2": {
+   "18382c": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa"
+  },
+  "i_rug_teal_2_0": {
+   "18382c": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa"
+  },
+  "i_rug_teal_2_1": {
+   "18382c": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa"
+  },
+  "i_rug_teal_2_2": {
+   "18382c": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa"
+  },
+  "i_salt_jars": {
+   "827a84": "87604d",
+   "ccc6c2": "f4e2ff"
+  },
+  "i_server_rack_0_0": {
+   "191210": "000000",
+   "3e3a48": "2c2320",
+   "5e5866": "54444e"
+  },
+  "i_server_rack_1_0": {
+   "191210": "000000",
+   "3e3a48": "2c2320",
+   "5e5866": "54444e"
+  },
+  "i_shelf_brook": {
+   "191210": "000000",
+   "246e6c": "244e34",
+   "462c22": "2c2320",
+   "5e5866": "54444e",
+   "6a442e": "6a3019",
+   "92623e": "c46e2e",
+   "a8a0a4": "daa2ba",
+   "ba8856": "ccaa6e",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_shelf_fern": {
+   "191210": "000000",
+   "54864e": "52983a",
+   "6a442e": "6a3019",
+   "87604d": "827a84",
+   "ba8856": "c46e2e",
+   "deb478": "ccaa6e"
+  },
+  "i_shelf_lantern": {
+   "18382c": "2c2320",
+   "191210": "000000",
+   "244e34": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "6a442e": "6a3019",
+   "70cab8": "c6ecfa",
+   "e29d40": "eea23c"
+  },
+  "i_shelf_salt": {
+   "191210": "000000",
+   "4a70ba": "30488c",
+   "54444e": "342842",
+   "5e5866": "87604d",
+   "827a84": "daa2ba",
+   "a8a0a4": "f6a0ba",
+   "ccc6c2": "f4e2ff",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_sofa_brook_0_0": {
+   "561c0e": "54444e",
+   "6e222a": "87604d",
+   "a23432": "9f4013",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_sofa_brook_0_1": {
+   "561c0e": "54444e",
+   "6e222a": "87604d",
+   "a23432": "9f4013",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_sofa_fern_0_0": {
+   "24522e": "244e34",
+   "ecdec4": "f8eabe"
+  },
+  "i_sofa_fern_0_1": {
+   "24522e": "244e34",
+   "ecdec4": "f8eabe"
+  },
+  "i_sofa_lantern_0_0": {
+   "18382c": "2c2320",
+   "244e34": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa",
+   "e29d40": "eea23c"
+  },
+  "i_sofa_lantern_0_1": {
+   "18382c": "2c2320",
+   "244e34": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa",
+   "e29d40": "eea23c"
+  },
+  "i_specimen_tank_0_0": {
+   "191210": "000000",
+   "246e6c": "244e34",
+   "3e3a48": "342842",
+   "3e9c92": "54864e",
+   "70cab8": "7ac2e8",
+   "827a84": "87604d"
+  },
+  "i_specimen_tank_1_0": {
+   "191210": "000000",
+   "246e6c": "244e34",
+   "3e3a48": "342842",
+   "3e9c92": "54864e",
+   "70cab8": "7ac2e8",
+   "827a84": "87604d"
+  },
+  "i_suggestion_box": {
+   "191210": "000000",
+   "5e5866": "54444e",
+   "f4e2ff": "f6a0ba",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_table_brook_0_0": {
+   "462c22": "29252b",
+   "6a442e": "6a3019",
+   "92623e": "87604d",
+   "ba8856": "ccaa6e"
+  },
+  "i_table_brook_0_1": {
+   "462c22": "29252b",
+   "6a442e": "6a3019",
+   "92623e": "87604d",
+   "ba8856": "ccaa6e"
+  },
+  "i_table_fern_0_0": {
+   "462c22": "29252b",
+   "6a442e": "6a3019",
+   "87604d": "827a84",
+   "ba8856": "c46e2e",
+   "deb478": "ccaa6e"
+  },
+  "i_table_fern_0_1": {
+   "462c22": "29252b",
+   "6a442e": "6a3019",
+   "87604d": "827a84",
+   "ba8856": "c46e2e",
+   "deb478": "ccaa6e"
+  },
+  "i_table_lantern_0_0": {
+   "18382c": "2c2320",
+   "191210": "000000",
+   "244e34": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa",
+   "e29d40": "eea23c"
+  },
+  "i_table_lantern_0_1": {
+   "18382c": "2c2320",
+   "191210": "000000",
+   "244e34": "24522e",
+   "246e6c": "38683e",
+   "3e9c92": "54864e",
+   "70cab8": "c6ecfa",
+   "e29d40": "eea23c"
+  },
+  "i_table_salt_0_0": {
+   "4692ce": "7ac2e8",
+   "54444e": "462c22",
+   "5e5866": "246e6c",
+   "827a84": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "f4e2ff",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_table_salt_0_1": {
+   "4692ce": "7ac2e8",
+   "54444e": "462c22",
+   "5e5866": "246e6c",
+   "827a84": "87604d",
+   "a8a0a4": "daa2ba",
+   "ccc6c2": "f4e2ff",
+   "fcf6e8": "c6ecfa"
+  },
+  "i_table_small_brook": {
+   "462c22": "29252b",
+   "6a442e": "6a3019",
+   "92623e": "87604d",
+   "ba8856": "ccaa6e"
+  },
+  "i_terminal": {
+   "191210": "000000",
+   "3e3a48": "462c22",
+   "5e5866": "6a442e",
+   "827a84": "87604d",
+   "a8a0a4": "7ac2e8"
+  },
+  "i_tv": {
+   "191210": "000000",
+   "462c22": "561c0e",
+   "6a442e": "6a3019",
+   "92623e": "9f4013",
+   "ba8856": "c46e2e"
+  },
+  "i_wall_face_brook": {
+   "ccaa6e": "deb478"
+  },
+  "i_wall_face_lab": {
+   "ccc6c2": "deb478"
+  },
+  "i_wall_face_lantern": {
+   "92623e": "ba8856"
+  },
+  "i_wall_face_rtbranch": {
+   "1a1226": "2c2320",
+   "3a1e60": "561c0e",
+   "603096": "6e222a",
+   "8a4ace": "a23432",
+   "d6acff": "daa2ba"
+  },
+  "i_wall_face_salt": {
+   "4a70ba": "5e5866",
+   "5e5866": "54444e",
+   "fcf6e8": "a8a0a4"
+  },
+  "i_wall_top_brook": {
+   "ccaa6e": "deb478"
+  },
+  "i_wall_top_lab": {
+   "ccc6c2": "deb478"
+  },
+  "i_wall_top_lantern": {
+   "92623e": "ba8856"
+  },
+  "i_wall_top_rtbranch": {
+   "1a1226": "2c2320",
+   "3a1e60": "561c0e",
+   "603096": "6e222a",
+   "8a4ace": "a23432",
+   "d6acff": "daa2ba"
+  },
+  "i_wall_top_salt": {
+   "4a70ba": "5e5866",
+   "5e5866": "54444e",
+   "fcf6e8": "a8a0a4"
+  },
+  "i_wall_upper_brook": {
+   "ccaa6e": "deb478"
+  },
+  "i_wall_upper_lab": {
+   "ccc6c2": "deb478"
+  },
+  "i_wall_upper_lantern": {
+   "92623e": "ba8856"
+  },
+  "i_wall_upper_rtbranch": {
+   "1a1226": "2c2320",
+   "3a1e60": "561c0e",
+   "603096": "6e222a",
+   "8a4ace": "a23432",
+   "d6acff": "daa2ba"
+  },
+  "i_wall_upper_salt": {
+   "4a70ba": "5e5866",
+   "5e5866": "54444e",
+   "fcf6e8": "a8a0a4"
+  },
+  "iwall_face_hall": {
+   "5e5866": "3e3a48",
+   "827a84": "5e5866"
+  },
+  "iwall_face_house": {
+   "462c22": "2c2320"
+  },
+  "iwall_face_office": {
+   "3e3a48": "342842"
+  },
+  "iwall_upper_hall": {
+   "5e5866": "3e3a48",
+   "827a84": "5e5866"
+  },
+  "iwall_upper_house": {
+   "462c22": "2c2320"
+  },
+  "iwall_upper_office": {
+   "3e3a48": "342842"
+  },
+  "pc": {
+   "29252b": "191210",
+   "342842": "1e4078",
+   "3e3a48": "54444e",
+   "462c22": "2c1a12",
+   "92623e": "9f4013",
+   "ccc6c2": "a8a0a4",
+   "ecdec4": "f8eabe"
+  },
+  "pillar_0_0": {
+   "5e5866": "3e3a48",
+   "827a84": "5e5866"
+  },
+  "pillar_1_0": {
+   "5e5866": "3e3a48",
+   "827a84": "5e5866"
+  },
+  "plant": {
+   "6a442e": "561c0e",
+   "c46e2e": "d46616"
+  },
+  "rail": {
+   "191210": "000000",
+   "5e5866": "246e6c",
+   "827a84": "4692ce",
+   "a8a0a4": "7ac2e8",
+   "ccc6c2": "c6ecfa",
+   "ecdec4": "e8ce92"
+  },
+  "rug": {
+   "827a84": "246e6c",
+   "ccaa6e": "eea23c",
+   "deb478": "e29d40"
+  },
+  "shelf_0_0": {
+   "2c2320": "2c1a12",
+   "6a442e": "561c0e",
+   "87604d": "827a84",
+   "ccaa6e": "e29d40"
+  },
+  "shelf_1_0": {
+   "2c2320": "2c1a12",
+   "6a442e": "561c0e",
+   "87604d": "827a84",
+   "ccaa6e": "e29d40"
+  },
+  "table_0_0": {
+   "2c2320": "1a1226",
+   "462c22": "54444e",
+   "6a3019": "561c0e",
+   "6a442e": "462c22",
+   "87604d": "827a84",
+   "92623e": "9f4013",
+   "ba8856": "e29d40",
+   "c46e2e": "d46616"
+  },
+  "table_0_1": {
+   "2c2320": "1a1226",
+   "462c22": "54444e",
+   "6a3019": "561c0e",
+   "6a442e": "462c22",
+   "87604d": "827a84",
+   "92623e": "9f4013",
+   "ba8856": "e29d40",
+   "c46e2e": "d46616"
+  },
+  "tv": {
+   "29252b": "462c22",
+   "2c2320": "2c1a12",
+   "342842": "54444e",
+   "462c22": "561c0e",
+   "6a442e": "6e222a",
+   "7ac2e8": "c6ecfa",
+   "87604d": "827a84"
+  },
+  "x_bench_0_0": {
+   "191210": "2c1a12",
+   "29252b": "2c2320",
+   "342842": "3a1e60",
+   "462c22": "561c0e",
+   "54444e": "1e4078",
+   "6a442e": "6a3019",
+   "87604d": "6e222a"
+  },
+  "x_bench_0_1": {
+   "191210": "2c1a12",
+   "29252b": "2c2320",
+   "342842": "3a1e60",
+   "462c22": "561c0e",
+   "54444e": "1e4078",
+   "6a442e": "6a3019",
+   "87604d": "6e222a"
+  },
+  "x_iwall_face_station": {
+   "3e3a48": "54444e",
+   "87604d": "6a442e",
+   "92623e": "87604d",
+   "c6ecfa": "ccc6c2",
+   "ccc6c2": "a8a0a4"
+  },
+  "x_iwall_top_station": {
+   "3e3a48": "54444e",
+   "87604d": "6a442e",
+   "92623e": "87604d",
+   "c6ecfa": "ccc6c2",
+   "ccc6c2": "a8a0a4"
+  },
+  "x_iwall_upper_station": {
+   "3e3a48": "54444e",
+   "87604d": "6a442e",
+   "92623e": "87604d",
+   "c6ecfa": "ccc6c2",
+   "ccc6c2": "a8a0a4"
+  },
+  "x_platform_edge_n": {
+   "29252b": "191210",
+   "3e3a48": "29252b",
+   "f4e2ff": "7ac2e8",
+   "fcd668": "e8ce92"
+  },
+  "x_platform_floor": {
+   "29252b": "191210",
+   "3e3a48": "29252b",
+   "f4e2ff": "7ac2e8",
+   "fcd668": "e8ce92"
+  },
+  "x_rail_buffer": {
+   "191210": "2c1a12",
+   "29252b": "2c2320",
+   "342842": "3a1e60",
+   "3e3a48": "1e4078"
+  },
+  "x_rail_h": {
+   "29252b": "191210",
+   "3e3a48": "29252b",
+   "f4e2ff": "7ac2e8",
+   "fcd668": "e8ce92"
+  },
+  "x_sign_restricted_0_0": {
+   "827a84": "daa2ba",
+   "ccc6c2": "f6a0ba",
+   "fcd668": "deb478",
+   "fcf6e8": "c6ecfa"
+  },
+  "x_sign_restricted_0_1": {
+   "827a84": "daa2ba",
+   "ccc6c2": "f6a0ba",
+   "fcd668": "deb478",
+   "fcf6e8": "c6ecfa"
+  },
+  "x_station_floor": {
+   "29252b": "191210",
+   "3e3a48": "29252b",
+   "f4e2ff": "7ac2e8",
+   "fcd668": "e8ce92"
+  },
+  "x_station_pillar_0_0": {
+   "3e3a48": "54444e",
+   "87604d": "6a442e",
+   "92623e": "87604d",
+   "c6ecfa": "ccc6c2",
+   "ccc6c2": "a8a0a4"
+  },
+  "x_station_pillar_1_0": {
+   "3e3a48": "54444e",
+   "87604d": "6a442e",
+   "92623e": "87604d",
+   "c6ecfa": "ccc6c2",
+   "ccc6c2": "a8a0a4"
+  },
+  "x_ticket_counter_l": {
+   "462c22": "561c0e",
+   "6a442e": "6a3019",
+   "7ac2e8": "4692ce",
+   "fcf6e8": "deb478"
+  },
+  "x_ticket_counter_m": {
+   "29252b": "561c0e",
+   "462c22": "3e3a48",
+   "6a442e": "6a3019",
+   "7ac2e8": "4692ce",
+   "e29d40": "deb478",
+   "eea23c": "d46616"
+  },
+  "x_ticket_counter_r": {
+   "342842": "1a1226",
+   "3e3a48": "1e4078",
+   "462c22": "561c0e",
+   "54444e": "6e222a",
+   "6a442e": "6a3019",
+   "7ac2e8": "4692ce"
+  },
+  "x_timetable_0_0": {
+   "29252b": "2c1a12",
+   "342842": "3a1e60",
+   "54444e": "6e222a",
+   "5e5866": "1e4078",
+   "e29d40": "c46e2e",
+   "eea23c": "deb478",
+   "fcf6e8": "c6ecfa"
+  },
+  "x_timetable_0_1": {
+   "29252b": "2c1a12",
+   "342842": "3a1e60",
+   "54444e": "6e222a",
+   "5e5866": "1e4078",
+   "e29d40": "c46e2e",
+   "eea23c": "deb478",
+   "fcf6e8": "c6ecfa"
+  }
+ },
+ "window_walls": {
+  "i_wall_upper_win_rtbranch": "i_wall_upper_rtbranch",
+  "i_wall_upper_win_lab": "i_wall_upper_lab",
+  "i_wall_upper_win_brook": "i_wall_upper_brook",
+  "i_wall_upper_win_lantern": "i_wall_upper_lantern",
+  "i_wall_upper_win_salt": "i_wall_upper_salt"
+ },
+ "moves": [
+  {
+   "group": "i_kitchen_stove_0_0",
+   "side": "F",
+   "src": "e29d40",
+   "dst": "eea23c",
+   "cost": 1.9
+  },
+  {
+   "group": "i_shelf_lantern",
+   "side": "F",
+   "src": "244e34",
+   "dst": "24522e",
+   "cost": 2.0
+  },
+  {
+   "group": "i_cupboard_lantern_0_0",
+   "side": "F",
+   "src": "e29d40",
+   "dst": "eea23c",
+   "cost": 2.1
+  },
+  {
+   "group": "i_log_stool",
+   "side": "F",
+   "src": "24522e",
+   "dst": "244e34",
+   "cost": 2.1
+  },
+  {
+   "group": "i_kitchen_sink_0_0",
+   "side": "F",
+   "src": "e29d40",
+   "dst": "eea23c",
+   "cost": 2.1
+  },
+  {
+   "group": "i_table_lantern_0_0",
+   "side": "F",
+   "src": "244e34",
+   "dst": "24522e",
+   "cost": 2.1
+  },
+  {
+   "group": "counter_shop_r",
+   "side": "F",
+   "src": "2c2320",
+   "dst": "2c1a12",
+   "cost": 2.2
+  },
+  {
+   "group": "counter_shop_l",
+   "side": "F",
+   "src": "2c2320",
+   "dst": "2c1a12",
+   "cost": 2.2
+  },
+  {
+   "group": "i_bookcase_lantern_0_0",
+   "side": "F",
+   "src": "244e34",
+   "dst": "24522e",
+   "cost": 2.2
+  },
+  {
+   "group": "i_table_lantern_0_0",
+   "side": "F",
+   "src": "e29d40",
+   "dst": "eea23c",
+   "cost": 2.2
+  },
+  {
+   "group": "i_sofa_lantern_0_0",
+   "side": "F",
+   "src": "244e34",
+   "dst": "24522e",
+   "cost": 2.2
+  },
+  {
+   "group": "i_kitchen_fridge_0_0",
+   "side": "F",
+   "src": "e29d40",
+   "dst": "eea23c",
+   "cost": 2.3
+  },
+  {
+   "group": "i_bed_lantern_0_0",
+   "side": "F",
+   "src": "244e34",
+   "dst": "24522e",
+   "cost": 2.4
+  },
+  {
+   "group": "i_kitchen_stove_0_0",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 2.4
+  },
+  {
+   "group": "rail",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 2.4
+  },
+  {
+   "group": "i_radio",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 2.4
+  },
+  {
+   "group": "i_sofa_lantern_0_0",
+   "side": "F",
+   "src": "e29d40",
+   "dst": "eea23c",
+   "cost": 2.5
+  },
+  {
+   "group": "i_bed_lantern_0_0",
+   "side": "F",
+   "src": "e29d40",
+   "dst": "eea23c",
+   "cost": 2.5
+  },
+  {
+   "group": "i_specimen_tank_0_0",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 2.6
+  },
+  {
+   "group": "i_bookcase_lantern_0_0",
+   "side": "F",
+   "src": "e29d40",
+   "dst": "eea23c",
+   "cost": 2.6
+  },
+  {
+   "group": "i_chair_lantern",
+   "side": "F",
+   "src": "244e34",
+   "dst": "24522e",
+   "cost": 2.6
+  },
+  {
+   "group": "i_radio",
+   "side": "F",
+   "src": "2c2320",
+   "dst": "29252b",
+   "cost": 2.6
+  },
+  {
+   "group": "i_bed_lantern_0_0",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 2.6
+  },
+  {
+   "group": "x_rail_buffer",
+   "side": "F",
+   "src": "29252b",
+   "dst": "2c2320",
+   "cost": 2.7
+  },
+  {
+   "group": "i_cupboard_fern_1_0",
+   "side": "F",
+   "src": "deb478",
+   "dst": "ccaa6e",
+   "cost": 2.7
+  },
+  {
+   "group": "i_chair_fern",
+   "side": "F",
+   "src": "24522e",
+   "dst": "244e34",
+   "cost": 2.7
+  },
+  {
+   "group": "i_lab_desk_0_0",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 2.7
+  },
+  {
+   "group": "i_fishing_rods",
+   "side": "F",
+   "src": "deb478",
+   "dst": "ccaa6e",
+   "cost": 2.9
+  },
+  {
+   "group": "i_shelf_lantern",
+   "side": "F",
+   "src": "e29d40",
+   "dst": "eea23c",
+   "cost": 2.9
+  },
+  {
+   "group": "i_chair_fern",
+   "side": "F",
+   "src": "deb478",
+   "dst": "ccaa6e",
+   "cost": 2.9
+  },
+  {
+   "group": "i_crystal_crate",
+   "side": "F",
+   "src": "2c2320",
+   "dst": "29252b",
+   "cost": 3.0
+  },
+  {
+   "group": "i_cupboard_lantern_0_0",
+   "side": "F",
+   "src": "244e34",
+   "dst": "24522e",
+   "cost": 3.0
+  },
+  {
+   "group": "i_bed_fern_0_0",
+   "side": "F",
+   "src": "deb478",
+   "dst": "ccaa6e",
+   "cost": 3.0
+  },
+  {
+   "group": "x_bench_0_0",
+   "side": "F",
+   "src": "29252b",
+   "dst": "2c2320",
+   "cost": 3.1
+  },
+  {
+   "group": "i_counter_rt_l",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "54444e",
+   "cost": 3.1
+  },
+  {
+   "group": "i_counter_rt_r",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "54444e",
+   "cost": 3.1
+  },
+  {
+   "group": "i_bed_fern_0_0",
+   "side": "F",
+   "src": "24522e",
+   "dst": "244e34",
+   "cost": 3.2
+  },
+  {
+   "group": "i_plant_flower",
+   "side": "F",
+   "src": "92623e",
+   "dst": "87604d",
+   "cost": 3.2
+  },
+  {
+   "group": "tv",
+   "side": "F",
+   "src": "2c2320",
+   "dst": "2c1a12",
+   "cost": 3.3
+  },
+  {
+   "group": "shelf_0_0",
+   "side": "F",
+   "src": "2c2320",
+   "dst": "2c1a12",
+   "cost": 3.3
+  },
+  {
+   "group": "i_shelf_fern",
+   "side": "F",
+   "src": "deb478",
+   "dst": "ccaa6e",
+   "cost": 3.4
+  },
+  {
+   "group": "i_bookcase_fern_0_0",
+   "side": "F",
+   "src": "deb478",
+   "dst": "ccaa6e",
+   "cost": 3.4
+  },
+  {
+   "group": "table_0_0",
+   "side": "F",
+   "src": "6a3019",
+   "dst": "561c0e",
+   "cost": 3.4
+  },
+  {
+   "group": "i_crystal_polisher_0_0",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 3.4
+  },
+  {
+   "group": "desk_pc_0_0",
+   "side": "F",
+   "src": "2c2320",
+   "dst": "2c1a12",
+   "cost": 3.4
+  },
+  {
+   "group": "i_plant_mushroom",
+   "side": "F",
+   "src": "2c2320",
+   "dst": "29252b",
+   "cost": 3.4
+  },
+  {
+   "group": "chair",
+   "side": "F",
+   "src": "6a3019",
+   "dst": "561c0e",
+   "cost": 3.6
+  },
+  {
+   "group": "i_suggestion_box",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "54444e",
+   "cost": 3.6
+  },
+  {
+   "group": "i_suggestion_box",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 3.6
+  },
+  {
+   "group": "desk_pc_0_0",
+   "side": "F",
+   "src": "ecdec4",
+   "dst": "f8eabe",
+   "cost": 3.7
+  },
+  {
+   "group": "x_rail_buffer",
+   "side": "F",
+   "src": "191210",
+   "dst": "2c1a12",
+   "cost": 3.8
+  },
+  {
+   "group": "x_bench_0_0",
+   "side": "F",
+   "src": "191210",
+   "dst": "2c1a12",
+   "cost": 3.8
+  },
+  {
+   "group": "i_lab_desk_0_0",
+   "side": "F",
+   "src": "3e3a48",
+   "dst": "54444e",
+   "cost": 3.8
+  },
+  {
+   "group": "bookcase_0_0",
+   "side": "F",
+   "src": "2c2320",
+   "dst": "191210",
+   "cost": 3.9
+  },
+  {
+   "group": "i_shelf_brook",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "54444e",
+   "cost": 3.9
+  },
+  {
+   "group": "i_rt_logo_panel_0_0",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 3.9
+  },
+  {
+   "group": "i_plant_fern",
+   "side": "F",
+   "src": "2c1a12",
+   "dst": "2c2320",
+   "cost": 3.9
+  },
+  {
+   "group": "i_fireplace_0_0",
+   "side": "F",
+   "src": "92623e",
+   "dst": "87604d",
+   "cost": 3.9
+  },
+  {
+   "group": "i_terminal",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 3.9
+  },
+  {
+   "group": "bed_0_0",
+   "side": "F",
+   "src": "ecdec4",
+   "dst": "f8eabe",
+   "cost": 3.9
+  },
+  {
+   "group": "i_table_lantern_0_0",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 3.9
+  },
+  {
+   "group": "i_chair_lantern",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 4.0
+  },
+  {
+   "group": "i_tv",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 4.0
+  },
+  {
+   "group": "i_kitchen_fridge_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 4.0
+  },
+  {
+   "group": "i_sofa_fern_0_0",
+   "side": "F",
+   "src": "ecdec4",
+   "dst": "f8eabe",
+   "cost": 4.2
+  },
+  {
+   "group": "i_locker_1_0",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 4.2
+  },
+  {
+   "group": "i_globe",
+   "side": "F",
+   "src": "e29d40",
+   "dst": "eea23c",
+   "cost": 4.2
+  },
+  {
+   "group": "pc",
+   "side": "F",
+   "src": "ecdec4",
+   "dst": "f8eabe",
+   "cost": 4.2
+  },
+  {
+   "group": "crystal_display_0_0",
+   "side": "F",
+   "src": "342842",
+   "dst": "1a1226",
+   "cost": 4.4
+  },
+  {
+   "group": "pc",
+   "side": "F",
+   "src": "3e3a48",
+   "dst": "54444e",
+   "cost": 4.4
+  },
+  {
+   "group": "floor_stone+25",
+   "side": "S",
+   "src": "deb478",
+   "dst": "ccaa6e",
+   "cost": 4.4
+  },
+  {
+   "group": "i_bed_salt_0_0",
+   "side": "F",
+   "src": "1e4078",
+   "dst": "30488c",
+   "cost": 4.5
+  },
+  {
+   "group": "i_server_rack_0_0",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "54444e",
+   "cost": 4.5
+  },
+  {
+   "group": "x_ticket_counter_r",
+   "side": "F",
+   "src": "342842",
+   "dst": "1a1226",
+   "cost": 4.5
+  },
+  {
+   "group": "i_shelf_fern",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 4.5
+  },
+  {
+   "group": "i_shelf_brook",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 4.6
+  },
+  {
+   "group": "i_rt_poster_care",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 4.6
+  },
+  {
+   "group": "i_rt_poster_safety",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 4.6
+  },
+  {
+   "group": "i_rt_poster_join",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 4.6
+  },
+  {
+   "group": "i_shelf_salt",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 4.7
+  },
+  {
+   "group": "i_bookcase_salt_0_0",
+   "side": "F",
+   "src": "1e4078",
+   "dst": "30488c",
+   "cost": 4.7
+  },
+  {
+   "group": "i_shelf_lantern",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 4.7
+  },
+  {
+   "group": "bed_0_0",
+   "side": "F",
+   "src": "6a3019",
+   "dst": "561c0e",
+   "cost": 4.8
+  },
+  {
+   "group": "i_crystal_display_0_0",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "54444e",
+   "cost": 4.8
+  },
+  {
+   "group": "i_kitchen_fridge_0_0",
+   "side": "F",
+   "src": "462c22",
+   "dst": "2c2320",
+   "cost": 4.8
+  },
+  {
+   "group": "i_log_stool",
+   "side": "F",
+   "src": "deb478",
+   "dst": "ccaa6e",
+   "cost": 4.8
+  },
+  {
+   "group": "i_crystal_crate",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "54444e",
+   "cost": 4.9
+  },
+  {
+   "group": "i_plant_mushroom",
+   "side": "F",
+   "src": "561c0e",
+   "dst": "6a3019",
+   "cost": 4.9
+  },
+  {
+   "group": "chair",
+   "side": "F",
+   "src": "2c2320",
+   "dst": "191210",
+   "cost": 5.0
+  },
+  {
+   "group": "i_plant_mushroom",
+   "side": "F",
+   "src": "ecdec4",
+   "dst": "f8eabe",
+   "cost": 5.0
+  },
+  {
+   "group": "i_server_rack_0_0",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 5.0
+  },
+  {
+   "group": "i_bookcase_brook_1_0",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 5.0
+  },
+  {
+   "group": "i_table_fern_0_0",
+   "side": "F",
+   "src": "deb478",
+   "dst": "ccaa6e",
+   "cost": 5.0
+  },
+  {
+   "group": "bed_0_0",
+   "side": "F",
+   "src": "2c2320",
+   "dst": "191210",
+   "cost": 5.0
+  },
+  {
+   "group": "i_bookcase_fern_0_0",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 5.1
+  },
+  {
+   "group": "i_shelf_lantern",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 5.1
+  },
+  {
+   "group": "i_bookcase_salt_0_0",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 5.1
+  },
+  {
+   "group": "i_sofa_fern_0_0",
+   "side": "F",
+   "src": "24522e",
+   "dst": "244e34",
+   "cost": 5.1
+  },
+  {
+   "group": "counter_shop_m",
+   "side": "F",
+   "src": "462c22",
+   "dst": "2c1a12",
+   "cost": 5.1
+  },
+  {
+   "group": "i_plant_palm_0_0",
+   "side": "F",
+   "src": "92623e",
+   "dst": "87604d",
+   "cost": 5.1
+  },
+  {
+   "group": "i_bookcase_lantern_0_0",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 5.2
+  },
+  {
+   "group": "i_table_fern_0_0",
+   "side": "F",
+   "src": "462c22",
+   "dst": "29252b",
+   "cost": 5.3
+  },
+  {
+   "group": "counter_shop_r",
+   "side": "F",
+   "src": "ccaa6e",
+   "dst": "deb478",
+   "cost": 5.3
+  },
+  {
+   "group": "counter_shop_l",
+   "side": "F",
+   "src": "ccaa6e",
+   "dst": "deb478",
+   "cost": 5.3
+  },
+  {
+   "group": "counter_shop_m",
+   "side": "F",
+   "src": "ccaa6e",
+   "dst": "deb478",
+   "cost": 5.4
+  },
+  {
+   "group": "i_kitchen_stove_0_0",
+   "side": "F",
+   "src": "462c22",
+   "dst": "2c2320",
+   "cost": 5.5
+  },
+  {
+   "group": "i_kitchen_sink_0_0",
+   "side": "F",
+   "src": "462c22",
+   "dst": "2c2320",
+   "cost": 5.5
+  },
+  {
+   "group": "i_river_stones",
+   "side": "F",
+   "src": "54864e",
+   "dst": "367634",
+   "cost": 5.5
+  },
+  {
+   "group": "pc",
+   "side": "F",
+   "src": "29252b",
+   "dst": "191210",
+   "cost": 5.6
+  },
+  {
+   "group": "i_rt_logo_panel_0_0",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 5.7
+  },
+  {
+   "group": "i_rt_poster_care",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "54444e",
+   "cost": 5.7
+  },
+  {
+   "group": "i_shelf_brook",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 5.7
+  },
+  {
+   "group": "crystal_display_0_0",
+   "side": "F",
+   "src": "29252b",
+   "dst": "191210",
+   "cost": 5.7
+  },
+  {
+   "group": "i_bookcase_fern_0_0",
+   "side": "F",
+   "src": "462c22",
+   "dst": "2c2320",
+   "cost": 5.8
+  },
+  {
+   "group": "banner",
+   "side": "F",
+   "src": "92623e",
+   "dst": "ba8856",
+   "cost": 5.8
+  },
+  {
+   "group": "cooler_0_0",
+   "side": "F",
+   "src": "ecdec4",
+   "dst": "f8eabe",
+   "cost": 5.8
+  },
+  {
+   "group": "i_newsletter_rack",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "54444e",
+   "cost": 5.8
+  },
+  {
+   "group": "i_cupboard_brook_0_0",
+   "side": "F",
+   "src": "462c22",
+   "dst": "2c1a12",
+   "cost": 5.9
+  },
+  {
+   "group": "i_locker_1_0",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "54444e",
+   "cost": 6.0
+  },
+  {
+   "group": "i_crystal_polisher_0_0",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 6.1
+  },
+  {
+   "group": "i_lab_machine_0_0",
+   "side": "F",
+   "src": "3e3a48",
+   "dst": "54444e",
+   "cost": 6.1
+  },
+  {
+   "group": "pc",
+   "side": "F",
+   "src": "462c22",
+   "dst": "2c1a12",
+   "cost": 6.1
+  },
+  {
+   "group": "i_bookcase_lantern_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 6.2
+  },
+  {
+   "group": "i_dresser_brook",
+   "side": "F",
+   "src": "462c22",
+   "dst": "2c1a12",
+   "cost": 6.3
+  },
+  {
+   "group": "floor_stone+25",
+   "side": "S",
+   "src": "54444e",
+   "dst": "3e3a48",
+   "cost": 6.3
+  },
+  {
+   "group": "i_plant_palm_0_0",
+   "side": "F",
+   "src": "2c1a12",
+   "dst": "29252b",
+   "cost": 6.3
+  },
+  {
+   "group": "i_kitchen_fridge_0_0",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "c46e2e",
+   "cost": 6.3
+  },
+  {
+   "group": "i_bed_brook_0_0",
+   "side": "F",
+   "src": "92623e",
+   "dst": "87604d",
+   "cost": 6.3
+  },
+  {
+   "group": "i_cupboard_fern_1_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 6.4
+  },
+  {
+   "group": "i_bed_fern_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 6.4
+  },
+  {
+   "group": "desk_pc_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 6.5
+  },
+  {
+   "group": "banner",
+   "side": "F",
+   "src": "2c2320",
+   "dst": "1a1226",
+   "cost": 6.5
+  },
+  {
+   "group": "i_tv",
+   "side": "F",
+   "src": "462c22",
+   "dst": "561c0e",
+   "cost": 6.6
+  },
+  {
+   "group": "floor_stone+25",
+   "side": "S",
+   "src": "ecdec4",
+   "dst": "f8eabe",
+   "cost": 6.7
+  },
+  {
+   "group": "i_bookcase_brook_1_0",
+   "side": "F",
+   "src": "92623e",
+   "dst": "87604d",
+   "cost": 6.8
+  },
+  {
+   "group": "i_globe",
+   "side": "F",
+   "src": "462c22",
+   "dst": "29252b",
+   "cost": 6.8
+  },
+  {
+   "group": "i_plant_mushroom",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 6.9
+  },
+  {
+   "group": "bed_0_0",
+   "side": "F",
+   "src": "462c22",
+   "dst": "54444e",
+   "cost": 6.9
+  },
+  {
+   "group": "i_globe",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 7.0
+  },
+  {
+   "group": "i_plant_coral",
+   "side": "F",
+   "src": "1e4078",
+   "dst": "30488c",
+   "cost": 7.0
+  },
+  {
+   "group": "desk_pc_0_0",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "daa2ba",
+   "cost": 7.1
+  },
+  {
+   "group": "x_bench_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 7.1
+  },
+  {
+   "group": "i_fireplace_0_0",
+   "side": "F",
+   "src": "191210",
+   "dst": "000000",
+   "cost": 7.2
+  },
+  {
+   "group": "crystal_display_0_0",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "daa2ba",
+   "cost": 7.2
+  },
+  {
+   "group": "x_timetable_0_0",
+   "side": "F",
+   "src": "e29d40",
+   "dst": "c46e2e",
+   "cost": 7.3
+  },
+  {
+   "group": "x_ticket_counter_m",
+   "side": "F",
+   "src": "e29d40",
+   "dst": "deb478",
+   "cost": 7.3
+  },
+  {
+   "group": "i_cupboard_salt_0_0",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 7.3
+  },
+  {
+   "group": "tv",
+   "side": "F",
+   "src": "462c22",
+   "dst": "561c0e",
+   "cost": 7.3
+  },
+  {
+   "group": "table_0_0",
+   "side": "F",
+   "src": "462c22",
+   "dst": "54444e",
+   "cost": 7.3
+  },
+  {
+   "group": "i_bed_brook_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 7.6
+  },
+  {
+   "group": "chair",
+   "side": "F",
+   "src": "c46e2e",
+   "dst": "d46616",
+   "cost": 7.6
+  },
+  {
+   "group": "i_bookcase_salt_0_0",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 7.6
+  },
+  {
+   "group": "i_bookcase_brook_1_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 7.6
+  },
+  {
+   "group": "i_chair_brook",
+   "side": "F",
+   "src": "92623e",
+   "dst": "87604d",
+   "cost": 7.7
+  },
+  {
+   "group": "i_bed_fern_0_0",
+   "side": "F",
+   "src": "462c22",
+   "dst": "29252b",
+   "cost": 7.7
+  },
+  {
+   "group": "desk_pc_0_0",
+   "side": "F",
+   "src": "29252b",
+   "dst": "000000",
+   "cost": 7.7
+  },
+  {
+   "group": "desk_pc_0_0",
+   "side": "F",
+   "src": "54444e",
+   "dst": "18382c",
+   "cost": 7.8
+  },
+  {
+   "group": "i_shelf_salt",
+   "side": "F",
+   "src": "4a70ba",
+   "dst": "30488c",
+   "cost": 7.9
+  },
+  {
+   "group": "i_shelf_fern",
+   "side": "F",
+   "src": "54864e",
+   "dst": "52983a",
+   "cost": 7.9
+  },
+  {
+   "group": "i_table_salt_0_0",
+   "side": "F",
+   "src": "4692ce",
+   "dst": "7ac2e8",
+   "cost": 7.9
+  },
+  {
+   "group": "banner",
+   "side": "F",
+   "src": "87604d",
+   "dst": "54444e",
+   "cost": 7.9
+  },
+  {
+   "group": "filing_0_0",
+   "side": "F",
+   "src": "54444e",
+   "dst": "462c22",
+   "cost": 8.0
+  },
+  {
+   "group": "i_chair_salt",
+   "side": "F",
+   "src": "1e4078",
+   "dst": "3a1e60",
+   "cost": 8.1
+  },
+  {
+   "group": "i_plant_fern",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "561c0e",
+   "cost": 8.1
+  },
+  {
+   "group": "table_0_0",
+   "side": "F",
+   "src": "2c2320",
+   "dst": "1a1226",
+   "cost": 8.2
+  },
+  {
+   "group": "counter_shop_r",
+   "side": "F",
+   "src": "462c22",
+   "dst": "561c0e",
+   "cost": 8.2
+  },
+  {
+   "group": "counter_shop_l",
+   "side": "F",
+   "src": "462c22",
+   "dst": "561c0e",
+   "cost": 8.2
+  },
+  {
+   "group": "i_shelf_brook",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "daa2ba",
+   "cost": 8.2
+  },
+  {
+   "group": "i_bed_brook_0_0",
+   "side": "F",
+   "src": "462c22",
+   "dst": "29252b",
+   "cost": 8.3
+  },
+  {
+   "group": "i_chair_fern",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 8.3
+  },
+  {
+   "group": "i_shelf_brook",
+   "side": "F",
+   "src": "246e6c",
+   "dst": "244e34",
+   "cost": 8.4
+  },
+  {
+   "group": "i_plant_mushroom",
+   "side": "F",
+   "src": "462c22",
+   "dst": "54444e",
+   "cost": 8.5
+  },
+  {
+   "group": "x_rail_buffer",
+   "side": "F",
+   "src": "3e3a48",
+   "dst": "1e4078",
+   "cost": 8.5
+  },
+  {
+   "group": "i_bed_salt_0_0",
+   "side": "F",
+   "src": "54444e",
+   "dst": "462c22",
+   "cost": 8.5
+  },
+  {
+   "group": "i_plant_fern",
+   "side": "F",
+   "src": "18382c",
+   "dst": "29252b",
+   "cost": 8.5
+  },
+  {
+   "group": "tv",
+   "side": "F",
+   "src": "342842",
+   "dst": "54444e",
+   "cost": 8.5
+  },
+  {
+   "group": "i_chair_fern",
+   "side": "F",
+   "src": "462c22",
+   "dst": "29252b",
+   "cost": 8.5
+  },
+  {
+   "group": "i_sofa_lantern_0_0",
+   "side": "F",
+   "src": "18382c",
+   "dst": "2c2320",
+   "cost": 8.6
+  },
+  {
+   "group": "i_table_small_brook",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 8.7
+  },
+  {
+   "group": "i_table_brook_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 8.7
+  },
+  {
+   "group": "i_sofa_brook_0_0",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 8.7
+  },
+  {
+   "group": "i_cupboard_salt_0_0",
+   "side": "F",
+   "src": "827a84",
+   "dst": "87604d",
+   "cost": 8.8
+  },
+  {
+   "group": "pc",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "a8a0a4",
+   "cost": 8.8
+  },
+  {
+   "group": "i_plant_palm_0_0",
+   "side": "F",
+   "src": "462c22",
+   "dst": "561c0e",
+   "cost": 8.8
+  },
+  {
+   "group": "i_bookcase_salt_0_0",
+   "side": "F",
+   "src": "827a84",
+   "dst": "87604d",
+   "cost": 8.8
+  },
+  {
+   "group": "i_lab_machine_0_0",
+   "side": "F",
+   "src": "827a84",
+   "dst": "87604d",
+   "cost": 8.8
+  },
+  {
+   "group": "i_tv",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 8.9
+  },
+  {
+   "group": "x_ticket_counter_r",
+   "side": "F",
+   "src": "54444e",
+   "dst": "6e222a",
+   "cost": 8.9
+  },
+  {
+   "group": "i_bed_salt_0_0",
+   "side": "F",
+   "src": "827a84",
+   "dst": "87604d",
+   "cost": 9.0
+  },
+  {
+   "group": "i_table_salt_0_0",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 9.0
+  },
+  {
+   "group": "i_table_small_brook",
+   "side": "F",
+   "src": "92623e",
+   "dst": "87604d",
+   "cost": 9.0
+  },
+  {
+   "group": "x_ticket_counter_l",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 9.1
+  },
+  {
+   "group": "i_tv",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "c46e2e",
+   "cost": 9.1
+  },
+  {
+   "group": "i_specimen_tank_0_0",
+   "side": "F",
+   "src": "3e3a48",
+   "dst": "342842",
+   "cost": 9.1
+  },
+  {
+   "group": "x_ticket_counter_r",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 9.1
+  },
+  {
+   "group": "i_kitchen_stove_0_0",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "c46e2e",
+   "cost": 9.2
+  },
+  {
+   "group": "i_kitchen_sink_0_0",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "c46e2e",
+   "cost": 9.2
+  },
+  {
+   "group": "i_table_brook_0_0",
+   "side": "F",
+   "src": "92623e",
+   "dst": "87604d",
+   "cost": 9.2
+  },
+  {
+   "group": "i_cupboard_brook_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 9.2
+  },
+  {
+   "group": "i_cupboard_brook_0_0",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "c46e2e",
+   "cost": 9.2
+  },
+  {
+   "group": "iwall_face_house+1",
+   "side": "S",
+   "src": "462c22",
+   "dst": "2c2320",
+   "cost": 9.2
+  },
+  {
+   "group": "i_kitchen_stove_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 9.3
+  },
+  {
+   "group": "i_suggestion_box",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 9.3
+  },
+  {
+   "group": "i_table_fern_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 9.4
+  },
+  {
+   "group": "x_bench_0_0",
+   "side": "F",
+   "src": "462c22",
+   "dst": "561c0e",
+   "cost": 9.5
+  },
+  {
+   "group": "x_station_floor+3",
+   "side": "S",
+   "src": "29252b",
+   "dst": "191210",
+   "cost": 9.5
+  },
+  {
+   "group": "i_shelf_fern",
+   "side": "F",
+   "src": "87604d",
+   "dst": "827a84",
+   "cost": 9.5
+  },
+  {
+   "group": "i_bookcase_brook_1_0",
+   "side": "F",
+   "src": "462c22",
+   "dst": "2c1a12",
+   "cost": 9.5
+  },
+  {
+   "group": "i_cupboard_salt_0_0",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "f4e2ff",
+   "cost": 9.5
+  },
+  {
+   "group": "table_0_0",
+   "side": "F",
+   "src": "c46e2e",
+   "dst": "d46616",
+   "cost": 9.5
+  },
+  {
+   "group": "i_lab_machine_0_0",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "c6ecfa",
+   "cost": 9.5
+  },
+  {
+   "group": "i_shelf_brook",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 9.6
+  },
+  {
+   "group": "banner",
+   "side": "F",
+   "src": "8a4ace",
+   "dst": "b076ec",
+   "cost": 9.6
+  },
+  {
+   "group": "x_timetable_0_0",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "1e4078",
+   "cost": 9.7
+  },
+  {
+   "group": "i_radio",
+   "side": "F",
+   "src": "2c1a12",
+   "dst": "1a1226",
+   "cost": 9.7
+  },
+  {
+   "group": "i_shelf_salt",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "87604d",
+   "cost": 9.7
+  },
+  {
+   "group": "x_timetable_0_0",
+   "side": "F",
+   "src": "eea23c",
+   "dst": "deb478",
+   "cost": 9.7
+  },
+  {
+   "group": "counter_shop_m",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "561c0e",
+   "cost": 9.7
+  },
+  {
+   "group": "x_ticket_counter_m",
+   "side": "F",
+   "src": "eea23c",
+   "dst": "d46616",
+   "cost": 9.7
+  },
+  {
+   "group": "desk_pc_0_0",
+   "side": "F",
+   "src": "342842",
+   "dst": "1e4078",
+   "cost": 9.7
+  },
+  {
+   "group": "x_sign_restricted_0_0",
+   "side": "F",
+   "src": "fcd668",
+   "dst": "deb478",
+   "cost": 9.8
+  },
+  {
+   "group": "x_ticket_counter_r",
+   "side": "F",
+   "src": "3e3a48",
+   "dst": "1e4078",
+   "cost": 9.9
+  },
+  {
+   "group": "i_rug_teal_0_0",
+   "side": "F",
+   "src": "18382c",
+   "dst": "24522e",
+   "cost": 9.9
+  },
+  {
+   "group": "x_ticket_counter_m",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 10.0
+  },
+  {
+   "group": "x_iwall_top_station+4",
+   "side": "S",
+   "src": "87604d",
+   "dst": "6a442e",
+   "cost": 9.7
+  },
+  {
+   "group": "i_net",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 10.0
+  },
+  {
+   "group": "i_plant_palm_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6e222a",
+   "cost": 10.0
+  },
+  {
+   "group": "i_radio",
+   "side": "F",
+   "src": "deb478",
+   "dst": "e29d40",
+   "cost": 10.1
+  },
+  {
+   "group": "i_wall_top_brook+2",
+   "side": "S",
+   "src": "ccaa6e",
+   "dst": "deb478",
+   "cost": 6.8
+  },
+  {
+   "group": "i_chair_brook",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "ccaa6e",
+   "cost": 7.5
+  },
+  {
+   "group": "i_bed_brook_0_0",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "ccaa6e",
+   "cost": 7.7
+  },
+  {
+   "group": "i_shelf_brook",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "ccaa6e",
+   "cost": 8.5
+  },
+  {
+   "group": "i_bookcase_brook_1_0",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "ccaa6e",
+   "cost": 8.6
+  },
+  {
+   "group": "i_dresser_brook",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "ccaa6e",
+   "cost": 8.6
+  },
+  {
+   "group": "i_chair_salt",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "c6ecfa",
+   "cost": 10.1
+  },
+  {
+   "group": "i_kitchen_fridge_0_0",
+   "side": "F",
+   "src": "92623e",
+   "dst": "9f4013",
+   "cost": 10.2
+  },
+  {
+   "group": "i_server_rack_0_0",
+   "side": "F",
+   "src": "3e3a48",
+   "dst": "2c2320",
+   "cost": 10.2
+  },
+  {
+   "group": "x_ticket_counter_m",
+   "side": "F",
+   "src": "29252b",
+   "dst": "561c0e",
+   "cost": 10.2
+  },
+  {
+   "group": "i_dresser_brook",
+   "side": "F",
+   "src": "92623e",
+   "dst": "87604d",
+   "cost": 10.2
+  },
+  {
+   "group": "tv",
+   "side": "F",
+   "src": "29252b",
+   "dst": "462c22",
+   "cost": 10.2
+  },
+  {
+   "group": "i_chair_salt",
+   "side": "F",
+   "src": "827a84",
+   "dst": "87604d",
+   "cost": 10.3
+  },
+  {
+   "group": "i_bookcase_fern_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 10.4
+  },
+  {
+   "group": "i_bed_lantern_0_0",
+   "side": "F",
+   "src": "18382c",
+   "dst": "2c2320",
+   "cost": 10.4
+  },
+  {
+   "group": "i_fishing_rods",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 10.4
+  },
+  {
+   "group": "i_crystal_display_0_0",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "f4e2ff",
+   "cost": 10.4
+  },
+  {
+   "group": "i_shelf_salt",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 10.5
+  },
+  {
+   "group": "desk_pc_0_0",
+   "side": "F",
+   "src": "827a84",
+   "dst": "246e6c",
+   "cost": 10.5
+  },
+  {
+   "group": "counter_shop_l",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "c46e2e",
+   "cost": 10.5
+  },
+  {
+   "group": "counter_shop_l",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6e222a",
+   "cost": 10.5
+  },
+  {
+   "group": "counter_shop_r",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6e222a",
+   "cost": 10.5
+  },
+  {
+   "group": "counter_shop_m",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "c46e2e",
+   "cost": 10.6
+  },
+  {
+   "group": "counter_shop_r",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "c46e2e",
+   "cost": 10.6
+  },
+  {
+   "group": "i_crystal_crate",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 10.6
+  },
+  {
+   "group": "bed_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "462c22",
+   "cost": 10.6
+  },
+  {
+   "group": "bed_0_0",
+   "side": "F",
+   "src": "87604d",
+   "dst": "827a84",
+   "cost": 10.7
+  },
+  {
+   "group": "i_chair_brook",
+   "side": "F",
+   "src": "462c22",
+   "dst": "29252b",
+   "cost": 10.7
+  },
+  {
+   "group": "x_sign_restricted_0_0",
+   "side": "F",
+   "src": "827a84",
+   "dst": "daa2ba",
+   "cost": 10.7
+  },
+  {
+   "group": "i_anchor",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "daa2ba",
+   "cost": 10.7
+  },
+  {
+   "group": "rug",
+   "side": "F",
+   "src": "deb478",
+   "dst": "e29d40",
+   "cost": 10.8
+  },
+  {
+   "group": "i_anchor",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "c6ecfa",
+   "cost": 10.8
+  },
+  {
+   "group": "x_timetable_0_0",
+   "side": "F",
+   "src": "29252b",
+   "dst": "2c1a12",
+   "cost": 10.9
+  },
+  {
+   "group": "x_station_floor+3",
+   "side": "S",
+   "src": "3e3a48",
+   "dst": "29252b",
+   "cost": 9.4
+  },
+  {
+   "group": "banner",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "561c0e",
+   "cost": 10.9
+  },
+  {
+   "group": "i_specimen_tank_0_0",
+   "side": "F",
+   "src": "246e6c",
+   "dst": "244e34",
+   "cost": 10.9
+  },
+  {
+   "group": "plant",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "561c0e",
+   "cost": 10.9
+  },
+  {
+   "group": "i_table_salt_0_0",
+   "side": "F",
+   "src": "827a84",
+   "dst": "87604d",
+   "cost": 10.9
+  },
+  {
+   "group": "i_shelf_brook",
+   "side": "F",
+   "src": "462c22",
+   "dst": "2c2320",
+   "cost": 11.0
+  },
+  {
+   "group": "i_log_stool",
+   "side": "F",
+   "src": "87604d",
+   "dst": "827a84",
+   "cost": 11.0
+  },
+  {
+   "group": "i_lab_machine_0_0",
+   "side": "F",
+   "src": "70cab8",
+   "dst": "7ac2e8",
+   "cost": 11.0
+  },
+  {
+   "group": "iwall_face_office+1",
+   "side": "S",
+   "src": "3e3a48",
+   "dst": "342842",
+   "cost": 11.1
+  },
+  {
+   "group": "i_globe",
+   "side": "F",
+   "src": "92623e",
+   "dst": "c46e2e",
+   "cost": 11.2
+  },
+  {
+   "group": "pc",
+   "side": "F",
+   "src": "342842",
+   "dst": "1e4078",
+   "cost": 11.3
+  },
+  {
+   "group": "i_shelf_lantern",
+   "side": "F",
+   "src": "246e6c",
+   "dst": "38683e",
+   "cost": 11.3
+  },
+  {
+   "group": "i_lab_desk_0_0",
+   "side": "F",
+   "src": "70cab8",
+   "dst": "7ac2e8",
+   "cost": 11.3
+  },
+  {
+   "group": "i_chair_salt",
+   "side": "F",
+   "src": "54444e",
+   "dst": "462c22",
+   "cost": 11.4
+  },
+  {
+   "group": "i_radio",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 11.4
+  },
+  {
+   "group": "i_lab_desk_0_0",
+   "side": "F",
+   "src": "827a84",
+   "dst": "87604d",
+   "cost": 11.4
+  },
+  {
+   "group": "i_salt_jars",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "f4e2ff",
+   "cost": 11.5
+  },
+  {
+   "group": "i_plant_mushroom",
+   "side": "F",
+   "src": "a23432",
+   "dst": "9f4013",
+   "cost": 11.5
+  },
+  {
+   "group": "i_log_stool",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 11.6
+  },
+  {
+   "group": "i_radio",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "c46e2e",
+   "cost": 11.7
+  },
+  {
+   "group": "banner",
+   "side": "F",
+   "src": "3a1e60",
+   "dst": "1e4078",
+   "cost": 11.7
+  },
+  {
+   "group": "x_bench_0_0",
+   "side": "F",
+   "src": "87604d",
+   "dst": "6e222a",
+   "cost": 11.7
+  },
+  {
+   "group": "x_iwall_top_station+4",
+   "side": "S",
+   "src": "92623e",
+   "dst": "87604d",
+   "cost": 6.5
+  },
+  {
+   "group": "i_crystal_display_0_0",
+   "side": "F",
+   "src": "827a84",
+   "dst": "87604d",
+   "cost": 11.7
+  },
+  {
+   "group": "rail",
+   "side": "F",
+   "src": "ecdec4",
+   "dst": "e8ce92",
+   "cost": 11.7
+  },
+  {
+   "group": "i_pc",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "c6ecfa",
+   "cost": 11.7
+  },
+  {
+   "group": "i_kitchen_sink_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 11.8
+  },
+  {
+   "group": "i_shelf_fern",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 11.8
+  },
+  {
+   "group": "plant",
+   "side": "F",
+   "src": "c46e2e",
+   "dst": "d46616",
+   "cost": 11.8
+  },
+  {
+   "group": "i_sofa_brook_0_0",
+   "side": "F",
+   "src": "561c0e",
+   "dst": "54444e",
+   "cost": 11.9
+  },
+  {
+   "group": "x_rail_buffer",
+   "side": "F",
+   "src": "342842",
+   "dst": "3a1e60",
+   "cost": 11.9
+  },
+  {
+   "group": "i_shelf_salt",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "f4e2ff",
+   "cost": 12.0
+  },
+  {
+   "group": "i_bed_salt_0_0",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "c6ecfa",
+   "cost": 12.0
+  },
+  {
+   "group": "i_table_brook_0_0",
+   "side": "F",
+   "src": "462c22",
+   "dst": "29252b",
+   "cost": 12.0
+  },
+  {
+   "group": "i_bookcase_salt_0_0",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "f4e2ff",
+   "cost": 12.1
+  },
+  {
+   "group": "i_dresser_brook",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6a3019",
+   "cost": 12.1
+  },
+  {
+   "group": "i_specimen_tank_0_0",
+   "side": "F",
+   "src": "827a84",
+   "dst": "87604d",
+   "cost": 12.1
+  },
+  {
+   "group": "i_lab_machine_0_0",
+   "side": "F",
+   "src": "246e6c",
+   "dst": "244e34",
+   "cost": 12.2
+  },
+  {
+   "group": "table_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "462c22",
+   "cost": 12.3
+  },
+  {
+   "group": "crystal_display_0_0",
+   "side": "F",
+   "src": "c6ecfa",
+   "dst": "70cab8",
+   "cost": 12.3
+  },
+  {
+   "group": "i_bed_salt_0_0",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "daa2ba",
+   "cost": 12.3
+  },
+  {
+   "group": "i_net",
+   "side": "F",
+   "src": "827a84",
+   "dst": "246e6c",
+   "cost": 12.4
+  },
+  {
+   "group": "i_rug_sand_0_0",
+   "side": "F",
+   "src": "92623e",
+   "dst": "6a3019",
+   "cost": 12.5
+  },
+  {
+   "group": "i_table_small_brook",
+   "side": "F",
+   "src": "462c22",
+   "dst": "29252b",
+   "cost": 12.5
+  },
+  {
+   "group": "x_bench_0_0",
+   "side": "F",
+   "src": "54444e",
+   "dst": "1e4078",
+   "cost": 12.5
+  },
+  {
+   "group": "i_counter_rt_l",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 12.5
+  },
+  {
+   "group": "i_counter_rt_r",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 12.5
+  },
+  {
+   "group": "i_bed_fern_0_0",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "c46e2e",
+   "cost": 12.5
+  },
+  {
+   "group": "table_0_0",
+   "side": "F",
+   "src": "92623e",
+   "dst": "9f4013",
+   "cost": 12.6
+  },
+  {
+   "group": "i_counter_rt_m",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 12.6
+  },
+  {
+   "group": "i_table_small_brook",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "ccaa6e",
+   "cost": 12.6
+  },
+  {
+   "group": "crystal_display_0_0",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "246e6c",
+   "cost": 12.7
+  },
+  {
+   "group": "i_pc",
+   "side": "F",
+   "src": "70cab8",
+   "dst": "7ac2e8",
+   "cost": 12.8
+  },
+  {
+   "group": "i_table_brook_0_0",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "ccaa6e",
+   "cost": 12.8
+  },
+  {
+   "group": "i_cupboard_brook_0_0",
+   "side": "F",
+   "src": "92623e",
+   "dst": "87604d",
+   "cost": 12.8
+  },
+  {
+   "group": "desk_pc_0_0",
+   "side": "F",
+   "src": "3e3a48",
+   "dst": "244e34",
+   "cost": 12.9
+  },
+  {
+   "group": "table_0_0",
+   "side": "F",
+   "src": "87604d",
+   "dst": "827a84",
+   "cost": 13.0
+  },
+  {
+   "group": "i_table_salt_0_0",
+   "side": "F",
+   "src": "54444e",
+   "dst": "462c22",
+   "cost": 13.1
+  },
+  {
+   "group": "i_cupboard_lantern_0_0",
+   "side": "F",
+   "src": "70cab8",
+   "dst": "c6ecfa",
+   "cost": 13.1
+  },
+  {
+   "group": "i_lab_desk_0_0",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "6a442e",
+   "cost": 13.1
+  },
+  {
+   "group": "shelf_0_0",
+   "side": "F",
+   "src": "ccaa6e",
+   "dst": "e29d40",
+   "cost": 13.1
+  },
+  {
+   "group": "bookcase_0_0",
+   "side": "F",
+   "src": "827a84",
+   "dst": "246e6c",
+   "cost": 13.2
+  },
+  {
+   "group": "i_terminal",
+   "side": "F",
+   "src": "827a84",
+   "dst": "87604d",
+   "cost": 13.2
+  },
+  {
+   "group": "x_timetable_0_0",
+   "side": "F",
+   "src": "54444e",
+   "dst": "6e222a",
+   "cost": 13.2
+  },
+  {
+   "group": "x_iwall_top_station+4",
+   "side": "S",
+   "src": "3e3a48",
+   "dst": "54444e",
+   "cost": 7.9
+  },
+  {
+   "group": "x_ticket_counter_m",
+   "side": "F",
+   "src": "462c22",
+   "dst": "3e3a48",
+   "cost": 12.4
+  },
+  {
+   "group": "i_bookcase_salt_0_0",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "daa2ba",
+   "cost": 13.2
+  },
+  {
+   "group": "i_chair_lantern",
+   "side": "F",
+   "src": "18382c",
+   "dst": "2c2320",
+   "cost": 13.3
+  },
+  {
+   "group": "chair",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6e222a",
+   "cost": 13.4
+  },
+  {
+   "group": "i_rug_teal_0_0",
+   "side": "F",
+   "src": "246e6c",
+   "dst": "38683e",
+   "cost": 13.4
+  },
+  {
+   "group": "desk_pc_0_0",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "70cab8",
+   "cost": 13.4
+  },
+  {
+   "group": "i_bookcase_fern_0_0",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "c46e2e",
+   "cost": 13.5
+  },
+  {
+   "group": "rug",
+   "side": "F",
+   "src": "ccaa6e",
+   "dst": "eea23c",
+   "cost": 13.5
+  },
+  {
+   "group": "x_ticket_counter_r",
+   "side": "F",
+   "src": "462c22",
+   "dst": "561c0e",
+   "cost": 13.5
+  },
+  {
+   "group": "i_bookcase_fern_0_0",
+   "side": "F",
+   "src": "87604d",
+   "dst": "827a84",
+   "cost": 13.5
+  },
+  {
+   "group": "i_bed_fern_0_0",
+   "side": "F",
+   "src": "87604d",
+   "dst": "827a84",
+   "cost": 13.7
+  },
+  {
+   "group": "i_table_lantern_0_0",
+   "side": "F",
+   "src": "18382c",
+   "dst": "2c2320",
+   "cost": 13.7
+  },
+  {
+   "group": "x_ticket_counter_l",
+   "side": "F",
+   "src": "462c22",
+   "dst": "561c0e",
+   "cost": 13.8
+  },
+  {
+   "group": "i_shelf_salt",
+   "side": "F",
+   "src": "827a84",
+   "dst": "daa2ba",
+   "cost": 13.8
+  },
+  {
+   "group": "crystal_display_0_0",
+   "side": "F",
+   "src": "54444e",
+   "dst": "462c22",
+   "cost": 13.8
+  },
+  {
+   "group": "i_rt_poster_safety",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 14.0
+  },
+  {
+   "group": "x_iwall_top_station+4",
+   "side": "S",
+   "src": "ccc6c2",
+   "dst": "a8a0a4",
+   "cost": 14.0
+  },
+  {
+   "group": "banner",
+   "side": "F",
+   "src": "fcd668",
+   "dst": "e8ce92",
+   "cost": 14.0
+  },
+  {
+   "group": "i_bed_salt_0_0",
+   "side": "F",
+   "src": "4692ce",
+   "dst": "7ac2e8",
+   "cost": 14.0
+  },
+  {
+   "group": "i_terminal",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "7ac2e8",
+   "cost": 14.1
+  },
+  {
+   "group": "i_terminal",
+   "side": "F",
+   "src": "3e3a48",
+   "dst": "462c22",
+   "cost": 14.1
+  },
+  {
+   "group": "i_fishing_rods",
+   "side": "F",
+   "src": "462c22",
+   "dst": "29252b",
+   "cost": 14.1
+  },
+  {
+   "group": "filing_0_0",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "246e6c",
+   "cost": 14.1
+  },
+  {
+   "group": "shelf_0_0",
+   "side": "F",
+   "src": "87604d",
+   "dst": "827a84",
+   "cost": 14.2
+  },
+  {
+   "group": "bookcase_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6e222a",
+   "cost": 14.2
+  },
+  {
+   "group": "i_bookcase_salt_0_0",
+   "side": "F",
+   "src": "54444e",
+   "dst": "462c22",
+   "cost": 14.3
+  },
+  {
+   "group": "i_bookcase_lantern_0_0",
+   "side": "F",
+   "src": "246e6c",
+   "dst": "38683e",
+   "cost": 14.3
+  },
+  {
+   "group": "shelf_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "561c0e",
+   "cost": 14.4
+  },
+  {
+   "group": "filing_0_0",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "fcf6e8",
+   "cost": 14.4
+  },
+  {
+   "group": "i_shelf_fern",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "c46e2e",
+   "cost": 14.4
+  },
+  {
+   "group": "i_newsletter_rack",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 14.5
+  },
+  {
+   "group": "counter_shop_m",
+   "side": "F",
+   "src": "87604d",
+   "dst": "6e222a",
+   "cost": 14.6
+  },
+  {
+   "group": "i_lab_desk_0_0",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "f4e2ff",
+   "cost": 14.9
+  },
+  {
+   "group": "i_chair_salt",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "daa2ba",
+   "cost": 14.9
+  },
+  {
+   "group": "i_bookcase_lantern_0_0",
+   "side": "F",
+   "src": "18382c",
+   "dst": "2c2320",
+   "cost": 14.9
+  },
+  {
+   "group": "tv",
+   "side": "F",
+   "src": "7ac2e8",
+   "dst": "c6ecfa",
+   "cost": 15.0
+  },
+  {
+   "group": "i_radio",
+   "side": "F",
+   "src": "462c22",
+   "dst": "3e3a48",
+   "cost": 15.1
+  },
+  {
+   "group": "rug",
+   "side": "F",
+   "src": "827a84",
+   "dst": "246e6c",
+   "cost": 15.1
+  },
+  {
+   "group": "i_shelf_salt",
+   "side": "F",
+   "src": "54444e",
+   "dst": "342842",
+   "cost": 15.2
+  },
+  {
+   "group": "i_wall_top_salt+2",
+   "side": "S",
+   "src": "5e5866",
+   "dst": "54444e",
+   "cost": 13.4
+  },
+  {
+   "group": "i_chair_fern",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "c46e2e",
+   "cost": 15.2
+  },
+  {
+   "group": "i_chair_salt",
+   "side": "F",
+   "src": "4692ce",
+   "dst": "7ac2e8",
+   "cost": 15.2
+  },
+  {
+   "group": "x_ticket_counter_l",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "deb478",
+   "cost": 15.4
+  },
+  {
+   "group": "i_table_lantern_0_0",
+   "side": "F",
+   "src": "246e6c",
+   "dst": "38683e",
+   "cost": 15.4
+  },
+  {
+   "group": "i_pc",
+   "side": "F",
+   "src": "246e6c",
+   "dst": "38683e",
+   "cost": 15.4
+  },
+  {
+   "group": "x_bench_0_0",
+   "side": "F",
+   "src": "342842",
+   "dst": "3a1e60",
+   "cost": 15.5
+  },
+  {
+   "group": "i_bed_lantern_0_0",
+   "side": "F",
+   "src": "246e6c",
+   "dst": "38683e",
+   "cost": 15.5
+  },
+  {
+   "group": "i_wall_top_lantern+2",
+   "side": "S",
+   "src": "92623e",
+   "dst": "ba8856",
+   "cost": 15.5
+  },
+  {
+   "group": "i_bed_salt_0_0",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "246e6c",
+   "cost": 15.6
+  },
+  {
+   "group": "i_crystal_display_0_0",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "daa2ba",
+   "cost": 15.6
+  },
+  {
+   "group": "cooler_0_0",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "daa2ba",
+   "cost": 15.6
+  },
+  {
+   "group": "i_table_fern_0_0",
+   "side": "F",
+   "src": "87604d",
+   "dst": "827a84",
+   "cost": 15.7
+  },
+  {
+   "group": "i_rug_teal_0_0",
+   "side": "F",
+   "src": "70cab8",
+   "dst": "c6ecfa",
+   "cost": 15.7
+  },
+  {
+   "group": "i_plant_palm_0_0",
+   "side": "F",
+   "src": "18382c",
+   "dst": "54444e",
+   "cost": 15.7
+  },
+  {
+   "group": "i_lab_machine_0_0",
+   "side": "F",
+   "src": "3e9c92",
+   "dst": "54864e",
+   "cost": 15.7
+  },
+  {
+   "group": "x_sign_restricted_0_0",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "f6a0ba",
+   "cost": 15.9
+  },
+  {
+   "group": "bookcase_0_0",
+   "side": "F",
+   "src": "87604d",
+   "dst": "ba8856",
+   "cost": 15.9
+  },
+  {
+   "group": "i_plant_mushroom",
+   "side": "F",
+   "src": "87604d",
+   "dst": "3e3a48",
+   "cost": 16.0
+  },
+  {
+   "group": "counter_shop_r",
+   "side": "F",
+   "src": "87604d",
+   "dst": "a23432",
+   "cost": 16.0
+  },
+  {
+   "group": "counter_shop_l",
+   "side": "F",
+   "src": "87604d",
+   "dst": "a23432",
+   "cost": 16.0
+  },
+  {
+   "group": "i_pc",
+   "side": "F",
+   "src": "827a84",
+   "dst": "87604d",
+   "cost": 16.0
+  },
+  {
+   "group": "i_salt_jars",
+   "side": "F",
+   "src": "827a84",
+   "dst": "87604d",
+   "cost": 16.1
+  },
+  {
+   "group": "i_barrel",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "87604d",
+   "cost": 16.1
+  },
+  {
+   "group": "i_bookcase_salt_0_0",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "29252b",
+   "cost": 16.2
+  },
+  {
+   "group": "iwall_face_hall+3",
+   "side": "S",
+   "src": "5e5866",
+   "dst": "3e3a48",
+   "cost": 16.2
+  },
+  {
+   "group": "i_cupboard_lantern_0_0",
+   "side": "F",
+   "src": "246e6c",
+   "dst": "38683e",
+   "cost": 16.3
+  },
+  {
+   "group": "i_lab_machine_0_0",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "daa2ba",
+   "cost": 16.4
+  },
+  {
+   "group": "i_shelf_lantern",
+   "side": "F",
+   "src": "70cab8",
+   "dst": "c6ecfa",
+   "cost": 16.4
+  },
+  {
+   "group": "tv",
+   "side": "F",
+   "src": "87604d",
+   "dst": "827a84",
+   "cost": 16.5
+  },
+  {
+   "group": "i_bookcase_lantern_0_0",
+   "side": "F",
+   "src": "70cab8",
+   "dst": "c6ecfa",
+   "cost": 16.6
+  },
+  {
+   "group": "rail",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "246e6c",
+   "cost": 16.6
+  },
+  {
+   "group": "iwall_face_hall+3",
+   "side": "S",
+   "src": "827a84",
+   "dst": "5e5866",
+   "cost": 16.2
+  },
+  {
+   "group": "i_cupboard_fern_1_0",
+   "side": "F",
+   "src": "87604d",
+   "dst": "827a84",
+   "cost": 16.6
+  },
+  {
+   "group": "i_table_salt_0_0",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "246e6c",
+   "cost": 16.7
+  },
+  {
+   "group": "i_crystal_polisher_0_0",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "7ac2e8",
+   "cost": 16.7
+  },
+  {
+   "group": "x_ticket_counter_m",
+   "side": "F",
+   "src": "7ac2e8",
+   "dst": "4692ce",
+   "cost": 16.8
+  },
+  {
+   "group": "x_iwall_top_station+4",
+   "side": "S",
+   "src": "c6ecfa",
+   "dst": "ccc6c2",
+   "cost": 16.8
+  },
+  {
+   "group": "x_timetable_0_0",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 9.7
+  },
+  {
+   "group": "x_sign_restricted_0_0",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 14.2
+  },
+  {
+   "group": "crystal_display_0_0",
+   "side": "F",
+   "src": "3e3a48",
+   "dst": "18382c",
+   "cost": 16.9
+  },
+  {
+   "group": "x_timetable_0_0",
+   "side": "F",
+   "src": "342842",
+   "dst": "3a1e60",
+   "cost": 17.0
+  },
+  {
+   "group": "i_fireplace_0_0",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "5e5866",
+   "cost": 17.1
+  },
+  {
+   "group": "cooler_0_0",
+   "side": "F",
+   "src": "827a84",
+   "dst": "92623e",
+   "cost": 17.2
+  },
+  {
+   "group": "i_lab_desk_0_0",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "daa2ba",
+   "cost": 17.4
+  },
+  {
+   "group": "i_shelf_brook",
+   "side": "F",
+   "src": "92623e",
+   "dst": "c46e2e",
+   "cost": 17.5
+  },
+  {
+   "group": "i_shelf_lantern",
+   "side": "F",
+   "src": "18382c",
+   "dst": "2c2320",
+   "cost": 17.5
+  },
+  {
+   "group": "i_bookcase_salt_0_0",
+   "side": "F",
+   "src": "4a70ba",
+   "dst": "3a1e60",
+   "cost": 17.5
+  },
+  {
+   "group": "goods_0_0",
+   "side": "F",
+   "src": "c6ecfa",
+   "dst": "7ac2e8",
+   "cost": 17.5
+  },
+  {
+   "group": "i_terminal",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "6a442e",
+   "cost": 17.6
+  },
+  {
+   "group": "chair",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "f08868",
+   "cost": 17.6
+  },
+  {
+   "group": "cooler_0_0",
+   "side": "F",
+   "src": "c6ecfa",
+   "dst": "70cab8",
+   "cost": 17.6
+  },
+  {
+   "group": "i_bookcase_lantern_0_0",
+   "side": "F",
+   "src": "3e9c92",
+   "dst": "54864e",
+   "cost": 17.7
+  },
+  {
+   "group": "i_sofa_brook_0_0",
+   "side": "F",
+   "src": "a23432",
+   "dst": "9f4013",
+   "cost": 17.8
+  },
+  {
+   "group": "i_table_salt_0_0",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "daa2ba",
+   "cost": 17.8
+  },
+  {
+   "group": "tv",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6e222a",
+   "cost": 18.1
+  },
+  {
+   "group": "i_table_fern_0_0",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "c46e2e",
+   "cost": 18.1
+  },
+  {
+   "group": "i_floor_parquet_c+2",
+   "side": "S",
+   "src": "246e6c",
+   "dst": "244e34",
+   "cost": 18.1
+  },
+  {
+   "group": "x_station_floor+3",
+   "side": "S",
+   "src": "fcd668",
+   "dst": "e8ce92",
+   "cost": 18.2
+  },
+  {
+   "group": "rail",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "c6ecfa",
+   "cost": 18.2
+  },
+  {
+   "group": "i_bed_salt_0_0",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "f4e2ff",
+   "cost": 18.2
+  },
+  {
+   "group": "i_pc",
+   "side": "F",
+   "src": "3e9c92",
+   "dst": "54864e",
+   "cost": 18.3
+  },
+  {
+   "group": "i_chair_brook",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "6e222a",
+   "cost": 18.4
+  },
+  {
+   "group": "x_ticket_counter_l",
+   "side": "F",
+   "src": "7ac2e8",
+   "dst": "4692ce",
+   "cost": 18.5
+  },
+  {
+   "group": "x_ticket_counter_r",
+   "side": "F",
+   "src": "7ac2e8",
+   "dst": "4692ce",
+   "cost": 18.5
+  },
+  {
+   "group": "i_table_salt_0_0",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "f4e2ff",
+   "cost": 18.5
+  },
+  {
+   "group": "i_rt_poster_care",
+   "side": "F",
+   "src": "fcf6e8",
+   "dst": "c6ecfa",
+   "cost": 18.6
+  },
+  {
+   "group": "i_crystal_polisher_0_0",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "70cab8",
+   "cost": 18.7
+  },
+  {
+   "group": "i_log_stool",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "c46e2e",
+   "cost": 18.9
+  },
+  {
+   "group": "i_shelf_lantern",
+   "side": "F",
+   "src": "3e9c92",
+   "dst": "54864e",
+   "cost": 18.9
+  },
+  {
+   "group": "i_sofa_lantern_0_0",
+   "side": "F",
+   "src": "246e6c",
+   "dst": "38683e",
+   "cost": 19.1
+  },
+  {
+   "group": "i_tv",
+   "side": "F",
+   "src": "92623e",
+   "dst": "9f4013",
+   "cost": 19.2
+  },
+  {
+   "group": "i_cupboard_salt_0_0",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "342842",
+   "cost": 19.2
+  },
+  {
+   "group": "i_crystal_polisher_0_0",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "87604d",
+   "cost": 19.6
+  },
+  {
+   "group": "i_counter_rt_l",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "7ac2e8",
+   "cost": 19.7
+  },
+  {
+   "group": "i_counter_rt_r",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "7ac2e8",
+   "cost": 19.7
+  },
+  {
+   "group": "i_chair_fern",
+   "side": "F",
+   "src": "87604d",
+   "dst": "827a84",
+   "cost": 19.8
+  },
+  {
+   "group": "i_counter_rt_m",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "7ac2e8",
+   "cost": 19.8
+  },
+  {
+   "group": "i_chair_lantern",
+   "side": "F",
+   "src": "246e6c",
+   "dst": "38683e",
+   "cost": 20.1
+  },
+  {
+   "group": "chair",
+   "side": "F",
+   "src": "87604d",
+   "dst": "a23432",
+   "cost": 20.1
+  },
+  {
+   "group": "i_plant_mushroom",
+   "side": "F",
+   "src": "92623e",
+   "dst": "c46e2e",
+   "cost": 20.2
+  },
+  {
+   "group": "rail",
+   "side": "F",
+   "src": "827a84",
+   "dst": "4692ce",
+   "cost": 20.3
+  },
+  {
+   "group": "i_bed_lantern_0_0",
+   "side": "F",
+   "src": "70cab8",
+   "dst": "c6ecfa",
+   "cost": 20.3
+  },
+  {
+   "group": "i_chair_lantern",
+   "side": "F",
+   "src": "70cab8",
+   "dst": "c6ecfa",
+   "cost": 20.4
+  },
+  {
+   "group": "i_radio",
+   "side": "F",
+   "src": "92623e",
+   "dst": "9f4013",
+   "cost": 20.7
+  },
+  {
+   "group": "i_floor_pine_a+2",
+   "side": "S",
+   "src": "92623e",
+   "dst": "f08868",
+   "cost": 21.3
+  },
+  {
+   "group": "i_fishing_rods",
+   "side": "F",
+   "src": "87604d",
+   "dst": "92623e",
+   "cost": 8.4
+  },
+  {
+   "group": "i_plant_mushroom",
+   "side": "F",
+   "src": "6a442e",
+   "dst": "92623e",
+   "cost": 13.3
+  },
+  {
+   "group": "i_sofa_lantern_0_0",
+   "side": "F",
+   "src": "70cab8",
+   "dst": "c6ecfa",
+   "cost": 21.9
+  },
+  {
+   "group": "i_shelf_salt",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "f6a0ba",
+   "cost": 22.0
+  },
+  {
+   "group": "filing_0_0",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "daa2ba",
+   "cost": 22.0
+  },
+  {
+   "group": "x_station_floor+3",
+   "side": "S",
+   "src": "f4e2ff",
+   "dst": "7ac2e8",
+   "cost": 22.0
+  },
+  {
+   "group": "i_lab_machine_0_0",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "6a442e",
+   "cost": 22.1
+  },
+  {
+   "group": "i_chair_salt",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "246e6c",
+   "cost": 22.2
+  },
+  {
+   "group": "i_rug_sand_0_0",
+   "side": "F",
+   "src": "e8ce92",
+   "dst": "ecdec4",
+   "cost": 22.4
+  },
+  {
+   "group": "i_cupboard_fern_1_0",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "92623e",
+   "cost": 22.5
+  },
+  {
+   "group": "i_pc",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "1e4078",
+   "cost": 22.6
+  },
+  {
+   "group": "i_specimen_tank_0_0",
+   "side": "F",
+   "src": "3e9c92",
+   "dst": "54864e",
+   "cost": 22.6
+  },
+  {
+   "group": "crystal_display_0_0",
+   "side": "F",
+   "src": "827a84",
+   "dst": "92623e",
+   "cost": 22.8
+  },
+  {
+   "group": "i_crystal_display_0_0",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "7ac2e8",
+   "cost": 23.0
+  },
+  {
+   "group": "i_pc",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "f6a0ba",
+   "cost": 23.1
+  },
+  {
+   "group": "table_0_0",
+   "side": "F",
+   "src": "ba8856",
+   "dst": "e29d40",
+   "cost": 23.2
+  },
+  {
+   "group": "i_table_lantern_0_0",
+   "side": "F",
+   "src": "3e9c92",
+   "dst": "54864e",
+   "cost": 23.8
+  },
+  {
+   "group": "i_chair_lantern",
+   "side": "F",
+   "src": "3e9c92",
+   "dst": "54864e",
+   "cost": 24.1
+  },
+  {
+   "group": "i_sofa_brook_0_0",
+   "side": "F",
+   "src": "6e222a",
+   "dst": "87604d",
+   "cost": 24.2
+  },
+  {
+   "group": "i_plant_fern",
+   "side": "F",
+   "src": "24522e",
+   "dst": "54444e",
+   "cost": 24.3
+  },
+  {
+   "group": "i_kitchen_stove_0_0",
+   "side": "F",
+   "src": "92623e",
+   "dst": "9f4013",
+   "cost": 24.3
+  },
+  {
+   "group": "chair",
+   "side": "F",
+   "src": "92623e",
+   "dst": "9f4013",
+   "cost": 24.5
+  },
+  {
+   "group": "i_table_lantern_0_0",
+   "side": "F",
+   "src": "70cab8",
+   "dst": "c6ecfa",
+   "cost": 24.7
+  },
+  {
+   "group": "i_kitchen_sink_0_0",
+   "side": "F",
+   "src": "92623e",
+   "dst": "9f4013",
+   "cost": 24.7
+  },
+  {
+   "group": "i_cupboard_salt_0_0",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "daa2ba",
+   "cost": 25.0
+  },
+  {
+   "group": "i_wall_top_salt+2",
+   "side": "S",
+   "src": "fcf6e8",
+   "dst": "a8a0a4",
+   "cost": 24.9
+  },
+  {
+   "group": "filing_0_0",
+   "side": "F",
+   "src": "827a84",
+   "dst": "92623e",
+   "cost": 25.1
+  },
+  {
+   "group": "i_specimen_tank_0_0",
+   "side": "F",
+   "src": "70cab8",
+   "dst": "7ac2e8",
+   "cost": 25.1
+  },
+  {
+   "group": "i_anchor",
+   "side": "F",
+   "src": "5e5866",
+   "dst": "87604d",
+   "cost": 25.9
+  },
+  {
+   "group": "i_bed_lantern_0_0",
+   "side": "F",
+   "src": "3e9c92",
+   "dst": "54864e",
+   "cost": 26.6
+  },
+  {
+   "group": "rail",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "7ac2e8",
+   "cost": 26.7
+  },
+  {
+   "group": "pc",
+   "side": "F",
+   "src": "92623e",
+   "dst": "9f4013",
+   "cost": 26.8
+  },
+  {
+   "group": "i_locker_1_0",
+   "side": "F",
+   "src": "a8a0a4",
+   "dst": "7ac2e8",
+   "cost": 27.2
+  },
+  {
+   "group": "counter_shop_l",
+   "side": "F",
+   "src": "92623e",
+   "dst": "9f4013",
+   "cost": 27.3
+  },
+  {
+   "group": "counter_shop_r",
+   "side": "F",
+   "src": "92623e",
+   "dst": "9f4013",
+   "cost": 27.3
+  },
+  {
+   "group": "cooler_0_0",
+   "side": "F",
+   "src": "7ac2e8",
+   "dst": "3e9c92",
+   "cost": 27.4
+  },
+  {
+   "group": "i_sofa_lantern_0_0",
+   "side": "F",
+   "src": "3e9c92",
+   "dst": "54864e",
+   "cost": 27.5
+  },
+  {
+   "group": "counter_shop_m",
+   "side": "F",
+   "src": "92623e",
+   "dst": "9f4013",
+   "cost": 27.5
+  },
+  {
+   "group": "i_wall_top_salt+2",
+   "side": "S",
+   "src": "4a70ba",
+   "dst": "5e5866",
+   "cost": 27.5
+  },
+  {
+   "group": "i_chair_salt",
+   "side": "F",
+   "src": "2c64a8",
+   "dst": "4a70ba",
+   "cost": 5.4
+  },
+  {
+   "group": "i_bed_salt_0_0",
+   "side": "F",
+   "src": "2c64a8",
+   "dst": "4a70ba",
+   "cost": 6.5
+  },
+  {
+   "group": "i_wall_top_lab+2",
+   "side": "S",
+   "src": "ccc6c2",
+   "dst": "deb478",
+   "cost": 28.0
+  },
+  {
+   "group": "banner",
+   "side": "F",
+   "src": "603096",
+   "dst": "30488c",
+   "cost": 29.5
+  },
+  {
+   "group": "i_lab_desk_0_0",
+   "side": "F",
+   "src": "ccc6c2",
+   "dst": "ccaa6e",
+   "cost": 30.1
+  },
+  {
+   "group": "i_cupboard_lantern_0_0",
+   "side": "F",
+   "src": "3e9c92",
+   "dst": "54864e",
+   "cost": 33.3
+  },
+  {
+   "group": "i_rug_teal_0_0",
+   "side": "F",
+   "src": "3e9c92",
+   "dst": "54864e",
+   "cost": 33.4
+  },
+  {
+   "group": "i_crystal_crate",
+   "side": "F",
+   "src": "f4e2ff",
+   "dst": "f6a0ba",
+   "cost": 39.3
+  },
+  {
+   "group": "i_crystal_polisher_0_0",
+   "side": "F",
+   "src": "f4e2ff",
+   "dst": "f6a0ba",
+   "cost": 41.4
+  },
+  {
+   "group": "i_counter_rt_m",
+   "side": "F",
+   "src": "f4e2ff",
+   "dst": "f6a0ba",
+   "cost": 42.5
+  },
+  {
+   "group": "i_suggestion_box",
+   "side": "F",
+   "src": "f4e2ff",
+   "dst": "f6a0ba",
+   "cost": 42.9
+  },
+  {
+   "group": "i_rt_logo_panel_0_0",
+   "side": "F",
+   "src": "f4e2ff",
+   "dst": "f6a0ba",
+   "cost": 43.2
+  },
+  {
+   "group": "i_rt_poster_care",
+   "side": "F",
+   "src": "f4e2ff",
+   "dst": "f6a0ba",
+   "cost": 44.2
+  }
+ ]
+}

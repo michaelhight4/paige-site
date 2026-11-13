@@ -1,0 +1,617 @@
+[
+ {
+  "interior": "home_brookhollow_a",
+  "warp": [
+   5,
+   7
+  ],
+  "map": "brookhollow",
+  "door": "home_a",
+  "door_xy": [
+   15,
+   7
+  ],
+  "arrival": [
+   5,
+   6
+  ],
+  "status": "existing (re-point from house_int_a)"
+ },
+ {
+  "interior": "home_brookhollow_b",
+  "warp": [
+   6,
+   9
+  ],
+  "map": "brookhollow",
+  "door": "home_b",
+  "door_xy": [
+   28,
+   19
+  ],
+  "arrival": [
+   6,
+   8
+  ],
+  "status": "existing (re-point from house_int_b)"
+ },
+ {
+  "interior": "home_fernwick_a",
+  "warp": [
+   5,
+   9
+  ],
+  "map": "fernwick",
+  "door": "home_a",
+  "door_xy": [
+   16,
+   18
+  ],
+  "arrival": [
+   5,
+   8
+  ],
+  "status": "existing (re-point from house_int_a)"
+ },
+ {
+  "interior": "home_fernwick_b",
+  "warp": [
+   4,
+   7
+  ],
+  "map": "fernwick",
+  "door": "home_b",
+  "door_xy": [
+   5,
+   17
+  ],
+  "arrival": [
+   4,
+   6
+  ],
+  "status": "existing (re-point from house_int_b)"
+ },
+ {
+  "interior": "home_fernwick_c",
+  "warp": [
+   7,
+   8
+  ],
+  "map": "fernwick",
+  "door": "home_c",
+  "door_xy": [
+   22,
+   6
+  ],
+  "arrival": [
+   7,
+   7
+  ],
+  "status": "existing (re-point from house_int_c)"
+ },
+ {
+  "interior": "home_saltmere_a",
+  "warp": [
+   4,
+   8
+  ],
+  "map": "saltmere",
+  "door": "home_a",
+  "door_xy": null,
+  "arrival": [
+   4,
+   7
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "home_saltmere_b",
+  "warp": [
+   5,
+   9
+  ],
+  "map": "saltmere",
+  "door": "home_b",
+  "door_xy": null,
+  "arrival": [
+   5,
+   8
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "home_saltmere_c",
+  "warp": [
+   5,
+   7
+  ],
+  "map": "saltmere",
+  "door": "home_c",
+  "door_xy": null,
+  "arrival": [
+   5,
+   6
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "home_cindervale_a",
+  "warp": [
+   7,
+   8
+  ],
+  "map": "cindervale",
+  "door": "home_a",
+  "door_xy": null,
+  "arrival": [
+   7,
+   7
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "home_cindervale_b",
+  "warp": [
+   6,
+   9
+  ],
+  "map": "cindervale",
+  "door": "home_b",
+  "door_xy": null,
+  "arrival": [
+   6,
+   8
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "home_revival_heights_a",
+  "warp": [
+   5,
+   9
+  ],
+  "map": "revival_heights",
+  "door": "home_a",
+  "door_xy": null,
+  "arrival": [
+   5,
+   8
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "home_revival_heights_b",
+  "warp": [
+   4,
+   8
+  ],
+  "map": "revival_heights",
+  "door": "home_b",
+  "door_xy": null,
+  "arrival": [
+   4,
+   7
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "home_revival_heights_c",
+  "warp": [
+   5,
+   7
+  ],
+  "map": "revival_heights",
+  "door": "home_c",
+  "door_xy": null,
+  "arrival": [
+   5,
+   6
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "home_lanternport_a",
+  "warp": [
+   7,
+   8
+  ],
+  "map": "lanternport",
+  "door": "home_a",
+  "door_xy": null,
+  "arrival": [
+   7,
+   7
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "home_lanternport_b",
+  "warp": [
+   4,
+   7
+  ],
+  "map": "lanternport",
+  "door": "home_b",
+  "door_xy": null,
+  "arrival": [
+   4,
+   6
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "home_lanternport_c",
+  "warp": [
+   6,
+   9
+  ],
+  "map": "lanternport",
+  "door": "home_c",
+  "door_xy": null,
+  "arrival": [
+   6,
+   8
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "home_aurelith_a",
+  "warp": [
+   5,
+   9
+  ],
+  "map": "aurelith",
+  "door": "home_a",
+  "door_xy": null,
+  "arrival": [
+   5,
+   8
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "home_aurelith_b",
+  "warp": [
+   4,
+   8
+  ],
+  "map": "aurelith",
+  "door": "home_b",
+  "door_xy": null,
+  "arrival": [
+   4,
+   7
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "mart_saltmere",
+  "warp": [
+   5,
+   8
+  ],
+  "map": "saltmere",
+  "door": "mart",
+  "door_xy": null,
+  "arrival": [
+   5,
+   7
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "heal_saltmere",
+  "warp": [
+   6,
+   8
+  ],
+  "map": "saltmere",
+  "door": "heal",
+  "door_xy": null,
+  "arrival": [
+   6,
+   7
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "mart_cindervale",
+  "warp": [
+   6,
+   8
+  ],
+  "map": "cindervale",
+  "door": "mart",
+  "door_xy": null,
+  "arrival": [
+   6,
+   7
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "heal_cindervale",
+  "warp": [
+   6,
+   8
+  ],
+  "map": "cindervale",
+  "door": "heal",
+  "door_xy": null,
+  "arrival": [
+   6,
+   7
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "mart_revival_heights",
+  "warp": [
+   5,
+   8
+  ],
+  "map": "revival_heights",
+  "door": "mart",
+  "door_xy": null,
+  "arrival": [
+   5,
+   7
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "heal_revival_heights",
+  "warp": [
+   6,
+   8
+  ],
+  "map": "revival_heights",
+  "door": "heal",
+  "door_xy": null,
+  "arrival": [
+   6,
+   7
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "mart_lanternport",
+  "warp": [
+   6,
+   8
+  ],
+  "map": "lanternport",
+  "door": "mart",
+  "door_xy": null,
+  "arrival": [
+   6,
+   7
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "heal_lanternport",
+  "warp": [
+   6,
+   8
+  ],
+  "map": "lanternport",
+  "door": "heal",
+  "door_xy": null,
+  "arrival": [
+   6,
+   7
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "mart_aurelith",
+  "warp": [
+   5,
+   8
+  ],
+  "map": "aurelith",
+  "door": "mart",
+  "door_xy": null,
+  "arrival": [
+   5,
+   7
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "heal_aurelith",
+  "warp": [
+   6,
+   8
+  ],
+  "map": "aurelith",
+  "door": "heal",
+  "door_xy": null,
+  "arrival": [
+   6,
+   7
+  ],
+  "status": "planned"
+ },
+ {
+  "interior": "heal_brookhollow",
+  "warp": [
+   6,
+   9
+  ],
+  "map": "brookhollow",
+  "door": "heal",
+  "door_xy": [
+   6,
+   19
+  ],
+  "arrival": [
+   6,
+   8
+  ],
+  "status": "existing (re-point from heal_centre_int)"
+ },
+ {
+  "interior": "heal_brookhollow",
+  "warp": [
+   7,
+   9
+  ],
+  "map": "brookhollow",
+  "door": "heal",
+  "door_xy": [
+   6,
+   19
+  ],
+  "arrival": [
+   7,
+   8
+  ],
+  "status": "existing (re-point from heal_centre_int)"
+ },
+ {
+  "interior": "heal_fernwick",
+  "warp": [
+   6,
+   9
+  ],
+  "map": "fernwick",
+  "door": "heal",
+  "door_xy": [
+   5,
+   6
+  ],
+  "arrival": [
+   6,
+   8
+  ],
+  "status": "existing (re-point from heal_centre_int)"
+ },
+ {
+  "interior": "heal_fernwick",
+  "warp": [
+   7,
+   9
+  ],
+  "map": "fernwick",
+  "door": "heal",
+  "door_xy": [
+   5,
+   6
+  ],
+  "arrival": [
+   7,
+   8
+  ],
+  "status": "existing (re-point from heal_centre_int)"
+ },
+ {
+  "interior": "rt_branch_backroom",
+  "warp": [
+   4,
+   5
+  ],
+  "map": "heal_* (any branch)",
+  "door": "STAFF door (10,2)",
+  "door_xy": [
+   10,
+   2
+  ],
+  "arrival": [
+   4,
+   4
+  ],
+  "status": "locked until rt_backroom_open"
+ },
+ {
+  "interior": "lab_brookhollow",
+  "warp": [
+   7,
+   10
+  ],
+  "map": "brookhollow",
+  "door": "lab",
+  "door_xy": null,
+  "arrival": [
+   7,
+   9
+  ],
+  "status": "planned (new door on the existing brookhollow exterior)"
+ },
+ {
+  "interior": "rt_hq_lobby",
+  "warp": [
+   8,
+   11
+  ],
+  "map": "revival_heights",
+  "door": "rt_hq",
+  "door_xy": null,
+  "arrival": [
+   8,
+   10
+  ],
+  "status": "planned (2 mats: 8,9)"
+ },
+ {
+  "interior": "station_saltmere",
+  "warp": [
+   7,
+   9
+  ],
+  "map": "saltmere",
+  "door": "station",
+  "door_xy": null,
+  "arrival": [
+   7,
+   8
+  ],
+  "status": "planned (2 mats: 7,8)"
+ },
+ {
+  "interior": "station_lanternport",
+  "warp": [
+   7,
+   9
+  ],
+  "map": "lanternport",
+  "door": "station",
+  "door_xy": null,
+  "arrival": [
+   7,
+   8
+  ],
+  "status": "planned (2 mats: 7,8)"
+ },
+ {
+  "interior": "station_revival_heights",
+  "warp": [
+   7,
+   9
+  ],
+  "map": "revival_heights",
+  "door": "station",
+  "door_xy": null,
+  "arrival": [
+   7,
+   8
+  ],
+  "status": "planned (2 mats: 7,8)"
+ },
+ {
+  "interior": "station_aurelith",
+  "warp": [
+   7,
+   9
+  ],
+  "map": "aurelith",
+  "door": "station",
+  "door_xy": null,
+  "arrival": [
+   7,
+   8
+  ],
+  "status": "planned (2 mats: 7,8)"
+ }
+]

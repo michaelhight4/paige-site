@@ -1,0 +1,18 @@
+{
+ "heal_brookhollow": {
+  "scheme": "identity",
+  "changed_px_day": 10217
+ },
+ "shop_int": {
+  "scheme": "identity",
+  "changed_px_day": 16614
+ },
+ "home_lanternport_c": {
+  "scheme": "h3_slate",
+  "changed_px_day": 14153
+ },
+ "office_int": {
+  "scheme": "identity",
+  "changed_px_day": 33855
+ }
+}

@@ -1,0 +1,288 @@
+{
+ "errors": [],
+ "rooms": {
+  "heal_brookhollow": {
+   "warp": {
+    "x": 6,
+    "y": 9,
+    "to": "$return",
+    "tx": null,
+    "ty": null,
+    "facing": "down",
+    "pair_with": {
+     "map": "brookhollow",
+     "door": "heal",
+     "door_xy": [
+      6,
+      19
+     ],
+     "status": "existing door; currently warps to shared heal_centre_int - re-point to heal_brookhollow",
+     "interior_arrival": [
+      6,
+      8
+     ]
+    }
+   },
+   "after_pc_cam": {
+    "y": 300
+   },
+   "pc_exit": "brookhollow 17,15",
+   "after_phone_cam": {
+    "y": 0
+   },
+   "phone_exit": "brookhollow 17,15"
+  },
+  "heal_centre_int": {
+   "warp": {
+    "x": 6,
+    "y": 9,
+    "to": "$return",
+    "tx": 0,
+    "ty": 0,
+    "facing": "down"
+   },
+   "after_pc_cam": {
+    "y": 300
+   },
+   "pc_exit": "brookhollow 17,15",
+   "after_phone_cam": {
+    "y": 0
+   },
+   "phone_exit": "brookhollow 17,15"
+  },
+  "home_brookhollow_a": {
+   "warp": {
+    "x": 5,
+    "y": 7,
+    "to": "$return",
+    "tx": null,
+    "ty": null,
+    "facing": "down",
+    "pair_with": {
+     "map": "brookhollow",
+     "door": "home_a",
+     "door_xy": [
+      15,
+      7
+     ],
+     "status": "existing door; currently warps to shared house_int_a - re-point to home_brookhollow_a",
+     "interior_arrival": [
+      5,
+      6
+     ]
+    }
+   },
+   "after_pc_cam": {
+    "y": 88
+   },
+   "pc_exit": "brookhollow 17,15",
+   "after_phone_cam": {
+    "y": 0
+   },
+   "phone_exit": "brookhollow 17,15"
+  },
+  "home_fernwick_c": {
+   "warp": {
+    "x": 7,
+    "y": 8,
+    "to": "$return",
+    "tx": null,
+    "ty": null,
+    "facing": "down",
+    "pair_with": {
+     "map": "fernwick",
+     "door": "home_c",
+     "door_xy": [
+      22,
+      6
+     ],
+     "status": "existing door; currently warps to shared house_int_c - re-point to home_fernwick_c",
+     "interior_arrival": [
+      7,
+      7
+     ]
+    }
+   },
+   "after_pc_cam": {
+    "y": 236
+   },
+   "pc_exit": "brookhollow 17,15",
+   "after_phone_cam": {
+    "y": 0
+   },
+   "phone_exit": "brookhollow 17,15"
+  },
+  "home_lanternport_c": {
+   "warp": {
+    "x": 6,
+    "y": 9,
+    "to": "$return",
+    "tx": null,
+    "ty": null,
+    "facing": "down",
+    "pair_with": {
+     "map": "lanternport",
+     "door": "home_c",
+     "status": "planned exterior door (exterior map not built yet)",
+     "interior_arrival": [
+      6,
+      8
+     ]
+    }
+   },
+   "after_pc_cam": {
+    "y": 300
+   },
+   "pc_exit": "brookhollow 17,15",
+   "after_phone_cam": {
+    "y": 0
+   },
+   "phone_exit": "brookhollow 17,15"
+  },
+  "home_saltmere_a": {
+   "warp": {
+    "x": 4,
+    "y": 8,
+    "to": "$return",
+    "tx": null,
+    "ty": null,
+    "facing": "down",
+    "note": "shared interior: $return = back out of the door you came in by, one tile below it, facing down",
+    "pair_with": {
+     "map": "saltmere",
+     "door": "home_a",
+     "status": "planned exterior door (exterior map not built yet)",
+     "interior_arrival": [
+      4,
+      7
+     ]
+    }
+   },
+   "after_pc_cam": {
+    "y": 236
+   },
+   "pc_exit": "brookhollow 17,15",
+   "after_phone_cam": {
+    "y": 0
+   },
+   "phone_exit": "brookhollow 17,15"
+  },
+  "house_1f": {
+   "warp": {
+    "x": 5,
+    "y": 9,
+    "to": "brookhollow",
+    "tx": 17,
+    "ty": 15,
+    "facing": "down"
+   },
+   "after_pc_cam": {
+    "y": 300
+   },
+   "pc_exit": "brookhollow 17,15",
+   "after_phone_cam": {
+    "y": 0
+   },
+   "phone_exit": "brookhollow 17,15"
+  },
+  "house_int_a": {
+   "warp": {
+    "x": 5,
+    "y": 8,
+    "to": "$return",
+    "tx": 0,
+    "ty": 0,
+    "facing": "down"
+   },
+   "after_pc_cam": {
+    "y": 236
+   },
+   "pc_exit": "house_1f 5,8",
+   "after_phone_cam": {
+    "y": 0
+   },
+   "phone_exit": "house_1f 5,8"
+  },
+  "shop_int": {
+   "warp": {
+    "x": 5,
+    "y": 8,
+    "to": "$return",
+    "tx": 0,
+    "ty": 0,
+    "facing": "down"
+   },
+   "after_pc_cam": {
+    "y": 236
+   },
+   "pc_exit": "house_1f 5,8",
+   "after_phone_cam": {
+    "y": 0
+   },
+   "phone_exit": "house_1f 5,8"
+  },
+  "station_int": {
+   "warp": {
+    "x": 9,
+    "y": 12,
+    "to": "$return",
+    "tx": null,
+    "ty": null,
+    "facing": "down",
+    "note": "exit to the station exterior door (x_station_4_3) | $return: back to the exterior door used to enter, one tile below it, facing down"
+   },
+   "after_pc_cam": {
+    "y": 492
+   },
+   "pc_exit": "house_1f 5,8",
+   "after_phone_cam": {
+    "y": 343
+   },
+   "phone_exit": "house_1f 5,8"
+  },
+  "office_int": {
+   "warp": {
+    "x": 7,
+    "y": 11,
+    "to": "brookhollow",
+    "tx": 40,
+    "ty": 16,
+    "facing": "down"
+   },
+   "after_pc_cam": {
+    "y": 364
+   },
+   "pc_exit": "office_int 13,6",
+   "after_phone_cam": {
+    "y": 0
+   },
+   "phone_exit": "office_int 13,6"
+  },
+  "revival_hall_int": {
+   "warp": {
+    "x": 6,
+    "y": 26,
+    "to": "revival_heights",
+    "tx": 24,
+    "ty": 28,
+    "facing": "down"
+   },
+   "after_pc_cam": {
+    "y": 428
+   },
+   "pc_exit": "revival_hall_int 6,4",
+   "after_phone_cam": {
+    "y": 119
+   },
+   "phone_exit": "revival_hall_int 6,6"
+  }
+ },
+ "after_pc": {
+  "version": "http://localhost:8811/kilumen/favicon.ico?v=v0.2.40-alpha",
+  "ix2": true
+ },
+ "after_phone": {
+  "version": "http://localhost:8811/kilumen/favicon.ico?v=v0.2.40-alpha",
+  "ix2": true
+ }
+}
