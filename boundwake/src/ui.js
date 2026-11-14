@@ -1,13 +1,13 @@
 // Boundwake UI shell — studio standard pass (Nov 5, 2026 CT).
 // Craft: Lifeline docked Age + per-menu hue bars; Boundwake parchment/realm identity.
 import { loadPack } from './pack.js';
-import * as E from './bw_engine.js?v=lifechoices1';
+import * as E from './bw_engine.js?v=heirrel1';
 import { ico, esc, flare, oddsChip, statLabel, infoChip, skillIco } from './flare.js';
 import { mountInfoClicks, openInfo, openInfoDetail } from './info.js';
 import { checkAdminAccess, gateHTML, isLocalHost } from './admingate.js';
 import { mountAmbient, paintAmbient } from './ambient.js';
 import { mountMusic, syncMusic, toggleMute, musicToggleHTML, unlockMusic } from './music.js?v=musicfix1';
-import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP, unlocked as autoUnlocked } from './autopilot.js?v=lifechoices1';
+import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP, unlocked as autoUnlocked } from './autopilot.js?v=heirrel1';
 import * as Premium from './premium.js';
 import * as PremFx from './premium_fx.js';
 import * as Ads from './ads.js';
@@ -2011,6 +2011,7 @@ function startAmbient() {
     if (s.team === undefined) s.team = null; if (s.guild === undefined) s.guild = null; if (!s.flags) s.flags = {};
     if (s.lifeEpoch == null) s.lifeEpoch = Number(meta.lifeEpoch) || 0;
     meta.lifeEpoch = Math.max(Number(meta.lifeEpoch) || 0, Number(s.lifeEpoch) || 0);
+    E.repairInheritedHeirRels(s, meta);
   }
   bindMultiTabSave();
   startAmbient(); mountInfoClicks(document); mountMusic();

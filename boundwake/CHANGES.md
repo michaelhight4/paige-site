@@ -1,3 +1,17 @@
+## HOTFIX — heir inherits dead parent's spouse — Nov 14, 2026 (CT)
+
+- Bug (Reddit): continuing as an heir made the dead parent's spouse yours; parents/siblings were also inherited as-is
+- Fix: remap household relative to the heir
+  - dead parent's spouse or partner → mother/father (by sex); heir starts single unless they already had their own spouse
+  - dead parent's parents → grandparents
+  - dead parent's siblings → aunt/uncle
+  - heir's siblings stay siblings; dead parent is kept as a deceased parent
+  - friends carry over as family friends; rivals and crushes do not carry over
+- Existing heir saves: on load, a heir married to a parent-aged spouse/partner is un-married (that person becomes a parent); obvious grandparents relabeled; the heir's own same-age spouse is left alone
+- Cache: `ui.js?v=heirrel1` (+ `bw_engine.js?v=heirrel1`, `autopilot.js?v=heirrel1` imports)
+- Test: `tests/heir_relationships.mjs` (also smoke + life_choices_engine)
+- Play / Apple (Codemagic) still need this fix in the next mobile build
+
 ## HOTFIX — music mute FAB (Nov 6 ~2:50 PM CT)
 - Document click handler for `.music-fab` (outside #app); crossfade mute race + AudioContext suspend
 - Cache `?v=musicfix1`

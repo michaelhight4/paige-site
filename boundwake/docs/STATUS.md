@@ -1,3 +1,12 @@
+## HOTFIX — heir household remap (heirrel1) — Nov 14, 2026 (CT)
+
+- Reddit: continuing as an heir made the dead parent's spouse yours; siblings/parents were also inherited
+- Remap: spouse/partner → parent (by sex); parents → grandparents; parent's siblings → aunt/uncle; heir's siblings stay siblings; dead parent kept deceased; friends → family friends; rivals/crushes dropped
+- Load repair for already-saved heir lives married to their own parent; heir's own same-age spouse is kept
+- Cache: `ui.js?v=heirrel1` (+ engine/autopilot imports)
+- Tests: `tests/heir_relationships.mjs` PASS; `life_choices_engine.mjs` PASS; smoke PASS (120 lives, 8 heirs)
+- Play / Apple (Codemagic) need this in the next mobile build
+
 ## 0.1.2-alpha — lifechoices1 · Nov 6, 2026 (CT)
 
 - Mid-life **New Life** (no new death rewards; prior meta Legacy stays) and **Give Up** (normal death → earned Echo/heir choices), both confirmed.

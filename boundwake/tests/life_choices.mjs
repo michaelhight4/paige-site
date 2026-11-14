@@ -45,12 +45,12 @@ const read=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('bw.save.v1')))
 const meta=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('bw.meta.v1')));
 async function fixture(){
  await page.goto(base+'?skipintro=1',{waitUntil:'networkidle0'});
- await page.evaluate(async()=>{const E=await import('./src/bw_engine.js?v=lifechoices1');const {loadPack}=await import('./src/pack.js');E.setPack(await loadPack());const m={echoes:{echo_might:2}};E.ensureLegacyMeta(m);m.legacy.testSentinel='keep';const s=E.begin(E.rollFate(123,m),m);s.age=30;s.pending=[];s.lifeEpoch=10;s.savedAt=Date.now();s.logSeq=s.log.length;localStorage.setItem('bw.save.v1',JSON.stringify(s));localStorage.setItem('bw.meta.v1',JSON.stringify(m));});
+ await page.evaluate(async()=>{const E=await import('./src/bw_engine.js?v=heirrel1');const {loadPack}=await import('./src/pack.js');E.setPack(await loadPack());const m={echoes:{echo_might:2}};E.ensureLegacyMeta(m);m.legacy.testSentinel='keep';const s=E.begin(E.rollFate(123,m),m);s.age=30;s.pending=[];s.lifeEpoch=10;s.savedAt=Date.now();s.logSeq=s.log.length;localStorage.setItem('bw.save.v1',JSON.stringify(s));localStorage.setItem('bw.meta.v1',JSON.stringify(m));});
  await page.reload({waitUntil:'networkidle0'});await page.waitForSelector('[data-a="newlife"]');
  if(process.env.BW_TEST_ROOT)assert(await page.$$eval('[data-tab="passes"],[data-a="phonepasses"]',bs=>bs.length===0),'itch desktop Passes visible');
 }
 try {
- console.log('Checking shared-engine Autopilot'); await fixture();const autoResult=await page.evaluate(async()=>{const A=await import('./src/autopilot.js?v=lifechoices1');const state=JSON.parse(localStorage.getItem('bw.save.v1'));return await A.skipYears(state,1,{waitMs:0});});assert(!autoResult.locked&&typeof autoResult.done==='number','Autopilot shared engine/platform gate failed');
+ console.log('Checking shared-engine Autopilot'); await fixture();const autoResult=await page.evaluate(async()=>{const A=await import('./src/autopilot.js?v=heirrel1');const state=JSON.parse(localStorage.getItem('bw.save.v1'));return await A.skipYears(state,1,{waitMs:0});});assert(!autoResult.locked&&typeof autoResult.done==='number','Autopilot shared engine/platform gate failed');
  console.log('Checking New Life'); await fixture();let before=await read();accept=false;await page.click('[data-a="newlife"]');assert((await read()).lifeEpoch===before.lifeEpoch,'cancel changed life');
  accept=true;await page.click('[data-a="newlife"]');await page.waitForSelector('#go');let abandoned=await read();assert(abandoned.awaitingFate&&abandoned.lifeEpoch>before.lifeEpoch,'missing persistent higher-epoch creation boundary');assert((await meta()).echoes.echo_might===2,'abandon granted/lost echoes');assert((await meta()).legacy.testSentinel==='keep','legacy lost');
  await page.reload({waitUntil:'networkidle0'});await page.waitForSelector('#go');assert((await read()).awaitingFate,'creation did not persist through reload');

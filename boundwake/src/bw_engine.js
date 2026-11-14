@@ -665,11 +665,12 @@ export function temperamentsMatch(a, b) {
 function isChildishJob(title) {
   return !title || title === 'Child' || title === 'Village lessons' || title === 'Helps at home';
 }
-/** Housemate: partner/spouse/child always; parents & siblings unless movedOut. */
+/** Housemate: partner/spouse/child always; parents, grandparents, siblings, aunts/uncles unless movedOut. */
+const HOUSE_UNLESS_MOVED = new Set(['mother', 'father', 'sibling', 'grandmother', 'grandfather', 'aunt', 'uncle', 'aunt/uncle', 'great-grandmother', 'great-grandfather', 'great-aunt', 'great-uncle']);
 export function livesWithPlayer(s, p) {
   if (!p?.alive) return false;
   if (p.rel === 'partner' || p.rel === 'spouse' || p.rel === 'child') return true;
-  if ((p.rel === 'mother' || p.rel === 'father' || p.rel === 'sibling') && !p.movedOut) return true;
+  if (HOUSE_UNLESS_MOVED.has(p.rel) && !p.movedOut) return true;
   return false;
 }
 /** Coworker: same career sector or same job title as the player's current job. */
@@ -1264,13 +1265,143 @@ export function reincarnate(meta, s, echoId, seed) {
   n.flags.echo_summary = echoId;
   return n;
 }
+/** Stamp written on a correctly remapped heir life. Bump if repair rules change. */
+export const HEIR_REL_MAP = 1;
+
+function parentRelBySex(sex) { return sex === 'm' ? 'father' : 'mother'; }
+function grandparentRelBySex(sex, rel) {
+  if (rel === 'father' || (rel !== 'mother' && sex === 'm')) return 'grandfather';
+  return 'grandmother';
+}
+function auntUncleBySex(sex) { return sex === 'm' ? 'uncle' : 'aunt'; }
+
+/** Map one of the dead parent's relationships onto the heir. null = do not carry over. */
+export function heirRelFromParentRel(rel, sex) {
+  const r = String(rel || '');
+  if (r === 'child') return 'sibling';
+  if (r === 'spouse' || r === 'partner') return parentRelBySex(sex);
+  if (r === 'sibling') return auntUncleBySex(sex);
+  if (r === 'mother' || r === 'father' || r === 'parent') return grandparentRelBySex(sex, r);
+  if (r === 'grandmother' || r === 'grandfather') return (r === 'grandfather' || sex === 'm') ? 'great-grandfather' : 'great-grandmother';
+  if (r === 'aunt' || r === 'uncle' || r === 'aunt/uncle') return (r === 'uncle' || sex === 'm') ? 'great-uncle' : 'great-aunt';
+  if (r === 'friend' || r === 'family friend') return 'family friend';
+  if (r === 'rival' || r === 'crush' || r === 'ex') return null;
+  return r;
+}
+
+export function peopleForHeir(parentState, heirId) {
+  const out = [];
+  for (const p of parentState.people || []) {
+    if (p.id === heirId || !p.alive) continue;
+    const nextRel = heirRelFromParentRel(p.rel, p.sex);
+    if (!nextRel) continue;
+    const q = { ...p, rel: nextRel };
+    if (nextRel === 'family friend') q.inParty = false;
+    out.push(q);
+  }
+  return out;
+}
+
+function makeDeceasedParent(parentState, dest) {
+  dest.pid = Math.max(dest.pid || 0, parentState.pid || 0) + 1;
+  const p = {
+    id: 'p' + dest.pid,
+    first: parentState.first,
+    sex: parentState.sex,
+    rel: parentRelBySex(parentState.sex),
+    age: Math.floor(parentState.age || 0),
+    race: parentState.race,
+    bar: Math.max(40, parentState.stats?.happiness || 60),
+    alive: false,
+    cause: parentState.cause || 'unknown',
+  };
+  try { ensurePersonSheet(dest, p); } catch (_) { /* pack optional in tests */ }
+  p.alive = false;
+  return p;
+}
+
+export function applyHeirHousehold(n, parentState, heirId) {
+  n.pid = Math.max(n.pid || 0, parentState.pid || 0);
+  n.people = peopleForHeir(parentState, heirId);
+  n.people.push(makeDeceasedParent(parentState, n));
+  if (!n.flags) n.flags = {};
+  n.flags.is_heir = 1;
+  n.flags.heirRelMap = HEIR_REL_MAP;
+  return n;
+}
+
+function deadParentGrave(s, meta) {
+  const graves = meta?.cemetery || [];
+  if (s?.priorName) {
+    const hits = graves.filter((c) => c.name === s.priorName);
+    if (hits.length) return hits[hits.length - 1];
+  }
+  const heirPath = graves.filter((c) => c.path === 'heir');
+  if (heirPath.length) return heirPath[heirPath.length - 1];
+  return graves.length ? graves[graves.length - 1] : null;
+}
+
+/** True when a partner/spouse on an heir save is almost certainly the dead parent's partner. */
+export function isLikelyInheritedParent(s, p, meta) {
+  if (!p) return false;
+  const gap = (p.age || 0) - (s.age || 0);
+  if (gap < 14) return false;
+  const grave = deadParentGrave(s, meta);
+  if (grave && typeof grave.age === 'number') {
+    if (p.age >= (grave.age - 20) && p.age <= (grave.age + 30)) return true;
+    if (gap >= 16) return true;
+  }
+  return gap >= 16;
+}
+
+/**
+ * Fix already-saved heir lives where the dead parent's spouse/partner was kept as the heir's,
+ * or parents stayed labeled as the heir's parents (grandparents). Friends made after succession
+ * are left alone. Idempotent once flags.heirRelMap is current.
+ */
+export function repairInheritedHeirRels(s, meta) {
+  if (!s || !s.flags?.is_heir) return s;
+  if ((s.flags.heirRelMap || 0) >= HEIR_REL_MAP) return s;
+  if (!Array.isArray(s.people)) s.people = [];
+
+  for (const p of s.people) {
+    if ((p.rel === 'spouse' || p.rel === 'partner') && isLikelyInheritedParent(s, p, meta)) {
+      p.rel = parentRelBySex(p.sex);
+    }
+  }
+  for (const p of s.people) {
+    if (p.rel === 'mother' && p.sex === 'm') p.rel = 'father';
+    else if (p.rel === 'father' && p.sex === 'f') p.rel = 'mother';
+  }
+  const gens = s.people.filter((p) => p.rel === 'mother' || p.rel === 'father');
+  if (gens.length) {
+    const younger = Math.min(...gens.map((p) => (p.age || 0) - (s.age || 0)));
+    for (const p of gens) {
+      const gap = (p.age || 0) - (s.age || 0);
+      if (gap >= younger + 14 && gap >= 30) p.rel = grandparentRelBySex(p.sex, p.rel);
+    }
+  }
+  const hasAuntUncle = s.people.some((p) => p.rel === 'aunt' || p.rel === 'uncle' || p.rel === 'aunt/uncle');
+  if (!hasAuntUncle) {
+    const parents = s.people.filter((p) => p.rel === 'mother' || p.rel === 'father');
+    for (const p of s.people) {
+      if (p.rel !== 'sibling') continue;
+      if (((p.age || 0) - (s.age || 0)) < 14) continue;
+      if (parents.some((par) => Math.abs((par.age || 0) - (p.age || 0)) <= 16)) p.rel = auntUncleBySex(p.sex);
+    }
+  }
+  s.flags.heirRelMap = HEIR_REL_MAP;
+  return s;
+}
+
 export function continueAsHeir(meta, s, heirId, seed) {
   const h = s.people.find((p) => p.id === heirId); recordMeta(meta, s, 'heir');
   const estate = Math.round(s.gold * 0.85); // estate tax 15% (coder_stub)
   const f = rollFate(seed, meta, { race: h.race, last: s.last, rerolls: 0 }); f.first = h.first; f.sex = h.sex; f.wealth = s.wealth;
   const n = begin(f, { ...meta, echoes: {} }, () => ({}));
-  n.age = h.age; n.gold = estate + (h.age < 16 ? 0 : 0); n.people = s.people.filter((p) => p.alive && p.id !== heirId).map((p) => ({ ...p, rel: p.rel === 'child' ? 'sibling' : p.rel === 'spouse' ? 'mother' : p.rel === 'sibling' ? 'aunt/uncle' : p.rel }));
-  n.relics = [...s.relics]; n.legacy = { gen: (s.legacy.gen || 1) + 1 }; n.flags.is_heir = 1; n.lineage = pick(n, D.terms.lineage).id; n.priorName = `${s.first} ${s.last}`; n.linkKind = 'heir';
+  n.age = h.age; n.gold = estate + (h.age < 16 ? 0 : 0);
+  applyHeirHousehold(n, s, heirId);
+  n.relics = [...s.relics]; n.legacy = { gen: (s.legacy.gen || 1) + 1 }; n.lineage = pick(n, D.terms.lineage).id; n.priorName = `${s.first} ${s.last}`; n.linkKind = 'heir';
   for (const k of D.skills.skills) n.skills[k.id] = Math.min(30, hage(n) * 0.8 + (n.talents.includes(k.id) ? 5 : 0));
   if (n.lineage === 'blood_spark') { n.flags.mana_awakened = 1; n.manaMax = Math.max(n.manaMax || 0, 20); n.mana = Math.max(10, Math.min(n.manaMax, n.mana || 10)); } if (n.lineage === 'blood_silver') n.gold += 50;
   if (n.lineage === 'blood_iron') n.stats.health = Math.min(100, n.stats.health + 8);
