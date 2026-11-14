@@ -1,3 +1,13 @@
+## Live — **b3181b34** heirrel1 · https://paigegames.net/boundwake/
+
+## itch HTML5 — heirrel1 pushed — Nov 14 ~11:48 AM CT
+
+- Zip: `/workspace/releases/boundwake/itch/boundwake-itch-20261114-heirrel1.zip` (~11 MB)
+- butler: `michaelhight4/boundwake:html5` userversion **0.1.3-alpha** · build **#2386448** (from #2318142)
+- Same itch rules: `__BW_ITCH` + `?platform=itch`, no AdMob/Stripe, Passes button hidden
+- Site already live: **b3181b34** · `?v=heirrel1`
+- Play / Apple (Codemagic) still need this fix in the next mobile build
+
 ## HOTFIX — heir household remap (heirrel1) — Nov 14, 2026 (CT)
 
 - Reddit: continuing as an heir made the dead parent's spouse yours; siblings/parents were also inherited
