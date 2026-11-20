@@ -95,6 +95,7 @@
               <div class="stat-lbl">avg pace</div>
             </div>
           </div>
+          <p class="tiny track-pause-note" id="track-pause-note" data-testid="auto-pause-note" hidden>Auto-paused. Time is not counting until you start moving.</p>
           <div class="btn-row" id="track-live-actions">
             <button class="btn btn-secondary" id="btn-pause" data-testid="pause">Pause</button>
             <button class="btn btn-danger" id="btn-stop" data-testid="stop">Stop</button>
@@ -181,6 +182,17 @@
           <div class="range-tog" id="units-tog">
             <button data-units="mi">Miles</button>
             <button data-units="km">Kilometers</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Tracking</h2>
+          <div class="row-toggle">
+            <div>
+              <strong>Auto-pause when you stop</strong>
+              <p>When you stand still for a few seconds, Heldpath pauses so wait time is not counted. It starts again when you move. Turn this off if you want standing time included.</p>
+            </div>
+            <button class="switch" id="auto-pause-switch" data-testid="auto-pause-switch" role="switch" aria-checked="true" aria-label="Auto-pause when you stop"><i></i></button>
           </div>
         </div>
 

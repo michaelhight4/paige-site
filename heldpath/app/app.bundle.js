@@ -22712,7 +22712,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     // "offline" | "mobile"
     lastKnown: null,
     // { lat, lon, at }
-    demo: false
+    demo: false,
+    autoPause: true
   };
   function emptyState() {
     return {
@@ -25346,6 +25347,74 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return planTarget({ course, targetMeters, mode });
   }
 
+  // www/js/auto_pause.js
+  var STOP_SPEED_MPS = 0.45;
+  var MOVE_SPEED_MPS = 0.7;
+  var STOP_DWELL_MS = 5e3;
+  var MOVE_DWELL_MS = 2e3;
+  var START_GRACE_MS = 1e4;
+  var SAMPLE_KEEP_MS = STOP_DWELL_MS + 2e3;
+  function createAutoPauseState(startedAt = 0) {
+    return {
+      startedAt: startedAt || 0,
+      samples: [],
+      lastMovingAt: null,
+      movingSince: null,
+      hasMoved: false
+    };
+  }
+  function windowStats(samples, fromAt) {
+    const window2 = samples.filter((s2) => s2.at >= fromAt);
+    if (window2.length < 2) return { net: 0, path: 0, span: 0, speed: 0, straight: 0 };
+    const first = window2[0];
+    const last = window2[window2.length - 1];
+    const span = last.at - first.at;
+    const net = haversineMeters(first, last);
+    let path = 0;
+    for (let i = 1; i < window2.length; i += 1) {
+      path += haversineMeters(window2[i - 1], window2[i]);
+    }
+    return {
+      net,
+      path,
+      span,
+      speed: span > 0 ? net / (span / 1e3) : 0,
+      straight: path > 0 ? net / path : 0
+    };
+  }
+  function considerAutoPause(state3, input = {}) {
+    if (!state3 || !input.enabled) return null;
+    const at = input.at;
+    if (!Number.isFinite(at)) return null;
+    if (Number.isFinite(input.startedAt)) state3.startedAt = input.startedAt;
+    else if (!state3.startedAt) state3.startedAt = at;
+    if (input.paused && input.pauseReason === "manual") return null;
+    if (Number.isFinite(input.lat) && Number.isFinite(input.lon)) {
+      state3.samples.push({ lat: input.lat, lon: input.lon, at });
+    }
+    const keepAfter = at - SAMPLE_KEEP_MS;
+    state3.samples = state3.samples.filter((s2) => s2.at >= keepAfter);
+    const window2 = windowStats(state3.samples, at - STOP_DWELL_MS);
+    const recent = windowStats(state3.samples, at - MOVE_DWELL_MS);
+    const lastAt = state3.samples.length ? state3.samples[state3.samples.length - 1].at : null;
+    const quietMs = lastAt != null ? at - lastAt : 0;
+    const movingNow = recent.speed >= MOVE_SPEED_MPS && recent.straight >= 0.55 && recent.net >= 1.2;
+    if (movingNow) {
+      state3.hasMoved = true;
+      state3.lastMovingAt = at;
+      if (state3.movingSince == null) state3.movingSince = at;
+    } else if (recent.span >= MOVE_DWELL_MS - 400 && recent.speed < STOP_SPEED_MPS || quietMs >= MOVE_DWELL_MS) {
+      state3.movingSince = null;
+    }
+    const pastGrace = at - state3.startedAt >= START_GRACE_MS;
+    const windowStill = window2.span >= STOP_DWELL_MS - 400 && window2.speed < MOVE_SPEED_MPS || quietMs >= STOP_DWELL_MS;
+    if (!input.paused && state3.hasMoved && pastGrace && windowStill) return "pause";
+    if (input.paused && input.pauseReason === "auto" && state3.movingSince != null && at - state3.movingSince >= MOVE_DWELL_MS && movingNow) {
+      return "resume";
+    }
+    return null;
+  }
+
   // www/js/track.js
   var BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
   var watcherId = null;
@@ -25356,6 +25425,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   var notificationListener = null;
   var lastNotificationBody = "";
   var lastNotificationAt = 0;
+  var autoPauseEnabled = true;
+  var autoWatch = createAutoPauseState();
   var NOTIFICATION_ID = "heldpath-tracking";
   var NOTIFICATION_REFRESH_MS = 15e3;
   function getSession() {
@@ -25383,9 +25454,18 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       pauseStarted: null,
       track: [],
       distanceMeters: 0,
-      elapsedSec: 0
+      elapsedSec: 0,
+      pauseReason: null
     };
+    autoWatch = createAutoPauseState(Date.parse(session.startedAt));
     return session;
+  }
+  function setAutoPauseEnabled(on) {
+    autoPauseEnabled = !!on;
+    if (!on && session && session.paused && session.pauseReason === "auto") {
+      resumeSession();
+    }
+    return autoPauseEnabled;
   }
   function tickElapsed() {
     if (!session || session.paused) return session;
@@ -25602,19 +25682,61 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       return { ok: false, updated: false, method: "error", payload, error: String(err2) };
     }
   }
-  function pauseSession() {
-    if (!session || session.paused) return session;
+  function pauseSession(reason = "manual", at = Date.now()) {
+    if (!session) return session;
+    if (session.paused) {
+      if (reason === "manual") session.pauseReason = "manual";
+      return session;
+    }
     session.paused = true;
-    session.pauseStarted = Date.now();
+    session.pauseReason = reason === "auto" ? "auto" : "manual";
+    session.pauseStarted = at;
     refreshNotification(session, { force: true });
     return session;
   }
-  function resumeSession() {
+  function resumeSession(at = Date.now()) {
     if (!session || !session.paused) return session;
-    session.pausedAcc += Date.now() - (session.pauseStarted || Date.now());
+    session.pausedAcc += at - (session.pauseStarted || at);
     session.pauseStarted = null;
     session.paused = false;
+    session.pauseReason = null;
     refreshNotification(session, { force: true });
+    return session;
+  }
+  function applyAutoDecision(decision, at) {
+    if (decision === "pause") pauseSession("auto", at);
+    else if (decision === "resume") resumeSession(at);
+  }
+  function autoInput(at, fix) {
+    return {
+      enabled: autoPauseEnabled,
+      paused: !!(session && session.paused),
+      pauseReason: session ? session.pauseReason : null,
+      startedAt: session ? Date.parse(session.startedAt) : at,
+      at,
+      ...fix || {}
+    };
+  }
+  function noteFix(lat, lon, at = Date.now()) {
+    if (!session) return session;
+    const before = session.paused;
+    const reason = session.pauseReason;
+    const decision = considerAutoPause(autoWatch, autoInput(at, { lat, lon }));
+    applyAutoDecision(decision, at);
+    if (decision === "resume" && reason === "auto") {
+      const from = autoWatch.movingSince || at;
+      for (const s2 of autoWatch.samples) {
+        if (s2.at >= from) pushPoint(s2.lat, s2.lon, s2.at);
+      }
+    } else if (!session.paused) {
+      pushPoint(lat, lon, at);
+    }
+    return session;
+  }
+  function noteTick(at = Date.now()) {
+    if (!session) return session;
+    const decision = considerAutoPause(autoWatch, autoInput(at));
+    applyAutoDecision(decision, at);
     return session;
   }
   function stopSession() {
@@ -25630,6 +25752,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (timer) clearInterval(timer);
     timer = setInterval(() => {
       if (!session) return;
+      noteTick();
       tickElapsed();
       if (onUpdate) onUpdate(session, "tick");
       refreshNotification(session);
@@ -25658,7 +25781,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
               return;
             }
             if (!location2 || !session) return;
-            pushPoint(location2.latitude, location2.longitude, location2.time || Date.now());
+            noteFix(location2.latitude, location2.longitude, location2.time || Date.now());
             tickElapsed();
             if (onUpdate) onUpdate(session, "fix");
             refreshNotification(session);
@@ -25675,7 +25798,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       watcherId = navigator.geolocation.watchPosition(
         (pos) => {
           if (!session) return;
-          pushPoint(pos.coords.latitude, pos.coords.longitude, pos.timestamp);
+          noteFix(pos.coords.latitude, pos.coords.longitude, pos.timestamp);
           tickElapsed();
           if (onUpdate) onUpdate(session, "fix");
         },
@@ -32051,6 +32174,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     $4("track-time").textContent = formatDuration(sess.elapsedSec);
     $4("track-pace").textContent = formatPace(sess.distanceMeters, sess.elapsedSec, sess.units);
     $4("btn-pause").textContent = sess.paused ? "Resume" : "Pause";
+    const pauseNote = $4("track-pause-note");
+    if (pauseNote) {
+      const auto = !!(sess.paused && sess.pauseReason === "auto");
+      pauseNote.hidden = !auto;
+    }
     $4("lock-body").textContent = liveNotification(sess);
   }
   function drawSessionOnMap(sess) {
@@ -32305,6 +32433,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       $4("health-switch").classList.toggle("on", !!state2.settings.healthOptIn);
       $4("health-switch").setAttribute("aria-checked", state2.settings.healthOptIn ? "true" : "false");
     }
+    if ($4("auto-pause-switch")) {
+      const on = state2.settings.autoPause !== false;
+      $4("auto-pause-switch").classList.toggle("on", on);
+      $4("auto-pause-switch").setAttribute("aria-checked", on ? "true" : "false");
+    }
     if (typeof refreshHealthStatus === "function") refreshHealthStatus();
     else if ($4("health-note")) {
       $4("health-note").textContent = state2.settings.healthOptIn ? HEALTH_STATUS.reason + " Your preference is saved and will apply when health sync is wired." : "Health sync stays off until you turn it on.";
@@ -32432,6 +32565,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const disc = await ensureLocationDisclosure();
     if (!disc || !disc.allowed) return;
     const sess = makeSession({ type, course, units: units2(), target: targetPlan || null });
+    setAutoPauseEnabled(state2.settings.autoPause !== false);
     setTab("today");
     showScreen("tracking");
     paintSessionHud(sess);
@@ -32941,6 +33075,17 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       persist();
       render();
     });
+    if ($4("auto-pause-switch")) {
+      $4("auto-pause-switch").addEventListener("click", () => {
+        const next = !(state2.settings.autoPause !== false);
+        state2.settings.autoPause = next;
+        setAutoPauseEnabled(next);
+        persist();
+        renderSettings();
+        const sess = getSession();
+        if (sess) paintSessionHud(sess);
+      });
+    }
     $4("health-switch").addEventListener("click", async () => {
       const next = !state2.settings.healthOptIn;
       state2.settings.healthOptIn = next;
@@ -33657,6 +33802,23 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           ui2.hideNav = true;
           showScreen("lock");
         }
+      } else if (name === "tracking-autopause") {
+        const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+        if (!state2.courses[0]) state2.courses = [course];
+        const sess = midCourseWalk(course, units2());
+        stopSession();
+        const made = makeSession({ type: "walk", course, units: units2() });
+        Object.assign(made, sess);
+        made.paused = true;
+        made.pauseReason = "auto";
+        setTab("today");
+        showScreen("tracking");
+        paintSessionHud(made);
+        whenReady(() => {
+          drawSessionOnMap(made);
+          fitBounds(course.pins, 80);
+        });
+        drawSessionOnMap(made);
       } else if (name === "tracking-extra" || name === "route-complete" || name === "lock-complete") {
         const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
         if (!state2.courses[0]) state2.courses = [course];

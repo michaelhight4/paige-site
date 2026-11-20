@@ -11,6 +11,7 @@ const DEFAULT_SETTINGS = {
   mapDataMode: null, // "offline" | "mobile"
   lastKnown: null, // { lat, lon, at }
   demo: false,
+  autoPause: true,
 };
 
 export function emptyState() {

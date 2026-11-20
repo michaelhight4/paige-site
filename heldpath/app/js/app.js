@@ -300,6 +300,11 @@ function paintSessionHud(sess) {
   $("track-time").textContent = formatDuration(sess.elapsedSec);
   $("track-pace").textContent = formatPace(sess.distanceMeters, sess.elapsedSec, sess.units);
   $("btn-pause").textContent = sess.paused ? "Resume" : "Pause";
+  const pauseNote = $("track-pause-note");
+  if (pauseNote) {
+    const auto = !!(sess.paused && sess.pauseReason === "auto");
+    pauseNote.hidden = !auto;
+  }
   $("lock-body").textContent = track.liveNotification(sess);
 }
 
@@ -576,6 +581,11 @@ function renderSettings() {
     $("health-switch").classList.toggle("on", !!state.settings.healthOptIn);
     $("health-switch").setAttribute("aria-checked", state.settings.healthOptIn ? "true" : "false");
   }
+  if ($("auto-pause-switch")) {
+    const on = state.settings.autoPause !== false;
+    $("auto-pause-switch").classList.toggle("on", on);
+    $("auto-pause-switch").setAttribute("aria-checked", on ? "true" : "false");
+  }
   if (typeof refreshHealthStatus === "function") refreshHealthStatus();
   else if ($("health-note")) {
     $("health-note").textContent = state.settings.healthOptIn
@@ -720,6 +730,7 @@ async function startTracking(type, course, plan, targetPlan) {
   const disc = await ensureLocationDisclosure();
   if (!disc || !disc.allowed) return;
   const sess = track.makeSession({ type, course, units: units(), target: targetPlan || null });
+  track.setAutoPauseEnabled(state.settings.autoPause !== false);
   setTab("today");
   showScreen("tracking");
   paintSessionHud(sess);
@@ -1258,6 +1269,17 @@ function bind() {
     persist();
     render();
   });
+  if ($("auto-pause-switch")) {
+    $("auto-pause-switch").addEventListener("click", () => {
+      const next = !(state.settings.autoPause !== false);
+      state.settings.autoPause = next;
+      track.setAutoPauseEnabled(next);
+      persist();
+      renderSettings();
+      const sess = track.getSession();
+      if (sess) paintSessionHud(sess);
+    });
+  }
   $("health-switch").addEventListener("click", async () => {
     const next = !state.settings.healthOptIn;
     state.settings.healthOptIn = next;
@@ -1977,6 +1999,20 @@ window.HeldpathTest = {
         ui.hideNav = true;
         showScreen("lock");
       }
+    } else if (name === "tracking-autopause") {
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      if (!state.courses[0]) state.courses = [course];
+      const sess = midCourseWalk(course, units());
+      track.stopSession();
+      const made = track.makeSession({ type: "walk", course, units: units() });
+      Object.assign(made, sess);
+      made.paused = true;
+      made.pauseReason = "auto";
+      setTab("today");
+      showScreen("tracking");
+      paintSessionHud(made);
+      map.whenReady(() => { drawSessionOnMap(made); map.fitBounds(course.pins, 80); });
+      drawSessionOnMap(made);
     } else if (name === "tracking-extra" || name === "route-complete" || name === "lock-complete") {
       const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
       if (!state.courses[0]) state.courses = [course];

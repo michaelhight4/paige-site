@@ -9,6 +9,7 @@ import {
   etaSeconds,
 } from "./util.js";
 import { progressOnPlan, MODE_CONTINUE } from "./target_distance.js";
+import { considerAutoPause, createAutoPauseState } from "./auto_pause.js";
 
 const BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
 
@@ -20,6 +21,8 @@ let actionHandler = null;
 let notificationListener = null;
 let lastNotificationBody = "";
 let lastNotificationAt = 0;
+let autoPauseEnabled = true;
+let autoWatch = createAutoPauseState();
 
 const NOTIFICATION_ID = "heldpath-tracking";
 const NOTIFICATION_REFRESH_MS = 15000;
@@ -53,8 +56,22 @@ export function makeSession({ type, course, units, target } = {}) {
     track: [],
     distanceMeters: 0,
     elapsedSec: 0,
+    pauseReason: null,
   };
+  autoWatch = createAutoPauseState(Date.parse(session.startedAt));
   return session;
+}
+
+export function setAutoPauseEnabled(on) {
+  autoPauseEnabled = !!on;
+  if (!on && session && session.paused && session.pauseReason === "auto") {
+    resumeSession();
+  }
+  return autoPauseEnabled;
+}
+
+export function isAutoPauseEnabled() {
+  return autoPauseEnabled;
 }
 
 export function tickElapsed() {
@@ -323,20 +340,68 @@ export async function refreshNotification(sess = session, { force = false, minIn
   }
 }
 
-export function pauseSession() {
-  if (!session || session.paused) return session;
+export function pauseSession(reason = "manual", at = Date.now()) {
+  if (!session) return session;
+  if (session.paused) {
+    if (reason === "manual") session.pauseReason = "manual";
+    return session;
+  }
   session.paused = true;
-  session.pauseStarted = Date.now();
+  session.pauseReason = reason === "auto" ? "auto" : "manual";
+  session.pauseStarted = at;
   refreshNotification(session, { force: true });
   return session;
 }
 
-export function resumeSession() {
+export function resumeSession(at = Date.now()) {
   if (!session || !session.paused) return session;
-  session.pausedAcc += Date.now() - (session.pauseStarted || Date.now());
+  session.pausedAcc += at - (session.pauseStarted || at);
   session.pauseStarted = null;
   session.paused = false;
+  session.pauseReason = null;
   refreshNotification(session, { force: true });
+  return session;
+}
+
+function applyAutoDecision(decision, at) {
+  if (decision === "pause") pauseSession("auto", at);
+  else if (decision === "resume") resumeSession(at);
+}
+
+function autoInput(at, fix) {
+  return {
+    enabled: autoPauseEnabled,
+    paused: !!(session && session.paused),
+    pauseReason: session ? session.pauseReason : null,
+    startedAt: session ? Date.parse(session.startedAt) : at,
+    at,
+    ...(fix || {}),
+  };
+}
+
+/** Record a GPS fix for auto-pause, and append it to the track when not paused. */
+export function noteFix(lat, lon, at = Date.now()) {
+  if (!session) return session;
+  const before = session.paused;
+  const reason = session.pauseReason;
+  const decision = considerAutoPause(autoWatch, autoInput(at, { lat, lon }));
+  applyAutoDecision(decision, at);
+  if (decision === "resume" && reason === "auto") {
+    const from = autoWatch.movingSince || at;
+    for (const s of autoWatch.samples) {
+      if (s.at >= from) pushPoint(s.lat, s.lon, s.at);
+    }
+  } else if (!session.paused) {
+    pushPoint(lat, lon, at);
+  }
+  return session;
+}
+
+/** Timer tick so auto-pause still fires when the GPS distance filter is quiet. */
+export function noteTick(at = Date.now()) {
+  if (!session) return session;
+  const decision = considerAutoPause(autoWatch, autoInput(at));
+  applyAutoDecision(decision, at);
   return session;
 }
 
@@ -354,6 +419,7 @@ export async function startWatching(handler) {
   if (timer) clearInterval(timer);
   timer = setInterval(() => {
     if (!session) return;
+    noteTick();
     tickElapsed();
     if (onUpdate) onUpdate(session, "tick");
     refreshNotification(session);
@@ -383,7 +449,7 @@ export async function startWatching(handler) {
             return;
           }
           if (!location || !session) return;
-          pushPoint(location.latitude, location.longitude, location.time || Date.now());
+          noteFix(location.latitude, location.longitude, location.time || Date.now());
           tickElapsed();
           if (onUpdate) onUpdate(session, "fix");
           refreshNotification(session);
@@ -402,7 +468,7 @@ export async function startWatching(handler) {
     watcherId = navigator.geolocation.watchPosition(
       (pos) => {
         if (!session) return;
-        pushPoint(pos.coords.latitude, pos.coords.longitude, pos.timestamp);
+        noteFix(pos.coords.latitude, pos.coords.longitude, pos.timestamp);
         tickElapsed();
         if (onUpdate) onUpdate(session, "fix");
       },
