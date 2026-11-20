@@ -40,6 +40,10 @@ export function makeSession({ type, course, units, target } = {}) {
     coursePath: planned,
     target: target || null,
     targetAnnounced: false,
+    goalComplete: false,
+    goalAnnounced: false,
+    goalCompleteSec: null,
+    goalCompleteMeters: null,
     units: units || "mi",
     startedAt: new Date().toISOString(),
     paused: false,
@@ -107,7 +111,7 @@ export function courseRemaining(sess) {
       sess.courseTraveledMeters = traveled;
     }
     const prog = progressOnPlan(sess.target, traveled);
-    return {
+    return stampGoal(sess, {
       onCourse: true,
       traveled: prog.traveled,
       remaining: prog.left,
@@ -115,7 +119,7 @@ export function courseRemaining(sess) {
       lapLabel: prog.label || "",
       hitTarget: prog.hitTarget,
       pastCourse: !!prog.pastCourse,
-    };
+    });
   }
   const path = sessionCoursePath(sess);
   if (!path) {
@@ -131,11 +135,42 @@ export function courseRemaining(sess) {
   // start, and GPS jitter must not rewind distance done or the notification.
   const traveled = Math.max(sess.courseTraveledMeters || 0, r.traveled);
   sess.courseTraveledMeters = traveled;
-  return { onCourse: true, traveled, remaining: Math.max(0, r.total - traveled), total: r.total };
+  const remaining = Math.max(0, r.total - traveled);
+  const result = { onCourse: true, traveled, remaining, total: r.total, hitTarget: false, pastCourse: false };
+  return stampGoal(sess, result);
+}
+
+function stampGoal(sess, result) {
+  const complete = !!(result && result.onCourse && (result.hitTarget || result.remaining <= 0.5) && result.total > 0);
+  if (complete && sess && !sess.goalComplete) {
+    sess.goalComplete = true;
+    sess.goalCompleteSec = sess.elapsedSec || 0;
+    sess.goalCompleteMeters = sess.distanceMeters || 0;
+  }
+  const stamped = !!(sess && sess.goalComplete);
+  const extra = stamped
+    ? Math.max(0, (sess.distanceMeters || 0) - (sess.goalCompleteMeters || 0))
+    : 0;
+  return {
+    ...result,
+    complete: stamped,
+    extraMeters: extra,
+    completeSec: stamped ? sess.goalCompleteSec : null,
+    gpsMeters: sess && sess.distanceMeters || 0,
+  };
 }
 
 export function liveNotification(sess) {
   const rem = courseRemaining(sess);
+  if (rem.complete) {
+    const kind = sess.target && sess.target.targetMeters > 0 ? "target" : "course";
+    return notificationText({
+      complete: true,
+      completeKind: kind,
+      extraMeters: rem.extraMeters,
+      units: sess.units,
+    });
+  }
   return notificationText({
     doneMeters: rem.onCourse ? rem.traveled : sess.distanceMeters,
     leftMeters: rem.remaining,

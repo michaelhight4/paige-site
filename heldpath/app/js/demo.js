@@ -140,4 +140,52 @@ export function midCourseWalk(course, units = "mi") {
   };
 }
 
+/** Frozen run that finished a course and kept going ~0.3 mi past the end. */
+export function pastCourseRun(course, units = "mi") {
+  const total = pathLengthMeters(course.pins || course.path);
+  const extra = 0.3 * METERS_PER_MILE;
+  const courseSec = 40 * 60;
+  const extraSec = 6 * 60;
+  const elapsed = courseSec + extraSec;
+  const start = new Date(Date.now() - elapsed * 1000);
+  const along = trackAlong(course.pins, total, courseSec);
+  const end = along[along.length - 1];
+  const extraPts = [];
+  for (let i = 1; i <= 6; i++) {
+    const m = (extra * i) / 6;
+    const p = destination(end.lat, end.lon, 25, m);
+    extraPts.push({
+      lat: p.lat,
+      lon: p.lon,
+      t: courseSec + Math.round((extraSec * i) / 6),
+      at: null,
+    });
+  }
+  const track = along.concat(extraPts);
+  track.forEach((p) => {
+    p.at = new Date(start.getTime() + p.t * 1000).toISOString();
+  });
+  return {
+    type: "run",
+    courseId: course.id,
+    courseName: course.name,
+    coursePins: (course.pins || []).slice(),
+    coursePath: (course.path || course.pins || []).slice(),
+    units,
+    startedAt: start.toISOString(),
+    paused: false,
+    pausedAcc: 0,
+    pauseStarted: null,
+    track,
+    distanceMeters: total + extra,
+    elapsedSec: elapsed,
+    goalComplete: true,
+    goalAnnounced: true,
+    goalCompleteSec: courseSec,
+    goalCompleteMeters: total,
+    courseTraveledMeters: total,
+  };
+}
+
 export { ORIGIN, etaSeconds, activityMph };
+

@@ -181,7 +181,13 @@ export function formatPace(meters, seconds, units) {
  * On a course: "1.2 mi done · 0.8 mi left · ~16 min"
  * Off a course: "1.2 mi · 24:10 · 11:20 /mi"
  */
-export function notificationText({ doneMeters, leftMeters, onCourse, elapsedSec, units, activityType, lapLabel }) {
+export function notificationText({ doneMeters, leftMeters, onCourse, elapsedSec, units, activityType, lapLabel, complete, completeKind, extraMeters }) {
+  if (complete) {
+    const kind = completeKind === "target" ? "Target" : "Course";
+    const extra = Math.max(0, Number(extraMeters) || 0);
+    if (extra > 8) return `${kind} done · +${formatDistance(extra, units)} extra`;
+    return `${kind} done`;
+  }
   const done = formatDistance(doneMeters || 0, units);
   if (onCourse) {
     const left = Math.max(0, leftMeters || 0);

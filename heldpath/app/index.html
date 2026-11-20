@@ -48,15 +48,16 @@
       <div class="dock" id="track-dock">
         <div class="hud" id="track-hud" data-testid="track-hud">
           <div class="hud-kicker" id="track-kicker">Walk</div>
+          <div class="complete-banner" id="track-complete-banner" data-testid="course-complete-banner" hidden></div>
           <div class="lap-label" id="track-lap" data-testid="lap-label" hidden>Lap 1 of 1</div>
           <div class="hud-remain" id="track-remain-wrap">
             <div>
               <div class="remain-value" id="track-left" data-testid="distance-left">—</div>
-              <div class="remain-label">left</div>
+              <div class="remain-label" id="track-left-lbl">left</div>
             </div>
             <div class="remain-eta">
               <div class="remain-value" id="track-eta" data-testid="time-left">—</div>
-              <div class="remain-label">remaining</div>
+              <div class="remain-label" id="track-eta-lbl">remaining</div>
             </div>
           </div>
           <div class="hud-stats">
@@ -554,13 +555,34 @@
       </div>
     </div>
 
+    <div class="sheet-back" id="sheet-celebrate">
+      <div class="sheet" role="dialog" data-testid="celebrate-sheet">
+        <h2>Way to go</h2>
+        <p class="page-sub" id="celebrate-copy" data-testid="celebrate-copy">Congratulations, you did 130% of the route! Way to kill it!</p>
+        <button class="btn btn-primary" id="btn-celebrate-next" data-testid="celebrate-next" style="width:100%">Nice!</button>
+      </div>
+    </div>
+
     <div class="sheet-back" id="sheet-save-route">
       <div class="sheet" role="dialog" data-testid="save-route-sheet">
-        <h2>Save this route?</h2>
-        <p class="page-sub" id="save-route-sub">You went past the original course. Save the path you actually took?</p>
-        <button class="btn btn-primary" id="btn-save-route-new" style="width:100%;margin-bottom:10px">Save as a new course</button>
-        <button class="btn btn-primary" id="btn-save-route-update" style="width:100%;margin-bottom:10px">Update the original</button>
-        <button class="btn btn-secondary" id="btn-save-route-skip" style="width:100%">Don't save</button>
+        <h2>Save the new part?</h2>
+        <p class="page-sub" id="save-route-sub">You went past the route. Add the new part to the saved course, or save a new route?</p>
+        <button class="btn btn-primary" id="btn-save-route-update" data-testid="save-route-extend" style="width:100%;margin-bottom:10px">Add the new part to this course</button>
+        <button class="btn btn-primary" id="btn-save-route-new" data-testid="save-route-new" style="width:100%;margin-bottom:10px">Save as a new route</button>
+        <button class="btn btn-secondary" id="btn-save-route-skip" data-testid="save-route-skip" style="width:100%">Keep the activity only</button>
+      </div>
+    </div>
+
+    <div class="sheet-back sheet-map-peek" id="sheet-save-free">
+      <div class="sheet" role="dialog" data-testid="save-free-sheet">
+        <h2>Save this route for future runs?</h2>
+        <p class="page-sub" id="save-free-distance" data-testid="save-free-distance">—</p>
+        <div class="field">
+          <label for="save-free-name">Name</label>
+          <input id="save-free-name" data-testid="save-free-name" type="text" autocomplete="off" />
+        </div>
+        <button class="btn btn-primary" id="btn-save-free-save" data-testid="save-free-save" style="width:100%;margin-bottom:10px">Save route</button>
+        <button class="btn btn-secondary" id="btn-save-free-skip" data-testid="save-free-skip" style="width:100%">Not now</button>
       </div>
     </div>
 

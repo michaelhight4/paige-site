@@ -22475,7 +22475,13 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const suffix = units3 === "km" ? "/km" : "/mi";
     return `${m}:${String(s2).padStart(2, "0")} ${suffix}`;
   }
-  function notificationText({ doneMeters, leftMeters, onCourse, elapsedSec, units: units3, activityType, lapLabel }) {
+  function notificationText({ doneMeters, leftMeters, onCourse, elapsedSec, units: units3, activityType, lapLabel, complete, completeKind, extraMeters: extraMeters2 }) {
+    if (complete) {
+      const kind = completeKind === "target" ? "Target" : "Course";
+      const extra = Math.max(0, Number(extraMeters2) || 0);
+      if (extra > 8) return `${kind} done \xB7 +${formatDistance(extra, units3)} extra`;
+      return `${kind} done`;
+    }
     const done = formatDistance(doneMeters || 0, units3);
     if (onCourse) {
       const left = Math.max(0, leftMeters || 0);
@@ -24841,6 +24847,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function nodePoint(graph, id) {
     return { lat: graph.lat[id], lon: graph.lon[id] };
   }
+  function inGraphBounds(graph, lat, lon, pad = 2e-3) {
+    const b2 = graph.bounds;
+    return lon >= b2[0] - pad && lat >= b2[1] - pad && lon <= b2[2] + pad && lat <= b2[3] + pad;
+  }
   function snapToNode(graph, lat, lon, maxMeters = DEFAULT_SNAP) {
     if (!graph) return null;
     const gx = Math.floor(lon / graph.cell.lon);
@@ -25315,6 +25325,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       coursePath: planned,
       target: target || null,
       targetAnnounced: false,
+      goalComplete: false,
+      goalAnnounced: false,
+      goalCompleteSec: null,
+      goalCompleteMeters: null,
       units: units3 || "mi",
       startedAt: (/* @__PURE__ */ new Date()).toISOString(),
       paused: false,
@@ -25370,7 +25384,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         sess.courseTraveledMeters = traveled2;
       }
       const prog = progressOnPlan(sess.target, traveled2);
-      return {
+      return stampGoal(sess, {
         onCourse: true,
         traveled: prog.traveled,
         remaining: prog.left,
@@ -25378,7 +25392,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         lapLabel: prog.label || "",
         hitTarget: prog.hitTarget,
         pastCourse: !!prog.pastCourse
-      };
+      });
     }
     const path = sessionCoursePath(sess);
     if (!path) {
@@ -25392,10 +25406,38 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const r = remainingAlongPath(path, last);
     const traveled = Math.max(sess.courseTraveledMeters || 0, r.traveled);
     sess.courseTraveledMeters = traveled;
-    return { onCourse: true, traveled, remaining: Math.max(0, r.total - traveled), total: r.total };
+    const remaining = Math.max(0, r.total - traveled);
+    const result = { onCourse: true, traveled, remaining, total: r.total, hitTarget: false, pastCourse: false };
+    return stampGoal(sess, result);
+  }
+  function stampGoal(sess, result) {
+    const complete = !!(result && result.onCourse && (result.hitTarget || result.remaining <= 0.5) && result.total > 0);
+    if (complete && sess && !sess.goalComplete) {
+      sess.goalComplete = true;
+      sess.goalCompleteSec = sess.elapsedSec || 0;
+      sess.goalCompleteMeters = sess.distanceMeters || 0;
+    }
+    const stamped = !!(sess && sess.goalComplete);
+    const extra = stamped ? Math.max(0, (sess.distanceMeters || 0) - (sess.goalCompleteMeters || 0)) : 0;
+    return {
+      ...result,
+      complete: stamped,
+      extraMeters: extra,
+      completeSec: stamped ? sess.goalCompleteSec : null,
+      gpsMeters: sess && sess.distanceMeters || 0
+    };
   }
   function liveNotification(sess) {
     const rem = courseRemaining(sess);
+    if (rem.complete) {
+      const kind = sess.target && sess.target.targetMeters > 0 ? "target" : "course";
+      return notificationText({
+        complete: true,
+        completeKind: kind,
+        extraMeters: rem.extraMeters,
+        units: sess.units
+      });
+    }
     return notificationText({
       doneMeters: rem.onCourse ? rem.traveled : sess.distanceMeters,
       leftMeters: rem.remaining,
@@ -25903,6 +25945,51 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       track,
       distanceMeters: done,
       elapsedSec: elapsed
+    };
+  }
+  function pastCourseRun(course, units3 = "mi") {
+    const total = pathLengthMeters(course.pins || course.path);
+    const extra = 0.3 * METERS_PER_MILE;
+    const courseSec = 40 * 60;
+    const extraSec = 6 * 60;
+    const elapsed = courseSec + extraSec;
+    const start = new Date(Date.now() - elapsed * 1e3);
+    const along = trackAlong(course.pins, total, courseSec);
+    const end = along[along.length - 1];
+    const extraPts = [];
+    for (let i = 1; i <= 6; i++) {
+      const m = extra * i / 6;
+      const p = destination(end.lat, end.lon, 25, m);
+      extraPts.push({
+        lat: p.lat,
+        lon: p.lon,
+        t: courseSec + Math.round(extraSec * i / 6),
+        at: null
+      });
+    }
+    const track = along.concat(extraPts);
+    track.forEach((p) => {
+      p.at = new Date(start.getTime() + p.t * 1e3).toISOString();
+    });
+    return {
+      type: "run",
+      courseId: course.id,
+      courseName: course.name,
+      coursePins: (course.pins || []).slice(),
+      coursePath: (course.path || course.pins || []).slice(),
+      units: units3,
+      startedAt: start.toISOString(),
+      paused: false,
+      pausedAcc: 0,
+      pauseStarted: null,
+      track,
+      distanceMeters: total + extra,
+      elapsedSec: elapsed,
+      goalComplete: true,
+      goalAnnounced: true,
+      goalCompleteSec: courseSec,
+      goalCompleteMeters: total,
+      courseTraveledMeters: total
     };
   }
 
@@ -31099,6 +31186,236 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return qr.createSvgTag(cell, margin);
   }
 
+  // www/js/route_save.js
+  var PAST_METERS = 100;
+  function plannedMeters(sess) {
+    if (!sess) return 0;
+    if (sess.target && sess.target.targetMeters > 0) return Number(sess.target.targetMeters) || 0;
+    if (sess.coursePath && sess.coursePath.length >= 2) return pathLengthMeters(sess.coursePath);
+    if (sess.coursePins && sess.coursePins.length >= 2) return pathLengthMeters(sess.coursePins);
+    return 0;
+  }
+  function activityDistanceMeters(sess) {
+    return Math.max(0, Number(sess && sess.distanceMeters) || 0);
+  }
+  function extraMeters(sess) {
+    const planned = plannedMeters(sess);
+    if (!(planned > 0)) return 0;
+    return Math.max(0, activityDistanceMeters(sess) - planned);
+  }
+  function percentOfPlan(totalMeters, planMeters) {
+    const plan = Number(planMeters) || 0;
+    const total = Math.max(0, Number(totalMeters) || 0);
+    if (!(plan > 0)) return 0;
+    return Math.round(total / plan * 100);
+  }
+  function shouldOfferOvershootSave(sess, threshold = PAST_METERS) {
+    return extraMeters(sess) > threshold;
+  }
+  function celebrationCopy(percent, { hasCourse = true } = {}) {
+    const n = Math.max(0, Math.round(Number(percent) || 0));
+    const noun = hasCourse ? "route" : "goal";
+    return `Congratulations, you did ${n}% of the ${noun}! Way to kill it!`;
+  }
+  function defaultRouteName(act, when = null) {
+    const t = when || (act && act.startedAt ? new Date(act.startedAt) : /* @__PURE__ */ new Date());
+    const date = t instanceof Date ? t : new Date(t);
+    const h2 = date.getHours();
+    const period = h2 < 5 || h2 >= 21 ? "Night" : h2 < 12 ? "Morning" : h2 < 17 ? "Afternoon" : "Evening";
+    const kind = act && act.type === "walk" ? "walk" : "run";
+    const monthDay = date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    return `${period} ${kind}, ${monthDay}`;
+  }
+  function headingRad(a, b2) {
+    const mid = (a.lat + b2.lat) / 2 * Math.PI / 180;
+    const dx = (b2.lon - a.lon) * Math.cos(mid);
+    const dy = b2.lat - a.lat;
+    return Math.atan2(dx, dy);
+  }
+  function turnDeg(a, b2, c) {
+    let d2 = headingRad(b2, c) - headingRad(a, b2);
+    while (d2 > Math.PI) d2 -= 2 * Math.PI;
+    while (d2 < -Math.PI) d2 += 2 * Math.PI;
+    return Math.abs(d2 * 180 / Math.PI);
+  }
+  function perpMeters(p, a, b2) {
+    const midLat = (a.lat + b2.lat) / 2 * Math.PI / 180;
+    const x2 = (lng) => lng * Math.cos(midLat);
+    const ax = x2(a.lon), ay = a.lat;
+    const bx = x2(b2.lon), by = b2.lat;
+    const px = x2(p.lon), py = p.lat;
+    const dx = bx - ax, dy = by - ay;
+    const len2 = dx * dx + dy * dy;
+    let t = len2 === 0 ? 0 : ((px - ax) * dx + (py - ay) * dy) / len2;
+    t = Math.max(0, Math.min(1, t));
+    const q2 = { lat: a.lat + (b2.lat - a.lat) * t, lon: a.lon + (b2.lon - a.lon) * t };
+    return haversineMeters(p, q2);
+  }
+  function douglasPeucker(points, epsilon) {
+    if (!points || points.length <= 2) return (points || []).slice();
+    let maxD = 0;
+    let idx = 0;
+    const a = points[0];
+    const b2 = points[points.length - 1];
+    for (let i = 1; i < points.length - 1; i++) {
+      const d2 = perpMeters(points[i], a, b2);
+      if (d2 > maxD) {
+        maxD = d2;
+        idx = i;
+      }
+    }
+    if (maxD > epsilon) {
+      const left = douglasPeucker(points.slice(0, idx + 1), epsilon);
+      const right = douglasPeucker(points.slice(idx), epsilon);
+      return left.slice(0, -1).concat(right);
+    }
+    return [a, b2];
+  }
+  function simplifyTrackToPins(track, { turnDeg: turn = 40, minSpacing = 25, dpMeters = 16, keyEvery = 350 } = {}) {
+    const raw = (track || []).map((p) => ({ lat: p.lat, lon: p.lon })).filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lon));
+    if (raw.length === 0) return [];
+    if (raw.length === 1) return [{ ...raw[0], role: "start" }];
+    const cleaned = [raw[0]];
+    for (let i = 1; i < raw.length; i++) {
+      if (haversineMeters(cleaned[cleaned.length - 1], raw[i]) >= 2) cleaned.push(raw[i]);
+    }
+    if (cleaned.length === 1) cleaned.push(raw[raw.length - 1]);
+    const keepIdx = /* @__PURE__ */ new Set([0, cleaned.length - 1]);
+    let since = 0;
+    let lastKept = 0;
+    for (let i = 1; i < cleaned.length - 1; i++) {
+      const gap = haversineMeters(cleaned[i], cleaned[i - 1]);
+      since += gap;
+      const angled = turnDeg(cleaned[i - 1], cleaned[i], cleaned[i + 1]) >= turn;
+      const spaced = haversineMeters(cleaned[i], cleaned[lastKept]) >= minSpacing;
+      if (angled && spaced || since >= keyEvery) {
+        keepIdx.add(i);
+        lastKept = i;
+        since = 0;
+      }
+    }
+    const marked = cleaned.filter((_2, i) => keepIdx.has(i));
+    const simplified = douglasPeucker(marked, dpMeters);
+    if (simplified.length < 2) {
+      return [
+        { ...cleaned[0], role: "start" },
+        { ...cleaned[cleaned.length - 1], role: "end" }
+      ];
+    }
+    return simplified.map((p, i) => ({
+      lat: p.lat,
+      lon: p.lon,
+      role: i === 0 ? "start" : i === simplified.length - 1 ? "end" : "via"
+    }));
+  }
+  function almostSame(a, b2, meters = 8) {
+    return a && b2 && haversineMeters(a, b2) < meters;
+  }
+  function snapPinsToGraph(pins, graph, maxSnap = 80) {
+    if (!graph || !pins || !pins.length) return { pins: (pins || []).map((p) => ({ ...p })), snapped: 0 };
+    const out = [];
+    let snapped = 0;
+    for (const p of pins) {
+      let next = { lat: p.lat, lon: p.lon, role: p.role };
+      if (inGraphBounds(graph, p.lat, p.lon)) {
+        const hit = snapToNode(graph, p.lat, p.lon, maxSnap);
+        if (hit) {
+          next = { lat: hit.lat, lon: hit.lon, role: p.role, snapped: true, nodeId: hit.id };
+          snapped++;
+        }
+      }
+      if (out.length && almostSame(out[out.length - 1], next, 6)) {
+        if (next.role === "end") out[out.length - 1].role = "end";
+        continue;
+      }
+      out.push(next);
+    }
+    if (out.length === 1 && pins.length >= 2) out.push({ lat: pins[pins.length - 1].lat, lon: pins[pins.length - 1].lon, role: "end" });
+    return { pins: out, snapped };
+  }
+  function routeFromTrack(track, graph = null, opts = {}) {
+    const raw = (track || []).map((p) => ({ lat: p.lat, lon: p.lon }));
+    const pins = simplifyTrackToPins(raw, opts);
+    const gpsMeters = pathLengthMeters(raw.length >= 2 ? raw : pins);
+    if (pins.length < 2) {
+      return { pins, path: pins.map((p) => ({ lat: p.lat, lon: p.lon })), meters: gpsMeters, usedGraph: false };
+    }
+    if (!graph) {
+      return { pins, path: pins.map((p) => ({ lat: p.lat, lon: p.lon })), meters: pathLengthMeters(pins), usedGraph: false };
+    }
+    const snapped = snapPinsToGraph(pins, graph, opts.maxSnap || 80);
+    if (snapped.snapped === 0 || snapped.pins.length < 2) {
+      return { pins, path: pins.map((p) => ({ lat: p.lat, lon: p.lon })), meters: pathLengthMeters(pins), usedGraph: false };
+    }
+    const routed = routeLegs(graph, snapped.pins, opts);
+    const routedMeters = routed.meters || 0;
+    if (gpsMeters > 0 && routedMeters > gpsMeters * 1.45) {
+      return { pins, path: pins.map((p) => ({ lat: p.lat, lon: p.lon })), meters: pathLengthMeters(pins), usedGraph: false };
+    }
+    return {
+      pins: snapped.pins,
+      path: routed.path && routed.path.length >= 2 ? routed.path : snapped.pins.map((p) => ({ lat: p.lat, lon: p.lon })),
+      meters: routedMeters || pathLengthMeters(snapped.pins),
+      usedGraph: true,
+      usedStraight: !!routed.usedStraight
+    };
+  }
+  function extraTrackAfter(track, afterMeters) {
+    const pts = track || [];
+    if (pts.length < 2) return pts.slice();
+    const cut = Math.max(0, Number(afterMeters) || 0);
+    if (!(cut > 0)) return pts.slice();
+    let acc = 0;
+    for (let i = 1; i < pts.length; i++) {
+      acc += haversineMeters(pts[i - 1], pts[i]);
+      if (acc >= cut) return pts.slice(i);
+    }
+    return pts.slice(-1);
+  }
+  function courseLine(course) {
+    if (course && course.path && course.path.length >= 2) return course.path.map((p) => ({ lat: p.lat, lon: p.lon }));
+    if (course && course.pins && course.pins.length >= 2) return course.pins.map((p) => ({ lat: p.lat, lon: p.lon }));
+    return [];
+  }
+  function extendCourseWithExtra(course, track, sess, graph = null) {
+    const line = courseLine(course);
+    const cutAt = sess && sess.goalCompleteMeters != null ? sess.goalCompleteMeters : plannedMeters(sess || { coursePath: line, coursePins: course && course.pins, target: sess && sess.target, distanceMeters: 0 });
+    const extra = extraTrackAfter(track, cutAt);
+    const built = routeFromTrack(extra, graph);
+    const origPins = (course && course.pins ? course.pins : []).map((p) => ({ ...p }));
+    if (origPins.length) origPins[origPins.length - 1] = { ...origPins[origPins.length - 1], role: origPins.length === 1 ? "start" : "via" };
+    const add = (built.pins || []).filter((p, i) => {
+      if (i === 0 && origPins.length && almostSame(origPins[origPins.length - 1], p, 15)) return false;
+      return true;
+    }).map((p, i, arr) => ({
+      lat: p.lat,
+      lon: p.lon,
+      role: i === arr.length - 1 ? "end" : "via"
+    }));
+    const pins = origPins.concat(add);
+    if (pins.length) pins[0].role = "start";
+    if (pins.length > 1) pins[pins.length - 1].role = "end";
+    const extraPath = (built.path || []).filter((p, i) => {
+      if (i === 0 && line.length && almostSame(line[line.length - 1], p, 12)) return false;
+      return true;
+    });
+    const path = line.concat(extraPath);
+    return {
+      pins,
+      path,
+      meters: pathLengthMeters(path),
+      extraMeters: pathLengthMeters(extraPath.length ? [line[line.length - 1] || extraPath[0], ...extraPath].filter(Boolean) : [])
+    };
+  }
+  function shouldOfferFreeRoute(sess, minMeters = PAST_METERS) {
+    if (!sess) return false;
+    if (sess.courseId || sess.coursePins && sess.coursePins.length >= 2 || sess.coursePath && sess.coursePath.length >= 2) return false;
+    if (sess.target && sess.target.targetMeters > 0) return false;
+    const track = sess.track || [];
+    if (track.length < 2) return false;
+    return activityDistanceMeters(sess) > minMeters;
+  }
+
   // www/js/app.js
   var state2 = loadState();
   var ui2 = {
@@ -31186,9 +31503,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const banner = $4("map-banner");
     if (banner) banner.hidden = true;
   }
-  function maybeAnnounceTarget(sess, rem) {
-    if (!sess || !sess.target || sess.targetAnnounced || !rem || !rem.hitTarget) return;
-    sess.targetAnnounced = true;
+  function playQuietCompleteAlert() {
     try {
       if (navigator.vibrate) navigator.vibrate([200, 80, 220]);
     } catch {
@@ -31210,29 +31525,73 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     } catch {
     }
   }
+  function maybeAnnounceComplete(sess, rem) {
+    if (!sess || !rem || !rem.complete || sess.goalAnnounced) return;
+    sess.goalAnnounced = true;
+    sess.targetAnnounced = true;
+    const banner = $4("track-complete-banner");
+    if (banner) {
+      const kind = sess.target && sess.target.targetMeters > 0 ? "Target complete" : "Course complete";
+      banner.textContent = `${kind} \xB7 ${formatDuration(rem.completeSec != null ? rem.completeSec : sess.elapsedSec)}`;
+      banner.hidden = false;
+      banner.classList.add("show");
+    }
+    playQuietCompleteAlert();
+  }
   function paintSessionHud(sess) {
     if (!sess) return;
     const rem = courseRemaining(sess);
     const onCourse = rem.onCourse;
     $4("track-kicker").textContent = `${sess.type === "run" ? "Run" : "Walk"}${sess.courseName ? " \xB7 " + sess.courseName : ""}`;
     const lap = $4("track-lap");
-    if (lap) {
-      if (rem.lapLabel) {
-        lap.hidden = false;
-        lap.textContent = rem.lapLabel;
-      } else {
-        lap.hidden = true;
-        lap.textContent = "";
+    const leftLbl = $4("track-left-lbl");
+    const etaLbl = $4("track-eta-lbl");
+    const banner = $4("track-complete-banner");
+    if (rem.complete) {
+      if (banner && sess.goalAnnounced) {
+        banner.hidden = false;
+        banner.classList.add("show");
+        if (!banner.textContent) {
+          const kind = sess.target && sess.target.targetMeters > 0 ? "Target complete" : "Course complete";
+          banner.textContent = `${kind} \xB7 ${formatDuration(rem.completeSec != null ? rem.completeSec : sess.elapsedSec)}`;
+        }
       }
+      if (lap) {
+        const kind = sess.target && sess.target.targetMeters > 0 ? "Target done" : "Course done";
+        lap.hidden = false;
+        lap.textContent = rem.extraMeters > 8 ? `${kind} \xB7 +${formatDistance(rem.extraMeters, sess.units)} extra` : kind;
+      }
+      $4("track-remain-wrap").style.display = "grid";
+      $4("track-left").textContent = `+${formatDistance(rem.extraMeters || 0, sess.units)}`;
+      if (leftLbl) leftLbl.textContent = "extra";
+      $4("track-eta").textContent = formatDuration(rem.completeSec != null ? rem.completeSec : 0);
+      if (etaLbl) etaLbl.textContent = sess.target && sess.target.targetMeters > 0 ? "goal time" : "course time";
+      $4("track-done").textContent = formatDistance(sess.distanceMeters, sess.units);
+    } else {
+      if (banner) {
+        banner.hidden = true;
+        banner.classList.remove("show");
+        banner.textContent = "";
+      }
+      if (lap) {
+        if (rem.lapLabel) {
+          lap.hidden = false;
+          lap.textContent = rem.lapLabel;
+        } else {
+          lap.hidden = true;
+          lap.textContent = "";
+        }
+      }
+      $4("track-remain-wrap").style.display = onCourse ? "grid" : "none";
+      if (leftLbl) leftLbl.textContent = "left";
+      if (etaLbl) etaLbl.textContent = "remaining";
+      if (onCourse) {
+        $4("track-left").textContent = formatDistance(rem.remaining, sess.units);
+        $4("track-eta").textContent = rem.remaining <= 8 ? "Done" : formatEta(etaSeconds(rem.remaining, activityMph(sess.type)));
+      }
+      $4("track-done").textContent = formatDistance(onCourse ? rem.traveled : sess.distanceMeters, sess.units);
     }
-    $4("track-remain-wrap").style.display = onCourse ? "grid" : "none";
-    if (onCourse) {
-      $4("track-left").textContent = formatDistance(rem.remaining, sess.units);
-      $4("track-eta").textContent = rem.remaining <= 8 ? "Done" : formatEta(etaSeconds(rem.remaining, activityMph(sess.type)));
-    }
-    maybeAnnounceTarget(sess, rem);
-    const done = onCourse ? rem.traveled : sess.distanceMeters;
-    $4("track-done").textContent = formatDistance(done, sess.units);
+    maybeAnnounceComplete(sess, rem);
     $4("track-time").textContent = formatDuration(sess.elapsedSec);
     $4("track-pace").textContent = formatPace(sess.distanceMeters, sess.elapsedSec, sess.units);
     $4("btn-pause").textContent = sess.paused ? "Resume" : "Pause";
@@ -31689,7 +32048,6 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       showScreen("today");
       return;
     }
-    const rem = courseRemaining(sess);
     const course = sess.courseId ? courseById2(sess.courseId) : null;
     const act = newActivity({
       type: sess.type,
@@ -31697,7 +32055,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       courseName: sess.courseName,
       startedAt: sess.startedAt,
       endedAt: (/* @__PURE__ */ new Date()).toISOString(),
-      distanceMeters: rem.onCourse ? rem.traveled : sess.distanceMeters,
+      distanceMeters: activityDistanceMeters(sess),
       elapsedSec: sess.elapsedSec,
       track: sess.track,
       source: "phone"
@@ -31739,15 +32097,28 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         }
       }
       persist();
+      if (shouldOfferOvershootSave(sess)) {
+        await ensureWalkGraph();
+        ui2.pendingSaveRoute = { act, course, sess, track: (sess.track || []).slice(), graph: getActiveGraph(), legResult };
+        const pct = percentOfPlan(act.distanceMeters, plannedMeters(sess));
+        $4("celebrate-copy").textContent = celebrationCopy(pct, { hasCourse: !!course });
+        showOfferMap(sess, course);
+        openSheet("sheet-celebrate");
+        return;
+      }
+      if (shouldOfferFreeRoute(sess)) {
+        await ensureWalkGraph();
+        const built = routeFromTrack(sess.track, getActiveGraph());
+        ui2.pendingFreeRoute = { act, course, built, legResult };
+        $4("save-free-distance").textContent = formatDistance(built.meters || act.distanceMeters, units2());
+        $4("save-free-name").value = defaultRouteName(act);
+        showFreeRouteMap(built);
+        openSheet("sheet-save-free");
+        return;
+      }
       clearOverlays();
       clearMarkers();
       showSummary(act, course, legResult);
-      if (sess.target && sess.target.mode === MODE_CONTINUE && (sess.distanceMeters || 0) > (sess.target.courseMeters || 0) + 20 && sess.track && sess.track.length >= 2) {
-        ui2.pendingSaveRoute = { act, course, track: sess.track.slice() };
-        $4("save-route-sub").textContent = "You went past the original course. Save the path you actually took as a new course, or update the original?";
-        $4("btn-save-route-update").hidden = !course;
-        openSheet("sheet-save-route");
-      }
       return;
     }
     clearOverlays();
@@ -31878,33 +32249,114 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     $4("course-name").value = "New course";
     openSheet("sheet-save-course");
   }
-  function trackToCoursePins(track) {
-    if (!track || track.length < 2) return [];
-    const pins = [{ lat: track[0].lat, lon: track[0].lon, role: "start" }];
-    const last = track[track.length - 1];
-    const step = Math.max(1, Math.floor(track.length / 6));
-    for (let i = step; i < track.length - 1; i += step) {
-      pins.push({ lat: track[i].lat, lon: track[i].lon, role: "via" });
+  function setOfferChrome(on) {
+    const dock = $4("today-dock");
+    if (dock) dock.hidden = !!on;
+    ui2.hideNav = !!on;
+    if ($4("tab-bar")) $4("tab-bar").style.display = on ? "none" : "grid";
+  }
+  function showOfferMap(sess, course) {
+    setOfferChrome(true);
+    showScreen("today");
+    clearOverlays();
+    clearMarkers();
+    const guide = sess && sess.coursePath && sess.coursePath.length >= 2 ? sess.coursePath : course && course.pins;
+    if (guide && guide.length) {
+      drawRoute(guide, { id: "course-line", color: "#7A8798", width: 4 });
+      if (course && course.pins) addCoursePins(course.pins);
     }
-    pins.push({ lat: last.lat, lon: last.lon, role: "end" });
-    return pins;
+    if (sess && sess.track && sess.track.length >= 2) {
+      drawRoute(sess.track, { id: "live-line", color: "#4EC3F7", width: 5 });
+    }
+    const fit = sess && sess.track && sess.track.length >= 2 ? sess.track : guide;
+    if (fit && fit.length) {
+      const pad = { top: 56, bottom: 420, left: 48, right: 48 };
+      whenReady(() => fitBounds(fit, pad));
+      fitBounds(fit, pad);
+    }
+  }
+  function showFreeRouteMap(built) {
+    setOfferChrome(true);
+    showScreen("today");
+    clearOverlays();
+    clearMarkers();
+    const line = built && built.path && built.path.length >= 2 ? built.path : built && built.pins || [];
+    if (line.length >= 2) drawRoute(line, { id: "live-line", color: "#4EC3F7", width: 5 });
+    if (built && built.pins) addCoursePins(built.pins);
+    if (line.length) {
+      const pad = { top: 56, bottom: 520, left: 48, right: 48 };
+      whenReady(() => fitBounds(line, pad));
+      fitBounds(line, pad);
+    }
+  }
+  function finishOfferAndSummarize() {
+    const pending = ui2.pendingSaveRoute || ui2.pendingFreeRoute;
+    const act = pending && pending.act;
+    const course = pending && pending.course;
+    const legResult = pending && pending.legResult;
+    ui2.pendingSaveRoute = null;
+    ui2.pendingFreeRoute = null;
+    closeSheet("sheet-celebrate");
+    closeSheet("sheet-save-route");
+    closeSheet("sheet-save-free");
+    setOfferChrome(false);
+    clearOverlays();
+    clearMarkers();
+    if (act) showSummary(act, course, legResult);
+    else {
+      showScreen("today");
+      setTab("today");
+    }
+  }
+  function openSaveRouteChoice() {
+    const pending = ui2.pendingSaveRoute;
+    closeSheet("sheet-celebrate");
+    if (!pending) {
+      finishOfferAndSummarize();
+      return;
+    }
+    const name = pending.course ? pending.course.name : "this course";
+    const updateBtn = $4("btn-save-route-update");
+    if (updateBtn) {
+      updateBtn.hidden = !pending.course;
+      updateBtn.textContent = pending.course ? `Add the new part to ${name}` : "Add the new part";
+    }
+    $4("btn-save-route-new").textContent = "Save as a new route";
+    $4("btn-save-route-skip").textContent = "Keep the activity only";
+    $4("save-route-sub").textContent = pending.course ? `You went past ${pending.course.name}. Add the new part to the saved route, or save a new one?` : "Save a new route from the path you just ran, or keep the activity only.";
+    openSheet("sheet-save-route");
   }
   function commitSavedRoute(how) {
     const pending = ui2.pendingSaveRoute;
     closeSheet("sheet-save-route");
-    ui2.pendingSaveRoute = null;
-    if (!pending || !pending.track || pending.track.length < 2) return;
-    const path = pending.track.map((p) => ({ lat: p.lat, lon: p.lon }));
-    const pins = trackToCoursePins(pending.track);
-    if (how === "update" && pending.course) {
-      pending.course.pins = pins;
-      pending.course.path = path;
+    if (!pending || how === "skip") {
+      finishOfferAndSummarize();
+      return;
+    }
+    const graph = pending.graph || getActiveGraph();
+    if (how === "extend" && pending.course) {
+      const ext = extendCourseWithExtra(pending.course, pending.track, pending.sess, graph);
+      pending.course.pins = ext.pins;
+      pending.course.path = ext.path;
       pending.course.updatedAt = (/* @__PURE__ */ new Date()).toISOString();
     } else {
-      const base = pending.course ? pending.course.name + " (extended)" : "New course";
-      state2.courses.push(newCourse({ name: base, pins, path }));
+      const built = pending.course ? extendCourseWithExtra(pending.course, pending.track, pending.sess, graph) : routeFromTrack(pending.track, graph);
+      const base = pending.course ? `${pending.course.name} (extended)` : defaultRouteName(pending.act);
+      state2.courses.push(newCourse({ name: base, pins: built.pins, path: built.path }));
     }
     persist();
+    finishOfferAndSummarize();
+  }
+  function commitFreeRoute(save) {
+    const pending = ui2.pendingFreeRoute;
+    closeSheet("sheet-save-free");
+    if (save && pending && pending.built && pending.built.pins && pending.built.pins.length >= 2) {
+      const typed = ($4("save-free-name") && $4("save-free-name").value || "").trim();
+      const name = typed || defaultRouteName(pending.act);
+      state2.courses.push(newCourse({ name, pins: pending.built.pins, path: pending.built.path }));
+      persist();
+    }
+    finishOfferAndSummarize();
   }
   function bind2() {
     document.querySelectorAll("#tab-bar .tab").forEach((b2) => {
@@ -31962,10 +32414,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     $4("btn-pause").addEventListener("click", pauseOrResume);
     $4("btn-stop").addEventListener("click", finishTracking);
     $4("lock-pause").addEventListener("click", pauseOrResume);
-    $4("lock-stop").addEventListener("click", () => {
-      finishTracking();
-      showScreen("today");
-    });
+    $4("lock-stop").addEventListener("click", finishTracking);
     $4("btn-start-free").addEventListener("click", () => {
       closeSheet("sheet-start");
       startTracking(ui2.startType, null);
@@ -31980,11 +32429,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       if (ui2.pendingStart) openSheet("sheet-start");
     });
     $4("btn-save-route-new").addEventListener("click", () => commitSavedRoute("new"));
-    $4("btn-save-route-update").addEventListener("click", () => commitSavedRoute("update"));
-    $4("btn-save-route-skip").addEventListener("click", () => {
-      closeSheet("sheet-save-route");
-      ui2.pendingSaveRoute = null;
-    });
+    $4("btn-save-route-update").addEventListener("click", () => commitSavedRoute("extend"));
+    $4("btn-save-route-skip").addEventListener("click", () => commitSavedRoute("skip"));
+    if ($4("btn-celebrate-next")) $4("btn-celebrate-next").addEventListener("click", openSaveRouteChoice);
+    if ($4("btn-save-free-save")) $4("btn-save-free-save").addEventListener("click", () => commitFreeRoute(true));
+    if ($4("btn-save-free-skip")) $4("btn-save-free-skip").addEventListener("click", () => commitFreeRoute(false));
     $4("cal-prev").addEventListener("click", () => {
       ui2.cal = new Date(ui2.cal.getFullYear(), ui2.cal.getMonth() - 1, 1);
       syncSelectedDayToMonth();
@@ -32534,7 +32983,15 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       closeSheet("sheet-course");
       closeSheet("sheet-target");
       closeSheet("sheet-save-route");
+      closeSheet("sheet-celebrate");
+      closeSheet("sheet-save-free");
       closeSheet("sheet-share");
+      if (typeof setOfferChrome === "function") setOfferChrome(false);
+      try {
+        clearOverlays();
+        clearMarkers();
+      } catch {
+      }
       closeSheet("sheet-share-import");
       closeSheet("sheet-group");
       closeSheet("sheet-group-invite");
@@ -32590,6 +33047,69 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           ui2.hideNav = true;
           showScreen("lock");
         }
+      } else if (name === "tracking-extra") {
+        const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+        if (!state2.courses[0]) state2.courses = [course];
+        const sess = pastCourseRun(course, units2());
+        stopSession();
+        const made = makeSession({ type: "run", course, units: units2() });
+        Object.assign(made, sess);
+        setTab("today");
+        showScreen("tracking");
+        paintSessionHud(made);
+        const fitPad = { top: 56, bottom: 420, left: 48, right: 48 };
+        whenReady(() => {
+          drawSessionOnMap(made);
+          fitBounds(made.track || course.pins, fitPad);
+        });
+        drawSessionOnMap(made);
+      } else if (name === "celebrate-overshoot" || name === "save-route-choice") {
+        const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+        if (!state2.courses[0]) state2.courses = [course];
+        const sess = pastCourseRun(course, units2());
+        const act = newActivity({
+          type: "run",
+          courseId: course.id,
+          courseName: course.name,
+          startedAt: sess.startedAt,
+          endedAt: (/* @__PURE__ */ new Date()).toISOString(),
+          distanceMeters: sess.distanceMeters,
+          elapsedSec: sess.elapsedSec,
+          track: sess.track,
+          source: "phone"
+        });
+        ui2.pendingSaveRoute = { act, course, sess, track: sess.track.slice(), graph: getActiveGraph() };
+        const pct = percentOfPlan(act.distanceMeters, plannedMeters(sess));
+        $4("celebrate-copy").textContent = celebrationCopy(pct, { hasCourse: true });
+        showOfferMap(sess, course);
+        if (name === "save-route-choice") openSaveRouteChoice();
+        else openSheet("sheet-celebrate");
+      } else if (name === "save-free-route") {
+        await ensureWalkGraph();
+        const origin = { lat: 43.7672, lon: 11.2543 };
+        const pts = [{ lat: origin.lat, lon: origin.lon }];
+        const steps = [[90, 180], [90, 180], [20, 140], [20, 140], [300, 200], [300, 160]];
+        let cur = { lat: origin.lat, lon: origin.lon };
+        for (const [bearing, meters] of steps) {
+          cur = destination(cur.lat, cur.lon, bearing, meters);
+          pts.push({ lat: cur.lat, lon: cur.lon });
+        }
+        const built = routeFromTrack(pts, getActiveGraph());
+        const started = new Date(2026, 10, 20, 8, 0, 0);
+        const act = newActivity({
+          type: "run",
+          startedAt: started.toISOString(),
+          endedAt: new Date(started.getTime() + 22 * 60 * 1e3).toISOString(),
+          distanceMeters: built.meters || 1e3,
+          elapsedSec: 22 * 60,
+          track: pts,
+          source: "phone"
+        });
+        ui2.pendingFreeRoute = { act, built };
+        $4("save-free-distance").textContent = formatDistance(built.meters || act.distanceMeters, units2());
+        $4("save-free-name").value = "Morning run, Nov 20";
+        showFreeRouteMap(built);
+        openSheet("sheet-save-free");
       } else if (name === "builder" || name === "routing-builder" || name === "routing-straight" || name === "routing-loop") {
         await ensureWalkGraph();
         ui2.followPaths = name !== "routing-straight";
@@ -32668,6 +33188,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           showSummary(act, c, result);
         }
       } else if (name === "course-detail") {
+        if (!state2.courses[0]) {
+          seedDemo(state2);
+          persist();
+        }
+        setTab("courses");
         if (state2.courses[0]) openCourseActions(state2.courses[0]);
       } else if (name === "target-setup") {
         const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
@@ -32762,6 +33287,16 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         ui2.pendingShare = dec;
         setTab("today");
         showScreen("today");
+        const pts = course.path && course.path.length >= 2 ? course.path : course.pins;
+        clearOverlays();
+        clearMarkers();
+        if (pts && pts.length >= 2) {
+          drawRoute(pts, { id: "course-line", color: "#4EC3F7", width: 5 });
+          addCoursePins(course.pins || pts);
+          const pad = { top: 56, bottom: 420, left: 48, right: 48 };
+          whenReady(() => fitBounds(pts, pad));
+          fitBounds(pts, pad);
+        }
         openImportSheet(dec);
       } else if (name === "share-plan") {
         if (!(state2.planLibrary || []).length) {

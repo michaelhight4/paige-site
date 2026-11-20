@@ -17,6 +17,7 @@ import {
   escapeHtml,
   METERS_PER_MILE,
   pointAlongPath,
+  destination,
 } from "./util.js";
 import { loadState, saveState, resetState, newCourse, newActivity, newPlan } from "./storage.js";
 import * as health from "./health.js";
@@ -24,7 +25,7 @@ import { PLANS_HOOK_COPY } from "./plans_hook.js";
 import * as map from "./map.js";
 import * as track from "./track.js";
 import * as splits from "./splits.js";
-import { seedDemo, midCourseWalk, arnoLoopPins } from "./demo.js";
+import { seedDemo, midCourseWalk, pastCourseRun, arnoLoopPins } from "./demo.js";
 import { purchaseSupport, SUPPORT_PRODUCT_ID } from "./iap.js";
 import { isWeb, applyPlatformVisibility, registerServiceWorker, listenForInstallPrompt, canPromptInstall, promptInstall, WEB_APP_NOTE, WEB_PAY_NOTE } from "./platform.js";
 import { renderCalendarView } from "./calendar_view.js";
@@ -69,6 +70,17 @@ import {
   MODE_CONTINUE,
   progressOnPlan,
 } from "./target_distance.js";
+import {
+  activityDistanceMeters,
+  plannedMeters,
+  percentOfPlan,
+  shouldOfferOvershootSave,
+  shouldOfferFreeRoute,
+  celebrationCopy,
+  defaultRouteName,
+  routeFromTrack,
+  extendCourseWithExtra,
+} from "./route_save.js";
 
 let state = loadState();
 const PR_BADGES = {
@@ -183,9 +195,7 @@ function renderToday() {
   if (banner) banner.hidden = true;
 }
 
-function maybeAnnounceTarget(sess, rem) {
-  if (!sess || !sess.target || sess.targetAnnounced || !rem || !rem.hitTarget) return;
-  sess.targetAnnounced = true;
+function playQuietCompleteAlert() {
   try { if (navigator.vibrate) navigator.vibrate([200, 80, 220]); } catch { /* ignore */ }
   try {
     const AC = window.AudioContext || window.webkitAudioContext;
@@ -204,29 +214,74 @@ function maybeAnnounceTarget(sess, rem) {
   } catch { /* ignore */ }
 }
 
+function maybeAnnounceComplete(sess, rem) {
+  if (!sess || !rem || !rem.complete || sess.goalAnnounced) return;
+  sess.goalAnnounced = true;
+  sess.targetAnnounced = true;
+  const banner = $("track-complete-banner");
+  if (banner) {
+    const kind = sess.target && sess.target.targetMeters > 0 ? "Target complete" : "Course complete";
+    banner.textContent = `${kind} · ${formatDuration(rem.completeSec != null ? rem.completeSec : sess.elapsedSec)}`;
+    banner.hidden = false;
+    banner.classList.add("show");
+  }
+  playQuietCompleteAlert();
+}
+
 function paintSessionHud(sess) {
   if (!sess) return;
   const rem = track.courseRemaining(sess);
   const onCourse = rem.onCourse;
   $("track-kicker").textContent = `${sess.type === "run" ? "Run" : "Walk"}${sess.courseName ? " · " + sess.courseName : ""}`;
   const lap = $("track-lap");
-  if (lap) {
-    if (rem.lapLabel) {
-      lap.hidden = false;
-      lap.textContent = rem.lapLabel;
-    } else {
-      lap.hidden = true;
-      lap.textContent = "";
+  const leftLbl = $("track-left-lbl");
+  const etaLbl = $("track-eta-lbl");
+  const banner = $("track-complete-banner");
+  if (rem.complete) {
+    if (banner && sess.goalAnnounced) {
+      banner.hidden = false;
+      banner.classList.add("show");
+      if (!banner.textContent) {
+        const kind = sess.target && sess.target.targetMeters > 0 ? "Target complete" : "Course complete";
+        banner.textContent = `${kind} · ${formatDuration(rem.completeSec != null ? rem.completeSec : sess.elapsedSec)}`;
+      }
     }
+    if (lap) {
+      const kind = sess.target && sess.target.targetMeters > 0 ? "Target done" : "Course done";
+      lap.hidden = false;
+      lap.textContent = rem.extraMeters > 8 ? `${kind} · +${formatDistance(rem.extraMeters, sess.units)} extra` : kind;
+    }
+    $("track-remain-wrap").style.display = "grid";
+    $("track-left").textContent = `+${formatDistance(rem.extraMeters || 0, sess.units)}`;
+    if (leftLbl) leftLbl.textContent = "extra";
+    $("track-eta").textContent = formatDuration(rem.completeSec != null ? rem.completeSec : 0);
+    if (etaLbl) etaLbl.textContent = sess.target && sess.target.targetMeters > 0 ? "goal time" : "course time";
+    $("track-done").textContent = formatDistance(sess.distanceMeters, sess.units);
+  } else {
+    if (banner) {
+      banner.hidden = true;
+      banner.classList.remove("show");
+      banner.textContent = "";
+    }
+    if (lap) {
+      if (rem.lapLabel) {
+        lap.hidden = false;
+        lap.textContent = rem.lapLabel;
+      } else {
+        lap.hidden = true;
+        lap.textContent = "";
+      }
+    }
+    $("track-remain-wrap").style.display = onCourse ? "grid" : "none";
+    if (leftLbl) leftLbl.textContent = "left";
+    if (etaLbl) etaLbl.textContent = "remaining";
+    if (onCourse) {
+      $("track-left").textContent = formatDistance(rem.remaining, sess.units);
+      $("track-eta").textContent = rem.remaining <= 8 ? "Done" : formatEta(etaSeconds(rem.remaining, activityMph(sess.type)));
+    }
+    $("track-done").textContent = formatDistance(onCourse ? rem.traveled : sess.distanceMeters, sess.units);
   }
-  $("track-remain-wrap").style.display = onCourse ? "grid" : "none";
-  if (onCourse) {
-    $("track-left").textContent = formatDistance(rem.remaining, sess.units);
-    $("track-eta").textContent = rem.remaining <= 8 ? "Done" : formatEta(etaSeconds(rem.remaining, activityMph(sess.type)));
-  }
-  maybeAnnounceTarget(sess, rem);
-  const done = onCourse ? rem.traveled : sess.distanceMeters;
-  $("track-done").textContent = formatDistance(done, sess.units);
+  maybeAnnounceComplete(sess, rem);
   $("track-time").textContent = formatDuration(sess.elapsedSec);
   $("track-pace").textContent = formatPace(sess.distanceMeters, sess.elapsedSec, sess.units);
   $("btn-pause").textContent = sess.paused ? "Resume" : "Pause";
@@ -727,7 +782,6 @@ async function finishTracking() {
     showScreen("today");
     return;
   }
-  const rem = track.courseRemaining(sess);
   const course = sess.courseId ? courseById(sess.courseId) : null;
   const act = newActivity({
     type: sess.type,
@@ -735,7 +789,7 @@ async function finishTracking() {
     courseName: sess.courseName,
     startedAt: sess.startedAt,
     endedAt: new Date().toISOString(),
-    distanceMeters: rem.onCourse ? rem.traveled : sess.distanceMeters,
+    distanceMeters: activityDistanceMeters(sess),
     elapsedSec: sess.elapsedSec,
     track: sess.track,
     source: "phone",
@@ -780,15 +834,28 @@ async function finishTracking() {
       }
     }
     persist();
+    if (shouldOfferOvershootSave(sess)) {
+      await ensureWalkGraph();
+      ui.pendingSaveRoute = { act, course, sess, track: (sess.track || []).slice(), graph: getActiveGraph(), legResult };
+      const pct = percentOfPlan(act.distanceMeters, plannedMeters(sess));
+      $("celebrate-copy").textContent = celebrationCopy(pct, { hasCourse: !!course });
+      showOfferMap(sess, course);
+      openSheet("sheet-celebrate");
+      return;
+    }
+    if (shouldOfferFreeRoute(sess)) {
+      await ensureWalkGraph();
+      const built = routeFromTrack(sess.track, getActiveGraph());
+      ui.pendingFreeRoute = { act, course, built, legResult };
+      $("save-free-distance").textContent = formatDistance(built.meters || act.distanceMeters, units());
+      $("save-free-name").value = defaultRouteName(act);
+      showFreeRouteMap(built);
+      openSheet("sheet-save-free");
+      return;
+    }
     map.clearOverlays();
     map.clearMarkers();
     showSummary(act, course, legResult);
-    if (sess.target && sess.target.mode === MODE_CONTINUE && (sess.distanceMeters || 0) > (sess.target.courseMeters || 0) + 20 && sess.track && sess.track.length >= 2) {
-      ui.pendingSaveRoute = { act, course, track: sess.track.slice() };
-      $("save-route-sub").textContent = "You went past the original course. Save the path you actually took as a new course, or update the original?";
-      $("btn-save-route-update").hidden = !course;
-      openSheet("sheet-save-route");
-    }
     return;
   }
   map.clearOverlays();
@@ -941,22 +1008,124 @@ function trackToCoursePins(track) {
   return pins;
 }
 
+function setOfferChrome(on) {
+  const dock = $("today-dock");
+  if (dock) dock.hidden = !!on;
+  ui.hideNav = !!on;
+  if ($("tab-bar")) $("tab-bar").style.display = on ? "none" : "grid";
+}
+
+function showOfferMap(sess, course) {
+  setOfferChrome(true);
+  showScreen("today");
+  map.clearOverlays();
+  map.clearMarkers();
+  const guide = (sess && sess.coursePath && sess.coursePath.length >= 2) ? sess.coursePath : (course && course.pins);
+  if (guide && guide.length) {
+    map.drawRoute(guide, { id: "course-line", color: "#7A8798", width: 4 });
+    if (course && course.pins) addCoursePins(course.pins);
+  }
+  if (sess && sess.track && sess.track.length >= 2) {
+    map.drawRoute(sess.track, { id: "live-line", color: "#4EC3F7", width: 5 });
+  }
+  const fit = (sess && sess.track && sess.track.length >= 2) ? sess.track : guide;
+  if (fit && fit.length) {
+    const pad = { top: 56, bottom: 420, left: 48, right: 48 };
+    map.whenReady(() => map.fitBounds(fit, pad));
+    map.fitBounds(fit, pad);
+  }
+}
+
+function showFreeRouteMap(built) {
+  setOfferChrome(true);
+  showScreen("today");
+  map.clearOverlays();
+  map.clearMarkers();
+  const line = (built && built.path && built.path.length >= 2) ? built.path : (built && built.pins) || [];
+  if (line.length >= 2) map.drawRoute(line, { id: "live-line", color: "#4EC3F7", width: 5 });
+  if (built && built.pins) addCoursePins(built.pins);
+  if (line.length) {
+    const pad = { top: 56, bottom: 520, left: 48, right: 48 };
+    map.whenReady(() => map.fitBounds(line, pad));
+    map.fitBounds(line, pad);
+  }
+}
+
+function finishOfferAndSummarize() {
+  const pending = ui.pendingSaveRoute || ui.pendingFreeRoute;
+  const act = pending && pending.act;
+  const course = pending && pending.course;
+  const legResult = pending && pending.legResult;
+  ui.pendingSaveRoute = null;
+  ui.pendingFreeRoute = null;
+  closeSheet("sheet-celebrate");
+  closeSheet("sheet-save-route");
+  closeSheet("sheet-save-free");
+  setOfferChrome(false);
+  map.clearOverlays();
+  map.clearMarkers();
+  if (act) showSummary(act, course, legResult);
+  else {
+    showScreen("today");
+    setTab("today");
+  }
+}
+
+function openSaveRouteChoice() {
+  const pending = ui.pendingSaveRoute;
+  closeSheet("sheet-celebrate");
+  if (!pending) {
+    finishOfferAndSummarize();
+    return;
+  }
+  const name = pending.course ? pending.course.name : "this course";
+  const updateBtn = $("btn-save-route-update");
+  if (updateBtn) {
+    updateBtn.hidden = !pending.course;
+    updateBtn.textContent = pending.course ? `Add the new part to ${name}` : "Add the new part";
+  }
+  $("btn-save-route-new").textContent = "Save as a new route";
+  $("btn-save-route-skip").textContent = "Keep the activity only";
+  $("save-route-sub").textContent = pending.course
+    ? `You went past ${pending.course.name}. Add the new part to the saved route, or save a new one?`
+    : "Save a new route from the path you just ran, or keep the activity only.";
+  openSheet("sheet-save-route");
+}
+
 function commitSavedRoute(how) {
   const pending = ui.pendingSaveRoute;
   closeSheet("sheet-save-route");
-  ui.pendingSaveRoute = null;
-  if (!pending || !pending.track || pending.track.length < 2) return;
-  const path = pending.track.map((p) => ({ lat: p.lat, lon: p.lon }));
-  const pins = trackToCoursePins(pending.track);
-  if (how === "update" && pending.course) {
-    pending.course.pins = pins;
-    pending.course.path = path;
+  if (!pending || how === "skip") {
+    finishOfferAndSummarize();
+    return;
+  }
+  const graph = pending.graph || getActiveGraph();
+  if (how === "extend" && pending.course) {
+    const ext = extendCourseWithExtra(pending.course, pending.track, pending.sess, graph);
+    pending.course.pins = ext.pins;
+    pending.course.path = ext.path;
     pending.course.updatedAt = new Date().toISOString();
   } else {
-    const base = pending.course ? pending.course.name + " (extended)" : "New course";
-    state.courses.push(newCourse({ name: base, pins, path }));
+    const built = pending.course
+      ? extendCourseWithExtra(pending.course, pending.track, pending.sess, graph)
+      : routeFromTrack(pending.track, graph);
+    const base = pending.course ? `${pending.course.name} (extended)` : defaultRouteName(pending.act);
+    state.courses.push(newCourse({ name: base, pins: built.pins, path: built.path }));
   }
   persist();
+  finishOfferAndSummarize();
+}
+
+function commitFreeRoute(save) {
+  const pending = ui.pendingFreeRoute;
+  closeSheet("sheet-save-free");
+  if (save && pending && pending.built && pending.built.pins && pending.built.pins.length >= 2) {
+    const typed = (($("save-free-name") && $("save-free-name").value) || "").trim();
+    const name = typed || defaultRouteName(pending.act);
+    state.courses.push(newCourse({ name, pins: pending.built.pins, path: pending.built.path }));
+    persist();
+  }
+  finishOfferAndSummarize();
 }
 
 /* ——— Bind ——— */
@@ -1006,7 +1175,7 @@ function bind() {
   $("btn-pause").addEventListener("click", pauseOrResume);
   $("btn-stop").addEventListener("click", finishTracking);
   $("lock-pause").addEventListener("click", pauseOrResume);
-  $("lock-stop").addEventListener("click", () => { finishTracking(); showScreen("today"); });
+  $("lock-stop").addEventListener("click", finishTracking);
   $("btn-start-free").addEventListener("click", () => { closeSheet("sheet-start"); startTracking(ui.startType, null); });
   $("btn-start-cancel").addEventListener("click", () => closeSheet("sheet-start"));
   $("target-distance").addEventListener("input", refreshTargetOptions);
@@ -1018,8 +1187,11 @@ function bind() {
     if (ui.pendingStart) openSheet("sheet-start");
   });
   $("btn-save-route-new").addEventListener("click", () => commitSavedRoute("new"));
-  $("btn-save-route-update").addEventListener("click", () => commitSavedRoute("update"));
-  $("btn-save-route-skip").addEventListener("click", () => { closeSheet("sheet-save-route"); ui.pendingSaveRoute = null; });
+  $("btn-save-route-update").addEventListener("click", () => commitSavedRoute("extend"));
+  $("btn-save-route-skip").addEventListener("click", () => commitSavedRoute("skip"));
+  if ($("btn-celebrate-next")) $("btn-celebrate-next").addEventListener("click", openSaveRouteChoice);
+  if ($("btn-save-free-save")) $("btn-save-free-save").addEventListener("click", () => commitFreeRoute(true));
+  if ($("btn-save-free-skip")) $("btn-save-free-skip").addEventListener("click", () => commitFreeRoute(false));
   $("cal-prev").addEventListener("click", () => {
     ui.cal = new Date(ui.cal.getFullYear(), ui.cal.getMonth() - 1, 1);
     syncSelectedDayToMonth();
@@ -1580,7 +1752,11 @@ window.HeldpathTest = {
     closeSheet("sheet-course");
     closeSheet("sheet-target");
     closeSheet("sheet-save-route");
+    closeSheet("sheet-celebrate");
+    closeSheet("sheet-save-free");
     closeSheet("sheet-share");
+    if (typeof setOfferChrome === "function") setOfferChrome(false);
+    try { map.clearOverlays(); map.clearMarkers(); } catch { /* map may not be ready */ }
     closeSheet("sheet-share-import");
     closeSheet("sheet-group");
     closeSheet("sheet-group-invite");
@@ -1637,6 +1813,66 @@ window.HeldpathTest = {
         ui.hideNav = true;
         showScreen("lock");
       }
+    } else if (name === "tracking-extra") {
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      if (!state.courses[0]) state.courses = [course];
+      const sess = pastCourseRun(course, units());
+      track.stopSession();
+      const made = track.makeSession({ type: "run", course, units: units() });
+      Object.assign(made, sess);
+      setTab("today");
+      showScreen("tracking");
+      paintSessionHud(made);
+      const fitPad = { top: 56, bottom: 420, left: 48, right: 48 };
+      map.whenReady(() => { drawSessionOnMap(made); map.fitBounds(made.track || course.pins, fitPad); });
+      drawSessionOnMap(made);
+    } else if (name === "celebrate-overshoot" || name === "save-route-choice") {
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      if (!state.courses[0]) state.courses = [course];
+      const sess = pastCourseRun(course, units());
+      const act = newActivity({
+        type: "run",
+        courseId: course.id,
+        courseName: course.name,
+        startedAt: sess.startedAt,
+        endedAt: new Date().toISOString(),
+        distanceMeters: sess.distanceMeters,
+        elapsedSec: sess.elapsedSec,
+        track: sess.track,
+        source: "phone",
+      });
+      ui.pendingSaveRoute = { act, course, sess, track: sess.track.slice(), graph: getActiveGraph() };
+      const pct = percentOfPlan(act.distanceMeters, plannedMeters(sess));
+      $("celebrate-copy").textContent = celebrationCopy(pct, { hasCourse: true });
+      showOfferMap(sess, course);
+      if (name === "save-route-choice") openSaveRouteChoice();
+      else openSheet("sheet-celebrate");
+    } else if (name === "save-free-route") {
+      await ensureWalkGraph();
+      const origin = { lat: 43.7672, lon: 11.2543 };
+      const pts = [{ lat: origin.lat, lon: origin.lon }];
+      const steps = [[90, 180], [90, 180], [20, 140], [20, 140], [300, 200], [300, 160]];
+      let cur = { lat: origin.lat, lon: origin.lon };
+      for (const [bearing, meters] of steps) {
+        cur = destination(cur.lat, cur.lon, bearing, meters);
+        pts.push({ lat: cur.lat, lon: cur.lon });
+      }
+      const built = routeFromTrack(pts, getActiveGraph());
+      const started = new Date(2026, 10, 20, 8, 0, 0);
+      const act = newActivity({
+        type: "run",
+        startedAt: started.toISOString(),
+        endedAt: new Date(started.getTime() + 22 * 60 * 1000).toISOString(),
+        distanceMeters: built.meters || 1000,
+        elapsedSec: 22 * 60,
+        track: pts,
+        source: "phone",
+      });
+      ui.pendingFreeRoute = { act, built };
+      $("save-free-distance").textContent = formatDistance(built.meters || act.distanceMeters, units());
+      $("save-free-name").value = "Morning run, Nov 20";
+      showFreeRouteMap(built);
+      openSheet("sheet-save-free");
     } else if (name === "builder" || name === "routing-builder" || name === "routing-straight" || name === "routing-loop") {
       await ensureWalkGraph();
       ui.followPaths = name !== "routing-straight";
@@ -1699,6 +1935,11 @@ window.HeldpathTest = {
       }
     }
     else if (name === "course-detail") {
+      if (!state.courses[0]) {
+        seedDemo(state);
+        persist();
+      }
+      setTab("courses");
       if (state.courses[0]) openCourseActions(state.courses[0]);
     }
     else if (name === "target-setup") {
@@ -1801,6 +2042,16 @@ window.HeldpathTest = {
       ui.pendingShare = dec;
       setTab("today");
       showScreen("today");
+      const pts = (course.path && course.path.length >= 2) ? course.path : course.pins;
+      map.clearOverlays();
+      map.clearMarkers();
+      if (pts && pts.length >= 2) {
+        map.drawRoute(pts, { id: "course-line", color: "#4EC3F7", width: 5 });
+        addCoursePins(course.pins || pts);
+        const pad = { top: 56, bottom: 420, left: 48, right: 48 };
+        map.whenReady(() => map.fitBounds(pts, pad));
+        map.fitBounds(pts, pad);
+      }
       openImportSheet(dec);
     }
     else if (name === "share-plan") {
