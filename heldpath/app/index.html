@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="css/art.css" />
   <link rel="stylesheet" href="css/stats.css" />
   <link rel="stylesheet" href="css/plans.css" />
+  <link rel="stylesheet" href="css/stretches.css" />
+  <link rel="stylesheet" href="css/map_download.css" />
 </head>
 <body>
   <div id="app">
@@ -153,9 +155,9 @@
         </div>
 
         <div class="card">
-          <h2>Offline map</h2>
+          <h2>Offline maps</h2>
           <p class="tiny" id="map-pack-status" style="margin-bottom:12px"></p>
-          <button class="btn btn-secondary" id="btn-map-pack" style="width:100%">Manage map on this phone</button>
+          <button class="btn btn-secondary" id="btn-map-pack" style="width:100%" data-testid="open-map-areas">Manage maps on this phone</button>
         </div>
 
         <div class="card native-only" id="health-card">
@@ -170,6 +172,13 @@
           <p class="tiny" id="health-note" style="margin-top:12px"></p>
           <button class="btn btn-secondary" id="btn-health-import" data-testid="health-import" style="width:100%;margin-top:12px">Import watch workouts</button>
           <p class="tiny" id="health-import-status" style="margin-top:10px"></p>
+        </div>
+
+
+        <div class="card">
+          <h2>Stretches <span class="free-tag">Free</span></h2>
+          <p class="tiny">Illustrated stretches and a random workout. Free, and it works offline.</p>
+          <button class="btn btn-secondary" id="btn-stretches-open" style="width:100%;margin-top:12px" data-testid="open-stretches">Open Stretches</button>
         </div>
 
         <div class="card">
@@ -340,6 +349,83 @@
       </div>
     </section>
 
+
+
+    <!-- Offline map areas -->
+    <section class="screen" id="screen-map-areas" data-screen="map-areas">
+      <div class="scroll">
+        <div class="top-bar">
+          <button class="icon-btn" id="map-areas-back" aria-label="Back">‹</button>
+          <h1>Offline maps</h1>
+        </div>
+        <p class="page-sub" id="map-areas-used">Downloaded tiles are stored only on this device.</p>
+        <button class="btn btn-primary" id="btn-map-download-area" style="width:100%;margin-bottom:16px" data-testid="download-this-area">Download this area</button>
+        <div id="map-areas-list" data-testid="map-areas-list"></div>
+      </div>
+    </section>
+
+    <!-- Stretches hub -->
+    <section class="screen" id="screen-stretches" data-screen="stretches">
+      <div class="scroll">
+        <div class="top-bar">
+          <button class="icon-btn" id="stretches-back" aria-label="Back">‹</button>
+          <h1>Stretches <span class="free-tag">Free</span></h1>
+        </div>
+        <p class="page-sub">Browse by muscle group, or start a random workout that picks two stretches from each group.</p>
+        <p class="stretch-disclaimer" id="stretches-disclaimer" data-testid="stretches-disclaimer"></p>
+        <div class="stretch-actions">
+          <button class="btn btn-primary" id="btn-stretch-random" style="width:100%" data-testid="stretch-random">Random workout</button>
+        </div>
+        <h2 class="section-label" style="font-size:16px;margin-bottom:8px">Browse by muscle group</h2>
+        <div class="stretch-group-list" id="stretches-groups" data-testid="stretches-groups"></div>
+        <button class="btn btn-secondary" id="btn-stretch-credits" style="width:100%;margin-bottom:16px" data-testid="stretch-credits">Sources and credits</button>
+      </div>
+    </section>
+
+    <!-- Stretch card viewer (group browse or random workout) -->
+    <section class="screen" id="screen-stretch-card" data-screen="stretch-card">
+      <div class="stretch-card-shell">
+        <div class="top-bar">
+          <button class="icon-btn" id="stretch-card-back" aria-label="Back">‹</button>
+          <h1 id="stretch-card-title">Stretches</h1>
+          <div class="stretch-counter" id="stretch-card-counter" data-testid="stretch-counter">1 of 1</div>
+        </div>
+        <div class="stretch-figure" id="stretch-figure" data-testid="stretch-figure">
+          <img id="stretch-card-image" alt="" />
+        </div>
+        <div class="stretch-card-body">
+          <h2 class="stretch-card-name" id="stretch-card-name" data-testid="stretch-name"></h2>
+          <p class="stretch-card-meta" id="stretch-card-meta"></p>
+          <div class="stretch-chips">
+            <span class="stretch-chip" id="stretch-chip-hold" data-testid="stretch-hold"></span>
+            <span class="stretch-chip" id="stretch-chip-reps" data-testid="stretch-reps"></span>
+          </div>
+          <p class="stretch-card-desc" id="stretch-card-desc" data-testid="stretch-desc"></p>
+          <p class="stretch-card-figure" id="stretch-card-figure"></p>
+          <p class="stretch-card-note">General guidance, not medical advice. Stop if you feel pain.</p>
+        </div>
+        <div class="stretch-nav">
+          <div class="stretch-dots" id="stretch-dots" aria-hidden="true"></div>
+          <div class="stretch-nav-btns">
+            <button class="btn btn-secondary" id="btn-stretch-prev" data-testid="stretch-prev">Previous</button>
+            <button class="btn btn-secondary" id="btn-stretch-next" data-testid="stretch-next">Next</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stretches credits -->
+    <section class="screen" id="screen-stretch-credits" data-screen="stretch-credits">
+      <div class="scroll stretch-credits">
+        <div class="top-bar">
+          <button class="icon-btn" id="stretch-credits-back" aria-label="Back">‹</button>
+          <h1>Sources and credits</h1>
+        </div>
+        <p id="stretch-credits-body" data-testid="stretch-credits-body"></p>
+        <p class="stretch-disclaimer" id="stretch-credits-disclaimer" data-testid="stretch-credits-disclaimer"></p>
+      </div>
+    </section>
+
     <!-- Lock-screen notification preview (for shots / overlap) -->
     <section class="screen" id="screen-lock" data-screen="lock">
       <div class="lock-bg">
@@ -365,8 +451,9 @@
     <div class="sheet-back" id="sheet-map">
       <div class="sheet" role="dialog" aria-labelledby="map-sheet-title">
         <h2 id="map-sheet-title">Keep a map on this phone</h2>
-        <p class="page-sub">Download a map once and Heldpath works offline, with no account and no tracking. A Florence starter pack is already in the app and can be saved on your phone now. More areas can be added later.</p>
-        <button class="btn btn-primary" id="btn-save-pack" style="width:100%;margin-bottom:12px">Save map to this phone</button>
+        <p class="page-sub">A world overview and a Florence street map are already in the app, so zooming out never goes black. Save the Florence pack on this phone, or download another area for offline use. No account and no tracking.</p>
+        <button class="btn btn-primary" id="btn-save-pack" style="width:100%;margin-bottom:12px">Save Florence map</button>
+        <button class="btn btn-secondary" id="btn-map-download-from-sheet" style="width:100%;margin-bottom:12px">Download this area</button>
         <button class="btn btn-secondary" id="btn-map-later" style="width:100%">Not now</button>
       </div>
     </div>
@@ -438,6 +525,36 @@
         <p class="tiny" style="margin-bottom:16px">You can read the full policy at <a href="https://paigegames.net/heldpath/privacy" target="_blank" rel="noopener">paigegames.net/heldpath/privacy</a>. The next screen is the system permission prompt.</p>
         <button class="btn btn-primary" id="btn-loc-continue" style="width:100%;margin-bottom:12px">Continue</button>
         <button class="btn btn-secondary" id="btn-loc-cancel" style="width:100%">Not now</button>
+      </div>
+    </div>
+
+
+    <!-- Offline area crop overlay (sits over the map) -->
+    <div id="map-crop-root" hidden data-testid="map-crop">
+      <div class="map-crop-top">
+        <button class="icon-btn" id="btn-map-crop-cancel" aria-label="Cancel">‹</button>
+        <h1>Download this area</h1>
+      </div>
+      <div id="map-crop-stage">
+        <div id="map-crop-frame" data-testid="map-crop-frame">
+          <div class="map-crop-handle n" data-handle="n"></div>
+          <div class="map-crop-handle s" data-handle="s"></div>
+          <div class="map-crop-handle e" data-handle="e"></div>
+          <div class="map-crop-handle w" data-handle="w"></div>
+          <div class="map-crop-handle nw" data-handle="nw"></div>
+          <div class="map-crop-handle ne" data-handle="ne"></div>
+          <div class="map-crop-handle sw" data-handle="sw"></div>
+          <div class="map-crop-handle se" data-handle="se"></div>
+        </div>
+      </div>
+      <div class="map-crop-panel">
+        <p id="map-crop-estimate" data-testid="map-crop-estimate">Move the map or drag the corners to set the area.</p>
+        <p id="map-crop-storage" data-testid="map-crop-storage"></p>
+        <div class="map-crop-progress" id="map-crop-progress" hidden>
+          <div class="map-crop-progress-track"><div id="map-crop-progress-bar"></div></div>
+          <span id="map-crop-progress-label"></span>
+        </div>
+        <button class="btn btn-primary" id="btn-map-crop-download" style="width:100%" data-testid="confirm-map-download">Download</button>
       </div>
     </div>
 

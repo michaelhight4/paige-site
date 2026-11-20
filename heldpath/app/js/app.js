@@ -29,6 +29,8 @@ import { persistStarterPack } from "./map.js";
 import { renderCalendarView } from "./calendar_view.js";
 import { renderProgressView } from "./progress_view.js";
 import { initPlansUi, renderPlansScreen } from "./plans_ui.js";
+import { initStretchesUi, showStretchesHub, showStretchGroup, showStretchWorkout, showStretchCredits } from "./stretches_ui.js";
+import { initMapDownloadUi, showMapAreas, openCrop, closeCrop } from "./map_download_ui.js";
 import { applyCompletedSession } from "./plans.js";
 
 let state = loadState();
@@ -408,8 +410,8 @@ function renderSettings() {
   if ($("web-pay-note")) $("web-pay-note").textContent = WEB_PAY_NOTE;
   $("plans-hook").textContent = PLANS_HOOK_COPY;
   $("map-pack-status").textContent = state.settings.mapPackInstalled
-    ? "Florence starter map is saved on this phone and works offline."
-    : "No map pack marked as saved yet. The starter map is still in the app.";
+    ? "The world overview and Florence starter map are in the app. You can download other areas for offline use."
+    : "A world overview and a Florence street map are already in the app. Download another area any time."
   $("support-copy").textContent = SUPPORT_COPY;
 }
 
@@ -886,6 +888,23 @@ function bind() {
   $("btn-support").addEventListener("click", () => { showScreen("support"); renderSettings(); });
   $("support-back").addEventListener("click", () => setTab("settings"));
   if ($("btn-plans-open")) $("btn-plans-open").addEventListener("click", () => { showScreen("plans"); renderPlansScreen(); });
+  initStretchesUi({ showScreen, goSettings: () => setTab("settings") });
+  initMapDownloadUi({
+    showScreen,
+    goSettings: () => setTab("settings"),
+    setHideNav: (v) => {
+      ui.hideNav = !!v;
+      $("tab-bar").style.display = v || ui.screen === "lock" ? "none" : "grid";
+    },
+  });
+  if ($("btn-map-download-from-sheet")) {
+    $("btn-map-download-from-sheet").addEventListener("click", () => {
+      state.settings.seenMapPrompt = true;
+      persist();
+      closeSheet("sheet-map");
+      openCrop();
+    });
+  }
   if ($("plans-back")) $("plans-back").addEventListener("click", () => setTab("settings"));
   if ($("btn-donate")) {
     $("btn-donate").addEventListener("click", async () => {
@@ -898,7 +917,6 @@ function bind() {
       }
     });
   }
-  $("btn-map-pack").addEventListener("click", () => openSheet("sheet-map"));
   $("btn-save-pack").addEventListener("click", async () => {
     state.settings.mapPackInstalled = true;
     state.settings.seenMapPrompt = true;
@@ -982,6 +1000,14 @@ async function wireAppLinks() {
 }
 
 /* ——— Test hook used by overlap shots ——— */
+
+  async function waitForMapView() {
+    const start = Date.now();
+    while (!map.getMap() && Date.now() - start < 20000) {
+      await new Promise((r) => setTimeout(r, 50));
+    }
+  }
+
 window.HeldpathTest = {
   show: async function show(name, opt = {}) {
     closeSheet("sheet-map");
@@ -1087,11 +1113,27 @@ window.HeldpathTest = {
     else if (name === "settings") setTab("settings");
     else if (name === "plans") { showScreen("plans"); renderPlansScreen(); }
     else if (name === "support") { setTab("settings"); showScreen("support"); renderSettings(); }
-    else if (name === "map-download") { setTab("today"); openSheet("sheet-map"); }
+    else if (name === "stretches") { setTab("settings"); showStretchesHub(); }
+    else if (name === "stretches-group") { setTab("settings"); showStretchGroup("hips"); }
+    else if (name === "stretches-card") { setTab("settings"); showStretchGroup("shoulders_arms"); }
+    else if (name === "stretches-workout") { setTab("settings"); showStretchWorkout(1); }
+    else if (name === "stretches-credits") { setTab("settings"); showStretchCredits(); }
+    else if (name === "map-download") { setTab("today"); showScreen("today"); await waitForMapView(); openCrop({ lat: 43.7672134, lon: 11.2543435, zoom: 13 }); await map.whenIdle(); }
+    else if (name === "map-areas") { setTab("settings"); await showMapAreas(); }
+    else if (name === "map-world") { setTab("today"); showScreen("today"); await waitForMapView(); map.setCenter(25, 10, 3); await map.whenIdle(); }
+    else if (name === "map-mid") { setTab("today"); showScreen("today"); await waitForMapView(); map.setCenter(43.7672134, 11.2543435, 8); await map.whenIdle(); }
+    else if (name === "map-in") { setTab("today"); showScreen("today"); await waitForMapView(); map.setCenter(43.7672134, 11.2543435, 14); await map.whenIdle(); }
+    else if (name === "map-out") { setTab("today"); showScreen("today"); await waitForMapView(); map.setCenter(41.878, -87.629, 13); await map.whenIdle(); }
     else if (name === "location" || name === "disclosure") { setTab("today"); showScreen("today"); openSheet("sheet-location"); }
     else setTab(name);
     render();
     map.resizeMap();
+    // Re-apply coverage views after init/demo fitBounds, which can fire late on first load.
+    if (name === "map-world") { await waitForMapView(); map.setCenter(25, 10, 3); await map.whenIdle(); }
+    if (name === "map-mid") { await waitForMapView(); map.setCenter(43.7672134, 11.2543435, 8); await map.whenIdle(); }
+    if (name === "map-in") { await waitForMapView(); map.setCenter(43.7672134, 11.2543435, 14); await map.whenIdle(); }
+    if (name === "map-out") { await waitForMapView(); map.setCenter(41.878, -87.629, 13); await map.whenIdle(); }
+    if (name === "map-download") { await waitForMapView(); map.setCenter(43.7672134, 11.2543435, 13); await map.whenIdle(); }
     return { screen: ui.screen, notification: $("lock-body").textContent };
   },
   state: () => state,

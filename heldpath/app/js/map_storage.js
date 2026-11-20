@@ -72,3 +72,179 @@ export async function hasPack(id) {
   const buf = await getPack(id);
   return !!(buf && buf.byteLength);
 }
+
+const TILE_DB = "heldpath-tiles";
+const TILE_STORE = "tiles";
+const AREA_STORE = "areas";
+const META_STORE = "meta";
+
+function tileDb() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(TILE_DB, 1);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains(TILE_STORE)) db.createObjectStore(TILE_STORE);
+      if (!db.objectStoreNames.contains(AREA_STORE)) db.createObjectStore(AREA_STORE, { keyPath: "id" });
+      if (!db.objectStoreNames.contains(META_STORE)) db.createObjectStore(META_STORE);
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+function tileKey(z, x, y) {
+  return `ofm/${z}/${x}/${y}`;
+}
+
+export async function putTile(z, x, y, buffer) {
+  const db = await tileDb();
+  await new Promise((resolve, reject) => {
+    const tx = db.transaction(TILE_STORE, "readwrite");
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+    tx.objectStore(TILE_STORE).put({ data: buffer, bytes: buffer.byteLength, storedAt: Date.now() }, tileKey(z, x, y));
+  });
+  db.close();
+}
+
+export async function getTile(z, x, y) {
+  const db = await tileDb();
+  const rec = await new Promise((resolve, reject) => {
+    const tx = db.transaction(TILE_STORE, "readonly");
+    const req = tx.objectStore(TILE_STORE).get(tileKey(z, x, y));
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+  db.close();
+  return rec && rec.data ? rec.data : null;
+}
+
+export async function hasTile(z, x, y) {
+  const buf = await getTile(z, x, y);
+  return !!(buf && buf.byteLength);
+}
+
+export async function deleteTiles(keys) {
+  const db = await tileDb();
+  await new Promise((resolve, reject) => {
+    const tx = db.transaction(TILE_STORE, "readwrite");
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+    const store = tx.objectStore(TILE_STORE);
+    for (const k of keys) store.delete(k);
+  });
+  db.close();
+}
+
+export async function listAreas() {
+  const db = await tileDb();
+  const recs = await new Promise((resolve, reject) => {
+    const tx = db.transaction(AREA_STORE, "readonly");
+    const req = tx.objectStore(AREA_STORE).getAll();
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => reject(req.error);
+  });
+  db.close();
+  return recs.sort((a, b) => (b.updatedAt || b.createdAt || "").localeCompare(a.updatedAt || a.createdAt || ""));
+}
+
+export async function saveArea(area) {
+  const db = await tileDb();
+  await new Promise((resolve, reject) => {
+    const tx = db.transaction(AREA_STORE, "readwrite");
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+    tx.objectStore(AREA_STORE).put(area);
+  });
+  db.close();
+  return area;
+}
+
+export async function deleteAreaRecord(id) {
+  const recs = await listAreas();
+  const gone = recs.find((a) => a.id === id);
+  const others = recs.filter((a) => a.id !== id);
+  if (gone && gone.tileKeys && gone.tileKeys.length) {
+    const keep = new Set();
+    for (const a of others) {
+      for (const k of a.tileKeys || []) keep.add(k);
+    }
+    const drop = gone.tileKeys.filter((k) => !keep.has(k));
+    if (drop.length) await deleteTiles(drop);
+  }
+  const db = await tileDb();
+  await new Promise((resolve, reject) => {
+    const tx = db.transaction(AREA_STORE, "readwrite");
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+    tx.objectStore(AREA_STORE).delete(id);
+  });
+  db.close();
+}
+
+export async function tileCacheBytes() {
+  const db = await tileDb();
+  const recs = await new Promise((resolve, reject) => {
+    const tx = db.transaction(TILE_STORE, "readonly");
+    const req = tx.objectStore(TILE_STORE).getAll();
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => reject(req.error);
+  });
+  db.close();
+  return recs.reduce((s, r) => s + (r.bytes || (r.data ? r.data.byteLength : 0)), 0);
+}
+
+export async function observedAvgTileBytes(fallback = 80 * 1024) {
+  const db = await tileDb();
+  const recs = await new Promise((resolve, reject) => {
+    const tx = db.transaction(TILE_STORE, "readonly");
+    const req = tx.objectStore(TILE_STORE).getAll();
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => reject(req.error);
+  });
+  db.close();
+  const sized = recs.filter((r) => (r.bytes || 0) > 0);
+  if (sized.length < 8) return fallback;
+  const sum = sized.reduce((s, r) => s + r.bytes, 0);
+  return Math.max(8 * 1024, Math.round(sum / sized.length));
+}
+
+export async function deviceStorage() {
+  try {
+    if (navigator.storage && navigator.storage.estimate) {
+      const est = await navigator.storage.estimate();
+      const quota = est.quota || 0;
+      const usage = est.usage || 0;
+      return { quota, usage, available: Math.max(0, quota - usage) };
+    }
+  } catch { /* ignore */ }
+  return { quota: null, usage: null, available: null };
+}
+
+/** Random-access source for a saved or bundled PMTiles archive. */
+export async function openArchiveSource(id) {
+  try {
+    const dir = await opfsDir();
+    if (dir) {
+      const fh = await dir.getFileHandle(`${id}.pmtiles`);
+      const file = await fh.getFile();
+      if (file && file.size) {
+        return {
+          getKey: () => id,
+          async getBytes(offset, length) {
+            const buf = await file.slice(offset, offset + length).arrayBuffer();
+            return { data: buf };
+          },
+        };
+      }
+    }
+  } catch { /* fall through */ }
+  const buf = await getPack(id);
+  if (!buf) return null;
+  return {
+    getKey: () => id,
+    async getBytes(offset, length) {
+      return { data: buf.slice(offset, offset + length) };
+    },
+  };
+}

@@ -1,26 +1,38 @@
 import maplibregl from "maplibre-gl";
 import { Protocol, PMTiles } from "pmtiles";
-import { getPack, savePack } from "./map_storage.js";
+import { getPack, savePack, openArchiveSource, getTile, putTile } from "./map_storage.js";
+import {
+  FLORENCE_BOUNDS,
+  inBounds,
+  OFM_USER_AGENT,
+  OFM_PARALLEL,
+  resolveOfmTemplate,
+  tileUrl,
+  WORLD_MAXZOOM,
+} from "./map_tiles.js";
 
 let map = null;
 let protocolAdded = false;
+let ofmProtocolAdded = false;
 const overlayIds = [];
 
 const FLORENCE = { lon: 11.2543435, lat: 43.7672134, zoom: 14 };
-const BOUNDS = [11.221144, 43.745121, 11.287543, 43.789306];
+const BOUNDS = FLORENCE_BOUNDS;
+const ATTRIBUTION =
+  '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · <a href="https://protomaps.com">Protomaps</a> · <a href="https://openfreemap.org/">OpenFreeMap</a> © <a href="https://openmaptiles.org/">OpenMapTiles</a>';
 
 export function defaultCenter() {
   return { ...FLORENCE };
 }
 
-function packUrl() {
-  return new URL("maps/firenze.pmtiles", window.location.href).href;
+function packUrl(file) {
+  return new URL("maps/" + file, window.location.href).href;
 }
 
 /** Load the bundled PMTiles file into memory so we don't need HTTP range requests
  *  (the overlap-check static server and Capacitor WebView are both picky about Byte Serving). */
 export async function persistStarterPack() {
-  const url = packUrl();
+  const url = packUrl("firenze.pmtiles");
   const buf = await fetch(url).then((r) => {
     if (!r.ok) throw new Error("map pack missing: " + r.status);
     return r.arrayBuffer();
@@ -28,65 +40,204 @@ export async function persistStarterPack() {
   return savePack("firenze", buf, { name: "Florence starter" });
 }
 
-async function loadLocalPack() {
-  let buf = await getPack("firenze");
-  if (!buf) {
-    const url = packUrl();
-    buf = await fetch(url).then((r) => {
-      if (!r.ok) throw new Error("map pack missing: " + r.status);
-      return r.arrayBuffer();
-    });
-  }
-  const source = {
-    getKey: () => "firenze",
+export async function persistWorldPack() {
+  const url = packUrl("world.pmtiles");
+  const buf = await fetch(url).then((r) => {
+    if (!r.ok) throw new Error("world pack missing: " + r.status);
+    return r.arrayBuffer();
+  });
+  return savePack("world", buf, { name: "World basemap z0-6" });
+}
+
+function namedSource(id, inner) {
+  return {
+    getKey: () => id,
+    getBytes(offset, length, signal, etag) {
+      return inner.getBytes(offset, length, signal, etag);
+    },
+  };
+}
+
+function memorySource(id, buf) {
+  return {
+    getKey: () => id,
     async getBytes(offset, length) {
       return { data: buf.slice(offset, offset + length) };
     },
   };
-  return new PMTiles(source);
+}
+
+async function loadArchive(protocol, id, file, { persist = false } = {}) {
+  const url = packUrl(file);
+  try {
+    const src = await openArchiveSource(id);
+    if (src) {
+      const pack = new PMTiles(namedSource(id, src));
+      await pack.getHeader();
+      protocol.add(pack);
+      return;
+    }
+  } catch (err) {
+    console.warn(id, "saved pack failed", err && err.message ? err.message : err);
+  }
+  try {
+    const remote = new PMTiles(url);
+    await remote.getHeader();
+    // Register under the short style id (pmtiles://world), not the HTTP URL.
+    const pack = new PMTiles(namedSource(id, remote.source));
+    await pack.getHeader();
+    protocol.add(pack);
+    if (persist) {
+      fetch(url)
+        .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(String(r.status)))))
+        .then((buf) => savePack(id, buf, { name: id }))
+        .catch((err) => console.warn(id, "background save", err && err.message ? err.message : err));
+    }
+    return;
+  } catch (err) {
+    console.warn(id, "range load failed, fetching whole file", err && err.message ? err.message : err);
+  }
+  const buf = await fetch(url).then((r) => {
+    if (!r.ok) throw new Error(id + " pack missing: " + r.status);
+    return r.arrayBuffer();
+  });
+  try { await savePack(id, buf, { name: id }); } catch { /* still use memory */ }
+  const pack = new PMTiles(memorySource(id, buf));
+  protocol.add(pack);
 }
 
 let protocol = null;
 
-function darkStyle(pmtilesUrl) {
-  const src = "offlinemap";
+function protomapsLayers(source, prefix, opt = {}) {
+  const minzoom = opt.minzoom;
+  const mz = minzoom == null ? {} : { minzoom };
+  return [
+    { id: prefix + "earth", type: "fill", source, "source-layer": "earth", ...mz, paint: { "fill-color": "#1A1F28" } },
+    { id: prefix + "landuse", type: "fill", source, "source-layer": "landuse", ...mz, paint: { "fill-color": "#1B2520", "fill-opacity": 0.7 } },
+    { id: prefix + "landcover", type: "fill", source, "source-layer": "landcover", ...mz, paint: { "fill-color": "#1C2A24", "fill-opacity": 0.65 } },
+    { id: prefix + "water", type: "fill", source, "source-layer": "water", ...mz, paint: { "fill-color": "#1A3554" } },
+    { id: prefix + "water-line", type: "line", source, "source-layer": "physical_line", ...mz, paint: { "line-color": "#2A5A80", "line-width": 1.2 } },
+    { id: prefix + "buildings", type: "fill", source, "source-layer": "buildings", ...mz, paint: { "fill-color": "#2A313C", "fill-opacity": 0.9 } },
+    {
+      id: prefix + "roads-minor",
+      type: "line",
+      source,
+      "source-layer": "roads",
+      ...mz,
+      filter: ["!=", ["get", "pmap:kind"], "major_road"],
+      paint: { "line-color": "#3A4554", "line-width": ["interpolate", ["linear"], ["zoom"], 12, 0.6, 16, 2] },
+    },
+    {
+      id: prefix + "roads-major",
+      type: "line",
+      source,
+      "source-layer": "roads",
+      ...mz,
+      filter: ["in", ["get", "pmap:kind"], ["literal", ["major_road", "highway"]]],
+      paint: { "line-color": "#5A7A90", "line-width": ["interpolate", ["linear"], ["zoom"], 11, 1.2, 16, 3.4] },
+    },
+  ];
+}
+
+function openMapTilesLayers(source, prefix) {
+  return [
+    { id: prefix + "landcover", type: "fill", source, "source-layer": "landcover", minzoom: 6, paint: { "fill-color": "#1C2A24", "fill-opacity": 0.7 } },
+    { id: prefix + "landuse", type: "fill", source, "source-layer": "landuse", minzoom: 6, paint: { "fill-color": "#1B2520", "fill-opacity": 0.65 } },
+    { id: prefix + "park", type: "fill", source, "source-layer": "park", minzoom: 6, paint: { "fill-color": "#1C2A24", "fill-opacity": 0.7 } },
+    { id: prefix + "water", type: "fill", source, "source-layer": "water", minzoom: 6, paint: { "fill-color": "#1A3554" } },
+    { id: prefix + "waterway", type: "line", source, "source-layer": "waterway", minzoom: 6, paint: { "line-color": "#2A5A80", "line-width": 1.2 } },
+    { id: prefix + "building", type: "fill", source, "source-layer": "building", minzoom: 12, paint: { "fill-color": "#2A313C", "fill-opacity": 0.9 } },
+    {
+      id: prefix + "roads-minor",
+      type: "line",
+      source,
+      "source-layer": "transportation",
+      minzoom: 6,
+      filter: ["in", ["get", "class"], ["literal", ["minor", "service", "path", "track", "tertiary", "busway"]]],
+      paint: { "line-color": "#3A4554", "line-width": ["interpolate", ["linear"], ["zoom"], 12, 0.6, 16, 2] },
+    },
+    {
+      id: prefix + "roads-major",
+      type: "line",
+      source,
+      "source-layer": "transportation",
+      minzoom: 6,
+      filter: ["in", ["get", "class"], ["literal", ["motorway", "trunk", "primary", "secondary"]]],
+      paint: { "line-color": "#5A7A90", "line-width": ["interpolate", ["linear"], ["zoom"], 11, 1.2, 16, 3.4] },
+    },
+  ];
+}
+
+function darkStyle() {
   return {
     version: 8,
     name: "Heldpath Dark",
     sources: {
-      [src]: {
+      world: {
         type: "vector",
-        url: "pmtiles://" + pmtilesUrl,
-        attribution:
-          '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        url: "pmtiles://world",
+        maxzoom: WORLD_MAXZOOM,
+        attribution: ATTRIBUTION,
+      },
+      firenze: {
+        type: "vector",
+        url: "pmtiles://firenze",
+        bounds: FLORENCE_BOUNDS,
+        maxzoom: 15,
+        attribution: ATTRIBUTION,
+      },
+      ofm: {
+        type: "vector",
+        tiles: ["ofm://{z}/{x}/{y}"],
+        minzoom: 6,
+        maxzoom: 14,
+        attribution: ATTRIBUTION,
       },
     },
     layers: [
       { id: "bg", type: "background", paint: { "background-color": "#12161C" } },
-      { id: "earth", type: "fill", source: src, "source-layer": "earth", paint: { "fill-color": "#1A1F28" } },
-      { id: "landuse", type: "fill", source: src, "source-layer": "landuse", paint: { "fill-color": "#1B2520", "fill-opacity": 0.7 } },
-      { id: "landcover", type: "fill", source: src, "source-layer": "landcover", paint: { "fill-color": "#1C2A24", "fill-opacity": 0.65 } },
-      { id: "water", type: "fill", source: src, "source-layer": "water", paint: { "fill-color": "#1A3554" } },
-      { id: "water-line", type: "line", source: src, "source-layer": "physical_line", paint: { "line-color": "#2A5A80", "line-width": 1.2 } },
-      { id: "buildings", type: "fill", source: src, "source-layer": "buildings", paint: { "fill-color": "#2A313C", "fill-opacity": 0.9 } },
-      {
-        id: "roads-minor",
-        type: "line",
-        source: src,
-        "source-layer": "roads",
-        filter: ["!=", ["get", "pmap:kind"], "major_road"],
-        paint: { "line-color": "#3A4554", "line-width": ["interpolate", ["linear"], ["zoom"], 12, 0.6, 16, 2] },
-      },
-      {
-        id: "roads-major",
-        type: "line",
-        source: src,
-        "source-layer": "roads",
-        filter: ["in", ["get", "pmap:kind"], ["literal", ["major_road", "highway"]]],
-        paint: { "line-color": "#5A7A90", "line-width": ["interpolate", ["linear"], ["zoom"], 11, 1.2, 16, 3.4] },
-      },
+      // World, then the Florence extract, then OpenFreeMap on top so the
+      // extract's opaque earth fill cannot punch a darker rectangle into
+      // mid-zoom views when online tiles are present. Offline, OFM layers
+      // simply stay empty and the bundled packs still show.
+      ...protomapsLayers("world", "world-"),
+      ...protomapsLayers("firenze", "fi-"),
+      ...openMapTilesLayers("ofm", "ofm-"),
     ],
   };
+}
+
+function parseOfmUrl(url) {
+  const u = String(url);
+  const m = u.match(/ofm:\/\/(\d+)\/(\d+)\/(\d+)/);
+  if (!m) return null;
+  return { z: Number(m[1]), x: Number(m[2]), y: Number(m[3]) };
+}
+
+async function ofmHandler(params) {
+  const t = parseOfmUrl(params.url || "");
+  if (!t) return { data: new ArrayBuffer(0) };
+  try {
+    const cached = await getTile(t.z, t.x, t.y);
+    if (cached && cached.byteLength) return { data: cached };
+  } catch { /* continue */ }
+  if (typeof navigator !== "undefined" && navigator.onLine === false) {
+    return { data: new ArrayBuffer(0) };
+  }
+  try {
+    const tmpl = await resolveOfmTemplate();
+    const res = await fetch(tileUrl(tmpl, t.z, t.x, t.y), {
+      headers: { "User-Agent": OFM_USER_AGENT },
+    });
+    if (!res.ok) return { data: new ArrayBuffer(0) };
+    const data = await res.arrayBuffer();
+    if (data && data.byteLength) {
+      try { await putTile(t.z, t.x, t.y, data); } catch { /* quota */ }
+    }
+    return { data: data || new ArrayBuffer(0) };
+  } catch {
+    return { data: new ArrayBuffer(0) };
+  }
 }
 
 export async function initMap(container) {
@@ -99,22 +250,33 @@ export async function initMap(container) {
     maplibregl.addProtocol("pmtiles", protocol.tile);
     protocolAdded = true;
   }
+  if (!ofmProtocolAdded) {
+    maplibregl.addProtocol("ofm", ofmHandler);
+    ofmProtocolAdded = true;
+  }
   try {
-    const pack = await loadLocalPack();
-    protocol.add(pack);
+    await loadArchive(protocol, "firenze", "firenze.pmtiles", { persist: false });
   } catch (err) {
     console.warn("map pack load failed", err && err.message ? err.message : err);
   }
-  const style = darkStyle("firenze");
+  try {
+    await loadArchive(protocol, "world", "world.pmtiles", { persist: true });
+  } catch (err) {
+    console.warn("world pack load failed", err && err.message ? err.message : err);
+  }
+  const style = darkStyle();
   map = new maplibregl.Map({
     container,
     style,
     center: [FLORENCE.lon, FLORENCE.lat],
     zoom: FLORENCE.zoom,
+    minZoom: 0,
+    maxZoom: 18,
     attributionControl: { compact: true },
     maxPitch: 0,
     pitchWithRotate: false,
     preserveDrawingBuffer: true, // so headless screenshots capture the WebGL canvas
+    fadeDuration: 0,
   });
   map.on("load", () => map.resize());
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
@@ -146,7 +308,7 @@ export function setCenter(lat, lon, zoom) {
 }
 
 export function inStarterPack(lat, lon) {
-  return lon >= BOUNDS[0] && lat >= BOUNDS[1] && lon <= BOUNDS[2] && lat <= BOUNDS[3];
+  return inBounds(lat, lon, BOUNDS);
 }
 
 export function onMapClick(handler) {
@@ -250,3 +412,5 @@ export function whenIdle() {
     setTimeout(done, 8000);
   });
 }
+
+export { OFM_PARALLEL };

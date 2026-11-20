@@ -846,7 +846,7 @@
           function D3(t2, e2, r2) {
             return Math.min(r2, Math.max(e2, t2));
           }
-          function $3(t2, e2, r2) {
+          function $5(t2, e2, r2) {
             const n2 = r2 - e2, i2 = ((t2 - e2) % n2 + n2) % n2 + e2;
             return i2 === e2 ? r2 : i2;
           }
@@ -8366,7 +8366,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               if (this.lng = +t2, this.lat = +e2, this.lat > 90 || this.lat < -90) throw new Error("Invalid LngLat latitude value: must be between -90 and 90");
             }
             wrap() {
-              return new gh($3(this.lng, -180, 180), this.lat);
+              return new gh($5(this.lng, -180, 180), this.lat);
             }
             toArray() {
               return [this.lng, this.lat];
@@ -8794,9 +8794,9 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               (a2.textFitWidth || a2.textFitHeight) && (c2 = Nc(t2)), x3 = Yh(h3, 0, e3[0]), b3 = Yh(p2, 0, e3[1]), v3 = Yh(h3, e3[0], e3[2]), w3 = Yh(p2, e3[1], e3[3]), _3 = e3[0] - x3, A4 = e3[1] - b3, S3 = r2 - v3, k2 = n3 - w3;
             }
             const M4 = c2.x1, I3 = c2.y1, z3 = c2.x2 - M4, P3 = c2.y2 - I3, C3 = (t3, i3, s4, l3) => {
-              const u4 = Kh(t3.stretch - x3, v3, z3, M4), c3 = Jh(t3.fixed - _3, S3, t3.stretch, d3), h4 = Kh(i3.stretch - b3, w3, P3, I3), p3 = Jh(i3.fixed - A4, k2, i3.stretch, y3), f4 = Kh(s4.stretch - x3, v3, z3, M4), m3 = Jh(s4.fixed - _3, S3, s4.stretch, d3), g3 = Kh(l3.stretch - b3, w3, P3, I3), C4 = Jh(l3.fixed - A4, k2, l3.stretch, y3), E3 = new r(u4, h4), T4 = new r(f4, h4), B3 = new r(f4, g3), V3 = new r(u4, g3), F3 = new r(c3 / o2, p3 / o2), D4 = new r(m3 / o2, C4 / o2), $4 = e2 * Math.PI / 180;
-              if ($4) {
-                const t4 = Math.sin($4), e3 = Math.cos($4), r2 = [e3, -t4, t4, e3];
+              const u4 = Kh(t3.stretch - x3, v3, z3, M4), c3 = Jh(t3.fixed - _3, S3, t3.stretch, d3), h4 = Kh(i3.stretch - b3, w3, P3, I3), p3 = Jh(i3.fixed - A4, k2, i3.stretch, y3), f4 = Kh(s4.stretch - x3, v3, z3, M4), m3 = Jh(s4.fixed - _3, S3, s4.stretch, d3), g3 = Kh(l3.stretch - b3, w3, P3, I3), C4 = Jh(l3.fixed - A4, k2, l3.stretch, y3), E3 = new r(u4, h4), T4 = new r(f4, h4), B3 = new r(f4, g3), V3 = new r(u4, g3), F3 = new r(c3 / o2, p3 / o2), D4 = new r(m3 / o2, C4 / o2), $6 = e2 * Math.PI / 180;
+              if ($6) {
+                const t4 = Math.sin($6), e3 = Math.cos($6), r2 = [e3, -t4, t4, e3];
                 E3._matMult(r2), T4._matMult(r2), V3._matMult(r2), B3._matMult(r2);
               }
               const L3 = t3.stretch + t3.fixed, O3 = i3.stretch + i3.fixed;
@@ -9038,7 +9038,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               p3.x < 0 || p3.x >= P2 || p3.y < 0 || p3.y >= P2 || (function(e3, r3, n3, i3, s4, a3, o3, l4, u4, c3, h4, p4, f4, d4, y4, m3, g3, x4, v4, b4, w4, _4, S4, A5, k3) {
                 const M5 = e3.addToLineVertexArray(r3, n3);
                 let I4, z4, P3, C4, E4 = 0, T5 = 0, B4 = 0, V3 = 0, F3 = -1, D4 = -1;
-                const $4 = {};
+                const $6 = {};
                 let L3 = io("");
                 if (e3.allowVerticalPlacement && i3.vertical) {
                   const t2 = l4.layout.get("text-rotate").evaluate(w4, {}, A5) + 90;
@@ -9060,9 +9060,9 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                     I4 = new Wh(u4, r3, c3, h4, p4, s5, f4, d4, y4, t2);
                   }
                   const o4 = 1 === s5.positionedLines.length;
-                  if (B4 += up(e3, r3, s5, a3, l4, y4, w4, m3, M5, i3.vertical ? t.ao.horizontal : t.ao.horizontalOnly, o4 ? O3 : [n4], $4, F3, _4, A5), o4) break;
+                  if (B4 += up(e3, r3, s5, a3, l4, y4, w4, m3, M5, i3.vertical ? t.ao.horizontal : t.ao.horizontalOnly, o4 ? O3 : [n4], $6, F3, _4, A5), o4) break;
                 }
-                i3.vertical && (V3 += up(e3, r3, i3.vertical, a3, l4, y4, w4, m3, M5, t.ao.vertical, ["vertical"], $4, D4, _4, A5));
+                i3.vertical && (V3 += up(e3, r3, i3.vertical, a3, l4, y4, w4, m3, M5, t.ao.vertical, ["vertical"], $6, D4, _4, A5));
                 const R4 = I4 ? I4.boxStartIndex : e3.collisionBoxArray.length, U4 = I4 ? I4.boxEndIndex : e3.collisionBoxArray.length, j3 = P3 ? P3.boxStartIndex : e3.collisionBoxArray.length, N3 = P3 ? P3.boxEndIndex : e3.collisionBoxArray.length, G3 = z4 ? z4.boxStartIndex : e3.collisionBoxArray.length, X3 = z4 ? z4.boxEndIndex : e3.collisionBoxArray.length, Z3 = C4 ? C4.boxStartIndex : e3.collisionBoxArray.length, Y3 = C4 ? C4.boxEndIndex : e3.collisionBoxArray.length;
                 let H4 = -1;
                 const K2 = (t2, e4) => t2 && t2.circleDiameter ? Math.max(t2.circleDiameter, e4) : e4;
@@ -9077,7 +9077,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                   }
                   return [n4, e4.length];
                 })(e3.textAnchorOffsets, W2);
-                e3.symbolInstances.emplaceBack(r3.x, r3.y, $4.right >= 0 ? $4.right : -1, $4.center >= 0 ? $4.center : -1, $4.left >= 0 ? $4.left : -1, $4.vertical || -1, F3, D4, L3, R4, U4, j3, N3, G3, X3, Z3, Y3, c3, B4, V3, E4, T5, J3, 0, f4, H4, Q3, tt2);
+                e3.symbolInstances.emplaceBack(r3.x, r3.y, $6.right >= 0 ? $6.right : -1, $6.center >= 0 ? $6.center : -1, $6.left >= 0 ? $6.left : -1, $6.vertical || -1, F3, D4, L3, R4, U4, j3, N3, G3, X3, Z3, Y3, c3, B4, V3, E4, T5, J3, 0, f4, H4, Q3, tt2);
               })(e2, p3, l3, n2, i2, s3, E3, e2.layers[0], e2.collisionBoxArray, r2.index, r2.sourceLayerIndex, e2.index, x3, [_3, _3, _3, _3], k2, u3, b3, S3, M4, y3, r2, a2, c2, h3, o2);
             };
             if ("line" === I3) for (const t2 of Lh(r2.geometry, 0, 0, P2, P2)) {
@@ -9400,7 +9400,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               r2 = [r2[0] * e3 - r2[1] * t3, r2[0] * t3 + r2[1] * e3];
             }
             return [i2 ? r2[0] : C2(e2, r2[0], t2.zoom), i2 ? r2[1] : C2(e2, r2[1], t2.zoom)];
-          }, t.aF = Yc, t.aG = op, t.aH = Fc, t.aI = fp, t.aJ = Hs, t.aK = Wl, t.aL = Ta, t.aM = Ya, t.aN = qa, t.aO = $3, t.aP = et2, t.aQ = Ah, t.aR = b2, t.aS = v2, t.aT = function(t2) {
+          }, t.aF = Yc, t.aG = op, t.aH = Fc, t.aI = fp, t.aJ = Hs, t.aK = Wl, t.aL = Ta, t.aM = Ya, t.aN = qa, t.aO = $5, t.aP = et2, t.aQ = Ah, t.aR = b2, t.aS = v2, t.aT = function(t2) {
             var e2 = new f2(3);
             return e2[0] = t2[0], e2[1] = t2[1], e2[2] = t2[2], e2;
           }, t.aU = function(t2, e2, r2) {
@@ -10540,16 +10540,16 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
             const i2 = 1 << e2.z, o2 = e2.x, s3 = e2.y;
             for (const n2 of e2.features) {
               const e3 = n2.geometry, r2 = n2.type;
-              if (n2.geometry = [], 1 === r2) for (let r3 = 0; r3 < e3.length; r3 += 2) n2.geometry.push($3(e3[r3], e3[r3 + 1], t2, i2, o2, s3));
+              if (n2.geometry = [], 1 === r2) for (let r3 = 0; r3 < e3.length; r3 += 2) n2.geometry.push($5(e3[r3], e3[r3 + 1], t2, i2, o2, s3));
               else for (let r3 = 0; r3 < e3.length; r3++) {
                 const a2 = [];
-                for (let n3 = 0; n3 < e3[r3].length; n3 += 2) a2.push($3(e3[r3][n3], e3[r3][n3 + 1], t2, i2, o2, s3));
+                for (let n3 = 0; n3 < e3[r3].length; n3 += 2) a2.push($5(e3[r3][n3], e3[r3][n3 + 1], t2, i2, o2, s3));
                 n2.geometry.push(a2);
               }
             }
             return e2.transformed = true, e2;
           }
-          function $3(e2, t2, i2, o2, s3, n2) {
+          function $5(e2, t2, i2, o2, s3, n2) {
             return [Math.round(i2 * (e2 * o2 - s3)), Math.round(i2 * (t2 * o2 - n2))];
           }
           function U3(e2, t2, i2, o2, s3) {
@@ -11625,7 +11625,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               return e2.x >= o2 && e2.x < a2 && e2.y >= r2 && e2.y < s3;
             }
           }
-          class $3 extends t.E {
+          class $5 extends t.E {
             constructor(e2, i2, o2, r2) {
               if (super(), this.id = e2, this.dispatcher = o2, this.type = "vector", this.minzoom = 0, this.maxzoom = 22, this.scheme = "xyz", this.tileSize = 512, this.reparseOverscaled = true, this.isTileClipped = true, this._loaded = false, t.e(this, t.Q(i2, ["url", "scheme", "tileSize", "promoteId"])), this._options = t.e({ type: "vector" }, i2), this._collectResourceTiming = i2.collectResourceTiming, 512 !== this.tileSize) throw new Error("vector tile sources must have a tileSize of 512");
               this.setEventedParent(r2);
@@ -12142,7 +12142,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               case "raster-dem":
                 return W;
               case "vector":
-                return $3;
+                return $5;
               case "video":
                 return K;
               case "canvas":
@@ -13503,8 +13503,8 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                   const e4 = (e5) => this.collisionIndex.placeCollisionBox(e5, b3, h3, M4, l2, w3, y3, n2, p2.predicate, S3, T4 && L3 ? L3 : void 0, E3);
                   F3 && F3.placeable && d4.verticalIconBox ? (j3 = e4(d4.verticalIconBox), D4 = j3.placeable) : (j3 = e4(d4.iconBox), D4 = j3.placeable), A4 = A4 && j3.offscreen;
                 }
-                const V3 = m2 || 0 === e3.numHorizontalGlyphVertices && 0 === e3.numVerticalGlyphVertices, $4 = f3 || 0 === e3.numIconVertices;
-                V3 || $4 ? $4 ? V3 || (D4 = D4 && z3) : z3 = D4 && z3 : D4 = z3 = D4 && z3;
+                const V3 = m2 || 0 === e3.numHorizontalGlyphVertices && 0 === e3.numVerticalGlyphVertices, $6 = f3 || 0 === e3.numIconVertices;
+                V3 || $6 ? $6 ? V3 || (D4 = D4 && z3) : z3 = D4 && z3 : D4 = z3 = D4 && z3;
                 const q3 = D4 && j3.placeable;
                 if (z3 && B3.placeable && this.collisionIndex.insertCollisionBox(B3.box, g2, a2.get("text-ignore-placement"), r2.bucketInstanceId, F3 && F3.placeable && U4 ? U4 : N3, p2.ID), q3 && this.collisionIndex.insertCollisionBox(j3.box, b3, a2.get("icon-ignore-placement"), r2.bucketInstanceId, Z3, p2.ID), O3 && z3 && this.collisionIndex.insertCollisionCircles(O3.circles, g2, a2.get("text-ignore-placement"), r2.bucketInstanceId, N3, p2.ID), o2 && this.storeCollisionData(r2.bucketInstanceId, x4, d4, B3, j3, O3), 0 === e3.crossTileID) throw new Error("symbolInstance.crossTileID can't be 0");
                 if (0 === r2.bucketInstanceId) throw new Error("bucket.bucketInstanceId can't be 0");
@@ -17627,9 +17627,9 @@ uniform ${i3} ${o3} u_${r3};
                 const t2 = e2.style.map.terrain ? (t3, i4) => e2.style.map.terrain.getElevation(l3, t3, i4) : null, i3 = "map" === o2.layout.get("text-rotation-alignment");
                 De(c3, e2, a2, O3, j3, v3, h3, i3, l3.toUnwrapped(), f3.width, f3.height, U4, t2);
               }
-              const $4 = a2 && P3 || V3, q3 = b3 || $4 ? Yo : v3 ? O3 : e2.transform.clipSpaceToPixelsMatrix, W2 = p3 && 0 !== o2.paint.get(a2 ? "text-halo-width" : "icon-halo-width").constantOr(1);
+              const $6 = a2 && P3 || V3, q3 = b3 || $6 ? Yo : v3 ? O3 : e2.transform.clipSpaceToPixelsMatrix, W2 = p3 && 0 !== o2.paint.get(a2 ? "text-halo-width" : "icon-halo-width").constantOr(1);
               let H4;
-              H4 = p3 ? c3.iconsInText ? to(T5.kind, E3, x3, v3, b3, $4, e2, q3, N3, U4, z3, k2, I3) : eo(T5.kind, E3, x3, v3, b3, $4, e2, q3, N3, U4, a2, z3, 0, I3) : Ji(T5.kind, E3, x3, v3, b3, $4, e2, q3, N3, U4, a2, z3, I3);
+              H4 = p3 ? c3.iconsInText ? to(T5.kind, E3, x3, v3, b3, $6, e2, q3, N3, U4, z3, k2, I3) : eo(T5.kind, E3, x3, v3, b3, $6, e2, q3, N3, U4, a2, z3, 0, I3) : Ji(T5.kind, E3, x3, v3, b3, $6, e2, q3, N3, U4, a2, z3, I3);
               const X3 = { program: S3, buffers: u4, uniformValues: H4, projectionData: Z3, atlasTexture: D4, atlasTextureIcon: F3, atlasInterpolation: A4, atlasInterpolationIcon: L3, isSDF: p3, hasHalo: W2 };
               if (y3 && c3.canOverlap) {
                 w3 = true;
@@ -21344,7 +21344,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
             onRemove() {
               n.remove(this._container), this._map.off("terrain", this._updateTerrainIcon), this._map = void 0;
             }
-          }, e.TwoFingersTouchPitchHandler = da, e.TwoFingersTouchRotateHandler = ha, e.TwoFingersTouchZoomHandler = la, e.TwoFingersTouchZoomRotateHandler = Pa, e.VectorTileSource = $3, e.VideoSource = K, e.addSourceType = (e2, i2) => t._(void 0, void 0, void 0, (function* () {
+          }, e.TwoFingersTouchPitchHandler = da, e.TwoFingersTouchRotateHandler = ha, e.TwoFingersTouchZoomHandler = la, e.TwoFingersTouchZoomRotateHandler = Pa, e.VectorTileSource = $5, e.VideoSource = K, e.addSourceType = (e2, i2) => t._(void 0, void 0, void 0, (function* () {
             if (J2(e2)) throw new Error(`A source type called "${e2}" already exists.`);
             ((e3, t2) => {
               Q2[e3] = t2;
@@ -23755,82 +23755,534 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     db.close();
     return rec && rec.buffer ? rec.buffer : null;
   }
+  var TILE_DB = "heldpath-tiles";
+  var TILE_STORE = "tiles";
+  var AREA_STORE = "areas";
+  var META_STORE = "meta";
+  function tileDb() {
+    return new Promise((resolve2, reject) => {
+      const req = indexedDB.open(TILE_DB, 1);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains(TILE_STORE)) db.createObjectStore(TILE_STORE);
+        if (!db.objectStoreNames.contains(AREA_STORE)) db.createObjectStore(AREA_STORE, { keyPath: "id" });
+        if (!db.objectStoreNames.contains(META_STORE)) db.createObjectStore(META_STORE);
+      };
+      req.onsuccess = () => resolve2(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+  function tileKey(z2, x2, y2) {
+    return `ofm/${z2}/${x2}/${y2}`;
+  }
+  async function putTile(z2, x2, y2, buffer) {
+    const db = await tileDb();
+    await new Promise((resolve2, reject) => {
+      const tx = db.transaction(TILE_STORE, "readwrite");
+      tx.oncomplete = resolve2;
+      tx.onerror = () => reject(tx.error);
+      tx.objectStore(TILE_STORE).put({ data: buffer, bytes: buffer.byteLength, storedAt: Date.now() }, tileKey(z2, x2, y2));
+    });
+    db.close();
+  }
+  async function getTile(z2, x2, y2) {
+    const db = await tileDb();
+    const rec = await new Promise((resolve2, reject) => {
+      const tx = db.transaction(TILE_STORE, "readonly");
+      const req = tx.objectStore(TILE_STORE).get(tileKey(z2, x2, y2));
+      req.onsuccess = () => resolve2(req.result);
+      req.onerror = () => reject(req.error);
+    });
+    db.close();
+    return rec && rec.data ? rec.data : null;
+  }
+  async function deleteTiles(keys) {
+    const db = await tileDb();
+    await new Promise((resolve2, reject) => {
+      const tx = db.transaction(TILE_STORE, "readwrite");
+      tx.oncomplete = resolve2;
+      tx.onerror = () => reject(tx.error);
+      const store = tx.objectStore(TILE_STORE);
+      for (const k of keys) store.delete(k);
+    });
+    db.close();
+  }
+  async function listAreas() {
+    const db = await tileDb();
+    const recs = await new Promise((resolve2, reject) => {
+      const tx = db.transaction(AREA_STORE, "readonly");
+      const req = tx.objectStore(AREA_STORE).getAll();
+      req.onsuccess = () => resolve2(req.result || []);
+      req.onerror = () => reject(req.error);
+    });
+    db.close();
+    return recs.sort((a, b2) => (b2.updatedAt || b2.createdAt || "").localeCompare(a.updatedAt || a.createdAt || ""));
+  }
+  async function saveArea(area) {
+    const db = await tileDb();
+    await new Promise((resolve2, reject) => {
+      const tx = db.transaction(AREA_STORE, "readwrite");
+      tx.oncomplete = resolve2;
+      tx.onerror = () => reject(tx.error);
+      tx.objectStore(AREA_STORE).put(area);
+    });
+    db.close();
+    return area;
+  }
+  async function deleteAreaRecord(id) {
+    const recs = await listAreas();
+    const gone = recs.find((a) => a.id === id);
+    const others = recs.filter((a) => a.id !== id);
+    if (gone && gone.tileKeys && gone.tileKeys.length) {
+      const keep = /* @__PURE__ */ new Set();
+      for (const a of others) {
+        for (const k of a.tileKeys || []) keep.add(k);
+      }
+      const drop = gone.tileKeys.filter((k) => !keep.has(k));
+      if (drop.length) await deleteTiles(drop);
+    }
+    const db = await tileDb();
+    await new Promise((resolve2, reject) => {
+      const tx = db.transaction(AREA_STORE, "readwrite");
+      tx.oncomplete = resolve2;
+      tx.onerror = () => reject(tx.error);
+      tx.objectStore(AREA_STORE).delete(id);
+    });
+    db.close();
+  }
+  async function tileCacheBytes() {
+    const db = await tileDb();
+    const recs = await new Promise((resolve2, reject) => {
+      const tx = db.transaction(TILE_STORE, "readonly");
+      const req = tx.objectStore(TILE_STORE).getAll();
+      req.onsuccess = () => resolve2(req.result || []);
+      req.onerror = () => reject(req.error);
+    });
+    db.close();
+    return recs.reduce((s2, r) => s2 + (r.bytes || (r.data ? r.data.byteLength : 0)), 0);
+  }
+  async function observedAvgTileBytes(fallback = 80 * 1024) {
+    const db = await tileDb();
+    const recs = await new Promise((resolve2, reject) => {
+      const tx = db.transaction(TILE_STORE, "readonly");
+      const req = tx.objectStore(TILE_STORE).getAll();
+      req.onsuccess = () => resolve2(req.result || []);
+      req.onerror = () => reject(req.error);
+    });
+    db.close();
+    const sized = recs.filter((r) => (r.bytes || 0) > 0);
+    if (sized.length < 8) return fallback;
+    const sum = sized.reduce((s2, r) => s2 + r.bytes, 0);
+    return Math.max(8 * 1024, Math.round(sum / sized.length));
+  }
+  async function deviceStorage() {
+    try {
+      if (navigator.storage && navigator.storage.estimate) {
+        const est = await navigator.storage.estimate();
+        const quota = est.quota || 0;
+        const usage = est.usage || 0;
+        return { quota, usage, available: Math.max(0, quota - usage) };
+      }
+    } catch {
+    }
+    return { quota: null, usage: null, available: null };
+  }
+  async function openArchiveSource(id) {
+    try {
+      const dir = await opfsDir();
+      if (dir) {
+        const fh = await dir.getFileHandle(`${id}.pmtiles`);
+        const file = await fh.getFile();
+        if (file && file.size) {
+          return {
+            getKey: () => id,
+            async getBytes(offset, length) {
+              const buf2 = await file.slice(offset, offset + length).arrayBuffer();
+              return { data: buf2 };
+            }
+          };
+        }
+      }
+    } catch {
+    }
+    const buf = await getPack(id);
+    if (!buf) return null;
+    return {
+      getKey: () => id,
+      async getBytes(offset, length) {
+        return { data: buf.slice(offset, offset + length) };
+      }
+    };
+  }
+
+  // www/js/map_tiles.js
+  var OFM_TILEJSON_URL = "https://tiles.openfreemap.org/planet";
+  var OFM_MAX_TILES = 3e3;
+  var OFM_MAX_BYTES = 50 * 1024 * 1024;
+  var OFM_PARALLEL = 4;
+  var OFM_USER_AGENT = "Heldpath/1.0 (https://paigegames.net/heldpath)";
+  var OFM_MAXZOOM = 14;
+  var DEFAULT_AVG_TILE_BYTES = 80 * 1024;
+  var WORLD_MAXZOOM = 6;
+  var FLORENCE_BOUNDS = [11.221144, 43.745121, 11.287543, 43.789306];
+  function clamp(n, lo, hi) {
+    return Math.max(lo, Math.min(hi, n));
+  }
+  function lonLatToTile(lon, lat, z2) {
+    const n = 2 ** z2;
+    const x2 = Math.floor((lon + 180) / 360 * n);
+    const latRad = lat * Math.PI / 180;
+    const y2 = Math.floor(
+      (1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n
+    );
+    return { z: z2, x: clamp(x2, 0, n - 1), y: clamp(y2, 0, n - 1) };
+  }
+  function tileRange(bbox, z2) {
+    const nw = lonLatToTile(bbox.west, bbox.north, z2);
+    const se = lonLatToTile(bbox.east, bbox.south, z2);
+    return {
+      z: z2,
+      x0: Math.min(nw.x, se.x),
+      x1: Math.max(nw.x, se.x),
+      y0: Math.min(nw.y, se.y),
+      y1: Math.max(nw.y, se.y)
+    };
+  }
+  function tilesInRange(range) {
+    const tiles = [];
+    for (let x2 = range.x0; x2 <= range.x1; x2++) {
+      for (let y2 = range.y0; y2 <= range.y1; y2++) {
+        tiles.push({ z: range.z, x: x2, y: y2 });
+      }
+    }
+    return tiles;
+  }
+  function countTilesInRange(range) {
+    return (range.x1 - range.x0 + 1) * (range.y1 - range.y0 + 1);
+  }
+  function tilesInPyramid(bbox, minZoom, maxZoom) {
+    const tiles = [];
+    for (let z2 = minZoom; z2 <= maxZoom; z2++) {
+      tiles.push(...tilesInRange(tileRange(bbox, z2)));
+    }
+    return tiles;
+  }
+  function countTilesInPyramid(bbox, minZoom, maxZoom) {
+    let n = 0;
+    for (let z2 = minZoom; z2 <= maxZoom; z2++) n += countTilesInRange(tileRange(bbox, z2));
+    return n;
+  }
+  function planDownload(bbox, opt = {}) {
+    const minZoom = opt.minZoom == null ? 0 : opt.minZoom;
+    const capZoom = opt.capZoom == null ? OFM_MAXZOOM : opt.capZoom;
+    const maxTiles = opt.maxTiles == null ? OFM_MAX_TILES : opt.maxTiles;
+    const maxBytes = opt.maxBytes == null ? OFM_MAX_BYTES : opt.maxBytes;
+    const avgBytes = opt.avgBytes == null ? DEFAULT_AVG_TILE_BYTES : opt.avgBytes;
+    let maxZoom = minZoom;
+    let tileCount = countTilesInPyramid(bbox, minZoom, minZoom);
+    for (let z2 = minZoom; z2 <= capZoom; z2++) {
+      const c = countTilesInPyramid(bbox, minZoom, z2);
+      if (c > maxTiles || c * avgBytes > maxBytes) break;
+      maxZoom = z2;
+      tileCount = c;
+    }
+    const estimateBytes = tileCount * avgBytes;
+    const smallest = countTilesInPyramid(bbox, minZoom, minZoom);
+    const tooLarge = smallest > maxTiles || smallest * avgBytes > maxBytes;
+    return {
+      minZoom,
+      maxZoom,
+      tileCount,
+      estimateBytes,
+      tooLarge,
+      maxTiles,
+      maxBytes
+    };
+  }
+  function formatBytes(n) {
+    if (!Number.isFinite(n) || n < 0) return "\u2014";
+    if (n < 1024) return `${Math.round(n)} B`;
+    if (n < 1024 * 1024) return `${(n / 1024).toFixed(n < 10 * 1024 ? 1 : 0)} KB`;
+    const mb = n / (1024 * 1024);
+    return `${mb < 10 ? mb.toFixed(1) : Math.round(mb)} MB`;
+  }
+  function formatStorageLine(estimate, available) {
+    const left = available == null ? "Available storage unknown" : `${formatBytes(available)} available on this device`;
+    return `About ${formatBytes(estimate)} to download. ${left}.`;
+  }
+  function normalizeBbox(b2) {
+    const west = Math.min(b2.west, b2.east);
+    const east = Math.max(b2.west, b2.east);
+    const south = Math.min(b2.south, b2.north);
+    const north = Math.max(b2.south, b2.north);
+    return {
+      west: clamp(west, -180, 180),
+      east: clamp(east, -180, 180),
+      south: clamp(south, -85.0511, 85.0511),
+      north: clamp(north, -85.0511, 85.0511)
+    };
+  }
+  function bboxFromFrame(map2, frameEl, rootEl) {
+    if (!map2 || !frameEl) return null;
+    const fr = frameEl.getBoundingClientRect();
+    const mapCanvas = map2.getCanvas();
+    const mr = mapCanvas.getBoundingClientRect();
+    const left = fr.left - mr.left;
+    const top = fr.top - mr.top;
+    const right = fr.right - mr.left;
+    const bottom = fr.bottom - mr.top;
+    const sw = map2.unproject([left, bottom]);
+    const ne = map2.unproject([right, top]);
+    return normalizeBbox({ west: sw.lng, south: sw.lat, east: ne.lng, north: ne.lat });
+  }
+  var cachedTileTemplate = null;
+  var cachedTileTemplateAt = 0;
+  async function resolveOfmTemplate(fetchFn = fetch) {
+    const now = Date.now();
+    if (cachedTileTemplate && now - cachedTileTemplateAt < 24 * 60 * 60 * 1e3) {
+      return cachedTileTemplate;
+    }
+    const res = await fetchFn(OFM_TILEJSON_URL, {
+      headers: { "User-Agent": OFM_USER_AGENT }
+    });
+    if (!res.ok) throw new Error("OpenFreeMap tile JSON " + res.status);
+    const json = await res.json();
+    const tmpl = json && json.tiles && json.tiles[0];
+    if (!tmpl) throw new Error("OpenFreeMap tile JSON missing tiles");
+    cachedTileTemplate = tmpl;
+    cachedTileTemplateAt = now;
+    return tmpl;
+  }
+  function tileUrl(template, z2, x2, y2) {
+    return template.replace("{z}", String(z2)).replace("{x}", String(x2)).replace("{y}", String(y2));
+  }
+  async function mapPool(items, limit, fn, onProgress) {
+    let i = 0;
+    let done = 0;
+    let bytes = 0;
+    let stop = false;
+    async function worker() {
+      while (!stop) {
+        const idx = i++;
+        if (idx >= items.length) return;
+        const n2 = await fn(items[idx], idx);
+        const add = typeof n2 === "number" ? n2 : 0;
+        bytes += add;
+        done += 1;
+        if (onProgress) onProgress({ done, total: items.length, bytes });
+        if (bytes > OFM_MAX_BYTES || done >= OFM_MAX_TILES) stop = true;
+      }
+    }
+    const n = Math.max(1, Math.min(limit, items.length));
+    await Promise.all(Array.from({ length: n }, worker));
+    return { done, bytes, stoppedEarly: stop && done < items.length };
+  }
 
   // www/js/map.js
   var map = null;
   var protocolAdded = false;
+  var ofmProtocolAdded = false;
   var overlayIds = [];
   var FLORENCE = { lon: 11.2543435, lat: 43.7672134, zoom: 14 };
+  var ATTRIBUTION = '\xA9 <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors \xB7 <a href="https://protomaps.com">Protomaps</a> \xB7 <a href="https://openfreemap.org/">OpenFreeMap</a> \xA9 <a href="https://openmaptiles.org/">OpenMapTiles</a>';
   function defaultCenter() {
     return { ...FLORENCE };
   }
-  function packUrl() {
-    return new URL("maps/firenze.pmtiles", window.location.href).href;
+  function packUrl(file) {
+    return new URL("maps/" + file, window.location.href).href;
   }
   async function persistStarterPack() {
-    const url = packUrl();
+    const url = packUrl("firenze.pmtiles");
     const buf = await fetch(url).then((r) => {
       if (!r.ok) throw new Error("map pack missing: " + r.status);
       return r.arrayBuffer();
     });
     return savePack("firenze", buf, { name: "Florence starter" });
   }
-  async function loadLocalPack() {
-    let buf = await getPack("firenze");
-    if (!buf) {
-      const url = packUrl();
-      buf = await fetch(url).then((r) => {
-        if (!r.ok) throw new Error("map pack missing: " + r.status);
-        return r.arrayBuffer();
-      });
-    }
-    const source = {
-      getKey: () => "firenze",
+  function namedSource(id, inner) {
+    return {
+      getKey: () => id,
+      getBytes(offset, length, signal, etag) {
+        return inner.getBytes(offset, length, signal, etag);
+      }
+    };
+  }
+  function memorySource(id, buf) {
+    return {
+      getKey: () => id,
       async getBytes(offset, length) {
         return { data: buf.slice(offset, offset + length) };
       }
     };
-    return new w(source);
+  }
+  async function loadArchive(protocol2, id, file, { persist: persist2 = false } = {}) {
+    const url = packUrl(file);
+    try {
+      const src = await openArchiveSource(id);
+      if (src) {
+        const pack2 = new w(namedSource(id, src));
+        await pack2.getHeader();
+        protocol2.add(pack2);
+        return;
+      }
+    } catch (err2) {
+      console.warn(id, "saved pack failed", err2 && err2.message ? err2.message : err2);
+    }
+    try {
+      const remote = new w(url);
+      await remote.getHeader();
+      const pack2 = new w(namedSource(id, remote.source));
+      await pack2.getHeader();
+      protocol2.add(pack2);
+      if (persist2) {
+        fetch(url).then((r) => r.ok ? r.arrayBuffer() : Promise.reject(new Error(String(r.status)))).then((buf2) => savePack(id, buf2, { name: id })).catch((err2) => console.warn(id, "background save", err2 && err2.message ? err2.message : err2));
+      }
+      return;
+    } catch (err2) {
+      console.warn(id, "range load failed, fetching whole file", err2 && err2.message ? err2.message : err2);
+    }
+    const buf = await fetch(url).then((r) => {
+      if (!r.ok) throw new Error(id + " pack missing: " + r.status);
+      return r.arrayBuffer();
+    });
+    try {
+      await savePack(id, buf, { name: id });
+    } catch {
+    }
+    const pack = new w(memorySource(id, buf));
+    protocol2.add(pack);
   }
   var protocol = null;
-  function darkStyle(pmtilesUrl) {
-    const src = "offlinemap";
+  function protomapsLayers(source, prefix, opt = {}) {
+    const minzoom = opt.minzoom;
+    const mz = minzoom == null ? {} : { minzoom };
+    return [
+      { id: prefix + "earth", type: "fill", source, "source-layer": "earth", ...mz, paint: { "fill-color": "#1A1F28" } },
+      { id: prefix + "landuse", type: "fill", source, "source-layer": "landuse", ...mz, paint: { "fill-color": "#1B2520", "fill-opacity": 0.7 } },
+      { id: prefix + "landcover", type: "fill", source, "source-layer": "landcover", ...mz, paint: { "fill-color": "#1C2A24", "fill-opacity": 0.65 } },
+      { id: prefix + "water", type: "fill", source, "source-layer": "water", ...mz, paint: { "fill-color": "#1A3554" } },
+      { id: prefix + "water-line", type: "line", source, "source-layer": "physical_line", ...mz, paint: { "line-color": "#2A5A80", "line-width": 1.2 } },
+      { id: prefix + "buildings", type: "fill", source, "source-layer": "buildings", ...mz, paint: { "fill-color": "#2A313C", "fill-opacity": 0.9 } },
+      {
+        id: prefix + "roads-minor",
+        type: "line",
+        source,
+        "source-layer": "roads",
+        ...mz,
+        filter: ["!=", ["get", "pmap:kind"], "major_road"],
+        paint: { "line-color": "#3A4554", "line-width": ["interpolate", ["linear"], ["zoom"], 12, 0.6, 16, 2] }
+      },
+      {
+        id: prefix + "roads-major",
+        type: "line",
+        source,
+        "source-layer": "roads",
+        ...mz,
+        filter: ["in", ["get", "pmap:kind"], ["literal", ["major_road", "highway"]]],
+        paint: { "line-color": "#5A7A90", "line-width": ["interpolate", ["linear"], ["zoom"], 11, 1.2, 16, 3.4] }
+      }
+    ];
+  }
+  function openMapTilesLayers(source, prefix) {
+    return [
+      { id: prefix + "landcover", type: "fill", source, "source-layer": "landcover", minzoom: 6, paint: { "fill-color": "#1C2A24", "fill-opacity": 0.7 } },
+      { id: prefix + "landuse", type: "fill", source, "source-layer": "landuse", minzoom: 6, paint: { "fill-color": "#1B2520", "fill-opacity": 0.65 } },
+      { id: prefix + "park", type: "fill", source, "source-layer": "park", minzoom: 6, paint: { "fill-color": "#1C2A24", "fill-opacity": 0.7 } },
+      { id: prefix + "water", type: "fill", source, "source-layer": "water", minzoom: 6, paint: { "fill-color": "#1A3554" } },
+      { id: prefix + "waterway", type: "line", source, "source-layer": "waterway", minzoom: 6, paint: { "line-color": "#2A5A80", "line-width": 1.2 } },
+      { id: prefix + "building", type: "fill", source, "source-layer": "building", minzoom: 12, paint: { "fill-color": "#2A313C", "fill-opacity": 0.9 } },
+      {
+        id: prefix + "roads-minor",
+        type: "line",
+        source,
+        "source-layer": "transportation",
+        minzoom: 6,
+        filter: ["in", ["get", "class"], ["literal", ["minor", "service", "path", "track", "tertiary", "busway"]]],
+        paint: { "line-color": "#3A4554", "line-width": ["interpolate", ["linear"], ["zoom"], 12, 0.6, 16, 2] }
+      },
+      {
+        id: prefix + "roads-major",
+        type: "line",
+        source,
+        "source-layer": "transportation",
+        minzoom: 6,
+        filter: ["in", ["get", "class"], ["literal", ["motorway", "trunk", "primary", "secondary"]]],
+        paint: { "line-color": "#5A7A90", "line-width": ["interpolate", ["linear"], ["zoom"], 11, 1.2, 16, 3.4] }
+      }
+    ];
+  }
+  function darkStyle() {
     return {
       version: 8,
       name: "Heldpath Dark",
       sources: {
-        [src]: {
+        world: {
           type: "vector",
-          url: "pmtiles://" + pmtilesUrl,
-          attribution: '\xA9 <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url: "pmtiles://world",
+          maxzoom: WORLD_MAXZOOM,
+          attribution: ATTRIBUTION
+        },
+        firenze: {
+          type: "vector",
+          url: "pmtiles://firenze",
+          bounds: FLORENCE_BOUNDS,
+          maxzoom: 15,
+          attribution: ATTRIBUTION
+        },
+        ofm: {
+          type: "vector",
+          tiles: ["ofm://{z}/{x}/{y}"],
+          minzoom: 6,
+          maxzoom: 14,
+          attribution: ATTRIBUTION
         }
       },
       layers: [
         { id: "bg", type: "background", paint: { "background-color": "#12161C" } },
-        { id: "earth", type: "fill", source: src, "source-layer": "earth", paint: { "fill-color": "#1A1F28" } },
-        { id: "landuse", type: "fill", source: src, "source-layer": "landuse", paint: { "fill-color": "#1B2520", "fill-opacity": 0.7 } },
-        { id: "landcover", type: "fill", source: src, "source-layer": "landcover", paint: { "fill-color": "#1C2A24", "fill-opacity": 0.65 } },
-        { id: "water", type: "fill", source: src, "source-layer": "water", paint: { "fill-color": "#1A3554" } },
-        { id: "water-line", type: "line", source: src, "source-layer": "physical_line", paint: { "line-color": "#2A5A80", "line-width": 1.2 } },
-        { id: "buildings", type: "fill", source: src, "source-layer": "buildings", paint: { "fill-color": "#2A313C", "fill-opacity": 0.9 } },
-        {
-          id: "roads-minor",
-          type: "line",
-          source: src,
-          "source-layer": "roads",
-          filter: ["!=", ["get", "pmap:kind"], "major_road"],
-          paint: { "line-color": "#3A4554", "line-width": ["interpolate", ["linear"], ["zoom"], 12, 0.6, 16, 2] }
-        },
-        {
-          id: "roads-major",
-          type: "line",
-          source: src,
-          "source-layer": "roads",
-          filter: ["in", ["get", "pmap:kind"], ["literal", ["major_road", "highway"]]],
-          paint: { "line-color": "#5A7A90", "line-width": ["interpolate", ["linear"], ["zoom"], 11, 1.2, 16, 3.4] }
-        }
+        // World, then the Florence extract, then OpenFreeMap on top so the
+        // extract's opaque earth fill cannot punch a darker rectangle into
+        // mid-zoom views when online tiles are present. Offline, OFM layers
+        // simply stay empty and the bundled packs still show.
+        ...protomapsLayers("world", "world-"),
+        ...protomapsLayers("firenze", "fi-"),
+        ...openMapTilesLayers("ofm", "ofm-")
       ]
     };
+  }
+  function parseOfmUrl(url) {
+    const u2 = String(url);
+    const m = u2.match(/ofm:\/\/(\d+)\/(\d+)\/(\d+)/);
+    if (!m) return null;
+    return { z: Number(m[1]), x: Number(m[2]), y: Number(m[3]) };
+  }
+  async function ofmHandler(params2) {
+    const t = parseOfmUrl(params2.url || "");
+    if (!t) return { data: new ArrayBuffer(0) };
+    try {
+      const cached = await getTile(t.z, t.x, t.y);
+      if (cached && cached.byteLength) return { data: cached };
+    } catch {
+    }
+    if (typeof navigator !== "undefined" && navigator.onLine === false) {
+      return { data: new ArrayBuffer(0) };
+    }
+    try {
+      const tmpl = await resolveOfmTemplate();
+      const res = await fetch(tileUrl(tmpl, t.z, t.x, t.y), {
+        headers: { "User-Agent": OFM_USER_AGENT }
+      });
+      if (!res.ok) return { data: new ArrayBuffer(0) };
+      const data = await res.arrayBuffer();
+      if (data && data.byteLength) {
+        try {
+          await putTile(t.z, t.x, t.y, data);
+        } catch {
+        }
+      }
+      return { data: data || new ArrayBuffer(0) };
+    } catch {
+      return { data: new ArrayBuffer(0) };
+    }
   }
   async function initMap(container) {
     if (map) {
@@ -23842,29 +24294,43 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       import_maplibre_gl.default.addProtocol("pmtiles", protocol.tile);
       protocolAdded = true;
     }
+    if (!ofmProtocolAdded) {
+      import_maplibre_gl.default.addProtocol("ofm", ofmHandler);
+      ofmProtocolAdded = true;
+    }
     try {
-      const pack = await loadLocalPack();
-      protocol.add(pack);
+      await loadArchive(protocol, "firenze", "firenze.pmtiles", { persist: false });
     } catch (err2) {
       console.warn("map pack load failed", err2 && err2.message ? err2.message : err2);
     }
-    const style = darkStyle("firenze");
+    try {
+      await loadArchive(protocol, "world", "world.pmtiles", { persist: true });
+    } catch (err2) {
+      console.warn("world pack load failed", err2 && err2.message ? err2.message : err2);
+    }
+    const style = darkStyle();
     map = new import_maplibre_gl.default.Map({
       container,
       style,
       center: [FLORENCE.lon, FLORENCE.lat],
       zoom: FLORENCE.zoom,
+      minZoom: 0,
+      maxZoom: 18,
       attributionControl: { compact: true },
       maxPitch: 0,
       pitchWithRotate: false,
-      preserveDrawingBuffer: true
+      preserveDrawingBuffer: true,
       // so headless screenshots capture the WebGL canvas
+      fadeDuration: 0
     });
     map.on("load", () => map.resize());
     map.addControl(new import_maplibre_gl.default.NavigationControl({ showCompass: false }), "top-right");
     map.on("error", (e) => {
       console.warn("map error", e && e.error ? e.error.message : e);
     });
+    return map;
+  }
+  function getMap() {
     return map;
   }
   function resizeMap() {
@@ -23957,6 +24423,25 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (!map) return;
     if (map.loaded()) fn();
     else map.once("load", fn);
+  }
+  function whenIdle() {
+    return new Promise((resolve2) => {
+      if (!map) {
+        resolve2();
+        return;
+      }
+      const done = () => resolve2();
+      const kick = () => {
+        map.resize();
+        if (map.loaded()) map.once("idle", done);
+        else map.once("load", () => {
+          map.resize();
+          map.once("idle", done);
+        });
+      };
+      kick();
+      setTimeout(done, 8e3);
+    });
   }
 
   // www/js/track.js
@@ -25690,7 +26175,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   var MAX_SESSIONS_PER_WEEK = { walk: 5, run: 4 };
   var DEFAULT_REMINDER_TIMES = ["08:00", "12:00", "16:00", "20:00"];
   var ML_PER_OZ = 29.5735;
-  function clamp(v2, lo, hi) {
+  function clamp2(v2, lo, hi) {
     return Math.min(hi, Math.max(lo, v2));
   }
   function bearingBetween(a, b2) {
@@ -25705,7 +26190,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function autoLoopPins(center, meters, opts = {}) {
     const target = Math.max(200, Number(meters) || 0);
     const side = target / 4;
-    const aspect = clamp(Number(opts.aspect) || 1.12, 0.8, 1.4);
+    const aspect = clamp2(Number(opts.aspect) || 1.12, 0.8, 1.4);
     const east = side * aspect;
     const north = side * (2 - aspect);
     const seed = Math.abs(Math.round((center.lat * 1e5 + center.lon * 1e5) % 24));
@@ -25925,15 +26410,15 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const maxSessions = Math.max(1, Math.min(days, Math.floor(weeks * maxPerWeek)));
     const typical30 = mph * METERS_PER_MILE / 2;
     const typical45 = typical30 * 1.5;
-    const targetSessions = clamp(Math.round(weeks * 3) || 3, 2, maxSessions);
+    const targetSessions = clamp2(Math.round(weeks * 3) || 3, 2, maxSessions);
     const minSession = typical30 * 0.18;
     const maxSession = typical45 * 1.25;
     let sessionMeters;
     if (goalDistance) {
-      sessionMeters = clamp(goalDistance / targetSessions, minSession, maxSession);
+      sessionMeters = clamp2(goalDistance / targetSessions, minSession, maxSession);
     } else if (goalDuration) {
       sessionMeters = goalDuration / targetSessions * (mph * METERS_PER_MILE / 3600);
-      sessionMeters = clamp(sessionMeters, minSession, maxSession);
+      sessionMeters = clamp2(sessionMeters, minSession, maxSession);
     } else if (course && course.pins && course.pins.length >= 2) {
       sessionMeters = pathLengthMeters(course.pins);
     } else {
@@ -26785,6 +27270,955 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     updatePreview();
   }
 
+  // www/js/stretches_data.js
+  var DISCLAIMER = "This is general fitness guidance, not medical advice. Stop if you feel pain. If you have an injury, illness, or a condition that makes stretching unsafe, talk to a clinician first.";
+  var CREDITS_BODY = [
+    "The stretch figures in Heldpath are from U.S. Army ATP 7-22.02, Holistic Health and Fitness Drills and Exercises (including Change 1).",
+    "The manual is a U.S. federal government work, marked approved for public release, and is in the public domain. Photos were developed by the U.S. Army Center for Initial Military Training and produced at the Enterprise Media Center in Fort Eustis, Virginia.",
+    "Source: Army Publishing Directorate, armypubs.army.mil. We cropped the official figures for the cards and rewrote the cues in plain language. We did not change the movements.",
+    "Heldpath is not affiliated with the U.S. Army or the Department of Defense."
+  ].join(" ");
+  var GROUPS = [
+    { id: "neck_upper", name: "Neck & upper back" },
+    { id: "shoulders_arms", name: "Shoulders & arms" },
+    { id: "back_trunk", name: "Back & trunk" },
+    { id: "hips", name: "Hips" },
+    { id: "thighs", name: "Thighs" },
+    { id: "lower_legs", name: "Lower legs" }
+  ];
+  var IMG = (id) => `assets/stretches/${id}.png`;
+  var STRETCHES = [
+    {
+      id: "pmcs_neck",
+      name: "Neck mobility",
+      group: "neck_upper",
+      drill: "PMCS",
+      figure: "Figure 17-1. PMCS1 Spine\u2014neck",
+      image: IMG("pmcs_neck"),
+      hold: "Slow, pain-free range",
+      reps: "5 repetitions",
+      description: "Stand with your feet apart. Look left and right, then tilt an ear toward each shoulder, and finally look up and down as far as is comfortable. Compare sides. Repeat the head movements five times, and do more only if the motion eases."
+    },
+    {
+      id: "pmcs_midback_seated",
+      name: "Mid-back (seated)",
+      group: "neck_upper",
+      drill: "PMCS",
+      figure: "Figure 17-2. PMCS1 Spine\u2014mid-back seated",
+      image: IMG("pmcs_midback_seated"),
+      hold: "Slow, pain-free range",
+      reps: "5 repetitions each way",
+      description: "Sit tall with your fingers interlocked over your chest. Rotate your trunk to the right, then to the left, keeping the motion in your mid-back. Compare sides and repeat five times."
+    },
+    {
+      id: "pmcs_midback_standing",
+      name: "Mid-back (standing)",
+      group: "neck_upper",
+      drill: "PMCS",
+      figure: "Figure 17-3. PMCS1 Spine\u2014mid-back standing mobility",
+      image: IMG("pmcs_midback_standing"),
+      hold: "Slow, pain-free range",
+      reps: "5 repetitions",
+      description: "Stand with your feet apart. Look up as far as you can without pain while you raise both arms up and over your head. Return and repeat five times. Do more only if the motion eases."
+    },
+    {
+      id: "pmcs_midback_prone",
+      name: "Mid-back (prone)",
+      group: "neck_upper",
+      drill: "PMCS",
+      figure: "Figure 17-4. PMCS1 Spine\u2014mid-back prone mobility",
+      image: IMG("pmcs_midback_prone"),
+      hold: "Up to 60 seconds",
+      reps: "1\u20133 holds",
+      description: "Lie face down and prop your chin on your fingertips, opening the mid-back. Rest in this position for up to 60 seconds. Repeat a few times if it helps. Come down if you feel pain."
+    },
+    {
+      id: "rd1_overhead_arm_pull",
+      name: "Overhead Arm Pull",
+      group: "shoulders_arms",
+      drill: "Recovery Drill",
+      figure: "Figure 16-1. RD1 Overhead Arm Pull",
+      image: IMG("rd1_overhead_arm_pull"),
+      hold: "20\u201330 seconds each side",
+      reps: "1\u20132 holds",
+      description: "Stand with your feet apart. Raise one arm overhead, bend the elbow, and gently pull that elbow toward the opposite side until you feel a stretch along the triceps and the side of the trunk. Keep your ribcage tall. Switch sides."
+    },
+    {
+      id: "pmcs_shoulder",
+      name: "Shoulder stretch",
+      group: "shoulders_arms",
+      drill: "PMCS",
+      figure: "Figure 17-13. PMCS5 Shoulder",
+      image: IMG("pmcs_shoulder"),
+      hold: "Slow, pain-free range",
+      reps: "5 repetitions each side",
+      description: "Stand in a relaxed, feet-apart stance. Reach one hand behind you and use the other hand to gently draw that wrist farther back, as in a parade-rest position, until you feel a stretch across the front of the shoulder. Return and repeat five times on each side."
+    },
+    {
+      id: "pmcs_arm",
+      name: "Elbow extension",
+      group: "shoulders_arms",
+      drill: "PMCS",
+      figure: "Figure 17-14. PMCS6 Arm",
+      image: IMG("pmcs_arm"),
+      hold: "Slow, pain-free range",
+      reps: "5 repetitions each side",
+      description: "Stand with your feet apart. Support one arm with the opposite hand and straighten the elbow as far as is comfortable. You can brace the hand on a wall and gently press the elbow straighter. Return and repeat five times on each arm."
+    },
+    {
+      id: "pmcs_elbow_wrist",
+      name: "Wrist extension",
+      group: "shoulders_arms",
+      drill: "PMCS",
+      figure: "Figure 17-15. PMCS6 Elbow and wrist",
+      image: IMG("pmcs_elbow_wrist"),
+      hold: "Slow, pain-free range",
+      reps: "5 repetitions each side",
+      description: "Keep the elbow straight and use the opposite hand to gently pull the fingers back so the palm faces away from you. Return and repeat five times on each side. If straightening is uncomfortable, try the same idea into a gentle fist instead."
+    },
+    {
+      id: "pd1_bend_and_reach",
+      name: "Bend and Reach",
+      group: "back_trunk",
+      drill: "Preparation Drill",
+      figure: "Figure 3-1. PD1 Bend and Reach",
+      image: IMG("pd1_bend_and_reach"),
+      hold: "Slow cadence",
+      reps: "5\u201310 repetitions",
+      description: "Stand with your feet apart and arms overhead, palms facing in. Squat slightly, heels down, and reach your hands between your legs as you round the spine and tuck the chin to look behind you. Return to standing with the arms overhead. Move slowly."
+    },
+    {
+      id: "pd6_windmill",
+      name: "Windmill",
+      group: "back_trunk",
+      drill: "Preparation Drill",
+      figure: "Figure 3-9. PD6 Proper technique to execute the Windmill",
+      image: IMG("pd6_windmill"),
+      hold: "Slow cadence",
+      reps: "5\u201310 repetitions",
+      description: "Stand with your feet apart and arms straight out to the sides, palms down. Bend the hips and knees and rotate your trunk to one side, reaching the opposite hand toward the outside of that foot. Look back as the other arm stays in line across the shoulders. Return and switch sides."
+    },
+    {
+      id: "pd9_bent_leg_body_twist",
+      name: "Bent-Leg Body Twist",
+      group: "back_trunk",
+      drill: "Preparation Drill",
+      figure: "Figure 3-12. PD9 Bent-Leg Body Twist",
+      image: IMG("pd9_bent_leg_body_twist"),
+      hold: "Slow cadence",
+      reps: "5\u201310 repetitions",
+      description: "Lie on your back with hips and knees bent to 90 degrees, knees and feet together, and arms out to the sides with palms on the floor. Lower both legs to one side while the upper back and arms stay on the ground. Return to the center, then lower to the other side."
+    },
+    {
+      id: "rd3_extend_and_flex",
+      name: "Extend and Flex",
+      group: "back_trunk",
+      drill: "Recovery Drill",
+      figure: "Figure 16-3. RD3 Extend and Flex",
+      image: IMG("rd3_extend_and_flex"),
+      hold: "20\u201330 seconds each position",
+      reps: "1\u20132 holds",
+      description: "From a hands-and-knees or prone start, move into a gentle back extension with the hips down and look slightly up, holding 20\u201330 seconds. Then sit back toward your heels, chest toward the thighs and arms stretched forward, and hold another 20\u201330 seconds. Keep the motion pain-free."
+    },
+    {
+      id: "rd3_extend_and_flex_standing",
+      name: "Extend and Flex (standing)",
+      group: "back_trunk",
+      drill: "Recovery Drill (modified)",
+      figure: "Figure 16-12. RD MOD3 Extend and Flex (modified)\u2014standing",
+      image: IMG("rd3_extend_and_flex_standing"),
+      hold: "10\u201315 seconds, or 20\u201330 seconds moving",
+      reps: "1\u20132 holds",
+      description: "Stand with your feet apart. Place your hands on your low back and gently extend, looking up, then fold forward with a long spine and let the arms hang or reach toward the floor. Move in and out of the positions for 20\u201330 seconds, or hold each for 10\u201315 seconds and repeat once."
+    },
+    {
+      id: "pmcs_lowback_prone",
+      name: "Low back (prone)",
+      group: "back_trunk",
+      drill: "PMCS",
+      figure: "Figure 17-5. PMCS1 Spine\u2014low back prone",
+      image: IMG("pmcs_lowback_prone"),
+      hold: "Slow, pain-free range",
+      reps: "10 repetitions",
+      description: "Lie face down and press through your hands to lift the chest into a gentle extension, going only as far as is comfortable. Lower and repeat ten times. This is the extend position from Extend and Flex, used here as a mobility check for the low back."
+    },
+    {
+      id: "pmcs_lowback_standing",
+      name: "Low back (standing)",
+      group: "back_trunk",
+      drill: "PMCS",
+      figure: "Figure 17-6. PMCS1 Spine\u2014low back standing",
+      image: IMG("pmcs_lowback_standing"),
+      hold: "Slow, pain-free range",
+      reps: "10 repetitions",
+      description: "Stand with your feet apart and hands on your low back. Gently extend through the spine, then return to standing. Repeat ten times. Stop if you feel pain."
+    },
+    {
+      id: "rd2_rear_lunge",
+      name: "Rear Lunge stretch",
+      group: "hips",
+      drill: "Recovery Drill",
+      figure: "Figure 16-2. RD2 Rear Lunge",
+      image: IMG("rd2_rear_lunge"),
+      hold: "20\u201330 seconds each side",
+      reps: "1\u20132 holds",
+      description: "Stand with your hands on your hips. Step one foot far back, lowering until you feel a stretch in the front of the rear hip and thigh. Keep the trunk upright and your gaze forward. Hold 20\u201330 seconds, then switch legs."
+    },
+    {
+      id: "rd5_single_leg_over",
+      name: "Single-Leg Over",
+      group: "hips",
+      drill: "Recovery Drill",
+      figure: "Figure 16-5. RD5 Single-Leg Over",
+      image: IMG("rd5_single_leg_over"),
+      hold: "20\u201330 seconds each side",
+      reps: "1\u20132 holds",
+      description: "Lie on your back with one knee pulled across the body toward the opposite side. Keep both shoulders and the opposite arm on the ground. You should feel the stretch through the hip and outer trunk. Hold 20\u201330 seconds, then switch sides."
+    },
+    {
+      id: "pmcs_hip",
+      name: "Hip lunge mobility",
+      group: "hips",
+      drill: "PMCS",
+      figure: "Figure 17-10. PMCS4 Hip",
+      image: IMG("pmcs_hip"),
+      hold: "Slow, pain-free range",
+      reps: "5 repetitions each side",
+      description: "Start in a half-kneeling position. Move your trunk, hips, and front knee forward over the front foot into a deep lunge, keeping the rear knee on the ground and the trunk upright. You should feel a stretch in the front of the rear thigh and hip. Return and repeat five times on each side."
+    },
+    {
+      id: "pmcs_hip_supine",
+      name: "Knee to chest",
+      group: "hips",
+      drill: "PMCS",
+      figure: "Figure 17-11. PMCS4 Hip\u2014supine",
+      image: IMG("pmcs_hip_supine"),
+      hold: "Slow, pain-free range",
+      reps: "5 repetitions each side",
+      description: "Lie on your back and gently draw one knee toward your chest, keeping the other leg relaxed on the floor. Return and repeat five times on each side. Use this if a standing or kneeling hip movement is uncomfortable."
+    },
+    {
+      id: "rd4_thigh_stretch",
+      name: "Thigh Stretch",
+      group: "thighs",
+      drill: "Recovery Drill",
+      figure: "Figure 16-4. RD4 Thigh Stretch",
+      image: IMG("rd4_thigh_stretch"),
+      hold: "20\u201330 seconds each side",
+      reps: "1\u20132 holds",
+      description: "Lie on one side. Bend the top knee and hold the ankle, gently drawing the heel toward the same-side hip until you feel a stretch in the front of the thigh. Keep the hips stacked and the bottom leg relaxed. Hold 20\u201330 seconds, then switch sides."
+    },
+    {
+      id: "pd7_forward_lunge",
+      name: "Forward Lunge",
+      group: "thighs",
+      drill: "Preparation Drill",
+      figure: "Figure 3-10. PD7 Forward Lunge",
+      image: IMG("pd7_forward_lunge"),
+      hold: "Slow cadence",
+      reps: "5\u201310 repetitions",
+      description: "Stand with your feet apart and hands on your hips. Step forward and bend the hips and knees into a lunge, keeping the back straight and your eyes forward. Do not let the feet drift together. Return and step forward with the other leg."
+    },
+    {
+      id: "rd6_groin_stretch",
+      name: "Groin Stretch",
+      group: "thighs",
+      drill: "Recovery Drill",
+      figure: "Figure 16-6. RD6 Groin Stretch",
+      image: IMG("rd6_groin_stretch"),
+      hold: "20\u201330 seconds each side",
+      reps: "1\u20132 holds",
+      description: "Stand with a wide stance, hands on your hips. Bend one knee into a side lunge while the other leg stays long. Keep the trunk and head facing forward. Ease deeper until you feel the stretch along the inner thigh of the straight leg. Hold 20\u201330 seconds, then switch sides."
+    },
+    {
+      id: "rd7_calf_stretch",
+      name: "Calf Stretch",
+      group: "lower_legs",
+      drill: "Recovery Drill",
+      figure: "Figure 16-7. RD7 Calf Stretch",
+      image: IMG("rd7_calf_stretch"),
+      hold: "20\u201330 seconds each side",
+      reps: "1\u20132 holds",
+      description: "Stand facing forward in a staggered stance, hands on your hips or a support. Keep the rear foot pointed forward and the rear heel down. Lean forward until you feel a stretch in the rear calf. A slight bend in the rear knee shifts the stretch lower. Hold 20\u201330 seconds, then switch legs."
+    },
+    {
+      id: "rd8_hamstring_stretch",
+      name: "Hamstring Stretch",
+      group: "lower_legs",
+      drill: "Recovery Drill",
+      figure: "Figure 16-8. RD8 Hamstring Stretch",
+      image: IMG("rd8_hamstring_stretch"),
+      hold: "20\u201330 seconds",
+      reps: "1\u20132 holds, then a slightly deeper reach",
+      description: "Sit with both legs extended and reach toward your feet, ankles, or lower legs until you feel a stretch in the back of the thighs. Keep the knees straight without locking them. Hold 20\u201330 seconds. Relax, then reach slightly farther for a second hold."
+    },
+    {
+      id: "rd8_hamstring_single_leg",
+      name: "Hamstring Stretch (single leg)",
+      group: "lower_legs",
+      drill: "Recovery Drill (modified)",
+      figure: "Figure 16-18. RD MOD8 Hamstring (modified)\u2014single leg",
+      image: IMG("rd8_hamstring_single_leg"),
+      hold: "20\u201330 seconds each side",
+      reps: "1\u20132 holds",
+      description: "Sit with one leg extended and the other knee bent. Reach toward the extended foot until you feel a stretch in the back of that thigh. Keep the extended knee straight without locking it. Hold 20\u201330 seconds, then switch legs."
+    },
+    {
+      id: "pmcs_ankle",
+      name: "Ankle mobility",
+      group: "lower_legs",
+      drill: "PMCS",
+      figure: "Figure 17-7. PMCS2 Ankle",
+      image: IMG("pmcs_ankle"),
+      hold: "Slow, pain-free range",
+      reps: "5 repetitions each side",
+      description: "Start in a half-kneeling position. Move your trunk, hips, and knee forward over the front foot as far as is comfortable, keeping the heel down if you can. Return and repeat five times on each side."
+    },
+    {
+      id: "pmcs_ankle_kneeling",
+      name: "Ankle (kneeling)",
+      group: "lower_legs",
+      drill: "PMCS",
+      figure: "Figure 17-8. PMCS2 Ankle\u2014kneeling",
+      image: IMG("pmcs_ankle_kneeling"),
+      hold: "Slow, pain-free range",
+      reps: "5 repetitions",
+      description: "Kneel and sit your buttocks back toward your heels, then rise slightly and repeat. Use this if the half-kneeling ankle movement is uncomfortable. Move only in a pain-free range, five times or more if it helps."
+    },
+    {
+      id: "pmcs_knee",
+      name: "Knee extension",
+      group: "lower_legs",
+      drill: "PMCS",
+      figure: "Figure 17-9. PMCS3 Knee",
+      image: IMG("pmcs_knee"),
+      hold: "Slow, pain-free range",
+      reps: "5 repetitions each side",
+      description: "Stand with one foot slightly ahead and both hands on the front of that thigh, just above the knee. Tighten the thigh and gently press the knee straight. Return and repeat five times on each side. If this is uncomfortable, use the lying knee-to-chest movement instead."
+    }
+  ];
+  function groupById(id) {
+    return GROUPS.find((g) => g.id === id) || null;
+  }
+  function stretchesInGroup(groupId) {
+    return STRETCHES.filter((s2) => s2.group === groupId);
+  }
+  function mulberry32(seed) {
+    let a = seed >>> 0;
+    return function rand() {
+      a |= 0;
+      a = a + 1831565813 | 0;
+      let t = Math.imul(a ^ a >>> 15, 1 | a);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function pickRandomWorkout(seed = Date.now(), perGroup = 2) {
+    const rng = mulberry32(seed >>> 0);
+    const list = [];
+    for (const g of GROUPS) {
+      const pool = stretchesInGroup(g.id).slice();
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j2 = Math.floor(rng() * (i + 1));
+        const tmp = pool[i];
+        pool[i] = pool[j2];
+        pool[j2] = tmp;
+      }
+      list.push(...pool.slice(0, Math.min(perGroup, pool.length)));
+    }
+    return list;
+  }
+  function swipeDirection(dx, dy, threshold = 50) {
+    if (!Number.isFinite(dx) || !Number.isFinite(dy)) return null;
+    if (Math.abs(dx) < threshold || Math.abs(dx) <= Math.abs(dy)) return null;
+    return dx < 0 ? "next" : "prev";
+  }
+  function stepIndex(index, dir, length) {
+    if (!length) return 0;
+    if (dir === "next") return Math.min(length - 1, index + 1);
+    if (dir === "prev") return Math.max(0, index - 1);
+    return index;
+  }
+
+  // www/js/stretches_ui.js
+  var $2 = (id) => document.getElementById(id);
+  var hooks = { showScreen: () => {
+  }, goSettings: () => {
+  } };
+  var view = {
+    mode: "hub",
+    // hub | group | workout | credits
+    list: [],
+    index: 0,
+    groupId: null,
+    seed: 0,
+    title: "Stretches"
+  };
+  function escapeHtml2(s2) {
+    return String(s2).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  function initStretchesUi(opts) {
+    hooks = opts;
+    const open = $2("btn-stretches-open");
+    if (open) open.addEventListener("click", () => showStretchesHub());
+    const backHub = $2("stretches-back");
+    if (backHub) backHub.addEventListener("click", () => hooks.goSettings());
+    const backCard = $2("stretch-card-back");
+    if (backCard) backCard.addEventListener("click", () => showStretchesHub());
+    const backCredits = $2("stretch-credits-back");
+    if (backCredits) backCredits.addEventListener("click", () => showStretchesHub());
+    const randomBtn = $2("btn-stretch-random");
+    if (randomBtn) randomBtn.addEventListener("click", () => showStretchWorkout());
+    const creditsBtn = $2("btn-stretch-credits");
+    if (creditsBtn) creditsBtn.addEventListener("click", () => showStretchCredits());
+    const prev = $2("btn-stretch-prev");
+    const next = $2("btn-stretch-next");
+    if (prev) prev.addEventListener("click", () => goCard("prev"));
+    if (next) next.addEventListener("click", () => goCard("next"));
+    bindSwipe($2("stretch-figure"));
+    document.addEventListener("keydown", (ev) => {
+      if (!$2("screen-stretch-card")?.classList.contains("active")) return;
+      if (ev.key === "ArrowLeft") {
+        ev.preventDefault();
+        goCard("prev");
+      }
+      if (ev.key === "ArrowRight") {
+        ev.preventDefault();
+        goCard("next");
+      }
+    });
+  }
+  function showStretchesHub() {
+    view.mode = "hub";
+    renderHub();
+    hooks.showScreen("stretches");
+  }
+  function showStretchGroup(groupId) {
+    const g = groupById(groupId) || GROUPS[0];
+    view.mode = "group";
+    view.groupId = g.id;
+    view.list = stretchesInGroup(g.id);
+    view.index = 0;
+    view.title = g.name;
+    renderCard();
+    hooks.showScreen("stretch-card");
+  }
+  function showStretchWorkout(seed) {
+    const s2 = seed == null ? Date.now() >>> 0 : seed >>> 0;
+    view.mode = "workout";
+    view.seed = s2;
+    view.groupId = null;
+    view.list = pickRandomWorkout(s2, 2);
+    view.index = 0;
+    view.title = "Random workout";
+    renderCard();
+    hooks.showScreen("stretch-card");
+  }
+  function showStretchCredits() {
+    view.mode = "credits";
+    const body = $2("stretch-credits-body");
+    if (body) body.textContent = CREDITS_BODY;
+    const note = $2("stretch-credits-disclaimer");
+    if (note) note.textContent = DISCLAIMER;
+    hooks.showScreen("stretch-credits");
+  }
+  function renderHub() {
+    const note = $2("stretches-disclaimer");
+    if (note) note.textContent = DISCLAIMER;
+    const list = $2("stretches-groups");
+    if (!list) return;
+    list.innerHTML = GROUPS.map((g) => {
+      const n = stretchesInGroup(g.id).length;
+      return `<button type="button" class="stretch-group-btn" data-group="${escapeHtml2(g.id)}" data-testid="stretch-group-${escapeHtml2(g.id)}">
+      <span class="stretch-group-name">${escapeHtml2(g.name)}</span>
+      <span class="stretch-group-count">${n} stretches</span>
+    </button>`;
+    }).join("");
+    list.querySelectorAll("[data-group]").forEach((btn) => {
+      btn.addEventListener("click", () => showStretchGroup(btn.getAttribute("data-group")));
+    });
+  }
+  function renderCard() {
+    const list = view.list;
+    const i = view.index;
+    const s2 = list[i];
+    const title = $2("stretch-card-title");
+    if (title) title.textContent = view.title;
+    const counter = $2("stretch-card-counter");
+    if (counter) counter.textContent = list.length ? `${i + 1} of ${list.length}` : "0 of 0";
+    if (!s2) return;
+    const img = $2("stretch-card-image");
+    if (img) {
+      img.src = s2.image;
+      img.alt = `${s2.name}. ${s2.figure}`;
+    }
+    const name = $2("stretch-card-name");
+    if (name) name.textContent = s2.name;
+    const g = groupById(s2.group);
+    const meta = $2("stretch-card-meta");
+    if (meta) meta.textContent = [g ? g.name : "", s2.drill].filter(Boolean).join(" \xB7 ");
+    const hold = $2("stretch-chip-hold");
+    if (hold) hold.textContent = s2.hold;
+    const reps = $2("stretch-chip-reps");
+    if (reps) reps.textContent = s2.reps;
+    const desc = $2("stretch-card-desc");
+    if (desc) desc.textContent = s2.description;
+    const fig = $2("stretch-card-figure");
+    if (fig) fig.textContent = s2.figure;
+    const prev = $2("btn-stretch-prev");
+    const next = $2("btn-stretch-next");
+    if (prev) prev.disabled = i <= 0;
+    if (next) next.disabled = i >= list.length - 1;
+    const dots = $2("stretch-dots");
+    if (dots) {
+      dots.innerHTML = list.map(
+        (_2, k) => `<span class="stretch-dot${k === i ? " is-on" : ""}" data-i="${k}"></span>`
+      ).join("");
+      dots.querySelectorAll("[data-i]").forEach((el) => {
+        el.addEventListener("click", () => {
+          view.index = Number(el.getAttribute("data-i"));
+          renderCard();
+        });
+      });
+    }
+  }
+  function goCard(dir) {
+    const next = stepIndex(view.index, dir, view.list.length);
+    if (next === view.index) return;
+    view.index = next;
+    renderCard();
+  }
+  function bindSwipe(el) {
+    if (!el) return;
+    let x0 = 0, y0 = 0, active = false, pid = null;
+    el.addEventListener("pointerdown", (ev) => {
+      if (ev.pointerType === "mouse" && ev.button !== 0) return;
+      active = true;
+      pid = ev.pointerId;
+      x0 = ev.clientX;
+      y0 = ev.clientY;
+      try {
+        el.setPointerCapture(ev.pointerId);
+      } catch {
+      }
+    });
+    const end = (ev) => {
+      if (!active || pid != null && ev.pointerId !== pid) return;
+      active = false;
+      pid = null;
+      const dir = swipeDirection(ev.clientX - x0, ev.clientY - y0);
+      if (dir) goCard(dir);
+    };
+    el.addEventListener("pointerup", end);
+    el.addEventListener("pointercancel", () => {
+      active = false;
+      pid = null;
+    });
+  }
+
+  // www/js/map_offline.js
+  async function downloadArea(bbox, opt = {}) {
+    const box = normalizeBbox(bbox);
+    const avgBytes = opt.avgBytes || await observedAvgTileBytes();
+    const plan = planDownload(box, { avgBytes });
+    if (plan.tooLarge) return { ok: false, reason: "too-large", plan };
+    const tiles = tilesInPyramid(box, plan.minZoom, plan.maxZoom);
+    if (tiles.length > OFM_MAX_TILES) return { ok: false, reason: "too-many", plan, tileCount: tiles.length };
+    const tmpl = await resolveOfmTemplate();
+    const keys = [];
+    const result = await mapPool(
+      tiles,
+      OFM_PARALLEL,
+      async (t) => {
+        const existing = await getTile(t.z, t.x, t.y);
+        if (existing) {
+          keys.push(`ofm/${t.z}/${t.x}/${t.y}`);
+          return existing.byteLength;
+        }
+        const res = await fetch(tileUrl(tmpl, t.z, t.x, t.y), {
+          headers: { "User-Agent": OFM_USER_AGENT }
+        });
+        if (!res.ok) return 0;
+        const data = await res.arrayBuffer();
+        if (data.byteLength) {
+          await putTile(t.z, t.x, t.y, data);
+          keys.push(`ofm/${t.z}/${t.x}/${t.y}`);
+        }
+        return data.byteLength;
+      },
+      opt.onProgress
+    );
+    if (result.bytes > OFM_MAX_BYTES && keys.length === 0) {
+      return { ok: false, reason: "too-large", plan, result };
+    }
+    const now = (/* @__PURE__ */ new Date()).toISOString();
+    const area = {
+      id: opt.id || "area-" + Date.now().toString(36),
+      name: opt.name || defaultAreaName(box),
+      west: box.west,
+      south: box.south,
+      east: box.east,
+      north: box.north,
+      minZoom: plan.minZoom,
+      maxZoom: plan.maxZoom,
+      bytes: result.bytes,
+      tileCount: result.done,
+      tileKeys: keys,
+      createdAt: opt.createdAt || now,
+      updatedAt: now
+    };
+    await saveArea(area);
+    return { ok: true, area, plan, result };
+  }
+  function defaultAreaName(box) {
+    const lat = ((box.south + box.north) / 2).toFixed(2);
+    const lon = ((box.west + box.east) / 2).toFixed(2);
+    return `Area ${lat}, ${lon}`;
+  }
+  async function updateArea(area, onProgress) {
+    return downloadArea(area, {
+      id: area.id,
+      name: area.name,
+      createdAt: area.createdAt,
+      onProgress
+    });
+  }
+
+  // www/js/map_download_ui.js
+  var $3 = (id) => document.getElementById(id);
+  var hooks2 = { showScreen: () => {
+  }, setHideNav: () => {
+  }, onClose: () => {
+  } };
+  var dragging = null;
+  var cropOpen = false;
+  var downloading = false;
+  function initMapDownloadUi(opts) {
+    hooks2 = opts || hooks2;
+    const openAreas = $3("btn-map-pack");
+    if (openAreas) openAreas.addEventListener("click", () => showMapAreas());
+    const areasBack = $3("map-areas-back");
+    if (areasBack) areasBack.addEventListener("click", () => hooks2.showScreen && hooks2.goSettings ? hooks2.goSettings() : hooks2.showScreen("settings"));
+    const startCrop = $3("btn-map-download-area");
+    if (startCrop) startCrop.addEventListener("click", () => openCrop());
+    const cancel = $3("btn-map-crop-cancel");
+    if (cancel) cancel.addEventListener("click", () => closeCrop());
+    const go = $3("btn-map-crop-download");
+    if (go) go.addEventListener("click", () => confirmDownload());
+    bindHandles();
+    const list = $3("map-areas-list");
+    if (list) {
+      list.addEventListener("click", (ev) => {
+        const btn = ev.target.closest("[data-area-action]");
+        if (!btn) return;
+        const id = btn.getAttribute("data-id");
+        const action = btn.getAttribute("data-area-action");
+        if (action === "delete") onDelete(id);
+        if (action === "update") onUpdate2(id);
+        if (action === "show") onShow(id);
+      });
+    }
+  }
+  async function showMapAreas() {
+    cropOpen = false;
+    closeCropOverlay();
+    await renderAreas();
+    if (hooks2.showScreen) hooks2.showScreen("map-areas");
+  }
+  async function renderAreas() {
+    const list = $3("map-areas-list");
+    const usedEl = $3("map-areas-used");
+    const stor = await deviceStorage();
+    let used = 0;
+    try {
+      used = await tileCacheBytes();
+    } catch {
+      used = 0;
+    }
+    if (usedEl) {
+      const avail = stor.available != null ? ` \xB7 ${formatBytes(stor.available)} free` : "";
+      usedEl.textContent = `Downloaded map tiles use ${formatBytes(used)} on this device${avail}. The world basemap (zoom 0\u20136) and the Florence starter pack are already in the app.`;
+    }
+    if (!list) return;
+    let areas = [];
+    try {
+      areas = await listAreas();
+    } catch {
+      areas = [];
+    }
+    const bundled = `
+    <div class="map-area-card" data-testid="area-world">
+      <div>
+        <strong>World basemap</strong>
+        <p class="tiny">Bundled, zoom 0\u20136. Always available offline so zooming out never goes black.</p>
+      </div>
+    </div>
+    <div class="map-area-card" data-testid="area-florence">
+      <div>
+        <strong>Florence starter</strong>
+        <p class="tiny">Bundled street-level pack for the Florence extract. Always available offline.</p>
+      </div>
+    </div>`;
+    const rows = areas.map((a) => `
+    <div class="map-area-card" data-testid="area-${a.id}">
+      <button type="button" class="map-area-main" data-area-action="show" data-id="${esc2(a.id)}">
+        <strong>${esc2(a.name)}</strong>
+        <p class="tiny">${formatBytes(a.bytes || 0)} \xB7 ${a.tileCount || 0} tiles \xB7 detail to zoom ${a.maxZoom}
+          ${a.updatedAt ? " \xB7 updated " + esc2(String(a.updatedAt).slice(0, 10)) : ""}</p>
+      </button>
+      <div class="map-area-actions">
+        <button type="button" class="btn btn-secondary" data-area-action="update" data-id="${esc2(a.id)}">Update</button>
+        <button type="button" class="btn btn-danger" data-area-action="delete" data-id="${esc2(a.id)}">Delete</button>
+      </div>
+    </div>`).join("");
+    list.innerHTML = bundled + (rows || `<p class="tiny" data-testid="map-areas-empty">No extra areas yet. Download a region to use street-level tiles offline.</p>`);
+  }
+  function esc2(s2) {
+    return String(s2).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  function openCrop(opt = {}) {
+    const root = $3("map-crop-root");
+    if (!root) return;
+    if (opt.lat != null && opt.lon != null) setCenter(opt.lat, opt.lon, opt.zoom);
+    if (hooks2.showScreen) hooks2.showScreen("today");
+    if (hooks2.setHideNav) hooks2.setHideNav(true);
+    root.hidden = false;
+    document.body.classList.add("map-crop-open");
+    cropOpen = true;
+    resetFrame();
+    setProgress(false);
+    refreshEstimate();
+    const map2 = getMap();
+    if (map2) {
+      map2.on("moveend", onMapMoved);
+      map2.on("zoomend", onMapMoved);
+      map2.resize();
+    }
+  }
+  function closeCropOverlay() {
+    const root = $3("map-crop-root");
+    if (root) root.hidden = true;
+    document.body.classList.remove("map-crop-open");
+    const map2 = getMap();
+    if (map2) {
+      map2.off("moveend", onMapMoved);
+      map2.off("zoomend", onMapMoved);
+    }
+    cropOpen = false;
+  }
+  function closeCrop() {
+    if (downloading) return;
+    closeCropOverlay();
+    if (hooks2.setHideNav) hooks2.setHideNav(false);
+    if (hooks2.showScreen) hooks2.showScreen("map-areas");
+    renderAreas();
+  }
+  function onMapMoved() {
+    if (cropOpen && !dragging) refreshEstimate();
+  }
+  function resetFrame() {
+    const frame = $3("map-crop-frame");
+    const stage = $3("map-crop-stage");
+    if (!frame || !stage) return;
+    const r = stage.getBoundingClientRect();
+    const w2 = Math.round(r.width * 0.8);
+    const h2 = Math.round(r.height * 0.48);
+    const left = Math.round((r.width - w2) / 2);
+    const top = Math.round(r.height * 0.16);
+    frame.style.left = left + "px";
+    frame.style.top = top + "px";
+    frame.style.width = w2 + "px";
+    frame.style.height = h2 + "px";
+  }
+  function currentBbox() {
+    return bboxFromFrame(getMap(), $3("map-crop-frame"));
+  }
+  async function refreshEstimate() {
+    const el = $3("map-crop-estimate");
+    const storEl = $3("map-crop-storage");
+    const btn = $3("btn-map-crop-download");
+    const bbox = currentBbox();
+    if (!bbox) return;
+    let avg = 80 * 1024;
+    try {
+      avg = await observedAvgTileBytes();
+    } catch {
+    }
+    const p = planDownload(bbox, { avgBytes: avg });
+    if (el) {
+      if (p.tooLarge) {
+        el.textContent = "This area is too large to download at once (OpenFreeMap allows 3,000 tiles or 50 MB per download). Pinch in or shrink the frame.";
+      } else {
+        el.textContent = `About ${formatBytes(p.estimateBytes)} \xB7 ${p.tileCount.toLocaleString()} tiles \xB7 street detail to zoom ${p.maxZoom}.`;
+      }
+    }
+    if (storEl) {
+      try {
+        const stor = await deviceStorage();
+        storEl.textContent = formatStorageLine(p.estimateBytes, stor.available);
+      } catch {
+        storEl.textContent = `About ${formatBytes(p.estimateBytes)} to download.`;
+      }
+    }
+    if (btn) btn.disabled = !!(p.tooLarge || downloading);
+  }
+  function setProgress(on, frac = 0, label = "") {
+    const wrap = $3("map-crop-progress");
+    const bar = $3("map-crop-progress-bar");
+    const text = $3("map-crop-progress-label");
+    if (!wrap) return;
+    wrap.hidden = !on;
+    if (bar) bar.style.width = Math.round(Math.max(0, Math.min(1, frac)) * 100) + "%";
+    if (text) text.textContent = label;
+  }
+  async function confirmDownload() {
+    if (downloading) return;
+    const bbox = currentBbox();
+    if (!bbox) return;
+    downloading = true;
+    const btn = $3("btn-map-crop-download");
+    if (btn) btn.disabled = true;
+    setProgress(true, 0, "Starting download\u2026");
+    try {
+      const res = await downloadArea(bbox, {
+        onProgress: ({ done, total, bytes }) => {
+          setProgress(true, total ? done / total : 0, `Downloading ${done} of ${total} tiles \xB7 ${formatBytes(bytes)}`);
+        }
+      });
+      if (!res.ok) {
+        setProgress(true, 0, "Could not download this area. Shrink the frame and try again.");
+        downloading = false;
+        if (btn) btn.disabled = false;
+        return;
+      }
+      setProgress(true, 1, `Saved ${res.area.name} (${formatBytes(res.area.bytes)}).`);
+      downloading = false;
+      closeCrop();
+    } catch (err2) {
+      console.warn("download area", err2);
+      setProgress(true, 0, "Download failed. Check the connection and try again.");
+      downloading = false;
+      if (btn) btn.disabled = false;
+    }
+  }
+  async function onDelete(id) {
+    if (!id) return;
+    if (!window.confirm("Delete this downloaded area from the phone?")) return;
+    await deleteAreaRecord(id);
+    await renderAreas();
+  }
+  async function onUpdate2(id) {
+    const areas = await listAreas();
+    const area = areas.find((a) => a.id === id);
+    if (!area) return;
+    setProgress(false);
+    openCrop();
+    const map2 = getMap();
+    if (map2) {
+      map2.fitBounds([[area.west, area.south], [area.east, area.north]], { padding: 40, duration: 0 });
+    }
+    downloading = true;
+    setProgress(true, 0, "Updating\u2026");
+    try {
+      const res = await updateArea(area, ({ done, total, bytes }) => {
+        setProgress(true, total ? done / total : 0, `Updating ${done} of ${total} tiles \xB7 ${formatBytes(bytes)}`);
+      });
+      downloading = false;
+      closeCrop();
+      if (!res.ok) await renderAreas();
+    } catch (err2) {
+      console.warn("update area", err2);
+      downloading = false;
+      setProgress(true, 0, "Update failed.");
+    }
+  }
+  function onShow(id) {
+    listAreas().then((areas) => {
+      const area = areas.find((a) => a.id === id);
+      if (!area) return;
+      if (hooks2.showScreen) hooks2.showScreen("today");
+      const map2 = getMap();
+      if (map2) map2.fitBounds([[area.west, area.south], [area.east, area.north]], { padding: 60, duration: 0 });
+    });
+  }
+  function bindHandles() {
+    const frame = $3("map-crop-frame");
+    const stage = $3("map-crop-stage");
+    if (!frame || !stage) return;
+    stage.addEventListener("pointerdown", (ev) => {
+      const handle = ev.target.closest("[data-handle]");
+      if (!handle || !cropOpen) return;
+      ev.preventDefault();
+      ev.stopPropagation();
+      const kind = handle.getAttribute("data-handle");
+      const fr = frame.getBoundingClientRect();
+      const st = stage.getBoundingClientRect();
+      dragging = {
+        kind,
+        startX: ev.clientX,
+        startY: ev.clientY,
+        left: fr.left - st.left,
+        top: fr.top - st.top,
+        width: fr.width,
+        height: fr.height,
+        id: ev.pointerId
+      };
+      try {
+        handle.setPointerCapture(ev.pointerId);
+      } catch {
+      }
+      const map2 = getMap();
+      if (map2) map2.dragPan.disable();
+    });
+    stage.addEventListener("pointermove", (ev) => {
+      if (!dragging) return;
+      ev.preventDefault();
+      const st = stage.getBoundingClientRect();
+      const dx = ev.clientX - dragging.startX;
+      const dy = ev.clientY - dragging.startY;
+      let { left, top, width, height } = dragging;
+      const kind = dragging.kind;
+      if (kind.includes("w")) {
+        left += dx;
+        width -= dx;
+      }
+      if (kind.includes("e")) {
+        width += dx;
+      }
+      if (kind.includes("n")) {
+        top += dy;
+        height -= dy;
+      }
+      if (kind.includes("s")) {
+        height += dy;
+      }
+      const min = 96;
+      if (width < min) {
+        if (kind.includes("w")) left = dragging.left + dragging.width - min;
+        width = min;
+      }
+      if (height < min) {
+        if (kind.includes("n")) top = dragging.top + dragging.height - min;
+        height = min;
+      }
+      left = Math.max(8, Math.min(left, st.width - width - 8));
+      top = Math.max(8, Math.min(top, st.height - height - 8));
+      frame.style.left = left + "px";
+      frame.style.top = top + "px";
+      frame.style.width = width + "px";
+      frame.style.height = height + "px";
+    });
+    const end = (ev) => {
+      if (!dragging) return;
+      dragging = null;
+      const map2 = getMap();
+      if (map2) map2.dragPan.enable();
+      refreshEstimate();
+    };
+    stage.addEventListener("pointerup", end);
+    stage.addEventListener("pointercancel", end);
+  }
+
   // www/js/app.js
   var state2 = loadState();
   var ui2 = {
@@ -26797,7 +28231,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     startType: "walk",
     hideNav: false
   };
-  var $2 = (id) => document.getElementById(id);
+  var $4 = (id) => document.getElementById(id);
   var params = new URLSearchParams(location.search);
   function persist() {
     saveState(state2);
@@ -26820,7 +28254,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return "Tracked on this phone";
   }
   async function refreshHealthStatus() {
-    const note = $2("health-note");
+    const note = $4("health-note");
     if (!note) return;
     if (!state2.settings.healthOptIn) {
       note.textContent = "Off. Steps and calories always come from your phone's health app, never from Heldpath. Turn this on when you want workouts written to Health Connect or Apple Health.";
@@ -26840,8 +28274,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       el.classList.toggle("active", el.dataset.screen === name);
     });
     const mapScreens = /* @__PURE__ */ new Set(["today", "tracking", "builder"]);
-    $2("map").style.visibility = mapScreens.has(name) ? "visible" : "hidden";
-    $2("tab-bar").style.display = name === "lock" || ui2.hideNav ? "none" : "grid";
+    $4("map").style.visibility = mapScreens.has(name) ? "visible" : "hidden";
+    $4("tab-bar").style.display = name === "lock" || ui2.hideNav ? "none" : "grid";
     if (mapScreens.has(name)) {
       requestAnimationFrame(() => resizeMap());
     }
@@ -26858,16 +28292,16 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     render();
   }
   function openSheet(id) {
-    $2(id).classList.add("open");
+    $4(id).classList.add("open");
   }
   function closeSheet(id) {
-    $2(id).classList.remove("open");
+    $4(id).classList.remove("open");
   }
   function courseById2(id) {
     return state2.courses.find((c) => c.id === id);
   }
   function renderToday() {
-    const banner = $2("map-banner");
+    const banner = $4("map-banner");
     if (!state2.settings.mapPackInstalled) {
       banner.hidden = false;
       banner.textContent = "Save a map to this phone to use it offline.";
@@ -26879,18 +28313,18 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (!sess) return;
     const rem = courseRemaining(sess);
     const onCourse = rem.onCourse;
-    $2("track-kicker").textContent = `${sess.type === "run" ? "Run" : "Walk"}${sess.courseName ? " \xB7 " + sess.courseName : ""}`;
-    $2("track-remain-wrap").style.display = onCourse ? "grid" : "none";
+    $4("track-kicker").textContent = `${sess.type === "run" ? "Run" : "Walk"}${sess.courseName ? " \xB7 " + sess.courseName : ""}`;
+    $4("track-remain-wrap").style.display = onCourse ? "grid" : "none";
     if (onCourse) {
-      $2("track-left").textContent = formatDistance(rem.remaining, sess.units);
-      $2("track-eta").textContent = rem.remaining <= 8 ? "Done" : formatEta(etaSeconds(rem.remaining, activityMph(sess.type)));
+      $4("track-left").textContent = formatDistance(rem.remaining, sess.units);
+      $4("track-eta").textContent = rem.remaining <= 8 ? "Done" : formatEta(etaSeconds(rem.remaining, activityMph(sess.type)));
     }
     const done = onCourse ? rem.traveled : sess.distanceMeters;
-    $2("track-done").textContent = formatDistance(done, sess.units);
-    $2("track-time").textContent = formatDuration(sess.elapsedSec);
-    $2("track-pace").textContent = formatPace(sess.distanceMeters, sess.elapsedSec, sess.units);
-    $2("btn-pause").textContent = sess.paused ? "Resume" : "Pause";
-    $2("lock-body").textContent = liveNotification(sess);
+    $4("track-done").textContent = formatDistance(done, sess.units);
+    $4("track-time").textContent = formatDuration(sess.elapsedSec);
+    $4("track-pace").textContent = formatPace(sess.distanceMeters, sess.elapsedSec, sess.units);
+    $4("btn-pause").textContent = sess.paused ? "Resume" : "Pause";
+    $4("lock-body").textContent = liveNotification(sess);
   }
   function drawSessionOnMap(sess) {
     clearOverlays();
@@ -26915,11 +28349,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
   function renderBuilder() {
     const pins = ui2.builderPins || [];
-    const hint = $2("builder-hint");
+    const hint = $4("builder-hint");
     if (pins.length === 0) hint.textContent = "Tap the map to place a Start pin. Then add points along the route. The last pin is the End.";
     else if (pins.length === 1) hint.textContent = "Start is placed. Tap to add the next point. Distances update with every pin.";
     else hint.textContent = "Keep adding pins, or save when the route looks right. The last pin is the End.";
-    const box = $2("builder-legs");
+    const box = $4("builder-legs");
     box.innerHTML = "";
     if (pins.length < 2) {
       box.innerHTML = `<p class="tiny">Leg distances will show here after the second pin.</p>`;
@@ -26942,14 +28376,14 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       tot.innerHTML = `<span>Total</span><span>${formatDistance(total, units2())} \xB7 ${walkEta} walk \xB7 ${runEta} run</span>`;
       box.appendChild(tot);
     }
-    $2("btn-save-course").disabled = pins.length < 2;
+    $4("btn-save-course").disabled = pins.length < 2;
     clearOverlays();
     clearMarkers();
     if (pins.length >= 2) drawRoute(pins, { id: "build-line" });
     addCoursePins(pins);
   }
   function renderCourses() {
-    const root = $2("courses-list");
+    const root = $4("courses-list");
     root.innerHTML = "";
     if (!state2.courses.length) {
       root.innerHTML = `<div class="empty card">
@@ -26974,9 +28408,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function openCourseActions(course) {
     ui2.courseId = course.id;
     const len = pathLengthMeters(course.pins);
-    $2("course-title").textContent = course.name;
-    $2("course-sub").textContent = `${formatDistance(len, units2())} \xB7 ${formatEta(etaSeconds(len, 3))} walk \xB7 ${formatEta(etaSeconds(len, 6))} run`;
-    const box = $2("course-legs");
+    $4("course-title").textContent = course.name;
+    $4("course-sub").textContent = `${formatDistance(len, units2())} \xB7 ${formatEta(etaSeconds(len, 3))} walk \xB7 ${formatEta(etaSeconds(len, 6))} run`;
+    const box = $4("course-legs");
     box.innerHTML = "";
     const rows = courseLegSummary(course);
     if (!rows.length) {
@@ -27019,10 +28453,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     ui2.selectedDay = today.getFullYear() === ui2.cal.getFullYear() && today.getMonth() === ui2.cal.getMonth() ? isoDate(today) : isoDate(new Date(ui2.cal.getFullYear(), ui2.cal.getMonth(), 1));
   }
   function renderCalendar() {
-    $2("cal-month").textContent = ui2.cal.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    $4("cal-month").textContent = ui2.cal.toLocaleDateString("en-US", { month: "long", year: "numeric" });
     renderCalendarView({
-      grid: $2("cal-grid"),
-      panel: $2("cal-day-panel"),
+      grid: $4("cal-grid"),
+      panel: $4("cal-day-panel"),
       activities: state2.activities,
       plans: state2.plans,
       courses: state2.courses,
@@ -27073,18 +28507,18 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       setTab("courses");
       return;
     }
-    $2("sched-sub").textContent = `For ${(/* @__PURE__ */ new Date(ui2.selectedDay + "T12:00:00")).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}.`;
-    const sel = $2("sched-course");
+    $4("sched-sub").textContent = `For ${(/* @__PURE__ */ new Date(ui2.selectedDay + "T12:00:00")).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}.`;
+    const sel = $4("sched-course");
     sel.innerHTML = state2.courses.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join("");
     const updatePrev = () => {
       const c = courseById2(sel.value);
-      const type = $2("sched-type").value;
+      const type = $4("sched-type").value;
       if (!c) return;
       const len = pathLengthMeters(c.pins);
-      $2("sched-preview").textContent = `${formatDistance(len, units2())} \xB7 ${formatEta(etaSeconds(len, activityMph(type)))} estimated`;
+      $4("sched-preview").textContent = `${formatDistance(len, units2())} \xB7 ${formatEta(etaSeconds(len, activityMph(type)))} estimated`;
     };
     sel.onchange = updatePrev;
-    $2("sched-type").onchange = updatePrev;
+    $4("sched-type").onchange = updatePrev;
     updatePrev();
     openSheet("sheet-schedule");
   }
@@ -27092,7 +28526,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     document.querySelectorAll("#range-tog button").forEach((b2) => {
       b2.classList.toggle("active", b2.dataset.range === ui2.range);
     });
-    renderProgressView($2("progress-body"), {
+    renderProgressView($4("progress-body"), {
       activities: state2.activities,
       range: ui2.range,
       units: units2(),
@@ -27106,19 +28540,19 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     document.querySelectorAll("#units-tog button").forEach((b2) => {
       b2.classList.toggle("active", b2.dataset.units === units2());
     });
-    if ($2("health-switch")) {
-      $2("health-switch").classList.toggle("on", !!state2.settings.healthOptIn);
-      $2("health-switch").setAttribute("aria-checked", state2.settings.healthOptIn ? "true" : "false");
+    if ($4("health-switch")) {
+      $4("health-switch").classList.toggle("on", !!state2.settings.healthOptIn);
+      $4("health-switch").setAttribute("aria-checked", state2.settings.healthOptIn ? "true" : "false");
     }
     if (typeof refreshHealthStatus === "function") refreshHealthStatus();
-    else if ($2("health-note")) {
-      $2("health-note").textContent = state2.settings.healthOptIn ? HEALTH_STATUS.reason + " Your preference is saved and will apply when health sync is wired." : "Health sync stays off until you turn it on.";
+    else if ($4("health-note")) {
+      $4("health-note").textContent = state2.settings.healthOptIn ? HEALTH_STATUS.reason + " Your preference is saved and will apply when health sync is wired." : "Health sync stays off until you turn it on.";
     }
-    if ($2("web-native-note")) $2("web-native-note").textContent = WEB_APP_NOTE;
-    if ($2("web-pay-note")) $2("web-pay-note").textContent = WEB_PAY_NOTE;
-    $2("plans-hook").textContent = PLANS_HOOK_COPY;
-    $2("map-pack-status").textContent = state2.settings.mapPackInstalled ? "Florence starter map is saved on this phone and works offline." : "No map pack marked as saved yet. The starter map is still in the app.";
-    $2("support-copy").textContent = SUPPORT_COPY;
+    if ($4("web-native-note")) $4("web-native-note").textContent = WEB_APP_NOTE;
+    if ($4("web-pay-note")) $4("web-pay-note").textContent = WEB_PAY_NOTE;
+    $4("plans-hook").textContent = PLANS_HOOK_COPY;
+    $4("map-pack-status").textContent = state2.settings.mapPackInstalled ? "The world overview and Florence starter map are in the app. You can download other areas for offline use." : "A world overview and a Florence street map are already in the app. Download another area any time.";
+    $4("support-copy").textContent = SUPPORT_COPY;
   }
   function render() {
     if (ui2.screen === "today") renderToday();
@@ -27132,8 +28566,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
   function openStart(type) {
     ui2.startType = type;
-    $2("start-sheet-title").textContent = type === "run" ? "Start a run" : "Start a walk";
-    const list = $2("start-course-list");
+    $4("start-sheet-title").textContent = type === "run" ? "Start a run" : "Start a walk";
+    const list = $4("start-course-list");
     list.innerHTML = "";
     if (!state2.courses.length) {
       list.innerHTML = `<p class="tiny">No saved courses yet. You can start without one, or build a course first.</p>`;
@@ -27165,8 +28599,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         closeSheet("sheet-location");
         resolve2(ok);
       };
-      const yes = $2("btn-loc-continue");
-      const no = $2("btn-loc-cancel");
+      const yes = $4("btn-loc-continue");
+      const no = $4("btn-loc-cancel");
       const onYes = () => {
         yes.removeEventListener("click", onYes);
         no.removeEventListener("click", onNo);
@@ -27221,7 +28655,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     paintSessionHud(getSession());
   }
   async function importWatchActivities() {
-    const status = $2("health-import-status");
+    const status = $4("health-import-status");
     if (!state2.settings.healthOptIn) {
       status.textContent = "Turn on health sync first so Heldpath can read workouts from the health app.";
       return;
@@ -27324,13 +28758,13 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function showSummary(act, course, legResult) {
     ui2.summary = { act, course, legResult };
     const type = act.type === "run" ? "Run" : "Walk";
-    $2("summary-title").textContent = `${type} complete`;
-    $2("summary-sub").textContent = `${new Date(act.endedAt || act.startedAt).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })} \xB7 ${sourceLabel(act)}`;
-    $2("summary-stats").innerHTML = `
+    $4("summary-title").textContent = `${type} complete`;
+    $4("summary-sub").textContent = `${new Date(act.endedAt || act.startedAt).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })} \xB7 ${sourceLabel(act)}`;
+    $4("summary-stats").innerHTML = `
     <div class="total-box"><div class="num">${formatDistance(act.distanceMeters, units2())}</div><div class="lbl">Distance</div></div>
     <div class="total-box"><div class="num">${formatDuration(act.elapsedSec)}</div><div class="lbl">Time</div></div>
     <div class="total-box"><div class="num">${formatPace(act.distanceMeters, act.elapsedSec, units2())}</div><div class="lbl">Avg pace</div></div>`;
-    const healthBox = $2("summary-health");
+    const healthBox = $4("summary-health");
     healthBox.innerHTML = "";
     const healthLine = healthFieldsText(act);
     if (healthLine) {
@@ -27356,7 +28790,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       note.textContent = "Health sync is off. Turn it on in Settings to write workouts and show steps and calories from your health app.";
       healthBox.appendChild(note);
     }
-    const splitBox = $2("summary-splits");
+    const splitBox = $4("summary-splits");
     splitBox.innerHTML = "";
     if (course && legResult && legResult.legs.length) {
       const status = document.createElement("p");
@@ -27441,7 +28875,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
   function saveBuilder() {
     if (!ui2.builderPins || ui2.builderPins.length < 2) return;
-    $2("course-name").value = "New course";
+    $4("course-name").value = "New course";
     openSheet("sheet-save-course");
   }
   function bind2() {
@@ -27460,20 +28894,20 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         setTab(b2.dataset.tab);
       });
     });
-    $2("btn-start-walk").addEventListener("click", () => openStart("walk"));
-    $2("btn-start-run").addEventListener("click", () => openStart("run"));
-    $2("btn-build-course").addEventListener("click", beginBuilder);
-    $2("btn-saved-courses").addEventListener("click", () => setTab("courses"));
-    $2("btn-new-course").addEventListener("click", beginBuilder);
-    $2("btn-undo-pin").addEventListener("click", () => {
+    $4("btn-start-walk").addEventListener("click", () => openStart("walk"));
+    $4("btn-start-run").addEventListener("click", () => openStart("run"));
+    $4("btn-build-course").addEventListener("click", beginBuilder);
+    $4("btn-saved-courses").addEventListener("click", () => setTab("courses"));
+    $4("btn-new-course").addEventListener("click", beginBuilder);
+    $4("btn-undo-pin").addEventListener("click", () => {
       if (ui2.builderPins) ui2.builderPins.pop();
       renderBuilder();
     });
-    $2("btn-cancel-build").addEventListener("click", cancelBuilder);
-    $2("btn-save-course").addEventListener("click", saveBuilder);
-    $2("btn-course-name-cancel").addEventListener("click", () => closeSheet("sheet-save-course"));
-    $2("btn-course-name-save").addEventListener("click", () => {
-      const name = ($2("course-name").value || "New course").trim();
+    $4("btn-cancel-build").addEventListener("click", cancelBuilder);
+    $4("btn-save-course").addEventListener("click", saveBuilder);
+    $4("btn-course-name-cancel").addEventListener("click", () => closeSheet("sheet-save-course"));
+    $4("btn-course-name-save").addEventListener("click", () => {
+      const name = ($4("course-name").value || "New course").trim();
       const c = newCourse({ name, pins: ui2.builderPins.slice() });
       state2.courses.push(c);
       persist();
@@ -27485,57 +28919,57 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       ui2.builderPins = [];
       setTab("courses");
     });
-    $2("btn-pause").addEventListener("click", pauseOrResume);
-    $2("btn-stop").addEventListener("click", finishTracking);
-    $2("lock-pause").addEventListener("click", pauseOrResume);
-    $2("lock-stop").addEventListener("click", () => {
+    $4("btn-pause").addEventListener("click", pauseOrResume);
+    $4("btn-stop").addEventListener("click", finishTracking);
+    $4("lock-pause").addEventListener("click", pauseOrResume);
+    $4("lock-stop").addEventListener("click", () => {
       finishTracking();
       showScreen("today");
     });
-    $2("btn-start-free").addEventListener("click", () => {
+    $4("btn-start-free").addEventListener("click", () => {
       closeSheet("sheet-start");
       startTracking(ui2.startType, null);
     });
-    $2("btn-start-cancel").addEventListener("click", () => closeSheet("sheet-start"));
-    $2("cal-prev").addEventListener("click", () => {
+    $4("btn-start-cancel").addEventListener("click", () => closeSheet("sheet-start"));
+    $4("cal-prev").addEventListener("click", () => {
       ui2.cal = new Date(ui2.cal.getFullYear(), ui2.cal.getMonth() - 1, 1);
       syncSelectedDayToMonth();
       renderCalendar();
     });
-    $2("cal-next").addEventListener("click", () => {
+    $4("cal-next").addEventListener("click", () => {
       ui2.cal = new Date(ui2.cal.getFullYear(), ui2.cal.getMonth() + 1, 1);
       syncSelectedDayToMonth();
       renderCalendar();
     });
-    $2("btn-sched-cancel").addEventListener("click", () => closeSheet("sheet-schedule"));
-    $2("btn-sched-save").addEventListener("click", () => {
-      const c = courseById2($2("sched-course").value);
+    $4("btn-sched-cancel").addEventListener("click", () => closeSheet("sheet-schedule"));
+    $4("btn-sched-save").addEventListener("click", () => {
+      const c = courseById2($4("sched-course").value);
       if (!c) return;
       state2.plans.push(newPlan({
         date: ui2.selectedDay,
         courseId: c.id,
         courseName: c.name,
-        activityType: $2("sched-type").value
+        activityType: $4("sched-type").value
       }));
       persist();
       closeSheet("sheet-schedule");
       renderCalendar();
     });
-    $2("range-tog").addEventListener("click", (e) => {
+    $4("range-tog").addEventListener("click", (e) => {
       const b2 = e.target.closest("button[data-range]");
       if (!b2) return;
       ui2.range = b2.dataset.range;
       document.querySelectorAll("#range-tog button").forEach((x2) => x2.classList.toggle("active", x2 === b2));
       renderProgress();
     });
-    $2("units-tog").addEventListener("click", (e) => {
+    $4("units-tog").addEventListener("click", (e) => {
       const b2 = e.target.closest("button[data-units]");
       if (!b2) return;
       state2.settings.units = b2.dataset.units;
       persist();
       render();
     });
-    $2("health-switch").addEventListener("click", async () => {
+    $4("health-switch").addEventListener("click", async () => {
       const next = !state2.settings.healthOptIn;
       state2.settings.healthOptIn = next;
       persist();
@@ -27545,26 +28979,26 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         if (access.status === "granted") renderSettings();
       }
     });
-    $2("btn-health-import").addEventListener("click", importWatchActivities);
-    $2("btn-summary-done").addEventListener("click", () => {
+    $4("btn-health-import").addEventListener("click", importWatchActivities);
+    $4("btn-summary-done").addEventListener("click", () => {
       ui2.hideNav = false;
       setTab("today");
       showScreen("today");
     });
-    $2("btn-course-close").addEventListener("click", () => closeSheet("sheet-course"));
-    $2("btn-course-walk").addEventListener("click", () => {
+    $4("btn-course-close").addEventListener("click", () => closeSheet("sheet-course"));
+    $4("btn-course-walk").addEventListener("click", () => {
       const c = courseById2(ui2.courseId);
       if (!c) return;
       closeSheet("sheet-course");
       startTracking("walk", c);
     });
-    $2("btn-course-run").addEventListener("click", () => {
+    $4("btn-course-run").addEventListener("click", () => {
       const c = courseById2(ui2.courseId);
       if (!c) return;
       closeSheet("sheet-course");
       startTracking("run", c);
     });
-    $2("btn-course-rename").addEventListener("click", () => {
+    $4("btn-course-rename").addEventListener("click", () => {
       const c = courseById2(ui2.courseId);
       if (!c) return;
       const name = window.prompt("New name", c.name);
@@ -27576,7 +29010,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         openCourseActions(c);
       }
     });
-    $2("btn-course-delete").addEventListener("click", () => {
+    $4("btn-course-delete").addEventListener("click", () => {
       const c = courseById2(ui2.courseId);
       if (!c) return;
       if (window.confirm(`Delete \u201C${c.name}\u201D? This cannot be undone.`)) {
@@ -27586,27 +29020,43 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         renderCourses();
       }
     });
-    $2("btn-support").addEventListener("click", () => {
+    $4("btn-support").addEventListener("click", () => {
       showScreen("support");
       renderSettings();
     });
-    $2("support-back").addEventListener("click", () => setTab("settings"));
-    if ($2("btn-plans-open")) $2("btn-plans-open").addEventListener("click", () => {
+    $4("support-back").addEventListener("click", () => setTab("settings"));
+    if ($4("btn-plans-open")) $4("btn-plans-open").addEventListener("click", () => {
       showScreen("plans");
       renderPlansScreen();
     });
-    if ($2("plans-back")) $2("plans-back").addEventListener("click", () => setTab("settings"));
-    if ($2("btn-donate")) {
-      $2("btn-donate").addEventListener("click", async () => {
+    initStretchesUi({ showScreen, goSettings: () => setTab("settings") });
+    initMapDownloadUi({
+      showScreen,
+      goSettings: () => setTab("settings"),
+      setHideNav: (v2) => {
+        ui2.hideNav = !!v2;
+        $4("tab-bar").style.display = v2 || ui2.screen === "lock" ? "none" : "grid";
+      }
+    });
+    if ($4("btn-map-download-from-sheet")) {
+      $4("btn-map-download-from-sheet").addEventListener("click", () => {
+        state2.settings.seenMapPrompt = true;
+        persist();
+        closeSheet("sheet-map");
+        openCrop();
+      });
+    }
+    if ($4("plans-back")) $4("plans-back").addEventListener("click", () => setTab("settings"));
+    if ($4("btn-donate")) {
+      $4("btn-donate").addEventListener("click", async () => {
         const res = await purchaseSupport();
-        const msg = $2("donate-msg");
+        const msg = $4("donate-msg");
         if (msg) {
           msg.textContent = res.ok ? "Thank you. This $5 donation (" + SUPPORT_PRODUCT_ID + ") is recorded as a stub until Play Billing is wired. Nothing is unlocked, and you never have to donate to use the app." : "Donation could not be started.";
         }
       });
     }
-    $2("btn-map-pack").addEventListener("click", () => openSheet("sheet-map"));
-    $2("btn-save-pack").addEventListener("click", async () => {
+    $4("btn-save-pack").addEventListener("click", async () => {
       state2.settings.mapPackInstalled = true;
       state2.settings.seenMapPrompt = true;
       persist();
@@ -27621,14 +29071,14 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       renderToday();
       renderSettings();
     });
-    $2("btn-map-later").addEventListener("click", () => {
+    $4("btn-map-later").addEventListener("click", () => {
       state2.settings.seenMapPrompt = true;
       persist();
       closeSheet("sheet-map");
     });
-    const a2hsBtn = $2("btn-a2hs");
+    const a2hsBtn = $4("btn-a2hs");
     if (a2hsBtn) {
-      const note = $2("a2hs-note");
+      const note = $4("a2hs-note");
       const refresh = () => {
         if (canPromptInstall()) {
           a2hsBtn.disabled = false;
@@ -27686,6 +29136,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     } catch {
     }
   }
+  async function waitForMapView() {
+    const start = Date.now();
+    while (!getMap() && Date.now() - start < 2e4) {
+      await new Promise((r) => setTimeout(r, 50));
+    }
+  }
   window.HeldpathTest = {
     show: async function show(name, opt = {}) {
       closeSheet("sheet-map");
@@ -27738,11 +29194,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         });
         drawSessionOnMap(made);
         if (name === "lock") {
-          $2("lock-body").textContent = liveNotification(made);
+          $4("lock-body").textContent = liveNotification(made);
           const now = /* @__PURE__ */ new Date();
-          $2("lock-clock").textContent = now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }).replace(/ AM| PM/, (m) => m.toLowerCase() === " am" || m.toLowerCase() === " pm" ? "" : m);
-          $2("lock-clock").textContent = "9:41";
-          $2("lock-date").textContent = now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+          $4("lock-clock").textContent = now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }).replace(/ AM| PM/, (m) => m.toLowerCase() === " am" || m.toLowerCase() === " pm" ? "" : m);
+          $4("lock-clock").textContent = "9:41";
+          $4("lock-date").textContent = now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
           ui2.hideNav = true;
           showScreen("lock");
         }
@@ -27812,9 +29268,54 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         setTab("settings");
         showScreen("support");
         renderSettings();
+      } else if (name === "stretches") {
+        setTab("settings");
+        showStretchesHub();
+      } else if (name === "stretches-group") {
+        setTab("settings");
+        showStretchGroup("hips");
+      } else if (name === "stretches-card") {
+        setTab("settings");
+        showStretchGroup("shoulders_arms");
+      } else if (name === "stretches-workout") {
+        setTab("settings");
+        showStretchWorkout(1);
+      } else if (name === "stretches-credits") {
+        setTab("settings");
+        showStretchCredits();
       } else if (name === "map-download") {
         setTab("today");
-        openSheet("sheet-map");
+        showScreen("today");
+        await waitForMapView();
+        openCrop({ lat: 43.7672134, lon: 11.2543435, zoom: 13 });
+        await whenIdle();
+      } else if (name === "map-areas") {
+        setTab("settings");
+        await showMapAreas();
+      } else if (name === "map-world") {
+        setTab("today");
+        showScreen("today");
+        await waitForMapView();
+        setCenter(25, 10, 3);
+        await whenIdle();
+      } else if (name === "map-mid") {
+        setTab("today");
+        showScreen("today");
+        await waitForMapView();
+        setCenter(43.7672134, 11.2543435, 8);
+        await whenIdle();
+      } else if (name === "map-in") {
+        setTab("today");
+        showScreen("today");
+        await waitForMapView();
+        setCenter(43.7672134, 11.2543435, 14);
+        await whenIdle();
+      } else if (name === "map-out") {
+        setTab("today");
+        showScreen("today");
+        await waitForMapView();
+        setCenter(41.878, -87.629, 13);
+        await whenIdle();
       } else if (name === "location" || name === "disclosure") {
         setTab("today");
         showScreen("today");
@@ -27822,10 +29323,35 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       } else setTab(name);
       render();
       resizeMap();
-      return { screen: ui2.screen, notification: $2("lock-body").textContent };
+      if (name === "map-world") {
+        await waitForMapView();
+        setCenter(25, 10, 3);
+        await whenIdle();
+      }
+      if (name === "map-mid") {
+        await waitForMapView();
+        setCenter(43.7672134, 11.2543435, 8);
+        await whenIdle();
+      }
+      if (name === "map-in") {
+        await waitForMapView();
+        setCenter(43.7672134, 11.2543435, 14);
+        await whenIdle();
+      }
+      if (name === "map-out") {
+        await waitForMapView();
+        setCenter(41.878, -87.629, 13);
+        await whenIdle();
+      }
+      if (name === "map-download") {
+        await waitForMapView();
+        setCenter(43.7672134, 11.2543435, 13);
+        await whenIdle();
+      }
+      return { screen: ui2.screen, notification: $4("lock-body").textContent };
     },
     state: () => state2,
-    notification: () => getSession() ? liveNotification(getSession()) : $2("lock-body").textContent
+    notification: () => getSession() ? liveNotification(getSession()) : $4("lock-body").textContent
   };
   async function init() {
     applyPlatformVisibility();
@@ -27860,7 +29386,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       }
     } catch {
     }
-    await initMap($2("map"));
+    await initMap($4("map"));
     whenReady(() => {
       const c = state2.courses[0];
       if (c && c.pins.length) {

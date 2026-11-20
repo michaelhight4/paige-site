@@ -1,0 +1,228 @@
+/* Stretches — cool blue / dark grey, no overlapping text, room for thumbs */
+
+.stretch-disclaimer {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow-wrap: anywhere;
+}
+
+.stretch-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.stretch-group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 8px 0 20px;
+}
+
+.stretch-group-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: var(--tap);
+  padding: 14px 16px;
+  text-align: left;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text);
+}
+
+.stretch-group-name {
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.stretch-group-count {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+#screen-stretch-card {
+  background: var(--bg);
+}
+
+.stretch-card-shell {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: calc(10px + var(--safe-top)) var(--pad) 12px;
+}
+
+.stretch-card-shell .top-bar {
+  flex: 0 0 auto;
+  margin-bottom: 8px;
+}
+
+.stretch-card-shell .top-bar h1 {
+  font-size: 18px;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.stretch-counter {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.stretch-figure {
+  flex: 1 1 auto;
+  min-height: 140px;
+  max-height: 48%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4f6f8;
+  border-radius: var(--radius);
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.stretch-figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #f4f6f8;
+  pointer-events: none;
+}
+
+.stretch-card-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 12px 0 8px;
+}
+
+.stretch-card-name {
+  font-size: 22px;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 4px;
+  overflow-wrap: anywhere;
+}
+
+.stretch-card-meta {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+  margin-bottom: 10px;
+  overflow-wrap: anywhere;
+}
+
+.stretch-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.stretch-chip {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--blue-dim);
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+
+.stretch-card-desc {
+  font-size: 15px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  margin-bottom: 10px;
+}
+
+.stretch-card-figure,
+.stretch-card-note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  margin-bottom: 6px;
+}
+
+.stretch-nav {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 6px;
+}
+
+.stretch-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  min-height: 14px;
+}
+
+.stretch-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+.stretch-dot.is-on {
+  background: var(--blue);
+  width: 16px;
+  border-radius: 8px;
+}
+
+.stretch-nav-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.stretch-nav-btns .btn {
+  min-height: var(--tap);
+}
+
+.stretch-nav-btns .btn:disabled {
+  opacity: 0.4;
+}
+
+.stretch-credits p {
+  font-size: 15px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+
+@media (max-width: 400px) {
+  .stretch-card-name { font-size: 20px; }
+  .stretch-figure { max-height: 40%; min-height: 120px; }
+  .stretch-card-shell .top-bar h1 { font-size: 16px; }
+}
