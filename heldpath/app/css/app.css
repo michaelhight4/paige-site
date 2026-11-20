@@ -769,3 +769,16 @@ html.is-native .web-only { display: none !important; }
   font-size: 13px;
   word-break: break-all;
 }
+
+#group-invite-text {
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #0c1218;
+  color: var(--ink);
+  font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  resize: none;
+}
+#btn-group-sms { display: block; box-sizing: border-box; }

@@ -19,6 +19,7 @@ export function emptyState() {
     plans: [], // free scheduled sessions on the calendar (also plan sessions)
     planLibrary: [], // owned/imported plan objects
     planCredits: 0, // cached count; the IAP ledger is authoritative
+    groupRuns: [],
   };
 }
 
@@ -36,6 +37,7 @@ export function loadState() {
       plans: parsed.plans || [],
       planLibrary: parsed.planLibrary || [],
       planCredits: parsed.planCredits || 0,
+      groupRuns: parsed.groupRuns || [],
     };
   } catch {
     return emptyState();
@@ -50,6 +52,7 @@ export function saveState(state) {
     plans: state.plans,
     planLibrary: state.planLibrary || [],
     planCredits: state.planCredits || 0,
+    groupRuns: state.groupRuns || [],
   };
   localStorage.setItem(KEY, JSON.stringify(copy));
 }
@@ -103,5 +106,7 @@ export function newPlan(partial = {}) {
     targetLengthMeters: partial.targetLengthMeters || null,
     targetSec: partial.targetSec || null,
     routePins: partial.routePins || null,
+    groupRunId: partial.groupRunId || null,
+    startAt: partial.startAt || null,
   };
 }

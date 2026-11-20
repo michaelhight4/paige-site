@@ -36,6 +36,15 @@ import { initMapDownloadUi, showMapAreas, openCrop, closeCrop } from "./map_down
 import { applyCompletedSession, importPlanFile, addPlanToState, makePlan, PLAN_FORMAT, PLAN_FORMAT_VERSION } from "./plans.js";
 import { buildPlanDraft } from "./plan_progress.js";
 import { encodeCourse, encodePlan, decodeShare, isShareHash, shareSummary, pathPreviewSvg } from "./share_link.js";
+import {
+  makeGroupRun,
+  inviteMessage,
+  smsHref,
+  icsText,
+  icsFileName,
+  addGroupRunToState,
+  formatWhen,
+} from "./group_run.js";
 import { qrSvg } from "./share_qr.js";
 import {
   loadBundledGraph,
@@ -437,6 +446,7 @@ function renderCalendar() {
       }
     },
     onSchedule: () => openSchedule(),
+    onGroupRun: () => openGroupRun(),
     onStartCourse: (courseId, type) => {
       const c = courseById(courseId);
       if (c) startTracking(type === "run" ? "run" : "walk", c);
@@ -1060,6 +1070,16 @@ function bind() {
     if (!c) return;
     openShareSheet("course", c);
   });
+  $("btn-course-group").addEventListener("click", () => {
+    const c = courseById(ui.courseId);
+    closeSheet("sheet-course");
+    openGroupRun({ courseId: c && c.id });
+  });
+  $("btn-group-cancel").addEventListener("click", () => closeSheet("sheet-group"));
+  $("btn-group-create").addEventListener("click", () => { createGroupRunFromSheet(); });
+  $("btn-group-invite-close").addEventListener("click", () => closeSheet("sheet-group-invite"));
+  $("btn-group-copy").addEventListener("click", () => { copyGroupInvite().catch(() => {}); });
+  $("btn-group-cal").addEventListener("click", () => { addGroupToCalendar().catch(() => {}); });
   $("btn-share-close").addEventListener("click", () => closeSheet("sheet-share"));
   $("btn-share-copy").addEventListener("click", () => { copyShareLink().catch(() => {}); });
   $("btn-share-send").addEventListener("click", () => { sendShareLink().catch(() => {}); });
@@ -1200,6 +1220,113 @@ function handleTrackingLink(url) {
     showScreen("today");
   }
   return true;
+}
+
+function fillGroupPreview() {
+  const c = courseById($("group-course").value);
+  const type = $("group-type").value;
+  const date = $("group-date").value;
+  const time = $("group-time").value;
+  if (!c || !date || !time) {
+    $("group-preview").textContent = "Choose a course, date, and time.";
+    return;
+  }
+  const start = new Date(`${date}T${time}`);
+  if (Number.isNaN(start.getTime())) {
+    $("group-preview").textContent = "That date or time could not be read.";
+    return;
+  }
+  const len = courseMeters(c);
+  $("group-preview").textContent = `${c.name} · ${formatDistance(len, units())} · ${formatWhen(start.toISOString())} · ${formatEta(etaSeconds(len, activityMph(type)))}`;
+}
+
+function openGroupRun(opt = {}) {
+  if (!state.courses.length) {
+    window.alert("Save a course first, then you can plan a Group Run.");
+    setTab("courses");
+    return;
+  }
+  const sel = $("group-course");
+  sel.innerHTML = state.courses.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join("");
+  const preferred = opt.courseId || ui.courseId;
+  if (preferred && state.courses.some((c) => c.id === preferred)) sel.value = preferred;
+  const today = isoDate(new Date());
+  $("group-date").value = opt.date || ui.selectedDay || today;
+  $("group-time").value = opt.time || "09:00";
+  $("group-type").value = opt.type || "walk";
+  sel.onchange = fillGroupPreview;
+  $("group-type").onchange = fillGroupPreview;
+  $("group-date").onchange = fillGroupPreview;
+  $("group-time").onchange = fillGroupPreview;
+  fillGroupPreview();
+  openSheet("sheet-group");
+}
+
+function createGroupRunFromSheet() {
+  const c = courseById($("group-course").value);
+  const date = $("group-date").value;
+  const time = $("group-time").value;
+  if (!c || !date || !time) return;
+  const start = new Date(`${date}T${time}`);
+  const made = makeGroupRun({ course: c, startAt: start, activityType: $("group-type").value });
+  if (!made.ok) {
+    $("group-preview").textContent = "Could not create that Group Run. Check the date and course.";
+    return;
+  }
+  addGroupRunToState(state, made.run);
+  persist();
+  closeSheet("sheet-group");
+  ui.selectedDay = isoDate(start);
+  if (ui.screen === "calendar") renderCalendar();
+  openGroupInvite(made.run);
+}
+
+function openGroupInvite(run) {
+  ui.pendingGroupRun = run;
+  $("group-invite-title").textContent = run.title || "Invite your group";
+  $("group-invite-sub").textContent = formatWhen(run.startAt);
+  $("group-invite-text").value = inviteMessage(run);
+  const sms = $("btn-group-sms");
+  sms.href = smsHref(run);
+  $("group-invite-note").textContent = "Text friends opens your SMS app so you can pick people from your contacts. Heldpath does not read your address book.";
+  openSheet("sheet-group-invite");
+}
+
+async function copyGroupInvite() {
+  const text = $("group-invite-text").value;
+  if (!text) return;
+  try {
+    await navigator.clipboard.writeText(text);
+    $("group-invite-note").textContent = "Invite copied.";
+  } catch {
+    $("group-invite-text").select();
+    $("group-invite-note").textContent = "Copy the invite from the field above.";
+  }
+}
+
+async function addGroupToCalendar() {
+  const run = ui.pendingGroupRun;
+  if (!run) return;
+  const blob = new Blob([icsText(run)], { type: "text/calendar;charset=utf-8" });
+  const name = icsFileName(run);
+  try {
+    const file = new File([blob], name, { type: "text/calendar" });
+    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: run.title, text: inviteMessage(run) });
+      return;
+    }
+  } catch (err) {
+    if (err && err.name === "AbortError") return;
+  }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  $("group-invite-note").textContent = "Calendar file saved. Open it to add this Group Run to your calendar.";
 }
 
 function openShareSheet(kind, obj) {
@@ -1390,6 +1517,8 @@ window.HeldpathTest = {
     closeSheet("sheet-save-route");
     closeSheet("sheet-share");
     closeSheet("sheet-share-import");
+    closeSheet("sheet-group");
+    closeSheet("sheet-group-invite");
     if (opt.empty) {
       state = resetState();
       state.settings.seenMapPrompt = true;
@@ -1568,6 +1697,31 @@ window.HeldpathTest = {
         drawSessionOnMap(made);
         map.fitBounds(tplan.path, { top: 56, bottom: 420, left: 48, right: 48 });
       });
+    }
+    else if (name === "group-setup") {
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      if (!state.courses.length) state.courses.push(course);
+      ui.cal = new Date(2026, 11, 5);
+      ui.selectedDay = "2026-12-05";
+      setTab("calendar");
+      openGroupRun({
+        courseId: course.id,
+        date: "2026-12-05",
+        time: "09:00",
+        type: "walk",
+      });
+    }
+    else if (name === "group-invite") {
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      if (!state.courses.length) state.courses.push(course);
+      const start = new Date(2026, 11, 5, 9, 0, 0);
+      const made = makeGroupRun({ course, startAt: start, activityType: "walk", now: new Date(2026, 10, 20, 12, 0, 0) });
+      addGroupRunToState(state, made.run);
+      persist();
+      ui.cal = new Date(2026, 11, 5);
+      ui.selectedDay = "2026-12-05";
+      setTab("calendar");
+      openGroupInvite(made.run);
     }
     else if (name === "share-course") {
       const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });

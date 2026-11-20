@@ -511,6 +511,7 @@
         <button class="btn btn-primary" id="btn-course-walk" style="width:100%;margin-bottom:10px">Walk this course</button>
         <button class="btn btn-primary" id="btn-course-run" style="width:100%;margin-bottom:10px">Run this course</button>
         <button class="btn btn-secondary" id="btn-course-share" style="width:100%;margin-bottom:10px">Share course</button>
+        <button class="btn btn-secondary" id="btn-course-group" style="width:100%;margin-bottom:10px">Plan a Group Run</button>
         <button class="btn btn-secondary" id="btn-course-rename" style="width:100%;margin-bottom:10px">Rename</button>
         <button class="btn btn-danger" id="btn-course-delete" style="width:100%;margin-bottom:10px">Delete course</button>
         <button class="btn btn-secondary" id="btn-course-close" style="width:100%">Close</button>
@@ -559,6 +560,52 @@
     </div>
 
 
+
+
+    <div class="sheet-back" id="sheet-group">
+      <div class="sheet" role="dialog" aria-labelledby="group-title">
+        <h2 id="group-title">Plan a Group Run</h2>
+        <p class="page-sub" id="group-sub">Pick a course, a day, and a time. Then text an invite. Friends are chosen in your SMS app, not in Heldpath.</p>
+        <div class="field">
+          <label for="group-type">Activity</label>
+          <select id="group-type">
+            <option value="walk">Walk</option>
+            <option value="run">Run</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="group-course">Saved course</label>
+          <select id="group-course"></select>
+        </div>
+        <div class="field">
+          <label for="group-date">Date</label>
+          <input id="group-date" type="date" />
+        </div>
+        <div class="field">
+          <label for="group-time">Time</label>
+          <input id="group-time" type="time" />
+        </div>
+        <p class="tiny" id="group-preview" style="margin-bottom:16px"></p>
+        <button class="btn btn-primary" id="btn-group-create" style="width:100%;margin-bottom:12px">Create invite</button>
+        <button class="btn btn-secondary" id="btn-group-cancel" style="width:100%">Cancel</button>
+      </div>
+    </div>
+
+    <div class="sheet-back" id="sheet-group-invite">
+      <div class="sheet" role="dialog" aria-labelledby="group-invite-title">
+        <h2 id="group-invite-title">Invite your group</h2>
+        <p class="page-sub" id="group-invite-sub"></p>
+        <label class="field" style="display:block">
+          <span>Message</span>
+          <textarea id="group-invite-text" readonly rows="5"></textarea>
+        </label>
+        <p class="tiny" id="group-invite-note">Text friends opens your SMS app so you can pick people from your contacts. Heldpath does not read your address book.</p>
+        <a class="btn btn-primary" id="btn-group-sms" style="width:100%;margin-bottom:10px;text-align:center;text-decoration:none">Text friends</a>
+        <button class="btn btn-secondary" id="btn-group-cal" style="width:100%;margin-bottom:10px">Add to calendar</button>
+        <button class="btn btn-secondary" id="btn-group-copy" style="width:100%;margin-bottom:10px">Copy invite</button>
+        <button class="btn btn-secondary" id="btn-group-invite-close" style="width:100%">Close</button>
+      </div>
+    </div>
 
     <div class="sheet-back" id="sheet-share">
       <div class="sheet" role="dialog" aria-labelledby="share-title">

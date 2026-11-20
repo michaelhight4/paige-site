@@ -22564,8 +22564,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       // free scheduled sessions on the calendar (also plan sessions)
       planLibrary: [],
       // owned/imported plan objects
-      planCredits: 0
+      planCredits: 0,
       // cached count; the IAP ledger is authoritative
+      groupRuns: []
     };
   }
   function loadState() {
@@ -22581,7 +22582,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         activities: parsed.activities || [],
         plans: parsed.plans || [],
         planLibrary: parsed.planLibrary || [],
-        planCredits: parsed.planCredits || 0
+        planCredits: parsed.planCredits || 0,
+        groupRuns: parsed.groupRuns || []
       };
     } catch {
       return emptyState();
@@ -22594,7 +22596,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       activities: state3.activities,
       plans: state3.plans,
       planLibrary: state3.planLibrary || [],
-      planCredits: state3.planCredits || 0
+      planCredits: state3.planCredits || 0,
+      groupRuns: state3.groupRuns || []
     };
     localStorage.setItem(KEY, JSON.stringify(copy));
   }
@@ -22650,7 +22653,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       sourceSessionDate: partial.sourceSessionDate || null,
       targetLengthMeters: partial.targetLengthMeters || null,
       targetSec: partial.targetSec || null,
-      routePins: partial.routePins || null
+      routePins: partial.routePins || null,
+      groupRunId: partial.groupRunId || null,
+      startAt: partial.startAt || null
     };
   }
 
@@ -25887,8 +25892,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const c = (courses || []).find((x2) => x2.id === p.courseId);
     const len = c ? pathLengthMeters(c.pins) : 0;
     const eta = formatEta(etaSeconds(len, activityMph(p.activityType)));
-    const title = `Planned ${p.activityType === "run" ? "run" : "walk"}${p.courseName ? " \xB7 " + p.courseName : ""}`;
-    const body = c ? `${dist(len, units3)} \xB7 ${eta}${isToday ? " \xB7 Today" : ""}` : "Saved course was removed";
+    const isGroup = !!p.groupRunId;
+    const timeLabel = p.startAt ? new Date(p.startAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) : "";
+    const title = isGroup ? `Group ${p.activityType === "run" ? "run" : "walk"}${p.courseName ? " \xB7 " + p.courseName : ""}` : `Planned ${p.activityType === "run" ? "run" : "walk"}${p.courseName ? " \xB7 " + p.courseName : ""}`;
+    const body = c ? `${dist(len, units3)} \xB7 ${eta}${timeLabel ? " \xB7 " + timeLabel : ""}${isToday ? " \xB7 Today" : ""}` : "Saved course was removed";
     if (!c || !isToday && !isFuture) {
       return `<div class="list-item plan-row is-past">
       <div class="grow"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p></div>
@@ -25923,7 +25930,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       return `<button class="list-item upcoming-row" data-up="${escapeHtml(p.date)}">
       <div class="grow">
         <h3>${escapeHtml(shortDate(p.date))}</h3>
-        <p>${p.activityType === "run" ? "Run" : "Walk"}${p.courseName ? " \xB7 " + escapeHtml(p.courseName) : ""} \xB7 ${dist(len, units3)}</p>
+        <p>${p.groupRunId ? "Group " : ""}${p.activityType === "run" ? "run" : "walk"}${p.courseName ? " \xB7 " + escapeHtml(p.courseName) : ""} \xB7 ${dist(len, units3)}</p>
       </div>
       <div class="meta">${p.date === todayIso ? "Today" : "View"}</div>
     </button>`;
@@ -25948,6 +25955,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       onSelectDay,
       onStartPlan,
       onSchedule,
+      onGroupRun,
       onToggleActivity,
       onStartCourse,
       onStartWalk
@@ -26023,6 +26031,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (isFuture || isToday) {
       if (!historyEmpty) {
         html += `<button class="btn btn-secondary sched-btn" id="btn-sched-open" data-testid="calendar-schedule">Schedule a walk or run</button>`;
+        html += `<button class="btn btn-secondary sched-btn" id="btn-group-open" data-testid="calendar-group">Plan a Group Run</button>`;
       }
     }
     html += `</div>`;
@@ -26050,6 +26059,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     });
     const sched = panel.querySelector("#btn-sched-open");
     if (sched && onSchedule) sched.addEventListener("click", onSchedule);
+    const groupBtn = panel.querySelector("#btn-group-open");
+    if (groupBtn && onGroupRun) groupBtn.addEventListener("click", onGroupRun);
     const emptyPlan = panel.querySelector("#cal-empty-plan");
     if (emptyPlan && onSchedule) emptyPlan.addEventListener("click", onSchedule);
     const emptyWalk = panel.querySelector("#cal-empty-walk");
@@ -29127,6 +29138,140 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return `<svg viewBox="0 0 ${width} ${height}" width="100%" height="${height}" role="img" aria-label="Course path">${d2 ? `<path d="${d2}" fill="none" stroke="#4FA3C8" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" />` : ""}${dots}</svg>`;
   }
 
+  // www/js/group_run.js
+  function courseLengthOf(course) {
+    if (course && Array.isArray(course.path) && course.path.length >= 2) {
+      return pathLengthMeters(course.path);
+    }
+    return pathLengthMeters(course && course.pins || []);
+  }
+  function makeGroupRun({ course, startAt, activityType = "walk", now = /* @__PURE__ */ new Date() } = {}) {
+    if (!course || !Array.isArray(course.pins) || course.pins.length < 2) {
+      return { ok: false, error: "no_course" };
+    }
+    const start = startAt instanceof Date ? startAt : new Date(startAt);
+    if (Number.isNaN(start.getTime())) return { ok: false, error: "bad_time" };
+    const type = activityType === "run" ? "run" : "walk";
+    const share = encodeCourse(course);
+    const durationSec = Math.max(30 * 60, etaSeconds(courseLengthOf(course), activityMph(type)));
+    const created = now instanceof Date ? now : new Date(now);
+    const run = {
+      id: uid("group"),
+      title: `Group ${type} \xB7 ${course.name}`,
+      activityType: type,
+      courseId: course.id || null,
+      courseName: String(course.name || "Course").slice(0, 48),
+      startAt: start.toISOString(),
+      endAt: new Date(start.getTime() + durationSec * 1e3).toISOString(),
+      shareUrl: share.url,
+      createdAt: created.toISOString()
+    };
+    return { ok: true, run, share };
+  }
+  function formatWhen(iso, { timeZone } = {}) {
+    const d2 = new Date(iso);
+    if (Number.isNaN(d2.getTime())) return "";
+    const opts = {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit"
+    };
+    if (timeZone) opts.timeZone = timeZone;
+    return d2.toLocaleString("en-US", opts);
+  }
+  function inviteMessage(run, opts = {}) {
+    const when = formatWhen(run && run.startAt, opts);
+    const verb = run && run.activityType === "run" ? "run" : "walk";
+    const name = run && run.courseName || "this course";
+    const url = run && run.shareUrl || "";
+    return `Join me for a ${verb} on ${name}, ${when}. ${url}`.trim();
+  }
+  function smsHref(run, { userAgent, timeZone } = {}) {
+    const body = encodeURIComponent(inviteMessage(run, { timeZone }));
+    const ua = userAgent || (typeof navigator !== "undefined" ? navigator.userAgent : "");
+    const ios = /iPhone|iPad|iPod/i.test(ua);
+    return ios ? `sms:&body=${body}` : `sms:?body=${body}`;
+  }
+  function icsEscape(text) {
+    return String(text || "").replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;");
+  }
+  function icsUtcStamp(d2) {
+    return new Date(d2).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+  }
+  function foldIcsLine(line) {
+    const bytes = new TextEncoder().encode(line);
+    if (bytes.length <= 75) return [line];
+    const out = [];
+    let raw = line;
+    while (raw) {
+      let cut = 75;
+      if (out.length) cut = 74;
+      let chunk = raw.slice(0, cut);
+      while (chunk.length && chunk.charCodeAt(chunk.length - 1) >= 55296 && chunk.charCodeAt(chunk.length - 1) <= 56319) {
+        chunk = chunk.slice(0, -1);
+      }
+      if (!chunk.length) chunk = raw.slice(0, 1);
+      out.push((out.length ? " " : "") + chunk);
+      raw = raw.slice(chunk.length);
+    }
+    return out;
+  }
+  function icsText(run, opts = {}) {
+    const uid2 = `${run.id}@paigegames.net`;
+    const lines = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Paige Games//Heldpath//EN",
+      "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH",
+      "BEGIN:VEVENT",
+      `UID:${uid2}`,
+      `DTSTAMP:${icsUtcStamp(run.createdAt || run.startAt)}`,
+      `DTSTART:${icsUtcStamp(run.startAt)}`,
+      `DTEND:${icsUtcStamp(run.endAt)}`,
+      `SUMMARY:${icsEscape(run.title)}`,
+      `DESCRIPTION:${icsEscape(inviteMessage(run, opts))}`,
+      `URL:${run.shareUrl}`,
+      "END:VEVENT",
+      "END:VCALENDAR"
+    ];
+    const folded = [];
+    for (const line of lines) folded.push(...foldIcsLine(line));
+    return folded.join("\r\n") + "\r\n";
+  }
+  function icsFileName(run) {
+    const slug = String(run && run.courseName || "group-run").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "group-run";
+    return `heldpath-${slug}.ics`;
+  }
+  function calendarRowFor(run) {
+    return {
+      id: `gcal_${run.id}`,
+      date: isoDate(new Date(run.startAt)),
+      courseId: run.courseId || null,
+      courseName: run.courseName,
+      activityType: run.activityType,
+      groupRunId: run.id,
+      startAt: run.startAt,
+      sourcePlanId: null,
+      sourceSessionDate: null,
+      targetLengthMeters: null,
+      targetSec: null,
+      routePins: null
+    };
+  }
+  function addGroupRunToState(state3, run) {
+    if (!Array.isArray(state3.groupRuns)) state3.groupRuns = [];
+    state3.groupRuns = state3.groupRuns.filter((g) => g.id !== run.id);
+    state3.groupRuns.push(run);
+    if (!Array.isArray(state3.plans)) state3.plans = [];
+    const row = calendarRowFor(run);
+    state3.plans = state3.plans.filter((p) => p.id !== row.id && p.groupRunId !== run.id);
+    state3.plans.push(row);
+    return { run, row };
+  }
+
   // node_modules/qrcode-generator/dist/qrcode.mjs
   var qrcode = function(typeNumber, errorCorrectionLevel) {
     const PAD0 = 236;
@@ -31111,6 +31256,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         }
       },
       onSchedule: () => openSchedule(),
+      onGroupRun: () => openGroupRun(),
       onStartCourse: (courseId, type) => {
         const c = courseById2(courseId);
         if (c) startTracking(type === "run" ? "run" : "walk", c);
@@ -31714,6 +31860,24 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       if (!c) return;
       openShareSheet("course", c);
     });
+    $4("btn-course-group").addEventListener("click", () => {
+      const c = courseById2(ui2.courseId);
+      closeSheet("sheet-course");
+      openGroupRun({ courseId: c && c.id });
+    });
+    $4("btn-group-cancel").addEventListener("click", () => closeSheet("sheet-group"));
+    $4("btn-group-create").addEventListener("click", () => {
+      createGroupRunFromSheet();
+    });
+    $4("btn-group-invite-close").addEventListener("click", () => closeSheet("sheet-group-invite"));
+    $4("btn-group-copy").addEventListener("click", () => {
+      copyGroupInvite().catch(() => {
+      });
+    });
+    $4("btn-group-cal").addEventListener("click", () => {
+      addGroupToCalendar().catch(() => {
+      });
+    });
     $4("btn-share-close").addEventListener("click", () => closeSheet("sheet-share"));
     $4("btn-share-copy").addEventListener("click", () => {
       copyShareLink().catch(() => {
@@ -31866,6 +32030,107 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       showScreen("today");
     }
     return true;
+  }
+  function fillGroupPreview() {
+    const c = courseById2($4("group-course").value);
+    const type = $4("group-type").value;
+    const date = $4("group-date").value;
+    const time = $4("group-time").value;
+    if (!c || !date || !time) {
+      $4("group-preview").textContent = "Choose a course, date, and time.";
+      return;
+    }
+    const start = /* @__PURE__ */ new Date(`${date}T${time}`);
+    if (Number.isNaN(start.getTime())) {
+      $4("group-preview").textContent = "That date or time could not be read.";
+      return;
+    }
+    const len = courseMeters(c);
+    $4("group-preview").textContent = `${c.name} \xB7 ${formatDistance(len, units2())} \xB7 ${formatWhen(start.toISOString())} \xB7 ${formatEta(etaSeconds(len, activityMph(type)))}`;
+  }
+  function openGroupRun(opt = {}) {
+    if (!state2.courses.length) {
+      window.alert("Save a course first, then you can plan a Group Run.");
+      setTab("courses");
+      return;
+    }
+    const sel = $4("group-course");
+    sel.innerHTML = state2.courses.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join("");
+    const preferred = opt.courseId || ui2.courseId;
+    if (preferred && state2.courses.some((c) => c.id === preferred)) sel.value = preferred;
+    const today = isoDate(/* @__PURE__ */ new Date());
+    $4("group-date").value = opt.date || ui2.selectedDay || today;
+    $4("group-time").value = opt.time || "09:00";
+    $4("group-type").value = opt.type || "walk";
+    sel.onchange = fillGroupPreview;
+    $4("group-type").onchange = fillGroupPreview;
+    $4("group-date").onchange = fillGroupPreview;
+    $4("group-time").onchange = fillGroupPreview;
+    fillGroupPreview();
+    openSheet("sheet-group");
+  }
+  function createGroupRunFromSheet() {
+    const c = courseById2($4("group-course").value);
+    const date = $4("group-date").value;
+    const time = $4("group-time").value;
+    if (!c || !date || !time) return;
+    const start = /* @__PURE__ */ new Date(`${date}T${time}`);
+    const made = makeGroupRun({ course: c, startAt: start, activityType: $4("group-type").value });
+    if (!made.ok) {
+      $4("group-preview").textContent = "Could not create that Group Run. Check the date and course.";
+      return;
+    }
+    addGroupRunToState(state2, made.run);
+    persist();
+    closeSheet("sheet-group");
+    ui2.selectedDay = isoDate(start);
+    if (ui2.screen === "calendar") renderCalendar();
+    openGroupInvite(made.run);
+  }
+  function openGroupInvite(run) {
+    ui2.pendingGroupRun = run;
+    $4("group-invite-title").textContent = run.title || "Invite your group";
+    $4("group-invite-sub").textContent = formatWhen(run.startAt);
+    $4("group-invite-text").value = inviteMessage(run);
+    const sms = $4("btn-group-sms");
+    sms.href = smsHref(run);
+    $4("group-invite-note").textContent = "Text friends opens your SMS app so you can pick people from your contacts. Heldpath does not read your address book.";
+    openSheet("sheet-group-invite");
+  }
+  async function copyGroupInvite() {
+    const text = $4("group-invite-text").value;
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText(text);
+      $4("group-invite-note").textContent = "Invite copied.";
+    } catch {
+      $4("group-invite-text").select();
+      $4("group-invite-note").textContent = "Copy the invite from the field above.";
+    }
+  }
+  async function addGroupToCalendar() {
+    const run = ui2.pendingGroupRun;
+    if (!run) return;
+    const blob = new Blob([icsText(run)], { type: "text/calendar;charset=utf-8" });
+    const name = icsFileName(run);
+    try {
+      const file = new File([blob], name, { type: "text/calendar" });
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: run.title, text: inviteMessage(run) });
+        return;
+      }
+    } catch (err2) {
+      if (err2 && err2.name === "AbortError") return;
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1e3);
+    $4("group-invite-note").textContent = "Calendar file saved. Open it to add this Group Run to your calendar.";
   }
   function openShareSheet(kind, obj) {
     closeSheet("sheet-course");
@@ -32046,6 +32311,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       closeSheet("sheet-save-route");
       closeSheet("sheet-share");
       closeSheet("sheet-share-import");
+      closeSheet("sheet-group");
+      closeSheet("sheet-group-invite");
       if (opt.empty) {
         state2 = resetState();
         state2.settings.seenMapPrompt = true;
@@ -32235,6 +32502,29 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           drawSessionOnMap(made);
           fitBounds(tplan.path, { top: 56, bottom: 420, left: 48, right: 48 });
         });
+      } else if (name === "group-setup") {
+        const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+        if (!state2.courses.length) state2.courses.push(course);
+        ui2.cal = new Date(2026, 11, 5);
+        ui2.selectedDay = "2026-12-05";
+        setTab("calendar");
+        openGroupRun({
+          courseId: course.id,
+          date: "2026-12-05",
+          time: "09:00",
+          type: "walk"
+        });
+      } else if (name === "group-invite") {
+        const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+        if (!state2.courses.length) state2.courses.push(course);
+        const start = new Date(2026, 11, 5, 9, 0, 0);
+        const made = makeGroupRun({ course, startAt: start, activityType: "walk", now: new Date(2026, 10, 20, 12, 0, 0) });
+        addGroupRunToState(state2, made.run);
+        persist();
+        ui2.cal = new Date(2026, 11, 5);
+        ui2.selectedDay = "2026-12-05";
+        setTab("calendar");
+        openGroupInvite(made.run);
       } else if (name === "share-course") {
         const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
         if (!state2.courses.length) state2.courses.push(course);

@@ -109,9 +109,13 @@ function planRow(p, courses, units, isToday, isFuture) {
   const c = (courses || []).find((x) => x.id === p.courseId);
   const len = c ? pathLengthMeters(c.pins) : 0;
   const eta = formatEta(etaSeconds(len, activityMph(p.activityType)));
-  const title = `Planned ${p.activityType === "run" ? "run" : "walk"}${p.courseName ? " · " + p.courseName : ""}`;
+  const isGroup = !!p.groupRunId;
+  const timeLabel = p.startAt ? new Date(p.startAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) : "";
+  const title = isGroup
+    ? `Group ${p.activityType === "run" ? "run" : "walk"}${p.courseName ? " · " + p.courseName : ""}`
+    : `Planned ${p.activityType === "run" ? "run" : "walk"}${p.courseName ? " · " + p.courseName : ""}`;
   const body = c
-    ? `${dist(len, units)} · ${eta}${isToday ? " · Today" : ""}`
+    ? `${dist(len, units)} · ${eta}${timeLabel ? " · " + timeLabel : ""}${isToday ? " · Today" : ""}`
     : "Saved course was removed";
   if (!c || (!isToday && !isFuture)) {
     return `<div class="list-item plan-row is-past">
@@ -152,7 +156,7 @@ function upcomingMarkup(plans, courses, todayIso, units) {
     return `<button class="list-item upcoming-row" data-up="${escapeHtml(p.date)}">
       <div class="grow">
         <h3>${escapeHtml(shortDate(p.date))}</h3>
-        <p>${p.activityType === "run" ? "Run" : "Walk"}${p.courseName ? " · " + escapeHtml(p.courseName) : ""} · ${dist(len, units)}</p>
+        <p>${p.groupRunId ? "Group " : ""}${p.activityType === "run" ? "run" : "walk"}${p.courseName ? " · " + escapeHtml(p.courseName) : ""} · ${dist(len, units)}</p>
       </div>
       <div class="meta">${p.date === todayIso ? "Today" : "View"}</div>
     </button>`;
@@ -178,6 +182,7 @@ export function renderCalendarView(ctx) {
     onSelectDay,
     onStartPlan,
     onSchedule,
+    onGroupRun,
     onToggleActivity,
     onStartCourse,
     onStartWalk,
@@ -263,6 +268,7 @@ export function renderCalendarView(ctx) {
   if (isFuture || isToday) {
     if (!historyEmpty) {
       html += `<button class="btn btn-secondary sched-btn" id="btn-sched-open" data-testid="calendar-schedule">Schedule a walk or run</button>`;
+      html += `<button class="btn btn-secondary sched-btn" id="btn-group-open" data-testid="calendar-group">Plan a Group Run</button>`;
     }
   }
   html += `</div>`;
@@ -291,6 +297,8 @@ export function renderCalendarView(ctx) {
   });
   const sched = panel.querySelector("#btn-sched-open");
   if (sched && onSchedule) sched.addEventListener("click", onSchedule);
+  const groupBtn = panel.querySelector("#btn-group-open");
+  if (groupBtn && onGroupRun) groupBtn.addEventListener("click", onGroupRun);
   const emptyPlan = panel.querySelector("#cal-empty-plan");
   if (emptyPlan && onSchedule) emptyPlan.addEventListener("click", onSchedule);
   const emptyWalk = panel.querySelector("#cal-empty-walk");

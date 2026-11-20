@@ -1,5 +1,5 @@
 /* Heldpath service worker: cache the app shell and the offline map pack. */
-const VERSION = "heldpath-shell-v7";
+const VERSION = "heldpath-shell-v8";
 const PRECACHE = [
   "./",
   "./index.html",
