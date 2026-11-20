@@ -59,6 +59,7 @@ import { seedDemo, midCourseWalk, pastCourseRun, arnoLoopPins } from "./demo.js"
 import { purchaseSupport, SUPPORT_PRODUCT_ID } from "./iap.js";
 import { isWeb, applyPlatformVisibility, registerServiceWorker, listenForInstallPrompt, canPromptInstall, promptInstall, WEB_APP_NOTE, WEB_PAY_NOTE } from "./platform.js";
 import { renderCalendarView } from "./calendar_view.js";
+import { conflictCopy, plansOnDate } from "./calendar_conflict.js";
 import { renderProgressView } from "./progress_view.js";
 import { initPlansUi, renderPlansScreen } from "./plans_ui.js";
 import { initStretchesUi, showStretchesHub, showStretchGroup, showStretchWorkout, showStretchCredits, showStretchFollow, openStretchVideo, closeStretchVideo } from "./stretches_ui.js";
@@ -693,6 +694,12 @@ function openSchedule() {
     return;
   }
   $("sched-sub").textContent = `For ${new Date(ui.selectedDay + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}.`;
+  const schedNote = $("sched-conflict");
+  if (schedNote) {
+    const copy = conflictCopy(plansOnDate(state.plans, ui.selectedDay));
+    schedNote.hidden = !copy;
+    schedNote.textContent = copy;
+  }
   const sel = $("sched-course");
   sel.innerHTML = state.courses.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join("");
   const updatePrev = () => {
@@ -1909,6 +1916,8 @@ function fillGroupPreview() {
   const time = $("group-time").value;
   if (!c || !date || !time) {
     $("group-preview").textContent = "Choose a course, date, and time.";
+    const groupNote0 = $("group-conflict");
+    if (groupNote0) { groupNote0.hidden = true; groupNote0.textContent = ""; }
     return;
   }
   const start = new Date(`${date}T${time}`);
@@ -1918,6 +1927,12 @@ function fillGroupPreview() {
   }
   const len = courseMeters(c);
   $("group-preview").textContent = `${c.name} · ${formatDistance(len, units())} · ${formatWhen(start.toISOString())} · ${formatEta(etaSeconds(len, activityMph(type)))}`;
+  const groupNote = $("group-conflict");
+  if (groupNote) {
+    const copy = conflictCopy(plansOnDate(state.plans, date));
+    groupNote.hidden = !copy;
+    groupNote.textContent = copy;
+  }
 }
 
 function openGroupRun(opt = {}) {
@@ -2430,6 +2445,25 @@ window.HeldpathTest = {
     else if (name === "calendar-future") {
       const p = state.plans[0];
       if (p) ui.selectedDay = p.date;
+      setTab("calendar");
+    } else if (name === "calendar-conflict") {
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      if (!state.courses.length) state.courses.push(course);
+      const day = "2026-12-05";
+      const walk = newPlan({
+        date: day,
+        courseId: course.id,
+        courseName: course.name,
+        activityType: "walk",
+      });
+      state.plans = (state.plans || []).filter((p) => p.date !== day);
+      state.plans.push(walk);
+      const start = new Date(2026, 11, 5, 9, 0, 0);
+      const made = makeGroupRun({ course, startAt: start, activityType: "run", now: new Date(2026, 10, 20, 12, 0, 0) });
+      if (made.ok) addGroupRunToState(state, made.run);
+      persist();
+      ui.cal = new Date(2026, 11, 5);
+      ui.selectedDay = day;
       setTab("calendar");
     } else if (name === "calendar-empty") { state.activities = []; state.plans = []; ui.cal = startOfDay(new Date()); ui.selectedDay = isoDate(new Date()); setTab("calendar"); }
     else if (name === "calendar-history") {

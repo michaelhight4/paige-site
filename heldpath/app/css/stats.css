@@ -267,6 +267,7 @@
 }
 .day-note.has-acts { color: var(--blue); }
 .day-note.has-plan { color: var(--gold); }
+.day-note.has-conflict { color: var(--gold); }
 
 .cal-legend {
   display: flex;
@@ -364,4 +365,13 @@
 }
 @media (min-width: 900px) {
   .ach-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.sched-conflict {
+  margin: 0 0 16px;
+  color: var(--ink);
+  font-weight: 600;
+}
+.plan-hint.is-conflict {
+  font-weight: 600;
 }

@@ -26917,6 +26917,55 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     memoryLedger.clear();
   }
 
+  // www/js/calendar_conflict.js
+  function plansOnDate(plans, date) {
+    return (plans || []).filter((p) => p && p.date === date);
+  }
+  function isGroupItem(p) {
+    return !!(p && p.groupRunId);
+  }
+  function dayPlanLabel(dayPlans) {
+    const n = (dayPlans || []).length;
+    if (!n) return "";
+    if (n === 1) return isGroupItem(dayPlans[0]) ? "Group" : "Planned";
+    return `${n} planned`;
+  }
+  function conflictCopy(existing) {
+    const items = existing || [];
+    if (!items.length) return "";
+    const groups = items.filter(isGroupItem).length;
+    const plans = items.length - groups;
+    if (items.length === 1 && groups) {
+      return "This day already has a Group Run. Both will stay on the calendar.";
+    }
+    if (items.length === 1 && plans) {
+      return "This day already has a planned session. Both will stay on the calendar.";
+    }
+    return "This day already has more than one plan. Everything stays on the calendar.";
+  }
+  function overlappingDates(sessionDates, plans) {
+    return (sessionDates || []).filter((d2) => plansOnDate(plans, d2).length > 0);
+  }
+  function overlapPlanCopy(dates) {
+    const n = (dates || []).length;
+    if (!n) return "";
+    if (n === 1) {
+      return "One session lands on a day that already has a plan or Group Run. Both will stay on the calendar.";
+    }
+    return `${n} sessions land on days that already have a plan or Group Run. Both will stay on the calendar.`;
+  }
+  function sortCalendarItems(plans) {
+    return (plans || []).slice().sort((a, b2) => {
+      const da = a && a.date || "";
+      const db = b2 && b2.date || "";
+      if (da !== db) return da < db ? -1 : 1;
+      const ta = a && a.startAt || "";
+      const tb = b2 && b2.startAt || "";
+      if (ta !== tb) return ta < tb ? -1 : 1;
+      return String(a && a.id || "").localeCompare(String(b2 && b2.id || ""));
+    });
+  }
+
   // www/js/calendar_view.js
   var CALENDAR_ART = "assets/art_calendar_empty.png";
   var ICON_ROUTE = `<svg viewBox="0 0 120 80" aria-hidden="true"><path d="M12 64c14 0 12-24 28-24s14 20 28 20 12-28 28-28" /><circle cx="12" cy="64" r="5" /><path d="M96 32c0 7-8 14-8 14s-8-7-8-14a8 8 0 0 1 16 0Z" /><circle cx="88" cy="31" r="2.6" /></svg>`;
@@ -27028,7 +27077,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   </div>`;
   }
   function upcomingMarkup(plans, courses, todayIso, units3) {
-    const next = (plans || []).filter((p) => p.date && p.date >= todayIso).sort((a, b2) => a.date === b2.date ? 0 : a.date < b2.date ? -1 : 1).slice(0, 3);
+    const next = sortCalendarItems((plans || []).filter((p) => p.date && p.date >= todayIso)).slice(0, 3);
     if (!next.length) return "";
     const rows = next.map((p) => {
       const c = (courses || []).find((x2) => x2.id === p.courseId);
@@ -27089,8 +27138,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           "aria-label",
           `${cell.date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}: ${bits2.length ? bits2.join(", ") : "nothing logged"}`
         );
-        const noteClass = acts2.length ? "has-acts" : dayPlans2.length ? "has-plan" : "";
-        const note = acts2.length ? dist(meters2, units3) : dayPlans2.length ? "Planned" : "";
+        const noteClass = acts2.length ? "has-acts" : dayPlans2.length > 1 ? "has-plan has-conflict" : dayPlans2.length ? "has-plan" : "";
+        const note = acts2.length ? dist(meters2, units3) : dayPlanLabel(dayPlans2);
         b2.innerHTML = `<span class="n">${cell.date.getDate()}</span>
         <span class="dots">${dotMarkup(acts2, dayPlans2)}</span>
         <span class="day-note ${noteClass}">${escapeHtml(note)}</span>`;
@@ -27125,13 +27174,15 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     } else if (!dayPlans.length) {
       html += isToday ? `<p class="tiny">Nothing yet today. Start a walk and it will show up here.</p>` : isFuture ? `<p class="tiny">Nothing planned yet. Schedule a walk or run on a saved course \u2014 it's free.</p>` : `<p class="tiny">No walks or runs on this day.</p>`;
     }
-    if (dayPlans.length && (isToday || isFuture)) {
+    if (dayPlans.length > 1 && (isToday || isFuture)) {
+      html += `<p class="tiny plan-hint is-conflict" data-testid="calendar-conflict-note">This day has more than one plan. Both stay on the calendar.</p>`;
+    } else if (dayPlans.length && (isToday || isFuture)) {
       html += `<p class="tiny plan-hint">Tap a planned session to start it.</p>`;
     }
     for (const a of acts) {
       html += activityRow(a, units3, a.id === openActivityId);
     }
-    for (const p of dayPlans) {
+    for (const p of sortCalendarItems(dayPlans)) {
       html += planRow(p, courses, units3, isToday, isFuture);
     }
     if (isFuture || isToday) {
@@ -28745,6 +28796,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         } : {}
       });
     }
+    const existingCreate = (state().plans || []).filter((p) => p.sourcePlanId !== res.plan.id);
+    const overlapCreate = overlappingDates(res.plan.schedule && res.plan.schedule.sessionDates, existingCreate);
     addPlanToState(state(), res.plan, { courseName: goal.course?.name });
     ctx.persist();
     ui.selectedPlanId = res.plan.id;
@@ -28753,6 +28806,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const remind = await syncReminders(res.plan);
     renderPlansScreen();
     $("plan-create-note").textContent = res.purchased ? "Plan created. A $2 credit was recorded on this phone; store checkout is not live in this build. Save or export it any time." : "Plan created with one credit. It is yours to keep, save and share.";
+    const overlapCreateNote = overlapPlanCopy(overlapCreate);
+    if (overlapCreateNote) $("plan-create-note").textContent += " " + overlapCreateNote;
     $("plan-reminder-note").textContent = remind.ok ? `Drink reminders scheduled on this phone: ${reminderTimesFor(res.plan).join(", ")}.` : `${reminderPayloadFor(res.plan).length} reminder times saved. They run on the phone once the app is installed.`;
   }
   async function saveWater() {
@@ -28822,12 +28877,16 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       $("plan-import-note").textContent = `That file could not be imported (${res.error}). Nothing was charged.`;
       return;
     }
+    const existingImport = (state().plans || []).filter((p) => p.sourcePlanId !== res.plan.id);
+    const overlapImport = overlappingDates(res.plan.schedule && res.plan.schedule.sessionDates, existingImport);
     addPlanToState(state(), res.plan);
     ctx.persist();
     ui.selectedPlanId = res.plan.id;
     await syncReminders(res.plan);
     renderPlansScreen();
     $("plan-import-note").textContent = "Plan imported free. It is on this phone and its sessions are on your Calendar. No credit was used.";
+    const overlapImportNote = overlapPlanCopy(overlapImport);
+    if (overlapImportNote) $("plan-import-note").textContent += " " + overlapImportNote;
   }
   function removePlan(planId) {
     const plan = (state().planLibrary || []).find((p) => p.id === planId);
@@ -33114,6 +33173,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       return;
     }
     $4("sched-sub").textContent = `For ${(/* @__PURE__ */ new Date(ui2.selectedDay + "T12:00:00")).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}.`;
+    const schedNote = $4("sched-conflict");
+    if (schedNote) {
+      const copy = conflictCopy(plansOnDate(state2.plans, ui2.selectedDay));
+      schedNote.hidden = !copy;
+      schedNote.textContent = copy;
+    }
     const sel = $4("sched-course");
     sel.innerHTML = state2.courses.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join("");
     const updatePrev = () => {
@@ -34290,6 +34355,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const time = $4("group-time").value;
     if (!c || !date || !time) {
       $4("group-preview").textContent = "Choose a course, date, and time.";
+      const groupNote0 = $4("group-conflict");
+      if (groupNote0) {
+        groupNote0.hidden = true;
+        groupNote0.textContent = "";
+      }
       return;
     }
     const start = /* @__PURE__ */ new Date(`${date}T${time}`);
@@ -34299,6 +34369,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     const len = courseMeters(c);
     $4("group-preview").textContent = `${c.name} \xB7 ${formatDistance(len, units2())} \xB7 ${formatWhen(start.toISOString())} \xB7 ${formatEta(etaSeconds(len, activityMph(type)))}`;
+    const groupNote = $4("group-conflict");
+    if (groupNote) {
+      const copy = conflictCopy(plansOnDate(state2.plans, date));
+      groupNote.hidden = !copy;
+      groupNote.textContent = copy;
+    }
   }
   function openGroupRun(opt = {}) {
     if (!state2.courses.length) {
@@ -34820,6 +34896,25 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       } else if (name === "calendar-future") {
         const p = state2.plans[0];
         if (p) ui2.selectedDay = p.date;
+        setTab("calendar");
+      } else if (name === "calendar-conflict") {
+        const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+        if (!state2.courses.length) state2.courses.push(course);
+        const day = "2026-12-05";
+        const walk = newPlan({
+          date: day,
+          courseId: course.id,
+          courseName: course.name,
+          activityType: "walk"
+        });
+        state2.plans = (state2.plans || []).filter((p) => p.date !== day);
+        state2.plans.push(walk);
+        const start = new Date(2026, 11, 5, 9, 0, 0);
+        const made = makeGroupRun({ course, startAt: start, activityType: "run", now: new Date(2026, 10, 20, 12, 0, 0) });
+        if (made.ok) addGroupRunToState(state2, made.run);
+        persist();
+        ui2.cal = new Date(2026, 11, 5);
+        ui2.selectedDay = day;
         setTab("calendar");
       } else if (name === "calendar-empty") {
         state2.activities = [];

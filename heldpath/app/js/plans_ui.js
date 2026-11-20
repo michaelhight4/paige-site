@@ -34,6 +34,7 @@ import {
   updateWaterTarget,
   reminderPayloadFor,
 } from "./plans.js";
+import { overlapPlanCopy, overlappingDates } from "./calendar_conflict.js";
 import { OWNERSHIP_COPY, creditsRemaining } from "./iap.js";
 
 let ctx = null;
@@ -264,6 +265,8 @@ async function createPlan() {
         : {}),
     });
   }
+  const existingCreate = (state().plans || []).filter((p) => p.sourcePlanId !== res.plan.id);
+  const overlapCreate = overlappingDates(res.plan.schedule && res.plan.schedule.sessionDates, existingCreate);
   addPlanToState(state(), res.plan, { courseName: goal.course?.name });
   ctx.persist();
   ui.selectedPlanId = res.plan.id;
@@ -274,6 +277,8 @@ async function createPlan() {
   $("plan-create-note").textContent = res.purchased
     ? "Plan created. A $2 credit was recorded on this phone; store checkout is not live in this build. Save or export it any time."
     : "Plan created with one credit. It is yours to keep, save and share.";
+  const overlapCreateNote = overlapPlanCopy(overlapCreate);
+  if (overlapCreateNote) $("plan-create-note").textContent += " " + overlapCreateNote;
   $("plan-reminder-note").textContent = remind.ok
     ? `Drink reminders scheduled on this phone: ${reminderTimesFor(res.plan).join(", ")}.`
     : `${reminderPayloadFor(res.plan).length} reminder times saved. They run on the phone once the app is installed.`;
@@ -351,12 +356,16 @@ async function importFile(file) {
     $("plan-import-note").textContent = `That file could not be imported (${res.error}). Nothing was charged.`;
     return;
   }
+  const existingImport = (state().plans || []).filter((p) => p.sourcePlanId !== res.plan.id);
+  const overlapImport = overlappingDates(res.plan.schedule && res.plan.schedule.sessionDates, existingImport);
   addPlanToState(state(), res.plan);
   ctx.persist();
   ui.selectedPlanId = res.plan.id;
   await syncReminders(res.plan);
   renderPlansScreen();
   $("plan-import-note").textContent = "Plan imported free. It is on this phone and its sessions are on your Calendar. No credit was used.";
+  const overlapImportNote = overlapPlanCopy(overlapImport);
+  if (overlapImportNote) $("plan-import-note").textContent += " " + overlapImportNote;
 }
 
 function removePlan(planId) {

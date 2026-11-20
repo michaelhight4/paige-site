@@ -14,6 +14,7 @@ import {
   monthGrid,
   pathLengthMeters,
 } from "./util.js";
+import { dayPlanLabel, sortCalendarItems } from "./calendar_conflict.js";
 
 const CALENDAR_ART = "assets/art_calendar_empty.png";
 
@@ -145,10 +146,7 @@ function emptyStateMarkup(canStart) {
 }
 
 function upcomingMarkup(plans, courses, todayIso, units) {
-  const next = (plans || [])
-    .filter((p) => p.date && p.date >= todayIso)
-    .sort((a, b) => (a.date === b.date ? 0 : a.date < b.date ? -1 : 1))
-    .slice(0, 3);
+  const next = sortCalendarItems((plans || []).filter((p) => p.date && p.date >= todayIso)).slice(0, 3);
   if (!next.length) return "";
   const rows = next.map((p) => {
     const c = (courses || []).find((x) => x.id === p.courseId);
@@ -212,8 +210,8 @@ export function renderCalendarView(ctx) {
         "aria-label",
         `${cell.date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}: ${bits.length ? bits.join(", ") : "nothing logged"}`
       );
-      const noteClass = acts.length ? "has-acts" : dayPlans.length ? "has-plan" : "";
-      const note = acts.length ? dist(meters, units) : dayPlans.length ? "Planned" : "";
+      const noteClass = acts.length ? "has-acts" : dayPlans.length > 1 ? "has-plan has-conflict" : dayPlans.length ? "has-plan" : "";
+      const note = acts.length ? dist(meters, units) : dayPlanLabel(dayPlans);
       b.innerHTML = `<span class="n">${cell.date.getDate()}</span>
         <span class="dots">${dotMarkup(acts, dayPlans)}</span>
         <span class="day-note ${noteClass}">${escapeHtml(note)}</span>`;
@@ -256,13 +254,15 @@ export function renderCalendarView(ctx) {
         ? `<p class="tiny">Nothing planned yet. Schedule a walk or run on a saved course — it's free.</p>`
         : `<p class="tiny">No walks or runs on this day.</p>`;
   }
-  if (dayPlans.length && (isToday || isFuture)) {
+  if (dayPlans.length > 1 && (isToday || isFuture)) {
+    html += `<p class="tiny plan-hint is-conflict" data-testid="calendar-conflict-note">This day has more than one plan. Both stay on the calendar.</p>`;
+  } else if (dayPlans.length && (isToday || isFuture)) {
     html += `<p class="tiny plan-hint">Tap a planned session to start it.</p>`;
   }
   for (const a of acts) {
     html += activityRow(a, units, a.id === openActivityId);
   }
-  for (const p of dayPlans) {
+  for (const p of sortCalendarItems(dayPlans)) {
     html += planRow(p, courses, units, isToday, isFuture);
   }
   if (isFuture || isToday) {
