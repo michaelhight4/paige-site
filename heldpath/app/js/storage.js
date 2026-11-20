@@ -8,6 +8,8 @@ const DEFAULT_SETTINGS = {
   mapPackInstalled: false,
   seenMapPrompt: false,
   locationDisclosureAccepted: false,
+  mapDataMode: null, // "offline" | "mobile"
+  lastKnown: null, // { lat, lon, at }
   demo: false,
 };
 

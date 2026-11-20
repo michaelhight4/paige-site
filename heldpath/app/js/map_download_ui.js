@@ -64,7 +64,7 @@ export async function renderAreas() {
   try { used = await tileCacheBytes(); } catch { used = 0; }
   if (usedEl) {
     const avail = stor.available != null ? ` · ${formatBytes(stor.available)} free` : "";
-    usedEl.textContent = `Downloaded map tiles use ${formatBytes(used)} on this device${avail}. The world basemap (zoom 0–6) and the Florence starter pack are already in the app.`;
+    usedEl.textContent = `Downloaded map tiles use ${formatBytes(used)} on this device${avail}. The world basemap (zoom 0–6) is already in the app, so zooming out never goes black.`;
   }
   if (!list) return;
   let areas = [];
@@ -78,8 +78,8 @@ export async function renderAreas() {
     </div>
     <div class="map-area-card" data-testid="area-florence">
       <div>
-        <strong>Florence starter</strong>
-        <p class="tiny">Bundled street-level pack for the Florence extract. Always available offline.</p>
+        <strong>Florence extract</strong>
+        <p class="tiny">Optional bundled street-level pack for Florence, used in tests and if you open that city. It is not the default map.</p>
       </div>
     </div>`;
   const rows = areas.map((a) => `
@@ -101,10 +101,13 @@ function esc(s) {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
+let cropReturnTo = "map-areas";
+
 export function openCrop(opt = {}) {
   const root = $("map-crop-root");
   if (!root) return;
-  if (opt.lat != null && opt.lon != null) setCenter(opt.lat, opt.lon, opt.zoom);
+  cropReturnTo = opt.afterClose || "map-areas";
+  if (opt.lat != null && opt.lon != null) setCenter(opt.lat, opt.lon, opt.zoom == null ? 15 : opt.zoom);
   if (hooks.showScreen) hooks.showScreen("today");
   if (hooks.setHideNav) hooks.setHideNav(true);
   root.hidden = false;
@@ -137,6 +140,12 @@ export function closeCrop() {
   if (downloading) return;
   closeCropOverlay();
   if (hooks.setHideNav) hooks.setHideNav(false);
+  const back = cropReturnTo;
+  cropReturnTo = "map-areas";
+  if (back === "today") {
+    if (hooks.showScreen) hooks.showScreen("today");
+    return;
+  }
   if (hooks.showScreen) hooks.showScreen("map-areas");
   renderAreas();
 }

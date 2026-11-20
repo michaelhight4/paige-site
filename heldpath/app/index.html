@@ -165,7 +165,11 @@
         <div class="card">
           <h2>Offline maps</h2>
           <p class="tiny" id="map-pack-status" style="margin-bottom:12px"></p>
+          <p class="tiny" id="map-data-mode-note" style="margin-bottom:12px"></p>
+          <button class="btn btn-secondary" id="btn-map-mode-download" style="width:100%;margin-bottom:10px" data-testid="settings-download-local">Download your local map (works offline)</button>
+          <button class="btn btn-secondary" id="btn-map-mode-data" style="width:100%;margin-bottom:10px" data-testid="settings-use-data">Use mobile data (loads as you go)</button>
           <button class="btn btn-secondary" id="btn-map-pack" style="width:100%" data-testid="open-map-areas">Manage maps on this phone</button>
+          <p class="tiny" style="margin-top:12px">When the map loads online, tile requests go to the map provider so streets can be drawn. They do not include your name or your walk and run history. Your location and activity stay on your phone.</p>
         </div>
 
         <div class="card native-only" id="health-card">
@@ -459,11 +463,12 @@
     <!-- Sheets -->
     <div class="sheet-back" id="sheet-map">
       <div class="sheet" role="dialog" aria-labelledby="map-sheet-title">
-        <h2 id="map-sheet-title">Keep a map on this phone</h2>
-        <p class="page-sub">A world overview and a Florence street map are already in the app, so zooming out never goes black. Save the Florence pack on this phone, or download another area for offline use. No account and no tracking.</p>
-        <button class="btn btn-primary" id="btn-save-pack" style="width:100%;margin-bottom:12px">Save Florence map</button>
-        <button class="btn btn-secondary" id="btn-map-download-from-sheet" style="width:100%;margin-bottom:12px">Download this area</button>
-        <button class="btn btn-secondary" id="btn-map-later" style="width:100%">Not now</button>
+        <h2 id="map-sheet-title">Maps on this phone</h2>
+        <p class="page-sub">Download your local map to use it offline, or load street detail over mobile data as you go.</p>
+        <p class="promise">Either way, Heldpath collects no data. Your location and activity stay on your phone.</p>
+        <p class="tiny" style="margin-bottom:16px">When the map loads online, tile requests go to the map provider so streets can be drawn. Those requests do not include your name or your walk and run history.</p>
+        <button class="btn btn-primary" id="btn-map-download-local" style="width:100%;margin-bottom:12px" data-testid="map-choice-download">Download your local map (works offline)</button>
+        <button class="btn btn-secondary" id="btn-map-use-data" style="width:100%" data-testid="map-choice-data">Use mobile data (loads as you go)</button>
       </div>
     </div>
 
@@ -635,8 +640,8 @@
 
     <div class="sheet-back" id="sheet-location">
       <div class="sheet" role="dialog" aria-labelledby="loc-title" data-testid="location-disclosure">
-        <h2 id="loc-title">Location while you walk or run</h2>
-        <p class="promise" id="loc-copy">Heldpath uses your location to record your walk or run while a session is in progress, including when the screen is off or you switch to another app. A notification stays on your lock screen until you stop. Location is stored only on this device, is never sold or shared, and is not used for ads. Tracking stops when you stop the session.</p>
+        <h2 id="loc-title">Your location</h2>
+        <p class="promise" id="loc-copy">Heldpath uses your location to show where you are on the map, and to record a walk or run while a session is in progress, including when the screen is off or you switch to another app. A notification stays on your lock screen until you stop. Location is stored only on this device, is never sold or shared, and is not used for ads. Tracking stops when you stop the session.</p>
         <p class="tiny" style="margin-bottom:16px">You can read the full policy at <a href="https://paigegames.net/heldpath/privacy" target="_blank" rel="noopener">paigegames.net/heldpath/privacy</a>. The next screen is the system permission prompt.</p>
         <button class="btn btn-primary" id="btn-loc-continue" style="width:100%;margin-bottom:12px">Continue</button>
         <button class="btn btn-secondary" id="btn-loc-cancel" style="width:100%">Not now</button>

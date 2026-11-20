@@ -27,7 +27,6 @@ import * as splits from "./splits.js";
 import { seedDemo, midCourseWalk, arnoLoopPins } from "./demo.js";
 import { purchaseSupport, SUPPORT_PRODUCT_ID } from "./iap.js";
 import { isWeb, applyPlatformVisibility, registerServiceWorker, listenForInstallPrompt, canPromptInstall, promptInstall, WEB_APP_NOTE, WEB_PAY_NOTE } from "./platform.js";
-import { persistStarterPack } from "./map.js";
 import { renderCalendarView } from "./calendar_view.js";
 import { renderProgressView } from "./progress_view.js";
 import { initPlansUi, renderPlansScreen } from "./plans_ui.js";
@@ -36,6 +35,15 @@ import { initMapDownloadUi, showMapAreas, openCrop, closeCrop } from "./map_down
 import { applyCompletedSession, importPlanFile, addPlanToState, makePlan, PLAN_FORMAT, PLAN_FORMAT_VERSION } from "./plans.js";
 import { buildPlanDraft } from "./plan_progress.js";
 import { encodeCourse, encodePlan, decodeShare, isShareHash, shareSummary, pathPreviewSvg } from "./share_link.js";
+import {
+  WORLD_VIEW,
+  STREET_ZOOM,
+  viewForLaunch,
+  shouldOfferMapChoice,
+  defaultMapDataMode,
+  normalizeFix,
+  requestPosition,
+} from "./locate.js";
 import {
   makeGroupRun,
   inviteMessage,
@@ -172,12 +180,7 @@ function courseById(id) {
 /* ——— Renderers ——— */
 function renderToday() {
   const banner = $("map-banner");
-  if (!state.settings.mapPackInstalled) {
-    banner.hidden = false;
-    banner.textContent = "Save a map to this phone to use it offline.";
-  } else {
-    banner.hidden = true;
-  }
+  if (banner) banner.hidden = true;
 }
 
 function maybeAnnounceTarget(sess, rem) {
@@ -512,9 +515,16 @@ function renderSettings() {
   if ($("web-native-note")) $("web-native-note").textContent = WEB_APP_NOTE;
   if ($("web-pay-note")) $("web-pay-note").textContent = WEB_PAY_NOTE;
   $("plans-hook").textContent = PLANS_HOOK_COPY;
-  $("map-pack-status").textContent = state.settings.mapPackInstalled
-    ? "The world overview and Florence starter map are in the app. You can download other areas for offline use."
-    : "A world overview and a Florence street map are already in the app. Download another area any time."
+  const mode = defaultMapDataMode(state.settings);
+  $("map-pack-status").textContent = "A world overview (zoom 0–6) is in the app, so zooming out never goes black. Street detail can be downloaded for offline use, or loaded over the network as you go.";
+  const modeNote = $("map-data-mode-note");
+  if (modeNote) {
+    modeNote.textContent = mode === "offline"
+      ? "Current choice: download your local map for offline use. You can change this at any time."
+      : mode === "mobile"
+        ? "Current choice: use mobile data (the map loads as you go). You can change this at any time."
+        : "Choose whether to download your local map or load streets over mobile data.";
+  }
   $("support-copy").textContent = SUPPORT_COPY;
 }
 
@@ -1133,14 +1143,6 @@ function bind() {
       $("tab-bar").style.display = v || ui.screen === "lock" ? "none" : "grid";
     },
   });
-  if ($("btn-map-download-from-sheet")) {
-    $("btn-map-download-from-sheet").addEventListener("click", () => {
-      state.settings.seenMapPrompt = true;
-      persist();
-      closeSheet("sheet-map");
-      openCrop();
-    });
-  }
   if ($("plans-back")) $("plans-back").addEventListener("click", () => setTab("settings"));
   if ($("btn-donate")) {
     $("btn-donate").addEventListener("click", async () => {
@@ -1153,22 +1155,18 @@ function bind() {
       }
     });
   }
-  $("btn-save-pack").addEventListener("click", async () => {
-    state.settings.mapPackInstalled = true;
-    state.settings.seenMapPrompt = true;
-    persist();
-    if (isWeb()) {
-      try { await persistStarterPack(); } catch (err) { console.warn("map pack save", err); }
-    }
-    closeSheet("sheet-map");
-    renderToday();
-    renderSettings();
-  });
-  $("btn-map-later").addEventListener("click", () => {
-    state.settings.seenMapPrompt = true;
-    persist();
-    closeSheet("sheet-map");
-  });
+  if ($("btn-map-download-local")) {
+    $("btn-map-download-local").addEventListener("click", () => chooseMapDataMode("offline"));
+  }
+  if ($("btn-map-use-data")) {
+    $("btn-map-use-data").addEventListener("click", () => chooseMapDataMode("mobile"));
+  }
+  if ($("btn-map-mode-download")) {
+    $("btn-map-mode-download").addEventListener("click", () => chooseMapDataMode("offline", { fromSettings: true }));
+  }
+  if ($("btn-map-mode-data")) {
+    $("btn-map-mode-data").addEventListener("click", () => chooseMapDataMode("mobile", { fromSettings: true }));
+  }
 
   const a2hsBtn = $("btn-a2hs");
   if (a2hsBtn) {
@@ -1198,9 +1196,76 @@ function bind() {
 
 }
 
+function applyLaunchView(point, { animate = false } = {}) {
+  const view = viewForLaunch({ lastKnown: state.settings.lastKnown, fix: point });
+  if (animate) map.flyTo(view.lat, view.lon, view.zoom);
+  else map.setCenter(view.lat, view.lon, view.zoom);
+  if (view.source !== "world") map.setUserDot(view);
+  else map.clearUserDot();
+  return view;
+}
+
+function rememberLocation(fix) {
+  const saved = normalizeFix(fix);
+  if (!saved) return null;
+  state.settings.lastKnown = saved;
+  persist();
+  return saved;
+}
+
+function currentCropCenter() {
+  const known = normalizeFix(state.settings.lastKnown);
+  if (known) return { lat: known.lat, lon: known.lon, zoom: STREET_ZOOM };
+  const m = map.getMap && map.getMap();
+  if (m) {
+    const c = m.getCenter();
+    return { lat: c.lat, lon: c.lng, zoom: m.getZoom() };
+  }
+  return { ...WORLD_VIEW };
+}
+
+function openMapChoice() {
+  openSheet("sheet-map");
+}
+
+function chooseMapDataMode(mode, { fromSettings = false } = {}) {
+  state.settings.mapDataMode = mode === "offline" ? "offline" : "mobile";
+  state.settings.seenMapPrompt = true;
+  persist();
+  closeSheet("sheet-map");
+  renderSettings();
+  renderToday();
+  if (mode === "offline") {
+    const at = currentCropCenter();
+    openCrop({ lat: at.lat, lon: at.lon, zoom: at.zoom, afterClose: fromSettings ? "map-areas" : "today" });
+  }
+}
+
+async function locateAndOfferMapChoice() {
+  const skipSheets = params.has("empty") || params.has("screen") || params.has("demo");
+  applyLaunchView(null, { animate: false });
+  if (skipSheets) return;
+  let allowed = !!state.settings.locationDisclosureAccepted;
+  if (!allowed) {
+    allowed = await ensureLocationDisclosure();
+  }
+  if (allowed) {
+    const fix = await requestPosition();
+    if (fix) {
+      rememberLocation(fix);
+      applyLaunchView(fix, { animate: true });
+    } else {
+      applyLaunchView(null, { animate: false });
+    }
+  }
+  if (shouldOfferMapChoice(state.settings) && ui.screen === "today") {
+    openMapChoice();
+  }
+}
+
 function maybeMapPrompt() {
-  if (!state.settings.seenMapPrompt && !params.has("empty") && ui.screen === "today") {
-    openSheet("sheet-map");
+  if (shouldOfferMapChoice(state.settings) && !params.has("empty") && !params.has("screen") && ui.screen === "today") {
+    openMapChoice();
   }
 }
 
@@ -1761,6 +1826,21 @@ window.HeldpathTest = {
     else if (name === "stretches-card") { setTab("settings"); showStretchGroup("shoulders_arms"); }
     else if (name === "stretches-workout") { setTab("settings"); showStretchWorkout(1); }
     else if (name === "stretches-credits") { setTab("settings"); showStretchCredits(); }
+    else if (name === "map-choice") {
+      setTab("today");
+      showScreen("today");
+      await waitForMapView();
+      rememberLocation({ lat: 41.878, lon: -87.629, at: Date.now() });
+      applyLaunchView(state.settings.lastKnown, { animate: false });
+      openMapChoice();
+    }
+    else if (name === "map-here") {
+      setTab("today");
+      showScreen("today");
+      await waitForMapView();
+      rememberLocation({ lat: 41.878, lon: -87.629, at: Date.now() });
+      applyLaunchView(state.settings.lastKnown, { animate: false });
+    }
     else if (name === "map-download") { setTab("today"); showScreen("today"); await waitForMapView(); openCrop({ lat: 43.7672134, lon: 11.2543435, zoom: 13 }); await map.whenIdle(); }
     else if (name === "map-areas") { setTab("settings"); await showMapAreas(); }
     else if (name === "map-world") { setTab("today"); showScreen("today"); await waitForMapView(); map.setCenter(25, 10, 3); await map.whenIdle(); }
@@ -1776,6 +1856,8 @@ window.HeldpathTest = {
     if (name === "map-mid") { await waitForMapView(); map.setCenter(43.7672134, 11.2543435, 8); await map.whenIdle(); }
     if (name === "map-in") { await waitForMapView(); map.setCenter(43.7672134, 11.2543435, 14); await map.whenIdle(); }
     if (name === "map-out") { await waitForMapView(); map.setCenter(41.878, -87.629, 13); await map.whenIdle(); }
+    if (name === "map-here") { await waitForMapView(); map.setCenter(41.878, -87.629, 15); map.setUserDot({ lat: 41.878, lon: -87.629 }); await map.whenIdle(); }
+    if (name === "map-choice") { await waitForMapView(); map.setCenter(41.878, -87.629, 15); map.setUserDot({ lat: 41.878, lon: -87.629 }); await map.whenIdle(); }
     if (name === "map-download") { await waitForMapView(); map.setCenter(43.7672134, 11.2543435, 13); await map.whenIdle(); }
     return { screen: ui.screen, notification: $("lock-body").textContent };
   },
@@ -1816,23 +1898,18 @@ async function init() {
     }
   } catch { /* web */ }
   const graphReady = ensureWalkGraph();
-  await map.initMap($("map"));
+  const launchView = viewForLaunch({ lastKnown: state.settings.lastKnown });
+  await map.initMap($("map"), { center: launchView, zoom: launchView.zoom });
   await graphReady;
   map.whenReady(() => {
-    const c = state.courses[0];
-    if (c && c.pins.length) {
-      map.fitBounds(c.pins, 80);
-    } else {
-      const d = map.defaultCenter();
-      map.setCenter(d.lat, d.lon, 14);
-    }
+    applyLaunchView(null, { animate: false });
   });
   const screen = params.get("screen");
   if (screen) {
     await window.HeldpathTest.show(screen, { demo: !params.has("empty"), empty: params.has("empty") });
   } else {
     setTab("today");
-    maybeMapPrompt();
+    await locateAndOfferMapChoice();
   }
 }
 

@@ -1,5 +1,5 @@
 /* Heldpath service worker: cache the app shell and the offline map pack. */
-const VERSION = "heldpath-shell-v8";
+const VERSION = "heldpath-shell-v9";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -52,7 +52,6 @@ const PRECACHE = [
   "./assets/stretches/rd7_calf_stretch.png",
   "./assets/stretches/rd8_hamstring_single_leg.png",
   "./assets/stretches/rd8_hamstring_stretch.png",
-  "./maps/firenze.pmtiles",
   "./maps/firenze_walk.json",
 ];
 

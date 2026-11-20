@@ -10,19 +10,19 @@ import {
   tileUrl,
   WORLD_MAXZOOM,
 } from "./map_tiles.js";
+import { WORLD_VIEW, STREET_ZOOM } from "./locate.js";
 
 let map = null;
 let protocolAdded = false;
 let ofmProtocolAdded = false;
 const overlayIds = [];
 
-const FLORENCE = { lon: 11.2543435, lat: 43.7672134, zoom: 14 };
 const BOUNDS = FLORENCE_BOUNDS;
 const ATTRIBUTION =
   '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · <a href="https://protomaps.com">Protomaps</a> · <a href="https://openfreemap.org/">OpenFreeMap</a> © <a href="https://openmaptiles.org/">OpenMapTiles</a>';
 
 export function defaultCenter() {
-  return { ...FLORENCE };
+  return { lat: WORLD_VIEW.lat, lon: WORLD_VIEW.lon, zoom: WORLD_VIEW.zoom };
 }
 
 function packUrl(file) {
@@ -37,7 +37,7 @@ export async function persistStarterPack() {
     if (!r.ok) throw new Error("map pack missing: " + r.status);
     return r.arrayBuffer();
   });
-  return savePack("firenze", buf, { name: "Florence starter" });
+  return savePack("firenze", buf, { name: "Florence extract" });
 }
 
 export async function persistWorldPack() {
@@ -240,7 +240,7 @@ async function ofmHandler(params) {
   }
 }
 
-export async function initMap(container) {
+export async function initMap(container, opt = {}) {
   if (map) {
     map.resize();
     return map;
@@ -265,11 +265,15 @@ export async function initMap(container) {
     console.warn("world pack load failed", err && err.message ? err.message : err);
   }
   const style = darkStyle();
+  const start = opt.center && Number.isFinite(Number(opt.center.lat)) && Number.isFinite(Number(opt.center.lon))
+    ? opt.center
+    : WORLD_VIEW;
+  const startZoom = opt.zoom != null ? opt.zoom : (start.zoom != null ? start.zoom : WORLD_VIEW.zoom);
   map = new maplibregl.Map({
     container,
     style,
-    center: [FLORENCE.lon, FLORENCE.lat],
-    zoom: FLORENCE.zoom,
+    center: [start.lon, start.lat],
+    zoom: startZoom,
     minZoom: 0,
     maxZoom: 18,
     attributionControl: { compact: true },
@@ -305,6 +309,39 @@ export function fitBounds(coords, pad = 60) {
 export function setCenter(lat, lon, zoom) {
   if (!map) return;
   map.jumpTo({ center: [lon, lat], zoom: zoom == null ? map.getZoom() : zoom });
+}
+
+export function flyTo(lat, lon, zoom, { duration = 900 } = {}) {
+  if (!map) return;
+  const z = zoom == null ? map.getZoom() : zoom;
+  if (!duration) {
+    map.jumpTo({ center: [lon, lat], zoom: z });
+    return;
+  }
+  map.flyTo({ center: [lon, lat], zoom: z, duration, essential: true });
+}
+
+let userMarker = null;
+
+export function setUserDot(coord) {
+  if (!map || !coord || !Number.isFinite(Number(coord.lat)) || !Number.isFinite(Number(coord.lon))) return;
+  const lngLat = [Number(coord.lon), Number(coord.lat)];
+  if (userMarker) {
+    userMarker.setLngLat(lngLat);
+    return userMarker;
+  }
+  const el = document.createElement("div");
+  el.className = "pp-map-marker user-dot";
+  el.setAttribute("aria-label", "You are here");
+  userMarker = new maplibregl.Marker({ element: el, anchor: "center" }).setLngLat(lngLat).addTo(map);
+  return userMarker;
+}
+
+export function clearUserDot() {
+  if (userMarker) {
+    userMarker.remove();
+    userMarker = null;
+  }
 }
 
 export function inStarterPack(lat, lon) {

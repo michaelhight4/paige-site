@@ -33,7 +33,19 @@
   ));
 
   // node_modules/@capacitor/core/dist/index.js
-  var ExceptionCode, CapacitorException, getPlatformId, createCapacitor, initCapacitorGlobal, Capacitor, registerPlugin, WebPlugin, encode, decode, CapacitorCookiesPluginWeb, CapacitorCookies, readBlobAsBase64, normalizeHttpHeaders, buildUrlParams, buildRequestInit, CapacitorHttpPluginWeb, CapacitorHttp;
+  var dist_exports = {};
+  __export(dist_exports, {
+    Capacitor: () => Capacitor,
+    CapacitorCookies: () => CapacitorCookies,
+    CapacitorException: () => CapacitorException,
+    CapacitorHttp: () => CapacitorHttp,
+    ExceptionCode: () => ExceptionCode,
+    WebPlugin: () => WebPlugin,
+    WebView: () => WebView,
+    buildRequestInit: () => buildRequestInit,
+    registerPlugin: () => registerPlugin
+  });
+  var ExceptionCode, CapacitorException, getPlatformId, createCapacitor, initCapacitorGlobal, Capacitor, registerPlugin, WebPlugin, WebView, encode, decode, CapacitorCookiesPluginWeb, CapacitorCookies, readBlobAsBase64, normalizeHttpHeaders, buildUrlParams, buildRequestInit, CapacitorHttpPluginWeb, CapacitorHttp;
   var init_dist = __esm({
     "node_modules/@capacitor/core/dist/index.js"() {
       (function(ExceptionCode2) {
@@ -303,6 +315,7 @@
           });
         }
       };
+      WebView = /* @__PURE__ */ registerPlugin("WebView");
       encode = (str) => encodeURIComponent(str).replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent).replace(/[()]/g, escape);
       decode = (str) => str.replace(/(%[\dA-F]{2})+/gi, decodeURIComponent);
       CapacitorCookiesPluginWeb = class extends WebPlugin {
@@ -21382,9 +21395,132 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
   });
 
+  // node_modules/@capacitor/synapse/dist/synapse.mjs
+  function s(t) {
+    t.CapacitorUtils.Synapse = new Proxy(
+      {},
+      {
+        get(e, n) {
+          return new Proxy({}, {
+            get(w2, o) {
+              return (c, p, r) => {
+                const i = t.Capacitor.Plugins[n];
+                if (i === void 0) {
+                  r(new Error(`Capacitor plugin ${n} not found`));
+                  return;
+                }
+                if (typeof i[o] != "function") {
+                  r(new Error(`Method ${o} not found in Capacitor plugin ${n}`));
+                  return;
+                }
+                (async () => {
+                  try {
+                    const a = await i[o](c);
+                    p(a);
+                  } catch (a) {
+                    r(a);
+                  }
+                })();
+              };
+            }
+          });
+        }
+      }
+    );
+  }
+  function u(t) {
+    t.CapacitorUtils.Synapse = new Proxy(
+      {},
+      {
+        get(e, n) {
+          return t.cordova.plugins[n];
+        }
+      }
+    );
+  }
+  function f(t = false) {
+    typeof window > "u" || (window.CapacitorUtils = window.CapacitorUtils || {}, window.Capacitor !== void 0 && !t ? s(window) : window.cordova !== void 0 && u(window));
+  }
+  var init_synapse = __esm({
+    "node_modules/@capacitor/synapse/dist/synapse.mjs"() {
+    }
+  });
+
+  // node_modules/@capacitor/geolocation/dist/esm/definitions.js
+  var init_definitions = __esm({
+    "node_modules/@capacitor/geolocation/dist/esm/definitions.js"() {
+    }
+  });
+
+  // node_modules/@capacitor/geolocation/dist/esm/web.js
+  var web_exports2 = {};
+  __export(web_exports2, {
+    Geolocation: () => Geolocation,
+    GeolocationWeb: () => GeolocationWeb
+  });
+  var GeolocationWeb, Geolocation;
+  var init_web2 = __esm({
+    "node_modules/@capacitor/geolocation/dist/esm/web.js"() {
+      init_dist();
+      GeolocationWeb = class extends WebPlugin {
+        async getCurrentPosition(options) {
+          return new Promise((resolve2, reject) => {
+            navigator.geolocation.getCurrentPosition((pos) => {
+              resolve2(pos);
+            }, (err2) => {
+              reject(err2);
+            }, Object.assign({ enableHighAccuracy: false, timeout: 1e4, maximumAge: 0 }, options));
+          });
+        }
+        async watchPosition(options, callback) {
+          const id = navigator.geolocation.watchPosition((pos) => {
+            callback(pos);
+          }, (err2) => {
+            callback(null, err2);
+          }, Object.assign({ enableHighAccuracy: false, timeout: 1e4, maximumAge: 0, minimumUpdateInterval: 5e3 }, options));
+          return `${id}`;
+        }
+        async clearWatch(options) {
+          navigator.geolocation.clearWatch(parseInt(options.id, 10));
+        }
+        async checkPermissions() {
+          if (typeof navigator === "undefined" || !navigator.permissions) {
+            throw this.unavailable("Permissions API not available in this browser");
+          }
+          const permission = await navigator.permissions.query({
+            name: "geolocation"
+          });
+          return { location: permission.state, coarseLocation: permission.state };
+        }
+        async requestPermissions() {
+          throw this.unimplemented("Not implemented on web.");
+        }
+      };
+      Geolocation = new GeolocationWeb();
+    }
+  });
+
+  // node_modules/@capacitor/geolocation/dist/esm/index.js
+  var esm_exports = {};
+  __export(esm_exports, {
+    Geolocation: () => Geolocation2
+  });
+  var Geolocation2;
+  var init_esm = __esm({
+    "node_modules/@capacitor/geolocation/dist/esm/index.js"() {
+      init_dist();
+      init_synapse();
+      init_definitions();
+      Geolocation2 = registerPlugin("Geolocation", {
+        web: () => Promise.resolve().then(() => (init_web2(), web_exports2)).then((m) => new m.GeolocationWeb())
+      });
+      f();
+    }
+  });
+
   // node_modules/@capacitor/filesystem/dist/esm/definitions.js
   var Directory, Encoding;
-  var init_definitions = __esm({
+  var init_definitions2 = __esm({
     "node_modules/@capacitor/filesystem/dist/esm/definitions.js"() {
       (function(Directory2) {
         Directory2["Documents"] = "DOCUMENTS";
@@ -21406,8 +21542,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   });
 
   // node_modules/@capacitor/filesystem/dist/esm/web.js
-  var web_exports2 = {};
-  __export(web_exports2, {
+  var web_exports3 = {};
+  __export(web_exports3, {
     FilesystemWeb: () => FilesystemWeb
   });
   function resolve(path) {
@@ -21430,10 +21566,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return parent !== children && pathsA.every((value, index) => value === pathsB[index]);
   }
   var FilesystemWeb;
-  var init_web2 = __esm({
+  var init_web3 = __esm({
     "node_modules/@capacitor/filesystem/dist/esm/web.js"() {
       init_dist();
-      init_definitions();
+      init_definitions2();
       FilesystemWeb = class _FilesystemWeb extends WebPlugin {
         constructor() {
           super(...arguments);
@@ -21979,12 +22115,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   });
 
   // node_modules/@capacitor/local-notifications/dist/esm/web.js
-  var web_exports3 = {};
-  __export(web_exports3, {
+  var web_exports4 = {};
+  __export(web_exports4, {
     LocalNotificationsWeb: () => LocalNotificationsWeb
   });
   var LocalNotificationsWeb;
-  var init_web3 = __esm({
+  var init_web4 = __esm({
     "node_modules/@capacitor/local-notifications/dist/esm/web.js"() {
       init_dist();
       LocalNotificationsWeb = class extends WebPlugin {
@@ -22553,6 +22689,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     mapPackInstalled: false,
     seenMapPrompt: false,
     locationDisclosureAccepted: false,
+    mapDataMode: null,
+    // "offline" | "mobile"
+    lastKnown: null,
+    // { lat, lon, at }
     demo: false
   };
   function emptyState() {
@@ -24088,26 +24228,80 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return { done, bytes, stoppedEarly: stop && done < items.length };
   }
 
+  // www/js/locate.js
+  var WORLD_VIEW = { lat: 20, lon: 0, zoom: 2 };
+  var STREET_ZOOM = 15;
+  function isFiniteCoord(point) {
+    return !!(point && Number.isFinite(Number(point.lat)) && Number.isFinite(Number(point.lon)));
+  }
+  function normalizeFix(point, now = Date.now()) {
+    if (!isFiniteCoord(point)) return null;
+    const fix = {
+      lat: Number(point.lat),
+      lon: Number(point.lon),
+      at: point.at != null ? Number(point.at) : now
+    };
+    if (Number.isFinite(Number(point.accuracy))) fix.accuracy = Number(point.accuracy);
+    return fix;
+  }
+  function viewForLaunch({ lastKnown = null, fix = null } = {}) {
+    const live = normalizeFix(fix);
+    if (live) return { lat: live.lat, lon: live.lon, zoom: STREET_ZOOM, source: "fix" };
+    const remembered = normalizeFix(lastKnown);
+    if (remembered) {
+      return { lat: remembered.lat, lon: remembered.lon, zoom: STREET_ZOOM, source: "lastKnown" };
+    }
+    return { ...WORLD_VIEW, source: "world" };
+  }
+  function shouldOfferMapChoice(settings = {}) {
+    if (settings.seenMapPrompt) return false;
+    if (settings.mapDataMode === "offline" || settings.mapDataMode === "mobile") return false;
+    return true;
+  }
+  function defaultMapDataMode(settings = {}) {
+    if (settings.mapDataMode === "offline" || settings.mapDataMode === "mobile") {
+      return settings.mapDataMode;
+    }
+    if (settings.seenMapPrompt) return "mobile";
+    return null;
+  }
+  function coordsFromBrowser(pos, now = Date.now()) {
+    if (!pos || !pos.coords) return null;
+    return normalizeFix({
+      lat: pos.coords.latitude,
+      lon: pos.coords.longitude,
+      accuracy: pos.coords.accuracy,
+      at: pos.timestamp || now
+    }, now);
+  }
+  async function requestPosition({ timeout = 12e3, enableHighAccuracy = true } = {}) {
+    try {
+      const { Capacitor: Capacitor2 } = await Promise.resolve().then(() => (init_dist(), dist_exports));
+      if (Capacitor2.isNativePlatform()) {
+        const { Geolocation: Geolocation3 } = await Promise.resolve().then(() => (init_esm(), esm_exports));
+        const pos = await Geolocation3.getCurrentPosition({ enableHighAccuracy, timeout });
+        return coordsFromBrowser(pos);
+      }
+    } catch {
+    }
+    if (typeof navigator === "undefined" || !navigator.geolocation) return null;
+    return new Promise((resolve2) => {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => resolve2(coordsFromBrowser(pos)),
+        () => resolve2(null),
+        { enableHighAccuracy, timeout, maximumAge: 3e4 }
+      );
+    });
+  }
+
   // www/js/map.js
   var map = null;
   var protocolAdded = false;
   var ofmProtocolAdded = false;
   var overlayIds = [];
-  var FLORENCE = { lon: 11.2543435, lat: 43.7672134, zoom: 14 };
   var ATTRIBUTION = '\xA9 <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors \xB7 <a href="https://protomaps.com">Protomaps</a> \xB7 <a href="https://openfreemap.org/">OpenFreeMap</a> \xA9 <a href="https://openmaptiles.org/">OpenMapTiles</a>';
-  function defaultCenter() {
-    return { ...FLORENCE };
-  }
   function packUrl(file) {
     return new URL("maps/" + file, window.location.href).href;
-  }
-  async function persistStarterPack() {
-    const url = packUrl("firenze.pmtiles");
-    const buf = await fetch(url).then((r) => {
-      if (!r.ok) throw new Error("map pack missing: " + r.status);
-      return r.arrayBuffer();
-    });
-    return savePack("firenze", buf, { name: "Florence starter" });
   }
   function namedSource(id, inner) {
     return {
@@ -24294,7 +24488,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       return { data: new ArrayBuffer(0) };
     }
   }
-  async function initMap(container) {
+  async function initMap(container, opt = {}) {
     if (map) {
       map.resize();
       return map;
@@ -24319,11 +24513,13 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       console.warn("world pack load failed", err2 && err2.message ? err2.message : err2);
     }
     const style = darkStyle();
+    const start = opt.center && Number.isFinite(Number(opt.center.lat)) && Number.isFinite(Number(opt.center.lon)) ? opt.center : WORLD_VIEW;
+    const startZoom = opt.zoom != null ? opt.zoom : start.zoom != null ? start.zoom : WORLD_VIEW.zoom;
     map = new import_maplibre_gl.default.Map({
       container,
       style,
-      center: [FLORENCE.lon, FLORENCE.lat],
-      zoom: FLORENCE.zoom,
+      center: [start.lon, start.lat],
+      zoom: startZoom,
       minZoom: 0,
       maxZoom: 18,
       attributionControl: { compact: true },
@@ -24355,6 +24551,35 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function setCenter(lat, lon, zoom) {
     if (!map) return;
     map.jumpTo({ center: [lon, lat], zoom: zoom == null ? map.getZoom() : zoom });
+  }
+  function flyTo(lat, lon, zoom, { duration = 900 } = {}) {
+    if (!map) return;
+    const z2 = zoom == null ? map.getZoom() : zoom;
+    if (!duration) {
+      map.jumpTo({ center: [lon, lat], zoom: z2 });
+      return;
+    }
+    map.flyTo({ center: [lon, lat], zoom: z2, duration, essential: true });
+  }
+  var userMarker = null;
+  function setUserDot(coord) {
+    if (!map || !coord || !Number.isFinite(Number(coord.lat)) || !Number.isFinite(Number(coord.lon))) return;
+    const lngLat = [Number(coord.lon), Number(coord.lat)];
+    if (userMarker) {
+      userMarker.setLngLat(lngLat);
+      return userMarker;
+    }
+    const el = document.createElement("div");
+    el.className = "pp-map-marker user-dot";
+    el.setAttribute("aria-label", "You are here");
+    userMarker = new import_maplibre_gl.default.Marker({ element: el, anchor: "center" }).setLngLat(lngLat).addTo(map);
+    return userMarker;
+  }
+  function clearUserDot() {
+    if (userMarker) {
+      userMarker.remove();
+      userMarker = null;
+    }
   }
   function onMapClick(handler) {
     if (!map) return () => {
@@ -26530,58 +26755,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
 
   // node_modules/@capacitor/filesystem/dist/esm/index.js
   init_dist();
-
-  // node_modules/@capacitor/synapse/dist/synapse.mjs
-  function s(t) {
-    t.CapacitorUtils.Synapse = new Proxy(
-      {},
-      {
-        get(e, n) {
-          return new Proxy({}, {
-            get(w2, o) {
-              return (c, p, r) => {
-                const i = t.Capacitor.Plugins[n];
-                if (i === void 0) {
-                  r(new Error(`Capacitor plugin ${n} not found`));
-                  return;
-                }
-                if (typeof i[o] != "function") {
-                  r(new Error(`Method ${o} not found in Capacitor plugin ${n}`));
-                  return;
-                }
-                (async () => {
-                  try {
-                    const a = await i[o](c);
-                    p(a);
-                  } catch (a) {
-                    r(a);
-                  }
-                })();
-              };
-            }
-          });
-        }
-      }
-    );
-  }
-  function u(t) {
-    t.CapacitorUtils.Synapse = new Proxy(
-      {},
-      {
-        get(e, n) {
-          return t.cordova.plugins[n];
-        }
-      }
-    );
-  }
-  function f(t = false) {
-    typeof window > "u" || (window.CapacitorUtils = window.CapacitorUtils || {}, window.Capacitor !== void 0 && !t ? s(window) : window.cordova !== void 0 && u(window));
-  }
-
-  // node_modules/@capacitor/filesystem/dist/esm/index.js
-  init_definitions();
+  init_synapse();
+  init_definitions2();
   var Filesystem = registerPlugin("Filesystem", {
-    web: () => Promise.resolve().then(() => (init_web2(), web_exports2)).then((m) => new m.FilesystemWeb())
+    web: () => Promise.resolve().then(() => (init_web3(), web_exports3)).then((m) => new m.FilesystemWeb())
   });
   f();
 
@@ -26602,7 +26779,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
 
   // node_modules/@capacitor/local-notifications/dist/esm/index.js
   var LocalNotifications = registerPlugin("LocalNotifications", {
-    web: () => Promise.resolve().then(() => (init_web3(), web_exports3)).then((m) => new m.LocalNotificationsWeb())
+    web: () => Promise.resolve().then(() => (init_web4(), web_exports4)).then((m) => new m.LocalNotificationsWeb())
   });
 
   // www/js/plan_progress.js
@@ -28543,7 +28720,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     if (usedEl) {
       const avail = stor.available != null ? ` \xB7 ${formatBytes(stor.available)} free` : "";
-      usedEl.textContent = `Downloaded map tiles use ${formatBytes(used)} on this device${avail}. The world basemap (zoom 0\u20136) and the Florence starter pack are already in the app.`;
+      usedEl.textContent = `Downloaded map tiles use ${formatBytes(used)} on this device${avail}. The world basemap (zoom 0\u20136) is already in the app, so zooming out never goes black.`;
     }
     if (!list) return;
     let areas = [];
@@ -28561,8 +28738,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     </div>
     <div class="map-area-card" data-testid="area-florence">
       <div>
-        <strong>Florence starter</strong>
-        <p class="tiny">Bundled street-level pack for the Florence extract. Always available offline.</p>
+        <strong>Florence extract</strong>
+        <p class="tiny">Optional bundled street-level pack for Florence, used in tests and if you open that city. It is not the default map.</p>
       </div>
     </div>`;
     const rows = areas.map((a) => `
@@ -28582,10 +28759,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function esc2(s2) {
     return String(s2).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
+  var cropReturnTo = "map-areas";
   function openCrop(opt = {}) {
     const root = $3("map-crop-root");
     if (!root) return;
-    if (opt.lat != null && opt.lon != null) setCenter(opt.lat, opt.lon, opt.zoom);
+    cropReturnTo = opt.afterClose || "map-areas";
+    if (opt.lat != null && opt.lon != null) setCenter(opt.lat, opt.lon, opt.zoom == null ? 15 : opt.zoom);
     if (hooks2.showScreen) hooks2.showScreen("today");
     if (hooks2.setHideNav) hooks2.setHideNav(true);
     root.hidden = false;
@@ -28616,6 +28795,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (downloading) return;
     closeCropOverlay();
     if (hooks2.setHideNav) hooks2.setHideNav(false);
+    const back = cropReturnTo;
+    cropReturnTo = "map-areas";
+    if (back === "today") {
+      if (hooks2.showScreen) hooks2.showScreen("today");
+      return;
+    }
     if (hooks2.showScreen) hooks2.showScreen("map-areas");
     renderAreas();
   }
@@ -30999,12 +31184,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
   function renderToday() {
     const banner = $4("map-banner");
-    if (!state2.settings.mapPackInstalled) {
-      banner.hidden = false;
-      banner.textContent = "Save a map to this phone to use it offline.";
-    } else {
-      banner.hidden = true;
-    }
+    if (banner) banner.hidden = true;
   }
   function maybeAnnounceTarget(sess, rem) {
     if (!sess || !sess.target || sess.targetAnnounced || !rem || !rem.hitTarget) return;
@@ -31317,7 +31497,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if ($4("web-native-note")) $4("web-native-note").textContent = WEB_APP_NOTE;
     if ($4("web-pay-note")) $4("web-pay-note").textContent = WEB_PAY_NOTE;
     $4("plans-hook").textContent = PLANS_HOOK_COPY;
-    $4("map-pack-status").textContent = state2.settings.mapPackInstalled ? "The world overview and Florence starter map are in the app. You can download other areas for offline use." : "A world overview and a Florence street map are already in the app. Download another area any time.";
+    const mode = defaultMapDataMode(state2.settings);
+    $4("map-pack-status").textContent = "A world overview (zoom 0\u20136) is in the app, so zooming out never goes black. Street detail can be downloaded for offline use, or loaded over the network as you go.";
+    const modeNote = $4("map-data-mode-note");
+    if (modeNote) {
+      modeNote.textContent = mode === "offline" ? "Current choice: download your local map for offline use. You can change this at any time." : mode === "mobile" ? "Current choice: use mobile data (the map loads as you go). You can change this at any time." : "Choose whether to download your local map or load streets over mobile data.";
+    }
     $4("support-copy").textContent = SUPPORT_COPY;
   }
   function render() {
@@ -31947,14 +32132,6 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         $4("tab-bar").style.display = v2 || ui2.screen === "lock" ? "none" : "grid";
       }
     });
-    if ($4("btn-map-download-from-sheet")) {
-      $4("btn-map-download-from-sheet").addEventListener("click", () => {
-        state2.settings.seenMapPrompt = true;
-        persist();
-        closeSheet("sheet-map");
-        openCrop();
-      });
-    }
     if ($4("plans-back")) $4("plans-back").addEventListener("click", () => setTab("settings"));
     if ($4("btn-donate")) {
       $4("btn-donate").addEventListener("click", async () => {
@@ -31965,26 +32142,18 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         }
       });
     }
-    $4("btn-save-pack").addEventListener("click", async () => {
-      state2.settings.mapPackInstalled = true;
-      state2.settings.seenMapPrompt = true;
-      persist();
-      if (isWeb()) {
-        try {
-          await persistStarterPack();
-        } catch (err2) {
-          console.warn("map pack save", err2);
-        }
-      }
-      closeSheet("sheet-map");
-      renderToday();
-      renderSettings();
-    });
-    $4("btn-map-later").addEventListener("click", () => {
-      state2.settings.seenMapPrompt = true;
-      persist();
-      closeSheet("sheet-map");
-    });
+    if ($4("btn-map-download-local")) {
+      $4("btn-map-download-local").addEventListener("click", () => chooseMapDataMode("offline"));
+    }
+    if ($4("btn-map-use-data")) {
+      $4("btn-map-use-data").addEventListener("click", () => chooseMapDataMode("mobile"));
+    }
+    if ($4("btn-map-mode-download")) {
+      $4("btn-map-mode-download").addEventListener("click", () => chooseMapDataMode("offline", { fromSettings: true }));
+    }
+    if ($4("btn-map-mode-data")) {
+      $4("btn-map-mode-data").addEventListener("click", () => chooseMapDataMode("mobile", { fromSettings: true }));
+    }
     const a2hsBtn = $4("btn-a2hs");
     if (a2hsBtn) {
       const note = $4("a2hs-note");
@@ -32011,9 +32180,65 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       });
     }
   }
-  function maybeMapPrompt() {
-    if (!state2.settings.seenMapPrompt && !params.has("empty") && ui2.screen === "today") {
-      openSheet("sheet-map");
+  function applyLaunchView(point, { animate = false } = {}) {
+    const view2 = viewForLaunch({ lastKnown: state2.settings.lastKnown, fix: point });
+    if (animate) flyTo(view2.lat, view2.lon, view2.zoom);
+    else setCenter(view2.lat, view2.lon, view2.zoom);
+    if (view2.source !== "world") setUserDot(view2);
+    else clearUserDot();
+    return view2;
+  }
+  function rememberLocation(fix) {
+    const saved = normalizeFix(fix);
+    if (!saved) return null;
+    state2.settings.lastKnown = saved;
+    persist();
+    return saved;
+  }
+  function currentCropCenter() {
+    const known = normalizeFix(state2.settings.lastKnown);
+    if (known) return { lat: known.lat, lon: known.lon, zoom: STREET_ZOOM };
+    const m = getMap && getMap();
+    if (m) {
+      const c = m.getCenter();
+      return { lat: c.lat, lon: c.lng, zoom: m.getZoom() };
+    }
+    return { ...WORLD_VIEW };
+  }
+  function openMapChoice() {
+    openSheet("sheet-map");
+  }
+  function chooseMapDataMode(mode, { fromSettings = false } = {}) {
+    state2.settings.mapDataMode = mode === "offline" ? "offline" : "mobile";
+    state2.settings.seenMapPrompt = true;
+    persist();
+    closeSheet("sheet-map");
+    renderSettings();
+    renderToday();
+    if (mode === "offline") {
+      const at = currentCropCenter();
+      openCrop({ lat: at.lat, lon: at.lon, zoom: at.zoom, afterClose: fromSettings ? "map-areas" : "today" });
+    }
+  }
+  async function locateAndOfferMapChoice() {
+    const skipSheets = params.has("empty") || params.has("screen") || params.has("demo");
+    applyLaunchView(null, { animate: false });
+    if (skipSheets) return;
+    let allowed = !!state2.settings.locationDisclosureAccepted;
+    if (!allowed) {
+      allowed = await ensureLocationDisclosure();
+    }
+    if (allowed) {
+      const fix = await requestPosition();
+      if (fix) {
+        rememberLocation(fix);
+        applyLaunchView(fix, { animate: true });
+      } else {
+        applyLaunchView(null, { animate: false });
+      }
+    }
+    if (shouldOfferMapChoice(state2.settings) && ui2.screen === "today") {
+      openMapChoice();
     }
   }
   function handleTrackingLink(url) {
@@ -32575,6 +32800,19 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       } else if (name === "stretches-credits") {
         setTab("settings");
         showStretchCredits();
+      } else if (name === "map-choice") {
+        setTab("today");
+        showScreen("today");
+        await waitForMapView();
+        rememberLocation({ lat: 41.878, lon: -87.629, at: Date.now() });
+        applyLaunchView(state2.settings.lastKnown, { animate: false });
+        openMapChoice();
+      } else if (name === "map-here") {
+        setTab("today");
+        showScreen("today");
+        await waitForMapView();
+        rememberLocation({ lat: 41.878, lon: -87.629, at: Date.now() });
+        applyLaunchView(state2.settings.lastKnown, { animate: false });
       } else if (name === "map-download") {
         setTab("today");
         showScreen("today");
@@ -32635,6 +32873,18 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         setCenter(41.878, -87.629, 13);
         await whenIdle();
       }
+      if (name === "map-here") {
+        await waitForMapView();
+        setCenter(41.878, -87.629, 15);
+        setUserDot({ lat: 41.878, lon: -87.629 });
+        await whenIdle();
+      }
+      if (name === "map-choice") {
+        await waitForMapView();
+        setCenter(41.878, -87.629, 15);
+        setUserDot({ lat: 41.878, lon: -87.629 });
+        await whenIdle();
+      }
       if (name === "map-download") {
         await waitForMapView();
         setCenter(43.7672134, 11.2543435, 13);
@@ -32679,23 +32929,18 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     } catch {
     }
     const graphReady = ensureWalkGraph();
-    await initMap($4("map"));
+    const launchView = viewForLaunch({ lastKnown: state2.settings.lastKnown });
+    await initMap($4("map"), { center: launchView, zoom: launchView.zoom });
     await graphReady;
     whenReady(() => {
-      const c = state2.courses[0];
-      if (c && c.pins.length) {
-        fitBounds(c.pins, 80);
-      } else {
-        const d2 = defaultCenter();
-        setCenter(d2.lat, d2.lon, 14);
-      }
+      applyLaunchView(null, { animate: false });
     });
     const screen = params.get("screen");
     if (screen) {
       await window.HeldpathTest.show(screen, { demo: !params.has("empty"), empty: params.has("empty") });
     } else {
       setTab("today");
-      maybeMapPrompt();
+      await locateAndOfferMapChoice();
     }
   }
   init();
