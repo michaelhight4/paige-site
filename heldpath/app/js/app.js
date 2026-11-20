@@ -62,7 +62,7 @@ import { renderCalendarView } from "./calendar_view.js";
 import { conflictCopy, plansOnDate } from "./calendar_conflict.js";
 import { renderProgressView } from "./progress_view.js";
 import { initPlansUi, renderPlansScreen } from "./plans_ui.js";
-import { initStretchesUi, showStretchesHub, showStretchGroup, showStretchWorkout, showStretchCredits, showStretchFollow, openStretchVideo, closeStretchVideo } from "./stretches_ui.js";
+import { initStretchesUi, showStretchesHub, showStretchGroup, showStretchWorkout, showStretchCredits, showStretchFollow, openStretchVideo, closeStretchVideo, setStretchStyle } from "./stretches_ui.js";
 import { initMapDownloadUi, showMapAreas, openCrop, closeCrop } from "./map_download_ui.js";
 import { listAreas } from "./map_offline.js";
 import { ensureWalkGraph, graphCoversPoints } from "./area_graphs.js";
@@ -2917,11 +2917,13 @@ window.HeldpathTest = {
     }
     else if (name === "plans") { showScreen("plans"); renderPlansScreen(); }
     else if (name === "support") { setTab("settings"); showScreen("support"); renderSettings(); }
-    else if (name === "stretches") { setTab("settings"); showStretchesHub(); }
-    else if (name === "stretches-group") { setTab("settings"); showStretchGroup("hips"); }
-    else if (name === "stretches-card") { setTab("settings"); showStretchGroup("shoulders_arms"); }
-    else if (name === "stretches-workout") { setTab("settings"); showStretchWorkout(1); }
+    else if (name === "stretches") { setStretchStyle("realistic"); setTab("settings"); showStretchesHub(); }
+    else if (name === "stretches-group") { setStretchStyle("realistic"); setTab("settings"); showStretchGroup("hips"); }
+    else if (name === "stretches-card") { setStretchStyle("realistic"); setTab("settings"); showStretchGroup("shoulders_arms"); }
+    else if (name === "stretches-workout") { setStretchStyle("realistic"); setTab("settings"); showStretchWorkout(1); }
     else if (name === "stretches-credits") { setTab("settings"); showStretchCredits(); }
+    else if (name === "stretches-flashcards") { setStretchStyle("flashcards"); setTab("settings"); showStretchesHub(); }
+    else if (name === "stretches-flashcard") { setStretchStyle("flashcards"); setTab("settings"); showStretchGroup("shoulders_arms"); }
     else if (name === "stretches-follow") { setTab("settings"); showStretchFollow(); }
     else if (name === "stretches-video") { setTab("settings"); showStretchFollow(); openStretchVideo("pre_run_experience"); }
     else if (name === "map-choice") {

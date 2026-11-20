@@ -1,8 +1,12 @@
 import {
   GROUPS,
   STRETCHES,
+  FLASHCARDS,
+  STYLES,
+  STYLE_KEY,
   DISCLAIMER,
   CREDITS_BODY,
+  normalizeStyle,
   groupById,
   stretchesInGroup,
   pickRandomWorkout,
@@ -32,7 +36,23 @@ const view = {
   groupId: null,
   seed: 0,
   title: "Stretches",
+  style: "realistic",
 };
+
+export function getStretchStyle() {
+  try {
+    return normalizeStyle(localStorage.getItem(STYLE_KEY));
+  } catch {
+    return "realistic";
+  }
+}
+
+export function setStretchStyle(style) {
+  const next = normalizeStyle(style);
+  view.style = next;
+  try { localStorage.setItem(STYLE_KEY, next); } catch { /* ignore */ }
+  return next;
+}
 
 function escapeHtml(s) {
   return String(s)
@@ -44,6 +64,13 @@ function escapeHtml(s) {
 
 export function initStretchesUi(opts) {
   hooks = opts;
+  view.style = getStretchStyle();
+  document.querySelectorAll("[data-style]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      setStretchStyle(btn.getAttribute("data-style"));
+      renderHub();
+    });
+  });
   const open = $("btn-stretches-open");
   if (open) open.addEventListener("click", () => showStretchesHub());
   const backHub = $("stretches-back");
@@ -116,7 +143,7 @@ export function showStretchGroup(groupId) {
   const g = groupById(groupId) || GROUPS[0];
   view.mode = "group";
   view.groupId = g.id;
-  view.list = stretchesInGroup(g.id);
+  view.list = stretchesInGroup(g.id, view.style);
   view.index = 0;
   view.title = g.name;
   renderCard();
@@ -129,7 +156,7 @@ export function showStretchWorkout(seed) {
   view.mode = "workout";
   view.seed = s;
   view.groupId = null;
-  view.list = pickRandomWorkout(s, 2);
+  view.list = pickRandomWorkout(s, 2, view.style);
   view.index = 0;
   view.title = "Random workout";
   renderCard();
@@ -147,14 +174,23 @@ export function showStretchCredits() {
 }
 
 function renderHub() {
+  view.style = getStretchStyle();
   const note = $("stretches-disclaimer");
   if (note) note.textContent = DISCLAIMER;
+  const hint = $("stretch-style-hint");
+  const styleMeta = STYLES.find((s) => s.id === view.style) || STYLES[1];
+  if (hint) hint.textContent = styleMeta.hint + " Browse and Random workout use this style.";
+  document.querySelectorAll("[data-style]").forEach((btn) => {
+    const on = btn.getAttribute("data-style") === view.style;
+    btn.classList.toggle("is-on", on);
+    btn.setAttribute("aria-checked", on ? "true" : "false");
+  });
   const blurb = $("stretch-follow-blurb");
   if (blurb) blurb.textContent = FOLLOW_ALONG_BLURB;
   const list = $("stretches-groups");
   if (!list) return;
   list.innerHTML = GROUPS.map((g) => {
-    const n = stretchesInGroup(g.id).length;
+    const n = stretchesInGroup(g.id, view.style).length;
     return `<button type="button" class="stretch-group-btn" data-group="${escapeHtml(g.id)}" data-testid="stretch-group-${escapeHtml(g.id)}">
       <span class="stretch-group-name">${escapeHtml(g.name)}</span>
       <span class="stretch-group-count">${n} stretches</span>
@@ -313,4 +349,4 @@ export function getStretchView() {
   return { ...view, list: view.list.slice(), current: view.list[view.index] || null };
 }
 
-export { STRETCHES, GROUPS, DISCLAIMER };
+export { STRETCHES, FLASHCARDS, GROUPS, DISCLAIMER, STYLES };

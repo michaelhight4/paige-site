@@ -10,6 +10,7 @@ export const CREDITS_BODY = [
   "The manual is a U.S. federal government work, marked approved for public release, and is in the public domain. Photos were developed by the U.S. Army Center for Initial Military Training and produced at the Enterprise Media Center in Fort Eustis, Virginia.",
   "Source: Army Publishing Directorate, armypubs.army.mil. We cropped the official figures for the cards and rewrote the cues in plain language. We did not change the movements.",
   "Heldpath is not affiliated with the U.S. Army or the Department of Defense.",
+  "Flashcard line drawings are from U.S. Army FM 21-20, Physical Fitness Training (30 September 1992, including Change 1, 1 October 1998). The manual is a U.S. federal government work, marked approved for public release, and is in the public domain. Source: Army Publishing Directorate, armypubs.army.mil. We cropped the official figures for the cards and rewrote the cues in plain language. We did not change the movements or the hold times.",
   "Follow-along videos in Stretches are free public videos from physical therapists and running coaches, played from YouTube. The videos remain on YouTube and belong to their creators. Each one has an Open in YouTube link. Heldpath is not affiliated with those creators or with YouTube.",
 ].join(" ");
 
@@ -363,16 +364,254 @@ export const STRETCHES = [
   },
 ];
 
+
+const FC_IMG = (id) => `assets/stretches/flashcards/${id}.png`;
+
+/** Line-drawn flashcards cropped from U.S. Army FM 21-20 (1992 / C1 1998). */
+export const FLASHCARDS = [
+  {
+    id: "fm_neck_and_shoulder",
+    name: "Neck and Shoulder Stretch",
+    group: "neck_upper",
+    drill: "FM 21-20",
+    figure: "FM 21-20, page 4-6, Neck and Shoulder Stretch",
+    image: FC_IMG("fm_neck_and_shoulder"),
+    hold: "10 to 15 seconds each side",
+    reps: "Once each side",
+    description:
+      "Stand with your feet shoulder width apart and your arms behind your body. Grasp your left wrist with your right hand. Pull the left arm down and to the right, and tilt your head to the right. Hold this position for 10 to 15 seconds. Repeat with the right wrist, pulling the right arm down and to the left, and tilt your head to the left.",
+  },
+  {
+    id: "fm_upper_back",
+    name: "Upper-Back Stretch",
+    group: "neck_upper",
+    drill: "FM 21-20",
+    figure: "FM 21-20, page 4-7, Upper-Back Stretch",
+    image: FC_IMG("fm_upper_back"),
+    hold: "10 to 15 seconds",
+    reps: "1 hold",
+    description:
+      "Stand with your arms extended to the front at shoulder height, fingers interlaced and palms facing outward. Extend the arms and shoulders forward. Hold this position for 10 to 15 seconds. Return to the starting position.",
+  },
+  {
+    id: "fm_chest",
+    name: "Chest Stretch",
+    group: "shoulders_arms",
+    drill: "FM 21-20",
+    figure: "FM 21-20, page 4-7, Chest Stretch",
+    image: FC_IMG("fm_chest"),
+    hold: "10 to 15 seconds",
+    reps: "1 hold",
+    description:
+      "Stand and interlace your fingers behind your back. Lift the arms behind the back so that they move outward and away from the body, then lean forward from the waist. Hold this position for 10 to 15 seconds. Bend the knees before moving to the upright position. Return to the starting position.",
+  },
+  {
+    id: "fm_overhead_arm_pull",
+    name: "Overhead Arm Pull",
+    group: "shoulders_arms",
+    drill: "FM 21-20",
+    figure: "FM 21-20, page 4-8, Overhead Arm Pull",
+    image: FC_IMG("fm_overhead_arm_pull"),
+    hold: "10 to 15 seconds each side",
+    reps: "Once each side",
+    description:
+      "Stand with your feet shoulder width apart. Raise your right arm, bending the right elbow and touching the right hand to the back of the neck. Grab the right elbow with the left hand, and pull to the left. Hold this position for 10 to 15 seconds. Return to the starting position. Do the same stretch, and pull the left elbow with the right hand for 10 to 15 seconds.",
+  },
+  {
+    id: "fm_arms_and_shoulders",
+    name: "Arms and Shoulders",
+    group: "shoulders_arms",
+    drill: "FM 21-20 warm-up",
+    figure: "FM 21-20, page 4-4, Arms and Shoulders",
+    image: FC_IMG("fm_arms_and_shoulders"),
+    hold: "Slow, controlled circles",
+    reps: "3 times each direction",
+    description:
+      "Stand with your back straight and your feet shoulder width apart. Extend the arms outward to shoulder height. Rotate the shoulders forward, and make a large circular motion with the arms. Repeat the action in the opposite direction. Do this three times in each direction.",
+  },
+  {
+    id: "fm_abdominal",
+    name: "Abdominal Stretch",
+    group: "back_trunk",
+    drill: "FM 21-20",
+    figure: "FM 21-20, page 4-6, Abdominal Stretch",
+    image: FC_IMG("fm_abdominal"),
+    hold: "10 to 15 seconds",
+    reps: "1 hold, then the side variation",
+    description:
+      "Stand and extend your arms upward and over your head. Interlace the fingers with the palms turned upward. Stretch the arms up and slightly back. Hold this position for 10 to 15 seconds. Variation: this stretches the rectus abdominis muscles. Stretch to one side, then the other. Return to the starting position.",
+  },
+  {
+    id: "fm_hip_back_seated",
+    name: "Hip and Back Stretch (Seated)",
+    group: "back_trunk",
+    drill: "FM 21-20",
+    figure: "FM 21-20, page 4-12, Hip and Back Stretch (Seated)",
+    image: FC_IMG("fm_hip_back_seated"),
+    hold: "10 to 15 seconds each side",
+    reps: "Once each side",
+    description:
+      "Sit on the ground with your right leg forward and straight. Cross the left leg over the right while sitting erect. Keep the heels of both feet in contact with the ground. Slowly rotate your upper body to the left and look over the left shoulder. Reach across the left leg with the right arm, and push the left leg to your right. Use the left hand for support by placing it on the ground. Hold this position for 10 to 15 seconds. Repeat this stretch for the other side by crossing and turning in the opposite direction.",
+  },
+  {
+    id: "fm_hip_back_lying",
+    name: "Hip and Back Stretch (Lying Down)",
+    group: "back_trunk",
+    drill: "FM 21-20",
+    figure: "FM 21-20, page 4-13, Hip and Back Stretch (Lying Down)",
+    image: FC_IMG("fm_hip_back_lying"),
+    hold: "10 to 15 seconds each position",
+    reps: "Action 1 each side, then Action 2",
+    description:
+      "Lie on your back with your arms straight beside the body. Keep the legs straight and the knees and feet together. Action 1: bring the left leg straight back toward the head, leaving the right leg in the starting position. Bring the head and arms up. Grab the bent left leg below the knee, and pull it gradually to the chest. Hold this position for 10 to 15 seconds. Gradually return to the starting position. Repeat these motions with the opposite leg. Action 2: pull both knees to the chest. Pull the head up to the knees. Hold for 10 to 15 seconds. Return to the starting position.",
+  },
+  {
+    id: "fm_hips_rotation",
+    name: "Hips",
+    group: "hips",
+    drill: "FM 21-20 warm-up",
+    figure: "FM 21-20, page 4-4, Hips",
+    image: FC_IMG("fm_hips_rotation"),
+    hold: "Slow, controlled circles",
+    reps: "3 times each direction",
+    description:
+      "Stand in the same manner as for the neck rotation, with your back straight and your feet shoulder width apart. Rotate the hips clockwise while keeping the back straight. Repeat the action in a counterclockwise direction. Do this three times in each direction.",
+  },
+  {
+    id: "fm_groin_standing",
+    name: "Groin Stretch (Standing)",
+    group: "hips",
+    drill: "FM 21-20",
+    figure: "FM 21-20, page 4-10, Groin Stretch (Standing)",
+    image: FC_IMG("fm_groin_standing"),
+    hold: "10 to 15 seconds each side",
+    reps: "Once each side",
+    description:
+      "Lunge slowly to the left while keeping the right leg straight, the right foot facing straight ahead and entirely on the floor. Lean over the left leg while stretching the right groin muscles. Hold this position for 10 to 15 seconds. Repeat with the opposite leg.",
+  },
+  {
+    id: "fm_groin_seated",
+    name: "Groin Stretch (Seated)",
+    group: "hips",
+    drill: "FM 21-20",
+    figure: "FM 21-20, page 4-10, Groin Stretch (Seated)",
+    image: FC_IMG("fm_groin_seated"),
+    hold: "10 to 15 seconds",
+    reps: "1 hold",
+    description:
+      "Sit on the ground with the soles of your feet together. Place the hands on or near the feet. Bend forward from the hips, keeping the head up. Hold this position for 10 to 15 seconds.",
+  },
+  {
+    id: "fm_groin_straddle",
+    name: "Groin Stretch (Seated Straddle)",
+    group: "hips",
+    drill: "FM 21-20",
+    figure: "FM 21-20, page 4-11, Groin Stretch (Seated Straddle)",
+    image: FC_IMG("fm_groin_straddle"),
+    hold: "10 to 15 seconds",
+    reps: "1 hold, then each side",
+    description:
+      "Sit on the ground with your legs straight and spread as far apart as possible. Bend forward at the hips, keep the head up, and reach toward the feet. Hold this position for 10 to 15 seconds. Variation: stretch to one side while trying to touch the toes. Next, stretch to the other side.",
+  },
+  {
+    id: "fm_thigh",
+    name: "Thigh Stretch",
+    group: "thighs",
+    drill: "FM 21-20",
+    figure: "FM 21-20, page 4-8, Thigh Stretch",
+    image: FC_IMG("fm_thigh"),
+    hold: "10 to 15 seconds each side",
+    reps: "Once each side",
+    description:
+      "Stand. (For variation, lie on the stomach.) Bend the left leg up toward the buttocks. Grasp the toes of the left foot with the right hand, and pull the heel to the left buttock. Extend the left arm to the side for balance. Hold this position for 10 to 15 seconds. Return to the starting position. Bend the right leg, grasp the toes of the right foot with the left hand, and pull the heel to the right buttock. Extend the right arm for balance. Hold this position for 10 to 15 seconds. Return to the starting position.",
+  },
+  {
+    id: "fm_hamstring_standing",
+    name: "Hamstring Stretch (Standing)",
+    group: "thighs",
+    drill: "FM 21-20",
+    figure: "FM 21-20, page 4-9, Hamstring Stretch (Standing)",
+    image: FC_IMG("fm_hamstring_standing"),
+    hold: "10 to 15 seconds",
+    reps: "1 hold",
+    description:
+      "Stand with your knees slightly bent. Bend forward keeping the head up, and reach toward the toes. Straighten the legs, and hold this position for 10 to 15 seconds.",
+  },
+  {
+    id: "fm_hamstring_seated",
+    name: "Hamstring Stretch (Seated)",
+    group: "thighs",
+    drill: "FM 21-20",
+    figure: "FM 21-20, page 4-9, Hamstring Stretch (Seated)",
+    image: FC_IMG("fm_hamstring_seated"),
+    hold: "10 to 15 seconds",
+    reps: "1 hold",
+    description:
+      "Sit on the ground with both legs straight and extended forward, with the feet upright about six inches apart. Put the hands on the ankles or toes. Bend from the hips, keeping the back and head in a comfortable, straight line. Hold this position for 10 to 15 seconds. Variation for a greater stretch: stretch and pull back on the toes.",
+  },
+  {
+    id: "fm_calf",
+    name: "Calf Stretch",
+    group: "lower_legs",
+    drill: "FM 21-20",
+    figure: "FM 21-20, page 4-11, Calf Stretch",
+    image: FC_IMG("fm_calf"),
+    hold: "10 to 15 seconds each side",
+    reps: "Once each side",
+    description:
+      "Stand straight with your feet together, arms extended downward, elbows locked, palms facing backward, fingers extended and joined, and head and eyes facing front. Move the right foot to the rear about two feet, and place the ball of the foot on the ground. Slowly press the right heel to the ground. Slowly bend the left knee while pushing the hips forward and arching the back slightly. Hold this position for 10 to 15 seconds. Return to the starting position. Repeat with the left foot. Return to the starting position.",
+  },
+  {
+    id: "fm_calf_toe_pull",
+    name: "Calf Stretch (Toe Pull)",
+    group: "lower_legs",
+    drill: "FM 21-20",
+    figure: "FM 21-20, page 4-12, Calf Stretch (Variation: Toe Pull)",
+    image: FC_IMG("fm_calf_toe_pull"),
+    hold: "10 to 15 seconds each side",
+    reps: "Once each side",
+    description:
+      "Stand with your feet shoulder width apart and the left foot slightly forward. Bend forward at the waist. Slightly bend the right knee, and fully extend the left leg. Reach down and pull the toes of the left foot toward the left shin. Hold this position for 10 to 15 seconds. Return to the starting position. In a similar manner, pull the toes of the right foot toward the right shin, and hold for 10 to 15 seconds.",
+  },
+  {
+    id: "fm_knees_and_ankles",
+    name: "Knees and Ankles",
+    group: "lower_legs",
+    drill: "FM 21-20 warm-up",
+    figure: "FM 21-20, page 4-5, Knees and Ankles",
+    image: FC_IMG("fm_knees_and_ankles"),
+    hold: "Slow, controlled circles",
+    reps: "3 times each direction",
+    description:
+      "Stand with your feet together, and bend at the waist with the knees slightly bent. Place the hands above the knees, and rotate the legs in a clockwise direction. Repeat the action in a counterclockwise direction. Do this three times in each direction.",
+  },
+];
+
+export const STYLES = [
+  { id: "flashcards", name: "Flashcards", hint: "Line drawings from U.S. Army FM 21-20." },
+  { id: "realistic", name: "Realistic", hint: "Photos from U.S. Army ATP 7-22.02." },
+];
+
+export const STYLE_KEY = "heldpath.stretch-style";
+
+export function normalizeStyle(style) {
+  return style === "flashcards" ? "flashcards" : "realistic";
+}
+
+export function catalogFor(style = "realistic") {
+  return normalizeStyle(style) === "flashcards" ? FLASHCARDS : STRETCHES;
+}
+
 export function groupById(id) {
   return GROUPS.find((g) => g.id === id) || null;
 }
 
-export function stretchesInGroup(groupId) {
-  return STRETCHES.filter((s) => s.group === groupId);
+export function stretchesInGroup(groupId, style = "realistic") {
+  return catalogFor(style).filter((s) => s.group === groupId);
 }
 
 export function stretchById(id) {
-  return STRETCHES.find((s) => s.id === id) || null;
+  return STRETCHES.find((s) => s.id === id) || FLASHCARDS.find((s) => s.id === id) || null;
 }
 
 /** Mulberry32 — deterministic 0..1 generator for tests and a stable workout seed. */
@@ -391,11 +630,11 @@ export function mulberry32(seed) {
  * Pick two stretches from each muscle group (or all, if a group has fewer than two).
  * Group order is preserved so a workout flows from neck down to the legs.
  */
-export function pickRandomWorkout(seed = Date.now(), perGroup = 2) {
+export function pickRandomWorkout(seed = Date.now(), perGroup = 2, style = "realistic") {
   const rng = mulberry32(seed >>> 0);
   const list = [];
   for (const g of GROUPS) {
-    const pool = stretchesInGroup(g.id).slice();
+    const pool = stretchesInGroup(g.id, style).slice();
     for (let i = pool.length - 1; i > 0; i--) {
       const j = Math.floor(rng() * (i + 1));
       const tmp = pool[i];
