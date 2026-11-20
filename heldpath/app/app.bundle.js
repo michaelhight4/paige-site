@@ -24293,22 +24293,50 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       at: pos.timestamp || now
     }, now);
   }
-  async function requestPosition({ timeout = 12e3, enableHighAccuracy = true } = {}) {
+  var LOCATION_DENIED_NOTE = "Location is blocked for this site. On iPhone, open Settings \u2192 Privacy & Security \u2192 Location Services, then allow Safari and this website. You can also search or pan the map to find your area.";
+  function reasonFromGeoError(err2) {
+    const code = err2 && err2.code;
+    if (code === 1) return "denied";
+    if (code === 2) return "unavailable";
+    if (code === 3) return "timeout";
+    const msg = String(err2 && err2.message || "").toLowerCase();
+    if (/denied|permission|prompt/i.test(msg)) return "denied";
+    if (/timeout/i.test(msg)) return "timeout";
+    if (!err2) return "unavailable";
+    return "error";
+  }
+  function resultOk(fix) {
+    return { ok: true, fix, reason: null };
+  }
+  function resultFail(reason) {
+    return { ok: false, fix: null, reason: reason || "unavailable" };
+  }
+  async function requestPosition({ timeout = 2e4, enableHighAccuracy = true, maximumAge = 6e4 } = {}) {
     try {
       const { Capacitor: Capacitor2 } = await Promise.resolve().then(() => (init_dist(), dist_exports));
       if (Capacitor2.isNativePlatform()) {
         const { Geolocation: Geolocation3 } = await Promise.resolve().then(() => (init_esm(), esm_exports));
-        const pos = await Geolocation3.getCurrentPosition({ enableHighAccuracy, timeout });
-        return coordsFromBrowser(pos);
+        try {
+          const pos = await Geolocation3.getCurrentPosition({ enableHighAccuracy, timeout });
+          const fix = coordsFromBrowser(pos);
+          return fix ? resultOk(fix) : resultFail("unavailable");
+        } catch (err2) {
+          return resultFail(reasonFromGeoError(err2));
+        }
       }
     } catch {
     }
-    if (typeof navigator === "undefined" || !navigator.geolocation) return null;
+    if (typeof navigator === "undefined" || !navigator.geolocation) {
+      return resultFail("unavailable");
+    }
     return new Promise((resolve2) => {
       navigator.geolocation.getCurrentPosition(
-        (pos) => resolve2(coordsFromBrowser(pos)),
-        () => resolve2(null),
-        { enableHighAccuracy, timeout, maximumAge: 3e4 }
+        (pos) => {
+          const fix = coordsFromBrowser(pos);
+          resolve2(fix ? resultOk(fix) : resultFail("unavailable"));
+        },
+        (err2) => resolve2(resultFail(reasonFromGeoError(err2))),
+        { enableHighAccuracy, timeout, maximumAge }
       );
     });
   }
@@ -24727,7 +24755,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (navigator.webdriver) return;
     if (new URLSearchParams(location.search).has("nosw")) return;
     const url = "sw.js";
-    navigator.serviceWorker.register(url).catch((err2) => {
+    navigator.serviceWorker.register(url).then((reg) => {
+      try {
+        reg.update();
+      } catch {
+      }
+    }).catch((err2) => {
       console.warn("service worker", err2 && err2.message);
     });
   }
@@ -29452,6 +29485,66 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return `<svg viewBox="0 0 ${width} ${height}" width="100%" height="${height}" role="img" aria-label="Course path">${d2 ? `<path d="${d2}" fill="none" stroke="#4FA3C8" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" />` : ""}${dots}</svg>`;
   }
 
+  // www/js/geocode.js
+  var PHOTON_URL = "https://photon.komoot.io/api/";
+  var CACHE_LIMIT = 40;
+  var cache = /* @__PURE__ */ new Map();
+  function formatPlaceLabel(props = {}) {
+    const parts = [];
+    const name = [props.housenumber, props.street || props.name].filter(Boolean).join(" ").trim();
+    if (name) parts.push(name);
+    else if (props.name) parts.push(props.name);
+    for (const key of ["city", "town", "village", "state", "country"]) {
+      const val = props[key];
+      if (val && !parts.includes(val)) parts.push(val);
+    }
+    return parts.join(", ");
+  }
+  function parsePhotonFeature(feature) {
+    if (!feature || !feature.geometry || !Array.isArray(feature.geometry.coordinates)) return null;
+    const [lon, lat] = feature.geometry.coordinates;
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+    const props = feature.properties || {};
+    const label = formatPlaceLabel(props);
+    if (!label) return null;
+    return {
+      label,
+      lat,
+      lon,
+      type: props.type || props.osm_value || ""
+    };
+  }
+  function parsePhotonResponse(data) {
+    const features = data && Array.isArray(data.features) ? data.features : [];
+    const out = [];
+    const seen = /* @__PURE__ */ new Set();
+    for (const f2 of features) {
+      const place = parsePhotonFeature(f2);
+      if (!place) continue;
+      const key = `${place.label}|${place.lat.toFixed(5)}|${place.lon.toFixed(5)}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push(place);
+    }
+    return out;
+  }
+  async function searchPlaces(query, { limit = 5, signal } = {}) {
+    const q2 = String(query || "").trim();
+    if (q2.length < 2) return [];
+    const key = q2.toLowerCase();
+    if (cache.has(key)) return cache.get(key);
+    const url = `${PHOTON_URL}?q=${encodeURIComponent(q2)}&limit=${Math.min(8, Math.max(1, limit))}`;
+    const res = await fetch(url, { signal, headers: { Accept: "application/json" } });
+    if (!res.ok) throw new Error(`Place search failed (${res.status})`);
+    const places = parsePhotonResponse(await res.json());
+    cache.set(key, places);
+    if (cache.size > CACHE_LIMIT) {
+      const first = cache.keys().next().value;
+      cache.delete(first);
+    }
+    return places;
+  }
+
   // www/js/group_run.js
   function courseLengthOf(course) {
     if (course && Array.isArray(course.path) && course.path.length >= 2) {
@@ -31516,6 +31609,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     });
     const mapScreens = /* @__PURE__ */ new Set(["today", "tracking", "builder"]);
     $4("map").style.visibility = mapScreens.has(name) ? "visible" : "hidden";
+    if ($4("map-tools")) $4("map-tools").hidden = !mapScreens.has(name);
+    document.body.dataset.screen = name;
+    document.body.classList.toggle("on-map-screen", mapScreens.has(name));
     $4("tab-bar").style.display = name === "lock" || ui2.hideNav ? "none" : "grid";
     if (mapScreens.has(name)) {
       requestAnimationFrame(() => resizeMap());
@@ -31949,12 +32045,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function ensureLocationDisclosure() {
     return new Promise((resolve2) => {
       if (state2.settings.locationDisclosureAccepted) {
-        resolve2(true);
+        resolve2({ allowed: true, locatePromise: null });
         return;
       }
-      const done = (ok) => {
+      const done = (result) => {
         closeSheet("sheet-location");
-        resolve2(ok);
+        resolve2(result);
       };
       const yes = $4("btn-loc-continue");
       const no = $4("btn-loc-cancel");
@@ -31963,12 +32059,13 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         no.removeEventListener("click", onNo);
         state2.settings.locationDisclosureAccepted = true;
         persist();
-        done(true);
+        const locatePromise = requestPosition();
+        done({ allowed: true, locatePromise });
       };
       const onNo = () => {
         yes.removeEventListener("click", onYes);
         no.removeEventListener("click", onNo);
-        done(false);
+        done({ allowed: false, locatePromise: null });
       };
       yes.addEventListener("click", onYes);
       no.addEventListener("click", onNo);
@@ -32022,8 +32119,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   async function startTracking(type, course, plan, targetPlan) {
     closeSheet("sheet-start");
     closeSheet("sheet-target");
-    const ok = await ensureLocationDisclosure();
-    if (!ok) return;
+    const disc = await ensureLocationDisclosure();
+    if (!disc || !disc.allowed) return;
     const sess = makeSession({ type, course, units: units2(), target: targetPlan || null });
     setTab("today");
     showScreen("tracking");
@@ -32653,6 +32750,14 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         }
       });
     }
+    if ($4("btn-locate-me")) {
+      $4("btn-locate-me").addEventListener("click", () => locateUser({ animate: true }));
+    }
+    if ($4("btn-map-use-location")) {
+      $4("btn-map-use-location").addEventListener("click", () => locateUser({ animate: true }));
+    }
+    bindPlaceSearch($4("place-search"), $4("place-search-results"));
+    bindPlaceSearch($4("map-choice-search"), $4("map-choice-search-results"));
     if ($4("btn-map-download-local")) {
       $4("btn-map-download-local").addEventListener("click", () => chooseMapDataMode("offline"));
     }
@@ -32731,22 +32836,149 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       openCrop({ lat: at.lat, lon: at.lon, zoom: at.zoom, afterClose: fromSettings ? "map-areas" : "today" });
     }
   }
+  function setLocateBusy(busy) {
+    const btn = $4("btn-locate-me");
+    const choice = $4("btn-map-use-location");
+    if (btn) {
+      btn.classList.toggle("busy", !!busy);
+      btn.disabled = !!busy;
+    }
+    if (choice) {
+      choice.disabled = !!busy;
+      choice.textContent = busy ? "Finding your location\u2026" : "Use my location";
+    }
+  }
+  function showLocateDenied(reason) {
+    const denied = reason === "denied" || reason === "unavailable" || reason === "timeout" || reason === "error";
+    const note = denied ? LOCATION_DENIED_NOTE : "";
+    for (const id of ["map-locate-note", "map-choice-locate-note"]) {
+      const el = $4(id);
+      if (!el) continue;
+      if (note) {
+        el.hidden = false;
+        el.textContent = note;
+      } else {
+        el.hidden = true;
+        el.textContent = "";
+      }
+    }
+  }
+  function hideLocateDenied() {
+    for (const id of ["map-locate-note", "map-choice-locate-note"]) {
+      const el = $4(id);
+      if (el) {
+        el.hidden = true;
+        el.textContent = "";
+      }
+    }
+  }
+  function applyLocateResult(res, { animate = true } = {}) {
+    if (res && res.ok && res.fix) {
+      rememberLocation(res.fix);
+      applyLaunchView(res.fix, { animate });
+      hideLocateDenied();
+      return true;
+    }
+    showLocateDenied(res && res.reason);
+    applyLaunchView(null, { animate: false });
+    return false;
+  }
+  function locateUser({ animate = true } = {}) {
+    setLocateBusy(true);
+    const pending = requestPosition();
+    return pending.then((res) => {
+      setLocateBusy(false);
+      applyLocateResult(res, { animate });
+      return res;
+    }).catch((err2) => {
+      setLocateBusy(false);
+      const res = { ok: false, fix: null, reason: "error" };
+      applyLocateResult(res, { animate: false });
+      return res;
+    });
+  }
+  function flyToPlace(place) {
+    if (!place || !Number.isFinite(place.lat) || !Number.isFinite(place.lon)) return;
+    hideLocateDenied();
+    flyTo(place.lat, place.lon, STREET_ZOOM);
+  }
+  function bindPlaceSearch(input, list) {
+    if (!input || !list) return;
+    let timer2 = null;
+    let inflight = null;
+    const close = () => {
+      list.hidden = true;
+      list.innerHTML = "";
+    };
+    const renderHits = (places) => {
+      list.innerHTML = "";
+      if (!places.length) {
+        close();
+        return;
+      }
+      for (const place of places) {
+        const li = document.createElement("li");
+        const b2 = document.createElement("button");
+        b2.type = "button";
+        b2.textContent = place.label;
+        b2.addEventListener("click", () => {
+          input.value = place.label;
+          close();
+          flyToPlace(place);
+        });
+        li.appendChild(b2);
+        list.appendChild(li);
+      }
+      list.hidden = false;
+    };
+    const run = async () => {
+      const q2 = input.value.trim();
+      if (q2.length < 2) {
+        close();
+        return;
+      }
+      if (inflight && inflight.abort) inflight.abort();
+      const ac = new AbortController();
+      inflight = ac;
+      try {
+        const places = await searchPlaces(q2, { limit: 5, signal: ac.signal });
+        if (inflight !== ac) return;
+        renderHits(places);
+      } catch (err2) {
+        if (err2 && err2.name === "AbortError") return;
+        close();
+      }
+    };
+    input.addEventListener("input", () => {
+      if (timer2) clearTimeout(timer2);
+      timer2 = setTimeout(run, 400);
+    });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (timer2) clearTimeout(timer2);
+        run();
+      }
+      if (e.key === "Escape") close();
+    });
+    document.addEventListener("click", (e) => {
+      if (!list.contains(e.target) && e.target !== input) close();
+    });
+  }
   async function locateAndOfferMapChoice() {
     const skipSheets = params.has("empty") || params.has("screen") || params.has("demo");
     applyLaunchView(null, { animate: false });
     if (skipSheets) return;
     let allowed = !!state2.settings.locationDisclosureAccepted;
+    let locatePromise = null;
     if (!allowed) {
-      allowed = await ensureLocationDisclosure();
+      const disc = await ensureLocationDisclosure();
+      allowed = !!(disc && disc.allowed);
+      locatePromise = disc && disc.locatePromise;
     }
     if (allowed) {
-      const fix = await requestPosition();
-      if (fix) {
-        rememberLocation(fix);
-        applyLaunchView(fix, { animate: true });
-      } else {
-        applyLaunchView(null, { animate: false });
-      }
+      const res = await (locatePromise || requestPosition());
+      applyLocateResult(res, { animate: true });
     }
     if (shouldOfferMapChoice(state2.settings) && ui2.screen === "today") {
       openMapChoice();
@@ -33037,6 +33269,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
   window.HeldpathTest = {
     show: async function show(name, opt = {}) {
+      hideLocateDenied();
+      if ($4("map-banner")) {
+        $4("map-banner").hidden = true;
+        $4("map-banner").textContent = "";
+      }
       closeSheet("sheet-map");
       closeSheet("sheet-schedule");
       closeSheet("sheet-save-course");
@@ -33412,6 +33649,14 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         await waitForMapView();
         rememberLocation({ lat: 41.878, lon: -87.629, at: Date.now() });
         applyLaunchView(state2.settings.lastKnown, { animate: false });
+        hideLocateDenied();
+        openMapChoice();
+      } else if (name === "locate-denied") {
+        setTab("today");
+        showScreen("today");
+        await waitForMapView();
+        applyLaunchView(null, { animate: false });
+        showLocateDenied("denied");
         openMapChoice();
       } else if (name === "map-here") {
         setTab("today");

@@ -1,5 +1,5 @@
 /* Heldpath service worker: cache the app shell and the offline map pack. */
-const VERSION = "heldpath-shell-v11";
+const VERSION = "heldpath-shell-v12";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -69,22 +69,58 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+function isServiceWorkerScript(url) {
+  return /\/sw\.js$/.test(url.pathname);
+}
+
+function isAppShell(url) {
+  const p = url.pathname;
+  if (p.endsWith("/") || p.endsWith("/index.html")) return true;
+  if (p.endsWith("/app.bundle.js") || p.endsWith(".webmanifest")) return true;
+  if (p.includes("/css/") && p.endsWith(".css")) return true;
+  if (p.includes("/js/") && p.endsWith(".js")) return true;
+  return false;
+}
+
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+  // Always take a fresh copy of the worker itself so version bumps land.
+  if (isServiceWorkerScript(url)) {
+    event.respondWith(fetch(event.request, { cache: "no-store" }));
+    return;
+  }
+  const networkFirst = isAppShell(url);
   event.respondWith(
-    caches.match(event.request).then((hit) => {
-      if (hit) return hit;
-      return fetch(event.request)
-        .then((res) => {
+    (async () => {
+      if (networkFirst) {
+        try {
+          const res = await fetch(event.request);
           if (res && res.ok) {
             const copy = res.clone();
-            caches.open(VERSION).then((cache) => cache.put(event.request, copy));
+            const cache = await caches.open(VERSION);
+            await cache.put(event.request, copy);
           }
           return res;
-        })
-        .catch(() => caches.match("./index.html"));
-    })
+        } catch {
+          const hit = await caches.match(event.request);
+          return hit || caches.match("./index.html");
+        }
+      }
+      const hit = await caches.match(event.request);
+      if (hit) return hit;
+      try {
+        const res = await fetch(event.request);
+        if (res && res.ok) {
+          const copy = res.clone();
+          const cache = await caches.open(VERSION);
+          await cache.put(event.request, copy);
+        }
+        return res;
+      } catch {
+        return caches.match("./index.html");
+      }
+    })()
   );
 });

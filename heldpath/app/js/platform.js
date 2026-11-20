@@ -26,7 +26,10 @@ export function registerServiceWorker() {
   if (navigator.webdriver) return;
   if (new URLSearchParams(location.search).has("nosw")) return;
   const url = "sw.js";
-  navigator.serviceWorker.register(url).catch((err) => {
+  navigator.serviceWorker.register(url).then((reg) => {
+    // Ask for a fresh worker so a version bump is not stuck behind Safari's cache.
+    try { reg.update(); } catch { /* ignore */ }
+  }).catch((err) => {
     console.warn("service worker", err && err.message);
   });
 }

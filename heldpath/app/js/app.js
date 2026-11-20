@@ -45,7 +45,9 @@ import {
   defaultMapDataMode,
   normalizeFix,
   requestPosition,
+  LOCATION_DENIED_NOTE,
 } from "./locate.js";
+import { searchPlaces } from "./geocode.js";
 import {
   makeGroupRun,
   inviteMessage,
@@ -161,6 +163,9 @@ function showScreen(name) {
   });
   const mapScreens = new Set(["today", "tracking", "builder"]);
   $("map").style.visibility = mapScreens.has(name) ? "visible" : "hidden";
+  if ($("map-tools")) $("map-tools").hidden = !mapScreens.has(name);
+  document.body.dataset.screen = name;
+  document.body.classList.toggle("on-map-screen", mapScreens.has(name));
   $("tab-bar").style.display = name === "lock" || ui.hideNav ? "none" : "grid";
   if (mapScreens.has(name)) {
     requestAnimationFrame(() => map.resizeMap());
@@ -632,12 +637,12 @@ function openStart(type) {
 function ensureLocationDisclosure() {
   return new Promise((resolve) => {
     if (state.settings.locationDisclosureAccepted) {
-      resolve(true);
+      resolve({ allowed: true, locatePromise: null });
       return;
     }
-    const done = (ok) => {
+    const done = (result) => {
       closeSheet("sheet-location");
-      resolve(ok);
+      resolve(result);
     };
     const yes = $("btn-loc-continue");
     const no = $("btn-loc-cancel");
@@ -646,12 +651,14 @@ function ensureLocationDisclosure() {
       no.removeEventListener("click", onNo);
       state.settings.locationDisclosureAccepted = true;
       persist();
-      done(true);
+      // Start GPS in this tap: iOS Safari often will not prompt otherwise.
+      const locatePromise = requestPosition();
+      done({ allowed: true, locatePromise });
     };
     const onNo = () => {
       yes.removeEventListener("click", onYes);
       no.removeEventListener("click", onNo);
-      done(false);
+      done({ allowed: false, locatePromise: null });
     };
     yes.addEventListener("click", onYes);
     no.addEventListener("click", onNo);
@@ -710,8 +717,8 @@ function startPendingWithMode(mode) {
 async function startTracking(type, course, plan, targetPlan) {
   closeSheet("sheet-start");
   closeSheet("sheet-target");
-  const ok = await ensureLocationDisclosure();
-  if (!ok) return;
+  const disc = await ensureLocationDisclosure();
+  if (!disc || !disc.allowed) return;
   const sess = track.makeSession({ type, course, units: units(), target: targetPlan || null });
   setTab("today");
   showScreen("tracking");
@@ -1348,6 +1355,14 @@ function bind() {
       }
     });
   }
+  if ($("btn-locate-me")) {
+    $("btn-locate-me").addEventListener("click", () => locateUser({ animate: true }));
+  }
+  if ($("btn-map-use-location")) {
+    $("btn-map-use-location").addEventListener("click", () => locateUser({ animate: true }));
+  }
+  bindPlaceSearch($("place-search"), $("place-search-results"));
+  bindPlaceSearch($("map-choice-search"), $("map-choice-search-results"));
   if ($("btn-map-download-local")) {
     $("btn-map-download-local").addEventListener("click", () => chooseMapDataMode("offline"));
   }
@@ -1434,22 +1449,147 @@ function chooseMapDataMode(mode, { fromSettings = false } = {}) {
   }
 }
 
+function setLocateBusy(busy) {
+  const btn = $("btn-locate-me");
+  const choice = $("btn-map-use-location");
+  if (btn) {
+    btn.classList.toggle("busy", !!busy);
+    btn.disabled = !!busy;
+  }
+  if (choice) {
+    choice.disabled = !!busy;
+    choice.textContent = busy ? "Finding your location…" : "Use my location";
+  }
+}
+
+function showLocateDenied(reason) {
+  const denied = reason === "denied" || reason === "unavailable" || reason === "timeout" || reason === "error";
+  const note = denied ? LOCATION_DENIED_NOTE : "";
+  for (const id of ["map-locate-note", "map-choice-locate-note"]) {
+    const el = $(id);
+    if (!el) continue;
+    if (note) {
+      el.hidden = false;
+      el.textContent = note;
+    } else {
+      el.hidden = true;
+      el.textContent = "";
+    }
+  }
+}
+
+function hideLocateDenied() {
+  for (const id of ["map-locate-note", "map-choice-locate-note"]) {
+    const el = $(id);
+    if (el) { el.hidden = true; el.textContent = ""; }
+  }
+}
+
+function applyLocateResult(res, { animate = true } = {}) {
+  if (res && res.ok && res.fix) {
+    rememberLocation(res.fix);
+    applyLaunchView(res.fix, { animate });
+    hideLocateDenied();
+    return true;
+  }
+  showLocateDenied(res && res.reason);
+  applyLaunchView(null, { animate: false });
+  return false;
+}
+
+/** Start a GPS read. Pass { fromGesture: true } from a click so iOS can show the prompt. */
+function locateUser({ animate = true } = {}) {
+  setLocateBusy(true);
+  const pending = requestPosition();
+  return pending.then((res) => {
+    setLocateBusy(false);
+    applyLocateResult(res, { animate });
+    return res;
+  }).catch((err) => {
+    setLocateBusy(false);
+    const res = { ok: false, fix: null, reason: "error" };
+    applyLocateResult(res, { animate: false });
+    return res;
+  });
+}
+
+function flyToPlace(place) {
+  if (!place || !Number.isFinite(place.lat) || !Number.isFinite(place.lon)) return;
+  hideLocateDenied();
+  map.flyTo(place.lat, place.lon, STREET_ZOOM);
+}
+
+function bindPlaceSearch(input, list) {
+  if (!input || !list) return;
+  let timer = null;
+  let inflight = null;
+  const close = () => { list.hidden = true; list.innerHTML = ""; };
+  const renderHits = (places) => {
+    list.innerHTML = "";
+    if (!places.length) { close(); return; }
+    for (const place of places) {
+      const li = document.createElement("li");
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = place.label;
+      b.addEventListener("click", () => {
+        input.value = place.label;
+        close();
+        flyToPlace(place);
+      });
+      li.appendChild(b);
+      list.appendChild(li);
+    }
+    list.hidden = false;
+  };
+  const run = async () => {
+    const q = input.value.trim();
+    if (q.length < 2) { close(); return; }
+    if (inflight && inflight.abort) inflight.abort();
+    const ac = new AbortController();
+    inflight = ac;
+    try {
+      const places = await searchPlaces(q, { limit: 5, signal: ac.signal });
+      if (inflight !== ac) return;
+      renderHits(places);
+    } catch (err) {
+      if (err && err.name === "AbortError") return;
+      close();
+    }
+  };
+  input.addEventListener("input", () => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(run, 400);
+  });
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (timer) clearTimeout(timer);
+      run();
+    }
+    if (e.key === "Escape") close();
+  });
+  document.addEventListener("click", (e) => {
+    if (!list.contains(e.target) && e.target !== input) close();
+  });
+}
+
 async function locateAndOfferMapChoice() {
   const skipSheets = params.has("empty") || params.has("screen") || params.has("demo");
   applyLaunchView(null, { animate: false });
   if (skipSheets) return;
   let allowed = !!state.settings.locationDisclosureAccepted;
+  let locatePromise = null;
   if (!allowed) {
-    allowed = await ensureLocationDisclosure();
+    const disc = await ensureLocationDisclosure();
+    allowed = !!(disc && disc.allowed);
+    locatePromise = disc && disc.locatePromise;
   }
   if (allowed) {
-    const fix = await requestPosition();
-    if (fix) {
-      rememberLocation(fix);
-      applyLaunchView(fix, { animate: true });
-    } else {
-      applyLaunchView(null, { animate: false });
-    }
+    // Prefer the request started in the Continue tap (iOS). If disclosure
+    // was already accepted, try now; iOS may still need the on-map button.
+    const res = await (locatePromise || requestPosition());
+    applyLocateResult(res, { animate: true });
   }
   if (shouldOfferMapChoice(state.settings) && ui.screen === "today") {
     openMapChoice();
@@ -1765,6 +1905,8 @@ async function wireAppLinks() {
 
 window.HeldpathTest = {
   show: async function show(name, opt = {}) {
+    hideLocateDenied();
+    if ($("map-banner")) { $("map-banner").hidden = true; $("map-banner").textContent = ""; }
     closeSheet("sheet-map");
     closeSheet("sheet-schedule");
     closeSheet("sheet-save-course");
@@ -2113,6 +2255,15 @@ window.HeldpathTest = {
       await waitForMapView();
       rememberLocation({ lat: 41.878, lon: -87.629, at: Date.now() });
       applyLaunchView(state.settings.lastKnown, { animate: false });
+      hideLocateDenied();
+      openMapChoice();
+    }
+    else if (name === "locate-denied") {
+      setTab("today");
+      showScreen("today");
+      await waitForMapView();
+      applyLaunchView(null, { animate: false });
+      showLocateDenied("denied");
       openMapChoice();
     }
     else if (name === "map-here") {

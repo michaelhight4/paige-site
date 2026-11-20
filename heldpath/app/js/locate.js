@@ -59,24 +59,63 @@ function coordsFromBrowser(pos, now = Date.now()) {
   }, now);
 }
 
-/** One-shot GPS read. Returns a fix or null. Safe to call from the PWA or native. */
-export async function requestPosition({ timeout = 12000, enableHighAccuracy = true } = {}) {
+/** Short note shown when the browser blocks location (especially Safari on iPhone). */
+export const LOCATION_DENIED_NOTE =
+  "Location is blocked for this site. On iPhone, open Settings → Privacy & Security → Location Services, then allow Safari and this website. You can also search or pan the map to find your area.";
+
+export function reasonFromGeoError(err) {
+  const code = err && err.code;
+  if (code === 1) return "denied";
+  if (code === 2) return "unavailable";
+  if (code === 3) return "timeout";
+  const msg = String((err && err.message) || "").toLowerCase();
+  if (/denied|permission|prompt/i.test(msg)) return "denied";
+  if (/timeout/i.test(msg)) return "timeout";
+  if (!err) return "unavailable";
+  return "error";
+}
+
+function resultOk(fix) {
+  return { ok: true, fix, reason: null };
+}
+
+function resultFail(reason) {
+  return { ok: false, fix: null, reason: reason || "unavailable" };
+}
+
+/**
+ * One-shot GPS read. Returns { ok, fix, reason }.
+ * Call this directly from a tap when possible: iOS Safari often will not
+ * show a permission prompt, or will time out, if the request is not tied
+ * to a user gesture.
+ */
+export async function requestPosition({ timeout = 20000, enableHighAccuracy = true, maximumAge = 60000 } = {}) {
   try {
     const { Capacitor } = await import("@capacitor/core");
     if (Capacitor.isNativePlatform()) {
       const { Geolocation } = await import("@capacitor/geolocation");
-      const pos = await Geolocation.getCurrentPosition({ enableHighAccuracy, timeout });
-      return coordsFromBrowser(pos);
+      try {
+        const pos = await Geolocation.getCurrentPosition({ enableHighAccuracy, timeout });
+        const fix = coordsFromBrowser(pos);
+        return fix ? resultOk(fix) : resultFail("unavailable");
+      } catch (err) {
+        return resultFail(reasonFromGeoError(err));
+      }
     }
   } catch {
     /* fall through to the browser API */
   }
-  if (typeof navigator === "undefined" || !navigator.geolocation) return null;
+  if (typeof navigator === "undefined" || !navigator.geolocation) {
+    return resultFail("unavailable");
+  }
   return new Promise((resolve) => {
     navigator.geolocation.getCurrentPosition(
-      (pos) => resolve(coordsFromBrowser(pos)),
-      () => resolve(null),
-      { enableHighAccuracy, timeout, maximumAge: 30000 }
+      (pos) => {
+        const fix = coordsFromBrowser(pos);
+        resolve(fix ? resultOk(fix) : resultFail("unavailable"));
+      },
+      (err) => resolve(resultFail(reasonFromGeoError(err))),
+      { enableHighAccuracy, timeout, maximumAge }
     );
   });
 }
