@@ -26,6 +26,7 @@ import { PLANS_HOOK_COPY } from "./plans_hook.js";
 import * as map from "./map.js";
 import * as track from "./track.js";
 import { updateOffRoute, offRouteCopy } from "./off_route.js";
+import { startDetectCopy } from "./start_detect.js";
 import * as splits from "./splits.js";
 import { seedDemo, midCourseWalk, pastCourseRun, arnoLoopPins } from "./demo.js";
 import { purchaseSupport, SUPPORT_PRODUCT_ID } from "./iap.js";
@@ -307,6 +308,12 @@ function paintSessionHud(sess) {
     pauseNote.hidden = !auto;
   }
   updateOffRoute(sess);
+  const startNote = $("track-start-note");
+  if (startNote) {
+    const copy = startDetectCopy(sess);
+    startNote.hidden = !copy;
+    if (copy) startNote.textContent = copy;
+  }
   const offNote = $("track-offroute-note");
   if (offNote) {
     offNote.hidden = !sess.offRoute;
@@ -2026,6 +2033,35 @@ window.HeldpathTest = {
       showScreen("tracking");
       paintSessionHud(made);
       map.whenReady(() => { drawSessionOnMap(made); map.fitBounds((made.wayBack || []).concat(course.pins), 80); });
+      drawSessionOnMap(made);
+    } else if (name === "tracking-midstart" || name === "tracking-reverse") {
+      const start = { lat: 43.77, lon: 11.25 };
+      const end = { lat: 43.77, lon: 11.2548 };
+      const course = newCourse({ name: "River path", pins: [start, end], path: [start, end] });
+      state.courses = [course, ...(state.courses || [])];
+      track.stopSession();
+      const made = track.makeSession({ type: "walk", course, units: units() });
+      const pts = [];
+      if (name === "tracking-reverse") {
+        for (let i = 0; i <= 8; i++) {
+          const lon = end.lon - (end.lon - start.lon) * (i / 50);
+          pts.push({ lat: start.lat, lon, t: i * 8, at: new Date(Date.now() - (8 - i) * 4000).toISOString() });
+        }
+      } else {
+        const midLon = (start.lon + end.lon) / 2;
+        for (let i = 0; i <= 8; i++) {
+          const lon = midLon + (end.lon - start.lon) * (i / 50);
+          pts.push({ lat: start.lat, lon, t: i * 8, at: new Date(Date.now() - (8 - i) * 4000).toISOString() });
+        }
+      }
+      made.track = [];
+      made.distanceMeters = 0;
+      for (const p of pts) track.pushPoint(p.lat, p.lon, Date.parse(p.at));
+      made.elapsedSec = 64;
+      setTab("today");
+      showScreen("tracking");
+      paintSessionHud(made);
+      map.whenReady(() => { drawSessionOnMap(made); map.fitBounds([start, end], 80); });
       drawSessionOnMap(made);
     } else if (name === "tracking-autopause") {
       const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });

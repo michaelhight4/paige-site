@@ -938,6 +938,16 @@ body:has(#sheet-map.open) #map-locate-note { display: none; }
 }
 .track-pause-note[hidden] { display: none; }
 
+.track-start-note {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.track-start-note[hidden] { display: none; }
+
 .track-offroute-note {
   margin: 0 0 10px;
   padding: 10px 12px;

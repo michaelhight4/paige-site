@@ -25628,6 +25628,67 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return ev;
   }
 
+  // www/js/start_detect.js
+  var START_CONFIRM_M = 30;
+  var MID_START_M = 40;
+  function reversePath2(path) {
+    return (path || []).slice().reverse().map((p) => ({ ...p }));
+  }
+  function movementMeters(fixes) {
+    if (!fixes || fixes.length < 2) return 0;
+    return pathLengthMeters(fixes);
+  }
+  function inferStart(path, fixes) {
+    if (!path || path.length < 2 || !fixes || fixes.length < 2) return null;
+    if (movementMeters(fixes) < START_CONFIRM_M) return null;
+    const first = projectOnPath(path, fixes[0]);
+    const last = projectOnPath(path, fixes[fixes.length - 1]);
+    const along = last.traveled - first.traveled;
+    const reversed = along <= -START_CONFIRM_M * 0.6;
+    const oriented = reversed ? reversePath2(path) : path;
+    const originProj = projectOnPath(oriented, fixes[0]);
+    const originMeters = originProj.traveled >= MID_START_M ? originProj.traveled : 0;
+    return {
+      reversed,
+      path: oriented,
+      originMeters,
+      midStart: originMeters >= MID_START_M,
+      firstOffset: first.offsetMeters
+    };
+  }
+  function applyStartDetection(sess, inference) {
+    if (!sess || !inference || sess.startDetected) return sess;
+    sess.startDetected = true;
+    sess.startReversed = !!inference.reversed;
+    sess.pathOriginMeters = inference.originMeters || 0;
+    sess.midStart = !!inference.midStart;
+    if (inference.reversed && inference.path) {
+      sess.coursePath = inference.path;
+    }
+    sess.courseTraveledMeters = 0;
+    return sess;
+  }
+  function maybeDetectStart(sess) {
+    if (!sess || sess.startDetected) return sess;
+    const path = sess.coursePath && sess.coursePath.length >= 2 ? sess.coursePath : sess.coursePins && sess.coursePins.length >= 2 ? sess.coursePins : null;
+    const inf = inferStart(path, sess.track);
+    if (inf) applyStartDetection(sess, inf);
+    return sess;
+  }
+  function progressFromStart(rawTraveled, total, originMeters) {
+    const origin = Math.max(0, originMeters || 0);
+    const span = Math.max(0, (total || 0) - origin);
+    const traveled = Math.max(0, Math.min(span, (rawTraveled || 0) - origin));
+    return { traveled, remaining: Math.max(0, span - traveled), total: span, origin };
+  }
+  function startDetectCopy(sess) {
+    if (!sess || !sess.startDetected) return "";
+    if (sess.startReversed && sess.midStart) return "Started mid-route, running this course in reverse. Progress is from here.";
+    if (sess.startReversed) return "This course is running in reverse.";
+    if (sess.midStart) return "Started mid-route. Progress is from here to the end.";
+    return "";
+  }
+
   // www/js/track.js
   var BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
   var watcherId = null;
@@ -25673,7 +25734,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       offRouteSince: null,
       offRouteMeters: 0,
       rejoinPoint: null,
-      wayBack: null
+      wayBack: null,
+      startDetected: false,
+      startReversed: false,
+      midStart: false,
+      pathOriginMeters: 0
     };
     autoWatch = createAutoPauseState(Date.parse(session.startedAt));
     return session;
@@ -25703,10 +25768,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         return session;
       }
       applyTrackPoint(session, last, pt, at);
+      maybeDetectStart(session);
       updateOffRoute(session, at);
       return session;
     }
     session.track.push(pt);
+    maybeDetectStart(session);
     updateOffRoute(session, at);
     return session;
   }
@@ -25715,22 +25782,32 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (sess && sess.coursePins && sess.coursePins.length >= 2) return sess.coursePins;
     return null;
   }
+  function alongCourseProgress(sess, path, last) {
+    maybeDetectStart(sess);
+    if (!path || !last) {
+      const total = path ? Math.max(0, pathLengthMeters(path) - (sess.pathOriginMeters || 0)) : 0;
+      return { traveled: 0, remaining: total, total };
+    }
+    const r = remainingAlongPath(path, last);
+    const adj = progressFromStart(r.traveled, r.total, sess.pathOriginMeters || 0);
+    const traveled = Math.max(sess.courseTraveledMeters || 0, adj.traveled);
+    sess.courseTraveledMeters = traveled;
+    return { traveled, remaining: Math.max(0, adj.total - traveled), total: adj.total };
+  }
   function courseRemaining(sess) {
     if (!sess) return { onCourse: false, traveled: 0, remaining: 0, total: 0 };
     if (sess.target && sess.target.targetMeters > 0) {
       const path2 = sessionCoursePath(sess);
       const last2 = sess.track[sess.track.length - 1];
-      let traveled2;
+      let traveled;
       if (sess.target.mode === MODE_CONTINUE) {
-        traveled2 = sess.distanceMeters || 0;
+        traveled = sess.distanceMeters || 0;
       } else if (!last2) {
-        traveled2 = 0;
+        traveled = 0;
       } else {
-        const r2 = remainingAlongPath(path2, last2);
-        traveled2 = Math.max(sess.courseTraveledMeters || 0, r2.traveled);
-        sess.courseTraveledMeters = traveled2;
+        traveled = alongCourseProgress(sess, path2, last2).traveled;
       }
-      const prog = progressOnPlan(sess.target, traveled2);
+      const prog = progressOnPlan(sess.target, traveled);
       return stampGoal(sess, {
         onCourse: true,
         traveled: prog.traveled,
@@ -25747,14 +25824,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     const last = sess.track[sess.track.length - 1];
     if (!last) {
-      const total = remainingAlongPath(path, path[0]).total;
+      const total = progressFromStart(0, pathLengthMeters(path), sess.pathOriginMeters || 0).total;
       return { onCourse: true, traveled: 0, remaining: total, total };
     }
-    const r = remainingAlongPath(path, last);
-    const traveled = Math.max(sess.courseTraveledMeters || 0, r.traveled);
-    sess.courseTraveledMeters = traveled;
-    const remaining = Math.max(0, r.total - traveled);
-    const result = { onCourse: true, traveled, remaining, total: r.total, hitTarget: false, pastCourse: false };
+    const adj = alongCourseProgress(sess, path, last);
+    const result = { onCourse: true, traveled: adj.traveled, remaining: adj.remaining, total: adj.total, hitTarget: false, pastCourse: false };
     return stampGoal(sess, result);
   }
   function stampGoal(sess, result) {
@@ -32401,6 +32475,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       pauseNote.hidden = !auto;
     }
     updateOffRoute(sess);
+    const startNote = $4("track-start-note");
+    if (startNote) {
+      const copy = startDetectCopy(sess);
+      startNote.hidden = !copy;
+      if (copy) startNote.textContent = copy;
+    }
     const offNote = $4("track-offroute-note");
     if (offNote) {
       offNote.hidden = !sess.offRoute;
@@ -34051,6 +34131,38 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         whenReady(() => {
           drawSessionOnMap(made);
           fitBounds((made.wayBack || []).concat(course.pins), 80);
+        });
+        drawSessionOnMap(made);
+      } else if (name === "tracking-midstart" || name === "tracking-reverse") {
+        const start = { lat: 43.77, lon: 11.25 };
+        const end = { lat: 43.77, lon: 11.2548 };
+        const course = newCourse({ name: "River path", pins: [start, end], path: [start, end] });
+        state2.courses = [course, ...state2.courses || []];
+        stopSession();
+        const made = makeSession({ type: "walk", course, units: units2() });
+        const pts = [];
+        if (name === "tracking-reverse") {
+          for (let i = 0; i <= 8; i++) {
+            const lon = end.lon - (end.lon - start.lon) * (i / 50);
+            pts.push({ lat: start.lat, lon, t: i * 8, at: new Date(Date.now() - (8 - i) * 4e3).toISOString() });
+          }
+        } else {
+          const midLon = (start.lon + end.lon) / 2;
+          for (let i = 0; i <= 8; i++) {
+            const lon = midLon + (end.lon - start.lon) * (i / 50);
+            pts.push({ lat: start.lat, lon, t: i * 8, at: new Date(Date.now() - (8 - i) * 4e3).toISOString() });
+          }
+        }
+        made.track = [];
+        made.distanceMeters = 0;
+        for (const p of pts) pushPoint(p.lat, p.lon, Date.parse(p.at));
+        made.elapsedSec = 64;
+        setTab("today");
+        showScreen("tracking");
+        paintSessionHud(made);
+        whenReady(() => {
+          drawSessionOnMap(made);
+          fitBounds([start, end], 80);
         });
         drawSessionOnMap(made);
       } else if (name === "tracking-autopause") {

@@ -5,6 +5,7 @@ import {
   haversineMeters,
   notificationText,
   remainingAlongPath,
+  pathLengthMeters,
   activityMph,
   etaSeconds,
 } from "./util.js";
@@ -12,6 +13,7 @@ import { progressOnPlan, MODE_CONTINUE } from "./target_distance.js";
 import { considerAutoPause, createAutoPauseState } from "./auto_pause.js";
 import { applyTrackPoint } from "./gap_fill.js";
 import { updateOffRoute } from "./off_route.js";
+import { maybeDetectStart, progressFromStart } from "./start_detect.js";
 
 const BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
 
@@ -64,6 +66,10 @@ export function makeSession({ type, course, units, target } = {}) {
     offRouteMeters: 0,
     rejoinPoint: null,
     wayBack: null,
+    startDetected: false,
+    startReversed: false,
+    midStart: false,
+    pathOriginMeters: 0,
   };
   autoWatch = createAutoPauseState(Date.parse(session.startedAt));
   return session;
@@ -101,10 +107,12 @@ export function pushPoint(lat, lon, at = Date.now()) {
       return session;
     }
     applyTrackPoint(session, last, pt, at);
+    maybeDetectStart(session);
     updateOffRoute(session, at);
     return session;
   }
   session.track.push(pt);
+  maybeDetectStart(session);
   updateOffRoute(session, at);
   return session;
 }
@@ -119,7 +127,20 @@ function traveledForTarget(sess, path) {
   if (sess.target && sess.target.mode === MODE_CONTINUE) return sess.distanceMeters || 0;
   const last = sess.track && sess.track[sess.track.length - 1];
   if (!path || !last) return 0;
-  return remainingAlongPath(path, last).traveled;
+  return alongCourseProgress(sess, path, last).traveled;
+}
+
+function alongCourseProgress(sess, path, last) {
+  maybeDetectStart(sess);
+  if (!path || !last) {
+    const total = path ? Math.max(0, pathLengthMeters(path) - (sess.pathOriginMeters || 0)) : 0;
+    return { traveled: 0, remaining: total, total };
+  }
+  const r = remainingAlongPath(path, last);
+  const adj = progressFromStart(r.traveled, r.total, sess.pathOriginMeters || 0);
+  const traveled = Math.max(sess.courseTraveledMeters || 0, adj.traveled);
+  sess.courseTraveledMeters = traveled;
+  return { traveled, remaining: Math.max(0, adj.total - traveled), total: adj.total };
 }
 
 export function courseRemaining(sess) {
@@ -133,9 +154,7 @@ export function courseRemaining(sess) {
     } else if (!last) {
       traveled = 0;
     } else {
-      const r = remainingAlongPath(path, last);
-      traveled = Math.max(sess.courseTraveledMeters || 0, r.traveled);
-      sess.courseTraveledMeters = traveled;
+      traveled = alongCourseProgress(sess, path, last).traveled;
     }
     const prog = progressOnPlan(sess.target, traveled);
     return stampGoal(sess, {
@@ -154,16 +173,13 @@ export function courseRemaining(sess) {
   }
   const last = sess.track[sess.track.length - 1];
   if (!last) {
-    const total = remainingAlongPath(path, path[0]).total;
+    const total = progressFromStart(0, pathLengthMeters(path), sess.pathOriginMeters || 0).total;
     return { onCourse: true, traveled: 0, remaining: total, total };
   }
-  const r = remainingAlongPath(path, last);
-  // Keep course progress monotonic: a looped course projects onto its own
-  // start, and GPS jitter must not rewind distance done or the notification.
-  const traveled = Math.max(sess.courseTraveledMeters || 0, r.traveled);
-  sess.courseTraveledMeters = traveled;
-  const remaining = Math.max(0, r.total - traveled);
-  const result = { onCourse: true, traveled, remaining, total: r.total, hitTarget: false, pastCourse: false };
+  // Mid-route and reverse starts only count the stretch actually run.
+  // Progress is monotonic so a loop or a rejoin cannot rewind it.
+  const adj = alongCourseProgress(sess, path, last);
+  const result = { onCourse: true, traveled: adj.traveled, remaining: adj.remaining, total: adj.total, hitTarget: false, pastCourse: false };
   return stampGoal(sess, result);
 }
 
