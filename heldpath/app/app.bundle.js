@@ -22752,7 +22752,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     lastKnown: null,
     // { lat, lon, at }
     demo: false,
-    autoPause: true
+    autoPause: true,
+    lowPower: false
   };
   function emptyState() {
     return {
@@ -25689,6 +25690,71 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return "";
   }
 
+  // www/js/low_power.js
+  var NORMAL_DISTANCE_FILTER_M = 5;
+  var LOW_DISTANCE_FILTER_M = 30;
+  var LOW_INTERVAL_MS = 1e4;
+  var LOW_MIN_FIX_MS = 8e3;
+  var LOW_MIN_FIX_M = 20;
+  var LOW_MAX_AGE_MS = 2e4;
+  function watchOptions(lowPower = false) {
+    if (lowPower) {
+      return {
+        lowPower: true,
+        enableHighAccuracy: false,
+        maximumAge: LOW_MAX_AGE_MS,
+        timeout: 2e4,
+        stale: true,
+        distanceFilter: LOW_DISTANCE_FILTER_M,
+        intervalMs: LOW_INTERVAL_MS,
+        priority: "balanced"
+      };
+    }
+    return {
+      lowPower: false,
+      enableHighAccuracy: true,
+      maximumAge: 1e3,
+      timeout: 15e3,
+      stale: false,
+      distanceFilter: NORMAL_DISTANCE_FILTER_M,
+      intervalMs: 1e3,
+      priority: "high"
+    };
+  }
+  function nativeWatcherOptions(base, lowPower = false) {
+    const opts = watchOptions(lowPower);
+    return {
+      ...base,
+      requestPermissions: true,
+      stale: opts.stale,
+      distanceFilter: opts.distanceFilter,
+      requestInterval: opts.intervalMs,
+      interval: opts.intervalMs,
+      priority: opts.priority,
+      enableHighAccuracy: opts.enableHighAccuracy
+    };
+  }
+  function webWatchOptions(lowPower = false) {
+    const opts = watchOptions(lowPower);
+    return {
+      enableHighAccuracy: opts.enableHighAccuracy,
+      maximumAge: opts.maximumAge,
+      timeout: opts.timeout
+    };
+  }
+  function shouldAcceptFix(prev, next, { lowPower = false } = {}) {
+    if (!next || !Number.isFinite(next.lat) || !Number.isFinite(next.lon)) return false;
+    if (!lowPower || !prev) return true;
+    const dt = (next.at || 0) - (prev.at || 0);
+    if (dt >= LOW_MIN_FIX_MS) return true;
+    if (dt < 0) return true;
+    const dist3 = haversineMeters(
+      { lat: prev.lat, lon: prev.lon },
+      { lat: next.lat, lon: next.lon }
+    );
+    return dist3 >= LOW_MIN_FIX_M;
+  }
+
   // www/js/track.js
   var BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
   var watcherId = null;
@@ -25700,6 +25766,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   var lastNotificationBody = "";
   var lastNotificationAt = 0;
   var autoPauseEnabled = true;
+  var lowPowerEnabled = false;
+  var lastAcceptedFix = null;
   var autoWatch = createAutoPauseState();
   var NOTIFICATION_ID = "heldpath-tracking";
   var NOTIFICATION_REFRESH_MS = 15e3;
@@ -25738,7 +25806,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       startDetected: false,
       startReversed: false,
       midStart: false,
-      pathOriginMeters: 0
+      pathOriginMeters: 0,
+      lowPower: !!lowPowerEnabled
     };
     autoWatch = createAutoPauseState(Date.parse(session.startedAt));
     return session;
@@ -25749,6 +25818,16 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       resumeSession();
     }
     return autoPauseEnabled;
+  }
+  function setLowPowerEnabled(on) {
+    const next = !!on;
+    const changed = next !== lowPowerEnabled;
+    lowPowerEnabled = next;
+    if (session) session.lowPower = next;
+    return changed;
+  }
+  function isLowPowerEnabled() {
+    return !!lowPowerEnabled;
   }
   function tickElapsed(at = Date.now()) {
     if (!session || session.paused) return session;
@@ -26059,6 +26138,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function stopSession() {
     const done = session;
     session = null;
+    lastAcceptedFix = null;
     lastNotificationBody = "";
     lastNotificationAt = 0;
     return done;
@@ -26066,6 +26146,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   async function startWatching(handler) {
     onUpdate = handler;
     if (isWeb()) requestWakeLock();
+    lastAcceptedFix = null;
     if (timer) clearInterval(timer);
     timer = setInterval(() => {
       if (!session) return;
@@ -26079,7 +26160,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         const payload = notificationPayload(session);
         await bindNotificationActions();
         watcherId = await BackgroundGeolocation.addWatcher(
-          {
+          nativeWatcherOptions({
             backgroundMessage: payload.body,
             backgroundTitle: payload.title,
             // The APK worker reads these in docs/NATIVE_TRACKING.md. Extra keys
@@ -26087,18 +26168,19 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
             notificationId: payload.id,
             notificationActions: payload.actions,
             notificationDeepLink: payload.deepLink,
-            notificationOngoing: payload.ongoing,
-            requestPermissions: true,
-            stale: false,
-            distanceFilter: 5
-          },
+            notificationOngoing: payload.ongoing
+          }, lowPowerEnabled),
           (location2, error) => {
             if (error) {
               if (onUpdate) onUpdate(session, "error", error);
               return;
             }
             if (!location2 || !session) return;
-            noteFix(location2.latitude, location2.longitude, location2.time || Date.now());
+            const at = location2.time || Date.now();
+            const next = { lat: location2.latitude, lon: location2.longitude, at };
+            if (!shouldAcceptFix(lastAcceptedFix, next, { lowPower: lowPowerEnabled })) return;
+            lastAcceptedFix = next;
+            noteFix(next.lat, next.lon, next.at);
             tickElapsed();
             if (onUpdate) onUpdate(session, "fix");
             refreshNotification(session);
@@ -26115,16 +26197,25 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       watcherId = navigator.geolocation.watchPosition(
         (pos) => {
           if (!session) return;
-          noteFix(pos.coords.latitude, pos.coords.longitude, pos.timestamp);
+          const next = { lat: pos.coords.latitude, lon: pos.coords.longitude, at: pos.timestamp };
+          if (!shouldAcceptFix(lastAcceptedFix, next, { lowPower: lowPowerEnabled })) return;
+          lastAcceptedFix = next;
+          noteFix(next.lat, next.lon, next.at);
           tickElapsed();
           if (onUpdate) onUpdate(session, "fix");
         },
         () => {
         },
-        { enableHighAccuracy: true, maximumAge: 1e3, timeout: 15e3 }
+        webWatchOptions(lowPowerEnabled)
       );
     }
     return { ok: true, native: false };
+  }
+  async function restartWatching() {
+    const handler = onUpdate;
+    if (!session || !handler) return { ok: false, reason: "no-session" };
+    await stopWatching();
+    return startWatching(handler);
   }
   async function stopWatching() {
     await releaseWakeLock();
@@ -32733,6 +32824,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const sess = restoreSession(snap.session);
     if (!sess) return;
     setAutoPauseEnabled(state2.settings.autoPause !== false);
+    setLowPowerEnabled(!!state2.settings.lowPower);
     setTab("today");
     showScreen("tracking");
     paintSessionHud(sess);
@@ -32939,6 +33031,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (pauseNote) {
       const auto = !!(sess.paused && sess.pauseReason === "auto");
       pauseNote.hidden = !auto;
+    }
+    const lowNote = $4("track-lowpower-note");
+    if (lowNote) {
+      const on = !!(sess.lowPower || isLowPowerEnabled());
+      lowNote.hidden = !on;
     }
     updateOffRoute(sess);
     const startNote = $4("track-start-note");
@@ -33220,6 +33317,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       $4("auto-pause-switch").classList.toggle("on", on);
       $4("auto-pause-switch").setAttribute("aria-checked", on ? "true" : "false");
     }
+    if ($4("low-power-switch")) {
+      const on = !!state2.settings.lowPower;
+      $4("low-power-switch").classList.toggle("on", on);
+      $4("low-power-switch").setAttribute("aria-checked", on ? "true" : "false");
+    }
     if (typeof refreshHealthStatus === "function") refreshHealthStatus();
     else if ($4("health-note")) {
       $4("health-note").textContent = state2.settings.healthOptIn ? HEALTH_STATUS.reason + " Your preference is saved and will apply when health sync is wired." : "Health sync stays off until you turn it on.";
@@ -33406,6 +33508,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (!disc || !disc.allowed) return;
     const sess = makeSession({ type, course, units: units2(), target: targetPlan || null });
     setAutoPauseEnabled(state2.settings.autoPause !== false);
+    setLowPowerEnabled(!!state2.settings.lowPower);
     setTab("today");
     showScreen("tracking");
     paintSessionHud(sess);
@@ -33978,6 +34081,21 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         renderSettings();
         const sess = getSession();
         if (sess) paintSessionHud(sess);
+      });
+    }
+    if ($4("low-power-switch")) {
+      $4("low-power-switch").addEventListener("click", () => {
+        const next = !state2.settings.lowPower;
+        state2.settings.lowPower = next;
+        const changed = setLowPowerEnabled(next);
+        persist();
+        renderSettings();
+        const sess = getSession();
+        if (sess) {
+          paintSessionHud(sess);
+          if (changed) restartWatching().catch(() => {
+          });
+        }
       });
     }
     $4("health-switch").addEventListener("click", async () => {
@@ -35134,7 +35252,23 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         });
         showResumeSheet(snap);
       } else if (name === "settings") setTab("settings");
-      else if (name === "plans") {
+      else if (name === "settings-lowpower") {
+        state2.settings.lowPower = true;
+        setLowPowerEnabled(true);
+        setTab("settings");
+      } else if (name === "tracking-lowpower") {
+        const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+        if (!state2.courses.length) state2.courses.push(course);
+        state2.settings.lowPower = true;
+        setLowPowerEnabled(true);
+        const made = makeSession({ type: "walk", course, units: "mi" });
+        made.lowPower = true;
+        made.distanceMeters = 400;
+        made.elapsedSec = 300;
+        setTab("today");
+        showScreen("tracking");
+        paintSessionHud(made);
+      } else if (name === "plans") {
         showScreen("plans");
         renderPlansScreen();
       } else if (name === "support") {

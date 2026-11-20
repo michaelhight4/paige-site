@@ -12,6 +12,7 @@ const DEFAULT_SETTINGS = {
   lastKnown: null, // { lat, lon, at }
   demo: false,
   autoPause: true,
+  lowPower: false,
 };
 
 export function emptyState() {

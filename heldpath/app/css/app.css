@@ -937,6 +937,10 @@ body:has(#sheet-map.open) #map-locate-note { display: none; }
   overflow-wrap: anywhere;
 }
 .track-pause-note[hidden] { display: none; }
+.track-lowpower-note {
+  margin: 8px 0 0;
+}
+.track-lowpower-note[hidden] { display: none; }
 
 .track-start-note {
   margin: 0 0 10px;

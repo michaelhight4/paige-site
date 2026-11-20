@@ -98,6 +98,7 @@
           <p class="track-start-note" id="track-start-note" data-testid="start-detect-note" hidden></p>
           <p class="track-offroute-note" id="track-offroute-note" data-testid="off-route-note" hidden>You're off the route. The way back is shown on the map.</p>
           <p class="tiny track-pause-note" id="track-pause-note" data-testid="auto-pause-note" hidden>Auto-paused. Time is not counting until you start moving.</p>
+          <p class="tiny track-lowpower-note" id="track-lowpower-note" data-testid="low-power-note" hidden>Low-power tracking is on. The path may be less detailed.</p>
           <div class="btn-row" id="track-live-actions">
             <button class="btn btn-secondary" id="btn-pause" data-testid="pause">Pause</button>
             <button class="btn btn-danger" id="btn-stop" data-testid="stop">Stop</button>
@@ -195,6 +196,13 @@
               <p>When you stand still for a few seconds, Heldpath pauses so wait time is not counted. It starts again when you move. Turn this off if you want standing time included.</p>
             </div>
             <button class="switch" id="auto-pause-switch" data-testid="auto-pause-switch" role="switch" aria-checked="true" aria-label="Auto-pause when you stop"><i></i></button>
+          </div>
+          <div class="row-toggle" style="margin-top:16px">
+            <div>
+              <strong>Low-power tracking</strong>
+              <p>Uses a looser GPS fix so the phone lasts longer. The path may be a little less detailed. High-accuracy tracking stays on unless you turn this on.</p>
+            </div>
+            <button class="switch" id="low-power-switch" data-testid="low-power-switch" role="switch" aria-checked="false" aria-label="Low-power tracking"><i></i></button>
           </div>
         </div>
 

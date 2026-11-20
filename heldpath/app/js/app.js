@@ -215,6 +215,7 @@ async function resumePendingSession() {
   const sess = track.restoreSession(snap.session);
   if (!sess) return;
   track.setAutoPauseEnabled(state.settings.autoPause !== false);
+  track.setLowPowerEnabled(!!state.settings.lowPower);
   setTab("today");
   showScreen("tracking");
   paintSessionHud(sess);
@@ -440,6 +441,11 @@ function paintSessionHud(sess) {
   if (pauseNote) {
     const auto = !!(sess.paused && sess.pauseReason === "auto");
     pauseNote.hidden = !auto;
+  }
+  const lowNote = $("track-lowpower-note");
+  if (lowNote) {
+    const on = !!(sess.lowPower || track.isLowPowerEnabled());
+    lowNote.hidden = !on;
   }
   updateOffRoute(sess);
   const startNote = $("track-start-note");
@@ -743,6 +749,11 @@ function renderSettings() {
     $("auto-pause-switch").classList.toggle("on", on);
     $("auto-pause-switch").setAttribute("aria-checked", on ? "true" : "false");
   }
+  if ($("low-power-switch")) {
+    const on = !!state.settings.lowPower;
+    $("low-power-switch").classList.toggle("on", on);
+    $("low-power-switch").setAttribute("aria-checked", on ? "true" : "false");
+  }
   if (typeof refreshHealthStatus === "function") refreshHealthStatus();
   else if ($("health-note")) {
     $("health-note").textContent = state.settings.healthOptIn
@@ -941,6 +952,7 @@ async function startTracking(type, course, plan, targetPlan) {
   if (!disc || !disc.allowed) return;
   const sess = track.makeSession({ type, course, units: units(), target: targetPlan || null });
   track.setAutoPauseEnabled(state.settings.autoPause !== false);
+  track.setLowPowerEnabled(!!state.settings.lowPower);
   setTab("today");
   showScreen("tracking");
   paintSessionHud(sess);
@@ -1545,6 +1557,20 @@ function bind() {
       renderSettings();
       const sess = track.getSession();
       if (sess) paintSessionHud(sess);
+    });
+  }
+  if ($("low-power-switch")) {
+    $("low-power-switch").addEventListener("click", () => {
+      const next = !state.settings.lowPower;
+      state.settings.lowPower = next;
+      const changed = track.setLowPowerEnabled(next);
+      persist();
+      renderSettings();
+      const sess = track.getSession();
+      if (sess) {
+        paintSessionHud(sess);
+        if (changed) track.restartWatching().catch(() => {});
+      }
     });
   }
   $("health-switch").addEventListener("click", async () => {
@@ -2682,6 +2708,23 @@ window.HeldpathTest = {
       showResumeSheet(snap);
     }
     else if (name === "settings") setTab("settings");
+    else if (name === "settings-lowpower") {
+      state.settings.lowPower = true;
+      track.setLowPowerEnabled(true);
+      setTab("settings");
+    } else if (name === "tracking-lowpower") {
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      if (!state.courses.length) state.courses.push(course);
+      state.settings.lowPower = true;
+      track.setLowPowerEnabled(true);
+      const made = track.makeSession({ type: "walk", course, units: "mi" });
+      made.lowPower = true;
+      made.distanceMeters = 400;
+      made.elapsedSec = 300;
+      setTab("today");
+      showScreen("tracking");
+      paintSessionHud(made);
+    }
     else if (name === "plans") { showScreen("plans"); renderPlansScreen(); }
     else if (name === "support") { setTab("settings"); showScreen("support"); renderSettings(); }
     else if (name === "stretches") { setTab("settings"); showStretchesHub(); }

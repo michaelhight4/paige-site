@@ -14,6 +14,7 @@ import { considerAutoPause, createAutoPauseState } from "./auto_pause.js";
 import { applyTrackPoint } from "./gap_fill.js";
 import { updateOffRoute } from "./off_route.js";
 import { maybeDetectStart, progressFromStart } from "./start_detect.js";
+import { nativeWatcherOptions, webWatchOptions, shouldAcceptFix } from "./low_power.js";
 
 const BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
 
@@ -26,6 +27,8 @@ let notificationListener = null;
 let lastNotificationBody = "";
 let lastNotificationAt = 0;
 let autoPauseEnabled = true;
+let lowPowerEnabled = false;
+let lastAcceptedFix = null;
 let autoWatch = createAutoPauseState();
 
 const NOTIFICATION_ID = "heldpath-tracking";
@@ -70,6 +73,7 @@ export function makeSession({ type, course, units, target } = {}) {
     startReversed: false,
     midStart: false,
     pathOriginMeters: 0,
+    lowPower: !!lowPowerEnabled,
   };
   autoWatch = createAutoPauseState(Date.parse(session.startedAt));
   return session;
@@ -82,6 +86,19 @@ export function setAutoPauseEnabled(on) {
   }
   return autoPauseEnabled;
 }
+
+export function setLowPowerEnabled(on) {
+  const next = !!on;
+  const changed = next !== lowPowerEnabled;
+  lowPowerEnabled = next;
+  if (session) session.lowPower = next;
+  return changed;
+}
+
+export function isLowPowerEnabled() {
+  return !!lowPowerEnabled;
+}
+
 
 export function isAutoPauseEnabled() {
   return autoPauseEnabled;
@@ -458,6 +475,7 @@ export function noteTick(at = Date.now()) {
 export function stopSession() {
   const done = session;
   session = null;
+  lastAcceptedFix = null;
   lastNotificationBody = "";
   lastNotificationAt = 0;
   return done;
@@ -466,6 +484,7 @@ export function stopSession() {
 export async function startWatching(handler) {
   onUpdate = handler;
   if (isWeb()) requestWakeLock();
+  lastAcceptedFix = null;
   if (timer) clearInterval(timer);
   timer = setInterval(() => {
     if (!session) return;
@@ -480,7 +499,7 @@ export async function startWatching(handler) {
       const payload = notificationPayload(session);
       await bindNotificationActions();
       watcherId = await BackgroundGeolocation.addWatcher(
-        {
+        nativeWatcherOptions({
           backgroundMessage: payload.body,
           backgroundTitle: payload.title,
           // The APK worker reads these in docs/NATIVE_TRACKING.md. Extra keys
@@ -489,17 +508,18 @@ export async function startWatching(handler) {
           notificationActions: payload.actions,
           notificationDeepLink: payload.deepLink,
           notificationOngoing: payload.ongoing,
-          requestPermissions: true,
-          stale: false,
-          distanceFilter: 5,
-        },
+        }, lowPowerEnabled),
         (location, error) => {
           if (error) {
             if (onUpdate) onUpdate(session, "error", error);
             return;
           }
           if (!location || !session) return;
-          noteFix(location.latitude, location.longitude, location.time || Date.now());
+          const at = location.time || Date.now();
+          const next = { lat: location.latitude, lon: location.longitude, at };
+          if (!shouldAcceptFix(lastAcceptedFix, next, { lowPower: lowPowerEnabled })) return;
+          lastAcceptedFix = next;
+          noteFix(next.lat, next.lon, next.at);
           tickElapsed();
           if (onUpdate) onUpdate(session, "fix");
           refreshNotification(session);
@@ -518,15 +538,25 @@ export async function startWatching(handler) {
     watcherId = navigator.geolocation.watchPosition(
       (pos) => {
         if (!session) return;
-        noteFix(pos.coords.latitude, pos.coords.longitude, pos.timestamp);
+        const next = { lat: pos.coords.latitude, lon: pos.coords.longitude, at: pos.timestamp };
+        if (!shouldAcceptFix(lastAcceptedFix, next, { lowPower: lowPowerEnabled })) return;
+        lastAcceptedFix = next;
+        noteFix(next.lat, next.lon, next.at);
         tickElapsed();
         if (onUpdate) onUpdate(session, "fix");
       },
       () => {},
-      { enableHighAccuracy: true, maximumAge: 1000, timeout: 15000 }
+      webWatchOptions(lowPowerEnabled)
     );
   }
   return { ok: true, native: false };
+}
+
+export async function restartWatching() {
+  const handler = onUpdate;
+  if (!session || !handler) return { ok: false, reason: "no-session" };
+  await stopWatching();
+  return startWatching(handler);
 }
 
 export async function stopWatching() {
