@@ -1,0 +1,258 @@
+/*
+ * Heldpath art kit.
+ * Builds on the tokens in app.css and uses the Meshy UI art
+ * (tab glyphs, marker pins, achievement medals, empty-state banners).
+ * Keep tap targets at 52px or more and contrast high on dark grey.
+ */
+
+/* ——— Bottom tab bar: image glyphs with a selected / unselected treatment ——— */
+#tab-bar {
+  background: linear-gradient(180deg, #1A2029 0%, #12171E 100%);
+  border-top: 1px solid rgba(78, 195, 247, 0.20);
+  box-shadow: 0 -12px 28px rgba(0, 0, 0, 0.38);
+  padding-top: 10px;
+}
+
+.tab {
+  position: relative;
+  border-radius: 14px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.tab .tab-ic {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  opacity: 0.58;
+  filter: saturate(0.55) brightness(1.12);
+  transition: opacity 0.15s ease, filter 0.15s ease, transform 0.15s ease;
+}
+
+.tab span {
+  color: #9BA7B6;
+  transition: color 0.15s ease;
+}
+
+.tab.active {
+  background: linear-gradient(180deg, rgba(78, 195, 247, 0.22), rgba(78, 195, 247, 0.07));
+  box-shadow: inset 0 0 0 1px rgba(78, 195, 247, 0.22);
+}
+
+.tab.active .tab-ic {
+  opacity: 1;
+  filter: drop-shadow(0 0 7px rgba(78, 195, 247, 0.55));
+  transform: translateY(-1px);
+}
+
+.tab.active span {
+  color: var(--mint);
+}
+
+/* ——— Button kit ——— */
+.btn {
+  border-radius: 16px;
+  letter-spacing: 0.01em;
+  transition: transform 0.12s ease, filter 0.12s ease, box-shadow 0.12s ease;
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.994);
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #83DAFF 0%, #4EC3F7 54%, #34A6DB 100%);
+  color: #08141C;
+  box-shadow:
+    0 6px 18px rgba(43, 143, 212, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.48),
+    inset 0 -1px 0 rgba(8, 20, 28, 0.28);
+}
+
+.btn-secondary {
+  background: linear-gradient(180deg, #333C4B 0%, #242B36 100%);
+  border: 1px solid #46525F;
+  color: var(--text);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.btn-danger {
+  background: linear-gradient(180deg, #4C272E 0%, #381F24 100%);
+  border: 1px solid #6B3A43;
+  color: #FFC4BA;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.btn[disabled] {
+  filter: saturate(0.35);
+  box-shadow: none;
+}
+
+.btn img {
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.18));
+}
+
+/* ——— Card kit ——— */
+.card,
+.hud,
+.price-card {
+  background: linear-gradient(180deg, #28313D 0%, #222932 100%);
+  border: 1px solid #3A4352;
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.045);
+}
+
+.hud {
+  background: linear-gradient(180deg, rgba(30, 37, 47, 0.98) 0%, rgba(18, 22, 28, 0.98) 100%);
+}
+
+.list-item,
+.total-box,
+.day,
+.range-tog button,
+.field input,
+.field select {
+  background: linear-gradient(180deg, #2A3340 0%, #232A34 100%);
+}
+
+.list-item {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+}
+
+.day.today {
+  background: linear-gradient(180deg, rgba(78, 195, 247, 0.26), rgba(78, 195, 247, 0.12));
+}
+
+.range-tog button.active {
+  background: linear-gradient(180deg, rgba(78, 195, 247, 0.28), rgba(78, 195, 247, 0.10));
+  box-shadow: inset 0 0 0 1px rgba(78, 195, 247, 0.35);
+}
+
+/* ——— Map markers ——— */
+.pp-map-marker.pin {
+  width: 32px;
+  height: 42px;
+  background: url("../assets/icon_pin.png") center / contain no-repeat;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.55));
+}
+
+.pp-map-marker.pin-start {
+  background-image: url("../assets/marker_start.png");
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.55));
+}
+
+.pp-map-marker.pin-end {
+  background-image: url("../assets/marker_end.png");
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.55));
+}
+
+.pp-map-marker.pin-via {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/pin_route.png");
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+/* ——— Achievement medals ——— */
+.pr-row {
+  padding: 6px 0;
+}
+
+.pr-row .pr-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.pr-badge {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+}
+
+.pr-row.has-record .pr-badge {
+  filter: drop-shadow(0 0 6px rgba(184, 243, 208, 0.35)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+}
+
+.pr-row:not(.has-record) .pr-badge {
+  opacity: 0.55;
+  filter: saturate(0.45) brightness(0.95);
+}
+
+.stat-row .stat-badge {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.total-box .lbl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 16px;
+}
+
+.total-badge {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+}
+
+/* ——— Empty-state banners ——— */
+.empty img.hero,
+.empty img.empty-art {
+  width: 100%;
+  max-width: 440px;
+  height: 152px;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  margin: 0 auto 18px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+}
+
+.cal-day-art {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  margin: 0 auto 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
+}
+
+/* ——— Brand chip uses the refreshed app icon ——— */
+.brand-chip img {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* ——— Small-screen guard: keep the tab labels and medals tidy ——— */
+@media (max-width: 400px) {
+  .tab .tab-ic {
+    width: 26px;
+    height: 26px;
+  }
+  .pr-badge {
+    width: 30px;
+    height: 30px;
+  }
+  .empty img.hero,
+  .empty img.empty-art {
+    height: 138px;
+  }
+}

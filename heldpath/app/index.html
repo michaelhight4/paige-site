@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#12161C" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>Heldpath</title>
+  <link rel="icon" href="assets/app_icon_fg.png" />
+  <link rel="apple-touch-icon" href="assets/app_icon_192.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="vendor/maplibre-gl.css" />
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/art.css" />
+  <link rel="stylesheet" href="css/stats.css" />
+  <link rel="stylesheet" href="css/plans.css" />
+</head>
+<body>
+  <div id="app">
+    <div id="map" aria-hidden="true"></div>
+
+    <!-- Today (map home) -->
+    <section class="screen active" id="screen-today" data-screen="today">
+      <div class="map-top">
+        <div class="brand-chip">
+          <img src="assets/app_icon_fg.png" alt="" />
+          <div>
+            <strong>Heldpath</strong>
+            <div class="tiny">Free walk &amp; run tracker</div>
+          </div>
+        </div>
+        <div class="banner" id="map-banner" hidden></div>
+      </div>
+      <div class="dock" id="today-dock">
+        <div class="dock-actions">
+          <button class="btn btn-primary" id="btn-start-walk" data-testid="start-walk"><img src="assets/icon_walk.png" alt="" /> Start Walk</button>
+          <button class="btn btn-primary" id="btn-start-run" data-testid="start-run"><img src="assets/icon_run.png" alt="" /> Start Run</button>
+          <button class="btn btn-secondary" id="btn-build-course" data-testid="build-course"><img src="assets/icon_pin.png" alt="" /> Build Course</button>
+          <button class="btn btn-secondary" id="btn-saved-courses" data-testid="saved-courses">Saved Courses</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live tracking (same map, swap dock) -->
+    <section class="screen" id="screen-tracking" data-screen="tracking">
+      <div class="dock" id="track-dock">
+        <div class="hud" id="track-hud" data-testid="track-hud">
+          <div class="hud-kicker" id="track-kicker">Walk</div>
+          <div class="hud-remain" id="track-remain-wrap">
+            <div>
+              <div class="remain-value" id="track-left" data-testid="distance-left">—</div>
+              <div class="remain-label">left</div>
+            </div>
+            <div class="remain-eta">
+              <div class="remain-value" id="track-eta" data-testid="time-left">—</div>
+              <div class="remain-label">remaining</div>
+            </div>
+          </div>
+          <div class="hud-stats">
+            <div>
+              <div class="stat-val" id="track-done">—</div>
+              <div class="stat-lbl">done</div>
+            </div>
+            <div>
+              <div class="stat-val" id="track-time">0:00</div>
+              <div class="stat-lbl">time</div>
+            </div>
+            <div>
+              <div class="stat-val" id="track-pace">—</div>
+              <div class="stat-lbl">avg pace</div>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" id="btn-pause" data-testid="pause">Pause</button>
+            <button class="btn btn-danger" id="btn-stop" data-testid="stop">Stop</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Course builder -->
+    <section class="screen" id="screen-builder" data-screen="builder">
+      <div class="dock">
+        <div class="hud builder-panel" data-testid="builder-panel">
+          <div class="hud-kicker">Build a course</div>
+          <p class="builder-hint" id="builder-hint">Tap the map to place a Start pin. Then add points along the route. The last pin is the End.</p>
+          <div class="legs" id="builder-legs" data-testid="builder-legs"></div>
+          <div class="btn-row" style="margin-bottom:10px">
+            <button class="btn btn-secondary" id="btn-undo-pin">Undo pin</button>
+            <button class="btn btn-secondary" id="btn-cancel-build">Cancel</button>
+          </div>
+          <button class="btn btn-primary" id="btn-save-course" data-testid="save-course" disabled>Save course</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Courses list -->
+    <section class="screen" id="screen-courses" data-screen="courses">
+      <div class="scroll">
+        <h1 class="page-title">Courses</h1>
+        <p class="page-sub">Save a route once, then walk or run it any time. Planning a course is free.</p>
+        <div id="courses-list" class="list"></div>
+        <div style="height:12px"></div>
+        <button class="btn btn-primary" id="btn-new-course" style="width:100%">Build a new course</button>
+      </div>
+    </section>
+
+    <!-- Calendar -->
+    <section class="screen" id="screen-calendar" data-screen="calendar">
+      <div class="scroll">
+        <h1 class="page-title">Calendar <span class="free-tag">Free</span></h1>
+        <p class="page-sub">Every past walk and run, plus any session you plan ahead. All free.</p>
+        <div class="cal-head">
+          <button class="icon-btn" id="cal-prev" aria-label="Previous month">‹</button>
+          <h2 id="cal-month">Month</h2>
+          <button class="icon-btn" id="cal-next" aria-label="Next month">›</button>
+        </div>
+        <div class="dow" aria-hidden="true">
+          <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+        </div>
+        <div id="cal-grid" data-testid="cal-grid"></div>
+        <div class="day-panel" id="cal-day-panel"></div>
+      </div>
+    </section>
+
+    <!-- Progress -->
+    <section class="screen" id="screen-progress" data-screen="progress">
+      <div class="scroll">
+        <h1 class="page-title">Progress <span class="free-tag">Free</span></h1>
+        <p class="page-sub">Distance, records, streaks and achievements — always free, no paywall.</p>
+        <div class="range-tog" id="range-tog" data-testid="range-tog">
+          <button data-range="W" class="active">W</button>
+          <button data-range="M">M</button>
+          <button data-range="Y">Y</button>
+          <button data-range="All">All</button>
+        </div>
+        <div id="progress-body"></div>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section class="screen" id="screen-settings" data-screen="settings">
+      <div class="scroll">
+        <h1 class="page-title">Settings</h1>
+        <p class="page-sub">Heldpath is free. There is no account, no ads and no subscription. Optional plans are the only paid extra.</p>
+
+        <div class="card">
+          <h2>Units</h2>
+          <div class="range-tog" id="units-tog">
+            <button data-units="mi">Miles</button>
+            <button data-units="km">Kilometers</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Offline map</h2>
+          <p class="tiny" id="map-pack-status" style="margin-bottom:12px"></p>
+          <button class="btn btn-secondary" id="btn-map-pack" style="width:100%">Manage map on this phone</button>
+        </div>
+
+        <div class="card native-only" id="health-card">
+          <h2>Health app</h2>
+          <div class="row-toggle">
+            <div>
+              <strong>Sync with the health app</strong>
+              <p>Free, and off until you turn it on. Heldpath can write workouts and read steps and calories from Health Connect on Android, or Apple Health on iPhone. Watch-tracked walks and runs can be imported too. We do not count steps or calories ourselves.</p>
+            </div>
+            <button class="switch" id="health-switch" data-testid="health-switch" role="switch" aria-checked="false" aria-label="Health sync"><i></i></button>
+          </div>
+          <p class="tiny" id="health-note" style="margin-top:12px"></p>
+          <button class="btn btn-secondary" id="btn-health-import" data-testid="health-import" style="width:100%;margin-top:12px">Import watch workouts</button>
+          <p class="tiny" id="health-import-status" style="margin-top:10px"></p>
+        </div>
+
+        <div class="card">
+          <h2>Custom plans</h2>
+          <p class="tiny" id="plans-hook"></p>
+          <button class="btn btn-secondary" id="btn-plans-open" style="width:100%;margin-top:12px" data-testid="open-plans">Open Plans</button>
+        </div>
+
+        <div class="card web-only" id="web-install-card">
+          <h2>Install Heldpath</h2>
+          <p class="tiny" style="margin-bottom:12px">Add it to your home screen and use it like an app, with no store download.</p>
+          <button class="btn btn-primary" id="btn-a2hs" style="width:100%">Add to Home Screen</button>
+          <p class="tiny" id="a2hs-note" style="margin-top:10px"></p>
+        </div>
+        <p class="tiny web-only" id="web-native-note" style="margin-bottom:16px"></p>
+        <button class="btn btn-secondary" id="btn-support" style="width:100%;margin-bottom:16px" data-testid="open-support">
+          <img src="assets/icon_support.png" alt="" /> Support Us
+        </button>
+        <p class="tiny">Version 1.0.</p>
+      </div>
+    </section>
+
+    <!-- Support Us -->
+    <section class="screen" id="screen-support" data-screen="support">
+      <div class="scroll">
+        <div class="top-bar">
+          <button class="icon-btn" id="support-back" aria-label="Back">‹</button>
+          <h1>Support Us</h1>
+        </div>
+        <img class="hero-art" src="assets/art_support.png" alt="" />
+        <p class="promise" data-testid="support-copy" id="support-copy"></p>
+        <button class="btn btn-primary native-only billing-live-only" id="btn-donate" style="width:100%;margin-bottom:12px" hidden>Donate $5</button>
+        <p class="tiny web-only" id="web-pay-note"></p>
+        <p class="tiny" id="billing-stub-note">Purchases are not live in this build. Donating and buying a plan will use official store checkout once it is wired. Nothing in the app is locked behind a payment.</p>
+        <p class="tiny" id="donate-msg"></p>
+      </div>
+    </section>
+
+    <!-- Post-run summary -->
+    <section class="screen" id="screen-summary" data-screen="summary">
+      <div class="scroll">
+        <h1 class="page-title" id="summary-title">Walk complete</h1>
+        <p class="page-sub" id="summary-sub"></p>
+        <div class="totals" id="summary-stats" data-testid="summary-stats"></div>
+        <div class="card">
+          <h2>Health app</h2>
+          <div id="summary-health" data-testid="summary-health"></div>
+        </div>
+        <div class="card">
+          <h2>Leg splits <span class="free-tag">Free</span></h2>
+          <div id="summary-splits" data-testid="summary-splits"></div>
+        </div>
+        <button class="btn btn-primary" id="btn-summary-done" style="width:100%;margin-bottom:16px">Done</button>
+      </div>
+    </section>
+
+    <!-- Plans -->
+    <section class="screen" id="screen-plans" data-screen="plans">
+      <div class="scroll">
+        <div class="top-bar">
+          <button class="icon-btn" id="plans-back" aria-label="Back">‹</button>
+          <h1>Plans</h1>
+        </div>
+        <p class="page-sub">Build a walking or running plan from a goal. A new plan is $2, one time. Importing a plan a friend shares is free.</p>
+
+        <div class="price-card plan-own-card" data-testid="plan-own-card">
+          <div class="price-row">
+            <span class="price">$2</span>
+            <span class="price-note">one time, per new plan</span>
+          </div>
+          <p class="own-copy" id="plan-own-copy" data-testid="ownership-copy"></p>
+          <p class="tiny">Importing a shared plan is free. No subscription. No account. Optional — the rest of the app stays free.</p>
+        </div>
+
+        <div class="plans-grid">
+        <div class="plans-col">
+        <div class="card">
+          <h2>Make a plan</h2>
+          <div class="plan-form-grid">
+            <div class="field">
+              <label>Activity</label>
+              <div class="range-tog plan-toggle" id="plan-type-tog">
+                <button data-type="walk" class="active">Walk</button>
+                <button data-type="run">Run</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="plan-days">Window</label>
+              <select id="plan-days">
+                <option value="7">7 days</option>
+                <option value="14" selected>14 days</option>
+                <option value="30">30 days</option>
+                <option value="56">8 weeks</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="plan-distance">Goal distance (<span id="plan-dist-unit">mi</span>)</label>
+              <input id="plan-distance" data-testid="plan-distance" type="number" min="0.1" step="0.5" value="10" inputmode="decimal" />
+            </div>
+            <div class="field">
+              <label for="plan-body">Body weight kg (optional)</label>
+              <input id="plan-body" type="number" min="30" max="250" step="1" placeholder="water + effort" inputmode="numeric" />
+            </div>
+            <div class="field">
+              <label for="plan-route">Route</label>
+              <select id="plan-route"></select>
+            </div>
+            <div class="field">
+              <label for="plan-title">Name (optional)</label>
+              <input id="plan-title" maxlength="60" placeholder="e.g. Autumn 10K" />
+            </div>
+          </div>
+          <div class="plan-preview" id="plan-preview" data-testid="plan-preview"></div>
+          <p class="tiny" id="plan-create-note"></p>
+          <button class="btn btn-primary billing-live-only" id="btn-plan-create" data-testid="plan-create" style="width:100%;margin-top:12px" hidden>Create plan · $2 one time</button>
+          <p class="tiny" style="margin-top:10px">Store checkout is not live in this build, so the $2 credit is recorded on this phone for testing. Importing a shared plan is always free.</p>
+        </div>
+        </div>
+        <div class="plans-col">
+
+        <div class="card plan-hydration">
+          <h2>Water</h2>
+          <p class="plan-water" id="plan-water"></p>
+          <div class="disclaimer" id="plan-water-disclaimer"></div>
+          <div class="field">
+            <label>Daily target (editable in ml or oz)</label>
+            <div class="plan-water-row">
+              <div class="plan-water-field">
+                <label for="plan-water-ml">ml</label>
+                <input id="plan-water-ml" type="number" min="500" max="10000" step="50" inputmode="numeric" />
+              </div>
+              <div class="plan-water-field">
+                <label for="plan-water-oz">oz</label>
+                <input id="plan-water-oz" type="number" min="10" max="350" step="1" inputmode="decimal" />
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label for="plan-reminder-times">Reminder times (24h, comma separated)</label>
+            <input id="plan-reminder-times" placeholder="08:00, 12:00, 16:00, 20:00" />
+          </div>
+          <button class="btn btn-secondary" id="btn-plan-water-save" style="width:100%">Save water target</button>
+          <p class="tiny" id="plan-reminder-note" style="margin-top:10px"></p>
+        </div>
+
+        <div class="card">
+          <h2>My plans</h2>
+          <div class="list" id="plan-list"></div>
+        </div>
+
+        <div class="card">
+          <h2>Share &amp; import</h2>
+          <p class="tiny">Export a .paceplan file and anyone can import it for free. Importing never spends a credit or asks for money. Purchase tokens never leave this phone.</p>
+          <div class="btn-row" style="margin-top:12px">
+            <button class="btn btn-secondary" id="btn-plan-export">Export a plan</button>
+            <button class="btn btn-secondary" id="btn-plan-import">Import a plan</button>
+          </div>
+          <input id="plan-import-file" type="file" accept=".paceplan,application/json,.json" hidden />
+          <p class="tiny" id="plan-import-note" style="margin-top:10px"></p>
+        </div>
+
+        <div class="card">
+          <h2>Sources</h2>
+          <p class="tiny">ACSM metabolic equations and the Compendium of Physical Activities for effort; Daniels/Gilbert VDOT and Riegel's formula for pacing; EFSA and US National Academies hydration guidance. General guidance, not medical advice. The full list is in CREDITS.md.</p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lock-screen notification preview (for shots / overlap) -->
+    <section class="screen" id="screen-lock" data-screen="lock">
+      <div class="lock-bg">
+        <div class="lock-time">
+          <div class="t" id="lock-clock">9:41</div>
+          <div class="d" id="lock-date">Friday, November 20</div>
+        </div>
+        <div class="notif" data-testid="lock-notif">
+          <div class="notif-top">
+            <img src="assets/app_icon_fg.png" alt="" />
+            <div class="app">Heldpath</div>
+          </div>
+          <div class="notif-body" id="lock-body">1.2 mi done · 0.8 mi left · ~16 min</div>
+          <div class="notif-actions">
+            <button class="btn btn-secondary" id="lock-pause">Pause</button>
+            <button class="btn btn-danger" id="lock-stop">Stop</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sheets -->
+    <div class="sheet-back" id="sheet-map">
+      <div class="sheet" role="dialog" aria-labelledby="map-sheet-title">
+        <h2 id="map-sheet-title">Keep a map on this phone</h2>
+        <p class="page-sub">Download a map once and Heldpath works offline, with no account and no tracking. A Florence starter pack is already in the app and can be saved on your phone now. More areas can be added later.</p>
+        <button class="btn btn-primary" id="btn-save-pack" style="width:100%;margin-bottom:12px">Save map to this phone</button>
+        <button class="btn btn-secondary" id="btn-map-later" style="width:100%">Not now</button>
+      </div>
+    </div>
+
+    <div class="sheet-back" id="sheet-schedule">
+      <div class="sheet" role="dialog" aria-labelledby="sched-title">
+        <h2 id="sched-title">Schedule a walk or run</h2>
+        <p class="page-sub" id="sched-sub"></p>
+        <div class="field">
+          <label for="sched-type">Activity</label>
+          <select id="sched-type">
+            <option value="walk">Walk</option>
+            <option value="run">Run</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="sched-course">Saved course</label>
+          <select id="sched-course"></select>
+        </div>
+        <p class="tiny" id="sched-preview" style="margin-bottom:16px"></p>
+        <button class="btn btn-primary" id="btn-sched-save" style="width:100%;margin-bottom:12px">Save on this day</button>
+        <button class="btn btn-secondary" id="btn-sched-cancel" style="width:100%">Cancel</button>
+      </div>
+    </div>
+
+    <div class="sheet-back" id="sheet-save-course">
+      <div class="sheet" role="dialog">
+        <h2>Name this course</h2>
+        <div class="field">
+          <label for="course-name">Name</label>
+          <input id="course-name" maxlength="48" placeholder="e.g. Park loop" />
+        </div>
+        <button class="btn btn-primary" id="btn-course-name-save" style="width:100%;margin-bottom:12px">Save</button>
+        <button class="btn btn-secondary" id="btn-course-name-cancel" style="width:100%">Cancel</button>
+      </div>
+    </div>
+
+    <div class="sheet-back" id="sheet-course">
+      <div class="sheet" role="dialog" aria-labelledby="course-title">
+        <h2 id="course-title">Course</h2>
+        <p class="page-sub" id="course-sub"></p>
+        <div class="card" style="margin:4px 0 16px">
+          <h3 style="font-size:16px;margin-bottom:4px">Legs and bests</h3>
+          <div id="course-legs" data-testid="course-legs"></div>
+        </div>
+        <button class="btn btn-primary" id="btn-course-walk" style="width:100%;margin-bottom:10px">Walk this course</button>
+        <button class="btn btn-primary" id="btn-course-run" style="width:100%;margin-bottom:10px">Run this course</button>
+        <button class="btn btn-secondary" id="btn-course-rename" style="width:100%;margin-bottom:10px">Rename</button>
+        <button class="btn btn-danger" id="btn-course-delete" style="width:100%;margin-bottom:10px">Delete course</button>
+        <button class="btn btn-secondary" id="btn-course-close" style="width:100%">Close</button>
+      </div>
+    </div>
+
+    <div class="sheet-back" id="sheet-start">
+      <div class="sheet" role="dialog" id="start-sheet-inner">
+        <h2 id="start-sheet-title">Start</h2>
+        <p class="page-sub">Follow a saved course, or just go and track as you walk or run.</p>
+        <div id="start-course-list" class="list"></div>
+        <button class="btn btn-primary" id="btn-start-free" style="width:100%;margin:16px 0 12px">Start without a course</button>
+        <button class="btn btn-secondary" id="btn-start-cancel" style="width:100%">Cancel</button>
+      </div>
+    </div>
+
+
+    <div class="sheet-back" id="sheet-location">
+      <div class="sheet" role="dialog" aria-labelledby="loc-title" data-testid="location-disclosure">
+        <h2 id="loc-title">Location while you walk or run</h2>
+        <p class="promise" id="loc-copy">Heldpath uses your location to record your walk or run while a session is in progress, including when the screen is off or you switch to another app. A notification stays on your lock screen until you stop. Location is stored only on this device, is never sold or shared, and is not used for ads. Tracking stops when you stop the session.</p>
+        <p class="tiny" style="margin-bottom:16px">You can read the full policy at <a href="https://paigegames.net/heldpath/privacy" target="_blank" rel="noopener">paigegames.net/heldpath/privacy</a>. The next screen is the system permission prompt.</p>
+        <button class="btn btn-primary" id="btn-loc-continue" style="width:100%;margin-bottom:12px">Continue</button>
+        <button class="btn btn-secondary" id="btn-loc-cancel" style="width:100%">Not now</button>
+      </div>
+    </div>
+
+    <nav id="tab-bar" aria-label="Main">
+      <button class="tab active" data-tab="today"><img class="tab-ic" src="assets/tab_today.png" alt="" /><span>Today</span></button>
+      <button class="tab" data-tab="courses"><img class="tab-ic" src="assets/tab_courses.png" alt="" /><span>Courses</span></button>
+      <button class="tab" data-tab="calendar"><img class="tab-ic" src="assets/tab_calendar.png" alt="" /><span>Calendar</span></button>
+      <button class="tab" data-tab="progress"><img class="tab-ic" src="assets/tab_progress.png" alt="" /><span>Progress</span></button>
+      <button class="tab" data-tab="settings"><img class="tab-ic" src="assets/tab_settings.png" alt="" /><span>Settings</span></button>
+    </nav>
+  </div>
+  <script src="app.bundle.js"></script>
+</body>
+</html>

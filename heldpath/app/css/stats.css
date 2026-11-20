@@ -1,0 +1,367 @@
+/* ——— Progress + Calendar depth (free screens) ——— */
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.section-head h2 { margin-bottom: 0; }
+.section-note {
+  flex: 0 0 auto;
+  font-size: 12px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--muted);
+  text-align: right;
+}
+
+/* ——— Progress chart ——— */
+.chart-card { padding-bottom: 12px; }
+.chart-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.chart-head h2 { margin-bottom: 0; }
+.chart-total { flex: 0 0 auto; text-align: right; }
+.chart-total strong {
+  display: block;
+  font-size: 20px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  color: var(--blue);
+  font-variant-numeric: tabular-nums;
+}
+.chart-total span {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.chart-wrap {
+  height: auto;
+  padding: 8px 0 0;
+}
+.chart-wrap svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.chart-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Four range totals, wrapping to two columns on phones. */
+.totals { grid-template-columns: repeat(4, 1fr); }
+.total-box .num { font-variant-numeric: tabular-nums; }
+#range-tog button { min-height: 52px; }
+.cal-head .icon-btn { width: 52px; height: 52px; }
+
+/* ——— Personal records ——— */
+.pr-row {
+  display: block;
+  padding: 12px 0;
+}
+.pr-main {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.pr-value {
+  font-weight: 800;
+  color: var(--blue);
+  font-variant-numeric: tabular-nums;
+  flex: 0 0 auto;
+}
+.pr-row .not-yet {
+  flex: 0 0 auto;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  background: rgba(243, 224, 168, 0.10);
+  border: 1px solid rgba(243, 224, 168, 0.28);
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+.pr-hint {
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* ——— All-time + achievements ——— */
+.stat-row { font-variant-numeric: tabular-nums; }
+
+.ach-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.ach {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  min-height: 124px;
+  padding: 12px 12px 11px;
+  border-radius: 14px;
+  background: var(--bg-card-2);
+  border: 1px solid var(--line);
+}
+.ach.earned {
+  border-color: rgba(184, 243, 208, 0.5);
+  background:
+    linear-gradient(180deg, rgba(184, 243, 208, 0.10), rgba(184, 243, 208, 0.015)),
+    var(--bg-card-2);
+}
+.ach.locked { background: var(--bg-elev); }
+.ach-ic {
+  width: 27px;
+  height: 27px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+}
+.ach.earned .ach-ic {
+  color: var(--mint);
+  background: rgba(184, 243, 208, 0.16);
+  border-color: rgba(184, 243, 208, 0.45);
+}
+.ach-ic svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ach-title {
+  font-size: 14px;
+  line-height: 1.25;
+  font-weight: 700;
+  color: var(--text);
+}
+.ach-desc {
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+.ach-progress {
+  margin-top: auto;
+  padding-top: 4px;
+  font-size: 11px;
+  line-height: 1.3;
+  font-weight: 700;
+  color: var(--muted);
+}
+.ach.earned .ach-progress { color: var(--mint); }
+
+/* ——— Friendly empty states ——— */
+.stats-empty { padding: 22px 16px 22px; }
+.stats-art {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  height: 132px;
+  margin: 0 auto 18px;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(280px 140px at 22% 18%, rgba(78, 195, 247, 0.22), transparent 70%),
+    radial-gradient(240px 130px at 82% 88%, rgba(184, 243, 208, 0.16), transparent 72%),
+    linear-gradient(160deg, #223247 0%, #1A2330 62%, #171D26 100%);
+  border: 1px solid var(--line);
+}
+.stats-art.small { height: 112px; }
+.stats-art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.stats-art-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.stats-art-fallback svg {
+  width: 180px;
+  height: 110px;
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.9;
+}
+.stats-art-fallback svg circle { stroke: var(--mint); stroke-width: 2.4; }
+.stats-empty h3 { font-size: 21px; }
+.stats-empty p { margin-bottom: 18px; }
+.stats-empty-btn {
+  min-width: 210px;
+  max-width: 320px;
+}
+.stats-empty-note { margin-top: 14px; }
+.empty-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+/* ——— Calendar month grid ——— */
+#cal-grid .week { gap: 6px; }
+#cal-grid .day {
+  min-height: 68px;
+  padding: 7px 2px 6px;
+  gap: 3px;
+  justify-content: center;
+}
+#cal-grid .day .n { font-size: 15px; }
+.day-note {
+  display: block;
+  min-height: 12px;
+  max-width: 100%;
+  font-size: 10px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.day-note.has-acts { color: var(--blue); }
+.day-note.has-plan { color: var(--gold); }
+
+.cal-legend {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  margin: 8px 2px 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.cal-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.cal-legend .dot { width: 8px; height: 8px; }
+
+/* ——— Calendar day panel ——— */
+.today-tag {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0C1218;
+  background: var(--gold);
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+.day-summary {
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 600;
+  color: var(--mint);
+  margin: -2px 0 4px;
+}
+.plan-hint { margin-bottom: 4px; }
+.day-card .list-item { margin-top: 10px; }
+.act-row { width: 100%; }
+.act-detail {
+  margin: 8px 0 2px;
+  padding: 12px 14px 13px;
+  border-radius: 14px;
+  background: var(--bg-card-2);
+  border: 1px dashed var(--line);
+}
+.act-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.act-stats div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.act-stats span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.act-stats strong {
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.act-meta { margin-bottom: 10px; }
+.act-again {
+  width: 100%;
+  min-height: 48px;
+  font-size: 15px;
+}
+.plan-row .meta { color: var(--gold); }
+.plan-row.is-past { opacity: 0.75; }
+.plan-row.is-past .meta { color: var(--muted); }
+.sched-btn { width: 100%; margin-top: 14px; }
+
+.upcoming-card { margin-top: 16px; }
+.upcoming-card .list-item { min-height: 64px; }
+.upcoming-card .meta { color: var(--mint); }
+.cal-empty { margin-bottom: 16px; }
+
+@media (max-width: 480px) {
+  .totals { grid-template-columns: repeat(2, 1fr); }
+  .ach-grid { grid-template-columns: 1fr; }
+  .ach { min-height: 104px; }
+  .chart-total strong { font-size: 18px; }
+  .act-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 900px) {
+  .ach-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}

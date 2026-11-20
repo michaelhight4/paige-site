@@ -1,0 +1,154 @@
+/* Plans screen. Uses the same cool blue / dark grey tokens as app.css. */
+
+.plan-own-card {
+  border-color: var(--blue);
+  background: linear-gradient(180deg, rgba(78, 195, 247, 0.10), var(--bg-card) 58%);
+}
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.price-row .price { margin-bottom: 0; }
+.price-note {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+.plan-own-card .own-copy { margin-bottom: 8px; }
+
+/* Two balanced columns where there is room, so the whole screen fits above
+   the bottom nav at tablet sizes and remains one scroll column on phones. */
+.plans-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0 16px;
+  align-items: start;
+}
+@media (min-width: 640px) {
+  .plans-grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); }
+}
+@media (min-width: 900px) {
+  .plans-grid .plan-form-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.plan-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px 14px;
+}
+.plan-form-grid .field { margin: 0; }
+.plan-toggle {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  margin-bottom: 0;
+}
+.plan-toggle button { min-height: 52px; }
+
+.plan-preview {
+  background: var(--bg-card-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 10px 14px;
+  margin: 14px 0 10px;
+}
+.plan-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+  line-height: 1.35;
+}
+.plan-stat:last-child { border-bottom: 0; }
+.plan-stat > span {
+  color: var(--muted);
+  flex: 0 0 auto;
+  font-weight: 600;
+}
+.plan-stat > strong {
+  text-align: right;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.plan-water {
+  font-size: 15px;
+  line-height: 1.45;
+  margin-bottom: 4px;
+  overflow-wrap: anywhere;
+}
+.plan-water-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.plan-water-field { display: flex; flex-direction: column; gap: 6px; }
+.plan-water-field label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.plan-water-field input {
+  width: 100%;
+  min-width: 0;
+  min-height: 52px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+}
+
+.plan-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--bg-card-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px 16px;
+}
+.plan-item-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.plan-item h3 {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.plan-item p {
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.plan-owned {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0C1218;
+  background: var(--mint);
+  border-radius: 999px;
+  padding: 3px 8px;
+  white-space: nowrap;
+}
+.plan-item-actions { margin-top: 6px; }
+.plan-item-actions .btn {
+  min-height: 52px;
+  font-size: 14px;
+  padding: 10px 12px;
+}
+
+@media (max-width: 560px) {
+  .plan-form-grid { grid-template-columns: 1fr; }
+}
