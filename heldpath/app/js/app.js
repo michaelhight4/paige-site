@@ -66,6 +66,9 @@ import { initStretchesUi, showStretchesHub, showStretchGroup, showStretchWorkout
 import { initMapDownloadUi, showMapAreas, openCrop, closeCrop } from "./map_download_ui.js";
 import { listAreas } from "./map_offline.js";
 import { assessRouteLowSignal, LOW_SIGNAL_COPY, pathBbox } from "./low_signal.js";
+import { gainLoss, displayDistance, naismithSeconds, formatGain, elevationProfileSvg, FLAT_DISCLAIMER, HILLS_DISCLAIMER, DEM_CREDIT_SHORT, DEM_ATTRIBUTION_URL } from "./elevation.js";
+import { samplePathDem } from "./elevation_dem.js";
+
 import { applyCompletedSession, importPlanFile, addPlanToState, makePlan, PLAN_FORMAT, PLAN_FORMAT_VERSION } from "./plans.js";
 import { buildPlanDraft } from "./plan_progress.js";
 import { encodeCourse, encodePlan, decodeShare, isShareHash, shareSummary, pathPreviewSvg } from "./share_link.js";
@@ -557,6 +560,11 @@ function renderBuilder() {
     tot.dataset.testid = "builder-total";
     tot.innerHTML = `<span>Total</span><span>${formatDistance(total, units())} · ${walkEta} walk · ${runEta} run</span>`;
     box.appendChild(tot);
+    const distNote = document.createElement("p");
+    distNote.className = "tiny";
+    distNote.dataset.testid = "builder-distance-note";
+    distNote.textContent = state.settings.countHills ? HILLS_DISCLAIMER : FLAT_DISCLAIMER;
+    box.appendChild(distNote);
   }
   $("btn-save-course").disabled = pins.length < 2;
   map.clearOverlays();
@@ -564,6 +572,7 @@ function renderBuilder() {
   const line = routed && routed.path && routed.path.length >= 2 ? routed.path : pins;
   if (line.length >= 2) map.drawRoute(line, { id: "build-line" });
   addCoursePins(pins);
+  refreshBuilderElevation(line);
 }
 
 function renderCourses() {
@@ -755,6 +764,11 @@ function renderSettings() {
     const on = !!state.settings.lowPower;
     $("low-power-switch").classList.toggle("on", on);
     $("low-power-switch").setAttribute("aria-checked", on ? "true" : "false");
+  }
+  if ($("count-hills-switch")) {
+    const on = !!state.settings.countHills;
+    $("count-hills-switch").classList.toggle("on", on);
+    $("count-hills-switch").setAttribute("aria-checked", on ? "true" : "false");
   }
   if (typeof refreshHealthStatus === "function") refreshHealthStatus();
   else if ($("health-note")) {
@@ -1115,6 +1129,7 @@ async function completeSession(sess) {
     elapsedSec: sess.elapsedSec,
     track: sess.track,
     source: "phone",
+    ...elevationFields(sess.track),
   });
   if (act.distanceMeters > 20 || act.elapsedSec > 20) {
     let legResult = null;
@@ -1186,7 +1201,74 @@ async function completeSession(sess) {
   setTab("today");
 }
 
+let builderElevToken = 0;
+async function refreshBuilderElevation(path) {
+  const el = $("builder-elevation");
+  if (!el) return;
+  if (!path || path.length < 2) {
+    el.hidden = true;
+    el.innerHTML = "";
+    return;
+  }
+  const token = ++builderElevToken;
+  // Use already sampled elevations if present; otherwise ask the cached DEM.
+  const haveEle = path.some((p) => p && p.ele != null);
+  let pts = path;
+  if (!haveEle) {
+    try { pts = await samplePathDem(path); } catch { pts = path; }
+  }
+  if (token !== builderElevToken) return;
+  const gl = gainLoss(pts);
+  const total = (pts.length >= 2) ? /* filled below */ null : null;
+  // Update Naismith ETAs on the total row if we have climb.
+  const tot = $("builder-total") || document.querySelector("[data-testid='builder-total']");
+  if (tot && gl.gainM > 0) {
+    const flat = pathLengthMeters(path);
+    const shown = displayDistance(pts, flat, { countHills: !!state.settings.countHills });
+    const walkEta = formatEta(naismithSeconds(flat, gl.gainM, activityMph("walk")));
+    const runEta = formatEta(naismithSeconds(flat, gl.gainM, activityMph("run")));
+    tot.innerHTML = `<span>Total</span><span>${formatDistance(shown.meters, units())} · ${formatGain(gl.gainM, units())} climb · ${walkEta} walk · ${runEta} run</span>`;
+  }
+  paintElevationBox(el, gl, { units: units(), credit: true });
+}
+
+function elevationFields(points) {
+
+  const gl = gainLoss(points || []);
+  return {
+    climbGainM: gl.gainM,
+    climbLossM: gl.lossM,
+    distance3dMeters: displayDistance(points || [], 0, { countHills: true }).meters || 0,
+  };
+}
+
+function activityElevation(act) {
+  if (!act) return null;
+  const gl = gainLoss(act.track || []);
+  if (gl.gainM || gl.lossM || (gl.samples || []).some((v) => v != null)) return gl;
+  if (act.climbGainM || act.climbLossM) return { gainM: act.climbGainM || 0, lossM: act.climbLossM || 0, samples: [] };
+  return null;
+}
+
+function paintElevationBox(el, elev, { units: u = "mi", credit = false } = {}) {
+  if (!el) return;
+  if (!elev || (!(elev.gainM > 0) && !(elev.lossM > 0) && !(elev.samples && elev.samples.length >= 2))) {
+    el.hidden = true;
+    el.innerHTML = "";
+    return;
+  }
+  const svg = (elev.samples && elev.samples.length >= 2)
+    ? elevationProfileSvg(elev.samples, { gainM: elev.gainM, lossM: elev.lossM, units: u })
+    : "";
+  const creditLine = credit
+    ? `<p class="tiny elev-credit">${DEM_CREDIT_SHORT} <a href="${DEM_ATTRIBUTION_URL}" target="_blank" rel="noopener">Sources</a>.</p>`
+    : "";
+  el.hidden = false;
+  el.innerHTML = `<p class="tiny"><strong>Climb ${formatGain(elev.gainM, u)}</strong> · descent ${formatGain(elev.lossM, u)}</p>${svg}${creditLine}`;
+}
+
 function showSummary(act, course, legResult) {
+
   ui.summary = { act, course, legResult };
   const type = act.type === "run" ? "Run" : "Walk";
   $("summary-title").textContent = `${type} complete`;
@@ -1203,10 +1285,23 @@ function showSummary(act, course, legResult) {
       indoorNote.textContent = "";
     }
   }
+  const elev = activityElevation(act);
+  const shown = displayDistance(act.track, act.distanceMeters, { countHills: !!state.settings.countHills });
   $("summary-stats").innerHTML = `
-    <div class="total-box"><div class="num">${formatDistance(act.distanceMeters, units())}</div><div class="lbl">Distance</div></div>
+    <div class="total-box"><div class="num">${formatDistance(shown.meters, units())}</div><div class="lbl">Distance</div></div>
     <div class="total-box"><div class="num">${formatDuration(act.elapsedSec)}</div><div class="lbl">Time</div></div>
-    <div class="total-box"><div class="num">${formatPace(act.distanceMeters, act.elapsedSec, units())}</div><div class="lbl">Avg pace</div></div>`;
+    <div class="total-box"><div class="num">${formatPace(shown.meters, act.elapsedSec, units())}</div><div class="lbl">Avg pace</div></div>`;
+  if (elev && (elev.gainM > 0 || elev.lossM > 0)) {
+    $("summary-stats").innerHTML += `
+    <div class="total-box"><div class="num">${formatGain(elev.gainM, units())}</div><div class="lbl">Climb</div></div>
+    <div class="total-box"><div class="num">${formatGain(elev.lossM, units())}</div><div class="lbl">Descent</div></div>`;
+  }
+  paintElevationBox($("summary-elevation"), elev, { units: units(), credit: true });
+  const distNote = $("summary-distance-note");
+  if (distNote) {
+    distNote.hidden = act.source === "indoor";
+    distNote.textContent = act.source === "indoor" ? "" : shown.disclaimer;
+  }
 
   const healthBox = $("summary-health");
   healthBox.innerHTML = "";
@@ -1619,6 +1714,16 @@ function bind() {
         paintSessionHud(sess);
         if (changed) track.restartWatching().catch(() => {});
       }
+    });
+  }
+  if ($("count-hills-switch")) {
+    $("count-hills-switch").addEventListener("click", () => {
+      state.settings.countHills = !state.settings.countHills;
+      persist();
+      renderSettings();
+      if (ui.summary && ui.summary.act) showSummary(ui.summary.act, ui.summary.course, ui.summary.legResult);
+      if (ui.screen === "builder") renderBuilder();
+      if (ui.screen === "progress") renderProgress();
     });
   }
   $("health-switch").addEventListener("click", async () => {
@@ -2771,6 +2876,29 @@ window.HeldpathTest = {
       state.settings.lowPower = true;
       track.setLowPowerEnabled(true);
       setTab("settings");
+    } else if (name === "settings-hills") {
+      state.settings.countHills = true;
+      setTab("settings");
+    } else if (name === "summary-elevation") {
+      const trackPts = [];
+      for (let i = 0; i <= 10; i++) {
+        const ele = i <= 5 ? i * 20 : (10 - i) * 20;
+        trackPts.push({ lat: 41.88 + i * 0.0009, lon: -87.63, ele, t: i * 60 });
+      }
+      const gl = gainLoss(trackPts);
+      const act = newActivity({
+        type: "walk",
+        courseName: "Hill path",
+        startedAt: "2026-11-20T16:00:00.000Z",
+        endedAt: "2026-11-20T16:45:00.000Z",
+        distanceMeters: 1000,
+        elapsedSec: 2700,
+        track: trackPts,
+        source: "phone",
+        climbGainM: gl.gainM,
+        climbLossM: gl.lossM,
+      });
+      showSummary(act, null, null);
     } else if (name === "tracking-lowpower") {
       const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
       if (!state.courses.length) state.courses.push(course);

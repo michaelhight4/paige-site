@@ -22753,7 +22753,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     // { lat, lon, at }
     demo: false,
     autoPause: true,
-    lowPower: false
+    lowPower: false,
+    countHills: false
   };
   function emptyState() {
     return {
@@ -22838,8 +22839,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       // {steps, calories, provider} from the health app only
       healthId: partial.healthId || null,
       // watch import dedupe key
-      healthSync: partial.healthSync || null
+      healthSync: partial.healthSync || null,
       // {written, status, reason} for honesty in the summary
+      climbGainM: partial.climbGainM || 0,
+      climbLossM: partial.climbLossM || 0,
+      distance3dMeters: partial.distance3dMeters || 0
     };
   }
   function newPlan(partial = {}) {
@@ -25755,6 +25759,182 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return dist3 >= LOW_MIN_FIX_M;
   }
 
+  // www/js/elevation.js
+  var GAIN_THRESHOLD_M = 3;
+  var FLAT_DISCLAIMER = "Distance is measured as flat ground. Elevation isn't included unless you turn on Count hills in distance.";
+  var HILLS_DISCLAIMER = "Distance includes hills.";
+  var DEM_CREDIT_SHORT = "Elevation data: Tilezen/Mapzen terrain tiles, hosted by AWS Open Data.";
+  var DEM_ATTRIBUTION_URL = "https://github.com/tilezen/joerd/blob/master/docs/attribution.md";
+  function terrariumToMeters(r, g, b2) {
+    return r * 256 + g + b2 / 256 - 32768;
+  }
+  function fuseElevation({ baroM, gpsM, demM, prevM } = {}) {
+    const have = (v2) => v2 != null && Number.isFinite(Number(v2));
+    let base = null;
+    let source = "none";
+    if (have(baroM)) {
+      base = Number(baroM);
+      source = "baro";
+    } else if (have(gpsM)) {
+      base = Number(gpsM);
+      source = "gps";
+    } else if (have(demM)) {
+      base = Number(demM);
+      source = "dem";
+    } else if (have(prevM)) {
+      return { meters: Number(prevM), source: "hold" };
+    } else return { meters: null, source: "none" };
+    if (have(demM) && source !== "dem") {
+      const dem = Number(demM);
+      const alpha = source === "baro" ? 0.25 : 0.45;
+      base = base * (1 - alpha) + dem * alpha;
+    }
+    if (have(prevM)) {
+      const prev = Number(prevM);
+      base = prev * 0.35 + base * 0.65;
+    }
+    return { meters: Math.round(base * 10) / 10, source };
+  }
+  function smoothElevations(values, window2 = 5) {
+    const arr = (values || []).map((v2) => v2 == null || !Number.isFinite(Number(v2)) ? null : Number(v2));
+    const n = arr.length;
+    if (n < 3) return arr.slice();
+    const w2 = Math.max(3, window2 % 2 === 1 ? window2 : window2 + 1);
+    const half = Math.floor(w2 / 2);
+    const out = arr.slice();
+    for (let i = 0; i < n; i++) {
+      let sum = 0, c = 0;
+      for (let j2 = i - half; j2 <= i + half; j2++) {
+        if (j2 < 0 || j2 >= n || arr[j2] == null) continue;
+        sum += arr[j2];
+        c += 1;
+      }
+      if (c) out[i] = Math.round(sum / c * 10) / 10;
+    }
+    const first = arr.find((v2) => v2 != null);
+    const last = [...arr].reverse().find((v2) => v2 != null);
+    if (first != null) out[arr.findIndex((v2) => v2 != null)] = first;
+    if (last != null) out[n - 1 - [...arr].reverse().findIndex((v2) => v2 != null)] = last;
+    return out;
+  }
+  function seriesFrom(points) {
+    if (!points) return [];
+    if (points.length && typeof points[0] === "number") return points.map((v2) => Number.isFinite(v2) ? v2 : null);
+    return points.map((p) => {
+      if (p == null) return null;
+      const v2 = p.ele ?? p.elevation ?? p.alt ?? p.altitude;
+      return v2 == null || !Number.isFinite(Number(v2)) ? null : Number(v2);
+    });
+  }
+  function despikeElevations(values, thresholdM = GAIN_THRESHOLD_M) {
+    const arr = (values || []).map((v2) => v2 == null || !Number.isFinite(Number(v2)) ? null : Number(v2));
+    const out = arr.slice();
+    for (let i = 1; i < arr.length - 1; i++) {
+      if (arr[i] == null || arr[i - 1] == null || arr[i + 1] == null) continue;
+      const mid = Math.max(arr[i - 1], arr[i + 1]);
+      const low = Math.min(arr[i - 1], arr[i + 1]);
+      if (arr[i] - mid >= thresholdM * 2) out[i] = mid;
+      else if (low - arr[i] >= thresholdM * 2) out[i] = low;
+    }
+    return out;
+  }
+  function gainLoss(points, { thresholdM = GAIN_THRESHOLD_M, window: window2 = 3 } = {}) {
+    const cleaned = despikeElevations(seriesFrom(points), thresholdM);
+    const smooth = smoothElevations(cleaned, window2);
+    let gain = 0, loss = 0;
+    let last = null;
+    for (const v2 of cleaned) {
+      if (v2 == null) continue;
+      if (last == null) {
+        last = v2;
+        continue;
+      }
+      const d2 = v2 - last;
+      if (d2 >= thresholdM) {
+        gain += d2;
+        last = v2;
+      } else if (d2 <= -thresholdM) {
+        loss += -d2;
+        last = v2;
+      }
+    }
+    return {
+      gainM: Math.round(gain * 10) / 10,
+      lossM: Math.round(loss * 10) / 10,
+      samples: smooth
+    };
+  }
+  function distance3dMeters(points, { thresholdM = GAIN_THRESHOLD_M, window: window2 = 5 } = {}) {
+    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
+    if (pts.length < 2) return 0;
+    const smooth = smoothElevations(pts.map((p) => p.ele == null ? null : p.ele), window2);
+    let sum = 0;
+    for (let i = 1; i < pts.length; i++) {
+      const h2 = haversineMeters(pts[i - 1], pts[i]);
+      const a = smooth[i - 1];
+      const b2 = smooth[i];
+      let v2 = 0;
+      if (a != null && b2 != null) {
+        v2 = b2 - a;
+        if (Math.abs(v2) < thresholdM * 0.25) v2 = 0;
+      }
+      sum += Math.sqrt(h2 * h2 + v2 * v2);
+    }
+    return Math.round(sum * 10) / 10;
+  }
+  function displayDistance(points, flatMeters, { countHills = false } = {}) {
+    const flat = Number(flatMeters) || 0;
+    if (!countHills) {
+      return { meters: flat, disclaimer: FLAT_DISCLAIMER, countHills: false };
+    }
+    const d3 = distance3dMeters(points);
+    const meters = d3 > 0 ? d3 : flat;
+    return { meters, disclaimer: HILLS_DISCLAIMER, countHills: true, flatMeters: flat };
+  }
+  function naismithSeconds(flatMeters, gainM, mph) {
+    const miles = (Number(flatMeters) || 0) / 1609.344;
+    const speed = Number(mph) || 0;
+    const flatSec = speed > 0 && miles > 0 ? miles / speed * 3600 : 0;
+    const climbSec = Math.max(0, Number(gainM) || 0) / 600 * 3600;
+    return Math.round(flatSec + climbSec);
+  }
+  function formatGain(meters, units3 = "mi") {
+    const m = Math.max(0, Number(meters) || 0);
+    if (units3 === "km") {
+      if (m >= 1e3) return `${(m / 1e3).toFixed(1)} km`;
+      return `${Math.round(m)} m`;
+    }
+    const ft = m * 3.28084;
+    return `${Math.round(ft)} ft`;
+  }
+  function elevationProfileSvg(values, { width = 280, height = 72, gainM = 0, lossM = 0, units: units3 = "mi" } = {}) {
+    const nums = (values || []).filter((v2) => v2 != null && Number.isFinite(Number(v2))).map(Number);
+    if (nums.length < 2) return "";
+    const min = Math.min(...nums);
+    const max2 = Math.max(...nums);
+    const span = Math.max(max2 - min, 1);
+    const pad = 4;
+    const innerW = width - pad * 2;
+    const innerH = height - pad * 2;
+    const pts = nums.map((v2, i) => {
+      const x2 = pad + i / (nums.length - 1) * innerW;
+      const y2 = pad + (1 - (v2 - min) / span) * innerH;
+      return `${x2.toFixed(1)},${y2.toFixed(1)}`;
+    }).join(" ");
+    const label = `Elevation profile. Climb ${formatGain(gainM, units3)}, descent ${formatGain(lossM, units3)}.`;
+    return `<svg class="elev-profile" viewBox="0 0 ${width} ${height}" role="img" aria-label="${label.replace(/"/g, "'")}" data-testid="elevation-profile"><polyline fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" points="${pts}" /></svg>`;
+  }
+  function heightFromPressure(hpa, { seaLevelHpa = 1013.25, refHeightM = 0, refHpa = null } = {}) {
+    const p = Number(hpa);
+    if (!Number.isFinite(p) || p <= 0) return null;
+    if (refHpa && refHpa > 0) {
+      const href = 44330 * (1 - Math.pow(refHpa / seaLevelHpa, 0.1903));
+      const h2 = 44330 * (1 - Math.pow(p / seaLevelHpa, 0.1903));
+      return refHeightM + (h2 - href);
+    }
+    return 44330 * (1 - Math.pow(p / seaLevelHpa, 0.1903));
+  }
+
   // www/js/track.js
   var BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
   var watcherId = null;
@@ -25768,6 +25948,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   var autoPauseEnabled = true;
   var lowPowerEnabled = false;
   var lastAcceptedFix = null;
+  var lastFusedEle = null;
+  var refPressure = null;
   var autoWatch = createAutoPauseState();
   var NOTIFICATION_ID = "heldpath-tracking";
   var NOTIFICATION_REFRESH_MS = 15e3;
@@ -25859,9 +26041,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (session.paused) return session;
     return tickElapsed(at);
   }
-  function pushPoint(lat, lon, at = Date.now()) {
+  function pushPoint(lat, lon, at = Date.now(), ele = null) {
     if (!session || session.paused) return session;
     const pt = { lat, lon, t: session.elapsedSec, at: new Date(at).toISOString() };
+    if (ele != null && Number.isFinite(Number(ele))) pt.ele = Number(ele);
     const last = session.track[session.track.length - 1];
     if (last) {
       const d2 = haversineMeters(last, pt);
@@ -25869,6 +26052,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         return session;
       }
       applyTrackPoint(session, last, pt, at);
+      if (pt.ele != null) {
+        const lastPt = session.track[session.track.length - 1];
+        if (lastPt && lastPt.ele == null) lastPt.ele = pt.ele;
+      }
       maybeDetectStart(session);
       updateOffRoute(session, at);
       return session;
@@ -26112,8 +26299,30 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       ...fix || {}
     };
   }
-  function noteFix(lat, lon, at = Date.now()) {
+  function fuseFixElevation(extras = {}) {
+    let baroM = extras.altitudeBaro;
+    if (baroM == null && extras.pressureHpa != null) {
+      if (!refPressure) {
+        refPressure = extras.pressureHpa;
+        if (extras.altitude != null) lastFusedEle = extras.altitude;
+      }
+      baroM = heightFromPressure(extras.pressureHpa, {
+        refHpa: refPressure,
+        refHeightM: lastFusedEle || extras.altitude || 0
+      });
+    }
+    const fused = fuseElevation({
+      baroM,
+      gpsM: extras.altitude,
+      demM: extras.demM,
+      prevM: lastFusedEle
+    });
+    if (fused.meters != null) lastFusedEle = fused.meters;
+    return fused.meters;
+  }
+  function noteFix(lat, lon, at = Date.now(), extras = {}) {
     if (!session) return session;
+    const ele = fuseFixElevation(extras || {});
     const before = session.paused;
     const reason = session.pauseReason;
     const decision = considerAutoPause(autoWatch, autoInput(at, { lat, lon }));
@@ -26124,7 +26333,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         if (s2.at >= from) pushPoint(s2.lat, s2.lon, s2.at);
       }
     } else if (!session.paused) {
-      pushPoint(lat, lon, at);
+      pushPoint(lat, lon, at, ele);
     }
     return session;
   }
@@ -26139,6 +26348,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const done = session;
     session = null;
     lastAcceptedFix = null;
+    lastFusedEle = null;
+    refPressure = null;
     lastNotificationBody = "";
     lastNotificationAt = 0;
     return done;
@@ -26180,7 +26391,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
             const next = { lat: location2.latitude, lon: location2.longitude, at };
             if (!shouldAcceptFix(lastAcceptedFix, next, { lowPower: lowPowerEnabled })) return;
             lastAcceptedFix = next;
-            noteFix(next.lat, next.lon, next.at);
+            noteFix(next.lat, next.lon, next.at, {
+              altitude: location2.altitude,
+              altitudeAccuracy: location2.altitudeAccuracy
+            });
             tickElapsed();
             if (onUpdate) onUpdate(session, "fix");
             refreshNotification(session);
@@ -26200,7 +26414,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           const next = { lat: pos.coords.latitude, lon: pos.coords.longitude, at: pos.timestamp };
           if (!shouldAcceptFix(lastAcceptedFix, next, { lowPower: lowPowerEnabled })) return;
           lastAcceptedFix = next;
-          noteFix(next.lat, next.lon, next.at);
+          noteFix(next.lat, next.lon, next.at, {
+            altitude: pos.coords.altitude
+          });
           tickElapsed();
           if (onUpdate) onUpdate(session, "fix");
         },
@@ -27706,6 +27922,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const summary = summarizeActivities(slice, now);
     const allSummary = summarizeActivities(activities, now);
     const bestDay = slice.reduce((best, a) => Math.max(best, a.distanceMeters || 0), 0);
+    const climb = slice.reduce((s2, a) => s2 + (a.climbGainM || 0), 0);
+    const allClimb = activities.reduce((s2, a) => s2 + (a.climbGainM || 0), 0);
     const buckets = chartBuckets(slice, range, now);
     const prs = personalRecords(activities);
     const achievements = evaluateAchievements(activities, { units: units3, now });
@@ -27731,6 +27949,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       <div class="total-box"><div class="num">${formatDuration(sums.elapsedSec)}</div><div class="lbl">Time</div></div>
       <div class="total-box"><div class="num">${sums.count}</div><div class="lbl">${sums.count === 1 ? "Activity" : "Activities"}</div></div>
       <div class="total-box"><div class="num">${summary.activeDays}</div><div class="lbl">Active days</div></div>
+      ${climb > 0 ? `<div class="total-box"><div class="num">${formatGain(climb, units3)}</div><div class="lbl">Climb</div></div>` : ""}
     </div>
     <div class="card">
       <div class="section-head">
@@ -27748,6 +27967,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       <div class="stat-row"><span>Active days</span><span>${allSummary.activeDays}</span></div>
       <div class="stat-row"><span>Current streak</span><span>${allSummary.currentStreak} ${allSummary.currentStreak === 1 ? "day" : "days"}</span></div>
       <div class="stat-row"><span>Longest streak</span><span>${allSummary.longestStreak} ${allSummary.longestStreak === 1 ? "day" : "days"}</span></div>
+      ${allClimb > 0 ? `<div class="stat-row"><span>Climb</span><span>${formatGain(allClimb, units3)}</span></div>` : ""}
     </div>
     <div class="card">
       <div class="section-head">
@@ -27810,15 +28030,17 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   var DEFAULT_STEP = 0.02;
   var MIN_STEP = 0.01;
   var MAX_STEP = 0.03;
-  function metsForPace({ activityType = "walk", mph } = {}) {
+  function metsForPace({ activityType = "walk", mph, grade = 0 } = {}) {
     const speed = Number(mph);
     if (!Number.isFinite(speed) || speed <= 0) return 0;
     const metersPerMin = speed * METERS_PER_MILE / 60;
-    const vo2 = activityType === "run" ? 0.2 * metersPerMin + 3.5 : 0.1 * metersPerMin + 3.5;
+    const g = Math.max(0, Number(grade) || 0);
+    const vo2 = activityType === "run" ? 0.2 * metersPerMin + 0.9 * metersPerMin * g + 3.5 : 0.1 * metersPerMin + 1.8 * metersPerMin * g + 3.5;
     return Math.round(vo2 / 3.5 * 100) / 100;
   }
-  function effortEstimate({ activityType = "walk", mph, durationSec = 0, bodyKg = null } = {}) {
-    const mets = metsForPace({ activityType, mph });
+  function effortEstimate({ activityType = "walk", mph, durationSec = 0, bodyKg = null, gainM = 0, distanceM = 0 } = {}) {
+    const grade = Number(distanceM) > 0 && Number(gainM) > 0 ? Number(gainM) / Number(distanceM) : 0;
+    const mets = metsForPace({ activityType, mph, grade });
     const minutes = Math.max(0, Number(durationSec) || 0) / 60;
     const kg = Number(bodyKg) > 0 ? Number(bodyKg) : 70;
     const kcalPerMin = mets * 3.5 * kg / 200;
@@ -29940,6 +30162,335 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     });
   }
 
+  // www/js/low_signal.js
+  var LOW_SIGNAL_COPY = "Parts of this route may have weak signal. Download the route area for the best accuracy?";
+  var SAMPLE_STEP_M = 50;
+  var BBOX_PAD_M = 200;
+  var TUNNEL_NEAR_M = 40;
+  var OVERPASS_URL = "https://overpass-api.de/api/interpreter";
+  var SKIP_TUNNEL = /* @__PURE__ */ new Set(["", "no", "false", "0", "none"]);
+  function pathBbox(points, padMeters = BBOX_PAD_M) {
+    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
+    if (!pts.length) return null;
+    let west = pts[0].lon, east = pts[0].lon, south = pts[0].lat, north = pts[0].lat;
+    for (const p of pts) {
+      if (p.lon < west) west = p.lon;
+      if (p.lon > east) east = p.lon;
+      if (p.lat < south) south = p.lat;
+      if (p.lat > north) north = p.lat;
+    }
+    const midLat = (south + north) / 2;
+    const dLat = padMeters / 111320;
+    const cos = Math.max(0.2, Math.cos(midLat * Math.PI / 180));
+    const dLon = padMeters / (111320 * cos);
+    return normalizeBbox({
+      west: west - dLon,
+      east: east + dLon,
+      south: south - dLat,
+      north: north + dLat
+    });
+  }
+  function pointInArea(point, area) {
+    if (!point || !area) return false;
+    return point.lon >= area.west && point.lon <= area.east && point.lat >= area.south && point.lat <= area.north;
+  }
+  function samplePath(points, stepMeters = SAMPLE_STEP_M) {
+    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
+    if (!pts.length) return [];
+    const out = [{ lat: pts[0].lat, lon: pts[0].lon }];
+    let acc = 0;
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1];
+      const b2 = pts[i];
+      const d2 = haversineMeters(a, b2);
+      if (!(d2 > 0)) continue;
+      let remain = d2;
+      let from = a;
+      while (acc + remain >= stepMeters) {
+        const need = stepMeters - acc;
+        const t = need / (haversineMeters(from, b2) || remain);
+        from = { lat: from.lat + (b2.lat - from.lat) * t, lon: from.lon + (b2.lon - from.lon) * t };
+        out.push(from);
+        remain = haversineMeters(from, b2);
+        acc = 0;
+      }
+      acc += remain;
+    }
+    const last = pts[pts.length - 1];
+    const prev = out[out.length - 1];
+    if (!prev || prev.lat !== last.lat || prev.lon !== last.lon) out.push({ lat: last.lat, lon: last.lon });
+    return out;
+  }
+  function coverageGaps(points, areas) {
+    const samples = samplePath(points);
+    const list = areas || [];
+    return samples.filter((p) => !list.some((a) => pointInArea(p, a)));
+  }
+  function isCovered(points, areas) {
+    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
+    if (!pts.length) return false;
+    return coverageGaps(pts, areas).length === 0;
+  }
+  function isLowSignalTag(tags) {
+    if (!tags || typeof tags !== "object") return false;
+    if (tags.tunnel != null && !SKIP_TUNNEL.has(String(tags.tunnel).toLowerCase())) return true;
+    if (tags.covered != null && !SKIP_TUNNEL.has(String(tags.covered).toLowerCase())) return true;
+    return false;
+  }
+  function wayPoints(way) {
+    if (way && Array.isArray(way.geometry)) {
+      return way.geometry.map((g) => ({ lat: g.lat, lon: g.lon }));
+    }
+    return way && way.points ? way.points : [];
+  }
+  function wayNearPath(way, path, maxMeters = TUNNEL_NEAR_M) {
+    const pts = wayPoints(way);
+    const samples = samplePath(path, Math.min(SAMPLE_STEP_M, maxMeters));
+    if (!pts.length || !samples.length) return false;
+    for (const a of pts) {
+      for (const b2 of samples) {
+        if (haversineMeters(a, b2) <= maxMeters) return true;
+      }
+    }
+    return false;
+  }
+  function tunnelsOnPath(ways, path) {
+    return (ways || []).filter((w2) => isLowSignalTag(w2.tags || w2) && wayNearPath(w2, path));
+  }
+  function assessLowSignal({ path, areas = [], ways = [] } = {}) {
+    const pts = path || [];
+    const bbox = pathBbox(pts);
+    const covered = isCovered(pts, areas);
+    const tunnels = tunnelsOnPath(ways, pts);
+    const coverageGap = !covered;
+    const hasTunnels = tunnels.length > 0;
+    const show2 = !!(bbox && pts.length >= 2 && (coverageGap || hasTunnels));
+    return {
+      show: show2,
+      covered,
+      coverageGap,
+      hasTunnels,
+      tunnels,
+      bbox,
+      copy: LOW_SIGNAL_COPY
+    };
+  }
+  function overpassQuery(bbox) {
+    const box = normalizeBbox(bbox);
+    const s2 = box.south.toFixed(6);
+    const w2 = box.west.toFixed(6);
+    const n = box.north.toFixed(6);
+    const e = box.east.toFixed(6);
+    return `[out:json][timeout:12];(way["tunnel"](${s2},${w2},${n},${e});way["covered"](${s2},${w2},${n},${e}););out geom tags;`;
+  }
+  function waysFromOverpass(json) {
+    const els = json && json.elements || [];
+    return els.filter((el) => el && el.type === "way" && isLowSignalTag(el.tags) && Array.isArray(el.geometry)).map((el) => ({ id: el.id, tags: el.tags, geometry: el.geometry }));
+  }
+  var tunnelFetcher = defaultTunnelFetcher;
+  async function defaultTunnelFetcher(bbox, fetchFn = fetch) {
+    const res = await fetchFn(OVERPASS_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "User-Agent": OFM_USER_AGENT
+      },
+      body: "data=" + encodeURIComponent(overpassQuery(bbox))
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return waysFromOverpass(json);
+  }
+  async function loadTunnelWays(bbox, { fetchFn, timeoutMs = 8e3 } = {}) {
+    if (!bbox) return [];
+    const work = Promise.resolve().then(() => tunnelFetcher(bbox, fetchFn || fetch));
+    let timer2;
+    const timeout = new Promise((resolve2) => {
+      timer2 = setTimeout(() => resolve2([]), timeoutMs);
+    });
+    try {
+      const ways = await Promise.race([work.catch(() => []), timeout]);
+      return Array.isArray(ways) ? ways : [];
+    } finally {
+      clearTimeout(timer2);
+    }
+  }
+  function shouldFetchTunnels() {
+    try {
+      if (typeof navigator !== "undefined" && navigator.webdriver) return false;
+      if (typeof location !== "undefined") {
+        const q2 = new URLSearchParams(location.search);
+        if (q2.has("screen") || q2.has("nosw")) return false;
+      }
+    } catch {
+    }
+    return true;
+  }
+  async function assessRouteLowSignal(path, { areas, ways, fetchFn, timeoutMs } = {}) {
+    const pts = path || [];
+    const bbox = pathBbox(pts);
+    const areaList = areas || [];
+    let found = ways;
+    if (found == null) {
+      if (!shouldFetchTunnels()) found = [];
+      else {
+        try {
+          found = await loadTunnelWays(bbox, { fetchFn, timeoutMs });
+        } catch {
+          found = [];
+        }
+      }
+    }
+    return assessLowSignal({ path: pts, areas: areaList, ways: found });
+  }
+
+  // www/js/elevation_dem.js
+  var DEM_TILE_URL = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png";
+  var DEM_ZOOM = 12;
+  var DEM_UA = "Heldpath/1.0 (https://paigegames.net/heldpath; elevation)";
+  var DB_NAME2 = "heldpath-dem";
+  var STORE2 = "tiles";
+  var mem = /* @__PURE__ */ new Map();
+  function tileXyz(lat, lon, z2 = DEM_ZOOM) {
+    const n = 2 ** z2;
+    const x2 = Math.floor((lon + 180) / 360 * n);
+    const latRad = lat * Math.PI / 180;
+    const y2 = Math.floor((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n);
+    return { z: z2, x: Math.min(n - 1, Math.max(0, x2)), y: Math.min(n - 1, Math.max(0, y2)) };
+  }
+  function demTileUrl(z2, x2, y2) {
+    return DEM_TILE_URL.replace("{z}", z2).replace("{x}", x2).replace("{y}", y2);
+  }
+  function demDb() {
+    return new Promise((resolve2, reject) => {
+      if (typeof indexedDB === "undefined") {
+        resolve2(null);
+        return;
+      }
+      const req = indexedDB.open(DB_NAME2, 1);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains(STORE2)) db.createObjectStore(STORE2);
+      };
+      req.onsuccess = () => resolve2(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+  async function getCachedTile(z2, x2, y2) {
+    const key = `${z2}/${x2}/${y2}`;
+    if (mem.has(key)) return mem.get(key);
+    try {
+      const db = await demDb();
+      if (!db) return null;
+      const rec = await new Promise((resolve2, reject) => {
+        const tx = db.transaction(STORE2, "readonly");
+        const req = tx.objectStore(STORE2).get(key);
+        req.onsuccess = () => resolve2(req.result || null);
+        req.onerror = () => reject(req.error);
+      });
+      db.close();
+      if (rec && rec.data) mem.set(key, rec.data);
+      return rec && rec.data ? rec.data : null;
+    } catch {
+      return null;
+    }
+  }
+  async function putCachedTile(z2, x2, y2, buffer) {
+    const key = `${z2}/${x2}/${y2}`;
+    mem.set(key, buffer);
+    try {
+      const db = await demDb();
+      if (!db) return;
+      await new Promise((resolve2, reject) => {
+        const tx = db.transaction(STORE2, "readwrite");
+        tx.oncomplete = resolve2;
+        tx.onerror = () => reject(tx.error);
+        tx.objectStore(STORE2).put({ data: buffer, storedAt: Date.now() }, key);
+      });
+      db.close();
+    } catch {
+    }
+  }
+  async function fetchTile(z2, x2, y2, fetchFn = fetch) {
+    const cached = await getCachedTile(z2, x2, y2);
+    if (cached) return cached;
+    const res = await fetchFn(demTileUrl(z2, x2, y2), { headers: { "User-Agent": DEM_UA } });
+    if (!res.ok) return null;
+    const buf = await res.arrayBuffer();
+    if (buf && buf.byteLength) await putCachedTile(z2, x2, y2, buf);
+    return buf;
+  }
+  var pixelDecoder = null;
+  async function defaultDecodePixel(buffer, px, py) {
+    if (pixelDecoder) return pixelDecoder(buffer, px, py);
+    if (typeof createImageBitmap !== "function" || typeof OffscreenCanvas === "undefined") return null;
+    const blob = new Blob([buffer], { type: "image/png" });
+    const bmp = await createImageBitmap(blob);
+    const canvas = new OffscreenCanvas(bmp.width, bmp.height);
+    const ctx2 = canvas.getContext("2d");
+    ctx2.drawImage(bmp, 0, 0);
+    const x2 = Math.min(bmp.width - 1, Math.max(0, Math.floor(px)));
+    const y2 = Math.min(bmp.height - 1, Math.max(0, Math.floor(py)));
+    const [r, g, b2] = ctx2.getImageData(x2, y2, 1, 1).data;
+    bmp.close();
+    return terrariumToMeters(r, g, b2);
+  }
+  function pixelFraction(lat, lon, z2 = DEM_ZOOM) {
+    const n = 2 ** z2;
+    const x2 = (lon + 180) / 360 * n;
+    const latRad = lat * Math.PI / 180;
+    const y2 = (1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n;
+    return { fx: (x2 - Math.floor(x2)) * 256, fy: (y2 - Math.floor(y2)) * 256 };
+  }
+  async function lookupDem(lat, lon, { z: z2 = DEM_ZOOM, fetchFn } = {}) {
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+    const { z: zz, x: x2, y: y2 } = tileXyz(lat, lon, z2);
+    try {
+      const buf = await fetchTile(zz, x2, y2, fetchFn);
+      if (!buf) return null;
+      const { fx, fy } = pixelFraction(lat, lon, z2);
+      const meters = await defaultDecodePixel(buf, fx, fy);
+      return meters == null || !Number.isFinite(meters) ? null : Math.round(meters * 10) / 10;
+    } catch {
+      return null;
+    }
+  }
+  var lookupImpl = lookupDem;
+  async function samplePathDem(path, { stepM = 40, fetchFn } = {}) {
+    const samples = samplePath(path, stepM);
+    const out = [];
+    for (const p of samples) {
+      const ele = await lookupImpl(p.lat, p.lon, { fetchFn });
+      out.push({ lat: p.lat, lon: p.lon, ele });
+    }
+    return out;
+  }
+  function tilesForBbox(bbox, z2 = DEM_ZOOM) {
+    if (!bbox) return [];
+    const a = tileXyz(bbox.south, bbox.west, z2);
+    const b2 = tileXyz(bbox.north, bbox.east, z2);
+    const tiles = [];
+    for (let x2 = Math.min(a.x, b2.x); x2 <= Math.max(a.x, b2.x); x2++) {
+      for (let y2 = Math.min(a.y, b2.y); y2 <= Math.max(a.y, b2.y); y2++) {
+        tiles.push({ z: z2, x: x2, y: y2 });
+      }
+    }
+    return tiles;
+  }
+  async function prefetchDemForBbox(bbox, { fetchFn, onProgress } = {}) {
+    const tiles = tilesForBbox(bbox);
+    let done = 0;
+    for (const t of tiles) {
+      try {
+        await fetchTile(t.z, t.x, t.y, fetchFn);
+      } catch {
+      }
+      done += 1;
+      if (onProgress) onProgress({ done, total: tiles.length });
+    }
+    return { ok: true, tileCount: tiles.length, done };
+  }
+
   // www/js/map_offline.js
   async function downloadArea(bbox, opt = {}) {
     const box = normalizeBbox(bbox);
@@ -29992,6 +30543,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       updatedAt: now
     };
     await saveArea(area);
+    try {
+      prefetchDemForBbox(box).catch(() => {
+      });
+    } catch {
+    }
     return { ok: true, area, plan, result };
   }
   function defaultAreaName(box) {
@@ -30399,188 +30955,6 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     };
     stage.addEventListener("pointerup", end);
     stage.addEventListener("pointercancel", end);
-  }
-
-  // www/js/low_signal.js
-  var LOW_SIGNAL_COPY = "Parts of this route may have weak signal. Download the route area for the best accuracy?";
-  var SAMPLE_STEP_M = 50;
-  var BBOX_PAD_M = 200;
-  var TUNNEL_NEAR_M = 40;
-  var OVERPASS_URL = "https://overpass-api.de/api/interpreter";
-  var SKIP_TUNNEL = /* @__PURE__ */ new Set(["", "no", "false", "0", "none"]);
-  function pathBbox(points, padMeters = BBOX_PAD_M) {
-    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
-    if (!pts.length) return null;
-    let west = pts[0].lon, east = pts[0].lon, south = pts[0].lat, north = pts[0].lat;
-    for (const p of pts) {
-      if (p.lon < west) west = p.lon;
-      if (p.lon > east) east = p.lon;
-      if (p.lat < south) south = p.lat;
-      if (p.lat > north) north = p.lat;
-    }
-    const midLat = (south + north) / 2;
-    const dLat = padMeters / 111320;
-    const cos = Math.max(0.2, Math.cos(midLat * Math.PI / 180));
-    const dLon = padMeters / (111320 * cos);
-    return normalizeBbox({
-      west: west - dLon,
-      east: east + dLon,
-      south: south - dLat,
-      north: north + dLat
-    });
-  }
-  function pointInArea(point, area) {
-    if (!point || !area) return false;
-    return point.lon >= area.west && point.lon <= area.east && point.lat >= area.south && point.lat <= area.north;
-  }
-  function samplePath(points, stepMeters = SAMPLE_STEP_M) {
-    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
-    if (!pts.length) return [];
-    const out = [{ lat: pts[0].lat, lon: pts[0].lon }];
-    let acc = 0;
-    for (let i = 1; i < pts.length; i++) {
-      const a = pts[i - 1];
-      const b2 = pts[i];
-      const d2 = haversineMeters(a, b2);
-      if (!(d2 > 0)) continue;
-      let remain = d2;
-      let from = a;
-      while (acc + remain >= stepMeters) {
-        const need = stepMeters - acc;
-        const t = need / (haversineMeters(from, b2) || remain);
-        from = { lat: from.lat + (b2.lat - from.lat) * t, lon: from.lon + (b2.lon - from.lon) * t };
-        out.push(from);
-        remain = haversineMeters(from, b2);
-        acc = 0;
-      }
-      acc += remain;
-    }
-    const last = pts[pts.length - 1];
-    const prev = out[out.length - 1];
-    if (!prev || prev.lat !== last.lat || prev.lon !== last.lon) out.push({ lat: last.lat, lon: last.lon });
-    return out;
-  }
-  function coverageGaps(points, areas) {
-    const samples = samplePath(points);
-    const list = areas || [];
-    return samples.filter((p) => !list.some((a) => pointInArea(p, a)));
-  }
-  function isCovered(points, areas) {
-    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
-    if (!pts.length) return false;
-    return coverageGaps(pts, areas).length === 0;
-  }
-  function isLowSignalTag(tags) {
-    if (!tags || typeof tags !== "object") return false;
-    if (tags.tunnel != null && !SKIP_TUNNEL.has(String(tags.tunnel).toLowerCase())) return true;
-    if (tags.covered != null && !SKIP_TUNNEL.has(String(tags.covered).toLowerCase())) return true;
-    return false;
-  }
-  function wayPoints(way) {
-    if (way && Array.isArray(way.geometry)) {
-      return way.geometry.map((g) => ({ lat: g.lat, lon: g.lon }));
-    }
-    return way && way.points ? way.points : [];
-  }
-  function wayNearPath(way, path, maxMeters = TUNNEL_NEAR_M) {
-    const pts = wayPoints(way);
-    const samples = samplePath(path, Math.min(SAMPLE_STEP_M, maxMeters));
-    if (!pts.length || !samples.length) return false;
-    for (const a of pts) {
-      for (const b2 of samples) {
-        if (haversineMeters(a, b2) <= maxMeters) return true;
-      }
-    }
-    return false;
-  }
-  function tunnelsOnPath(ways, path) {
-    return (ways || []).filter((w2) => isLowSignalTag(w2.tags || w2) && wayNearPath(w2, path));
-  }
-  function assessLowSignal({ path, areas = [], ways = [] } = {}) {
-    const pts = path || [];
-    const bbox = pathBbox(pts);
-    const covered = isCovered(pts, areas);
-    const tunnels = tunnelsOnPath(ways, pts);
-    const coverageGap = !covered;
-    const hasTunnels = tunnels.length > 0;
-    const show2 = !!(bbox && pts.length >= 2 && (coverageGap || hasTunnels));
-    return {
-      show: show2,
-      covered,
-      coverageGap,
-      hasTunnels,
-      tunnels,
-      bbox,
-      copy: LOW_SIGNAL_COPY
-    };
-  }
-  function overpassQuery(bbox) {
-    const box = normalizeBbox(bbox);
-    const s2 = box.south.toFixed(6);
-    const w2 = box.west.toFixed(6);
-    const n = box.north.toFixed(6);
-    const e = box.east.toFixed(6);
-    return `[out:json][timeout:12];(way["tunnel"](${s2},${w2},${n},${e});way["covered"](${s2},${w2},${n},${e}););out geom tags;`;
-  }
-  function waysFromOverpass(json) {
-    const els = json && json.elements || [];
-    return els.filter((el) => el && el.type === "way" && isLowSignalTag(el.tags) && Array.isArray(el.geometry)).map((el) => ({ id: el.id, tags: el.tags, geometry: el.geometry }));
-  }
-  var tunnelFetcher = defaultTunnelFetcher;
-  async function defaultTunnelFetcher(bbox, fetchFn = fetch) {
-    const res = await fetchFn(OVERPASS_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "User-Agent": OFM_USER_AGENT
-      },
-      body: "data=" + encodeURIComponent(overpassQuery(bbox))
-    });
-    if (!res.ok) return [];
-    const json = await res.json();
-    return waysFromOverpass(json);
-  }
-  async function loadTunnelWays(bbox, { fetchFn, timeoutMs = 8e3 } = {}) {
-    if (!bbox) return [];
-    const work = Promise.resolve().then(() => tunnelFetcher(bbox, fetchFn || fetch));
-    let timer2;
-    const timeout = new Promise((resolve2) => {
-      timer2 = setTimeout(() => resolve2([]), timeoutMs);
-    });
-    try {
-      const ways = await Promise.race([work.catch(() => []), timeout]);
-      return Array.isArray(ways) ? ways : [];
-    } finally {
-      clearTimeout(timer2);
-    }
-  }
-  function shouldFetchTunnels() {
-    try {
-      if (typeof navigator !== "undefined" && navigator.webdriver) return false;
-      if (typeof location !== "undefined") {
-        const q2 = new URLSearchParams(location.search);
-        if (q2.has("screen") || q2.has("nosw")) return false;
-      }
-    } catch {
-    }
-    return true;
-  }
-  async function assessRouteLowSignal(path, { areas, ways, fetchFn, timeoutMs } = {}) {
-    const pts = path || [];
-    const bbox = pathBbox(pts);
-    const areaList = areas || [];
-    let found = ways;
-    if (found == null) {
-      if (!shouldFetchTunnels()) found = [];
-      else {
-        try {
-          found = await loadTunnelWays(bbox, { fetchFn, timeoutMs });
-        } catch {
-          found = [];
-        }
-      }
-    }
-    return assessLowSignal({ path: pts, areas: areaList, ways: found });
   }
 
   // www/js/share_link.js
@@ -33367,6 +33741,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       tot.dataset.testid = "builder-total";
       tot.innerHTML = `<span>Total</span><span>${formatDistance(total, units2())} \xB7 ${walkEta} walk \xB7 ${runEta} run</span>`;
       box.appendChild(tot);
+      const distNote = document.createElement("p");
+      distNote.className = "tiny";
+      distNote.dataset.testid = "builder-distance-note";
+      distNote.textContent = state2.settings.countHills ? HILLS_DISCLAIMER : FLAT_DISCLAIMER;
+      box.appendChild(distNote);
     }
     $4("btn-save-course").disabled = pins.length < 2;
     clearOverlays();
@@ -33374,6 +33753,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const line = routed && routed.path && routed.path.length >= 2 ? routed.path : pins;
     if (line.length >= 2) drawRoute(line, { id: "build-line" });
     addCoursePins(pins);
+    refreshBuilderElevation(line);
   }
   function renderCourses() {
     const root = $4("courses-list");
@@ -33553,6 +33933,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       const on = !!state2.settings.lowPower;
       $4("low-power-switch").classList.toggle("on", on);
       $4("low-power-switch").setAttribute("aria-checked", on ? "true" : "false");
+    }
+    if ($4("count-hills-switch")) {
+      const on = !!state2.settings.countHills;
+      $4("count-hills-switch").classList.toggle("on", on);
+      $4("count-hills-switch").setAttribute("aria-checked", on ? "true" : "false");
     }
     if (typeof refreshHealthStatus === "function") refreshHealthStatus();
     else if ($4("health-note")) {
@@ -33892,7 +34277,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       distanceMeters: activityDistanceMeters(sess),
       elapsedSec: sess.elapsedSec,
       track: sess.track,
-      source: "phone"
+      source: "phone",
+      ...elevationFields(sess.track)
     });
     if (act.distanceMeters > 20 || act.elapsedSec > 20) {
       let legResult = null;
@@ -33960,6 +34346,68 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     showScreen("today");
     setTab("today");
   }
+  var builderElevToken = 0;
+  async function refreshBuilderElevation(path) {
+    const el = $4("builder-elevation");
+    if (!el) return;
+    if (!path || path.length < 2) {
+      el.hidden = true;
+      el.innerHTML = "";
+      return;
+    }
+    const token = ++builderElevToken;
+    const haveEle = path.some((p) => p && p.ele != null);
+    let pts = path;
+    if (!haveEle) {
+      try {
+        pts = await samplePathDem(path);
+      } catch {
+        pts = path;
+      }
+    }
+    if (token !== builderElevToken) return;
+    const gl = gainLoss(pts);
+    const total = pts.length >= 2 ? (
+      /* filled below */
+      null
+    ) : null;
+    const tot = $4("builder-total") || document.querySelector("[data-testid='builder-total']");
+    if (tot && gl.gainM > 0) {
+      const flat = pathLengthMeters(path);
+      const shown = displayDistance(pts, flat, { countHills: !!state2.settings.countHills });
+      const walkEta = formatEta(naismithSeconds(flat, gl.gainM, activityMph("walk")));
+      const runEta = formatEta(naismithSeconds(flat, gl.gainM, activityMph("run")));
+      tot.innerHTML = `<span>Total</span><span>${formatDistance(shown.meters, units2())} \xB7 ${formatGain(gl.gainM, units2())} climb \xB7 ${walkEta} walk \xB7 ${runEta} run</span>`;
+    }
+    paintElevationBox(el, gl, { units: units2(), credit: true });
+  }
+  function elevationFields(points) {
+    const gl = gainLoss(points || []);
+    return {
+      climbGainM: gl.gainM,
+      climbLossM: gl.lossM,
+      distance3dMeters: displayDistance(points || [], 0, { countHills: true }).meters || 0
+    };
+  }
+  function activityElevation(act) {
+    if (!act) return null;
+    const gl = gainLoss(act.track || []);
+    if (gl.gainM || gl.lossM || (gl.samples || []).some((v2) => v2 != null)) return gl;
+    if (act.climbGainM || act.climbLossM) return { gainM: act.climbGainM || 0, lossM: act.climbLossM || 0, samples: [] };
+    return null;
+  }
+  function paintElevationBox(el, elev, { units: u2 = "mi", credit = false } = {}) {
+    if (!el) return;
+    if (!elev || !(elev.gainM > 0) && !(elev.lossM > 0) && !(elev.samples && elev.samples.length >= 2)) {
+      el.hidden = true;
+      el.innerHTML = "";
+      return;
+    }
+    const svg = elev.samples && elev.samples.length >= 2 ? elevationProfileSvg(elev.samples, { gainM: elev.gainM, lossM: elev.lossM, units: u2 }) : "";
+    const creditLine = credit ? `<p class="tiny elev-credit">${DEM_CREDIT_SHORT} <a href="${DEM_ATTRIBUTION_URL}" target="_blank" rel="noopener">Sources</a>.</p>` : "";
+    el.hidden = false;
+    el.innerHTML = `<p class="tiny"><strong>Climb ${formatGain(elev.gainM, u2)}</strong> \xB7 descent ${formatGain(elev.lossM, u2)}</p>${svg}${creditLine}`;
+  }
   function showSummary(act, course, legResult) {
     ui2.summary = { act, course, legResult };
     const type = act.type === "run" ? "Run" : "Walk";
@@ -33975,10 +34423,23 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         indoorNote.textContent = "";
       }
     }
+    const elev = activityElevation(act);
+    const shown = displayDistance(act.track, act.distanceMeters, { countHills: !!state2.settings.countHills });
     $4("summary-stats").innerHTML = `
-    <div class="total-box"><div class="num">${formatDistance(act.distanceMeters, units2())}</div><div class="lbl">Distance</div></div>
+    <div class="total-box"><div class="num">${formatDistance(shown.meters, units2())}</div><div class="lbl">Distance</div></div>
     <div class="total-box"><div class="num">${formatDuration(act.elapsedSec)}</div><div class="lbl">Time</div></div>
-    <div class="total-box"><div class="num">${formatPace(act.distanceMeters, act.elapsedSec, units2())}</div><div class="lbl">Avg pace</div></div>`;
+    <div class="total-box"><div class="num">${formatPace(shown.meters, act.elapsedSec, units2())}</div><div class="lbl">Avg pace</div></div>`;
+    if (elev && (elev.gainM > 0 || elev.lossM > 0)) {
+      $4("summary-stats").innerHTML += `
+    <div class="total-box"><div class="num">${formatGain(elev.gainM, units2())}</div><div class="lbl">Climb</div></div>
+    <div class="total-box"><div class="num">${formatGain(elev.lossM, units2())}</div><div class="lbl">Descent</div></div>`;
+    }
+    paintElevationBox($4("summary-elevation"), elev, { units: units2(), credit: true });
+    const distNote = $4("summary-distance-note");
+    if (distNote) {
+      distNote.hidden = act.source === "indoor";
+      distNote.textContent = act.source === "indoor" ? "" : shown.disclaimer;
+    }
     const healthBox = $4("summary-health");
     healthBox.innerHTML = "";
     const healthLine = healthFieldsText(act);
@@ -34374,6 +34835,16 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           if (changed) restartWatching().catch(() => {
           });
         }
+      });
+    }
+    if ($4("count-hills-switch")) {
+      $4("count-hills-switch").addEventListener("click", () => {
+        state2.settings.countHills = !state2.settings.countHills;
+        persist();
+        renderSettings();
+        if (ui2.summary && ui2.summary.act) showSummary(ui2.summary.act, ui2.summary.course, ui2.summary.legResult);
+        if (ui2.screen === "builder") renderBuilder();
+        if (ui2.screen === "progress") renderProgress();
       });
     }
     $4("health-switch").addEventListener("click", async () => {
@@ -35543,6 +36014,29 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         state2.settings.lowPower = true;
         setLowPowerEnabled(true);
         setTab("settings");
+      } else if (name === "settings-hills") {
+        state2.settings.countHills = true;
+        setTab("settings");
+      } else if (name === "summary-elevation") {
+        const trackPts = [];
+        for (let i = 0; i <= 10; i++) {
+          const ele = i <= 5 ? i * 20 : (10 - i) * 20;
+          trackPts.push({ lat: 41.88 + i * 9e-4, lon: -87.63, ele, t: i * 60 });
+        }
+        const gl = gainLoss(trackPts);
+        const act = newActivity({
+          type: "walk",
+          courseName: "Hill path",
+          startedAt: "2026-11-20T16:00:00.000Z",
+          endedAt: "2026-11-20T16:45:00.000Z",
+          distanceMeters: 1e3,
+          elapsedSec: 2700,
+          track: trackPts,
+          source: "phone",
+          climbGainM: gl.gainM,
+          climbLossM: gl.lossM
+        });
+        showSummary(act, null, null);
       } else if (name === "tracking-lowpower") {
         const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
         if (!state2.courses.length) state2.courses.push(course);

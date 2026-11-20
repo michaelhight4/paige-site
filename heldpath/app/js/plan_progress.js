@@ -31,13 +31,16 @@ export const MAX_STEP = 0.03;
  * endurance prediction and ordinary hydration guidance.
  * ———————————————————————————————————————————————————————————————— */
 
-/** ACSM metabolic equations at 0% grade (ACSM's Guidelines, walking/running). */
-export function metsForPace({ activityType = "walk", mph } = {}) {
+/** ACSM metabolic equations (ACSM's Guidelines, walking/running). Grade is a fraction (0.05 = 5%). */
+export function metsForPace({ activityType = "walk", mph, grade = 0 } = {}) {
   const speed = Number(mph);
   if (!Number.isFinite(speed) || speed <= 0) return 0;
   const metersPerMin = (speed * METERS_PER_MILE) / 60;
-  // Running: VO2 = 0.2 v + 3.5. Walking: VO2 = 0.1 v + 3.5 (v in m/min).
-  const vo2 = activityType === "run" ? 0.2 * metersPerMin + 3.5 : 0.1 * metersPerMin + 3.5;
+  const g = Math.max(0, Number(grade) || 0);
+  // Running: VO2 = 0.2 v + 0.9 v g + 3.5. Walking: VO2 = 0.1 v + 1.8 v g + 3.5 (v in m/min).
+  const vo2 = activityType === "run"
+    ? 0.2 * metersPerMin + 0.9 * metersPerMin * g + 3.5
+    : 0.1 * metersPerMin + 1.8 * metersPerMin * g + 3.5;
   return Math.round((vo2 / 3.5) * 100) / 100;
 }
 
@@ -46,8 +49,9 @@ export function metsForPace({ activityType = "walk", mph } = {}) {
  * replacement for the phone's health-app calories on a completed walk.
  * kcal/min = METs × 3.5 × kg / 200 (ACSM).
  */
-export function effortEstimate({ activityType = "walk", mph, durationSec = 0, bodyKg = null } = {}) {
-  const mets = metsForPace({ activityType, mph });
+export function effortEstimate({ activityType = "walk", mph, durationSec = 0, bodyKg = null, gainM = 0, distanceM = 0 } = {}) {
+  const grade = (Number(distanceM) > 0 && Number(gainM) > 0) ? Number(gainM) / Number(distanceM) : 0;
+  const mets = metsForPace({ activityType, mph, grade });
   const minutes = Math.max(0, Number(durationSec) || 0) / 60;
   const kg = Number(bodyKg) > 0 ? Number(bodyKg) : 70;
   const kcalPerMin = (mets * 3.5 * kg) / 200;

@@ -20,6 +20,7 @@ import {
   tileCacheBytes,
   deviceStorage,
 } from "./map_storage.js";
+import { prefetchDemForBbox } from "./elevation_dem.js";
 
 export { listAreas, deleteAreaRecord, tileCacheBytes, deviceStorage, observedAvgTileBytes, planDownload };
 
@@ -74,6 +75,7 @@ export async function downloadArea(bbox, opt = {}) {
     updatedAt: now,
   };
   await saveArea(area);
+  try { prefetchDemForBbox(box).catch(() => {}); } catch { /* DEM is optional */ }
   return { ok: true, area, plan, result };
 }
 

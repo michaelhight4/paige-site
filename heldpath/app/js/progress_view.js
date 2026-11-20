@@ -15,6 +15,7 @@ import {
   escapeHtml,
   METERS_PER_MILE,
 } from "./util.js";
+import { formatGain } from "./elevation.js";
 import {
   chartTicks,
   evaluateAchievements,
@@ -171,6 +172,8 @@ export function renderProgressView(root, ctx) {
   const summary = summarizeActivities(slice, now);
   const allSummary = summarizeActivities(activities, now);
   const bestDay = slice.reduce((best, a) => Math.max(best, a.distanceMeters || 0), 0);
+  const climb = slice.reduce((s, a) => s + (a.climbGainM || 0), 0);
+  const allClimb = activities.reduce((s, a) => s + (a.climbGainM || 0), 0);
   const buckets = chartBuckets(slice, range, now);
   const prs = personalRecords(activities);
   const achievements = evaluateAchievements(activities, { units, now });
@@ -199,6 +202,7 @@ export function renderProgressView(root, ctx) {
       <div class="total-box"><div class="num">${formatDuration(sums.elapsedSec)}</div><div class="lbl">Time</div></div>
       <div class="total-box"><div class="num">${sums.count}</div><div class="lbl">${sums.count === 1 ? "Activity" : "Activities"}</div></div>
       <div class="total-box"><div class="num">${summary.activeDays}</div><div class="lbl">Active days</div></div>
+      ${climb > 0 ? `<div class="total-box"><div class="num">${formatGain(climb, units)}</div><div class="lbl">Climb</div></div>` : ""}
     </div>
     <div class="card">
       <div class="section-head">
@@ -216,6 +220,7 @@ export function renderProgressView(root, ctx) {
       <div class="stat-row"><span>Active days</span><span>${allSummary.activeDays}</span></div>
       <div class="stat-row"><span>Current streak</span><span>${allSummary.currentStreak} ${allSummary.currentStreak === 1 ? "day" : "days"}</span></div>
       <div class="stat-row"><span>Longest streak</span><span>${allSummary.longestStreak} ${allSummary.longestStreak === 1 ? "day" : "days"}</span></div>
+      ${allClimb > 0 ? `<div class="stat-row"><span>Climb</span><span>${formatGain(allClimb, units)}</span></div>` : ""}
     </div>
     <div class="card">
       <div class="section-head">

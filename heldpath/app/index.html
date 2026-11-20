@@ -121,6 +121,7 @@
             <button class="switch on" id="toggle-follow-paths" data-testid="route-mode" role="switch" aria-checked="true" aria-label="Follow walkable paths"><i></i></button>
           </div>
           <div class="legs" id="builder-legs" data-testid="builder-legs"></div>
+          <div id="builder-elevation" data-testid="builder-elevation" hidden></div>
           <div class="btn-row" style="margin-bottom:10px">
             <button class="btn btn-secondary" id="btn-undo-pin">Undo pin</button>
             <button class="btn btn-secondary" id="btn-cancel-build">Cancel</button>
@@ -204,6 +205,13 @@
             </div>
             <button class="switch" id="low-power-switch" data-testid="low-power-switch" role="switch" aria-checked="false" aria-label="Low-power tracking"><i></i></button>
           </div>
+          <div class="row-toggle" style="margin-top:16px">
+            <div>
+              <strong>Count hills in distance</strong>
+              <p>Off by default. When this is on, distance includes the slope of hills using smoothed elevation. When it is off, distance is measured as flat ground.</p>
+            </div>
+            <button class="switch" id="count-hills-switch" data-testid="count-hills-switch" role="switch" aria-checked="false" aria-label="Count hills in distance"><i></i></button>
+          </div>
         </div>
 
         <div class="card">
@@ -280,6 +288,8 @@
         <p class="page-sub" id="summary-sub"></p>
         <p class="tiny" id="summary-indoor-note" data-testid="summary-indoor-note" hidden></p>
         <div class="totals" id="summary-stats" data-testid="summary-stats"></div>
+        <div id="summary-elevation" data-testid="summary-elevation" hidden></div>
+        <p class="tiny" id="summary-distance-note" data-testid="summary-distance-note"></p>
         <div class="card">
           <h2>Health app</h2>
           <div id="summary-health" data-testid="summary-health"></div>

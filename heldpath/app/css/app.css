@@ -979,3 +979,17 @@ body:has(#sheet-map.open) #map-locate-note { display: none; }
 }
 #indoor-error { color: var(--danger, #E25C5C); margin: 0 0 12px; }
 #indoor-error[hidden], #summary-indoor-note[hidden] { display: none; }
+
+.elev-profile {
+  display: block;
+  width: 100%;
+  height: 72px;
+  color: var(--mint);
+  margin: 8px 0;
+}
+#summary-elevation, #builder-elevation {
+  margin: 8px 0 16px;
+}
+#summary-distance-note, .elev-credit {
+  margin-top: 8px;
+}

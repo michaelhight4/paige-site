@@ -13,6 +13,7 @@ const DEFAULT_SETTINGS = {
   demo: false,
   autoPause: true,
   lowPower: false,
+  countHills: false,
 };
 
 export function emptyState() {
@@ -95,6 +96,9 @@ export function newActivity(partial = {}) {
     health: partial.health || null, // {steps, calories, provider} from the health app only
     healthId: partial.healthId || null, // watch import dedupe key
     healthSync: partial.healthSync || null, // {written, status, reason} for honesty in the summary
+    climbGainM: partial.climbGainM || 0,
+    climbLossM: partial.climbLossM || 0,
+    distance3dMeters: partial.distance3dMeters || 0,
   };
 }
 

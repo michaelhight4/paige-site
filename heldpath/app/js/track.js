@@ -15,6 +15,7 @@ import { applyTrackPoint } from "./gap_fill.js";
 import { updateOffRoute } from "./off_route.js";
 import { maybeDetectStart, progressFromStart } from "./start_detect.js";
 import { nativeWatcherOptions, webWatchOptions, shouldAcceptFix } from "./low_power.js";
+import { fuseElevation, heightFromPressure } from "./elevation.js";
 
 const BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
 
@@ -29,6 +30,8 @@ let lastNotificationAt = 0;
 let autoPauseEnabled = true;
 let lowPowerEnabled = false;
 let lastAcceptedFix = null;
+let lastFusedEle = null;
+let refPressure = null;
 let autoWatch = createAutoPauseState();
 
 const NOTIFICATION_ID = "heldpath-tracking";
@@ -137,9 +140,10 @@ export function restoreSession(saved, at = Date.now()) {
   return tickElapsed(at);
 }
 
-export function pushPoint(lat, lon, at = Date.now()) {
+export function pushPoint(lat, lon, at = Date.now(), ele = null) {
   if (!session || session.paused) return session;
   const pt = { lat, lon, t: session.elapsedSec, at: new Date(at).toISOString() };
+  if (ele != null && Number.isFinite(Number(ele))) pt.ele = Number(ele);
   const last = session.track[session.track.length - 1];
   if (last) {
     const d = haversineMeters(last, pt);
@@ -148,6 +152,10 @@ export function pushPoint(lat, lon, at = Date.now()) {
       return session;
     }
     applyTrackPoint(session, last, pt, at);
+    if (pt.ele != null) {
+      const lastPt = session.track[session.track.length - 1];
+      if (lastPt && lastPt.ele == null) lastPt.ele = pt.ele;
+    }
     maybeDetectStart(session);
     updateOffRoute(session, at);
     return session;
@@ -446,8 +454,31 @@ function autoInput(at, fix) {
 }
 
 /** Record a GPS fix for auto-pause, and append it to the track when not paused. */
-export function noteFix(lat, lon, at = Date.now()) {
+function fuseFixElevation(extras = {}) {
+  let baroM = extras.altitudeBaro;
+  if (baroM == null && extras.pressureHpa != null) {
+    if (!refPressure) {
+      refPressure = extras.pressureHpa;
+      if (extras.altitude != null) lastFusedEle = extras.altitude;
+    }
+    baroM = heightFromPressure(extras.pressureHpa, {
+      refHpa: refPressure,
+      refHeightM: lastFusedEle || extras.altitude || 0,
+    });
+  }
+  const fused = fuseElevation({
+    baroM,
+    gpsM: extras.altitude,
+    demM: extras.demM,
+    prevM: lastFusedEle,
+  });
+  if (fused.meters != null) lastFusedEle = fused.meters;
+  return fused.meters;
+}
+
+export function noteFix(lat, lon, at = Date.now(), extras = {}) {
   if (!session) return session;
+  const ele = fuseFixElevation(extras || {});
   const before = session.paused;
   const reason = session.pauseReason;
   const decision = considerAutoPause(autoWatch, autoInput(at, { lat, lon }));
@@ -458,7 +489,7 @@ export function noteFix(lat, lon, at = Date.now()) {
       if (s.at >= from) pushPoint(s.lat, s.lon, s.at);
     }
   } else if (!session.paused) {
-    pushPoint(lat, lon, at);
+    pushPoint(lat, lon, at, ele);
   }
   return session;
 }
@@ -476,6 +507,8 @@ export function stopSession() {
   const done = session;
   session = null;
   lastAcceptedFix = null;
+  lastFusedEle = null;
+  refPressure = null;
   lastNotificationBody = "";
   lastNotificationAt = 0;
   return done;
@@ -519,7 +552,10 @@ export async function startWatching(handler) {
           const next = { lat: location.latitude, lon: location.longitude, at };
           if (!shouldAcceptFix(lastAcceptedFix, next, { lowPower: lowPowerEnabled })) return;
           lastAcceptedFix = next;
-          noteFix(next.lat, next.lon, next.at);
+          noteFix(next.lat, next.lon, next.at, {
+            altitude: location.altitude,
+            altitudeAccuracy: location.altitudeAccuracy,
+          });
           tickElapsed();
           if (onUpdate) onUpdate(session, "fix");
           refreshNotification(session);
@@ -541,7 +577,9 @@ export async function startWatching(handler) {
         const next = { lat: pos.coords.latitude, lon: pos.coords.longitude, at: pos.timestamp };
         if (!shouldAcceptFix(lastAcceptedFix, next, { lowPower: lowPowerEnabled })) return;
         lastAcceptedFix = next;
-        noteFix(next.lat, next.lon, next.at);
+        noteFix(next.lat, next.lon, next.at, {
+          altitude: pos.coords.altitude,
+        });
         tickElapsed();
         if (onUpdate) onUpdate(session, "fix");
       },
