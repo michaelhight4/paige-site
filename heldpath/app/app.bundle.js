@@ -26255,6 +26255,106 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     throw new Error("no storage");
   }
 
+  // www/js/forgot_stop.js
+  var FORGOT_MS = 10 * 60 * 1e3;
+  var TRIM_AFTER_MS = 2 * 60 * 1e3;
+  var STILL_RADIUS_M = 15;
+  function lastMovingAt(sess) {
+    if (!sess) return null;
+    if (sess.paused && sess.pauseReason === "auto" && sess.pauseStarted) return sess.pauseStarted;
+    const track = sess.track || [];
+    const last = track[track.length - 1];
+    if (last && last.at) {
+      const n = Date.parse(last.at);
+      if (Number.isFinite(n)) return n;
+    }
+    return sess.startedAt ? Date.parse(sess.startedAt) : null;
+  }
+  function stillForMs(sess, at = Date.now()) {
+    const last = lastMovingAt(sess);
+    if (last == null) return 0;
+    return Math.max(0, at - last);
+  }
+  function shouldPromptForgot(sess, at = Date.now()) {
+    if (!sess || sess.forgotPrompted) return false;
+    return stillForMs(sess, at) >= FORGOT_MS;
+  }
+  function noteForgotDismissed(sess) {
+    if (sess) sess.forgotPrompted = true;
+    return sess;
+  }
+  function noteForgotMoved(sess) {
+    if (sess) sess.forgotPrompted = false;
+    return sess;
+  }
+  function trailingStill(sess, at = Date.now()) {
+    const track = sess && sess.track || [];
+    if (track.length < 2) return { idleMs: 0, idleSec: 0, cutIndex: track.length, pointCount: 0 };
+    const end = track[track.length - 1];
+    const endAt = end.at ? Date.parse(end.at) : at;
+    let cut = track.length - 1;
+    for (let i = track.length - 2; i >= 0; i--) {
+      if (haversineMeters(track[i], end) > STILL_RADIUS_M) break;
+      cut = i;
+    }
+    const startStill = track[cut];
+    const startAt = startStill && startStill.at ? Date.parse(startStill.at) : endAt;
+    const idleMs = Math.max(0, (Number.isFinite(endAt) ? endAt : at) - (Number.isFinite(startAt) ? startAt : at));
+    return {
+      idleMs,
+      idleSec: Math.round(idleMs / 1e3),
+      cutIndex: cut,
+      pointCount: track.length - cut,
+      from: startStill,
+      to: end
+    };
+  }
+  function countedIdle(sess, at = Date.now()) {
+    if (sess && sess.paused && sess.pauseReason === "auto" && sess.pauseStarted) {
+      return trailingStill(sess, sess.pauseStarted);
+    }
+    return trailingStill(sess, at);
+  }
+  function shouldOfferTrim(sess, at = Date.now()) {
+    const trail = countedIdle(sess, at);
+    return { ...trail, offer: trail.idleMs >= TRIM_AFTER_MS };
+  }
+  function applyTrim(sess, trail, at = Date.now()) {
+    if (!sess || !trail || trail.cutIndex == null) return sess;
+    const counted = countedIdle(sess, at);
+    const use = trail.idleMs >= 0 ? trail : counted;
+    const kept = (sess.track || []).slice(0, Math.max(1, (use.cutIndex ?? trail.cutIndex) + 1));
+    sess.track = kept;
+    const idleSec = use.idleSec || 0;
+    sess.elapsedSec = Math.max(0, (sess.elapsedSec || 0) - idleSec);
+    if (sess.paused && sess.pauseReason === "auto") {
+      sess.paused = false;
+      sess.pauseStarted = null;
+      sess.pauseReason = null;
+    }
+    sess.trimmedIdleSec = idleSec;
+    return sess;
+  }
+  function forgotCopy(idleMs) {
+    const mins = Math.max(10, Math.round((idleMs || FORGOT_MS) / 6e4));
+    return {
+      title: "Are you still going?",
+      body: `You've been still for ${mins} minutes. If you forgot to stop, you can end this walk or run and trim the standing time.`,
+      stay: "Still going",
+      stop: "Stop"
+    };
+  }
+  function trimCopy(idleSec, unitsKind = "walk") {
+    const kind = unitsKind === "run" ? "run" : "walk";
+    const time = formatDuration(idleSec || 0);
+    return {
+      title: "Trim the end?",
+      body: `You were still for about ${time} at the end. Remove that standing time from this ${kind}?`,
+      trim: "Trim it",
+      keep: "Keep it"
+    };
+  }
+
   // www/js/splits.js
   function pinLabel(index, pinCount) {
     if (index <= 0) return "Start";
@@ -32435,6 +32535,28 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     paintSessionHud(s2);
     drawSessionOnMap(s2);
     maybeSaveLiveSession(s2, { ...liveSessionExtra(), force: why === "hide" });
+    maybeForgotPrompt(s2);
+  }
+  function maybeForgotPrompt(s2) {
+    if (!s2) return;
+    if (shouldPromptForgot(s2)) {
+      const copy = forgotCopy(stillForMs(s2));
+      if ($4("forgot-title")) $4("forgot-title").textContent = copy.title;
+      if ($4("forgot-body")) $4("forgot-body").textContent = copy.body;
+      openSheet("sheet-forgot");
+      return;
+    }
+    if (stillForMs(s2) < 3e4) {
+      noteForgotMoved(s2);
+      const sheet = $4("sheet-forgot");
+      if (sheet && sheet.classList.contains("open")) closeSheet("sheet-forgot");
+    }
+  }
+  function stayGoingFromForgot() {
+    const s2 = getSession();
+    if (s2) noteForgotDismissed(s2);
+    closeSheet("sheet-forgot");
+    flushLiveSession(true);
   }
   function showResumeSheet(snap) {
     ui2.pendingResume = snap;
@@ -33139,6 +33261,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     status.textContent = added ? `Imported ${added} watch ${added === 1 ? "workout" : "workouts"}. Steps and calories came from the health app where it had them.` : "Those watch workouts are already in Heldpath.";
   }
   async function finishTracking() {
+    closeSheet("sheet-forgot");
     await stopWatching();
     const sess = stopSession();
     clearLiveSession();
@@ -33148,6 +33271,29 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       showScreen("today");
       return;
     }
+    const offer = shouldOfferTrim(sess);
+    if (offer.offer) {
+      ui2.pendingFinish = { sess };
+      const copy = trimCopy(offer.idleSec, sess.type);
+      if ($4("trim-title")) $4("trim-title").textContent = copy.title;
+      if ($4("trim-body")) $4("trim-body").textContent = copy.body;
+      openSheet("sheet-trim-end");
+      return;
+    }
+    await completeSession(sess);
+  }
+  async function confirmTrimEnd(trim) {
+    const pending = ui2.pendingFinish;
+    closeSheet("sheet-trim-end");
+    ui2.pendingFinish = null;
+    if (!pending || !pending.sess) {
+      showScreen("today");
+      return;
+    }
+    if (trim) applyTrim(pending.sess, shouldOfferTrim(pending.sess));
+    await completeSession(pending.sess);
+  }
+  async function completeSession(sess) {
     const course = sess.courseId ? courseById2(sess.courseId) : null;
     const act = newActivity({
       type: sess.type,
@@ -33513,6 +33659,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     });
     $4("btn-pause").addEventListener("click", pauseOrResume);
     $4("btn-stop").addEventListener("click", finishTracking);
+    if ($4("btn-forgot-stay")) $4("btn-forgot-stay").addEventListener("click", () => stayGoingFromForgot());
+    if ($4("btn-forgot-stop")) $4("btn-forgot-stop").addEventListener("click", () => finishTracking());
+    if ($4("btn-trim-yes")) $4("btn-trim-yes").addEventListener("click", () => confirmTrimEnd(true));
+    if ($4("btn-trim-no")) $4("btn-trim-no").addEventListener("click", () => confirmTrimEnd(false));
     if ($4("btn-resume-session")) $4("btn-resume-session").addEventListener("click", () => resumePendingSession());
     if ($4("btn-resume-save")) $4("btn-resume-save").addEventListener("click", () => savePendingSession());
     if ($4("btn-resume-discard")) $4("btn-resume-discard").addEventListener("click", () => discardPendingSession());
@@ -34257,6 +34407,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       closeSheet("sheet-save-course");
       closeSheet("sheet-start");
       closeSheet("sheet-resume");
+      closeSheet("sheet-forgot");
+      closeSheet("sheet-trim-end");
       closeSheet("sheet-location");
       closeSheet("sheet-course");
       closeSheet("sheet-target");
@@ -34669,6 +34821,39 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         showScreen("plans");
         renderPlansScreen();
         if (plan) openShareSheet("plan", plan);
+      } else if (name === "forgot-stop") {
+        const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+        if (!state2.courses[0]) state2.courses = [course];
+        const sess = midCourseWalk(course, units2());
+        stopSession();
+        const made = makeSession({ type: "walk", course, units: units2() });
+        Object.assign(made, sess);
+        made.paused = true;
+        made.pauseReason = "auto";
+        made.pauseStarted = Date.now() - 10 * 60 * 1e3;
+        setTab("today");
+        showScreen("tracking");
+        paintSessionHud(made);
+        const copy = forgotCopy(10 * 60 * 1e3);
+        if ($4("forgot-title")) $4("forgot-title").textContent = copy.title;
+        if ($4("forgot-body")) $4("forgot-body").textContent = copy.body;
+        openSheet("sheet-forgot");
+        whenReady(() => {
+          drawSessionOnMap(made);
+          fitBounds(course.pins, 80);
+        });
+        drawSessionOnMap(made);
+      } else if (name === "trim-end") {
+        const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+        if (!state2.courses[0]) state2.courses = [course];
+        const sess = midCourseWalk(course, units2());
+        const copy = trimCopy(12 * 60, "walk");
+        if ($4("trim-title")) $4("trim-title").textContent = copy.title;
+        if ($4("trim-body")) $4("trim-body").textContent = copy.body;
+        ui2.pendingFinish = { sess };
+        setTab("today");
+        showScreen("today");
+        openSheet("sheet-trim-end");
       } else if (name === "resume-session") {
         setTab("today");
         showScreen("today");

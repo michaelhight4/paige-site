@@ -35,6 +35,16 @@ import {
   resumePromptCopy,
   snapshotSession,
 } from "./session_autosave.js";
+import {
+  shouldPromptForgot,
+  shouldOfferTrim,
+  applyTrim,
+  noteForgotDismissed,
+  noteForgotMoved,
+  stillForMs,
+  forgotCopy,
+  trimCopy,
+} from "./forgot_stop.js";
 import * as splits from "./splits.js";
 import { seedDemo, midCourseWalk, pastCourseRun, arnoLoopPins } from "./demo.js";
 import { purchaseSupport, SUPPORT_PRODUCT_ID } from "./iap.js";
@@ -138,6 +148,30 @@ function onLiveSessionUpdate(s, why) {
   paintSessionHud(s);
   drawSessionOnMap(s);
   maybeSaveLiveSession(s, { ...liveSessionExtra(), force: why === "hide" });
+  maybeForgotPrompt(s);
+}
+
+function maybeForgotPrompt(s) {
+  if (!s) return;
+  if (shouldPromptForgot(s)) {
+    const copy = forgotCopy(stillForMs(s));
+    if ($("forgot-title")) $("forgot-title").textContent = copy.title;
+    if ($("forgot-body")) $("forgot-body").textContent = copy.body;
+    openSheet("sheet-forgot");
+    return;
+  }
+  if (stillForMs(s) < 30000) {
+    noteForgotMoved(s);
+    const sheet = $("sheet-forgot");
+    if (sheet && sheet.classList.contains("open")) closeSheet("sheet-forgot");
+  }
+}
+
+function stayGoingFromForgot() {
+  const s = track.getSession();
+  if (s) noteForgotDismissed(s);
+  closeSheet("sheet-forgot");
+  flushLiveSession(true);
 }
 
 function showResumeSheet(snap) {
@@ -907,6 +941,7 @@ async function importWatchActivities() {
 }
 
 async function finishTracking() {
+  closeSheet("sheet-forgot");
   await track.stopWatching();
   const sess = track.stopSession();
   clearLiveSession();
@@ -916,6 +951,31 @@ async function finishTracking() {
     showScreen("today");
     return;
   }
+  const offer = shouldOfferTrim(sess);
+  if (offer.offer) {
+    ui.pendingFinish = { sess };
+    const copy = trimCopy(offer.idleSec, sess.type);
+    if ($("trim-title")) $("trim-title").textContent = copy.title;
+    if ($("trim-body")) $("trim-body").textContent = copy.body;
+    openSheet("sheet-trim-end");
+    return;
+  }
+  await completeSession(sess);
+}
+
+async function confirmTrimEnd(trim) {
+  const pending = ui.pendingFinish;
+  closeSheet("sheet-trim-end");
+  ui.pendingFinish = null;
+  if (!pending || !pending.sess) {
+    showScreen("today");
+    return;
+  }
+  if (trim) applyTrim(pending.sess, shouldOfferTrim(pending.sess));
+  await completeSession(pending.sess);
+}
+
+async function completeSession(sess) {
   const course = sess.courseId ? courseById(sess.courseId) : null;
   const act = newActivity({
     type: sess.type,
@@ -1308,6 +1368,10 @@ function bind() {
   });
   $("btn-pause").addEventListener("click", pauseOrResume);
   $("btn-stop").addEventListener("click", finishTracking);
+  if ($("btn-forgot-stay")) $("btn-forgot-stay").addEventListener("click", () => stayGoingFromForgot());
+  if ($("btn-forgot-stop")) $("btn-forgot-stop").addEventListener("click", () => finishTracking());
+  if ($("btn-trim-yes")) $("btn-trim-yes").addEventListener("click", () => confirmTrimEnd(true));
+  if ($("btn-trim-no")) $("btn-trim-no").addEventListener("click", () => confirmTrimEnd(false));
   if ($("btn-resume-session")) $("btn-resume-session").addEventListener("click", () => resumePendingSession());
   if ($("btn-resume-save")) $("btn-resume-save").addEventListener("click", () => savePendingSession());
   if ($("btn-resume-discard")) $("btn-resume-discard").addEventListener("click", () => discardPendingSession());
@@ -2053,6 +2117,8 @@ window.HeldpathTest = {
     closeSheet("sheet-save-course");
     closeSheet("sheet-start");
     closeSheet("sheet-resume");
+    closeSheet("sheet-forgot");
+    closeSheet("sheet-trim-end");
     closeSheet("sheet-location");
     closeSheet("sheet-course");
     closeSheet("sheet-target");
@@ -2443,6 +2509,37 @@ window.HeldpathTest = {
       showScreen("plans");
       renderPlansScreen();
       if (plan) openShareSheet("plan", plan);
+    }
+    else if (name === "forgot-stop") {
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      if (!state.courses[0]) state.courses = [course];
+      const sess = midCourseWalk(course, units());
+      track.stopSession();
+      const made = track.makeSession({ type: "walk", course, units: units() });
+      Object.assign(made, sess);
+      made.paused = true;
+      made.pauseReason = "auto";
+      made.pauseStarted = Date.now() - 10 * 60 * 1000;
+      setTab("today");
+      showScreen("tracking");
+      paintSessionHud(made);
+      const copy = forgotCopy(10 * 60 * 1000);
+      if ($("forgot-title")) $("forgot-title").textContent = copy.title;
+      if ($("forgot-body")) $("forgot-body").textContent = copy.body;
+      openSheet("sheet-forgot");
+      map.whenReady(() => { drawSessionOnMap(made); map.fitBounds(course.pins, 80); });
+      drawSessionOnMap(made);
+    } else if (name === "trim-end") {
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      if (!state.courses[0]) state.courses = [course];
+      const sess = midCourseWalk(course, units());
+      const copy = trimCopy(12 * 60, "walk");
+      if ($("trim-title")) $("trim-title").textContent = copy.title;
+      if ($("trim-body")) $("trim-body").textContent = copy.body;
+      ui.pendingFinish = { sess };
+      setTab("today");
+      showScreen("today");
+      openSheet("sheet-trim-end");
     }
     else if (name === "resume-session") {
       setTab("today");
