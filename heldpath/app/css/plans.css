@@ -152,3 +152,18 @@
 @media (max-width: 560px) {
   .plan-form-grid { grid-template-columns: 1fr; }
 }
+
+
+/* Always-visible free-goals disclosure on the Goals page and purchase screen.
+   Do not hide this, and do not put it inside a billing-live-only block. */
+.goals-promise {
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  background: rgba(78, 195, 247, 0.10);
+  border: 1px solid var(--blue);
+  border-radius: 14px;
+  color: var(--ink, #e8eef3);
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.45;
+}

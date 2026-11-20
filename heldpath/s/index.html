@@ -181,13 +181,22 @@
       } else {
         preview.hidden = true;
       }
-      openApp.href = appOpenUrl(decoded.hash);
-      getApp.href = playStoreUrl({ referrer: "utm_source=heldpath_share&utm_medium=preview" });
-      actions.hidden = false;
-      note.className = "note";
-      note.textContent = decoded.kind === "plan"
-        ? "Importing a plan in Heldpath is free and does not spend a credit. The plan stays in this link, not on a server."
-        : "Open this in Heldpath to add it to your library. The route stays in this link, not on a server.";
+      if (decoded.kind === "plan") {
+        // Plan links only install in the Heldpath app. No store redirect,
+        // no deferred "plan waits until after install" flow.
+        actions.hidden = true;
+        if (openApp) openApp.removeAttribute("href");
+        if (getApp) { getApp.removeAttribute("href"); getApp.hidden = true; }
+        note.className = "note";
+        note.textContent = "Open this link in the Heldpath app.";
+      } else {
+        openApp.href = appOpenUrl(decoded.hash);
+        getApp.href = playStoreUrl({ referrer: "utm_source=heldpath_share&utm_medium=preview" });
+        if (getApp) getApp.hidden = false;
+        actions.hidden = false;
+        note.className = "note";
+        note.textContent = "Open this in Heldpath to add it to your library. The route stays in this link, not on a server.";
+      }
     }
     paint();
     window.addEventListener("hashchange", paint);

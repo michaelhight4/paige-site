@@ -10,7 +10,7 @@ export const PLAN_PRICE_USD = 2;
 export const SUPPORT_PRODUCT_ID = "support_5";
 export const SUPPORT_PRICE_USD = 5;
 export const OWNERSHIP_COPY =
-  "$2, one time. This plan is yours to keep forever: save it, share it with anyone, and use it however you like. No subscription.";
+  "All goals are free. Optional $2 plans just add extra help, easing you toward your goal with smaller, guided steps. $2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. A plan does not unlock goals — it only adds smaller, guided steps, plus water, reminders and a schedule.";
 
 /** Browser localStorage, with an in-memory fallback so Node tests and private modes still work. */
 const memoryLedger = new Map();

@@ -1,13 +1,18 @@
 /**
  * Shareable Heldpath course and plan links.
- * The payload lives in the URL fragment so the course never hits server logs.
- * Format: https://paigegames.net/heldpath/s/#c.<base64url-json>
- *         https://paigegames.net/heldpath/s/#p.<base64url-json>
+ * Course payload stays in the URL fragment:
+ *   https://paigegames.net/heldpath/s/#c.<base64url-json>
+ * Plan links use a query string so Android App Links and iOS Universal
+ * Links still receive the payload (the OS drops URL fragments):
+ *   https://paigegames.net/heldpath/plan/?p=<base64url-json>
+ * The plan payload is a self-contained template only — never the sender's
+ * runs, progress, metrics, graphs or history.
  */
 import { pathLengthMeters, formatDistance } from "./util.js";
 
 export const SHARE_ORIGIN = "https://paigegames.net";
 export const SHARE_PATH = "/heldpath/s/";
+export const PLAN_SHARE_PATH = "/heldpath/plan/";
 export const APP_PATH = "/heldpath/app/";
 export const PLAY_PACKAGE = "com.pagegames.heldpath";
 export const PLAY_STORE_URL = `https://play.google.com/store/apps/details?id=${PLAY_PACKAGE}`;
@@ -20,6 +25,10 @@ export const HARD_LENGTH = 6000;
 
 export function shareBaseUrl() {
   return `${SHARE_ORIGIN}${SHARE_PATH}`;
+}
+
+export function planShareBaseUrl() {
+  return `${SHARE_ORIGIN}${PLAN_SHARE_PATH}`;
 }
 
 export function appOpenUrl(hash) {
@@ -35,11 +44,11 @@ function round6(n) {
   return Math.round(Number(n) * 1e6) / 1e6;
 }
 
-function utf8Bytes(str) {
+export function utf8Bytes(str) {
   return new TextEncoder().encode(str);
 }
 
-function bytesToB64url(bytes) {
+export function bytesToB64url(bytes) {
   let bin = "";
   for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
   const b64 = typeof btoa === "function"
@@ -48,7 +57,7 @@ function bytesToB64url(bytes) {
   return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
 }
 
-function b64urlToBytes(s) {
+export function b64urlToBytes(s) {
   const b64 = String(s).replace(/-/g, "+").replace(/_/g, "/") + "==".slice(0, (4 - (s.length % 4)) % 4);
   if (typeof atob === "function") {
     const bin = atob(b64);
@@ -154,19 +163,50 @@ function stripSecrets(value) {
   return out;
 }
 
-function compactPlan(plan) {
+/**
+ * A shareable plan is a copy of the plan template only. Sender progress,
+ * metrics, graphs, history, PBs and run data must never travel with it.
+ * Each recipient starts fresh on their own device; nothing is synced.
+ */
+export function sanitiseSharedPlan(plan) {
   const clean = stripSecrets(plan || {});
   delete clean.id;
   delete clean.createdAt;
   delete clean.updatedAt;
+  const drop = [
+    "history", "histories", "results", "sessionResults", "completedSessions",
+    "activities", "runs", "tracks", "metrics", "graphs", "graph", "stats",
+    "sectorPbs", "sectorHistory", "legPbs", "pb", "bests", "waterLog", "logs",
+    "progress", "completed", "completions", "sessionHistory", "legResults",
+    "hits", "misses", "activityIds",
+  ];
+  for (const k of drop) delete clean[k];
+  if (clean.water && typeof clean.water === "object") {
+    const water = { ...clean.water };
+    delete water.log;
+    delete water.logs;
+    delete water.history;
+    delete water.consumed;
+    delete water.entries;
+    clean.water = water;
+  }
+  if (clean.progression && typeof clean.progression === "object") {
+    const step = Number(clean.progression.step);
+    // Only the step size is a plan setting. Current target, dates and
+    // results are the sender's progress and must not be shared.
+    clean.progression = { step: Number.isFinite(step) && step > 0 ? step : 0.02 };
+  }
+  delete clean.ownership;
+  return clean;
+}
+
+export function compactPlan(plan) {
+  const clean = sanitiseSharedPlan(plan);
   if (clean.route && typeof clean.route === "object") {
     const route = { ...clean.route };
     delete route.loop;
     if (Array.isArray(route.pins)) route.pins = compactPins(route.pins);
     clean.route = route;
-  }
-  if (clean.ownership && typeof clean.ownership === "object") {
-    clean.ownership = { state: clean.ownership.state === "imported" ? "imported" : "owned" };
   }
   return clean;
 }
@@ -192,7 +232,13 @@ export function planPayload(plan) {
 
 export function encodePayload(payload) {
   const kind = payload && payload.t === "p" ? "p" : "c";
-  const hash = `${kind}.${bytesToB64url(utf8Bytes(JSON.stringify(payload)))}`;
+  const body = bytesToB64url(utf8Bytes(JSON.stringify(payload)));
+  const hash = `${kind}.${body}`;
+  if (kind === "p") {
+    // Query string, not a fragment: App Links / Universal Links drop '#...'.
+    const url = `${planShareBaseUrl()}?p=${body}`;
+    return { kind, hash, url, length: url.length };
+  }
   return { kind, hash, url: `${shareBaseUrl()}#${hash}`, length: shareBaseUrl().length + 1 + hash.length };
 }
 
@@ -239,17 +285,43 @@ export function encodePlan(plan) {
   };
 }
 
-export function extractHash(input) {
-  if (input == null) return "";
-  const raw = String(input).trim();
-  if (!raw) return "";
-  const hashIdx = raw.lastIndexOf("#");
-  const part = hashIdx >= 0 ? raw.slice(hashIdx + 1) : raw;
+function decodeSafe(part) {
   try {
     return decodeURIComponent(part);
   } catch {
     return part;
   }
+}
+
+/**
+ * Pull the c.<b64> / p.<b64> token out of a hash, query string, path, or raw token.
+ */
+export function extractHash(input) {
+  if (input == null) return "";
+  const raw = String(input).trim();
+  if (!raw) return "";
+  const hashIdx = raw.lastIndexOf("#");
+  if (hashIdx >= 0) {
+    const part = decodeSafe(raw.slice(hashIdx + 1));
+    if (/^(c|p)\./.test(part)) return part;
+  }
+  try {
+    const u = raw.includes("://") || raw.startsWith("/")
+      ? new URL(raw, "https://paigegames.net")
+      : null;
+    if (u) {
+      const q = u.searchParams.get("p") || u.searchParams.get("d") || u.searchParams.get("plan");
+      if (q) {
+        const v = decodeSafe(q);
+        if (/^(c|p)\./.test(v)) return v;
+        if (/^[A-Za-z0-9_-]+$/.test(v)) return `p.${v}`;
+      }
+      const m = /\/((?:c|p)\.[A-Za-z0-9_-]+)/.exec(u.pathname);
+      if (m) return m[1];
+    }
+  } catch { /* ignore */ }
+  const part = decodeSafe(hashIdx >= 0 ? raw.slice(hashIdx + 1) : raw);
+  return part;
 }
 
 export function isShareHash(input) {
@@ -273,8 +345,13 @@ export function decodeShare(input) {
   } catch {
     return { ok: false, error: "bad_json" };
   }
+  return decodeSharePayload(payload, { hash });
+}
+
+/** Decode a compact course/plan payload object (link or inflated QR). */
+export function decodeSharePayload(payload, { hash = "" } = {}) {
   if (!payload || payload.v !== SHARE_VERSION) return { ok: false, error: "unsupported_version" };
-  if (m[1] === "c" || payload.t === "c") {
+  if (payload.t === "c") {
     const pins = expandPins(payload.pins);
     if (pins.length < 2) return { ok: false, error: "too_few_pins" };
     const path = payload.path ? decodePolyline(payload.path) : null;
@@ -286,9 +363,11 @@ export function decodeShare(input) {
     };
     return { ok: true, kind: "course", hash, course, meters: pathLengthMeters(course.path || course.pins) };
   }
-  if (m[1] === "p" || payload.t === "p") {
+  if (payload.t === "p") {
     if (!payload.plan || typeof payload.plan !== "object") return { ok: false, error: "bad_plan" };
-    const plan = stripSecrets(payload.plan);
+    // Strip sender data without re-compacting pins (compactPins expects
+    // {lat,lon} objects; a share payload already stores [lat,lon] arrays).
+    const plan = sanitiseSharedPlan(payload.plan);
     if (!plan.title && !plan.goal && !plan.route) return { ok: false, error: "bad_plan" };
     if (plan.route && Array.isArray(plan.route.pins)) {
       plan.route.pins = expandPins(plan.route.pins);

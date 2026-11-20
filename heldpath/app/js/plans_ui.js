@@ -37,6 +37,20 @@ import {
 import { ensureWalkGraph } from "./area_graphs.js";
 import { overlapPlanCopy, overlappingDates } from "./calendar_conflict.js";
 import { OWNERSHIP_COPY, creditsRemaining } from "./iap.js";
+import { exactCourseRoute, buildEvenPaceLegTargets, describeLegPlan } from "./plan_legs.js";
+import {
+  formatWaterLine,
+  loadWaterPrefs,
+  saveWaterPrefs,
+  logOneBottle,
+  todayLoggedMl,
+  recommendWaterTarget,
+  readCachedTemperature,
+  WATER_CALC_NOTE,
+  WATER_NOT_MEDICAL,
+  normaliseBottleOz,
+  defaultWaterUnit,
+} from "./water_units.js";
 
 let ctx = null;
 let bound = false;
@@ -134,6 +148,32 @@ function readGoal() {
 
 function draftForGoal(goal) {
   const draft = buildPlanDraft(goal);
+  if (goal && goal.course && goal.course.pins && goal.course.pins.length >= 2 && !goal.autoLoop) {
+    // Saved custom pin routes are accepted as-is: never scaled or repeated.
+    const exact = exactCourseRoute(goal.course);
+    const pins = exact.pins || goal.course.pins;
+    const path = exact.path || goal.course.path || null;
+    const meters = pathLengthMeters(path && path.length >= 2 ? path : pins);
+    draft.route = {
+      ...draft.route,
+      mode: "course",
+      courseId: goal.course.id || null,
+      pins,
+      path,
+      targetLengthMeters: meters,
+      scaleFactor: 1,
+      repeatTimes: 1,
+    };
+    draft.schedule.sessionDistanceMeters = meters;
+    const totalSec = draft.schedule.initialTargetSec || draft.schedule.sessionDurationSec;
+    const even = buildEvenPaceLegTargets(pins, totalSec, { path });
+    draft.schedule.legTargetsSec = even.map((l) => (typeof l === "number" ? l : l.targetSec));
+    draft.legPlan = describeLegPlan(pins, {
+      targetSec: totalSec,
+      path,
+      units: units(),
+    });
+  }
   if (ui.waterOverrideMl != null) {
     draft.water.dailyMl = ui.waterOverrideMl;
     draft.water.userAdjusted = true;
@@ -156,7 +196,10 @@ function fillPreview(draft) {
   rows.push(`<div class="plan-stat"><span>Session</span><strong>${formatDistance(s.sessionDistanceMeters, u)} · ${formatDuration(s.sessionDurationSec)}</strong></div>`);
   rows.push(`<div class="plan-stat"><span>Schedule</span><strong>${s.sessionDates.length} sessions over ${draft.goal.windowDays} days</strong></div>`);
   rows.push(`<div class="plan-stat"><span>Pace target</span><strong>${pace}</strong></div>`);
-  if (legs.length) {
+  if (Array.isArray(draft.legPlan) && draft.legPlan.length) {
+    const lines = draft.legPlan.map((l) => String(l.line || "").replace(/</g, ""));
+    rows.push(`<div class="plan-stat" data-testid="plan-leg-lines"><span>Per-leg even pace</span><strong>${lines.join("<br>")}</strong></div>`);
+  } else if (legs.length) {
     rows.push(`<div class="plan-stat"><span>Per-leg targets</span><strong>${legs.map((s) => formatDuration(s)).join(" · ")}</strong></div>`);
   }
   rows.push(`<div class="plan-stat"><span>Effort (plan)</span><strong>${effort.mets || "—"} METs · ~${effort.kcal || 0} kcal</strong></div>`);
@@ -164,7 +207,10 @@ function fillPreview(draft) {
     rows.push(`<div class="plan-stat"><span>VDOT</span><strong>${s.vdot} · easy ${formatPace(1609.344, s.trainingPaces.easy.secPerMile, "mi")}</strong></div>`);
   }
   rows.push(`<div class="plan-stat"><span>Water</span><strong>${draft.water.dailyMl} ml session day · ${draft.water.restDayMl} ml rest day</strong></div>`);
-  rows.push(`<div class="plan-stat"><span>Route</span><strong>${draft.route.mode === "course" ? "Saved course" : "Auto loop"} · ${formatDistance(pathLengthMeters(draft.route.pins), u)}</strong></div>`);
+  const routeLabel = draft.route.mode === "course"
+    ? (draft.route.scaleFactor === 1 ? "Saved course (exact)" : "Saved course")
+    : "Auto loop";
+  rows.push(`<div class="plan-stat"><span>Route</span><strong>${routeLabel} · ${formatDistance(pathLengthMeters(draft.route.path && draft.route.path.length >= 2 ? draft.route.path : draft.route.pins), u)}</strong></div>`);
   $("plan-preview").innerHTML = rows.join("");
   const mix = s.mix;
   if (mix) {
@@ -181,24 +227,106 @@ function renderCreditNote() {
   $("plan-create-note").textContent = credits > 0
     ? `${credits} unused plan credit${credits === 1 ? "" : "s"} on this phone. Creating a plan uses one.`
     : "No credit yet. Creating a plan buys one $2 credit first (stub in this build). Importing a shared plan stays free.";
-  $("btn-plan-create").textContent = credits > 0 ? "Create plan · use 1 credit" : "Create plan · $2 one time";
+  $("btn-plan-create").textContent = credits > 0 ? "Create plan · use 1 credit" : "Create plan · $2";
+}
+
+function waterPrefs() {
+  const u = units();
+  return loadWaterPrefs(undefined, { units: u, locale: (typeof navigator !== "undefined" && navigator.language) || "en-US" });
 }
 
 function renderWater(draft) {
   const plan = newestPlan();
   const source = plan || draft;
   const ml = source.water.dailyMl;
-  $("plan-water").textContent = plan
-    ? `${plan.title}: ${ml} ml on a session day, ${plan.water.restDayMl || plan.water.baselineMl} ml on a rest day.`
-    : `${ml} ml on a session day, ${draft.water.restDayMl} ml on a rest day.`;
+  const prefs = waterPrefs();
+  if ($("plan-water-line")) $("plan-water-line").textContent = formatWaterLine(ml, prefs);
+  if ($("plan-water")) {
+    $("plan-water").textContent = plan
+      ? `${plan.title}: ${formatWaterLine(ml, prefs)} on a session day.`
+      : `${formatWaterLine(ml, prefs)} on a session day.`;
+  }
   $("plan-water-disclaimer").textContent = WATER_DISCLAIMER;
   $("plan-water-ml").value = String(ml);
   $("plan-water-oz").value = String(mlToOz(ml));
+  if ($("plan-water-unit")) $("plan-water-unit").value = prefs.unit || defaultWaterUnit({ units: units() });
+  if ($("plan-water-bottle")) {
+    const bottle = prefs.bottleOz || 16.9;
+    const known = ["16.9", "20", "24", "32", "40"];
+    $("plan-water-bottle").value = known.includes(String(bottle)) ? String(bottle) : "custom";
+    if ($("plan-water-bottle-custom-wrap")) $("plan-water-bottle-custom-wrap").hidden = $("plan-water-bottle").value !== "custom";
+    if ($("plan-water-bottle-custom")) $("plan-water-bottle-custom").value = String(bottle);
+  }
+  const logged = todayLoggedMl();
+  if ($("plan-water-logged")) {
+    $("plan-water-logged").textContent = logged > 0
+      ? `Today: ${formatWaterLine(logged, prefs)} logged.`
+      : "Nothing logged today. Tap +1 bottle to record a drink.";
+  }
   const times = reminderTimesFor(source);
-  $("plan-reminder-times").value = times.join(", ");
-  $("plan-reminder-note").textContent = times.length
-    ? `Drink reminders: ${times.join(", ")}. ${times.some((t) => isNightTime(t)) ? "Includes a night time you added." : "No night alerts unless you add them."} On-device only.`
-    : "No reminder times set.";
+  if ($("plan-reminder-times")) $("plan-reminder-times").value = times.join(", ");
+  if ($("plan-reminder-note")) {
+    $("plan-reminder-note").textContent = times.length
+      ? `Drink reminders: ${times.join(", ")}. ${times.some((t) => isNightTime(t)) ? "Includes a night time you added." : "No night alerts unless you add them."} On-device only.`
+      : "No reminder times set.";
+  }
+}
+
+function persistWaterPrefsFromForm() {
+  const prefs = waterPrefs();
+  if ($("plan-water-unit")) prefs.unit = $("plan-water-unit").value || prefs.unit;
+  if ($("plan-water-bottle")) {
+    const v = $("plan-water-bottle").value;
+    prefs.bottleOz = v === "custom"
+      ? normaliseBottleOz(Number($("plan-water-bottle-custom") && $("plan-water-bottle-custom").value))
+      : normaliseBottleOz(Number(v));
+  }
+  saveWaterPrefs(prefs);
+  return prefs;
+}
+
+function onLogOneBottle() {
+  const prefs = persistWaterPrefsFromForm();
+  logOneBottle(prefs);
+  const draft = ui.preview || draftForGoal(readGoal());
+  renderWater(draft);
+}
+
+function onRecommendWater() {
+  const box = $("plan-water-recommend-box");
+  if (!box) return;
+  box.hidden = false;
+  const prefs = persistWaterPrefsFromForm();
+  const hours = (ui.preview && ui.preview.schedule && ui.preview.schedule.sessionDurationSec)
+    ? ui.preview.schedule.sessionDurationSec / 3600
+    : 1;
+  const cached = readCachedTemperature();
+  const rec = recommendWaterTarget({
+    sessionHours: hours,
+    tempC: cached && cached.tempC,
+  });
+  ui.pendingWaterRec = rec;
+  if ($("plan-water-recommend-line")) $("plan-water-recommend-line").textContent = formatWaterLine(rec.dailyMl, prefs);
+  if ($("plan-water-recommend-how")) $("plan-water-recommend-how").textContent = WATER_CALC_NOTE;
+  if ($("plan-water-recommend-disclaimer")) $("plan-water-recommend-disclaimer").textContent = WATER_NOT_MEDICAL;
+}
+
+function acceptWaterRecommendation() {
+  const rec = ui.pendingWaterRec;
+  if (!rec || !(rec.dailyMl > 0)) return;
+  ui.waterOverrideMl = Math.max(500, Math.min(10000, Math.round(rec.dailyMl / 50) * 50));
+  const box = $("plan-water-recommend-box");
+  if (box) box.hidden = true;
+  updatePreview();
+}
+
+function adjustWaterRecommendation() {
+  const rec = ui.pendingWaterRec;
+  if (rec && rec.dailyMl > 0) {
+    $("plan-water-ml").value = String(Math.round(rec.dailyMl / 50) * 50);
+    $("plan-water-oz").value = String(mlToOz(Number($("plan-water-ml").value)));
+  }
+  if ($("plan-water-ml")) $("plan-water-ml").focus();
 }
 
 function renderRouteOptions() {
@@ -413,7 +541,18 @@ function bind() {
   $("plan-body").addEventListener("input", updatePreview);
   $("plan-title").addEventListener("input", updatePreview);
   $("btn-plan-create").addEventListener("click", () => { createPlan().catch(() => {}); });
-  $("btn-plan-water-save").addEventListener("click", () => { saveWater().catch(() => {}); });
+  $("btn-plan-water-save").addEventListener("click", () => { persistWaterPrefsFromForm(); saveWater().catch(() => {}); });
+  if ($("btn-water-log-bottle")) $("btn-water-log-bottle").addEventListener("click", () => onLogOneBottle());
+  if ($("btn-water-recommend")) $("btn-water-recommend").addEventListener("click", () => onRecommendWater());
+  if ($("btn-water-accept")) $("btn-water-accept").addEventListener("click", () => acceptWaterRecommendation());
+  if ($("btn-water-adjust")) $("btn-water-adjust").addEventListener("click", () => adjustWaterRecommendation());
+  if ($("plan-water-unit")) $("plan-water-unit").addEventListener("change", () => { persistWaterPrefsFromForm(); updatePreview(); });
+  if ($("plan-water-bottle")) $("plan-water-bottle").addEventListener("change", () => {
+    if ($("plan-water-bottle-custom-wrap")) $("plan-water-bottle-custom-wrap").hidden = $("plan-water-bottle").value !== "custom";
+    persistWaterPrefsFromForm();
+    updatePreview();
+  });
+  if ($("plan-water-bottle-custom")) $("plan-water-bottle-custom").addEventListener("change", () => { persistWaterPrefsFromForm(); updatePreview(); });
   $("plan-water-ml").addEventListener("input", () => {
     const ml = Number($("plan-water-ml").value) || 0;
     $("plan-water-oz").value = String(mlToOz(ml));

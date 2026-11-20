@@ -238,6 +238,14 @@ export function routePair(graph, a, b, opts = {}) {
   return { points, meters, mode: "routed", snapA: sa, snapB: sb };
 }
 
+function pinsSharePrefix(a, b) {
+  if (!a || !b) return 0;
+  const n = Math.min(a.length, b.length);
+  let i = 0;
+  while (i < n && a[i] && b[i] && a[i].lat === b[i].lat && a[i].lon === b[i].lon) i++;
+  return i;
+}
+
 export function routeLegs(graph, pins, opts = {}) {
   const list = (pins || []).map((p) => ({ ...p }));
   if (list.length < 2) {
@@ -250,10 +258,26 @@ export function routeLegs(graph, pins, opts = {}) {
       straightLine: !!opts.straightLine,
     };
   }
-  const legs = [];
+  // Reuse unchanged prefix legs when adding/undoing pins so a 100+ stop
+  // (marathon-length) course stays fast in the builder.
+  const prev = opts.previous;
+  const canReuse = prev && !!prev.straightLine === !!opts.straightLine
+    && Array.isArray(prev.legs) && Array.isArray(prev.pins)
+    && prev._graph === graph;
+  const shared = canReuse ? pinsSharePrefix(prev.pins, list) : 0;
+  const reuseLegs = canReuse && shared >= 2 ? prev.legs.slice(0, shared - 1) : [];
+
+  const legs = reuseLegs.slice();
   const path = [];
-  let usedStraight = false;
-  for (let i = 0; i < list.length - 1; i++) {
+  let usedStraight = legs.some((l) => l.mode === "straight");
+  if (legs.length) {
+    for (let i = 0; i < legs.length; i++) {
+      const pts = legs[i].points || [];
+      if (!path.length) path.push(...pts);
+      else path.push(...pts.slice(1));
+    }
+  }
+  for (let i = legs.length; i < list.length - 1; i++) {
     const leg = routePair(graph, list[i], list[i + 1], opts);
     legs.push({
       meters: leg.meters,
@@ -263,10 +287,7 @@ export function routeLegs(graph, pins, opts = {}) {
     });
     if (leg.mode === "straight") usedStraight = true;
     if (!path.length) path.push(...leg.points);
-    else {
-      const rest = leg.points.slice(1);
-      path.push(...rest);
-    }
+    else path.push(...leg.points.slice(1));
   }
   return {
     pins: list,
@@ -275,6 +296,7 @@ export function routeLegs(graph, pins, opts = {}) {
     legs,
     usedStraight,
     straightLine: !!opts.straightLine,
+    _graph: graph,
   };
 }
 

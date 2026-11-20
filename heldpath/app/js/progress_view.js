@@ -21,6 +21,20 @@ import {
   evaluateAchievements,
   summarizeActivities,
 } from "./progress_stats.js";
+import {
+  buildGoalSeries,
+  mountGoalChart,
+  historyTableMarkup,
+  loadChartStyle,
+  saveChartStyle,
+  periodGoalProgress,
+  periodRingMarkup,
+  periodHistory,
+  pointsFromRuns,
+  runsForGoal,
+  metricForGoal,
+  goalPeriod,
+} from "./goal_progress.js";
 
 const PROGRESS_ART = "assets/art_progress_empty.png";
 
@@ -154,16 +168,23 @@ function achievementCard(a) {
 export function renderProgressView(root, ctx) {
   const {
     activities = [],
+    courses = [],
+    goals = [],
+    planLibrary = [],
     range = "W",
     units = "mi",
     now = new Date(),
     onStartWalk,
+    onOpenGoals,
   } = ctx || {};
 
   if (!activities.length) {
-    root.innerHTML = emptyProgressMarkup();
+    root.innerHTML = emptyProgressMarkup() + `<div id="goal-progress-block"></div>`;
     const start = root.querySelector("#empty-go-walk");
     if (start && onStartWalk) start.addEventListener("click", onStartWalk);
+    mountGoalProgress(root.querySelector("#goal-progress-block"), {
+      activities, courses, goals, planLibrary, units, now, onOpenGoals,
+    });
     return;
   }
 
@@ -197,6 +218,7 @@ export function renderProgressView(root, ctx) {
         <span>${bestDay > 0 ? "Longest " + dist(bestDay, units) : "Ready when you are"}</span>
       </div>
     </div>
+    <div id="goal-progress-block"></div>
     <div class="totals">
       <div class="total-box"><div class="num">${dist(sums.distanceMeters, units)}</div><div class="lbl">Distance</div></div>
       <div class="total-box"><div class="num">${formatDuration(sums.elapsedSec)}</div><div class="lbl">Time</div></div>
@@ -237,6 +259,9 @@ export function renderProgressView(root, ctx) {
     </div>`;
 
   paintChart(root.querySelector("#chart"), buckets, units);
+  mountGoalProgress(root.querySelector("#goal-progress-block"), {
+    activities, courses, goals, planLibrary, units, now, onOpenGoals,
+  });
 
   const list = root.querySelector("#recent-list");
   for (const a of recent) {
@@ -246,4 +271,104 @@ export function renderProgressView(root, ctx) {
     el.innerHTML = `<div class="grow"><h3>${a.type === "run" ? "Run" : "Walk"}${a.courseName ? " · " + escapeHtml(a.courseName) : ""}</h3><p>${when} · ${formatDuration(a.elapsedSec)} · ${formatPace(a.distanceMeters, a.elapsedSec, units)}</p></div><div class="meta">${dist(a.distanceMeters, units)}</div>`;
     list.appendChild(el);
   }
+}
+
+
+function mountGoalProgress(root, { activities, courses, goals, planLibrary, units, now, onOpenGoals }) {
+  if (!root) return;
+  const locale = (typeof navigator !== "undefined" && navigator.language) || "en-US";
+  const items = [];
+  (goals || []).forEach((g) => items.push({ kind: "goal", goal: g, title: g.name || "Goal" }));
+  (courses || []).forEach((c) => {
+    if (c && c.goal) items.push({ kind: "course", course: c, title: c.name || "Course goal" });
+  });
+  (planLibrary || []).forEach((p) => {
+    if (p && p.goal) items.push({ kind: "plan", plan: p, title: p.title || "Plan" });
+  });
+  // Overall session chart (free)
+  items.unshift({ kind: "overall", title: "All runs", overall: true });
+
+  const style = loadChartStyle();
+  const histPeriod = (typeof sessionStorage !== "undefined" && sessionStorage.getItem("heldpath.hist-period")) || "week";
+  let html = `<div class="card goal-progress-card" data-testid="goal-charts">
+    <div class="section-head"><h2>Goal progress</h2>
+      <div class="range-tog" id="goal-chart-style" data-testid="chart-style-tog">
+        <button type="button" data-style="line" class="${style === "line" ? "active" : ""}">Line</button>
+        <button type="button" data-style="bar" class="${style === "bar" ? "active" : ""}">Bar</button>
+      </div>
+    </div>
+    <p class="tiny">Each point is a run. The red line is your sessions. Yellow is the goal, blue is this week's average, green is this month's average — flat lines, not rolling.</p>`;
+
+  const rings = (goals || []).map((g) => periodGoalProgress(g, activities, { now, locale, units })).filter(Boolean);
+  if (rings.length) {
+    html += `<div class="period-rings" data-testid="period-rings">${rings.map((r) => periodRingMarkup(r)).join("")}</div>`;
+  }
+  if (onOpenGoals) {
+    html += `<p class="tiny"><button type="button" class="btn btn-secondary" id="progress-open-goals" style="width:100%;margin:8px 0">Goals</button></p>`;
+  }
+  items.forEach((item, i) => {
+    html += `<div class="goal-chart-block" data-idx="${i}">
+      <h3>${escapeHtml(item.title)}</h3>
+      <div class="chart-wrap goal-chart-wrap" id="goal-chart-${i}" data-testid="goal-chart"></div>
+    </div>`;
+  });
+  html += `<div class="hist-block">
+    <div class="section-head"><h2>Stats history</h2>
+      <div class="range-tog" id="hist-period-tog" data-testid="hist-period-tog">
+        <button type="button" data-period="week" class="${histPeriod === "week" ? "active" : ""}">Weeks</button>
+        <button type="button" data-period="month" class="${histPeriod === "month" ? "active" : ""}">Months</button>
+      </div>
+    </div>
+    <p class="tiny">Every past week and month is kept, newest first, and recomputed from your saved activities.</p>
+    <div id="hist-table" data-testid="hist-table"></div>
+  </div></div>`;
+  root.innerHTML = html;
+
+  const mode = style;
+  items.forEach((item, i) => {
+    const series = buildGoalSeries({
+      activities,
+      course: item.course || null,
+      plan: item.plan || null,
+      goal: item.goal || (item.course && item.course.goal) || (item.plan && item.plan.goal) || null,
+      units,
+      now,
+      locale,
+      overall: item.overall || item.kind === "overall",
+    });
+    const el = root.querySelector(`#goal-chart-${i}`);
+    if (el) mountGoalChart(el, series, { mode, title: item.title });
+  });
+
+  const overallRuns = runsForGoal({ activities, overall: true, metric: "distance" });
+  const overallPoints = pointsFromRuns(overallRuns, units, "distance");
+  const paintHist = (period) => {
+    const rows = periodHistory(overallPoints, period, { locale, metric: "distance", units });
+    const box = root.querySelector("#hist-table");
+    if (box) box.innerHTML = historyTableMarkup(rows, { period, metric: "distance", units });
+  };
+  paintHist(histPeriod);
+
+  const styleTog = root.querySelector("#goal-chart-style");
+  if (styleTog) {
+    styleTog.addEventListener("click", (ev) => {
+      const btn = ev.target.closest("button[data-style]");
+      if (!btn) return;
+      saveChartStyle(btn.getAttribute("data-style"));
+      mountGoalProgress(root, { activities, courses, goals, planLibrary, units, now, onOpenGoals });
+    });
+  }
+  const histTog = root.querySelector("#hist-period-tog");
+  if (histTog) {
+    histTog.addEventListener("click", (ev) => {
+      const btn = ev.target.closest("button[data-period]");
+      if (!btn) return;
+      const period = btn.getAttribute("data-period");
+      try { sessionStorage.setItem("heldpath.hist-period", period); } catch { /* ignore */ }
+      histTog.querySelectorAll("button").forEach((b) => b.classList.toggle("active", b.getAttribute("data-period") === period));
+      paintHist(period);
+    });
+  }
+  const go = root.querySelector("#progress-open-goals");
+  if (go && onOpenGoals) go.addEventListener("click", onOpenGoals);
 }

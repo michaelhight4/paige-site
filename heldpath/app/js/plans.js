@@ -181,7 +181,7 @@ function sanitiseImportedPlan(raw) {
     id: uid("plan"),
     version: 1,
     title: cleanTitle(raw.title),
-    createdAt: raw.createdAt || new Date().toISOString(),
+    createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     activityType,
     goal: {
@@ -224,12 +224,16 @@ function sanitiseImportedPlan(raw) {
     // Imported plans are owned locally, but never re-charged.
     ownership: { state: "imported" },
   };
-  const target = num(raw.progression?.currentTargetSec, plan.schedule.initialTargetSec);
-  const startedAt = raw.progression?.targetStartedAt || plan.createdAt;
+  // A shared plan is a template copy. Never bring over the sender's
+  // current target, dates, results, or any other run data. The recipient
+  // starts fresh on this device; nothing is synced between users.
+  const startedAt = plan.createdAt;
+  const stepRaw = num(raw.progression?.step, 0.02);
+  const step = Math.max(0.01, Math.min(0.03, stepRaw || 0.02));
   plan.progression = {
-    currentTargetSec: target,
+    currentTargetSec: plan.schedule.initialTargetSec,
     targetStartedAt: startedAt,
-    step: raw.progression?.step || 0.02,
+    step,
     legTargetsSec: plan.schedule.legTargetsSec,
     legStartedAt: plan.schedule.legTargetsSec.map(() => startedAt),
   };

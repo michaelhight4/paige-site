@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heldpath — Shared plan</title>
+  <meta name="description" content="Open this plan in the Heldpath app.">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://paigegames.net/heldpath/plan/">
+  <style>
+    :root { --bg:#12161c; --ink:#e8eef3; --muted:#8a9aa8; --blue:#4fa3c8; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    main { flex: 1; max-width: 520px; margin: 0 auto; padding: 16vh 24px 48px; width: 100%; }
+    h1 { margin: 0 0 10px; font-size: clamp(28px, 7vw, 44px); font-weight: 750; letter-spacing: -0.035em; line-height: 1.1; }
+    p { margin: 0 0 14px; color: var(--muted); font-size: 18px; }
+    .msg { color: var(--ink); font-size: 18px; font-weight: 600; }
+    footer { color: var(--muted); font-size: 13px; }
+    footer a { color: var(--blue); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 id="title">Heldpath</h1>
+    <p class="msg" id="msg">Open this link in the Heldpath app.</p>
+    <p id="sub"></p>
+    <footer>
+      <a href="https://paigegames.net/heldpath/">Heldpath</a>
+      · Paige Games
+    </footer>
+  </main>
+  <script type="module">
+    import { decodeShare, shareSummary } from "../app/js/share_link.js";
+    const decoded = decodeShare(location.href);
+    const title = document.getElementById("title");
+    const sub = document.getElementById("sub");
+    const msg = document.getElementById("msg");
+    msg.textContent = "Open this link in the Heldpath app.";
+    if (decoded && decoded.ok && decoded.kind === "plan") {
+      const summary = shareSummary(decoded);
+      title.textContent = summary.title || "Shared plan";
+      sub.textContent = "This is a copy of the plan template. Your progress stays on your phone.";
+      document.title = `${summary.title} — Heldpath`;
+    } else if (location.search || location.hash) {
+      title.textContent = "Heldpath";
+      sub.textContent = "This link could not be read. Ask your friend to send it again, and open it in the Heldpath app.";
+    }
+  </script>
+</body>
+</html>

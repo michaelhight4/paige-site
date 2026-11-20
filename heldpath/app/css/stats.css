@@ -375,3 +375,61 @@
 .plan-hint.is-conflict {
   font-weight: 600;
 }
+
+/* Free goal progress + permanent week/month history */
+.goal-chart { display: block; width: 100%; height: auto; }
+.goal-chart-bg { fill: var(--bg-card, #151A22); }
+.goal-chart-tick, .goal-chart-axis, .goal-chart-legend-text, .goal-chart-empty { fill: var(--muted, #A8B2C0); font-family: inherit; }
+.goal-chart-grid { stroke: #333C4A; stroke-width: 1; }
+.goal-chart-goal { stroke: #F5C542; stroke-width: 2; stroke-dasharray: none; }
+.goal-chart-week { stroke: #4EA3FF; stroke-width: 2; }
+.goal-chart-month { stroke: #3DDC84; stroke-width: 2; }
+.goal-chart-sessions { stroke: #FF5A5A; stroke-width: 2; }
+.goal-chart-dot, .goal-chart-bar { fill: #FF5A5A; }
+.goal-chart-day { cursor: pointer; }
+@media (prefers-color-scheme: light) {
+  .goal-chart-bg { fill: #F4F6F8; }
+  .goal-chart-tick, .goal-chart-axis, .goal-chart-legend-text, .goal-chart-empty { fill: #4A5564; }
+  .goal-chart-grid { stroke: #E2E6EC; }
+}
+.chart-style-tog, .hist-tog, .goal-scope-tog {
+  display: inline-flex; gap: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+}
+.chart-style-tog button, .hist-tog button, .goal-scope-tog button {
+  min-height: 36px; padding: 0 12px; background: transparent; border: 0; color: var(--muted); font-weight: 700; font-size: 13px;
+}
+.chart-style-tog button.active, .hist-tog button.active, .goal-scope-tog button.active {
+  background: var(--blue, #4EC3F7); color: #0C1218;
+}
+.hist-table { margin-top: 8px; }
+.hist-head, .hist-row {
+  display: grid; grid-template-columns: minmax(7rem, 1.4fr) repeat(4, minmax(3.5rem, 1fr));
+  gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 13px;
+}
+.hist-head { color: var(--muted); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+.hist-row .t, .hist-head .t { text-align: right; }
+.free-flag { font-size: 11px; font-weight: 800; letter-spacing: 0.04em; color: #7dffb8; }
+
+
+.period-rings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin: 12px 0 16px;
+}
+.period-ring { text-align: center; max-width: 160px; }
+.period-ring-pct { font-size: 18px; font-weight: 800; fill: #e8eef3; }
+.period-ring-sub { font-size: 10px; fill: #8a9aa8; }
+.period-ring-copy { margin: 6px 0 0; font-size: 13px; color: #8a9aa8; }
+.period-ring-copy strong { color: #e8eef3; }
+.goal-chart-block { margin: 16px 0; }
+.goal-chart-block h3 { margin: 0 0 8px; font-size: 16px; }
+.sector-row.green .sector-delta, .sector-delta.green { color: #7dffb8; }
+.sector-row.red .sector-delta, .sector-delta.red { color: #ff8f8f; }
+.sector-row.purple .sector-delta, .sector-delta.purple { color: #d4b3ff; }
+#btn-end-point-pin.on {
+  border-color: #4EC3F7;
+  background: rgba(78, 195, 247, 0.16);
+}
+.goal-card { margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); }

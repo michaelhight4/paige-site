@@ -25,6 +25,7 @@ export function emptyState() {
     planLibrary: [], // owned/imported plan objects
     planCredits: 0, // cached count; the IAP ledger is authoritative
     groupRuns: [],
+    goals: [], // free personal goals — never paywalled
   };
 }
 
@@ -43,6 +44,7 @@ export function loadState() {
       planLibrary: parsed.planLibrary || [],
       planCredits: parsed.planCredits || 0,
       groupRuns: parsed.groupRuns || [],
+      goals: parsed.goals || [],
     };
   } catch {
     return emptyState();
@@ -58,6 +60,7 @@ export function saveState(state) {
     planLibrary: state.planLibrary || [],
     planCredits: state.planCredits || 0,
     groupRuns: state.groupRuns || [],
+    goals: state.goals || [],
   };
   localStorage.setItem(KEY, JSON.stringify(copy));
 }
@@ -76,6 +79,9 @@ export function newCourse(partial = {}) {
     straightLine: !!partial.straightLine,
     usedStraight: !!partial.usedStraight,
     legPbs: partial.legPbs || {}, // per-leg {seconds, activityId, date}, free
+    sectorPbs: partial.sectorPbs || {},
+    sectorHistory: partial.sectorHistory || [],
+    goal: partial.goal || null, // free route goal (time, pace, or distance)
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
@@ -116,5 +122,24 @@ export function newPlan(partial = {}) {
     routePins: partial.routePins || null,
     groupRunId: partial.groupRunId || null,
     startAt: partial.startAt || null,
+  };
+}
+
+
+/** A free goal. Never requires a plan credit or purchase. */
+export function newGoal(partial = {}) {
+  return {
+    id: partial.id || uid("goal"),
+    name: partial.name || "",
+    // distance | time | pace | week-count | week-distance | week-time | month-count | month-distance | month-time
+    kind: partial.kind || "distance",
+    distanceMeters: partial.distanceMeters || null,
+    finishSec: partial.finishSec || null,
+    paceSecPerMile: partial.paceSecPerMile || null,
+    targetCount: partial.targetCount || null,
+    period: partial.period || null, // week | month | null
+    courseId: partial.courseId || null,
+    createdAt: partial.createdAt || new Date().toISOString(),
+    paid: false,
   };
 }

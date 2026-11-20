@@ -350,7 +350,11 @@ export function inStarterPack(lat, lon) {
 
 export function onMapClick(handler) {
   if (!map) return () => {};
-  const fn = (e) => handler({ lat: e.lngLat.lat, lon: e.lngLat.lng });
+  const fn = (e) => {
+    const t = e.originalEvent && e.originalEvent.target;
+    if (t && typeof t.closest === "function" && t.closest(".pp-map-marker")) return;
+    handler({ lat: e.lngLat.lat, lon: e.lngLat.lng });
+  };
   map.on("click", fn);
   return () => map.off("click", fn);
 }
@@ -407,7 +411,7 @@ export function clearMarkers() {
   }
 }
 
-export function addPin(coord, { label, kind } = {}) {
+export function addPin(coord, { label, kind, onClick } = {}) {
   if (!map) return null;
   const el = document.createElement("div");
   el.className = `pp-map-marker pin pin-${kind || "via"}`;
@@ -416,6 +420,14 @@ export function addPin(coord, { label, kind } = {}) {
   cap.className = "pp-map-marker-label";
   cap.textContent = label || "";
   if (label) el.appendChild(cap);
+  if (onClick) {
+    el.style.cursor = "pointer";
+    el.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      onClick(ev);
+    });
+  }
   const marker = new maplibregl.Marker({ element: el, anchor: "bottom" })
     .setLngLat([coord.lon, coord.lat])
     .addTo(map);

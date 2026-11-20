@@ -20,7 +20,7 @@ import {
   pointAlongPath,
   destination,
 } from "./util.js";
-import { loadState, saveState, resetState, newCourse, newActivity, newPlan } from "./storage.js";
+import { loadState, saveState, resetState, newCourse, newActivity, newPlan, newGoal } from "./storage.js";
 import * as health from "./health.js";
 import { PLANS_HOOK_COPY } from "./plans_hook.js";
 import * as map from "./map.js";
@@ -61,6 +61,63 @@ import { isWeb, applyPlatformVisibility, registerServiceWorker, listenForInstall
 import { renderCalendarView } from "./calendar_view.js";
 import { conflictCopy, plansOnDate } from "./calendar_conflict.js";
 import { renderProgressView } from "./progress_view.js";
+import {
+  emptyBuilderState,
+  placePin,
+  setEndMode,
+  toggleEndMode,
+  setEndIndex,
+  addNextStop,
+  undoPin,
+  pinLabel,
+  pinNumberLabel,
+  routeStops,
+  canSave,
+  savedPins,
+  ingestPins,
+  routeCourse,
+  isExplainerSeen,
+  markExplainerSeen,
+  builderHint,
+  EXPLAINER_BODY,
+  EXPLAINER_TITLE,
+  legLabels,
+} from "./course_builder.js";
+import {
+  resolveGoal,
+  sectorTargets,
+  sectorTimesFromTrack,
+  compareSectors,
+  bestPossibleSec,
+  applySectorResult,
+  newlyCompletedSectors,
+  sectorMetersList,
+  liveSectorFlash,
+  maybeCallout,
+  parseFinishInput,
+  parsePaceInput,
+  formatSectorDelta,
+  formatSectorTime,
+  readSectorPbs,
+  hasSectorHistory,
+  goalFromFinishTime,
+  goalFromPace,
+} from "./sector_timing.js";
+import {
+  buildGoalSeries,
+  mountGoalChart,
+  historyTableMarkup,
+  loadChartStyle,
+  saveChartStyle,
+  periodGoalProgress,
+  periodRingMarkup,
+  periodHistory,
+  runsForGoal,
+  metricForGoal,
+  pointsFromRuns,
+  goalPeriod,
+} from "./goal_progress.js";
+
 import { initPlansUi, renderPlansScreen } from "./plans_ui.js";
 import { initStretchesUi, showStretchesHub, showStretchGroup, showStretchWorkout, showStretchCredits, showStretchFollow, openStretchVideo, closeStretchVideo, setStretchStyle } from "./stretches_ui.js";
 import { initMapDownloadUi, showMapAreas, openCrop, closeCrop } from "./map_download_ui.js";
@@ -98,7 +155,7 @@ import {
   addGroupRunToState,
   formatWhen,
 } from "./group_run.js";
-import { qrSvg } from "./share_qr.js";
+import { qrSvg, encodeQrFrames, createQrAssembler, scanQrImageData } from "./share_qr.js";
 import {
   getActiveGraph,
   routeLegs,
@@ -470,6 +527,164 @@ function paintSessionHud(sess) {
     if (sess.offRoute) offNote.textContent = offRouteCopy(sess.offRouteMeters, sess.units);
   }
   $("lock-body").textContent = track.liveNotification(sess);
+  paintSectorFlash(sess);
+}
+
+function courseForSession(sess) {
+  if (!sess) return null;
+  if (sess.courseId) {
+    const c = (state.courses || []).find((x) => x.id === sess.courseId);
+    if (c) return c;
+  }
+  if (sess.coursePins && sess.coursePins.length >= 2) {
+    return {
+      id: sess.courseId || null,
+      name: sess.courseName || "Course",
+      pins: sess.coursePins,
+      path: sess.coursePath || null,
+      goal: sess.courseGoal || null,
+      sectorPbs: sess.sectorPbs || {},
+      sectorHistory: sess.sectorHistory || [],
+      sectorCallout: !!sess.sectorCallout,
+    };
+  }
+  return null;
+}
+
+function paintSectorFlash(sess) {
+  const el = $("sector-flash");
+  if (!el) return;
+  const course = courseForSession(sess);
+  const goal = course && resolveGoal(course);
+  if (!course || !goal) {
+    el.hidden = true;
+    return;
+  }
+  const meters = sectorMetersList(course);
+  const traveled = (sess.track && sess.track.length)
+    ? (sess.distanceMeters || 0)
+    : 0;
+  const prev = ui.sectorTraveled == null ? 0 : ui.sectorTraveled;
+  const just = newlyCompletedSectors(prev, traveled, meters);
+  ui.sectorTraveled = traveled;
+  if (!just.length) {
+    if (!ui.sectorFlashSticky) el.hidden = true;
+    return;
+  }
+  const times = sectorTimesFromTrack(course, sess.track || []);
+  const pbs = readSectorPbs(course);
+  const hist = hasSectorHistory(course);
+  const targets = sectorTargets(course, goal);
+  const compared = compareSectors({ times, targets, pbs, hasHistory: hist });
+  const idx = just[just.length - 1];
+  const row = compared[idx];
+  if (!row || row.time == null) return;
+  const cum = compared.slice(0, idx + 1).reduce((s, r) => s + (Number(r.vsGoal) || 0), 0);
+  const bp = hist ? bestPossibleSec(pbs, targets) : null;
+  const flash = liveSectorFlash(row, { cumulativeDelta: cum, hasHistory: hist, bestPossible: bp });
+  el.hidden = false;
+  el.classList.remove("green", "red", "purple");
+  if (flash.color) el.classList.add(flash.color);
+  if ($("sector-flash-main")) $("sector-flash-main").textContent = flash.sectorLine;
+  if ($("sector-flash-cum")) $("sector-flash-cum").textContent = [flash.cumulativeLine, flash.bestPossibleLine].filter(Boolean).join(" · ");
+  ui.sectorFlashSticky = true;
+  if (course.sectorCallout) maybeCallout(flash.spoken, { audio: true, haptic: true });
+}
+
+function renderSectorTable(root, course, act) {
+  if (!root) return;
+  root.innerHTML = "";
+  const goal = course && resolveGoal(course);
+  if (!course || !goal || !act) return;
+  const times = sectorTimesFromTrack(course, act.track || []);
+  const targets = sectorTargets(course, goal);
+  const pbs = readSectorPbs(course);
+  const histBefore = hasSectorHistory(course);
+  const compared = compareSectors({ times, targets, pbs, hasHistory: histBefore });
+  const applied = applySectorResult(course, times, { activityId: act.id, at: act.endedAt });
+  const hist = hasSectorHistory(course);
+  const bp = bestPossibleSec(readSectorPbs(course), targets);
+  const table = document.createElement("div");
+  table.className = "sector-table";
+  table.setAttribute("data-testid", "sector-table");
+  const head = document.createElement("div");
+  head.className = "split-head";
+  head.innerHTML = `<span>Sector</span><span class="t">Time</span><span class="t">Target</span><span class="t">Delta</span>`;
+  table.appendChild(head);
+  let cum = 0;
+  compared.forEach((row, i) => {
+    const el = document.createElement("div");
+    const appliedRow = applied && applied.rows && applied.rows[i];
+    const isPb = !!(appliedRow && appliedRow.isNewPb);
+    const color = isPb ? "purple" : (row.colorVsGoal || "");
+    el.className = "split-row sector-row" + (color ? " " + color : "");
+    const label = document.createElement("span");
+    label.textContent = `S${i + 1}`;
+    const time = document.createElement("span");
+    time.className = "t";
+    time.textContent = row.time == null ? "—" : formatSectorTime(row.time);
+    const tgt = document.createElement("span");
+    tgt.className = "t";
+    tgt.textContent = row.target == null ? "—" : formatSectorTime(row.target);
+    const delta = document.createElement("span");
+    delta.className = "t sector-delta " + color;
+    delta.textContent = row.vsGoal == null ? "—" : formatSectorDelta(row.vsGoal);
+    if (row.vsGoal != null) cum += row.vsGoal;
+    el.appendChild(label);
+    el.appendChild(time);
+    el.appendChild(tgt);
+    el.appendChild(delta);
+    table.appendChild(el);
+  });
+  root.appendChild(table);
+  const foot = document.createElement("p");
+  foot.className = "tiny";
+  foot.style.marginTop = "12px";
+  const bits = [`Total ${formatSectorDelta(cum)}`];
+  if (bp != null) bits.push(`Best possible ${formatSectorTime(bp)}`);
+  foot.textContent = bits.join(" · ") + ". Even pace from the goal time and the full route distance.";
+  root.appendChild(foot);
+}
+
+function paintCourseGoalFields(course) {
+  if (!course) return;
+  const goal = course.goal || {};
+  if ($("course-goal-time")) {
+    $("course-goal-time").value = goal.finishInput || (goal.finishSec ? formatDuration(goal.finishSec) : "");
+  }
+  if ($("course-goal-pace")) {
+    const unit = units();
+    if ($("course-goal-pace-unit")) $("course-goal-pace-unit").textContent = unit === "km" ? "/km" : "/mi";
+    $("course-goal-pace").value = goal.paceInput || "";
+  }
+  if ($("course-sector-callout")) $("course-sector-callout").checked = !!course.sectorCallout;
+  if ($("course-goal-status")) {
+    const g = resolveGoal(course);
+    $("course-goal-status").textContent = g
+      ? "Goal saved. Sector targets use even pace and stay free."
+      : "No goal yet. Add a finish time or a pace — free.";
+  }
+}
+
+function saveCourseGoal() {
+  const course = (state.courses || []).find((c) => c.id === ui.courseId);
+  if (!course) return;
+  const finish = parseFinishInput(($("course-goal-time") && $("course-goal-time").value) || "");
+  const paceRaw = ($("course-goal-pace") && $("course-goal-pace").value) || "";
+  const pace = parsePaceInput(paceRaw);
+  let goal = null;
+  if (finish) {
+    goal = goalFromFinishTime(finish, course);
+    if (goal) goal.finishInput = String($("course-goal-time").value || "").trim();
+  } else if (pace) {
+    goal = goalFromPace(pace, course, units());
+    if (goal) goal.paceInput = String(paceRaw).trim();
+  }
+  course.goal = goal;
+  course.sectorCallout = !!($("course-sector-callout") && $("course-sector-callout").checked);
+  course.updatedAt = new Date().toISOString();
+  persist();
+  paintCourseGoalFields(course);
 }
 
 function drawSessionOnMap(sess) {
@@ -494,19 +709,74 @@ function drawSessionOnMap(sess) {
   }
 }
 
-function addCoursePins(pins) {
-  pins.forEach((p, i) => {
+function addCoursePins(pins, { builderState = null, clickable = false } = {}) {
+  (pins || []).forEach((p, i) => {
     const kind = p.role || (i === 0 ? "start" : i === pins.length - 1 ? "end" : "via");
-    const label = kind === "start" ? "Start" : kind === "end" ? "End" : "";
-    map.addPin(p, { kind, label });
+    const label = builderState
+      ? pinLabel(builderState, i)
+      : (kind === "start" ? "Start" : kind === "end" ? "End" : String(i + 1));
+    const opts = { kind, label };
+    if (clickable && builderState) {
+      opts.onClick = (ev) => {
+        if (ev && ev.stopPropagation) ev.stopPropagation();
+        openPinAction(i);
+      };
+    }
+    map.addPin(p, opts);
   });
 }
 
+function activeBuilder() {
+  if (!ui.builder) {
+    ui.builder = Array.isArray(ui.builderPins) && ui.builderPins.length
+      ? ingestPins(ui.builderPins)
+      : emptyBuilderState();
+    ui.builderPins = ui.builder.pins;
+    return ui.builder;
+  }
+  if (Array.isArray(ui.builderPins) && ui.builderPins !== ui.builder.pins) {
+    ui.builder = ingestPins(ui.builderPins);
+    ui.builderPins = ui.builder.pins;
+  } else {
+    ui.builderPins = ui.builder.pins;
+  }
+  return ui.builder;
+}
+
 function builderRoute() {
-  const pins = ui.builderPins || [];
-  const routed = routeLegs(getActiveGraph(), pins, { straightLine: !ui.followPaths });
+  const st = activeBuilder();
+  const routed = routeCourse(getActiveGraph(), st, {
+    straightLine: !ui.followPaths,
+    previous: ui.builderRoute || null,
+  });
   ui.builderRoute = routed;
   return routed;
+}
+
+function paintEndPointButton() {
+  const btn = $("btn-end-point-pin");
+  if (!btn) return;
+  const on = !!(ui.builder && ui.builder.endMode);
+  btn.setAttribute("aria-pressed", on ? "true" : "false");
+  btn.classList.toggle("on", on);
+  btn.textContent = on ? "End point pin · on" : "End point pin";
+}
+
+function openPinAction(index) {
+  const st = activeBuilder();
+  if (!st.pins[index]) return;
+  ui.pinActionIndex = index;
+  const label = pinLabel(st, index);
+  if ($("pin-action-title")) $("pin-action-title").textContent = label || `Pin ${index + 1}`;
+  if ($("pin-action-sub")) $("pin-action-sub").textContent = "Add this pin as the next stop (it keeps every visit number), or set it as the end.";
+  openSheet("sheet-pin-action");
+}
+
+function maybeShowBuilderExplainer({ force = false } = {}) {
+  if (!force && isExplainerSeen()) return;
+  if ($("builder-help-title")) $("builder-help-title").textContent = EXPLAINER_TITLE;
+  if ($("builder-help-copy")) $("builder-help-copy").textContent = EXPLAINER_BODY;
+  openSheet("sheet-builder-help");
 }
 
 function paintFollowToggle() {
@@ -529,28 +799,21 @@ function maybeEnsureBuilderGraph(pins) {
 }
 
 function renderBuilder() {
-  const pins = ui.builderPins || [];
+  const st = activeBuilder();
+  const pins = st.pins || [];
   maybeEnsureBuilderGraph(pins);
   const hint = $("builder-hint");
-  const follow = ui.followPaths;
-  if (pins.length === 0) hint.textContent = follow
-    ? "Tap the map to place a Start pin. Legs follow walkable paths when a map pack covers the area."
-    : "Tap the map to place a Start pin. Straight line is on — legs will not follow roads.";
-  else if (pins.length === 1) hint.textContent = "Start is placed. Tap to add the next point. Distances update with every pin.";
-  else hint.textContent = follow
-    ? "Keep adding pins, or save when the route looks right. The last pin is the End. Distances use the walkable path."
-    : "Keep adding pins, or save when the route looks right. The last pin is the End. Straight line is on.";
-
+  if (hint) hint.textContent = builderHint(st, { followPaths: !!ui.followPaths });
   paintFollowToggle();
+  paintEndPointButton();
   const box = $("builder-legs");
-  box.innerHTML = "";
   const note = $("route-fallback-note");
-  const routed = pins.length >= 2 ? builderRoute() : (ui.builderRoute = null);
+  const routed = pins.length >= 2 && st.endIndex != null ? builderRoute() : (pins.length >= 2 ? builderRoute() : (ui.builderRoute = null));
   if (note) {
-    if (routed && routed.usedStraight && follow) {
+    if (routed && routed.usedStraight && ui.followPaths) {
       note.hidden = false;
       note.textContent = "No walkable path was found for one or more legs, so a straight line is used there.";
-    } else if (!follow) {
+    } else if (!ui.followPaths) {
       note.hidden = false;
       note.textContent = "Straight line — not following roads.";
     } else {
@@ -558,38 +821,42 @@ function renderBuilder() {
       note.textContent = "";
     }
   }
-  if (pins.length < 2) {
-    box.innerHTML = `<p class="tiny">Leg distances will show here after the second pin.</p>`;
-  } else {
-    routed.legs.forEach((leg, i) => {
-      const from = i === 0 ? "Start" : `Pin ${i + 1}`;
-      const to = i === routed.legs.length - 1 ? "End" : `Pin ${i + 2}`;
-      const flag = leg.mode === "straight" && follow ? " · straight line" : "";
-      const row = document.createElement("div");
-      row.className = "leg-row";
-      row.innerHTML = `<span>${from} → ${to}${flag}</span><span>${formatDistance(leg.meters, units())}</span>`;
-      box.appendChild(row);
-    });
-    const total = routed.meters;
-    const walkEta = formatEta(etaSeconds(total, activityMph("walk")));
-    const runEta = formatEta(etaSeconds(total, activityMph("run")));
-    const tot = document.createElement("div");
-    tot.className = "total-row";
-    tot.dataset.testid = "builder-total";
-    tot.innerHTML = `<span>Total</span><span>${formatDistance(total, units())} · ${walkEta} walk · ${runEta} run</span>`;
-    box.appendChild(tot);
-    const distNote = document.createElement("p");
-    distNote.className = "tiny";
-    distNote.dataset.testid = "builder-distance-note";
-    distNote.textContent = state.settings.countHills ? HILLS_DISCLAIMER : FLAT_DISCLAIMER;
-    box.appendChild(distNote);
+  if (box) {
+    box.innerHTML = "";
+    if (pins.length < 2 || st.endIndex == null) {
+      box.innerHTML = `<p class="tiny">${st.endIndex == null && pins.length >= 2 ? "Turn on End point pin, or tap a pin and choose Set as end, to finish the route." : "Leg distances will show here after the second pin."}</p>`;
+    } else {
+      const labels = legLabels(st);
+      routed.legs.forEach((leg, i) => {
+        const names = labels[i] || { from: `Pin ${i + 1}`, to: `Pin ${i + 2}` };
+        const flag = leg.mode === "straight" && ui.followPaths ? " · straight line" : "";
+        const ret = names.returnLeg ? " · return" : "";
+        const row = document.createElement("div");
+        row.className = "leg-row";
+        row.innerHTML = `<span>${escapeHtml(names.from)} → ${escapeHtml(names.to)}${flag}${ret}</span><span>${formatDistance(leg.meters, units())}</span>`;
+        box.appendChild(row);
+      });
+      const total = routed.meters;
+      const walkEta = formatEta(etaSeconds(total, activityMph("walk")));
+      const runEta = formatEta(etaSeconds(total, activityMph("run")));
+      const tot = document.createElement("div");
+      tot.className = "total-row";
+      tot.dataset.testid = "builder-total";
+      tot.innerHTML = `<span>Total</span><span>${formatDistance(total, units())} · ${walkEta} walk · ${runEta} run</span>`;
+      box.appendChild(tot);
+      const distNote = document.createElement("p");
+      distNote.className = "tiny";
+      distNote.dataset.testid = "builder-distance-note";
+      distNote.textContent = state.settings.countHills ? HILLS_DISCLAIMER : FLAT_DISCLAIMER;
+      box.appendChild(distNote);
+    }
   }
-  $("btn-save-course").disabled = pins.length < 2;
+  if ($("btn-save-course")) $("btn-save-course").disabled = !canSave(st);
   map.clearOverlays();
   map.clearMarkers();
-  const line = routed && routed.path && routed.path.length >= 2 ? routed.path : pins;
+  const line = routed && routed.path && routed.path.length >= 2 ? routed.path : routeStops(st);
   if (line.length >= 2) map.drawRoute(line, { id: "build-line" });
-  addCoursePins(pins);
+  addCoursePins(pins, { builderState: st, clickable: true });
   refreshBuilderElevation(line);
 }
 
@@ -657,6 +924,7 @@ function openCourseActions(course) {
       : "No leg bests yet. Walk or run this course to set them — free.";
     box.appendChild(foot);
   }
+  paintCourseGoalFields(course);
   openSheet("sheet-course");
 }
 
@@ -750,18 +1018,106 @@ function openSchedule() {
   openSheet("sheet-schedule");
 }
 
+function renderGoalsScreen() {
+  const root = $("goals-list");
+  if (!root) return;
+  const items = state.goals || [];
+  const acts = state.activities || [];
+  const locale = (typeof navigator !== "undefined" && navigator.language) || "en-US";
+  const parts = [];
+  if (!items.length) {
+    parts.push(`<p class="tiny" data-testid="goals-empty">No goals yet. Add a weekly or monthly target below — free, with a ring for this period and a chart on Progress.</p>`);
+  }
+  for (const g of items) {
+    const period = goalPeriod(g);
+    const title = g.name || (period ? `${period === "week" ? "Weekly" : "Monthly"} ${periodGoalTitle(g)}` : (g.kind || "Goal"));
+    parts.push(`<div class="goal-card" data-testid="goal-card" data-goal-id="${escapeHtml(g.id)}">`);
+    parts.push(`<h3>${escapeHtml(title)}</h3>`);
+    if (period) {
+      const prog = periodGoalProgress(g, acts, { locale, units: units() });
+      if (prog) parts.push(periodRingMarkup(prog, { testid: "period-ring" }));
+    }
+    parts.push(`<p class="tiny">Always free. Your progress stays on this phone.</p>`);
+    parts.push(`<button class="btn btn-secondary btn-goal-remove" data-id="${escapeHtml(g.id)}" style="width:100%;margin-top:8px">Remove</button>`);
+    parts.push(`</div>`);
+  }
+  parts.push(`<div class="card" data-testid="add-goal-card" style="margin-top:12px">
+    <h3>Add a free goal</h3>
+    <div class="field"><label for="goal-new-kind">Type</label>
+      <select id="goal-new-kind">
+        <option value="week-distance">Weekly distance</option>
+        <option value="month-distance">Monthly distance</option>
+        <option value="week-count">Weekly run count</option>
+        <option value="month-count">Monthly run count</option>
+        <option value="week-time">Weekly time</option>
+        <option value="month-time">Monthly time</option>
+        <option value="distance">Distance per run</option>
+      </select>
+    </div>
+    <div class="field"><label for="goal-new-value">Target</label>
+      <input id="goal-new-value" data-testid="goal-new-value" type="number" min="0.1" step="0.1" value="10" inputmode="decimal" />
+      <p class="tiny" id="goal-new-unit-hint">Miles (or km if that is your unit). Count goals use a number of runs. Time goals use minutes.</p>
+    </div>
+    <button class="btn btn-primary" id="btn-goal-add" data-testid="goal-add" style="width:100%">Add goal</button>
+  </div>`);
+  root.innerHTML = parts.join("");
+  const addBtn = $("btn-goal-add");
+  if (addBtn && !addBtn._bound) {
+    addBtn._bound = true;
+  }
+  const add = $("btn-goal-add");
+  if (add) add.addEventListener("click", addGoalFromForm);
+  root.querySelectorAll(".btn-goal-remove").forEach((b) => {
+    b.addEventListener("click", () => {
+      const id = b.getAttribute("data-id");
+      state.goals = (state.goals || []).filter((g) => g.id !== id);
+      persist();
+      renderGoalsScreen();
+    });
+  });
+}
+
+function periodGoalTitle(g) {
+  const k = String(g.kind || "");
+  if (k.includes("count")) return "run count";
+  if (k.includes("time")) return "time";
+  return "distance";
+}
+
+function addGoalFromForm() {
+  const kind = (($("goal-new-kind") && $("goal-new-kind").value) || "week-distance");
+  const raw = Number(($("goal-new-value") && $("goal-new-value").value) || 0);
+  if (!(raw > 0)) return;
+  const period = kind.startsWith("week") ? "week" : kind.startsWith("month") ? "month" : null;
+  const g = newGoal({ kind, period, paid: false });
+  if (kind.includes("count")) g.targetCount = Math.round(raw);
+  else if (kind.includes("time")) g.finishSec = Math.round(raw * 60);
+  else {
+    g.distanceMeters = units() === "km" ? raw * 1000 : raw * METERS_PER_MILE;
+  }
+  if (kind === "week-distance") g.name = period === "week" ? "Weekly distance" : g.name;
+  state.goals = state.goals || [];
+  state.goals.push(g);
+  persist();
+  renderGoalsScreen();
+}
+
 function renderProgress() {
   document.querySelectorAll("#range-tog button").forEach((b) => {
     b.classList.toggle("active", b.dataset.range === ui.range);
   });
   renderProgressView($("progress-body"), {
     activities: state.activities,
+    courses: state.courses,
+    goals: state.goals,
+    planLibrary: state.planLibrary,
     range: ui.range,
     units: units(),
     onStartWalk: () => {
       setTab("today");
       openStart("walk");
     },
+    onOpenGoals: () => showScreen("goals"),
   });
 }
 
@@ -816,6 +1172,7 @@ function render() {
   if (ui.screen === "courses") renderCourses();
   if (ui.screen === "calendar") renderCalendar();
   if (ui.screen === "progress") renderProgress();
+  if (ui.screen === "goals") renderGoalsScreen();
   if (ui.screen === "settings" || ui.screen === "support") renderSettings();
   if (ui.screen === "plans") renderPlansScreen();
   if (track.getSession()) paintSessionHud(track.getSession());
@@ -1328,6 +1685,16 @@ function showSummary(act, course, legResult) {
     <div class="total-box"><div class="num">${formatGain(elev.lossM, units())}</div><div class="lbl">Descent</div></div>`;
   }
   paintElevationBox($("summary-elevation"), elev, { units: units(), credit: true });
+  const sectorRoot = $("summary-sectors");
+  if (sectorRoot) {
+    const c = course || (act.courseId && (state.courses || []).find((x) => x.id === act.courseId));
+    if (c && resolveGoal(c)) {
+      renderSectorTable(sectorRoot, c, act);
+      persist();
+    } else {
+      sectorRoot.innerHTML = "";
+    }
+  }
   const distNote = $("summary-distance-note");
   if (distNote) {
     distNote.hidden = act.source === "indoor";
@@ -1422,26 +1789,28 @@ function showSummary(act, course, legResult) {
 }
 
 function beginBuilder() {
-  ui.builderPins = [];
+  ui.builder = emptyBuilderState();
+  ui.builderPins = ui.builder.pins;
+  ui.builderRoute = null;
   setTab("today");
   showScreen("builder");
   map.clearOverlays();
   map.clearMarkers();
   renderBuilder();
+  maybeShowBuilderExplainer();
   if (ui.offBuildClick) ui.offBuildClick();
   ui.offBuildClick = map.onMapClick((pt) => {
-    const pins = ui.builderPins;
-    const role = pins.length === 0 ? "start" : "via";
-    if (pins.length) pins[pins.length - 1].role = pins.length === 1 ? "start" : "via";
-    pins.push({ lat: pt.lat, lon: pt.lon, role });
-    if (pins.length >= 2) pins[pins.length - 1].role = "end";
+    ui.builder = placePin(activeBuilder(), pt);
+    ui.builderPins = ui.builder.pins;
     renderBuilder();
   });
 }
 
 function cancelBuilder() {
   if (ui.offBuildClick) { ui.offBuildClick(); ui.offBuildClick = null; }
-  ui.builderPins = [];
+  ui.builder = emptyBuilderState();
+  ui.builderPins = ui.builder.pins;
+  ui.builderRoute = null;
   map.clearOverlays();
   map.clearMarkers();
   showScreen("today");
@@ -1449,7 +1818,7 @@ function cancelBuilder() {
 }
 
 function saveBuilder() {
-  if (!ui.builderPins || ui.builderPins.length < 2) return;
+  if (!canSave(activeBuilder())) return;
   $("course-name").value = "New course";
   openSheet("sheet-save-course");
 }
@@ -1606,7 +1975,9 @@ function bind() {
   $("btn-saved-courses").addEventListener("click", () => setTab("courses"));
   $("btn-new-course").addEventListener("click", beginBuilder);
   $("btn-undo-pin").addEventListener("click", () => {
-    if (ui.builderPins) ui.builderPins.pop();
+    ui.builder = undoPin(activeBuilder());
+    ui.builderPins = ui.builder.pins;
+    ui.builderRoute = null;
     renderBuilder();
   });
   $("btn-cancel-build").addEventListener("click", cancelBuilder);
@@ -1619,10 +1990,11 @@ function bind() {
   $("btn-course-name-cancel").addEventListener("click", () => closeSheet("sheet-save-course"));
   $("btn-course-name-save").addEventListener("click", () => {
     const name = ($("course-name").value || "New course").trim();
+    const st = activeBuilder();
     const routed = ui.builderRoute || builderRoute();
     const c = newCourse({
       name,
-      pins: ui.builderPins.slice(),
+      pins: savedPins(st),
       path: routed && routed.path && routed.path.length >= 2 ? routed.path.slice() : null,
       straightLine: !ui.followPaths,
       usedStraight: !!(routed && routed.usedStraight),
@@ -1631,7 +2003,8 @@ function bind() {
     persist();
     closeSheet("sheet-save-course");
     if (ui.offBuildClick) { ui.offBuildClick(); ui.offBuildClick = null; }
-    ui.builderPins = [];
+    ui.builder = emptyBuilderState();
+    ui.builderPins = ui.builder.pins;
     setTab("courses");
   });
   $("btn-pause").addEventListener("click", pauseOrResume);
@@ -1792,6 +2165,13 @@ function bind() {
   $("btn-share-close").addEventListener("click", () => closeSheet("sheet-share"));
   $("btn-share-copy").addEventListener("click", () => { copyShareLink().catch(() => {}); });
   $("btn-share-send").addEventListener("click", () => { sendShareLink().catch(() => {}); });
+  if ($("btn-share-qr")) $("btn-share-qr").addEventListener("click", () => openShareQrSheet());
+  if ($("btn-share-qr-close")) $("btn-share-qr-close").addEventListener("click", () => closeSheet("sheet-share-qr"));
+  if ($("btn-share-qr-prev")) $("btn-share-qr-prev").addEventListener("click", () => stepShareQr(-1));
+  if ($("btn-share-qr-next")) $("btn-share-qr-next").addEventListener("click", () => stepShareQr(1));
+  if ($("btn-scan-qr-courses")) $("btn-scan-qr-courses").addEventListener("click", () => startQrScan());
+  if ($("btn-scan-qr-plans")) $("btn-scan-qr-plans").addEventListener("click", () => startQrScan());
+  if ($("btn-scan-qr-close")) $("btn-scan-qr-close").addEventListener("click", () => stopQrScan());
   $("btn-share-import-cancel").addEventListener("click", () => {
     ui.pendingShare = null;
     closeSheet("sheet-share-import");
@@ -1832,6 +2212,37 @@ function bind() {
   });
   $("btn-support").addEventListener("click", () => { showScreen("support"); renderSettings(); });
   $("support-back").addEventListener("click", () => setTab("settings"));
+  if ($("btn-goals-open")) $("btn-goals-open").addEventListener("click", () => { showScreen("goals"); renderGoalsScreen(); });
+  if ($("goals-back")) $("goals-back").addEventListener("click", () => setTab("settings"));
+  if ($("btn-goals-open-plans")) $("btn-goals-open-plans").addEventListener("click", () => { showScreen("plans"); renderPlansScreen(); });
+  if ($("btn-end-point-pin")) $("btn-end-point-pin").addEventListener("click", () => {
+    ui.builder = toggleEndMode(activeBuilder());
+    paintEndPointButton();
+    renderBuilder();
+  });
+  if ($("btn-builder-help")) $("btn-builder-help").addEventListener("click", () => maybeShowBuilderExplainer({ force: true }));
+  if ($("btn-builder-help-gotit")) $("btn-builder-help-gotit").addEventListener("click", () => {
+    markExplainerSeen();
+    closeSheet("sheet-builder-help");
+  });
+  if ($("btn-pin-add-stop")) $("btn-pin-add-stop").addEventListener("click", () => {
+    const i = ui.pinActionIndex;
+    closeSheet("sheet-pin-action");
+    if (i == null) return;
+    ui.builder = addNextStop(activeBuilder(), i);
+    ui.builderPins = ui.builder.pins;
+    renderBuilder();
+  });
+  if ($("btn-pin-set-end")) $("btn-pin-set-end").addEventListener("click", () => {
+    const i = ui.pinActionIndex;
+    closeSheet("sheet-pin-action");
+    if (i == null) return;
+    ui.builder = setEndIndex(activeBuilder(), i);
+    ui.builderPins = ui.builder.pins;
+    renderBuilder();
+  });
+  if ($("btn-pin-action-cancel")) $("btn-pin-action-cancel").addEventListener("click", () => closeSheet("sheet-pin-action"));
+  if ($("btn-course-goal-save")) $("btn-course-goal-save").addEventListener("click", () => saveCourseGoal());
   if ($("btn-plans-open")) $("btn-plans-open").addEventListener("click", () => { showScreen("plans"); renderPlansScreen(); });
   initStretchesUi({ showScreen, goSettings: () => setTab("settings") });
   initMapDownloadUi({
@@ -1842,7 +2253,7 @@ function bind() {
       $("tab-bar").style.display = v || ui.screen === "lock" ? "none" : "grid";
     },
   });
-  if ($("plans-back")) $("plans-back").addEventListener("click", () => setTab("settings"));
+  if ($("plans-back")) $("plans-back").addEventListener("click", () => { showScreen("goals"); });
   if ($("btn-donate")) {
     $("btn-donate").addEventListener("click", async () => {
       const res = await purchaseSupport();
@@ -2279,17 +2690,173 @@ function openShareSheet(kind, obj) {
     note = "This plan is large for a link. Export the file instead if the link does not open.";
   }
   $("share-note").textContent = note;
-  const qrBox = $("share-qr");
-  try {
-    qrBox.innerHTML = qrSvg(encoded.qrUrl || encoded.url);
-    qrBox.hidden = false;
-  } catch (err) {
-    qrBox.innerHTML = "";
-    qrBox.hidden = true;
-    console.warn("qr", err);
-  }
   openSheet("sheet-share");
 }
+
+function openShareQrSheet() {
+  const pending = ui.pendingShareOut;
+  if (!pending || !pending.obj) return;
+  const encoded = encodeQrFrames(pending.kind, pending.obj);
+  ui.qrFrames = encoded.frames || [];
+  ui.qrIndex = 0;
+  closeSheet("sheet-share");
+  renderShareQrFrame();
+  openSheet("sheet-share-qr");
+}
+
+function stepShareQr(delta) {
+  const frames = ui.qrFrames || [];
+  if (!frames.length) return;
+  ui.qrIndex = (ui.qrIndex + delta + frames.length) % frames.length;
+  renderShareQrFrame();
+}
+
+function renderShareQrFrame() {
+  const frames = ui.qrFrames || [];
+  const box = $("share-qr");
+  const count = $("share-qr-count");
+  const nav = $("share-qr-nav");
+  if (!frames.length) {
+    if (box) { box.innerHTML = ""; box.hidden = true; }
+    if (count) count.textContent = "This course could not be turned into a QR code.";
+    if (nav) nav.hidden = true;
+    return;
+  }
+  const i = Math.max(0, Math.min(ui.qrIndex || 0, frames.length - 1));
+  ui.qrIndex = i;
+  try {
+    box.innerHTML = qrSvg(frames[i]);
+    box.hidden = false;
+  } catch (err) {
+    box.innerHTML = "";
+    box.hidden = true;
+    console.warn("qr", err);
+  }
+  if (frames.length === 1) {
+    count.textContent = "One code. Works with no signal.";
+    nav.hidden = true;
+  } else {
+    count.textContent = `Code ${i + 1} of ${frames.length}. Show these in order. Works with no signal.`;
+    nav.hidden = false;
+  }
+}
+
+function stopQrScan() {
+  ui.scanActive = false;
+  if (ui.scanRaf) {
+    try { cancelAnimationFrame(ui.scanRaf); } catch { /* ignore */ }
+    ui.scanRaf = 0;
+  }
+  const stream = ui.scanStream;
+  ui.scanStream = null;
+  if (stream && stream.getTracks) {
+    stream.getTracks().forEach((tr) => { try { tr.stop(); } catch { /* ignore */ } });
+  }
+  const video = $("scan-qr-video");
+  if (video) {
+    try { video.srcObject = null; } catch { /* ignore */ }
+  }
+  closeSheet("sheet-scan-qr");
+}
+
+async function startQrScan({ previewOnly = false } = {}) {
+  stopQrScanKeepSheet();
+  ui.qrAssembler = createQrAssembler();
+  ui.scanActive = !previewOnly;
+  const note = $("scan-qr-note");
+  if (note) note.textContent = previewOnly
+    ? "Camera stays off in this preview."
+    : "Point the camera at each code. Works with no signal.";
+  openSheet("sheet-scan-qr");
+  if (previewOnly) return;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    if (note) note.textContent = "This device cannot open the camera. You can still use a share link.";
+    return;
+  }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: false,
+      video: { facingMode: { ideal: "environment" } },
+    });
+    if (!ui.scanActive) {
+      stream.getTracks().forEach((tr) => tr.stop());
+      return;
+    }
+    ui.scanStream = stream;
+    const video = $("scan-qr-video");
+    if (video) {
+      video.srcObject = stream;
+      try { await video.play(); } catch { /* autoplay may be blocked until a gesture */ }
+    }
+    tickQrScan();
+  } catch (err) {
+    if (note) {
+      const denied = err && (err.name === "NotAllowedError" || err.name === "PermissionDeniedError");
+      note.textContent = denied
+        ? "Camera access is needed only to scan a course or plan QR code. Nothing is kept."
+        : "The camera could not be opened. You can still use a share link.";
+    }
+  }
+}
+
+function stopQrScanKeepSheet() {
+  ui.scanActive = false;
+  if (ui.scanRaf) {
+    try { cancelAnimationFrame(ui.scanRaf); } catch { /* ignore */ }
+    ui.scanRaf = 0;
+  }
+  const stream = ui.scanStream;
+  ui.scanStream = null;
+  if (stream && stream.getTracks) {
+    stream.getTracks().forEach((tr) => { try { tr.stop(); } catch { /* ignore */ } });
+  }
+  const video = $("scan-qr-video");
+  if (video) {
+    try { video.srcObject = null; } catch { /* ignore */ }
+  }
+}
+
+function tickQrScan() {
+  if (!ui.scanActive) return;
+  const video = $("scan-qr-video");
+  const canvas = $("scan-qr-canvas");
+  if (video && canvas && video.readyState >= 2 && video.videoWidth) {
+    const w = video.videoWidth;
+    const h = video.videoHeight;
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (ctx) {
+      ctx.drawImage(video, 0, 0, w, h);
+      const img = ctx.getImageData(0, 0, w, h);
+      const text = scanQrImageData(img);
+      if (text) handleScannedQr(text);
+    }
+  }
+  ui.scanRaf = requestAnimationFrame(tickQrScan);
+}
+
+function handleScannedQr(text) {
+  if (!ui.qrAssembler) ui.qrAssembler = createQrAssembler();
+  const result = ui.qrAssembler.add(text);
+  const note = $("scan-qr-note");
+  if (result.status === "need_more") {
+    if (note) note.textContent = `Got ${result.got} of ${result.total}. Scan the next code.`;
+    return;
+  }
+  if (result.status === "complete" && result.decoded && result.decoded.ok) {
+    stopQrScan();
+    const decoded = result.decoded;
+    if (decoded.kind === "plan") installSharedPlanDirectly(decoded);
+    else openImportSheet(decoded);
+    return;
+  }
+  if (result.status === "error" && note) {
+    note.textContent = "That code could not be read. Try again from the first code.";
+    ui.qrAssembler.reset();
+  }
+}
+
 
 async function copyShareLink() {
   const url = $("share-url").value;
@@ -2316,6 +2883,36 @@ async function sendShareLink() {
     }
   }
   await copyShareLink();
+}
+
+function installSharedPlanDirectly(decoded) {
+  if (!decoded || !decoded.ok || decoded.kind !== "plan") return false;
+  const res = importPlanFile(JSON.stringify({
+    format: PLAN_FORMAT,
+    formatVersion: PLAN_FORMAT_VERSION,
+    exportedAt: new Date().toISOString(),
+    plan: decoded.plan,
+  }), { existingIds: (state.planLibrary || []).map((p) => p.id) });
+  if (!res.ok) {
+    ui.pendingShare = decoded;
+    $("share-import-title").textContent = "Could not add this plan";
+    $("share-import-sub").textContent = "That plan could not be imported. Nothing was charged.";
+    $("btn-share-import-add").textContent = "Try again";
+    $("share-import-preview").innerHTML = "";
+    openSheet("sheet-share-import");
+    return true;
+  }
+  addPlanToState(state, res.plan);
+  persist();
+  ui.pendingShare = null;
+  closeSheet("sheet-share-import");
+  showScreen("plans");
+  renderPlansScreen();
+  const note = $("plan-import-note") || $("plans-price-line");
+  if (note && $("plan-import-note")) {
+    $("plan-import-note").textContent = "Plan added to this phone. This is your own copy — your progress, metrics, graphs and history stay on this device and are not shared.";
+  }
+  return true;
 }
 
 function openImportSheet(decoded) {
@@ -2392,9 +2989,10 @@ function handleIncomingUrl(url) {
   if (handleTrackingLink(url)) return true;
   const decoded = decodeShare(url);
   if (!decoded.ok) return false;
-  openImportSheet(decoded);
-  if (typeof history !== "undefined" && typeof location !== "undefined" && isShareHash(location.hash)) {
-    try { history.replaceState(null, "", location.pathname + location.search); } catch { /* ignore */ }
+  if (decoded.kind === "plan") installSharedPlanDirectly(decoded);
+  else openImportSheet(decoded);
+  if (typeof history !== "undefined" && typeof location !== "undefined" && isShareHash(location.href)) {
+    try { history.replaceState(null, "", location.pathname); } catch { /* ignore */ }
   }
   return true;
 }
@@ -2445,11 +3043,19 @@ window.HeldpathTest = {
     closeSheet("sheet-celebrate");
     closeSheet("sheet-save-free");
     closeSheet("sheet-share");
+    closeSheet("sheet-share-qr");
+    if (typeof stopQrScanKeepSheet === "function") stopQrScanKeepSheet();
+    closeSheet("sheet-scan-qr");
     if (typeof setOfferChrome === "function") setOfferChrome(false);
     try { map.clearOverlays(); map.clearMarkers(); } catch { /* map may not be ready */ }
     closeSheet("sheet-share-import");
     closeSheet("sheet-group");
     closeSheet("sheet-group-invite");
+    closeSheet("sheet-builder-help");
+    closeSheet("sheet-pin-action");
+    if (name !== "builder-help") {
+      try { markExplainerSeen(); } catch { /* ignore */ }
+    }
     if (opt.empty) {
       state = resetState();
       state.settings.seenMapPrompt = true;
@@ -2721,7 +3327,109 @@ window.HeldpathTest = {
       setTab("courses");
       if (state.courses[0]) openCourseActions(state.courses[0]);
     }
-    else if (name === "target-setup") {
+    else if (name === "builder-help") {
+      await window.HeldpathTest.show("builder", opt);
+      maybeShowBuilderExplainer({ force: true });
+    } else if (name === "builder-loop" || name === "builder-mile-loop") {
+      const center = { lat: 43.7672, lon: 11.2543 };
+      await ensureWalkGraph(center);
+      ui.followPaths = true;
+      const wantMile = name === "builder-mile-loop";
+      const loop = (wantMile && getActiveGraph()) ? autoLoopRoute(getActiveGraph(), center, 1609) : null;
+      if (loop && loop.pins && loop.pins.length >= 3) {
+        ui.builder = ingestPins(loop.pins);
+        ui.builder = setEndIndex(ui.builder, 0);
+        ui.builderRoute = loop;
+      } else {
+        const pins = arnoLoopPins();
+        ui.builder = ingestPins(pins);
+        ui.builder = setEndIndex(ui.builder, 0);
+      }
+      ui.builderPins = ui.builder.pins;
+      showScreen("builder");
+      setTab("today");
+      showScreen("builder");
+      renderBuilder();
+      const fit = (ui.builderRoute && ui.builderRoute.path) || routeStops(ui.builder);
+      const pad = { top: 56, bottom: 520, left: 56, right: 56 };
+      map.whenReady(() => { renderBuilder(); if (fit && fit.length) map.fitBounds(fit, pad); });
+    } else if (name === "goals") {
+      const now = new Date("2026-11-18T18:00:00");
+      state.goals = [
+        newGoal({ name: "Weekly distance", kind: "week-distance", period: "week", distanceMeters: 10 * METERS_PER_MILE }),
+        newGoal({ name: "Monthly runs", kind: "month-count", period: "month", targetCount: 12 }),
+      ];
+      persist();
+      showScreen("goals");
+      renderGoalsScreen();
+    } else if (name === "plans" || name === "plans-water") {
+      showScreen("plans");
+      renderPlansScreen();
+      if (name === "plans-water") {
+        setTimeout(() => { try { onRecommendWater && onRecommendWater(); } catch { /* plans_ui private */ } }, 0);
+        // Open the recommendation box from this page if the button exists.
+        const rec = $("btn-water-recommend");
+        if (rec) rec.click();
+      }
+    } else if (name === "progress-goals" || name === "progress-bars") {
+      state.goals = state.goals || [];
+      if (!state.goals.some((g) => g.kind === "week-distance")) {
+        state.goals.push(newGoal({ name: "Weekly distance", kind: "week-distance", period: "week", distanceMeters: 10 * METERS_PER_MILE }));
+      }
+      persist();
+      ui.range = "All";
+      if (name === "progress-bars") {
+        try { localStorage.setItem("heldpath.goal-chart-style.v1", "bar"); } catch { /* ignore */ }
+      } else {
+        try { localStorage.setItem("heldpath.goal-chart-style.v1", "line"); } catch { /* ignore */ }
+      }
+      setTab("progress");
+    } else if (name === "summary-sectors") {
+      const course = state.courses[0] || newCourse({ name: "Park loop", pins: arnoLoopPins() });
+      if (!state.courses.length) state.courses.push(course);
+      course.goal = goalFromFinishTime(30 * 60, course) || { finishSec: 30 * 60 };
+      const pins = course.pins;
+      const trackPts = [];
+      const totalM = courseMeters(course) || 1609;
+      const startMs = Date.parse("2026-11-18T09:00:00.000Z");
+      for (let i = 0; i < pins.length; i++) {
+        const frac = i / Math.max(1, pins.length - 1);
+        const elapsed = Math.round(frac * 28 * 60);
+        trackPts.push({
+          lat: pins[i].lat,
+          lon: pins[i].lon,
+          t: elapsed,
+          at: new Date(startMs + elapsed * 1000).toISOString(),
+        });
+      }
+      const act = newActivity({
+        type: "run",
+        courseId: course.id,
+        courseName: course.name,
+        startedAt: "2026-11-18T09:00:00.000Z",
+        endedAt: "2026-11-18T09:28:00.000Z",
+        distanceMeters: totalM,
+        elapsedSec: 28 * 60,
+        track: trackPts,
+      });
+      showSummary(act, course, null);
+    } else if (name === "tracking-sectors") {
+      const course = state.courses[0] || newCourse({ name: "Park loop", pins: arnoLoopPins() });
+      if (!state.courses.length) state.courses.push(course);
+      course.goal = goalFromFinishTime(30 * 60, course) || { finishSec: 30 * 60 };
+      course.sectorCallout = false;
+      persist();
+      const made = await window.HeldpathTest.show("tracking", opt);
+      // After tracking is on screen, overlay a sector flash as if sector 1 just finished ahead.
+      const flash = $("sector-flash");
+      if (flash) {
+        flash.hidden = false;
+        flash.classList.remove("green", "red", "purple");
+        flash.classList.add("green");
+        if ($("sector-flash-main")) $("sector-flash-main").textContent = "S1  −0:04.2";
+        if ($("sector-flash-cum")) $("sector-flash-cum").textContent = "Total −0:04.2";
+      }
+    } else if (name === "target-setup") {
       const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
       if (!state.courses.length) state.courses.push(course);
       ui.pendingStart = { type: "run", course };
@@ -2848,6 +3556,20 @@ window.HeldpathTest = {
       renderPlansScreen();
       if (plan) openShareSheet("plan", plan);
     }
+    else if (name === "share-qr") {
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      if (!state.courses.length) state.courses.push(course);
+      setTab("courses");
+      ui.pendingShareOut = { kind: "course", obj: course };
+      openShareQrSheet();
+    }
+    else if (name === "scan-qr") {
+      setTab("courses");
+      showScreen("courses");
+      startQrScan({ previewOnly: true });
+      const note = $("scan-qr-note");
+      if (note) note.textContent = "Point the camera at a Heldpath QR code. Works with no signal.";
+    }
     else if (name === "indoor-log") {
       setTab("today");
       showScreen("today");
@@ -2958,6 +3680,7 @@ window.HeldpathTest = {
       showScreen("tracking");
       paintSessionHud(made);
     }
+    else if (name === "goals") { showScreen("goals"); renderGoalsScreen(); }
     else if (name === "plans") { showScreen("plans"); renderPlansScreen(); }
     else if (name === "support") { setTab("settings"); showScreen("support"); renderSettings(); }
     else if (name === "stretches") { setStretchStyle("realistic"); setTab("settings"); showStretchesHub(); }

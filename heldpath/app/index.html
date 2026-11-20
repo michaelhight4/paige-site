@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#12161C" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <title>Heldpath</title>
-  <link rel="icon" href="assets/app_icon_fg.png" />
+  <link rel="icon" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/app_icon_192.png" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="vendor/maplibre-gl.css" />
@@ -100,6 +100,11 @@
           <p class="track-offroute-note" id="track-offroute-note" data-testid="off-route-note" hidden>You're off the route. The way back is shown on the map.</p>
           <p class="tiny track-pause-note" id="track-pause-note" data-testid="auto-pause-note" hidden>Auto-paused. Time is not counting until you start moving.</p>
           <p class="tiny track-lowpower-note" id="track-lowpower-note" data-testid="low-power-note" hidden>Low-power tracking is on. The path may be less detailed.</p>
+          <div id="sector-flash" class="sector-flash" hidden data-testid="sector-flash">
+            <div class="sector-flash-main" id="sector-flash-main"></div>
+            <div class="sector-flash-cum" id="sector-flash-cum"></div>
+          </div>
+          <p class="tiny" id="sector-live-leg" data-testid="sector-live-leg" hidden></p>
           <div class="btn-row" id="track-live-actions">
             <button class="btn btn-secondary" id="btn-pause" data-testid="pause">Pause</button>
             <button class="btn btn-danger" id="btn-stop" data-testid="stop">Stop</button>
@@ -112,8 +117,11 @@
     <section class="screen" id="screen-builder" data-screen="builder">
       <div class="dock">
         <div class="hud builder-panel" data-testid="builder-panel">
-          <div class="hud-kicker">Build a course</div>
-          <p class="builder-hint" id="builder-hint">Tap the map to place a Start pin. Then add points along the route. The last pin is the End.</p>
+          <div class="builder-head">
+            <div class="hud-kicker">Build a course</div>
+            <button class="icon-btn" id="btn-builder-help" data-testid="builder-help" aria-label="How to build a course">?</button>
+          </div>
+          <p class="builder-hint" id="builder-hint">Tap the map to place a Start pin. Add as many pins as you like to shape your exact route.</p>
           <div class="route-mode-row">
             <div>
               <div class="route-mode-label">Follow walkable paths</div>
@@ -123,6 +131,7 @@
           </div>
           <div class="legs" id="builder-legs" data-testid="builder-legs"></div>
           <div id="builder-elevation" data-testid="builder-elevation" hidden></div>
+          <button class="btn btn-secondary" id="btn-end-point-pin" data-testid="end-point-pin" aria-pressed="false" style="width:100%;margin-bottom:10px">End point pin</button>
           <div class="btn-row" style="margin-bottom:10px">
             <button class="btn btn-secondary" id="btn-undo-pin">Undo pin</button>
             <button class="btn btn-secondary" id="btn-cancel-build">Cancel</button>
@@ -140,6 +149,7 @@
         <div id="courses-list" class="list"></div>
         <div style="height:12px"></div>
         <button class="btn btn-primary" id="btn-new-course" style="width:100%">Build a new course</button>
+        <button class="btn btn-secondary" id="btn-scan-qr-courses" style="width:100%;margin-top:10px" data-testid="scan-qr">Scan QR</button>
       </div>
     </section>
 
@@ -180,7 +190,7 @@
     <section class="screen" id="screen-settings" data-screen="settings">
       <div class="scroll">
         <h1 class="page-title">Settings</h1>
-        <p class="page-sub">Heldpath is free. There is no account, no ads and no subscription. Optional plans are the only paid extra.</p>
+        <p class="page-sub">Heldpath is free. There is no account, no ads and no subscription. All goals are free. Optional $2 plans just add extra help, easing you toward your goal with smaller, guided steps.</p>
 
         <div class="card">
           <h2>Units</h2>
@@ -247,6 +257,12 @@
         </div>
 
         <div class="card">
+          <h2>Goals</h2>
+          <p class="tiny">Every goal type is free. Open Goals to set one, or to buy an optional $2 plan for extra guided help.</p>
+          <button class="btn btn-secondary" id="btn-goals-open" style="width:100%;margin-top:12px" data-testid="open-goals">Open Goals</button>
+        </div>
+
+        <div class="card">
           <h2>Custom plans</h2>
           <p class="tiny" id="plans-hook"></p>
           <button class="btn btn-secondary" id="btn-plans-open" style="width:100%;margin-top:12px" data-testid="open-plans">Open Plans</button>
@@ -297,9 +313,34 @@
         </div>
         <div class="card">
           <h2>Leg splits <span class="free-tag">Free</span></h2>
-          <div id="summary-splits" data-testid="summary-splits"></div>
+          <div id="summary-sectors" data-testid="summary-sectors"></div>
+        <div id="summary-splits" data-testid="summary-splits"></div>
         </div>
         <button class="btn btn-primary" id="btn-summary-done" style="width:100%;margin-bottom:16px">Done</button>
+      </div>
+    </section>
+
+
+    <!-- Goals (all goal types are free; the promise line is never hidden) -->
+    <section class="screen" id="screen-goals" data-screen="goals">
+      <div class="scroll">
+        <div class="top-bar">
+          <button class="icon-btn" id="goals-back" aria-label="Back">‹</button>
+          <h1>Goals</h1>
+        </div>
+        <p class="goals-promise" id="goals-free-line" data-testid="free-goals-line">All goals are free. Optional $2 plans just add extra help, easing you toward your goal with smaller, guided steps.</p>
+
+        <div class="card">
+          <h2>Your goals</h2>
+          <p class="tiny">Set a distance, a time, or a weekly or monthly total. Graphs, sector splits and Stats history are included. Nothing here is locked.</p>
+          <div id="goals-list" data-testid="goals-list"></div>
+        </div>
+
+        <div class="card" id="goals-plan-option" data-testid="goals-plan-option">
+          <h2>Optional $2 plan</h2>
+          <p class="tiny" id="goals-plan-price">$2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. A plan does not unlock goals — it only adds smaller, guided steps, plus water, reminders and a schedule.</p>
+          <button class="btn btn-secondary" id="btn-goals-open-plans" style="width:100%;margin-top:12px" data-testid="goals-open-plans">Optional $2 plan</button>
+        </div>
       </div>
     </section>
 
@@ -310,12 +351,14 @@
           <button class="icon-btn" id="plans-back" aria-label="Back">‹</button>
           <h1>Plans</h1>
         </div>
-        <p class="page-sub">Build a walking or running plan from a goal. A new plan is $2, one time. Importing a plan a friend shares is free.</p>
+        <p class="goals-promise" id="plans-free-line" data-testid="free-goals-line-plans">All goals are free. Optional $2 plans just add extra help, easing you toward your goal with smaller, guided steps.</p>
+        <p class="page-sub" id="plans-price-line">$2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. Importing a plan a friend shares is free.</p>
+        <button class="btn btn-secondary" id="btn-scan-qr-plans" style="width:100%;margin:0 0 16px" data-testid="scan-qr-plans">Scan QR</button>
 
         <div class="price-card plan-own-card" data-testid="plan-own-card">
           <div class="price-row">
             <span class="price">$2</span>
-            <span class="price-note">one time, per new plan</span>
+            <span class="price-note">per plan, no subscription</span>
           </div>
           <p class="own-copy" id="plan-own-copy" data-testid="ownership-copy"></p>
           <p class="tiny">Importing a shared plan is free. No subscription. No account. Optional — the rest of the app stays free.</p>
@@ -361,18 +404,44 @@
           </div>
           <div class="plan-preview" id="plan-preview" data-testid="plan-preview"></div>
           <p class="tiny" id="plan-create-note"></p>
-          <button class="btn btn-primary billing-live-only" id="btn-plan-create" data-testid="plan-create" style="width:100%;margin-top:12px" hidden>Create plan · $2 one time</button>
+          <button class="btn btn-primary billing-live-only" id="btn-plan-create" data-testid="plan-create" style="width:100%;margin-top:12px" hidden>Create plan · $2</button>
           <p class="tiny" style="margin-top:10px">Store checkout is not live in this build, so the $2 credit is recorded on this phone for testing. Importing a shared plan is always free.</p>
         </div>
         </div>
         <div class="plans-col">
 
-        <div class="card plan-hydration">
+        <div class="card plan-hydration" data-testid="water-card">
           <h2>Water</h2>
           <p class="plan-water" id="plan-water"></p>
+          <p class="water-line" id="plan-water-line" data-testid="water-line"></p>
           <div class="disclaimer" id="plan-water-disclaimer"></div>
           <div class="field">
-            <label>Daily target (editable in ml or oz)</label>
+            <label for="plan-water-unit">Primary unit</label>
+            <select id="plan-water-unit" data-testid="water-unit">
+              <option value="oz">Ounces (oz)</option>
+              <option value="bottles">Bottles</option>
+              <option value="gal">Gallons</option>
+              <option value="ml">Millilitres (ml)</option>
+              <option value="l">Litres (L)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="plan-water-bottle">Bottle size</label>
+            <select id="plan-water-bottle" data-testid="water-bottle">
+              <option value="16.9">16.9 oz (standard)</option>
+              <option value="20">20 oz</option>
+              <option value="24">24 oz</option>
+              <option value="32">32 oz</option>
+              <option value="40">40 oz</option>
+              <option value="custom">Custom…</option>
+            </select>
+          </div>
+          <div class="field" id="plan-water-bottle-custom-wrap" hidden>
+            <label for="plan-water-bottle-custom">Custom bottle (oz)</label>
+            <input id="plan-water-bottle-custom" type="number" min="4" max="80" step="0.1" inputmode="decimal" />
+          </div>
+          <div class="field">
+            <label>Daily target</label>
             <div class="plan-water-row">
               <div class="plan-water-field">
                 <label for="plan-water-ml">ml</label>
@@ -382,6 +451,20 @@
                 <label for="plan-water-oz">oz</label>
                 <input id="plan-water-oz" type="number" min="10" max="350" step="1" inputmode="decimal" />
               </div>
+            </div>
+          </div>
+          <div class="btn-row" style="margin-bottom:10px">
+            <button class="btn btn-secondary" id="btn-water-log-bottle" data-testid="water-log-bottle">+1 bottle</button>
+            <button class="btn btn-secondary" id="btn-water-recommend" data-testid="water-recommend">Not sure? Get a recommendation</button>
+          </div>
+          <p class="tiny" id="plan-water-logged" data-testid="water-logged"></p>
+          <div id="plan-water-recommend-box" class="recommend-box" hidden data-testid="water-recommend-box">
+            <p id="plan-water-recommend-line"></p>
+            <p class="tiny" id="plan-water-recommend-how"></p>
+            <p class="disclaimer" id="plan-water-recommend-disclaimer"></p>
+            <div class="btn-row">
+              <button class="btn btn-primary" id="btn-water-accept" data-testid="water-accept">Accept</button>
+              <button class="btn btn-secondary" id="btn-water-adjust" data-testid="water-adjust">Adjust</button>
             </div>
           </div>
           <div class="field">
@@ -620,6 +703,24 @@
         <h2 id="course-title">Course</h2>
         <p class="page-sub" id="course-sub"></p>
         <div class="card" style="margin:4px 0 16px">
+          <h3 style="font-size:16px;margin-bottom:4px">Goal time (free)</h3>
+          <p class="tiny" id="course-goal-note">Set a target finish time or goal pace for this route. Sector targets use an even pace — the goal divided by the total distance, then each pin-to-pin sector times that pace. No purchase needed.</p>
+          <div class="field">
+            <label for="course-goal-time">Finish time (mm:ss or minutes)</label>
+            <input id="course-goal-time" data-testid="course-goal-time" type="text" inputmode="decimal" placeholder="e.g. 30:00" />
+          </div>
+          <div class="field">
+            <label for="course-goal-pace">Or goal pace (<span id="course-goal-pace-unit">/mi</span>)</label>
+            <input id="course-goal-pace" data-testid="course-goal-pace" type="text" inputmode="decimal" placeholder="e.g. 10:00" />
+          </div>
+          <label class="check-row" style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
+            <input type="checkbox" id="course-sector-callout" />
+            <span class="tiny">Sound and vibration when a sector ends</span>
+          </label>
+          <button class="btn btn-secondary" id="btn-course-goal-save" data-testid="course-goal-save" style="width:100%;margin-bottom:8px">Save goal</button>
+          <p class="tiny" id="course-goal-status" data-testid="course-goal-status"></p>
+        </div>
+        <div class="card" style="margin:4px 0 16px">
           <h3 style="font-size:16px;margin-bottom:4px">Legs and bests</h3>
           <div id="course-legs" data-testid="course-legs"></div>
         </div>
@@ -807,7 +908,6 @@
       <div class="sheet" role="dialog" aria-labelledby="share-title">
         <h2 id="share-title">Share this course</h2>
         <p class="page-sub" id="share-sub"></p>
-        <div id="share-qr" class="share-qr" aria-label="QR code"></div>
         <div class="field">
           <label for="share-url">Link</label>
           <input id="share-url" readonly />
@@ -815,6 +915,7 @@
         <p class="tiny" id="share-note"></p>
         <button class="btn btn-primary" id="btn-share-send" style="width:100%;margin-bottom:10px">Share link</button>
         <button class="btn btn-secondary" id="btn-share-copy" style="width:100%;margin-bottom:10px">Copy link</button>
+        <button class="btn btn-secondary" id="btn-share-qr" style="width:100%;margin-bottom:10px" data-testid="show-qr">Show QR code</button>
         <button class="btn btn-secondary" id="btn-share-close" style="width:100%">Close</button>
       </div>
     </div>
@@ -826,6 +927,54 @@
         <div id="share-import-preview" class="share-preview"></div>
         <button class="btn btn-primary" id="btn-share-import-add" style="width:100%;margin-bottom:10px">Add to my library</button>
         <button class="btn btn-secondary" id="btn-share-import-cancel" style="width:100%">Not now</button>
+      </div>
+    </div>
+
+    
+
+    <div class="sheet-back" id="sheet-share-qr">
+      <div class="sheet" role="dialog" aria-labelledby="share-qr-title" data-testid="share-qr-sheet">
+        <h2 id="share-qr-title">QR code</h2>
+        <p class="page-sub" id="share-qr-sub">Works with no signal. The other phone taps Scan QR in Heldpath.</p>
+        <div id="share-qr" class="share-qr" aria-label="QR code"></div>
+        <p class="tiny" id="share-qr-count" data-testid="share-qr-count"></p>
+        <div id="share-qr-nav" class="share-qr-nav" hidden>
+          <button class="btn btn-secondary" id="btn-share-qr-prev">Previous</button>
+          <button class="btn btn-secondary" id="btn-share-qr-next">Next</button>
+        </div>
+        <button class="btn btn-primary" id="btn-share-qr-close" style="width:100%;margin-top:10px">Done</button>
+      </div>
+    </div>
+
+    <div class="sheet-back" id="sheet-scan-qr">
+      <div class="sheet" role="dialog" aria-labelledby="scan-qr-title" data-testid="scan-qr-sheet">
+        <h2 id="scan-qr-title">Scan QR</h2>
+        <p class="page-sub" id="scan-qr-sub">Point the camera at a Heldpath QR code. Works with no signal.</p>
+        <div class="scan-qr-view">
+          <video id="scan-qr-video" playsinline muted autoplay></video>
+          <canvas id="scan-qr-canvas" hidden></canvas>
+        </div>
+        <p class="tiny" id="scan-qr-note"></p>
+        <button class="btn btn-secondary" id="btn-scan-qr-close" style="width:100%">Cancel</button>
+      </div>
+    </div>
+
+    <div class="sheet-back" id="sheet-builder-help">
+      <div class="sheet" role="dialog" aria-labelledby="builder-help-title" data-testid="builder-explainer">
+        <h2 id="builder-help-title">Build a course</h2>
+        <p class="promise" id="builder-help-copy">Your first pin is your start. Add as many pins as you like to shape your exact route. To finish, turn on End point pin before placing your last pin, or tap any pin on the route to make it the end.</p>
+        <p class="tiny" style="margin-bottom:16px">Tap a pin to add it as the next stop (it keeps every visit number, for example 2, 5) or to set it as the end. A loop back to the start is just Set as end on the first pin.</p>
+        <button class="btn btn-primary" id="btn-builder-help-gotit" style="width:100%" data-testid="builder-help-gotit">Got it</button>
+      </div>
+    </div>
+
+    <div class="sheet-back" id="sheet-pin-action">
+      <div class="sheet" role="dialog" aria-labelledby="pin-action-title" data-testid="pin-action">
+        <h2 id="pin-action-title">Pin</h2>
+        <p class="page-sub" id="pin-action-sub">This pin is already on the route.</p>
+        <button class="btn btn-primary" id="btn-pin-add-stop" data-testid="pin-add-stop" style="width:100%;margin-bottom:10px">Add next stop here</button>
+        <button class="btn btn-secondary" id="btn-pin-set-end" data-testid="pin-set-end" style="width:100%;margin-bottom:10px">Set as end</button>
+        <button class="btn btn-secondary" id="btn-pin-action-cancel" style="width:100%">Cancel</button>
       </div>
     </div>
 
