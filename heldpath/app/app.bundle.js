@@ -24341,7 +24341,26 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       at: pos.timestamp || now
     }, now);
   }
-  var LOCATION_DENIED_NOTE = "Location is blocked for this site. On iPhone, open Settings \u2192 Privacy & Security \u2192 Location Services, then allow Safari and this website. You can also search or pan the map to find your area.";
+  var LOCATION_DENIED_NOTE = "Location is blocked for this site. You can search for a place or pan the map to find your area. On iPhone, open Settings \u2192 Privacy & Security \u2192 Location Services, then allow this browser and this website.";
+  var LOCATION_TIMEOUT_NOTE = "Couldn't find you in time. Search for a place or pan the map to set your area.";
+  var LOCATION_UNAVAILABLE_NOTE = "Couldn't find your location. Search for a place or pan the map to set your area.";
+  var FINDING_YOU = "Finding you\u2026";
+  var LOCATION_EXPLAINER = "GPS is needed for Heldpath to work. No data is collected about your location beyond what the map needs for your run.";
+  function noteForLocateReason(reason) {
+    if (reason === "denied") return LOCATION_DENIED_NOTE;
+    if (reason === "timeout") return LOCATION_TIMEOUT_NOTE;
+    if (reason === "unavailable" || reason === "error") return LOCATION_UNAVAILABLE_NOTE;
+    return "";
+  }
+  function shouldShowLocationExplainer(permission) {
+    return permission !== "granted" && permission !== "denied";
+  }
+  function normalizePermissionState(value) {
+    const v2 = String(value || "").toLowerCase();
+    if (v2 === "granted") return "granted";
+    if (v2 === "denied") return "denied";
+    return "prompt";
+  }
   function reasonFromGeoError(err2) {
     const code = err2 && err2.code;
     if (code === 1) return "denied";
@@ -24359,15 +24378,120 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function resultFail(reason) {
     return { ok: false, fix: null, reason: reason || "unavailable" };
   }
-  async function requestPosition({ timeout = 2e4, enableHighAccuracy = true, maximumAge = 6e4 } = {}) {
+  async function queryLocationPermission() {
+    try {
+      const { Capacitor: Capacitor2 } = await Promise.resolve().then(() => (init_dist(), dist_exports));
+      if (Capacitor2.isNativePlatform()) {
+        const { Geolocation: Geolocation3 } = await Promise.resolve().then(() => (init_esm(), esm_exports));
+        const st = await Geolocation3.checkPermissions();
+        const loc = st && (st.location || st.coarseLocation);
+        return normalizePermissionState(loc);
+      }
+    } catch {
+    }
+    try {
+      if (typeof navigator !== "undefined" && navigator.permissions && navigator.permissions.query) {
+        const st = await navigator.permissions.query({ name: "geolocation" });
+        return normalizePermissionState(st && st.state);
+      }
+    } catch {
+    }
+    return "prompt";
+  }
+  function watchBrowserPosition({ timeout, enableHighAccuracy, maximumAge }) {
+    return new Promise((resolve2) => {
+      if (typeof navigator === "undefined" || !navigator.geolocation || !navigator.geolocation.watchPosition) {
+        resolve2(resultFail("unavailable"));
+        return;
+      }
+      let settled = false;
+      let timer2 = null;
+      const finish = (res) => {
+        if (settled) return;
+        settled = true;
+        if (timer2) clearTimeout(timer2);
+        try {
+          navigator.geolocation.clearWatch(id);
+        } catch {
+        }
+        resolve2(res);
+      };
+      const id = navigator.geolocation.watchPosition(
+        (pos) => {
+          const fix = coordsFromBrowser(pos);
+          finish(fix ? resultOk(fix) : resultFail("unavailable"));
+        },
+        (err2) => finish(resultFail(reasonFromGeoError(err2))),
+        { enableHighAccuracy, timeout, maximumAge: 0 }
+      );
+      timer2 = setTimeout(() => finish(resultFail("timeout")), timeout);
+    });
+  }
+  async function watchNativePosition(Geolocation3, { timeout, enableHighAccuracy }) {
+    return new Promise((resolve2) => {
+      let settled = false;
+      let handle = null;
+      let timer2 = null;
+      const finish = (res) => {
+        if (settled) return;
+        settled = true;
+        if (timer2) clearTimeout(timer2);
+        const id = handle && (handle.value ?? handle);
+        if (id != null && Geolocation3.clearWatch) {
+          Promise.resolve(Geolocation3.clearWatch({ id })).catch(() => {
+          });
+        }
+        resolve2(res);
+      };
+      timer2 = setTimeout(() => finish(resultFail("timeout")), timeout);
+      Promise.resolve(
+        Geolocation3.watchPosition(
+          { enableHighAccuracy, timeout },
+          (pos, err2) => {
+            if (err2) {
+              finish(resultFail(reasonFromGeoError(err2)));
+              return;
+            }
+            const fix = coordsFromBrowser(pos);
+            finish(fix ? resultOk(fix) : resultFail("unavailable"));
+          }
+        )
+      ).then((h2) => {
+        handle = h2;
+        if (settled && Geolocation3.clearWatch) {
+          const id = h2 && (h2.value ?? h2);
+          if (id != null) Promise.resolve(Geolocation3.clearWatch({ id })).catch(() => {
+          });
+        }
+      }).catch((err2) => finish(resultFail(reasonFromGeoError(err2))));
+    });
+  }
+  async function requestPosition({ timeout = 2e4, enableHighAccuracy = true, maximumAge = 0 } = {}) {
     try {
       const { Capacitor: Capacitor2 } = await Promise.resolve().then(() => (init_dist(), dist_exports));
       if (Capacitor2.isNativePlatform()) {
         const { Geolocation: Geolocation3 } = await Promise.resolve().then(() => (init_esm(), esm_exports));
         try {
-          const pos = await Geolocation3.getCurrentPosition({ enableHighAccuracy, timeout });
-          const fix = coordsFromBrowser(pos);
-          return fix ? resultOk(fix) : resultFail("unavailable");
+          const current = await Geolocation3.checkPermissions();
+          const loc = current && (current.location || current.coarseLocation);
+          if (normalizePermissionState(loc) !== "granted") {
+            const asked = await Geolocation3.requestPermissions();
+            const next = asked && (asked.location || asked.coarseLocation);
+            if (normalizePermissionState(next) !== "granted") {
+              return resultFail("denied");
+            }
+          }
+          try {
+            const pos = await Geolocation3.getCurrentPosition({ enableHighAccuracy, timeout });
+            const fix = coordsFromBrowser(pos);
+            if (fix) return resultOk(fix);
+          } catch (err2) {
+            const reason = reasonFromGeoError(err2);
+            if (reason !== "timeout" && reason !== "unavailable" && reason !== "error") {
+              return resultFail(reason);
+            }
+          }
+          return await watchNativePosition(Geolocation3, { timeout, enableHighAccuracy });
         } catch (err2) {
           return resultFail(reasonFromGeoError(err2));
         }
@@ -24377,7 +24501,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (typeof navigator === "undefined" || !navigator.geolocation) {
       return resultFail("unavailable");
     }
-    return new Promise((resolve2) => {
+    const once = await new Promise((resolve2) => {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const fix = coordsFromBrowser(pos);
@@ -24387,6 +24511,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         { enableHighAccuracy, timeout, maximumAge }
       );
     });
+    if (once.ok || once.reason === "denied") return once;
+    return watchBrowserPosition({ timeout, enableHighAccuracy, maximumAge: 0 });
   }
 
   // www/js/map.js
@@ -35983,35 +36109,35 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     openSheet("sheet-start");
   }
+  var disclosurePending = null;
   function ensureLocationDisclosure() {
-    return new Promise((resolve2) => {
-      if (state2.settings.locationDisclosureAccepted) {
-        resolve2({ allowed: true, locatePromise: null });
+    if (disclosurePending) return disclosurePending;
+    disclosurePending = new Promise((resolve2) => {
+      const copy = $4("loc-copy");
+      if (copy && LOCATION_EXPLAINER) copy.textContent = LOCATION_EXPLAINER;
+      const yes = $4("btn-loc-continue");
+      if (!yes) {
+        resolve2({ allowed: false, locatePromise: null });
         return;
       }
       const done = (result) => {
+        yes.removeEventListener("click", onYes);
         closeSheet("sheet-location");
         resolve2(result);
       };
-      const yes = $4("btn-loc-continue");
-      const no = $4("btn-loc-cancel");
       const onYes = () => {
-        yes.removeEventListener("click", onYes);
-        no.removeEventListener("click", onNo);
         state2.settings.locationDisclosureAccepted = true;
         persist();
         const locatePromise = requestPosition();
         done({ allowed: true, locatePromise });
       };
-      const onNo = () => {
-        yes.removeEventListener("click", onYes);
-        no.removeEventListener("click", onNo);
-        done({ allowed: false, locatePromise: null });
-      };
       yes.addEventListener("click", onYes);
-      no.addEventListener("click", onNo);
+      closeSheet("sheet-map");
       openSheet("sheet-location");
+    }).finally(() => {
+      disclosurePending = null;
     });
+    return disclosurePending;
   }
   function parseTargetMeters() {
     const raw = $4("target-distance").value;
@@ -36104,8 +36230,20 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     beginTracking(pending.type, pending.course, pending.plan, pending.targetPlan);
   }
   async function beginTracking(type, course, plan, targetPlan) {
-    const disc = await ensureLocationDisclosure();
-    if (!disc || !disc.allowed) return;
+    const perm = await queryLocationPermission();
+    if (perm !== "granted") {
+      if (!shouldShowLocationExplainer(perm)) {
+        showLocateDenied("denied");
+        return;
+      }
+      const disc = await ensureLocationDisclosure();
+      if (!disc || !disc.allowed) return;
+      if (disc.locatePromise) {
+        const res2 = await disc.locatePromise;
+        applyLocateResult(res2, { animate: true });
+        if (!res2 || !res2.ok) return;
+      }
+    }
     const sess = makeSession({ type, course, units: units2(), target: targetPlan || null });
     setAutoPauseEnabled(state2.settings.autoPause !== false);
     setLowPowerEnabled(!!state2.settings.lowPower);
@@ -36908,9 +37046,6 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if ($4("btn-locate-me")) {
       $4("btn-locate-me").addEventListener("click", () => locateUser({ animate: true }));
     }
-    if ($4("btn-map-use-location")) {
-      $4("btn-map-use-location").addEventListener("click", () => locateUser({ animate: true }));
-    }
     bindPlaceSearch($4("place-search"), $4("place-search-results"));
     bindPlaceSearch($4("map-choice-search"), $4("map-choice-search-results"));
     if ($4("btn-map-download-local")) {
@@ -36976,7 +37111,22 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     return { ...WORLD_VIEW };
   }
+  function renderMapChoiceSheet() {
+    const hasFix = !!normalizeFix(state2.settings.lastKnown);
+    const wrap = $4("map-choice-search-wrap");
+    if (wrap) wrap.hidden = hasFix;
+    if (hasFix) hideSheetSearchResults();
+  }
+  function hideSheetSearchResults() {
+    const list = $4("map-choice-search-results");
+    if (list) {
+      list.hidden = true;
+      list.innerHTML = "";
+    }
+  }
   function openMapChoice() {
+    closeSheet("sheet-location");
+    renderMapChoiceSheet();
     openSheet("sheet-map");
   }
   function chooseMapDataMode(mode, { fromSettings = false } = {}) {
@@ -36993,19 +37143,20 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
   function setLocateBusy(busy) {
     const btn = $4("btn-locate-me");
-    const choice = $4("btn-map-use-location");
     if (btn) {
       btn.classList.toggle("busy", !!busy);
       btn.disabled = !!busy;
     }
-    if (choice) {
-      choice.disabled = !!busy;
-      choice.textContent = busy ? "Finding your location\u2026" : "Use my location";
-    }
+    showFindingYou(busy);
+  }
+  function showFindingYou(show2) {
+    const el = $4("finding-you");
+    if (!el) return;
+    el.hidden = !show2;
+    el.textContent = show2 ? FINDING_YOU : "";
   }
   function showLocateDenied(reason) {
-    const denied = reason === "denied" || reason === "unavailable" || reason === "timeout" || reason === "error";
-    const note = denied ? LOCATION_DENIED_NOTE : "";
+    const note = noteForLocateReason(reason) || (reason ? LOCATION_DENIED_NOTE : "");
     for (const id of ["map-locate-note", "map-choice-locate-note"]) {
       const el = $4(id);
       if (!el) continue;
@@ -37017,6 +37168,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         el.textContent = "";
       }
     }
+    const wrap = $4("map-choice-search-wrap");
+    if (wrap) wrap.hidden = !note;
   }
   function hideLocateDenied() {
     for (const id of ["map-locate-note", "map-choice-locate-note"]) {
@@ -37026,6 +37179,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         el.textContent = "";
       }
     }
+    const wrap = $4("map-choice-search-wrap");
+    if (wrap && normalizeFix(state2.settings.lastKnown)) wrap.hidden = true;
   }
   function applyLocateResult(res, { animate = true } = {}) {
     if (res && res.ok && res.fix) {
@@ -37124,16 +37279,24 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const skipSheets = params.has("empty") || params.has("screen") || params.has("demo");
     applyLaunchView(null, { animate: false });
     if (skipSheets) return;
-    let allowed = !!state2.settings.locationDisclosureAccepted;
-    let locatePromise = null;
-    if (!allowed) {
-      const disc = await ensureLocationDisclosure();
-      allowed = !!(disc && disc.allowed);
-      locatePromise = disc && disc.locatePromise;
-    }
-    if (allowed) {
-      const res = await (locatePromise || requestPosition());
+    const perm = await queryLocationPermission();
+    if (perm === "granted") {
+      showFindingYou(true);
+      const res = await requestPosition();
+      showFindingYou(false);
       applyLocateResult(res, { animate: true });
+    } else if (shouldShowLocationExplainer(perm)) {
+      const disc = await ensureLocationDisclosure();
+      if (disc && disc.allowed) {
+        showFindingYou(true);
+        const res = await (disc.locatePromise || requestPosition());
+        showFindingYou(false);
+        applyLocateResult(res, { animate: true });
+      } else {
+        applyLocateResult({ ok: false, fix: null, reason: "denied" }, { animate: false });
+      }
+    } else {
+      applyLocateResult({ ok: false, fix: null, reason: "denied" }, { animate: false });
     }
     if (shouldOfferMapChoice(state2.settings) && ui2.screen === "today") {
       openMapChoice();
@@ -38034,6 +38197,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         applyLaunchView(null, { animate: false });
         showLocateDenied("denied");
         openMapChoice();
+      } else if (name === "location" || name === "disclosure") {
+        setTab("today");
+        showScreen("today");
+        closeSheet("sheet-map");
+        openSheet("sheet-location");
       } else if (name === "map-here") {
         setTab("today");
         showScreen("today");
@@ -38073,10 +38241,6 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         await waitForMapView();
         setCenter(41.878, -87.629, 13);
         await whenIdle();
-      } else if (name === "location" || name === "disclosure") {
-        setTab("today");
-        showScreen("today");
-        openSheet("sheet-location");
       } else setTab(name);
       render();
       resizeMap();

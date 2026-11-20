@@ -81,7 +81,12 @@ import {
   defaultMapDataMode,
   normalizeFix,
   requestPosition,
+  queryLocationPermission,
+  shouldShowLocationExplainer,
+  noteForLocateReason,
   LOCATION_DENIED_NOTE,
+  FINDING_YOU,
+  LOCATION_EXPLAINER,
 } from "./locate.js";
 import { searchPlaces } from "./geocode.js";
 import {
@@ -894,36 +899,37 @@ function openStart(type) {
 }
 
 
+let disclosurePending = null;
+
 function ensureLocationDisclosure() {
-  return new Promise((resolve) => {
-    if (state.settings.locationDisclosureAccepted) {
-      resolve({ allowed: true, locatePromise: null });
+  if (disclosurePending) return disclosurePending;
+  disclosurePending = new Promise((resolve) => {
+    const copy = $("loc-copy");
+    if (copy && LOCATION_EXPLAINER) copy.textContent = LOCATION_EXPLAINER;
+    const yes = $("btn-loc-continue");
+    if (!yes) {
+      resolve({ allowed: false, locatePromise: null });
       return;
     }
     const done = (result) => {
+      yes.removeEventListener("click", onYes);
       closeSheet("sheet-location");
       resolve(result);
     };
-    const yes = $("btn-loc-continue");
-    const no = $("btn-loc-cancel");
     const onYes = () => {
-      yes.removeEventListener("click", onYes);
-      no.removeEventListener("click", onNo);
       state.settings.locationDisclosureAccepted = true;
       persist();
-      // Start GPS in this tap: iOS Safari often will not prompt otherwise.
+      // Start GPS in this same tap so iOS Safari and Chrome show one prompt.
       const locatePromise = requestPosition();
       done({ allowed: true, locatePromise });
     };
-    const onNo = () => {
-      yes.removeEventListener("click", onYes);
-      no.removeEventListener("click", onNo);
-      done({ allowed: false, locatePromise: null });
-    };
     yes.addEventListener("click", onYes);
-    no.addEventListener("click", onNo);
+    closeSheet("sheet-map");
     openSheet("sheet-location");
+  }).finally(() => {
+    disclosurePending = null;
   });
+  return disclosurePending;
 }
 
 function parseTargetMeters() {
@@ -1021,8 +1027,20 @@ function dismissLowSignalPrompt() {
 }
 
 async function beginTracking(type, course, plan, targetPlan) {
-  const disc = await ensureLocationDisclosure();
-  if (!disc || !disc.allowed) return;
+  const perm = await queryLocationPermission();
+  if (perm !== "granted") {
+    if (!shouldShowLocationExplainer(perm)) {
+      showLocateDenied("denied");
+      return;
+    }
+    const disc = await ensureLocationDisclosure();
+    if (!disc || !disc.allowed) return;
+    if (disc.locatePromise) {
+      const res = await disc.locatePromise;
+      applyLocateResult(res, { animate: true });
+      if (!res || !res.ok) return;
+    }
+  }
   const sess = track.makeSession({ type, course, units: units(), target: targetPlan || null });
   track.setAutoPauseEnabled(state.settings.autoPause !== false);
   track.setLowPowerEnabled(!!state.settings.lowPower);
@@ -1839,9 +1857,6 @@ function bind() {
   if ($("btn-locate-me")) {
     $("btn-locate-me").addEventListener("click", () => locateUser({ animate: true }));
   }
-  if ($("btn-map-use-location")) {
-    $("btn-map-use-location").addEventListener("click", () => locateUser({ animate: true }));
-  }
   bindPlaceSearch($("place-search"), $("place-search-results"));
   bindPlaceSearch($("map-choice-search"), $("map-choice-search-results"));
   if ($("btn-map-download-local")) {
@@ -1913,7 +1928,22 @@ function currentCropCenter() {
   return { ...WORLD_VIEW };
 }
 
+function renderMapChoiceSheet() {
+  const hasFix = !!normalizeFix(state.settings.lastKnown);
+  const wrap = $("map-choice-search-wrap");
+  if (wrap) wrap.hidden = hasFix;
+  // Search is only a fallback when we could not find the user.
+  if (hasFix) hideSheetSearchResults();
+}
+
+function hideSheetSearchResults() {
+  const list = $("map-choice-search-results");
+  if (list) { list.hidden = true; list.innerHTML = ""; }
+}
+
 function openMapChoice() {
+  closeSheet("sheet-location");
+  renderMapChoiceSheet();
   openSheet("sheet-map");
 }
 
@@ -1932,20 +1962,22 @@ function chooseMapDataMode(mode, { fromSettings = false } = {}) {
 
 function setLocateBusy(busy) {
   const btn = $("btn-locate-me");
-  const choice = $("btn-map-use-location");
   if (btn) {
     btn.classList.toggle("busy", !!busy);
     btn.disabled = !!busy;
   }
-  if (choice) {
-    choice.disabled = !!busy;
-    choice.textContent = busy ? "Finding your location…" : "Use my location";
-  }
+  showFindingYou(busy);
+}
+
+function showFindingYou(show) {
+  const el = $("finding-you");
+  if (!el) return;
+  el.hidden = !show;
+  el.textContent = show ? FINDING_YOU : "";
 }
 
 function showLocateDenied(reason) {
-  const denied = reason === "denied" || reason === "unavailable" || reason === "timeout" || reason === "error";
-  const note = denied ? LOCATION_DENIED_NOTE : "";
+  const note = noteForLocateReason(reason) || (reason ? LOCATION_DENIED_NOTE : "");
   for (const id of ["map-locate-note", "map-choice-locate-note"]) {
     const el = $(id);
     if (!el) continue;
@@ -1957,6 +1989,8 @@ function showLocateDenied(reason) {
       el.textContent = "";
     }
   }
+  const wrap = $("map-choice-search-wrap");
+  if (wrap) wrap.hidden = !note;
 }
 
 function hideLocateDenied() {
@@ -1964,6 +1998,8 @@ function hideLocateDenied() {
     const el = $(id);
     if (el) { el.hidden = true; el.textContent = ""; }
   }
+  const wrap = $("map-choice-search-wrap");
+  if (wrap && normalizeFix(state.settings.lastKnown)) wrap.hidden = true;
 }
 
 function applyLocateResult(res, { animate = true } = {}) {
@@ -2059,18 +2095,25 @@ async function locateAndOfferMapChoice() {
   const skipSheets = params.has("empty") || params.has("screen") || params.has("demo");
   applyLaunchView(null, { animate: false });
   if (skipSheets) return;
-  let allowed = !!state.settings.locationDisclosureAccepted;
-  let locatePromise = null;
-  if (!allowed) {
-    const disc = await ensureLocationDisclosure();
-    allowed = !!(disc && disc.allowed);
-    locatePromise = disc && disc.locatePromise;
-  }
-  if (allowed) {
-    // Prefer the request started in the Continue tap (iOS). If disclosure
-    // was already accepted, try now; iOS may still need the on-map button.
-    const res = await (locatePromise || requestPosition());
+  // Query only — never call getCurrentPosition on load (that would prompt).
+  const perm = await queryLocationPermission();
+  if (perm === "granted") {
+    showFindingYou(true);
+    const res = await requestPosition();
+    showFindingYou(false);
     applyLocateResult(res, { animate: true });
+  } else if (shouldShowLocationExplainer(perm)) {
+    const disc = await ensureLocationDisclosure();
+    if (disc && disc.allowed) {
+      showFindingYou(true);
+      const res = await (disc.locatePromise || requestPosition());
+      showFindingYou(false);
+      applyLocateResult(res, { animate: true });
+    } else {
+      applyLocateResult({ ok: false, fix: null, reason: "denied" }, { animate: false });
+    }
+  } else {
+    applyLocateResult({ ok: false, fix: null, reason: "denied" }, { animate: false });
   }
   if (shouldOfferMapChoice(state.settings) && ui.screen === "today") {
     openMapChoice();
@@ -2943,6 +2986,12 @@ window.HeldpathTest = {
       showLocateDenied("denied");
       openMapChoice();
     }
+    else if (name === "location" || name === "disclosure") {
+      setTab("today");
+      showScreen("today");
+      closeSheet("sheet-map");
+      openSheet("sheet-location");
+    }
     else if (name === "map-here") {
       setTab("today");
       showScreen("today");
@@ -2956,7 +3005,6 @@ window.HeldpathTest = {
     else if (name === "map-mid") { setTab("today"); showScreen("today"); await waitForMapView(); map.setCenter(43.7672134, 11.2543435, 8); await map.whenIdle(); }
     else if (name === "map-in") { setTab("today"); showScreen("today"); await waitForMapView(); map.setCenter(43.7672134, 11.2543435, 14); await map.whenIdle(); }
     else if (name === "map-out") { setTab("today"); showScreen("today"); await waitForMapView(); map.setCenter(41.878, -87.629, 13); await map.whenIdle(); }
-    else if (name === "location" || name === "disclosure") { setTab("today"); showScreen("today"); openSheet("sheet-location"); }
     else setTab(name);
     render();
     map.resizeMap();

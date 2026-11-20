@@ -59,9 +59,39 @@ function coordsFromBrowser(pos, now = Date.now()) {
   }, now);
 }
 
-/** Short note shown when the browser blocks location (especially Safari on iPhone). */
+/** Short note shown when location is blocked or the fix fails. */
 export const LOCATION_DENIED_NOTE =
-  "Location is blocked for this site. On iPhone, open Settings → Privacy & Security → Location Services, then allow Safari and this website. You can also search or pan the map to find your area.";
+  "Location is blocked for this site. You can search for a place or pan the map to find your area. On iPhone, open Settings → Privacy & Security → Location Services, then allow this browser and this website.";
+
+export const LOCATION_TIMEOUT_NOTE =
+  "Couldn't find you in time. Search for a place or pan the map to set your area.";
+
+export const LOCATION_UNAVAILABLE_NOTE =
+  "Couldn't find your location. Search for a place or pan the map to set your area.";
+
+export const FINDING_YOU = "Finding you…";
+
+export const LOCATION_EXPLAINER =
+  "GPS is needed for Heldpath to work. No data is collected about your location beyond what the map needs for your run.";
+
+export function noteForLocateReason(reason) {
+  if (reason === "denied") return LOCATION_DENIED_NOTE;
+  if (reason === "timeout") return LOCATION_TIMEOUT_NOTE;
+  if (reason === "unavailable" || reason === "error") return LOCATION_UNAVAILABLE_NOTE;
+  return "";
+}
+
+/** Show the in-app explainer only when the system has not already decided. */
+export function shouldShowLocationExplainer(permission) {
+  return permission !== "granted" && permission !== "denied";
+}
+
+export function normalizePermissionState(value) {
+  const v = String(value || "").toLowerCase();
+  if (v === "granted") return "granted";
+  if (v === "denied") return "denied";
+  return "prompt";
+}
 
 export function reasonFromGeoError(err) {
   const code = err && err.code;
@@ -89,15 +119,131 @@ function resultFail(reason) {
  * show a permission prompt, or will time out, if the request is not tied
  * to a user gesture.
  */
-export async function requestPosition({ timeout = 20000, enableHighAccuracy = true, maximumAge = 60000 } = {}) {
+/**
+ * Read the current permission without prompting.
+ * Uses Capacitor Geolocation.checkPermissions on the native app, or the
+ * Permissions API on the web. Returns "granted", "denied", or "prompt".
+ */
+export async function queryLocationPermission() {
+  try {
+    const { Capacitor } = await import("@capacitor/core");
+    if (Capacitor.isNativePlatform()) {
+      const { Geolocation } = await import("@capacitor/geolocation");
+      const st = await Geolocation.checkPermissions();
+      const loc = st && (st.location || st.coarseLocation);
+      return normalizePermissionState(loc);
+    }
+  } catch {
+    /* fall through to the web API */
+  }
+  try {
+    if (typeof navigator !== "undefined" && navigator.permissions && navigator.permissions.query) {
+      const st = await navigator.permissions.query({ name: "geolocation" });
+      return normalizePermissionState(st && st.state);
+    }
+  } catch {
+    /* Safari and some WebViews throw; treat as unknown / prompt */
+  }
+  return "prompt";
+}
+
+function watchBrowserPosition({ timeout, enableHighAccuracy, maximumAge }) {
+  return new Promise((resolve) => {
+    if (typeof navigator === "undefined" || !navigator.geolocation || !navigator.geolocation.watchPosition) {
+      resolve(resultFail("unavailable"));
+      return;
+    }
+    let settled = false;
+    let timer = null;
+    const finish = (res) => {
+      if (settled) return;
+      settled = true;
+      if (timer) clearTimeout(timer);
+      try { navigator.geolocation.clearWatch(id); } catch { /* ignore */ }
+      resolve(res);
+    };
+    const id = navigator.geolocation.watchPosition(
+      (pos) => {
+        const fix = coordsFromBrowser(pos);
+        finish(fix ? resultOk(fix) : resultFail("unavailable"));
+      },
+      (err) => finish(resultFail(reasonFromGeoError(err))),
+      { enableHighAccuracy, timeout, maximumAge: 0 }
+    );
+    timer = setTimeout(() => finish(resultFail("timeout")), timeout);
+  });
+}
+
+async function watchNativePosition(Geolocation, { timeout, enableHighAccuracy }) {
+  return new Promise((resolve) => {
+    let settled = false;
+    let handle = null;
+    let timer = null;
+    const finish = (res) => {
+      if (settled) return;
+      settled = true;
+      if (timer) clearTimeout(timer);
+      const id = handle && (handle.value ?? handle);
+      if (id != null && Geolocation.clearWatch) {
+        Promise.resolve(Geolocation.clearWatch({ id })).catch(() => {});
+      }
+      resolve(res);
+    };
+    timer = setTimeout(() => finish(resultFail("timeout")), timeout);
+    Promise.resolve(
+      Geolocation.watchPosition(
+        { enableHighAccuracy, timeout },
+        (pos, err) => {
+          if (err) {
+            finish(resultFail(reasonFromGeoError(err)));
+            return;
+          }
+          const fix = coordsFromBrowser(pos);
+          finish(fix ? resultOk(fix) : resultFail("unavailable"));
+        }
+      )
+    ).then((h) => {
+      handle = h;
+      if (settled && Geolocation.clearWatch) {
+        const id = h && (h.value ?? h);
+        if (id != null) Promise.resolve(Geolocation.clearWatch({ id })).catch(() => {});
+      }
+    }).catch((err) => finish(resultFail(reasonFromGeoError(err))));
+  });
+}
+
+/**
+ * One-shot GPS read with a watchPosition fallback if getCurrentPosition
+ * times out. Returns { ok, fix, reason }.
+ * Call this from a user gesture when permission is still "prompt" so the
+ * system dialog is tied to the tap. Do not call it on page load.
+ */
+export async function requestPosition({ timeout = 20000, enableHighAccuracy = true, maximumAge = 0 } = {}) {
   try {
     const { Capacitor } = await import("@capacitor/core");
     if (Capacitor.isNativePlatform()) {
       const { Geolocation } = await import("@capacitor/geolocation");
       try {
-        const pos = await Geolocation.getCurrentPosition({ enableHighAccuracy, timeout });
-        const fix = coordsFromBrowser(pos);
-        return fix ? resultOk(fix) : resultFail("unavailable");
+        const current = await Geolocation.checkPermissions();
+        const loc = current && (current.location || current.coarseLocation);
+        if (normalizePermissionState(loc) !== "granted") {
+          const asked = await Geolocation.requestPermissions();
+          const next = asked && (asked.location || asked.coarseLocation);
+          if (normalizePermissionState(next) !== "granted") {
+            return resultFail("denied");
+          }
+        }
+        try {
+          const pos = await Geolocation.getCurrentPosition({ enableHighAccuracy, timeout });
+          const fix = coordsFromBrowser(pos);
+          if (fix) return resultOk(fix);
+        } catch (err) {
+          const reason = reasonFromGeoError(err);
+          if (reason !== "timeout" && reason !== "unavailable" && reason !== "error") {
+            return resultFail(reason);
+          }
+        }
+        return await watchNativePosition(Geolocation, { timeout, enableHighAccuracy });
       } catch (err) {
         return resultFail(reasonFromGeoError(err));
       }
@@ -108,7 +254,7 @@ export async function requestPosition({ timeout = 20000, enableHighAccuracy = tr
   if (typeof navigator === "undefined" || !navigator.geolocation) {
     return resultFail("unavailable");
   }
-  return new Promise((resolve) => {
+  const once = await new Promise((resolve) => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const fix = coordsFromBrowser(pos);
@@ -118,4 +264,6 @@ export async function requestPosition({ timeout = 20000, enableHighAccuracy = tr
       { enableHighAccuracy, timeout, maximumAge }
     );
   });
+  if (once.ok || once.reason === "denied") return once;
+  return watchBrowserPosition({ timeout, enableHighAccuracy, maximumAge: 0 });
 }

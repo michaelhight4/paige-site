@@ -47,6 +47,7 @@
           </div>
         </div>
         <div class="banner" id="map-banner" hidden></div>
+        <div class="finding-you" id="finding-you" hidden data-testid="finding-you">Finding you…</div>
       </div>
       <div class="dock" id="today-dock">
         <div class="dock-actions">
@@ -567,18 +568,16 @@
     <div class="sheet-back" id="sheet-map">
       <div class="sheet" role="dialog" aria-labelledby="map-sheet-title">
         <h2 id="map-sheet-title">Maps on this phone</h2>
-        <p class="page-sub">Download your local map to use it offline, or load street detail over mobile data as you go.</p>
+        <p class="page-sub" id="map-sheet-copy">Do you want to pre-download your area for offline use, or use live maps for your runs?</p>
         <p class="promise">Either way, Heldpath collects no data. Your location and activity stay on your phone.</p>
-        <p class="tiny" style="margin-bottom:16px">When the map loads online, tile requests go to the map provider so streets can be drawn. Those requests do not include your name or your walk and run history.</p>
-        <button class="btn btn-primary" id="btn-map-use-location" style="width:100%;margin-bottom:12px" data-testid="map-choice-locate">Use my location</button>
         <p class="tiny" id="map-choice-locate-note" data-testid="map-choice-locate-note" hidden style="margin-bottom:12px"></p>
-        <div class="field" style="margin-bottom:16px">
+        <div class="field" id="map-choice-search-wrap" data-testid="map-choice-search-wrap" hidden style="margin-bottom:16px">
           <label for="map-choice-search">Search for a place or address</label>
           <input id="map-choice-search" type="search" placeholder="City, neighbourhood, or address" autocomplete="off" data-testid="map-choice-search" />
           <ul id="map-choice-search-results" class="place-results in-sheet" hidden data-testid="map-choice-search-results"></ul>
         </div>
-        <button class="btn btn-secondary" id="btn-map-download-local" style="width:100%;margin-bottom:12px" data-testid="map-choice-download">Download your local map (works offline)</button>
-        <button class="btn btn-secondary" id="btn-map-use-data" style="width:100%" data-testid="map-choice-data">Use mobile data (loads as you go)</button>
+        <button class="btn btn-primary" id="btn-map-download-local" style="width:100%;margin-bottom:12px" data-testid="map-choice-download">Download my area (works offline)</button>
+        <button class="btn btn-secondary" id="btn-map-use-data" style="width:100%" data-testid="map-choice-data">Use live maps (loads as you go)</button>
       </div>
     </div>
 
@@ -833,10 +832,9 @@
     <div class="sheet-back" id="sheet-location">
       <div class="sheet" role="dialog" aria-labelledby="loc-title" data-testid="location-disclosure">
         <h2 id="loc-title">Your location</h2>
-        <p class="promise" id="loc-copy">Heldpath uses your location to show where you are on the map, and to record a walk or run while a session is in progress, including when the screen is off or you switch to another app. A notification stays on your lock screen until you stop. Location is stored only on this device, is never sold or shared, and is not used for ads. Tracking stops when you stop the session.</p>
-        <p class="tiny" style="margin-bottom:16px">You can read the full policy at <a href="https://paigegames.net/heldpath/privacy" target="_blank" rel="noopener">paigegames.net/heldpath/privacy</a>. The next screen is the system permission prompt.</p>
-        <button class="btn btn-primary" id="btn-loc-continue" style="width:100%;margin-bottom:12px">Continue</button>
-        <button class="btn btn-secondary" id="btn-loc-cancel" style="width:100%">Not now</button>
+        <p class="promise" id="loc-copy">GPS is needed for Heldpath to work. No data is collected about your location beyond what the map needs for your run.</p>
+        <p class="tiny" style="margin-bottom:16px">You can read the full policy at <a href="https://paigegames.net/heldpath/privacy" target="_blank" rel="noopener">paigegames.net/heldpath/privacy</a>. Continue to allow location — this is the only time Heldpath will ask the system.</p>
+        <button class="btn btn-primary" id="btn-loc-continue" style="width:100%" data-testid="loc-continue">Continue</button>
       </div>
     </div>
 
