@@ -14,6 +14,9 @@ const DEFAULT_SETTINGS = {
   autoPause: true,
   lowPower: false,
   countHills: false,
+  mapStyle: "map", // "map" | "satellite"
+  weightUnit: null, // "lb" | "kg" — null means pick from locale / units
+  bodyKg: null,
 };
 
 export function emptyState() {
@@ -27,6 +30,46 @@ export function emptyState() {
     groupRuns: [],
     goals: [], // free personal goals — never paywalled
   };
+}
+
+
+/**
+ * Weekly/monthly *time totals* are no longer a free goal type.
+ * A time goal is a target time for a set distance (or a saved route),
+ * tracked run over run, with no deadline. If a leftover period-time
+ * goal also has a distance and a time, keep it as a time-for-distance
+ * goal; otherwise drop it.
+ */
+export function isPeriodTimeGoal(goal) {
+  if (!goal) return false;
+  const k = String(goal.kind || "");
+  if (k === "week-time" || k === "month-time") return true;
+  const period = goal.period === "week" || goal.period === "month" || k.startsWith("week") || k.startsWith("month");
+  if (!period) return false;
+  if (k === "time-distance" || k === "route-time" || k === "distance") return false;
+  if (k.includes("count") || k.includes("distance")) return false;
+  return k === "time" || k.endsWith("-time");
+}
+
+export function migrateGoals(goals) {
+  const out = [];
+  for (const g of goals || []) {
+    if (!g) continue;
+    if (!isPeriodTimeGoal(g)) {
+      out.push(g);
+      continue;
+    }
+    if (Number(g.distanceMeters) > 0 && Number(g.finishSec) > 0) {
+      const { period, ...rest } = g;
+      out.push({
+        ...rest,
+        kind: "time-distance",
+        period: null,
+        name: (g.name && !/weekly time|monthly time/i.test(g.name)) ? g.name : "",
+      });
+    }
+  }
+  return out;
 }
 
 export function loadState() {
@@ -44,7 +87,7 @@ export function loadState() {
       planLibrary: parsed.planLibrary || [],
       planCredits: parsed.planCredits || 0,
       groupRuns: parsed.groupRuns || [],
-      goals: parsed.goals || [],
+      goals: migrateGoals(parsed.goals || []),
     };
   } catch {
     return emptyState();
@@ -78,6 +121,9 @@ export function newCourse(partial = {}) {
     path: partial.path || null, // routed polyline, or null to use pins
     straightLine: !!partial.straightLine,
     usedStraight: !!partial.usedStraight,
+    offMap: !!partial.offMap,
+    legs: Array.isArray(partial.legs) ? partial.legs : null,
+    straightOverrides: Array.isArray(partial.straightOverrides) ? partial.straightOverrides : [],
     legPbs: partial.legPbs || {}, // per-leg {seconds, activityId, date}, free
     sectorPbs: partial.sectorPbs || {},
     sectorHistory: partial.sectorHistory || [],
@@ -131,7 +177,7 @@ export function newGoal(partial = {}) {
   return {
     id: partial.id || uid("goal"),
     name: partial.name || "",
-    // distance | time | pace | week-count | week-distance | week-time | month-count | month-distance | month-time
+    // distance | time | time-distance | route-time | pace | week-count | week-distance | month-count | month-distance
     kind: partial.kind || "distance",
     distanceMeters: partial.distanceMeters || null,
     finishSec: partial.finishSec || null,

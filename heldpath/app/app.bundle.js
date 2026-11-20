@@ -611,6 +611,1248 @@
     }
   });
 
+  // node_modules/geographiclib-geodesic/geographiclib-geodesic.min.js
+  var require_geographiclib_geodesic_min = __commonJS({
+    "node_modules/geographiclib-geodesic/geographiclib-geodesic.min.js"(exports, module) {
+      (function(cb) {
+        var geodesic2 = {};
+        geodesic2.Constants = {};
+        geodesic2.Math = {};
+        geodesic2.Accumulator = {};
+        (function(c) {
+          "use strict";
+          c.WGS84 = { a: 6378137, f: 1 / 298.257223563 };
+          c.version = { major: 2, minor: 2, patch: 0 };
+          c.version_string = "2.2.0";
+        })(geodesic2.Constants);
+        (function(m) {
+          "use strict";
+          m.digits = 53;
+          m.epsilon = Math.pow(0.5, m.digits - 1);
+          m.degree = Math.PI / 180;
+          m.sq = function(x2) {
+            return x2 * x2;
+          };
+          m.hypot = function(x2, y2) {
+            return Math.sqrt(x2 * x2 + y2 * y2);
+          };
+          m.cbrt = Math.cbrt || function(x2) {
+            var y2 = Math.pow(Math.abs(x2), 1 / 3);
+            return x2 > 0 ? y2 : x2 < 0 ? -y2 : x2;
+          };
+          m.log1p = Math.log1p || function(x2) {
+            var y2 = 1 + x2, z2 = y2 - 1;
+            return z2 === 0 ? x2 : x2 * Math.log(y2) / z2;
+          };
+          m.atanh = Math.atanh || function(x2) {
+            var y2 = Math.abs(x2);
+            y2 = m.log1p(2 * y2 / (1 - y2)) / 2;
+            return x2 > 0 ? y2 : x2 < 0 ? -y2 : x2;
+          };
+          m.copysign = function(x2, y2) {
+            return Math.abs(x2) * (y2 < 0 || y2 === 0 && 1 / y2 < 0 ? -1 : 1);
+          };
+          m.sum = function(u2, v2) {
+            var s2 = u2 + v2, up = s2 - v2, vpp = s2 - up, t;
+            up -= u2;
+            vpp -= v2;
+            t = s2 ? 0 - (up + vpp) : s2;
+            return { s: s2, t };
+          };
+          m.polyval = function(N2, p, s2, x2) {
+            var y2 = N2 < 0 ? 0 : p[s2++];
+            while (--N2 >= 0) y2 = y2 * x2 + p[s2++];
+            return y2;
+          };
+          m.AngRound = function(x2) {
+            var z2 = 1 / 16, y2 = Math.abs(x2);
+            y2 = y2 < z2 ? z2 - (z2 - y2) : y2;
+            return m.copysign(y2, x2);
+          };
+          m.remainder = function(x2, y2) {
+            x2 %= y2;
+            return x2 < -y2 / 2 ? x2 + y2 : x2 < y2 / 2 ? x2 : x2 - y2;
+          };
+          m.AngNormalize = function(x2) {
+            var y2 = m.remainder(x2, 360);
+            return Math.abs(y2) === 180 ? m.copysign(180, x2) : y2;
+          };
+          m.LatFix = function(x2) {
+            return Math.abs(x2) > 90 ? NaN : x2;
+          };
+          m.AngDiff = function(x2, y2) {
+            var r = m.sum(m.remainder(-x2, 360), m.remainder(y2, 360)), d2, e;
+            r = m.sum(m.remainder(r.s, 360), r.t);
+            d2 = r.s;
+            e = r.t;
+            if (d2 === 0 || Math.abs(d2) === 180)
+              d2 = m.copysign(d2, e === 0 ? y2 - x2 : -e);
+            return { d: d2, e };
+          };
+          m.sincosd = function(x2) {
+            var d2, r, q2, s2, c, sinx, cosx;
+            d2 = x2 % 360;
+            q2 = Math.round(d2 / 90);
+            d2 -= 90 * q2;
+            r = d2 * this.degree;
+            s2 = Math.sin(r);
+            c = Math.cos(r);
+            if (Math.abs(d2) === 45) {
+              c = Math.sqrt(0.5);
+              s2 = m.copysign(c, r);
+            } else if (Math.abs(d2) === 30) {
+              c = Math.sqrt(0.75);
+              s2 = m.copysign(0.5, r);
+            }
+            switch (q2 & 3) {
+              case 0:
+                sinx = s2;
+                cosx = c;
+                break;
+              case 1:
+                sinx = c;
+                cosx = -s2;
+                break;
+              case 2:
+                sinx = -s2;
+                cosx = -c;
+                break;
+              default:
+                sinx = -c;
+                cosx = s2;
+                break;
+            }
+            cosx += 0;
+            if (sinx === 0) sinx = m.copysign(sinx, x2);
+            return { s: sinx, c: cosx };
+          };
+          m.sincosde = function(x2, t) {
+            var d2, r, q2, s2, c, sinx, cosx;
+            d2 = x2 % 360;
+            q2 = Math.round(d2 / 90);
+            d2 = m.AngRound(d2 - 90 * q2 + t);
+            r = d2 * this.degree;
+            s2 = Math.sin(r);
+            c = Math.cos(r);
+            if (Math.abs(d2) === 45) {
+              c = Math.sqrt(0.5);
+              s2 = m.copysign(c, r);
+            } else if (Math.abs(d2) === 30) {
+              c = Math.sqrt(0.75);
+              s2 = m.copysign(0.5, r);
+            }
+            switch (q2 & 3) {
+              case 0:
+                sinx = s2;
+                cosx = c;
+                break;
+              case 1:
+                sinx = c;
+                cosx = -s2;
+                break;
+              case 2:
+                sinx = -s2;
+                cosx = -c;
+                break;
+              default:
+                sinx = -c;
+                cosx = s2;
+                break;
+            }
+            cosx += 0;
+            if (sinx === 0) sinx = m.copysign(sinx, x2 + t);
+            return { s: sinx, c: cosx };
+          };
+          m.atan2d = function(y2, x2) {
+            var q2 = 0, ang;
+            if (Math.abs(y2) > Math.abs(x2)) {
+              [y2, x2] = [x2, y2];
+              q2 = 2;
+            }
+            if (m.copysign(1, x2) < 0) {
+              x2 = -x2;
+              ++q2;
+            }
+            ang = Math.atan2(y2, x2) / this.degree;
+            switch (q2) {
+              case 1:
+                ang = m.copysign(180, y2) - ang;
+                break;
+              case 2:
+                ang = 90 - ang;
+                break;
+              case 3:
+                ang = -90 + ang;
+                break;
+              default:
+                break;
+            }
+            return ang;
+          };
+        })(geodesic2.Math);
+        (function(a, m) {
+          "use strict";
+          a.Accumulator = function(y2) {
+            this.Set(y2);
+          };
+          a.Accumulator.prototype.Set = function(y2) {
+            if (!y2) y2 = 0;
+            if (y2.constructor === a.Accumulator) {
+              this._s = y2._s;
+              this._t = y2._t;
+            } else {
+              this._s = y2;
+              this._t = 0;
+            }
+          };
+          a.Accumulator.prototype.Add = function(y2) {
+            var u2 = m.sum(y2, this._t), v2 = m.sum(u2.s, this._s);
+            u2 = u2.t;
+            this._s = v2.s;
+            this._t = v2.t;
+            if (this._s === 0)
+              this._s = u2;
+            else
+              this._t += u2;
+          };
+          a.Accumulator.prototype.Sum = function(y2) {
+            var b2;
+            if (!y2)
+              return this._s;
+            else {
+              b2 = new a.Accumulator(this);
+              b2.Add(y2);
+              return b2._s;
+            }
+          };
+          a.Accumulator.prototype.Negate = function() {
+            this._s *= -1;
+            this._t *= -1;
+          };
+          a.Accumulator.prototype.Remainder = function(y2) {
+            this._s = m.remainder(this._s, y2);
+            this.Add(0);
+          };
+        })(geodesic2.Accumulator, geodesic2.Math);
+        geodesic2.Geodesic = {};
+        geodesic2.GeodesicLine = {};
+        geodesic2.PolygonArea = {};
+        (function(g, l, p, m, c) {
+          "use strict";
+          var GEOGRAPHICLIB_GEODESIC_ORDER = 6, nA1_ = GEOGRAPHICLIB_GEODESIC_ORDER, nA2_ = GEOGRAPHICLIB_GEODESIC_ORDER, nA3_ = GEOGRAPHICLIB_GEODESIC_ORDER, nA3x_ = nA3_, nC3x_, nC4x_, maxit1_ = 20, maxit2_ = maxit1_ + m.digits + 10, tol0_ = m.epsilon, tol1_ = 200 * tol0_, tol2_ = Math.sqrt(tol0_), tolb_ = tol0_, xthresh_ = 1e3 * tol2_, CAP_NONE = 0, CAP_ALL = 31, OUT_ALL = 32640, astroid, A1m1f_coeff, C1f_coeff, C1pf_coeff, A2m1f_coeff, C2f_coeff, A3_coeff, C3_coeff, C4_coeff;
+          g.tiny_ = Math.sqrt(Number.MIN_VALUE / Number.EPSILON);
+          g.nC1_ = GEOGRAPHICLIB_GEODESIC_ORDER;
+          g.nC1p_ = GEOGRAPHICLIB_GEODESIC_ORDER;
+          g.nC2_ = GEOGRAPHICLIB_GEODESIC_ORDER;
+          g.nC3_ = GEOGRAPHICLIB_GEODESIC_ORDER;
+          g.nC4_ = GEOGRAPHICLIB_GEODESIC_ORDER;
+          nC3x_ = g.nC3_ * (g.nC3_ - 1) / 2;
+          nC4x_ = g.nC4_ * (g.nC4_ + 1) / 2;
+          g.CAP_C1 = 1 << 0;
+          g.CAP_C1p = 1 << 1;
+          g.CAP_C2 = 1 << 2;
+          g.CAP_C3 = 1 << 3;
+          g.CAP_C4 = 1 << 4;
+          g.NONE = 0;
+          g.ARC = 1 << 6;
+          g.LATITUDE = 1 << 7 | CAP_NONE;
+          g.LONGITUDE = 1 << 8 | g.CAP_C3;
+          g.AZIMUTH = 1 << 9 | CAP_NONE;
+          g.DISTANCE = 1 << 10 | g.CAP_C1;
+          g.STANDARD = g.LATITUDE | g.LONGITUDE | g.AZIMUTH | g.DISTANCE;
+          g.DISTANCE_IN = 1 << 11 | g.CAP_C1 | g.CAP_C1p;
+          g.REDUCEDLENGTH = 1 << 12 | g.CAP_C1 | g.CAP_C2;
+          g.GEODESICSCALE = 1 << 13 | g.CAP_C1 | g.CAP_C2;
+          g.AREA = 1 << 14 | g.CAP_C4;
+          g.ALL = OUT_ALL | CAP_ALL;
+          g.LONG_UNROLL = 1 << 15;
+          g.OUT_MASK = OUT_ALL | g.LONG_UNROLL;
+          g.SinCosSeries = function(sinp, sinx, cosx, c2) {
+            var k = c2.length, n = k - (sinp ? 1 : 0), ar = 2 * (cosx - sinx) * (cosx + sinx), y0 = n & 1 ? c2[--k] : 0, y1 = 0;
+            n = Math.floor(n / 2);
+            while (n--) {
+              y1 = ar * y0 - y1 + c2[--k];
+              y0 = ar * y1 - y0 + c2[--k];
+            }
+            return sinp ? 2 * sinx * cosx * y0 : cosx * (y0 - y1);
+          };
+          astroid = function(x2, y2) {
+            var k, p2 = m.sq(x2), q2 = m.sq(y2), r = (p2 + q2 - 1) / 6, S2, r2, r3, disc, u2, T3, T4, ang, v2, uv, w2;
+            if (!(q2 === 0 && r <= 0)) {
+              S2 = p2 * q2 / 4;
+              r2 = m.sq(r);
+              r3 = r * r2;
+              disc = S2 * (S2 + 2 * r3);
+              u2 = r;
+              if (disc >= 0) {
+                T3 = S2 + r3;
+                T3 += T3 < 0 ? -Math.sqrt(disc) : Math.sqrt(disc);
+                T4 = m.cbrt(T3);
+                u2 += T4 + (T4 !== 0 ? r2 / T4 : 0);
+              } else {
+                ang = Math.atan2(Math.sqrt(-disc), -(S2 + r3));
+                u2 += 2 * r * Math.cos(ang / 3);
+              }
+              v2 = Math.sqrt(m.sq(u2) + q2);
+              uv = u2 < 0 ? q2 / (v2 - u2) : u2 + v2;
+              w2 = (uv - q2) / (2 * v2);
+              k = uv / (Math.sqrt(uv + m.sq(w2)) + w2);
+            } else {
+              k = 0;
+            }
+            return k;
+          };
+          A1m1f_coeff = [1, 4, 64, 0, 256];
+          g.A1m1f = function(eps) {
+            var p2 = Math.floor(nA1_ / 2), t = m.polyval(p2, A1m1f_coeff, 0, m.sq(eps)) / A1m1f_coeff[p2 + 1];
+            return (t + eps) / (1 - eps);
+          };
+          C1f_coeff = [-1, 6, -16, 32, -9, 64, -128, 2048, 9, -16, 768, 3, -5, 512, -7, 1280, -7, 2048];
+          g.C1f = function(eps, c2) {
+            var eps2 = m.sq(eps), d2 = eps, o = 0, l2, p2;
+            for (l2 = 1; l2 <= g.nC1_; ++l2) {
+              p2 = Math.floor((g.nC1_ - l2) / 2);
+              c2[l2] = d2 * m.polyval(p2, C1f_coeff, o, eps2) / C1f_coeff[o + p2 + 1];
+              o += p2 + 2;
+              d2 *= eps;
+            }
+          };
+          C1pf_coeff = [205, -432, 768, 1536, 4005, -4736, 3840, 12288, -225, 116, 384, -7173, 2695, 7680, 3467, 7680, 38081, 61440];
+          g.C1pf = function(eps, c2) {
+            var eps2 = m.sq(eps), d2 = eps, o = 0, l2, p2;
+            for (l2 = 1; l2 <= g.nC1p_; ++l2) {
+              p2 = Math.floor((g.nC1p_ - l2) / 2);
+              c2[l2] = d2 * m.polyval(p2, C1pf_coeff, o, eps2) / C1pf_coeff[o + p2 + 1];
+              o += p2 + 2;
+              d2 *= eps;
+            }
+          };
+          A2m1f_coeff = [-11, -28, -192, 0, 256];
+          g.A2m1f = function(eps) {
+            var p2 = Math.floor(nA2_ / 2), t = m.polyval(p2, A2m1f_coeff, 0, m.sq(eps)) / A2m1f_coeff[p2 + 1];
+            return (t - eps) / (1 + eps);
+          };
+          C2f_coeff = [1, 2, 16, 32, 35, 64, 384, 2048, 15, 80, 768, 7, 35, 512, 63, 1280, 77, 2048];
+          g.C2f = function(eps, c2) {
+            var eps2 = m.sq(eps), d2 = eps, o = 0, l2, p2;
+            for (l2 = 1; l2 <= g.nC2_; ++l2) {
+              p2 = Math.floor((g.nC2_ - l2) / 2);
+              c2[l2] = d2 * m.polyval(p2, C2f_coeff, o, eps2) / C2f_coeff[o + p2 + 1];
+              o += p2 + 2;
+              d2 *= eps;
+            }
+          };
+          g.Geodesic = function(a, f2) {
+            this.a = a;
+            this.f = f2;
+            this._f1 = 1 - this.f;
+            this._e2 = this.f * (2 - this.f);
+            this._ep2 = this._e2 / m.sq(this._f1);
+            this._n = this.f / (2 - this.f);
+            this._b = this.a * this._f1;
+            this._c2 = (m.sq(this.a) + m.sq(this._b) * (this._e2 === 0 ? 1 : (this._e2 > 0 ? m.atanh(Math.sqrt(this._e2)) : Math.atan(Math.sqrt(-this._e2))) / Math.sqrt(Math.abs(this._e2)))) / 2;
+            this._etol2 = 0.1 * tol2_ / Math.sqrt(Math.max(1e-3, Math.abs(this.f)) * Math.min(1, 1 - this.f / 2) / 2);
+            if (!(isFinite(this.a) && this.a > 0))
+              throw new Error("Equatorial radius is not positive");
+            if (!(isFinite(this._b) && this._b > 0))
+              throw new Error("Polar semi-axis is not positive");
+            this._A3x = new Array(nA3x_);
+            this._C3x = new Array(nC3x_);
+            this._C4x = new Array(nC4x_);
+            this.A3coeff();
+            this.C3coeff();
+            this.C4coeff();
+          };
+          A3_coeff = [-3, 128, -2, -3, 64, -1, -3, -1, 16, 3, -1, -2, 8, 1, -1, 2, 1, 1];
+          g.Geodesic.prototype.A3coeff = function() {
+            var o = 0, k = 0, j2, p2;
+            for (j2 = nA3_ - 1; j2 >= 0; --j2) {
+              p2 = Math.min(nA3_ - j2 - 1, j2);
+              this._A3x[k++] = m.polyval(p2, A3_coeff, o, this._n) / A3_coeff[o + p2 + 1];
+              o += p2 + 2;
+            }
+          };
+          C3_coeff = [3, 128, 2, 5, 128, -1, 3, 3, 64, -1, 0, 1, 8, -1, 1, 4, 5, 256, 1, 3, 128, -3, -2, 3, 64, 1, -3, 2, 32, 7, 512, -10, 9, 384, 5, -9, 5, 192, 7, 512, -14, 7, 512, 21, 2560];
+          g.Geodesic.prototype.C3coeff = function() {
+            var o = 0, k = 0, l2, j2, p2;
+            for (l2 = 1; l2 < g.nC3_; ++l2) {
+              for (j2 = g.nC3_ - 1; j2 >= l2; --j2) {
+                p2 = Math.min(g.nC3_ - j2 - 1, j2);
+                this._C3x[k++] = m.polyval(p2, C3_coeff, o, this._n) / C3_coeff[o + p2 + 1];
+                o += p2 + 2;
+              }
+            }
+          };
+          C4_coeff = [97, 15015, 1088, 156, 45045, -224, -4784, 1573, 45045, -10656, 14144, -4576, -858, 45045, 64, 624, -4576, 6864, -3003, 15015, 100, 208, 572, 3432, -12012, 30030, 45045, 1, 9009, -2944, 468, 135135, 5792, 1040, -1287, 135135, 5952, -11648, 9152, -2574, 135135, -64, -624, 4576, -6864, 3003, 135135, 8, 10725, 1856, -936, 225225, -8448, 4992, -1144, 225225, -1440, 4160, -4576, 1716, 225225, -136, 63063, 1024, -208, 105105, 3584, -3328, 1144, 315315, -128, 135135, -2560, 832, 405405, 128, 99099];
+          g.Geodesic.prototype.C4coeff = function() {
+            var o = 0, k = 0, l2, j2, p2;
+            for (l2 = 0; l2 < g.nC4_; ++l2) {
+              for (j2 = g.nC4_ - 1; j2 >= l2; --j2) {
+                p2 = g.nC4_ - j2 - 1;
+                this._C4x[k++] = m.polyval(p2, C4_coeff, o, this._n) / C4_coeff[o + p2 + 1];
+                o += p2 + 2;
+              }
+            }
+          };
+          g.Geodesic.prototype.A3f = function(eps) {
+            return m.polyval(nA3x_ - 1, this._A3x, 0, eps);
+          };
+          g.Geodesic.prototype.C3f = function(eps, c2) {
+            var mult = 1, o = 0, l2, p2;
+            for (l2 = 1; l2 < g.nC3_; ++l2) {
+              p2 = g.nC3_ - l2 - 1;
+              mult *= eps;
+              c2[l2] = mult * m.polyval(p2, this._C3x, o, eps);
+              o += p2 + 1;
+            }
+          };
+          g.Geodesic.prototype.C4f = function(eps, c2) {
+            var mult = 1, o = 0, l2, p2;
+            for (l2 = 0; l2 < g.nC4_; ++l2) {
+              p2 = g.nC4_ - l2 - 1;
+              c2[l2] = mult * m.polyval(p2, this._C4x, o, eps);
+              o += p2 + 1;
+              mult *= eps;
+            }
+          };
+          g.Geodesic.prototype.Lengths = function(eps, sig12, ssig1, csig1, dn1, ssig2, csig2, dn2, cbet1, cbet2, outmask, C1a, C2a) {
+            outmask &= g.OUT_MASK;
+            var vals = {}, m0x = 0, J12 = 0, A1 = 0, A22 = 0, B1, B2, l2, csig12, t;
+            if (outmask & (g.DISTANCE | g.REDUCEDLENGTH | g.GEODESICSCALE)) {
+              A1 = g.A1m1f(eps);
+              g.C1f(eps, C1a);
+              if (outmask & (g.REDUCEDLENGTH | g.GEODESICSCALE)) {
+                A22 = g.A2m1f(eps);
+                g.C2f(eps, C2a);
+                m0x = A1 - A22;
+                A22 = 1 + A22;
+              }
+              A1 = 1 + A1;
+            }
+            if (outmask & g.DISTANCE) {
+              B1 = g.SinCosSeries(true, ssig2, csig2, C1a) - g.SinCosSeries(true, ssig1, csig1, C1a);
+              vals.s12b = A1 * (sig12 + B1);
+              if (outmask & (g.REDUCEDLENGTH | g.GEODESICSCALE)) {
+                B2 = g.SinCosSeries(true, ssig2, csig2, C2a) - g.SinCosSeries(true, ssig1, csig1, C2a);
+                J12 = m0x * sig12 + (A1 * B1 - A22 * B2);
+              }
+            } else if (outmask & (g.REDUCEDLENGTH | g.GEODESICSCALE)) {
+              for (l2 = 1; l2 <= g.nC2_; ++l2)
+                C2a[l2] = A1 * C1a[l2] - A22 * C2a[l2];
+              J12 = m0x * sig12 + (g.SinCosSeries(true, ssig2, csig2, C2a) - g.SinCosSeries(true, ssig1, csig1, C2a));
+            }
+            if (outmask & g.REDUCEDLENGTH) {
+              vals.m0 = m0x;
+              vals.m12b = dn2 * (csig1 * ssig2) - dn1 * (ssig1 * csig2) - csig1 * csig2 * J12;
+            } else
+              vals.m12b = NaN;
+            if (outmask & g.GEODESICSCALE) {
+              csig12 = csig1 * csig2 + ssig1 * ssig2;
+              t = this._ep2 * (cbet1 - cbet2) * (cbet1 + cbet2) / (dn1 + dn2);
+              vals.M12 = csig12 + (t * ssig2 - csig2 * J12) * ssig1 / dn1;
+              vals.M21 = csig12 - (t * ssig1 - csig1 * J12) * ssig2 / dn2;
+            }
+            return vals;
+          };
+          g.Geodesic.prototype.InverseStart = function(sbet1, cbet1, dn1, sbet2, cbet2, dn2, lam12, slam12, clam12, C1a, C2a) {
+            var vals = {}, sbet12 = sbet2 * cbet1 - cbet2 * sbet1, cbet12 = cbet2 * cbet1 + sbet2 * sbet1, sbet12a, shortline, omg12, sbetm2, somg12, comg12, t, ssig12, csig12, x2, y2, lamscale, betscale, k2, eps, cbet12a, bet12a, m12b, m0, nvals, k, omg12a, lam12x;
+            vals.sig12 = -1;
+            sbet12a = sbet2 * cbet1;
+            sbet12a += cbet2 * sbet1;
+            shortline = cbet12 >= 0 && sbet12 < 0.5 && cbet2 * lam12 < 0.5;
+            if (shortline) {
+              sbetm2 = m.sq(sbet1 + sbet2);
+              sbetm2 /= sbetm2 + m.sq(cbet1 + cbet2);
+              vals.dnm = Math.sqrt(1 + this._ep2 * sbetm2);
+              omg12 = lam12 / (this._f1 * vals.dnm);
+              somg12 = Math.sin(omg12);
+              comg12 = Math.cos(omg12);
+            } else {
+              somg12 = slam12;
+              comg12 = clam12;
+            }
+            vals.salp1 = cbet2 * somg12;
+            vals.calp1 = comg12 >= 0 ? sbet12 + cbet2 * sbet1 * m.sq(somg12) / (1 + comg12) : sbet12a - cbet2 * sbet1 * m.sq(somg12) / (1 - comg12);
+            ssig12 = m.hypot(vals.salp1, vals.calp1);
+            csig12 = sbet1 * sbet2 + cbet1 * cbet2 * comg12;
+            if (shortline && ssig12 < this._etol2) {
+              vals.salp2 = cbet1 * somg12;
+              vals.calp2 = sbet12 - cbet1 * sbet2 * (comg12 >= 0 ? m.sq(somg12) / (1 + comg12) : 1 - comg12);
+              t = m.hypot(vals.salp2, vals.calp2);
+              vals.salp2 /= t;
+              vals.calp2 /= t;
+              vals.sig12 = Math.atan2(ssig12, csig12);
+            } else if (Math.abs(this._n) > 0.1 || csig12 >= 0 || ssig12 >= 6 * Math.abs(this._n) * Math.PI * m.sq(cbet1)) {
+            } else {
+              lam12x = Math.atan2(-slam12, -clam12);
+              if (this.f >= 0) {
+                k2 = m.sq(sbet1) * this._ep2;
+                eps = k2 / (2 * (1 + Math.sqrt(1 + k2)) + k2);
+                lamscale = this.f * cbet1 * this.A3f(eps) * Math.PI;
+                betscale = lamscale * cbet1;
+                x2 = lam12x / lamscale;
+                y2 = sbet12a / betscale;
+              } else {
+                cbet12a = cbet2 * cbet1 - sbet2 * sbet1;
+                bet12a = Math.atan2(sbet12a, cbet12a);
+                nvals = this.Lengths(this._n, Math.PI + bet12a, sbet1, -cbet1, dn1, sbet2, cbet2, dn2, cbet1, cbet2, g.REDUCEDLENGTH, C1a, C2a);
+                m12b = nvals.m12b;
+                m0 = nvals.m0;
+                x2 = -1 + m12b / (cbet1 * cbet2 * m0 * Math.PI);
+                betscale = x2 < -0.01 ? sbet12a / x2 : -this.f * m.sq(cbet1) * Math.PI;
+                lamscale = betscale / cbet1;
+                y2 = lam12 / lamscale;
+              }
+              if (y2 > -tol1_ && x2 > -1 - xthresh_) {
+                if (this.f >= 0) {
+                  vals.salp1 = Math.min(1, -x2);
+                  vals.calp1 = -Math.sqrt(1 - m.sq(vals.salp1));
+                } else {
+                  vals.calp1 = Math.max(x2 > -tol1_ ? 0 : -1, x2);
+                  vals.salp1 = Math.sqrt(1 - m.sq(vals.calp1));
+                }
+              } else {
+                k = astroid(x2, y2);
+                omg12a = lamscale * (this.f >= 0 ? -x2 * k / (1 + k) : -y2 * (1 + k) / k);
+                somg12 = Math.sin(omg12a);
+                comg12 = -Math.cos(omg12a);
+                vals.salp1 = cbet2 * somg12;
+                vals.calp1 = sbet12a - cbet2 * sbet1 * m.sq(somg12) / (1 - comg12);
+              }
+            }
+            if (!(vals.salp1 <= 0)) {
+              t = m.hypot(vals.salp1, vals.calp1);
+              vals.salp1 /= t;
+              vals.calp1 /= t;
+            } else {
+              vals.salp1 = 1;
+              vals.calp1 = 0;
+            }
+            return vals;
+          };
+          g.Geodesic.prototype.Lambda12 = function(sbet1, cbet1, dn1, sbet2, cbet2, dn2, salp1, calp1, slam120, clam120, diffp, C1a, C2a, C3a) {
+            var vals = {}, t, salp0, calp0, somg1, comg1, somg2, comg2, somg12, comg12, B312, eta, k2, nvals;
+            if (sbet1 === 0 && calp1 === 0)
+              calp1 = -g.tiny_;
+            salp0 = salp1 * cbet1;
+            calp0 = m.hypot(calp1, salp1 * sbet1);
+            vals.ssig1 = sbet1;
+            somg1 = salp0 * sbet1;
+            vals.csig1 = comg1 = calp1 * cbet1;
+            t = m.hypot(vals.ssig1, vals.csig1);
+            vals.ssig1 /= t;
+            vals.csig1 /= t;
+            vals.salp2 = cbet2 !== cbet1 ? salp0 / cbet2 : salp1;
+            vals.calp2 = cbet2 !== cbet1 || Math.abs(sbet2) !== -sbet1 ? Math.sqrt(m.sq(calp1 * cbet1) + (cbet1 < -sbet1 ? (cbet2 - cbet1) * (cbet1 + cbet2) : (sbet1 - sbet2) * (sbet1 + sbet2))) / cbet2 : Math.abs(calp1);
+            vals.ssig2 = sbet2;
+            somg2 = salp0 * sbet2;
+            vals.csig2 = comg2 = vals.calp2 * cbet2;
+            t = m.hypot(vals.ssig2, vals.csig2);
+            vals.ssig2 /= t;
+            vals.csig2 /= t;
+            vals.sig12 = Math.atan2(Math.max(0, vals.csig1 * vals.ssig2 - vals.ssig1 * vals.csig2), vals.csig1 * vals.csig2 + vals.ssig1 * vals.ssig2);
+            somg12 = Math.max(0, comg1 * somg2 - somg1 * comg2);
+            comg12 = comg1 * comg2 + somg1 * somg2;
+            eta = Math.atan2(somg12 * clam120 - comg12 * slam120, comg12 * clam120 + somg12 * slam120);
+            k2 = m.sq(calp0) * this._ep2;
+            vals.eps = k2 / (2 * (1 + Math.sqrt(1 + k2)) + k2);
+            this.C3f(vals.eps, C3a);
+            B312 = g.SinCosSeries(true, vals.ssig2, vals.csig2, C3a) - g.SinCosSeries(true, vals.ssig1, vals.csig1, C3a);
+            vals.domg12 = -this.f * this.A3f(vals.eps) * salp0 * (vals.sig12 + B312);
+            vals.lam12 = eta + vals.domg12;
+            if (diffp) {
+              if (vals.calp2 === 0)
+                vals.dlam12 = -2 * this._f1 * dn1 / sbet1;
+              else {
+                nvals = this.Lengths(vals.eps, vals.sig12, vals.ssig1, vals.csig1, dn1, vals.ssig2, vals.csig2, dn2, cbet1, cbet2, g.REDUCEDLENGTH, C1a, C2a);
+                vals.dlam12 = nvals.m12b;
+                vals.dlam12 *= this._f1 / (vals.calp2 * cbet2);
+              }
+            }
+            return vals;
+          };
+          g.Geodesic.prototype.Inverse = function(lat1, lon1, lat2, lon2, outmask) {
+            var r, vals;
+            if (!outmask) outmask = g.STANDARD;
+            if (outmask === g.LONG_UNROLL) outmask |= g.STANDARD;
+            outmask &= g.OUT_MASK;
+            r = this.InverseInt(lat1, lon1, lat2, lon2, outmask);
+            vals = r.vals;
+            if (outmask & g.AZIMUTH) {
+              vals.azi1 = m.atan2d(r.salp1, r.calp1);
+              vals.azi2 = m.atan2d(r.salp2, r.calp2);
+            }
+            return vals;
+          };
+          g.Geodesic.prototype.InverseInt = function(lat1, lon1, lat2, lon2, outmask) {
+            var vals = {}, lon12, lon12s, lonsign, t, swapp, latsign, sbet1, cbet1, sbet2, cbet2, s12x, m12x, dn1, dn2, lam12, slam12, clam12, sig12, calp1, salp1, calp2, salp2, C1a, C2a, C3a, meridian, nvals, ssig1, csig1, ssig2, csig2, eps, omg12, dnm, numit, salp1a, calp1a, salp1b, calp1b, tripn, tripb, v2, dv, dalp1, sdalp1, cdalp1, nsalp1, lengthmask, salp0, calp0, alp12, k2, A4, C4a, B41, B42, somg12, comg12, domg12, dbet1, dbet2, salp12, calp12, sdomg12, cdomg12;
+            vals.lat1 = lat1 = m.LatFix(lat1);
+            vals.lat2 = lat2 = m.LatFix(lat2);
+            lat1 = m.AngRound(lat1);
+            lat2 = m.AngRound(lat2);
+            lon12 = m.AngDiff(lon1, lon2);
+            lon12s = lon12.e;
+            lon12 = lon12.d;
+            if (outmask & g.LONG_UNROLL) {
+              vals.lon1 = lon1;
+              vals.lon2 = lon1 + lon12 + lon12s;
+            } else {
+              vals.lon1 = m.AngNormalize(lon1);
+              vals.lon2 = m.AngNormalize(lon2);
+            }
+            lonsign = m.copysign(1, lon12);
+            lon12 *= lonsign;
+            lon12s *= lonsign;
+            lam12 = lon12 * m.degree;
+            t = m.sincosde(lon12, lon12s);
+            slam12 = t.s;
+            clam12 = t.c;
+            lon12s = 180 - lon12 - lon12s;
+            swapp = Math.abs(lat1) < Math.abs(lat2) || isNaN(lat2) ? -1 : 1;
+            if (swapp < 0) {
+              lonsign *= -1;
+              [lat2, lat1] = [lat1, lat2];
+            }
+            latsign = m.copysign(1, -lat1);
+            lat1 *= latsign;
+            lat2 *= latsign;
+            t = m.sincosd(lat1);
+            sbet1 = this._f1 * t.s;
+            cbet1 = t.c;
+            t = m.hypot(sbet1, cbet1);
+            sbet1 /= t;
+            cbet1 /= t;
+            cbet1 = Math.max(g.tiny_, cbet1);
+            t = m.sincosd(lat2);
+            sbet2 = this._f1 * t.s;
+            cbet2 = t.c;
+            t = m.hypot(sbet2, cbet2);
+            sbet2 /= t;
+            cbet2 /= t;
+            cbet2 = Math.max(g.tiny_, cbet2);
+            if (cbet1 < -sbet1) {
+              if (cbet2 === cbet1)
+                sbet2 = m.copysign(sbet1, sbet2);
+            } else {
+              if (Math.abs(sbet2) === -sbet1)
+                cbet2 = cbet1;
+            }
+            dn1 = Math.sqrt(1 + this._ep2 * m.sq(sbet1));
+            dn2 = Math.sqrt(1 + this._ep2 * m.sq(sbet2));
+            C1a = new Array(g.nC1_ + 1);
+            C2a = new Array(g.nC2_ + 1);
+            C3a = new Array(g.nC3_);
+            meridian = lat1 === -90 || slam12 === 0;
+            if (meridian) {
+              calp1 = clam12;
+              salp1 = slam12;
+              calp2 = 1;
+              salp2 = 0;
+              ssig1 = sbet1;
+              csig1 = calp1 * cbet1;
+              ssig2 = sbet2;
+              csig2 = calp2 * cbet2;
+              sig12 = Math.atan2(Math.max(0, csig1 * ssig2 - ssig1 * csig2), csig1 * csig2 + ssig1 * ssig2);
+              nvals = this.Lengths(this._n, sig12, ssig1, csig1, dn1, ssig2, csig2, dn2, cbet1, cbet2, outmask | g.DISTANCE | g.REDUCEDLENGTH, C1a, C2a);
+              s12x = nvals.s12b;
+              m12x = nvals.m12b;
+              if (outmask & g.GEODESICSCALE) {
+                vals.M12 = nvals.M12;
+                vals.M21 = nvals.M21;
+              }
+              if (sig12 < tol2_ || m12x >= 0) {
+                if (sig12 < 3 * g.tiny_ || sig12 < tol0_ && (s12x < 0 || m12x < 0))
+                  sig12 = m12x = s12x = 0;
+                m12x *= this._b;
+                s12x *= this._b;
+                vals.a12 = sig12 / m.degree;
+              } else
+                meridian = false;
+            }
+            somg12 = 2;
+            if (!meridian && sbet1 === 0 && (this.f <= 0 || lon12s >= this.f * 180)) {
+              calp1 = calp2 = 0;
+              salp1 = salp2 = 1;
+              s12x = this.a * lam12;
+              sig12 = omg12 = lam12 / this._f1;
+              m12x = this._b * Math.sin(sig12);
+              if (outmask & g.GEODESICSCALE)
+                vals.M12 = vals.M21 = Math.cos(sig12);
+              vals.a12 = lon12 / this._f1;
+            } else if (!meridian) {
+              nvals = this.InverseStart(sbet1, cbet1, dn1, sbet2, cbet2, dn2, lam12, slam12, clam12, C1a, C2a);
+              sig12 = nvals.sig12;
+              salp1 = nvals.salp1;
+              calp1 = nvals.calp1;
+              if (sig12 >= 0) {
+                salp2 = nvals.salp2;
+                calp2 = nvals.calp2;
+                dnm = nvals.dnm;
+                s12x = sig12 * this._b * dnm;
+                m12x = m.sq(dnm) * this._b * Math.sin(sig12 / dnm);
+                if (outmask & g.GEODESICSCALE)
+                  vals.M12 = vals.M21 = Math.cos(sig12 / dnm);
+                vals.a12 = sig12 / m.degree;
+                omg12 = lam12 / (this._f1 * dnm);
+              } else {
+                numit = 0;
+                salp1a = g.tiny_;
+                calp1a = 1;
+                salp1b = g.tiny_;
+                calp1b = -1;
+                for (tripn = false, tripb = false; ; ++numit) {
+                  nvals = this.Lambda12(sbet1, cbet1, dn1, sbet2, cbet2, dn2, salp1, calp1, slam12, clam12, numit < maxit1_, C1a, C2a, C3a);
+                  v2 = nvals.lam12;
+                  salp2 = nvals.salp2;
+                  calp2 = nvals.calp2;
+                  sig12 = nvals.sig12;
+                  ssig1 = nvals.ssig1;
+                  csig1 = nvals.csig1;
+                  ssig2 = nvals.ssig2;
+                  csig2 = nvals.csig2;
+                  eps = nvals.eps;
+                  domg12 = nvals.domg12;
+                  dv = nvals.dlam12;
+                  if (tripb || !(Math.abs(v2) >= (tripn ? 8 : 1) * tol0_) || numit == maxit2_)
+                    break;
+                  if (v2 > 0 && (numit < maxit1_ || calp1 / salp1 > calp1b / salp1b)) {
+                    salp1b = salp1;
+                    calp1b = calp1;
+                  } else if (v2 < 0 && (numit < maxit1_ || calp1 / salp1 < calp1a / salp1a)) {
+                    salp1a = salp1;
+                    calp1a = calp1;
+                  }
+                  if (numit < maxit1_ && dv > 0) {
+                    dalp1 = -v2 / dv;
+                    if (Math.abs(dalp1) < Math.PI) {
+                      sdalp1 = Math.sin(dalp1);
+                      cdalp1 = Math.cos(dalp1);
+                      nsalp1 = salp1 * cdalp1 + calp1 * sdalp1;
+                      if (nsalp1 > 0) {
+                        calp1 = calp1 * cdalp1 - salp1 * sdalp1;
+                        salp1 = nsalp1;
+                        t = m.hypot(salp1, calp1);
+                        salp1 /= t;
+                        calp1 /= t;
+                        tripn = Math.abs(v2) <= 16 * tol0_;
+                        continue;
+                      }
+                    }
+                  }
+                  salp1 = (salp1a + salp1b) / 2;
+                  calp1 = (calp1a + calp1b) / 2;
+                  t = m.hypot(salp1, calp1);
+                  salp1 /= t;
+                  calp1 /= t;
+                  tripn = false;
+                  tripb = Math.abs(salp1a - salp1) + (calp1a - calp1) < tolb_ || Math.abs(salp1 - salp1b) + (calp1 - calp1b) < tolb_;
+                }
+                lengthmask = outmask | (outmask & (g.REDUCEDLENGTH | g.GEODESICSCALE) ? g.DISTANCE : g.NONE);
+                nvals = this.Lengths(eps, sig12, ssig1, csig1, dn1, ssig2, csig2, dn2, cbet1, cbet2, lengthmask, C1a, C2a);
+                s12x = nvals.s12b;
+                m12x = nvals.m12b;
+                if (outmask & g.GEODESICSCALE) {
+                  vals.M12 = nvals.M12;
+                  vals.M21 = nvals.M21;
+                }
+                m12x *= this._b;
+                s12x *= this._b;
+                vals.a12 = sig12 / m.degree;
+                if (outmask & g.AREA) {
+                  sdomg12 = Math.sin(domg12);
+                  cdomg12 = Math.cos(domg12);
+                  somg12 = slam12 * cdomg12 - clam12 * sdomg12;
+                  comg12 = clam12 * cdomg12 + slam12 * sdomg12;
+                }
+              }
+            }
+            if (outmask & g.DISTANCE)
+              vals.s12 = 0 + s12x;
+            if (outmask & g.REDUCEDLENGTH)
+              vals.m12 = 0 + m12x;
+            if (outmask & g.AREA) {
+              salp0 = salp1 * cbet1;
+              calp0 = m.hypot(calp1, salp1 * sbet1);
+              if (calp0 !== 0 && salp0 !== 0) {
+                ssig1 = sbet1;
+                csig1 = calp1 * cbet1;
+                ssig2 = sbet2;
+                csig2 = calp2 * cbet2;
+                k2 = m.sq(calp0) * this._ep2;
+                eps = k2 / (2 * (1 + Math.sqrt(1 + k2)) + k2);
+                A4 = m.sq(this.a) * calp0 * salp0 * this._e2;
+                t = m.hypot(ssig1, csig1);
+                ssig1 /= t;
+                csig1 /= t;
+                t = m.hypot(ssig2, csig2);
+                ssig2 /= t;
+                csig2 /= t;
+                C4a = new Array(g.nC4_);
+                this.C4f(eps, C4a);
+                B41 = g.SinCosSeries(false, ssig1, csig1, C4a);
+                B42 = g.SinCosSeries(false, ssig2, csig2, C4a);
+                vals.S12 = A4 * (B42 - B41);
+              } else
+                vals.S12 = 0;
+              if (!meridian && somg12 == 2) {
+                somg12 = Math.sin(omg12);
+                comg12 = Math.cos(omg12);
+              }
+              if (!meridian && comg12 > -0.7071 && sbet2 - sbet1 < 1.75) {
+                domg12 = 1 + comg12;
+                dbet1 = 1 + cbet1;
+                dbet2 = 1 + cbet2;
+                alp12 = 2 * Math.atan2(somg12 * (sbet1 * dbet2 + sbet2 * dbet1), domg12 * (sbet1 * sbet2 + dbet1 * dbet2));
+              } else {
+                salp12 = salp2 * calp1 - calp2 * salp1;
+                calp12 = calp2 * calp1 + salp2 * salp1;
+                if (salp12 === 0 && calp12 < 0) {
+                  salp12 = g.tiny_ * calp1;
+                  calp12 = -1;
+                }
+                alp12 = Math.atan2(salp12, calp12);
+              }
+              vals.S12 += this._c2 * alp12;
+              vals.S12 *= swapp * lonsign * latsign;
+              vals.S12 += 0;
+            }
+            if (swapp < 0) {
+              [salp2, salp1] = [salp1, salp2];
+              [calp2, calp1] = [calp1, calp2];
+              if (outmask & g.GEODESICSCALE) {
+                [vals.M21, vals.M12] = [vals.M12, vals.M21];
+              }
+            }
+            salp1 *= swapp * lonsign;
+            calp1 *= swapp * latsign;
+            salp2 *= swapp * lonsign;
+            calp2 *= swapp * latsign;
+            return { vals, salp1, calp1, salp2, calp2 };
+          };
+          g.Geodesic.prototype.GenDirect = function(lat1, lon1, azi1, arcmode, s12_a12, outmask) {
+            var line;
+            if (!outmask) outmask = g.STANDARD;
+            else if (outmask === g.LONG_UNROLL) outmask |= g.STANDARD;
+            if (!arcmode) outmask |= g.DISTANCE_IN;
+            line = new l.GeodesicLine(this, lat1, lon1, azi1, outmask);
+            return line.GenPosition(arcmode, s12_a12, outmask);
+          };
+          g.Geodesic.prototype.Direct = function(lat1, lon1, azi1, s12, outmask) {
+            return this.GenDirect(lat1, lon1, azi1, false, s12, outmask);
+          };
+          g.Geodesic.prototype.ArcDirect = function(lat1, lon1, azi1, a12, outmask) {
+            return this.GenDirect(lat1, lon1, azi1, true, a12, outmask);
+          };
+          g.Geodesic.prototype.Line = function(lat1, lon1, azi1, caps) {
+            return new l.GeodesicLine(this, lat1, lon1, azi1, caps);
+          };
+          g.Geodesic.prototype.DirectLine = function(lat1, lon1, azi1, s12, caps) {
+            return this.GenDirectLine(lat1, lon1, azi1, false, s12, caps);
+          };
+          g.Geodesic.prototype.ArcDirectLine = function(lat1, lon1, azi1, a12, caps) {
+            return this.GenDirectLine(lat1, lon1, azi1, true, a12, caps);
+          };
+          g.Geodesic.prototype.GenDirectLine = function(lat1, lon1, azi1, arcmode, s12_a12, caps) {
+            var t;
+            if (!caps) caps = g.STANDARD | g.DISTANCE_IN;
+            if (!arcmode) caps |= g.DISTANCE_IN;
+            t = new l.GeodesicLine(this, lat1, lon1, azi1, caps);
+            t.GenSetDistance(arcmode, s12_a12);
+            return t;
+          };
+          g.Geodesic.prototype.InverseLine = function(lat1, lon1, lat2, lon2, caps) {
+            var r, t, azi1;
+            if (!caps) caps = g.STANDARD | g.DISTANCE_IN;
+            r = this.InverseInt(lat1, lon1, lat2, lon2, g.ARC);
+            azi1 = m.atan2d(r.salp1, r.calp1);
+            if (caps & (g.OUT_MASK & g.DISTANCE_IN)) caps |= g.DISTANCE;
+            t = new l.GeodesicLine(this, lat1, lon1, azi1, caps, r.salp1, r.calp1);
+            t.SetArc(r.vals.a12);
+            return t;
+          };
+          g.Geodesic.prototype.Polygon = function(polyline) {
+            return new p.PolygonArea(this, polyline);
+          };
+          g.WGS84 = new g.Geodesic(c.WGS84.a, c.WGS84.f);
+        })(geodesic2.Geodesic, geodesic2.GeodesicLine, geodesic2.PolygonArea, geodesic2.Math, geodesic2.Constants);
+        (function(g, l, m) {
+          "use strict";
+          l.GeodesicLine = function(geod2, lat1, lon1, azi1, caps, salp1, calp1) {
+            var t, cbet1, sbet1, eps, s2, c;
+            if (!caps) caps = g.STANDARD | g.DISTANCE_IN;
+            this.a = geod2.a;
+            this.f = geod2.f;
+            this._b = geod2._b;
+            this._c2 = geod2._c2;
+            this._f1 = geod2._f1;
+            this.caps = caps | g.LATITUDE | g.AZIMUTH | g.LONG_UNROLL;
+            this.lat1 = m.LatFix(lat1);
+            this.lon1 = lon1;
+            if (typeof salp1 === "undefined" || typeof calp1 === "undefined") {
+              this.azi1 = m.AngNormalize(azi1);
+              t = m.sincosd(m.AngRound(this.azi1));
+              this.salp1 = t.s;
+              this.calp1 = t.c;
+            } else {
+              this.azi1 = azi1;
+              this.salp1 = salp1;
+              this.calp1 = calp1;
+            }
+            t = m.sincosd(m.AngRound(this.lat1));
+            sbet1 = this._f1 * t.s;
+            cbet1 = t.c;
+            t = m.hypot(sbet1, cbet1);
+            sbet1 /= t;
+            cbet1 /= t;
+            cbet1 = Math.max(g.tiny_, cbet1);
+            this._dn1 = Math.sqrt(1 + geod2._ep2 * m.sq(sbet1));
+            this._salp0 = this.salp1 * cbet1;
+            this._calp0 = m.hypot(this.calp1, this.salp1 * sbet1);
+            this._ssig1 = sbet1;
+            this._somg1 = this._salp0 * sbet1;
+            this._csig1 = this._comg1 = sbet1 !== 0 || this.calp1 !== 0 ? cbet1 * this.calp1 : 1;
+            t = m.hypot(this._ssig1, this._csig1);
+            this._ssig1 /= t;
+            this._csig1 /= t;
+            this._k2 = m.sq(this._calp0) * geod2._ep2;
+            eps = this._k2 / (2 * (1 + Math.sqrt(1 + this._k2)) + this._k2);
+            if (this.caps & g.CAP_C1) {
+              this._A1m1 = g.A1m1f(eps);
+              this._C1a = new Array(g.nC1_ + 1);
+              g.C1f(eps, this._C1a);
+              this._B11 = g.SinCosSeries(true, this._ssig1, this._csig1, this._C1a);
+              s2 = Math.sin(this._B11);
+              c = Math.cos(this._B11);
+              this._stau1 = this._ssig1 * c + this._csig1 * s2;
+              this._ctau1 = this._csig1 * c - this._ssig1 * s2;
+            }
+            if (this.caps & g.CAP_C1p) {
+              this._C1pa = new Array(g.nC1p_ + 1);
+              g.C1pf(eps, this._C1pa);
+            }
+            if (this.caps & g.CAP_C2) {
+              this._A2m1 = g.A2m1f(eps);
+              this._C2a = new Array(g.nC2_ + 1);
+              g.C2f(eps, this._C2a);
+              this._B21 = g.SinCosSeries(true, this._ssig1, this._csig1, this._C2a);
+            }
+            if (this.caps & g.CAP_C3) {
+              this._C3a = new Array(g.nC3_);
+              geod2.C3f(eps, this._C3a);
+              this._A3c = -this.f * this._salp0 * geod2.A3f(eps);
+              this._B31 = g.SinCosSeries(true, this._ssig1, this._csig1, this._C3a);
+            }
+            if (this.caps & g.CAP_C4) {
+              this._C4a = new Array(g.nC4_);
+              geod2.C4f(eps, this._C4a);
+              this._A4 = m.sq(this.a) * this._calp0 * this._salp0 * geod2._e2;
+              this._B41 = g.SinCosSeries(false, this._ssig1, this._csig1, this._C4a);
+            }
+            this.a13 = this.s13 = NaN;
+          };
+          l.GeodesicLine.prototype.GenPosition = function(arcmode, s12_a12, outmask) {
+            var vals = {}, sig12, ssig12, csig12, B12, AB1, ssig2, csig2, tau12, s2, c, serr, omg12, lam12, lon12, E2, sbet2, cbet2, somg2, comg2, salp2, calp2, dn2, B22, AB2, J12, t, B42, salp12, calp12;
+            if (!outmask) outmask = g.STANDARD;
+            else if (outmask === g.LONG_UNROLL) outmask |= g.STANDARD;
+            outmask &= this.caps & g.OUT_MASK;
+            vals.lat1 = this.lat1;
+            vals.azi1 = this.azi1;
+            vals.lon1 = outmask & g.LONG_UNROLL ? this.lon1 : m.AngNormalize(this.lon1);
+            if (arcmode)
+              vals.a12 = s12_a12;
+            else
+              vals.s12 = s12_a12;
+            if (!(arcmode || this.caps & g.DISTANCE_IN & g.OUT_MASK)) {
+              vals.a12 = NaN;
+              return vals;
+            }
+            B12 = 0;
+            AB1 = 0;
+            if (arcmode) {
+              sig12 = s12_a12 * m.degree;
+              t = m.sincosd(s12_a12);
+              ssig12 = t.s;
+              csig12 = t.c;
+            } else {
+              tau12 = s12_a12 / (this._b * (1 + this._A1m1));
+              s2 = Math.sin(tau12);
+              c = Math.cos(tau12);
+              B12 = -g.SinCosSeries(true, this._stau1 * c + this._ctau1 * s2, this._ctau1 * c - this._stau1 * s2, this._C1pa);
+              sig12 = tau12 - (B12 - this._B11);
+              ssig12 = Math.sin(sig12);
+              csig12 = Math.cos(sig12);
+              if (Math.abs(this.f) > 0.01) {
+                ssig2 = this._ssig1 * csig12 + this._csig1 * ssig12;
+                csig2 = this._csig1 * csig12 - this._ssig1 * ssig12;
+                B12 = g.SinCosSeries(true, ssig2, csig2, this._C1a);
+                serr = (1 + this._A1m1) * (sig12 + (B12 - this._B11)) - s12_a12 / this._b;
+                sig12 = sig12 - serr / Math.sqrt(1 + this._k2 * m.sq(ssig2));
+                ssig12 = Math.sin(sig12);
+                csig12 = Math.cos(sig12);
+              }
+            }
+            ssig2 = this._ssig1 * csig12 + this._csig1 * ssig12;
+            csig2 = this._csig1 * csig12 - this._ssig1 * ssig12;
+            dn2 = Math.sqrt(1 + this._k2 * m.sq(ssig2));
+            if (outmask & (g.DISTANCE | g.REDUCEDLENGTH | g.GEODESICSCALE)) {
+              if (arcmode || Math.abs(this.f) > 0.01)
+                B12 = g.SinCosSeries(true, ssig2, csig2, this._C1a);
+              AB1 = (1 + this._A1m1) * (B12 - this._B11);
+            }
+            sbet2 = this._calp0 * ssig2;
+            cbet2 = m.hypot(this._salp0, this._calp0 * csig2);
+            if (cbet2 === 0)
+              cbet2 = csig2 = g.tiny_;
+            salp2 = this._salp0;
+            calp2 = this._calp0 * csig2;
+            if (arcmode && outmask & g.DISTANCE)
+              vals.s12 = this._b * ((1 + this._A1m1) * sig12 + AB1);
+            if (outmask & g.LONGITUDE) {
+              somg2 = this._salp0 * ssig2;
+              comg2 = csig2;
+              E2 = m.copysign(1, this._salp0);
+              omg12 = outmask & g.LONG_UNROLL ? E2 * (sig12 - (Math.atan2(ssig2, csig2) - Math.atan2(this._ssig1, this._csig1)) + (Math.atan2(E2 * somg2, comg2) - Math.atan2(E2 * this._somg1, this._comg1))) : Math.atan2(somg2 * this._comg1 - comg2 * this._somg1, comg2 * this._comg1 + somg2 * this._somg1);
+              lam12 = omg12 + this._A3c * (sig12 + (g.SinCosSeries(true, ssig2, csig2, this._C3a) - this._B31));
+              lon12 = lam12 / m.degree;
+              vals.lon2 = outmask & g.LONG_UNROLL ? this.lon1 + lon12 : m.AngNormalize(m.AngNormalize(this.lon1) + m.AngNormalize(lon12));
+            }
+            if (outmask & g.LATITUDE)
+              vals.lat2 = m.atan2d(sbet2, this._f1 * cbet2);
+            if (outmask & g.AZIMUTH)
+              vals.azi2 = m.atan2d(salp2, calp2);
+            if (outmask & (g.REDUCEDLENGTH | g.GEODESICSCALE)) {
+              B22 = g.SinCosSeries(true, ssig2, csig2, this._C2a);
+              AB2 = (1 + this._A2m1) * (B22 - this._B21);
+              J12 = (this._A1m1 - this._A2m1) * sig12 + (AB1 - AB2);
+              if (outmask & g.REDUCEDLENGTH)
+                vals.m12 = this._b * (dn2 * (this._csig1 * ssig2) - this._dn1 * (this._ssig1 * csig2) - this._csig1 * csig2 * J12);
+              if (outmask & g.GEODESICSCALE) {
+                t = this._k2 * (ssig2 - this._ssig1) * (ssig2 + this._ssig1) / (this._dn1 + dn2);
+                vals.M12 = csig12 + (t * ssig2 - csig2 * J12) * this._ssig1 / this._dn1;
+                vals.M21 = csig12 - (t * this._ssig1 - this._csig1 * J12) * ssig2 / dn2;
+              }
+            }
+            if (outmask & g.AREA) {
+              B42 = g.SinCosSeries(false, ssig2, csig2, this._C4a);
+              if (this._calp0 === 0 || this._salp0 === 0) {
+                salp12 = salp2 * this.calp1 - calp2 * this.salp1;
+                calp12 = calp2 * this.calp1 + salp2 * this.salp1;
+              } else {
+                salp12 = this._calp0 * this._salp0 * (csig12 <= 0 ? this._csig1 * (1 - csig12) + ssig12 * this._ssig1 : ssig12 * (this._csig1 * ssig12 / (1 + csig12) + this._ssig1));
+                calp12 = m.sq(this._salp0) + m.sq(this._calp0) * this._csig1 * csig2;
+              }
+              vals.S12 = this._c2 * Math.atan2(salp12, calp12) + this._A4 * (B42 - this._B41);
+            }
+            if (!arcmode)
+              vals.a12 = sig12 / m.degree;
+            return vals;
+          };
+          l.GeodesicLine.prototype.Position = function(s12, outmask) {
+            return this.GenPosition(false, s12, outmask);
+          };
+          l.GeodesicLine.prototype.ArcPosition = function(a12, outmask) {
+            return this.GenPosition(true, a12, outmask);
+          };
+          l.GeodesicLine.prototype.GenSetDistance = function(arcmode, s13_a13) {
+            if (arcmode)
+              this.SetArc(s13_a13);
+            else
+              this.SetDistance(s13_a13);
+          };
+          l.GeodesicLine.prototype.SetDistance = function(s13) {
+            var r;
+            this.s13 = s13;
+            r = this.GenPosition(false, this.s13, g.ARC);
+            this.a13 = 0 + r.a12;
+          };
+          l.GeodesicLine.prototype.SetArc = function(a13) {
+            var r;
+            this.a13 = a13;
+            r = this.GenPosition(true, this.a13, g.DISTANCE);
+            this.s13 = 0 + r.s12;
+          };
+        })(geodesic2.Geodesic, geodesic2.GeodesicLine, geodesic2.Math);
+        (function(p, g, m, a) {
+          "use strict";
+          var transit, transitdirect, AreaReduceA, AreaReduceB;
+          transit = function(lon1, lon2) {
+            var lon12 = m.AngDiff(lon1, lon2).d;
+            lon1 = m.AngNormalize(lon1);
+            lon2 = m.AngNormalize(lon2);
+            return lon12 > 0 && (lon1 < 0 && lon2 >= 0 || lon1 > 0 && lon2 === 0) ? 1 : lon12 < 0 && lon1 >= 0 && lon2 < 0 ? -1 : 0;
+          };
+          transitdirect = function(lon1, lon2) {
+            lon1 = lon1 % 720;
+            lon2 = lon2 % 720;
+            return (0 <= lon2 && lon2 < 360 || lon2 < -360 ? 0 : 1) - (0 <= lon1 && lon1 < 360 || lon1 < -360 ? 0 : 1);
+          };
+          AreaReduceA = function(area, area0, crossings, reverse, sign) {
+            area.Remainder(area0);
+            if (crossings & 1)
+              area.Add((area.Sum() < 0 ? 1 : -1) * area0 / 2);
+            if (!reverse)
+              area.Negate();
+            if (sign) {
+              if (area.Sum() > area0 / 2)
+                area.Add(-area0);
+              else if (area.Sum() <= -area0 / 2)
+                area.Add(+area0);
+            } else {
+              if (area.Sum() >= area0)
+                area.Add(-area0);
+              else if (area.Sum() < 0)
+                area.Add(+area0);
+            }
+            return 0 + area.Sum();
+          };
+          AreaReduceB = function(area, area0, crossings, reverse, sign) {
+            area = m.remainder(area, area0);
+            if (crossings & 1)
+              area += (area < 0 ? 1 : -1) * area0 / 2;
+            if (!reverse)
+              area *= -1;
+            if (sign) {
+              if (area > area0 / 2)
+                area -= area0;
+              else if (area <= -area0 / 2)
+                area += area0;
+            } else {
+              if (area >= area0)
+                area -= area0;
+              else if (area < 0)
+                area += area0;
+            }
+            return 0 + area;
+          };
+          p.PolygonArea = function(geod2, polyline) {
+            this._geod = geod2;
+            this.a = this._geod.a;
+            this.f = this._geod.f;
+            this._area0 = 4 * Math.PI * geod2._c2;
+            this.polyline = !polyline ? false : polyline;
+            this._mask = g.LATITUDE | g.LONGITUDE | g.DISTANCE | (this.polyline ? g.NONE : g.AREA | g.LONG_UNROLL);
+            if (!this.polyline)
+              this._areasum = new a.Accumulator(0);
+            this._perimetersum = new a.Accumulator(0);
+            this.Clear();
+          };
+          p.PolygonArea.prototype.Clear = function() {
+            this.num = 0;
+            this._crossings = 0;
+            if (!this.polyline)
+              this._areasum.Set(0);
+            this._perimetersum.Set(0);
+            this._lat0 = this._lon0 = this.lat = this.lon = NaN;
+          };
+          p.PolygonArea.prototype.AddPoint = function(lat, lon) {
+            var t;
+            if (this.num === 0) {
+              this._lat0 = this.lat = lat;
+              this._lon0 = this.lon = lon;
+            } else {
+              t = this._geod.Inverse(this.lat, this.lon, lat, lon, this._mask);
+              this._perimetersum.Add(t.s12);
+              if (!this.polyline) {
+                this._areasum.Add(t.S12);
+                this._crossings += transit(this.lon, lon);
+              }
+              this.lat = lat;
+              this.lon = lon;
+            }
+            ++this.num;
+          };
+          p.PolygonArea.prototype.AddEdge = function(azi, s2) {
+            var t;
+            if (this.num) {
+              t = this._geod.Direct(this.lat, this.lon, azi, s2, this._mask);
+              this._perimetersum.Add(s2);
+              if (!this.polyline) {
+                this._areasum.Add(t.S12);
+                this._crossings += transitdirect(this.lon, t.lon2);
+              }
+              this.lat = t.lat2;
+              this.lon = t.lon2;
+            }
+            ++this.num;
+          };
+          p.PolygonArea.prototype.Compute = function(reverse, sign) {
+            var vals = { number: this.num }, t, tempsum;
+            if (this.num < 2) {
+              vals.perimeter = 0;
+              if (!this.polyline)
+                vals.area = 0;
+              return vals;
+            }
+            if (this.polyline) {
+              vals.perimeter = this._perimetersum.Sum();
+              return vals;
+            }
+            t = this._geod.Inverse(this.lat, this.lon, this._lat0, this._lon0, this._mask);
+            vals.perimeter = this._perimetersum.Sum(t.s12);
+            tempsum = new a.Accumulator(this._areasum);
+            tempsum.Add(t.S12);
+            vals.area = AreaReduceA(tempsum, this._area0, this._crossings + transit(this.lon, this._lon0), reverse, sign);
+            return vals;
+          };
+          p.PolygonArea.prototype.TestPoint = function(lat, lon, reverse, sign) {
+            var vals = { number: this.num + 1 }, t, tempsum, crossings, i;
+            if (this.num === 0) {
+              vals.perimeter = 0;
+              if (!this.polyline)
+                vals.area = 0;
+              return vals;
+            }
+            vals.perimeter = this._perimetersum.Sum();
+            tempsum = this.polyline ? 0 : this._areasum.Sum();
+            crossings = this._crossings;
+            for (i = 0; i < (this.polyline ? 1 : 2); ++i) {
+              t = this._geod.Inverse(i === 0 ? this.lat : lat, i === 0 ? this.lon : lon, i !== 0 ? this._lat0 : lat, i !== 0 ? this._lon0 : lon, this._mask);
+              vals.perimeter += t.s12;
+              if (!this.polyline) {
+                tempsum += t.S12;
+                crossings += transit(i === 0 ? this.lon : lon, i !== 0 ? this._lon0 : lon);
+              }
+            }
+            if (this.polyline)
+              return vals;
+            vals.area = AreaReduceB(tempsum, this._area0, crossings, reverse, sign);
+            return vals;
+          };
+          p.PolygonArea.prototype.TestEdge = function(azi, s2, reverse, sign) {
+            var vals = { number: this.num ? this.num + 1 : 0 }, t, tempsum, crossings;
+            if (this.num === 0)
+              return vals;
+            vals.perimeter = this._perimetersum.Sum() + s2;
+            if (this.polyline)
+              return vals;
+            tempsum = this._areasum.Sum();
+            crossings = this._crossings;
+            t = this._geod.Direct(this.lat, this.lon, azi, s2, this._mask);
+            tempsum += t.S12;
+            crossings += transitdirect(this.lon, t.lon2);
+            crossings += transit(t.lon2, this._lon0);
+            t = this._geod.Inverse(t.lat2, t.lon2, this._lat0, this._lon0, this._mask);
+            vals.perimeter += t.s12;
+            tempsum += t.S12;
+            vals.area = AreaReduceB(tempsum, this._area0, crossings, reverse, sign);
+            return vals;
+          };
+        })(geodesic2.PolygonArea, geodesic2.Geodesic, geodesic2.Math, geodesic2.Accumulator);
+        cb(geodesic2);
+      })(function(geo) {
+        if (typeof module === "object" && module.exports) {
+          module.exports = geo;
+        } else if (typeof define === "function" && define.amd) {
+          define("geographiclib-geodesic", [], function() {
+            return geo;
+          });
+        } else {
+          window.geodesic = geo;
+        }
+      });
+    }
+  });
+
   // node_modules/maplibre-gl/dist/maplibre-gl.js
   var require_maplibre_gl = __commonJS({
     "node_modules/maplibre-gl/dist/maplibre-gl.js"(exports, module) {
@@ -32483,6 +33725,47 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   // www/js/app.js
   init_dist();
 
+  // www/js/geodesic.js
+  var import_geographiclib_geodesic = __toESM(require_geographiclib_geodesic_min(), 1);
+  var geod = import_geographiclib_geodesic.default.Geodesic.WGS84;
+  function geodesicMeters(a, b2) {
+    if (!a || !b2) return 0;
+    const lat1 = Number(a.lat);
+    const lon1 = Number(a.lon);
+    const lat2 = Number(b2.lat);
+    const lon2 = Number(b2.lon);
+    if (![lat1, lon1, lat2, lon2].every(Number.isFinite)) return 0;
+    if (lat1 === lat2 && lon1 === lon2) return 0;
+    const r = geod.Inverse(lat1, lon1, lat2, lon2);
+    const m = Number(r && r.s12);
+    return Number.isFinite(m) ? m : 0;
+  }
+  function geodesicDirect(a, azimuthDeg, meters) {
+    const lat1 = Number(a && a.lat);
+    const lon1 = Number(a && a.lon);
+    const azi = Number(azimuthDeg);
+    const s2 = Number(meters);
+    if (![lat1, lon1, azi, s2].every(Number.isFinite)) return { lat: lat1, lon: lon1 };
+    const r = geod.Direct(lat1, lon1, azi, s2);
+    return { lat: r.lat2, lon: r.lon2, azi: r.azi2 };
+  }
+  function geodesicPathLength(coords) {
+    const list = coords || [];
+    let sum = 0;
+    for (let i = 1; i < list.length; i++) {
+      sum += geodesicMeters(list[i - 1], list[i]);
+    }
+    return sum;
+  }
+  function geodesicInterpolate(a, b2, metersFromA) {
+    const d2 = geodesicMeters(a, b2);
+    if (!(d2 > 0) || !a) return { lat: Number(a && a.lat), lon: Number(a && a.lon) };
+    const r = geod.Inverse(Number(a.lat), Number(a.lon), Number(b2.lat), Number(b2.lon));
+    const go = Math.max(0, Math.min(d2, Number(metersFromA) || 0));
+    const d22 = geod.Direct(Number(a.lat), Number(a.lon), r.azi1, go);
+    return { lat: d22.lat2, lon: d22.lon2 };
+  }
+
   // www/js/util.js
   var WALK_MPH = 3;
   var RUN_MPH = 6;
@@ -32509,11 +33792,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return 2 * R3 * Math.asin(Math.min(1, Math.sqrt(s2)));
   }
   function pathLengthMeters(coords) {
-    let sum = 0;
-    for (let i = 1; i < coords.length; i++) {
-      sum += haversineMeters(coords[i - 1], coords[i]);
-    }
-    return sum;
+    return geodesicPathLength(coords);
   }
   function legDistances(coords) {
     const legs = [];
@@ -32521,7 +33800,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       legs.push({
         from: i - 1,
         to: i,
-        meters: haversineMeters(coords[i - 1], coords[i])
+        meters: geodesicMeters(coords[i - 1], coords[i])
       });
     }
     return legs;
@@ -32641,11 +33920,15 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
   function formatDistance(meters, units3, { digits } = {}) {
     if (meters == null || Number.isNaN(meters)) return "";
-    const d2 = digits == null ? units3 === "km" ? 2 : 1 : digits;
     if (units3 === "km") {
-      return `${(meters / METERS_PER_KM).toFixed(d2)} km`;
+      if (digits != null) return `${(meters / METERS_PER_KM).toFixed(digits)} km`;
+      if (meters < 1e3) return `${Math.round(meters)} m`;
+      return `${(meters / METERS_PER_KM).toFixed(meters < 1e4 ? 2 : 2)} km`;
     }
-    return `${(meters / METERS_PER_MILE).toFixed(d2)} mi`;
+    const miles = meters / METERS_PER_MILE;
+    if (digits != null) return `${miles.toFixed(digits)} mi`;
+    if (miles < 10) return `${miles.toFixed(3)} mi`;
+    return `${miles.toFixed(1)} mi`;
   }
   function formatDuration(seconds) {
     const s2 = Math.max(0, Math.round(seconds || 0));
@@ -32917,7 +34200,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     demo: false,
     autoPause: true,
     lowPower: false,
-    countHills: false
+    countHills: false,
+    mapStyle: "map",
+    // "map" | "satellite"
+    weightUnit: null,
+    // "lb" | "kg" — null means pick from locale / units
+    bodyKg: null
   };
   function emptyState() {
     return {
@@ -32935,6 +34223,36 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       // free personal goals — never paywalled
     };
   }
+  function isPeriodTimeGoal(goal) {
+    if (!goal) return false;
+    const k = String(goal.kind || "");
+    if (k === "week-time" || k === "month-time") return true;
+    const period = goal.period === "week" || goal.period === "month" || k.startsWith("week") || k.startsWith("month");
+    if (!period) return false;
+    if (k === "time-distance" || k === "route-time" || k === "distance") return false;
+    if (k.includes("count") || k.includes("distance")) return false;
+    return k === "time" || k.endsWith("-time");
+  }
+  function migrateGoals(goals) {
+    const out = [];
+    for (const g of goals || []) {
+      if (!g) continue;
+      if (!isPeriodTimeGoal(g)) {
+        out.push(g);
+        continue;
+      }
+      if (Number(g.distanceMeters) > 0 && Number(g.finishSec) > 0) {
+        const { period, ...rest } = g;
+        out.push({
+          ...rest,
+          kind: "time-distance",
+          period: null,
+          name: g.name && !/weekly time|monthly time/i.test(g.name) ? g.name : ""
+        });
+      }
+    }
+    return out;
+  }
   function loadState() {
     try {
       const raw = localStorage.getItem(KEY);
@@ -32950,7 +34268,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         planLibrary: parsed.planLibrary || [],
         planCredits: parsed.planCredits || 0,
         groupRuns: parsed.groupRuns || [],
-        goals: parsed.goals || []
+        goals: migrateGoals(parsed.goals || [])
       };
     } catch {
       return emptyState();
@@ -32983,6 +34301,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       // routed polyline, or null to use pins
       straightLine: !!partial.straightLine,
       usedStraight: !!partial.usedStraight,
+      offMap: !!partial.offMap,
+      legs: Array.isArray(partial.legs) ? partial.legs : null,
+      straightOverrides: Array.isArray(partial.straightOverrides) ? partial.straightOverrides : [],
       legPbs: partial.legPbs || {},
       // per-leg {seconds, activityId, date}, free
       sectorPbs: partial.sectorPbs || {},
@@ -33037,7 +34358,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return {
       id: partial.id || uid("goal"),
       name: partial.name || "",
-      // distance | time | pace | week-count | week-distance | week-time | month-count | month-distance | month-time
+      // distance | time | time-distance | route-time | pace | week-count | week-distance | month-count | month-distance
       kind: partial.kind || "distance",
       distanceMeters: partial.distanceMeters || null,
       finishSec: partial.finishSec || null,
@@ -33256,7 +34577,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
 
   // www/js/plans_hook.js
-  var PLANS_HOOK_COPY = "All goals are free. Optional $2 plans just add extra help, easing you toward your goal with smaller, guided steps. $2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. Importing a shared plan is always free. No account. Published pacing, effort and hydration sources are listed on the Plans screen and in CREDITS.md.";
+  var PLANS_HOOK_COPY = "All goals are free. Track yourself and keep beating your results. A $2 plan adds a target date, with the app easing you there in smaller, guided steps. $2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. Importing a shared plan is always free. No account. Published pacing, effort and hydration sources are listed on the Plans screen and in CREDITS.md.";
 
   // www/js/map.js
   var import_maplibre_gl = __toESM(require_maplibre_gl(), 1);
@@ -34816,6 +36137,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       at: point.at != null ? Number(point.at) : now
     };
     if (Number.isFinite(Number(point.accuracy))) fix.accuracy = Number(point.accuracy);
+    const heading = Number(point.heading);
+    if (Number.isFinite(heading)) fix.heading = heading;
     return fix;
   }
   function viewForLaunch({ lastKnown = null, fix = null } = {}) {
@@ -34841,12 +36164,14 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
   function coordsFromBrowser(pos, now = Date.now()) {
     if (!pos || !pos.coords) return null;
-    return normalizeFix({
+    const raw = {
       lat: pos.coords.latitude,
       lon: pos.coords.longitude,
       accuracy: pos.coords.accuracy,
       at: pos.timestamp || now
-    }, now);
+    };
+    if (Number.isFinite(Number(pos.coords.heading))) raw.heading = Number(pos.coords.heading);
+    return normalizeFix(raw, now);
   }
   var LOCATION_DENIED_NOTE = "Location is blocked for this site. You can search for a place or pan the map to find your area. On iPhone, open Settings \u2192 Privacy & Security \u2192 Location Services, then allow this browser and this website.";
   var LOCATION_TIMEOUT_NOTE = "Couldn't find you in time. Search for a place or pan the map to set your area.";
@@ -35021,12 +36346,124 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (once.ok || once.reason === "denied") return once;
     return watchBrowserPosition({ timeout, enableHighAccuracy, maximumAge: 0 });
   }
+  var liveWatch = null;
+  function stopLocationWatch() {
+    const w2 = liveWatch;
+    liveWatch = null;
+    if (!w2) return;
+    try {
+      if (w2.kind === "web" && typeof navigator !== "undefined" && navigator.geolocation) {
+        navigator.geolocation.clearWatch(w2.id);
+      } else if (typeof w2.clear === "function") {
+        Promise.resolve(w2.clear()).catch(() => {
+        });
+      }
+    } catch {
+    }
+  }
+  async function startLocationWatch({ onFix, onError } = {}) {
+    stopLocationWatch();
+    const opts = { enableHighAccuracy: true, maximumAge: 1e4, timeout: 2e4 };
+    try {
+      const { Capacitor: Capacitor2 } = await Promise.resolve().then(() => (init_dist(), dist_exports));
+      if (Capacitor2.isNativePlatform()) {
+        const { Geolocation: Geolocation3 } = await Promise.resolve().then(() => (init_esm(), esm_exports));
+        const handle = await Geolocation3.watchPosition(opts, (pos, err2) => {
+          if (err2) {
+            if (onError) onError(reasonFromGeoError(err2));
+            return;
+          }
+          const fix = coordsFromBrowser(pos);
+          if (fix && onFix) onFix(fix);
+        });
+        liveWatch = {
+          kind: "native",
+          id: handle && (handle.value ?? handle),
+          clear: () => {
+            const id = handle && (handle.value ?? handle);
+            if (id != null) return Geolocation3.clearWatch({ id });
+          }
+        };
+        return { ok: true, native: true };
+      }
+    } catch {
+    }
+    if (typeof navigator !== "undefined" && navigator.geolocation && navigator.geolocation.watchPosition) {
+      const id = navigator.geolocation.watchPosition(
+        (pos) => {
+          const fix = coordsFromBrowser(pos);
+          if (fix && onFix) onFix(fix);
+        },
+        (err2) => {
+          if (onError) onError(reasonFromGeoError(err2));
+        },
+        opts
+      );
+      liveWatch = { kind: "web", id };
+      return { ok: true, native: false };
+    }
+    return { ok: false, reason: "unavailable" };
+  }
+  function locationWatchActive() {
+    return !!liveWatch;
+  }
 
   // www/js/map.js
   var map = null;
   var protocolAdded = false;
   var ofmProtocolAdded = false;
   var overlayIds = [];
+  var SATELLITE_ATTRIBUTION = 'EOxCloudless <a href="https://cloudless.eox.at">cloudless.eox.at</a> by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2016)';
+  var SATELLITE_TILES = "https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless_3857/default/g/{z}/{y}/{x}.jpg";
+  var SATELLITE_MAXZOOM = 14;
+  var mapStyle = "map";
+  function ensureSatelliteLayer() {
+    if (!map) return;
+    if (!map.getSource("s2cloudless")) {
+      map.addSource("s2cloudless", {
+        type: "raster",
+        tiles: [SATELLITE_TILES],
+        tileSize: 256,
+        maxzoom: SATELLITE_MAXZOOM,
+        attribution: ""
+      });
+    }
+    if (!map.getLayer("s2-sat")) {
+      map.addLayer({
+        id: "s2-sat",
+        type: "raster",
+        source: "s2cloudless",
+        maxzoom: 22,
+        layout: { visibility: "none" },
+        paint: { "raster-opacity": 1, "raster-fade-duration": 0 }
+      });
+    }
+  }
+  function setMapStyle(style, { online = true } = {}) {
+    const want = style === "satellite" ? "satellite" : "map";
+    mapStyle = want;
+    if (!map) return { ok: true, style: mapStyle, online, needsSignal: want === "satellite" && !online };
+    try {
+      ensureSatelliteLayer();
+      const vis = want === "satellite" ? "visible" : "none";
+      if (map.getLayer("s2-sat")) map.setLayoutProperty("s2-sat", "visibility", vis);
+      const src = map.getSource("s2cloudless");
+      if (src) src.attribution = want === "satellite" ? SATELLITE_ATTRIBUTION : "";
+      if (map._controls) {
+        for (const c of map._controls) {
+          if (c && typeof c._updateAttributions === "function") {
+            try {
+              c._updateAttributions();
+            } catch {
+            }
+          }
+        }
+      }
+    } catch (err2) {
+      console.warn("map style", err2 && err2.message ? err2.message : err2);
+    }
+    return { ok: true, style: mapStyle, online, needsSignal: want === "satellite" && !online };
+  }
   var ATTRIBUTION = '\xA9 <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors \xB7 <a href="https://protomaps.com">Protomaps</a> \xB7 <a href="https://openfreemap.org/">OpenFreeMap</a> \xA9 <a href="https://openmaptiles.org/">OpenMapTiles</a>';
   function packUrl(file) {
     return new URL("maps/" + file, window.location.href).href;
@@ -35257,7 +36694,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       // so headless screenshots capture the WebGL canvas
       fadeDuration: 0
     });
-    map.on("load", () => map.resize());
+    map.on("load", () => {
+      map.resize();
+      if (opt.mapStyle) setMapStyle(opt.mapStyle, { online: typeof navigator === "undefined" || navigator.onLine !== false });
+    });
     map.addControl(new import_maplibre_gl.default.NavigationControl({ showCompass: false }), "top-right");
     map.on("error", (e) => {
       console.warn("map error", e && e.error ? e.error.message : e);
@@ -35274,7 +36714,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (!map || !coords.length) return;
     const b2 = new import_maplibre_gl.default.LngLatBounds();
     coords.forEach((c) => b2.extend([c.lon, c.lat]));
-    map.fitBounds(b2, { padding: pad, maxZoom: 16, duration: 0 });
+    const maxZoom = pad && typeof pad === "object" && pad.maxZoom || 16;
+    const padding = pad && typeof pad === "object" ? { top: pad.top ?? 60, bottom: pad.bottom ?? 60, left: pad.left ?? 60, right: pad.right ?? 60 } : pad;
+    map.fitBounds(b2, { padding, maxZoom, duration: 0 });
   }
   function setCenter(lat, lon, zoom) {
     if (!map) return;
@@ -35290,23 +36732,89 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     map.flyTo({ center: [lon, lat], zoom: z2, duration, essential: true });
   }
   var userMarker = null;
+  function accuracyFeature(coord) {
+    const acc = Number(coord && coord.accuracy);
+    if (!(acc > 2) || !coord) return { type: "FeatureCollection", features: [] };
+    const ring = [];
+    for (let i = 0; i <= 36; i++) {
+      const p = geodesicDirect(coord, i * 10, acc);
+      if (p) ring.push([p.lon, p.lat]);
+    }
+    if (ring.length < 4) return { type: "FeatureCollection", features: [] };
+    return {
+      type: "FeatureCollection",
+      features: [{ type: "Feature", properties: {}, geometry: { type: "Polygon", coordinates: [ring] } }]
+    };
+  }
+  function ensureUserAccuracyLayer() {
+    if (!map) return;
+    if (!map.getSource("user-accuracy")) {
+      map.addSource("user-accuracy", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+    }
+    if (!map.getLayer("user-accuracy-fill")) {
+      map.addLayer({
+        id: "user-accuracy-fill",
+        type: "fill",
+        source: "user-accuracy",
+        paint: { "fill-color": "#4EC3F7", "fill-opacity": 0.18 }
+      });
+    }
+    if (!map.getLayer("user-accuracy-line")) {
+      map.addLayer({
+        id: "user-accuracy-line",
+        type: "line",
+        source: "user-accuracy",
+        paint: { "line-color": "#4EC3F7", "line-opacity": 0.45, "line-width": 1 }
+      });
+    }
+  }
+  function paintUserDotChrome(coord) {
+    if (!userMarker) return;
+    const el = userMarker.getElement();
+    if (!el) return;
+    const heading = Number(coord && coord.heading);
+    if (Number.isFinite(heading) && heading >= 0) {
+      el.classList.add("has-heading");
+      el.style.setProperty("--user-heading", `${heading}deg`);
+    } else {
+      el.classList.remove("has-heading");
+      el.style.removeProperty("--user-heading");
+    }
+    ensureUserAccuracyLayer();
+    const src = map.getSource("user-accuracy");
+    if (src) src.setData(accuracyFeature(coord));
+  }
   function setUserDot(coord) {
     if (!map || !coord || !Number.isFinite(Number(coord.lat)) || !Number.isFinite(Number(coord.lon))) return;
     const lngLat = [Number(coord.lon), Number(coord.lat)];
     if (userMarker) {
       userMarker.setLngLat(lngLat);
+      paintUserDotChrome(coord);
       return userMarker;
     }
     const el = document.createElement("div");
     el.className = "pp-map-marker user-dot";
     el.setAttribute("aria-label", "You are here");
+    const rot = document.createElement("span");
+    rot.className = "user-heading-rot";
+    const ptr = document.createElement("i");
+    ptr.className = "user-heading";
+    rot.appendChild(ptr);
+    el.appendChild(rot);
     userMarker = new import_maplibre_gl.default.Marker({ element: el, anchor: "center" }).setLngLat(lngLat).addTo(map);
+    paintUserDotChrome(coord);
     return userMarker;
   }
   function clearUserDot() {
     if (userMarker) {
       userMarker.remove();
       userMarker = null;
+    }
+    if (map && map.getSource("user-accuracy")) {
+      try {
+        map.getSource("user-accuracy").setData({ type: "FeatureCollection", features: [] });
+      } catch {
+      }
     }
   }
   function onMapClick(handler) {
@@ -35358,7 +36866,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       if (map.getLayer(id)) map.removeLayer(id);
       if (map.getSource(id)) map.removeSource(id);
     }
-    document.querySelectorAll(".pp-map-marker").forEach((el) => el.remove());
+    document.querySelectorAll(".pp-map-marker:not(.user-dot)").forEach((el) => el.remove());
+    clearLegLabels();
   }
   var markers = [];
   function clearMarkers() {
@@ -35369,6 +36878,26 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       } catch {
       }
     }
+    clearLegLabels();
+  }
+  var legLabelMarkers = [];
+  function clearLegLabels() {
+    while (legLabelMarkers.length) {
+      const m = legLabelMarkers.pop();
+      try {
+        m.remove();
+      } catch {
+      }
+    }
+  }
+  function addLegLabel(coord, text, { muted = false } = {}) {
+    if (!map || !coord || !text) return null;
+    const el = document.createElement("div");
+    el.className = "pp-leg-label" + (muted ? " muted" : "");
+    el.textContent = String(text);
+    const marker = new import_maplibre_gl.default.Marker({ element: el, anchor: "center", pitchAlignment: "viewport" }).setLngLat([Number(coord.lon), Number(coord.lat)]).addTo(map);
+    legLabelMarkers.push(marker);
+    return marker;
   }
   function addPin(coord, { label, kind, onClick } = {}) {
     if (!map) return null;
@@ -35520,9 +37049,389 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   var WEB_APP_NOTE = "For screen-off tracking and health sync, get the app from Google Play";
   var WEB_PAY_NOTE = "Purchases aren't available in the web app yet. The optional $5 donation and $2 plans will stay in the store app for now.";
 
-  // www/js/routing.js
-  var DEFAULT_SNAP = 80;
+  // www/js/open_areas.js
+  var OPEN_KIND = /* @__PURE__ */ new Set([
+    "pitch",
+    "park",
+    "grass",
+    "recreation_ground",
+    "playground",
+    "track",
+    "stadium",
+    "sports_centre",
+    "sports_hall",
+    "dog_park",
+    "meadow",
+    "garden",
+    "village_green",
+    "common",
+    "heath",
+    "open_space",
+    "recreation",
+    "golf_course",
+    "cemetery"
+  ]);
+  var OPEN_LEISURE = /* @__PURE__ */ new Set([
+    "pitch",
+    "park",
+    "playground",
+    "track",
+    "stadium",
+    "sports_centre",
+    "dog_park",
+    "garden",
+    "recreation_ground",
+    "golf_course"
+  ]);
+  var OPEN_LANDUSE = /* @__PURE__ */ new Set([
+    "grass",
+    "meadow",
+    "recreation_ground",
+    "village_green",
+    "common",
+    "greenfield",
+    "os"
+  ]);
+  var BARRIER_KIND = /* @__PURE__ */ new Set([
+    "water",
+    "river",
+    "reservoir",
+    "basin",
+    "dock",
+    "swimming_pool",
+    "building",
+    "building_part",
+    "rail",
+    "motorway",
+    "motorway_link",
+    "trunk",
+    "trunk_link"
+  ]);
+  function isOpenWalkableProps(props = {}) {
+    const kind = String(props["pmap:kind"] || props.kind || props.class || "").toLowerCase();
+    const detail = String(props["pmap:kind_detail"] || props.subclass || "").toLowerCase();
+    const leisure = String(props.leisure || "").toLowerCase();
+    const landuse = String(props.landuse || "").toLowerCase();
+    const sport = String(props.sport || "").toLowerCase();
+    if (OPEN_KIND.has(kind) || OPEN_KIND.has(detail) || OPEN_LEISURE.has(leisure) || OPEN_LANDUSE.has(landuse)) {
+      return true;
+    }
+    if (leisure === "pitch" || sport === "soccer" || sport === "football" || sport === "athletics") return true;
+    return false;
+  }
+  function isBarrierProps(props = {}) {
+    const kind = String(props["pmap:kind"] || props.kind || props.class || "").toLowerCase();
+    const detail = String(props["pmap:kind_detail"] || props.subclass || "").toLowerCase();
+    const natural = String(props.natural || "").toLowerCase();
+    const waterway = String(props.waterway || "").toLowerCase();
+    const water = String(props.water || "").toLowerCase();
+    const railway = String(props.railway || "").toLowerCase();
+    const highway = String(props.highway || "").toLowerCase();
+    if (BARRIER_KIND.has(kind) || BARRIER_KIND.has(detail)) return true;
+    if (natural === "water" || water || waterway === "river" || waterway === "canal" || waterway === "riverbank") return true;
+    if (railway === "rail" || railway === "light_rail" || railway === "subway" || kind === "rail") return true;
+    if (highway === "motorway" || highway === "motorway_link" || highway === "trunk" || highway === "trunk_link") return true;
+    return false;
+  }
+  function barrierKind(props = {}) {
+    const kind = String(props["pmap:kind"] || props.kind || "").toLowerCase();
+    const highway = String(props.highway || "").toLowerCase();
+    if (kind === "building" || kind === "building_part") return "building";
+    if (kind === "rail" || props.railway) return "rail";
+    if (highway === "motorway" || highway === "motorway_link" || highway === "trunk" || highway === "trunk_link" || kind === "motorway" || kind === "trunk") return "highway";
+    return "water";
+  }
+  function pointInRing(point, ring) {
+    if (!point || !ring || ring.length < 3) return false;
+    const x2 = point.lon;
+    const y2 = point.lat;
+    let inside = false;
+    for (let i = 0, j2 = ring.length - 1; i < ring.length; j2 = i++) {
+      const xi = ring[i].lon, yi = ring[i].lat;
+      const xj = ring[j2].lon, yj = ring[j2].lat;
+      const intersect = yi > y2 !== yj > y2 && x2 < (xj - xi) * (y2 - yi) / (yj - yi || 1e-18) + xi;
+      if (intersect) inside = !inside;
+    }
+    return inside;
+  }
+  function orient(a, b2, c) {
+    const v2 = (b2.lon - a.lon) * (c.lat - a.lat) - (b2.lat - a.lat) * (c.lon - a.lon);
+    if (Math.abs(v2) < 1e-18) return 0;
+    return v2 > 0 ? 1 : -1;
+  }
+  function onSeg(a, b2, c) {
+    return Math.min(a.lon, b2.lon) - 1e-12 <= c.lon && c.lon <= Math.max(a.lon, b2.lon) + 1e-12 && Math.min(a.lat, b2.lat) - 1e-12 <= c.lat && c.lat <= Math.max(a.lat, b2.lat) + 1e-12;
+  }
+  function segmentsCross(a, b2, c, d2) {
+    const o1 = orient(a, b2, c);
+    const o2 = orient(a, b2, d2);
+    const o3 = orient(c, d2, a);
+    const o4 = orient(c, d2, b2);
+    if (o1 !== o2 && o3 !== o4) return true;
+    if (o1 === 0 && onSeg(a, b2, c)) return true;
+    if (o2 === 0 && onSeg(a, b2, d2)) return true;
+    if (o3 === 0 && onSeg(c, d2, a)) return true;
+    if (o4 === 0 && onSeg(c, d2, b2)) return true;
+    return false;
+  }
+  function segmentCrossesRing(a, b2, ring) {
+    if (!ring || ring.length < 2) return false;
+    for (let i = 0; i < ring.length - 1; i++) {
+      if (segmentsCross(a, b2, ring[i], ring[i + 1])) return true;
+    }
+    if (ring.length >= 3) {
+      const last = ring[ring.length - 1];
+      const first = ring[0];
+      if (last.lat !== first.lat || last.lon !== first.lon) {
+        if (segmentsCross(a, b2, last, first)) return true;
+      }
+    }
+    const mid = { lat: (a.lat + b2.lat) / 2, lon: (a.lon + b2.lon) / 2 };
+    if (pointInRing(mid, ring) && !pointInRing(a, ring) && !pointInRing(b2, ring)) return true;
+    return false;
+  }
+  function ringBBox(ring) {
+    let minLat = 90, maxLat = -90, minLon = 180, maxLon = -180;
+    for (const p of ring) {
+      if (p.lat < minLat) minLat = p.lat;
+      if (p.lat > maxLat) maxLat = p.lat;
+      if (p.lon < minLon) minLon = p.lon;
+      if (p.lon > maxLon) maxLon = p.lon;
+    }
+    return { minLat, maxLat, minLon, maxLon };
+  }
+  function pointInArea(point, area) {
+    if (!area || !point) return false;
+    if (point.lon < area.minLon || point.lon > area.maxLon || point.lat < area.minLat || point.lat > area.maxLat) {
+      return false;
+    }
+    return pointInRing(point, area.ring);
+  }
+  function findOpenArea(areas, point) {
+    if (!areas) return null;
+    for (const area of areas) {
+      if (pointInArea(point, area)) return area;
+    }
+    return null;
+  }
+  function segmentStaysOnOpenGround(areas, a, b2) {
+    if (!areas || !a || !b2) return false;
+    if (!findOpenArea(areas, a) || !findOpenArea(areas, b2)) return false;
+    const meters = geodesicMeters(a, b2);
+    const samples = Math.max(4, Math.ceil(meters / 8));
+    for (let i = 1; i < samples; i++) {
+      const t = i / samples;
+      const p = { lat: a.lat + (b2.lat - a.lat) * t, lon: a.lon + (b2.lon - a.lon) * t };
+      if (!findOpenArea(areas, p)) return false;
+    }
+    return true;
+  }
   var EARTH_LAT_M = 111320;
+  function setBit(bits2, i) {
+    bits2[i >> 3] |= 1 << (i & 7);
+  }
+  function getBit(bits2, i) {
+    return (bits2[i >> 3] & 1 << (i & 7)) !== 0;
+  }
+  function stampSegment(a, b2, mark, toX, toY) {
+    const x0 = toX(a.lon), y0 = toY(a.lat);
+    const x1 = toX(b2.lon), y1 = toY(b2.lat);
+    const dx = Math.abs(x1 - x0);
+    const dy = Math.abs(y1 - y0);
+    const sx = x0 < x1 ? 1 : -1;
+    const sy = y0 < y1 ? 1 : -1;
+    let err2 = dx - dy;
+    let x2 = x0, y2 = y0;
+    for (let n = 0; n < dx + dy + 2; n++) {
+      mark(x2, y2);
+      if (x2 === x1 && y2 === y1) break;
+      const e2 = err2 * 2;
+      if (e2 > -dy) {
+        err2 -= dy;
+        x2 += sx;
+      }
+      if (e2 < dx) {
+        err2 += dx;
+        y2 += sy;
+      }
+    }
+  }
+  function fillRing(ring, mark, toX, toY, cols, rows) {
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    for (const p of ring) {
+      const x2 = toX(p.lon), y2 = toY(p.lat);
+      if (x2 < minX) minX = x2;
+      if (y2 < minY) minY = y2;
+      if (x2 > maxX) maxX = x2;
+      if (y2 > maxY) maxY = y2;
+    }
+    minX = Math.max(0, minX);
+    minY = Math.max(0, minY);
+    maxX = Math.min(cols - 1, maxX);
+    maxY = Math.min(rows - 1, maxY);
+    for (let y2 = minY; y2 <= maxY; y2++) {
+      const ys = [];
+      for (let i = 0, j2 = ring.length - 1; i < ring.length; j2 = i++) {
+        const yi = toY(ring[i].lat), yj = toY(ring[j2].lat);
+        const xi = toX(ring[i].lon), xj = toX(ring[j2].lon);
+        if (yi <= y2 && yj > y2 || yj <= y2 && yi > y2) {
+          const x2 = Math.round(xi + (y2 - yi) * (xj - xi) / (yj - yi || 1e-9));
+          ys.push(x2);
+        }
+      }
+      ys.sort((a, b2) => a - b2);
+      for (let k = 0; k + 1 < ys.length; k += 2) {
+        const x0 = Math.max(0, ys[k]);
+        const x1 = Math.min(cols - 1, ys[k + 1]);
+        for (let x2 = x0; x2 <= x1; x2++) mark(x2, y2);
+      }
+    }
+  }
+  function rasterizeBarriers(barriers, bounds, cellM = 10) {
+    const [minLon, minLat, maxLon, maxLat] = bounds;
+    const midLat = (minLat + maxLat) / 2;
+    const cellLat = cellM / EARTH_LAT_M;
+    const cellLon = cellM / (EARTH_LAT_M * Math.max(0.2, Math.cos(midLat * Math.PI / 180)));
+    const cols = Math.max(1, Math.ceil((maxLon - minLon) / cellLon) + 1);
+    const rows = Math.max(1, Math.ceil((maxLat - minLat) / cellLat) + 1);
+    const bits2 = new Uint8Array(Math.ceil(rows * cols / 8));
+    const toX = (lon) => Math.floor((lon - minLon) / cellLon);
+    const toY = (lat) => Math.floor((lat - minLat) / cellLat);
+    const mark = (gx, gy) => {
+      if (gx < 0 || gy < 0 || gx >= cols || gy >= rows) return;
+      setBit(bits2, gy * cols + gx);
+    };
+    for (const bar of barriers || []) {
+      const ring = bar && bar.ring;
+      if (!ring || ring.length < 2) continue;
+      const kind = bar.kind || "";
+      const lineOnly = kind === "rail" || kind === "highway";
+      for (let i = 0; i < ring.length - 1; i++) stampSegment(ring[i], ring[i + 1], mark, toX, toY);
+      const last = ring[ring.length - 1], first = ring[0];
+      if (!lineOnly && ring.length >= 3) {
+        if (last.lat !== first.lat || last.lon !== first.lon) stampSegment(last, first, mark, toX, toY);
+        fillRing(ring, mark, toX, toY, cols, rows);
+      }
+    }
+    return { minLon, minLat, cellLon, cellLat, cols, rows, cellM, bits: bits2 };
+  }
+  function packBlocked(grid) {
+    if (!grid) return null;
+    const bits2 = grid.bits instanceof Uint8Array ? grid.bits : Uint8Array.from(grid.bits || []);
+    let b64 = "";
+    if (typeof Buffer !== "undefined") b64 = Buffer.from(bits2).toString("base64");
+    else {
+      let bin = "";
+      for (let i = 0; i < bits2.length; i++) bin += String.fromCharCode(bits2[i]);
+      b64 = btoa(bin);
+    }
+    return {
+      minLon: grid.minLon,
+      minLat: grid.minLat,
+      cellLon: grid.cellLon,
+      cellLat: grid.cellLat,
+      cols: grid.cols,
+      rows: grid.rows,
+      cellM: grid.cellM,
+      bits: b64
+    };
+  }
+  function unpackBlocked(raw) {
+    if (!raw) return null;
+    let bits2;
+    if (typeof raw.bits === "string") {
+      if (typeof Buffer !== "undefined") bits2 = Uint8Array.from(Buffer.from(raw.bits, "base64"));
+      else {
+        const bin = atob(raw.bits);
+        bits2 = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bits2[i] = bin.charCodeAt(i);
+      }
+    } else {
+      bits2 = Uint8Array.from(raw.bits || []);
+    }
+    return { ...raw, bits: bits2 };
+  }
+  function segmentCrossesBlocked(grid, a, b2) {
+    if (!grid || !a || !b2) return false;
+    const samples = Math.max(2, Math.ceil(Math.hypot(
+      (a.lat - b2.lat) / grid.cellLat,
+      (a.lon - b2.lon) / grid.cellLon
+    ) * 2));
+    const ax = Math.floor((a.lon - grid.minLon) / grid.cellLon);
+    const ay = Math.floor((a.lat - grid.minLat) / grid.cellLat);
+    const bx = Math.floor((b2.lon - grid.minLon) / grid.cellLon);
+    const by = Math.floor((b2.lat - grid.minLat) / grid.cellLat);
+    for (let i = 1; i < samples; i++) {
+      const t = i / samples;
+      const p = { lat: a.lat + (b2.lat - a.lat) * t, lon: a.lon + (b2.lon - a.lon) * t };
+      const gx = Math.floor((p.lon - grid.minLon) / grid.cellLon);
+      const gy = Math.floor((p.lat - grid.minLat) / grid.cellLat);
+      if (gx === ax && gy === ay || gx === bx && gy === by) continue;
+      if (gx < 0 || gy < 0 || gx >= grid.cols || gy >= grid.rows) continue;
+      if (getBit(grid.bits, gy * grid.cols + gx)) return true;
+    }
+    return false;
+  }
+  function segmentCrossesBarriers(graph, a, b2) {
+    if (!graph || !a || !b2) return false;
+    if (graph.blocked && segmentCrossesBlocked(graph.blocked, a, b2)) return true;
+    for (const bar of graph.barriers || []) {
+      if (bar && bar.ring && segmentCrossesRing(a, b2, bar.ring)) return true;
+    }
+    return false;
+  }
+  function openAreaLegAllowed(graph, a, b2) {
+    const areas = graph && graph.openAreas;
+    if (!areas || !areas.length || !a || !b2) return null;
+    const aa = findOpenArea(areas, a);
+    if (!aa) return null;
+    const bb = findOpenArea(areas, b2);
+    if (!bb) return null;
+    const same = aa === bb || sameRing(aa, bb);
+    if (!same && !segmentStaysOnOpenGround(areas, a, b2)) return null;
+    if (segmentCrossesBarriers(graph, a, b2)) return null;
+    return aa;
+  }
+  function sameRing(a, b2) {
+    if (!a || !b2) return false;
+    if (a.id != null && a.id === b2.id) return true;
+    if (a.ring === b2.ring) return true;
+    return false;
+  }
+  function packRings(records, scale = 1e6) {
+    return (records || []).map((r) => {
+      const ring = [];
+      for (const p of r.ring || []) {
+        ring.push(Math.round(p.lon * scale), Math.round(p.lat * scale));
+      }
+      return { k: r.kind || "", r: ring };
+    });
+  }
+  function unpackRings(packed, scale = 1e6) {
+    const out = [];
+    for (let i = 0; i < (packed || []).length; i++) {
+      const rec = packed[i];
+      const src = rec && (rec.r || rec.ring || rec);
+      if (!src || !src.length) continue;
+      const ring = [];
+      if (typeof src[0] === "number") {
+        for (let j2 = 0; j2 + 1 < src.length; j2 += 2) {
+          ring.push({ lon: src[j2] / scale, lat: src[j2 + 1] / scale });
+        }
+      } else {
+        for (const p of src) ring.push({ lat: p.lat, lon: p.lon });
+      }
+      if (ring.length >= 3) {
+        const box = ringBBox(ring);
+        out.push({ id: i, kind: rec && rec.k || rec.kind || "", ring, ...box });
+      }
+    }
+    return out;
+  }
+
+  // www/js/routing.js
+  var DEFAULT_SNAP = 200;
+  var EARTH_LAT_M2 = 111320;
   var activeGraph = null;
   function setActiveGraph(graph) {
     activeGraph = graph || null;
@@ -35532,7 +37441,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return activeGraph;
   }
   function lonCell(meters, lat) {
-    return meters / (EARTH_LAT_M * Math.cos(lat * Math.PI / 180));
+    return meters / (EARTH_LAT_M2 * Math.cos(lat * Math.PI / 180));
   }
   function parseGraph(raw) {
     if (!raw || !raw.nodes || !raw.edges) throw new Error("invalid walk graph");
@@ -35551,7 +37460,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       const a = edges[i];
       const b2 = edges[i + 1];
       if (a < 0 || b2 < 0 || a >= n || b2 >= n || a === b2) continue;
-      const meters = haversineMeters(
+      const meters = geodesicMeters(
         { lon: lon[a], lat: lat[a] },
         { lon: lon[b2], lat: lat[b2] }
       );
@@ -35566,7 +37475,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     ];
     const midLat = (bounds[1] + bounds[3]) / 2;
     const cellM = 40;
-    const cell = { lat: cellM / EARTH_LAT_M, lon: lonCell(cellM, midLat) };
+    const cell = { lat: cellM / EARTH_LAT_M2, lon: lonCell(cellM, midLat) };
     const grid = /* @__PURE__ */ new Map();
     for (let i = 0; i < n; i++) {
       const gx = Math.floor(lon[i] / cell.lon);
@@ -35585,7 +37494,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       grid,
       cell,
       name: raw.name || "",
-      attribution: raw.attribution || ""
+      attribution: raw.attribution || "",
+      openAreas: unpackRings(raw.open || raw.openAreas),
+      barriers: unpackRings(raw.barriers),
+      blocked: unpackBlocked(raw.blocked)
     };
   }
   function nodePoint(graph, id) {
@@ -35694,27 +37606,51 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function pointsFromNodes(graph, ids) {
     return ids.map((id) => nodePoint(graph, id));
   }
+  function pairPoints(a, b2) {
+    return [
+      { lat: a.lat, lon: a.lon },
+      { lat: b2.lat, lon: b2.lon }
+    ];
+  }
   function straightLeg(a, b2, reason) {
+    const meters = geodesicMeters(a, b2);
     return {
-      points: [
-        { lat: a.lat, lon: a.lon },
-        { lat: b2.lat, lon: b2.lon }
-      ],
-      meters: haversineMeters(a, b2),
+      points: pairPoints(a, b2),
+      meters,
+      straightMeters: meters,
       mode: "straight",
-      reason: reason || "straight-line"
+      reason: reason || "straight-line",
+      offMap: reason === "off-map" || reason === "use-anyway"
     };
+  }
+  function unroutableLeg(a, b2, reason) {
+    return {
+      points: pairPoints(a, b2),
+      meters: 0,
+      straightMeters: geodesicMeters(a, b2),
+      mode: "unroutable",
+      reason: reason || "no-route"
+    };
+  }
+  function legKey(a, b2) {
+    if (!a || !b2) return "";
+    const fmt = (p) => `${Number(p.lat).toFixed(6)},${Number(p.lon).toFixed(6)}`;
+    return `${fmt(a)}>${fmt(b2)}`;
   }
   function routePair(graph, a, b2, opts = {}) {
     if (!a || !b2) return null;
     if (opts.straightLine) return straightLeg(a, b2, "toggle");
-    if (!graph) return straightLeg(a, b2, "no-graph");
+    if (opts.allowStraight) return straightLeg(a, b2, "off-map");
+    if (graph && openAreaLegAllowed(graph, a, b2)) {
+      return straightLeg(a, b2, "open-area");
+    }
+    if (!graph) return unroutableLeg(a, b2, "no-graph");
     const maxSnap = opts.maxSnap == null ? DEFAULT_SNAP : opts.maxSnap;
     const sa = snapToNode(graph, a.lat, a.lon, maxSnap);
     const sb = snapToNode(graph, b2.lat, b2.lon, maxSnap);
-    if (!sa || !sb) return straightLeg(a, b2, "no-snap");
+    if (!sa || !sb) return unroutableLeg(a, b2, "no-snap");
     const path = shortestPath(graph, sa.id, sb.id);
-    if (!path) return straightLeg(a, b2, "no-route");
+    if (!path) return unroutableLeg(a, b2, "no-route");
     const points = [{ lat: a.lat, lon: a.lon }];
     const mid = pointsFromNodes(graph, path.nodes);
     for (const p of mid) {
@@ -35723,7 +37659,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     const end = { lat: b2.lat, lon: b2.lon };
     if (haversineMeters(points[points.length - 1], end) > 0.4) points.push(end);
-    const meters = path.meters + sa.meters + sb.meters;
+    const meters = pathLengthMeters(points);
     return { points, meters, mode: "routed", snapA: sa, snapB: sb };
   }
   function pinsSharePrefix(a, b2) {
@@ -35751,7 +37687,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const reuseLegs = canReuse && shared >= 2 ? prev.legs.slice(0, shared - 1) : [];
     const legs = reuseLegs.slice();
     const path = [];
-    let usedStraight = legs.some((l) => l.mode === "straight");
+    let usedStraight = legs.some((l) => l.mode === "straight" && l.reason !== "open-area");
     if (legs.length) {
       for (let i = 0; i < legs.length; i++) {
         const pts = legs[i].points || [];
@@ -35760,23 +37696,38 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       }
     }
     for (let i = legs.length; i < list.length - 1; i++) {
-      const leg = routePair(graph, list[i], list[i + 1], opts);
+      const key = legKey(list[i], list[i + 1]);
+      const overrides = opts.straightOverrides;
+      const override = !!(overrides && (typeof overrides.has === "function" && overrides.has(key) || Array.isArray(overrides) && overrides.includes(key)));
+      const leg = routePair(graph, list[i], list[i + 1], {
+        straightLine: !!opts.straightLine,
+        allowStraight: override && !opts.straightLine,
+        maxSnap: opts.maxSnap
+      });
       legs.push({
         meters: leg.meters,
+        straightMeters: leg.straightMeters,
         mode: leg.mode,
         reason: leg.reason || null,
-        points: leg.points
+        offMap: !!leg.offMap,
+        points: leg.points,
+        key
       });
-      if (leg.mode === "straight") usedStraight = true;
+      if (leg.mode === "straight" && leg.reason !== "open-area") usedStraight = true;
       if (!path.length) path.push(...leg.points);
       else path.push(...leg.points.slice(1));
     }
+    const unroutable = legs.some((l) => l.mode === "unroutable");
+    const offMap = legs.some((l) => l.offMap);
+    const meters = legs.reduce((s2, l) => s2 + (l.mode === "unroutable" ? 0 : Number(l.meters) || 0), 0);
     return {
       pins: list,
       path,
-      meters: pathLengthMeters(path),
+      meters,
       legs,
       usedStraight,
+      unroutable,
+      offMap,
       straightLine: !!opts.straightLine,
       _graph: graph
     };
@@ -35901,6 +37852,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return (course.pins || []).map((p) => ({ lat: p.lat, lon: p.lon }));
   }
   function courseMeters(course) {
+    if (course && Array.isArray(course.legs) && course.legs.length) {
+      return course.legs.reduce((s2, l) => s2 + (l.mode === "unroutable" ? 0 : Number(l.meters) || 0), 0);
+    }
     return pathLengthMeters(coursePath(course));
   }
   var BUNDLED_GRAPH_URL = "./maps/firenze_walk.json";
@@ -37782,7 +39736,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   var PLAN_PRICE_USD = 2;
   var SUPPORT_PRODUCT_ID = "support_5";
   var SUPPORT_PRICE_USD = 5;
-  var OWNERSHIP_COPY = "All goals are free. Optional $2 plans just add extra help, easing you toward your goal with smaller, guided steps. $2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. A plan does not unlock goals \u2014 it only adds smaller, guided steps, plus water, reminders and a schedule.";
+  var OWNERSHIP_COPY = "All goals are free. Track yourself and keep beating your results. A $2 plan adds a target date, with the app easing you there in smaller, guided steps. $2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. A plan does not unlock goals \u2014 it adds a target date and eases you there in smaller, guided steps, plus water, reminders and a schedule.";
   var memoryLedger = /* @__PURE__ */ new Map();
   function readKey(key) {
     try {
@@ -38928,6 +40882,76 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       targetLabel: formatMetricValue(target, metric, units3)
     };
   }
+  function oneShotGoalProgress(goal, activities, { units: units3 = "mi" } = {}) {
+    if (!goal || goalPeriod(goal)) return null;
+    const acts = activities || [];
+    const kind = String(goal.kind || "");
+    if (kind === "route-time" || goal.courseId && Number(goal.finishSec) > 0 && kind.includes("time")) {
+      const runs = acts.filter((a) => a && a.courseId === goal.courseId && Number(a.elapsedSec) > 0);
+      const best = runs.reduce((m, a) => Math.min(m, Number(a.elapsedSec)), Infinity);
+      const target = Number(goal.finishSec) || 0;
+      const has = Number.isFinite(best) && best !== Infinity;
+      const pct = !has || !(target > 0) ? 0 : best <= target ? 1 : target / best;
+      return {
+        period: null,
+        metric: "time",
+        current: has ? best : 0,
+        target,
+        pct,
+        remaining: has ? Math.max(0, best - target) : target,
+        complete: !!(has && target > 0 && best <= target),
+        runCount: runs.length,
+        units: units3,
+        label: "Best",
+        currentLabel: has ? formatDuration(best) : "\u2014",
+        targetLabel: formatMetricValue(target, "time", units3)
+      };
+    }
+    if (kind === "time-distance" || kind === "time" && Number(goal.distanceMeters) > 0 && Number(goal.finishSec) > 0) {
+      const need = Number(goal.distanceMeters) || 0;
+      const runs = acts.filter((a) => a && Number(a.distanceMeters) >= need && Number(a.elapsedSec) > 0);
+      const best = runs.reduce((m, a) => Math.min(m, Number(a.elapsedSec)), Infinity);
+      const target = Number(goal.finishSec) || 0;
+      const has = Number.isFinite(best) && best !== Infinity;
+      const pct = !has || !(target > 0) ? 0 : best <= target ? 1 : target / best;
+      return {
+        period: null,
+        metric: "time",
+        current: has ? best : 0,
+        target,
+        pct,
+        remaining: has ? Math.max(0, best - target) : target,
+        complete: !!(has && target > 0 && best <= target),
+        runCount: runs.length,
+        units: units3,
+        label: "Best",
+        currentLabel: has ? formatDuration(best) : "\u2014",
+        targetLabel: formatMetricValue(target, "time", units3)
+      };
+    }
+    if (kind === "distance" || Number(goal.distanceMeters) > 0 && !(Number(goal.finishSec) > 0) && !(Number(goal.targetCount) > 0)) {
+      const runs = acts.filter((a) => a && Number(a.distanceMeters) > 0);
+      const best = runs.reduce((m, a) => Math.max(m, Number(a.distanceMeters)), 0);
+      const target = Number(goal.distanceMeters) || 0;
+      const has = best > 0;
+      const pct = !has || !(target > 0) ? 0 : Math.min(1, best / target);
+      return {
+        period: null,
+        metric: "distance",
+        current: has ? best : 0,
+        target,
+        pct,
+        remaining: Math.max(0, target - (has ? best : 0)),
+        complete: !!(has && target > 0 && best >= target),
+        runCount: runs.length,
+        units: units3,
+        label: "Best",
+        currentLabel: has ? formatMetricValue(best, "distance", units3) : "\u2014",
+        targetLabel: formatMetricValue(target, "distance", units3)
+      };
+    }
+    return null;
+  }
   function periodRingMarkup(progress, { size = 120, testid = "period-ring" } = {}) {
     if (!progress) return "";
     const p = Math.max(0, Math.min(1, Number(progress.pct) || 0));
@@ -39361,6 +41385,58 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     return state3;
   }
+  function removePin(state3, index) {
+    const i = Number(index);
+    if (!Number.isInteger(i) || i < 0 || i >= state3.pins.length) return state3;
+    state3.pins.splice(i, 1);
+    if (state3.endIndex == null) {
+    } else if (state3.endIndex === i) {
+      state3.endIndex = null;
+    } else if (state3.endIndex > i) {
+      state3.endIndex -= 1;
+    }
+    for (const p of state3.pins) {
+      if (typeof p.ref === "number") {
+        if (p.ref === i) delete p.ref;
+        else if (p.ref > i) p.ref -= 1;
+      }
+    }
+    if (!state3.pins.length) {
+      state3.endIndex = null;
+      state3.endMode = false;
+    } else {
+      refreshRoles(state3);
+    }
+    return state3;
+  }
+  function removeEnd(state3) {
+    state3.endIndex = null;
+    state3.endMode = false;
+    if (state3.pins.length) refreshRoles(state3);
+    return state3;
+  }
+  function snapshotBuilder(state3) {
+    return {
+      pins: (state3.pins || []).map((p) => ({ ...p })),
+      endIndex: state3.endIndex == null ? null : state3.endIndex,
+      endMode: !!state3.endMode
+    };
+  }
+  function restoreBuilder(snapshot) {
+    if (!snapshot) return emptyBuilderState();
+    const state3 = {
+      pins: (snapshot.pins || []).map((p) => ({ ...p })),
+      endIndex: snapshot.endIndex == null ? null : snapshot.endIndex,
+      endMode: !!snapshot.endMode
+    };
+    if (state3.pins.length) refreshRoles(state3);
+    return state3;
+  }
+  function sharedPinIndices(state3, index) {
+    const pin = state3 && state3.pins && state3.pins[index];
+    if (!pin) return [];
+    return state3.pins.map((p, i) => samePin(p, pin) ? i : -1).filter((i) => i >= 0);
+  }
   function refreshRoles(state3) {
     state3.pins.forEach((p, i) => {
       if (i === 0) p.role = "start";
@@ -39449,7 +41525,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const previous = opts.previous || null;
     const routed = routeLegs(graph, stops, {
       straightLine: !!opts.straightLine,
-      previous
+      previous,
+      straightOverrides: opts.straightOverrides,
+      maxSnap: opts.maxSnap
     });
     routed.stops = stops;
     return routed;
@@ -39496,22 +41574,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
 
   // www/js/plan_legs.js
-  var CLIMB_FLAT_M = 8;
-  function exactCourseRoute(course) {
-    if (!course || !Array.isArray(course.pins) || course.pins.length < 2) return null;
-    const pins = course.pins.map((p) => ({ lat: p.lat, lon: p.lon, role: p.role }));
-    const path = course.path && course.path.length >= 2 ? course.path.map((p) => ({ lat: p.lat, lon: p.lon, ele: p.ele })) : pins;
-    return {
-      mode: "course",
-      courseId: course.id || null,
-      pins,
-      path,
-      meters: pathLengthMeters(path) || pathLengthMeters(pins),
-      scaleFactor: 1,
-      repeatTimes: 1,
-      exact: true
-    };
-  }
   function legDistances2(pins) {
     const list = pins || [];
     const legs = [];
@@ -39524,39 +41586,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     return legs;
   }
-  function legElevation(pins, path) {
-    const legs = legDistances2(pins);
-    const line = path && path.length >= 2 ? path : pins;
-    const hasEle = line.some((p) => Number.isFinite(Number(p.ele)));
-    if (!hasEle) {
-      return legs.map((l) => ({ ...l, gainM: 0, lossM: 0, effortM: l.meters }));
-    }
-    const prefixes = [0];
-    for (let i = 1; i < line.length; i++) {
-      prefixes[i] = prefixes[i - 1] + haversineMeters(line[i - 1], line[i]);
-    }
-    const total = prefixes[prefixes.length - 1] || 1;
-    let acc = 0;
-    return legs.map((l) => {
-      const start = acc;
-      const end = acc + l.meters;
-      acc = end;
-      const pts = [];
-      for (let i = 0; i < line.length; i++) {
-        const d2 = prefixes[i];
-        if (d2 < start - 0.5) continue;
-        if (d2 > end + 0.5 && pts.length) break;
-        pts.push(line[i]);
-      }
-      if (pts.length < 2) pts.push(line[0], line[line.length - 1]);
-      const gl = gainLoss(pts);
-      const effortM = l.meters + (gl.gainM || 0) * CLIMB_FLAT_M;
-      return { ...l, gainM: gl.gainM || 0, lossM: gl.lossM || 0, effortM };
-    });
-  }
-  function buildEvenPaceLegTargets(pins, totalSec, { path } = {}) {
+  function buildEvenPaceLegTargets(pins, totalSec, { path, meters: givenMeters, legs: givenLegs } = {}) {
     const total = Math.max(0, Number(totalSec) || 0);
-    const legs = sectorDistances(pins, path);
+    const legs = givenLegs || (Array.isArray(givenMeters) ? givenMeters.map((m, i) => ({ from: i, to: i + 1, meters: Math.max(0, Number(m) || 0) })) : sectorDistances(pins, path));
     if (!legs.length) return [];
     const meters = legs.reduce((s2, l) => s2 + Math.max(0, l.meters || 0), 0);
     if (!(meters > 0) || !(total > 0)) {
@@ -39574,7 +41606,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (!line) return legDistances2(list);
     const prefixes = [0];
     for (let i = 1; i < line.length; i++) {
-      prefixes[i] = prefixes[i - 1] + haversineMeters(line[i - 1], line[i]);
+      prefixes[i] = prefixes[i - 1] + geodesicMeters(line[i - 1], line[i]);
     }
     const total = prefixes[prefixes.length - 1] || 0;
     const cuts = list.map((p) => {
@@ -39597,40 +41629,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       legs.push({ from: i, to: i + 1, meters: Math.max(0, cuts[i + 1] - cuts[i]) });
     }
     return legs;
-  }
-  function recentAveragePaceSecPerMeter(activities, { type, limit = 8 } = {}) {
-    const list = (activities || []).filter((a) => a && (!type || a.type === type) && a.distanceMeters > 50 && a.elapsedSec > 0).slice(-limit);
-    let m = 0;
-    let s2 = 0;
-    for (const a of list) {
-      m += Number(a.distanceMeters) || 0;
-      s2 += Number(a.elapsedSec) || 0;
-    }
-    if (!(m > 0) || !(s2 > 0)) return null;
-    return s2 / m;
-  }
-  function historyTimesForLegs(pins, activities, { courseId, type } = {}) {
-    const n = Math.max(0, (pins || []).length - 1);
-    if (!n) return null;
-    const matching = (activities || []).filter((a) => {
-      if (courseId && a.courseId && a.courseId === courseId) return true;
-      return false;
-    });
-    if (!matching.length) return null;
-    const sums = Array(n).fill(0);
-    const counts = Array(n).fill(0);
-    for (const a of matching) {
-      const splits = legSplitsFromTrack(pins, a.track);
-      if (!splits) continue;
-      splits.forEach((sec, i) => {
-        if (sec > 0 && i < n) {
-          sums[i] += sec;
-          counts[i] += 1;
-        }
-      });
-    }
-    if (!counts.some((c) => c > 0)) return null;
-    return sums.map((s2, i) => counts[i] ? s2 / counts[i] : null);
   }
   function pointElapsedSec(pt, origin) {
     if (!pt) return 0;
@@ -39683,68 +41681,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     return splits;
   }
-  function paceSecPerMile(meters, seconds) {
-    if (!(meters > 0) || !(seconds > 0)) return null;
-    return seconds / (meters / METERS_PER_MILE);
-  }
-  function formatPaceGap(needSecPerMile, haveSecPerMile) {
-    if (needSecPerMile == null || haveSecPerMile == null) return "";
-    const d2 = Math.round(haveSecPerMile - needSecPerMile);
-    if (d2 === 0) return "on target";
-    const abs = Math.abs(d2);
-    const clock = abs >= 60 ? `${Math.floor(abs / 60)}:${String(abs % 60).padStart(2, "0")}` : `${abs}s`;
-    return d2 > 0 ? `${clock}/mi faster` : `${clock}/mi in hand`;
-  }
-  function compactPace(label) {
-    return String(label || "\u2014").replace(" /", "/");
-  }
-  function formatLegPlanLine(leg, { units: units3 = "mi" } = {}) {
-    const from = (leg.from ?? 0) + 1;
-    const to = (leg.to ?? (leg.from ?? 0) + 1) + 1;
-    const dist3 = formatDistance(leg.meters, units3, { digits: 2 });
-    const need = compactPace(leg.needPace || "\u2014");
-    const have = compactPace(leg.havePace || "\u2014");
-    const gap = leg.gap || "";
-    const climb = leg.gainM > 3 ? ` (climb ${Math.round(leg.gainM)} m)` : "";
-    const gapBit = gap ? `, ${gap}` : "";
-    return `Leg ${from} to ${to}: ${dist3}${climb}, need ${need}, you're at ${have}${gapBit}`;
-  }
-  function describeLegPlan(pins, {
-    targetSec,
-    path,
-    activities,
-    courseId,
-    type,
-    units: units3 = "mi"
-  } = {}) {
-    const elev = legElevation(pins, path);
-    const targets = buildEvenPaceLegTargets(pins, targetSec, { path });
-    const history2 = historyTimesForLegs(pins, activities, { courseId, type });
-    const fallback = recentAveragePaceSecPerMeter(activities, { type });
-    return elev.map((l, i) => {
-      const tSec = targets[i] || 0;
-      const hist = history2 && history2[i];
-      const haveSec = hist > 0 ? hist : fallback && l.meters ? fallback * l.meters : null;
-      const needPace = formatPace(l.meters, tSec, units3);
-      const havePace = haveSec ? formatPace(l.meters, haveSec, units3) : "\u2014";
-      const gap = formatPaceGap(paceSecPerMile(l.meters, tSec), haveSec ? paceSecPerMile(l.meters, haveSec) : null);
-      const row = {
-        ...l,
-        targetSec: tSec,
-        haveSec: haveSec || null,
-        needPace,
-        havePace,
-        gap,
-        source: hist > 0 ? "history" : haveSec ? "recent" : "none"
-      };
-      row.line = formatLegPlanLine(row, { units: units3 });
-      return row;
-    });
-  }
 
   // www/js/sector_timing.js
   function routeMeters(course) {
     if (!course) return 0;
+    if (Array.isArray(course.legs) && course.legs.length) {
+      return course.legs.reduce((s2, l) => s2 + (l.mode === "unroutable" ? 0 : Number(l.meters) || 0), 0);
+    }
     if (course.path && course.path.length >= 2) return pathLengthMeters(course.path);
     if (course.pins && course.pins.length >= 2) return pathLengthMeters(course.pins);
     return 0;
@@ -39752,16 +41695,16 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function goalFromFinishTime(finishSec, course) {
     const finish = Math.max(0, Number(finishSec) || 0);
     const meters = routeMeters(course);
-    const paceSecPerMile2 = meters > 0 ? finish / (meters / METERS_PER_MILE) : null;
-    return { kind: "time", finishSec: finish, paceSecPerMile: paceSecPerMile2, meters };
+    const paceSecPerMile = meters > 0 ? finish / (meters / METERS_PER_MILE) : null;
+    return { kind: "time", finishSec: finish, paceSecPerMile, meters };
   }
   function goalFromPace(paceSecPerUnit2, course, units3 = "mi") {
     const pace = Math.max(0, Number(paceSecPerUnit2) || 0);
     const meters = routeMeters(course);
     const unitM = units3 === "km" ? 1e3 : METERS_PER_MILE;
     const finishSec = meters > 0 ? pace * (meters / unitM) : 0;
-    const paceSecPerMile2 = units3 === "km" ? pace * (METERS_PER_MILE / 1e3) : pace;
-    return { kind: "pace", finishSec, paceSecPerMile: paceSecPerMile2, paceSecPerUnit: pace, units: units3, meters };
+    const paceSecPerMile = units3 === "km" ? pace * (METERS_PER_MILE / 1e3) : pace;
+    return { kind: "pace", finishSec, paceSecPerMile, paceSecPerUnit: pace, units: units3, meters };
   }
   function resolveGoal(course) {
     const g = course && course.goal;
@@ -39774,6 +41717,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const g = goal || resolveGoal(course);
     if (!g || !(g.finishSec > 0)) return [];
     const pins = course.pins || [];
+    if (Array.isArray(course.legs) && course.legs.length) {
+      const meters = course.legs.map((l) => l.mode === "unroutable" ? 0 : Number(l.meters) || 0);
+      return buildEvenPaceLegTargets(pins, g.finishSec, { path: course.path, meters });
+    }
     return buildEvenPaceLegTargets(pins, g.finishSec, { path: course.path });
   }
   function formatSectorTime(seconds) {
@@ -39789,11 +41736,20 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return h2 > 0 ? `${h2}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}.${frac}` : core;
   }
   function formatSectorDelta(deltaSec) {
-    if (deltaSec == null || !Number.isFinite(Number(deltaSec))) return "\u2014";
+    if (deltaSec == null || !Number.isFinite(Number(deltaSec))) return "";
     const v2 = Number(deltaSec);
     if (Math.abs(v2) < 0.05) return "0:00.0";
     const sign = v2 > 0 ? "+" : "\u2212";
     return sign + formatSectorTime(Math.abs(v2));
+  }
+  function formatSectorLine(label, targetSec, youSec, { isNewPb = false } = {}) {
+    const you = Number(youSec);
+    const tgt = Number(targetSec);
+    const youTxt = you > 0 ? formatSectorTime(you) : "\u2014";
+    const tgtTxt = tgt > 0 ? formatSectorTime(tgt) : "\u2014";
+    const delta = you > 0 && tgt > 0 ? formatSectorDelta(you - tgt) : "";
+    const tail = delta ? " " + delta : "";
+    return `${label} ${tgtTxt} | You ${youTxt}${tail}`;
   }
   function deltaColor(deltaSec, { isNewPb = false } = {}) {
     if (isNewPb) return "purple";
@@ -39806,11 +41762,118 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (!Number.isFinite(n) || n <= 0) return 0;
     return n > 1e4 ? n / 1e3 : n;
   }
+  function pointElapsedSecLocal(pt, origin) {
+    if (!pt) return 0;
+    if (Number.isFinite(Number(pt.t)) && Number(pt.t) < 1e7) return Number(pt.t);
+    const at = pt.at;
+    let ms = null;
+    if (typeof at === "number" && Number.isFinite(at)) ms = at > 1e11 ? at : at * 1e3;
+    else if (at) {
+      const parsed = Date.parse(at);
+      if (Number.isFinite(parsed)) ms = parsed;
+    } else if (Number.isFinite(Number(pt.t))) {
+      const n = Number(pt.t);
+      ms = n > 1e11 ? n : n * 1e3;
+    }
+    if (ms == null) return 0;
+    return (ms - (origin == null ? ms : origin)) / 1e3;
+  }
+  function trackOriginMsLocal(track) {
+    const p = track && track[0];
+    if (!p) return 0;
+    if (typeof p.at === "number" && Number.isFinite(p.at)) return p.at > 1e11 ? p.at : p.at * 1e3;
+    if (p.at) {
+      const parsed = Date.parse(p.at);
+      if (Number.isFinite(parsed)) return parsed;
+    }
+    return 0;
+  }
+  function prefixDistances(track) {
+    const prefix = [0];
+    for (let i = 1; i < track.length; i++) {
+      const tagged = Number(track[i].d);
+      if (Number.isFinite(tagged) && tagged >= prefix[i - 1] - 0.01) {
+        prefix[i] = tagged;
+      } else {
+        prefix[i] = prefix[i - 1] + geodesicMeters(track[i - 1], track[i]);
+      }
+    }
+    return prefix;
+  }
+  function splitsAlongTrack(track, meterList) {
+    if (!track || track.length < 2 || !meterList || !meterList.length) return [];
+    const origin = trackOriginMsLocal(track);
+    const prefix = prefixDistances(track);
+    const time = track.map((p) => pointElapsedSecLocal(p, origin));
+    const splits = [];
+    let boundary = 0;
+    let prevT = 0;
+    for (const leg of meterList) {
+      boundary += Number(leg) || 0;
+      let hit = time[time.length - 1];
+      for (let i = 1; i < track.length; i++) {
+        if (prefix[i] >= boundary - 1e-6) {
+          const seg = prefix[i] - prefix[i - 1];
+          const frac = seg > 0 ? (boundary - prefix[i - 1]) / seg : 1;
+          hit = time[i - 1] + (time[i] - time[i - 1]) * Math.min(1, Math.max(0, frac));
+          break;
+        }
+      }
+      splits.push(Math.max(0, hit - prevT));
+      prevT = hit;
+    }
+    return splits;
+  }
   function sectorTimesFromTrack(course, track) {
     const pins = course && course.pins;
     if (!pins || pins.length < 2 || !track || track.length < 2) return [];
+    const meters = sectorMetersList(course);
+    if (meters.length) return splitsAlongTrack(track, meters).map(asSeconds);
     const raw = legSplitsFromTrack(pins, track) || [];
     return raw.map(asSeconds);
+  }
+  function synthesizeSectorTrack(course, sectorSeconds, { startedAt = "2026-11-18T09:00:00.000Z", stepMeters = 8 } = {}) {
+    const path = course && course.path && course.path.length >= 2 ? course.path : course && course.pins || [];
+    const metersList = sectorMetersList(course);
+    const startMs = Date.parse(startedAt) || Date.now();
+    if (path.length < 2 || !metersList.length) return [];
+    const points = [];
+    const pushPt = (coord, elapsed2, distM) => {
+      points.push({
+        lat: coord.lat,
+        lon: coord.lon,
+        t: elapsed2,
+        d: distM,
+        at: new Date(startMs + Math.round(elapsed2 * 1e3)).toISOString()
+      });
+    };
+    pushPt(path[0], 0, 0);
+    let elapsed = 0;
+    for (let s2 = 0; s2 < metersList.length; s2++) {
+      const sectorM = metersList[s2] || 0;
+      const sectorT = Number(sectorSeconds[s2]) || 0;
+      const steps = Math.max(4, Math.ceil(sectorM / Math.max(2, stepMeters)));
+      for (let k = 1; k <= steps; k++) {
+        const along = sectorM * k / steps;
+        let remain = along - (k === 1 ? 0 : sectorM * (k - 1) / steps);
+        const targetDist = metersList.slice(0, s2).reduce((a, b2) => a + (b2 || 0), 0) + along;
+        let acc = 0;
+        let pt = path[0];
+        for (let i = 1; i < path.length; i++) {
+          const seg = geodesicMeters(path[i - 1], path[i]);
+          if (acc + seg >= targetDist - 1e-3) {
+            pt = geodesicInterpolate(path[i - 1], path[i], Math.max(0, targetDist - acc));
+            break;
+          }
+          acc += seg;
+          pt = path[i];
+        }
+        const t = elapsed + sectorT * (k / steps);
+        pushPt(pt, t, targetDist);
+      }
+      elapsed += sectorT;
+    }
+    return points;
   }
   function readSectorPbs(course) {
     const raw = course && (course.sectorPbs || course.legPbs) || {};
@@ -39833,8 +41896,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       const time = times[i] || 0;
       const target = targets[i] || 0;
       const pb = pbs && pbs[String(i)] ? Number(pbs[String(i)].seconds) : null;
-      const vsGoal = time && target ? time - target : null;
-      const vsPb = history2 && time && pb ? time - pb : null;
+      const vsGoal = time > 0 && target > 0 ? time - target : null;
+      const vsPb = history2 && time > 0 && pb > 0 ? time - pb : null;
       const isNewPb = !!(time > 0 && (pb == null || time < pb - 9e-3));
       return {
         index: i,
@@ -39925,18 +41988,23 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return out;
   }
   function sectorMetersList(course) {
+    if (course && Array.isArray(course.legs) && course.legs.length) {
+      return course.legs.map((l) => l.mode === "unroutable" ? 0 : Number(l.meters) || 0);
+    }
     return sectorDistances(course && course.pins, course && course.path).map((l) => l.meters);
   }
   function liveSectorFlash(row, { cumulativeDelta, hasHistory, bestPossible } = {}) {
-    const vsGoal = formatSectorDelta(row.vsGoal);
-    const parts = [`S${row.index + 1}  ${vsGoal}`];
-    if (hasHistory && row.vsPb != null) {
-      parts.push(row.isNewPb ? `PB ${formatSectorTime(row.time)}` : `vs PB ${formatSectorDelta(row.vsPb)}`);
-    }
-    const cum = cumulativeDelta != null ? formatSectorDelta(cumulativeDelta) : null;
+    const goalLine = formatSectorLine("Goal", row.target, row.time);
+    const showBest = !!(hasHistory && row.pb > 0);
+    const bestLine = showBest ? formatSectorLine("Best", row.pb, row.time, { isNewPb: !!row.isNewPb }) : "";
+    const vsGoal = row.vsGoal != null ? formatSectorDelta(row.vsGoal) : "";
+    const cum = cumulativeDelta != null && Number.isFinite(Number(cumulativeDelta)) ? formatSectorDelta(cumulativeDelta) : "";
     return {
       color: row.isNewPb && hasHistory ? "purple" : row.colorVsGoal,
-      sectorLine: parts.join(" \xB7 "),
+      label: `S${row.index + 1}`,
+      sectorLine: goalLine,
+      bestLine,
+      showBest,
       cumulativeLine: cum ? `Total ${cum}` : "",
       bestPossibleLine: bestPossible != null ? `Best possible ${formatSectorTime(bestPossible)}` : "",
       vsGoal,
@@ -40352,7 +42420,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       boundary += leg;
       while (idx < track.length && traveled < boundary) {
         prevTraveled = traveled;
-        traveled += haversine(track[idx - 1], track[idx]);
+        traveled += geodesicMeters(track[idx - 1], track[idx]);
         prevT = track[idx - 1].t;
         idx++;
       }
@@ -40398,30 +42466,24 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       minutes: Math.round((Number(sessionSec) || 0) / 60)
     };
   }
-  function buildPlanDraft({
+  function planSessionOutline({
     activityType = "walk",
     goalDistanceMeters = null,
     goalDurationSec = null,
     windowDays = 14,
-    course = null,
-    autoLoop = false,
-    center = { lat: 43.7672, lon: 11.2543 },
-    bodyKg = null,
-    now = /* @__PURE__ */ new Date(),
-    name = "",
-    beginner = true
-  }) {
+    course = null
+  } = {}) {
     const type = activityType === "run" ? "run" : "walk";
     const mph = activityMph(type);
     const days = Math.max(1, Math.round(windowDays || 14));
     const goalDistance = Number(goalDistanceMeters) > 0 ? Number(goalDistanceMeters) : null;
     const goalDuration = Number(goalDurationSec) > 0 ? Number(goalDurationSec) : null;
     const maxPerWeek = MAX_SESSIONS_PER_WEEK[type];
-    const weeks = Math.max(1, days / 7);
-    const maxSessions = Math.max(1, Math.min(days, Math.floor(weeks * maxPerWeek)));
+    const weeksFrac = Math.max(1, days / 7);
+    const maxSessions = Math.max(1, Math.min(days, Math.floor(weeksFrac * maxPerWeek)));
     const typical30 = mph * METERS_PER_MILE / 2;
     const typical45 = typical30 * 1.5;
-    const targetSessions = clamp2(Math.round(weeks * 3) || 3, 2, maxSessions);
+    const targetSessions = clamp2(Math.round(weeksFrac * 3) || 3, 2, maxSessions);
     const minSession = typical30 * 0.18;
     const maxSession = typical45 * 1.25;
     let sessionMeters;
@@ -40450,6 +42512,84 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       }
     }
     sessionsNeeded = Math.max(1, Math.min(sessionsNeeded, days));
+    const weeks = days % 7 === 0 ? days / 7 : Math.ceil(days / 7);
+    return {
+      activityType: type,
+      days,
+      weeks,
+      sessions: sessionsNeeded,
+      sessionMeters,
+      sessionSecTypical
+    };
+  }
+  function formatPlanLength(outline) {
+    const o = outline || {};
+    const kind = o.activityType === "run" ? "run" : "walk";
+    const n = Math.max(1, Number(o.sessions) || 1);
+    const guided = n === 1 ? `1 guided ${kind}` : `${n} guided ${kind}s`;
+    const days = Math.max(1, Number(o.days) || 1);
+    const weeks = Number(o.weeks) || Math.ceil(days / 7);
+    const window2 = days >= 7 && days % 7 === 0 ? `${weeks} week${weeks === 1 ? "" : "s"}` : `${days} day${days === 1 ? "" : "s"}`;
+    return `${window2}, ${guided}`;
+  }
+  function planTeaserModel(goal = {}, { units: units3 = "mi", formatDistance: formatDistance2 } = {}) {
+    const outline = planSessionOutline(goal);
+    const type = outline.activityType;
+    const kind = type === "run" ? "Run" : "Walk";
+    let goalLabel = kind;
+    const dist3 = Number(goal.goalDistanceMeters);
+    if (dist3 > 0 && typeof formatDistance2 === "function") {
+      goalLabel = `${kind} ${formatDistance2(dist3, units3)}`;
+    } else if (dist3 > 0) {
+      const miles = dist3 / METERS_PER_MILE;
+      const km = dist3 / 1e3;
+      goalLabel = units3 === "km" ? `${kind} ${Number(km.toFixed(km < 10 ? 2 : 1))} km` : `${kind} ${Number(miles.toFixed(miles < 10 ? 3 : 1))} mi`;
+    }
+    if (Number(goal.goalDurationSec) > 0) {
+      const sec = Math.round(Number(goal.goalDurationSec));
+      const m = Math.floor(sec / 60);
+      const s2 = sec % 60;
+      goalLabel += ` in ${m}:${String(s2).padStart(2, "0")}`;
+    }
+    return {
+      goalLabel,
+      lengthLabel: formatPlanLength(outline),
+      includes: ["Step goals", "Per-leg paces", "Water reminders"],
+      activityType: type,
+      windowDays: outline.days,
+      weeks: outline.weeks,
+      sessions: outline.sessions
+    };
+  }
+  function buildPlanDraft({
+    activityType = "walk",
+    goalDistanceMeters = null,
+    goalDurationSec = null,
+    windowDays = 14,
+    course = null,
+    autoLoop = false,
+    center = { lat: 43.7672, lon: 11.2543 },
+    bodyKg = null,
+    now = /* @__PURE__ */ new Date(),
+    name = "",
+    beginner = true
+  }) {
+    const type = activityType === "run" ? "run" : "walk";
+    const mph = activityMph(type);
+    const maxPerWeek = MAX_SESSIONS_PER_WEEK[type];
+    const outline = planSessionOutline({
+      activityType: type,
+      goalDistanceMeters,
+      goalDurationSec,
+      windowDays,
+      course
+    });
+    const days = outline.days;
+    const goalDistance = Number(goalDistanceMeters) > 0 ? Number(goalDistanceMeters) : null;
+    const goalDuration = Number(goalDurationSec) > 0 ? Number(goalDurationSec) : null;
+    let sessionMeters = outline.sessionMeters;
+    let sessionSecTypical = outline.sessionSecTypical;
+    const sessionsNeeded = outline.sessions;
     const route = routeForGoal({ targetMeters: sessionMeters, course, autoLoop, center });
     const pins = route.pins;
     sessionMeters = pathLengthMeters(pins) || sessionMeters;
@@ -40591,6 +42731,44 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return out;
   }
 
+  // www/js/body_weight.js
+  var KG_PER_LB = 0.45359237;
+  function lbToKg(lb) {
+    const n = Number(lb);
+    if (!Number.isFinite(n)) return null;
+    return n * KG_PER_LB;
+  }
+  function kgToLb(kg) {
+    const n = Number(kg);
+    if (!Number.isFinite(n)) return null;
+    return n / KG_PER_LB;
+  }
+  function defaultWeightUnit({ locale, units: units3, remembered } = {}) {
+    if (remembered === "lb" || remembered === "kg") return remembered;
+    if (units3 === "mi") return "lb";
+    if (units3 === "km") return "kg";
+    const loc = String(locale || "").toLowerCase().replace(/_/g, "-");
+    if (loc === "en-us" || loc.startsWith("en-us") || loc.endsWith("-us")) return "lb";
+    return "kg";
+  }
+  var MIN_KG = 30;
+  var MAX_KG = 250;
+  function parseWeightInput(raw, unit) {
+    const text = String(raw == null ? "" : raw).trim();
+    if (!text) return null;
+    const n = Number(text);
+    if (!Number.isFinite(n) || n <= 0) return null;
+    const kg = unit === "lb" ? lbToKg(n) : n;
+    if (!Number.isFinite(kg) || kg < MIN_KG || kg > MAX_KG) return null;
+    return kg;
+  }
+  function formatWeightInput(kg, unit) {
+    const n = Number(kg);
+    if (!Number.isFinite(n) || n <= 0) return "";
+    if (unit === "lb") return String(Number(kgToLb(n).toFixed(1)));
+    return String(Number(n.toFixed(1)));
+  }
+
   // www/js/plans.js
   var PLAN_FORMAT = "heldpath-plan";
   var PLAN_FORMAT_VERSION = 1;
@@ -40653,14 +42831,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     };
   }
   async function createPlanForGoal(goal = {}, { iapApi = iap_exports, now = /* @__PURE__ */ new Date(), id = null } = {}) {
-    const draft = buildPlanDraft({ ...goal, now });
-    const plan = makePlan(draft, { id: id || uid("plan"), now });
     let purchased = false;
     if (!iapApi.hasCredit()) {
       const buy = await iapApi.purchasePlanCredit();
       if (!buy || !buy.ok) return { ok: false, error: "purchase_failed", detail: buy };
       purchased = true;
     }
+    const draft = buildPlanDraft({ ...goal, now });
+    const plan = makePlan(draft, { id: id || uid("plan"), now });
     const redeem = iapApi.redeemCreditForPlan(plan.id);
     if (!redeem || !redeem.ok) return { ok: false, error: redeem?.error || "no_credit" };
     plan.ownership = {
@@ -42227,6 +44405,42 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     return { lines, kept, skipped };
   }
+  function ringsFromFeature(z2, x2, y2, extent, feature) {
+    const geom = feature.loadGeometry();
+    const rings = [];
+    for (const ring of geom || []) {
+      if (feature.type === 3 && ring.length >= 4) {
+        rings.push(ring.map((p) => tileToLonLat(x2, y2, z2, extent, p.x, p.y)));
+      } else if (feature.type === 2 && ring.length >= 2) {
+        rings.push(ring.map((p) => tileToLonLat(x2, y2, z2, extent, p.x, p.y)));
+      }
+    }
+    return rings;
+  }
+  function extractAreaPolygons(z2, x2, y2, data) {
+    const buf = data instanceof Uint8Array ? data : new Uint8Array(data);
+    const tile = new VectorTile(new Pbf(buf));
+    const open = [];
+    const barriers = [];
+    const consider = ["landuse", "natural", "park", "water", "buildings", "building", "transit", "roads"];
+    for (const name of consider) {
+      const layer = tile.layers && tile.layers[name];
+      if (!layer) continue;
+      const extent = layer.extent || 4096;
+      for (let i = 0; i < layer.length; i++) {
+        const f2 = layer.feature(i);
+        const props = f2.properties || {};
+        const rings = ringsFromFeature(z2, x2, y2, extent, f2);
+        if (!rings.length) continue;
+        if (isOpenWalkableProps(props) && f2.type === 3) {
+          for (const ring of rings) open.push({ kind: props["pmap:kind"] || props.leisure || props.landuse || "open", ring });
+        } else if (isBarrierProps(props)) {
+          for (const ring of rings) barriers.push({ kind: barrierKind(props), ring });
+        }
+      }
+    }
+    return { open, barriers };
+  }
   function midLatOf(lines) {
     let s2 = 0, n = 0;
     for (const line of lines) {
@@ -42347,9 +44561,24 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       for (const line of parsed.lines) lines.push(line);
     }
     const graph = packWalkGraph(lines, { name, source });
+    const open = [];
+    const barriers = [];
+    for (const t of tiles || []) {
+      if (!t || !t.data) continue;
+      try {
+        const areas = extractAreaPolygons(t.z, t.x, t.y, t.data);
+        open.push(...areas.open);
+        barriers.push(...areas.barriers);
+      } catch {
+      }
+    }
+    graph.open = packRings(open, SCALE);
+    graph.blocked = packBlocked(rasterizeBarriers(barriers, graph.bounds, 10));
     graph.stats.keptFeatures = kept;
     graph.stats.skippedFeatures = skipped;
     graph.stats.tiles = (tiles || []).length;
+    graph.stats.openAreas = open.length;
+    graph.stats.barriers = barriers.length;
     return graph;
   }
   function pointsInGraphBounds(graph, points, pad = 2e-3) {
@@ -42535,16 +44764,100 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (arg.lat != null && arg.lon != null) return [arg];
     return [];
   }
-  async function selectWalkGraph(points) {
+  var ON_DEMAND_MAX_TILES = 48;
+  function padBoundsFromPoints(pts, padDeg = 4e-3) {
+    let west = 180, south = 90, east = -180, north = -90;
+    for (const p of pts || []) {
+      if (!p) continue;
+      if (p.lon < west) west = p.lon;
+      if (p.lon > east) east = p.lon;
+      if (p.lat < south) south = p.lat;
+      if (p.lat > north) north = p.lat;
+    }
+    return { west: west - padDeg, south: south - padDeg, east: east + padDeg, north: north + padDeg };
+  }
+  async function loadOfmTile(z2, x2, y2) {
+    try {
+      const cached = await getTile(z2, x2, y2);
+      if (cached && cached.byteLength) return cached;
+    } catch {
+    }
+    if (typeof navigator !== "undefined" && navigator.onLine === false) return null;
+    try {
+      const tmpl = await resolveOfmTemplate();
+      const res = await fetch(tileUrl(tmpl, z2, x2, y2), { headers: { "User-Agent": OFM_USER_AGENT } });
+      if (!res.ok) return null;
+      const data = await res.arrayBuffer();
+      if (data && data.byteLength) {
+        try {
+          await putTile(z2, x2, y2, data);
+        } catch {
+        }
+        return data;
+      }
+    } catch {
+    }
+    return null;
+  }
+  async function buildGraphForBounds(bounds, { onProgress, maxTiles = ON_DEMAND_MAX_TILES } = {}) {
+    if (!bounds) return { ok: false, reason: "no-bounds" };
+    let z2 = OFM_MAXZOOM;
+    let range = tileRange(bounds, z2);
+    while (countTilesInRange(range) > maxTiles && z2 > 11) {
+      z2 -= 1;
+      range = tileRange(bounds, z2);
+    }
+    if (countTilesInRange(range) > maxTiles) return { ok: false, reason: "too-many-tiles" };
+    const tiles = tilesInRange(range);
+    const loaded = [];
+    let done = 0;
+    for (const t of tiles) {
+      const data = await loadOfmTile(t.z, t.x, t.y);
+      if (data && data.byteLength) loaded.push({ z: t.z, x: t.x, y: t.y, data });
+      done += 1;
+      if (onProgress) onProgress({ done, total: tiles.length });
+    }
+    if (!loaded.length) return { ok: false, reason: "no-tile-data" };
+    const raw = buildWalkGraphFromTiles(loaded, {
+      name: "On-demand walk",
+      source: "ofm-bounds"
+    });
+    raw.id = `ondemand:${bounds.west.toFixed(3)},${bounds.south.toFixed(3)},${bounds.east.toFixed(3)},${bounds.north.toFixed(3)},z${z2}`;
+    raw.west = bounds.west;
+    raw.south = bounds.south;
+    raw.east = bounds.east;
+    raw.north = bounds.north;
+    raw.builtAt = (/* @__PURE__ */ new Date()).toISOString();
+    raw.attribution = OSM_ATTRIBUTION;
+    try {
+      await saveAreaGraph(raw);
+    } catch {
+    }
+    return { ok: true, graph: raw };
+  }
+  async function selectWalkGraph(points, opts = {}) {
     const pts = pointsFrom(points);
     const records = await listAreaGraphs();
     const parsedAreas = records.map(asRoutable).filter(Boolean);
+    const bundled = asRoutable(await getBundledGraph());
     if (pts.length) {
-      const allHit = parsedAreas.find((g) => pointsInGraphBounds(g, pts));
+      const allHit = parsedAreas.find((g) => pointsInGraphBounds(g, pts)) || (bundled && pointsInGraphBounds(bundled, pts) ? bundled : null);
       if (allHit) return allHit;
+      if (!opts.lockWalkGraph) {
+        if (opts.onStatus) opts.onStatus("finding");
+        try {
+          const built = await buildGraphForBounds(padBoundsFromPoints(pts));
+          const g = asRoutable(built.ok ? built.graph : null);
+          if (g && pointsInGraphBounds(g, pts)) return g;
+          if (g && somePointsInGraphBounds(g, pts)) {
+            parsedAreas.unshift(g);
+          }
+        } catch {
+        }
+        if (opts.onStatus) opts.onStatus("idle");
+      }
       const someHit = parsedAreas.find((g) => somePointsInGraphBounds(g, pts));
       if (someHit) return someHit;
-      const bundled = asRoutable(await getBundledGraph());
       if (bundled && somePointsInGraphBounds(bundled, pts)) return bundled;
       try {
         const areas = await listAreas();
@@ -42559,10 +44872,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       }
       return null;
     }
-    return asRoutable(await getBundledGraph());
+    return bundled;
   }
-  async function ensureWalkGraph(points) {
-    const graph = await selectWalkGraph(points);
+  async function ensureWalkGraph(points, opts = {}) {
+    const graph = await selectWalkGraph(points, opts);
     setActiveGraph(graph);
     return graph;
   }
@@ -42859,12 +45172,53 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     return null;
   }
+  function localeNow() {
+    return typeof navigator !== "undefined" && navigator.language || "en-US";
+  }
+  function currentWeightUnit() {
+    const remembered = state().settings && state().settings.weightUnit;
+    return defaultWeightUnit({ locale: localeNow(), units: units(), remembered });
+  }
+  function persistBodyFromForm() {
+    const input = $("plan-body");
+    const unit = currentWeightUnit();
+    const kg = parseWeightInput(input && input.value, unit);
+    const st = state().settings;
+    if (st) {
+      st.weightUnit = unit;
+      st.bodyKg = kg;
+      if (ctx && ctx.persist) ctx.persist();
+    }
+    return kg;
+  }
+  function paintBodyWeightField({ force = false } = {}) {
+    const unit = currentWeightUnit();
+    document.querySelectorAll("#plan-body-unit-tog button").forEach((b2) => {
+      b2.classList.toggle("active", b2.dataset.unit === unit);
+    });
+    const input = $("plan-body");
+    if (!input) return;
+    if (!force && document.activeElement === input) return;
+    const kg = state().settings && state().settings.bodyKg;
+    input.value = kg ? formatWeightInput(kg, unit) : force ? "" : input.value;
+  }
+  function setWeightUnit(next) {
+    const prev = currentWeightUnit();
+    const typed = parseWeightInput($("plan-body") && $("plan-body").value, prev);
+    const kg = typed || state().settings && state().settings.bodyKg || null;
+    if (state().settings) {
+      state().settings.weightUnit = next === "kg" ? "kg" : "lb";
+      state().settings.bodyKg = kg;
+      if (ctx && ctx.persist) ctx.persist();
+    }
+    paintBodyWeightField({ force: true });
+    updatePreview();
+  }
   function readGoal() {
     const days = Math.max(1, Math.round(Number($("plan-days").value) || 14));
     const routeValue = $("plan-route").value;
     const course = routeValue !== "auto" ? courseById(routeValue) : null;
-    const bodyRaw = $("plan-body").value.trim();
-    const bodyKg = bodyRaw === "" ? null : Math.max(30, Math.min(250, Number(bodyRaw) || 0)) || null;
+    const bodyKg = persistBodyFromForm();
     const name = ($("plan-title").value || "").trim();
     return {
       activityType: ui.type,
@@ -42877,72 +45231,24 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       center: userCenter() || void 0
     };
   }
-  function draftForGoal(goal) {
-    const draft = buildPlanDraft(goal);
-    if (goal && goal.course && goal.course.pins && goal.course.pins.length >= 2 && !goal.autoLoop) {
-      const exact = exactCourseRoute(goal.course);
-      const pins = exact.pins || goal.course.pins;
-      const path = exact.path || goal.course.path || null;
-      const meters = pathLengthMeters(path && path.length >= 2 ? path : pins);
-      draft.route = {
-        ...draft.route,
-        mode: "course",
-        courseId: goal.course.id || null,
-        pins,
-        path,
-        targetLengthMeters: meters,
-        scaleFactor: 1,
-        repeatTimes: 1
-      };
-      draft.schedule.sessionDistanceMeters = meters;
-      const totalSec = draft.schedule.initialTargetSec || draft.schedule.sessionDurationSec;
-      const even = buildEvenPaceLegTargets(pins, totalSec, { path });
-      draft.schedule.legTargetsSec = even.map((l) => typeof l === "number" ? l : l.targetSec);
-      draft.legPlan = describeLegPlan(pins, {
-        targetSec: totalSec,
-        path,
-        units: units()
-      });
-    }
-    if (ui.waterOverrideMl != null) {
-      draft.water.dailyMl = ui.waterOverrideMl;
-      draft.water.userAdjusted = true;
-    }
-    if (ui.reminderOverride && ui.reminderOverride.length) {
-      draft.water.reminderLocalTimes = ui.reminderOverride.slice();
-      draft.water.allowNight = ui.reminderOverride.some((t) => isNightTime(t));
-    }
-    return draft;
-  }
-  function fillPreview(draft) {
-    const u2 = units();
-    const s2 = draft.schedule;
-    const legs = s2.legTargetsSec || [];
-    const target = s2.initialTargetSec;
-    const pace = formatPace(s2.sessionDistanceMeters, target, u2);
-    const effort = s2.effort || {};
-    const rows = [];
-    rows.push(`<div class="plan-stat"><span>Session</span><strong>${formatDistance(s2.sessionDistanceMeters, u2)} \xB7 ${formatDuration(s2.sessionDurationSec)}</strong></div>`);
-    rows.push(`<div class="plan-stat"><span>Schedule</span><strong>${s2.sessionDates.length} sessions over ${draft.goal.windowDays} days</strong></div>`);
-    rows.push(`<div class="plan-stat"><span>Pace target</span><strong>${pace}</strong></div>`);
-    if (Array.isArray(draft.legPlan) && draft.legPlan.length) {
-      const lines = draft.legPlan.map((l) => String(l.line || "").replace(/</g, ""));
-      rows.push(`<div class="plan-stat" data-testid="plan-leg-lines"><span>Per-leg even pace</span><strong>${lines.join("<br>")}</strong></div>`);
-    } else if (legs.length) {
-      rows.push(`<div class="plan-stat"><span>Per-leg targets</span><strong>${legs.map((s3) => formatDuration(s3)).join(" \xB7 ")}</strong></div>`);
-    }
-    rows.push(`<div class="plan-stat"><span>Effort (plan)</span><strong>${effort.mets || "\u2014"} METs \xB7 ~${effort.kcal || 0} kcal</strong></div>`);
-    if (s2.vdot && s2.trainingPaces) {
-      rows.push(`<div class="plan-stat"><span>VDOT</span><strong>${s2.vdot} \xB7 easy ${formatPace(1609.344, s2.trainingPaces.easy.secPerMile, "mi")}</strong></div>`);
-    }
-    rows.push(`<div class="plan-stat"><span>Water</span><strong>${draft.water.dailyMl} ml session day \xB7 ${draft.water.restDayMl} ml rest day</strong></div>`);
-    const routeLabel = draft.route.mode === "course" ? draft.route.scaleFactor === 1 ? "Saved course (exact)" : "Saved course" : "Auto loop";
-    rows.push(`<div class="plan-stat"><span>Route</span><strong>${routeLabel} \xB7 ${formatDistance(pathLengthMeters(draft.route.path && draft.route.path.length >= 2 ? draft.route.path : draft.route.pins), u2)}</strong></div>`);
-    $("plan-preview").innerHTML = rows.join("");
-    const mix = s2.mix;
-    if (mix) {
-      $("plan-preview").insertAdjacentHTML("beforeend", `<p class="tiny" style="margin-top:10px">${esc2(mix.label)}</p>`);
-    }
+  function fillTeaser(goal) {
+    const root = $("plan-preview");
+    if (!root) return;
+    const model = planTeaserModel(goal, { units: units(), formatDistance });
+    const includes = model.includes.map((item) => `<li>${esc2(item)}</li>`).join("");
+    const bars = [72, 58, 81, 46, 64].map((w2) => `<div class="plan-teaser-row"><span class="plan-teaser-ghost"></span><span class="plan-teaser-bar" style="width:${w2}%"></span></div>`).join("");
+    root.innerHTML = `<div class="plan-teaser" data-testid="plan-teaser">
+      <div class="plan-teaser-stat"><span>Your goal</span><strong>${esc2(model.goalLabel)}</strong></div>
+      <div class="plan-teaser-stat"><span>Plan length</span><strong>${esc2(model.lengthLabel)}</strong></div>
+      <div>
+        <span class="tiny">What's included</span>
+        <ul class="plan-teaser-includes">${includes}</ul>
+      </div>
+      <div class="plan-teaser-lock">
+        <div class="plan-teaser-steps" aria-hidden="true">${bars}</div>
+        <div class="plan-teaser-veil">Unlock to see your guided steps</div>
+      </div>
+    </div>`;
   }
   function renderOwnership() {
     $("plan-own-copy").textContent = OWNERSHIP_COPY;
@@ -42958,6 +45264,21 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function renderWater(draft) {
     const plan = newestPlan();
+    const locked = $("plan-water-locked");
+    const open = $("plan-water-open");
+    if (!plan) {
+      if (locked) locked.hidden = false;
+      if (open) open.hidden = true;
+      if ($("plan-water-line")) $("plan-water-line").textContent = "";
+      if ($("plan-water")) $("plan-water").textContent = "";
+      if ($("plan-water-ml")) $("plan-water-ml").value = "";
+      if ($("plan-water-oz")) $("plan-water-oz").value = "";
+      if ($("plan-water-recommend-box")) $("plan-water-recommend-box").hidden = true;
+      if ($("plan-water-recommend-line")) $("plan-water-recommend-line").textContent = "";
+      return;
+    }
+    if (locked) locked.hidden = true;
+    if (open) open.hidden = false;
     const source = plan || draft;
     const ml = source.water.dailyMl;
     const prefs = waterPrefs();
@@ -42997,21 +45318,24 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return prefs;
   }
   function onLogOneBottle() {
+    if (!newestPlan()) return;
     const prefs = persistWaterPrefsFromForm();
     logOneBottle(prefs);
-    const draft = ui.preview || draftForGoal(readGoal());
-    renderWater(draft);
+    renderWater();
   }
   function onRecommendWater2() {
+    const plan = newestPlan();
+    if (!plan) return;
     const box = $("plan-water-recommend-box");
     if (!box) return;
     box.hidden = false;
     const prefs = persistWaterPrefsFromForm();
-    const hours = ui.preview && ui.preview.schedule && ui.preview.schedule.sessionDurationSec ? ui.preview.schedule.sessionDurationSec / 3600 : 1;
+    const hours = plan.schedule && plan.schedule.sessionDurationSec ? plan.schedule.sessionDurationSec / 3600 : 1;
     const cached = readCachedTemperature();
     const rec = recommendWaterTarget({
       sessionHours: hours,
-      tempC: cached && cached.tempC
+      tempC: cached && cached.tempC,
+      bodyKg: (readGoal().bodyKg != null ? readGoal().bodyKg : state().settings && state().settings.bodyKg) || null
     });
     ui.pendingWaterRec = rec;
     if ($("plan-water-recommend-line")) $("plan-water-recommend-line").textContent = formatWaterLine(rec.dailyMl, prefs);
@@ -43021,10 +45345,16 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function acceptWaterRecommendation() {
     const rec = ui.pendingWaterRec;
     if (!rec || !(rec.dailyMl > 0)) return;
-    ui.waterOverrideMl = Math.max(500, Math.min(1e4, Math.round(rec.dailyMl / 50) * 50));
+    const ml = Math.max(500, Math.min(1e4, Math.round(rec.dailyMl / 50) * 50));
+    ui.waterOverrideMl = ml;
     const box = $("plan-water-recommend-box");
     if (box) box.hidden = true;
-    updatePreview();
+    const plan = newestPlan();
+    if (plan) {
+      updateWaterTarget(plan, { dailyMl: ml });
+      if (ctx && ctx.persist) ctx.persist();
+    }
+    renderWater();
   }
   function adjustWaterRecommendation() {
     const rec = ui.pendingWaterRec;
@@ -43043,10 +45373,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     sel.value = courses.some((c) => c.id === current) ? current : "auto";
   }
   function updatePreview() {
-    const draft = draftForGoal(readGoal());
-    ui.preview = draft;
-    fillPreview(draft);
-    renderWater(draft);
+    ui.preview = null;
+    fillTeaser(readGoal());
+    renderWater();
     renderCreditNote();
   }
   function renderPlanList() {
@@ -43127,7 +45456,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     });
     ctx.persist();
     const remind = await syncReminders(plan);
-    renderWater(ui.preview || buildPlanDraft(readGoal()));
+    renderWater();
     $("plan-reminder-note").textContent = remind.ok ? `Water target saved. Reminders on this phone: ${reminderTimesFor(plan).join(", ")}.` : `Water target saved. Reminder times: ${reminderTimesFor(plan).join(", ")}. On-device only.`;
   }
   async function exportPlan(plan) {
@@ -43218,6 +45547,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       updatePreview();
     });
     $("plan-body").addEventListener("input", updatePreview);
+    if ($("plan-body-unit-tog")) {
+      $("plan-body-unit-tog").addEventListener("click", (e) => {
+        const b2 = e.target.closest("button[data-unit]");
+        if (!b2) return;
+        setWeightUnit(b2.dataset.unit);
+      });
+    }
     $("plan-title").addEventListener("input", updatePreview);
     $("btn-plan-create").addEventListener("click", () => {
       createPlan().catch(() => {
@@ -43313,6 +45649,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (document.activeElement !== $("plan-distance")) {
       $("plan-distance").value = fmtNum(ui.distanceMeters / unitFactor(), u2 === "km" ? 2 : 1);
     }
+    paintBodyWeightField();
     renderPlanList();
     updatePreview();
   }
@@ -44447,7 +46784,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       north: north + dLat
     });
   }
-  function pointInArea(point, area) {
+  function pointInArea2(point, area) {
     if (!point || !area) return false;
     return point.lon >= area.west && point.lon <= area.east && point.lat >= area.south && point.lat <= area.north;
   }
@@ -44481,7 +46818,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function coverageGaps(points, areas) {
     const samples = samplePath(points);
     const list = areas || [];
-    return samples.filter((p) => !list.some((a) => pointInArea(p, a)));
+    return samples.filter((p) => !list.some((a) => pointInArea2(p, a)));
   }
   function isCovered(points, areas) {
     const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
@@ -47836,7 +50173,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     startType: "walk",
     hideNav: false,
     followPaths: true,
-    builderRoute: null
+    builderRoute: null,
+    straightOverrides: /* @__PURE__ */ new Set(),
+    lockWalkGraph: false,
+    findingPaths: false
   };
   var $4 = (id) => document.getElementById(id);
   var params = new URLSearchParams(location.search);
@@ -47987,6 +50327,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     $4("tab-bar").style.display = name === "lock" || ui2.hideNav ? "none" : "grid";
     if (mapScreens.has(name)) {
       requestAnimationFrame(() => resizeMap());
+      if (name === "builder") startBuilderLocation({ center: false });
+      else maybeStartLiveLocation();
+      paintMapStyleButton();
+    } else if (typeof stopLocationWatch === "function" && !locationWatchActive()) {
     }
   }
   function setTab(tab) {
@@ -48158,6 +50502,31 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     return null;
   }
+  function makeSectorFixture() {
+    const a = { lat: 41.85, lon: -87.65, role: "start" };
+    const b2 = { ...geodesicDirect(a, 90, 0.5 * METERS_PER_MILE), role: "via" };
+    const c = { ...geodesicDirect(b2, 90, 1.7 * METERS_PER_MILE), role: "via" };
+    const d2 = { ...geodesicDirect(c, 90, 0.8 * METERS_PER_MILE), role: "end" };
+    const pins = [a, b2, c, d2];
+    const course = newCourse({ name: "Even-pace loop", pins });
+    course.goal = goalFromFinishTime(30 * 60, course);
+    course.sectorPbs = {
+      0: { seconds: 295.1, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+      1: { seconds: 1030, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+      2: { seconds: 470, activityId: "prev", date: "2026-11-11T09:00:00.000Z" }
+    };
+    course.sectorHistory = [{ at: "2026-11-11T09:00:00.000Z", activityId: "prev", times: [295.1, 1030, 470], totalSec: 1795.1 }];
+    const sectorSeconds = [292.3, 1010, 460];
+    const trackPts = synthesizeSectorTrack(course, sectorSeconds, { stepMeters: 8 });
+    return {
+      course,
+      track: trackPts,
+      sectorSeconds,
+      sectorMeters: sectorMetersList(course),
+      meters: sectorMetersList(course).reduce((s2, v2) => s2 + v2, 0),
+      totalSec: sectorSeconds.reduce((s2, v2) => s2 + v2, 0)
+    };
+  }
   function paintSectorFlash(sess) {
     const el = $4("sector-flash");
     if (!el) return;
@@ -48190,10 +50559,31 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     el.hidden = false;
     el.classList.remove("green", "red", "purple");
     if (flash.color) el.classList.add(flash.color);
+    if ($4("sector-flash-label")) $4("sector-flash-label").textContent = flash.label || "";
     if ($4("sector-flash-main")) $4("sector-flash-main").textContent = flash.sectorLine;
+    const bestEl = $4("sector-flash-best");
+    if (bestEl) {
+      bestEl.hidden = !flash.bestLine;
+      bestEl.textContent = flash.bestLine || "";
+      bestEl.classList.toggle("purple", !!(flash.showBest && row.isNewPb));
+    }
     if ($4("sector-flash-cum")) $4("sector-flash-cum").textContent = [flash.cumulativeLine, flash.bestPossibleLine].filter(Boolean).join(" \xB7 ");
     ui2.sectorFlashSticky = true;
     if (course.sectorCallout) maybeCallout(flash.spoken, { audio: true, haptic: true });
+  }
+  function paintSectorLineEl(el, label, target, you, deltaSec, color) {
+    el.textContent = "";
+    const tgt = Number(target) > 0 ? formatSectorTime(target) : "\u2014";
+    const youTxt = Number(you) > 0 ? formatSectorTime(you) : "\u2014";
+    el.appendChild(document.createTextNode(`${label} ${tgt} | You ${youTxt}`));
+    const delta = Number(you) > 0 && Number(target) > 0 && deltaSec != null ? formatSectorDelta(deltaSec) : "";
+    if (delta) {
+      el.appendChild(document.createTextNode(" "));
+      const s2 = document.createElement("span");
+      s2.className = "sector-delta " + (color || "");
+      s2.textContent = delta;
+      el.appendChild(s2);
+    }
   }
   function renderSectorTable(root, course, act) {
     if (!root) return;
@@ -48211,34 +50601,31 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const table = document.createElement("div");
     table.className = "sector-table";
     table.setAttribute("data-testid", "sector-table");
-    const head = document.createElement("div");
-    head.className = "split-head";
-    head.innerHTML = `<span>Sector</span><span class="t">Time</span><span class="t">Target</span><span class="t">Delta</span>`;
-    table.appendChild(head);
     let cum = 0;
     compared.forEach((row, i) => {
-      const el = document.createElement("div");
       const appliedRow = applied && applied.rows && applied.rows[i];
       const isPb = !!(appliedRow && appliedRow.isNewPb);
-      const color = isPb ? "purple" : row.colorVsGoal || "";
-      el.className = "split-row sector-row" + (color ? " " + color : "");
-      const label = document.createElement("span");
-      label.textContent = `S${i + 1}`;
-      const time = document.createElement("span");
-      time.className = "t";
-      time.textContent = row.time == null ? "\u2014" : formatSectorTime(row.time);
-      const tgt = document.createElement("span");
-      tgt.className = "t";
-      tgt.textContent = row.target == null ? "\u2014" : formatSectorTime(row.target);
-      const delta = document.createElement("span");
-      delta.className = "t sector-delta " + color;
-      delta.textContent = row.vsGoal == null ? "\u2014" : formatSectorDelta(row.vsGoal);
+      const block = document.createElement("div");
+      block.className = "sector-block";
+      block.dataset.testid = "sector-block-" + (i + 1);
+      const lab = document.createElement("div");
+      lab.className = "sector-block-label";
+      lab.textContent = "S" + (i + 1);
+      block.appendChild(lab);
+      const goalLine = document.createElement("div");
+      goalLine.className = "sector-line";
+      goalLine.dataset.testid = "sector-goal-" + (i + 1);
+      paintSectorLineEl(goalLine, "Goal", row.target, row.time, row.vsGoal, row.colorVsGoal);
+      block.appendChild(goalLine);
+      if (histBefore && row.pb > 0) {
+        const bestLine = document.createElement("div");
+        bestLine.className = "sector-line";
+        bestLine.dataset.testid = "sector-best-" + (i + 1);
+        paintSectorLineEl(bestLine, "Best", row.pb, row.time, row.vsPb, isPb ? "purple" : row.colorVsPb);
+        block.appendChild(bestLine);
+      }
       if (row.vsGoal != null) cum += row.vsGoal;
-      el.appendChild(label);
-      el.appendChild(time);
-      el.appendChild(tgt);
-      el.appendChild(delta);
-      table.appendChild(el);
+      table.appendChild(block);
     });
     root.appendChild(table);
     const foot = document.createElement("p");
@@ -48308,17 +50695,31 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
   }
   function addCoursePins(pins, { builderState = null, clickable = false } = {}) {
+    if (clickable && builderState) {
+      const placed = [];
+      (builderState.pins || []).forEach((p, i) => {
+        const hit = placed.find((x2) => samePin(x2, p));
+        if (hit) hit.indices.push(i);
+        else placed.push({ lat: p.lat, lon: p.lon, role: p.role, index: i, indices: [i] });
+      });
+      placed.forEach((p) => {
+        const kind = p.indices.includes(0) ? "start" : builderState.endIndex != null && p.indices.includes(builderState.endIndex) ? "end" : "via";
+        const opts = {
+          kind,
+          label: pinLabel2(builderState, p.index),
+          onClick: (ev) => {
+            if (ev && ev.stopPropagation) ev.stopPropagation();
+            openPinAction(p.index);
+          }
+        };
+        addPin(p, opts);
+      });
+      return;
+    }
     (pins || []).forEach((p, i) => {
       const kind = p.role || (i === 0 ? "start" : i === pins.length - 1 ? "end" : "via");
-      const label = builderState ? pinLabel2(builderState, i) : kind === "start" ? "Start" : kind === "end" ? "End" : String(i + 1);
-      const opts = { kind, label };
-      if (clickable && builderState) {
-        opts.onClick = (ev) => {
-          if (ev && ev.stopPropagation) ev.stopPropagation();
-          openPinAction(i);
-        };
-      }
-      addPin(p, opts);
+      const label = kind === "start" ? "Start" : kind === "end" ? "End" : String(i + 1);
+      addPin(p, { kind, label });
     });
   }
   function activeBuilder() {
@@ -48339,10 +50740,40 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const st = activeBuilder();
     const routed = routeCourse(getActiveGraph(), st, {
       straightLine: !ui2.followPaths,
-      previous: ui2.builderRoute || null
+      previous: ui2.builderRoute || null,
+      straightOverrides: ui2.straightOverrides
     });
     ui2.builderRoute = routed;
     return routed;
+  }
+  function waitMapReady(ms = 4e3) {
+    return new Promise((resolve2) => {
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        resolve2();
+      };
+      try {
+        whenReady(() => {
+          const idle = typeof whenIdle === "function" ? whenIdle() : Promise.resolve();
+          Promise.race([idle, new Promise((r) => setTimeout(r, 2e3))]).then(finish, finish);
+        });
+      } catch {
+        finish();
+      }
+      setTimeout(finish, ms);
+    });
+  }
+  function fitBuilderCourse(coords, extra = {}) {
+    if (!coords || !coords.length) return;
+    try {
+      resizeMap();
+    } catch {
+    }
+    const panel = document.querySelector(".builder-panel");
+    const bottom = panel ? Math.min(Math.round(panel.getBoundingClientRect().height + 28), 720) : 520;
+    fitBounds(coords, { top: 72, bottom, left: 64, right: 64, maxZoom: extra.maxZoom || 17 });
   }
   function paintEndPointButton() {
     const btn = $4("btn-end-point-pin");
@@ -48358,8 +50789,66 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     ui2.pinActionIndex = index;
     const label = pinLabel2(st, index);
     if ($4("pin-action-title")) $4("pin-action-title").textContent = label || `Pin ${index + 1}`;
-    if ($4("pin-action-sub")) $4("pin-action-sub").textContent = "Add this pin as the next stop (it keeps every visit number), or set it as the end.";
+    const shared = sharedPinIndices(st, index);
+    const sub = $4("pin-action-sub");
+    if (sub) {
+      sub.textContent = shared.length > 1 ? "This pin is visited more than once. Delete one stop number, set this place as the end, or add another visit." : "Delete this pin, set it as the end, or add it as another stop.";
+    }
+    const deletes = $4("pin-action-deletes");
+    const singleBtn = $4("btn-pin-delete");
+    if (deletes) deletes.innerHTML = "";
+    if (shared.length > 1) {
+      if (singleBtn) singleBtn.hidden = true;
+      shared.forEach((i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn btn-danger pin-delete-stop";
+        btn.style.width = "100%";
+        btn.style.marginBottom = "10px";
+        btn.dataset.testid = "pin-delete-stop-" + (i + 1);
+        btn.textContent = "Delete stop " + (i + 1);
+        btn.addEventListener("click", () => applyPinDelete(i));
+        if (deletes) deletes.appendChild(btn);
+      });
+    } else if (singleBtn) {
+      singleBtn.hidden = false;
+      singleBtn.textContent = "Delete this pin";
+    }
+    const setEnd = $4("btn-pin-set-end");
+    const removeEndBtn = $4("btn-pin-remove-end");
+    if (setEnd) setEnd.hidden = st.endIndex === index;
+    if (removeEndBtn) removeEndBtn.hidden = st.endIndex !== index;
     openSheet("sheet-pin-action");
+  }
+  function pushBuilderHistory() {
+    if (!ui2.builderHistory) ui2.builderHistory = [];
+    ui2.builderHistory.push(snapshotBuilder(activeBuilder()));
+    if (ui2.builderHistory.length > 40) ui2.builderHistory.shift();
+  }
+  function applyBuilderChange(mutator) {
+    pushBuilderHistory();
+    ui2.builder = mutator(activeBuilder());
+    ui2.builderPins = ui2.builder.pins;
+    ui2.builderRoute = null;
+    renderBuilder();
+  }
+  function applyPinDelete(index) {
+    closeSheet("sheet-pin-action");
+    applyBuilderChange((st) => removePin(st, index));
+  }
+  function undoLastBuilderAction() {
+    if (ui2.builderHistory && ui2.builderHistory.length) {
+      const snap = ui2.builderHistory.pop();
+      ui2.builder = restoreBuilder(snap);
+      ui2.builderPins = ui2.builder.pins;
+      ui2.builderRoute = null;
+      renderBuilder();
+      return;
+    }
+    ui2.builder = undoPin(activeBuilder());
+    ui2.builderPins = ui2.builder.pins;
+    ui2.builderRoute = null;
+    renderBuilder();
   }
   function maybeShowBuilderExplainer({ force = false } = {}) {
     if (!force && isExplainerSeen()) return;
@@ -48376,14 +50865,113 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   var builderGraphToken = 0;
   function maybeEnsureBuilderGraph(pins) {
     if (!pins || pins.length < 1) return;
+    if (ui2.lockWalkGraph) return;
     const current = getActiveGraph();
     if (current && graphCoversPoints(current, pins)) return;
     const token = ++builderGraphToken;
-    ensureWalkGraph(pins).then((g) => {
+    ui2.findingPaths = true;
+    const note = $4("route-fallback-note");
+    if (note) {
+      note.hidden = false;
+      note.classList.add("finding");
+      note.textContent = "Finding walkable paths\u2026";
+    }
+    ensureWalkGraph(pins, {
+      lockWalkGraph: !!ui2.lockWalkGraph,
+      onStatus: () => {
+      }
+    }).then((g) => {
       if (token !== builderGraphToken) return;
-      if (g !== current && ui2.screen === "builder") renderBuilder();
+      ui2.findingPaths = false;
+      if (ui2.screen === "builder") renderBuilder();
     }).catch(() => {
+      if (token !== builderGraphToken) return;
+      ui2.findingPaths = false;
+      if (ui2.screen === "builder") renderBuilder();
     });
+  }
+  function resetBuilderRoutingFlags() {
+    ui2.straightOverrides = /* @__PURE__ */ new Set();
+    ui2.lockWalkGraph = false;
+    ui2.findingPaths = false;
+    ui2.builderRoute = null;
+    ui2.builderHistory = [];
+  }
+  function useAnyway(key) {
+    if (!key) return;
+    if (!ui2.straightOverrides) ui2.straightOverrides = /* @__PURE__ */ new Set();
+    ui2.straightOverrides.add(key);
+    ui2.builderRoute = null;
+    renderBuilder();
+  }
+  function paintBuilderLine(routed, st) {
+    if (routed && Array.isArray(routed.legs) && routed.legs.length) {
+      routed.legs.forEach((leg, i) => {
+        const pts = leg.points || [];
+        if (pts.length < 2) return;
+        let color = "#4EC3F7";
+        let dash = false;
+        let width = 5;
+        if (leg.mode === "unroutable") {
+          color = "#E24B4A";
+          dash = true;
+          width = 5;
+        } else if (leg.offMap) {
+          color = "#9BB0C4";
+          dash = true;
+          width = 4;
+        }
+        drawRoute(pts, { id: "build-line-" + i, color, width, dash });
+      });
+      return;
+    }
+    const line = routed && routed.path && routed.path.length >= 2 ? routed.path : routeStops(st);
+    if (line.length >= 2) drawRoute(line, { id: "build-line" });
+  }
+  function midPathPoint(points) {
+    if (!points || points.length < 2) return null;
+    const total = pathLengthMeters(points);
+    if (!(total > 0)) return { lat: points[0].lat, lon: points[0].lon };
+    return pointAlongPath(points, total / 2);
+  }
+  function paintBuilderLegLabels(routed) {
+    if (typeof clearLegLabels === "function") clearLegLabels();
+    const legs = routed && routed.legs;
+    if (!legs || !legs.length) return;
+    legs.forEach((leg) => {
+      const mid = midPathPoint(leg.points || []);
+      if (!mid) return;
+      const meters = leg.mode === "unroutable" ? leg.straightMeters || 0 : leg.meters;
+      if (!(meters > 0)) return;
+      addLegLabel(mid, formatDistance(meters, units2()), { muted: leg.mode === "unroutable" });
+    });
+  }
+  function paintBuilderLiveBar(routed, st) {
+    const bar = $4("builder-live-bar");
+    const distEl = $4("builder-live-distance");
+    const etaEl = $4("builder-live-eta");
+    const pins = st && st.pins || [];
+    if (!bar) return;
+    if (pins.length < 2 || !routed) {
+      bar.hidden = true;
+      if (distEl) distEl.textContent = "\u2014";
+      if (etaEl) etaEl.textContent = "";
+      return;
+    }
+    bar.hidden = false;
+    const total = routed.meters || 0;
+    if (distEl) distEl.textContent = formatDistance(total, units2());
+    const walkEta = formatEta(etaSeconds(total, activityMph("walk")));
+    const runEta = formatEta(etaSeconds(total, activityMph("run")));
+    if (etaEl) etaEl.textContent = walkEta + " walk \xB7 " + runEta + " run";
+  }
+  function legFlagText(leg) {
+    if (!ui2.followPaths) return "";
+    if (leg.mode === "unroutable") return " \xB7 no walkable path";
+    if (leg.offMap) return " \xB7 off-map leg";
+    if (leg.reason === "open-area") return "";
+    if (leg.mode === "straight") return " \xB7 straight line";
+    return "";
   }
   function renderBuilder() {
     const st = activeBuilder();
@@ -48396,10 +50984,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const box = $4("builder-legs");
     const note = $4("route-fallback-note");
     const routed = pins.length >= 2 && st.endIndex != null ? builderRoute() : pins.length >= 2 ? builderRoute() : ui2.builderRoute = null;
+    const warnings = $4("route-warnings");
+    if (note) note.classList.remove("finding");
     if (note) {
-      if (routed && routed.usedStraight && ui2.followPaths) {
+      if (ui2.findingPaths && ui2.followPaths) {
         note.hidden = false;
-        note.textContent = "No walkable path was found for one or more legs, so a straight line is used there.";
+        note.classList.add("finding");
+        note.textContent = "Finding walkable paths\u2026";
       } else if (!ui2.followPaths) {
         note.hidden = false;
         note.textContent = "Straight line \u2014 not following roads.";
@@ -48408,19 +50999,60 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         note.textContent = "";
       }
     }
+    if (warnings) {
+      warnings.innerHTML = "";
+      const gaps = ui2.followPaths && routed && routed.legs ? routed.legs.map((leg, i) => ({ leg, i })).filter((row) => row.leg.mode === "unroutable") : [];
+      if (!gaps.length) {
+        warnings.hidden = true;
+      } else {
+        warnings.hidden = false;
+        gaps.forEach(({ leg, i }) => {
+          const card = document.createElement("div");
+          card.className = "leg-warn";
+          card.dataset.testid = "unroutable-leg-" + i;
+          const p = document.createElement("p");
+          p.textContent = `No walkable path between pin ${i + 1} and pin ${i + 2}. Move a pin, or add a pin on a walkable route.`;
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "btn-use-anyway";
+          btn.dataset.testid = "use-anyway-" + i;
+          btn.textContent = "Use anyway";
+          btn.addEventListener("click", () => useAnyway(leg.key));
+          card.appendChild(p);
+          card.appendChild(btn);
+          warnings.appendChild(card);
+        });
+      }
+    }
+    paintBuilderLiveBar(routed, st);
     if (box) {
       box.innerHTML = "";
-      if (pins.length < 2 || st.endIndex == null) {
-        box.innerHTML = `<p class="tiny">${st.endIndex == null && pins.length >= 2 ? "Turn on End point pin, or tap a pin and choose Set as end, to finish the route." : "Leg distances will show here after the second pin."}</p>`;
+      const toggle = $4("btn-legs-toggle");
+      if (pins.length < 2 || !routed || !routed.legs || !routed.legs.length) {
+        if (toggle) toggle.hidden = true;
+        box.classList.remove("is-collapsed");
+        box.innerHTML = `<p class="tiny">Leg distances will show here after the second pin.</p>`;
       } else {
+        if (toggle) {
+          toggle.hidden = false;
+          toggle.setAttribute("aria-expanded", ui2.legsOpen === false ? "false" : "true");
+          const n = routed.legs.length;
+          toggle.textContent = n === 1 ? "1 leg" : n + " legs";
+        }
+        box.classList.toggle("is-collapsed", ui2.legsOpen === false);
         const labels = legLabels(st);
         routed.legs.forEach((leg, i) => {
           const names = labels[i] || { from: `Pin ${i + 1}`, to: `Pin ${i + 2}` };
-          const flag = leg.mode === "straight" && ui2.followPaths ? " \xB7 straight line" : "";
+          const flag = legFlagText(leg);
           const ret = names.returnLeg ? " \xB7 return" : "";
           const row = document.createElement("div");
           row.className = "leg-row";
-          row.innerHTML = `<span>${escapeHtml(names.from)} \u2192 ${escapeHtml(names.to)}${flag}${ret}</span><span>${formatDistance(leg.meters, units2())}</span>`;
+          if (leg.mode === "unroutable") row.classList.add("unroutable");
+          if (leg.offMap) row.classList.add("off-map");
+          if (leg.reason === "open-area") row.classList.add("open-area");
+          const shown = leg.mode === "unroutable" ? leg.straightMeters || 0 : leg.meters;
+          const dist3 = leg.mode === "unroutable" ? formatDistance(shown, units2()) + " (not counted)" : formatDistance(leg.meters, units2());
+          row.innerHTML = `<span>${escapeHtml(names.from)} \u2192 ${escapeHtml(names.to)}<span class="leg-flag">${flag}</span>${ret}</span><span>${dist3}</span>`;
           box.appendChild(row);
         });
         const total = routed.meters;
@@ -48436,15 +51068,23 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         distNote.dataset.testid = "builder-distance-note";
         distNote.textContent = state2.settings.countHills ? HILLS_DISCLAIMER : FLAT_DISCLAIMER;
         box.appendChild(distNote);
+        if (st.endIndex == null) {
+          const needEnd = document.createElement("p");
+          needEnd.className = "tiny";
+          needEnd.dataset.testid = "builder-need-end";
+          needEnd.textContent = "Turn on End point pin, or tap a pin and choose Set as end, to finish the route.";
+          box.appendChild(needEnd);
+        }
       }
     }
     if ($4("btn-save-course")) $4("btn-save-course").disabled = !canSave(st);
     clearOverlays();
     clearMarkers();
-    const line = routed && routed.path && routed.path.length >= 2 ? routed.path : routeStops(st);
-    if (line.length >= 2) drawRoute(line, { id: "build-line" });
+    paintBuilderLine(routed, st);
+    paintBuilderLegLabels(routed);
     addCoursePins(pins, { builderState: st, clickable: true });
-    refreshBuilderElevation(line);
+    const line = routed && routed.path && routed.path.length >= 2 ? routed.path : routeStops(st);
+    refreshBuilderElevation(line, { countedMeters: routed ? routed.meters : void 0 });
   }
   function renderCourses() {
     const root = $4("courses-list");
@@ -48602,47 +51242,20 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const locale = typeof navigator !== "undefined" && navigator.language || "en-US";
     const parts = [];
     if (!items.length) {
-      parts.push(`<p class="tiny" data-testid="goals-empty">No goals yet. Add a weekly or monthly target below \u2014 free, with a ring for this period and a chart on Progress.</p>`);
+      parts.push(`<p class="tiny" data-testid="goals-empty">No goals yet. Tap New goal above \u2014 it is free, with a ring here and a chart on Progress.</p>`);
     }
     for (const g of items) {
       const period = goalPeriod(g);
-      const title = g.name || (period ? `${period === "week" ? "Weekly" : "Monthly"} ${periodGoalTitle(g)}` : g.kind || "Goal");
+      const title = g.name || defaultGoalName(g);
       parts.push(`<div class="goal-card" data-testid="goal-card" data-goal-id="${escapeHtml(g.id)}">`);
       parts.push(`<h3>${escapeHtml(title)}</h3>`);
-      if (period) {
-        const prog = periodGoalProgress(g, acts, { locale, units: units2() });
-        if (prog) parts.push(periodRingMarkup(prog, { testid: "period-ring" }));
-      }
+      const prog = period ? periodGoalProgress(g, acts, { locale, units: units2() }) : oneShotGoalProgress(g, acts, { units: units2() });
+      if (prog) parts.push(periodRingMarkup(prog, { testid: period ? "period-ring" : "goal-ring" }));
       parts.push(`<p class="tiny">Always free. Your progress stays on this phone.</p>`);
       parts.push(`<button class="btn btn-secondary btn-goal-remove" data-id="${escapeHtml(g.id)}" style="width:100%;margin-top:8px">Remove</button>`);
       parts.push(`</div>`);
     }
-    parts.push(`<div class="card" data-testid="add-goal-card" style="margin-top:12px">
-    <h3>Add a free goal</h3>
-    <div class="field"><label for="goal-new-kind">Type</label>
-      <select id="goal-new-kind">
-        <option value="week-distance">Weekly distance</option>
-        <option value="month-distance">Monthly distance</option>
-        <option value="week-count">Weekly run count</option>
-        <option value="month-count">Monthly run count</option>
-        <option value="week-time">Weekly time</option>
-        <option value="month-time">Monthly time</option>
-        <option value="distance">Distance per run</option>
-      </select>
-    </div>
-    <div class="field"><label for="goal-new-value">Target</label>
-      <input id="goal-new-value" data-testid="goal-new-value" type="number" min="0.1" step="0.1" value="10" inputmode="decimal" />
-      <p class="tiny" id="goal-new-unit-hint">Miles (or km if that is your unit). Count goals use a number of runs. Time goals use minutes.</p>
-    </div>
-    <button class="btn btn-primary" id="btn-goal-add" data-testid="goal-add" style="width:100%">Add goal</button>
-  </div>`);
     root.innerHTML = parts.join("");
-    const addBtn = $4("btn-goal-add");
-    if (addBtn && !addBtn._bound) {
-      addBtn._bound = true;
-    }
-    const add = $4("btn-goal-add");
-    if (add) add.addEventListener("click", addGoalFromForm);
     root.querySelectorAll(".btn-goal-remove").forEach((b2) => {
       b2.addEventListener("click", () => {
         const id = b2.getAttribute("data-id");
@@ -48658,21 +51271,144 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (k.includes("time")) return "time";
     return "distance";
   }
+  function defaultGoalName(g) {
+    const period = goalPeriod(g);
+    if (period) return `${period === "week" ? "Weekly" : "Monthly"} ${periodGoalTitle(g)}`;
+    if (g.kind === "route-time") {
+      const c = (state2.courses || []).find((x2) => x2.id === g.courseId);
+      const time = g.finishSec ? formatDuration(g.finishSec) : "";
+      return (c && c.name ? c.name : "Route") + (time ? " in " + time : "");
+    }
+    if (g.kind === "time-distance" || g.distanceMeters > 0 && g.finishSec > 0) {
+      return formatDistance(g.distanceMeters, units2()) + " in " + formatDuration(g.finishSec);
+    }
+    if (g.kind === "distance" && g.distanceMeters > 0) return formatDistance(g.distanceMeters, units2());
+    return g.kind || "Goal";
+  }
+  function paintGoalTypeFields() {
+    const kind = $4("goal-new-kind") && $4("goal-new-kind").value || "time-distance";
+    const showDistance = kind === "time-distance" || kind === "distance" || kind.endsWith("-distance");
+    const showTime = kind === "time-distance" || kind === "route-time";
+    const showCount = kind.endsWith("-count");
+    const showCourse = kind === "route-time";
+    if ($4("goal-field-distance")) $4("goal-field-distance").hidden = !showDistance;
+    if ($4("goal-field-time")) $4("goal-field-time").hidden = !showTime;
+    if ($4("goal-field-count")) $4("goal-field-count").hidden = !showCount;
+    if ($4("goal-field-course")) $4("goal-field-course").hidden = !showCourse;
+    const distLabel = $4("goal-new-distance-label");
+    if (distLabel) {
+      distLabel.textContent = units2() === "km" ? "Distance (km)" : "Distance (mi)";
+    }
+    const timeLabel = $4("goal-new-time-label");
+    if (timeLabel) timeLabel.textContent = "Time";
+    fillGoalCourseSelect();
+  }
+  function fillGoalCourseSelect() {
+    const sel = $4("goal-new-course");
+    const empty = $4("goal-new-course-empty");
+    if (!sel) return;
+    const courses = state2.courses || [];
+    const prev = sel.value;
+    sel.innerHTML = "";
+    if (!courses.length) {
+      const o = document.createElement("option");
+      o.value = "";
+      o.textContent = "No saved routes";
+      sel.appendChild(o);
+      sel.disabled = true;
+      if (empty) empty.hidden = false;
+      return;
+    }
+    sel.disabled = false;
+    if (empty) empty.hidden = true;
+    courses.forEach((c) => {
+      const o = document.createElement("option");
+      o.value = c.id;
+      o.textContent = c.name || "Course";
+      sel.appendChild(o);
+    });
+    if (prev && courses.some((c) => c.id === prev)) sel.value = prev;
+  }
+  function openNewGoalSheet() {
+    showScreen("goals");
+    renderGoalsScreen();
+    if ($4("goal-new-kind")) $4("goal-new-kind").value = "time-distance";
+    if ($4("goal-new-distance")) $4("goal-new-distance").value = units2() === "km" ? "5" : "3";
+    if ($4("goal-new-time")) $4("goal-new-time").value = "18:00";
+    if ($4("goal-new-count")) $4("goal-new-count").value = "3";
+    const err2 = $4("goal-new-error");
+    if (err2) {
+      err2.hidden = true;
+      err2.textContent = "";
+    }
+    paintGoalTypeFields();
+    openSheet("sheet-new-goal");
+  }
+  function showGoalFormError(msg) {
+    const err2 = $4("goal-new-error");
+    if (!err2) return;
+    err2.hidden = !msg;
+    err2.textContent = msg || "";
+  }
   function addGoalFromForm() {
-    const kind = $4("goal-new-kind") && $4("goal-new-kind").value || "week-distance";
-    const raw = Number($4("goal-new-value") && $4("goal-new-value").value || 0);
-    if (!(raw > 0)) return;
+    showGoalFormError("");
+    const kind = $4("goal-new-kind") && $4("goal-new-kind").value || "time-distance";
+    if (kind === "week-time" || kind === "month-time") {
+      showGoalFormError("A time goal is a target time for a set distance, tracked run over run. Weekly or monthly time totals are not used.");
+      return;
+    }
     const period = kind.startsWith("week") ? "week" : kind.startsWith("month") ? "month" : null;
     const g = newGoal({ kind, period, paid: false });
-    if (kind.includes("count")) g.targetCount = Math.round(raw);
-    else if (kind.includes("time")) g.finishSec = Math.round(raw * 60);
-    else {
-      g.distanceMeters = units2() === "km" ? raw * 1e3 : raw * METERS_PER_MILE;
+    if (kind === "route-time") {
+      const courseId = $4("goal-new-course") && $4("goal-new-course").value;
+      const course = (state2.courses || []).find((c) => c.id === courseId);
+      if (!course) {
+        showGoalFormError("Save a course first, then you can set a goal time on it.");
+        return;
+      }
+      const dur = parseDurationInput($4("goal-new-time") && $4("goal-new-time").value);
+      if (!dur.ok) {
+        showGoalFormError(dur.reason || "Enter a time.");
+        return;
+      }
+      g.courseId = course.id;
+      g.finishSec = dur.seconds;
+      g.name = defaultGoalName(g);
+    } else if (kind === "time-distance") {
+      const dist3 = parseDistanceInput($4("goal-new-distance") && $4("goal-new-distance").value, units2());
+      if (!dist3.ok) {
+        showGoalFormError(dist3.reason || "Enter a distance.");
+        return;
+      }
+      const dur = parseDurationInput($4("goal-new-time") && $4("goal-new-time").value);
+      if (!dur.ok) {
+        showGoalFormError(dur.reason || "Enter a time.");
+        return;
+      }
+      g.distanceMeters = dist3.meters;
+      g.finishSec = dur.seconds;
+      g.name = defaultGoalName(g);
+    } else if (kind.endsWith("-count")) {
+      const raw = Number($4("goal-new-count") && $4("goal-new-count").value);
+      if (!(raw > 0)) {
+        showGoalFormError("Enter how many walks or runs.");
+        return;
+      }
+      g.targetCount = Math.round(raw);
+      g.name = defaultGoalName(g);
+    } else {
+      const dist3 = parseDistanceInput($4("goal-new-distance") && $4("goal-new-distance").value, units2());
+      if (!dist3.ok) {
+        showGoalFormError(dist3.reason || "Enter a distance.");
+        return;
+      }
+      g.distanceMeters = dist3.meters;
+      g.name = defaultGoalName(g);
     }
-    if (kind === "week-distance") g.name = period === "week" ? "Weekly distance" : g.name;
     state2.goals = state2.goals || [];
     state2.goals.push(g);
     persist();
+    closeSheet("sheet-new-goal");
     renderGoalsScreen();
   }
   function renderProgress() {
@@ -49137,7 +51873,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     setTab("today");
   }
   var builderElevToken = 0;
-  async function refreshBuilderElevation(path) {
+  async function refreshBuilderElevation(path, { countedMeters } = {}) {
     const el = $4("builder-elevation");
     if (!el) return;
     if (!path || path.length < 2) {
@@ -49163,11 +51899,16 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     ) : null;
     const tot = $4("builder-total") || document.querySelector("[data-testid='builder-total']");
     if (tot && gl.gainM > 0) {
-      const flat = pathLengthMeters(path);
+      const flat = countedMeters != null ? countedMeters : pathLengthMeters(path);
+      if (!(flat > 0)) return paintElevationBox(el, gl, { units: units2(), credit: true });
       const shown = displayDistance(pts, flat, { countHills: !!state2.settings.countHills });
       const walkEta = formatEta(naismithSeconds(flat, gl.gainM, activityMph("walk")));
       const runEta = formatEta(naismithSeconds(flat, gl.gainM, activityMph("run")));
       tot.innerHTML = `<span>Total</span><span>${formatDistance(shown.meters, units2())} \xB7 ${formatGain(gl.gainM, units2())} climb \xB7 ${walkEta} walk \xB7 ${runEta} run</span>`;
+      const distEl = $4("builder-live-distance");
+      const etaEl = $4("builder-live-eta");
+      if (distEl) distEl.textContent = formatDistance(shown.meters, units2());
+      if (etaEl) etaEl.textContent = walkEta + " walk \xB7 " + runEta + " run";
     }
     paintElevationBox(el, gl, { units: units2(), credit: true });
   }
@@ -49266,8 +52007,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       note.textContent = "Health sync is off. Turn it on in Settings to write workouts and show steps and calories from your health app.";
       healthBox.appendChild(note);
     }
+    const hasSectorTable = !!(sectorRoot && sectorRoot.querySelector("[data-testid='sector-table']"));
     const splitBox = $4("summary-splits");
     splitBox.innerHTML = "";
+    splitBox.hidden = false;
     if (course && legResult && legResult.legs.length) {
       const status = document.createElement("p");
       status.className = "tiny";
@@ -49307,6 +52050,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       foot.style.marginTop = "12px";
       foot.textContent = "Course splits and leg bests are free. Faster weekly split targets belong to optional custom plans.";
       splitBox.appendChild(foot);
+    } else if (hasSectorTable) {
+      splitBox.hidden = true;
     } else if (course) {
       const note = document.createElement("p");
       note.className = "tiny";
@@ -49322,20 +52067,19 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     showScreen("summary");
   }
   function beginBuilder() {
+    resetBuilderRoutingFlags();
     ui2.builder = emptyBuilderState();
     ui2.builderPins = ui2.builder.pins;
-    ui2.builderRoute = null;
     setTab("today");
     showScreen("builder");
     clearOverlays();
     clearMarkers();
+    startBuilderLocation({ center: true });
     renderBuilder();
     maybeShowBuilderExplainer();
     if (ui2.offBuildClick) ui2.offBuildClick();
     ui2.offBuildClick = onMapClick((pt) => {
-      ui2.builder = placePin(activeBuilder(), pt);
-      ui2.builderPins = ui2.builder.pins;
-      renderBuilder();
+      applyBuilderChange((st) => placePin(st, pt));
     });
   }
   function cancelBuilder() {
@@ -49343,9 +52087,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       ui2.offBuildClick();
       ui2.offBuildClick = null;
     }
+    resetBuilderRoutingFlags();
     ui2.builder = emptyBuilderState();
     ui2.builderPins = ui2.builder.pins;
-    ui2.builderRoute = null;
     clearOverlays();
     clearMarkers();
     showScreen("today");
@@ -49488,11 +52232,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     $4("btn-build-course").addEventListener("click", beginBuilder);
     $4("btn-saved-courses").addEventListener("click", () => setTab("courses"));
     $4("btn-new-course").addEventListener("click", beginBuilder);
-    $4("btn-undo-pin").addEventListener("click", () => {
-      ui2.builder = undoPin(activeBuilder());
-      ui2.builderPins = ui2.builder.pins;
-      ui2.builderRoute = null;
-      renderBuilder();
+    $4("btn-undo-pin").addEventListener("click", () => undoLastBuilderAction());
+    if ($4("btn-legs-toggle")) $4("btn-legs-toggle").addEventListener("click", () => {
+      ui2.legsOpen = ui2.legsOpen === false;
+      const box = $4("builder-legs");
+      const toggle = $4("btn-legs-toggle");
+      if (box) box.classList.toggle("is-collapsed", ui2.legsOpen === false);
+      if (toggle) toggle.setAttribute("aria-expanded", ui2.legsOpen === false ? "false" : "true");
     });
     $4("btn-cancel-build").addEventListener("click", cancelBuilder);
     $4("btn-save-course").addEventListener("click", saveBuilder);
@@ -49511,7 +52257,18 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         pins: savedPins(st),
         path: routed && routed.path && routed.path.length >= 2 ? routed.path.slice() : null,
         straightLine: !ui2.followPaths,
-        usedStraight: !!(routed && routed.usedStraight)
+        usedStraight: !!(routed && routed.usedStraight),
+        offMap: !!(routed && routed.offMap),
+        legs: (routed && routed.legs || []).map((l) => ({
+          meters: l.meters,
+          straightMeters: l.straightMeters,
+          mode: l.mode,
+          reason: l.reason || null,
+          offMap: !!l.offMap,
+          points: l.points,
+          key: l.key
+        })),
+        straightOverrides: [...ui2.straightOverrides || []]
       });
       state2.courses.push(c);
       persist();
@@ -49766,9 +52523,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       renderPlansScreen();
     });
     if ($4("btn-end-point-pin")) $4("btn-end-point-pin").addEventListener("click", () => {
-      ui2.builder = toggleEndMode(activeBuilder());
+      applyBuilderChange((st) => toggleEndMode(st));
       paintEndPointButton();
-      renderBuilder();
     });
     if ($4("btn-builder-help")) $4("btn-builder-help").addEventListener("click", () => maybeShowBuilderExplainer({ force: true }));
     if ($4("btn-builder-help-gotit")) $4("btn-builder-help-gotit").addEventListener("click", () => {
@@ -49778,18 +52534,26 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if ($4("btn-pin-add-stop")) $4("btn-pin-add-stop").addEventListener("click", () => {
       const i = ui2.pinActionIndex;
       closeSheet("sheet-pin-action");
+      closeSheet("sheet-new-goal");
       if (i == null) return;
-      ui2.builder = addNextStop(activeBuilder(), i);
-      ui2.builderPins = ui2.builder.pins;
-      renderBuilder();
+      applyBuilderChange((st) => addNextStop(st, i));
     });
     if ($4("btn-pin-set-end")) $4("btn-pin-set-end").addEventListener("click", () => {
       const i = ui2.pinActionIndex;
       closeSheet("sheet-pin-action");
+      closeSheet("sheet-new-goal");
       if (i == null) return;
-      ui2.builder = setEndIndex(activeBuilder(), i);
-      ui2.builderPins = ui2.builder.pins;
-      renderBuilder();
+      applyBuilderChange((st) => setEndIndex(st, i));
+    });
+    if ($4("btn-pin-delete")) $4("btn-pin-delete").addEventListener("click", () => {
+      const i = ui2.pinActionIndex;
+      if (i == null) return;
+      applyPinDelete(i);
+    });
+    if ($4("btn-pin-remove-end")) $4("btn-pin-remove-end").addEventListener("click", () => {
+      closeSheet("sheet-pin-action");
+      closeSheet("sheet-new-goal");
+      applyBuilderChange((st) => removeEnd(st));
     });
     if ($4("btn-pin-action-cancel")) $4("btn-pin-action-cancel").addEventListener("click", () => closeSheet("sheet-pin-action"));
     if ($4("btn-course-goal-save")) $4("btn-course-goal-save").addEventListener("click", () => saveCourseGoal());
@@ -49821,6 +52585,16 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if ($4("btn-locate-me")) {
       $4("btn-locate-me").addEventListener("click", () => locateUser({ animate: true }));
     }
+    if ($4("btn-map-style")) {
+      $4("btn-map-style").addEventListener("click", () => toggleMapStyle());
+    }
+    const openNewGoal = () => openNewGoalSheet();
+    if ($4("btn-new-goal")) $4("btn-new-goal").addEventListener("click", openNewGoal);
+    if ($4("btn-today-new-goal")) $4("btn-today-new-goal").addEventListener("click", openNewGoal);
+    if ($4("btn-settings-new-goal")) $4("btn-settings-new-goal").addEventListener("click", openNewGoal);
+    if ($4("goal-new-kind")) $4("goal-new-kind").addEventListener("change", () => paintGoalTypeFields());
+    if ($4("btn-goal-save")) $4("btn-goal-save").addEventListener("click", addGoalFromForm);
+    if ($4("btn-goal-cancel")) $4("btn-goal-cancel").addEventListener("click", () => closeSheet("sheet-new-goal"));
     bindPlaceSearch($4("place-search"), $4("place-search-results"));
     bindPlaceSearch($4("map-choice-search"), $4("map-choice-search-results"));
     if ($4("btn-map-download-local")) {
@@ -49859,6 +52633,72 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         }
         refresh();
       });
+    }
+  }
+  function isOnline() {
+    return typeof navigator === "undefined" || navigator.onLine !== false;
+  }
+  function paintMapStyleButton() {
+    const sat = (state2.settings.mapStyle || "map") === "satellite";
+    const btn = $4("btn-map-style");
+    if (btn) {
+      btn.setAttribute("aria-pressed", sat ? "true" : "false");
+      btn.textContent = sat ? "Satellite" : "Map";
+      btn.title = sat ? "Switch to map" : "Switch to satellite";
+      btn.setAttribute("aria-label", sat ? "Satellite view, switch to map" : "Map view, switch to satellite");
+    }
+    const note = $4("map-style-note");
+    if (note) {
+      if (sat && !isOnline()) {
+        note.hidden = false;
+        note.textContent = "Satellite needs signal.";
+      } else if (sat) {
+        note.hidden = false;
+        note.textContent = "EOX Cloudless 2016 by EOX (modified Copernicus Sentinel data 2016)";
+      } else {
+        note.hidden = true;
+      }
+    }
+  }
+  function applySavedMapStyle() {
+    const style = state2.settings.mapStyle === "satellite" ? "satellite" : "map";
+    if (typeof setMapStyle === "function") setMapStyle(style, { online: isOnline() });
+    paintMapStyleButton();
+  }
+  function toggleMapStyle() {
+    const next = (state2.settings.mapStyle || "map") === "satellite" ? "map" : "satellite";
+    state2.settings.mapStyle = next;
+    persist();
+    if (typeof setMapStyle === "function") setMapStyle(next, { online: isOnline() });
+    paintMapStyleButton();
+  }
+  function onLiveFix(fix) {
+    const saved = rememberLocation(fix);
+    const point = saved || fix;
+    if (point) setUserDot(point);
+  }
+  function maybeStartLiveLocation() {
+    const known = normalizeFix(state2.settings.lastKnown);
+    if (known) setUserDot(known);
+    const allowed = !!state2.settings.locationDisclosureAccepted || !!known;
+    if (!allowed) return;
+    if (locationWatchActive()) return;
+    startLocationWatch({
+      onFix: onLiveFix,
+      onError: () => {
+      }
+    }).catch(() => {
+    });
+  }
+  function startBuilderLocation({ center = false } = {}) {
+    maybeStartLiveLocation();
+    const known = normalizeFix(state2.settings.lastKnown);
+    if (!known) return;
+    setUserDot(known);
+    const st = ui2.builder;
+    const empty = !st || !st.pins || !st.pins.length;
+    if (center && empty) {
+      setCenter(known.lat, known.lon, STREET_ZOOM);
     }
   }
   function applyLaunchView(point, { animate = false } = {}) {
@@ -50599,6 +53439,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       closeSheet("sheet-group-invite");
       closeSheet("sheet-builder-help");
       closeSheet("sheet-pin-action");
+      closeSheet("sheet-new-goal");
       if (name !== "builder-help") {
         try {
           markExplainerSeen();
@@ -50906,6 +53747,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         await window.HeldpathTest.show("builder", opt);
         maybeShowBuilderExplainer({ force: true });
       } else if (name === "builder-loop" || name === "builder-mile-loop") {
+        state2.settings.mapStyle = "map";
+        persist();
+        applySavedMapStyle();
         const center = { lat: 43.7672, lon: 11.2543 };
         await ensureWalkGraph(center);
         ui2.followPaths = true;
@@ -50921,16 +53765,183 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
           ui2.builder = setEndIndex(ui2.builder, 0);
         }
         ui2.builderPins = ui2.builder.pins;
-        showScreen("builder");
+        state2.settings.lastKnown = { lat: 43.7672, lon: 11.2543, accuracy: 18, heading: 80, at: Date.now() };
+        persist();
         setTab("today");
         showScreen("builder");
         renderBuilder();
         const fit = ui2.builderRoute && ui2.builderRoute.path || routeStops(ui2.builder);
-        const pad = { top: 56, bottom: 520, left: 56, right: 56 };
-        whenReady(() => {
-          renderBuilder();
-          if (fit && fit.length) fitBounds(fit, pad);
-        });
+        await waitMapReady();
+        fitBuilderCourse(fit, { maxZoom: 16 });
+        await new Promise((r) => setTimeout(r, 400));
+        fitBuilderCourse(fit, { maxZoom: 16 });
+        await new Promise((r) => setTimeout(r, 300));
+      } else if (name === "builder-unroutable" || name === "builder-warning") {
+        await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
+        ui2.followPaths = true;
+        ui2.straightOverrides = /* @__PURE__ */ new Set();
+        ui2.lockWalkGraph = true;
+        ui2.findingPaths = false;
+        ui2.builder = ingestPins([
+          { lat: 43.76797, lon: 11.25316, role: "start" },
+          { lat: 43.72923, lon: 11.25549, role: "end" }
+        ]);
+        ui2.builderPins = ui2.builder.pins;
+        ui2.builderRoute = null;
+        setTab("today");
+        showScreen("builder");
+        renderBuilder();
+        const warnFit = routeStops(ui2.builder);
+        renderBuilder();
+        await new Promise((r) => setTimeout(r, 300));
+        fitBuilderCourse(warnFit, { maxZoom: 14 });
+        await new Promise((r) => setTimeout(r, 200));
+      } else if (name === "builder-soccer") {
+        await ensureWalkGraph({ lat: 43.779187, lon: 11.284345 });
+        ui2.followPaths = true;
+        ui2.straightOverrides = /* @__PURE__ */ new Set();
+        ui2.lockWalkGraph = true;
+        ui2.findingPaths = false;
+        const soccerPins = [
+          { lat: 43.77953723301052, lon: 11.284208670258522, role: "start" },
+          { lat: 43.77927434215589, lon: 11.284751817584038, role: "via" },
+          { lat: 43.778747104151606, lon: 11.284957006573677, role: "via" },
+          { lat: 43.778716602803165, lon: 11.284140273928642, role: "via" },
+          { lat: 43.77927579422743, lon: 11.283868700265884, role: "via" },
+          { lat: 43.77953723301052, lon: 11.284208670258522, role: "end" }
+        ];
+        ui2.builder = ingestPins(soccerPins);
+        ui2.builder = setEndIndex(ui2.builder, 0);
+        ui2.builderPins = ui2.builder.pins;
+        ui2.builderRoute = null;
+        setTab("today");
+        showScreen("builder");
+        renderBuilder();
+        const soccerFit = routeStops(ui2.builder);
+        renderBuilder();
+        await new Promise((r) => setTimeout(r, 300));
+        fitBuilderCourse(soccerFit, { maxZoom: 18 });
+        await new Promise((r) => setTimeout(r, 200));
+      } else if (name === "builder-live" || name === "builder-mid") {
+        await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
+        ui2.followPaths = true;
+        ui2.straightOverrides = /* @__PURE__ */ new Set();
+        ui2.lockWalkGraph = true;
+        ui2.findingPaths = false;
+        ui2.legsOpen = true;
+        ui2.builder = emptyBuilderState();
+        placePin(ui2.builder, { lat: 43.76797, lon: 11.25316 });
+        placePin(ui2.builder, { lat: 43.76956, lon: 11.25586 });
+        placePin(ui2.builder, { lat: 43.77313, lon: 11.25596 });
+        ui2.builderPins = ui2.builder.pins;
+        ui2.builderRoute = null;
+        setTab("today");
+        showScreen("builder");
+        renderBuilder();
+        const liveFit = ui2.builderRoute && ui2.builderRoute.path || routeStops(ui2.builder);
+        renderBuilder();
+        await waitMapReady();
+        fitBuilderCourse(liveFit, { maxZoom: 16 });
+        await new Promise((r) => setTimeout(r, 400));
+        fitBuilderCourse(liveFit, { maxZoom: 16 });
+        await new Promise((r) => setTimeout(r, 300));
+      } else if (name === "builder-pin-menu") {
+        await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
+        ui2.followPaths = true;
+        ui2.lockWalkGraph = true;
+        ui2.findingPaths = false;
+        ui2.builder = emptyBuilderState();
+        placePin(ui2.builder, { lat: 43.76797, lon: 11.25316 });
+        placePin(ui2.builder, { lat: 43.76956, lon: 11.25586 });
+        placePin(ui2.builder, { lat: 43.77313, lon: 11.25596 });
+        ui2.builderPins = ui2.builder.pins;
+        ui2.builderRoute = null;
+        setTab("today");
+        showScreen("builder");
+        renderBuilder();
+        const menuFit = ui2.builderRoute && ui2.builderRoute.path || routeStops(ui2.builder);
+        await waitMapReady();
+        fitBuilderCourse(menuFit, { maxZoom: 16 });
+        await new Promise((r) => setTimeout(r, 300));
+        fitBuilderCourse(menuFit, { maxZoom: 16 });
+        openPinAction(1);
+        await new Promise((r) => setTimeout(r, 200));
+      } else if (name === "goal-type-dropdown") {
+        state2.goals = [];
+        persist();
+        showScreen("goals");
+        renderGoalsScreen();
+        openNewGoalSheet();
+        const sel = $4("goal-new-kind");
+        if (sel) {
+          sel.size = Math.max(2, sel.options.length);
+          sel.style.height = "auto";
+          sel.focus();
+        }
+      } else if (name === "new-goal" || name === "goals-new") {
+        state2.goals = [];
+        persist();
+        showScreen("goals");
+        renderGoalsScreen();
+        openNewGoalSheet();
+        if ($4("goal-new-kind")) $4("goal-new-kind").value = "time-distance";
+        if ($4("goal-new-distance")) $4("goal-new-distance").value = "3";
+        if ($4("goal-new-time")) $4("goal-new-time").value = "18:00";
+        paintGoalTypeFields();
+      } else if (name === "goal-created") {
+        state2.goals = [
+          newGoal({
+            name: "3.000 mi in 18:00",
+            kind: "time-distance",
+            distanceMeters: 3 * METERS_PER_MILE,
+            finishSec: 18 * 60,
+            paid: false
+          })
+        ];
+        persist();
+        showScreen("goals");
+        renderGoalsScreen();
+      } else if (name === "builder-locate") {
+        const fix = { lat: 43.76956, lon: 11.25586, accuracy: 22, heading: 35, at: Date.now() };
+        state2.settings.lastKnown = fix;
+        state2.settings.locationDisclosureAccepted = true;
+        persist();
+        ui2.followPaths = true;
+        ui2.lockWalkGraph = true;
+        ui2.builder = emptyBuilderState();
+        ui2.builderPins = ui2.builder.pins;
+        ui2.builderRoute = null;
+        setTab("today");
+        showScreen("builder");
+        setUserDot(fix);
+        setCenter(fix.lat, fix.lon, 16);
+        startBuilderLocation({ center: true });
+        renderBuilder();
+        await new Promise((r) => setTimeout(r, 400));
+      } else if (name === "builder-satellite" || name === "map-satellite") {
+        await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
+        state2.settings.mapStyle = "satellite";
+        persist();
+        applySavedMapStyle();
+        ui2.followPaths = true;
+        ui2.lockWalkGraph = true;
+        ui2.findingPaths = false;
+        ui2.builder = emptyBuilderState();
+        placePin(ui2.builder, { lat: 43.76797, lon: 11.25316 });
+        placePin(ui2.builder, { lat: 43.76956, lon: 11.25586 });
+        placePin(ui2.builder, { lat: 43.77313, lon: 11.25596 });
+        ui2.builder = setEndIndex(ui2.builder, 0);
+        ui2.builderPins = ui2.builder.pins;
+        ui2.builderRoute = null;
+        setTab("today");
+        showScreen("builder");
+        renderBuilder();
+        const satFit = ui2.builderRoute && ui2.builderRoute.path || routeStops(ui2.builder);
+        await waitMapReady();
+        fitBuilderCourse(satFit, { maxZoom: 16 });
+        await new Promise((r) => setTimeout(r, 800));
+        fitBuilderCourse(satFit, { maxZoom: 16 });
+        await new Promise((r) => setTimeout(r, 400));
       } else if (name === "goals") {
         const now = /* @__PURE__ */ new Date("2026-11-18T18:00:00");
         state2.goals = [
@@ -50940,8 +53951,20 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         persist();
         showScreen("goals");
         renderGoalsScreen();
-      } else if (name === "plans" || name === "plans-water") {
+      } else if (name === "plans" || name === "plans-water" || name === "plans-teaser") {
+        if (name === "plans-teaser") state2.planLibrary = [];
         showScreen("plans");
+        if (name === "plans-teaser") {
+          const days = $4("plan-days");
+          if (days) days.value = "56";
+          const runBtn = document.querySelector("#plan-type-tog button[data-type='run']");
+          if (runBtn) runBtn.click();
+          const dist3 = $4("plan-distance");
+          if (dist3) {
+            dist3.value = "10";
+            dist3.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+        }
         renderPlansScreen();
         if (name === "plans-water") {
           setTimeout(() => {
@@ -50973,49 +53996,45 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         }
         setTab("progress");
       } else if (name === "summary-sectors") {
-        const course = state2.courses[0] || newCourse({ name: "Park loop", pins: arnoLoopPins() });
-        if (!state2.courses.length) state2.courses.push(course);
-        course.goal = goalFromFinishTime(30 * 60, course) || { finishSec: 30 * 60 };
-        const pins = course.pins;
-        const trackPts = [];
-        const totalM = courseMeters(course) || 1609;
-        const startMs = Date.parse("2026-11-18T09:00:00.000Z");
-        for (let i = 0; i < pins.length; i++) {
-          const frac = i / Math.max(1, pins.length - 1);
-          const elapsed = Math.round(frac * 28 * 60);
-          trackPts.push({
-            lat: pins[i].lat,
-            lon: pins[i].lon,
-            t: elapsed,
-            at: new Date(startMs + elapsed * 1e3).toISOString()
-          });
-        }
+        const fixture = makeSectorFixture();
+        const course = fixture.course;
+        state2.courses = [course, ...(state2.courses || []).filter((c) => c.id !== course.id)];
+        persist();
         const act = newActivity({
           type: "run",
           courseId: course.id,
           courseName: course.name,
           startedAt: "2026-11-18T09:00:00.000Z",
-          endedAt: "2026-11-18T09:28:00.000Z",
-          distanceMeters: totalM,
-          elapsedSec: 28 * 60,
-          track: trackPts
+          endedAt: "2026-11-18T09:29:22.300Z",
+          distanceMeters: fixture.meters,
+          elapsedSec: fixture.totalSec,
+          track: fixture.track
         });
         showSummary(act, course, null);
       } else if (name === "tracking-sectors") {
-        const course = state2.courses[0] || newCourse({ name: "Park loop", pins: arnoLoopPins() });
-        if (!state2.courses.length) state2.courses.push(course);
-        course.goal = goalFromFinishTime(30 * 60, course) || { finishSec: 30 * 60 };
+        const fixture = makeSectorFixture();
+        const course = fixture.course;
         course.sectorCallout = false;
+        state2.courses = [course, ...(state2.courses || []).filter((c) => c.id !== course.id)];
         persist();
         const made = await window.HeldpathTest.show("tracking", opt);
-        const flash = $4("sector-flash");
-        if (flash) {
-          flash.hidden = false;
-          flash.classList.remove("green", "red", "purple");
-          flash.classList.add("green");
-          if ($4("sector-flash-main")) $4("sector-flash-main").textContent = "S1  \u22120:04.2";
-          if ($4("sector-flash-cum")) $4("sector-flash-cum").textContent = "Total \u22120:04.2";
+        const sess = getSession && getSession();
+        if (sess) {
+          const sector1 = fixture.track.filter((p) => p.t <= fixture.sectorSeconds[0] + 0.05);
+          sess.courseId = course.id;
+          sess.courseName = course.name;
+          sess.coursePins = course.pins;
+          sess.coursePath = course.path || course.pins;
+          sess.courseGoal = course.goal;
+          sess.sectorPbs = course.sectorPbs;
+          sess.sectorHistory = course.sectorHistory;
+          sess.track = sector1;
+          sess.distanceMeters = fixture.sectorMeters[0];
+          sess.elapsedSec = fixture.sectorSeconds[0];
         }
+        ui2.sectorTraveled = 0;
+        ui2.sectorFlashSticky = false;
+        paintSectorFlash(getSession() || made || sess);
       } else if (name === "target-setup") {
         const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
         if (!state2.courses.length) state2.courses.push(course);
@@ -51445,10 +54464,16 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     const graphReady = ensureWalkGraph();
     const launchView = viewForLaunch({ lastKnown: state2.settings.lastKnown });
-    await initMap($4("map"), { center: launchView, zoom: launchView.zoom });
+    await initMap($4("map"), {
+      center: launchView,
+      zoom: launchView.zoom,
+      mapStyle: state2.settings.mapStyle === "satellite" ? "satellite" : "map"
+    });
     await graphReady;
     whenReady(() => {
       applyLaunchView(null, { animate: false });
+      applySavedMapStyle();
+      maybeStartLiveLocation();
     });
     const screen = params.get("screen");
     if (screen) {

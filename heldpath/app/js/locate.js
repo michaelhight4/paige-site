@@ -18,6 +18,8 @@ export function normalizeFix(point, now = Date.now()) {
     at: point.at != null ? Number(point.at) : now,
   };
   if (Number.isFinite(Number(point.accuracy))) fix.accuracy = Number(point.accuracy);
+  const heading = Number(point.heading);
+  if (Number.isFinite(heading)) fix.heading = heading;
   return fix;
 }
 
@@ -51,12 +53,14 @@ export function defaultMapDataMode(settings = {}) {
 
 function coordsFromBrowser(pos, now = Date.now()) {
   if (!pos || !pos.coords) return null;
-  return normalizeFix({
+  const raw = {
     lat: pos.coords.latitude,
     lon: pos.coords.longitude,
     accuracy: pos.coords.accuracy,
     at: pos.timestamp || now,
-  }, now);
+  };
+  if (Number.isFinite(Number(pos.coords.heading))) raw.heading = Number(pos.coords.heading);
+  return normalizeFix(raw, now);
 }
 
 /** Short note shown when location is blocked or the fix fails. */
@@ -267,3 +271,71 @@ export async function requestPosition({ timeout = 20000, enableHighAccuracy = tr
   if (once.ok || once.reason === "denied") return once;
   return watchBrowserPosition({ timeout, enableHighAccuracy, maximumAge: 0 });
 }
+
+let liveWatch = null;
+
+export function stopLocationWatch() {
+  const w = liveWatch;
+  liveWatch = null;
+  if (!w) return;
+  try {
+    if (w.kind === "web" && typeof navigator !== "undefined" && navigator.geolocation) {
+      navigator.geolocation.clearWatch(w.id);
+    } else if (typeof w.clear === "function") {
+      Promise.resolve(w.clear()).catch(() => {});
+    }
+  } catch { /* ignore */ }
+}
+
+/**
+ * Continuous location updates for the builder (and other map screens).
+ * Uses the ordinary Geolocation API, not the run-session background watcher.
+ * Works offline once permission is granted, from the last device fix.
+ */
+export async function startLocationWatch({ onFix, onError } = {}) {
+  stopLocationWatch();
+  const opts = { enableHighAccuracy: true, maximumAge: 10000, timeout: 20000 };
+  try {
+    const { Capacitor } = await import("@capacitor/core");
+    if (Capacitor.isNativePlatform()) {
+      const { Geolocation } = await import("@capacitor/geolocation");
+      const handle = await Geolocation.watchPosition(opts, (pos, err) => {
+        if (err) {
+          if (onError) onError(reasonFromGeoError(err));
+          return;
+        }
+        const fix = coordsFromBrowser(pos);
+        if (fix && onFix) onFix(fix);
+      });
+      liveWatch = {
+        kind: "native",
+        id: handle && (handle.value ?? handle),
+        clear: () => {
+          const id = handle && (handle.value ?? handle);
+          if (id != null) return Geolocation.clearWatch({ id });
+        },
+      };
+      return { ok: true, native: true };
+    }
+  } catch {
+    /* fall through to the web API */
+  }
+  if (typeof navigator !== "undefined" && navigator.geolocation && navigator.geolocation.watchPosition) {
+    const id = navigator.geolocation.watchPosition(
+      (pos) => {
+        const fix = coordsFromBrowser(pos);
+        if (fix && onFix) onFix(fix);
+      },
+      (err) => { if (onError) onError(reasonFromGeoError(err)); },
+      opts
+    );
+    liveWatch = { kind: "web", id };
+    return { ok: true, native: false };
+  }
+  return { ok: false, reason: "unavailable" };
+}
+
+export function locationWatchActive() {
+  return !!liveWatch;
+}
+

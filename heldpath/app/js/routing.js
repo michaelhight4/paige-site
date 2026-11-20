@@ -3,9 +3,10 @@
  * Shortest path is Dijkstra with a binary heap (no external router).
  * The bundled Florence graph is derived from the firenze.pmtiles OSM extract.
  */
-import { haversineMeters, destination, pathLengthMeters } from "./util.js";
+import { haversineMeters, destination, pathLengthMeters, geodesicMeters } from "./util.js";
+import { openAreaLegAllowed, unpackRings, unpackBlocked } from "./open_areas.js";
 
-const DEFAULT_SNAP = 80;
+export const DEFAULT_SNAP = 200;
 const EARTH_LAT_M = 111320;
 
 let activeGraph = null;
@@ -44,7 +45,7 @@ export function parseGraph(raw) {
     const a = edges[i];
     const b = edges[i + 1];
     if (a < 0 || b < 0 || a >= n || b >= n || a === b) continue;
-    const meters = haversineMeters(
+    const meters = geodesicMeters(
       { lon: lon[a], lat: lat[a] },
       { lon: lon[b], lat: lat[b] }
     );
@@ -79,6 +80,9 @@ export function parseGraph(raw) {
     cell,
     name: raw.name || "",
     attribution: raw.attribution || "",
+    openAreas: unpackRings(raw.open || raw.openAreas),
+    barriers: unpackRings(raw.barriers),
+    blocked: unpackBlocked(raw.blocked),
   };
 }
 
@@ -204,28 +208,59 @@ function pointsFromNodes(graph, ids) {
   return ids.map((id) => nodePoint(graph, id));
 }
 
+function pairPoints(a, b) {
+  return [
+    { lat: a.lat, lon: a.lon },
+    { lat: b.lat, lon: b.lon },
+  ];
+}
+
 function straightLeg(a, b, reason) {
+  const meters = geodesicMeters(a, b);
   return {
-    points: [
-      { lat: a.lat, lon: a.lon },
-      { lat: b.lat, lon: b.lon },
-    ],
-    meters: haversineMeters(a, b),
+    points: pairPoints(a, b),
+    meters,
+    straightMeters: meters,
     mode: "straight",
     reason: reason || "straight-line",
+    offMap: reason === "off-map" || reason === "use-anyway",
   };
+}
+
+/** A gap with no walkable path. Not counted until the user chooses Use anyway. */
+function unroutableLeg(a, b, reason) {
+  return {
+    points: pairPoints(a, b),
+    meters: 0,
+    straightMeters: geodesicMeters(a, b),
+    mode: "unroutable",
+    reason: reason || "no-route",
+  };
+}
+
+export function legKey(a, b) {
+  if (!a || !b) return "";
+  const fmt = (p) => `${Number(p.lat).toFixed(6)},${Number(p.lon).toFixed(6)}`;
+  return `${fmt(a)}>${fmt(b)}`;
 }
 
 export function routePair(graph, a, b, opts = {}) {
   if (!a || !b) return null;
   if (opts.straightLine) return straightLeg(a, b, "toggle");
-  if (!graph) return straightLeg(a, b, "no-graph");
+  if (opts.allowStraight) return straightLeg(a, b, "off-map");
+  // Open walkable areas (soccer pitches, parks, grass, tracks…) take
+  // priority over a network detour around the field: both pins in the
+  // same polygon and a clear straight line is a normal valid leg.
+  if (graph && openAreaLegAllowed(graph, a, b)) {
+    return straightLeg(a, b, "open-area");
+  }
+  if (!graph) return unroutableLeg(a, b, "no-graph");
   const maxSnap = opts.maxSnap == null ? DEFAULT_SNAP : opts.maxSnap;
   const sa = snapToNode(graph, a.lat, a.lon, maxSnap);
   const sb = snapToNode(graph, b.lat, b.lon, maxSnap);
-  if (!sa || !sb) return straightLeg(a, b, "no-snap");
+  if (!sa || !sb) return unroutableLeg(a, b, "no-snap");
   const path = shortestPath(graph, sa.id, sb.id);
-  if (!path) return straightLeg(a, b, "no-route");
+  if (!path) return unroutableLeg(a, b, "no-route");
   const points = [{ lat: a.lat, lon: a.lon }];
   const mid = pointsFromNodes(graph, path.nodes);
   for (const p of mid) {
@@ -234,7 +269,8 @@ export function routePair(graph, a, b, opts = {}) {
   }
   const end = { lat: b.lat, lon: b.lon };
   if (haversineMeters(points[points.length - 1], end) > 0.4) points.push(end);
-  const meters = path.meters + sa.meters + sb.meters;
+  // Measure the exact drawn geometry, segment by segment, no simplification.
+  const meters = pathLengthMeters(points);
   return { points, meters, mode: "routed", snapA: sa, snapB: sb };
 }
 
@@ -269,7 +305,7 @@ export function routeLegs(graph, pins, opts = {}) {
 
   const legs = reuseLegs.slice();
   const path = [];
-  let usedStraight = legs.some((l) => l.mode === "straight");
+  let usedStraight = legs.some((l) => l.mode === "straight" && l.reason !== "open-area");
   if (legs.length) {
     for (let i = 0; i < legs.length; i++) {
       const pts = legs[i].points || [];
@@ -278,23 +314,41 @@ export function routeLegs(graph, pins, opts = {}) {
     }
   }
   for (let i = legs.length; i < list.length - 1; i++) {
-    const leg = routePair(graph, list[i], list[i + 1], opts);
+    const key = legKey(list[i], list[i + 1]);
+    const overrides = opts.straightOverrides;
+    const override = !!(overrides && (
+      (typeof overrides.has === "function" && overrides.has(key))
+      || (Array.isArray(overrides) && overrides.includes(key))
+    ));
+    const leg = routePair(graph, list[i], list[i + 1], {
+      straightLine: !!opts.straightLine,
+      allowStraight: override && !opts.straightLine,
+      maxSnap: opts.maxSnap,
+    });
     legs.push({
       meters: leg.meters,
+      straightMeters: leg.straightMeters,
       mode: leg.mode,
       reason: leg.reason || null,
+      offMap: !!leg.offMap,
       points: leg.points,
+      key,
     });
-    if (leg.mode === "straight") usedStraight = true;
+    if (leg.mode === "straight" && leg.reason !== "open-area") usedStraight = true;
     if (!path.length) path.push(...leg.points);
     else path.push(...leg.points.slice(1));
   }
+  const unroutable = legs.some((l) => l.mode === "unroutable");
+  const offMap = legs.some((l) => l.offMap);
+  const meters = legs.reduce((s, l) => s + (l.mode === "unroutable" ? 0 : (Number(l.meters) || 0)), 0);
   return {
     pins: list,
     path,
-    meters: pathLengthMeters(path),
+    meters,
     legs,
     usedStraight,
+    unroutable,
+    offMap,
     straightLine: !!opts.straightLine,
     _graph: graph,
   };
@@ -437,6 +491,9 @@ export function coursePath(course) {
 }
 
 export function courseMeters(course) {
+  if (course && Array.isArray(course.legs) && course.legs.length) {
+    return course.legs.reduce((s, l) => s + (l.mode === "unroutable" ? 0 : (Number(l.meters) || 0)), 0);
+  }
   return pathLengthMeters(coursePath(course));
 }
 

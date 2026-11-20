@@ -7,7 +7,7 @@
  * local / offline.
  */
 import { gainLoss } from "./elevation.js";
-import { formatDistance, formatDuration, formatPace, haversineMeters, METERS_PER_MILE, pathLengthMeters } from "./util.js";
+import { formatDistance, formatDuration, formatPace, haversineMeters, geodesicMeters, METERS_PER_MILE, pathLengthMeters } from "./util.js";
 
 /** 1 m of climb ≈ 8 m of flat effort (Naismith: 600 m climb ~ 1 hour, ~5 km/h walk). */
 const CLIMB_FLAT_M = 8;
@@ -56,7 +56,7 @@ export function legElevation(pins, path) {
   }
   const prefixes = [0];
   for (let i = 1; i < line.length; i++) {
-    prefixes[i] = prefixes[i - 1] + haversineMeters(line[i - 1], line[i]);
+    prefixes[i] = prefixes[i - 1] + geodesicMeters(line[i - 1], line[i]);
   }
   const total = prefixes[prefixes.length - 1] || 1;
   let acc = 0;
@@ -84,9 +84,11 @@ export function legElevation(pins, path) {
  * Prefer routed `path` distances when a path is given, otherwise pin-to-pin.
  * The last sector absorbs rounding so the targets sum to totalSec.
  */
-export function buildEvenPaceLegTargets(pins, totalSec, { path } = {}) {
+export function buildEvenPaceLegTargets(pins, totalSec, { path, meters: givenMeters, legs: givenLegs } = {}) {
   const total = Math.max(0, Number(totalSec) || 0);
-  const legs = sectorDistances(pins, path);
+  const legs = givenLegs
+    || (Array.isArray(givenMeters) ? givenMeters.map((m, i) => ({ from: i, to: i + 1, meters: Math.max(0, Number(m) || 0) }))
+    : sectorDistances(pins, path));
   if (!legs.length) return [];
   const meters = legs.reduce((s, l) => s + Math.max(0, l.meters || 0), 0);
   if (!(meters > 0) || !(total > 0)) {
@@ -106,7 +108,7 @@ export function buildGradeAdjustedLegTargets(pins, totalSec, opts) {
 
 /**
  * Sector lengths along a routed path, cut at pin distances, or pin-to-pin
- * haversine when no path is available.
+ * geodesic when no path is available.
  */
 export function sectorDistances(pins, path) {
   const list = pins || [];
@@ -115,7 +117,7 @@ export function sectorDistances(pins, path) {
   if (!line) return legDistances(list);
   const prefixes = [0];
   for (let i = 1; i < line.length; i++) {
-    prefixes[i] = prefixes[i - 1] + haversineMeters(line[i - 1], line[i]);
+    prefixes[i] = prefixes[i - 1] + geodesicMeters(line[i - 1], line[i]);
   }
   const total = prefixes[prefixes.length - 1] || 0;
   // Walk the path and record distance between successive pin snaps.

@@ -2,7 +2,7 @@
  * Walk graphs for downloaded map areas, stored on the phone so routing
  * works offline outside the bundled Florence extract.
  */
-import { getTile, listAreas } from "./map_storage.js";
+import { getTile, putTile, listAreas } from "./map_storage.js";
 import { parseGraph, setActiveGraph, loadBundledGraph, inGraphBounds } from "./routing.js";
 import {
   buildWalkGraphFromTiles,
@@ -10,8 +10,17 @@ import {
   somePointsInGraphBounds,
   OSM_ATTRIBUTION,
 } from "./walk_graph_build.js";
-import { FLORENCE_BOUNDS, inBounds } from "./map_tiles.js";
-
+import {
+  FLORENCE_BOUNDS,
+  inBounds,
+  tileRange,
+  tilesInRange,
+  countTilesInRange,
+  resolveOfmTemplate,
+  tileUrl,
+  OFM_USER_AGENT,
+  OFM_MAXZOOM,
+} from "./map_tiles.js";
 const DB_NAME = "heldpath-graphs";
 const STORE = "graphs";
 
@@ -188,23 +197,110 @@ function pointsFrom(arg) {
   return [];
 }
 
+
+export const ON_DEMAND_MAX_TILES = 48;
+
+function padBoundsFromPoints(pts, padDeg = 0.004) {
+  let west = 180, south = 90, east = -180, north = -90;
+  for (const p of pts || []) {
+    if (!p) continue;
+    if (p.lon < west) west = p.lon;
+    if (p.lon > east) east = p.lon;
+    if (p.lat < south) south = p.lat;
+    if (p.lat > north) north = p.lat;
+  }
+  return { west: west - padDeg, south: south - padDeg, east: east + padDeg, north: north + padDeg };
+}
+
+async function loadOfmTile(z, x, y) {
+  try {
+    const cached = await getTile(z, x, y);
+    if (cached && cached.byteLength) return cached;
+  } catch { /* continue */ }
+  if (typeof navigator !== "undefined" && navigator.onLine === false) return null;
+  try {
+    const tmpl = await resolveOfmTemplate();
+    const res = await fetch(tileUrl(tmpl, z, x, y), { headers: { "User-Agent": OFM_USER_AGENT } });
+    if (!res.ok) return null;
+    const data = await res.arrayBuffer();
+    if (data && data.byteLength) {
+      try { await putTile(z, x, y, data); } catch { /* quota */ }
+      return data;
+    }
+  } catch { /* offline or blocked */ }
+  return null;
+}
+
+/**
+ * Build a walk graph (plus open-area polygons) from OpenFreeMap / cached
+ * tiles covering the pin bounds, so routing works outside Florence.
+ */
+export async function buildGraphForBounds(bounds, { onProgress, maxTiles = ON_DEMAND_MAX_TILES } = {}) {
+  if (!bounds) return { ok: false, reason: "no-bounds" };
+  let z = OFM_MAXZOOM;
+  let range = tileRange(bounds, z);
+  while (countTilesInRange(range) > maxTiles && z > 11) {
+    z -= 1;
+    range = tileRange(bounds, z);
+  }
+  if (countTilesInRange(range) > maxTiles) return { ok: false, reason: "too-many-tiles" };
+  const tiles = tilesInRange(range);
+  const loaded = [];
+  let done = 0;
+  for (const t of tiles) {
+    const data = await loadOfmTile(t.z, t.x, t.y);
+    if (data && data.byteLength) loaded.push({ z: t.z, x: t.x, y: t.y, data });
+    done += 1;
+    if (onProgress) onProgress({ done, total: tiles.length });
+  }
+  if (!loaded.length) return { ok: false, reason: "no-tile-data" };
+  const raw = buildWalkGraphFromTiles(loaded, {
+    name: "On-demand walk",
+    source: "ofm-bounds",
+  });
+  raw.id = `ondemand:${bounds.west.toFixed(3)},${bounds.south.toFixed(3)},${bounds.east.toFixed(3)},${bounds.north.toFixed(3)},z${z}`;
+  raw.west = bounds.west;
+  raw.south = bounds.south;
+  raw.east = bounds.east;
+  raw.north = bounds.north;
+  raw.builtAt = new Date().toISOString();
+  raw.attribution = OSM_ATTRIBUTION;
+  try { await saveAreaGraph(raw); } catch { /* memory still holds it after parse */ }
+  return { ok: true, graph: raw };
+}
+
 /**
  * Choose a walk graph that covers the points: a downloaded area first,
- * then the bundled Florence extract if the points are in Florence.
+ * then the bundled Florence extract if the points are in Florence,
+ * then an on-demand OpenFreeMap graph for the pin bounds.
  * Returns a parsed routing graph, or null when nothing covers them.
  */
-export async function selectWalkGraph(points) {
+export async function selectWalkGraph(points, opts = {}) {
   const pts = pointsFrom(points);
   const records = await listAreaGraphs();
   const parsedAreas = records.map(asRoutable).filter(Boolean);
+  const bundled = asRoutable(await getBundledGraph());
   if (pts.length) {
-    const allHit = parsedAreas.find((g) => pointsInGraphBounds(g, pts));
+    const allHit = parsedAreas.find((g) => pointsInGraphBounds(g, pts))
+      || (bundled && pointsInGraphBounds(bundled, pts) ? bundled : null);
     if (allHit) return allHit;
+    // On-demand graph from OFM / cached tiles when no packed graph covers every pin.
+    if (!opts.lockWalkGraph) {
+      if (opts.onStatus) opts.onStatus("finding");
+      try {
+        const built = await buildGraphForBounds(padBoundsFromPoints(pts));
+        const g = asRoutable(built.ok ? built.graph : null);
+        if (g && pointsInGraphBounds(g, pts)) return g;
+        if (g && somePointsInGraphBounds(g, pts)) {
+          // Prefer a full cover; keep this as a fallback after someHit search.
+          parsedAreas.unshift(g);
+        }
+      } catch { /* leave unroutable if tiles cannot be fetched */ }
+      if (opts.onStatus) opts.onStatus("idle");
+    }
     const someHit = parsedAreas.find((g) => somePointsInGraphBounds(g, pts));
     if (someHit) return someHit;
-    const bundled = asRoutable(await getBundledGraph());
     if (bundled && somePointsInGraphBounds(bundled, pts)) return bundled;
-    // If no area graph is cached yet, try building from saved areas.
     try {
       const areas = await listAreas();
       for (const area of areas) {
@@ -217,11 +313,11 @@ export async function selectWalkGraph(points) {
     } catch { /* no downloaded areas */ }
     return null;
   }
-  return asRoutable(await getBundledGraph());
+  return bundled;
 }
 
-export async function ensureWalkGraph(points) {
-  const graph = await selectWalkGraph(points);
+export async function ensureWalkGraph(points, opts = {}) {
+  const graph = await selectWalkGraph(points, opts);
   setActiveGraph(graph);
   return graph;
 }

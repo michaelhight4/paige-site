@@ -19,6 +19,7 @@ import {
   METERS_PER_MILE,
   pointAlongPath,
   destination,
+  geodesicDirect,
 } from "./util.js";
 import { loadState, saveState, resetState, newCourse, newActivity, newPlan, newGoal } from "./storage.js";
 import * as health from "./health.js";
@@ -69,6 +70,12 @@ import {
   setEndIndex,
   addNextStop,
   undoPin,
+  removePin,
+  removeEnd,
+  snapshotBuilder,
+  restoreBuilder,
+  sharedPinIndices,
+  samePin,
   pinLabel,
   pinNumberLabel,
   routeStops,
@@ -98,10 +105,12 @@ import {
   parsePaceInput,
   formatSectorDelta,
   formatSectorTime,
+  formatSectorLine,
   readSectorPbs,
   hasSectorHistory,
   goalFromFinishTime,
   goalFromPace,
+  synthesizeSectorTrack,
 } from "./sector_timing.js";
 import {
   buildGoalSeries,
@@ -116,6 +125,7 @@ import {
   metricForGoal,
   pointsFromRuns,
   goalPeriod,
+  oneShotGoalProgress,
 } from "./goal_progress.js";
 
 import { initPlansUi, renderPlansScreen } from "./plans_ui.js";
@@ -144,6 +154,9 @@ import {
   LOCATION_DENIED_NOTE,
   FINDING_YOU,
   LOCATION_EXPLAINER,
+  startLocationWatch,
+  stopLocationWatch,
+  locationWatchActive,
 } from "./locate.js";
 import { searchPlaces } from "./geocode.js";
 import {
@@ -201,6 +214,9 @@ const ui = {
   hideNav: false,
   followPaths: true,
   builderRoute: null,
+  straightOverrides: new Set(),
+  lockWalkGraph: false,
+  findingPaths: false,
 };
 
 const $ = (id) => document.getElementById(id);
@@ -373,6 +389,11 @@ function showScreen(name) {
   $("tab-bar").style.display = name === "lock" || ui.hideNav ? "none" : "grid";
   if (mapScreens.has(name)) {
     requestAnimationFrame(() => map.resizeMap());
+    if (name === "builder") startBuilderLocation({ center: false });
+    else maybeStartLiveLocation();
+    paintMapStyleButton();
+  } else if (typeof stopLocationWatch === "function" && !locationWatchActive()) {
+    /* leave an existing watch running so returning to the map keeps the last fix */
   }
 }
 
@@ -551,6 +572,34 @@ function courseForSession(sess) {
   return null;
 }
 
+
+function makeSectorFixture() {
+  const a = { lat: 41.85, lon: -87.65, role: "start" };
+  const b = { ...geodesicDirect(a, 90, 0.5 * METERS_PER_MILE), role: "via" };
+  const c = { ...geodesicDirect(b, 90, 1.7 * METERS_PER_MILE), role: "via" };
+  const d = { ...geodesicDirect(c, 90, 0.8 * METERS_PER_MILE), role: "end" };
+  const pins = [a, b, c, d];
+  const course = newCourse({ name: "Even-pace loop", pins });
+  course.goal = goalFromFinishTime(30 * 60, course);
+  // Previous bests so the Best row is visible (not a first run).
+  course.sectorPbs = {
+    0: { seconds: 295.1, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+    1: { seconds: 1030.0, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+    2: { seconds: 470.0, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+  };
+  course.sectorHistory = [{ at: "2026-11-11T09:00:00.000Z", activityId: "prev", times: [295.1, 1030.0, 470.0], totalSec: 1795.1 }];
+  const sectorSeconds = [292.3, 1010.0, 460.0]; // 4:52.3, 16:50.0, 7:40.0
+  const trackPts = synthesizeSectorTrack(course, sectorSeconds, { stepMeters: 8 });
+  return {
+    course,
+    track: trackPts,
+    sectorSeconds,
+    sectorMeters: sectorMetersList(course),
+    meters: sectorMetersList(course).reduce((s, v) => s + v, 0),
+    totalSec: sectorSeconds.reduce((s, v) => s + v, 0),
+  };
+}
+
 function paintSectorFlash(sess) {
   const el = $("sector-flash");
   if (!el) return;
@@ -585,13 +634,36 @@ function paintSectorFlash(sess) {
   el.hidden = false;
   el.classList.remove("green", "red", "purple");
   if (flash.color) el.classList.add(flash.color);
+  if ($("sector-flash-label")) $("sector-flash-label").textContent = flash.label || "";
   if ($("sector-flash-main")) $("sector-flash-main").textContent = flash.sectorLine;
+  const bestEl = $("sector-flash-best");
+  if (bestEl) {
+    bestEl.hidden = !flash.bestLine;
+    bestEl.textContent = flash.bestLine || "";
+    bestEl.classList.toggle("purple", !!(flash.showBest && row.isNewPb));
+  }
   if ($("sector-flash-cum")) $("sector-flash-cum").textContent = [flash.cumulativeLine, flash.bestPossibleLine].filter(Boolean).join(" · ");
   ui.sectorFlashSticky = true;
   if (course.sectorCallout) maybeCallout(flash.spoken, { audio: true, haptic: true });
 }
 
+function paintSectorLineEl(el, label, target, you, deltaSec, color) {
+  el.textContent = "";
+  const tgt = Number(target) > 0 ? formatSectorTime(target) : "—";
+  const youTxt = Number(you) > 0 ? formatSectorTime(you) : "—";
+  el.appendChild(document.createTextNode(`${label} ${tgt} | You ${youTxt}`));
+  const delta = (Number(you) > 0 && Number(target) > 0 && deltaSec != null) ? formatSectorDelta(deltaSec) : "";
+  if (delta) {
+    el.appendChild(document.createTextNode(" "));
+    const s = document.createElement("span");
+    s.className = "sector-delta " + (color || "");
+    s.textContent = delta;
+    el.appendChild(s);
+  }
+}
+
 function renderSectorTable(root, course, act) {
+
   if (!root) return;
   root.innerHTML = "";
   const goal = course && resolveGoal(course);
@@ -607,34 +679,31 @@ function renderSectorTable(root, course, act) {
   const table = document.createElement("div");
   table.className = "sector-table";
   table.setAttribute("data-testid", "sector-table");
-  const head = document.createElement("div");
-  head.className = "split-head";
-  head.innerHTML = `<span>Sector</span><span class="t">Time</span><span class="t">Target</span><span class="t">Delta</span>`;
-  table.appendChild(head);
   let cum = 0;
   compared.forEach((row, i) => {
-    const el = document.createElement("div");
     const appliedRow = applied && applied.rows && applied.rows[i];
     const isPb = !!(appliedRow && appliedRow.isNewPb);
-    const color = isPb ? "purple" : (row.colorVsGoal || "");
-    el.className = "split-row sector-row" + (color ? " " + color : "");
-    const label = document.createElement("span");
-    label.textContent = `S${i + 1}`;
-    const time = document.createElement("span");
-    time.className = "t";
-    time.textContent = row.time == null ? "—" : formatSectorTime(row.time);
-    const tgt = document.createElement("span");
-    tgt.className = "t";
-    tgt.textContent = row.target == null ? "—" : formatSectorTime(row.target);
-    const delta = document.createElement("span");
-    delta.className = "t sector-delta " + color;
-    delta.textContent = row.vsGoal == null ? "—" : formatSectorDelta(row.vsGoal);
+    const block = document.createElement("div");
+    block.className = "sector-block";
+    block.dataset.testid = "sector-block-" + (i + 1);
+    const lab = document.createElement("div");
+    lab.className = "sector-block-label";
+    lab.textContent = "S" + (i + 1);
+    block.appendChild(lab);
+    const goalLine = document.createElement("div");
+    goalLine.className = "sector-line";
+    goalLine.dataset.testid = "sector-goal-" + (i + 1);
+    paintSectorLineEl(goalLine, "Goal", row.target, row.time, row.vsGoal, row.colorVsGoal);
+    block.appendChild(goalLine);
+    if (histBefore && row.pb > 0) {
+      const bestLine = document.createElement("div");
+      bestLine.className = "sector-line";
+      bestLine.dataset.testid = "sector-best-" + (i + 1);
+      paintSectorLineEl(bestLine, "Best", row.pb, row.time, row.vsPb, isPb ? "purple" : row.colorVsPb);
+      block.appendChild(bestLine);
+    }
     if (row.vsGoal != null) cum += row.vsGoal;
-    el.appendChild(label);
-    el.appendChild(time);
-    el.appendChild(tgt);
-    el.appendChild(delta);
-    table.appendChild(el);
+    table.appendChild(block);
   });
   root.appendChild(table);
   const foot = document.createElement("p");
@@ -710,19 +779,31 @@ function drawSessionOnMap(sess) {
 }
 
 function addCoursePins(pins, { builderState = null, clickable = false } = {}) {
+  if (clickable && builderState) {
+    const placed = [];
+    (builderState.pins || []).forEach((p, i) => {
+      const hit = placed.find((x) => samePin(x, p));
+      if (hit) hit.indices.push(i);
+      else placed.push({ lat: p.lat, lon: p.lon, role: p.role, index: i, indices: [i] });
+    });
+    placed.forEach((p) => {
+      const kind = p.indices.includes(0) ? "start" : (builderState.endIndex != null && p.indices.includes(builderState.endIndex) ? "end" : "via");
+      const opts = {
+        kind,
+        label: pinLabel(builderState, p.index),
+        onClick: (ev) => {
+          if (ev && ev.stopPropagation) ev.stopPropagation();
+          openPinAction(p.index);
+        },
+      };
+      map.addPin(p, opts);
+    });
+    return;
+  }
   (pins || []).forEach((p, i) => {
     const kind = p.role || (i === 0 ? "start" : i === pins.length - 1 ? "end" : "via");
-    const label = builderState
-      ? pinLabel(builderState, i)
-      : (kind === "start" ? "Start" : kind === "end" ? "End" : String(i + 1));
-    const opts = { kind, label };
-    if (clickable && builderState) {
-      opts.onClick = (ev) => {
-        if (ev && ev.stopPropagation) ev.stopPropagation();
-        openPinAction(i);
-      };
-    }
-    map.addPin(p, opts);
+    const label = kind === "start" ? "Start" : kind === "end" ? "End" : String(i + 1);
+    map.addPin(p, { kind, label });
   });
 }
 
@@ -748,9 +829,35 @@ function builderRoute() {
   const routed = routeCourse(getActiveGraph(), st, {
     straightLine: !ui.followPaths,
     previous: ui.builderRoute || null,
+    straightOverrides: ui.straightOverrides,
   });
   ui.builderRoute = routed;
   return routed;
+}
+
+
+function waitMapReady(ms = 4000) {
+  return new Promise((resolve) => {
+    let done = false;
+    const finish = () => { if (done) return; done = true; resolve(); };
+    try {
+      map.whenReady(() => {
+        const idle = (typeof map.whenIdle === "function") ? map.whenIdle() : Promise.resolve();
+        Promise.race([idle, new Promise((r) => setTimeout(r, 2000))]).then(finish, finish);
+      });
+    } catch {
+      finish();
+    }
+    setTimeout(finish, ms);
+  });
+}
+
+function fitBuilderCourse(coords, extra = {}) {
+  if (!coords || !coords.length) return;
+  try { map.resizeMap(); } catch { /* map may not be ready */ }
+  const panel = document.querySelector(".builder-panel");
+  const bottom = panel ? Math.min(Math.round(panel.getBoundingClientRect().height + 28), 720) : 520;
+  map.fitBounds(coords, { top: 72, bottom, left: 64, right: 64, maxZoom: extra.maxZoom || 17 });
 }
 
 function paintEndPointButton() {
@@ -768,8 +875,72 @@ function openPinAction(index) {
   ui.pinActionIndex = index;
   const label = pinLabel(st, index);
   if ($("pin-action-title")) $("pin-action-title").textContent = label || `Pin ${index + 1}`;
-  if ($("pin-action-sub")) $("pin-action-sub").textContent = "Add this pin as the next stop (it keeps every visit number), or set it as the end.";
+  const shared = sharedPinIndices(st, index);
+  const sub = $("pin-action-sub");
+  if (sub) {
+    sub.textContent = shared.length > 1
+      ? "This pin is visited more than once. Delete one stop number, set this place as the end, or add another visit."
+      : "Delete this pin, set it as the end, or add it as another stop.";
+  }
+  const deletes = $("pin-action-deletes");
+  const singleBtn = $("btn-pin-delete");
+  if (deletes) deletes.innerHTML = "";
+  if (shared.length > 1) {
+    if (singleBtn) singleBtn.hidden = true;
+    shared.forEach((i) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn btn-danger pin-delete-stop";
+      btn.style.width = "100%";
+      btn.style.marginBottom = "10px";
+      btn.dataset.testid = "pin-delete-stop-" + (i + 1);
+      btn.textContent = "Delete stop " + (i + 1);
+      btn.addEventListener("click", () => applyPinDelete(i));
+      if (deletes) deletes.appendChild(btn);
+    });
+  } else if (singleBtn) {
+    singleBtn.hidden = false;
+    singleBtn.textContent = "Delete this pin";
+  }
+  const setEnd = $("btn-pin-set-end");
+  const removeEndBtn = $("btn-pin-remove-end");
+  if (setEnd) setEnd.hidden = st.endIndex === index;
+  if (removeEndBtn) removeEndBtn.hidden = st.endIndex !== index;
   openSheet("sheet-pin-action");
+}
+
+function pushBuilderHistory() {
+  if (!ui.builderHistory) ui.builderHistory = [];
+  ui.builderHistory.push(snapshotBuilder(activeBuilder()));
+  if (ui.builderHistory.length > 40) ui.builderHistory.shift();
+}
+
+function applyBuilderChange(mutator) {
+  pushBuilderHistory();
+  ui.builder = mutator(activeBuilder());
+  ui.builderPins = ui.builder.pins;
+  ui.builderRoute = null;
+  renderBuilder();
+}
+
+function applyPinDelete(index) {
+  closeSheet("sheet-pin-action");
+  applyBuilderChange((st) => removePin(st, index));
+}
+
+function undoLastBuilderAction() {
+  if (ui.builderHistory && ui.builderHistory.length) {
+    const snap = ui.builderHistory.pop();
+    ui.builder = restoreBuilder(snap);
+    ui.builderPins = ui.builder.pins;
+    ui.builderRoute = null;
+    renderBuilder();
+    return;
+  }
+  ui.builder = undoPin(activeBuilder());
+  ui.builderPins = ui.builder.pins;
+  ui.builderRoute = null;
+  renderBuilder();
 }
 
 function maybeShowBuilderExplainer({ force = false } = {}) {
@@ -789,13 +960,119 @@ function paintFollowToggle() {
 let builderGraphToken = 0;
 function maybeEnsureBuilderGraph(pins) {
   if (!pins || pins.length < 1) return;
+  if (ui.lockWalkGraph) return;
   const current = getActiveGraph();
   if (current && graphCoversPoints(current, pins)) return;
   const token = ++builderGraphToken;
-  ensureWalkGraph(pins).then((g) => {
+  ui.findingPaths = true;
+  const note = $("route-fallback-note");
+  if (note) {
+    note.hidden = false;
+    note.classList.add("finding");
+    note.textContent = "Finding walkable paths…";
+  }
+  ensureWalkGraph(pins, {
+    lockWalkGraph: !!ui.lockWalkGraph,
+    onStatus: () => {},
+  }).then((g) => {
     if (token !== builderGraphToken) return;
-    if (g !== current && ui.screen === "builder") renderBuilder();
-  }).catch(() => {});
+    ui.findingPaths = false;
+    if (ui.screen === "builder") renderBuilder();
+  }).catch(() => {
+    if (token !== builderGraphToken) return;
+    ui.findingPaths = false;
+    if (ui.screen === "builder") renderBuilder();
+  });
+}
+
+function resetBuilderRoutingFlags() {
+  ui.straightOverrides = new Set();
+  ui.lockWalkGraph = false;
+  ui.findingPaths = false;
+  ui.builderRoute = null;
+  ui.builderHistory = [];
+}
+
+function useAnyway(key) {
+  if (!key) return;
+  if (!ui.straightOverrides) ui.straightOverrides = new Set();
+  ui.straightOverrides.add(key);
+  ui.builderRoute = null;
+  renderBuilder();
+}
+
+function paintBuilderLine(routed, st) {
+  if (routed && Array.isArray(routed.legs) && routed.legs.length) {
+    routed.legs.forEach((leg, i) => {
+      const pts = leg.points || [];
+      if (pts.length < 2) return;
+      let color = "#4EC3F7";
+      let dash = false;
+      let width = 5;
+      if (leg.mode === "unroutable") {
+        color = "#E24B4A";
+        dash = true;
+        width = 5;
+      } else if (leg.offMap) {
+        color = "#9BB0C4";
+        dash = true;
+        width = 4;
+      }
+      map.drawRoute(pts, { id: "build-line-" + i, color, width, dash });
+    });
+    return;
+  }
+  const line = routed && routed.path && routed.path.length >= 2 ? routed.path : routeStops(st);
+  if (line.length >= 2) map.drawRoute(line, { id: "build-line" });
+}
+
+function midPathPoint(points) {
+  if (!points || points.length < 2) return null;
+  const total = pathLengthMeters(points);
+  if (!(total > 0)) return { lat: points[0].lat, lon: points[0].lon };
+  return pointAlongPath(points, total / 2);
+}
+
+function paintBuilderLegLabels(routed) {
+  if (typeof map.clearLegLabels === "function") map.clearLegLabels();
+  const legs = routed && routed.legs;
+  if (!legs || !legs.length) return;
+  legs.forEach((leg) => {
+    const mid = midPathPoint(leg.points || []);
+    if (!mid) return;
+    const meters = leg.mode === "unroutable" ? (leg.straightMeters || 0) : leg.meters;
+    if (!(meters > 0)) return;
+    map.addLegLabel(mid, formatDistance(meters, units()), { muted: leg.mode === "unroutable" });
+  });
+}
+
+function paintBuilderLiveBar(routed, st) {
+  const bar = $("builder-live-bar");
+  const distEl = $("builder-live-distance");
+  const etaEl = $("builder-live-eta");
+  const pins = (st && st.pins) || [];
+  if (!bar) return;
+  if (pins.length < 2 || !routed) {
+    bar.hidden = true;
+    if (distEl) distEl.textContent = "—";
+    if (etaEl) etaEl.textContent = "";
+    return;
+  }
+  bar.hidden = false;
+  const total = routed.meters || 0;
+  if (distEl) distEl.textContent = formatDistance(total, units());
+  const walkEta = formatEta(etaSeconds(total, activityMph("walk")));
+  const runEta = formatEta(etaSeconds(total, activityMph("run")));
+  if (etaEl) etaEl.textContent = walkEta + " walk · " + runEta + " run";
+}
+
+function legFlagText(leg) {
+  if (!ui.followPaths) return "";
+  if (leg.mode === "unroutable") return " · no walkable path";
+  if (leg.offMap) return " · off-map leg";
+  if (leg.reason === "open-area") return "";
+  if (leg.mode === "straight") return " · straight line";
+  return "";
 }
 
 function renderBuilder() {
@@ -809,10 +1086,13 @@ function renderBuilder() {
   const box = $("builder-legs");
   const note = $("route-fallback-note");
   const routed = pins.length >= 2 && st.endIndex != null ? builderRoute() : (pins.length >= 2 ? builderRoute() : (ui.builderRoute = null));
+  const warnings = $("route-warnings");
+  if (note) note.classList.remove("finding");
   if (note) {
-    if (routed && routed.usedStraight && ui.followPaths) {
+    if (ui.findingPaths && ui.followPaths) {
       note.hidden = false;
-      note.textContent = "No walkable path was found for one or more legs, so a straight line is used there.";
+      note.classList.add("finding");
+      note.textContent = "Finding walkable paths…";
     } else if (!ui.followPaths) {
       note.hidden = false;
       note.textContent = "Straight line — not following roads.";
@@ -821,19 +1101,64 @@ function renderBuilder() {
       note.textContent = "";
     }
   }
+  if (warnings) {
+    warnings.innerHTML = "";
+    const gaps = (ui.followPaths && routed && routed.legs)
+      ? routed.legs.map((leg, i) => ({ leg, i })).filter((row) => row.leg.mode === "unroutable")
+      : [];
+    if (!gaps.length) {
+      warnings.hidden = true;
+    } else {
+      warnings.hidden = false;
+      gaps.forEach(({ leg, i }) => {
+        const card = document.createElement("div");
+        card.className = "leg-warn";
+        card.dataset.testid = "unroutable-leg-" + i;
+        const p = document.createElement("p");
+        p.textContent = `No walkable path between pin ${i + 1} and pin ${i + 2}. Move a pin, or add a pin on a walkable route.`;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn-use-anyway";
+        btn.dataset.testid = "use-anyway-" + i;
+        btn.textContent = "Use anyway";
+        btn.addEventListener("click", () => useAnyway(leg.key));
+        card.appendChild(p);
+        card.appendChild(btn);
+        warnings.appendChild(card);
+      });
+    }
+  }
+  paintBuilderLiveBar(routed, st);
   if (box) {
     box.innerHTML = "";
-    if (pins.length < 2 || st.endIndex == null) {
-      box.innerHTML = `<p class="tiny">${st.endIndex == null && pins.length >= 2 ? "Turn on End point pin, or tap a pin and choose Set as end, to finish the route." : "Leg distances will show here after the second pin."}</p>`;
+    const toggle = $("btn-legs-toggle");
+    if (pins.length < 2 || !routed || !routed.legs || !routed.legs.length) {
+      if (toggle) toggle.hidden = true;
+      box.classList.remove("is-collapsed");
+      box.innerHTML = `<p class="tiny">Leg distances will show here after the second pin.</p>`;
     } else {
+      if (toggle) {
+        toggle.hidden = false;
+        toggle.setAttribute("aria-expanded", ui.legsOpen === false ? "false" : "true");
+        const n = routed.legs.length;
+        toggle.textContent = n === 1 ? "1 leg" : n + " legs";
+      }
+      box.classList.toggle("is-collapsed", ui.legsOpen === false);
       const labels = legLabels(st);
       routed.legs.forEach((leg, i) => {
         const names = labels[i] || { from: `Pin ${i + 1}`, to: `Pin ${i + 2}` };
-        const flag = leg.mode === "straight" && ui.followPaths ? " · straight line" : "";
+        const flag = legFlagText(leg);
         const ret = names.returnLeg ? " · return" : "";
         const row = document.createElement("div");
         row.className = "leg-row";
-        row.innerHTML = `<span>${escapeHtml(names.from)} → ${escapeHtml(names.to)}${flag}${ret}</span><span>${formatDistance(leg.meters, units())}</span>`;
+        if (leg.mode === "unroutable") row.classList.add("unroutable");
+        if (leg.offMap) row.classList.add("off-map");
+        if (leg.reason === "open-area") row.classList.add("open-area");
+        const shown = leg.mode === "unroutable" ? (leg.straightMeters || 0) : leg.meters;
+        const dist = leg.mode === "unroutable"
+          ? formatDistance(shown, units()) + " (not counted)"
+          : formatDistance(leg.meters, units());
+        row.innerHTML = `<span>${escapeHtml(names.from)} → ${escapeHtml(names.to)}<span class="leg-flag">${flag}</span>${ret}</span><span>${dist}</span>`;
         box.appendChild(row);
       });
       const total = routed.meters;
@@ -849,15 +1174,23 @@ function renderBuilder() {
       distNote.dataset.testid = "builder-distance-note";
       distNote.textContent = state.settings.countHills ? HILLS_DISCLAIMER : FLAT_DISCLAIMER;
       box.appendChild(distNote);
+      if (st.endIndex == null) {
+        const needEnd = document.createElement("p");
+        needEnd.className = "tiny";
+        needEnd.dataset.testid = "builder-need-end";
+        needEnd.textContent = "Turn on End point pin, or tap a pin and choose Set as end, to finish the route.";
+        box.appendChild(needEnd);
+      }
     }
   }
   if ($("btn-save-course")) $("btn-save-course").disabled = !canSave(st);
   map.clearOverlays();
   map.clearMarkers();
-  const line = routed && routed.path && routed.path.length >= 2 ? routed.path : routeStops(st);
-  if (line.length >= 2) map.drawRoute(line, { id: "build-line" });
+  paintBuilderLine(routed, st);
+  paintBuilderLegLabels(routed);
   addCoursePins(pins, { builderState: st, clickable: true });
-  refreshBuilderElevation(line);
+  const line = routed && routed.path && routed.path.length >= 2 ? routed.path : routeStops(st);
+  refreshBuilderElevation(line, { countedMeters: routed ? routed.meters : undefined });
 }
 
 function renderCourses() {
@@ -1026,47 +1359,22 @@ function renderGoalsScreen() {
   const locale = (typeof navigator !== "undefined" && navigator.language) || "en-US";
   const parts = [];
   if (!items.length) {
-    parts.push(`<p class="tiny" data-testid="goals-empty">No goals yet. Add a weekly or monthly target below — free, with a ring for this period and a chart on Progress.</p>`);
+    parts.push(`<p class="tiny" data-testid="goals-empty">No goals yet. Tap New goal above — it is free, with a ring here and a chart on Progress.</p>`);
   }
   for (const g of items) {
     const period = goalPeriod(g);
-    const title = g.name || (period ? `${period === "week" ? "Weekly" : "Monthly"} ${periodGoalTitle(g)}` : (g.kind || "Goal"));
+    const title = g.name || defaultGoalName(g);
     parts.push(`<div class="goal-card" data-testid="goal-card" data-goal-id="${escapeHtml(g.id)}">`);
     parts.push(`<h3>${escapeHtml(title)}</h3>`);
-    if (period) {
-      const prog = periodGoalProgress(g, acts, { locale, units: units() });
-      if (prog) parts.push(periodRingMarkup(prog, { testid: "period-ring" }));
-    }
+    const prog = period
+      ? periodGoalProgress(g, acts, { locale, units: units() })
+      : oneShotGoalProgress(g, acts, { units: units() });
+    if (prog) parts.push(periodRingMarkup(prog, { testid: period ? "period-ring" : "goal-ring" }));
     parts.push(`<p class="tiny">Always free. Your progress stays on this phone.</p>`);
     parts.push(`<button class="btn btn-secondary btn-goal-remove" data-id="${escapeHtml(g.id)}" style="width:100%;margin-top:8px">Remove</button>`);
     parts.push(`</div>`);
   }
-  parts.push(`<div class="card" data-testid="add-goal-card" style="margin-top:12px">
-    <h3>Add a free goal</h3>
-    <div class="field"><label for="goal-new-kind">Type</label>
-      <select id="goal-new-kind">
-        <option value="week-distance">Weekly distance</option>
-        <option value="month-distance">Monthly distance</option>
-        <option value="week-count">Weekly run count</option>
-        <option value="month-count">Monthly run count</option>
-        <option value="week-time">Weekly time</option>
-        <option value="month-time">Monthly time</option>
-        <option value="distance">Distance per run</option>
-      </select>
-    </div>
-    <div class="field"><label for="goal-new-value">Target</label>
-      <input id="goal-new-value" data-testid="goal-new-value" type="number" min="0.1" step="0.1" value="10" inputmode="decimal" />
-      <p class="tiny" id="goal-new-unit-hint">Miles (or km if that is your unit). Count goals use a number of runs. Time goals use minutes.</p>
-    </div>
-    <button class="btn btn-primary" id="btn-goal-add" data-testid="goal-add" style="width:100%">Add goal</button>
-  </div>`);
   root.innerHTML = parts.join("");
-  const addBtn = $("btn-goal-add");
-  if (addBtn && !addBtn._bound) {
-    addBtn._bound = true;
-  }
-  const add = $("btn-goal-add");
-  if (add) add.addEventListener("click", addGoalFromForm);
   root.querySelectorAll(".btn-goal-remove").forEach((b) => {
     b.addEventListener("click", () => {
       const id = b.getAttribute("data-id");
@@ -1084,21 +1392,131 @@ function periodGoalTitle(g) {
   return "distance";
 }
 
+function defaultGoalName(g) {
+  const period = goalPeriod(g);
+  if (period) return `${period === "week" ? "Weekly" : "Monthly"} ${periodGoalTitle(g)}`;
+  if (g.kind === "route-time") {
+    const c = (state.courses || []).find((x) => x.id === g.courseId);
+    const time = g.finishSec ? formatDuration(g.finishSec) : "";
+    return (c && c.name ? c.name : "Route") + (time ? " in " + time : "");
+  }
+  if (g.kind === "time-distance" || (g.distanceMeters > 0 && g.finishSec > 0)) {
+    return formatDistance(g.distanceMeters, units()) + " in " + formatDuration(g.finishSec);
+  }
+  if (g.kind === "distance" && g.distanceMeters > 0) return formatDistance(g.distanceMeters, units());
+  return g.kind || "Goal";
+}
+
+function paintGoalTypeFields() {
+  const kind = ($("goal-new-kind") && $("goal-new-kind").value) || "time-distance";
+  const showDistance = kind === "time-distance" || kind === "distance" || kind.endsWith("-distance");
+  const showTime = kind === "time-distance" || kind === "route-time";
+  const showCount = kind.endsWith("-count");
+  const showCourse = kind === "route-time";
+  if ($("goal-field-distance")) $("goal-field-distance").hidden = !showDistance;
+  if ($("goal-field-time")) $("goal-field-time").hidden = !showTime;
+  if ($("goal-field-count")) $("goal-field-count").hidden = !showCount;
+  if ($("goal-field-course")) $("goal-field-course").hidden = !showCourse;
+  const distLabel = $("goal-new-distance-label");
+  if (distLabel) {
+    distLabel.textContent = units() === "km" ? "Distance (km)" : "Distance (mi)";
+  }
+  const timeLabel = $("goal-new-time-label");
+  if (timeLabel) timeLabel.textContent = "Time";
+  fillGoalCourseSelect();
+}
+
+function fillGoalCourseSelect() {
+  const sel = $("goal-new-course");
+  const empty = $("goal-new-course-empty");
+  if (!sel) return;
+  const courses = state.courses || [];
+  const prev = sel.value;
+  sel.innerHTML = "";
+  if (!courses.length) {
+    const o = document.createElement("option");
+    o.value = "";
+    o.textContent = "No saved routes";
+    sel.appendChild(o);
+    sel.disabled = true;
+    if (empty) empty.hidden = false;
+    return;
+  }
+  sel.disabled = false;
+  if (empty) empty.hidden = true;
+  courses.forEach((c) => {
+    const o = document.createElement("option");
+    o.value = c.id;
+    o.textContent = c.name || "Course";
+    sel.appendChild(o);
+  });
+  if (prev && courses.some((c) => c.id === prev)) sel.value = prev;
+}
+
+function openNewGoalSheet() {
+  showScreen("goals");
+  renderGoalsScreen();
+  if ($("goal-new-kind")) $("goal-new-kind").value = "time-distance";
+  if ($("goal-new-distance")) $("goal-new-distance").value = units() === "km" ? "5" : "3";
+  if ($("goal-new-time")) $("goal-new-time").value = "18:00";
+  if ($("goal-new-count")) $("goal-new-count").value = "3";
+  const err = $("goal-new-error");
+  if (err) { err.hidden = true; err.textContent = ""; }
+  paintGoalTypeFields();
+  openSheet("sheet-new-goal");
+}
+
+function showGoalFormError(msg) {
+  const err = $("goal-new-error");
+  if (!err) return;
+  err.hidden = !msg;
+  err.textContent = msg || "";
+}
+
 function addGoalFromForm() {
-  const kind = (($("goal-new-kind") && $("goal-new-kind").value) || "week-distance");
-  const raw = Number(($("goal-new-value") && $("goal-new-value").value) || 0);
-  if (!(raw > 0)) return;
+  showGoalFormError("");
+  const kind = (($("goal-new-kind") && $("goal-new-kind").value) || "time-distance");
+  if (kind === "week-time" || kind === "month-time") {
+    showGoalFormError("A time goal is a target time for a set distance, tracked run over run. Weekly or monthly time totals are not used.");
+    return;
+  }
   const period = kind.startsWith("week") ? "week" : kind.startsWith("month") ? "month" : null;
   const g = newGoal({ kind, period, paid: false });
-  if (kind.includes("count")) g.targetCount = Math.round(raw);
-  else if (kind.includes("time")) g.finishSec = Math.round(raw * 60);
-  else {
-    g.distanceMeters = units() === "km" ? raw * 1000 : raw * METERS_PER_MILE;
+  if (kind === "route-time") {
+    const courseId = $("goal-new-course") && $("goal-new-course").value;
+    const course = (state.courses || []).find((c) => c.id === courseId);
+    if (!course) {
+      showGoalFormError("Save a course first, then you can set a goal time on it.");
+      return;
+    }
+    const dur = parseDurationInput($("goal-new-time") && $("goal-new-time").value);
+    if (!dur.ok) { showGoalFormError(dur.reason || "Enter a time."); return; }
+    g.courseId = course.id;
+    g.finishSec = dur.seconds;
+    g.name = defaultGoalName(g);
+  } else if (kind === "time-distance") {
+    const dist = parseDistanceInput($("goal-new-distance") && $("goal-new-distance").value, units());
+    if (!dist.ok) { showGoalFormError(dist.reason || "Enter a distance."); return; }
+    const dur = parseDurationInput($("goal-new-time") && $("goal-new-time").value);
+    if (!dur.ok) { showGoalFormError(dur.reason || "Enter a time."); return; }
+    g.distanceMeters = dist.meters;
+    g.finishSec = dur.seconds;
+    g.name = defaultGoalName(g);
+  } else if (kind.endsWith("-count")) {
+    const raw = Number($("goal-new-count") && $("goal-new-count").value);
+    if (!(raw > 0)) { showGoalFormError("Enter how many walks or runs."); return; }
+    g.targetCount = Math.round(raw);
+    g.name = defaultGoalName(g);
+  } else {
+    const dist = parseDistanceInput($("goal-new-distance") && $("goal-new-distance").value, units());
+    if (!dist.ok) { showGoalFormError(dist.reason || "Enter a distance."); return; }
+    g.distanceMeters = dist.meters;
+    g.name = defaultGoalName(g);
   }
-  if (kind === "week-distance") g.name = period === "week" ? "Weekly distance" : g.name;
   state.goals = state.goals || [];
   state.goals.push(g);
   persist();
+  closeSheet("sheet-new-goal");
   renderGoalsScreen();
 }
 
@@ -1590,7 +2008,7 @@ async function completeSession(sess) {
 }
 
 let builderElevToken = 0;
-async function refreshBuilderElevation(path) {
+async function refreshBuilderElevation(path, { countedMeters } = {}) {
   const el = $("builder-elevation");
   if (!el) return;
   if (!path || path.length < 2) {
@@ -1611,11 +2029,16 @@ async function refreshBuilderElevation(path) {
   // Update Naismith ETAs on the total row if we have climb.
   const tot = $("builder-total") || document.querySelector("[data-testid='builder-total']");
   if (tot && gl.gainM > 0) {
-    const flat = pathLengthMeters(path);
+    const flat = countedMeters != null ? countedMeters : pathLengthMeters(path);
+    if (!(flat > 0)) return paintElevationBox(el, gl, { units: units(), credit: true });
     const shown = displayDistance(pts, flat, { countHills: !!state.settings.countHills });
     const walkEta = formatEta(naismithSeconds(flat, gl.gainM, activityMph("walk")));
     const runEta = formatEta(naismithSeconds(flat, gl.gainM, activityMph("run")));
     tot.innerHTML = `<span>Total</span><span>${formatDistance(shown.meters, units())} · ${formatGain(gl.gainM, units())} climb · ${walkEta} walk · ${runEta} run</span>`;
+    const distEl = $("builder-live-distance");
+    const etaEl = $("builder-live-eta");
+    if (distEl) distEl.textContent = formatDistance(shown.meters, units());
+    if (etaEl) etaEl.textContent = walkEta + " walk · " + runEta + " run";
   }
   paintElevationBox(el, gl, { units: units(), credit: true });
 }
@@ -1730,8 +2153,10 @@ function showSummary(act, course, legResult) {
     healthBox.appendChild(note);
   }
 
+  const hasSectorTable = !!(sectorRoot && sectorRoot.querySelector("[data-testid='sector-table']"));
   const splitBox = $("summary-splits");
   splitBox.innerHTML = "";
+  splitBox.hidden = false;
   if (course && legResult && legResult.legs.length) {
     const status = document.createElement("p");
     status.className = "tiny";
@@ -1773,6 +2198,8 @@ function showSummary(act, course, legResult) {
     foot.style.marginTop = "12px";
     foot.textContent = "Course splits and leg bests are free. Faster weekly split targets belong to optional custom plans.";
     splitBox.appendChild(foot);
+  } else if (hasSectorTable) {
+    splitBox.hidden = true;
   } else if (course) {
     const note = document.createElement("p");
     note.className = "tiny";
@@ -1789,28 +2216,27 @@ function showSummary(act, course, legResult) {
 }
 
 function beginBuilder() {
+  resetBuilderRoutingFlags();
   ui.builder = emptyBuilderState();
   ui.builderPins = ui.builder.pins;
-  ui.builderRoute = null;
   setTab("today");
   showScreen("builder");
   map.clearOverlays();
   map.clearMarkers();
+  startBuilderLocation({ center: true });
   renderBuilder();
   maybeShowBuilderExplainer();
   if (ui.offBuildClick) ui.offBuildClick();
   ui.offBuildClick = map.onMapClick((pt) => {
-    ui.builder = placePin(activeBuilder(), pt);
-    ui.builderPins = ui.builder.pins;
-    renderBuilder();
+    applyBuilderChange((st) => placePin(st, pt));
   });
 }
 
 function cancelBuilder() {
   if (ui.offBuildClick) { ui.offBuildClick(); ui.offBuildClick = null; }
+  resetBuilderRoutingFlags();
   ui.builder = emptyBuilderState();
   ui.builderPins = ui.builder.pins;
-  ui.builderRoute = null;
   map.clearOverlays();
   map.clearMarkers();
   showScreen("today");
@@ -1974,11 +2400,13 @@ function bind() {
   $("btn-build-course").addEventListener("click", beginBuilder);
   $("btn-saved-courses").addEventListener("click", () => setTab("courses"));
   $("btn-new-course").addEventListener("click", beginBuilder);
-  $("btn-undo-pin").addEventListener("click", () => {
-    ui.builder = undoPin(activeBuilder());
-    ui.builderPins = ui.builder.pins;
-    ui.builderRoute = null;
-    renderBuilder();
+  $("btn-undo-pin").addEventListener("click", () => undoLastBuilderAction());
+  if ($("btn-legs-toggle")) $("btn-legs-toggle").addEventListener("click", () => {
+    ui.legsOpen = ui.legsOpen === false;
+    const box = $("builder-legs");
+    const toggle = $("btn-legs-toggle");
+    if (box) box.classList.toggle("is-collapsed", ui.legsOpen === false);
+    if (toggle) toggle.setAttribute("aria-expanded", ui.legsOpen === false ? "false" : "true");
   });
   $("btn-cancel-build").addEventListener("click", cancelBuilder);
   $("btn-save-course").addEventListener("click", saveBuilder);
@@ -1998,6 +2426,17 @@ function bind() {
       path: routed && routed.path && routed.path.length >= 2 ? routed.path.slice() : null,
       straightLine: !ui.followPaths,
       usedStraight: !!(routed && routed.usedStraight),
+      offMap: !!(routed && routed.offMap),
+      legs: (routed && routed.legs || []).map((l) => ({
+        meters: l.meters,
+        straightMeters: l.straightMeters,
+        mode: l.mode,
+        reason: l.reason || null,
+        offMap: !!l.offMap,
+        points: l.points,
+        key: l.key,
+      })),
+      straightOverrides: [...(ui.straightOverrides || [])],
     });
     state.courses.push(c);
     persist();
@@ -2216,9 +2655,8 @@ function bind() {
   if ($("goals-back")) $("goals-back").addEventListener("click", () => setTab("settings"));
   if ($("btn-goals-open-plans")) $("btn-goals-open-plans").addEventListener("click", () => { showScreen("plans"); renderPlansScreen(); });
   if ($("btn-end-point-pin")) $("btn-end-point-pin").addEventListener("click", () => {
-    ui.builder = toggleEndMode(activeBuilder());
+    applyBuilderChange((st) => toggleEndMode(st));
     paintEndPointButton();
-    renderBuilder();
   });
   if ($("btn-builder-help")) $("btn-builder-help").addEventListener("click", () => maybeShowBuilderExplainer({ force: true }));
   if ($("btn-builder-help-gotit")) $("btn-builder-help-gotit").addEventListener("click", () => {
@@ -2228,18 +2666,26 @@ function bind() {
   if ($("btn-pin-add-stop")) $("btn-pin-add-stop").addEventListener("click", () => {
     const i = ui.pinActionIndex;
     closeSheet("sheet-pin-action");
+    closeSheet("sheet-new-goal");
     if (i == null) return;
-    ui.builder = addNextStop(activeBuilder(), i);
-    ui.builderPins = ui.builder.pins;
-    renderBuilder();
+    applyBuilderChange((st) => addNextStop(st, i));
   });
   if ($("btn-pin-set-end")) $("btn-pin-set-end").addEventListener("click", () => {
     const i = ui.pinActionIndex;
     closeSheet("sheet-pin-action");
+    closeSheet("sheet-new-goal");
     if (i == null) return;
-    ui.builder = setEndIndex(activeBuilder(), i);
-    ui.builderPins = ui.builder.pins;
-    renderBuilder();
+    applyBuilderChange((st) => setEndIndex(st, i));
+  });
+  if ($("btn-pin-delete")) $("btn-pin-delete").addEventListener("click", () => {
+    const i = ui.pinActionIndex;
+    if (i == null) return;
+    applyPinDelete(i);
+  });
+  if ($("btn-pin-remove-end")) $("btn-pin-remove-end").addEventListener("click", () => {
+    closeSheet("sheet-pin-action");
+    closeSheet("sheet-new-goal");
+    applyBuilderChange((st) => removeEnd(st));
   });
   if ($("btn-pin-action-cancel")) $("btn-pin-action-cancel").addEventListener("click", () => closeSheet("sheet-pin-action"));
   if ($("btn-course-goal-save")) $("btn-course-goal-save").addEventListener("click", () => saveCourseGoal());
@@ -2268,6 +2714,16 @@ function bind() {
   if ($("btn-locate-me")) {
     $("btn-locate-me").addEventListener("click", () => locateUser({ animate: true }));
   }
+  if ($("btn-map-style")) {
+    $("btn-map-style").addEventListener("click", () => toggleMapStyle());
+  }
+  const openNewGoal = () => openNewGoalSheet();
+  if ($("btn-new-goal")) $("btn-new-goal").addEventListener("click", openNewGoal);
+  if ($("btn-today-new-goal")) $("btn-today-new-goal").addEventListener("click", openNewGoal);
+  if ($("btn-settings-new-goal")) $("btn-settings-new-goal").addEventListener("click", openNewGoal);
+  if ($("goal-new-kind")) $("goal-new-kind").addEventListener("change", () => paintGoalTypeFields());
+  if ($("btn-goal-save")) $("btn-goal-save").addEventListener("click", addGoalFromForm);
+  if ($("btn-goal-cancel")) $("btn-goal-cancel").addEventListener("click", () => closeSheet("sheet-new-goal"));
   bindPlaceSearch($("place-search"), $("place-search-results"));
   bindPlaceSearch($("map-choice-search"), $("map-choice-search-results"));
   if ($("btn-map-download-local")) {
@@ -2309,6 +2765,78 @@ function bind() {
     });
   }
 
+}
+
+
+function isOnline() {
+  return typeof navigator === "undefined" || navigator.onLine !== false;
+}
+
+function paintMapStyleButton() {
+  const sat = (state.settings.mapStyle || "map") === "satellite";
+  const btn = $("btn-map-style");
+  if (btn) {
+    btn.setAttribute("aria-pressed", sat ? "true" : "false");
+    btn.textContent = sat ? "Satellite" : "Map";
+    btn.title = sat ? "Switch to map" : "Switch to satellite";
+    btn.setAttribute("aria-label", sat ? "Satellite view, switch to map" : "Map view, switch to satellite");
+  }
+  const note = $("map-style-note");
+  if (note) {
+    if (sat && !isOnline()) {
+      note.hidden = false;
+      note.textContent = "Satellite needs signal.";
+    } else if (sat) {
+      note.hidden = false;
+      note.textContent = "EOX Cloudless 2016 by EOX (modified Copernicus Sentinel data 2016)";
+    } else {
+      note.hidden = true;
+    }
+  }
+}
+
+function applySavedMapStyle() {
+  const style = state.settings.mapStyle === "satellite" ? "satellite" : "map";
+  if (typeof map.setMapStyle === "function") map.setMapStyle(style, { online: isOnline() });
+  paintMapStyleButton();
+}
+
+function toggleMapStyle() {
+  const next = (state.settings.mapStyle || "map") === "satellite" ? "map" : "satellite";
+  state.settings.mapStyle = next;
+  persist();
+  if (typeof map.setMapStyle === "function") map.setMapStyle(next, { online: isOnline() });
+  paintMapStyleButton();
+}
+
+function onLiveFix(fix) {
+  const saved = rememberLocation(fix);
+  const point = saved || fix;
+  if (point) map.setUserDot(point);
+}
+
+function maybeStartLiveLocation() {
+  const known = normalizeFix(state.settings.lastKnown);
+  if (known) map.setUserDot(known);
+  const allowed = !!state.settings.locationDisclosureAccepted || !!known;
+  if (!allowed) return;
+  if (locationWatchActive()) return;
+  startLocationWatch({
+    onFix: onLiveFix,
+    onError: () => {},
+  }).catch(() => {});
+}
+
+function startBuilderLocation({ center = false } = {}) {
+  maybeStartLiveLocation();
+  const known = normalizeFix(state.settings.lastKnown);
+  if (!known) return;
+  map.setUserDot(known);
+  const st = ui.builder;
+  const empty = !st || !st.pins || !st.pins.length;
+  if (center && empty) {
+    map.setCenter(known.lat, known.lon, STREET_ZOOM);
+  }
 }
 
 function applyLaunchView(point, { animate = false } = {}) {
@@ -3053,6 +3581,7 @@ window.HeldpathTest = {
     closeSheet("sheet-group-invite");
     closeSheet("sheet-builder-help");
     closeSheet("sheet-pin-action");
+    closeSheet("sheet-new-goal");
     if (name !== "builder-help") {
       try { markExplainerSeen(); } catch { /* ignore */ }
     }
@@ -3331,6 +3860,9 @@ window.HeldpathTest = {
       await window.HeldpathTest.show("builder", opt);
       maybeShowBuilderExplainer({ force: true });
     } else if (name === "builder-loop" || name === "builder-mile-loop") {
+      state.settings.mapStyle = "map";
+      persist();
+      applySavedMapStyle();
       const center = { lat: 43.7672, lon: 11.2543 };
       await ensureWalkGraph(center);
       ui.followPaths = true;
@@ -3346,13 +3878,184 @@ window.HeldpathTest = {
         ui.builder = setEndIndex(ui.builder, 0);
       }
       ui.builderPins = ui.builder.pins;
-      showScreen("builder");
+      state.settings.lastKnown = { lat: 43.7672, lon: 11.2543, accuracy: 18, heading: 80, at: Date.now() };
+      persist();
       setTab("today");
       showScreen("builder");
       renderBuilder();
       const fit = (ui.builderRoute && ui.builderRoute.path) || routeStops(ui.builder);
-      const pad = { top: 56, bottom: 520, left: 56, right: 56 };
-      map.whenReady(() => { renderBuilder(); if (fit && fit.length) map.fitBounds(fit, pad); });
+      await waitMapReady();
+      fitBuilderCourse(fit, { maxZoom: 16 });
+      await new Promise((r) => setTimeout(r, 400));
+      fitBuilderCourse(fit, { maxZoom: 16 });
+      await new Promise((r) => setTimeout(r, 300));
+    } else if (name === "builder-unroutable" || name === "builder-warning") {
+      await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
+      ui.followPaths = true;
+      ui.straightOverrides = new Set();
+      ui.lockWalkGraph = true;
+      ui.findingPaths = false;
+      ui.builder = ingestPins([
+        { lat: 43.76797, lon: 11.25316, role: "start" },
+        { lat: 43.72923, lon: 11.25549, role: "end" },
+      ]);
+      ui.builderPins = ui.builder.pins;
+      ui.builderRoute = null;
+      setTab("today");
+      showScreen("builder");
+      renderBuilder();
+      const warnFit = routeStops(ui.builder);
+      renderBuilder();
+      await new Promise((r) => setTimeout(r, 300));
+      fitBuilderCourse(warnFit, { maxZoom: 14 });
+      await new Promise((r) => setTimeout(r, 200));
+    } else if (name === "builder-soccer") {
+      await ensureWalkGraph({ lat: 43.779187, lon: 11.284345 });
+      ui.followPaths = true;
+      ui.straightOverrides = new Set();
+      ui.lockWalkGraph = true;
+      ui.findingPaths = false;
+      const soccerPins = [
+        { lat: 43.77953723301052, lon: 11.284208670258522, role: "start" },
+        { lat: 43.77927434215589, lon: 11.284751817584038, role: "via" },
+        { lat: 43.778747104151606, lon: 11.284957006573677, role: "via" },
+        { lat: 43.778716602803165, lon: 11.284140273928642, role: "via" },
+        { lat: 43.77927579422743, lon: 11.283868700265884, role: "via" },
+        { lat: 43.77953723301052, lon: 11.284208670258522, role: "end" },
+      ];
+      ui.builder = ingestPins(soccerPins);
+      ui.builder = setEndIndex(ui.builder, 0);
+      ui.builderPins = ui.builder.pins;
+      ui.builderRoute = null;
+      setTab("today");
+      showScreen("builder");
+      renderBuilder();
+      const soccerFit = routeStops(ui.builder);
+      renderBuilder();
+      await new Promise((r) => setTimeout(r, 300));
+      fitBuilderCourse(soccerFit, { maxZoom: 18 });
+      await new Promise((r) => setTimeout(r, 200));
+    } else if (name === "builder-live" || name === "builder-mid") {
+      await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
+      ui.followPaths = true;
+      ui.straightOverrides = new Set();
+      ui.lockWalkGraph = true;
+      ui.findingPaths = false;
+      ui.legsOpen = true;
+      ui.builder = emptyBuilderState();
+      placePin(ui.builder, { lat: 43.76797, lon: 11.25316 });
+      placePin(ui.builder, { lat: 43.76956, lon: 11.25586 });
+      placePin(ui.builder, { lat: 43.77313, lon: 11.25596 });
+      ui.builderPins = ui.builder.pins;
+      ui.builderRoute = null;
+      setTab("today");
+      showScreen("builder");
+      renderBuilder();
+      const liveFit = (ui.builderRoute && ui.builderRoute.path) || routeStops(ui.builder);
+      renderBuilder();
+      await waitMapReady();
+      fitBuilderCourse(liveFit, { maxZoom: 16 });
+      await new Promise((r) => setTimeout(r, 400));
+      fitBuilderCourse(liveFit, { maxZoom: 16 });
+      await new Promise((r) => setTimeout(r, 300));
+    } else if (name === "builder-pin-menu") {
+      await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
+      ui.followPaths = true;
+      ui.lockWalkGraph = true;
+      ui.findingPaths = false;
+      ui.builder = emptyBuilderState();
+      placePin(ui.builder, { lat: 43.76797, lon: 11.25316 });
+      placePin(ui.builder, { lat: 43.76956, lon: 11.25586 });
+      placePin(ui.builder, { lat: 43.77313, lon: 11.25596 });
+      ui.builderPins = ui.builder.pins;
+      ui.builderRoute = null;
+      setTab("today");
+      showScreen("builder");
+      renderBuilder();
+      const menuFit = (ui.builderRoute && ui.builderRoute.path) || routeStops(ui.builder);
+      await waitMapReady();
+      fitBuilderCourse(menuFit, { maxZoom: 16 });
+      await new Promise((r) => setTimeout(r, 300));
+      fitBuilderCourse(menuFit, { maxZoom: 16 });
+      openPinAction(1);
+      await new Promise((r) => setTimeout(r, 200));
+    } else if (name === "goal-type-dropdown") {
+      state.goals = [];
+      persist();
+      showScreen("goals");
+      renderGoalsScreen();
+      openNewGoalSheet();
+      const sel = $("goal-new-kind");
+      if (sel) {
+        sel.size = Math.max(2, sel.options.length);
+        sel.style.height = "auto";
+        sel.focus();
+      }
+    } else if (name === "new-goal" || name === "goals-new") {
+
+      state.goals = [];
+      persist();
+      showScreen("goals");
+      renderGoalsScreen();
+      openNewGoalSheet();
+      if ($("goal-new-kind")) $("goal-new-kind").value = "time-distance";
+      if ($("goal-new-distance")) $("goal-new-distance").value = "3";
+      if ($("goal-new-time")) $("goal-new-time").value = "18:00";
+      paintGoalTypeFields();
+    } else if (name === "goal-created") {
+      state.goals = [
+        newGoal({
+          name: "3.000 mi in 18:00",
+          kind: "time-distance",
+          distanceMeters: 3 * METERS_PER_MILE,
+          finishSec: 18 * 60,
+          paid: false,
+        }),
+      ];
+      persist();
+      showScreen("goals");
+      renderGoalsScreen();
+    } else if (name === "builder-locate") {
+      const fix = { lat: 43.76956, lon: 11.25586, accuracy: 22, heading: 35, at: Date.now() };
+      state.settings.lastKnown = fix;
+      state.settings.locationDisclosureAccepted = true;
+      persist();
+      ui.followPaths = true;
+      ui.lockWalkGraph = true;
+      ui.builder = emptyBuilderState();
+      ui.builderPins = ui.builder.pins;
+      ui.builderRoute = null;
+      setTab("today");
+      showScreen("builder");
+      map.setUserDot(fix);
+      map.setCenter(fix.lat, fix.lon, 16);
+      startBuilderLocation({ center: true });
+      renderBuilder();
+      await new Promise((r) => setTimeout(r, 400));
+    } else if (name === "builder-satellite" || name === "map-satellite") {
+      await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
+      state.settings.mapStyle = "satellite";
+      persist();
+      applySavedMapStyle();
+      ui.followPaths = true;
+      ui.lockWalkGraph = true;
+      ui.findingPaths = false;
+      ui.builder = emptyBuilderState();
+      placePin(ui.builder, { lat: 43.76797, lon: 11.25316 });
+      placePin(ui.builder, { lat: 43.76956, lon: 11.25586 });
+      placePin(ui.builder, { lat: 43.77313, lon: 11.25596 });
+      ui.builder = setEndIndex(ui.builder, 0);
+      ui.builderPins = ui.builder.pins;
+      ui.builderRoute = null;
+      setTab("today");
+      showScreen("builder");
+      renderBuilder();
+      const satFit = (ui.builderRoute && ui.builderRoute.path) || routeStops(ui.builder);
+      await waitMapReady();
+      fitBuilderCourse(satFit, { maxZoom: 16 });
+      await new Promise((r) => setTimeout(r, 800));
+      fitBuilderCourse(satFit, { maxZoom: 16 });
+      await new Promise((r) => setTimeout(r, 400));
     } else if (name === "goals") {
       const now = new Date("2026-11-18T18:00:00");
       state.goals = [
@@ -3362,8 +4065,20 @@ window.HeldpathTest = {
       persist();
       showScreen("goals");
       renderGoalsScreen();
-    } else if (name === "plans" || name === "plans-water") {
+    } else if (name === "plans" || name === "plans-water" || name === "plans-teaser") {
+      if (name === "plans-teaser") state.planLibrary = [];
       showScreen("plans");
+      if (name === "plans-teaser") {
+        const days = $("plan-days");
+        if (days) days.value = "56";
+        const runBtn = document.querySelector("#plan-type-tog button[data-type='run']");
+        if (runBtn) runBtn.click();
+        const dist = $("plan-distance");
+        if (dist) {
+          dist.value = "10";
+          dist.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+      }
       renderPlansScreen();
       if (name === "plans-water") {
         setTimeout(() => { try { onRecommendWater && onRecommendWater(); } catch { /* plans_ui private */ } }, 0);
@@ -3385,50 +4100,45 @@ window.HeldpathTest = {
       }
       setTab("progress");
     } else if (name === "summary-sectors") {
-      const course = state.courses[0] || newCourse({ name: "Park loop", pins: arnoLoopPins() });
-      if (!state.courses.length) state.courses.push(course);
-      course.goal = goalFromFinishTime(30 * 60, course) || { finishSec: 30 * 60 };
-      const pins = course.pins;
-      const trackPts = [];
-      const totalM = courseMeters(course) || 1609;
-      const startMs = Date.parse("2026-11-18T09:00:00.000Z");
-      for (let i = 0; i < pins.length; i++) {
-        const frac = i / Math.max(1, pins.length - 1);
-        const elapsed = Math.round(frac * 28 * 60);
-        trackPts.push({
-          lat: pins[i].lat,
-          lon: pins[i].lon,
-          t: elapsed,
-          at: new Date(startMs + elapsed * 1000).toISOString(),
-        });
-      }
+      const fixture = makeSectorFixture();
+      const course = fixture.course;
+      state.courses = [course, ...(state.courses || []).filter((c) => c.id !== course.id)];
+      persist();
       const act = newActivity({
         type: "run",
         courseId: course.id,
         courseName: course.name,
         startedAt: "2026-11-18T09:00:00.000Z",
-        endedAt: "2026-11-18T09:28:00.000Z",
-        distanceMeters: totalM,
-        elapsedSec: 28 * 60,
-        track: trackPts,
+        endedAt: "2026-11-18T09:29:22.300Z",
+        distanceMeters: fixture.meters,
+        elapsedSec: fixture.totalSec,
+        track: fixture.track,
       });
       showSummary(act, course, null);
     } else if (name === "tracking-sectors") {
-      const course = state.courses[0] || newCourse({ name: "Park loop", pins: arnoLoopPins() });
-      if (!state.courses.length) state.courses.push(course);
-      course.goal = goalFromFinishTime(30 * 60, course) || { finishSec: 30 * 60 };
+      const fixture = makeSectorFixture();
+      const course = fixture.course;
       course.sectorCallout = false;
+      state.courses = [course, ...(state.courses || []).filter((c) => c.id !== course.id)];
       persist();
       const made = await window.HeldpathTest.show("tracking", opt);
-      // After tracking is on screen, overlay a sector flash as if sector 1 just finished ahead.
-      const flash = $("sector-flash");
-      if (flash) {
-        flash.hidden = false;
-        flash.classList.remove("green", "red", "purple");
-        flash.classList.add("green");
-        if ($("sector-flash-main")) $("sector-flash-main").textContent = "S1  −0:04.2";
-        if ($("sector-flash-cum")) $("sector-flash-cum").textContent = "Total −0:04.2";
+      const sess = track.getSession && track.getSession();
+      if (sess) {
+        const sector1 = fixture.track.filter((p) => p.t <= fixture.sectorSeconds[0] + 0.05);
+        sess.courseId = course.id;
+        sess.courseName = course.name;
+        sess.coursePins = course.pins;
+        sess.coursePath = course.path || course.pins;
+        sess.courseGoal = course.goal;
+        sess.sectorPbs = course.sectorPbs;
+        sess.sectorHistory = course.sectorHistory;
+        sess.track = sector1;
+        sess.distanceMeters = fixture.sectorMeters[0];
+        sess.elapsedSec = fixture.sectorSeconds[0];
       }
+      ui.sectorTraveled = 0;
+      ui.sectorFlashSticky = false;
+      paintSectorFlash(track.getSession() || made || sess);
     } else if (name === "target-setup") {
       const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
       if (!state.courses.length) state.courses.push(course);
@@ -3787,10 +4497,16 @@ async function init() {
   } catch { /* web */ }
   const graphReady = ensureWalkGraph();
   const launchView = viewForLaunch({ lastKnown: state.settings.lastKnown });
-  await map.initMap($("map"), { center: launchView, zoom: launchView.zoom });
+  await map.initMap($("map"), {
+    center: launchView,
+    zoom: launchView.zoom,
+    mapStyle: state.settings.mapStyle === "satellite" ? "satellite" : "map",
+  });
   await graphReady;
   map.whenReady(() => {
     applyLaunchView(null, { animate: false });
+    applySavedMapStyle();
+    maybeStartLiveLocation();
   });
   const screen = params.get("screen");
   if (screen) {

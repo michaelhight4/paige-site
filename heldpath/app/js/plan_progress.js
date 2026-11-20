@@ -15,6 +15,7 @@ import {
   isoDate,
   startOfDay,
   METERS_PER_MILE,
+  geodesicMeters,
 } from "./util.js";
 import { destination } from "./util.js";
 import { autoLoopRoute, getActiveGraph } from "./routing.js";
@@ -444,7 +445,7 @@ export function legSplitsFromTrack(pins, track) {
     boundary += leg;
     while (idx < track.length && traveled < boundary) {
       prevTraveled = traveled;
-      traveled += haversine(track[idx - 1], track[idx]);
+      traveled += geodesicMeters(track[idx - 1], track[idx]);
       prevT = track[idx - 1].t;
       idx++;
     }
@@ -502,25 +503,16 @@ export function runWalkMix({ activityType, beginner = true, sessionSec = 1800 } 
 }
 
 /**
- * Build a plan draft from a goal. Does not charge or save.
- * Route: saved course scaled/repeated to the session length, else a
- * deterministic loop around the user's area.
- * Time goal: Riegel scaling from the goal performance; run effort also gets
- * a VDOT and Daniels training bands when a distance and time are both set.
+ * Session count and window only — no paces, distances per week, water, or
+ * sector splits. Safe to show before a plan is unlocked.
  */
-export function buildPlanDraft({
+export function planSessionOutline({
   activityType = "walk",
   goalDistanceMeters = null,
   goalDurationSec = null,
   windowDays = 14,
   course = null,
-  autoLoop = false,
-  center = { lat: 43.7672, lon: 11.2543 },
-  bodyKg = null,
-  now = new Date(),
-  name = "",
-  beginner = true,
-}) {
+} = {}) {
   const type = activityType === "run" ? "run" : "walk";
   const mph = activityMph(type);
   const days = Math.max(1, Math.round(windowDays || 14));
@@ -528,15 +520,15 @@ export function buildPlanDraft({
   const goalDuration = Number(goalDurationSec) > 0 ? Number(goalDurationSec) : null;
 
   const maxPerWeek = MAX_SESSIONS_PER_WEEK[type];
-  const weeks = Math.max(1, days / 7);
-  const maxSessions = Math.max(1, Math.min(days, Math.floor(weeks * maxPerWeek)));
+  const weeksFrac = Math.max(1, days / 7);
+  const maxSessions = Math.max(1, Math.min(days, Math.floor(weeksFrac * maxPerWeek)));
   const typical30 = (mph * METERS_PER_MILE) / 2; // 30 minutes
   const typical45 = typical30 * 1.5;
 
   // Aim at about three sessions a week first, then size each session to the
   // goal. Very small goals therefore become shorter sessions, not a plan with
   // one giant session and six days off.
-  const targetSessions = clamp(Math.round(weeks * 3) || 3, 2, maxSessions);
+  const targetSessions = clamp(Math.round(weeksFrac * 3) || 3, 2, maxSessions);
   const minSession = typical30 * 0.18; // about 5 minutes; goals can be small
   const maxSession = typical45 * 1.25;
   let sessionMeters;
@@ -567,6 +559,100 @@ export function buildPlanDraft({
     }
   }
   sessionsNeeded = Math.max(1, Math.min(sessionsNeeded, days));
+  const weeks = days % 7 === 0 ? days / 7 : Math.ceil(days / 7);
+  return {
+    activityType: type,
+    days,
+    weeks,
+    sessions: sessionsNeeded,
+    sessionMeters,
+    sessionSecTypical,
+  };
+}
+
+export function formatPlanLength(outline) {
+  const o = outline || {};
+  const kind = o.activityType === "run" ? "run" : "walk";
+  const n = Math.max(1, Number(o.sessions) || 1);
+  const guided = n === 1 ? `1 guided ${kind}` : `${n} guided ${kind}s`;
+  const days = Math.max(1, Number(o.days) || 1);
+  const weeks = Number(o.weeks) || Math.ceil(days / 7);
+  const window = days >= 7 && days % 7 === 0
+    ? `${weeks} week${weeks === 1 ? "" : "s"}`
+    : `${days} day${days === 1 ? "" : "s"}`;
+  return `${window}, ${guided}`;
+}
+
+/** Public teaser for the pre-purchase screen. No step targets or water amounts. */
+export function planTeaserModel(goal = {}, { units = "mi", formatDistance } = {}) {
+  const outline = planSessionOutline(goal);
+  const type = outline.activityType;
+  const kind = type === "run" ? "Run" : "Walk";
+  let goalLabel = kind;
+  const dist = Number(goal.goalDistanceMeters);
+  if (dist > 0 && typeof formatDistance === "function") {
+    goalLabel = `${kind} ${formatDistance(dist, units)}`;
+  } else if (dist > 0) {
+    const miles = dist / METERS_PER_MILE;
+    const km = dist / 1000;
+    goalLabel = units === "km"
+      ? `${kind} ${Number(km.toFixed(km < 10 ? 2 : 1))} km`
+      : `${kind} ${Number(miles.toFixed(miles < 10 ? 3 : 1))} mi`;
+  }
+  if (Number(goal.goalDurationSec) > 0) {
+    const sec = Math.round(Number(goal.goalDurationSec));
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    goalLabel += ` in ${m}:${String(s).padStart(2, "0")}`;
+  }
+  return {
+    goalLabel,
+    lengthLabel: formatPlanLength(outline),
+    includes: ["Step goals", "Per-leg paces", "Water reminders"],
+    activityType: type,
+    windowDays: outline.days,
+    weeks: outline.weeks,
+    sessions: outline.sessions,
+  };
+}
+
+/**
+ * Build a plan draft from a goal. Does not charge or save.
+ * Route: saved course scaled/repeated to the session length, else a
+ * deterministic loop around the user's area.
+ * Time goal: Riegel scaling from the goal performance; run effort also gets
+ * a VDOT and Daniels training bands when a distance and time are both set.
+ * Call this only after a plan is unlocked (purchase, credit, or a shared import).
+ */
+export function buildPlanDraft({
+  activityType = "walk",
+  goalDistanceMeters = null,
+  goalDurationSec = null,
+  windowDays = 14,
+  course = null,
+  autoLoop = false,
+  center = { lat: 43.7672, lon: 11.2543 },
+  bodyKg = null,
+  now = new Date(),
+  name = "",
+  beginner = true,
+}) {
+  const type = activityType === "run" ? "run" : "walk";
+  const mph = activityMph(type);
+  const maxPerWeek = MAX_SESSIONS_PER_WEEK[type];
+  const outline = planSessionOutline({
+    activityType: type,
+    goalDistanceMeters,
+    goalDurationSec,
+    windowDays,
+    course,
+  });
+  const days = outline.days;
+  const goalDistance = Number(goalDistanceMeters) > 0 ? Number(goalDistanceMeters) : null;
+  const goalDuration = Number(goalDurationSec) > 0 ? Number(goalDurationSec) : null;
+  let sessionMeters = outline.sessionMeters;
+  let sessionSecTypical = outline.sessionSecTypical;
+  const sessionsNeeded = outline.sessions;
 
   const route = routeForGoal({ targetMeters: sessionMeters, course, autoLoop, center });
   const pins = route.pins;

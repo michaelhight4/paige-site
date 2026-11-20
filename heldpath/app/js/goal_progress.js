@@ -565,6 +565,82 @@ export function periodGoalProgress(goal, activities, { now = new Date(), locale,
   };
 }
 
+
+/**
+ * Progress for a non-period goal (distance, time over a distance, or a
+ * goal time on a saved route). Best qualifying run against the target.
+ */
+export function oneShotGoalProgress(goal, activities, { units = "mi" } = {}) {
+  if (!goal || goalPeriod(goal)) return null;
+  const acts = activities || [];
+  const kind = String(goal.kind || "");
+  if (kind === "route-time" || (goal.courseId && Number(goal.finishSec) > 0 && kind.includes("time"))) {
+    const runs = acts.filter((a) => a && a.courseId === goal.courseId && Number(a.elapsedSec) > 0);
+    const best = runs.reduce((m, a) => Math.min(m, Number(a.elapsedSec)), Infinity);
+    const target = Number(goal.finishSec) || 0;
+    const has = Number.isFinite(best) && best !== Infinity;
+    const pct = !has || !(target > 0) ? 0 : (best <= target ? 1 : target / best);
+    return {
+      period: null,
+      metric: "time",
+      current: has ? best : 0,
+      target,
+      pct,
+      remaining: has ? Math.max(0, best - target) : target,
+      complete: !!(has && target > 0 && best <= target),
+      runCount: runs.length,
+      units,
+      label: "Best",
+      currentLabel: has ? formatDuration(best) : "—",
+      targetLabel: formatMetricValue(target, "time", units),
+    };
+  }
+  if (kind === "time-distance" || (kind === "time" && Number(goal.distanceMeters) > 0 && Number(goal.finishSec) > 0)) {
+    const need = Number(goal.distanceMeters) || 0;
+    const runs = acts.filter((a) => a && Number(a.distanceMeters) >= need && Number(a.elapsedSec) > 0);
+    const best = runs.reduce((m, a) => Math.min(m, Number(a.elapsedSec)), Infinity);
+    const target = Number(goal.finishSec) || 0;
+    const has = Number.isFinite(best) && best !== Infinity;
+    const pct = !has || !(target > 0) ? 0 : (best <= target ? 1 : target / best);
+    return {
+      period: null,
+      metric: "time",
+      current: has ? best : 0,
+      target,
+      pct,
+      remaining: has ? Math.max(0, best - target) : target,
+      complete: !!(has && target > 0 && best <= target),
+      runCount: runs.length,
+      units,
+      label: "Best",
+      currentLabel: has ? formatDuration(best) : "—",
+      targetLabel: formatMetricValue(target, "time", units),
+    };
+  }
+  if (kind === "distance" || (Number(goal.distanceMeters) > 0 && !(Number(goal.finishSec) > 0) && !(Number(goal.targetCount) > 0))) {
+    const runs = acts.filter((a) => a && Number(a.distanceMeters) > 0);
+    const best = runs.reduce((m, a) => Math.max(m, Number(a.distanceMeters)), 0);
+    const target = Number(goal.distanceMeters) || 0;
+    const has = best > 0;
+    const pct = !has || !(target > 0) ? 0 : Math.min(1, best / target);
+    return {
+      period: null,
+      metric: "distance",
+      current: has ? best : 0,
+      target,
+      pct,
+      remaining: Math.max(0, target - (has ? best : 0)),
+      complete: !!(has && target > 0 && best >= target),
+      runCount: runs.length,
+      units,
+      label: "Best",
+      currentLabel: has ? formatMetricValue(best, "distance", units) : "—",
+      targetLabel: formatMetricValue(target, "distance", units),
+    };
+  }
+  return null;
+}
+
 /** Circular progress ring for a weekly/monthly goal. */
 export function periodRingMarkup(progress, { size = 120, testid = "period-ring" } = {}) {
   if (!progress) return "";

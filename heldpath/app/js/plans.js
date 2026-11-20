@@ -91,14 +91,15 @@ export function makePlan(draft, { id = uid("plan"), now = new Date(), ownership 
  * when the ledger is empty. Nothing is saved here; the caller writes state.
  */
 export async function createPlanForGoal(goal = {}, { iapApi = defaultIap, now = new Date(), id = null } = {}) {
-  const draft = buildPlanDraft({ ...goal, now });
-  const plan = makePlan(draft, { id: id || uid("plan"), now });
   let purchased = false;
   if (!iapApi.hasCredit()) {
     const buy = await iapApi.purchasePlanCredit();
     if (!buy || !buy.ok) return { ok: false, error: "purchase_failed", detail: buy };
     purchased = true;
   }
+  // Paid step targets, paces and water amounts are generated only after unlock.
+  const draft = buildPlanDraft({ ...goal, now });
+  const plan = makePlan(draft, { id: id || uid("plan"), now });
   const redeem = iapApi.redeemCreditForPlan(plan.id);
   if (!redeem || !redeem.ok) return { ok: false, error: redeem?.error || "no_credit" };
   plan.ownership = {

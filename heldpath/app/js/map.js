@@ -11,11 +11,73 @@ import {
   WORLD_MAXZOOM,
 } from "./map_tiles.js";
 import { WORLD_VIEW, STREET_ZOOM } from "./locate.js";
+import { geodesicDirect } from "./util.js";
 
 let map = null;
 let protocolAdded = false;
 let ofmProtocolAdded = false;
 const overlayIds = [];
+
+export const SATELLITE_ATTRIBUTION =
+  'EOxCloudless <a href="https://cloudless.eox.at">cloudless.eox.at</a> by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2016)';
+export const SATELLITE_TILES =
+  "https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless_3857/default/g/{z}/{y}/{x}.jpg";
+export const SATELLITE_MAXZOOM = 14;
+
+let mapStyle = "map";
+
+export function getMapStyle() {
+  return mapStyle;
+}
+
+function ensureSatelliteLayer() {
+  if (!map) return;
+  if (!map.getSource("s2cloudless")) {
+    map.addSource("s2cloudless", {
+      type: "raster",
+      tiles: [SATELLITE_TILES],
+      tileSize: 256,
+      maxzoom: SATELLITE_MAXZOOM,
+      attribution: "",
+    });
+  }
+  if (!map.getLayer("s2-sat")) {
+    map.addLayer({
+      id: "s2-sat",
+      type: "raster",
+      source: "s2cloudless",
+      maxzoom: 22,
+      layout: { visibility: "none" },
+      paint: { "raster-opacity": 1, "raster-fade-duration": 0 },
+    });
+  }
+}
+
+/** Switch between the vector map and the online EOX 2016 satellite layer. */
+export function setMapStyle(style, { online = true } = {}) {
+  const want = style === "satellite" ? "satellite" : "map";
+  mapStyle = want;
+  if (!map) return { ok: true, style: mapStyle, online, needsSignal: want === "satellite" && !online };
+  try {
+    ensureSatelliteLayer();
+    const vis = want === "satellite" ? "visible" : "none";
+    if (map.getLayer("s2-sat")) map.setLayoutProperty("s2-sat", "visibility", vis);
+    const src = map.getSource("s2cloudless");
+    if (src) src.attribution = want === "satellite" ? SATELLITE_ATTRIBUTION : "";
+    // Nudge the attribution control to pick up the source text.
+    if (map._controls) {
+      for (const c of map._controls) {
+        if (c && typeof c._updateAttributions === "function") {
+          try { c._updateAttributions(); } catch { /* ignore */ }
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("map style", err && err.message ? err.message : err);
+  }
+  return { ok: true, style: mapStyle, online, needsSignal: want === "satellite" && !online };
+}
+
 
 const BOUNDS = FLORENCE_BOUNDS;
 const ATTRIBUTION =
@@ -282,7 +344,10 @@ export async function initMap(container, opt = {}) {
     preserveDrawingBuffer: true, // so headless screenshots capture the WebGL canvas
     fadeDuration: 0,
   });
-  map.on("load", () => map.resize());
+  map.on("load", () => {
+    map.resize();
+    if (opt.mapStyle) setMapStyle(opt.mapStyle, { online: typeof navigator === "undefined" || navigator.onLine !== false });
+  });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
   map.on("error", (e) => {
     // Missing glyphs or a single tile should not kill the map.
@@ -303,7 +368,11 @@ export function fitBounds(coords, pad = 60) {
   if (!map || !coords.length) return;
   const b = new maplibregl.LngLatBounds();
   coords.forEach((c) => b.extend([c.lon, c.lat]));
-  map.fitBounds(b, { padding: pad, maxZoom: 16, duration: 0 });
+  const maxZoom = (pad && typeof pad === "object" && pad.maxZoom) || 16;
+  const padding = (pad && typeof pad === "object")
+    ? { top: pad.top ?? 60, bottom: pad.bottom ?? 60, left: pad.left ?? 60, right: pad.right ?? 60 }
+    : pad;
+  map.fitBounds(b, { padding, maxZoom, duration: 0 });
 }
 
 export function setCenter(lat, lon, zoom) {
@@ -323,17 +392,80 @@ export function flyTo(lat, lon, zoom, { duration = 900 } = {}) {
 
 let userMarker = null;
 
+function accuracyFeature(coord) {
+  const acc = Number(coord && coord.accuracy);
+  if (!(acc > 2) || !coord) return { type: "FeatureCollection", features: [] };
+  const ring = [];
+  for (let i = 0; i <= 36; i++) {
+    const p = geodesicDirect(coord, i * 10, acc);
+    if (p) ring.push([p.lon, p.lat]);
+  }
+  if (ring.length < 4) return { type: "FeatureCollection", features: [] };
+  return {
+    type: "FeatureCollection",
+    features: [{ type: "Feature", properties: {}, geometry: { type: "Polygon", coordinates: [ring] } }],
+  };
+}
+
+function ensureUserAccuracyLayer() {
+  if (!map) return;
+  if (!map.getSource("user-accuracy")) {
+    map.addSource("user-accuracy", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+  }
+  if (!map.getLayer("user-accuracy-fill")) {
+    map.addLayer({
+      id: "user-accuracy-fill",
+      type: "fill",
+      source: "user-accuracy",
+      paint: { "fill-color": "#4EC3F7", "fill-opacity": 0.18 },
+    });
+  }
+  if (!map.getLayer("user-accuracy-line")) {
+    map.addLayer({
+      id: "user-accuracy-line",
+      type: "line",
+      source: "user-accuracy",
+      paint: { "line-color": "#4EC3F7", "line-opacity": 0.45, "line-width": 1 },
+    });
+  }
+}
+
+function paintUserDotChrome(coord) {
+  if (!userMarker) return;
+  const el = userMarker.getElement();
+  if (!el) return;
+  const heading = Number(coord && coord.heading);
+  if (Number.isFinite(heading) && heading >= 0) {
+    el.classList.add("has-heading");
+    el.style.setProperty("--user-heading", `${heading}deg`);
+  } else {
+    el.classList.remove("has-heading");
+    el.style.removeProperty("--user-heading");
+  }
+  ensureUserAccuracyLayer();
+  const src = map.getSource("user-accuracy");
+  if (src) src.setData(accuracyFeature(coord));
+}
+
 export function setUserDot(coord) {
   if (!map || !coord || !Number.isFinite(Number(coord.lat)) || !Number.isFinite(Number(coord.lon))) return;
   const lngLat = [Number(coord.lon), Number(coord.lat)];
   if (userMarker) {
     userMarker.setLngLat(lngLat);
+    paintUserDotChrome(coord);
     return userMarker;
   }
   const el = document.createElement("div");
   el.className = "pp-map-marker user-dot";
   el.setAttribute("aria-label", "You are here");
+  const rot = document.createElement("span");
+  rot.className = "user-heading-rot";
+  const ptr = document.createElement("i");
+  ptr.className = "user-heading";
+  rot.appendChild(ptr);
+  el.appendChild(rot);
   userMarker = new maplibregl.Marker({ element: el, anchor: "center" }).setLngLat(lngLat).addTo(map);
+  paintUserDotChrome(coord);
   return userMarker;
 }
 
@@ -341,6 +473,9 @@ export function clearUserDot() {
   if (userMarker) {
     userMarker.remove();
     userMarker = null;
+  }
+  if (map && map.getSource("user-accuracy")) {
+    try { map.getSource("user-accuracy").setData({ type: "FeatureCollection", features: [] }); } catch { /* ignore */ }
   }
 }
 
@@ -399,7 +534,8 @@ export function clearOverlays() {
     if (map.getLayer(id)) map.removeLayer(id);
     if (map.getSource(id)) map.removeSource(id);
   }
-  document.querySelectorAll(".pp-map-marker").forEach((el) => el.remove());
+  document.querySelectorAll(".pp-map-marker:not(.user-dot)").forEach((el) => el.remove());
+  clearLegLabels();
 }
 
 const markers = [];
@@ -409,6 +545,29 @@ export function clearMarkers() {
     const m = markers.pop();
     try { m.remove(); } catch { /* ignore */ }
   }
+  clearLegLabels();
+}
+
+const legLabelMarkers = [];
+
+export function clearLegLabels() {
+  while (legLabelMarkers.length) {
+    const m = legLabelMarkers.pop();
+    try { m.remove(); } catch { /* ignore */ }
+  }
+}
+
+/** A small distance chip at a point along a builder leg. */
+export function addLegLabel(coord, text, { muted = false } = {}) {
+  if (!map || !coord || !text) return null;
+  const el = document.createElement("div");
+  el.className = "pp-leg-label" + (muted ? " muted" : "");
+  el.textContent = String(text);
+  const marker = new maplibregl.Marker({ element: el, anchor: "center", pitchAlignment: "viewport" })
+    .setLngLat([Number(coord.lon), Number(coord.lat)])
+    .addTo(map);
+  legLabelMarkers.push(marker);
+  return marker;
 }
 
 export function addPin(coord, { label, kind, onClick } = {}) {

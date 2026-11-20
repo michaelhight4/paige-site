@@ -16,6 +16,7 @@ import {
 } from "./util.js";
 import {
   buildPlanDraft,
+  planTeaserModel,
   WATER_DISCLAIMER,
   reminderTimesFor,
   normaliseReminderTimes,
@@ -23,6 +24,11 @@ import {
   mlToOz,
   ozToMl,
 } from "./plan_progress.js";
+import {
+  defaultWeightUnit,
+  parseWeightInput,
+  formatWeightInput,
+} from "./body_weight.js";
 import {
   createPlanForGoal,
   addPlanToState,
@@ -127,12 +133,58 @@ function userCenter() {
   return null;
 }
 
+function localeNow() {
+  return (typeof navigator !== "undefined" && navigator.language) || "en-US";
+}
+
+function currentWeightUnit() {
+  const remembered = state().settings && state().settings.weightUnit;
+  return defaultWeightUnit({ locale: localeNow(), units: units(), remembered });
+}
+
+function persistBodyFromForm() {
+  const input = $("plan-body");
+  const unit = currentWeightUnit();
+  const kg = parseWeightInput(input && input.value, unit);
+  const st = state().settings;
+  if (st) {
+    st.weightUnit = unit;
+    st.bodyKg = kg;
+    if (ctx && ctx.persist) ctx.persist();
+  }
+  return kg;
+}
+
+function paintBodyWeightField({ force = false } = {}) {
+  const unit = currentWeightUnit();
+  document.querySelectorAll("#plan-body-unit-tog button").forEach((b) => {
+    b.classList.toggle("active", b.dataset.unit === unit);
+  });
+  const input = $("plan-body");
+  if (!input) return;
+  if (!force && document.activeElement === input) return;
+  const kg = state().settings && state().settings.bodyKg;
+  input.value = kg ? formatWeightInput(kg, unit) : (force ? "" : input.value);
+}
+
+function setWeightUnit(next) {
+  const prev = currentWeightUnit();
+  const typed = parseWeightInput($("plan-body") && $("plan-body").value, prev);
+  const kg = typed || (state().settings && state().settings.bodyKg) || null;
+  if (state().settings) {
+    state().settings.weightUnit = next === "kg" ? "kg" : "lb";
+    state().settings.bodyKg = kg;
+    if (ctx && ctx.persist) ctx.persist();
+  }
+  paintBodyWeightField({ force: true });
+  updatePreview();
+}
+
 function readGoal() {
   const days = Math.max(1, Math.round(Number($("plan-days").value) || 14));
   const routeValue = $("plan-route").value;
   const course = routeValue !== "auto" ? courseById(routeValue) : null;
-  const bodyRaw = $("plan-body").value.trim();
-  const bodyKg = bodyRaw === "" ? null : Math.max(30, Math.min(250, Number(bodyRaw) || 0)) || null;
+  const bodyKg = persistBodyFromForm();
   const name = ($("plan-title").value || "").trim();
   return {
     activityType: ui.type,
@@ -185,37 +237,26 @@ function draftForGoal(goal) {
   return draft;
 }
 
-function fillPreview(draft) {
-  const u = units();
-  const s = draft.schedule;
-  const legs = s.legTargetsSec || [];
-  const target = s.initialTargetSec;
-  const pace = formatPace(s.sessionDistanceMeters, target, u);
-  const effort = s.effort || {};
-  const rows = [];
-  rows.push(`<div class="plan-stat"><span>Session</span><strong>${formatDistance(s.sessionDistanceMeters, u)} · ${formatDuration(s.sessionDurationSec)}</strong></div>`);
-  rows.push(`<div class="plan-stat"><span>Schedule</span><strong>${s.sessionDates.length} sessions over ${draft.goal.windowDays} days</strong></div>`);
-  rows.push(`<div class="plan-stat"><span>Pace target</span><strong>${pace}</strong></div>`);
-  if (Array.isArray(draft.legPlan) && draft.legPlan.length) {
-    const lines = draft.legPlan.map((l) => String(l.line || "").replace(/</g, ""));
-    rows.push(`<div class="plan-stat" data-testid="plan-leg-lines"><span>Per-leg even pace</span><strong>${lines.join("<br>")}</strong></div>`);
-  } else if (legs.length) {
-    rows.push(`<div class="plan-stat"><span>Per-leg targets</span><strong>${legs.map((s) => formatDuration(s)).join(" · ")}</strong></div>`);
-  }
-  rows.push(`<div class="plan-stat"><span>Effort (plan)</span><strong>${effort.mets || "—"} METs · ~${effort.kcal || 0} kcal</strong></div>`);
-  if (s.vdot && s.trainingPaces) {
-    rows.push(`<div class="plan-stat"><span>VDOT</span><strong>${s.vdot} · easy ${formatPace(1609.344, s.trainingPaces.easy.secPerMile, "mi")}</strong></div>`);
-  }
-  rows.push(`<div class="plan-stat"><span>Water</span><strong>${draft.water.dailyMl} ml session day · ${draft.water.restDayMl} ml rest day</strong></div>`);
-  const routeLabel = draft.route.mode === "course"
-    ? (draft.route.scaleFactor === 1 ? "Saved course (exact)" : "Saved course")
-    : "Auto loop";
-  rows.push(`<div class="plan-stat"><span>Route</span><strong>${routeLabel} · ${formatDistance(pathLengthMeters(draft.route.path && draft.route.path.length >= 2 ? draft.route.path : draft.route.pins), u)}</strong></div>`);
-  $("plan-preview").innerHTML = rows.join("");
-  const mix = s.mix;
-  if (mix) {
-    $("plan-preview").insertAdjacentHTML("beforeend", `<p class="tiny" style="margin-top:10px">${esc(mix.label)}</p>`);
-  }
+function fillTeaser(goal) {
+  const root = $("plan-preview");
+  if (!root) return;
+  const model = planTeaserModel(goal, { units: units(), formatDistance });
+  const includes = model.includes.map((item) => `<li>${esc(item)}</li>`).join("");
+  const bars = [72, 58, 81, 46, 64].map((w) => (
+    `<div class="plan-teaser-row"><span class="plan-teaser-ghost"></span><span class="plan-teaser-bar" style="width:${w}%"></span></div>`
+  )).join("");
+  root.innerHTML = `<div class="plan-teaser" data-testid="plan-teaser">
+      <div class="plan-teaser-stat"><span>Your goal</span><strong>${esc(model.goalLabel)}</strong></div>
+      <div class="plan-teaser-stat"><span>Plan length</span><strong>${esc(model.lengthLabel)}</strong></div>
+      <div>
+        <span class="tiny">What's included</span>
+        <ul class="plan-teaser-includes">${includes}</ul>
+      </div>
+      <div class="plan-teaser-lock">
+        <div class="plan-teaser-steps" aria-hidden="true">${bars}</div>
+        <div class="plan-teaser-veil">Unlock to see your guided steps</div>
+      </div>
+    </div>`;
 }
 
 function renderOwnership() {
@@ -237,6 +278,21 @@ function waterPrefs() {
 
 function renderWater(draft) {
   const plan = newestPlan();
+  const locked = $("plan-water-locked");
+  const open = $("plan-water-open");
+  if (!plan) {
+    if (locked) locked.hidden = false;
+    if (open) open.hidden = true;
+    if ($("plan-water-line")) $("plan-water-line").textContent = "";
+    if ($("plan-water")) $("plan-water").textContent = "";
+    if ($("plan-water-ml")) $("plan-water-ml").value = "";
+    if ($("plan-water-oz")) $("plan-water-oz").value = "";
+    if ($("plan-water-recommend-box")) $("plan-water-recommend-box").hidden = true;
+    if ($("plan-water-recommend-line")) $("plan-water-recommend-line").textContent = "";
+    return;
+  }
+  if (locked) locked.hidden = true;
+  if (open) open.hidden = false;
   const source = plan || draft;
   const ml = source.water.dailyMl;
   const prefs = waterPrefs();
@@ -286,24 +342,27 @@ function persistWaterPrefsFromForm() {
 }
 
 function onLogOneBottle() {
+  if (!newestPlan()) return;
   const prefs = persistWaterPrefsFromForm();
   logOneBottle(prefs);
-  const draft = ui.preview || draftForGoal(readGoal());
-  renderWater(draft);
+  renderWater();
 }
 
 function onRecommendWater() {
+  const plan = newestPlan();
+  if (!plan) return;
   const box = $("plan-water-recommend-box");
   if (!box) return;
   box.hidden = false;
   const prefs = persistWaterPrefsFromForm();
-  const hours = (ui.preview && ui.preview.schedule && ui.preview.schedule.sessionDurationSec)
-    ? ui.preview.schedule.sessionDurationSec / 3600
+  const hours = (plan.schedule && plan.schedule.sessionDurationSec)
+    ? plan.schedule.sessionDurationSec / 3600
     : 1;
   const cached = readCachedTemperature();
   const rec = recommendWaterTarget({
     sessionHours: hours,
     tempC: cached && cached.tempC,
+    bodyKg: (readGoal().bodyKg != null ? readGoal().bodyKg : (state().settings && state().settings.bodyKg)) || null,
   });
   ui.pendingWaterRec = rec;
   if ($("plan-water-recommend-line")) $("plan-water-recommend-line").textContent = formatWaterLine(rec.dailyMl, prefs);
@@ -314,10 +373,16 @@ function onRecommendWater() {
 function acceptWaterRecommendation() {
   const rec = ui.pendingWaterRec;
   if (!rec || !(rec.dailyMl > 0)) return;
-  ui.waterOverrideMl = Math.max(500, Math.min(10000, Math.round(rec.dailyMl / 50) * 50));
+  const ml = Math.max(500, Math.min(10000, Math.round(rec.dailyMl / 50) * 50));
+  ui.waterOverrideMl = ml;
   const box = $("plan-water-recommend-box");
   if (box) box.hidden = true;
-  updatePreview();
+  const plan = newestPlan();
+  if (plan) {
+    updateWaterTarget(plan, { dailyMl: ml });
+    if (ctx && ctx.persist) ctx.persist();
+  }
+  renderWater();
 }
 
 function adjustWaterRecommendation() {
@@ -340,10 +405,9 @@ function renderRouteOptions() {
 }
 
 function updatePreview() {
-  const draft = draftForGoal(readGoal());
-  ui.preview = draft;
-  fillPreview(draft);
-  renderWater(draft);
+  ui.preview = null;
+  fillTeaser(readGoal());
+  renderWater();
   renderCreditNote();
 }
 
@@ -439,7 +503,7 @@ async function saveWater() {
   });
   ctx.persist();
   const remind = await syncReminders(plan);
-  renderWater(ui.preview || buildPlanDraft(readGoal()));
+  renderWater();
   $("plan-reminder-note").textContent = remind.ok
     ? `Water target saved. Reminders on this phone: ${reminderTimesFor(plan).join(", ")}.`
     : `Water target saved. Reminder times: ${reminderTimesFor(plan).join(", ")}. On-device only.`;
@@ -539,6 +603,13 @@ function bind() {
     updatePreview();
   });
   $("plan-body").addEventListener("input", updatePreview);
+  if ($("plan-body-unit-tog")) {
+    $("plan-body-unit-tog").addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-unit]");
+      if (!b) return;
+      setWeightUnit(b.dataset.unit);
+    });
+  }
   $("plan-title").addEventListener("input", updatePreview);
   $("btn-plan-create").addEventListener("click", () => { createPlan().catch(() => {}); });
   $("btn-plan-water-save").addEventListener("click", () => { persistWaterPrefsFromForm(); saveWater().catch(() => {}); });
@@ -616,6 +687,7 @@ export function renderPlansScreen() {
   if (document.activeElement !== $("plan-distance")) {
     $("plan-distance").value = fmtNum(ui.distanceMeters / unitFactor(), u === "km" ? 2 : 1);
   }
+  paintBodyWeightField();
   renderPlanList();
   updatePreview();
 }

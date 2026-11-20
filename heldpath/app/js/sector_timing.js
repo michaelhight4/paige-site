@@ -13,9 +13,13 @@ import {
   legSplitsFromTrack,
 } from "./plan_legs.js";
 import { pathLengthMeters, METERS_PER_MILE, formatDuration } from "./util.js";
+import { geodesicMeters, geodesicInterpolate } from "./geodesic.js";
 
 export function routeMeters(course) {
   if (!course) return 0;
+  if (Array.isArray(course.legs) && course.legs.length) {
+    return course.legs.reduce((s, l) => s + (l.mode === "unroutable" ? 0 : (Number(l.meters) || 0)), 0);
+  }
   if (course.path && course.path.length >= 2) return pathLengthMeters(course.path);
   if (course.pins && course.pins.length >= 2) return pathLengthMeters(course.pins);
   return 0;
@@ -52,6 +56,10 @@ export function sectorTargets(course, goal) {
   const g = goal || resolveGoal(course);
   if (!g || !(g.finishSec > 0)) return [];
   const pins = course.pins || [];
+  if (Array.isArray(course.legs) && course.legs.length) {
+    const meters = course.legs.map((l) => l.mode === "unroutable" ? 0 : (Number(l.meters) || 0));
+    return buildEvenPaceLegTargets(pins, g.finishSec, { path: course.path, meters });
+  }
   return buildEvenPaceLegTargets(pins, g.finishSec, { path: course.path });
 }
 
@@ -68,13 +76,28 @@ export function formatSectorTime(seconds) {
   return h > 0 ? `${h}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}.${frac}` : core;
 }
 
-/** F1-style delta: green '-0:04.2' when ahead, red '+0:03.1' when behind. */
+/**
+ * Signed delta: your time minus the target.
+ * Under a minute: −0:07.7 / +0:07.7; a minute or more: −1:07.7.
+ * Never emits a −0.00 placeholder.
+ */
 export function formatSectorDelta(deltaSec) {
-  if (deltaSec == null || !Number.isFinite(Number(deltaSec))) return "—";
+  if (deltaSec == null || !Number.isFinite(Number(deltaSec))) return "";
   const v = Number(deltaSec);
   if (Math.abs(v) < 0.05) return "0:00.0";
   const sign = v > 0 ? "+" : "−";
   return sign + formatSectorTime(Math.abs(v));
+}
+
+/** "Goal 5:00.0 | You 4:52.3 −0:07.7" */
+export function formatSectorLine(label, targetSec, youSec, { isNewPb = false } = {}) {
+  const you = Number(youSec);
+  const tgt = Number(targetSec);
+  const youTxt = you > 0 ? formatSectorTime(you) : "—";
+  const tgtTxt = tgt > 0 ? formatSectorTime(tgt) : "—";
+  const delta = (you > 0 && tgt > 0) ? formatSectorDelta(you - tgt) : "";
+  const tail = delta ? " " + delta : "";
+  return `${label} ${tgtTxt} | You ${youTxt}${tail}`;
 }
 
 export function deltaColor(deltaSec, { isNewPb = false } = {}) {
@@ -97,11 +120,131 @@ function asSeconds(value) {
   return n > 10000 ? n / 1000 : n;
 }
 
+function pointElapsedSecLocal(pt, origin) {
+  if (!pt) return 0;
+  if (Number.isFinite(Number(pt.t)) && Number(pt.t) < 1e7) return Number(pt.t);
+  const at = pt.at;
+  let ms = null;
+  if (typeof at === "number" && Number.isFinite(at)) ms = at > 1e11 ? at : at * 1000;
+  else if (at) {
+    const parsed = Date.parse(at);
+    if (Number.isFinite(parsed)) ms = parsed;
+  } else if (Number.isFinite(Number(pt.t))) {
+    const n = Number(pt.t);
+    ms = n > 1e11 ? n : n * 1000;
+  }
+  if (ms == null) return 0;
+  return (ms - (origin == null ? ms : origin)) / 1000;
+}
+
+function trackOriginMsLocal(track) {
+  const p = track && track[0];
+  if (!p) return 0;
+  if (typeof p.at === "number" && Number.isFinite(p.at)) return p.at > 1e11 ? p.at : p.at * 1000;
+  if (p.at) {
+    const parsed = Date.parse(p.at);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+  return 0;
+}
+
+function prefixDistances(track) {
+  const prefix = [0];
+  for (let i = 1; i < track.length; i++) {
+    const tagged = Number(track[i].d);
+    if (Number.isFinite(tagged) && tagged >= prefix[i - 1] - 0.01) {
+      prefix[i] = tagged;
+    } else {
+      prefix[i] = prefix[i - 1] + geodesicMeters(track[i - 1], track[i]);
+    }
+  }
+  return prefix;
+}
+
+/** Sector splits along a dense GPS track, using the course's routed/geodesic sector lengths. */
+export function splitsAlongTrack(track, meterList) {
+  if (!track || track.length < 2 || !meterList || !meterList.length) return [];
+  const origin = trackOriginMsLocal(track);
+  const prefix = prefixDistances(track);
+  const time = track.map((p) => pointElapsedSecLocal(p, origin));
+  const splits = [];
+  let boundary = 0;
+  let prevT = 0;
+  for (const leg of meterList) {
+    boundary += Number(leg) || 0;
+    let hit = time[time.length - 1];
+    for (let i = 1; i < track.length; i++) {
+      if (prefix[i] >= boundary - 1e-6) {
+        const seg = prefix[i] - prefix[i - 1];
+        const frac = seg > 0 ? (boundary - prefix[i - 1]) / seg : 1;
+        hit = time[i - 1] + (time[i] - time[i - 1]) * Math.min(1, Math.max(0, frac));
+        break;
+      }
+    }
+    splits.push(Math.max(0, hit - prevT));
+    prevT = hit;
+  }
+  return splits;
+}
+
 export function sectorTimesFromTrack(course, track) {
   const pins = course && course.pins;
   if (!pins || pins.length < 2 || !track || track.length < 2) return [];
+  const meters = sectorMetersList(course);
+  if (meters.length) return splitsAlongTrack(track, meters).map(asSeconds);
   const raw = legSplitsFromTrack(pins, track) || [];
   return raw.map(asSeconds);
+}
+
+/**
+ * Build a realistic dense GPS track whose sector times match `sectorSeconds`.
+ * Points are placed every `stepMeters` along the course path/pins.
+ */
+export function synthesizeSectorTrack(course, sectorSeconds, { startedAt = "2026-11-18T09:00:00.000Z", stepMeters = 8 } = {}) {
+  const path = (course && course.path && course.path.length >= 2) ? course.path : ((course && course.pins) || []);
+  const metersList = sectorMetersList(course);
+  const startMs = Date.parse(startedAt) || Date.now();
+  if (path.length < 2 || !metersList.length) return [];
+  const points = [];
+  const pushPt = (coord, elapsed, distM) => {
+    points.push({
+      lat: coord.lat,
+      lon: coord.lon,
+      t: elapsed,
+      d: distM,
+      at: new Date(startMs + Math.round(elapsed * 1000)).toISOString(),
+    });
+  };
+  pushPt(path[0], 0, 0);
+  let elapsed = 0;
+  for (let s = 0; s < metersList.length; s++) {
+    const sectorM = metersList[s] || 0;
+    const sectorT = Number(sectorSeconds[s]) || 0;
+    const steps = Math.max(4, Math.ceil(sectorM / Math.max(2, stepMeters)));
+    for (let k = 1; k <= steps; k++) {
+      const along = (sectorM * k) / steps;
+      // Walk the path until we have covered pathTravelled+delta
+      let remain = along - (k === 1 ? 0 : (sectorM * (k - 1) / steps));
+      // simpler: target distance from start of course
+      const targetDist = metersList.slice(0, s).reduce((a, b) => a + (b || 0), 0) + along;
+      // Advance pathIdx to targetDist
+      let acc = 0;
+      let pt = path[0];
+      for (let i = 1; i < path.length; i++) {
+        const seg = geodesicMeters(path[i - 1], path[i]);
+        if (acc + seg >= targetDist - 0.001) {
+          pt = geodesicInterpolate(path[i - 1], path[i], Math.max(0, targetDist - acc));
+          break;
+        }
+        acc += seg;
+        pt = path[i];
+      }
+      const t = elapsed + sectorT * (k / steps);
+      pushPt(pt, t, targetDist);
+    }
+    elapsed += sectorT;
+  }
+  return points;
 }
 
 export function readSectorPbs(course) {
@@ -127,8 +270,8 @@ export function compareSectors({ times, targets, pbs, hasHistory }) {
     const time = times[i] || 0;
     const target = targets[i] || 0;
     const pb = pbs && pbs[String(i)] ? Number(pbs[String(i)].seconds) : null;
-    const vsGoal = time && target ? time - target : null;
-    const vsPb = history && time && pb ? time - pb : null;
+    const vsGoal = (time > 0 && target > 0) ? time - target : null;
+    const vsPb = (history && time > 0 && pb > 0) ? time - pb : null;
     const isNewPb = !!(time > 0 && (pb == null || time < pb - 0.009));
     return {
       index: i,
@@ -227,19 +370,24 @@ export function newlyCompletedSectors(prevMeters, nextMeters, sectorMeters) {
 }
 
 export function sectorMetersList(course) {
+  if (course && Array.isArray(course.legs) && course.legs.length) {
+    return course.legs.map((l) => l.mode === "unroutable" ? 0 : (Number(l.meters) || 0));
+  }
   return sectorDistances(course && course.pins, course && course.path).map((l) => l.meters);
 }
 
 export function liveSectorFlash(row, { cumulativeDelta, hasHistory, bestPossible } = {}) {
-  const vsGoal = formatSectorDelta(row.vsGoal);
-  const parts = [`S${row.index + 1}  ${vsGoal}`];
-  if (hasHistory && row.vsPb != null) {
-    parts.push(row.isNewPb ? `PB ${formatSectorTime(row.time)}` : `vs PB ${formatSectorDelta(row.vsPb)}`);
-  }
-  const cum = cumulativeDelta != null ? formatSectorDelta(cumulativeDelta) : null;
+  const goalLine = formatSectorLine("Goal", row.target, row.time);
+  const showBest = !!(hasHistory && row.pb > 0);
+  const bestLine = showBest ? formatSectorLine("Best", row.pb, row.time, { isNewPb: !!row.isNewPb }) : "";
+  const vsGoal = (row.vsGoal != null) ? formatSectorDelta(row.vsGoal) : "";
+  const cum = cumulativeDelta != null && Number.isFinite(Number(cumulativeDelta)) ? formatSectorDelta(cumulativeDelta) : "";
   return {
     color: row.isNewPb && hasHistory ? "purple" : row.colorVsGoal,
-    sectorLine: parts.join(" · "),
+    label: `S${row.index + 1}`,
+    sectorLine: goalLine,
+    bestLine,
+    showBest,
     cumulativeLine: cum ? `Total ${cum}` : "",
     bestPossibleLine: bestPossible != null ? `Best possible ${formatSectorTime(bestPossible)}` : "",
     vsGoal,

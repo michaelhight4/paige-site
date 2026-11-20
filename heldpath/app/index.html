@@ -26,13 +26,15 @@
         <ul id="place-search-results" class="place-results" hidden data-testid="place-search-results"></ul>
         <p class="tiny place-search-credit">Place search uses Photon and OpenStreetMap.</p>
       </div>
-      <button type="button" class="btn-locate-me" id="btn-locate-me" data-testid="locate-me" aria-label="Use my location" title="Use my location">
+      <button type="button" class="btn-locate-me" id="btn-locate-me" data-testid="locate-me" aria-label="Re-center on me" title="Re-center on me">
         <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
           <circle cx="12" cy="12" r="3.2" fill="currentColor"/>
           <circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
           <path d="M12 2v3M12 19v3M2 12h3M19 12h3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </button>
+      <button type="button" class="btn-map-style" id="btn-map-style" data-testid="map-style" aria-pressed="false" aria-label="Map or satellite" title="Switch to satellite">Map</button>
+      <p class="map-style-note" id="map-style-note" data-testid="map-style-note" hidden>Satellite needs signal.</p>
       <p class="map-locate-note" id="map-locate-note" data-testid="locate-denied-note" hidden></p>
     </div>
 
@@ -55,6 +57,7 @@
           <button class="btn btn-primary" id="btn-start-run" data-testid="start-run"><img src="assets/icon_run.png" alt="" /> Start Run</button>
           <button class="btn btn-secondary" id="btn-build-course" data-testid="build-course"><img src="assets/icon_pin.png" alt="" /> Build Course</button>
           <button class="btn btn-secondary" id="btn-saved-courses" data-testid="saved-courses">Saved Courses</button>
+          <button class="btn btn-secondary" id="btn-today-new-goal" data-testid="today-new-goal">New goal</button>
         </div>
       </div>
     </section>
@@ -101,7 +104,9 @@
           <p class="tiny track-pause-note" id="track-pause-note" data-testid="auto-pause-note" hidden>Auto-paused. Time is not counting until you start moving.</p>
           <p class="tiny track-lowpower-note" id="track-lowpower-note" data-testid="low-power-note" hidden>Low-power tracking is on. The path may be less detailed.</p>
           <div id="sector-flash" class="sector-flash" hidden data-testid="sector-flash">
-            <div class="sector-flash-main" id="sector-flash-main"></div>
+            <div class="sector-flash-label" id="sector-flash-label" data-testid="sector-flash-label"></div>
+            <div class="sector-flash-main" id="sector-flash-main" data-testid="sector-flash-goal"></div>
+            <div class="sector-flash-best" id="sector-flash-best" data-testid="sector-flash-best" hidden></div>
             <div class="sector-flash-cum" id="sector-flash-cum"></div>
           </div>
           <p class="tiny" id="sector-live-leg" data-testid="sector-live-leg" hidden></p>
@@ -122,6 +127,10 @@
             <button class="icon-btn" id="btn-builder-help" data-testid="builder-help" aria-label="How to build a course">?</button>
           </div>
           <p class="builder-hint" id="builder-hint">Tap the map to place a Start pin. Add as many pins as you like to shape your exact route.</p>
+          <div class="builder-live-bar" id="builder-live-bar" data-testid="builder-live-bar" hidden>
+            <div class="live-dist" id="builder-live-distance" data-testid="builder-live-distance">—</div>
+            <div class="live-eta" id="builder-live-eta" data-testid="builder-live-eta"></div>
+          </div>
           <div class="route-mode-row">
             <div>
               <div class="route-mode-label">Follow walkable paths</div>
@@ -129,11 +138,13 @@
             </div>
             <button class="switch on" id="toggle-follow-paths" data-testid="route-mode" role="switch" aria-checked="true" aria-label="Follow walkable paths"><i></i></button>
           </div>
+          <div id="route-warnings" class="route-warnings" data-testid="route-warnings" hidden></div>
+          <button type="button" class="legs-toggle" id="btn-legs-toggle" data-testid="legs-toggle" aria-expanded="true" hidden>Legs</button>
           <div class="legs" id="builder-legs" data-testid="builder-legs"></div>
           <div id="builder-elevation" data-testid="builder-elevation" hidden></div>
           <button class="btn btn-secondary" id="btn-end-point-pin" data-testid="end-point-pin" aria-pressed="false" style="width:100%;margin-bottom:10px">End point pin</button>
           <div class="btn-row" style="margin-bottom:10px">
-            <button class="btn btn-secondary" id="btn-undo-pin">Undo pin</button>
+            <button class="btn btn-secondary" id="btn-undo-pin" data-testid="undo-pin">Undo</button>
             <button class="btn btn-secondary" id="btn-cancel-build">Cancel</button>
           </div>
           <button class="btn btn-primary" id="btn-save-course" data-testid="save-course" disabled>Save course</button>
@@ -190,7 +201,7 @@
     <section class="screen" id="screen-settings" data-screen="settings">
       <div class="scroll">
         <h1 class="page-title">Settings</h1>
-        <p class="page-sub">Heldpath is free. There is no account, no ads and no subscription. All goals are free. Optional $2 plans just add extra help, easing you toward your goal with smaller, guided steps.</p>
+        <p class="page-sub">Heldpath is free. There is no account, no ads and no subscription. All goals are free. Track yourself and keep beating your results. A $2 plan adds a target date, with the app easing you there in smaller, guided steps.</p>
 
         <div class="card">
           <h2>Units</h2>
@@ -258,8 +269,9 @@
 
         <div class="card">
           <h2>Goals</h2>
-          <p class="tiny">Every goal type is free. Open Goals to set one, or to buy an optional $2 plan for extra guided help.</p>
-          <button class="btn btn-secondary" id="btn-goals-open" style="width:100%;margin-top:12px" data-testid="open-goals">Open Goals</button>
+          <p class="tiny">Every goal type is free. Track yourself and keep beating your results — no deadline. A $2 plan adds a target date and eases you there in smaller, guided steps.</p>
+          <button class="btn btn-primary" id="btn-settings-new-goal" style="width:100%;margin-top:12px" data-testid="settings-new-goal">New goal</button>
+          <button class="btn btn-secondary" id="btn-goals-open" style="width:100%;margin-top:10px" data-testid="open-goals">Open Goals</button>
         </div>
 
         <div class="card">
@@ -328,17 +340,20 @@
           <button class="icon-btn" id="goals-back" aria-label="Back">‹</button>
           <h1>Goals</h1>
         </div>
-        <p class="goals-promise" id="goals-free-line" data-testid="free-goals-line">All goals are free. Optional $2 plans just add extra help, easing you toward your goal with smaller, guided steps.</p>
+        <p class="goals-promise" id="goals-free-line" data-testid="free-goals-line">All goals are free. Track yourself and keep beating your results. A $2 plan adds a target date, with the app easing you there in smaller, guided steps.</p>
+
+        <button class="btn btn-primary" id="btn-new-goal" data-testid="new-goal" style="width:100%;margin:0 0 8px">New goal</button>
+        <p class="tiny" style="margin:0 0 16px">Free. No purchase needed.</p>
 
         <div class="card">
           <h2>Your goals</h2>
-          <p class="tiny">Set a distance, a time, or a weekly or monthly total. Graphs, sector splits and Stats history are included. Nothing here is locked.</p>
+          <p class="tiny">Set a distance, a time for a distance, or a weekly or monthly total. Free goals have no deadline — you track yourself and keep beating your results, run over run. Each goal gets a ring here and a chart on Progress.</p>
           <div id="goals-list" data-testid="goals-list"></div>
         </div>
 
         <div class="card" id="goals-plan-option" data-testid="goals-plan-option">
           <h2>Optional $2 plan</h2>
-          <p class="tiny" id="goals-plan-price">$2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. A plan does not unlock goals — it only adds smaller, guided steps, plus water, reminders and a schedule.</p>
+          <p class="tiny" id="goals-plan-price">$2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. A plan does not unlock goals. It adds a target date, and the app eases you there in smaller, guided steps, plus water, reminders and a schedule.</p>
           <button class="btn btn-secondary" id="btn-goals-open-plans" style="width:100%;margin-top:12px" data-testid="goals-open-plans">Optional $2 plan</button>
         </div>
       </div>
@@ -351,7 +366,7 @@
           <button class="icon-btn" id="plans-back" aria-label="Back">‹</button>
           <h1>Plans</h1>
         </div>
-        <p class="goals-promise" id="plans-free-line" data-testid="free-goals-line-plans">All goals are free. Optional $2 plans just add extra help, easing you toward your goal with smaller, guided steps.</p>
+        <p class="goals-promise" id="plans-free-line" data-testid="free-goals-line-plans">All goals are free. Track yourself and keep beating your results. A $2 plan adds a target date, with the app easing you there in smaller, guided steps.</p>
         <p class="page-sub" id="plans-price-line">$2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. Importing a plan a friend shares is free.</p>
         <button class="btn btn-secondary" id="btn-scan-qr-plans" style="width:100%;margin:0 0 16px" data-testid="scan-qr-plans">Scan QR</button>
 
@@ -390,8 +405,15 @@
               <input id="plan-distance" data-testid="plan-distance" type="number" min="0.1" step="0.5" value="10" inputmode="decimal" />
             </div>
             <div class="field">
-              <label for="plan-body">Body weight kg (optional)</label>
-              <input id="plan-body" type="number" min="30" max="250" step="1" placeholder="water + effort" inputmode="numeric" />
+              <label for="plan-body">Body weight (optional)</label>
+              <div class="plan-body-row">
+                <input id="plan-body" data-testid="plan-body" type="number" min="0" step="0.1" placeholder="optional" inputmode="decimal" />
+                <div class="range-tog plan-toggle" id="plan-body-unit-tog" data-testid="plan-body-unit">
+                  <button type="button" data-unit="lb">lb</button>
+                  <button type="button" data-unit="kg">kg</button>
+                </div>
+              </div>
+              <p class="tiny" id="plan-body-hint">Used for water and effort estimates once a plan is unlocked.</p>
             </div>
             <div class="field">
               <label for="plan-route">Route</label>
@@ -412,6 +434,10 @@
 
         <div class="card plan-hydration" data-testid="water-card">
           <h2>Water</h2>
+          <div id="plan-water-locked" data-testid="plan-water-locked" hidden>
+            <p class="tiny">Water reminders are included in a plan. Daily amounts appear after you unlock it.</p>
+          </div>
+          <div id="plan-water-open">
           <p class="plan-water" id="plan-water"></p>
           <p class="water-line" id="plan-water-line" data-testid="water-line"></p>
           <div class="disclaimer" id="plan-water-disclaimer"></div>
@@ -473,6 +499,7 @@
           </div>
           <button class="btn btn-secondary" id="btn-plan-water-save" style="width:100%">Save water target</button>
           <p class="tiny" id="plan-reminder-note" style="margin-top:10px"></p>
+          </div>
         </div>
 
         <div class="card">
@@ -968,12 +995,56 @@
       </div>
     </div>
 
+
+    <div class="sheet-back" id="sheet-new-goal">
+      <div class="sheet" role="dialog" aria-labelledby="new-goal-title" data-testid="new-goal-sheet">
+        <h2 id="new-goal-title">New goal</h2>
+        <p class="page-sub">Free. Set a target and track your own results, run over run. There is no deadline — a target date is only in an optional $2 plan.</p>
+        <div class="field">
+          <label for="goal-new-kind">Type</label>
+          <select id="goal-new-kind" data-testid="goal-new-kind">
+            <option value="time-distance">Time for a distance (e.g. 3 mi in 18:00)</option>
+            <option value="distance">Distance</option>
+            <option value="route-time">Route goal time (saved route)</option>
+            <option value="week-count">Weekly runs (count)</option>
+            <option value="month-count">Monthly runs (count)</option>
+            <option value="week-distance">Weekly distance</option>
+            <option value="month-distance">Monthly distance</option>
+          </select>
+        </div>
+        <div class="field" id="goal-field-course" hidden>
+          <label for="goal-new-course">Saved route</label>
+          <select id="goal-new-course" data-testid="goal-new-course"></select>
+          <p class="tiny" id="goal-new-course-empty" hidden>Save a course first, then you can set a goal time on it.</p>
+        </div>
+        <div class="field" id="goal-field-distance">
+          <label for="goal-new-distance" id="goal-new-distance-label">Distance</label>
+          <input id="goal-new-distance" data-testid="goal-new-distance" type="text" inputmode="decimal" placeholder="3" />
+        </div>
+        <div class="field" id="goal-field-time">
+          <label for="goal-new-time" id="goal-new-time-label">Time</label>
+          <input id="goal-new-time" data-testid="goal-new-time" type="text" inputmode="decimal" placeholder="18:00" />
+          <p class="tiny">Minutes, or mm:ss (for example 18:00).</p>
+        </div>
+        <div class="field" id="goal-field-count" hidden>
+          <label for="goal-new-count">Number of walks or runs</label>
+          <input id="goal-new-count" data-testid="goal-new-count" type="number" min="1" step="1" value="3" inputmode="numeric" />
+        </div>
+        <p class="tiny" id="goal-new-error" data-testid="goal-new-error" hidden></p>
+        <button class="btn btn-primary" id="btn-goal-save" data-testid="goal-save" style="width:100%;margin-bottom:10px">Save goal</button>
+        <button class="btn btn-secondary" id="btn-goal-cancel" data-testid="goal-cancel" style="width:100%">Cancel</button>
+      </div>
+    </div>
+
     <div class="sheet-back" id="sheet-pin-action">
       <div class="sheet" role="dialog" aria-labelledby="pin-action-title" data-testid="pin-action">
         <h2 id="pin-action-title">Pin</h2>
-        <p class="page-sub" id="pin-action-sub">This pin is already on the route.</p>
-        <button class="btn btn-primary" id="btn-pin-add-stop" data-testid="pin-add-stop" style="width:100%;margin-bottom:10px">Add next stop here</button>
+        <p class="page-sub" id="pin-action-sub">Delete this pin, set it as the end, or add it as another stop.</p>
+        <div id="pin-action-deletes" class="pin-action-deletes" data-testid="pin-action-deletes"></div>
+        <button class="btn btn-danger" id="btn-pin-delete" data-testid="pin-delete" style="width:100%;margin-bottom:10px">Delete this pin</button>
         <button class="btn btn-secondary" id="btn-pin-set-end" data-testid="pin-set-end" style="width:100%;margin-bottom:10px">Set as end</button>
+        <button class="btn btn-secondary" id="btn-pin-remove-end" data-testid="pin-remove-end" style="width:100%;margin-bottom:10px" hidden>Remove end</button>
+        <button class="btn btn-primary" id="btn-pin-add-stop" data-testid="pin-add-stop" style="width:100%;margin-bottom:10px">Add next stop here</button>
         <button class="btn btn-secondary" id="btn-pin-action-cancel" style="width:100%">Cancel</button>
       </div>
     </div>

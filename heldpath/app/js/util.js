@@ -1,4 +1,8 @@
 /** Pure helpers for Heldpath. Safe to import from Node tests. */
+import { geodesicMeters, geodesicPathLength } from "./geodesic.js";
+
+export { geodesicMeters, geodesicDirect, geodesicPathLength } from "./geodesic.js";
+
 
 export const WALK_MPH = 3;
 export const RUN_MPH = 6;
@@ -31,11 +35,7 @@ export function haversineMeters(a, b) {
 }
 
 export function pathLengthMeters(coords) {
-  let sum = 0;
-  for (let i = 1; i < coords.length; i++) {
-    sum += haversineMeters(coords[i - 1], coords[i]);
-  }
-  return sum;
+  return geodesicPathLength(coords);
 }
 
 export function legDistances(coords) {
@@ -44,7 +44,7 @@ export function legDistances(coords) {
     legs.push({
       from: i - 1,
       to: i,
-      meters: haversineMeters(coords[i - 1], coords[i]),
+      meters: geodesicMeters(coords[i - 1], coords[i]),
     });
   }
   return legs;
@@ -177,11 +177,18 @@ export function etaSeconds(meters, mph) {
 
 export function formatDistance(meters, units, { digits } = {}) {
   if (meters == null || Number.isNaN(meters)) return "";
-  const d = digits == null ? (units === "km" ? 2 : 1) : digits;
   if (units === "km") {
-    return `${(meters / METERS_PER_KM).toFixed(d)} km`;
+    if (digits != null) return `${(meters / METERS_PER_KM).toFixed(digits)} km`;
+    // Whole meters below 1 km so a 400 m lap stays 400 m, not 0.40 km.
+    if (meters < 1000) return `${Math.round(meters)} m`;
+    return `${(meters / METERS_PER_KM).toFixed(meters < 10000 ? 2 : 2)} km`;
   }
-  return `${(meters / METERS_PER_MILE).toFixed(d)} mi`;
+  const miles = meters / METERS_PER_MILE;
+  if (digits != null) return `${miles.toFixed(digits)} mi`;
+  // 3 decimals under 10 mi so a 400 m lap (0.249 mi) and a measured 1.000 mi
+  // stay accurate; 1 decimal after that.
+  if (miles < 10) return `${miles.toFixed(3)} mi`;
+  return `${miles.toFixed(1)} mi`;
 }
 
 export function formatDuration(seconds) {

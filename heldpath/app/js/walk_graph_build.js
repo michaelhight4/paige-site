@@ -5,6 +5,7 @@
  */
 import { VectorTile } from "@mapbox/vector-tile";
 import Pbf from "pbf";
+import { isOpenWalkableProps, isBarrierProps, barrierKind, packRings, rasterizeBarriers, packBlocked } from "./open_areas.js";
 
 export const GRAPH_VERSION = 1;
 export const OSM_ATTRIBUTION = "© OpenStreetMap contributors";
@@ -96,6 +97,47 @@ function parseTileLines(z, x, y, data) {
     }
   }
   return { lines, kept, skipped };
+}
+
+
+function ringsFromFeature(z, x, y, extent, feature) {
+  const geom = feature.loadGeometry();
+  const rings = [];
+  for (const ring of geom || []) {
+    if (feature.type === 3 && ring.length >= 4) {
+      rings.push(ring.map((p) => tileToLonLat(x, y, z, extent, p.x, p.y)));
+    } else if (feature.type === 2 && ring.length >= 2) {
+      // Rail / highway lines are treated as thin barriers by repeating the line
+      // as a degenerate strip; crossing tests use the line segments.
+      rings.push(ring.map((p) => tileToLonLat(x, y, z, extent, p.x, p.y)));
+    }
+  }
+  return rings;
+}
+
+export function extractAreaPolygons(z, x, y, data) {
+  const buf = data instanceof Uint8Array ? data : new Uint8Array(data);
+  const tile = new VectorTile(new Pbf(buf));
+  const open = [];
+  const barriers = [];
+  const consider = ["landuse", "natural", "park", "water", "buildings", "building", "transit", "roads"];
+  for (const name of consider) {
+    const layer = tile.layers && tile.layers[name];
+    if (!layer) continue;
+    const extent = layer.extent || 4096;
+    for (let i = 0; i < layer.length; i++) {
+      const f = layer.feature(i);
+      const props = f.properties || {};
+      const rings = ringsFromFeature(z, x, y, extent, f);
+      if (!rings.length) continue;
+      if (isOpenWalkableProps(props) && f.type === 3) {
+        for (const ring of rings) open.push({ kind: props["pmap:kind"] || props.leisure || props.landuse || "open", ring });
+      } else if (isBarrierProps(props)) {
+        for (const ring of rings) barriers.push({ kind: barrierKind(props), ring });
+      }
+    }
+  }
+  return { open, barriers };
 }
 
 function midLatOf(lines) {
@@ -231,9 +273,23 @@ export function buildWalkGraphFromTiles(tiles, { name, source } = {}) {
     for (const line of parsed.lines) lines.push(line);
   }
   const graph = packWalkGraph(lines, { name, source });
+  const open = [];
+  const barriers = [];
+  for (const t of tiles || []) {
+    if (!t || !t.data) continue;
+    try {
+      const areas = extractAreaPolygons(t.z, t.x, t.y, t.data);
+      open.push(...areas.open);
+      barriers.push(...areas.barriers);
+    } catch { /* skip a bad tile */ }
+  }
+  graph.open = packRings(open, SCALE);
+  graph.blocked = packBlocked(rasterizeBarriers(barriers, graph.bounds, 10));
   graph.stats.keptFeatures = kept;
   graph.stats.skippedFeatures = skipped;
   graph.stats.tiles = (tiles || []).length;
+  graph.stats.openAreas = open.length;
+  graph.stats.barriers = barriers.length;
   return graph;
 }
 

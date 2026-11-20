@@ -122,6 +122,80 @@ export function undoPin(state) {
   return state;
 }
 
+/**
+ * Remove one placement (one stop number). Remaining stops keep
+ * placement order and are renumbered from 1. If this was the start,
+ * the next stop becomes the start. Shared-number copies at the same
+ * place are left alone.
+ */
+export function removePin(state, index) {
+  const i = Number(index);
+  if (!Number.isInteger(i) || i < 0 || i >= state.pins.length) return state;
+  state.pins.splice(i, 1);
+  if (state.endIndex == null) {
+    /* unchanged */
+  } else if (state.endIndex === i) {
+    state.endIndex = null;
+  } else if (state.endIndex > i) {
+    state.endIndex -= 1;
+  }
+  for (const p of state.pins) {
+    if (typeof p.ref === "number") {
+      if (p.ref === i) delete p.ref;
+      else if (p.ref > i) p.ref -= 1;
+    }
+  }
+  if (!state.pins.length) {
+    state.endIndex = null;
+    state.endMode = false;
+  } else {
+    refreshRoles(state);
+  }
+  return state;
+}
+
+/** Clear the chosen end; the pin itself stays on the route. */
+export function removeEnd(state) {
+  state.endIndex = null;
+  state.endMode = false;
+  if (state.pins.length) refreshRoles(state);
+  return state;
+}
+
+/** Snapshot of builder state for Undo (last action). */
+export function snapshotBuilder(state) {
+  return {
+    pins: (state.pins || []).map((p) => ({ ...p })),
+    endIndex: state.endIndex == null ? null : state.endIndex,
+    endMode: !!state.endMode,
+  };
+}
+
+export function restoreBuilder(snapshot) {
+  if (!snapshot) return emptyBuilderState();
+  const state = {
+    pins: (snapshot.pins || []).map((p) => ({ ...p })),
+    endIndex: snapshot.endIndex == null ? null : snapshot.endIndex,
+    endMode: !!snapshot.endMode,
+  };
+  if (state.pins.length) refreshRoles(state);
+  return state;
+}
+
+/** Placement-order stop number (1-based) for a pin index, ignoring a return leg. */
+export function placementStopNumber(state, index) {
+  const i = Number(index);
+  if (!Number.isInteger(i) || i < 0) return null;
+  return i + 1;
+}
+
+/** All placement indices that share this pin's location. */
+export function sharedPinIndices(state, index) {
+  const pin = state && state.pins && state.pins[index];
+  if (!pin) return [];
+  return state.pins.map((p, i) => (samePin(p, pin) ? i : -1)).filter((i) => i >= 0);
+}
+
 function refreshRoles(state) {
   state.pins.forEach((p, i) => {
     if (i === 0) p.role = "start";
@@ -230,6 +304,8 @@ export function routeCourse(graph, state, opts = {}) {
   const routed = routeLegs(graph, stops, {
     straightLine: !!opts.straightLine,
     previous,
+    straightOverrides: opts.straightOverrides,
+    maxSnap: opts.maxSnap,
   });
   routed.stops = stops;
   return routed;
