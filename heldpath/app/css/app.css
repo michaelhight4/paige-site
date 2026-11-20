@@ -937,3 +937,17 @@ body:has(#sheet-map.open) #map-locate-note { display: none; }
   overflow-wrap: anywhere;
 }
 .track-pause-note[hidden] { display: none; }
+
+.track-offroute-note {
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(240, 193, 90, 0.16);
+  border: 1px solid rgba(240, 193, 90, 0.45);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.track-offroute-note[hidden] { display: none; }

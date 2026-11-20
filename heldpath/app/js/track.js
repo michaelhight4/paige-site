@@ -11,6 +11,7 @@ import {
 import { progressOnPlan, MODE_CONTINUE } from "./target_distance.js";
 import { considerAutoPause, createAutoPauseState } from "./auto_pause.js";
 import { applyTrackPoint } from "./gap_fill.js";
+import { updateOffRoute } from "./off_route.js";
 
 const BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
 
@@ -58,6 +59,11 @@ export function makeSession({ type, course, units, target } = {}) {
     distanceMeters: 0,
     elapsedSec: 0,
     pauseReason: null,
+    offRoute: false,
+    offRouteSince: null,
+    offRouteMeters: 0,
+    rejoinPoint: null,
+    wayBack: null,
   };
   autoWatch = createAutoPauseState(Date.parse(session.startedAt));
   return session;
@@ -95,9 +101,11 @@ export function pushPoint(lat, lon, at = Date.now()) {
       return session;
     }
     applyTrackPoint(session, last, pt, at);
+    updateOffRoute(session, at);
     return session;
   }
   session.track.push(pt);
+  updateOffRoute(session, at);
   return session;
 }
 
@@ -403,6 +411,7 @@ export function noteTick(at = Date.now()) {
   if (!session) return session;
   const decision = considerAutoPause(autoWatch, autoInput(at));
   applyAutoDecision(decision, at);
+  if (!session.paused) updateOffRoute(session, at);
   return session;
 }
 

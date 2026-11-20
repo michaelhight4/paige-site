@@ -24697,7 +24697,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       id,
       type: "line",
       source: id,
-      paint: { "line-color": color, "line-width": width, "line-opacity": 0.95 },
+      paint: {
+        "line-color": color,
+        "line-width": width,
+        "line-opacity": 0.95,
+        ...opt.dash ? { "line-dasharray": [1.6, 1.4] } : {}
+      },
       layout: { "line-cap": "round", "line-join": "round" }
     });
     overlayIds.push(id);
@@ -25558,6 +25563,71 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return { session: session2, filled: false };
   }
 
+  // www/js/off_route.js
+  var OFF_ROUTE_M = 40;
+  var NUDGE_AFTER_MS = 6e3;
+  function sessionPath(sess) {
+    if (sess && sess.coursePath && sess.coursePath.length >= 2) return sess.coursePath;
+    if (sess && sess.coursePins && sess.coursePins.length >= 2) return sess.coursePins;
+    return null;
+  }
+  function rejoinPoint(path, position, traveledFloor = 0) {
+    if (!path || path.length < 2 || !position) return null;
+    const floor = Math.max(0, traveledFloor - 8);
+    const proj = projectOnPath(path, position);
+    if (proj.traveled >= floor) {
+      return { ...proj.point, traveled: proj.traveled, offsetMeters: proj.offsetMeters };
+    }
+    const ahead = pointAlongPath(path, Math.min(proj.total, Math.max(floor, 0)));
+    if (!ahead) return null;
+    return {
+      lat: ahead.lat,
+      lon: ahead.lon,
+      traveled: ahead.traveled,
+      offsetMeters: haversineMeters(position, ahead)
+    };
+  }
+  function offRouteCopy(meters, units3 = "mi") {
+    const dist3 = meters < 1e3 ? `${Math.max(1, Math.round(meters))} m` : formatDistance(meters, units3);
+    return `You're off the route. The way back is ${dist3}.`;
+  }
+  function evaluateOffRoute(sess, position) {
+    const path = sessionPath(sess);
+    const none = { off: false, offsetMeters: 0, rejoin: null, wayBack: null, metersBack: 0 };
+    if (!sess || !position || !path) return none;
+    if (sess.goalComplete && !sess.goalKeptGoing) return none;
+    if (sess.goalKeptGoing && sess.goalComplete) return none;
+    const floor = sess.courseTraveledMeters || 0;
+    const proj = projectOnPath(path, position);
+    const rejoin = rejoinPoint(path, position, floor);
+    const off = proj.offsetMeters > OFF_ROUTE_M;
+    const metersBack = rejoin ? haversineMeters(position, rejoin) : proj.offsetMeters;
+    const wayBack = rejoin ? [position, { lat: rejoin.lat, lon: rejoin.lon }] : null;
+    return {
+      off,
+      offsetMeters: proj.offsetMeters,
+      rejoin,
+      wayBack: off ? wayBack : null,
+      metersBack
+    };
+  }
+  function updateOffRoute(sess, at = Date.now()) {
+    if (!sess) return null;
+    const last = sess.track && sess.track[sess.track.length - 1];
+    const ev = evaluateOffRoute(sess, last);
+    if (ev.off) {
+      sess.offRouteSince = sess.offRouteSince || at;
+      sess.offRoute = at - sess.offRouteSince >= NUDGE_AFTER_MS;
+    } else {
+      sess.offRouteSince = null;
+      sess.offRoute = false;
+    }
+    sess.rejoinPoint = ev.off ? ev.rejoin : null;
+    sess.wayBack = sess.offRoute ? ev.wayBack : null;
+    sess.offRouteMeters = ev.offsetMeters;
+    return ev;
+  }
+
   // www/js/track.js
   var BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
   var watcherId = null;
@@ -25598,7 +25668,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       track: [],
       distanceMeters: 0,
       elapsedSec: 0,
-      pauseReason: null
+      pauseReason: null,
+      offRoute: false,
+      offRouteSince: null,
+      offRouteMeters: 0,
+      rejoinPoint: null,
+      wayBack: null
     };
     autoWatch = createAutoPauseState(Date.parse(session.startedAt));
     return session;
@@ -25628,9 +25703,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         return session;
       }
       applyTrackPoint(session, last, pt, at);
+      updateOffRoute(session, at);
       return session;
     }
     session.track.push(pt);
+    updateOffRoute(session, at);
     return session;
   }
   function sessionCoursePath(sess) {
@@ -25880,6 +25957,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (!session) return session;
     const decision = considerAutoPause(autoWatch, autoInput(at));
     applyAutoDecision(decision, at);
+    if (!session.paused) updateOffRoute(session, at);
     return session;
   }
   function stopSession() {
@@ -32322,6 +32400,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       const auto = !!(sess.paused && sess.pauseReason === "auto");
       pauseNote.hidden = !auto;
     }
+    updateOffRoute(sess);
+    const offNote = $4("track-offroute-note");
+    if (offNote) {
+      offNote.hidden = !sess.offRoute;
+      if (sess.offRoute) offNote.textContent = offRouteCopy(sess.offRouteMeters, sess.units);
+    }
     $4("lock-body").textContent = liveNotification(sess);
   }
   function drawSessionOnMap(sess) {
@@ -32336,6 +32420,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       }
     }
     if (sess.track.length >= 2) drawRoute(sess.track, { id: "live-line", color: "#4EC3F7", width: 5 });
+    if (sess.offRoute && sess.wayBack && sess.wayBack.length >= 2) {
+      drawRoute(sess.wayBack, { id: "way-back", color: "#F0C15A", width: 5, dash: true });
+    }
     const last = sess.track[sess.track.length - 1];
     if (last) {
       addDot(last);
@@ -33945,6 +34032,27 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           ui2.hideNav = true;
           showScreen("lock");
         }
+      } else if (name === "tracking-offroute") {
+        const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+        if (!state2.courses[0]) state2.courses = [course];
+        const sess = midCourseWalk(course, units2());
+        stopSession();
+        const made = makeSession({ type: "walk", course, units: units2() });
+        Object.assign(made, sess);
+        const last = made.track[made.track.length - 1] || course.pins[0];
+        const off = { lat: last.lat + 8e-4, lon: last.lon, t: made.elapsedSec, at: (/* @__PURE__ */ new Date()).toISOString() };
+        made.track = (made.track || []).concat([off]);
+        made.offRouteSince = Date.now() - 8e3;
+        updateOffRoute(made, Date.now());
+        made.offRoute = true;
+        setTab("today");
+        showScreen("tracking");
+        paintSessionHud(made);
+        whenReady(() => {
+          drawSessionOnMap(made);
+          fitBounds((made.wayBack || []).concat(course.pins), 80);
+        });
+        drawSessionOnMap(made);
       } else if (name === "tracking-autopause") {
         const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
         if (!state2.courses[0]) state2.courses = [course];

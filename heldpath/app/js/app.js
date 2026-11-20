@@ -25,6 +25,7 @@ import * as health from "./health.js";
 import { PLANS_HOOK_COPY } from "./plans_hook.js";
 import * as map from "./map.js";
 import * as track from "./track.js";
+import { updateOffRoute, offRouteCopy } from "./off_route.js";
 import * as splits from "./splits.js";
 import { seedDemo, midCourseWalk, pastCourseRun, arnoLoopPins } from "./demo.js";
 import { purchaseSupport, SUPPORT_PRODUCT_ID } from "./iap.js";
@@ -305,6 +306,12 @@ function paintSessionHud(sess) {
     const auto = !!(sess.paused && sess.pauseReason === "auto");
     pauseNote.hidden = !auto;
   }
+  updateOffRoute(sess);
+  const offNote = $("track-offroute-note");
+  if (offNote) {
+    offNote.hidden = !sess.offRoute;
+    if (sess.offRoute) offNote.textContent = offRouteCopy(sess.offRouteMeters, sess.units);
+  }
   $("lock-body").textContent = track.liveNotification(sess);
 }
 
@@ -320,6 +327,9 @@ function drawSessionOnMap(sess) {
     }
   }
   if (sess.track.length >= 2) map.drawRoute(sess.track, { id: "live-line", color: "#4EC3F7", width: 5 });
+  if (sess.offRoute && sess.wayBack && sess.wayBack.length >= 2) {
+    map.drawRoute(sess.wayBack, { id: "way-back", color: "#F0C15A", width: 5, dash: true });
+  }
   const last = sess.track[sess.track.length - 1];
   if (last) {
     map.addDot(last);
@@ -1999,6 +2009,24 @@ window.HeldpathTest = {
         ui.hideNav = true;
         showScreen("lock");
       }
+    } else if (name === "tracking-offroute") {
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      if (!state.courses[0]) state.courses = [course];
+      const sess = midCourseWalk(course, units());
+      track.stopSession();
+      const made = track.makeSession({ type: "walk", course, units: units() });
+      Object.assign(made, sess);
+      const last = made.track[made.track.length - 1] || course.pins[0];
+      const off = { lat: last.lat + 0.0008, lon: last.lon, t: made.elapsedSec, at: new Date().toISOString() };
+      made.track = (made.track || []).concat([off]);
+      made.offRouteSince = Date.now() - 8000;
+      updateOffRoute(made, Date.now());
+      made.offRoute = true;
+      setTab("today");
+      showScreen("tracking");
+      paintSessionHud(made);
+      map.whenReady(() => { drawSessionOnMap(made); map.fitBounds((made.wayBack || []).concat(course.pins), 80); });
+      drawSessionOnMap(made);
     } else if (name === "tracking-autopause") {
       const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
       if (!state.courses[0]) state.courses = [course];

@@ -378,7 +378,12 @@ export function drawRoute(coords, opt = {}) {
     id,
     type: "line",
     source: id,
-    paint: { "line-color": color, "line-width": width, "line-opacity": 0.95 },
+    paint: {
+      "line-color": color,
+      "line-width": width,
+      "line-opacity": 0.95,
+      ...(opt.dash ? { "line-dasharray": [1.6, 1.4] } : {}),
+    },
     layout: { "line-cap": "round", "line-join": "round" },
   });
   overlayIds.push(id);
