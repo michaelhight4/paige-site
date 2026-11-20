@@ -826,6 +826,15 @@
     </div>
 
 
+    <div class="sheet-back" id="sheet-low-signal">
+      <div class="sheet" role="dialog" aria-labelledby="low-signal-title" data-testid="low-signal-sheet">
+        <h2 id="low-signal-title">Weak signal on this route</h2>
+        <p class="page-sub" id="low-signal-copy">Parts of this route may have weak signal. Download the route area for the best accuracy?</p>
+        <button class="btn btn-primary" id="btn-low-signal-download" style="width:100%;margin-bottom:12px" data-testid="low-signal-download">Download</button>
+        <button class="btn btn-secondary" id="btn-low-signal-later" style="width:100%" data-testid="low-signal-later">Not now</button>
+      </div>
+    </div>
+
     <!-- Offline area crop overlay (sits over the map) -->
     <div id="map-crop-root" hidden data-testid="map-crop">
       <div class="map-crop-top">

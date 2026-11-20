@@ -30106,14 +30106,32 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (!root) return;
     cropReturnTo = opt.afterClose || "map-areas";
     if (opt.lat != null && opt.lon != null) setCenter(opt.lat, opt.lon, opt.zoom == null ? 15 : opt.zoom);
+    const fitBox = opt.bbox ? normalizeBbox(opt.bbox) : null;
+    if (fitBox) {
+      const map0 = getMap();
+      if (map0 && typeof map0.fitBounds === "function") {
+        map0.fitBounds([[fitBox.west, fitBox.south], [fitBox.east, fitBox.north]], { padding: 80, duration: 0, maxZoom: 16 });
+        if (typeof map0.resize === "function") map0.resize();
+      }
+    }
     if (hooks2.showScreen) hooks2.showScreen("today");
     if (hooks2.setHideNav) hooks2.setHideNav(true);
     root.hidden = false;
     document.body.classList.add("map-crop-open");
     cropOpen = true;
-    resetFrame();
+    if (fitBox) applyFrameToBbox(fitBox);
+    else resetFrame();
     setProgress(false);
     refreshEstimate();
+    if (fitBox) {
+      const again = () => {
+        applyFrameToBbox(fitBox);
+        refreshEstimate();
+      };
+      requestAnimationFrame(again);
+      whenIdle().then(again).catch(() => {
+      });
+    }
     const map2 = getMap();
     if (map2) {
       map2.on("moveend", onMapMoved);
@@ -30161,6 +30179,38 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     frame.style.top = top + "px";
     frame.style.width = w2 + "px";
     frame.style.height = h2 + "px";
+  }
+  function applyFrameToBbox(bbox) {
+    const map2 = getMap();
+    const frame = $3("map-crop-frame");
+    const stage = $3("map-crop-stage");
+    if (!map2 || !frame || !stage || !bbox) return;
+    const box = normalizeBbox(bbox);
+    const sr = stage.getBoundingClientRect();
+    const mr = map2.getCanvas().getBoundingClientRect();
+    const sw = map2.project([box.west, box.south]);
+    const ne = map2.project([box.east, box.north]);
+    let left = mr.left - sr.left + Math.min(sw.x, ne.x);
+    let top = mr.top - sr.top + Math.min(sw.y, ne.y);
+    let width = Math.abs(ne.x - sw.x);
+    let height = Math.abs(ne.y - sw.y);
+    const minW = 80, minH = 80;
+    if (width < minW) {
+      left -= (minW - width) / 2;
+      width = minW;
+    }
+    if (height < minH) {
+      top -= (minH - height) / 2;
+      height = minH;
+    }
+    left = Math.max(8, Math.min(left, sr.width - 16));
+    top = Math.max(8, Math.min(top, sr.height - 16));
+    width = Math.max(minW, Math.min(width, sr.width - left - 8));
+    height = Math.max(minH, Math.min(height, sr.height - top - 8));
+    frame.style.left = Math.round(left) + "px";
+    frame.style.top = Math.round(top) + "px";
+    frame.style.width = Math.round(width) + "px";
+    frame.style.height = Math.round(height) + "px";
   }
   function currentBbox() {
     return bboxFromFrame(getMap(), $3("map-crop-frame"));
@@ -30349,6 +30399,188 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     };
     stage.addEventListener("pointerup", end);
     stage.addEventListener("pointercancel", end);
+  }
+
+  // www/js/low_signal.js
+  var LOW_SIGNAL_COPY = "Parts of this route may have weak signal. Download the route area for the best accuracy?";
+  var SAMPLE_STEP_M = 50;
+  var BBOX_PAD_M = 200;
+  var TUNNEL_NEAR_M = 40;
+  var OVERPASS_URL = "https://overpass-api.de/api/interpreter";
+  var SKIP_TUNNEL = /* @__PURE__ */ new Set(["", "no", "false", "0", "none"]);
+  function pathBbox(points, padMeters = BBOX_PAD_M) {
+    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
+    if (!pts.length) return null;
+    let west = pts[0].lon, east = pts[0].lon, south = pts[0].lat, north = pts[0].lat;
+    for (const p of pts) {
+      if (p.lon < west) west = p.lon;
+      if (p.lon > east) east = p.lon;
+      if (p.lat < south) south = p.lat;
+      if (p.lat > north) north = p.lat;
+    }
+    const midLat = (south + north) / 2;
+    const dLat = padMeters / 111320;
+    const cos = Math.max(0.2, Math.cos(midLat * Math.PI / 180));
+    const dLon = padMeters / (111320 * cos);
+    return normalizeBbox({
+      west: west - dLon,
+      east: east + dLon,
+      south: south - dLat,
+      north: north + dLat
+    });
+  }
+  function pointInArea(point, area) {
+    if (!point || !area) return false;
+    return point.lon >= area.west && point.lon <= area.east && point.lat >= area.south && point.lat <= area.north;
+  }
+  function samplePath(points, stepMeters = SAMPLE_STEP_M) {
+    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
+    if (!pts.length) return [];
+    const out = [{ lat: pts[0].lat, lon: pts[0].lon }];
+    let acc = 0;
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1];
+      const b2 = pts[i];
+      const d2 = haversineMeters(a, b2);
+      if (!(d2 > 0)) continue;
+      let remain = d2;
+      let from = a;
+      while (acc + remain >= stepMeters) {
+        const need = stepMeters - acc;
+        const t = need / (haversineMeters(from, b2) || remain);
+        from = { lat: from.lat + (b2.lat - from.lat) * t, lon: from.lon + (b2.lon - from.lon) * t };
+        out.push(from);
+        remain = haversineMeters(from, b2);
+        acc = 0;
+      }
+      acc += remain;
+    }
+    const last = pts[pts.length - 1];
+    const prev = out[out.length - 1];
+    if (!prev || prev.lat !== last.lat || prev.lon !== last.lon) out.push({ lat: last.lat, lon: last.lon });
+    return out;
+  }
+  function coverageGaps(points, areas) {
+    const samples = samplePath(points);
+    const list = areas || [];
+    return samples.filter((p) => !list.some((a) => pointInArea(p, a)));
+  }
+  function isCovered(points, areas) {
+    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
+    if (!pts.length) return false;
+    return coverageGaps(pts, areas).length === 0;
+  }
+  function isLowSignalTag(tags) {
+    if (!tags || typeof tags !== "object") return false;
+    if (tags.tunnel != null && !SKIP_TUNNEL.has(String(tags.tunnel).toLowerCase())) return true;
+    if (tags.covered != null && !SKIP_TUNNEL.has(String(tags.covered).toLowerCase())) return true;
+    return false;
+  }
+  function wayPoints(way) {
+    if (way && Array.isArray(way.geometry)) {
+      return way.geometry.map((g) => ({ lat: g.lat, lon: g.lon }));
+    }
+    return way && way.points ? way.points : [];
+  }
+  function wayNearPath(way, path, maxMeters = TUNNEL_NEAR_M) {
+    const pts = wayPoints(way);
+    const samples = samplePath(path, Math.min(SAMPLE_STEP_M, maxMeters));
+    if (!pts.length || !samples.length) return false;
+    for (const a of pts) {
+      for (const b2 of samples) {
+        if (haversineMeters(a, b2) <= maxMeters) return true;
+      }
+    }
+    return false;
+  }
+  function tunnelsOnPath(ways, path) {
+    return (ways || []).filter((w2) => isLowSignalTag(w2.tags || w2) && wayNearPath(w2, path));
+  }
+  function assessLowSignal({ path, areas = [], ways = [] } = {}) {
+    const pts = path || [];
+    const bbox = pathBbox(pts);
+    const covered = isCovered(pts, areas);
+    const tunnels = tunnelsOnPath(ways, pts);
+    const coverageGap = !covered;
+    const hasTunnels = tunnels.length > 0;
+    const show2 = !!(bbox && pts.length >= 2 && (coverageGap || hasTunnels));
+    return {
+      show: show2,
+      covered,
+      coverageGap,
+      hasTunnels,
+      tunnels,
+      bbox,
+      copy: LOW_SIGNAL_COPY
+    };
+  }
+  function overpassQuery(bbox) {
+    const box = normalizeBbox(bbox);
+    const s2 = box.south.toFixed(6);
+    const w2 = box.west.toFixed(6);
+    const n = box.north.toFixed(6);
+    const e = box.east.toFixed(6);
+    return `[out:json][timeout:12];(way["tunnel"](${s2},${w2},${n},${e});way["covered"](${s2},${w2},${n},${e}););out geom tags;`;
+  }
+  function waysFromOverpass(json) {
+    const els = json && json.elements || [];
+    return els.filter((el) => el && el.type === "way" && isLowSignalTag(el.tags) && Array.isArray(el.geometry)).map((el) => ({ id: el.id, tags: el.tags, geometry: el.geometry }));
+  }
+  var tunnelFetcher = defaultTunnelFetcher;
+  async function defaultTunnelFetcher(bbox, fetchFn = fetch) {
+    const res = await fetchFn(OVERPASS_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "User-Agent": OFM_USER_AGENT
+      },
+      body: "data=" + encodeURIComponent(overpassQuery(bbox))
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return waysFromOverpass(json);
+  }
+  async function loadTunnelWays(bbox, { fetchFn, timeoutMs = 8e3 } = {}) {
+    if (!bbox) return [];
+    const work = Promise.resolve().then(() => tunnelFetcher(bbox, fetchFn || fetch));
+    let timer2;
+    const timeout = new Promise((resolve2) => {
+      timer2 = setTimeout(() => resolve2([]), timeoutMs);
+    });
+    try {
+      const ways = await Promise.race([work.catch(() => []), timeout]);
+      return Array.isArray(ways) ? ways : [];
+    } finally {
+      clearTimeout(timer2);
+    }
+  }
+  function shouldFetchTunnels() {
+    try {
+      if (typeof navigator !== "undefined" && navigator.webdriver) return false;
+      if (typeof location !== "undefined") {
+        const q2 = new URLSearchParams(location.search);
+        if (q2.has("screen") || q2.has("nosw")) return false;
+      }
+    } catch {
+    }
+    return true;
+  }
+  async function assessRouteLowSignal(path, { areas, ways, fetchFn, timeoutMs } = {}) {
+    const pts = path || [];
+    const bbox = pathBbox(pts);
+    const areaList = areas || [];
+    let found = ways;
+    if (found == null) {
+      if (!shouldFetchTunnels()) found = [];
+      else {
+        try {
+          found = await loadTunnelWays(bbox, { fetchFn, timeoutMs });
+        } catch {
+          found = [];
+        }
+      }
+    }
+    return assessLowSignal({ path: pts, areas: areaList, ways: found });
   }
 
   // www/js/share_link.js
@@ -33501,9 +33733,53 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     closeSheet("sheet-target");
     startTracking(pending.type, pending.course, null, plan);
   }
-  async function startTracking(type, course, plan, targetPlan) {
+  function plannedRoutePoints(course, targetPlan) {
+    if (targetPlan && targetPlan.path && targetPlan.path.length >= 2) return targetPlan.path;
+    if (course && course.path && course.path.length >= 2) return course.path;
+    if (course && course.pins && course.pins.length >= 2) return course.pins;
+    return null;
+  }
+  async function startTracking(type, course, plan, targetPlan, { skipLowSignal = false } = {}) {
     closeSheet("sheet-start");
     closeSheet("sheet-target");
+    const path = plannedRoutePoints(course, targetPlan);
+    if (!skipLowSignal && path && path.length >= 2) {
+      let areas = [];
+      try {
+        areas = await listAreas();
+      } catch {
+        areas = [];
+      }
+      const risk = await assessRouteLowSignal(path, { areas });
+      if (risk.show) {
+        ui2.pendingLowSignal = { type, course, plan, targetPlan, bbox: risk.bbox || pathBbox(path) };
+        const copy = $4("low-signal-copy");
+        if (copy) copy.textContent = LOW_SIGNAL_COPY;
+        openSheet("sheet-low-signal");
+        return;
+      }
+    }
+    await beginTracking(type, course, plan, targetPlan);
+  }
+  function acceptLowSignalDownload() {
+    const pending = ui2.pendingLowSignal;
+    closeSheet("sheet-low-signal");
+    if (!pending || !pending.bbox) {
+      ui2.pendingLowSignal = null;
+      return;
+    }
+    const bbox = pending.bbox;
+    ui2.pendingLowSignal = null;
+    openCrop({ bbox, afterClose: "today" });
+  }
+  function dismissLowSignalPrompt() {
+    const pending = ui2.pendingLowSignal;
+    closeSheet("sheet-low-signal");
+    ui2.pendingLowSignal = null;
+    if (!pending) return;
+    beginTracking(pending.type, pending.course, pending.plan, pending.targetPlan);
+  }
+  async function beginTracking(type, course, plan, targetPlan) {
     const disc = await ensureLocationDisclosure();
     if (!disc || !disc.allowed) return;
     const sess = makeSession({ type, course, units: units2(), target: targetPlan || null });
@@ -33944,6 +34220,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     });
     $4("btn-start-walk").addEventListener("click", () => openStart("walk"));
     $4("btn-start-run").addEventListener("click", () => openStart("run"));
+    if ($4("btn-low-signal-download")) $4("btn-low-signal-download").addEventListener("click", () => acceptLowSignalDownload());
+    if ($4("btn-low-signal-later")) $4("btn-low-signal-later").addEventListener("click", () => dismissLowSignalPrompt());
     $4("btn-build-course").addEventListener("click", beginBuilder);
     $4("btn-saved-courses").addEventListener("click", () => setTab("courses"));
     $4("btn-new-course").addEventListener("click", beginBuilder);
@@ -35252,7 +35530,16 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         });
         showResumeSheet(snap);
       } else if (name === "settings") setTab("settings");
-      else if (name === "settings-lowpower") {
+      else if (name === "low-signal") {
+        const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+        if (!state2.courses.length) state2.courses.push(course);
+        ui2.pendingLowSignal = { type: "walk", course, plan: null, targetPlan: null, bbox: pathBbox(course.pins || course.path) };
+        const copy = $4("low-signal-copy");
+        if (copy) copy.textContent = LOW_SIGNAL_COPY;
+        setTab("today");
+        showScreen("today");
+        openSheet("sheet-low-signal");
+      } else if (name === "settings-lowpower") {
         state2.settings.lowPower = true;
         setLowPowerEnabled(true);
         setTab("settings");

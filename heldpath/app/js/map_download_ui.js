@@ -4,6 +4,7 @@ import {
   formatBytes,
   formatStorageLine,
   bboxFromFrame,
+  normalizeBbox,
 } from "./map_tiles.js";
 import {
   downloadArea,
@@ -108,14 +109,28 @@ export function openCrop(opt = {}) {
   if (!root) return;
   cropReturnTo = opt.afterClose || "map-areas";
   if (opt.lat != null && opt.lon != null) setCenter(opt.lat, opt.lon, opt.zoom == null ? 15 : opt.zoom);
+  const fitBox = opt.bbox ? normalizeBbox(opt.bbox) : null;
+  if (fitBox) {
+    const map0 = getMap();
+    if (map0 && typeof map0.fitBounds === "function") {
+      map0.fitBounds([[fitBox.west, fitBox.south], [fitBox.east, fitBox.north]], { padding: 80, duration: 0, maxZoom: 16 });
+      if (typeof map0.resize === "function") map0.resize();
+    }
+  }
   if (hooks.showScreen) hooks.showScreen("today");
   if (hooks.setHideNav) hooks.setHideNav(true);
   root.hidden = false;
   document.body.classList.add("map-crop-open");
   cropOpen = true;
-  resetFrame();
+  if (fitBox) applyFrameToBbox(fitBox);
+  else resetFrame();
   setProgress(false);
   refreshEstimate();
+  if (fitBox) {
+    const again = () => { applyFrameToBbox(fitBox); refreshEstimate(); };
+    requestAnimationFrame(again);
+    whenIdle().then(again).catch(() => {});
+  }
   const map = getMap();
   if (map) {
     map.on("moveend", onMapMoved);
@@ -167,6 +182,40 @@ function resetFrame() {
   frame.style.top = top + "px";
   frame.style.width = w + "px";
   frame.style.height = h + "px";
+}
+
+/** Size the crop frame to a geographic bbox after the map has been fitted. */
+export function applyFrameToBbox(bbox) {
+  const map = getMap();
+  const frame = $("map-crop-frame");
+  const stage = $("map-crop-stage");
+  if (!map || !frame || !stage || !bbox) return;
+  const box = normalizeBbox(bbox);
+  const sr = stage.getBoundingClientRect();
+  const mr = map.getCanvas().getBoundingClientRect();
+  const sw = map.project([box.west, box.south]);
+  const ne = map.project([box.east, box.north]);
+  let left = (mr.left - sr.left) + Math.min(sw.x, ne.x);
+  let top = (mr.top - sr.top) + Math.min(sw.y, ne.y);
+  let width = Math.abs(ne.x - sw.x);
+  let height = Math.abs(ne.y - sw.y);
+  const minW = 80, minH = 80;
+  if (width < minW) {
+    left -= (minW - width) / 2;
+    width = minW;
+  }
+  if (height < minH) {
+    top -= (minH - height) / 2;
+    height = minH;
+  }
+  left = Math.max(8, Math.min(left, sr.width - 16));
+  top = Math.max(8, Math.min(top, sr.height - 16));
+  width = Math.max(minW, Math.min(width, sr.width - left - 8));
+  height = Math.max(minH, Math.min(height, sr.height - top - 8));
+  frame.style.left = Math.round(left) + "px";
+  frame.style.top = Math.round(top) + "px";
+  frame.style.width = Math.round(width) + "px";
+  frame.style.height = Math.round(height) + "px";
 }
 
 function currentBbox() {

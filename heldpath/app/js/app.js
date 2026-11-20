@@ -64,6 +64,8 @@ import { renderProgressView } from "./progress_view.js";
 import { initPlansUi, renderPlansScreen } from "./plans_ui.js";
 import { initStretchesUi, showStretchesHub, showStretchGroup, showStretchWorkout, showStretchCredits, showStretchFollow, openStretchVideo, closeStretchVideo } from "./stretches_ui.js";
 import { initMapDownloadUi, showMapAreas, openCrop, closeCrop } from "./map_download_ui.js";
+import { listAreas } from "./map_offline.js";
+import { assessRouteLowSignal, LOW_SIGNAL_COPY, pathBbox } from "./low_signal.js";
 import { applyCompletedSession, importPlanFile, addPlanToState, makePlan, PLAN_FORMAT, PLAN_FORMAT_VERSION } from "./plans.js";
 import { buildPlanDraft } from "./plan_progress.js";
 import { encodeCourse, encodePlan, decodeShare, isShareHash, shareSummary, pathPreviewSvg } from "./share_link.js";
@@ -945,9 +947,53 @@ function startPendingWithMode(mode) {
   startTracking(pending.type, pending.course, null, plan);
 }
 
-async function startTracking(type, course, plan, targetPlan) {
+function plannedRoutePoints(course, targetPlan) {
+  if (targetPlan && targetPlan.path && targetPlan.path.length >= 2) return targetPlan.path;
+  if (course && course.path && course.path.length >= 2) return course.path;
+  if (course && course.pins && course.pins.length >= 2) return course.pins;
+  return null;
+}
+
+async function startTracking(type, course, plan, targetPlan, { skipLowSignal = false } = {}) {
   closeSheet("sheet-start");
   closeSheet("sheet-target");
+  const path = plannedRoutePoints(course, targetPlan);
+  if (!skipLowSignal && path && path.length >= 2) {
+    let areas = [];
+    try { areas = await listAreas(); } catch { areas = []; }
+    const risk = await assessRouteLowSignal(path, { areas });
+    if (risk.show) {
+      ui.pendingLowSignal = { type, course, plan, targetPlan, bbox: risk.bbox || pathBbox(path) };
+      const copy = $("low-signal-copy");
+      if (copy) copy.textContent = LOW_SIGNAL_COPY;
+      openSheet("sheet-low-signal");
+      return;
+    }
+  }
+  await beginTracking(type, course, plan, targetPlan);
+}
+
+function acceptLowSignalDownload() {
+  const pending = ui.pendingLowSignal;
+  closeSheet("sheet-low-signal");
+  if (!pending || !pending.bbox) {
+    ui.pendingLowSignal = null;
+    return;
+  }
+  const bbox = pending.bbox;
+  ui.pendingLowSignal = null;
+  openCrop({ bbox, afterClose: "today" });
+}
+
+function dismissLowSignalPrompt() {
+  const pending = ui.pendingLowSignal;
+  closeSheet("sheet-low-signal");
+  ui.pendingLowSignal = null;
+  if (!pending) return;
+  beginTracking(pending.type, pending.course, pending.plan, pending.targetPlan);
+}
+
+async function beginTracking(type, course, plan, targetPlan) {
   const disc = await ensureLocationDisclosure();
   if (!disc || !disc.allowed) return;
   const sess = track.makeSession({ type, course, units: units(), target: targetPlan || null });
@@ -1428,6 +1474,8 @@ function bind() {
   });
   $("btn-start-walk").addEventListener("click", () => openStart("walk"));
   $("btn-start-run").addEventListener("click", () => openStart("run"));
+  if ($("btn-low-signal-download")) $("btn-low-signal-download").addEventListener("click", () => acceptLowSignalDownload());
+  if ($("btn-low-signal-later")) $("btn-low-signal-later").addEventListener("click", () => dismissLowSignalPrompt());
   $("btn-build-course").addEventListener("click", beginBuilder);
   $("btn-saved-courses").addEventListener("click", () => setTab("courses"));
   $("btn-new-course").addEventListener("click", beginBuilder);
@@ -2708,6 +2756,17 @@ window.HeldpathTest = {
       showResumeSheet(snap);
     }
     else if (name === "settings") setTab("settings");
+    else if (name === "low-signal") {
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      if (!state.courses.length) state.courses.push(course);
+      ui.pendingLowSignal = { type: "walk", course, plan: null, targetPlan: null, bbox: pathBbox(course.pins || course.path) };
+      const copy = $("low-signal-copy");
+      if (copy) copy.textContent = LOW_SIGNAL_COPY;
+      setTab("today");
+      showScreen("today");
+      openSheet("sheet-low-signal");
+    }
+
     else if (name === "settings-lowpower") {
       state.settings.lowPower = true;
       track.setLowPowerEnabled(true);
