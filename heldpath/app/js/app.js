@@ -45,6 +45,15 @@ import {
   forgotCopy,
   trimCopy,
 } from "./forgot_stop.js";
+import {
+  parseDistanceInput,
+  parseDurationInput,
+  parseWhenInput,
+  buildIndoorActivity,
+  indoorSourceLabel,
+  indoorSummaryNote,
+  indoorPromptCopy,
+} from "./indoor_log.js";
 import * as splits from "./splits.js";
 import { seedDemo, midCourseWalk, pastCourseRun, arnoLoopPins } from "./demo.js";
 import { purchaseSupport, SUPPORT_PRODUCT_ID } from "./iap.js";
@@ -262,6 +271,7 @@ function sourceLabel(activity) {
   if (!activity || !activity.source) return "Tracked on this phone";
   if (activity.source === "watch") return "Imported from a watch";
   if (activity.source === "health") return "From the health app";
+  if (activity.source === "indoor") return indoorSourceLabel();
   return "Tracked on this phone";
 }
 
@@ -760,6 +770,59 @@ function render() {
 }
 
 /* ——— Actions ——— */
+function localDateTimeValue(d) {
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function setIndoorError(msg) {
+  const el = $("indoor-error");
+  if (!el) return;
+  if (!msg) {
+    el.hidden = true;
+    el.textContent = "";
+    return;
+  }
+  el.hidden = false;
+  el.textContent = msg;
+}
+
+function openIndoorLog(type) {
+  closeSheet("sheet-start");
+  ui.indoorType = type === "run" ? "run" : "walk";
+  const copy = indoorPromptCopy(ui.indoorType);
+  if ($("indoor-title")) $("indoor-title").textContent = copy.title;
+  if ($("indoor-body")) $("indoor-body").textContent = copy.body;
+  if ($("indoor-unit")) $("indoor-unit").textContent = units();
+  if ($("indoor-distance")) $("indoor-distance").value = "";
+  if ($("indoor-time")) $("indoor-time").value = "";
+  if ($("indoor-when")) $("indoor-when").value = localDateTimeValue(new Date());
+  if ($("indoor-note")) $("indoor-note").value = "";
+  setIndoorError("");
+  openSheet("sheet-indoor");
+}
+
+function saveIndoorLog() {
+  const dist = parseDistanceInput($("indoor-distance") && $("indoor-distance").value, units());
+  if (!dist.ok) { setIndoorError(dist.reason); return; }
+  const dur = parseDurationInput($("indoor-time") && $("indoor-time").value);
+  if (!dur.ok) { setIndoorError(dur.reason); return; }
+  const when = parseWhenInput($("indoor-when") && $("indoor-when").value, new Date());
+  if (!when.ok) { setIndoorError(when.reason); return; }
+  const built = buildIndoorActivity({
+    type: ui.indoorType || ui.startType || "walk",
+    meters: dist.meters,
+    elapsedSec: dur.seconds,
+    endedAt: when.date,
+    note: $("indoor-note") ? $("indoor-note").value : "",
+  });
+  const act = newActivity(built);
+  state.activities.push(act);
+  persist();
+  closeSheet("sheet-indoor");
+  showSummary(act, null, null);
+}
+
 function openStart(type) {
   ui.startType = type;
   $("start-sheet-title").textContent = type === "run" ? "Start a run" : "Start a walk";
@@ -1063,6 +1126,18 @@ function showSummary(act, course, legResult) {
   const type = act.type === "run" ? "Run" : "Walk";
   $("summary-title").textContent = `${type} complete`;
   $("summary-sub").textContent = `${new Date(act.endedAt || act.startedAt).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })} · ${sourceLabel(act)}`;
+  const indoorNote = $("summary-indoor-note");
+  if (indoorNote) {
+    if (act.source === "indoor") {
+      indoorNote.hidden = false;
+      indoorNote.textContent = act.indoorNote
+        ? `${indoorSummaryNote()} ${act.indoorNote}`
+        : indoorSummaryNote();
+    } else {
+      indoorNote.hidden = true;
+      indoorNote.textContent = "";
+    }
+  }
   $("summary-stats").innerHTML = `
     <div class="total-box"><div class="num">${formatDistance(act.distanceMeters, units())}</div><div class="lbl">Distance</div></div>
     <div class="total-box"><div class="num">${formatDuration(act.elapsedSec)}</div><div class="lbl">Time</div></div>
@@ -1398,7 +1473,10 @@ function bind() {
   if ($("lock-keep-going")) $("lock-keep-going").addEventListener("click", keepGoingFromUi);
   if ($("lock-complete-stop")) $("lock-complete-stop").addEventListener("click", finishTracking);
   $("btn-start-free").addEventListener("click", () => { closeSheet("sheet-start"); startTracking(ui.startType, null); });
+  if ($("btn-log-indoor")) $("btn-log-indoor").addEventListener("click", () => openIndoorLog(ui.startType));
   $("btn-start-cancel").addEventListener("click", () => closeSheet("sheet-start"));
+  if ($("btn-indoor-save")) $("btn-indoor-save").addEventListener("click", () => saveIndoorLog());
+  if ($("btn-indoor-cancel")) $("btn-indoor-cancel").addEventListener("click", () => closeSheet("sheet-indoor"));
   $("target-distance").addEventListener("input", refreshTargetOptions);
   $("btn-target-start").addEventListener("click", () => startPendingWithMode(MODE_COURSE));
   $("btn-target-use-course").addEventListener("click", () => startPendingWithMode(MODE_COURSE));
@@ -2116,6 +2194,7 @@ window.HeldpathTest = {
     closeSheet("sheet-schedule");
     closeSheet("sheet-save-course");
     closeSheet("sheet-start");
+    closeSheet("sheet-indoor");
     closeSheet("sheet-resume");
     closeSheet("sheet-forgot");
     closeSheet("sheet-trim-end");
@@ -2510,7 +2589,13 @@ window.HeldpathTest = {
       renderPlansScreen();
       if (plan) openShareSheet("plan", plan);
     }
-    else if (name === "forgot-stop") {
+    else if (name === "indoor-log") {
+      setTab("today");
+      showScreen("today");
+      openIndoorLog("run");
+      if ($("indoor-distance")) $("indoor-distance").value = "3.1";
+      if ($("indoor-time")) $("indoor-time").value = "28:00";
+    } else if (name === "forgot-stop") {
       const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
       if (!state.courses[0]) state.courses = [course];
       const sess = midCourseWalk(course, units());

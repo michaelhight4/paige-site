@@ -26355,6 +26355,83 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     };
   }
 
+  // www/js/indoor_log.js
+  var MAX_DISTANCE_M = 200 * 1e3;
+  var MAX_ELAPSED_SEC = 24 * 60 * 60;
+  var MIN_DISTANCE_M = 10;
+  var MIN_ELAPSED_SEC = 10;
+  function parseDistanceInput(raw, units3 = "mi") {
+    const text = String(raw ?? "").trim().replace(",", ".");
+    if (!text) return { ok: false, reason: "Enter a distance." };
+    const n = Number(text);
+    if (!Number.isFinite(n) || n <= 0) return { ok: false, reason: "Enter a distance greater than zero." };
+    const meters = units3 === "km" ? n * METERS_PER_KM : n * METERS_PER_MILE;
+    if (meters < MIN_DISTANCE_M) return { ok: false, reason: "That distance is too short to log." };
+    if (meters > MAX_DISTANCE_M) return { ok: false, reason: "That distance is too long to log in one go." };
+    return { ok: true, meters, input: n, units: units3 };
+  }
+  function parseDurationInput(raw) {
+    const text = String(raw ?? "").trim();
+    if (!text) return { ok: false, reason: "Enter a time." };
+    if (/^\d+$/.test(text) || /^\d+\.\d+$/.test(text)) {
+      const minutes = Number(text);
+      if (!Number.isFinite(minutes) || minutes <= 0) return { ok: false, reason: "Enter a time greater than zero." };
+      const sec2 = Math.round(minutes * 60);
+      if (sec2 < MIN_ELAPSED_SEC) return { ok: false, reason: "That time is too short to log." };
+      if (sec2 > MAX_ELAPSED_SEC) return { ok: false, reason: "That time is too long to log in one go." };
+      return { ok: true, seconds: sec2 };
+    }
+    const parts = text.split(":").map((p) => p.trim());
+    if (parts.length < 2 || parts.length > 3 || parts.some((p) => !/^\d+$/.test(p))) {
+      return { ok: false, reason: "Use minutes, mm:ss, or h:mm:ss." };
+    }
+    const nums = parts.map((p) => Number(p));
+    let sec;
+    if (nums.length === 2) sec = nums[0] * 60 + nums[1];
+    else sec = nums[0] * 3600 + nums[1] * 60 + nums[2];
+    if (nums.slice(1).some((n) => n > 59)) return { ok: false, reason: "Minutes and seconds must be between 0 and 59." };
+    if (sec < MIN_ELAPSED_SEC) return { ok: false, reason: "That time is too short to log." };
+    if (sec > MAX_ELAPSED_SEC) return { ok: false, reason: "That time is too long to log in one go." };
+    return { ok: true, seconds: sec };
+  }
+  function parseWhenInput(raw, now = /* @__PURE__ */ new Date()) {
+    if (raw == null || String(raw).trim() === "") return { ok: true, date: now };
+    const text = String(raw).trim();
+    const d2 = new Date(text);
+    if (!Number.isFinite(d2.getTime())) return { ok: false, reason: "Enter a valid date and time." };
+    if (d2.getTime() > now.getTime() + 5 * 60 * 1e3) return { ok: false, reason: "That time is in the future." };
+    return { ok: true, date: d2 };
+  }
+  function buildIndoorActivity({ type, meters, elapsedSec, endedAt, note } = {}, now = /* @__PURE__ */ new Date()) {
+    const end = endedAt instanceof Date ? endedAt : endedAt ? new Date(endedAt) : now;
+    const start = new Date(end.getTime() - (elapsedSec || 0) * 1e3);
+    return {
+      type: type === "run" ? "run" : "walk",
+      source: "indoor",
+      distanceMeters: meters || 0,
+      elapsedSec: elapsedSec || 0,
+      startedAt: start.toISOString(),
+      endedAt: end.toISOString(),
+      track: [],
+      indoorNote: note ? String(note).trim() : ""
+    };
+  }
+  function indoorSourceLabel() {
+    return "Logged indoors";
+  }
+  function indoorSummaryNote() {
+    return "Distance and time are what you entered. There is no GPS track.";
+  }
+  function indoorPromptCopy(type = "walk") {
+    const kind = type === "run" ? "run" : "walk";
+    return {
+      title: `Log an indoor ${kind}`,
+      body: `Use this for a treadmill or indoor ${kind}. Heldpath will not use GPS. Distance and time are what you enter.`,
+      save: "Save",
+      cancel: "Cancel"
+    };
+  }
+
   // www/js/splits.js
   function pinLabel(index, pinCount) {
     if (index <= 0) return "Start";
@@ -32634,6 +32711,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (!activity || !activity.source) return "Tracked on this phone";
     if (activity.source === "watch") return "Imported from a watch";
     if (activity.source === "health") return "From the health app";
+    if (activity.source === "indoor") return indoorSourceLabel();
     return "Tracked on this phone";
   }
   async function refreshHealthStatus() {
@@ -33094,6 +33172,64 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (ui2.screen === "plans") renderPlansScreen();
     if (getSession()) paintSessionHud(getSession());
   }
+  function localDateTimeValue(d2) {
+    const pad = (n) => String(n).padStart(2, "0");
+    return `${d2.getFullYear()}-${pad(d2.getMonth() + 1)}-${pad(d2.getDate())}T${pad(d2.getHours())}:${pad(d2.getMinutes())}`;
+  }
+  function setIndoorError(msg) {
+    const el = $4("indoor-error");
+    if (!el) return;
+    if (!msg) {
+      el.hidden = true;
+      el.textContent = "";
+      return;
+    }
+    el.hidden = false;
+    el.textContent = msg;
+  }
+  function openIndoorLog(type) {
+    closeSheet("sheet-start");
+    ui2.indoorType = type === "run" ? "run" : "walk";
+    const copy = indoorPromptCopy(ui2.indoorType);
+    if ($4("indoor-title")) $4("indoor-title").textContent = copy.title;
+    if ($4("indoor-body")) $4("indoor-body").textContent = copy.body;
+    if ($4("indoor-unit")) $4("indoor-unit").textContent = units2();
+    if ($4("indoor-distance")) $4("indoor-distance").value = "";
+    if ($4("indoor-time")) $4("indoor-time").value = "";
+    if ($4("indoor-when")) $4("indoor-when").value = localDateTimeValue(/* @__PURE__ */ new Date());
+    if ($4("indoor-note")) $4("indoor-note").value = "";
+    setIndoorError("");
+    openSheet("sheet-indoor");
+  }
+  function saveIndoorLog() {
+    const dist3 = parseDistanceInput($4("indoor-distance") && $4("indoor-distance").value, units2());
+    if (!dist3.ok) {
+      setIndoorError(dist3.reason);
+      return;
+    }
+    const dur = parseDurationInput($4("indoor-time") && $4("indoor-time").value);
+    if (!dur.ok) {
+      setIndoorError(dur.reason);
+      return;
+    }
+    const when = parseWhenInput($4("indoor-when") && $4("indoor-when").value, /* @__PURE__ */ new Date());
+    if (!when.ok) {
+      setIndoorError(when.reason);
+      return;
+    }
+    const built = buildIndoorActivity({
+      type: ui2.indoorType || ui2.startType || "walk",
+      meters: dist3.meters,
+      elapsedSec: dur.seconds,
+      endedAt: when.date,
+      note: $4("indoor-note") ? $4("indoor-note").value : ""
+    });
+    const act = newActivity(built);
+    state2.activities.push(act);
+    persist();
+    closeSheet("sheet-indoor");
+    showSummary(act, null, null);
+  }
   function openStart(type) {
     ui2.startType = type;
     $4("start-sheet-title").textContent = type === "run" ? "Start a run" : "Start a walk";
@@ -33377,6 +33513,16 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const type = act.type === "run" ? "Run" : "Walk";
     $4("summary-title").textContent = `${type} complete`;
     $4("summary-sub").textContent = `${new Date(act.endedAt || act.startedAt).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })} \xB7 ${sourceLabel(act)}`;
+    const indoorNote = $4("summary-indoor-note");
+    if (indoorNote) {
+      if (act.source === "indoor") {
+        indoorNote.hidden = false;
+        indoorNote.textContent = act.indoorNote ? `${indoorSummaryNote()} ${act.indoorNote}` : indoorSummaryNote();
+      } else {
+        indoorNote.hidden = true;
+        indoorNote.textContent = "";
+      }
+    }
     $4("summary-stats").innerHTML = `
     <div class="total-box"><div class="num">${formatDistance(act.distanceMeters, units2())}</div><div class="lbl">Distance</div></div>
     <div class="total-box"><div class="num">${formatDuration(act.elapsedSec)}</div><div class="lbl">Time</div></div>
@@ -33694,7 +33840,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       closeSheet("sheet-start");
       startTracking(ui2.startType, null);
     });
+    if ($4("btn-log-indoor")) $4("btn-log-indoor").addEventListener("click", () => openIndoorLog(ui2.startType));
     $4("btn-start-cancel").addEventListener("click", () => closeSheet("sheet-start"));
+    if ($4("btn-indoor-save")) $4("btn-indoor-save").addEventListener("click", () => saveIndoorLog());
+    if ($4("btn-indoor-cancel")) $4("btn-indoor-cancel").addEventListener("click", () => closeSheet("sheet-indoor"));
     $4("target-distance").addEventListener("input", refreshTargetOptions);
     $4("btn-target-start").addEventListener("click", () => startPendingWithMode(MODE_COURSE));
     $4("btn-target-use-course").addEventListener("click", () => startPendingWithMode(MODE_COURSE));
@@ -34406,6 +34555,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       closeSheet("sheet-schedule");
       closeSheet("sheet-save-course");
       closeSheet("sheet-start");
+      closeSheet("sheet-indoor");
       closeSheet("sheet-resume");
       closeSheet("sheet-forgot");
       closeSheet("sheet-trim-end");
@@ -34821,6 +34971,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         showScreen("plans");
         renderPlansScreen();
         if (plan) openShareSheet("plan", plan);
+      } else if (name === "indoor-log") {
+        setTab("today");
+        showScreen("today");
+        openIndoorLog("run");
+        if ($4("indoor-distance")) $4("indoor-distance").value = "3.1";
+        if ($4("indoor-time")) $4("indoor-time").value = "28:00";
       } else if (name === "forgot-stop") {
         const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
         if (!state2.courses[0]) state2.courses = [course];

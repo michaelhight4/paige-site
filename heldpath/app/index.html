@@ -270,6 +270,7 @@
       <div class="scroll">
         <h1 class="page-title" id="summary-title">Walk complete</h1>
         <p class="page-sub" id="summary-sub"></p>
+        <p class="tiny" id="summary-indoor-note" data-testid="summary-indoor-note" hidden></p>
         <div class="totals" id="summary-stats" data-testid="summary-stats"></div>
         <div class="card">
           <h2>Health app</h2>
@@ -638,12 +639,42 @@
       </div>
     </div>
 
+    <div class="sheet-back" id="sheet-indoor">
+      <div class="sheet" role="dialog" aria-labelledby="indoor-title" data-testid="indoor-sheet">
+        <h2 id="indoor-title">Log an indoor walk</h2>
+        <p class="page-sub" id="indoor-body">Use this for a treadmill or indoor walk. Heldpath will not use GPS. Distance and time are what you enter.</p>
+        <div class="field">
+          <label for="indoor-distance">Distance</label>
+          <div class="target-input-row">
+            <input id="indoor-distance" data-testid="indoor-distance" type="number" min="0" step="0.01" inputmode="decimal" />
+            <span id="indoor-unit">mi</span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="indoor-time">Time</label>
+          <input id="indoor-time" data-testid="indoor-time" type="text" inputmode="numeric" placeholder="mm:ss or minutes" />
+        </div>
+        <div class="field">
+          <label for="indoor-when">Finished at</label>
+          <input id="indoor-when" data-testid="indoor-when" type="datetime-local" />
+        </div>
+        <div class="field">
+          <label for="indoor-note">Note (optional)</label>
+          <input id="indoor-note" data-testid="indoor-note" type="text" maxlength="80" autocomplete="off" />
+        </div>
+        <p class="tiny" id="indoor-error" data-testid="indoor-error" hidden></p>
+        <button class="btn btn-primary" id="btn-indoor-save" style="width:100%;margin:8px 0 12px" data-testid="indoor-save">Save</button>
+        <button class="btn btn-secondary" id="btn-indoor-cancel" style="width:100%" data-testid="indoor-cancel">Cancel</button>
+      </div>
+    </div>
+
     <div class="sheet-back" id="sheet-start">
       <div class="sheet" role="dialog" id="start-sheet-inner">
         <h2 id="start-sheet-title">Start</h2>
         <p class="page-sub">Follow a saved course, or just go and track as you walk or run.</p>
         <div id="start-course-list" class="list"></div>
         <button class="btn btn-primary" id="btn-start-free" style="width:100%;margin:16px 0 12px">Start without a course</button>
+        <button class="btn btn-secondary" id="btn-log-indoor" style="width:100%;margin-bottom:12px" data-testid="log-indoor">Log a treadmill or indoor session</button>
         <button class="btn btn-secondary" id="btn-start-cancel" style="width:100%">Cancel</button>
       </div>
     </div>
