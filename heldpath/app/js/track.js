@@ -87,13 +87,37 @@ export function isAutoPauseEnabled() {
   return autoPauseEnabled;
 }
 
-export function tickElapsed() {
+export function tickElapsed(at = Date.now()) {
   if (!session || session.paused) return session;
   const start = Date.parse(session.startedAt);
-  const now = Date.now();
-  const paused = session.pausedAcc + (session.pauseStarted ? now - session.pauseStarted : 0);
-  session.elapsedSec = Math.max(0, Math.round((now - start - paused) / 1000));
+  const paused = session.pausedAcc + (session.pauseStarted ? at - session.pauseStarted : 0);
+  session.elapsedSec = Math.max(0, Math.round((at - start - paused) / 1000));
   return session;
+}
+
+/** Rehydrate a session after a crash or force-quit. Dead time is not counted. */
+export function restoreSession(saved, at = Date.now()) {
+  if (!saved) {
+    session = null;
+    return null;
+  }
+  session = JSON.parse(JSON.stringify(saved));
+  session.track = Array.isArray(session.track) ? session.track.slice() : [];
+  session.coursePins = session.coursePins ? session.coursePins.slice() : null;
+  session.coursePath = session.coursePath ? session.coursePath.slice() : null;
+  const last = session.track[session.track.length - 1];
+  const lastAt = last && last.at ? Date.parse(last.at) : Date.parse(session.startedAt);
+  const base = Number.isFinite(lastAt) ? lastAt : at;
+  const gap = Math.max(0, at - base);
+  if (session.paused) {
+    session.pauseStarted = at;
+  } else if (gap > 2000) {
+    session.pausedAcc = (session.pausedAcc || 0) + gap;
+    session.pauseStarted = null;
+  }
+  autoWatch = createAutoPauseState(Date.parse(session.startedAt) || at);
+  if (session.paused) return session;
+  return tickElapsed(at);
 }
 
 export function pushPoint(lat, lon, at = Date.now()) {

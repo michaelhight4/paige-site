@@ -27,6 +27,14 @@ import * as map from "./map.js";
 import * as track from "./track.js";
 import { updateOffRoute, offRouteCopy } from "./off_route.js";
 import { startDetectCopy } from "./start_detect.js";
+import {
+  maybeSaveLiveSession,
+  loadLiveSession,
+  clearLiveSession,
+  isResumable,
+  resumePromptCopy,
+  snapshotSession,
+} from "./session_autosave.js";
 import * as splits from "./splits.js";
 import { seedDemo, midCourseWalk, pastCourseRun, arnoLoopPins } from "./demo.js";
 import { purchaseSupport, SUPPORT_PRODUCT_ID } from "./iap.js";
@@ -113,6 +121,87 @@ const params = new URLSearchParams(location.search);
 
 function persist() {
   saveState(state);
+}
+
+function liveSessionExtra() {
+  return { activePlanId: ui.activePlanId || null };
+}
+
+function flushLiveSession(force = true) {
+  const s = track.getSession();
+  if (!s) return;
+  maybeSaveLiveSession(s, { ...liveSessionExtra(), force });
+}
+
+function onLiveSessionUpdate(s, why) {
+  if (!s) return;
+  paintSessionHud(s);
+  drawSessionOnMap(s);
+  maybeSaveLiveSession(s, { ...liveSessionExtra(), force: why === "hide" });
+}
+
+function showResumeSheet(snap) {
+  ui.pendingResume = snap;
+  const copy = resumePromptCopy(snap, units());
+  if ($("resume-title")) $("resume-title").textContent = copy.title;
+  if ($("resume-body")) $("resume-body").textContent = copy.body;
+  if ($("resume-stats")) $("resume-stats").textContent = copy.stats;
+  const path = snap && snap.session && (snap.session.track || snap.session.coursePath || snap.session.coursePins);
+  if (path && path.length) {
+    try {
+      map.clearOverlays();
+      map.clearMarkers();
+      if ((snap.session.coursePath || snap.session.coursePins || []).length >= 2) {
+        map.drawRoute(snap.session.coursePath || snap.session.coursePins, { id: "course-line", color: "#7A8798", width: 4 });
+      }
+      if (snap.session.track && snap.session.track.length >= 2) {
+        map.drawRoute(snap.session.track, { id: "live-line", color: "#4EC3F7", width: 5 });
+      }
+      map.fitBounds(path, 80);
+    } catch { /* map may not be ready */ }
+  }
+  openSheet("sheet-resume");
+}
+
+async function resumePendingSession() {
+  const snap = ui.pendingResume;
+  closeSheet("sheet-resume");
+  if (!snap || !snap.session) return;
+  ui.activePlanId = snap.activePlanId || null;
+  const sess = track.restoreSession(snap.session);
+  if (!sess) return;
+  track.setAutoPauseEnabled(state.settings.autoPause !== false);
+  setTab("today");
+  showScreen("tracking");
+  paintSessionHud(sess);
+  const fit = sess.track && sess.track.length >= 2 ? sess.track : (sess.coursePath || sess.coursePins);
+  map.whenReady(() => {
+    drawSessionOnMap(sess);
+    if (fit && fit.length) map.fitBounds(fit, { top: 56, bottom: 420, left: 48, right: 48 });
+  });
+  drawSessionOnMap(sess);
+  flushLiveSession(true);
+  await track.startWatching(onLiveSessionUpdate);
+}
+
+async function savePendingSession() {
+  const snap = ui.pendingResume;
+  closeSheet("sheet-resume");
+  ui.pendingResume = null;
+  if (!snap || !snap.session) return;
+  ui.activePlanId = snap.activePlanId || null;
+  track.restoreSession(snap.session);
+  clearLiveSession();
+  await finishTracking();
+}
+
+async function discardPendingSession() {
+  clearLiveSession();
+  ui.pendingResume = null;
+  closeSheet("sheet-resume");
+  setTab("today");
+  showScreen("today");
+  await locateAndOfferMapChoice();
 }
 
 function units() {
@@ -761,11 +850,8 @@ async function startTracking(type, course, plan, targetPlan) {
   if (fit && fit.length) {
     drawSessionOnMap(sess);
   }
-  const res = await track.startWatching((s) => {
-    if (!s) return;
-    paintSessionHud(s);
-    drawSessionOnMap(s);
-  });
+  flushLiveSession(true);
+  const res = await track.startWatching(onLiveSessionUpdate);
   if (plan && isoDate(new Date()) >= plan.date) {
     // leave the plan until stop, then remove if completed
     ui.activePlanId = plan.id;
@@ -781,6 +867,7 @@ async function pauseOrResume() {
   if (s.paused) track.resumeSession();
   else track.pauseSession();
   paintSessionHud(track.getSession());
+  flushLiveSession(true);
 }
 
 async function importWatchActivities() {
@@ -822,6 +909,8 @@ async function importWatchActivities() {
 async function finishTracking() {
   await track.stopWatching();
   const sess = track.stopSession();
+  clearLiveSession();
+  ui.pendingResume = null;
   ui.hideNav = false;
   if (!sess) {
     showScreen("today");
@@ -1219,6 +1308,18 @@ function bind() {
   });
   $("btn-pause").addEventListener("click", pauseOrResume);
   $("btn-stop").addEventListener("click", finishTracking);
+  if ($("btn-resume-session")) $("btn-resume-session").addEventListener("click", () => resumePendingSession());
+  if ($("btn-resume-save")) $("btn-resume-save").addEventListener("click", () => savePendingSession());
+  if ($("btn-resume-discard")) $("btn-resume-discard").addEventListener("click", () => discardPendingSession());
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") flushLiveSession(true);
+  });
+  window.addEventListener("pagehide", () => flushLiveSession(true));
+  try {
+    CapacitorApp.addListener("appStateChange", (s) => {
+      if (s && s.isActive === false) flushLiveSession(true);
+    });
+  } catch { /* web */ }
   $("lock-pause").addEventListener("click", pauseOrResume);
   $("lock-stop").addEventListener("click", finishTracking);
   function keepGoingFromUi() {
@@ -1951,6 +2052,7 @@ window.HeldpathTest = {
     closeSheet("sheet-schedule");
     closeSheet("sheet-save-course");
     closeSheet("sheet-start");
+    closeSheet("sheet-resume");
     closeSheet("sheet-location");
     closeSheet("sheet-course");
     closeSheet("sheet-target");
@@ -2342,6 +2444,27 @@ window.HeldpathTest = {
       renderPlansScreen();
       if (plan) openShareSheet("plan", plan);
     }
+    else if (name === "resume-session") {
+      setTab("today");
+      showScreen("today");
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      if (!state.courses[0]) state.courses = [course];
+      const sess = midCourseWalk(course, units());
+      const snap = snapshotSession({
+        type: sess.type || "walk",
+        units: sess.units || units(),
+        startedAt: sess.startedAt,
+        courseId: course.id,
+        courseName: course.name,
+        coursePins: course.pins,
+        coursePath: course.path || course.pins,
+        track: sess.track,
+        distanceMeters: sess.distanceMeters,
+        elapsedSec: sess.elapsedSec || 12 * 60,
+        paused: false,
+      });
+      showResumeSheet(snap);
+    }
     else if (name === "settings") setTab("settings");
     else if (name === "plans") { showScreen("plans"); renderPlansScreen(); }
     else if (name === "support") { setTab("settings"); showScreen("support"); renderSettings(); }
@@ -2452,7 +2575,9 @@ async function init() {
     await window.HeldpathTest.show(screen, { demo: !params.has("empty"), empty: params.has("empty") });
   } else {
     setTab("today");
-    await locateAndOfferMapChoice();
+    const pending = loadLiveSession();
+    if (isResumable(pending)) showResumeSheet(pending);
+    else await locateAndOfferMapChoice();
   }
 }
 

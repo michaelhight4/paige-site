@@ -25750,13 +25750,35 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     return autoPauseEnabled;
   }
-  function tickElapsed() {
+  function tickElapsed(at = Date.now()) {
     if (!session || session.paused) return session;
     const start = Date.parse(session.startedAt);
-    const now = Date.now();
-    const paused = session.pausedAcc + (session.pauseStarted ? now - session.pauseStarted : 0);
-    session.elapsedSec = Math.max(0, Math.round((now - start - paused) / 1e3));
+    const paused = session.pausedAcc + (session.pauseStarted ? at - session.pauseStarted : 0);
+    session.elapsedSec = Math.max(0, Math.round((at - start - paused) / 1e3));
     return session;
+  }
+  function restoreSession(saved, at = Date.now()) {
+    if (!saved) {
+      session = null;
+      return null;
+    }
+    session = JSON.parse(JSON.stringify(saved));
+    session.track = Array.isArray(session.track) ? session.track.slice() : [];
+    session.coursePins = session.coursePins ? session.coursePins.slice() : null;
+    session.coursePath = session.coursePath ? session.coursePath.slice() : null;
+    const last = session.track[session.track.length - 1];
+    const lastAt = last && last.at ? Date.parse(last.at) : Date.parse(session.startedAt);
+    const base = Number.isFinite(lastAt) ? lastAt : at;
+    const gap = Math.max(0, at - base);
+    if (session.paused) {
+      session.pauseStarted = at;
+    } else if (gap > 2e3) {
+      session.pausedAcc = (session.pausedAcc || 0) + gap;
+      session.pauseStarted = null;
+    }
+    autoWatch = createAutoPauseState(Date.parse(session.startedAt) || at);
+    if (session.paused) return session;
+    return tickElapsed(at);
   }
   function pushPoint(lat, lon, at = Date.now()) {
     if (!session || session.paused) return session;
@@ -26129,6 +26151,108 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     onUpdate = null;
     lastNotificationBody = "";
     lastNotificationAt = 0;
+  }
+
+  // www/js/session_autosave.js
+  var LIVE_KEY = "heldpath.live-session.v1";
+  var SAVE_EVERY_MS = 5e3;
+  var MIN_RESUME_METERS = 20;
+  var MIN_RESUME_SEC = 20;
+  var SESSION_FIELDS = [
+    "type",
+    "units",
+    "startedAt",
+    "courseId",
+    "courseName",
+    "coursePins",
+    "coursePath",
+    "target",
+    "targetAnnounced",
+    "goalComplete",
+    "goalAnnounced",
+    "goalCompleteSec",
+    "goalCompleteMeters",
+    "goalKeptGoing",
+    "paused",
+    "pausedAcc",
+    "pauseStarted",
+    "pauseReason",
+    "track",
+    "distanceMeters",
+    "elapsedSec",
+    "courseTraveledMeters",
+    "offRoute",
+    "offRouteSince",
+    "offRouteMeters",
+    "rejoinPoint",
+    "wayBack",
+    "startDetected",
+    "startReversed",
+    "midStart",
+    "pathOriginMeters"
+  ];
+  var lastSaveAt = 0;
+  function snapshotSession(sess, extra = {}) {
+    if (!sess) return null;
+    const session2 = {};
+    for (const key of SESSION_FIELDS) {
+      if (sess[key] === void 0) continue;
+      session2[key] = sess[key];
+    }
+    return {
+      savedAt: extra.savedAt || (/* @__PURE__ */ new Date()).toISOString(),
+      activePlanId: extra.activePlanId || null,
+      session: JSON.parse(JSON.stringify(session2))
+    };
+  }
+  function isResumable(snap) {
+    const s2 = snap && snap.session;
+    if (!s2) return false;
+    const meters = s2.distanceMeters || 0;
+    const sec = s2.elapsedSec || 0;
+    const pts = s2.track && s2.track.length || 0;
+    return meters >= MIN_RESUME_METERS || sec >= MIN_RESUME_SEC || pts >= 3;
+  }
+  function saveLiveSession(sess, extra = {}, store) {
+    const snap = snapshotSession(sess, extra);
+    if (!snap) return null;
+    writeStore(store).setItem(LIVE_KEY, JSON.stringify(snap));
+    lastSaveAt = extra.at || Date.now();
+    return snap;
+  }
+  function maybeSaveLiveSession(sess, extra = {}, store, at = Date.now()) {
+    if (!sess) return null;
+    const force = !!extra.force;
+    if (!force && lastSaveAt && at - lastSaveAt < SAVE_EVERY_MS) return null;
+    return saveLiveSession(sess, { ...extra, at }, store);
+  }
+  function loadLiveSession(store) {
+    try {
+      const raw = writeStore(store).getItem(LIVE_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (!parsed || !parsed.session) return null;
+      return parsed;
+    } catch {
+      return null;
+    }
+  }
+  function clearLiveSession(store) {
+    writeStore(store).removeItem(LIVE_KEY);
+    lastSaveAt = 0;
+  }
+  function resumePromptCopy(snap, units3 = "mi") {
+    const s2 = snap && snap.session;
+    const kind = s2 && s2.type === "run" ? "run" : "walk";
+    const title = `Resume your ${kind}?`;
+    const body = `Heldpath closed before this ${kind} was saved. You can pick up where you left off, or save what you have.`;
+    const stats = s2 ? `${formatDistance(s2.distanceMeters || 0, units3)} \xB7 ${formatDuration(s2.elapsedSec || 0)}` : "";
+    return { title, body, stats, kind };
+  }
+  function writeStore(store) {
+    if (store) return store;
+    if (typeof localStorage !== "undefined") return localStorage;
+    throw new Error("no storage");
   }
 
   // www/js/splits.js
@@ -32298,6 +32422,81 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function persist() {
     saveState(state2);
   }
+  function liveSessionExtra() {
+    return { activePlanId: ui2.activePlanId || null };
+  }
+  function flushLiveSession(force = true) {
+    const s2 = getSession();
+    if (!s2) return;
+    maybeSaveLiveSession(s2, { ...liveSessionExtra(), force });
+  }
+  function onLiveSessionUpdate(s2, why) {
+    if (!s2) return;
+    paintSessionHud(s2);
+    drawSessionOnMap(s2);
+    maybeSaveLiveSession(s2, { ...liveSessionExtra(), force: why === "hide" });
+  }
+  function showResumeSheet(snap) {
+    ui2.pendingResume = snap;
+    const copy = resumePromptCopy(snap, units2());
+    if ($4("resume-title")) $4("resume-title").textContent = copy.title;
+    if ($4("resume-body")) $4("resume-body").textContent = copy.body;
+    if ($4("resume-stats")) $4("resume-stats").textContent = copy.stats;
+    const path = snap && snap.session && (snap.session.track || snap.session.coursePath || snap.session.coursePins);
+    if (path && path.length) {
+      try {
+        clearOverlays();
+        clearMarkers();
+        if ((snap.session.coursePath || snap.session.coursePins || []).length >= 2) {
+          drawRoute(snap.session.coursePath || snap.session.coursePins, { id: "course-line", color: "#7A8798", width: 4 });
+        }
+        if (snap.session.track && snap.session.track.length >= 2) {
+          drawRoute(snap.session.track, { id: "live-line", color: "#4EC3F7", width: 5 });
+        }
+        fitBounds(path, 80);
+      } catch {
+      }
+    }
+    openSheet("sheet-resume");
+  }
+  async function resumePendingSession() {
+    const snap = ui2.pendingResume;
+    closeSheet("sheet-resume");
+    if (!snap || !snap.session) return;
+    ui2.activePlanId = snap.activePlanId || null;
+    const sess = restoreSession(snap.session);
+    if (!sess) return;
+    setAutoPauseEnabled(state2.settings.autoPause !== false);
+    setTab("today");
+    showScreen("tracking");
+    paintSessionHud(sess);
+    const fit = sess.track && sess.track.length >= 2 ? sess.track : sess.coursePath || sess.coursePins;
+    whenReady(() => {
+      drawSessionOnMap(sess);
+      if (fit && fit.length) fitBounds(fit, { top: 56, bottom: 420, left: 48, right: 48 });
+    });
+    drawSessionOnMap(sess);
+    flushLiveSession(true);
+    await startWatching(onLiveSessionUpdate);
+  }
+  async function savePendingSession() {
+    const snap = ui2.pendingResume;
+    closeSheet("sheet-resume");
+    ui2.pendingResume = null;
+    if (!snap || !snap.session) return;
+    ui2.activePlanId = snap.activePlanId || null;
+    restoreSession(snap.session);
+    clearLiveSession();
+    await finishTracking();
+  }
+  async function discardPendingSession() {
+    clearLiveSession();
+    ui2.pendingResume = null;
+    closeSheet("sheet-resume");
+    setTab("today");
+    showScreen("today");
+    await locateAndOfferMapChoice();
+  }
   function units2() {
     return state2.settings.units || "mi";
   }
@@ -32889,11 +33088,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (fit && fit.length) {
       drawSessionOnMap(sess);
     }
-    const res = await startWatching((s2) => {
-      if (!s2) return;
-      paintSessionHud(s2);
-      drawSessionOnMap(s2);
-    });
+    flushLiveSession(true);
+    const res = await startWatching(onLiveSessionUpdate);
     if (plan && isoDate(/* @__PURE__ */ new Date()) >= plan.date) {
       ui2.activePlanId = plan.id;
     }
@@ -32907,6 +33103,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (s2.paused) resumeSession();
     else pauseSession();
     paintSessionHud(getSession());
+    flushLiveSession(true);
   }
   async function importWatchActivities() {
     const status = $4("health-import-status");
@@ -32944,6 +33141,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   async function finishTracking() {
     await stopWatching();
     const sess = stopSession();
+    clearLiveSession();
+    ui2.pendingResume = null;
     ui2.hideNav = false;
     if (!sess) {
       showScreen("today");
@@ -33314,6 +33513,19 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     });
     $4("btn-pause").addEventListener("click", pauseOrResume);
     $4("btn-stop").addEventListener("click", finishTracking);
+    if ($4("btn-resume-session")) $4("btn-resume-session").addEventListener("click", () => resumePendingSession());
+    if ($4("btn-resume-save")) $4("btn-resume-save").addEventListener("click", () => savePendingSession());
+    if ($4("btn-resume-discard")) $4("btn-resume-discard").addEventListener("click", () => discardPendingSession());
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") flushLiveSession(true);
+    });
+    window.addEventListener("pagehide", () => flushLiveSession(true));
+    try {
+      App.addListener("appStateChange", (s2) => {
+        if (s2 && s2.isActive === false) flushLiveSession(true);
+      });
+    } catch {
+    }
     $4("lock-pause").addEventListener("click", pauseOrResume);
     $4("lock-stop").addEventListener("click", finishTracking);
     function keepGoingFromUi() {
@@ -34044,6 +34256,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       closeSheet("sheet-schedule");
       closeSheet("sheet-save-course");
       closeSheet("sheet-start");
+      closeSheet("sheet-resume");
       closeSheet("sheet-location");
       closeSheet("sheet-course");
       closeSheet("sheet-target");
@@ -34456,6 +34669,26 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         showScreen("plans");
         renderPlansScreen();
         if (plan) openShareSheet("plan", plan);
+      } else if (name === "resume-session") {
+        setTab("today");
+        showScreen("today");
+        const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+        if (!state2.courses[0]) state2.courses = [course];
+        const sess = midCourseWalk(course, units2());
+        const snap = snapshotSession({
+          type: sess.type || "walk",
+          units: sess.units || units2(),
+          startedAt: sess.startedAt,
+          courseId: course.id,
+          courseName: course.name,
+          coursePins: course.pins,
+          coursePath: course.path || course.pins,
+          track: sess.track,
+          distanceMeters: sess.distanceMeters,
+          elapsedSec: sess.elapsedSec || 12 * 60,
+          paused: false
+        });
+        showResumeSheet(snap);
       } else if (name === "settings") setTab("settings");
       else if (name === "plans") {
         showScreen("plans");
@@ -34642,7 +34875,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       await window.HeldpathTest.show(screen, { demo: !params.has("empty"), empty: params.has("empty") });
     } else {
       setTab("today");
-      await locateAndOfferMapChoice();
+      const pending = loadLiveSession();
+      if (isResumable(pending)) showResumeSheet(pending);
+      else await locateAndOfferMapChoice();
     }
   }
   init();
