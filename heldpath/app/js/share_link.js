@@ -298,24 +298,59 @@ export function decodeShare(input) {
   return { ok: false, error: "unknown_kind" };
 }
 
+export const SHARE_UNITS_KEY = "heldpath.share-units";
+
+/** Miles are customary in the US, Liberia, and Myanmar; everywhere else, km. */
+export function unitsFromLocale(locale = "en-US") {
+  const tag = String(locale || "en-US");
+  if (/(^en-US|-US$|^en-LR|-LR$|^my-|-MM$)/i.test(tag)) return "mi";
+  return "km";
+}
+
+export function unitsFromAppSettings(raw) {
+  try {
+    const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
+    const u = parsed && parsed.settings && parsed.settings.units;
+    if (u === "km" || u === "mi") return u;
+  } catch { /* ignore */ }
+  return null;
+}
+
+/**
+ * Units for a shared link preview: an explicit choice, then the Heldpath
+ * app setting on this device, then the browser locale.
+ */
+export function preferredShareUnits({ shareUnits, settingsRaw, locale } = {}) {
+  if (shareUnits === "km" || shareUnits === "mi") return shareUnits;
+  return unitsFromAppSettings(settingsRaw) || unitsFromLocale(locale);
+}
+
 export function shareSummary(decoded, units = "mi") {
-  if (!decoded || !decoded.ok) return { title: "Heldpath", sub: "This link could not be read." };
+  const u = units === "km" ? "km" : "mi";
+  if (!decoded || !decoded.ok) return { title: "Heldpath", sub: "This link could not be read.", units: u };
   if (decoded.kind === "course") {
     const n = decoded.course.pins.length;
     const m = decoded.meters || 0;
-    const dist = formatDistance(m, units);
+    const dist = formatDistance(m, u);
     return {
       title: decoded.course.name,
       sub: `${dist} · ${n} pin${n === 1 ? "" : "s"}`,
       meters: m,
+      units: u,
     };
   }
   const p = decoded.plan || {};
   const kind = p.activityType === "run" ? "Run" : "Walk";
   const sessions = p.schedule && p.schedule.sessionDates ? p.schedule.sessionDates.length : 0;
+  const goalMeters = (p.goal && (p.goal.distanceMeters || p.goal.goalDistanceMeters)) || 0;
+  const bits = [`${kind} plan`];
+  if (goalMeters > 0) bits.push(formatDistance(goalMeters, u));
+  if (sessions) bits.push(`${sessions} sessions`);
+  bits.push("import is free");
   return {
     title: String(p.title || "Shared plan"),
-    sub: sessions ? `${kind} plan · ${sessions} sessions · import is free` : `${kind} plan · import is free`,
+    sub: bits.join(" · "),
+    units: u,
   };
 }
 

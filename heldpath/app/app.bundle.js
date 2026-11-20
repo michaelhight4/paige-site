@@ -30454,23 +30454,31 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return { ok: false, error: "unknown_kind" };
   }
   function shareSummary(decoded, units3 = "mi") {
-    if (!decoded || !decoded.ok) return { title: "Heldpath", sub: "This link could not be read." };
+    const u2 = units3 === "km" ? "km" : "mi";
+    if (!decoded || !decoded.ok) return { title: "Heldpath", sub: "This link could not be read.", units: u2 };
     if (decoded.kind === "course") {
       const n = decoded.course.pins.length;
       const m = decoded.meters || 0;
-      const dist3 = formatDistance(m, units3);
+      const dist3 = formatDistance(m, u2);
       return {
         title: decoded.course.name,
         sub: `${dist3} \xB7 ${n} pin${n === 1 ? "" : "s"}`,
-        meters: m
+        meters: m,
+        units: u2
       };
     }
     const p = decoded.plan || {};
     const kind = p.activityType === "run" ? "Run" : "Walk";
     const sessions = p.schedule && p.schedule.sessionDates ? p.schedule.sessionDates.length : 0;
+    const goalMeters = p.goal && (p.goal.distanceMeters || p.goal.goalDistanceMeters) || 0;
+    const bits2 = [`${kind} plan`];
+    if (goalMeters > 0) bits2.push(formatDistance(goalMeters, u2));
+    if (sessions) bits2.push(`${sessions} sessions`);
+    bits2.push("import is free");
     return {
       title: String(p.title || "Shared plan"),
-      sub: sessions ? `${kind} plan \xB7 ${sessions} sessions \xB7 import is free` : `${kind} plan \xB7 import is free`
+      sub: bits2.join(" \xB7 "),
+      units: u2
     };
   }
   function pathPreviewSvg(points, { width = 320, height = 180, pad = 18 } = {}) {

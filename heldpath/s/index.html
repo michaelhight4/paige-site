@@ -58,6 +58,26 @@
     .error { color: #e8a0a0; }
     footer { color: var(--muted); font-size: 13px; }
     footer a { color: var(--blue); }
+    .units {
+      display: inline-flex;
+      gap: 0;
+      margin: 0 0 20px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .units button {
+      background: transparent;
+      color: var(--muted);
+      border: 0;
+      padding: 8px 14px;
+      font: inherit;
+      font-weight: 700;
+      font-size: 14px;
+      min-height: 40px;
+      cursor: pointer;
+    }
+    .units button.on { background: var(--bg-2); color: var(--ink); }
   </style>
 </head>
 <body>
@@ -69,6 +89,10 @@
     </svg>
     <h1 id="title">Heldpath</h1>
     <p class="sub" id="sub">A shared walk or run will show up here.</p>
+    <div class="units" id="units-tog" hidden>
+      <button type="button" data-units="mi" id="units-mi">Miles</button>
+      <button type="button" data-units="km" id="units-km">Kilometers</button>
+    </div>
     <div class="preview" id="preview" hidden></div>
     <div class="actions" id="actions" hidden>
       <a class="btn primary" id="open-app" href="https://paigegames.net/heldpath/app/">Open in Heldpath</a>
@@ -88,7 +112,21 @@
       appOpenUrl,
       playStoreUrl,
       extractHash,
+      preferredShareUnits,
+      SHARE_UNITS_KEY,
     } from "../app/js/share_link.js";
+
+    function currentUnits() {
+      let shareUnits = null;
+      let settingsRaw = null;
+      try { shareUnits = localStorage.getItem(SHARE_UNITS_KEY); } catch { /* private */ }
+      try { settingsRaw = localStorage.getItem("heldpath.v1"); } catch { /* private */ }
+      return preferredShareUnits({
+        shareUnits,
+        settingsRaw,
+        locale: (typeof navigator !== "undefined" && navigator.language) || "en-US",
+      });
+    }
 
     function paint() {
       const title = document.getElementById("title");
@@ -104,6 +142,8 @@
         sub.textContent = "A shared walk or run will show up here.";
         preview.hidden = true;
         actions.hidden = true;
+        const tog0 = document.getElementById("units-tog");
+        if (tog0) tog0.hidden = true;
         note.textContent = "Ask a friend to send you a Heldpath link, or share a course from the app.";
         note.className = "note";
         document.title = "Heldpath — Shared course";
@@ -115,12 +155,20 @@
         sub.textContent = "This link could not be read.";
         preview.hidden = true;
         actions.hidden = true;
+        const togErr = document.getElementById("units-tog");
+        if (togErr) togErr.hidden = true;
         note.textContent = "The link may be cut off. Ask your friend to send it again.";
         note.className = "error";
         document.title = "Heldpath — Shared course";
         return;
       }
-      const summary = shareSummary(decoded, "mi");
+      const units = currentUnits();
+      const tog = document.getElementById("units-tog");
+      if (tog) {
+        tog.hidden = false;
+        tog.querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.getAttribute("data-units") === units));
+      }
+      const summary = shareSummary(decoded, units);
       title.textContent = summary.title;
       sub.textContent = summary.sub;
       document.title = `${summary.title} — Heldpath`;
@@ -143,6 +191,12 @@
     }
     paint();
     window.addEventListener("hashchange", paint);
+    document.getElementById("units-tog").addEventListener("click", (ev) => {
+      const btn = ev.target.closest("button[data-units]");
+      if (!btn) return;
+      try { localStorage.setItem(SHARE_UNITS_KEY, btn.getAttribute("data-units")); } catch { /* private */ }
+      paint();
+    });
   </script>
 </body>
 </html>
