@@ -64,6 +64,9 @@ export function newCourse(partial = {}) {
     id: uid("course"),
     name: partial.name || "New course",
     pins: partial.pins || [], // {lat, lon, role: 'start'|'via'|'end'}
+    path: partial.path || null, // routed polyline, or null to use pins
+    straightLine: !!partial.straightLine,
+    usedStraight: !!partial.usedStraight,
     legPbs: partial.legPbs || {}, // per-leg {seconds, activityId, date}, free
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),

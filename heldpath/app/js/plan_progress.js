@@ -17,6 +17,7 @@ import {
   METERS_PER_MILE,
 } from "./util.js";
 import { destination } from "./util.js";
+import { autoLoopRoute, getActiveGraph } from "./routing.js";
 
 export const MS_WEEK = 7 * 24 * 60 * 60 * 1000;
 export const DEFAULT_STEP = 0.02; // 2%, within the 1–3% range
@@ -345,7 +346,23 @@ export function routeForGoal({ targetMeters, course = null, autoLoop = false, ce
       };
     }
   }
-  const pins = autoLoopPins(center || { lat: 43.7672, lon: 11.2543 }, target);
+  const origin = center || { lat: 43.7672, lon: 11.2543 };
+  const graph = getActiveGraph();
+  if (graph) {
+    const loop = autoLoopRoute(graph, origin, target);
+    if (loop && !loop.fallback && loop.pins && loop.path && loop.path.length >= 2) {
+      return {
+        mode: "autoloop",
+        courseId: null,
+        pins: loop.pins,
+        path: loop.path,
+        targetLengthMeters: target,
+        scaleFactor: 1,
+        repeatTimes: 1,
+      };
+    }
+  }
+  const pins = autoLoopPins(origin, target);
   return {
     mode: "autoloop",
     courseId: null,
@@ -353,6 +370,7 @@ export function routeForGoal({ targetMeters, course = null, autoLoop = false, ce
     targetLengthMeters: target,
     scaleFactor: 1,
     repeatTimes: 1,
+    fallback: "rectangle",
   };
 }
 
@@ -611,7 +629,7 @@ export function buildPlanDraft({
       targetLengthMeters: sessionMeters,
       scaleFactor: Math.round(route.scaleFactor * 1000) / 1000,
       repeatTimes: route.repeatTimes,
-      loop: { type: "LineString", coordinates: pins.map((p) => [p.lon, p.lat]) },
+      loop: { type: "LineString", coordinates: (route.path && route.path.length >= 2 ? route.path : pins).map((p) => [p.lon, p.lat]) },
       pins,
     },
     schedule: {

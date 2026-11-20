@@ -33,6 +33,7 @@ export function makeSession({ type, course, units }) {
     courseId: course ? course.id : null,
     courseName: course ? course.name : null,
     coursePins: course ? course.pins.slice() : null,
+    coursePath: course && course.path && course.path.length >= 2 ? course.path.slice() : (course ? course.pins.slice() : null),
     units: units || "mi",
     startedAt: new Date().toISOString(),
     paused: false,
@@ -71,16 +72,23 @@ export function pushPoint(lat, lon, at = Date.now()) {
   return session;
 }
 
+function sessionCoursePath(sess) {
+  if (sess && sess.coursePath && sess.coursePath.length >= 2) return sess.coursePath;
+  if (sess && sess.coursePins && sess.coursePins.length >= 2) return sess.coursePins;
+  return null;
+}
+
 export function courseRemaining(sess) {
-  if (!sess || !sess.coursePins || sess.coursePins.length < 2) {
+  const path = sessionCoursePath(sess);
+  if (!path) {
     return { onCourse: false, traveled: sess ? sess.distanceMeters : 0, remaining: 0, total: 0 };
   }
   const last = sess.track[sess.track.length - 1];
   if (!last) {
-    const total = remainingAlongPath(sess.coursePins, sess.coursePins[0]).total;
+    const total = remainingAlongPath(path, path[0]).total;
     return { onCourse: true, traveled: 0, remaining: total, total };
   }
-  const r = remainingAlongPath(sess.coursePins, last);
+  const r = remainingAlongPath(path, last);
   // Keep course progress monotonic: a looped course projects onto its own
   // start, and GPS jitter must not rewind distance done or the notification.
   const traveled = Math.max(sess.courseTraveledMeters || 0, r.traveled);

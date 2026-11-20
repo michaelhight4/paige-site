@@ -22607,6 +22607,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       name: partial.name || "New course",
       pins: partial.pins || [],
       // {lat, lon, role: 'start'|'via'|'end'}
+      path: partial.path || null,
+      // routed polyline, or null to use pins
+      straightLine: !!partial.straightLine,
+      usedStraight: !!partial.usedStraight,
       legPbs: partial.legPbs || {},
       // per-leg {seconds, activityId, date}, free
       createdAt: (/* @__PURE__ */ new Date()).toISOString(),
@@ -24556,6 +24560,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       courseId: course ? course.id : null,
       courseName: course ? course.name : null,
       coursePins: course ? course.pins.slice() : null,
+      coursePath: course && course.path && course.path.length >= 2 ? course.path.slice() : course ? course.pins.slice() : null,
       units: units3 || "mi",
       startedAt: (/* @__PURE__ */ new Date()).toISOString(),
       paused: false,
@@ -24590,16 +24595,22 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     session.track.push(pt);
     return session;
   }
+  function sessionCoursePath(sess) {
+    if (sess && sess.coursePath && sess.coursePath.length >= 2) return sess.coursePath;
+    if (sess && sess.coursePins && sess.coursePins.length >= 2) return sess.coursePins;
+    return null;
+  }
   function courseRemaining(sess) {
-    if (!sess || !sess.coursePins || sess.coursePins.length < 2) {
+    const path = sessionCoursePath(sess);
+    if (!path) {
       return { onCourse: false, traveled: sess ? sess.distanceMeters : 0, remaining: 0, total: 0 };
     }
     const last = sess.track[sess.track.length - 1];
     if (!last) {
-      const total = remainingAlongPath(sess.coursePins, sess.coursePins[0]).total;
+      const total = remainingAlongPath(path, path[0]).total;
       return { onCourse: true, traveled: 0, remaining: total, total };
     }
-    const r = remainingAlongPath(sess.coursePins, last);
+    const r = remainingAlongPath(path, last);
     const traveled = Math.max(sess.courseTraveledMeters || 0, r.traveled);
     sess.courseTraveledMeters = traveled;
     return { onCourse: true, traveled, remaining: Math.max(0, r.total - traveled), total: r.total };
@@ -26033,6 +26044,378 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     web: () => Promise.resolve().then(() => (init_web3(), web_exports3)).then((m) => new m.LocalNotificationsWeb())
   });
 
+  // www/js/routing.js
+  var DEFAULT_SNAP = 80;
+  var EARTH_LAT_M = 111320;
+  var activeGraph = null;
+  function setActiveGraph(graph) {
+    activeGraph = graph || null;
+    return activeGraph;
+  }
+  function getActiveGraph() {
+    return activeGraph;
+  }
+  function lonCell(meters, lat) {
+    return meters / (EARTH_LAT_M * Math.cos(lat * Math.PI / 180));
+  }
+  function parseGraph(raw) {
+    if (!raw || !raw.nodes || !raw.edges) throw new Error("invalid walk graph");
+    const scale = raw.scale || 1e6;
+    const packed = raw.nodes;
+    const n = packed.length / 2;
+    const lon = new Float64Array(n);
+    const lat = new Float64Array(n);
+    for (let i = 0; i < n; i++) {
+      lon[i] = packed[i * 2] / scale;
+      lat[i] = packed[i * 2 + 1] / scale;
+    }
+    const adj = Array.from({ length: n }, () => []);
+    const edges = raw.edges;
+    for (let i = 0; i < edges.length; i += 2) {
+      const a = edges[i];
+      const b2 = edges[i + 1];
+      if (a < 0 || b2 < 0 || a >= n || b2 >= n || a === b2) continue;
+      const meters = haversineMeters(
+        { lon: lon[a], lat: lat[a] },
+        { lon: lon[b2], lat: lat[b2] }
+      );
+      adj[a].push({ to: b2, meters });
+      adj[b2].push({ to: a, meters });
+    }
+    const bounds = raw.bounds || [
+      Math.min.apply(null, lon),
+      Math.min.apply(null, lat),
+      Math.max.apply(null, lon),
+      Math.max.apply(null, lat)
+    ];
+    const midLat = (bounds[1] + bounds[3]) / 2;
+    const cellM = 40;
+    const cell = { lat: cellM / EARTH_LAT_M, lon: lonCell(cellM, midLat) };
+    const grid = /* @__PURE__ */ new Map();
+    for (let i = 0; i < n; i++) {
+      const gx = Math.floor(lon[i] / cell.lon);
+      const gy = Math.floor(lat[i] / cell.lat);
+      const key = gx + ":" + gy;
+      const bucket = grid.get(key);
+      if (bucket) bucket.push(i);
+      else grid.set(key, [i]);
+    }
+    return {
+      n,
+      lon,
+      lat,
+      adj,
+      bounds,
+      grid,
+      cell,
+      name: raw.name || "",
+      attribution: raw.attribution || ""
+    };
+  }
+  function nodePoint(graph, id) {
+    return { lat: graph.lat[id], lon: graph.lon[id] };
+  }
+  function snapToNode(graph, lat, lon, maxMeters = DEFAULT_SNAP) {
+    if (!graph) return null;
+    const gx = Math.floor(lon / graph.cell.lon);
+    const gy = Math.floor(lat / graph.cell.lat);
+    const reach = Math.max(1, Math.ceil(maxMeters / 40) + 1);
+    let best = -1;
+    let bestD = Infinity;
+    for (let dx = -reach; dx <= reach; dx++) {
+      for (let dy = -reach; dy <= reach; dy++) {
+        const bucket = graph.grid.get(gx + dx + ":" + (gy + dy));
+        if (!bucket) continue;
+        for (const id of bucket) {
+          const d2 = haversineMeters({ lat, lon }, nodePoint(graph, id));
+          if (d2 < bestD) {
+            bestD = d2;
+            best = id;
+          }
+        }
+      }
+    }
+    if (best < 0 || bestD > maxMeters) return null;
+    return { id: best, meters: bestD, lat: graph.lat[best], lon: graph.lon[best] };
+  }
+  var MinHeap = class {
+    constructor() {
+      this.a = [];
+    }
+    get size() {
+      return this.a.length;
+    }
+    push(id, pri) {
+      const a = this.a;
+      a.push({ id, pri });
+      let i = a.length - 1;
+      while (i > 0) {
+        const p = i - 1 >> 1;
+        if (a[p].pri <= a[i].pri) break;
+        const t = a[p];
+        a[p] = a[i];
+        a[i] = t;
+        i = p;
+      }
+    }
+    pop() {
+      const a = this.a;
+      const top = a[0];
+      const last = a.pop();
+      if (!a.length) return top;
+      a[0] = last;
+      let i = 0;
+      for (; ; ) {
+        let s2 = i;
+        const l = i * 2 + 1;
+        const r = l + 1;
+        if (l < a.length && a[l].pri < a[s2].pri) s2 = l;
+        if (r < a.length && a[r].pri < a[s2].pri) s2 = r;
+        if (s2 === i) break;
+        const t = a[i];
+        a[i] = a[s2];
+        a[s2] = t;
+        i = s2;
+      }
+      return top;
+    }
+  };
+  function shortestPath(graph, src, dst, opts = {}) {
+    if (!graph || src < 0 || dst < 0) return null;
+    if (src === dst) return { nodes: [src], meters: 0 };
+    const avoid = opts.avoid == null ? -1 : opts.avoid;
+    const dist3 = new Float64Array(graph.n).fill(Infinity);
+    const prev = new Int32Array(graph.n).fill(-1);
+    dist3[src] = 0;
+    const heap = new MinHeap();
+    heap.push(src, 0);
+    while (heap.size) {
+      const cur = heap.pop();
+      if (cur.pri !== dist3[cur.id]) continue;
+      if (cur.id === dst) break;
+      const nbrs = graph.adj[cur.id];
+      for (let i = 0; i < nbrs.length; i++) {
+        const e = nbrs[i];
+        if (e.to === avoid && e.to !== dst && e.to !== src) continue;
+        const nd = cur.pri + e.meters;
+        if (nd < dist3[e.to]) {
+          dist3[e.to] = nd;
+          prev[e.to] = cur.id;
+          heap.push(e.to, nd);
+        }
+      }
+    }
+    if (!Number.isFinite(dist3[dst])) return null;
+    const nodes = [];
+    for (let n = dst; n >= 0; n = prev[n]) nodes.push(n);
+    nodes.reverse();
+    return { nodes, meters: dist3[dst] };
+  }
+  function pointsFromNodes(graph, ids) {
+    return ids.map((id) => nodePoint(graph, id));
+  }
+  function straightLeg(a, b2, reason) {
+    return {
+      points: [
+        { lat: a.lat, lon: a.lon },
+        { lat: b2.lat, lon: b2.lon }
+      ],
+      meters: haversineMeters(a, b2),
+      mode: "straight",
+      reason: reason || "straight-line"
+    };
+  }
+  function routePair(graph, a, b2, opts = {}) {
+    if (!a || !b2) return null;
+    if (opts.straightLine) return straightLeg(a, b2, "toggle");
+    if (!graph) return straightLeg(a, b2, "no-graph");
+    const maxSnap = opts.maxSnap == null ? DEFAULT_SNAP : opts.maxSnap;
+    const sa = snapToNode(graph, a.lat, a.lon, maxSnap);
+    const sb = snapToNode(graph, b2.lat, b2.lon, maxSnap);
+    if (!sa || !sb) return straightLeg(a, b2, "no-snap");
+    const path = shortestPath(graph, sa.id, sb.id);
+    if (!path) return straightLeg(a, b2, "no-route");
+    const points = [{ lat: a.lat, lon: a.lon }];
+    const mid = pointsFromNodes(graph, path.nodes);
+    for (const p of mid) {
+      const last = points[points.length - 1];
+      if (haversineMeters(last, p) > 0.4) points.push(p);
+    }
+    const end = { lat: b2.lat, lon: b2.lon };
+    if (haversineMeters(points[points.length - 1], end) > 0.4) points.push(end);
+    const meters = path.meters + sa.meters + sb.meters;
+    return { points, meters, mode: "routed", snapA: sa, snapB: sb };
+  }
+  function routeLegs(graph, pins, opts = {}) {
+    const list = (pins || []).map((p) => ({ ...p }));
+    if (list.length < 2) {
+      return {
+        pins: list,
+        path: list.map((p) => ({ lat: p.lat, lon: p.lon })),
+        meters: 0,
+        legs: [],
+        usedStraight: false,
+        straightLine: !!opts.straightLine
+      };
+    }
+    const legs = [];
+    const path = [];
+    let usedStraight = false;
+    for (let i = 0; i < list.length - 1; i++) {
+      const leg = routePair(graph, list[i], list[i + 1], opts);
+      legs.push({
+        meters: leg.meters,
+        mode: leg.mode,
+        reason: leg.reason || null,
+        points: leg.points
+      });
+      if (leg.mode === "straight") usedStraight = true;
+      if (!path.length) path.push(...leg.points);
+      else {
+        const rest = leg.points.slice(1);
+        path.push(...rest);
+      }
+    }
+    return {
+      pins: list,
+      path,
+      meters: pathLengthMeters(path),
+      legs,
+      usedStraight,
+      straightLine: !!opts.straightLine
+    };
+  }
+  function uniqueStops(ids) {
+    const out = [];
+    for (const id of ids) {
+      if (!out.length || out[out.length - 1] !== id) out.push(id);
+    }
+    return out;
+  }
+  function autoLoopRoute(graph, center, targetMeters, opts = {}) {
+    const target = Math.max(200, Number(targetMeters) || 0);
+    if (!graph || !center) return { fallback: "rectangle", pins: null, path: null, meters: 0 };
+    const start = snapToNode(graph, center.lat, center.lon, opts.maxSnap || 120);
+    if (!start) return { fallback: "rectangle", pins: null, path: null, meters: 0 };
+    const pathCache = /* @__PURE__ */ new Map();
+    function hop(a, b2, avoid) {
+      const key = a + ">" + b2 + ">" + (avoid == null ? -1 : avoid);
+      if (pathCache.has(key)) return pathCache.get(key);
+      const res = shortestPath(graph, a, b2, avoid == null ? {} : { avoid });
+      pathCache.set(key, res);
+      return res;
+    }
+    function assemble(stops, viaPts) {
+      const path = [];
+      let meters = 0;
+      for (let i = 0; i < stops.length - 1; i++) {
+        const piece = hop(stops[i], stops[i + 1]);
+        if (!piece) return null;
+        meters += piece.meters;
+        const pts = pointsFromNodes(graph, piece.nodes);
+        if (!path.length) path.push(...pts);
+        else path.push(...pts.slice(1));
+      }
+      if (path.length < 4) return null;
+      const pins = [{ lat: start.lat, lon: start.lon, role: "start" }];
+      const vias = viaPts || [];
+      const step = Math.max(1, Math.floor(vias.length / 3) || 1);
+      for (let i = 0; i < vias.length; i += step) {
+        const p = vias[i];
+        if (p.id === start.id) continue;
+        pins.push({ lat: p.lat, lon: p.lon, role: "via" });
+      }
+      pins.push({ lat: start.lat, lon: start.lon, role: "end" });
+      return { pins, path, meters, fallback: null };
+    }
+    function tryOnce(radius, count, offsetDeg) {
+      const ids = [start.id];
+      const viaPts = [];
+      for (let i = 0; i < count; i++) {
+        const bearing = offsetDeg + i * 360 / count;
+        const dest = destination(center.lat, center.lon, bearing, radius);
+        const snap = snapToNode(graph, dest.lat, dest.lon, Math.max(80, radius * 0.45));
+        if (!snap) return null;
+        viaPts.push(snap);
+        if (snap.id !== ids[ids.length - 1]) ids.push(snap.id);
+      }
+      if (ids[ids.length - 1] !== start.id) ids.push(start.id);
+      const stops = uniqueStops(ids);
+      if (stops.length < 3) return null;
+      if (stops[0] !== stops[stops.length - 1]) stops.push(stops[0]);
+      const built = assemble(stops, viaPts);
+      if (!built || built.meters < target * 0.4) return null;
+      return built;
+    }
+    function smallestBlock() {
+      const nbrs = graph.adj[start.id] || [];
+      let best2 = null;
+      for (let i = 0; i < nbrs.length; i++) {
+        for (let j2 = i + 1; j2 < nbrs.length; j2++) {
+          const mid = hop(nbrs[i].to, nbrs[j2].to, start.id);
+          if (!mid) continue;
+          const meters = mid.meters + nbrs[i].meters + nbrs[j2].meters;
+          if (meters < 80) continue;
+          const nodes = [start.id, nbrs[i].to, ...mid.nodes.slice(1), start.id];
+          const viaPts = [
+            { id: nbrs[i].to, lat: graph.lat[nbrs[i].to], lon: graph.lon[nbrs[i].to] },
+            { id: nbrs[j2].to, lat: graph.lat[nbrs[j2].to], lon: graph.lon[nbrs[j2].to] }
+          ];
+          const built = assemble(uniqueStops(nodes).concat(uniqueStops(nodes)[0] === nodes[nodes.length - 1] ? [] : [start.id]), viaPts);
+          const path = pointsFromNodes(graph, [start.id, ...mid.nodes, start.id]);
+          path[0] = { lat: start.lat, lon: start.lon };
+          path[path.length - 1] = { lat: start.lat, lon: start.lon };
+          const cand = {
+            pins: [
+              { lat: start.lat, lon: start.lon, role: "start" },
+              { lat: graph.lat[nbrs[i].to], lon: graph.lon[nbrs[i].to], role: "via" },
+              { lat: graph.lat[nbrs[j2].to], lon: graph.lon[nbrs[j2].to], role: "via" },
+              { lat: start.lat, lon: start.lon, role: "end" }
+            ],
+            path,
+            meters,
+            fallback: null
+          };
+          if (!best2 || Math.abs(cand.meters - target) < Math.abs(best2.meters - target)) best2 = cand;
+        }
+      }
+      return best2;
+    }
+    const baseR = target / (2 * Math.PI);
+    const counts = opts.waypointCounts || [3, 4, 5, 6];
+    const scales = opts.scales || [0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.65, 0.8, 1, 1.2];
+    const offsets = opts.offsets || [0, 20, 40, 60, 80, 100, 120, 150];
+    let best = target < 700 ? smallestBlock() : null;
+    const close = target * 0.05;
+    outer: for (const offsetDeg of offsets) {
+      for (const count of counts) {
+        for (const scale of scales) {
+          const cand = tryOnce(baseR * scale, count, offsetDeg);
+          if (!cand) continue;
+          if (!best || Math.abs(cand.meters - target) < Math.abs(best.meters - target)) best = cand;
+          if (Math.abs(best.meters - target) <= close) break outer;
+        }
+      }
+    }
+    return best || { fallback: "rectangle", pins: null, path: null, meters: 0 };
+  }
+  function coursePath(course) {
+    if (!course) return [];
+    if (course.path && course.path.length >= 2) return course.path;
+    return (course.pins || []).map((p) => ({ lat: p.lat, lon: p.lon }));
+  }
+  function courseMeters(course) {
+    return pathLengthMeters(coursePath(course));
+  }
+  var BUNDLED_GRAPH_URL = "./maps/firenze_walk.json";
+  async function loadBundledGraph(url = BUNDLED_GRAPH_URL) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("walk graph missing: " + res.status);
+    const graph = parseGraph(await res.json());
+    setActiveGraph(graph);
+    return graph;
+  }
+
   // www/js/plan_progress.js
   var MS_WEEK = 7 * 24 * 60 * 60 * 1e3;
   var DEFAULT_STEP = 0.02;
@@ -26273,14 +26656,31 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         };
       }
     }
-    const pins = autoLoopPins(center || { lat: 43.7672, lon: 11.2543 }, target);
+    const origin = center || { lat: 43.7672, lon: 11.2543 };
+    const graph = getActiveGraph();
+    if (graph) {
+      const loop = autoLoopRoute(graph, origin, target);
+      if (loop && !loop.fallback && loop.pins && loop.path && loop.path.length >= 2) {
+        return {
+          mode: "autoloop",
+          courseId: null,
+          pins: loop.pins,
+          path: loop.path,
+          targetLengthMeters: target,
+          scaleFactor: 1,
+          repeatTimes: 1
+        };
+      }
+    }
+    const pins = autoLoopPins(origin, target);
     return {
       mode: "autoloop",
       courseId: null,
       pins,
       targetLengthMeters: target,
       scaleFactor: 1,
-      repeatTimes: 1
+      repeatTimes: 1,
+      fallback: "rectangle"
     };
   }
   function buildLegTargets(pins, totalSec) {
@@ -26492,7 +26892,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         targetLengthMeters: sessionMeters,
         scaleFactor: Math.round(route.scaleFactor * 1e3) / 1e3,
         repeatTimes: route.repeatTimes,
-        loop: { type: "LineString", coordinates: pins.map((p) => [p.lon, p.lat]) },
+        loop: { type: "LineString", coordinates: (route.path && route.path.length >= 2 ? route.path : pins).map((p) => [p.lon, p.lat]) },
         pins
       },
       schedule: {
@@ -28229,7 +28629,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     selectedDay: isoDate(/* @__PURE__ */ new Date()),
     openActId: null,
     startType: "walk",
-    hideNav: false
+    hideNav: false,
+    followPaths: true,
+    builderRoute: null
   };
   var $4 = (id) => document.getElementById(id);
   var params = new URLSearchParams(location.search);
@@ -28329,9 +28731,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function drawSessionOnMap(sess) {
     clearOverlays();
     clearMarkers();
-    if (sess.coursePins && sess.coursePins.length) {
-      drawRoute(sess.coursePins, { id: "course-line", color: "#7A8798", width: 4 });
-      addCoursePins(sess.coursePins);
+    const guide = sess.coursePath && sess.coursePath.length >= 2 ? sess.coursePath : sess.coursePins;
+    if (guide && guide.length) {
+      drawRoute(guide, { id: "course-line", color: "#7A8798", width: 4 });
+      if (sess.coursePins) addCoursePins(sess.coursePins);
     }
     if (sess.track.length >= 2) drawRoute(sess.track, { id: "live-line", color: "#4EC3F7", width: 5 });
     const last = sess.track[sess.track.length - 1];
@@ -28347,27 +28750,55 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       addPin(p, { kind, label });
     });
   }
+  function builderRoute() {
+    const pins = ui2.builderPins || [];
+    const routed = routeLegs(getActiveGraph(), pins, { straightLine: !ui2.followPaths });
+    ui2.builderRoute = routed;
+    return routed;
+  }
+  function paintFollowToggle() {
+    const btn = $4("toggle-follow-paths");
+    if (!btn) return;
+    btn.classList.toggle("on", !!ui2.followPaths);
+    btn.setAttribute("aria-checked", ui2.followPaths ? "true" : "false");
+  }
   function renderBuilder() {
     const pins = ui2.builderPins || [];
     const hint = $4("builder-hint");
-    if (pins.length === 0) hint.textContent = "Tap the map to place a Start pin. Then add points along the route. The last pin is the End.";
+    const follow = ui2.followPaths;
+    if (pins.length === 0) hint.textContent = follow ? "Tap the map to place a Start pin. Legs follow walkable paths when a map pack covers the area." : "Tap the map to place a Start pin. Straight line is on \u2014 legs will not follow roads.";
     else if (pins.length === 1) hint.textContent = "Start is placed. Tap to add the next point. Distances update with every pin.";
-    else hint.textContent = "Keep adding pins, or save when the route looks right. The last pin is the End.";
+    else hint.textContent = follow ? "Keep adding pins, or save when the route looks right. The last pin is the End. Distances use the walkable path." : "Keep adding pins, or save when the route looks right. The last pin is the End. Straight line is on.";
+    paintFollowToggle();
     const box = $4("builder-legs");
     box.innerHTML = "";
+    const note = $4("route-fallback-note");
+    const routed = pins.length >= 2 ? builderRoute() : ui2.builderRoute = null;
+    if (note) {
+      if (routed && routed.usedStraight && follow) {
+        note.hidden = false;
+        note.textContent = "No walkable path was found for one or more legs, so a straight line is used there.";
+      } else if (!follow) {
+        note.hidden = false;
+        note.textContent = "Straight line \u2014 not following roads.";
+      } else {
+        note.hidden = true;
+        note.textContent = "";
+      }
+    }
     if (pins.length < 2) {
       box.innerHTML = `<p class="tiny">Leg distances will show here after the second pin.</p>`;
     } else {
-      const legs = legDistances(pins);
-      legs.forEach((leg, i) => {
+      routed.legs.forEach((leg, i) => {
         const from = i === 0 ? "Start" : `Pin ${i + 1}`;
-        const to = i === legs.length - 1 ? "End" : `Pin ${i + 2}`;
+        const to = i === routed.legs.length - 1 ? "End" : `Pin ${i + 2}`;
+        const flag = leg.mode === "straight" && follow ? " \xB7 straight line" : "";
         const row = document.createElement("div");
         row.className = "leg-row";
-        row.innerHTML = `<span>${from} \u2192 ${to}</span><span>${formatDistance(leg.meters, units2())}</span>`;
+        row.innerHTML = `<span>${from} \u2192 ${to}${flag}</span><span>${formatDistance(leg.meters, units2())}</span>`;
         box.appendChild(row);
       });
-      const total = pathLengthMeters(pins);
+      const total = routed.meters;
       const walkEta = formatEta(etaSeconds(total, activityMph("walk")));
       const runEta = formatEta(etaSeconds(total, activityMph("run")));
       const tot = document.createElement("div");
@@ -28379,7 +28810,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     $4("btn-save-course").disabled = pins.length < 2;
     clearOverlays();
     clearMarkers();
-    if (pins.length >= 2) drawRoute(pins, { id: "build-line" });
+    const line = routed && routed.path && routed.path.length >= 2 ? routed.path : pins;
+    if (line.length >= 2) drawRoute(line, { id: "build-line" });
     addCoursePins(pins);
   }
   function renderCourses() {
@@ -28394,7 +28826,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       return;
     }
     for (const c of state2.courses) {
-      const len = pathLengthMeters(c.pins);
+      const len = courseMeters(c);
       const btn = document.createElement("button");
       btn.className = "list-item";
       btn.innerHTML = `<div class="grow"><h3></h3><p></p></div><div class="meta"></div>`;
@@ -28407,7 +28839,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
   function openCourseActions(course) {
     ui2.courseId = course.id;
-    const len = pathLengthMeters(course.pins);
+    const len = courseMeters(course);
     $4("course-title").textContent = course.name;
     $4("course-sub").textContent = `${formatDistance(len, units2())} \xB7 ${formatEta(etaSeconds(len, 3))} walk \xB7 ${formatEta(etaSeconds(len, 6))} run`;
     const box = $4("course-legs");
@@ -28514,7 +28946,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       const c = courseById2(sel.value);
       const type = $4("sched-type").value;
       if (!c) return;
-      const len = pathLengthMeters(c.pins);
+      const len = courseMeters(c);
       $4("sched-preview").textContent = `${formatDistance(len, units2())} \xB7 ${formatEta(etaSeconds(len, activityMph(type)))} estimated`;
     };
     sel.onchange = updatePrev;
@@ -28573,7 +29005,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       list.innerHTML = `<p class="tiny">No saved courses yet. You can start without one, or build a course first.</p>`;
     } else {
       for (const c of state2.courses) {
-        const len = pathLengthMeters(c.pins);
+        const len = courseMeters(c);
         const b2 = document.createElement("button");
         b2.className = "list-item";
         b2.innerHTML = `<div class="grow"><h3></h3><p></p></div><div class="meta"></div>`;
@@ -28905,10 +29337,22 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     });
     $4("btn-cancel-build").addEventListener("click", cancelBuilder);
     $4("btn-save-course").addEventListener("click", saveBuilder);
+    $4("toggle-follow-paths").addEventListener("click", () => {
+      ui2.followPaths = !ui2.followPaths;
+      paintFollowToggle();
+      renderBuilder();
+    });
     $4("btn-course-name-cancel").addEventListener("click", () => closeSheet("sheet-save-course"));
     $4("btn-course-name-save").addEventListener("click", () => {
       const name = ($4("course-name").value || "New course").trim();
-      const c = newCourse({ name, pins: ui2.builderPins.slice() });
+      const routed = ui2.builderRoute || builderRoute();
+      const c = newCourse({
+        name,
+        pins: ui2.builderPins.slice(),
+        path: routed && routed.path && routed.path.length >= 2 ? routed.path.slice() : null,
+        straightLine: !ui2.followPaths,
+        usedStraight: !!(routed && routed.usedStraight)
+      });
       state2.courses.push(c);
       persist();
       closeSheet("sheet-save-course");
@@ -29136,6 +29580,16 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     } catch {
     }
   }
+  async function ensureWalkGraph() {
+    if (getActiveGraph()) return getActiveGraph();
+    if (!ui2.graphPromise) {
+      ui2.graphPromise = loadBundledGraph().catch((err2) => {
+        console.warn("walk graph", err2 && err2.message ? err2.message : err2);
+        return null;
+      });
+    }
+    return ui2.graphPromise;
+  }
   async function waitForMapView() {
     const start = Date.now();
     while (!getMap() && Date.now() - start < 2e4) {
@@ -29202,17 +29656,38 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           ui2.hideNav = true;
           showScreen("lock");
         }
-      } else if (name === "builder") {
-        const pins = state2.courses[0] && state2.courses[0].pins || arnoLoopPins();
-        ui2.builderPins = pins.map((p) => ({ ...p }));
+      } else if (name === "builder" || name === "routing-builder" || name === "routing-straight" || name === "routing-loop") {
+        await ensureWalkGraph();
+        ui2.followPaths = name !== "routing-straight";
+        if (name === "routing-loop") {
+          const center = { lat: 43.7672, lon: 11.2543 };
+          const loop = getActiveGraph() ? autoLoopRoute(getActiveGraph(), center, 1609) : null;
+          if (loop && loop.pins) {
+            ui2.builderPins = loop.pins.map((p) => ({ ...p }));
+            ui2.builderRoute = loop;
+          } else {
+            ui2.builderPins = arnoLoopPins().map((p) => ({ ...p }));
+          }
+        } else if (name === "routing-builder" || name === "routing-straight") {
+          ui2.builderPins = [
+            { lat: 43.76797, lon: 11.25316, role: "start" },
+            { lat: 43.76956, lon: 11.25586, role: "via" },
+            { lat: 43.77313, lon: 11.25596, role: "end" }
+          ];
+        } else {
+          const pins = state2.courses[0] && state2.courses[0].pins || arnoLoopPins();
+          ui2.builderPins = pins.map((p) => ({ ...p }));
+        }
         showScreen("builder");
         setTab("today");
         showScreen("builder");
+        renderBuilder();
+        const fit = ui2.builderRoute && ui2.builderRoute.path && ui2.builderRoute.path.length >= 2 ? ui2.builderRoute.path : ui2.builderPins;
+        const pad = { top: 56, bottom: 580, left: 56, right: 56 };
         whenReady(() => {
           renderBuilder();
-          fitBounds(ui2.builderPins, 80);
+          if (fit && fit.length) fitBounds(fit, pad);
         });
-        renderBuilder();
       } else if (name === "courses") setTab("courses");
       else if (name === "courses-empty") {
         state2.courses = [];
@@ -29386,7 +29861,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       }
     } catch {
     }
+    const graphReady = ensureWalkGraph();
     await initMap($4("map"));
+    await graphReady;
     whenReady(() => {
       const c = state2.courses[0];
       if (c && c.pins.length) {

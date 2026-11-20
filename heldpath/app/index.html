@@ -86,6 +86,13 @@
         <div class="hud builder-panel" data-testid="builder-panel">
           <div class="hud-kicker">Build a course</div>
           <p class="builder-hint" id="builder-hint">Tap the map to place a Start pin. Then add points along the route. The last pin is the End.</p>
+          <div class="route-mode-row">
+            <div>
+              <div class="route-mode-label">Follow walkable paths</div>
+              <p class="tiny route-flag" id="route-fallback-note" data-testid="route-fallback-note" hidden></p>
+            </div>
+            <button class="switch on" id="toggle-follow-paths" data-testid="route-mode" role="switch" aria-checked="true" aria-label="Follow walkable paths"><i></i></button>
+          </div>
           <div class="legs" id="builder-legs" data-testid="builder-legs"></div>
           <div class="btn-row" style="margin-bottom:10px">
             <button class="btn btn-secondary" id="btn-undo-pin">Undo pin</button>

@@ -32,6 +32,14 @@ import { initPlansUi, renderPlansScreen } from "./plans_ui.js";
 import { initStretchesUi, showStretchesHub, showStretchGroup, showStretchWorkout, showStretchCredits } from "./stretches_ui.js";
 import { initMapDownloadUi, showMapAreas, openCrop, closeCrop } from "./map_download_ui.js";
 import { applyCompletedSession } from "./plans.js";
+import {
+  loadBundledGraph,
+  getActiveGraph,
+  routeLegs,
+  autoLoopRoute,
+  coursePath,
+  courseMeters,
+} from "./routing.js";
 
 let state = loadState();
 const PR_BADGES = {
@@ -50,6 +58,8 @@ const ui = {
   openActId: null,
   startType: "walk",
   hideNav: false,
+  followPaths: true,
+  builderRoute: null,
 };
 
 const $ = (id) => document.getElementById(id);
@@ -170,9 +180,10 @@ function paintSessionHud(sess) {
 function drawSessionOnMap(sess) {
   map.clearOverlays();
   map.clearMarkers();
-  if (sess.coursePins && sess.coursePins.length) {
-    map.drawRoute(sess.coursePins, { id: "course-line", color: "#7A8798", width: 4 });
-    addCoursePins(sess.coursePins);
+  const guide = (sess.coursePath && sess.coursePath.length >= 2) ? sess.coursePath : sess.coursePins;
+  if (guide && guide.length) {
+    map.drawRoute(guide, { id: "course-line", color: "#7A8798", width: 4 });
+    if (sess.coursePins) addCoursePins(sess.coursePins);
   }
   if (sess.track.length >= 2) map.drawRoute(sess.track, { id: "live-line", color: "#4EC3F7", width: 5 });
   const last = sess.track[sess.track.length - 1];
@@ -190,28 +201,62 @@ function addCoursePins(pins) {
   });
 }
 
+function builderRoute() {
+  const pins = ui.builderPins || [];
+  const routed = routeLegs(getActiveGraph(), pins, { straightLine: !ui.followPaths });
+  ui.builderRoute = routed;
+  return routed;
+}
+
+function paintFollowToggle() {
+  const btn = $("toggle-follow-paths");
+  if (!btn) return;
+  btn.classList.toggle("on", !!ui.followPaths);
+  btn.setAttribute("aria-checked", ui.followPaths ? "true" : "false");
+}
+
 function renderBuilder() {
   const pins = ui.builderPins || [];
   const hint = $("builder-hint");
-  if (pins.length === 0) hint.textContent = "Tap the map to place a Start pin. Then add points along the route. The last pin is the End.";
+  const follow = ui.followPaths;
+  if (pins.length === 0) hint.textContent = follow
+    ? "Tap the map to place a Start pin. Legs follow walkable paths when a map pack covers the area."
+    : "Tap the map to place a Start pin. Straight line is on — legs will not follow roads.";
   else if (pins.length === 1) hint.textContent = "Start is placed. Tap to add the next point. Distances update with every pin.";
-  else hint.textContent = "Keep adding pins, or save when the route looks right. The last pin is the End.";
+  else hint.textContent = follow
+    ? "Keep adding pins, or save when the route looks right. The last pin is the End. Distances use the walkable path."
+    : "Keep adding pins, or save when the route looks right. The last pin is the End. Straight line is on.";
 
+  paintFollowToggle();
   const box = $("builder-legs");
   box.innerHTML = "";
+  const note = $("route-fallback-note");
+  const routed = pins.length >= 2 ? builderRoute() : (ui.builderRoute = null);
+  if (note) {
+    if (routed && routed.usedStraight && follow) {
+      note.hidden = false;
+      note.textContent = "No walkable path was found for one or more legs, so a straight line is used there.";
+    } else if (!follow) {
+      note.hidden = false;
+      note.textContent = "Straight line — not following roads.";
+    } else {
+      note.hidden = true;
+      note.textContent = "";
+    }
+  }
   if (pins.length < 2) {
     box.innerHTML = `<p class="tiny">Leg distances will show here after the second pin.</p>`;
   } else {
-    const legs = legDistances(pins);
-    legs.forEach((leg, i) => {
+    routed.legs.forEach((leg, i) => {
       const from = i === 0 ? "Start" : `Pin ${i + 1}`;
-      const to = i === legs.length - 1 ? "End" : `Pin ${i + 2}`;
+      const to = i === routed.legs.length - 1 ? "End" : `Pin ${i + 2}`;
+      const flag = leg.mode === "straight" && follow ? " · straight line" : "";
       const row = document.createElement("div");
       row.className = "leg-row";
-      row.innerHTML = `<span>${from} → ${to}</span><span>${formatDistance(leg.meters, units())}</span>`;
+      row.innerHTML = `<span>${from} → ${to}${flag}</span><span>${formatDistance(leg.meters, units())}</span>`;
       box.appendChild(row);
     });
-    const total = pathLengthMeters(pins);
+    const total = routed.meters;
     const walkEta = formatEta(etaSeconds(total, activityMph("walk")));
     const runEta = formatEta(etaSeconds(total, activityMph("run")));
     const tot = document.createElement("div");
@@ -223,7 +268,8 @@ function renderBuilder() {
   $("btn-save-course").disabled = pins.length < 2;
   map.clearOverlays();
   map.clearMarkers();
-  if (pins.length >= 2) map.drawRoute(pins, { id: "build-line" });
+  const line = routed && routed.path && routed.path.length >= 2 ? routed.path : pins;
+  if (line.length >= 2) map.drawRoute(line, { id: "build-line" });
   addCoursePins(pins);
 }
 
@@ -239,7 +285,7 @@ function renderCourses() {
     return;
   }
   for (const c of state.courses) {
-    const len = pathLengthMeters(c.pins);
+    const len = courseMeters(c);
     const btn = document.createElement("button");
     btn.className = "list-item";
     btn.innerHTML = `<div class="grow"><h3></h3><p></p></div><div class="meta"></div>`;
@@ -253,7 +299,7 @@ function renderCourses() {
 
 function openCourseActions(course) {
   ui.courseId = course.id;
-  const len = pathLengthMeters(course.pins);
+  const len = courseMeters(course);
   $("course-title").textContent = course.name;
   $("course-sub").textContent = `${formatDistance(len, units())} · ${formatEta(etaSeconds(len, 3))} walk · ${formatEta(etaSeconds(len, 6))} run`;
   const box = $("course-legs");
@@ -368,7 +414,7 @@ function openSchedule() {
     const c = courseById(sel.value);
     const type = $("sched-type").value;
     if (!c) return;
-    const len = pathLengthMeters(c.pins);
+    const len = courseMeters(c);
     $("sched-preview").textContent = `${formatDistance(len, units())} · ${formatEta(etaSeconds(len, activityMph(type)))} estimated`;
   };
   sel.onchange = updatePrev;
@@ -436,7 +482,7 @@ function openStart(type) {
     list.innerHTML = `<p class="tiny">No saved courses yet. You can start without one, or build a course first.</p>`;
   } else {
     for (const c of state.courses) {
-      const len = pathLengthMeters(c.pins);
+      const len = courseMeters(c);
       const b = document.createElement("button");
       b.className = "list-item";
       b.innerHTML = `<div class="grow"><h3></h3><p></p></div><div class="meta"></div>`;
@@ -779,10 +825,22 @@ function bind() {
   });
   $("btn-cancel-build").addEventListener("click", cancelBuilder);
   $("btn-save-course").addEventListener("click", saveBuilder);
+  $("toggle-follow-paths").addEventListener("click", () => {
+    ui.followPaths = !ui.followPaths;
+    paintFollowToggle();
+    renderBuilder();
+  });
   $("btn-course-name-cancel").addEventListener("click", () => closeSheet("sheet-save-course"));
   $("btn-course-name-save").addEventListener("click", () => {
     const name = ($("course-name").value || "New course").trim();
-    const c = newCourse({ name, pins: ui.builderPins.slice() });
+    const routed = ui.builderRoute || builderRoute();
+    const c = newCourse({
+      name,
+      pins: ui.builderPins.slice(),
+      path: routed && routed.path && routed.path.length >= 2 ? routed.path.slice() : null,
+      straightLine: !ui.followPaths,
+      usedStraight: !!(routed && routed.usedStraight),
+    });
     state.courses.push(c);
     persist();
     closeSheet("sheet-save-course");
@@ -1001,6 +1059,17 @@ async function wireAppLinks() {
 
 /* ——— Test hook used by overlap shots ——— */
 
+  async function ensureWalkGraph() {
+    if (getActiveGraph()) return getActiveGraph();
+    if (!ui.graphPromise) {
+      ui.graphPromise = loadBundledGraph().catch((err) => {
+        console.warn("walk graph", err && err.message ? err.message : err);
+        return null;
+      });
+    }
+    return ui.graphPromise;
+  }
+
   async function waitForMapView() {
     const start = Date.now();
     while (!map.getMap() && Date.now() - start < 20000) {
@@ -1069,14 +1138,37 @@ window.HeldpathTest = {
         ui.hideNav = true;
         showScreen("lock");
       }
-    } else if (name === "builder") {
-      const pins = (state.courses[0] && state.courses[0].pins) || arnoLoopPins();
-      ui.builderPins = pins.map((p) => ({ ...p }));
+    } else if (name === "builder" || name === "routing-builder" || name === "routing-straight" || name === "routing-loop") {
+      await ensureWalkGraph();
+      ui.followPaths = name !== "routing-straight";
+      if (name === "routing-loop") {
+        const center = { lat: 43.7672, lon: 11.2543 };
+        const loop = getActiveGraph() ? autoLoopRoute(getActiveGraph(), center, 1609) : null;
+        if (loop && loop.pins) {
+          ui.builderPins = loop.pins.map((p) => ({ ...p }));
+          ui.builderRoute = loop;
+        } else {
+          ui.builderPins = arnoLoopPins().map((p) => ({ ...p }));
+        }
+      } else if (name === "routing-builder" || name === "routing-straight") {
+        ui.builderPins = [
+          { lat: 43.76797, lon: 11.25316, role: "start" },
+          { lat: 43.76956, lon: 11.25586, role: "via" },
+          { lat: 43.77313, lon: 11.25596, role: "end" },
+        ];
+      } else {
+        const pins = (state.courses[0] && state.courses[0].pins) || arnoLoopPins();
+        ui.builderPins = pins.map((p) => ({ ...p }));
+      }
       showScreen("builder");
       setTab("today");
       showScreen("builder");
-      map.whenReady(() => { renderBuilder(); map.fitBounds(ui.builderPins, 80); });
       renderBuilder();
+      const fit = (ui.builderRoute && ui.builderRoute.path && ui.builderRoute.path.length >= 2)
+        ? ui.builderRoute.path
+        : ui.builderPins;
+      const pad = { top: 56, bottom: 580, left: 56, right: 56 };
+      map.whenReady(() => { renderBuilder(); if (fit && fit.length) map.fitBounds(fit, pad); });
     } else if (name === "courses") setTab("courses");
     else if (name === "courses-empty") { state.courses = []; setTab("courses"); }
     else if (name === "calendar") { ui.cal = startOfDay(new Date()); ui.selectedDay = isoDate(new Date()); setTab("calendar"); }
@@ -1172,7 +1264,9 @@ async function init() {
       await StatusBar.setBackgroundColor({ color: "#12161C" });
     }
   } catch { /* web */ }
+  const graphReady = ensureWalkGraph();
   await map.initMap($("map"));
+  await graphReady;
   map.whenReady(() => {
     const c = state.courses[0];
     if (c && c.pins.length) {

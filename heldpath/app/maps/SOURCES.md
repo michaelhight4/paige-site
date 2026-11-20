@@ -22,3 +22,11 @@ Heldpath honours OpenFreeMap's published limits: at most 3,000 tiles or 50 MB pe
 - Map schema: OpenMapTiles.
 - Attribution: OpenFreeMap © OpenMapTiles. Data from OpenStreetMap.
 - Terms: https://openfreemap.org/
+
+## Pedestrian routing graph (`firenze_walk.json`)
+
+Built from the Florence starter pack's `roads` layer at zoom 15 by `scripts/build_walk_graph.mjs`.
+
+Walkable ways kept: footways, paths, sidewalks, steps, pedestrian streets, cycleways, tracks, residential / service / unclassified / living streets, and minor / medium / primary roads (so city streets and bridges stay connected). Motorways, motorway links, trunks and trunk links are excluded. The graph is undirected (one-way tags are ignored for walking).
+
+Same data licence as the pack: © OpenStreetMap contributors (ODbL).
