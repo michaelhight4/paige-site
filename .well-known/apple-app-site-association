@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "HA8M4JGWBJ.com.pagegames.heldpath",
+        "paths": [
+          "/heldpath/plan/*",
+          "/heldpath/s/*"
+        ]
+      }
+    ]
+  }
+}
