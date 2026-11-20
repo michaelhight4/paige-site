@@ -28221,7 +28221,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     "The stretch figures in Heldpath are from U.S. Army ATP 7-22.02, Holistic Health and Fitness Drills and Exercises (including Change 1).",
     "The manual is a U.S. federal government work, marked approved for public release, and is in the public domain. Photos were developed by the U.S. Army Center for Initial Military Training and produced at the Enterprise Media Center in Fort Eustis, Virginia.",
     "Source: Army Publishing Directorate, armypubs.army.mil. We cropped the official figures for the cards and rewrote the cues in plain language. We did not change the movements.",
-    "Heldpath is not affiliated with the U.S. Army or the Department of Defense."
+    "Heldpath is not affiliated with the U.S. Army or the Department of Defense.",
+    "Follow-along videos in Stretches are free public videos from physical therapists and running coaches, played from YouTube. The videos remain on YouTube and belong to their creators. Each one has an Open in YouTube link. Heldpath is not affiliated with those creators or with YouTube."
   ].join(" ");
   var GROUPS = [
     { id: "neck_upper", name: "Neck & upper back" },
@@ -28585,6 +28586,207 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return index;
   }
 
+  // www/js/stretch_videos.js
+  var FOLLOW_ALONG_BLURB = "Watch a real person lead the stretch. These are free videos from physical therapists and running coaches, played from YouTube. They are general fitness guidance, not medical advice. Stop if you feel pain.";
+  var FOLLOW_ALONG_SECTIONS = [
+    { id: "pre_run", name: "Pre-run" },
+    { id: "post_run", name: "Post-run" },
+    { id: "neck_upper", name: "Neck & upper back" },
+    { id: "shoulders_arms", name: "Shoulders & arms" },
+    { id: "back_trunk", name: "Back & trunk" },
+    { id: "hips", name: "Hips" },
+    { id: "thighs", name: "Thighs" },
+    { id: "lower_legs", name: "Lower legs" }
+  ];
+  var FOLLOW_ALONG_VIDEOS = [
+    {
+      id: "pre_run_experience",
+      section: "pre_run",
+      title: "7-minute follow-along running warm-up",
+      creator: "The Run Experience",
+      role: "running coaches",
+      youtubeId: "Kdgv6DPAZBU",
+      length: "7 min",
+      stretchIds: ["pd1_bend_and_reach", "pd6_windmill", "pd7_forward_lunge"]
+    },
+    {
+      id: "pre_run_scotty",
+      section: "pre_run",
+      title: "5-minute warm-up before running",
+      creator: "Dr. Dwayne Scotty",
+      role: "physical therapist",
+      youtubeId: "5cKxUUVeVVI",
+      length: "5 min",
+      stretchIds: ["rd2_rear_lunge"]
+    },
+    {
+      id: "post_run_ntr",
+      section: "post_run",
+      title: "5-minute post-run cool-down",
+      creator: "None to Run",
+      role: "running coaches",
+      youtubeId: "5YY_a6e7Vf4",
+      length: "5 min",
+      stretchIds: []
+    },
+    {
+      id: "post_run_peto",
+      section: "post_run",
+      title: "Post-run stretch routine, follow along",
+      creator: "Tom Peto",
+      role: "running coach",
+      youtubeId: "8pDO5Qm3-DQ",
+      length: null,
+      stretchIds: []
+    },
+    {
+      id: "post_run_doctorjo_legs",
+      section: "post_run",
+      title: "Stretches for tired legs after a run",
+      creator: "Ask Doctor Jo",
+      role: "physical therapist",
+      youtubeId: "xlk07Tk7TOQ",
+      length: null,
+      stretchIds: []
+    },
+    {
+      id: "neck_follow",
+      section: "neck_upper",
+      title: "Follow-along neck stretching routine",
+      creator: "Ask Doctor Jo",
+      role: "physical therapist",
+      youtubeId: "KHxMOuylDTc",
+      length: null,
+      stretchIds: ["pmcs_neck"]
+    },
+    {
+      id: "upper_back",
+      section: "neck_upper",
+      title: "Upper back stretches and exercises",
+      creator: "Ask Doctor Jo",
+      role: "physical therapist",
+      youtubeId: "4aR-v_5f-T4",
+      length: null,
+      stretchIds: ["pmcs_midback_seated", "pmcs_midback_standing", "pmcs_midback_prone"]
+    },
+    {
+      id: "shoulder_realtime",
+      section: "shoulders_arms",
+      title: "5-minute real-time shoulder stretches",
+      creator: "Ask Doctor Jo",
+      role: "physical therapist",
+      youtubeId: "6jHsraw2NIk",
+      length: "5 min",
+      stretchIds: ["pmcs_shoulder", "rd1_overhead_arm_pull", "pmcs_arm", "pmcs_elbow_wrist"]
+    },
+    {
+      id: "lower_back",
+      section: "back_trunk",
+      title: "Lower back stretches for pain relief",
+      creator: "Ask Doctor Jo",
+      role: "physical therapist",
+      youtubeId: "Xm8iSSdU3I0",
+      length: null,
+      stretchIds: [
+        "pmcs_lowback_prone",
+        "pmcs_lowback_standing",
+        "rd3_extend_and_flex",
+        "rd3_extend_and_flex_standing",
+        "pd9_bent_leg_body_twist"
+      ]
+    },
+    {
+      id: "hip_flexors",
+      section: "hips",
+      title: "7 hip flexor stretches",
+      creator: "Bob & Brad",
+      role: "physical therapists",
+      youtubeId: "B5eAei_ISG4",
+      length: null,
+      stretchIds: ["pmcs_hip", "pmcs_hip_supine", "rd5_single_leg_over", "rd6_groin_stretch"]
+    },
+    {
+      id: "quads",
+      section: "thighs",
+      title: "Quadriceps stretches",
+      creator: "Ask Doctor Jo",
+      role: "physical therapist",
+      youtubeId: "BhQimqvU1tM",
+      length: null,
+      stretchIds: ["rd4_thigh_stretch"]
+    },
+    {
+      id: "hamstrings",
+      section: "thighs",
+      title: "Hamstring stretches and exercises",
+      creator: "Ask Doctor Jo",
+      role: "physical therapist",
+      youtubeId: "x5gunCRsSPU",
+      length: null,
+      stretchIds: ["rd8_hamstring_stretch", "rd8_hamstring_single_leg"]
+    },
+    {
+      id: "calves",
+      section: "lower_legs",
+      title: "Calf stretches and exercises",
+      creator: "Ask Doctor Jo",
+      role: "physical therapist",
+      youtubeId: "XibsfBav_04",
+      length: null,
+      stretchIds: ["rd7_calf_stretch"]
+    },
+    {
+      id: "achilles",
+      section: "lower_legs",
+      title: "Achilles tendon stretches",
+      creator: "Ask Doctor Jo",
+      role: "physical therapist",
+      youtubeId: "vU_FVahd4HI",
+      length: null,
+      stretchIds: ["pmcs_ankle", "pmcs_ankle_kneeling"]
+    },
+    {
+      id: "knee",
+      section: "lower_legs",
+      title: "Knee pain stretches and exercises",
+      creator: "Ask Doctor Jo",
+      role: "physical therapist",
+      youtubeId: "Qv9XGskry4M",
+      length: null,
+      stretchIds: ["pmcs_knee"]
+    }
+  ];
+  var YT_ID = /^[A-Za-z0-9_-]{11}$/;
+  function isYouTubeId(id) {
+    return YT_ID.test(String(id || ""));
+  }
+  function youtubeEmbedUrl(id) {
+    if (!isYouTubeId(id)) return null;
+    return `https://www.youtube-nocookie.com/embed/${id}?rel=0`;
+  }
+  function youtubeWatchUrl(id) {
+    if (!isYouTubeId(id)) return null;
+    return `https://www.youtube.com/watch?v=${id}`;
+  }
+  function youtubeThumbUrl(id) {
+    if (!isYouTubeId(id)) return null;
+    return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+  }
+  function videoById(id) {
+    return FOLLOW_ALONG_VIDEOS.find((v2) => v2.id === id) || null;
+  }
+  function videosInSection(sectionId) {
+    return FOLLOW_ALONG_VIDEOS.filter((v2) => v2.section === sectionId);
+  }
+  function videoForStretch(stretchId) {
+    if (!stretchId) return null;
+    return FOLLOW_ALONG_VIDEOS.find((v2) => (v2.stretchIds || []).includes(stretchId)) || null;
+  }
+  function creatorLine(video) {
+    if (!video) return "";
+    return video.role ? `${video.creator}, ${video.role}` : video.creator;
+  }
+
   // www/js/stretches_ui.js
   var $2 = (id) => document.getElementById(id);
   var hooks = { showScreen: () => {
@@ -28592,7 +28794,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   } };
   var view = {
     mode: "hub",
-    // hub | group | workout | credits
+    // hub | group | workout | credits | follow
     list: [],
     index: 0,
     groupId: null,
@@ -28612,16 +28814,41 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (backCard) backCard.addEventListener("click", () => showStretchesHub());
     const backCredits = $2("stretch-credits-back");
     if (backCredits) backCredits.addEventListener("click", () => showStretchesHub());
+    const backFollow = $2("stretch-follow-back");
+    if (backFollow) backFollow.addEventListener("click", () => showStretchesHub());
     const randomBtn = $2("btn-stretch-random");
     if (randomBtn) randomBtn.addEventListener("click", () => showStretchWorkout());
     const creditsBtn = $2("btn-stretch-credits");
     if (creditsBtn) creditsBtn.addEventListener("click", () => showStretchCredits());
+    const followBtn = $2("btn-stretch-follow");
+    if (followBtn) followBtn.addEventListener("click", () => showStretchFollow());
+    const preBtn = $2("btn-stretch-follow-pre");
+    if (preBtn) preBtn.addEventListener("click", () => showStretchFollow("pre_run"));
+    const postBtn = $2("btn-stretch-follow-post");
+    if (postBtn) postBtn.addEventListener("click", () => showStretchFollow("post_run"));
+    const watchBtn = $2("btn-stretch-watch");
+    if (watchBtn) {
+      watchBtn.addEventListener("click", () => {
+        const s2 = view.list[view.index];
+        const video = s2 ? videoForStretch(s2.id) : null;
+        if (video) openStretchVideo(video.id);
+      });
+    }
+    const closeVideo = $2("btn-stretch-video-close");
+    if (closeVideo) closeVideo.addEventListener("click", () => closeStretchVideo());
+    const videoBack = $2("sheet-stretch-video");
+    if (videoBack) {
+      videoBack.addEventListener("click", (ev) => {
+        if (ev.target === videoBack) closeStretchVideo();
+      });
+    }
     const prev = $2("btn-stretch-prev");
     const next = $2("btn-stretch-next");
     if (prev) prev.addEventListener("click", () => goCard("prev"));
     if (next) next.addEventListener("click", () => goCard("next"));
     bindSwipe($2("stretch-figure"));
     document.addEventListener("keydown", (ev) => {
+      if (ev.key === "Escape") closeStretchVideo();
       if (!$2("screen-stretch-card")?.classList.contains("active")) return;
       if (ev.key === "ArrowLeft") {
         ev.preventDefault();
@@ -28634,11 +28861,23 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     });
   }
   function showStretchesHub() {
+    closeStretchVideo();
     view.mode = "hub";
     renderHub();
     hooks.showScreen("stretches");
   }
+  function showStretchFollow(sectionId) {
+    closeStretchVideo();
+    view.mode = "follow";
+    renderFollow(sectionId);
+    hooks.showScreen("stretch-follow");
+    if (sectionId) {
+      const el = document.querySelector(`[data-follow-section="${CSS.escape(sectionId)}"]`);
+      if (el) el.scrollIntoView({ block: "start" });
+    }
+  }
   function showStretchGroup(groupId) {
+    closeStretchVideo();
     const g = groupById(groupId) || GROUPS[0];
     view.mode = "group";
     view.groupId = g.id;
@@ -28649,6 +28888,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     hooks.showScreen("stretch-card");
   }
   function showStretchWorkout(seed) {
+    closeStretchVideo();
     const s2 = seed == null ? Date.now() >>> 0 : seed >>> 0;
     view.mode = "workout";
     view.seed = s2;
@@ -28660,6 +28900,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     hooks.showScreen("stretch-card");
   }
   function showStretchCredits() {
+    closeStretchVideo();
     view.mode = "credits";
     const body = $2("stretch-credits-body");
     if (body) body.textContent = CREDITS_BODY;
@@ -28670,6 +28911,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function renderHub() {
     const note = $2("stretches-disclaimer");
     if (note) note.textContent = DISCLAIMER;
+    const blurb = $2("stretch-follow-blurb");
+    if (blurb) blurb.textContent = FOLLOW_ALONG_BLURB;
     const list = $2("stretches-groups");
     if (!list) return;
     list.innerHTML = GROUPS.map((g) => {
@@ -28682,6 +28925,35 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     list.querySelectorAll("[data-group]").forEach((btn) => {
       btn.addEventListener("click", () => showStretchGroup(btn.getAttribute("data-group")));
     });
+  }
+  function renderFollow(focusSection) {
+    const blurb = $2("stretch-follow-page-blurb");
+    if (blurb) blurb.textContent = FOLLOW_ALONG_BLURB;
+    const list = $2("stretch-follow-list");
+    if (!list) return;
+    list.innerHTML = FOLLOW_ALONG_SECTIONS.map((section) => {
+      const videos = videosInSection(section.id);
+      if (!videos.length) return "";
+      const rows = videos.map((v2) => {
+        const thumb = youtubeThumbUrl(v2.youtubeId) || "";
+        const meta = [creatorLine(v2), v2.length].filter(Boolean).join(" \xB7 ");
+        return `<button type="button" class="stretch-video-row" data-video="${escapeHtml2(v2.id)}" data-testid="stretch-video-${escapeHtml2(v2.id)}">
+        <img class="stretch-video-thumb" src="${escapeHtml2(thumb)}" alt="" width="160" height="90" loading="lazy" />
+        <span class="stretch-video-copy">
+          <span class="stretch-video-title">${escapeHtml2(v2.title)}</span>
+          <span class="stretch-video-meta">${escapeHtml2(meta)}</span>
+        </span>
+      </button>`;
+      }).join("");
+      return `<section class="stretch-follow-section" data-follow-section="${escapeHtml2(section.id)}" data-testid="stretch-follow-${escapeHtml2(section.id)}">
+      <h2 class="section-label">${escapeHtml2(section.name)}</h2>
+      <div class="stretch-video-list">${rows}</div>
+    </section>`;
+    }).join("");
+    list.querySelectorAll("[data-video]").forEach((btn) => {
+      btn.addEventListener("click", () => openStretchVideo(btn.getAttribute("data-video")));
+    });
+    void focusSection;
   }
   function renderCard() {
     const list = view.list;
@@ -28710,6 +28982,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (desc) desc.textContent = s2.description;
     const fig = $2("stretch-card-figure");
     if (fig) fig.textContent = s2.figure;
+    const video = videoForStretch(s2.id);
+    const watchWrap = $2("stretch-card-watch");
+    if (watchWrap) watchWrap.hidden = !video;
     const prev = $2("btn-stretch-prev");
     const next = $2("btn-stretch-next");
     if (prev) prev.disabled = i <= 0;
@@ -28725,6 +29000,41 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           renderCard();
         });
       });
+    }
+  }
+  function openStretchVideo(videoId) {
+    const video = videoById(videoId);
+    const sheet = $2("sheet-stretch-video");
+    if (!video || !sheet) return false;
+    const title = $2("stretch-video-heading");
+    if (title) title.textContent = video.title;
+    const creator = $2("stretch-video-creator");
+    if (creator) creator.textContent = creatorLine(video);
+    const frame = $2("stretch-video-frame");
+    const embed = youtubeEmbedUrl(video.youtubeId);
+    if (frame && embed) {
+      frame.title = video.title;
+      frame.src = embed;
+    }
+    const open = $2("stretch-video-open");
+    if (open) {
+      open.href = youtubeWatchUrl(video.youtubeId) || "https://www.youtube.com/";
+      open.hidden = false;
+    }
+    sheet.classList.add("open");
+    sheet.setAttribute("aria-hidden", "false");
+    return true;
+  }
+  function closeStretchVideo() {
+    const sheet = $2("sheet-stretch-video");
+    if (sheet) {
+      sheet.classList.remove("open");
+      sheet.setAttribute("aria-hidden", "true");
+    }
+    const frame = $2("stretch-video-frame");
+    if (frame) {
+      frame.src = "about:blank";
+      frame.removeAttribute("title");
     }
   }
   function goCard(dir) {
@@ -33270,6 +33580,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   window.HeldpathTest = {
     show: async function show(name, opt = {}) {
       hideLocateDenied();
+      closeStretchVideo();
       if ($4("map-banner")) {
         $4("map-banner").hidden = true;
         $4("map-banner").textContent = "";
@@ -33643,6 +33954,13 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       } else if (name === "stretches-credits") {
         setTab("settings");
         showStretchCredits();
+      } else if (name === "stretches-follow") {
+        setTab("settings");
+        showStretchFollow();
+      } else if (name === "stretches-video") {
+        setTab("settings");
+        showStretchFollow();
+        openStretchVideo("pre_run_experience");
       } else if (name === "map-choice") {
         setTab("today");
         showScreen("today");

@@ -226,3 +226,145 @@
   .stretch-figure { max-height: 40%; min-height: 120px; }
   .stretch-card-shell .top-bar h1 { font-size: 16px; }
 }
+
+/* Follow along / Watch a real person */
+.stretch-follow-teaser {
+  margin: 0 0 24px;
+  padding: 14px 14px 16px;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.stretch-follow-kicker {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  margin: 0 0 8px;
+  overflow-wrap: anywhere;
+}
+
+.stretch-follow-blurb {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 0 0 12px;
+  overflow-wrap: anywhere;
+}
+
+.stretch-follow-quick {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.stretch-follow-quick .btn {
+  min-height: var(--tap);
+  width: 100%;
+}
+
+.stretch-follow-section {
+  margin: 0 0 22px;
+}
+
+.stretch-follow-section .section-label {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.stretch-video-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stretch-video-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: var(--tap);
+  padding: 10px;
+  text-align: left;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text);
+}
+
+.stretch-video-thumb {
+  flex: 0 0 96px;
+  width: 96px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--bg-elev);
+}
+
+.stretch-video-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stretch-video-title {
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.stretch-video-meta {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.stretch-card-watch {
+  margin: 4px 0 12px;
+}
+
+.stretch-card-watch[hidden] {
+  display: none;
+}
+
+.stretch-video-creator {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 0 0 12px;
+  overflow-wrap: anywhere;
+}
+
+.stretch-video-frame-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #111;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.stretch-video-frame-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+#stretch-video-open.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+#sheet-stretch-video .sheet h2 {
+  overflow-wrap: anywhere;
+}

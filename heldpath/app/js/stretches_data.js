@@ -10,6 +10,7 @@ export const CREDITS_BODY = [
   "The manual is a U.S. federal government work, marked approved for public release, and is in the public domain. Photos were developed by the U.S. Army Center for Initial Military Training and produced at the Enterprise Media Center in Fort Eustis, Virginia.",
   "Source: Army Publishing Directorate, armypubs.army.mil. We cropped the official figures for the cards and rewrote the cues in plain language. We did not change the movements.",
   "Heldpath is not affiliated with the U.S. Army or the Department of Defense.",
+  "Follow-along videos in Stretches are free public videos from physical therapists and running coaches, played from YouTube. The videos remain on YouTube and belong to their creators. Each one has an Open in YouTube link. Heldpath is not affiliated with those creators or with YouTube.",
 ].join(" ");
 
 export const GROUPS = [

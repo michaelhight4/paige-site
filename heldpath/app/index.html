@@ -406,11 +406,21 @@
           <button class="icon-btn" id="stretches-back" aria-label="Back">‹</button>
           <h1>Stretches <span class="free-tag">Free</span></h1>
         </div>
-        <p class="page-sub">Browse by muscle group, or start a random workout that picks two stretches from each group.</p>
+        <p class="page-sub">Follow along with a real person, browse by muscle group, or start a random workout that picks two stretches from each group.</p>
         <p class="stretch-disclaimer" id="stretches-disclaimer" data-testid="stretches-disclaimer"></p>
         <div class="stretch-actions">
           <button class="btn btn-primary" id="btn-stretch-random" style="width:100%" data-testid="stretch-random">Random workout</button>
         </div>
+        <section class="stretch-follow-teaser" data-testid="stretch-follow-teaser">
+          <h2 class="section-label" style="font-size:16px;margin-bottom:4px">Follow along</h2>
+          <h3 class="stretch-follow-kicker">Watch a real person</h3>
+          <p class="stretch-follow-blurb" id="stretch-follow-blurb" data-testid="stretch-follow-blurb"></p>
+          <div class="stretch-follow-quick">
+            <button class="btn btn-secondary" id="btn-stretch-follow-pre" data-testid="stretch-follow-pre">Pre-run</button>
+            <button class="btn btn-secondary" id="btn-stretch-follow-post" data-testid="stretch-follow-post">Post-run</button>
+          </div>
+          <button class="btn btn-primary" id="btn-stretch-follow" style="width:100%" data-testid="stretch-follow-open">See follow-along videos</button>
+        </section>
         <h2 class="section-label" style="font-size:16px;margin-bottom:8px">Browse by muscle group</h2>
         <div class="stretch-group-list" id="stretches-groups" data-testid="stretches-groups"></div>
         <button class="btn btn-secondary" id="btn-stretch-credits" style="width:100%;margin-bottom:16px" data-testid="stretch-credits">Sources and credits</button>
@@ -437,6 +447,9 @@
           </div>
           <p class="stretch-card-desc" id="stretch-card-desc" data-testid="stretch-desc"></p>
           <p class="stretch-card-figure" id="stretch-card-figure"></p>
+          <div class="stretch-card-watch" id="stretch-card-watch" hidden>
+            <button class="btn btn-secondary" id="btn-stretch-watch" style="width:100%" data-testid="stretch-watch">Watch video</button>
+          </div>
           <p class="stretch-card-note">General guidance, not medical advice. Stop if you feel pain.</p>
         </div>
         <div class="stretch-nav">
@@ -458,6 +471,19 @@
         </div>
         <p id="stretch-credits-body" data-testid="stretch-credits-body"></p>
         <p class="stretch-disclaimer" id="stretch-credits-disclaimer" data-testid="stretch-credits-disclaimer"></p>
+      </div>
+    </section>
+
+    <!-- Follow-along stretch videos -->
+    <section class="screen" id="screen-stretch-follow" data-screen="stretch-follow">
+      <div class="scroll">
+        <div class="top-bar">
+          <button class="icon-btn" id="stretch-follow-back" aria-label="Back">‹</button>
+          <h1>Follow along</h1>
+        </div>
+        <h2 class="stretch-follow-kicker" style="margin-top:0">Watch a real person</h2>
+        <p class="stretch-follow-blurb" id="stretch-follow-page-blurb" data-testid="stretch-follow-page-blurb"></p>
+        <div id="stretch-follow-list" data-testid="stretch-follow-list"></div>
       </div>
     </section>
 
@@ -487,6 +513,19 @@
     </section>
 
     <!-- Sheets -->
+    <div class="sheet-back" id="sheet-stretch-video" aria-hidden="true">
+      <div class="sheet" role="dialog" aria-labelledby="stretch-video-heading" data-testid="stretch-video-sheet">
+        <h2 id="stretch-video-heading">Watch video</h2>
+        <p class="stretch-video-creator" id="stretch-video-creator" data-testid="stretch-video-creator"></p>
+        <div class="stretch-video-frame-wrap">
+          <iframe id="stretch-video-frame" data-testid="stretch-video-frame" src="about:blank" title="Stretch video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <a class="btn btn-secondary" id="stretch-video-open" data-testid="stretch-video-open" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" style="width:100%;margin:12px 0;text-align:center">Open in YouTube</a>
+        <p class="tiny" style="margin-bottom:16px">The video plays from YouTube. Heldpath is not affiliated with the creator. This is general fitness guidance, not medical advice.</p>
+        <button class="btn btn-primary" id="btn-stretch-video-close" style="width:100%" data-testid="stretch-video-close">Close</button>
+      </div>
+    </div>
+
     <div class="sheet-back" id="sheet-map">
       <div class="sheet" role="dialog" aria-labelledby="map-sheet-title">
         <h2 id="map-sheet-title">Maps on this phone</h2>

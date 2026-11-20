@@ -9,13 +9,24 @@ import {
   swipeDirection,
   stepIndex,
 } from "./stretches_data.js";
+import {
+  FOLLOW_ALONG_BLURB,
+  FOLLOW_ALONG_SECTIONS,
+  videosInSection,
+  videoById,
+  videoForStretch,
+  youtubeEmbedUrl,
+  youtubeWatchUrl,
+  youtubeThumbUrl,
+  creatorLine,
+} from "./stretch_videos.js";
 
 const $ = (id) => document.getElementById(id);
 
 let hooks = { showScreen: () => {}, goSettings: () => {} };
 
 const view = {
-  mode: "hub", // hub | group | workout | credits
+  mode: "hub", // hub | group | workout | credits | follow
   list: [],
   index: 0,
   groupId: null,
@@ -41,16 +52,41 @@ export function initStretchesUi(opts) {
   if (backCard) backCard.addEventListener("click", () => showStretchesHub());
   const backCredits = $("stretch-credits-back");
   if (backCredits) backCredits.addEventListener("click", () => showStretchesHub());
+  const backFollow = $("stretch-follow-back");
+  if (backFollow) backFollow.addEventListener("click", () => showStretchesHub());
   const randomBtn = $("btn-stretch-random");
   if (randomBtn) randomBtn.addEventListener("click", () => showStretchWorkout());
   const creditsBtn = $("btn-stretch-credits");
   if (creditsBtn) creditsBtn.addEventListener("click", () => showStretchCredits());
+  const followBtn = $("btn-stretch-follow");
+  if (followBtn) followBtn.addEventListener("click", () => showStretchFollow());
+  const preBtn = $("btn-stretch-follow-pre");
+  if (preBtn) preBtn.addEventListener("click", () => showStretchFollow("pre_run"));
+  const postBtn = $("btn-stretch-follow-post");
+  if (postBtn) postBtn.addEventListener("click", () => showStretchFollow("post_run"));
+  const watchBtn = $("btn-stretch-watch");
+  if (watchBtn) {
+    watchBtn.addEventListener("click", () => {
+      const s = view.list[view.index];
+      const video = s ? videoForStretch(s.id) : null;
+      if (video) openStretchVideo(video.id);
+    });
+  }
+  const closeVideo = $("btn-stretch-video-close");
+  if (closeVideo) closeVideo.addEventListener("click", () => closeStretchVideo());
+  const videoBack = $("sheet-stretch-video");
+  if (videoBack) {
+    videoBack.addEventListener("click", (ev) => {
+      if (ev.target === videoBack) closeStretchVideo();
+    });
+  }
   const prev = $("btn-stretch-prev");
   const next = $("btn-stretch-next");
   if (prev) prev.addEventListener("click", () => goCard("prev"));
   if (next) next.addEventListener("click", () => goCard("next"));
   bindSwipe($("stretch-figure"));
   document.addEventListener("keydown", (ev) => {
+    if (ev.key === "Escape") closeStretchVideo();
     if (!$("screen-stretch-card")?.classList.contains("active")) return;
     if (ev.key === "ArrowLeft") { ev.preventDefault(); goCard("prev"); }
     if (ev.key === "ArrowRight") { ev.preventDefault(); goCard("next"); }
@@ -58,12 +94,25 @@ export function initStretchesUi(opts) {
 }
 
 export function showStretchesHub() {
+  closeStretchVideo();
   view.mode = "hub";
   renderHub();
   hooks.showScreen("stretches");
 }
 
+export function showStretchFollow(sectionId) {
+  closeStretchVideo();
+  view.mode = "follow";
+  renderFollow(sectionId);
+  hooks.showScreen("stretch-follow");
+  if (sectionId) {
+    const el = document.querySelector(`[data-follow-section="${CSS.escape(sectionId)}"]`);
+    if (el) el.scrollIntoView({ block: "start" });
+  }
+}
+
 export function showStretchGroup(groupId) {
+  closeStretchVideo();
   const g = groupById(groupId) || GROUPS[0];
   view.mode = "group";
   view.groupId = g.id;
@@ -75,6 +124,7 @@ export function showStretchGroup(groupId) {
 }
 
 export function showStretchWorkout(seed) {
+  closeStretchVideo();
   const s = seed == null ? (Date.now() >>> 0) : (seed >>> 0);
   view.mode = "workout";
   view.seed = s;
@@ -87,6 +137,7 @@ export function showStretchWorkout(seed) {
 }
 
 export function showStretchCredits() {
+  closeStretchVideo();
   view.mode = "credits";
   const body = $("stretch-credits-body");
   if (body) body.textContent = CREDITS_BODY;
@@ -98,6 +149,8 @@ export function showStretchCredits() {
 function renderHub() {
   const note = $("stretches-disclaimer");
   if (note) note.textContent = DISCLAIMER;
+  const blurb = $("stretch-follow-blurb");
+  if (blurb) blurb.textContent = FOLLOW_ALONG_BLURB;
   const list = $("stretches-groups");
   if (!list) return;
   list.innerHTML = GROUPS.map((g) => {
@@ -110,6 +163,36 @@ function renderHub() {
   list.querySelectorAll("[data-group]").forEach((btn) => {
     btn.addEventListener("click", () => showStretchGroup(btn.getAttribute("data-group")));
   });
+}
+
+function renderFollow(focusSection) {
+  const blurb = $("stretch-follow-page-blurb");
+  if (blurb) blurb.textContent = FOLLOW_ALONG_BLURB;
+  const list = $("stretch-follow-list");
+  if (!list) return;
+  list.innerHTML = FOLLOW_ALONG_SECTIONS.map((section) => {
+    const videos = videosInSection(section.id);
+    if (!videos.length) return "";
+    const rows = videos.map((v) => {
+      const thumb = youtubeThumbUrl(v.youtubeId) || "";
+      const meta = [creatorLine(v), v.length].filter(Boolean).join(" · ");
+      return `<button type="button" class="stretch-video-row" data-video="${escapeHtml(v.id)}" data-testid="stretch-video-${escapeHtml(v.id)}">
+        <img class="stretch-video-thumb" src="${escapeHtml(thumb)}" alt="" width="160" height="90" loading="lazy" />
+        <span class="stretch-video-copy">
+          <span class="stretch-video-title">${escapeHtml(v.title)}</span>
+          <span class="stretch-video-meta">${escapeHtml(meta)}</span>
+        </span>
+      </button>`;
+    }).join("");
+    return `<section class="stretch-follow-section" data-follow-section="${escapeHtml(section.id)}" data-testid="stretch-follow-${escapeHtml(section.id)}">
+      <h2 class="section-label">${escapeHtml(section.name)}</h2>
+      <div class="stretch-video-list">${rows}</div>
+    </section>`;
+  }).join("");
+  list.querySelectorAll("[data-video]").forEach((btn) => {
+    btn.addEventListener("click", () => openStretchVideo(btn.getAttribute("data-video")));
+  });
+  void focusSection;
 }
 
 function renderCard() {
@@ -139,6 +222,9 @@ function renderCard() {
   if (desc) desc.textContent = s.description;
   const fig = $("stretch-card-figure");
   if (fig) fig.textContent = s.figure;
+  const video = videoForStretch(s.id);
+  const watchWrap = $("stretch-card-watch");
+  if (watchWrap) watchWrap.hidden = !video;
   const prev = $("btn-stretch-prev");
   const next = $("btn-stretch-next");
   if (prev) prev.disabled = i <= 0;
@@ -154,6 +240,43 @@ function renderCard() {
         renderCard();
       });
     });
+  }
+}
+
+export function openStretchVideo(videoId) {
+  const video = videoById(videoId);
+  const sheet = $("sheet-stretch-video");
+  if (!video || !sheet) return false;
+  const title = $("stretch-video-heading");
+  if (title) title.textContent = video.title;
+  const creator = $("stretch-video-creator");
+  if (creator) creator.textContent = creatorLine(video);
+  const frame = $("stretch-video-frame");
+  const embed = youtubeEmbedUrl(video.youtubeId);
+  if (frame && embed) {
+    frame.title = video.title;
+    frame.src = embed;
+  }
+  const open = $("stretch-video-open");
+  if (open) {
+    open.href = youtubeWatchUrl(video.youtubeId) || "https://www.youtube.com/";
+    open.hidden = false;
+  }
+  sheet.classList.add("open");
+  sheet.setAttribute("aria-hidden", "false");
+  return true;
+}
+
+export function closeStretchVideo() {
+  const sheet = $("sheet-stretch-video");
+  if (sheet) {
+    sheet.classList.remove("open");
+    sheet.setAttribute("aria-hidden", "true");
+  }
+  const frame = $("stretch-video-frame");
+  if (frame) {
+    frame.src = "about:blank";
+    frame.removeAttribute("title");
   }
 }
 

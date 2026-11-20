@@ -32,7 +32,7 @@ import { isWeb, applyPlatformVisibility, registerServiceWorker, listenForInstall
 import { renderCalendarView } from "./calendar_view.js";
 import { renderProgressView } from "./progress_view.js";
 import { initPlansUi, renderPlansScreen } from "./plans_ui.js";
-import { initStretchesUi, showStretchesHub, showStretchGroup, showStretchWorkout, showStretchCredits } from "./stretches_ui.js";
+import { initStretchesUi, showStretchesHub, showStretchGroup, showStretchWorkout, showStretchCredits, showStretchFollow, openStretchVideo, closeStretchVideo } from "./stretches_ui.js";
 import { initMapDownloadUi, showMapAreas, openCrop, closeCrop } from "./map_download_ui.js";
 import { applyCompletedSession, importPlanFile, addPlanToState, makePlan, PLAN_FORMAT, PLAN_FORMAT_VERSION } from "./plans.js";
 import { buildPlanDraft } from "./plan_progress.js";
@@ -1906,6 +1906,7 @@ async function wireAppLinks() {
 window.HeldpathTest = {
   show: async function show(name, opt = {}) {
     hideLocateDenied();
+    closeStretchVideo();
     if ($("map-banner")) { $("map-banner").hidden = true; $("map-banner").textContent = ""; }
     closeSheet("sheet-map");
     closeSheet("sheet-schedule");
@@ -2249,6 +2250,8 @@ window.HeldpathTest = {
     else if (name === "stretches-card") { setTab("settings"); showStretchGroup("shoulders_arms"); }
     else if (name === "stretches-workout") { setTab("settings"); showStretchWorkout(1); }
     else if (name === "stretches-credits") { setTab("settings"); showStretchCredits(); }
+    else if (name === "stretches-follow") { setTab("settings"); showStretchFollow(); }
+    else if (name === "stretches-video") { setTab("settings"); showStretchFollow(); openStretchVideo("pre_run_experience"); }
     else if (name === "map-choice") {
       setTab("today");
       showScreen("today");
