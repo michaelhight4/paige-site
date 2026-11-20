@@ -420,11 +420,11 @@ export function courseMeters(course) {
 
 const BUNDLED_GRAPH_URL = "./maps/firenze_walk.json";
 
-export async function loadBundledGraph(url = BUNDLED_GRAPH_URL) {
+export async function loadBundledGraph(url = BUNDLED_GRAPH_URL, { activate = true } = {}) {
   const res = await fetch(url);
   if (!res.ok) throw new Error("walk graph missing: " + res.status);
   const graph = parseGraph(await res.json());
-  setActiveGraph(graph);
+  if (activate) setActiveGraph(graph);
   return graph;
 }
 

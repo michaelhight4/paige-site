@@ -65,6 +65,7 @@ import { initPlansUi, renderPlansScreen } from "./plans_ui.js";
 import { initStretchesUi, showStretchesHub, showStretchGroup, showStretchWorkout, showStretchCredits, showStretchFollow, openStretchVideo, closeStretchVideo } from "./stretches_ui.js";
 import { initMapDownloadUi, showMapAreas, openCrop, closeCrop } from "./map_download_ui.js";
 import { listAreas } from "./map_offline.js";
+import { ensureWalkGraph, graphCoversPoints } from "./area_graphs.js";
 import { assessRouteLowSignal, LOW_SIGNAL_COPY, pathBbox } from "./low_signal.js";
 import { gainLoss, displayDistance, naismithSeconds, formatGain, elevationProfileSvg, FLAT_DISCLAIMER, HILLS_DISCLAIMER, DEM_CREDIT_SHORT, DEM_ATTRIBUTION_URL } from "./elevation.js";
 import { samplePathDem } from "./elevation_dem.js";
@@ -94,7 +95,6 @@ import {
 } from "./group_run.js";
 import { qrSvg } from "./share_qr.js";
 import {
-  loadBundledGraph,
   getActiveGraph,
   routeLegs,
   autoLoopRoute,
@@ -511,8 +511,21 @@ function paintFollowToggle() {
   btn.setAttribute("aria-checked", ui.followPaths ? "true" : "false");
 }
 
+let builderGraphToken = 0;
+function maybeEnsureBuilderGraph(pins) {
+  if (!pins || pins.length < 1) return;
+  const current = getActiveGraph();
+  if (current && graphCoversPoints(current, pins)) return;
+  const token = ++builderGraphToken;
+  ensureWalkGraph(pins).then((g) => {
+    if (token !== builderGraphToken) return;
+    if (g !== current && ui.screen === "builder") renderBuilder();
+  }).catch(() => {});
+}
+
 function renderBuilder() {
   const pins = ui.builderPins || [];
+  maybeEnsureBuilderGraph(pins);
   const hint = $("builder-hint");
   const follow = ui.followPaths;
   if (pins.length === 0) hint.textContent = follow
@@ -1172,7 +1185,7 @@ async function completeSession(sess) {
     }
     persist();
     if (shouldOfferOvershootSave(sess)) {
-      await ensureWalkGraph();
+      await ensureWalkGraph(sess.track);
       ui.pendingSaveRoute = { act, course, sess, track: (sess.track || []).slice(), graph: getActiveGraph(), legResult };
       const pct = percentOfPlan(act.distanceMeters, plannedMeters(sess));
       $("celebrate-copy").textContent = celebrationCopy(pct, { hasCourse: !!course });
@@ -1181,7 +1194,7 @@ async function completeSession(sess) {
       return;
     }
     if (shouldOfferFreeRoute(sess)) {
-      await ensureWalkGraph();
+      await ensureWalkGraph(sess.track);
       const built = routeFromTrack(sess.track, getActiveGraph());
       ui.pendingFreeRoute = { act, course, built, legResult };
       $("save-free-distance").textContent = formatDistance(built.meters || act.distanceMeters, units());
@@ -2361,16 +2374,6 @@ async function wireAppLinks() {
 
 /* ——— Test hook used by overlap shots ——— */
 
-  async function ensureWalkGraph() {
-    if (getActiveGraph()) return getActiveGraph();
-    if (!ui.graphPromise) {
-      ui.graphPromise = loadBundledGraph().catch((err) => {
-        console.warn("walk graph", err && err.message ? err.message : err);
-        return null;
-      });
-    }
-    return ui.graphPromise;
-  }
 
   async function waitForMapView() {
     const start = Date.now();
@@ -2562,7 +2565,7 @@ window.HeldpathTest = {
       if (name === "save-route-choice") openSaveRouteChoice();
       else openSheet("sheet-celebrate");
     } else if (name === "save-free-route") {
-      await ensureWalkGraph();
+      await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
       const origin = { lat: 43.7672, lon: 11.2543 };
       const pts = [{ lat: origin.lat, lon: origin.lon }];
       const steps = [[90, 180], [90, 180], [20, 140], [20, 140], [300, 200], [300, 160]];
@@ -2588,7 +2591,7 @@ window.HeldpathTest = {
       showFreeRouteMap(built);
       openSheet("sheet-save-free");
     } else if (name === "builder" || name === "routing-builder" || name === "routing-straight" || name === "routing-loop") {
-      await ensureWalkGraph();
+      await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
       ui.followPaths = name !== "routing-straight";
       if (name === "routing-loop") {
         const center = { lat: 43.7672, lon: 11.2543 };
@@ -3001,7 +3004,7 @@ async function init() {
     }
   });
   await wireAppLinks();
-  initPlansUi({ getState: () => state, persist, units, openShare: (plan) => openShareSheet("plan", plan) });
+  initPlansUi({ getState: () => state, persist, units, openShare: (plan) => openShareSheet("plan", plan), getCenter: () => (state.settings.lastKnown && state.settings.lastKnown.lat != null ? { lat: state.settings.lastKnown.lat, lon: state.settings.lastKnown.lon } : null) });
   renderSettings();
   try {
     if (Capacitor.isNativePlatform()) {

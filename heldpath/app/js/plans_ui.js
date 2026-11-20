@@ -34,6 +34,7 @@ import {
   updateWaterTarget,
   reminderPayloadFor,
 } from "./plans.js";
+import { ensureWalkGraph } from "./area_graphs.js";
 import { overlapPlanCopy, overlappingDates } from "./calendar_conflict.js";
 import { OWNERSHIP_COPY, creditsRemaining } from "./iap.js";
 
@@ -104,6 +105,14 @@ async function syncReminders(plan) {
 
 /* ——— Draft / preview ——— */
 
+function userCenter() {
+  const c = ctx && ctx.getCenter && ctx.getCenter();
+  if (c && Number.isFinite(Number(c.lat)) && Number.isFinite(Number(c.lon))) {
+    return { lat: Number(c.lat), lon: Number(c.lon) };
+  }
+  return null;
+}
+
 function readGoal() {
   const days = Math.max(1, Math.round(Number($("plan-days").value) || 14));
   const routeValue = $("plan-route").value;
@@ -119,6 +128,7 @@ function readGoal() {
     autoLoop: !course,
     bodyKg,
     name,
+    center: userCenter() || undefined,
   };
 }
 
@@ -451,8 +461,14 @@ export function initPlansUi(context) {
   bind();
 }
 
+function kickPlanGraph() {
+  const c = userCenter();
+  if (c) ensureWalkGraph(c).catch(() => {});
+}
+
 export function renderPlansScreen() {
   if (!ctx) return;
+  kickPlanGraph();
   if (!Array.isArray(state().planLibrary)) state().planLibrary = [];
   renderOwnership();
   renderRouteOptions();

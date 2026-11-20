@@ -15,14 +15,21 @@ import {
   putTile,
   saveArea,
   listAreas,
-  deleteAreaRecord,
+  deleteAreaRecord as deleteAreaRecordRaw,
   observedAvgTileBytes,
   tileCacheBytes,
   deviceStorage,
 } from "./map_storage.js";
 import { prefetchDemForBbox } from "./elevation_dem.js";
+import { buildGraphForArea, deleteAreaGraph } from "./area_graphs.js";
 
-export { listAreas, deleteAreaRecord, tileCacheBytes, deviceStorage, observedAvgTileBytes, planDownload };
+export { listAreas, tileCacheBytes, deviceStorage, observedAvgTileBytes, planDownload };
+
+export async function deleteAreaRecord(id) {
+  await deleteAreaRecordRaw(id);
+  try { await deleteAreaGraph(id); } catch { /* ignore */ }
+  return id;
+}
 
 export async function downloadArea(bbox, opt = {}) {
   const box = normalizeBbox(bbox);
@@ -76,6 +83,7 @@ export async function downloadArea(bbox, opt = {}) {
   };
   await saveArea(area);
   try { prefetchDemForBbox(box).catch(() => {}); } catch { /* DEM is optional */ }
+  try { buildGraphForArea(area).catch(() => {}); } catch { /* graph is optional */ }
   return { ok: true, area, plan, result };
 }
 
