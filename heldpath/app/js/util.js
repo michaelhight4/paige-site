@@ -181,15 +181,16 @@ export function formatPace(meters, seconds, units) {
  * On a course: "1.2 mi done · 0.8 mi left · ~16 min"
  * Off a course: "1.2 mi · 24:10 · 11:20 /mi"
  */
-export function notificationText({ doneMeters, leftMeters, onCourse, elapsedSec, units, activityType }) {
+export function notificationText({ doneMeters, leftMeters, onCourse, elapsedSec, units, activityType, lapLabel }) {
   const done = formatDistance(doneMeters || 0, units);
   if (onCourse) {
     const left = Math.max(0, leftMeters || 0);
+    const prefix = lapLabel ? `${lapLabel} · ` : "";
     if (left <= 8) {
-      return `${done} done · finished`;
+      return `${prefix}${done} done · finished`;
     }
     const mph = activityMph(activityType);
-    return `${done} done · ${formatDistance(left, units)} left · ${formatEta(etaSeconds(left, mph))}`;
+    return `${prefix}${done} done · ${formatDistance(left, units)} left · ${formatEta(etaSeconds(left, mph))}`;
   }
   const time = formatDuration(elapsedSec || 0);
   const pace = formatPace(doneMeters, elapsedSec, units);

@@ -48,6 +48,7 @@
       <div class="dock" id="track-dock">
         <div class="hud" id="track-hud" data-testid="track-hud">
           <div class="hud-kicker" id="track-kicker">Walk</div>
+          <div class="lap-label" id="track-lap" data-testid="lap-label" hidden>Lap 1 of 1</div>
           <div class="hud-remain" id="track-remain-wrap">
             <div>
               <div class="remain-value" id="track-left" data-testid="distance-left">—</div>
@@ -521,6 +522,37 @@
         <div id="start-course-list" class="list"></div>
         <button class="btn btn-primary" id="btn-start-free" style="width:100%;margin:16px 0 12px">Start without a course</button>
         <button class="btn btn-secondary" id="btn-start-cancel" style="width:100%">Cancel</button>
+      </div>
+    </div>
+
+    <div class="sheet-back" id="sheet-target">
+      <div class="sheet" role="dialog" data-testid="target-sheet">
+        <h2>Target distance</h2>
+        <p class="page-sub" id="target-course-sub">Course</p>
+        <label class="field-label" for="target-distance">How far do you want to go?</label>
+        <div class="target-input-row">
+          <input id="target-distance" data-testid="target-distance" type="number" min="0" step="0.05" inputmode="decimal" placeholder="Optional" />
+          <span id="target-unit">mi</span>
+        </div>
+        <p class="tiny" id="target-blank-hint">Leave this blank to just follow the course.</p>
+        <div id="target-over-options" data-testid="target-over-options" hidden>
+          <p class="target-over-copy">Your target is longer than the course. How should the rest be covered?</p>
+          <button class="btn btn-primary" id="btn-target-continue-past" data-testid="target-continue-past" style="width:100%;margin-bottom:10px">Continue past the course</button>
+          <button class="btn btn-primary" id="btn-target-use-course" data-testid="target-use-course" style="width:100%;margin-bottom:10px">Use the course for the rest</button>
+          <p class="tiny">Continue past tracks your actual path after the end and alerts you at the target. Use the course repeats a loop, or goes out and back, and puts a stop pin at the exact target.</p>
+        </div>
+        <button class="btn btn-primary" id="btn-target-start" data-testid="target-start" style="width:100%;margin:16px 0 12px">Start</button>
+        <button class="btn btn-secondary" id="btn-target-cancel" style="width:100%">Back</button>
+      </div>
+    </div>
+
+    <div class="sheet-back" id="sheet-save-route">
+      <div class="sheet" role="dialog" data-testid="save-route-sheet">
+        <h2>Save this route?</h2>
+        <p class="page-sub" id="save-route-sub">You went past the original course. Save the path you actually took?</p>
+        <button class="btn btn-primary" id="btn-save-route-new" style="width:100%;margin-bottom:10px">Save as a new course</button>
+        <button class="btn btn-primary" id="btn-save-route-update" style="width:100%;margin-bottom:10px">Update the original</button>
+        <button class="btn btn-secondary" id="btn-save-route-skip" style="width:100%">Don't save</button>
       </div>
     </div>
 

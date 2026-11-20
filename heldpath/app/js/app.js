@@ -15,6 +15,8 @@ import {
   startOfDay,
   SUPPORT_COPY,
   escapeHtml,
+  METERS_PER_MILE,
+  pointAlongPath,
 } from "./util.js";
 import { loadState, saveState, resetState, newCourse, newActivity, newPlan } from "./storage.js";
 import * as health from "./health.js";
@@ -40,6 +42,13 @@ import {
   coursePath,
   courseMeters,
 } from "./routing.js";
+import {
+  planFromCourse,
+  planTarget,
+  MODE_COURSE,
+  MODE_CONTINUE,
+  progressOnPlan,
+} from "./target_distance.js";
 
 let state = loadState();
 const PR_BADGES = {
@@ -159,16 +168,48 @@ function renderToday() {
   }
 }
 
+function maybeAnnounceTarget(sess, rem) {
+  if (!sess || !sess.target || sess.targetAnnounced || !rem || !rem.hitTarget) return;
+  sess.targetAnnounced = true;
+  try { if (navigator.vibrate) navigator.vibrate([200, 80, 220]); } catch { /* ignore */ }
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    const ctx = new AC();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = 880;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.45);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.45);
+  } catch { /* ignore */ }
+}
+
 function paintSessionHud(sess) {
   if (!sess) return;
   const rem = track.courseRemaining(sess);
   const onCourse = rem.onCourse;
   $("track-kicker").textContent = `${sess.type === "run" ? "Run" : "Walk"}${sess.courseName ? " · " + sess.courseName : ""}`;
+  const lap = $("track-lap");
+  if (lap) {
+    if (rem.lapLabel) {
+      lap.hidden = false;
+      lap.textContent = rem.lapLabel;
+    } else {
+      lap.hidden = true;
+      lap.textContent = "";
+    }
+  }
   $("track-remain-wrap").style.display = onCourse ? "grid" : "none";
   if (onCourse) {
     $("track-left").textContent = formatDistance(rem.remaining, sess.units);
     $("track-eta").textContent = rem.remaining <= 8 ? "Done" : formatEta(etaSeconds(rem.remaining, activityMph(sess.type)));
   }
+  maybeAnnounceTarget(sess, rem);
   const done = onCourse ? rem.traveled : sess.distanceMeters;
   $("track-done").textContent = formatDistance(done, sess.units);
   $("track-time").textContent = formatDuration(sess.elapsedSec);
@@ -184,6 +225,9 @@ function drawSessionOnMap(sess) {
   if (guide && guide.length) {
     map.drawRoute(guide, { id: "course-line", color: "#7A8798", width: 4 });
     if (sess.coursePins) addCoursePins(sess.coursePins);
+    if (sess.target && sess.target.stopPin) {
+      map.addPin(sess.target.stopPin, { kind: "stop", label: "Stop" });
+    }
   }
   if (sess.track.length >= 2) map.drawRoute(sess.track, { id: "live-line", color: "#4EC3F7", width: 5 });
   const last = sess.track[sess.track.length - 1];
@@ -489,7 +533,7 @@ function openStart(type) {
       b.querySelector("h3").textContent = c.name;
       b.querySelector("p").textContent = `${formatDistance(len, units())} · ${formatEta(etaSeconds(len, activityMph(type)))}`;
       b.querySelector(".meta").textContent = "Go";
-      b.addEventListener("click", () => { closeSheet("sheet-start"); startTracking(type, c); });
+      b.addEventListener("click", () => promptTargetThenStart(type, c));
       list.appendChild(b);
     }
   }
@@ -527,21 +571,71 @@ function ensureLocationDisclosure() {
   });
 }
 
-async function startTracking(type, course, plan) {
+function parseTargetMeters() {
+  const raw = $("target-distance").value;
+  if (raw === "" || raw == null) return null;
+  const n = Number(raw);
+  if (!(n > 0) || !Number.isFinite(n)) return null;
+  return units() === "km" ? n * 1000 : n * METERS_PER_MILE;
+}
+
+function refreshTargetOptions() {
+  const course = ui.pendingStart && ui.pendingStart.course;
+  const meters = parseTargetMeters();
+  const len = course ? courseMeters(course) : 0;
+  const over = meters != null && len > 0 && meters > len + 0.5;
+  const overBox = $("target-over-options");
+  const startBtn = $("btn-target-start");
+  const hint = $("target-blank-hint");
+  if (overBox) overBox.hidden = !over;
+  if (startBtn) startBtn.hidden = !!over;
+  if (hint) hint.hidden = !!over;
+  const sheet = $("sheet-target");
+  if (sheet) sheet.classList.toggle("target-is-over", !!over);
+}
+
+function promptTargetThenStart(type, course) {
+  if (!course) {
+    startTracking(type, null);
+    return;
+  }
+  ui.pendingStart = { type, course };
   closeSheet("sheet-start");
+  closeSheet("sheet-course");
+  const len = courseMeters(course);
+  $("target-course-sub").textContent = `${course.name} · ${formatDistance(len, units())}`;
+  $("target-unit").textContent = units() === "km" ? "km" : "mi";
+  $("target-distance").value = "";
+  refreshTargetOptions();
+  openSheet("sheet-target");
+}
+
+function startPendingWithMode(mode) {
+  const pending = ui.pendingStart;
+  if (!pending) return;
+  const meters = parseTargetMeters();
+  const plan = meters ? planFromCourse(pending.course, meters, mode || MODE_COURSE) : null;
+  closeSheet("sheet-target");
+  startTracking(pending.type, pending.course, null, plan);
+}
+
+async function startTracking(type, course, plan, targetPlan) {
+  closeSheet("sheet-start");
+  closeSheet("sheet-target");
   const ok = await ensureLocationDisclosure();
   if (!ok) return;
-  const sess = track.makeSession({ type, course, units: units() });
+  const sess = track.makeSession({ type, course, units: units(), target: targetPlan || null });
   setTab("today");
   showScreen("tracking");
   paintSessionHud(sess);
+  const fit = (sess.coursePath && sess.coursePath.length >= 2) ? sess.coursePath : (course && course.pins);
   map.whenReady(() => {
-    if (course && course.pins.length) {
+    if (fit && fit.length) {
       drawSessionOnMap(sess);
-      map.fitBounds(course.pins, 80);
+      map.fitBounds(fit, { top: 56, bottom: 420, left: 48, right: 48 });
     }
   });
-  if (course && course.pins.length) {
+  if (fit && fit.length) {
     drawSessionOnMap(sess);
   }
   const res = await track.startWatching((s) => {
@@ -666,6 +760,12 @@ async function finishTracking() {
     map.clearOverlays();
     map.clearMarkers();
     showSummary(act, course, legResult);
+    if (sess.target && sess.target.mode === MODE_CONTINUE && (sess.distanceMeters || 0) > (sess.target.courseMeters || 0) + 20 && sess.track && sess.track.length >= 2) {
+      ui.pendingSaveRoute = { act, course, track: sess.track.slice() };
+      $("save-route-sub").textContent = "You went past the original course. Save the path you actually took as a new course, or update the original?";
+      $("btn-save-route-update").hidden = !course;
+      openSheet("sheet-save-route");
+    }
     return;
   }
   map.clearOverlays();
@@ -804,6 +904,38 @@ function saveBuilder() {
   openSheet("sheet-save-course");
 }
 
+
+function trackToCoursePins(track) {
+  if (!track || track.length < 2) return [];
+  const pins = [{ lat: track[0].lat, lon: track[0].lon, role: "start" }];
+  const last = track[track.length - 1];
+  // A few vias at roughly even spacing, enough to redraw the path.
+  const step = Math.max(1, Math.floor(track.length / 6));
+  for (let i = step; i < track.length - 1; i += step) {
+    pins.push({ lat: track[i].lat, lon: track[i].lon, role: "via" });
+  }
+  pins.push({ lat: last.lat, lon: last.lon, role: "end" });
+  return pins;
+}
+
+function commitSavedRoute(how) {
+  const pending = ui.pendingSaveRoute;
+  closeSheet("sheet-save-route");
+  ui.pendingSaveRoute = null;
+  if (!pending || !pending.track || pending.track.length < 2) return;
+  const path = pending.track.map((p) => ({ lat: p.lat, lon: p.lon }));
+  const pins = trackToCoursePins(pending.track);
+  if (how === "update" && pending.course) {
+    pending.course.pins = pins;
+    pending.course.path = path;
+    pending.course.updatedAt = new Date().toISOString();
+  } else {
+    const base = pending.course ? pending.course.name + " (extended)" : "New course";
+    state.courses.push(newCourse({ name: base, pins, path }));
+  }
+  persist();
+}
+
 /* ——— Bind ——— */
 function bind() {
   document.querySelectorAll("#tab-bar .tab").forEach((b) => {
@@ -854,6 +986,17 @@ function bind() {
   $("lock-stop").addEventListener("click", () => { finishTracking(); showScreen("today"); });
   $("btn-start-free").addEventListener("click", () => { closeSheet("sheet-start"); startTracking(ui.startType, null); });
   $("btn-start-cancel").addEventListener("click", () => closeSheet("sheet-start"));
+  $("target-distance").addEventListener("input", refreshTargetOptions);
+  $("btn-target-start").addEventListener("click", () => startPendingWithMode(MODE_COURSE));
+  $("btn-target-use-course").addEventListener("click", () => startPendingWithMode(MODE_COURSE));
+  $("btn-target-continue-past").addEventListener("click", () => startPendingWithMode(MODE_CONTINUE));
+  $("btn-target-cancel").addEventListener("click", () => {
+    closeSheet("sheet-target");
+    if (ui.pendingStart) openSheet("sheet-start");
+  });
+  $("btn-save-route-new").addEventListener("click", () => commitSavedRoute("new"));
+  $("btn-save-route-update").addEventListener("click", () => commitSavedRoute("update"));
+  $("btn-save-route-skip").addEventListener("click", () => { closeSheet("sheet-save-route"); ui.pendingSaveRoute = null; });
   $("cal-prev").addEventListener("click", () => {
     ui.cal = new Date(ui.cal.getFullYear(), ui.cal.getMonth() - 1, 1);
     syncSelectedDayToMonth();
@@ -912,14 +1055,12 @@ function bind() {
   $("btn-course-walk").addEventListener("click", () => {
     const c = courseById(ui.courseId);
     if (!c) return;
-    closeSheet("sheet-course");
-    startTracking("walk", c);
+    promptTargetThenStart("walk", c);
   });
   $("btn-course-run").addEventListener("click", () => {
     const c = courseById(ui.courseId);
     if (!c) return;
-    closeSheet("sheet-course");
-    startTracking("run", c);
+    promptTargetThenStart("run", c);
   });
   $("btn-course-rename").addEventListener("click", () => {
     const c = courseById(ui.courseId);
@@ -1085,6 +1226,8 @@ window.HeldpathTest = {
     closeSheet("sheet-start");
     closeSheet("sheet-location");
     closeSheet("sheet-course");
+    closeSheet("sheet-target");
+    closeSheet("sheet-save-route");
     if (opt.empty) {
       state = resetState();
       state.settings.seenMapPrompt = true;
@@ -1201,6 +1344,68 @@ window.HeldpathTest = {
     }
     else if (name === "course-detail") {
       if (state.courses[0]) openCourseActions(state.courses[0]);
+    }
+    else if (name === "target-setup") {
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      if (!state.courses.length) state.courses.push(course);
+      ui.pendingStart = { type: "run", course };
+      const len = courseMeters(course);
+      $("target-course-sub").textContent = `${course.name} · ${formatDistance(len, units())}`;
+      $("target-unit").textContent = "mi";
+      // Longer than the course so the two over-length options show.
+      const over = (units() === "km" ? (len / 1000) : (len / METERS_PER_MILE)) + 0.5;
+      $("target-distance").value = String(Math.round(over * 100) / 100);
+      refreshTargetOptions();
+      setTab("today");
+      showScreen("today");
+      openSheet("sheet-target");
+    }
+    else if (name === "tracking-laps" || name === "target-p2p") {
+      const origin = { lat: 43.7672, lon: 11.2543 };
+      let path, pins, targetMeters, courseName, along;
+      if (name === "target-p2p") {
+        const end = { lat: origin.lat + 0.0036, lon: origin.lon + 0.008 }; // roughly 0.7 mi east
+        path = [origin, { lat: origin.lat + 0.001, lon: origin.lon + 0.004 }, end];
+        pins = [{ ...origin, role: "start" }, { ...end, role: "end" }];
+        const once = courseMeters({ pins, path });
+        targetMeters = once * 2.5;
+        courseName = "River out-and-back";
+        along = once * 2.25;
+      } else {
+        // ~0.25 mi closed loop near the Florence pack centre
+        const dlat = 0.00115, dlon = 0.0016;
+        path = [
+          origin,
+          { lat: origin.lat, lon: origin.lon + dlon },
+          { lat: origin.lat + dlat, lon: origin.lon + dlon },
+          { lat: origin.lat + dlat, lon: origin.lon },
+          origin,
+        ];
+        pins = [{ ...origin, role: "start" }, { lat: origin.lat + dlat, lon: origin.lon + dlon, role: "via" }, { ...origin, role: "end" }];
+        const once = courseMeters({ pins, path });
+        targetMeters = once * 4;
+        courseName = "Quarter loop";
+        along = once * 1.2; // lap 2 of 4
+      }
+      const tplan = planTarget({ path, courseMeters: courseMeters({ pins, path }), targetMeters, mode: MODE_COURSE });
+      const course = newCourse({ name: courseName, pins, path });
+      const made = track.makeSession({ type: "run", course, units: "mi", target: tplan });
+      const pt = pointAlongPath(tplan.path, along);
+      const startPt = tplan.path[0];
+      Object.assign(made, {
+        track: [startPt, pt],
+        distanceMeters: along,
+        elapsedSec: 420,
+        courseTraveledMeters: along,
+      });
+      setTab("today");
+      showScreen("tracking");
+      paintSessionHud(made);
+      drawSessionOnMap(made);
+      map.whenReady(() => {
+        drawSessionOnMap(made);
+        map.fitBounds(tplan.path, { top: 56, bottom: 420, left: 48, right: 48 });
+      });
     }
     else if (name === "settings") setTab("settings");
     else if (name === "plans") { showScreen("plans"); renderPlansScreen(); }

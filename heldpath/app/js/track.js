@@ -8,6 +8,7 @@ import {
   activityMph,
   etaSeconds,
 } from "./util.js";
+import { progressOnPlan, MODE_CONTINUE } from "./target_distance.js";
 
 const BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
 
@@ -27,13 +28,18 @@ export function getSession() {
   return session;
 }
 
-export function makeSession({ type, course, units }) {
+export function makeSession({ type, course, units, target } = {}) {
+  const planned = target && target.path && target.path.length >= 2
+    ? target.path.slice()
+    : (course && course.path && course.path.length >= 2 ? course.path.slice() : (course ? course.pins.slice() : null));
   session = {
     type: type || "walk",
     courseId: course ? course.id : null,
     courseName: course ? course.name : null,
     coursePins: course ? course.pins.slice() : null,
-    coursePath: course && course.path && course.path.length >= 2 ? course.path.slice() : (course ? course.pins.slice() : null),
+    coursePath: planned,
+    target: target || null,
+    targetAnnounced: false,
     units: units || "mi",
     startedAt: new Date().toISOString(),
     paused: false,
@@ -78,10 +84,42 @@ function sessionCoursePath(sess) {
   return null;
 }
 
+function traveledForTarget(sess, path) {
+  if (sess.target && sess.target.mode === MODE_CONTINUE) return sess.distanceMeters || 0;
+  const last = sess.track && sess.track[sess.track.length - 1];
+  if (!path || !last) return 0;
+  return remainingAlongPath(path, last).traveled;
+}
+
 export function courseRemaining(sess) {
+  if (!sess) return { onCourse: false, traveled: 0, remaining: 0, total: 0 };
+  if (sess.target && sess.target.targetMeters > 0) {
+    const path = sessionCoursePath(sess);
+    const last = sess.track[sess.track.length - 1];
+    let traveled;
+    if (sess.target.mode === MODE_CONTINUE) {
+      traveled = sess.distanceMeters || 0;
+    } else if (!last) {
+      traveled = 0;
+    } else {
+      const r = remainingAlongPath(path, last);
+      traveled = Math.max(sess.courseTraveledMeters || 0, r.traveled);
+      sess.courseTraveledMeters = traveled;
+    }
+    const prog = progressOnPlan(sess.target, traveled);
+    return {
+      onCourse: true,
+      traveled: prog.traveled,
+      remaining: prog.left,
+      total: sess.target.targetMeters,
+      lapLabel: prog.label || "",
+      hitTarget: prog.hitTarget,
+      pastCourse: !!prog.pastCourse,
+    };
+  }
   const path = sessionCoursePath(sess);
   if (!path) {
-    return { onCourse: false, traveled: sess ? sess.distanceMeters : 0, remaining: 0, total: 0 };
+    return { onCourse: false, traveled: sess.distanceMeters || 0, remaining: 0, total: 0 };
   }
   const last = sess.track[sess.track.length - 1];
   if (!last) {
@@ -105,6 +143,7 @@ export function liveNotification(sess) {
     elapsedSec: sess.elapsedSec,
     units: sess.units,
     activityType: sess.type,
+    lapLabel: rem.lapLabel || "",
   });
 }
 
