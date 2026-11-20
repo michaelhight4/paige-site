@@ -33,7 +33,10 @@ import { renderProgressView } from "./progress_view.js";
 import { initPlansUi, renderPlansScreen } from "./plans_ui.js";
 import { initStretchesUi, showStretchesHub, showStretchGroup, showStretchWorkout, showStretchCredits } from "./stretches_ui.js";
 import { initMapDownloadUi, showMapAreas, openCrop, closeCrop } from "./map_download_ui.js";
-import { applyCompletedSession } from "./plans.js";
+import { applyCompletedSession, importPlanFile, addPlanToState, makePlan, PLAN_FORMAT, PLAN_FORMAT_VERSION } from "./plans.js";
+import { buildPlanDraft } from "./plan_progress.js";
+import { encodeCourse, encodePlan, decodeShare, isShareHash, shareSummary, pathPreviewSvg } from "./share_link.js";
+import { qrSvg } from "./share_qr.js";
 import {
   loadBundledGraph,
   getActiveGraph,
@@ -1052,6 +1055,20 @@ function bind() {
     showScreen("today");
   });
   $("btn-course-close").addEventListener("click", () => closeSheet("sheet-course"));
+  $("btn-course-share").addEventListener("click", () => {
+    const c = courseById(ui.courseId);
+    if (!c) return;
+    openShareSheet("course", c);
+  });
+  $("btn-share-close").addEventListener("click", () => closeSheet("sheet-share"));
+  $("btn-share-copy").addEventListener("click", () => { copyShareLink().catch(() => {}); });
+  $("btn-share-send").addEventListener("click", () => { sendShareLink().catch(() => {}); });
+  $("btn-share-import-cancel").addEventListener("click", () => {
+    ui.pendingShare = null;
+    closeSheet("sheet-share-import");
+  });
+  $("btn-share-import-add").addEventListener("click", () => { acceptIncomingShare(); });
+  $("share-url").addEventListener("click", (e) => { e.target.select(); });
   $("btn-course-walk").addEventListener("click", () => {
     const c = courseById(ui.courseId);
     if (!c) return;
@@ -1185,15 +1202,158 @@ function handleTrackingLink(url) {
   return true;
 }
 
+function openShareSheet(kind, obj) {
+  closeSheet("sheet-course");
+  ui.pendingShareOut = { kind, obj };
+  const encoded = kind === "plan" ? encodePlan(obj) : encodeCourse(obj);
+  const summary = kind === "plan"
+    ? shareSummary({ ok: true, kind: "plan", plan: obj }, units())
+    : shareSummary(decodeShare(encoded.url), units());
+  $("share-title").textContent = kind === "plan" ? "Share this plan" : "Share this course";
+  $("share-sub").textContent = summary.sub || "";
+  $("share-url").value = encoded.url;
+  let note = kind === "plan"
+    ? "Anyone with the link can import this plan for free. The plan stays in the link, not on a server."
+    : "Anyone with the link can add this course. The route stays in the link, not on a server.";
+  if (encoded.omittedPath) {
+    note = "The link uses the pins so it stays short. Heldpath can route the path again when someone opens it.";
+  }
+  if (encoded.tooLong) {
+    note = "This plan is large for a link. Export the file instead if the link does not open.";
+  }
+  $("share-note").textContent = note;
+  const qrBox = $("share-qr");
+  try {
+    qrBox.innerHTML = qrSvg(encoded.qrUrl || encoded.url);
+    qrBox.hidden = false;
+  } catch (err) {
+    qrBox.innerHTML = "";
+    qrBox.hidden = true;
+    console.warn("qr", err);
+  }
+  openSheet("sheet-share");
+}
+
+async function copyShareLink() {
+  const url = $("share-url").value;
+  if (!url) return;
+  try {
+    await navigator.clipboard.writeText(url);
+    $("share-note").textContent = "Link copied.";
+  } catch {
+    $("share-url").select();
+    $("share-note").textContent = "Copy the link from the field above.";
+  }
+}
+
+async function sendShareLink() {
+  const url = $("share-url").value;
+  if (!url) return;
+  const title = $("share-title").textContent || "Heldpath";
+  if (navigator.share) {
+    try {
+      await navigator.share({ title, text: "Open this in Heldpath.", url });
+      return;
+    } catch (err) {
+      if (err && err.name === "AbortError") return;
+    }
+  }
+  await copyShareLink();
+}
+
+function openImportSheet(decoded) {
+  if (!decoded || !decoded.ok) return;
+  ui.pendingShare = decoded;
+  const summary = shareSummary(decoded, units());
+  if (decoded.kind === "plan") {
+    $("share-import-title").textContent = "Add this plan?";
+    $("share-import-sub").textContent = `${summary.title} · ${summary.sub}`;
+    $("btn-share-import-add").textContent = "Import this plan for free";
+    const pins = decoded.plan && decoded.plan.route && decoded.plan.route.pins;
+    $("share-import-preview").innerHTML = pins && pins.length ? pathPreviewSvg(pins) : "";
+  } else {
+    $("share-import-title").textContent = "Add this course?";
+    $("share-import-sub").textContent = `${summary.title} · ${summary.sub}`;
+    $("btn-share-import-add").textContent = "Add to my library";
+    const pts = decoded.course.path && decoded.course.path.length ? decoded.course.path : decoded.course.pins;
+    $("share-import-preview").innerHTML = pathPreviewSvg(pts);
+  }
+  openSheet("sheet-share-import");
+}
+
+function acceptIncomingShare() {
+  const decoded = ui.pendingShare;
+  if (!decoded || !decoded.ok) return;
+  if (decoded.kind === "plan") {
+    const res = importPlanFile(JSON.stringify({
+      format: PLAN_FORMAT,
+      formatVersion: PLAN_FORMAT_VERSION,
+      exportedAt: new Date().toISOString(),
+      plan: decoded.plan,
+    }), { existingIds: (state.planLibrary || []).map((p) => p.id) });
+    if (!res.ok) {
+      $("share-import-sub").textContent = "That plan could not be imported. Nothing was charged.";
+      return;
+    }
+    addPlanToState(state, res.plan);
+    persist();
+    ui.pendingShare = null;
+    closeSheet("sheet-share-import");
+    showScreen("plans");
+    renderPlansScreen();
+    return;
+  }
+  const incoming = decoded.course;
+  const existing = (state.courses || []).find((c) => {
+    if (!c.pins || c.pins.length !== incoming.pins.length) return false;
+    return c.pins.every((p, i) =>
+      Math.abs(p.lat - incoming.pins[i].lat) < 1e-5 && Math.abs(p.lon - incoming.pins[i].lon) < 1e-5
+    );
+  });
+  if (existing) {
+    ui.pendingShare = null;
+    closeSheet("sheet-share-import");
+    setTab("courses");
+    openCourseActions(existing);
+    return;
+  }
+  const course = newCourse({
+    name: incoming.name,
+    pins: incoming.pins,
+    path: incoming.path,
+    straightLine: incoming.straightLine,
+  });
+  state.courses.push(course);
+  persist();
+  ui.pendingShare = null;
+  closeSheet("sheet-share-import");
+  setTab("courses");
+  openCourseActions(course);
+}
+
+function handleIncomingUrl(url) {
+  if (handleTrackingLink(url)) return true;
+  const decoded = decodeShare(url);
+  if (!decoded.ok) return false;
+  openImportSheet(decoded);
+  if (typeof history !== "undefined" && typeof location !== "undefined" && isShareHash(location.hash)) {
+    try { history.replaceState(null, "", location.pathname + location.search); } catch { /* ignore */ }
+  }
+  return true;
+}
+
 async function wireAppLinks() {
+  try {
+    if (typeof location !== "undefined" && isShareHash(location.href)) handleIncomingUrl(location.href);
+  } catch { /* ignore */ }
   if (!Capacitor.isNativePlatform()) return;
   try {
     const launch = await CapacitorApp.getLaunchUrl();
-    if (launch && launch.url) handleTrackingLink(launch.url);
+    if (launch && launch.url) handleIncomingUrl(launch.url);
   } catch { /* ignore */ }
   try {
     await CapacitorApp.addListener("appUrlOpen", (event) => {
-      handleTrackingLink(event && event.url);
+      handleIncomingUrl(event && event.url);
     });
   } catch { /* ignore */ }
 }
@@ -1228,6 +1388,8 @@ window.HeldpathTest = {
     closeSheet("sheet-course");
     closeSheet("sheet-target");
     closeSheet("sheet-save-route");
+    closeSheet("sheet-share");
+    closeSheet("sheet-share-import");
     if (opt.empty) {
       state = resetState();
       state.settings.seenMapPrompt = true;
@@ -1407,6 +1569,36 @@ window.HeldpathTest = {
         map.fitBounds(tplan.path, { top: 56, bottom: 420, left: 48, right: 48 });
       });
     }
+    else if (name === "share-course") {
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      if (!state.courses.length) state.courses.push(course);
+      setTab("courses");
+      openCourseActions(course);
+      openShareSheet("course", course);
+    }
+    else if (name === "share-import") {
+      const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+      const dec = decodeShare(encodeCourse(course).url);
+      ui.pendingShare = dec;
+      setTab("today");
+      showScreen("today");
+      openImportSheet(dec);
+    }
+    else if (name === "share-plan") {
+      if (!(state.planLibrary || []).length) {
+        const plan = makePlan(buildPlanDraft({
+          activityType: "walk",
+          goalDistanceMeters: 5000,
+          windowDays: 7,
+          now: new Date("2026-04-06T12:00:00Z"),
+        }), { now: new Date("2026-04-06T12:00:00Z") });
+        addPlanToState(state, plan);
+      }
+      const plan = (state.planLibrary || [])[0];
+      showScreen("plans");
+      renderPlansScreen();
+      if (plan) openShareSheet("plan", plan);
+    }
     else if (name === "settings") setTab("settings");
     else if (name === "plans") { showScreen("plans"); renderPlansScreen(); }
     else if (name === "support") { setTab("settings"); showScreen("support"); renderSettings(); }
@@ -1461,7 +1653,7 @@ async function init() {
     }
   });
   await wireAppLinks();
-  initPlansUi({ getState: () => state, persist, units });
+  initPlansUi({ getState: () => state, persist, units, openShare: (plan) => openShareSheet("plan", plan) });
   renderSettings();
   try {
     if (Capacitor.isNativePlatform()) {

@@ -1,10 +1,26 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "net.paigegames.kilumen",
-      "sha256_cert_fingerprints": ["D3:F8:70:C7:55:E0:48:C8:8B:1C:99:BF:77:84:26:CA:FE:C8:F7:83:2D:51:20:B3:AB:89:4E:E1:AE:16:8E:79"]
+      "sha256_cert_fingerprints": [
+        "D3:F8:70:C7:55:E0:48:C8:8B:1C:99:BF:77:84:26:CA:FE:C8:F7:83:2D:51:20:B3:AB:89:4E:E1:AE:16:8E:79"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.pagegames.heldpath",
+      "sha256_cert_fingerprints": [
+        "A8:F4:C6:3C:48:42:80:6D:DD:A4:DB:0E:FC:9F:D8:FE:8A:36:BE:CB:C7:D6:45:92:35:4D:E3:4C:99:5A:20:21"
+      ]
     }
   }
 ]

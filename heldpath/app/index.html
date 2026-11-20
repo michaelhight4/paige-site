@@ -342,6 +342,7 @@
           <p class="tiny">Export a .paceplan file and anyone can import it for free. Importing never spends a credit or asks for money. Purchase tokens never leave this phone.</p>
           <div class="btn-row" style="margin-top:12px">
             <button class="btn btn-secondary" id="btn-plan-export">Export a plan</button>
+            <button class="btn btn-secondary" id="btn-plan-share">Share a plan link</button>
             <button class="btn btn-secondary" id="btn-plan-import">Import a plan</button>
           </div>
           <input id="plan-import-file" type="file" accept=".paceplan,application/json,.json" hidden />
@@ -509,6 +510,7 @@
         </div>
         <button class="btn btn-primary" id="btn-course-walk" style="width:100%;margin-bottom:10px">Walk this course</button>
         <button class="btn btn-primary" id="btn-course-run" style="width:100%;margin-bottom:10px">Run this course</button>
+        <button class="btn btn-secondary" id="btn-course-share" style="width:100%;margin-bottom:10px">Share course</button>
         <button class="btn btn-secondary" id="btn-course-rename" style="width:100%;margin-bottom:10px">Rename</button>
         <button class="btn btn-danger" id="btn-course-delete" style="width:100%;margin-bottom:10px">Delete course</button>
         <button class="btn btn-secondary" id="btn-course-close" style="width:100%">Close</button>
@@ -556,6 +558,33 @@
       </div>
     </div>
 
+
+
+    <div class="sheet-back" id="sheet-share">
+      <div class="sheet" role="dialog" aria-labelledby="share-title">
+        <h2 id="share-title">Share this course</h2>
+        <p class="page-sub" id="share-sub"></p>
+        <div id="share-qr" class="share-qr" aria-label="QR code"></div>
+        <div class="field">
+          <label for="share-url">Link</label>
+          <input id="share-url" readonly />
+        </div>
+        <p class="tiny" id="share-note"></p>
+        <button class="btn btn-primary" id="btn-share-send" style="width:100%;margin-bottom:10px">Share link</button>
+        <button class="btn btn-secondary" id="btn-share-copy" style="width:100%;margin-bottom:10px">Copy link</button>
+        <button class="btn btn-secondary" id="btn-share-close" style="width:100%">Close</button>
+      </div>
+    </div>
+
+    <div class="sheet-back" id="sheet-share-import">
+      <div class="sheet" role="dialog" aria-labelledby="share-import-title">
+        <h2 id="share-import-title">Add this course?</h2>
+        <p class="page-sub" id="share-import-sub"></p>
+        <div id="share-import-preview" class="share-preview"></div>
+        <button class="btn btn-primary" id="btn-share-import-add" style="width:100%;margin-bottom:10px">Add to my library</button>
+        <button class="btn btn-secondary" id="btn-share-import-cancel" style="width:100%">Not now</button>
+      </div>
+    </div>
 
     <div class="sheet-back" id="sheet-location">
       <div class="sheet" role="dialog" aria-labelledby="loc-title" data-testid="location-disclosure">

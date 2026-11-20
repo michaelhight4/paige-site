@@ -234,6 +234,7 @@ function renderPlanList() {
       ${legs.length ? `<p class="tiny">Per-leg targets: ${legs.map((x) => formatDuration(x)).join(" · ")}</p>` : ""}
       <div class="btn-row plan-item-actions">
         <button class="btn btn-secondary" data-export-plan="${esc(plan.id)}">Export</button>
+        <button class="btn btn-secondary" data-share-plan="${esc(plan.id)}">Share link</button>
         <button class="btn btn-secondary" data-remove-plan="${esc(plan.id)}">Remove</button>
       </div>`;
     root.appendChild(el);
@@ -403,6 +404,7 @@ function bind() {
     $("plan-water-ml").value = String(ozToMl(oz));
   });
   $("btn-plan-export").addEventListener("click", () => { exportPlan(newestPlan()).catch(() => {}); });
+  $("btn-plan-share").addEventListener("click", () => { sharePlan(newestPlan()); });
   $("btn-plan-import").addEventListener("click", () => $("plan-import-file").click());
   $("plan-import-file").addEventListener("change", (e) => {
     const f = e.target.files && e.target.files[0];
@@ -415,9 +417,24 @@ function bind() {
       exportPlan(plan).catch(() => {});
       return;
     }
+    const sh = e.target.closest("[data-share-plan]");
+    if (sh) {
+      const plan = (state().planLibrary || []).find((p) => p.id === sh.dataset.sharePlan);
+      sharePlan(plan);
+      return;
+    }
     const rm = e.target.closest("[data-remove-plan]");
     if (rm) removePlan(rm.dataset.removePlan);
   });
+}
+
+
+function sharePlan(plan) {
+  if (!plan) {
+    $("plan-import-note").textContent = "Create or import a plan first, then share a link.";
+    return;
+  }
+  if (typeof ctx.openShare === "function") ctx.openShare(plan);
 }
 
 export function initPlansUi(context) {

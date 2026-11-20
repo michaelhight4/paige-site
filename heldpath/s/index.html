@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heldpath — Shared course</title>
+  <meta name="description" content="Open this walk or run in Heldpath, a free tracker from Paige Games.">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://paigegames.net/heldpath/s/">
+  <meta property="og:title" content="Heldpath — Shared course or plan">
+  <meta property="og:description" content="Open this walk or run in Heldpath.">
+  <meta property="og:url" content="https://paigegames.net/heldpath/s/">
+  <meta property="og:type" content="website">
+  <style>
+    :root {
+      --bg: #12161c;
+      --bg-2: #1a2028;
+      --ink: #e8eef3;
+      --muted: #8a9aa8;
+      --blue: #4fa3c8;
+      --line: #2a333d;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      background:
+        radial-gradient(900px 480px at 80% -10%, rgba(79,163,200,.16), transparent 60%),
+        radial-gradient(700px 400px at -10% 110%, rgba(43,111,138,.18), transparent 55%),
+        var(--bg);
+      color: var(--ink);
+      font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    main { flex: 1; max-width: 520px; margin: 0 auto; padding: 12vh 24px 48px; width: 100%; }
+    .mark { width: 44px; height: 44px; margin-bottom: 22px; color: var(--blue); }
+    h1 { margin: 0 0 8px; font-size: clamp(32px, 8vw, 48px); font-weight: 750; letter-spacing: -0.035em; line-height: 1.05; }
+    .sub { margin: 0 0 20px; color: var(--muted); font-size: 18px; }
+    .preview {
+      margin: 0 0 24px;
+      background: #0c1218;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      min-height: 140px;
+    }
+    .preview svg { display: block; width: 100%; height: auto; }
+    .actions { display: flex; flex-direction: column; gap: 10px; margin: 0 0 22px; }
+    a.btn {
+      display: block; text-align: center; text-decoration: none;
+      padding: 14px 22px; border-radius: 12px; font-weight: 700; font-size: 16px;
+    }
+    a.primary { background: var(--blue); color: #0e151a; }
+    a.secondary { background: var(--bg-2); color: var(--ink); border: 1px solid var(--line); }
+    a.btn:hover { filter: brightness(1.06); }
+    .note, .error { color: var(--muted); font-size: 14px; }
+    .error { color: #e8a0a0; }
+    footer { color: var(--muted); font-size: 13px; }
+    footer a { color: var(--blue); }
+  </style>
+</head>
+<body>
+  <main>
+    <svg class="mark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <path d="M10 34c8-16 20-16 28 0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="14" cy="30" r="3.2" fill="currentColor"/>
+      <circle cx="34" cy="30" r="3.2" fill="currentColor"/>
+    </svg>
+    <h1 id="title">Heldpath</h1>
+    <p class="sub" id="sub">A shared walk or run will show up here.</p>
+    <div class="preview" id="preview" hidden></div>
+    <div class="actions" id="actions" hidden>
+      <a class="btn primary" id="open-app" href="https://paigegames.net/heldpath/app/">Open in Heldpath</a>
+      <a class="btn secondary" id="get-app" href="https://play.google.com/store/apps/details?id=com.pagegames.heldpath">Get the app on Google Play</a>
+    </div>
+    <p class="note" id="note">Ask a friend to send you a Heldpath link, or share a course from the app.</p>
+    <footer>
+      <a href="https://paigegames.net/heldpath/">Heldpath</a>
+      · Paige Games
+    </footer>
+  </main>
+  <script type="module">
+    import {
+      decodeShare,
+      shareSummary,
+      pathPreviewSvg,
+      appOpenUrl,
+      playStoreUrl,
+      extractHash,
+    } from "../app/js/share_link.js";
+
+    function paint() {
+      const title = document.getElementById("title");
+      const sub = document.getElementById("sub");
+      const preview = document.getElementById("preview");
+      const actions = document.getElementById("actions");
+      const note = document.getElementById("note");
+      const openApp = document.getElementById("open-app");
+      const getApp = document.getElementById("get-app");
+      const hash = extractHash(location.hash || location.href);
+      if (!hash) {
+        title.textContent = "Heldpath";
+        sub.textContent = "A shared walk or run will show up here.";
+        preview.hidden = true;
+        actions.hidden = true;
+        note.textContent = "Ask a friend to send you a Heldpath link, or share a course from the app.";
+        note.className = "note";
+        document.title = "Heldpath — Shared course";
+        return;
+      }
+      const decoded = decodeShare(location.href);
+      if (!decoded.ok) {
+        title.textContent = "Heldpath";
+        sub.textContent = "This link could not be read.";
+        preview.hidden = true;
+        actions.hidden = true;
+        note.textContent = "The link may be cut off. Ask your friend to send it again.";
+        note.className = "error";
+        document.title = "Heldpath — Shared course";
+        return;
+      }
+      const summary = shareSummary(decoded, "mi");
+      title.textContent = summary.title;
+      sub.textContent = summary.sub;
+      document.title = `${summary.title} — Heldpath`;
+      const pts = decoded.kind === "course"
+        ? (decoded.course.path && decoded.course.path.length ? decoded.course.path : decoded.course.pins)
+        : (decoded.plan && decoded.plan.route && decoded.plan.route.pins) || [];
+      if (pts.length) {
+        preview.innerHTML = pathPreviewSvg(pts, { width: 480, height: 220 });
+        preview.hidden = false;
+      } else {
+        preview.hidden = true;
+      }
+      openApp.href = appOpenUrl(decoded.hash);
+      getApp.href = playStoreUrl({ referrer: "utm_source=heldpath_share&utm_medium=preview" });
+      actions.hidden = false;
+      note.className = "note";
+      note.textContent = decoded.kind === "plan"
+        ? "Importing a plan in Heldpath is free and does not spend a credit. The plan stays in this link, not on a server."
+        : "Open this in Heldpath to add it to your library. The route stays in this link, not on a server.";
+    }
+    paint();
+    window.addEventListener("hashchange", paint);
+  </script>
+</body>
+</html>

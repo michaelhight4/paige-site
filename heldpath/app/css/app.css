@@ -741,3 +741,31 @@ html.is-native .web-only { display: none !important; }
 
 #sheet-target.target-is-over #btn-target-start,
 #sheet-target.target-is-over #target-blank-hint { display: none !important; }
+
+/* Share links */
+.share-qr {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 4px;
+}
+.share-qr svg {
+  width: min(72vw, 260px);
+  height: auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 12px;
+  box-sizing: content-box;
+}
+.share-preview {
+  margin: 8px 0 16px;
+  background: #0c1218;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 120px;
+}
+.share-preview svg { display: block; }
+#share-url {
+  font-size: 13px;
+  word-break: break-all;
+}
