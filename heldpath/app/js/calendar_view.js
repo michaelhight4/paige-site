@@ -118,10 +118,22 @@ function planRow(p, courses, units, isToday, isFuture) {
   const body = c
     ? `${dist(len, units)} · ${eta}${timeLabel ? " · " + timeLabel : ""}${isToday ? " · Today" : ""}`
     : "Saved course was removed";
-  if (!c || (!isToday && !isFuture)) {
+  if (!isToday && !isFuture) {
     return `<div class="list-item plan-row is-past">
       <div class="grow"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p></div>
       <div class="meta muted">${c ? "Past" : "—"}</div>
+    </div>`;
+  }
+  if (isGroup) {
+    return `<button class="list-item plan-row" data-group-plan="${escapeHtml(p.id)}" data-testid="group-event-row">
+      <div class="grow"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p></div>
+      <div class="meta">View</div>
+    </button>`;
+  }
+  if (!c) {
+    return `<div class="list-item plan-row is-past">
+      <div class="grow"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p></div>
+      <div class="meta muted">—</div>
     </div>`;
   }
   return `<button class="list-item plan-row" data-plan="${escapeHtml(p.id)}">
@@ -179,6 +191,7 @@ export function renderCalendarView(ctx) {
     openActivityId = null,
     onSelectDay,
     onStartPlan,
+    onOpenGroup,
     onSchedule,
     onGroupRun,
     onToggleActivity,
@@ -257,7 +270,10 @@ export function renderCalendarView(ctx) {
   if (dayPlans.length > 1 && (isToday || isFuture)) {
     html += `<p class="tiny plan-hint is-conflict" data-testid="calendar-conflict-note">This day has more than one plan. Both stay on the calendar.</p>`;
   } else if (dayPlans.length && (isToday || isFuture)) {
-    html += `<p class="tiny plan-hint">Tap a planned session to start it.</p>`;
+    const hasGroup = dayPlans.some((p) => p.groupRunId);
+    html += hasGroup
+      ? `<p class="tiny plan-hint">Tap a group event to see its date and route. Tap a planned session to start it.</p>`
+      : `<p class="tiny plan-hint">Tap a planned session to start it.</p>`;
   }
   for (const a of acts) {
     html += activityRow(a, units, a.id === openActivityId);
@@ -283,6 +299,11 @@ export function renderCalendarView(ctx) {
   panel.querySelectorAll("[data-plan]").forEach((el) => {
     el.addEventListener("click", () => {
       if (onStartPlan) onStartPlan(el.dataset.plan);
+    });
+  });
+  panel.querySelectorAll("[data-group-plan]").forEach((el) => {
+    el.addEventListener("click", () => {
+      if (onOpenGroup) onOpenGroup(el.dataset.groupPlan);
     });
   });
   panel.querySelectorAll("[data-repeat]").forEach((el) => {

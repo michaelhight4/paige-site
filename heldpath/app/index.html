@@ -713,6 +713,17 @@
       </div>
     </div>
 
+    <div class="sheet-back" id="sheet-session-choice">
+      <div class="sheet" role="dialog" aria-labelledby="session-choice-title">
+        <h2 id="session-choice-title">Plan a session</h2>
+        <p class="page-sub" id="session-choice-sub"></p>
+        <p class="tiny" id="session-choice-empty" hidden>You don't have a saved route yet. Create one and you'll come back here to schedule it.</p>
+        <button class="btn btn-primary" id="btn-session-use-route" data-testid="session-use-route" style="width:100%;margin-bottom:12px">Use a saved route</button>
+        <button class="btn btn-secondary" id="btn-session-create-route" data-testid="session-create-route" style="width:100%;margin-bottom:12px">Create a route</button>
+        <button class="btn btn-secondary" id="btn-session-choice-cancel" style="width:100%">Cancel</button>
+      </div>
+    </div>
+
     <div class="sheet-back" id="sheet-save-course">
       <div class="sheet" role="dialog">
         <h2>Name this course</h2>
@@ -928,6 +939,29 @@
         <button class="btn btn-secondary" id="btn-group-cal" style="width:100%;margin-bottom:10px">Add to calendar</button>
         <button class="btn btn-secondary" id="btn-group-copy" style="width:100%;margin-bottom:10px">Copy invite</button>
         <button class="btn btn-secondary" id="btn-group-invite-close" style="width:100%">Close</button>
+      </div>
+    </div>
+
+    <div class="sheet-back" id="sheet-group-event">
+      <div class="sheet" role="dialog" aria-labelledby="group-event-title">
+        <h2 id="group-event-title">Group event</h2>
+        <p class="page-sub" id="group-event-when" data-testid="group-event-when"></p>
+        <p class="tiny" id="group-event-course" data-testid="group-event-course"></p>
+        <button class="btn btn-primary" id="btn-group-open-route" data-testid="group-open-route" style="width:100%;margin-bottom:12px">Open route</button>
+        <button class="btn btn-secondary" id="btn-group-save-route" data-testid="group-save-route" style="width:100%;margin-bottom:12px">Save to my routes</button>
+        <p class="tiny" id="group-event-note" data-testid="group-event-note"></p>
+        <button class="btn btn-secondary" id="btn-group-event-close" style="width:100%">Close</button>
+      </div>
+    </div>
+
+    <div class="sheet-back" id="sheet-group-route">
+      <div class="sheet" role="dialog" aria-labelledby="group-route-title">
+        <h2 id="group-route-title">Route</h2>
+        <p class="page-sub" id="group-route-stats" data-testid="group-route-stats"></p>
+        <p class="tiny" id="group-route-pace-note" data-testid="group-route-pace-note"></p>
+        <button class="btn btn-primary" id="btn-group-route-save" data-testid="group-route-save" style="width:100%;margin-bottom:12px">Save to my routes</button>
+        <p class="tiny" id="group-route-note"></p>
+        <button class="btn btn-secondary" id="btn-group-route-back" style="width:100%">Back</button>
       </div>
     </div>
 

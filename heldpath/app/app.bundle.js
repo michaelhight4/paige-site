@@ -39976,10 +39976,22 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const timeLabel = p.startAt ? new Date(p.startAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) : "";
     const title = isGroup ? `Group ${p.activityType === "run" ? "run" : "walk"}${p.courseName ? " \xB7 " + p.courseName : ""}` : `Planned ${p.activityType === "run" ? "run" : "walk"}${p.courseName ? " \xB7 " + p.courseName : ""}`;
     const body = c ? `${dist(len, units3)} \xB7 ${eta}${timeLabel ? " \xB7 " + timeLabel : ""}${isToday ? " \xB7 Today" : ""}` : "Saved course was removed";
-    if (!c || !isToday && !isFuture) {
+    if (!isToday && !isFuture) {
       return `<div class="list-item plan-row is-past">
       <div class="grow"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p></div>
       <div class="meta muted">${c ? "Past" : "\u2014"}</div>
+    </div>`;
+    }
+    if (isGroup) {
+      return `<button class="list-item plan-row" data-group-plan="${escapeHtml(p.id)}" data-testid="group-event-row">
+      <div class="grow"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p></div>
+      <div class="meta">View</div>
+    </button>`;
+    }
+    if (!c) {
+      return `<div class="list-item plan-row is-past">
+      <div class="grow"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p></div>
+      <div class="meta muted">\u2014</div>
     </div>`;
     }
     return `<button class="list-item plan-row" data-plan="${escapeHtml(p.id)}">
@@ -40034,6 +40046,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       openActivityId = null,
       onSelectDay,
       onStartPlan,
+      onOpenGroup,
       onSchedule,
       onGroupRun,
       onToggleActivity,
@@ -40102,7 +40115,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (dayPlans.length > 1 && (isToday || isFuture)) {
       html += `<p class="tiny plan-hint is-conflict" data-testid="calendar-conflict-note">This day has more than one plan. Both stay on the calendar.</p>`;
     } else if (dayPlans.length && (isToday || isFuture)) {
-      html += `<p class="tiny plan-hint">Tap a planned session to start it.</p>`;
+      const hasGroup = dayPlans.some((p) => p.groupRunId);
+      html += hasGroup ? `<p class="tiny plan-hint">Tap a group event to see its date and route. Tap a planned session to start it.</p>` : `<p class="tiny plan-hint">Tap a planned session to start it.</p>`;
     }
     for (const a of acts) {
       html += activityRow(a, units3, a.id === openActivityId);
@@ -40127,6 +40141,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     panel.querySelectorAll("[data-plan]").forEach((el) => {
       el.addEventListener("click", () => {
         if (onStartPlan) onStartPlan(el.dataset.plan);
+      });
+    });
+    panel.querySelectorAll("[data-group-plan]").forEach((el) => {
+      el.addEventListener("click", () => {
+        if (onOpenGroup) onOpenGroup(el.dataset.groupPlan);
       });
     });
     panel.querySelectorAll("[data-repeat]").forEach((el) => {
@@ -41629,6 +41648,17 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       legs.push({ from: i, to: i + 1, meters: Math.max(0, cuts[i + 1] - cuts[i]) });
     }
     return legs;
+  }
+  function recentAveragePaceSecPerMeter(activities, { type, limit = 8 } = {}) {
+    const list = (activities || []).filter((a) => a && (!type || a.type === type) && a.distanceMeters > 50 && a.elapsedSec > 0).slice(-limit);
+    let m = 0;
+    let s2 = 0;
+    for (const a of list) {
+      m += Number(a.distanceMeters) || 0;
+      s2 += Number(a.elapsedSec) || 0;
+    }
+    if (!(m > 0) || !(s2 > 0)) return null;
+    return s2 / m;
   }
   function pointElapsedSec(pt, origin) {
     if (!pt) return 0;
@@ -51195,7 +51225,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
           startTracking(p.activityType, c, p);
         }
       },
-      onSchedule: () => openSchedule(),
+      onOpenGroup: (id) => openGroupEvent(id),
+      onSchedule: () => openSessionChoice(),
       onGroupRun: () => openGroupRun(),
       onStartCourse: (courseId, type) => {
         const c = courseById2(courseId);
@@ -51207,13 +51238,141 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       }
     });
   }
-  function openSchedule() {
-    if (!state2.courses.length) {
-      window.alert("Save a course first, then you can schedule it on a day.");
-      setTab("courses");
+  function selectedDayLabel() {
+    return (/* @__PURE__ */ new Date(ui2.selectedDay + "T12:00:00")).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  }
+  function openSessionChoice() {
+    const sub = $4("session-choice-sub");
+    if (sub) sub.textContent = `For ${selectedDayLabel()}.`;
+    const hasRoutes = (state2.courses || []).some((c) => c && c.pins && c.pins.length >= 2);
+    const empty = $4("session-choice-empty");
+    if (empty) empty.hidden = hasRoutes;
+    const useBtn = $4("btn-session-use-route");
+    if (useBtn) useBtn.disabled = !hasRoutes;
+    openSheet("sheet-session-choice");
+  }
+  function beginBuilderForSchedule() {
+    ui2.returnToSchedule = { day: ui2.selectedDay };
+    closeSheet("sheet-session-choice");
+    closeSheet("sheet-schedule");
+    beginBuilder();
+  }
+  function estimateSessionSec(meters, type) {
+    const pace = recentAveragePaceSecPerMeter(state2.activities || [], { type });
+    if (pace && pace > 0 && Number(meters) > 0) return Number(meters) * pace;
+    return etaSeconds(meters, activityMph(type));
+  }
+  function courseForGroupPlan(plan) {
+    if (!plan) return null;
+    const existing = plan.courseId ? courseById2(plan.courseId) : null;
+    if (existing && existing.pins && existing.pins.length >= 2) return existing;
+    const run = (state2.groupRuns || []).find((g) => g.id === plan.groupRunId);
+    if (run && run.shareUrl) {
+      const dec = decodeShare(run.shareUrl);
+      if (dec && dec.ok && dec.course && dec.course.pins && dec.course.pins.length >= 2) {
+        return { ...dec.course, id: null, name: dec.course.name || run.courseName || plan.courseName };
+      }
+    }
+    if (plan.routePins && plan.routePins.length >= 2) {
+      return { id: plan.courseId || null, name: plan.courseName, pins: plan.routePins };
+    }
+    return existing || null;
+  }
+  function saveGroupCourseTemplate(course, noteEl) {
+    if (!course || !course.pins || course.pins.length < 2) {
+      if (noteEl) noteEl.textContent = "This event has no route to save.";
+      return false;
+    }
+    if (course.id && courseById2(course.id)) {
+      if (noteEl) noteEl.textContent = "This route is already in your routes.";
+      return false;
+    }
+    const copy = newCourse({
+      name: course.name || "Shared route",
+      pins: course.pins.map((p) => ({ lat: p.lat, lon: p.lon, role: p.role })),
+      path: course.path && course.path.length >= 2 ? course.path.map((p) => ({ lat: p.lat, lon: p.lon })) : null
+    });
+    state2.courses.push(copy);
+    persist();
+    if (noteEl) noteEl.textContent = "Saved to your routes. Only the route template was copied \u2014 no one else's runs.";
+    return true;
+  }
+  function openGroupEvent(planOrId) {
+    const plan = typeof planOrId === "string" ? (state2.plans || []).find((p) => p.id === planOrId) : planOrId;
+    if (!plan) return;
+    ui2.pendingGroupPlan = plan;
+    const run = (state2.groupRuns || []).find((g) => g.id === plan.groupRunId);
+    const titleEl = $4("group-event-title");
+    if (titleEl) titleEl.textContent = run && run.title || plan.courseName || "Group event";
+    const whenEl = $4("group-event-when");
+    if (whenEl) whenEl.textContent = formatWhen(plan.startAt || run && run.startAt) || selectedDayLabel();
+    const course = courseForGroupPlan(plan);
+    const courseEl = $4("group-event-course");
+    if (courseEl) courseEl.textContent = course ? course.name : plan.courseName || "Route unavailable";
+    const note = $4("group-event-note");
+    if (note) note.textContent = "";
+    const openBtn = $4("btn-group-open-route");
+    if (openBtn) openBtn.disabled = !(course && course.pins && course.pins.length >= 2);
+    openSheet("sheet-group-event");
+  }
+  function openGroupRoute() {
+    const plan = ui2.pendingGroupPlan;
+    const course = courseForGroupPlan(plan);
+    if (!course || !course.pins || course.pins.length < 2) {
+      const note = $4("group-event-note");
+      if (note) note.textContent = "This event has no route to open.";
       return;
     }
-    $4("sched-sub").textContent = `For ${(/* @__PURE__ */ new Date(ui2.selectedDay + "T12:00:00")).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}.`;
+    ui2.pendingGroupCourse = course;
+    closeSheet("sheet-group-event");
+    setTab("today");
+    showScreen("today");
+    if ($4("today-dock")) $4("today-dock").hidden = true;
+    clearOverlays();
+    clearMarkers();
+    const line = course.path && course.path.length >= 2 ? course.path : course.pins;
+    if (line.length >= 2) drawRoute(line, { id: "course-line", color: "#4EC3F7", width: 5 });
+    addCoursePins(course.pins);
+    const pad = { top: 56, bottom: 360, left: 48, right: 48 };
+    whenReady(() => fitBounds(line, pad));
+    fitBounds(line, pad);
+    const meters = courseMeters(course);
+    const type = plan && plan.activityType || "walk";
+    const usedRecent = !!recentAveragePaceSecPerMeter(state2.activities || [], { type });
+    const dur = estimateSessionSec(meters, type);
+    const startAt = plan && (plan.startAt || ((state2.groupRuns || []).find((g) => g.id === plan.groupRunId) || {}).startAt);
+    let finish = formatEta(dur);
+    if (startAt) {
+      const clock = new Date(new Date(startAt).getTime() + dur * 1e3);
+      if (!Number.isNaN(clock.getTime())) {
+        finish = `${formatEta(dur)} \xB7 finish around ${clock.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`;
+      }
+    }
+    if ($4("group-route-title")) $4("group-route-title").textContent = course.name || "Route";
+    if ($4("group-route-stats")) $4("group-route-stats").textContent = `${formatDistance(meters, units2())} \xB7 ${finish}`;
+    if ($4("group-route-pace-note")) {
+      $4("group-route-pace-note").textContent = usedRecent ? "Estimated finish uses your recent pace." : "Estimated finish uses the default walk or run pace.";
+    }
+    if ($4("group-route-note")) $4("group-route-note").textContent = "";
+    openSheet("sheet-group-route");
+  }
+  function closeGroupRouteView() {
+    closeSheet("sheet-group-route");
+    if ($4("today-dock")) $4("today-dock").hidden = false;
+    try {
+      clearOverlays();
+      clearMarkers();
+    } catch {
+    }
+    setTab("calendar");
+    if (ui2.pendingGroupPlan) openGroupEvent(ui2.pendingGroupPlan);
+  }
+  function openSchedule(opt = {}) {
+    if (!state2.courses.length) {
+      openSessionChoice();
+      return;
+    }
+    $4("sched-sub").textContent = `For ${selectedDayLabel()}.`;
     const schedNote = $4("sched-conflict");
     if (schedNote) {
       const copy = conflictCopy(plansOnDate(state2.plans, ui2.selectedDay));
@@ -51222,6 +51381,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     const sel = $4("sched-course");
     sel.innerHTML = state2.courses.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join("");
+    if (opt.courseId && state2.courses.some((c) => c.id === opt.courseId)) sel.value = opt.courseId;
     const updatePrev = () => {
       const c = courseById2(sel.value);
       const type = $4("sched-type").value;
@@ -52092,6 +52252,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     ui2.builderPins = ui2.builder.pins;
     clearOverlays();
     clearMarkers();
+    const back = ui2.returnToSchedule;
+    ui2.returnToSchedule = null;
+    if (back) {
+      if (back.day) ui2.selectedDay = back.day;
+      setTab("calendar");
+      openSessionChoice();
+      return;
+    }
     showScreen("today");
     setTab("today");
   }
@@ -52279,6 +52447,15 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       }
       ui2.builder = emptyBuilderState();
       ui2.builderPins = ui2.builder.pins;
+      const back = ui2.returnToSchedule;
+      ui2.returnToSchedule = null;
+      if (back) {
+        if (back.day) ui2.selectedDay = back.day;
+        setTab("calendar");
+        renderCalendar();
+        openSchedule({ courseId: c.id });
+        return;
+      }
       setTab("courses");
     });
     $4("btn-pause").addEventListener("click", pauseOrResume);
@@ -52347,6 +52524,31 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       renderCalendar();
     });
     $4("btn-sched-cancel").addEventListener("click", () => closeSheet("sheet-schedule"));
+    if ($4("btn-session-use-route")) {
+      $4("btn-session-use-route").addEventListener("click", () => {
+        closeSheet("sheet-session-choice");
+        openSchedule();
+      });
+    }
+    if ($4("btn-session-create-route")) {
+      $4("btn-session-create-route").addEventListener("click", () => beginBuilderForSchedule());
+    }
+    if ($4("btn-session-choice-cancel")) {
+      $4("btn-session-choice-cancel").addEventListener("click", () => closeSheet("sheet-session-choice"));
+    }
+    if ($4("btn-group-open-route")) $4("btn-group-open-route").addEventListener("click", () => openGroupRoute());
+    if ($4("btn-group-save-route")) {
+      $4("btn-group-save-route").addEventListener("click", () => {
+        saveGroupCourseTemplate(courseForGroupPlan(ui2.pendingGroupPlan), $4("group-event-note"));
+      });
+    }
+    if ($4("btn-group-event-close")) $4("btn-group-event-close").addEventListener("click", () => closeSheet("sheet-group-event"));
+    if ($4("btn-group-route-save")) {
+      $4("btn-group-route-save").addEventListener("click", () => {
+        saveGroupCourseTemplate(ui2.pendingGroupCourse || courseForGroupPlan(ui2.pendingGroupPlan), $4("group-route-note"));
+      });
+    }
+    if ($4("btn-group-route-back")) $4("btn-group-route-back").addEventListener("click", () => closeGroupRouteView());
     $4("btn-sched-save").addEventListener("click", () => {
       const c = courseById2($4("sched-course").value);
       if (!c) return;
@@ -53435,8 +53637,12 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       } catch {
       }
       closeSheet("sheet-share-import");
+      closeSheet("sheet-session-choice");
       closeSheet("sheet-group");
       closeSheet("sheet-group-invite");
+      closeSheet("sheet-group-event");
+      closeSheet("sheet-group-route");
+      if ($4("today-dock")) $4("today-dock").hidden = false;
       closeSheet("sheet-builder-help");
       closeSheet("sheet-pin-action");
       closeSheet("sheet-new-goal");
@@ -53703,6 +53909,39 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         ui2.cal = new Date(2026, 11, 5);
         ui2.selectedDay = day;
         setTab("calendar");
+      } else if (name === "session-choice") {
+        const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+        if (!state2.courses.length) state2.courses.push(course);
+        persist();
+        ui2.cal = new Date(2026, 11, 5);
+        ui2.selectedDay = "2026-12-05";
+        setTab("calendar");
+        renderCalendar();
+        openSessionChoice();
+      } else if (name === "group-event" || name === "group-event-route") {
+        const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
+        if (!state2.courses[0]) state2.courses.push(course);
+        const start = new Date(2026, 11, 5, 9, 0, 0);
+        const made = makeGroupRun({ course, startAt: start, activityType: "run", now: new Date(2026, 10, 20, 12, 0, 0) });
+        if (made.ok) addGroupRunToState(state2, made.run);
+        persist();
+        ui2.cal = new Date(2026, 11, 5);
+        ui2.selectedDay = "2026-12-05";
+        setTab("calendar");
+        renderCalendar();
+        const plan = (state2.plans || []).find((p) => p.groupRunId === (made.ok && made.run.id)) || (state2.plans || []).find((p) => p.groupRunId);
+        if (plan) openGroupEvent(plan);
+        if (name === "group-event-route") {
+          openGroupRoute();
+          await waitMapReady();
+          const c = courseForGroupPlan(plan) || course;
+          const line = c.path && c.path.length >= 2 ? c.path : c.pins;
+          if (line && line.length) {
+            const pad = { top: 56, bottom: 360, left: 48, right: 48 };
+            fitBounds(line, pad);
+          }
+          await new Promise((r) => setTimeout(r, 400));
+        }
       } else if (name === "calendar-empty") {
         state2.activities = [];
         state2.plans = [];
