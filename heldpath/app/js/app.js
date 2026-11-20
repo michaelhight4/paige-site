@@ -11,6 +11,7 @@ import {
   pathLengthMeters,
   legDistances,
   notificationText,
+  completeAlertText,
   isoDate,
   startOfDay,
   SUPPORT_COPY,
@@ -214,18 +215,40 @@ function playQuietCompleteAlert() {
   } catch { /* ignore */ }
 }
 
+function completePromptCopy(sess, rem) {
+  const kind = sess.target && sess.target.targetMeters > 0 ? "target" : "course";
+  return completeAlertText({
+    kind,
+    meters: (rem && rem.total) || sess.goalCompleteMeters || 0,
+    seconds: rem && rem.completeSec != null ? rem.completeSec : (sess.goalCompleteSec != null ? sess.goalCompleteSec : sess.elapsedSec),
+    units: sess.units,
+  });
+}
+
+function paintCompletePrompt(sess, rem) {
+  const awaiting = track.awaitingKeepGoing(sess);
+  const banner = $("track-complete-banner");
+  const text = $("track-complete-text");
+  if (banner) {
+    banner.hidden = !awaiting;
+    banner.classList.toggle("show", awaiting);
+  }
+  if (text && awaiting) text.textContent = completePromptCopy(sess, rem || track.courseRemaining(sess));
+  const live = $("lock-actions-live");
+  const done = $("lock-actions-complete");
+  const hud = $("track-live-actions");
+  if (live) live.hidden = !!awaiting;
+  if (done) done.hidden = !awaiting;
+  if (hud) hud.hidden = !!awaiting;
+}
+
 function maybeAnnounceComplete(sess, rem) {
-  if (!sess || !rem || !rem.complete || sess.goalAnnounced) return;
+  if (!sess || !rem || !rem.complete || sess.goalAnnounced || sess.goalKeptGoing) return;
   sess.goalAnnounced = true;
   sess.targetAnnounced = true;
-  const banner = $("track-complete-banner");
-  if (banner) {
-    const kind = sess.target && sess.target.targetMeters > 0 ? "Target complete" : "Course complete";
-    banner.textContent = `${kind} · ${formatDuration(rem.completeSec != null ? rem.completeSec : sess.elapsedSec)}`;
-    banner.hidden = false;
-    banner.classList.add("show");
-  }
+  paintCompletePrompt(sess, rem);
   playQuietCompleteAlert();
+  track.refreshNotification(sess, { force: true }).catch(() => {});
 }
 
 function paintSessionHud(sess) {
@@ -236,16 +259,8 @@ function paintSessionHud(sess) {
   const lap = $("track-lap");
   const leftLbl = $("track-left-lbl");
   const etaLbl = $("track-eta-lbl");
-  const banner = $("track-complete-banner");
+  paintCompletePrompt(sess, rem);
   if (rem.complete) {
-    if (banner && sess.goalAnnounced) {
-      banner.hidden = false;
-      banner.classList.add("show");
-      if (!banner.textContent) {
-        const kind = sess.target && sess.target.targetMeters > 0 ? "Target complete" : "Course complete";
-        banner.textContent = `${kind} · ${formatDuration(rem.completeSec != null ? rem.completeSec : sess.elapsedSec)}`;
-      }
-    }
     if (lap) {
       const kind = sess.target && sess.target.targetMeters > 0 ? "Target done" : "Course done";
       lap.hidden = false;
@@ -258,11 +273,6 @@ function paintSessionHud(sess) {
     if (etaLbl) etaLbl.textContent = sess.target && sess.target.targetMeters > 0 ? "goal time" : "course time";
     $("track-done").textContent = formatDistance(sess.distanceMeters, sess.units);
   } else {
-    if (banner) {
-      banner.hidden = true;
-      banner.classList.remove("show");
-      banner.textContent = "";
-    }
     if (lap) {
       if (rem.lapLabel) {
         lap.hidden = false;
@@ -1176,6 +1186,17 @@ function bind() {
   $("btn-stop").addEventListener("click", finishTracking);
   $("lock-pause").addEventListener("click", pauseOrResume);
   $("lock-stop").addEventListener("click", finishTracking);
+  function keepGoingFromUi() {
+    const s = track.getSession();
+    if (!s) return;
+    track.keepGoingAfterGoal(s);
+    track.refreshNotification(s, { force: true }).catch(() => {});
+    paintSessionHud(s);
+  }
+  if ($("btn-keep-going")) $("btn-keep-going").addEventListener("click", keepGoingFromUi);
+  if ($("btn-complete-stop")) $("btn-complete-stop").addEventListener("click", finishTracking);
+  if ($("lock-keep-going")) $("lock-keep-going").addEventListener("click", keepGoingFromUi);
+  if ($("lock-complete-stop")) $("lock-complete-stop").addEventListener("click", finishTracking);
   $("btn-start-free").addEventListener("click", () => { closeSheet("sheet-start"); startTracking(ui.startType, null); });
   $("btn-start-cancel").addEventListener("click", () => closeSheet("sheet-start"));
   $("target-distance").addEventListener("input", refreshTargetOptions);
@@ -1813,19 +1834,28 @@ window.HeldpathTest = {
         ui.hideNav = true;
         showScreen("lock");
       }
-    } else if (name === "tracking-extra") {
+    } else if (name === "tracking-extra" || name === "route-complete" || name === "lock-complete") {
       const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
       if (!state.courses[0]) state.courses = [course];
       const sess = pastCourseRun(course, units());
       track.stopSession();
       const made = track.makeSession({ type: "run", course, units: units() });
       Object.assign(made, sess);
+      if (name === "tracking-extra") made.goalKeptGoing = true;
+      else made.goalKeptGoing = false;
       setTab("today");
       showScreen("tracking");
       paintSessionHud(made);
       const fitPad = { top: 56, bottom: 420, left: 48, right: 48 };
       map.whenReady(() => { drawSessionOnMap(made); map.fitBounds(made.track || course.pins, fitPad); });
       drawSessionOnMap(made);
+      if (name === "lock-complete") {
+        $("lock-body").textContent = track.liveNotification(made);
+        $("lock-clock").textContent = "9:41";
+        $("lock-date").textContent = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+        ui.hideNav = true;
+        showScreen("lock");
+      }
     } else if (name === "celebrate-overshoot" || name === "save-route-choice") {
       const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
       if (!state.courses[0]) state.courses = [course];
@@ -2133,6 +2163,14 @@ async function init() {
   track.onNotificationAction(async (action) => {
     if (action === "stop") {
       await finishTracking();
+      return;
+    }
+    if (action === "keep-going") {
+      const s = track.getSession();
+      if (s) {
+        await track.refreshNotification(s, { force: true });
+        paintSessionHud(s);
+      }
       return;
     }
     if (track.getSession()) {

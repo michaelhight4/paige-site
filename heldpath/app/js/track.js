@@ -44,6 +44,7 @@ export function makeSession({ type, course, units, target } = {}) {
     goalAnnounced: false,
     goalCompleteSec: null,
     goalCompleteMeters: null,
+    goalKeptGoing: false,
     units: units || "mi",
     startedAt: new Date().toISOString(),
     paused: false,
@@ -160,10 +161,29 @@ function stampGoal(sess, result) {
   };
 }
 
+export function awaitingKeepGoing(sess) {
+  return !!(sess && sess.goalComplete && !sess.goalKeptGoing);
+}
+
+export function keepGoingAfterGoal(sess = session) {
+  if (!sess) return sess;
+  sess.goalKeptGoing = true;
+  return sess;
+}
+
 export function liveNotification(sess) {
   const rem = courseRemaining(sess);
+  const kind = sess.target && sess.target.targetMeters > 0 ? "target" : "course";
+  if (rem.complete && !sess.goalKeptGoing) {
+    return notificationText({
+      completePrompt: true,
+      completeKind: kind,
+      completeMeters: rem.total || sess.goalCompleteMeters || 0,
+      completeSec: rem.completeSec != null ? rem.completeSec : sess.elapsedSec,
+      units: sess.units,
+    });
+  }
   if (rem.complete) {
-    const kind = sess.target && sess.target.targetMeters > 0 ? "target" : "course";
     return notificationText({
       complete: true,
       completeKind: kind,
@@ -190,16 +210,23 @@ export function liveNotification(sess) {
 export function notificationPayload(sess = session) {
   const paused = !!(sess && sess.paused);
   const body = sess ? liveNotification(sess) : "Tracking your walk";
+  const awaiting = awaitingKeepGoing(sess);
+  const actions = awaiting
+    ? [
+        { id: "keep-going", label: "Keep going" },
+        { id: "stop", label: "Stop" },
+      ]
+    : [
+        { id: paused ? "resume" : "pause", label: paused ? "Resume" : "Pause" },
+        { id: "stop", label: "Stop" },
+      ];
   return {
     id: NOTIFICATION_ID,
     title: "Heldpath",
-    body: paused ? `${body} · paused` : body,
+    body: paused && !awaiting ? `${body} · paused` : body,
     ongoing: true,
     onlyAlertOnce: true,
-    actions: [
-      { id: paused ? "resume" : "pause", label: paused ? "Resume" : "Pause" },
-      { id: "stop", label: "Stop" },
-    ],
+    actions,
     deepLink: "heldpath://tracking",
   };
 }
@@ -212,12 +239,19 @@ export function onNotificationAction(handler) {
   actionHandler = handler;
 }
 
+function normalizeAction(raw) {
+  const action = String(raw || "").toLowerCase().replace(/[\s_]+/g, "-");
+  if (action === "keepgoing" || action === "keep-going") return "keep-going";
+  return action;
+}
+
 function emitNotificationAction(raw) {
-  const action = String(raw || "").toLowerCase();
-  const known = action === "pause" || action === "resume" || action === "stop";
+  const action = normalizeAction(raw);
+  const known = action === "pause" || action === "resume" || action === "stop" || action === "keep-going";
   if (!known) return;
   if (action === "pause") pauseSession();
   else if (action === "resume") resumeSession();
+  else if (action === "keep-going") keepGoingAfterGoal();
   if (actionHandler) actionHandler(action, session);
 }
 

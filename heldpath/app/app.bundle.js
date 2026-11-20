@@ -22475,7 +22475,20 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const suffix = units3 === "km" ? "/km" : "/mi";
     return `${m}:${String(s2).padStart(2, "0")} ${suffix}`;
   }
-  function notificationText({ doneMeters, leftMeters, onCourse, elapsedSec, units: units3, activityType, lapLabel, complete, completeKind, extraMeters: extraMeters2 }) {
+  function completeAlertText({ kind, meters, seconds, units: units3 } = {}) {
+    const label = kind === "target" ? "Target complete" : "Route complete";
+    const dist3 = formatDistance(Math.max(0, Number(meters) || 0), units3, { digits: 2 });
+    return `${label}! ${dist3} in ${formatDuration(seconds || 0)}`;
+  }
+  function notificationText({ doneMeters, leftMeters, onCourse, elapsedSec, units: units3, activityType, lapLabel, complete, completeKind, extraMeters: extraMeters2, completePrompt, completeMeters, completeSec }) {
+    if (completePrompt) {
+      return completeAlertText({
+        kind: completeKind,
+        meters: completeMeters,
+        seconds: completeSec,
+        units: units3
+      });
+    }
     if (complete) {
       const kind = completeKind === "target" ? "Target" : "Course";
       const extra = Math.max(0, Number(extraMeters2) || 0);
@@ -25329,6 +25342,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       goalAnnounced: false,
       goalCompleteSec: null,
       goalCompleteMeters: null,
+      goalKeptGoing: false,
       units: units3 || "mi",
       startedAt: (/* @__PURE__ */ new Date()).toISOString(),
       paused: false,
@@ -25427,10 +25441,27 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       gpsMeters: sess && sess.distanceMeters || 0
     };
   }
+  function awaitingKeepGoing(sess) {
+    return !!(sess && sess.goalComplete && !sess.goalKeptGoing);
+  }
+  function keepGoingAfterGoal(sess = session) {
+    if (!sess) return sess;
+    sess.goalKeptGoing = true;
+    return sess;
+  }
   function liveNotification(sess) {
     const rem = courseRemaining(sess);
+    const kind = sess.target && sess.target.targetMeters > 0 ? "target" : "course";
+    if (rem.complete && !sess.goalKeptGoing) {
+      return notificationText({
+        completePrompt: true,
+        completeKind: kind,
+        completeMeters: rem.total || sess.goalCompleteMeters || 0,
+        completeSec: rem.completeSec != null ? rem.completeSec : sess.elapsedSec,
+        units: sess.units
+      });
+    }
     if (rem.complete) {
-      const kind = sess.target && sess.target.targetMeters > 0 ? "target" : "course";
       return notificationText({
         complete: true,
         completeKind: kind,
@@ -25451,28 +25482,39 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function notificationPayload(sess = session) {
     const paused = !!(sess && sess.paused);
     const body = sess ? liveNotification(sess) : "Tracking your walk";
+    const awaiting = awaitingKeepGoing(sess);
+    const actions = awaiting ? [
+      { id: "keep-going", label: "Keep going" },
+      { id: "stop", label: "Stop" }
+    ] : [
+      { id: paused ? "resume" : "pause", label: paused ? "Resume" : "Pause" },
+      { id: "stop", label: "Stop" }
+    ];
     return {
       id: NOTIFICATION_ID,
       title: "Heldpath",
-      body: paused ? `${body} \xB7 paused` : body,
+      body: paused && !awaiting ? `${body} \xB7 paused` : body,
       ongoing: true,
       onlyAlertOnce: true,
-      actions: [
-        { id: paused ? "resume" : "pause", label: paused ? "Resume" : "Pause" },
-        { id: "stop", label: "Stop" }
-      ],
+      actions,
       deepLink: "heldpath://tracking"
     };
   }
   function onNotificationAction(handler) {
     actionHandler = handler;
   }
+  function normalizeAction(raw) {
+    const action = String(raw || "").toLowerCase().replace(/[\s_]+/g, "-");
+    if (action === "keepgoing" || action === "keep-going") return "keep-going";
+    return action;
+  }
   function emitNotificationAction(raw) {
-    const action = String(raw || "").toLowerCase();
-    const known = action === "pause" || action === "resume" || action === "stop";
+    const action = normalizeAction(raw);
+    const known = action === "pause" || action === "resume" || action === "stop" || action === "keep-going";
     if (!known) return;
     if (action === "pause") pauseSession();
     else if (action === "resume") resumeSession();
+    else if (action === "keep-going") keepGoingAfterGoal();
     if (actionHandler) actionHandler(action, session);
   }
   async function bindNotificationActions() {
@@ -31525,18 +31567,39 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     } catch {
     }
   }
+  function completePromptCopy(sess, rem) {
+    const kind = sess.target && sess.target.targetMeters > 0 ? "target" : "course";
+    return completeAlertText({
+      kind,
+      meters: rem && rem.total || sess.goalCompleteMeters || 0,
+      seconds: rem && rem.completeSec != null ? rem.completeSec : sess.goalCompleteSec != null ? sess.goalCompleteSec : sess.elapsedSec,
+      units: sess.units
+    });
+  }
+  function paintCompletePrompt(sess, rem) {
+    const awaiting = awaitingKeepGoing(sess);
+    const banner = $4("track-complete-banner");
+    const text = $4("track-complete-text");
+    if (banner) {
+      banner.hidden = !awaiting;
+      banner.classList.toggle("show", awaiting);
+    }
+    if (text && awaiting) text.textContent = completePromptCopy(sess, rem || courseRemaining(sess));
+    const live = $4("lock-actions-live");
+    const done = $4("lock-actions-complete");
+    const hud = $4("track-live-actions");
+    if (live) live.hidden = !!awaiting;
+    if (done) done.hidden = !awaiting;
+    if (hud) hud.hidden = !!awaiting;
+  }
   function maybeAnnounceComplete(sess, rem) {
-    if (!sess || !rem || !rem.complete || sess.goalAnnounced) return;
+    if (!sess || !rem || !rem.complete || sess.goalAnnounced || sess.goalKeptGoing) return;
     sess.goalAnnounced = true;
     sess.targetAnnounced = true;
-    const banner = $4("track-complete-banner");
-    if (banner) {
-      const kind = sess.target && sess.target.targetMeters > 0 ? "Target complete" : "Course complete";
-      banner.textContent = `${kind} \xB7 ${formatDuration(rem.completeSec != null ? rem.completeSec : sess.elapsedSec)}`;
-      banner.hidden = false;
-      banner.classList.add("show");
-    }
+    paintCompletePrompt(sess, rem);
     playQuietCompleteAlert();
+    refreshNotification(sess, { force: true }).catch(() => {
+    });
   }
   function paintSessionHud(sess) {
     if (!sess) return;
@@ -31546,16 +31609,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const lap = $4("track-lap");
     const leftLbl = $4("track-left-lbl");
     const etaLbl = $4("track-eta-lbl");
-    const banner = $4("track-complete-banner");
+    paintCompletePrompt(sess, rem);
     if (rem.complete) {
-      if (banner && sess.goalAnnounced) {
-        banner.hidden = false;
-        banner.classList.add("show");
-        if (!banner.textContent) {
-          const kind = sess.target && sess.target.targetMeters > 0 ? "Target complete" : "Course complete";
-          banner.textContent = `${kind} \xB7 ${formatDuration(rem.completeSec != null ? rem.completeSec : sess.elapsedSec)}`;
-        }
-      }
       if (lap) {
         const kind = sess.target && sess.target.targetMeters > 0 ? "Target done" : "Course done";
         lap.hidden = false;
@@ -31568,11 +31623,6 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       if (etaLbl) etaLbl.textContent = sess.target && sess.target.targetMeters > 0 ? "goal time" : "course time";
       $4("track-done").textContent = formatDistance(sess.distanceMeters, sess.units);
     } else {
-      if (banner) {
-        banner.hidden = true;
-        banner.classList.remove("show");
-        banner.textContent = "";
-      }
       if (lap) {
         if (rem.lapLabel) {
           lap.hidden = false;
@@ -32415,6 +32465,18 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     $4("btn-stop").addEventListener("click", finishTracking);
     $4("lock-pause").addEventListener("click", pauseOrResume);
     $4("lock-stop").addEventListener("click", finishTracking);
+    function keepGoingFromUi() {
+      const s2 = getSession();
+      if (!s2) return;
+      keepGoingAfterGoal(s2);
+      refreshNotification(s2, { force: true }).catch(() => {
+      });
+      paintSessionHud(s2);
+    }
+    if ($4("btn-keep-going")) $4("btn-keep-going").addEventListener("click", keepGoingFromUi);
+    if ($4("btn-complete-stop")) $4("btn-complete-stop").addEventListener("click", finishTracking);
+    if ($4("lock-keep-going")) $4("lock-keep-going").addEventListener("click", keepGoingFromUi);
+    if ($4("lock-complete-stop")) $4("lock-complete-stop").addEventListener("click", finishTracking);
     $4("btn-start-free").addEventListener("click", () => {
       closeSheet("sheet-start");
       startTracking(ui2.startType, null);
@@ -33047,13 +33109,15 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           ui2.hideNav = true;
           showScreen("lock");
         }
-      } else if (name === "tracking-extra") {
+      } else if (name === "tracking-extra" || name === "route-complete" || name === "lock-complete") {
         const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
         if (!state2.courses[0]) state2.courses = [course];
         const sess = pastCourseRun(course, units2());
         stopSession();
         const made = makeSession({ type: "run", course, units: units2() });
         Object.assign(made, sess);
+        if (name === "tracking-extra") made.goalKeptGoing = true;
+        else made.goalKeptGoing = false;
         setTab("today");
         showScreen("tracking");
         paintSessionHud(made);
@@ -33063,6 +33127,13 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           fitBounds(made.track || course.pins, fitPad);
         });
         drawSessionOnMap(made);
+        if (name === "lock-complete") {
+          $4("lock-body").textContent = liveNotification(made);
+          $4("lock-clock").textContent = "9:41";
+          $4("lock-date").textContent = (/* @__PURE__ */ new Date()).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+          ui2.hideNav = true;
+          showScreen("lock");
+        }
       } else if (name === "celebrate-overshoot" || name === "save-route-choice") {
         const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
         if (!state2.courses[0]) state2.courses = [course];
@@ -33447,6 +33518,14 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     onNotificationAction(async (action) => {
       if (action === "stop") {
         await finishTracking();
+        return;
+      }
+      if (action === "keep-going") {
+        const s2 = getSession();
+        if (s2) {
+          await refreshNotification(s2, { force: true });
+          paintSessionHud(s2);
+        }
         return;
       }
       if (getSession()) {

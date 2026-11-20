@@ -48,7 +48,13 @@
       <div class="dock" id="track-dock">
         <div class="hud" id="track-hud" data-testid="track-hud">
           <div class="hud-kicker" id="track-kicker">Walk</div>
-          <div class="complete-banner" id="track-complete-banner" data-testid="course-complete-banner" hidden></div>
+          <div class="complete-banner" id="track-complete-banner" data-testid="course-complete-banner" hidden>
+            <div class="complete-banner-text" id="track-complete-text" data-testid="course-complete-text"></div>
+            <div class="btn-row complete-banner-actions">
+              <button class="btn btn-primary" id="btn-keep-going" data-testid="keep-going">Keep going</button>
+              <button class="btn btn-danger" id="btn-complete-stop" data-testid="complete-stop">Stop</button>
+            </div>
+          </div>
           <div class="lap-label" id="track-lap" data-testid="lap-label" hidden>Lap 1 of 1</div>
           <div class="hud-remain" id="track-remain-wrap">
             <div>
@@ -74,7 +80,7 @@
               <div class="stat-lbl">avg pace</div>
             </div>
           </div>
-          <div class="btn-row">
+          <div class="btn-row" id="track-live-actions">
             <button class="btn btn-secondary" id="btn-pause" data-testid="pause">Pause</button>
             <button class="btn btn-danger" id="btn-stop" data-testid="stop">Stop</button>
           </div>
@@ -453,9 +459,13 @@
             <div class="app">Heldpath</div>
           </div>
           <div class="notif-body" id="lock-body">1.2 mi done · 0.8 mi left · ~16 min</div>
-          <div class="notif-actions">
+          <div class="notif-actions" id="lock-actions-live">
             <button class="btn btn-secondary" id="lock-pause">Pause</button>
             <button class="btn btn-danger" id="lock-stop">Stop</button>
+          </div>
+          <div class="notif-actions" id="lock-actions-complete" hidden>
+            <button class="btn btn-primary" id="lock-keep-going" data-testid="lock-keep-going">Keep going</button>
+            <button class="btn btn-danger" id="lock-complete-stop" data-testid="lock-complete-stop">Stop</button>
           </div>
         </div>
       </div>

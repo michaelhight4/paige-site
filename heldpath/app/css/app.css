@@ -135,6 +135,7 @@ img { display: block; max-width: 100%; }
 .btn-danger { background: #3A2024; color: var(--coral); border: 1px solid #5A3036; }
 .btn-ghost { background: transparent; color: var(--blue); }
 .btn-row { display: flex; gap: 12px; }
+.btn-row[hidden] { display: none; }
 .btn-row .btn { flex: 1; }
 .btn[disabled] { opacity: 0.5; }
 
@@ -590,6 +591,7 @@ img { display: block; max-width: 100%; }
 .notif-top .app { font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
 .notif-body { font-size: 17px; line-height: 1.4; font-weight: 650; overflow-wrap: anywhere; }
 .notif-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.notif-actions[hidden] { display: none; }
 .notif-actions .btn { min-height: 48px; font-size: 15px; }
 
 /* Back chip for sub-screens */
@@ -811,4 +813,14 @@ html.is-native .web-only { display: none !important; }
   font-weight: 800;
   color: var(--blue);
   margin-bottom: 8px;
+}
+
+.complete-banner-text {
+  margin-bottom: 10px;
+}
+.complete-banner-actions {
+  margin-top: 4px;
+}
+.complete-banner-actions .btn {
+  min-height: 48px;
 }

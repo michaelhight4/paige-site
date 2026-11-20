@@ -181,7 +181,22 @@ export function formatPace(meters, seconds, units) {
  * On a course: "1.2 mi done · 0.8 mi left · ~16 min"
  * Off a course: "1.2 mi · 24:10 · 11:20 /mi"
  */
-export function notificationText({ doneMeters, leftMeters, onCourse, elapsedSec, units, activityType, lapLabel, complete, completeKind, extraMeters }) {
+/** Lock-screen and in-app complete prompt, e.g. "Route complete! 1.00 mi in 9:42". */
+export function completeAlertText({ kind, meters, seconds, units } = {}) {
+  const label = kind === "target" ? "Target complete" : "Route complete";
+  const dist = formatDistance(Math.max(0, Number(meters) || 0), units, { digits: 2 });
+  return `${label}! ${dist} in ${formatDuration(seconds || 0)}`;
+}
+
+export function notificationText({ doneMeters, leftMeters, onCourse, elapsedSec, units, activityType, lapLabel, complete, completeKind, extraMeters, completePrompt, completeMeters, completeSec }) {
+  if (completePrompt) {
+    return completeAlertText({
+      kind: completeKind,
+      meters: completeMeters,
+      seconds: completeSec,
+      units,
+    });
+  }
   if (complete) {
     const kind = completeKind === "target" ? "Target" : "Course";
     const extra = Math.max(0, Number(extraMeters) || 0);
