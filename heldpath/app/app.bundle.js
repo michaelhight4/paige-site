@@ -22400,10 +22400,17 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return { ...last, traveled: total, remaining: 0 };
   }
   function remainingAlongPath(coords, position) {
+    const proj = projectOnPath(coords, position);
+    return { traveled: proj.traveled, remaining: proj.remaining, total: proj.total };
+  }
+  function projectOnPath(coords, position) {
     const total = pathLengthMeters(coords);
-    if (!coords.length) return { traveled: 0, remaining: 0, total };
+    const empty = { traveled: 0, remaining: 0, total, offsetMeters: Infinity, point: position ? { ...position } : null, segIndex: -1 };
+    if (!coords || coords.length < 2 || !position) return empty;
     let bestDist = Infinity;
     let traveledAtProj = 0;
+    let bestPoint = coords[0];
+    let bestSeg = 0;
     let acc = 0;
     for (let i = 1; i < coords.length; i++) {
       const a = coords[i - 1];
@@ -22414,11 +22421,43 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       if (d2 < bestDist) {
         bestDist = d2;
         traveledAtProj = acc + proj.t * seg;
+        bestPoint = proj.point;
+        bestSeg = i - 1;
       }
       acc += seg;
     }
     const traveled = Math.min(total, Math.max(0, traveledAtProj));
-    return { traveled, remaining: Math.max(0, total - traveled), total };
+    return {
+      traveled,
+      remaining: Math.max(0, total - traveled),
+      total,
+      offsetMeters: bestDist,
+      point: bestPoint,
+      segIndex: bestSeg
+    };
+  }
+  function pointsBetweenAlongPath(coords, fromMeters, toMeters, stepMeters = 30) {
+    if (!coords || coords.length < 2) return [];
+    const total = pathLengthMeters(coords);
+    const lo = Math.max(0, Math.min(fromMeters, toMeters, total));
+    const hi = Math.max(lo, Math.min(Math.max(fromMeters, toMeters), total));
+    const step = Math.max(8, stepMeters || 30);
+    const marks = /* @__PURE__ */ new Set([
+      Math.round(lo * 100) / 100,
+      Math.round(hi * 100) / 100
+    ]);
+    for (let m = lo + step; m < hi - 1; m += step) {
+      marks.add(Math.round(m * 100) / 100);
+    }
+    let acc = 0;
+    for (let i = 1; i < coords.length - 1; i++) {
+      acc += haversineMeters(coords[i - 1], coords[i]);
+      if (acc > lo + 1 && acc < hi - 1) marks.add(Math.round(acc * 100) / 100);
+    }
+    return [...marks].sort((a, b2) => a - b2).map((m) => {
+      const p = pointAlongPath(coords, m);
+      return { lat: p.lat, lon: p.lon, traveled: m };
+    });
   }
   function projectOnSegment(p, a, b2) {
     const midLat = (a.lat + b2.lat) / 2 * Math.PI / 180;
@@ -25415,6 +25454,110 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return null;
   }
 
+  // www/js/gap_fill.js
+  var GAP_MS = 15e3;
+  var ON_ROUTE_M = 50;
+  var MIN_FILL_M = 25;
+  var STEP_M = 30;
+  var MAX_SPEED_MPS = 8;
+  var TELEPORT_SPEED_MPS = 12;
+  function lastFixTime(last) {
+    if (!last) return null;
+    if (last.at) {
+      const n = Date.parse(last.at);
+      if (Number.isFinite(n)) return n;
+    }
+    return null;
+  }
+  function timeGapMs(last, at) {
+    const t0 = lastFixTime(last);
+    return t0 == null ? 0 : Math.max(0, at - t0);
+  }
+  function impliedSpeedMps(last, next, at) {
+    const ms = timeGapMs(last, at);
+    const d2 = haversineMeters(last, next);
+    if (ms <= 0) return d2 > 0 ? Infinity : 0;
+    return d2 / (ms / 1e3);
+  }
+  function isDropout(last, next, at) {
+    if (!last || !next) return false;
+    const d2 = haversineMeters(last, next);
+    const ms = timeGapMs(last, at);
+    if (d2 < MIN_FILL_M) return false;
+    if (ms >= GAP_MS) return true;
+    if (ms >= 8e3 && impliedSpeedMps(last, next, at) > MAX_SPEED_MPS + 0.5) return true;
+    return false;
+  }
+  function isTeleport(last, next, at) {
+    if (!last || !next) return false;
+    const d2 = haversineMeters(last, next);
+    const ms = timeGapMs(last, at);
+    if (d2 < MIN_FILL_M) return false;
+    if (impliedSpeedMps(last, next, at) > TELEPORT_SPEED_MPS) return true;
+    if (ms >= GAP_MS && d2 >= 200) return true;
+    return false;
+  }
+  function interpolateIso(last, at, t) {
+    const t0 = lastFixTime(last);
+    const start = t0 == null ? at : t0;
+    const ms = start + Math.max(0, Math.min(1, t)) * Math.max(0, at - start);
+    return new Date(ms).toISOString();
+  }
+  function fillAlongRoute(path, last, next, at) {
+    if (!path || path.length < 2 || !last || !next) return null;
+    const a = projectOnPath(path, last);
+    const b2 = projectOnPath(path, next);
+    if (a.offsetMeters > ON_ROUTE_M || b2.offsetMeters > ON_ROUTE_M) return null;
+    const forward = b2.traveled - a.traveled;
+    if (forward < MIN_FILL_M) return null;
+    const ms = Math.max(timeGapMs(last, at), 1);
+    if (forward / (ms / 1e3) > MAX_SPEED_MPS) return null;
+    const raw = pointsBetweenAlongPath(path, a.traveled, b2.traveled, STEP_M);
+    const mids = raw.filter((p) => haversineMeters(p, last) >= 2);
+    const points = mids.map((p, i) => {
+      const t = forward === 0 ? 1 : (p.traveled - a.traveled) / forward;
+      return {
+        lat: p.lat,
+        lon: p.lon,
+        at: interpolateIso(last, at, t),
+        filled: true
+      };
+    });
+    const lastMid = points[points.length - 1];
+    if (!lastMid || haversineMeters(lastMid, next) >= 2) {
+      points.push({ lat: next.lat, lon: next.lon, at: new Date(at).toISOString(), filled: false });
+    } else {
+      lastMid.lat = next.lat;
+      lastMid.lon = next.lon;
+      lastMid.at = new Date(at).toISOString();
+      lastMid.filled = false;
+    }
+    const snap = haversineMeters({ lat: b2.point.lat, lon: b2.point.lon }, next);
+    return { points, meters: forward + Math.min(snap, ON_ROUTE_M), filled: true };
+  }
+  function applyTrackPoint(session2, last, next, at) {
+    if (!session2) return { session: session2, filled: false };
+    const dropout = isDropout(last, next, at);
+    if (dropout) {
+      const path = session2.coursePath && session2.coursePath.length >= 2 ? session2.coursePath : session2.coursePins && session2.coursePins.length >= 2 ? session2.coursePins : null;
+      const fill = path ? fillAlongRoute(path, last, next, at) : null;
+      if (fill) {
+        for (const p of fill.points) {
+          const elapsed = session2.elapsedSec || 0;
+          session2.track.push({ lat: p.lat, lon: p.lon, t: elapsed, at: p.at, filled: !!p.filled });
+        }
+        session2.distanceMeters += fill.meters;
+        return { session: session2, filled: true };
+      }
+      session2.track.push({ lat: next.lat, lon: next.lon, t: session2.elapsedSec || 0, at: new Date(at).toISOString() });
+      if (!isTeleport(last, next, at)) session2.distanceMeters += haversineMeters(last, next);
+      return { session: session2, filled: false };
+    }
+    session2.distanceMeters += haversineMeters(last, next);
+    session2.track.push({ lat: next.lat, lon: next.lon, t: session2.elapsedSec || 0, at: new Date(at).toISOString() });
+    return { session: session2, filled: false };
+  }
+
   // www/js/track.js
   var BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
   var watcherId = null;
@@ -25484,8 +25627,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       if (d2 < 1.5 && session.track.length > 1) {
         return session;
       }
-      if (d2 < 80 || session.track.length === 1) session.distanceMeters += d2;
-      else session.distanceMeters += d2;
+      applyTrackPoint(session, last, pt, at);
+      return session;
     }
     session.track.push(pt);
     return session;

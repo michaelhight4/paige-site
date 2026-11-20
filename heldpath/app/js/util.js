@@ -92,11 +92,19 @@ export function pointAlongPath(coords, meters) {
 }
 
 export function remainingAlongPath(coords, position) {
+  const proj = projectOnPath(coords, position);
+  return { traveled: proj.traveled, remaining: proj.remaining, total: proj.total };
+}
+
+/** Nearest point on a path, with along-path meters and offset from the line. */
+export function projectOnPath(coords, position) {
   const total = pathLengthMeters(coords);
-  if (!coords.length) return { traveled: 0, remaining: 0, total };
-  // Project onto the nearest segment, then remaining = from projection to end.
+  const empty = { traveled: 0, remaining: 0, total, offsetMeters: Infinity, point: position ? { ...position } : null, segIndex: -1 };
+  if (!coords || coords.length < 2 || !position) return empty;
   let bestDist = Infinity;
   let traveledAtProj = 0;
+  let bestPoint = coords[0];
+  let bestSeg = 0;
   let acc = 0;
   for (let i = 1; i < coords.length; i++) {
     const a = coords[i - 1];
@@ -107,11 +115,45 @@ export function remainingAlongPath(coords, position) {
     if (d < bestDist) {
       bestDist = d;
       traveledAtProj = acc + proj.t * seg;
+      bestPoint = proj.point;
+      bestSeg = i - 1;
     }
     acc += seg;
   }
   const traveled = Math.min(total, Math.max(0, traveledAtProj));
-  return { traveled, remaining: Math.max(0, total - traveled), total };
+  return {
+    traveled,
+    remaining: Math.max(0, total - traveled),
+    total,
+    offsetMeters: bestDist,
+    point: bestPoint,
+    segIndex: bestSeg,
+  };
+}
+
+/** Points along the path from fromMeters to toMeters, including vertices and a step cadence. */
+export function pointsBetweenAlongPath(coords, fromMeters, toMeters, stepMeters = 30) {
+  if (!coords || coords.length < 2) return [];
+  const total = pathLengthMeters(coords);
+  const lo = Math.max(0, Math.min(fromMeters, toMeters, total));
+  const hi = Math.max(lo, Math.min(Math.max(fromMeters, toMeters), total));
+  const step = Math.max(8, stepMeters || 30);
+  const marks = new Set([
+    Math.round(lo * 100) / 100,
+    Math.round(hi * 100) / 100,
+  ]);
+  for (let m = lo + step; m < hi - 1; m += step) {
+    marks.add(Math.round(m * 100) / 100);
+  }
+  let acc = 0;
+  for (let i = 1; i < coords.length - 1; i++) {
+    acc += haversineMeters(coords[i - 1], coords[i]);
+    if (acc > lo + 1 && acc < hi - 1) marks.add(Math.round(acc * 100) / 100);
+  }
+  return [...marks].sort((a, b) => a - b).map((m) => {
+    const p = pointAlongPath(coords, m);
+    return { lat: p.lat, lon: p.lon, traveled: m };
+  });
 }
 
 function projectOnSegment(p, a, b) {

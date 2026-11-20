@@ -10,6 +10,7 @@ import {
 } from "./util.js";
 import { progressOnPlan, MODE_CONTINUE } from "./target_distance.js";
 import { considerAutoPause, createAutoPauseState } from "./auto_pause.js";
+import { applyTrackPoint } from "./gap_fill.js";
 
 const BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
 
@@ -93,8 +94,8 @@ export function pushPoint(lat, lon, at = Date.now()) {
       // ignore jitter
       return session;
     }
-    if (d < 80 || session.track.length === 1) session.distanceMeters += d;
-    else session.distanceMeters += d; // still count a larger GPS jump once
+    applyTrackPoint(session, last, pt, at);
+    return session;
   }
   session.track.push(pt);
   return session;
