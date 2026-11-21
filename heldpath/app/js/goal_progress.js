@@ -105,11 +105,12 @@ export function metricForGoal(goal, plan) {
   return "time";
 }
 
-export function runsForGoal({ activities, course, plan, overall, metric } = {}) {
+export function runsForGoal({ activities, course, plan, overall, metric, type } = {}) {
   const list = activities || [];
   const wantDistance = metric === "distance";
   return list.filter((a) => {
     if (!a) return false;
+    if (type && type !== "all" && (a.type === "ride" ? "ride" : a.type === "run" ? "run" : "walk") !== type) return false;
     // Distance-only goals track every run that recorded a distance, including
     // short ones, and ignore whether a time was logged.
     if (wantDistance) {
@@ -180,11 +181,11 @@ function goalValue(goal, course, plan, metric) {
 
 export function buildGoalSeries({
   activities, course, plan, goal, units = "mi",
-  now = new Date(), locale, weekStart, overall = false,
+  now = new Date(), locale, weekStart, overall = false, type = "all",
 } = {}) {
   const resolvedGoal = goal || (course && course.goal) || null;
   const metric = metricForGoal(resolvedGoal, plan);
-  const runs = runsForGoal({ activities, course, plan, overall, metric });
+  const runs = runsForGoal({ activities, course, plan, overall, metric, type });
   const points = pointsFromRuns(runs, units, metric);
   const weekAvg = currentPeriodAverage(points, "week", { now, locale, weekStart, metric });
   const monthAvg = currentPeriodAverage(points, "month", { now, locale, weekStart, metric });
@@ -641,8 +642,115 @@ export function oneShotGoalProgress(goal, activities, { units = "mi" } = {}) {
   return null;
 }
 
-/** Circular progress ring for a weekly/monthly goal. */
-export function periodRingMarkup(progress, { size = 120, testid = "period-ring" } = {}) {
+/**
+ * The free goal view: current speed/pace or distance, the required value,
+ * and the gap. No coaching, intervals or nutrition here — those are the $2
+ * plan. Returns null for goal types with nothing live to compare.
+ */
+export function freeGoalGap(goal, activities, { units = "mi", now = new Date(), locale, weekStart } = {}) {
+  if (!goal) return null;
+  const acts = activities || [];
+  const fmt = (v, metric) => formatMetricValue(v, metric, units);
+  const period = goalPeriod(goal);
+  if (period) {
+    const prog = periodGoalProgress(goal, acts, { now, locale, weekStart, units });
+    if (!prog) return null;
+    const metric = prog.metric === "count" ? "count" : prog.metric;
+    return {
+      metric,
+      current: prog.current,
+      required: prog.target,
+      gap: prog.remaining,
+      currentLabel: prog.currentLabel,
+      requiredLabel: prog.targetLabel,
+      gapLabel: prog.complete ? "Goal met" : `${fmt(prog.remaining, metric)} to go`,
+      complete: prog.complete,
+    };
+  }
+  const kind = String(goal.kind || "");
+  if (kind === "route-time" || (goal.courseId && Number(goal.finishSec) > 0 && kind.includes("time"))) {
+    const runs = acts.filter((a) => a && a.courseId === goal.courseId && Number(a.elapsedSec) > 0);
+    const best = runs.reduce((m, a) => Math.min(m, Number(a.elapsedSec)), Infinity);
+    const has = Number.isFinite(best) && best !== Infinity;
+    const required = Number(goal.finishSec) || 0;
+    return {
+      metric: "time",
+      current: has ? best : null,
+      required,
+      gap: has ? Math.max(0, best - required) : required,
+      currentLabel: has ? formatDuration(best) : "—",
+      requiredLabel: fmt(required, "time"),
+      gapLabel: has ? (best <= required ? "Goal met" : `${formatDuration(best - required)} to go`) : "No time on this route yet",
+      complete: !!(has && required > 0 && best <= required),
+    };
+  }
+  if (kind === "speed" || Number(goal.paceSecPerMile) > 0) {
+    const requiredPace = Number(goal.paceSecPerMile) || 0;
+    const withPace = acts.filter((a) => Number(a.distanceMeters) > 50 && Number(a.elapsedSec) > 0);
+    const latest = withPace[withPace.length - 1];
+    const currentPace = latest ? paceSecPerUnit(latest.distanceMeters, latest.elapsedSec, units) : null;
+    const gapSec = currentPace != null ? currentPace - requiredPace : null;
+    return {
+      metric: "pace",
+      current: currentPace,
+      required: requiredPace,
+      gap: gapSec,
+      currentLabel: currentPace != null ? formatPaceTick(currentPace, units) : "—",
+      requiredLabel: formatPaceTick(requiredPace, units),
+      gapLabel: gapSec == null ? "No pace yet" : gapSec <= 0 ? "On or ahead of goal" : `${formatPaceTick(gapSec, units).replace(/\/.*$/, "")} slower`,
+      complete: gapSec != null && gapSec <= 0,
+    };
+  }
+  if (kind === "time-distance" || (Number(goal.distanceMeters) > 0 && Number(goal.finishSec) > 0)) {
+    const need = Number(goal.distanceMeters) || 0;
+    const requiredPace = need > 0 ? Number(goal.finishSec) / (need / (units === "km" ? METERS_PER_KM : METERS_PER_MILE)) : null;
+    const qualifying = acts.filter((a) => a && Number(a.distanceMeters) >= need && Number(a.elapsedSec) > 0);
+    const latestAny = acts.filter((a) => Number(a.distanceMeters) > 50 && Number(a.elapsedSec) > 0).slice(-1)[0];
+    const source = qualifying.slice(-1)[0] || latestAny;
+    const currentPace = source ? paceSecPerUnit(source.distanceMeters, source.elapsedSec, units) : null;
+    const gapSec = currentPace != null && requiredPace != null ? currentPace - requiredPace : null;
+    const gapClock = gapSec == null ? "" : formatPaceTick(Math.abs(gapSec), units).replace(/\/.*$/, "");
+    return {
+      metric: "pace",
+      current: currentPace,
+      required: requiredPace,
+      gap: gapSec,
+      currentLabel: currentPace != null ? formatPaceTick(currentPace, units) : "—",
+      requiredLabel: requiredPace != null ? formatPaceTick(requiredPace, units) : "—",
+      gapLabel: gapSec == null ? "No pace yet" : gapSec <= 0 ? `${gapClock} in hand` : `${gapClock} to find`,
+      complete: !!(gapSec != null && gapSec <= 0 && qualifying.length),
+    };
+  }
+  if (kind === "distance" || Number(goal.distanceMeters) > 0) {
+    const best = acts.reduce((m, a) => Math.max(m, Number(a.distanceMeters) || 0), 0);
+    const required = Number(goal.distanceMeters) || 0;
+    return {
+      metric: "distance",
+      current: best,
+      required,
+      gap: Math.max(0, required - best),
+      currentLabel: fmt(best, "distance"),
+      requiredLabel: fmt(required, "distance"),
+      gapLabel: best >= required ? "Goal met" : `${fmt(required - best, "distance")} to go`,
+      complete: best >= required && required > 0,
+    };
+  }
+  return null;
+}
+
+/** Markup for the free current / required / gap panel. */
+export function freeGoalGapMarkup(gap, { testid = "goal-gap" } = {}) {
+  if (!gap) return "";
+  const label = gap.metric === "pace" ? "Speed/pace" : gap.metric === "distance" ? "Distance" : gap.metric === "count" ? "Count" : "Time";
+  return `<div class="goal-gap" data-testid="${testid}" data-metric="${gap.metric}">
+    <div class="goal-gap-row"><span>Current</span><strong>${esc(gap.currentLabel)}</strong></div>
+    <div class="goal-gap-row"><span>Required</span><strong>${esc(gap.requiredLabel)}</strong></div>
+    <div class="goal-gap-row goal-gap-diff" data-complete="${gap.complete ? "1" : "0"}"><span>Gap</span><strong>${esc(gap.gapLabel)}</strong></div>
+    <p class="tiny goal-gap-note">${esc(label)} target. Free — no plan needed.</p>
+  </div>`;
+}
+
+/** Circular progress ring for a weekly/monthly goal. */export function periodRingMarkup(progress, { size = 120, testid = "period-ring" } = {}) {
   if (!progress) return "";
   const p = Math.max(0, Math.min(1.0, Number(progress.pct) || 0));
   const r = 46;

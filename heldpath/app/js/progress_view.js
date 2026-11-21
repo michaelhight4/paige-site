@@ -167,23 +167,44 @@ function achievementCard(a) {
 
 export function renderProgressView(root, ctx) {
   const {
-    activities = [],
+    activities: allActivities = [],
     courses = [],
     goals = [],
     planLibrary = [],
     range = "W",
     units = "mi",
     now = new Date(),
+    sport = "all",
     onStartWalk,
     onOpenGoals,
   } = ctx || {};
+  const presentSports = new Set((allActivities || []).map((a) => (a && a.type === "ride" ? "ride" : a && a.type === "run" ? "run" : "walk")));
+  const sportChoices = [["all", "All"], ["walk", "Walk"], ["run", "Run"]]
+    .concat(presentSports.has("ride") ? [["ride", "Ride"]] : []);
+  const activeSport = sportChoices.some(([v]) => v === sport) ? sport : "all";
+  const activities = activeSport === "all"
+    ? allActivities
+    : (allActivities || []).filter((a) => (a && a.type === "ride" ? "ride" : a && a.type === "run" ? "run" : "walk") === activeSport);
+  const sportTog = `<div class="range-tog sport-tog" id="sport-tog" data-testid="sport-tog">
+    ${sportChoices.map(([v, label]) => `<button type="button" data-sport="${v}" class="${v === activeSport ? "active" : ""}">${label}</button>`).join("")}
+  </div>`;
+  const wireSport = (scope) => {
+    const tog = scope && scope.querySelector("#sport-tog");
+    if (!tog) return;
+    tog.addEventListener("click", (ev) => {
+      const btn = ev.target.closest("button[data-sport]");
+      if (!btn) return;
+      renderProgressView(root, { ...(ctx || {}), sport: btn.getAttribute("data-sport") });
+    });
+  };
 
   if (!activities.length) {
-    root.innerHTML = emptyProgressMarkup() + `<div id="goal-progress-block"></div>`;
+    root.innerHTML = `<div class="sport-tog-row">${sportTog}</div>` + emptyProgressMarkup() + `<div id="goal-progress-block"></div>`;
+    wireSport(root);
     const start = root.querySelector("#empty-go-walk");
     if (start && onStartWalk) start.addEventListener("click", onStartWalk);
     mountGoalProgress(root.querySelector("#goal-progress-block"), {
-      activities, courses, goals, planLibrary, units, now, onOpenGoals,
+      activities, courses, goals, planLibrary, units, now, onOpenGoals, sport: activeSport,
     });
     return;
   }
@@ -201,12 +222,14 @@ export function renderProgressView(root, ctx) {
   const earned = achievements.filter((a) => a.earned).length;
   const recent = [...activities]
     .sort((a, b) => Date.parse(b.endedAt || b.startedAt) - Date.parse(a.endedAt || a.startedAt))
-    .slice(0, 8);
+    .slice(0, 12);
 
   root.innerHTML = `
     <div class="card chart-card">
       <div class="chart-head">
         <h2>Distance over time</h2>
+        ${sportTog}
+      </div>
         <div class="chart-total">
           <strong>${dist(sums.distanceMeters, units)}</strong>
           <span>${RANGE_LABEL[range] || "Selected range"}</span>
@@ -259,8 +282,9 @@ export function renderProgressView(root, ctx) {
     </div>`;
 
   paintChart(root.querySelector("#chart"), buckets, units);
+  wireSport(root);
   mountGoalProgress(root.querySelector("#goal-progress-block"), {
-    activities, courses, goals, planLibrary, units, now, onOpenGoals,
+    activities, courses, goals, planLibrary, units, now, onOpenGoals, sport: activeSport,
   });
 
   const list = root.querySelector("#recent-list");
@@ -274,7 +298,7 @@ export function renderProgressView(root, ctx) {
 }
 
 
-function mountGoalProgress(root, { activities, courses, goals, planLibrary, units, now, onOpenGoals }) {
+function mountGoalProgress(root, { activities, courses, goals, planLibrary, units, now, onOpenGoals, sport = "all" }) {
   if (!root) return;
   const locale = (typeof navigator !== "undefined" && navigator.language) || "en-US";
   const items = [];
@@ -335,12 +359,13 @@ function mountGoalProgress(root, { activities, courses, goals, planLibrary, unit
       now,
       locale,
       overall: item.overall || item.kind === "overall",
+      type: sport,
     });
     const el = root.querySelector(`#goal-chart-${i}`);
     if (el) mountGoalChart(el, series, { mode, title: item.title });
   });
 
-  const overallRuns = runsForGoal({ activities, overall: true, metric: "distance" });
+  const overallRuns = runsForGoal({ activities, overall: true, metric: "distance", type: sport });
   const overallPoints = pointsFromRuns(overallRuns, units, "distance");
   const paintHist = (period) => {
     const rows = periodHistory(overallPoints, period, { locale, metric: "distance", units });

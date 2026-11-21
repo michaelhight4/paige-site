@@ -20,11 +20,23 @@ import {
 import { destination } from "./util.js";
 import { autoLoopRoute, getActiveGraph } from "./routing.js";
 import { ensureLoopGraph } from "./area_graphs.js";
+import { KG_PER_LB } from "./body_weight.js";
 
 export const MS_WEEK = 7 * 24 * 60 * 60 * 1000;
 export const DEFAULT_STEP = 0.02; // 2%, within the 1–3% range
 export const MIN_STEP = 0.01;
 export const MAX_STEP = 0.03;
+
+/** One new sport for this work: walk, run or ride. */
+export const PLAN_ACTIVITY_TYPES = ["walk", "run", "ride"];
+export const RIDE_MPH = 12;
+export function planActivityMph(type) {
+  if (type === "ride") return RIDE_MPH;
+  return activityMph(type);
+}
+function planActivityType(type) {
+  return type === "run" ? "run" : type === "ride" ? "ride" : "walk";
+}
 
 /* ————————————————————————————————————————————————————————————————
  * Published reference formulas. Nothing here is AI-generated: the
@@ -37,6 +49,11 @@ export const MAX_STEP = 0.03;
 export function metsForPace({ activityType = "walk", mph, grade = 0 } = {}) {
   const speed = Number(mph);
   if (!Number.isFinite(speed) || speed <= 0) return 0;
+  // Leisure cycling ballpark from the Compendium of Physical Activities
+  // (about 8 METs at 12 mph). Plan-effort maths only.
+  if (activityType === "ride") {
+    return Math.round(Math.max(3.5, speed * 0.65) * 100) / 100;
+  }
   const metersPerMin = (speed * METERS_PER_MILE) / 60;
   const g = Math.max(0, Number(grade) || 0);
   // Running: VO2 = 0.2 v + 0.9 v g + 3.5. Walking: VO2 = 0.1 v + 1.8 v g + 3.5 (v in m/min).
@@ -167,6 +184,115 @@ export function nextSplitTarget({
   };
 }
 
+/**
+ * Evenly divide the gap between today's target and the goal across the
+ * sessions in the window. A target moves to the next rung only after that
+ * session's target has been beaten, so a miss holds. Returns seconds.
+ */
+export function evenGapSteps({ currentTargetSec, goalTargetSec = null, sessions = 1 } = {}) {
+  const current = Number(currentTargetSec);
+  const n = Math.max(1, Math.round(Number(sessions) || 1));
+  const goal = Number(goalTargetSec);
+  if (!(current > 0)) return Array(n).fill(0);
+  if (!(goal > 0) || goal >= current) return Array(n).fill(Math.round(current * 10) / 10);
+  const gap = current - goal;
+  if (n === 1) return [Math.round(goal * 10) / 10];
+  return Array.from({ length: n }, (_, i) => {
+    const sec = i === n - 1 ? goal : current - (gap * i) / (n - 1);
+    return Math.round(sec * 10) / 10;
+  });
+}
+
+/**
+ * The rung for the next session. Hitting (or beating) the current rung
+ * advances exactly one step; a miss keeps the same rung. Never faster than
+ * the final goal rung.
+ */
+export function nextLadderTarget({ sessionTargetsSec, index = 0, performedSec = null } = {}) {
+  const ladder = Array.isArray(sessionTargetsSec) && sessionTargetsSec.length
+    ? sessionTargetsSec.map((v) => Number(v) || 0)
+    : [];
+  if (!ladder.length) return { targetSec: 0, nextIndex: 0, advanced: false, reason: "no_target" };
+  const i = Math.max(0, Math.min(ladder.length - 1, Math.round(Number(index) || 0)));
+  const targetSec = ladder[i];
+  const performed = Number(performedSec);
+  const beaten = Number.isFinite(performed) && performed > 0 && performed <= targetSec + 0.5;
+  if (!beaten) {
+    return { targetSec, nextIndex: i, advanced: false, reason: "not_met" };
+  }
+  if (i >= ladder.length - 1) {
+    return { targetSec, nextIndex: i, advanced: false, reason: "at_goal" };
+  }
+  return {
+    targetSec: ladder[i + 1],
+    nextIndex: i + 1,
+    advanced: true,
+    reason: "advance",
+  };
+}
+
+/**
+ * Paid-plan progression: the precomputed even gap ladder advances one rung
+ * when a session beats its target. Missing holds the rung. Per-leg targets
+ * are the same rung split by leg distance, and each leg still only tightens
+ * when that leg was beaten. `pins`/`path` make the per-leg split possible.
+ */
+export function applyCoachedSessionResult(
+  progression,
+  performedSec,
+  now = new Date(),
+  goalTargetSec = null,
+  legPerformedSec = null,
+  { pins = null, path = null, goalLegTargetsSec = null } = {}
+) {
+  const ladder = Array.isArray(progression && progression.sessionTargetsSec)
+    ? progression.sessionTargetsSec.slice()
+    : null;
+  if (!ladder || !ladder.length) {
+    return applySessionResult(progression, performedSec, now, goalTargetSec, legPerformedSec);
+  }
+  const step = nextLadderTarget({
+    sessionTargetsSec: ladder,
+    index: progression.sessionIndex || 0,
+    performedSec,
+  });
+  const nextTarget = step.advanced ? step.targetSec : ladder[Math.max(0, Math.min(ladder.length - 1, progression.sessionIndex || 0))];
+  const out = {
+    ...progression,
+    currentTargetSec: nextTarget,
+    sessionIndex: step.nextIndex,
+    lastReason: step.reason,
+    lastPerformedSec: performedSec,
+    lastSessionTargetSec: ladder[Math.max(0, Math.min(ladder.length - 1, progression.sessionIndex || 0))],
+    lastAdvanced: step.advanced,
+  };
+  if (step.advanced) out.targetStartedAt = startOfDay(now).toISOString();
+
+  if (pins && pins.length >= 2 && Array.isArray(legPerformedSec)) {
+    const currentLegs = Array.isArray(out.legTargetsSec) ? out.legTargetsSec.slice() : [];
+    const nextLegs = buildLegTargets(pins, nextTarget, { path });
+    const goals = Array.isArray(goalLegTargetsSec)
+      ? goalLegTargetsSec
+      : (Array.isArray(out.legGoalTargetsSec) ? out.legGoalTargetsSec : null);
+    const started = Array.isArray(out.legStartedAt) ? out.legStartedAt.slice() : [];
+    for (let i = 0; i < nextLegs.length; i++) {
+      const have = Number(legPerformedSec[i]);
+      const cur = Number(currentLegs[i]) || 0;
+      const candidate = Number(nextLegs[i]) || cur;
+      const goal = goals && goals[i] != null ? Number(goals[i]) : null;
+      const beaten = Number.isFinite(have) && have > 0 && have <= cur + 0.5;
+      const allowed = goal == null || candidate >= goal;
+      if (beaten && allowed && candidate < cur - 0.01) {
+        currentLegs[i] = candidate;
+        started[i] = startOfDay(now).toISOString();
+      }
+    }
+    out.legTargetsSec = currentLegs;
+    out.legStartedAt = started;
+  }
+  return out;
+}
+
 /** Daily drink target, general guidance, not medical advice. ml. */
 export function waterTargetMl({ bodyKg, sessionHoursThatDay }) {
   const baseline = bodyKg ? Math.round((32.5 * bodyKg) / 50) * 50 : 2000;
@@ -229,7 +355,7 @@ export function reminderTimesFor(plan, opts = {}) {
 }
 
 /** Max sessions a week for a beginner-safe plan (at least two rest days). */
-export const MAX_SESSIONS_PER_WEEK = { walk: 5, run: 4 };
+export const MAX_SESSIONS_PER_WEEK = { walk: 5, run: 4, ride: 5 };
 export const DEFAULT_REMINDER_TIMES = ["08:00", "12:00", "16:00", "20:00"];
 export const ML_PER_OZ = 29.5735;
 
@@ -540,6 +666,151 @@ export function runWalkMix({ activityType, beginner = true, sessionSec = 1800 } 
 }
 
 /**
+ * Ride session pattern. Easy/harder intervals on time, not power, so no
+ * power meter is needed. Same incremental target rule as walk and run.
+ */
+export function rideMix({ activityType, beginner = true, sessionSec = 1800 } = {}) {
+  if (activityType !== "ride") return null;
+  const minutes = Math.max(10, Math.round((Number(sessionSec) || 1800) / 60));
+  return beginner
+    ? {
+        label: "Ride easy 5 min, then repeat 2 min steady / 2 min easy. Spin easy for the last 5 min.",
+        warmupSec: 300,
+        hardSec: 120,
+        easySec: 120,
+        minutes,
+      }
+    : {
+        label: "Ride easy 10 min, then 3 × 5 min steady with 2 min easy between. Finish easy.",
+        warmupSec: 600,
+        hardSec: 300,
+        easySec: 120,
+        minutes,
+      };
+}
+
+/** The session pattern for the paid plan: walk-run, ride intervals or an even walk. */
+export function sessionMix({ activityType = "walk", beginner = true, sessionSec = 1800 } = {}) {
+  const type = planActivityType(activityType);
+  if (type === "run") return runWalkMix({ activityType: type, beginner, sessionSec });
+  if (type === "ride") return rideMix({ activityType: type, beginner, sessionSec });
+  return {
+    label: "Walk at an easy, even effort. Keep a rest day between longer walks.",
+    minutes: Math.max(10, Math.round((Number(sessionSec) || 1800) / 60)),
+  };
+}
+
+/* ————————————————————————————————————————————————————————————————
+ * Carb and protein guidance for the $2 plan. Ranges are published
+ * general guidance for recreational endurance activity, scaled to a
+ * 2,000 kcal reference diet. This is not a personal prescription and
+ * not medical advice.
+ * ———————————————————————————————————————————————————————————————— */
+
+export const NUTRITION_DISCLAIMER_PERSONAL =
+  "General guidance for healthy adults, not medical advice. Daily gram ranges are based on your weight and published per-body-weight rates for recreational endurance activity. Needs vary with health and medications — adjust with a clinician or dietitian if you are unsure.";
+
+export const NUTRITION_DISCLAIMER_REFERENCE =
+  "General guidance for healthy adults, not medical advice. Without a body weight, daily gram ranges follow a 2,000-calorie reference diet (carbohydrate about 45–65% of calories, protein about 10–35%). Enter your weight for a personalised daily range. Needs vary — adjust with a clinician or dietitian if you are unsure.";
+
+/** Default disclaimer: the 2,000-calorie fallback used when no weight is entered. */
+export const NUTRITION_DISCLAIMER = NUTRITION_DISCLAIMER_REFERENCE;
+
+export const NUTRITION_SOURCES = [
+  "ACSM, Nutrition and Athletic Performance (2016): carbohydrate and protein ranges for training and recovery.",
+  "ISSN position stand, Protein and Exercise (2017): 1.2–1.6 g/kg/day for endurance activity.",
+  "ISSN position stand, Carbohydrate and Exercise Performance (2018): 3–5 g/kg/day for moderate endurance training.",
+];
+
+/** 2,000-calorie AMDR gram bands used only when no body weight is entered. */
+export const REFERENCE_DIET_KCAL = 2000;
+export const REFERENCE_CARB_G = { minG: 225, maxG: 325, minPct: 45, maxPct: 65 };
+export const REFERENCE_PROTEIN_G = { minG: 50, maxG: 175, minPct: 10, maxPct: 35 };
+
+/**
+ * Format a published g/kg range in the user's body-weight unit.
+ * 1 g/kg equals KG_PER_LB g/lb (the exact international pound).
+ */
+export function formatGramsPerBodyMass(minPerKg, maxPerKg, unit, { suffix = "/day" } = {}) {
+  const tag = suffix == null ? "" : String(suffix);
+  if (unit === "lb") {
+    const lo = Number(minPerKg) * KG_PER_LB;
+    const hi = Number(maxPerKg) * KG_PER_LB;
+    return `${lo.toFixed(2)}–${hi.toFixed(2)} g/lb${tag}`;
+  }
+  const trim = (n) => {
+    const s = Number(n);
+    return Number.isInteger(s) ? String(s) : String(s);
+  };
+  return `${trim(minPerKg)}–${trim(maxPerKg)} g/kg${tag}`;
+}
+
+/**
+ * Conservative carb and protein ranges.
+ * With a body weight, use the published ACSM/ISSN g/kg rates and scale
+ * daily grams to that weight. Display the rates as g/lb when the user's
+ * unit is lb, and as g/kg when it is kg.
+ * Without a weight, do not invent a 70 kg example: fall back to 2,000-calorie
+ * diet gram bands (AMDR) and still show the published per-body-weight rates
+ * so the user can see how a later weight entry will personalise the totals.
+ */
+export function carbProteinGuidance({ activityType = "walk", bodyKg = null, sessionSec = 0, weightUnit = "kg" } = {}) {
+  const type = planActivityType(activityType);
+  const unit = weightUnit === "lb" ? "lb" : "kg";
+  const hasWeight = Number(bodyKg) > 0;
+  const kg = hasWeight ? Number(bodyKg) : null;
+  const assumedBodyKg = !hasWeight;
+  const hours = Math.max(0, Number(sessionSec) || 0) / 3600;
+  const carbRate = { minPerKg: 3, maxPerKg: 5 };
+  const proteinRate = { minPerKg: 1.2, maxPerKg: 1.6 };
+  const carbLow = hasWeight ? Math.round(carbRate.minPerKg * kg) : REFERENCE_CARB_G.minG;
+  const carbHigh = hasWeight ? Math.round(carbRate.maxPerKg * kg) : REFERENCE_CARB_G.maxG;
+  const proteinLow = hasWeight ? Math.round(proteinRate.minPerKg * kg) : REFERENCE_PROTEIN_G.minG;
+  const proteinHigh = hasWeight ? Math.round(proteinRate.maxPerKg * kg) : REFERENCE_PROTEIN_G.maxG;
+  const carbPct = hasWeight ? null : REFERENCE_CARB_G.maxPct;
+  const proteinPct = hasWeight ? null : REFERENCE_PROTEIN_G.maxPct;
+  const proteinAfter = formatGramsPerBodyMass(0.25, 0.3, unit, { suffix: "" });
+  return {
+    activityType: type,
+    bodyKg: kg,
+    assumedBodyKg,
+    weightUnit: unit,
+    carbs: {
+      minG: carbLow,
+      maxG: carbHigh,
+      minPerKg: carbRate.minPerKg,
+      maxPerKg: carbRate.maxPerKg,
+      perKg: formatGramsPerBodyMass(carbRate.minPerKg, carbRate.maxPerKg, "kg"),
+      perUnit: formatGramsPerBodyMass(carbRate.minPerKg, carbRate.maxPerKg, unit),
+      note: hours >= 1
+        ? "On longer session days, favour the upper end and eat something with carbohydrate 1–4 hours before."
+        : "Spread carbohydrate across the day; a normal mixed diet usually covers a short session.",
+    },
+    protein: {
+      minG: proteinLow,
+      maxG: proteinHigh,
+      minPerKg: proteinRate.minPerKg,
+      maxPerKg: proteinRate.maxPerKg,
+      perKg: formatGramsPerBodyMass(proteinRate.minPerKg, proteinRate.maxPerKg, "kg"),
+      perUnit: formatGramsPerBodyMass(proteinRate.minPerKg, proteinRate.maxPerKg, unit),
+      note: `Include ${proteinAfter} of protein after a session and at meals through the day.`,
+    },
+    reference: {
+      kcal: 2000,
+      carbPct,
+      proteinPct,
+      personalized: hasWeight,
+      line: hasWeight
+        ? "Daily totals use your weight and published per-body-weight rates; your needs may differ."
+        : "Daily totals follow a 2,000-calorie reference diet; enter your weight for a personalised range.",
+    },
+    disclaimer: hasWeight ? NUTRITION_DISCLAIMER_PERSONAL : NUTRITION_DISCLAIMER_REFERENCE,
+    sources: NUTRITION_SOURCES.slice(),
+    userAdjustable: true,
+  };
+}
+
+/**
  * Session count and window only — no paces, distances per week, water, or
  * sector splits. Safe to show before a plan is unlocked.
  */
@@ -550,8 +821,8 @@ export function planSessionOutline({
   windowDays = 14,
   course = null,
 } = {}) {
-  const type = activityType === "run" ? "run" : "walk";
-  const mph = activityMph(type);
+  const type = planActivityType(activityType);
+  const mph = planActivityMph(type);
   const days = Math.max(1, Math.round(windowDays || 14));
   const goalDistance = Number(goalDistanceMeters) > 0 ? Number(goalDistanceMeters) : null;
   const goalDuration = Number(goalDurationSec) > 0 ? Number(goalDurationSec) : null;
@@ -609,9 +880,10 @@ export function planSessionOutline({
 
 export function formatPlanLength(outline) {
   const o = outline || {};
-  const kind = o.activityType === "run" ? "run" : "walk";
+  const kind = planActivityType(o.activityType);
+  const noun = kind === "ride" ? "ride" : kind;
   const n = Math.max(1, Number(o.sessions) || 1);
-  const guided = n === 1 ? `1 guided ${kind}` : `${n} guided ${kind}s`;
+  const guided = n === 1 ? `1 guided ${noun}` : `${n} guided ${noun}s`;
   const days = Math.max(1, Number(o.days) || 1);
   const weeks = Number(o.weeks) || Math.ceil(days / 7);
   const window = days >= 7 && days % 7 === 0
@@ -624,7 +896,7 @@ export function formatPlanLength(outline) {
 export function planTeaserModel(goal = {}, { units = "mi", formatDistance } = {}) {
   const outline = planSessionOutline(goal);
   const type = outline.activityType;
-  const kind = type === "run" ? "Run" : "Walk";
+  const kind = type === "ride" ? "Ride" : type === "run" ? "Run" : "Walk";
   let goalLabel = kind;
   const dist = Number(goal.goalDistanceMeters);
   if (dist > 0 && typeof formatDistance === "function") {
@@ -645,7 +917,7 @@ export function planTeaserModel(goal = {}, { units = "mi", formatDistance } = {}
   return {
     goalLabel,
     lengthLabel: formatPlanLength(outline),
-    includes: ["Step goals", "Per-leg paces", "Water reminders"],
+    includes: ["Even gap-split interval targets", "Walk-run or ride intervals", "Water guidance", "Carb and protein guidance"],
     activityType: type,
     windowDays: outline.days,
     weeks: outline.weeks,
@@ -671,12 +943,13 @@ export function buildPlanDraft({
   center = null,
   loop = null,
   bodyKg = null,
+  weightUnit = "kg",
   now = new Date(),
   name = "",
   beginner = true,
 }) {
-  const type = activityType === "run" ? "run" : "walk";
-  const mph = activityMph(type);
+  const type = planActivityType(activityType);
+  const mph = planActivityMph(type);
   const maxPerWeek = MAX_SESSIONS_PER_WEEK[type];
   const outline = planSessionOutline({
     activityType: type,
@@ -710,6 +983,13 @@ export function buildPlanDraft({
   const initialTargetSec = goalTargetSec
     ? Math.max(goalTargetSec, sessionSecTypical) // start no faster than typical
     : sessionSecTypical;
+  // Paid coaching ladder: the whole gap is divided evenly across the sessions.
+  const sessionTargetsSec = evenGapSteps({
+    currentTargetSec: initialTargetSec,
+    goalTargetSec,
+    sessions: sessionsNeeded,
+  });
+  const nutrition = carbProteinGuidance({ activityType: type, bodyKg, sessionSec: sessionSecTypical, weightUnit });
 
   const effort = effortEstimate({
     activityType: type,
@@ -776,13 +1056,15 @@ export function buildPlanDraft({
       sessionDates: dates,
       initialTargetSec,
       goalTargetSec,
+      sessionTargetsSec,
       legTargetsSec,
       legGoalTargetsSec,
       maxSessionsPerWeek: maxPerWeek,
       effort,
       vdot,
       trainingPaces,
-      mix: runWalkMix({ activityType: type, beginner, sessionSec: sessionSecTypical }),
+      nutrition,
+      mix: sessionMix({ activityType: type, beginner, sessionSec: sessionSecTypical }),
       weekly: weeklyProgression({
         windowDays: days,
         sessionsPerWeek: sessionsNeeded / days * 7,
@@ -793,6 +1075,8 @@ export function buildPlanDraft({
       currentTargetSec: initialTargetSec,
       targetStartedAt: startedAt,
       step: DEFAULT_STEP,
+      sessionIndex: 0,
+      sessionTargetsSec,
       legTargetsSec,
       legStartedAt: legTargetsSec.map(() => startedAt),
       legGoalTargetsSec,
@@ -801,7 +1085,7 @@ export function buildPlanDraft({
 }
 
 function defaultTitle(type, dist, dur, days) {
-  const kind = type === "run" ? "Run" : "Walk";
+  const kind = type === "ride" ? "Ride" : type === "run" ? "Run" : "Walk";
   if (dist) return `${days}-day ${kind.toLowerCase()} plan`;
   return `${days}-day ${kind.toLowerCase()} plan`;
 }

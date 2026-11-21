@@ -10,7 +10,9 @@ import {
   buildPlanDraft,
   buildLegTargets,
   legSplitsFromTrack,
-  applySessionResult,
+  applyCoachedSessionResult,
+  evenGapSteps,
+  carbProteinGuidance,
   reminderTimesFor,
   normaliseReminderTimes,
   WATER_DISCLAIMER,
@@ -69,7 +71,7 @@ export function makePlan(draft, { id = uid("plan"), now = new Date(), ownership 
     title: cleanTitle(draft.title),
     createdAt: iso,
     updatedAt: iso,
-    activityType: draft.activityType === "run" ? "run" : "walk",
+    activityType: draft.activityType === "run" ? "run" : draft.activityType === "ride" ? "ride" : "walk",
     goal: { ...draft.goal },
     water: { ...draft.water, reminderLocalTimes: normaliseReminderTimes(draft.water?.reminderLocalTimes) },
     route: {
@@ -168,7 +170,7 @@ export function exportFileName(plan) {
 
 function sanitiseImportedPlan(raw) {
   if (!raw || typeof raw !== "object") return { ok: false, error: "missing_plan" };
-  const activityType = raw.activityType === "run" ? "run" : raw.activityType === "walk" ? "walk" : null;
+  const activityType = raw.activityType === "run" ? "run" : raw.activityType === "ride" ? "ride" : raw.activityType === "walk" ? "walk" : null;
   if (!activityType) return { ok: false, error: "bad_activity" };
   const schedule = raw.schedule || {};
   const sessionDates = cleanDates(schedule.sessionDates);
@@ -229,7 +231,13 @@ function sanitiseImportedPlan(raw) {
       sessionDates,
       initialTargetSec: num(schedule.initialTargetSec, sessionSec),
       goalTargetSec: schedule.goalTargetSec == null ? null : num(schedule.goalTargetSec, null),
+      sessionTargetsSec: evenGapSteps({
+        currentTargetSec: num(schedule.initialTargetSec, sessionSec),
+        goalTargetSec: schedule.goalTargetSec == null ? null : num(schedule.goalTargetSec, null),
+        sessions: sessionDates.length,
+      }),
       legTargetsSec: pins.length >= 2 ? buildLegTargets(pins, num(schedule.initialTargetSec, sessionSec)) : [Math.round(num(schedule.initialTargetSec, sessionSec)) || 1],
+      nutrition: carbProteinGuidance({ activityType, sessionSec }),
     },
     progression: {},
     // Imported plans are owned locally, but never re-charged.
@@ -245,6 +253,8 @@ function sanitiseImportedPlan(raw) {
     currentTargetSec: plan.schedule.initialTargetSec,
     targetStartedAt: startedAt,
     step,
+    sessionIndex: 0,
+    sessionTargetsSec: plan.schedule.sessionTargetsSec,
     legTargetsSec: plan.schedule.legTargetsSec,
     legStartedAt: plan.schedule.legTargetsSec.map(() => startedAt),
   };
@@ -339,12 +349,17 @@ export function applyCompletedSession(plan, activity, now = new Date()) {
   const performed = num(activity.elapsedSec);
   if (!(performed > 0)) return plan;
   const legPerformed = legSplitsFromTrack(plan.route?.pins, activity.track);
-  plan.progression = applySessionResult(
+  plan.progression = applyCoachedSessionResult(
     plan.progression,
     performed,
     now,
     plan.schedule?.goalTargetSec ?? null,
-    legPerformed
+    legPerformed,
+    {
+      pins: plan.route?.pins || null,
+      path: plan.route?.path || null,
+      goalLegTargetsSec: plan.schedule?.legGoalTargetsSec || plan.progression?.legGoalTargetsSec || null,
+    }
   );
   plan.updatedAt = (now instanceof Date ? now : new Date(now)).toISOString();
   return plan;

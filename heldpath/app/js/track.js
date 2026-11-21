@@ -10,8 +10,10 @@ import {
   etaSeconds,
 } from "./util.js";
 import { progressOnPlan, MODE_CONTINUE } from "./target_distance.js";
+import { analyzeLapGate } from "./lap_gate.js";
 import { considerAutoPause, createAutoPauseState } from "./auto_pause.js";
 import { applyTrackPoint } from "./gap_fill.js";
+import { normalizeSport } from "./sport.js";
 import { updateOffRoute } from "./off_route.js";
 import { maybeDetectStart, progressFromStart } from "./start_detect.js";
 import { nativeWatcherOptions, webWatchOptions, shouldAcceptFix } from "./low_power.js";
@@ -46,11 +48,14 @@ export function makeSession({ type, course, units, target } = {}) {
     ? target.path.slice()
     : (course && course.path && course.path.length >= 2 ? course.path.slice() : (course ? course.pins.slice() : null));
   session = {
-    type: type || "walk",
+    type: normalizeSport(type),
     courseId: course ? course.id : null,
     courseName: course ? course.name : null,
     coursePins: course ? course.pins.slice() : null,
     coursePath: planned,
+    lapPath: course
+      ? ((course.path && course.path.length >= 2) ? course.path.slice() : (course.pins ? course.pins.slice() : null))
+      : null,
     target: target || null,
     targetAnnounced: false,
     goalComplete: false,
@@ -78,7 +83,7 @@ export function makeSession({ type, course, units, target } = {}) {
     pathOriginMeters: 0,
     lowPower: !!lowPowerEnabled,
   };
-  autoWatch = createAutoPauseState(Date.parse(session.startedAt));
+  autoWatch = createAutoPauseState(Date.parse(session.startedAt), session.type);
   return session;
 }
 
@@ -135,7 +140,7 @@ export function restoreSession(saved, at = Date.now()) {
     session.pausedAcc = (session.pausedAcc || 0) + gap;
     session.pauseStarted = null;
   }
-  autoWatch = createAutoPauseState(Date.parse(session.startedAt) || at);
+  autoWatch = createAutoPauseState(Date.parse(session.startedAt) || at, session.type);
   if (session.paused) return session;
   return tickElapsed(at);
 }
@@ -192,6 +197,14 @@ function alongCourseProgress(sess, path, last) {
   return { traveled, remaining: Math.max(0, adj.total - traveled), total: adj.total };
 }
 
+function sessionLapGate(sess) {
+  if (!sess || !sess.coursePins || sess.coursePins.length < 2) return null;
+  if (!sess.track || sess.track.length < 2) return null;
+  // Gate and sector pins come from the one-lap course, never from the
+  // repeated target path (which is several laps long).
+  return analyzeLapGate({ pins: sess.coursePins, path: sess.lapPath || null }, sess.track);
+}
+
 export function courseRemaining(sess) {
   if (!sess) return { onCourse: false, traveled: 0, remaining: 0, total: 0 };
   if (sess.target && sess.target.targetMeters > 0) {
@@ -205,15 +218,18 @@ export function courseRemaining(sess) {
     } else {
       traveled = alongCourseProgress(sess, path, last).traveled;
     }
-    const prog = progressOnPlan(sess.target, traveled);
+    const gate = sess.target.mode === MODE_CONTINUE ? null : sessionLapGate(sess);
+    const prog = progressOnPlan(sess.target, traveled, { gate });
+    const lapLabel = prog.label || (gate && gate.gated ? `Lap ${gate.currentLap}` : "");
     return stampGoal(sess, {
       onCourse: true,
       traveled: prog.traveled,
       remaining: prog.left,
       total: sess.target.targetMeters,
-      lapLabel: prog.label || "",
+      lapLabel,
       hitTarget: prog.hitTarget,
       pastCourse: !!prog.pastCourse,
+      lives: gate && gate.gated ? gate : null,
     });
   }
   const path = sessionCoursePath(sess);
@@ -228,7 +244,17 @@ export function courseRemaining(sess) {
   // Mid-route and reverse starts only count the stretch actually run.
   // Progress is monotonic so a loop or a rejoin cannot rewind it.
   const adj = alongCourseProgress(sess, path, last);
-  const result = { onCourse: true, traveled: adj.traveled, remaining: adj.remaining, total: adj.total, hitTarget: false, pastCourse: false };
+  const gate = sessionLapGate(sess);
+  const result = {
+    onCourse: true,
+    traveled: adj.traveled,
+    remaining: adj.remaining,
+    total: adj.total,
+    lapLabel: gate && gate.gated ? `Lap ${gate.currentLap}` : "",
+    hitTarget: false,
+    pastCourse: false,
+    lives: gate && gate.gated ? gate : null,
+  };
   return stampGoal(sess, result);
 }
 
@@ -300,7 +326,7 @@ export function liveNotification(sess) {
  */
 export function notificationPayload(sess = session) {
   const paused = !!(sess && sess.paused);
-  const body = sess ? liveNotification(sess) : "Tracking your walk";
+  const body = sess ? liveNotification(sess) : "Tracking your activity";
   const awaiting = awaitingKeepGoing(sess);
   const actions = awaiting
     ? [
@@ -447,6 +473,7 @@ function autoInput(at, fix) {
     enabled: autoPauseEnabled,
     paused: !!(session && session.paused),
     pauseReason: session ? session.pauseReason : null,
+    type: session ? session.type : "walk",
     startedAt: session ? Date.parse(session.startedAt) : at,
     at,
     ...(fix || {}),

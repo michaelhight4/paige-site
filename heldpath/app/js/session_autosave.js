@@ -12,6 +12,8 @@ export const MIN_RESUME_SEC = 20;
 const SESSION_FIELDS = [
   "type", "units", "startedAt",
   "courseId", "courseName", "coursePins", "coursePath",
+  /* heldpath-hook: summary-laps — one-lap path for gate lap detection */
+  "lapPath",
   "target", "targetAnnounced",
   "goalComplete", "goalAnnounced", "goalCompleteSec", "goalCompleteMeters", "goalKeptGoing",
   "paused", "pausedAcc", "pauseStarted", "pauseReason",

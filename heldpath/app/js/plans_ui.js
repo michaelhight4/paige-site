@@ -25,11 +25,14 @@ import {
   isNightTime,
   mlToOz,
   ozToMl,
+  carbProteinGuidance,
+  formatGramsPerBodyMass,
 } from "./plan_progress.js";
 import {
   defaultWeightUnit,
   parseWeightInput,
   formatWeightInput,
+  kgToLb,
 } from "./body_weight.js";
 import {
   createPlanForGoal,
@@ -195,6 +198,7 @@ function readGoal() {
     course,
     autoLoop: !course,
     bodyKg,
+    weightUnit: currentWeightUnit(),
     name,
     center: userCenter() || undefined,
   };
@@ -401,6 +405,53 @@ function adjustWaterRecommendation() {
   if ($("plan-water-ml")) $("plan-water-ml").focus();
 }
 
+function renderNutrition(draft) {
+  const box = $("plan-nutrition");
+  if (!box) return;
+  const plan = newestPlan();
+  const hasNutrition = (plan && plan.schedule && plan.schedule.nutrition) || (draft && draft.schedule && draft.schedule.nutrition);
+  if (!hasNutrition) {
+    box.innerHTML = `<p class="tiny">Carb and protein ranges are included in a $2 plan. General guidance, not a prescription.</p>`;
+    return;
+  }
+  const type = (plan && plan.activityType) || (draft && draft.activityType) || "walk";
+  const settings = state().settings || {};
+  const sessionSec = (draft && draft.sessionSecTypical) || (plan && plan.sessionSecTypical) || 0;
+  const n = carbProteinGuidance({
+    activityType: type,
+    bodyKg: settings.bodyKg,
+    sessionSec,
+    weightUnit: currentWeightUnit(),
+  });
+  const unit = currentWeightUnit();
+  const carbRate = n.carbs.perUnit || formatGramsPerBodyMass(n.carbs.minPerKg, n.carbs.maxPerKg, unit);
+  const proteinRate = n.protein.perUnit || formatGramsPerBodyMass(n.protein.minPerKg, n.protein.maxPerKg, unit);
+  let weightLine;
+  if (n.assumedBodyKg || !(n.bodyKg > 0)) {
+    weightLine = "No weight entered — showing 2,000-calorie diet guidance. Enter your weight for a personalised daily range.";
+  } else if (unit === "lb") {
+    weightLine = `Based on ${fmtNum(kgToLb(n.bodyKg), 1)} lb.`;
+  } else {
+    weightLine = `Based on ${fmtNum(n.bodyKg, 1)} kg.`;
+  }
+  const mix = (plan && plan.schedule && plan.schedule.mix) || (draft && draft.schedule && draft.schedule.mix);
+  const pctLine = n.reference.personalized
+    ? ""
+    : `<p class="tiny">${n.reference.kcal} kcal reference · carbohydrate about 45–65% and protein about 10–35% of calories.</p>`;
+  box.innerHTML = `
+    <div class="goal-gap-row"><span>Carbohydrate</span><strong>${n.carbs.minG}–${n.carbs.maxG} g/day</strong></div>
+    <p class="tiny" data-testid="nutrition-carb-rate">${esc(carbRate)}</p>
+    <div class="goal-gap-row"><span>Protein</span><strong>${n.protein.minG}–${n.protein.maxG} g/day</strong></div>
+    <p class="tiny" data-testid="nutrition-protein-rate">${esc(proteinRate)}</p>
+    <p class="tiny">${esc(weightLine)} ${esc(n.reference.line)} You can adjust these ranges.</p>
+    ${mix && mix.label ? `<p class="tiny"><strong>Session pattern:</strong> ${esc(mix.label)}</p>` : ""}
+    <p class="tiny">${esc(n.carbs.note)} ${esc(n.protein.note)}</p>
+    ${pctLine}
+    <p class="tiny">${n.sources.map((s) => esc(s)).join(" ")}</p>`;
+  if ($("plan-nutrition-disclaimer")) $("plan-nutrition-disclaimer").textContent = n.disclaimer;
+  if ($("plan-nutrition-sources")) $("plan-nutrition-sources").textContent = "Sources: " + n.sources.join(" ");
+}
+
 function renderRouteOptions() {
   const sel = $("plan-route");
   const current = sel.value;
@@ -415,6 +466,7 @@ function updatePreview() {
   ui.preview = null;
   fillTeaser(readGoal());
   renderWater();
+  renderNutrition();
   renderCreditNote();
 }
 
@@ -439,9 +491,11 @@ function renderPlanList() {
         <h3>${esc(plan.title)}</h3>
         <span class="plan-owned">${plan.ownership?.state === "imported" ? "Imported free" : "Yours"}</span>
       </div>
-      <p>${plan.activityType === "run" ? "Run" : "Walk"} · ${s.sessionDates?.length || 0} sessions · ${formatDistance(s.sessionDistanceMeters || 0, u)} each</p>
+      <p>${plan.activityType === "ride" ? "Ride" : plan.activityType === "run" ? "Run" : "Walk"} · ${s.sessionDates?.length || 0} sessions · ${formatDistance(s.sessionDistanceMeters || 0, u)} each</p>
       <p class="tiny">${next ? "First session " + next + " · " : ""}${plan.water?.dailyMl || 2000} ml water target</p>
+      ${s.mix && s.mix.label ? `<p class="tiny">${esc(s.mix.label)}</p>` : ""}
       ${legs.length ? `<p class="tiny">Per-leg targets: ${legs.map((x) => formatDuration(x)).join(" · ")}</p>` : ""}
+      ${Array.isArray(s.sessionTargetsSec) && s.sessionTargetsSec.length > 1 ? `<p class="tiny">Next targets: ${s.sessionTargetsSec.slice(0, 4).map((x) => formatDuration(x)).join(" · ")}${s.sessionTargetsSec.length > 4 ? " …" : ""}</p>` : ""}
       <div class="btn-row plan-item-actions">
         <button class="btn btn-secondary" data-export-plan="${esc(plan.id)}">Export</button>
         <button class="btn btn-secondary" data-share-plan="${esc(plan.id)}">Share link</button>
@@ -632,7 +686,7 @@ function bind() {
   $("plan-type-tog").addEventListener("click", (e) => {
     const b = e.target.closest("button[data-type]");
     if (!b) return;
-    ui.type = b.dataset.type === "run" ? "run" : "walk";
+    ui.type = b.dataset.type === "ride" ? "ride" : b.dataset.type === "run" ? "run" : "walk";
     document.querySelectorAll("#plan-type-tog button").forEach((x) => x.classList.toggle("active", x === b));
     ui.waterOverrideMl = null;
     updatePreview();

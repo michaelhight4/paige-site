@@ -39,6 +39,22 @@ export function isExcessiveDetour(routedMeters, straightMeters) {
 const EARTH_LAT_M = 111320;
 
 let activeGraph = null;
+let activeBikeGraph = null;
+
+/** Riding uses its own graph from the same tiles and a wider snap. */
+export const BIKE_PROFILE = {
+  id: "bike",
+  label: "Ride",
+  maxSnapMeters: 120,
+  defaultMph: 15,
+};
+
+export const WALK_PROFILE = {
+  id: "walk",
+  label: "Walk",
+  maxSnapMeters: DEFAULT_SNAP,
+  defaultMph: 3,
+};
 
 export function setActiveGraph(graph) {
   activeGraph = graph || null;
@@ -51,6 +67,23 @@ export function getActiveGraph() {
 
 export function clearActiveGraph() {
   activeGraph = null;
+}
+
+export function setActiveBikeGraph(graph) {
+  activeBikeGraph = graph || null;
+  return activeBikeGraph;
+}
+
+export function getActiveBikeGraph() {
+  return activeBikeGraph;
+}
+
+export function clearActiveBikeGraph() {
+  activeBikeGraph = null;
+}
+
+export function profileForSport(sport) {
+  return sport === "ride" ? BIKE_PROFILE : WALK_PROFILE;
 }
 
 function lonCell(meters, lat) {

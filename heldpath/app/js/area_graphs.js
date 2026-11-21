@@ -3,9 +3,10 @@
  * works offline outside the bundled Florence extract.
  */
 import { getTile, putTile, listAreas } from "./map_storage.js";
-import { parseGraph, setActiveGraph, getActiveGraph, loadBundledGraph, inGraphBounds } from "./routing.js";
+import { parseGraph, setActiveGraph, getActiveGraph, setActiveBikeGraph, getActiveBikeGraph, loadBundledGraph, inGraphBounds } from "./routing.js";
 import {
   buildWalkGraphFromTiles,
+  buildBikeGraphFromTiles,
   pointsInGraphBounds,
   somePointsInGraphBounds,
   OSM_ATTRIBUTION,
@@ -130,7 +131,11 @@ function highestZoomKeys(area) {
   return parsed.filter((t) => t.z === maxZ);
 }
 
-export async function buildGraphForArea(area, { onProgress } = {}) {
+function isBikeRecord(rec) {
+  return !!rec && (rec.profile === "bike" || /:bike$/.test(String(rec.id || "")));
+}
+
+export async function buildGraphForArea(area, { onProgress, kind } = {}) {
   if (!area || !area.id) return { ok: false, reason: "no-area" };
   const tiles = highestZoomKeys(area);
   if (!tiles.length) return { ok: false, reason: "no-tiles" };
@@ -145,11 +150,12 @@ export async function buildGraphForArea(area, { onProgress } = {}) {
     if (onProgress) onProgress({ done, total: tiles.length });
   }
   if (!loaded.length) return { ok: false, reason: "no-tile-data" };
-  const raw = buildWalkGraphFromTiles(loaded, {
-    name: (area.name || "Downloaded area") + " walk",
+  const bike = kind === "bike";
+  const raw = (bike ? buildBikeGraphFromTiles : buildWalkGraphFromTiles)(loaded, {
+    name: (area.name || "Downloaded area") + (bike ? " ride" : " walk"),
     source: "downloaded-area:" + area.id,
   });
-  raw.id = area.id;
+  raw.id = bike ? area.id + ":bike" : area.id;
   raw.areaId = area.id;
   raw.west = area.west;
   raw.south = area.south;
@@ -161,12 +167,18 @@ export async function buildGraphForArea(area, { onProgress } = {}) {
   return { ok: true, graph: raw };
 }
 
-export async function ensureGraphForArea(area) {
+export async function ensureGraphForArea(area, { kind } = {}) {
   if (!area || !area.id) return null;
-  const existing = await loadAreaGraph(area.id);
+  const id = kind === "bike" ? area.id + ":bike" : area.id;
+  const existing = await loadAreaGraph(id);
   if (existing && existing.nodes && existing.edges) return existing;
-  const built = await buildGraphForArea(area);
+  const built = await buildGraphForArea(area, { kind });
   return built.ok ? built.graph : null;
+}
+
+/** Build and store a ride graph for a downloaded area, beside its walk graph. */
+export async function ensureBikeGraphForArea(area) {
+  return ensureGraphForArea(area, { kind: "bike" });
 }
 
 async function getBundledGraph() {
@@ -252,7 +264,7 @@ async function loadOfmTile(z, x, y) {
  * Build a walk graph (plus open-area polygons) from OpenFreeMap / cached
  * tiles covering the pin bounds, so routing works outside Florence.
  */
-export async function buildGraphForBounds(bounds, { onProgress, maxTiles = ON_DEMAND_MAX_TILES } = {}) {
+export async function buildGraphForBounds(bounds, { onProgress, maxTiles = ON_DEMAND_MAX_TILES, kind } = {}) {
   if (!bounds) return { ok: false, reason: "no-bounds" };
   let z = OFM_MAXZOOM;
   let range = tileRange(bounds, z);
@@ -271,11 +283,13 @@ export async function buildGraphForBounds(bounds, { onProgress, maxTiles = ON_DE
     if (onProgress) onProgress({ done, total: tiles.length });
   }
   if (!loaded.length) return { ok: false, reason: "no-tile-data" };
-  const raw = buildWalkGraphFromTiles(loaded, {
-    name: "On-demand walk",
+  const bike = kind === "bike";
+  const raw = (bike ? buildBikeGraphFromTiles : buildWalkGraphFromTiles)(loaded, {
+    name: bike ? "On-demand ride" : "On-demand walk",
     source: "ofm-bounds",
   });
-  raw.id = `ondemand:${bounds.west.toFixed(3)},${bounds.south.toFixed(3)},${bounds.east.toFixed(3)},${bounds.north.toFixed(3)},z${z}`;
+  const baseId = `ondemand:${bounds.west.toFixed(3)},${bounds.south.toFixed(3)},${bounds.east.toFixed(3)},${bounds.north.toFixed(3)},z${z}`;
+  raw.id = bike ? baseId + ":bike" : baseId;
   raw.west = bounds.west;
   raw.south = bounds.south;
   raw.east = bounds.east;
@@ -295,7 +309,7 @@ export async function buildGraphForBounds(bounds, { onProgress, maxTiles = ON_DE
 export async function selectWalkGraph(points, opts = {}) {
   const pts = pointsFrom(points);
   const records = await listAreaGraphs();
-  const parsedAreas = records.map(asRoutable).filter(Boolean);
+  const parsedAreas = records.filter((r) => !isBikeRecord(r)).map(asRoutable).filter(Boolean);
   const bundled = asRoutable(await getBundledGraph());
   if (pts.length) {
     const allHit = parsedAreas.find((g) => pointsInGraphBounds(g, pts))
@@ -346,6 +360,27 @@ export function graphCoversPoints(graph, points) {
 /**
  * Load or build a walk graph large enough for an auto-loop around `center`.
  */
+/** The ride version of ensureLoopGraph: a bike graph big enough for a loop. */
+export async function ensureBikeLoopGraph(center, targetMeters, opts = {}) {
+  if (!center) return null;
+  const existing = opts.graph || getActiveBikeGraph();
+  if (graphCoversLoop(existing, center, targetMeters)) return existing;
+  const pad = padDegForLoop(targetMeters);
+  const bounds = {
+    west: center.lon - pad,
+    south: center.lat - pad,
+    east: center.lon + pad,
+    north: center.lat + pad,
+  };
+  const built = await buildGraphForBounds(bounds, { ...opts, kind: "bike" });
+  const g = asRoutable(built.ok ? built.graph : null);
+  if (g) {
+    setActiveBikeGraph(g);
+    return g;
+  }
+  return ensureBikeGraph(center, { ...opts, bounds, padDeg: pad });
+}
+
 export async function ensureLoopGraph(center, targetMeters, opts = {}) {
   if (!center) return null;
   const existing = opts.graph || getActiveGraph();
@@ -364,6 +399,58 @@ export async function ensureLoopGraph(center, targetMeters, opts = {}) {
     return g;
   }
   return ensureWalkGraph(center, { ...opts, bounds, padDeg: pad });
+}
+
+function padBoundsForBike(pts, padDeg = 0.006) {
+  return padBoundsFromPoints(pts, padDeg);
+}
+
+/** Choose or build a bike graph from the same downloaded tiles. */
+export async function selectBikeGraph(points, opts = {}) {
+  const pts = pointsFrom(points);
+  const records = await listAreaGraphs();
+  const parsedAreas = records.filter(isBikeRecord).map(asRoutable).filter(Boolean);
+  if (pts.length) {
+    const allHit = parsedAreas.find((g) => pointsInGraphBounds(g, pts));
+    if (allHit) return allHit;
+    if (!opts.lockWalkGraph) {
+      if (opts.onStatus) opts.onStatus("finding");
+      try {
+        const built = await buildGraphForBounds(
+          opts.bounds || padBoundsForBike(pts, opts.padDeg),
+          { kind: "bike" }
+        );
+        const g = asRoutable(built.ok ? built.graph : null);
+        if (g && pointsInGraphBounds(g, pts)) return g;
+        if (g && somePointsInGraphBounds(g, pts)) parsedAreas.unshift(g);
+      } catch { /* leave unroutable if tiles cannot be fetched */ }
+      if (opts.onStatus) opts.onStatus("idle");
+    }
+    const someHit = parsedAreas.find((g) => somePointsInGraphBounds(g, pts));
+    if (someHit) return someHit;
+    try {
+      const areas = await listAreas();
+      for (const area of areas) {
+        const covers = pts.some((p) => p && inBounds(p.lat, p.lon, [area.west, area.south, area.east, area.north]));
+        if (!covers) continue;
+        const built = await ensureBikeGraphForArea(area);
+        const g = asRoutable(built);
+        if (g) return g;
+      }
+    } catch { /* no downloaded areas */ }
+    return null;
+  }
+  return parsedAreas[0] || null;
+}
+
+export async function ensureBikeGraph(points, opts = {}) {
+  const graph = await selectBikeGraph(points, opts);
+  setActiveBikeGraph(graph);
+  return graph;
+}
+
+export function bikeGraphCoversPoints(graph, points) {
+  return pointsInGraphBounds(graph, pointsFrom(points));
 }
 
 export { OSM_ATTRIBUTION, FLORENCE_BOUNDS, inGraphBounds };

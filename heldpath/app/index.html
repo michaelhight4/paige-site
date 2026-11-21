@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="css/plans.css" />
   <link rel="stylesheet" href="css/stretches.css" />
   <link rel="stylesheet" href="css/map_download.css" />
+  <link rel="stylesheet" href="css/summary.css" />
+  <link rel="stylesheet" href="css/insights.css" />
 </head>
 <body>
   <div id="app">
@@ -45,7 +47,7 @@
           <img src="assets/app_icon_fg.png" alt="" />
           <div>
             <strong>Heldpath</strong>
-            <div class="tiny">Free walk &amp; run tracker</div>
+            <div class="tiny">Free walk, run &amp; ride tracker</div>
           </div>
         </div>
         <div class="banner" id="map-banner" hidden></div>
@@ -55,6 +57,7 @@
         <div class="dock-actions">
           <button class="btn btn-primary" id="btn-start-walk" data-testid="start-walk"><img src="assets/icon_walk.png" alt="" /> Start Walk</button>
           <button class="btn btn-primary" id="btn-start-run" data-testid="start-run"><img src="assets/icon_run.png" alt="" /> Start Run</button>
+          <button class="btn btn-primary" id="btn-start-ride" data-testid="start-ride"><img src="assets/icon_run.png" alt="" /> Start Ride</button>
           <button class="btn btn-secondary" id="btn-build-course" data-testid="build-course"><img src="assets/icon_pin.png" alt="" /> Build Course</button>
           <button class="btn btn-secondary" id="btn-saved-courses" data-testid="saved-courses">Saved Courses</button>
           <button class="btn btn-secondary" id="btn-today-new-goal" data-testid="today-new-goal">New goal</button>
@@ -96,7 +99,7 @@
             </div>
             <div>
               <div class="stat-val" id="track-pace">—</div>
-              <div class="stat-lbl">avg pace</div>
+              <div class="stat-lbl" id="track-pace-lbl">avg pace</div>
             </div>
           </div>
           <p class="track-start-note" id="track-start-note" data-testid="start-detect-note" hidden></p>
@@ -167,6 +170,8 @@
         <div id="courses-list" class="list"></div>
         <div style="height:12px"></div>
         <button class="btn btn-primary" id="btn-new-course" style="width:100%">Build a new course</button>
+        <button class="btn btn-secondary" id="btn-open-insights" style="width:100%;margin-top:10px" data-testid="open-insights">Your ground: heatmap &amp; matched loops</button>
+        <button class="btn btn-secondary" id="btn-suggest-from-courses" style="width:100%;margin-top:10px" data-testid="suggest-from-courses">Suggest a loop from my history</button>
         <button class="btn btn-secondary" id="btn-scan-qr-courses" style="width:100%;margin-top:10px" data-testid="scan-qr">Scan QR</button>
       </div>
     </section>
@@ -204,11 +209,56 @@
       </div>
     </section>
 
+    <!-- Your ground: personal heatmap, matched loops, loop suggestions -->
+    <section class="screen" id="screen-insights" data-screen="insights">
+      <div class="map-top insights-top">
+        <button class="icon-btn" id="insights-back" aria-label="Back" data-testid="insights-back">‹</button>
+        <div class="brand-chip">
+          <div>
+            <strong>Your ground</strong>
+            <div class="tiny">Personal heatmap · on this phone</div>
+          </div>
+        </div>
+      </div>
+      <div class="dock insights-dock">
+        <div class="insights-panel" id="insights-panel">
+          <div class="range-tog" id="insights-sport" data-testid="insights-sport" aria-label="Filter by sport">
+            <button data-sport="all" class="active">All</button>
+            <button data-sport="walk">Walk</button>
+            <button data-sport="run">Run</button>
+            <button data-sport="ride">Ride</button>
+          </div>
+          <div class="range-tog" id="insights-range" data-testid="insights-range" aria-label="Filter by date">
+            <button data-range="30d">30d</button>
+            <button data-range="90d">90d</button>
+            <button data-range="12m">12m</button>
+            <button data-range="all" class="active">All</button>
+          </div>
+          <p class="tiny" id="insights-summary" data-testid="insights-summary"></p>
+          <div class="heat-legend" aria-hidden="true">
+            <span class="heat-swatch walk"></span><span>Walk</span>
+            <span class="heat-swatch run"></span><span>Run</span>
+            <span class="heat-swatch ride"></span><span>Ride</span>
+            <span class="heat-swatch dim"></span><span>Brighter = more passes</span>
+          </div>
+          <p class="tiny" id="insights-empty"></p>
+          <h2 class="insights-title">Matched loops</h2>
+          <div id="insights-loops" data-testid="insights-loops"></div>
+          <h2 class="insights-title">Suggest a loop</h2>
+          <p class="tiny" id="insights-suggest-note">A new loop that starts where you usually start, at about your usual distance.</p>
+          <div id="insights-suggest" data-testid="insights-suggest"></div>
+          <p class="tiny" id="insights-saved" data-testid="insights-saved"></p>
+          <button class="btn btn-primary" id="btn-suggest-loop" data-testid="suggest-loop" style="width:100%">Suggest a loop</button>
+          <p class="tiny" id="insights-credit">Map data © OpenStreetMap contributors. Your heatmap, loops and suggestions stay on this phone.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- Settings -->
     <section class="screen" id="screen-settings" data-screen="settings">
       <div class="scroll">
         <h1 class="page-title">Settings</h1>
-        <p class="page-sub">Heldpath is free. There is no account, no ads and no subscription. All goals are free. Track yourself and keep beating your results. A $2 plan adds a target date, with the app easing you there in smaller, guided steps.</p>
+        <p class="page-sub">Heldpath is free. There is no account, no ads and no subscription. All goals are free. Set a distance, a time, or a weekly total, and a time frame if you want one. Free goals show your current speed, the speed you need, and the gap. A $2 plan adds incremental session targets, mixed run-walk or ride patterns, water and nutrition guidance.</p>
 
         <div class="card">
           <h2>Units</h2>
@@ -244,6 +294,17 @@
         </div>
 
         <div class="card">
+          <h2>Hill-adjusted pace <span class="free-tag">Free</span></h2>
+          <div class="row-toggle">
+            <div>
+              <strong>Show hill-adjusted pace on activities</strong>
+              <p id="hill-pace-note">Off by default. When on, an activity can also show an effort-equivalent pace for its hills, using a published energy-cost model. Sector targets and goal times always use flat time.</p>
+            </div>
+            <button class="switch" id="hill-pace-switch" data-testid="hill-pace-switch" role="switch" aria-checked="false" aria-label="Hill-adjusted pace"><i></i></button>
+          </div>
+        </div>
+
+        <div class="card">
           <h2>Offline maps</h2>
           <p class="tiny" id="map-pack-status" style="margin-bottom:12px"></p>
           <p class="tiny" id="map-data-mode-note" style="margin-bottom:12px"></p>
@@ -267,6 +328,20 @@
           <p class="tiny" id="health-import-status" style="margin-top:10px"></p>
         </div>
 
+        <!-- heldpath-hook: import -->
+        <div class="card" id="import-card">
+          <h2>Import activities <span class="free-tag">Free</span></h2>
+          <p class="tiny">Bring walks, runs and rides from any tracker. Accepts GPX, FIT, TCX, .fit.gz and zips, including nested folders. Files are read on this phone; there is no account and nothing is uploaded.</p>
+          <button class="btn btn-primary" id="btn-import-activities" data-testid="import-activities" style="width:100%;margin-top:12px">Import activity files</button>
+          <input id="import-activity-files" type="file" multiple accept=".gpx,.tcx,.fit,.gz,.zip,application/gpx+xml,application/zip" hidden />
+          <p class="tiny" id="import-activity-status" data-testid="import-activity-status" style="margin-top:10px"></p>
+          <button class="btn btn-secondary" id="btn-import-help" data-testid="import-help-toggle" style="width:100%;margin-top:10px">Where to get your files</button>
+          <div id="import-help-wrap" hidden>
+            <p class="tiny" id="import-help" style="white-space:pre-line;margin-top:10px"></p>
+            <p class="tiny" style="margin-top:10px">Prefer files you already have, or Health Connect / Apple Health. Heldpath does not scrape third-party APIs and never asks for a tracker login.</p>
+          </div>
+        </div>
+
 
         <div class="card">
           <h2>Stretches <span class="free-tag">Free</span></h2>
@@ -276,7 +351,7 @@
 
         <div class="card">
           <h2>Goals</h2>
-          <p class="tiny">Every goal type is free. Track yourself and keep beating your results — no deadline. A $2 plan adds a target date and eases you there in smaller, guided steps.</p>
+          <p class="tiny">Every goal type is free, including a time frame. Free goals show your current speed, the speed you need, and the gap. A $2 plan adds incremental session targets, mixed run-walk or ride patterns, water and nutrition guidance.</p>
           <button class="btn btn-primary" id="btn-settings-new-goal" style="width:100%;margin-top:12px" data-testid="settings-new-goal">New goal</button>
           <button class="btn btn-secondary" id="btn-goals-open" style="width:100%;margin-top:10px" data-testid="open-goals">Open Goals</button>
         </div>
@@ -317,25 +392,55 @@
       </div>
     </section>
 
-    <!-- Post-run summary -->
+    <!-- Post-run summary: F1 timing tower first, then More Details (both free) -->
     <section class="screen" id="screen-summary" data-screen="summary">
       <div class="scroll">
         <h1 class="page-title" id="summary-title">Walk complete</h1>
         <p class="page-sub" id="summary-sub"></p>
         <p class="tiny" id="summary-indoor-note" data-testid="summary-indoor-note" hidden></p>
+        <div id="summary-outline" data-testid="summary-outline" hidden></div>
         <div class="totals" id="summary-stats" data-testid="summary-stats"></div>
-        <div id="summary-elevation" data-testid="summary-elevation" hidden></div>
         <p class="tiny" id="summary-distance-note" data-testid="summary-distance-note"></p>
-        <div class="card">
-          <h2>Health app</h2>
-          <div id="summary-health" data-testid="summary-health"></div>
+        <div id="summary-sector-tower" data-testid="summary-sector-tower" hidden></div>
+        <!-- heldpath-hook: import-share -->
+        <div class="btn-row" style="margin-bottom:10px">
+          <button class="btn btn-secondary" id="btn-summary-share-card" data-testid="summary-share-card">Share card</button>
+          <button class="btn btn-secondary" id="btn-summary-export-gpx" data-testid="summary-export-gpx">Export GPX</button>
         </div>
-        <div class="card">
-          <h2>Leg splits <span class="free-tag">Free</span></h2>
-          <div id="summary-sectors" data-testid="summary-sectors"></div>
-        <div id="summary-splits" data-testid="summary-splits"></div>
-        </div>
+        <p class="tiny" id="summary-export-status" data-testid="summary-export-status" style="margin-bottom:12px"></p>
+        <button class="btn btn-secondary" id="btn-summary-details" data-testid="summary-more-details" style="width:100%;margin-bottom:12px">More details</button>
         <button class="btn btn-primary" id="btn-summary-done" style="width:100%;margin-bottom:16px">Done</button>
+      </div>
+    </section>
+
+    <!-- More Details: full map behind this sheet, sectors on the actual route -->
+    <section class="screen summary-details-screen" id="screen-summary-details" data-screen="summary-details">
+      <div class="summary-details-top">
+        <button class="icon-btn" id="btn-details-back" aria-label="Back to summary">‹</button>
+        <h1 id="summary-details-title">More details</h1>
+      </div>
+      <div class="details-sheet">
+        <div class="scroll details-scroll">
+          <p class="page-sub" id="summary-details-sub"></p>
+          <div class="totals" id="details-stats" data-testid="details-stats"></div>
+          <div class="card">
+            <h2>Elevation <span class="free-tag">Free</span></h2>
+            <div id="details-elevation" data-testid="details-elevation"></div>
+          </div>
+          <div class="card">
+            <h2>F1 sectors <span class="free-tag">Free</span></h2>
+            <div id="details-sector-table" data-testid="details-sector-table"></div>
+          </div>
+          <div class="card">
+            <h2>Leg splits <span class="free-tag">Free</span></h2>
+            <div id="details-splits" data-testid="details-splits"></div>
+          </div>
+          <div class="card">
+            <h2>Health app</h2>
+            <div id="details-health" data-testid="details-health"></div>
+          </div>
+          <button class="btn btn-primary" id="btn-details-done" style="width:100%;margin-bottom:16px">Done</button>
+        </div>
       </div>
     </section>
 
@@ -347,7 +452,7 @@
           <button class="icon-btn" id="goals-back" aria-label="Back">‹</button>
           <h1>Goals</h1>
         </div>
-        <p class="goals-promise" id="goals-free-line" data-testid="free-goals-line">All goals are free. Track yourself and keep beating your results. A $2 plan adds a target date, with the app easing you there in smaller, guided steps.</p>
+        <p class="goals-promise" id="goals-free-line" data-testid="free-goals-line">All goals are free. Set a distance, a time, or a weekly total, and a time frame if you want one. Free goals show your current speed, the speed you need, and the gap. A $2 plan adds incremental session targets, mixed run-walk or ride patterns, water and nutrition guidance.</p>
 
         <button class="btn btn-primary" id="btn-new-goal" data-testid="new-goal" style="width:100%;margin:0 0 8px">New goal</button>
         <p class="tiny" style="margin:0 0 16px">Free. No purchase needed.</p>
@@ -360,7 +465,7 @@
 
         <div class="card" id="goals-plan-option" data-testid="goals-plan-option">
           <h2>Optional $2 plan</h2>
-          <p class="tiny" id="goals-plan-price">$2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. A plan does not unlock goals. It adds a target date, and the app eases you there in smaller, guided steps, plus water, reminders and a schedule.</p>
+          <p class="tiny" id="goals-plan-price">$2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. A plan does not unlock goals. It adds incremental session targets that step up only after you beat them, mixed run-walk or ride patterns, water reminders, and carb and protein guidance.</p>
           <button class="btn btn-secondary" id="btn-goals-open-plans" style="width:100%;margin-top:12px" data-testid="goals-open-plans">Optional $2 plan</button>
         </div>
       </div>
@@ -373,7 +478,7 @@
           <button class="icon-btn" id="plans-back" aria-label="Back">‹</button>
           <h1>Plans</h1>
         </div>
-        <p class="goals-promise" id="plans-free-line" data-testid="free-goals-line-plans">All goals are free. Track yourself and keep beating your results. A $2 plan adds a target date, with the app easing you there in smaller, guided steps.</p>
+        <p class="goals-promise" id="plans-free-line" data-testid="free-goals-line-plans">All goals are free. Set a distance, a time, or a weekly total, and a time frame if you want one. Free goals show your current speed, the speed you need, and the gap. A $2 plan adds incremental session targets, mixed run-walk or ride patterns, water and nutrition guidance.</p>
         <p class="page-sub" id="plans-price-line">$2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. Importing a plan a friend shares is free.</p>
         <button class="btn btn-secondary" id="btn-scan-qr-plans" style="width:100%;margin:0 0 16px" data-testid="scan-qr-plans">Scan QR</button>
 
@@ -396,6 +501,7 @@
               <div class="range-tog plan-toggle" id="plan-type-tog">
                 <button data-type="walk" class="active">Walk</button>
                 <button data-type="run">Run</button>
+                <button data-type="ride">Ride</button>
               </div>
             </div>
             <div class="field">
@@ -507,6 +613,15 @@
           <button class="btn btn-secondary" id="btn-plan-water-save" style="width:100%">Save water target</button>
           <p class="tiny" id="plan-reminder-note" style="margin-top:10px"></p>
           </div>
+        </div>
+
+        <div class="card plan-nutrition" data-testid="nutrition-card">
+          <h2>Food &amp; recovery</h2>
+          <div id="plan-nutrition" data-testid="plan-nutrition">
+            <p class="tiny">Carb and protein ranges are part of a $2 plan. They are general guidance, not a prescription.</p>
+          </div>
+          <p class="disclaimer" id="plan-nutrition-disclaimer">General guidance for healthy adults, not medical advice. Ranges assume a 2,000-calorie reference diet.</p>
+          <p class="tiny" id="plan-nutrition-sources"></p>
         </div>
 
         <div class="card">
@@ -772,6 +887,12 @@
         <button class="btn btn-primary" id="btn-course-walk" style="width:100%;margin-bottom:10px">Walk this course</button>
         <button class="btn btn-primary" id="btn-course-run" style="width:100%;margin-bottom:10px">Run this course</button>
         <button class="btn btn-secondary" id="btn-course-share" style="width:100%;margin-bottom:10px">Share course</button>
+        <!-- heldpath-hook: import-share -->
+        <div class="btn-row" style="margin-bottom:10px">
+          <button class="btn btn-secondary" id="btn-course-export-gpx" data-testid="course-export-gpx">Export course GPX</button>
+          <button class="btn btn-secondary" id="btn-course-share-card" data-testid="course-share-card">Share card</button>
+        </div>
+        <p class="tiny" id="course-export-status" data-testid="course-export-status" style="margin-bottom:12px"></p>
         <button class="btn btn-secondary" id="btn-course-group" style="width:100%;margin-bottom:10px">Plan a Group Run</button>
         <button class="btn btn-secondary" id="btn-course-rename" style="width:100%;margin-bottom:10px">Rename</button>
         <button class="btn btn-danger" id="btn-course-delete" style="width:100%;margin-bottom:10px">Delete course</button>
@@ -840,7 +961,12 @@
     <div class="sheet-back" id="sheet-start">
       <div class="sheet" role="dialog" id="start-sheet-inner">
         <h2 id="start-sheet-title">Start</h2>
-        <p class="page-sub">Follow a saved course, or just go and track as you walk or run.</p>
+        <p class="page-sub">Follow a saved course, or just go and track as you walk, run, or ride.</p>
+        <div class="sport-picker" id="start-sport-picker" role="group" aria-label="Activity" data-testid="start-sport-picker">
+          <button type="button" class="btn btn-secondary" data-sport="walk" aria-pressed="false">Walk</button>
+          <button type="button" class="btn btn-secondary" data-sport="run" aria-pressed="false">Run</button>
+          <button type="button" class="btn btn-secondary" data-sport="ride" aria-pressed="false">Ride</button>
+        </div>
         <div id="start-course-list" class="list"></div>
         <button class="btn btn-primary" id="btn-start-free" style="width:100%;margin:16px 0 12px">Start without a course</button>
         <button class="btn btn-secondary" id="btn-log-indoor" style="width:100%;margin-bottom:12px" data-testid="log-indoor">Log a treadmill or indoor session</button>
@@ -989,6 +1115,18 @@
       </div>
     </div>
 
+    <!-- heldpath-hook: import -->
+    <div class="sheet-back" id="sheet-import-review">
+      <div class="sheet" role="dialog" aria-labelledby="import-review-title" data-testid="import-review-sheet">
+        <h2 id="import-review-title">Review import</h2>
+        <p class="page-sub" id="import-review-sub">Checking these files against the history on this phone.</p>
+        <div id="import-review-list"></div>
+        <button class="btn btn-primary" id="btn-import-apply" data-testid="import-apply" style="width:100%;margin-top:16px;margin-bottom:10px">Add activities</button>
+        <button class="btn btn-secondary" id="btn-import-cancel" data-testid="import-cancel" style="width:100%">Cancel</button>
+        <p class="tiny" style="margin-top:12px">Imported activities stay on this phone. Duplicates are skipped; a richer file can replace a thinner watch copy. Nothing is uploaded.</p>
+      </div>
+    </div>
+
     <div class="sheet-back" id="sheet-share">
       <div class="sheet" role="dialog" aria-labelledby="share-title">
         <h2 id="share-title">Share this course</h2>
@@ -1057,7 +1195,7 @@
     <div class="sheet-back" id="sheet-new-goal">
       <div class="sheet" role="dialog" aria-labelledby="new-goal-title" data-testid="new-goal-sheet">
         <h2 id="new-goal-title">New goal</h2>
-        <p class="page-sub">Free. Set a target and track your own results, run over run. There is no deadline — a target date is only in an optional $2 plan.</p>
+        <p class="page-sub">Free. Set a target and a time frame if you want one. You'll see your current speed, the speed you need, and the gap. Incremental session targets, mixed patterns, water and nutrition are in an optional $2 plan.</p>
         <div class="field">
           <label for="goal-new-kind">Type</label>
           <select id="goal-new-kind" data-testid="goal-new-kind">

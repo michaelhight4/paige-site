@@ -1478,3 +1478,23 @@ body:has(#sheet-map.open) #map-locate-note { display: none; }
 }
 
 #today-dock[hidden] { display: none !important; }
+
+/* heldpath-hook: bike — Walk / Run / Ride start picker */
+.sport-picker {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 4px 0 12px;
+}
+.sport-picker .btn {
+  min-height: 52px;
+  padding: 10px 6px;
+  font-size: 16px;
+  border: 1px solid var(--line);
+}
+.sport-picker .btn.active {
+  background: var(--blue-dim);
+  border-color: var(--blue);
+  color: var(--blue);
+  font-weight: 700;
+}

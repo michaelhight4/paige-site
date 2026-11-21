@@ -433,3 +433,28 @@
   background: rgba(78, 195, 247, 0.16);
 }
 .goal-card { margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+
+.goal-gap {
+  margin: 10px 0 6px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(78, 195, 247, 0.07);
+  border: 1px solid rgba(78, 195, 247, 0.22);
+}
+.goal-gap-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  min-height: 30px;
+  font-size: 14px;
+  color: #a8b2c0;
+}
+.goal-gap-row strong { color: #e8eef3; font-size: 16px; }
+.goal-gap-diff strong { color: #f3e0a8; }
+.goal-gap-diff[data-complete="1"] strong { color: #b8f3d0; }
+.goal-gap-note { margin: 6px 0 0; }
+
+.sport-tog { flex-wrap: wrap; }
+.sport-tog button { min-height: 34px; padding: 4px 10px; }
+.sport-tog-row { margin: 0 0 12px; }

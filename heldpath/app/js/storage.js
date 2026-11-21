@@ -1,4 +1,5 @@
 import { uid } from "./util.js";
+import { normalizeSport } from "./sport.js";
 
 const KEY = "heldpath.v1";
 
@@ -19,6 +20,7 @@ const DEFAULT_SETTINGS = {
   lastSessionDistanceMeters: null,
   weightUnit: null, // "lb" | "kg" — null means pick from locale / units
   bodyKg: null,
+  lastSport: "walk", // walk | run | ride — the start picker default
 };
 
 export function emptyState() {
@@ -168,7 +170,7 @@ export function newCourse(partial = {}) {
 export function newActivity(partial = {}) {
   return {
     id: uid("act"),
-    type: partial.type || "walk",
+    type: normalizeSport(partial.type),
     courseId: partial.courseId || null,
     courseName: partial.courseName || null,
     startedAt: partial.startedAt || new Date().toISOString(),
@@ -183,6 +185,14 @@ export function newActivity(partial = {}) {
     climbGainM: partial.climbGainM || 0,
     climbLossM: partial.climbLossM || 0,
     distance3dMeters: partial.distance3dMeters || 0,
+    /* heldpath-hook: import — file import metadata (no purchase data) */
+    importHash: partial.importHash || null,
+    importFormat: partial.importFormat || null,
+    importName: partial.importName || null,
+    mergedIds: Array.isArray(partial.mergedIds) ? partial.mergedIds : [],
+    replacedSource: partial.replacedSource || null,
+    avgHr: Number.isFinite(Number(partial.avgHr)) ? Number(partial.avgHr) : null,
+    maxHr: Number.isFinite(Number(partial.maxHr)) ? Number(partial.maxHr) : null,
   };
 }
 

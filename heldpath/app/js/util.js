@@ -1,15 +1,18 @@
 /** Pure helpers for Heldpath. Safe to import from Node tests. */
-import { geodesicMeters, geodesicPathLength } from "./geodesic.js";
+import { geodesicMeters, geodesicPathLength, geodesicDirect, geodesicInterpolate } from "./geodesic.js";
 
 export { geodesicMeters, geodesicDirect, geodesicPathLength } from "./geodesic.js";
 
 
 export const WALK_MPH = 3;
 export const RUN_MPH = 6;
+/** An ordinary flat road ride, used only for time estimates. */
+export const RIDE_MPH = 15;
 export const METERS_PER_MILE = 1609.344;
 export const METERS_PER_KM = 1000;
 
-export const PR_DEFS = [
+/** Running race marks stay the running/walking personal records. */
+export const FOOT_PR_DEFS = [
   { id: "1mi", label: "1 mile", meters: 1609.344 },
   { id: "5k", label: "5K", meters: 5000 },
   { id: "10k", label: "10K", meters: 10000 },
@@ -17,8 +20,29 @@ export const PR_DEFS = [
   { id: "marathon", label: "Marathon", meters: 42195 },
 ];
 
+/** Riding marks are distances, never running race distances. */
+export const RIDE_PR_DEFS = [
+  { id: "ride10mi", label: "10 miles", meters: 10 * 1609.344 },
+  { id: "ride20mi", label: "20 miles", meters: 20 * 1609.344 },
+  { id: "ride40k", label: "40 km", meters: 40000 },
+  { id: "ride100k", label: "100 km", meters: 100000 },
+];
+
+/** Legacy name: the running/walking marks. */
+export const PR_DEFS = FOOT_PR_DEFS;
+
+export function isRideType(type) {
+  return type === "ride" || type === "bike" || type === "cycling";
+}
+
 export function activityMph(type) {
+  if (isRideType(type)) return RIDE_MPH;
   return type === "run" ? RUN_MPH : WALK_MPH;
+}
+
+/** The best-effort marks for a sport: rides get cycling distances. */
+export function prDefsFor(sport) {
+  return isRideType(sport) ? RIDE_PR_DEFS : FOOT_PR_DEFS;
 }
 
 export function haversineMeters(a, b) {
@@ -52,35 +76,23 @@ export function legDistances(coords) {
 
 /** Destination given start, bearing degrees, distance meters. */
 export function destination(lat, lon, bearingDeg, meters) {
-  const R = 6371000;
-  const br = (bearingDeg * Math.PI) / 180;
-  const ang = meters / R;
-  const lat1 = (lat * Math.PI) / 180;
-  const lon1 = (lon * Math.PI) / 180;
-  const lat2 = Math.asin(
-    Math.sin(lat1) * Math.cos(ang) + Math.cos(lat1) * Math.sin(ang) * Math.cos(br)
-  );
-  const lon2 =
-    lon1 +
-    Math.atan2(
-      Math.sin(br) * Math.sin(ang) * Math.cos(lat1),
-      Math.cos(ang) - Math.sin(lat1) * Math.sin(lat2)
-    );
-  return { lat: (lat2 * 180) / Math.PI, lon: (lon2 * 180) / Math.PI };
+  const p = geodesicDirect({ lat, lon }, bearingDeg, meters);
+  return { lat: p.lat, lon: p.lon };
 }
-
 export function pointAlongPath(coords, meters) {
   if (!coords.length) return null;
   if (meters <= 0) return { ...coords[0], traveled: 0, remaining: pathLengthMeters(coords) };
   let left = meters;
   const total = pathLengthMeters(coords);
   for (let i = 1; i < coords.length; i++) {
-    const seg = haversineMeters(coords[i - 1], coords[i]);
+    const a = coords[i - 1];
+    const b = coords[i];
+    const seg = geodesicMeters(a, b);
     if (left <= seg) {
-      const t = seg === 0 ? 0 : left / seg;
+      const p = seg === 0 || left <= 0 ? { lat: a.lat, lon: a.lon } : geodesicInterpolate(a, b, left);
       return {
-        lat: coords[i - 1].lat + (coords[i].lat - coords[i - 1].lat) * t,
-        lon: coords[i - 1].lon + (coords[i].lon - coords[i - 1].lon) * t,
+        lat: p.lat,
+        lon: p.lon,
         traveled: Math.min(meters, total),
         remaining: Math.max(0, total - meters),
       };
@@ -109,12 +121,12 @@ export function projectOnPath(coords, position) {
   for (let i = 1; i < coords.length; i++) {
     const a = coords[i - 1];
     const b = coords[i];
-    const seg = haversineMeters(a, b);
+    const seg = geodesicMeters(a, b);
     const proj = projectOnSegment(position, a, b);
-    const d = haversineMeters(position, proj.point);
+    const d = geodesicMeters(position, proj.point);
     if (d < bestDist) {
       bestDist = d;
-      traveledAtProj = acc + proj.t * seg;
+      traveledAtProj = acc + geodesicMeters(a, proj.point);
       bestPoint = proj.point;
       bestSeg = i - 1;
     }
@@ -166,7 +178,12 @@ function projectOnSegment(p, a, b) {
   const len2 = dx * dx + dy * dy;
   let t = len2 === 0 ? 0 : ((px - ax) * dx + (py - ay) * dy) / len2;
   t = Math.max(0, Math.min(1, t));
-  return { t, point: { lat: a.lat + (b.lat - a.lat) * t, lon: a.lon + (b.lon - a.lon) * t } };
+  const seg = geodesicMeters(a, b);
+  let point;
+  if (t <= 0 || seg === 0) point = { lat: a.lat, lon: a.lon };
+  else if (t >= 1) point = { lat: b.lat, lon: b.lon };
+  else point = geodesicInterpolate(a, b, t * seg);
+  return { t, point };
 }
 
 export function etaSeconds(meters, mph) {
@@ -225,6 +242,26 @@ export function formatPace(meters, seconds, units) {
   return `${m}:${String(s).padStart(2, "0")} ${suffix}`;
 }
 
+/** Riding shows speed, not pace, e.g. "15.2 mph" or "24.5 km/h". */
+export function formatSpeed(meters, seconds, units) {
+  if (!(meters > 0) || !(seconds > 0)) return "—";
+  if (units === "km") {
+    const kmh = (meters / METERS_PER_KM) / (seconds / 3600);
+    if (!Number.isFinite(kmh) || kmh > 200) return "—";
+    return `${kmh.toFixed(1)} km/h`;
+  }
+  const mph = (meters / METERS_PER_MILE) / (seconds / 3600);
+  if (!Number.isFinite(mph) || mph > 120) return "—";
+  return `${mph.toFixed(1)} mph`;
+}
+
+/** A live HUD value that is pace on foot and speed on a ride. */
+export function formatSportRate(type, meters, seconds, units) {
+  return isRideType(type)
+    ? formatSpeed(meters, seconds, units)
+    : formatPace(meters, seconds, units);
+}
+
 /**
  * Lock-screen / live notification line.
  * On a course: "1.2 mi done · 0.8 mi left · ~16 min"
@@ -235,6 +272,10 @@ export function completeAlertText({ kind, meters, seconds, units } = {}) {
   const label = kind === "target" ? "Target complete" : "Route complete";
   const dist = formatDistance(Math.max(0, Number(meters) || 0), units, { digits: 2 });
   return `${label}! ${dist} in ${formatDuration(seconds || 0)}`;
+}
+
+function notificationDistance(meters, units) {
+  return formatDistance(meters, units, { digits: units === "km" ? 2 : 1 });
 }
 
 export function notificationText({ doneMeters, leftMeters, onCourse, elapsedSec, units, activityType, lapLabel, complete, completeKind, extraMeters, completePrompt, completeMeters, completeSec }) {
@@ -249,10 +290,12 @@ export function notificationText({ doneMeters, leftMeters, onCourse, elapsedSec,
   if (complete) {
     const kind = completeKind === "target" ? "Target" : "Course";
     const extra = Math.max(0, Number(extraMeters) || 0);
-    if (extra > 8) return `${kind} done · +${formatDistance(extra, units)} extra`;
+    if (extra > 8) return `${kind} done · +${notificationDistance(extra, units)} extra`;
     return `${kind} done`;
   }
-  const done = formatDistance(doneMeters || 0, units);
+  // Notification text uses one decimal for miles (2 for km), not the
+  // 3-decimal precision used on full activity cards.
+  const done = notificationDistance(doneMeters || 0, units);
   if (onCourse) {
     const left = Math.max(0, leftMeters || 0);
     const prefix = lapLabel ? `${lapLabel} · ` : "";
@@ -260,20 +303,29 @@ export function notificationText({ doneMeters, leftMeters, onCourse, elapsedSec,
       return `${prefix}${done} done · finished`;
     }
     const mph = activityMph(activityType);
-    return `${prefix}${done} done · ${formatDistance(left, units)} left · ${formatEta(etaSeconds(left, mph))}`;
+    const speed = isRideType(activityType)
+      ? ` · ${formatSpeed(doneMeters, elapsedSec, units)}`
+      : "";
+    return `${prefix}${done} done · ${notificationDistance(left, units)} left · ${formatEta(etaSeconds(left, mph))}${speed}`;
   }
   const time = formatDuration(elapsedSec || 0);
-  const pace = formatPace(doneMeters, elapsedSec, units);
-  return `${done} · ${time} · ${pace}`;
+  const rate = isRideType(activityType)
+    ? formatSpeed(doneMeters, elapsedSec, units)
+    : formatPace(doneMeters, elapsedSec, units);
+  return `${done} · ${time} · ${rate}`;
 }
 
 /** Fastest time to reach each PR distance in a single activity, from its GPS track or total. */
-export function personalRecords(activities) {
+export function personalRecords(activities, sport) {
+  const defs = prDefsFor(sport);
   const best = {};
-  for (const def of PR_DEFS) best[def.id] = null;
+  for (const def of defs) best[def.id] = null;
   for (const act of activities || []) {
-    const times = splitTimes(act);
-    for (const def of PR_DEFS) {
+    // Without a sport, keep the old running/walking behaviour and leave rides out.
+    if (!sport && isRideType(act && act.type)) continue;
+    if (sport && isRideType(sport) !== isRideType(act && act.type)) continue;
+    const times = splitTimes(act, defs);
+    for (const def of defs) {
       const sec = times[def.id];
       if (sec == null) continue;
       if (!best[def.id] || sec < best[def.id].seconds) {
@@ -289,7 +341,25 @@ export function personalRecords(activities) {
   return best;
 }
 
-export function splitTimes(activity) {
+/** Longest ride and best climb, the two ride marks that are not times. */
+export function rideRecords(activities) {
+  let longest = null;
+  let bestClimb = null;
+  for (const act of activities || []) {
+    if (!isRideType(act && act.type)) continue;
+    const meters = Number(act.distanceMeters) || 0;
+    if (meters > 0 && (!longest || meters > longest.meters)) {
+      longest = { meters, activityId: act.id, date: act.endedAt || act.startedAt };
+    }
+    const climb = Number(act.climbGainM) || 0;
+    if (climb > 0 && (!bestClimb || climb > bestClimb.meters)) {
+      bestClimb = { meters: climb, activityId: act.id, date: act.endedAt || act.startedAt };
+    }
+  }
+  return { longest, bestClimb };
+}
+
+export function splitTimes(activity, defs = FOOT_PR_DEFS) {
   const out = {};
   const coords = (activity && activity.track) || [];
   const start = activity && activity.startedAt ? Date.parse(activity.startedAt) : 0;
@@ -301,7 +371,7 @@ export function splitTimes(activity) {
         { lat: coords[i].lat, lon: coords[i].lon }
       );
       const t = coords[i].t != null ? coords[i].t : null;
-      for (const def of PR_DEFS) {
+      for (const def of defs) {
         if (out[def.id] != null) continue;
         if (acc >= def.meters) {
           if (t != null) out[def.id] = Math.round(t);
@@ -313,7 +383,7 @@ export function splitTimes(activity) {
       }
     }
   } else if (activity && activity.distanceMeters && activity.elapsedSec) {
-    for (const def of PR_DEFS) {
+    for (const def of defs) {
       if (activity.distanceMeters >= def.meters) {
         out[def.id] = Math.round(activity.elapsedSec * (def.meters / activity.distanceMeters));
       }

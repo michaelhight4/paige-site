@@ -1,4 +1,4 @@
-import { haversineMeters } from "./util.js";
+import { haversineMeters, isRideType } from "./util.js";
 
 /** Below this net speed, the runner is treated as standing still. ~1.0 mph. */
 export const STOP_SPEED_MPS = 0.45;
@@ -11,11 +11,43 @@ export const MOVE_DWELL_MS = 2000;
 /** Do not auto-pause in the first seconds of a session. */
 export const START_GRACE_MS = 10000;
 
-const SAMPLE_KEEP_MS = STOP_DWELL_MS + 2000;
+/**
+ * Rides need a wider band than feet. A red light should still pause, but
+ * slow rolling at walking speed is a real ride, not standing still.
+ * Still ~1.0 mph, moving ~2.7 mph, with a longer stop dwell so a trackstand
+ * at a light does not flicker the timer. Rolling at 3 mph stays a ride.
+ */
+export const RIDE_STOP_SPEED_MPS = 0.5;
+export const RIDE_MOVE_SPEED_MPS = 1.2;
+export const RIDE_STOP_DWELL_MS = 8000;
+export const RIDE_MOVE_DWELL_MS = 3000;
 
-export function createAutoPauseState(startedAt = 0) {
+/** Thresholds for a sport. Unknown types keep the walk/run band. */
+export function autoPauseThresholds(type) {
+  if (isRideType(type)) {
+    return {
+      stopSpeedMps: RIDE_STOP_SPEED_MPS,
+      moveSpeedMps: RIDE_MOVE_SPEED_MPS,
+      stopDwellMs: RIDE_STOP_DWELL_MS,
+      moveDwellMs: RIDE_MOVE_DWELL_MS,
+      startGraceMs: START_GRACE_MS,
+    };
+  }
+  return {
+    stopSpeedMps: STOP_SPEED_MPS,
+    moveSpeedMps: MOVE_SPEED_MPS,
+    stopDwellMs: STOP_DWELL_MS,
+    moveDwellMs: MOVE_DWELL_MS,
+    startGraceMs: START_GRACE_MS,
+  };
+}
+
+const SAMPLE_KEEP_MS = Math.max(STOP_DWELL_MS, RIDE_STOP_DWELL_MS) + 2000;
+
+export function createAutoPauseState(startedAt = 0, type = "walk") {
   return {
     startedAt: startedAt || 0,
+    type,
     samples: [],
     lastMovingAt: null,
     movingSince: null,
@@ -62,6 +94,9 @@ export function considerAutoPause(state, input = {}) {
   if (Number.isFinite(input.startedAt)) state.startedAt = input.startedAt;
   else if (!state.startedAt) state.startedAt = at;
   if (input.paused && input.pauseReason === "manual") return null;
+  const type = input.type || state.type || "walk";
+  state.type = type;
+  const th = autoPauseThresholds(type);
 
   if (Number.isFinite(input.lat) && Number.isFinite(input.lon)) {
     state.samples.push({ lat: input.lat, lon: input.lon, at });
@@ -69,34 +104,34 @@ export function considerAutoPause(state, input = {}) {
   const keepAfter = at - SAMPLE_KEEP_MS;
   state.samples = state.samples.filter((s) => s.at >= keepAfter);
 
-  const window = windowStats(state.samples, at - STOP_DWELL_MS);
-  const recent = windowStats(state.samples, at - MOVE_DWELL_MS);
+  const window = windowStats(state.samples, at - th.stopDwellMs);
+  const recent = windowStats(state.samples, at - th.moveDwellMs);
   const lastAt = state.samples.length ? state.samples[state.samples.length - 1].at : null;
   const quietMs = lastAt != null ? at - lastAt : 0;
 
-  const movingNow = recent.speed >= MOVE_SPEED_MPS && recent.straight >= 0.55 && recent.net >= 1.2;
+  const movingNow = recent.speed >= th.moveSpeedMps && recent.straight >= 0.55 && recent.net >= 1.2;
   if (movingNow) {
     state.hasMoved = true;
     state.lastMovingAt = at;
     if (state.movingSince == null) state.movingSince = at;
   } else if (
-    (recent.span >= MOVE_DWELL_MS - 400 && recent.speed < STOP_SPEED_MPS) ||
-    quietMs >= MOVE_DWELL_MS
+    (recent.span >= th.moveDwellMs - 400 && recent.speed < th.stopSpeedMps) ||
+    quietMs >= th.moveDwellMs
   ) {
     state.movingSince = null;
   }
 
-  const pastGrace = at - state.startedAt >= START_GRACE_MS;
+  const pastGrace = at - state.startedAt >= th.startGraceMs;
   const windowStill =
-    (window.span >= STOP_DWELL_MS - 400 && window.speed < MOVE_SPEED_MPS) ||
-    quietMs >= STOP_DWELL_MS;
+    (window.span >= th.stopDwellMs - 400 && window.speed < th.moveSpeedMps) ||
+    quietMs >= th.stopDwellMs;
 
   if (!input.paused && state.hasMoved && pastGrace && windowStill) return "pause";
   if (
     input.paused &&
     input.pauseReason === "auto" &&
     state.movingSince != null &&
-    at - state.movingSince >= MOVE_DWELL_MS &&
+    at - state.movingSince >= th.moveDwellMs &&
     movingNow
   ) {
     return "resume";

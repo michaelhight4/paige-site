@@ -78,8 +78,13 @@ export function formatLapLabel({ kind, index, total }) {
 /**
  * Progress through a planned target, given meters already traveled along the plan
  * (or GPS distance for continue-past).
+ *
+ * Lap index comes from the start/finish gate analyser in lap_gate.js, which
+ * only advances after every sector of the loop is completed in order. The
+ * distance fallback below is for drawing a plan before a GPS track exists
+ * (course preview / distance picker) and never drives a real lap count.
  */
-export function progressOnPlan(plan, traveledMeters) {
+export function progressOnPlan(plan, traveledMeters, { gate = null } = {}) {
   if (!plan) return null;
   const target = plan.targetMeters;
   const traveled = Math.max(0, Number(traveledMeters) || 0);
@@ -102,7 +107,9 @@ export function progressOnPlan(plan, traveledMeters) {
   }
   if (courseLen > 0 && total > 0) {
     if (hitTarget) index = total;
-    else index = Math.min(total, Math.floor(traveled / courseLen) + 1);
+    else if (plan.kind === "lap" && gate && gate.gated && gate.currentLap > 0) {
+      index = Math.min(total, gate.currentLap);
+    } else index = Math.min(total, Math.floor(traveled / courseLen) + 1);
   }
   return {
     kind: plan.kind,
@@ -113,6 +120,9 @@ export function progressOnPlan(plan, traveledMeters) {
     left,
     hitTarget,
     pastCourse: false,
+    gated: !!(plan.kind === "lap" && gate && gate.gated),
+    completedLaps: gate && gate.gated ? gate.completedLaps : null,
+    bestLapSec: gate && gate.gated ? gate.bestLapSec : null,
   };
 }
 

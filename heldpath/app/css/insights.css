@@ -1,0 +1,95 @@
+/* Personal heatmap, matched loops and history-based loop suggestions.
+   The screen sits over the same local map as Today, with a bottom panel. */
+#screen-insights {
+  background: transparent;
+  pointer-events: none;
+}
+#screen-insights .map-top,
+#screen-insights .dock {
+  pointer-events: auto;
+}
+#screen-insights .insights-top {
+  align-items: center;
+}
+#screen-insights .insights-dock {
+  bottom: calc(10px + var(--safe-bottom));
+  gap: 8px;
+}
+.insights-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: min(62vh, 620px);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 14px;
+  background: rgba(18, 22, 28, 0.96);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.38);
+}
+.insights-title {
+  font-size: 16px;
+  line-height: 1.25;
+  margin-top: 4px;
+}
+.heat-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+.heat-swatch {
+  display: inline-block;
+  width: 18px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--blue);
+}
+.heat-swatch.walk { background: #4EC3F7; }
+.heat-swatch.run { background: #F3E0A8; }
+.heat-swatch.ride { background: #B8F3D0; }
+.heat-swatch.dim { background: linear-gradient(90deg, rgba(78,195,247,0.2), #4EC3F7); }
+.insights-loop-row {
+  text-align: left;
+}
+.insights-trend {
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.insights-trend-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(58, 67, 82, 0.55);
+  font-size: 13px;
+  color: var(--text);
+}
+.insights-trend-row:last-child { border-bottom: 0; }
+.insights-trend-row span:last-child { color: var(--muted); white-space: nowrap; }
+.insights-suggest-card {
+  padding: 12px;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.insights-suggest-card h3 {
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+.insights-suggest-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 8px 0 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.insights-suggest-stats strong { color: var(--text); }

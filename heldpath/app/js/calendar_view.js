@@ -15,6 +15,9 @@ import {
   pathLengthMeters,
 } from "./util.js";
 import { dayPlanLabel, sortCalendarItems } from "./calendar_conflict.js";
+/* heldpath-hook: routes-heatmap */
+import { hillPaceForActivity, hillPaceLine } from "./hill_pace.js";
+/* heldpath-hook: routes-heatmap end */
 
 const CALENDAR_ART = "assets/art_calendar_empty.png";
 
@@ -96,11 +99,15 @@ function dotMarkup(acts, plans) {
   return html;
 }
 
-function activityRow(a, units, open) {
+function activityRow(a, units, open, hillPaceOn = false) {
   const when = timeOfDay(a.endedAt || a.startedAt);
   const title = `${a.type === "run" ? "Run" : "Walk"}${a.courseName ? " · " + a.courseName : ""}`;
   const source = SOURCE_LABEL[a.source] || SOURCE_LABEL.phone;
   const pace = formatPace(a.distanceMeters, a.elapsedSec, units);
+  /* heldpath-hook: routes-heatmap */
+  const hill = open && hillPaceOn ? hillPaceForActivity(a, { units, enabled: true }) : null;
+  const hillLine = hill ? `<p class="tiny act-meta" data-testid="hill-pace-line">${escapeHtml(hillPaceLine(hill, units))}</p>` : "";
+  /* heldpath-hook: routes-heatmap end */
   const course = a.courseId
     ? `<button class="btn btn-secondary act-again" data-repeat="${escapeHtml(a.courseId)}" data-type="${a.type === "run" ? "run" : "walk"}">${a.type === "run" ? "Run" : "Walk"} this course again</button>`
     : "";
@@ -118,6 +125,7 @@ function activityRow(a, units, open) {
         <div><span>Avg pace</span><strong>${escapeHtml(pace)}</strong></div>
       </div>
       <p class="tiny act-meta">${when} · ${escapeHtml(source)}</p>
+      ${hillLine}
       ${course}
     </div>` : ""}`;
 }
@@ -202,7 +210,7 @@ export function renderCalendarView(ctx) {
   const {
     grid,
     panel,
-    activities = [],
+    activities: allActivities = [],
     plans = [],
     courses = [],
     units = "mi",
@@ -210,6 +218,11 @@ export function renderCalendarView(ctx) {
     selectedDay = isoDate(new Date()),
     todayIso = isoDate(new Date()),
     openActivityId = null,
+    /* heldpath-hook: routes-heatmap */
+    hillPace = false,
+    /* heldpath-hook: goals-plans */
+    sport = "all",
+    onSport,
     onSelectDay,
     onStartPlan,
     onOpenGroup,
@@ -220,6 +233,17 @@ export function renderCalendarView(ctx) {
     onStartCourse,
     onStartWalk,
   } = ctx || {};
+
+  const presentSports = new Set((allActivities || []).map((a) => (a && a.type === "ride" ? "ride" : a && a.type === "run" ? "run" : "walk")));
+  const sportChoices = [["all", "All"], ["walk", "Walk"], ["run", "Run"]]
+    .concat(presentSports.has("ride") ? [["ride", "Ride"]] : []);
+  const activeSport = sportChoices.some(([v]) => v === sport) ? sport : "all";
+  const activities = activeSport === "all"
+    ? allActivities
+    : (allActivities || []).filter((a) => (a && a.type === "ride" ? "ride" : a && a.type === "run" ? "run" : "walk") === activeSport);
+  const sportTog = `<div class="range-tog sport-tog" id="cal-sport-tog" data-testid="cal-sport-tog">
+    ${sportChoices.map(([v, label]) => `<button type="button" data-sport="${v}" class="${v === activeSport ? "active" : ""}">${label}</button>`).join("")}
+  </div>`;
 
   const actsByDay = groupActivitiesByDay(activities);
   const plansByDay = groupPlansByDay(plans);
@@ -270,7 +294,7 @@ export function renderCalendarView(ctx) {
   const isToday = selectedDay === todayIso;
   const historyEmpty = !activities.length && !plans.length;
 
-  let html = "";
+  let html = `<div class="sport-tog-row">${sportTog}</div>`;
   if (historyEmpty) html += emptyStateMarkup(true);
 
   const meters = dayTotalMeters(acts);
@@ -298,7 +322,7 @@ export function renderCalendarView(ctx) {
       : `<p class="tiny plan-hint">Tap a planned session to start it.</p>`;
   }
   for (const a of acts) {
-    html += activityRow(a, units, a.id === openActivityId);
+    html += activityRow(a, units, a.id === openActivityId, hillPace);
   }
   for (const p of sortCalendarItems(dayPlans)) {
     html += planRow(p, courses, units, isToday, isFuture);
@@ -351,4 +375,11 @@ export function renderCalendarView(ctx) {
   if (emptyPlan && onSchedule) emptyPlan.addEventListener("click", onSchedule);
   const emptyWalk = panel.querySelector("#cal-empty-walk");
   if (emptyWalk && onStartWalk) emptyWalk.addEventListener("click", onStartWalk);
+  const sportTogEl = panel.querySelector("#cal-sport-tog");
+  if (sportTogEl) {
+    sportTogEl.addEventListener("click", (ev) => {
+      const btn = ev.target.closest("button[data-sport]");
+      if (btn && onSport) onSport(btn.getAttribute("data-sport"));
+    });
+  }
 }

@@ -5,6 +5,7 @@ import {
   formatDistance,
   formatDuration,
   formatPace,
+  formatSportRate,
   formatEta,
   etaSeconds,
   activityMph,
@@ -23,6 +24,7 @@ import {
 } from "./util.js";
 import { loadState, saveState, resetState, newCourse, newActivity, newPlan, newGoal, migrateCourses } from "./storage.js";
 import * as health from "./health.js";
+import { normalizeSport, loadLastSport, saveLastSport, sportLabel, rateLabel } from "./sport.js"; /* heldpath-hook: bike */
 import { PLANS_HOOK_COPY } from "./plans_hook.js";
 import * as map from "./map.js";
 import * as track from "./track.js";
@@ -62,6 +64,35 @@ import { isWeb, applyPlatformVisibility, registerServiceWorker, listenForInstall
 import { renderCalendarView } from "./calendar_view.js";
 import { conflictCopy, plansOnDate } from "./calendar_conflict.js";
 import { renderProgressView } from "./progress_view.js";
+/* heldpath-hook: routes-heatmap */
+import {
+  filterActivities as filterHeatmapActivities,
+  heatmapSummary,
+  heatmapBounds,
+  renderHeatmap,
+  clearHeatmap,
+  heatmapEmptyCopy,
+} from "./heatmap.js";
+import {
+  matchedLoops,
+  trendSeries,
+  formatTrend,
+  trendLabel,
+  sportLabel as matchSportLabel,
+} from "./matched_loops.js";
+import {
+  generateSuggestions,
+  suggestionPreview,
+  suggestionName,
+  suggestionPins,
+  suggestionReason,
+} from "./suggest_routes.js";
+import {
+  HILL_PACE_NOTE,
+  hillPaceForActivity,
+  hillPaceLine,
+} from "./hill_pace.js";
+/* heldpath-hook: routes-heatmap end */
 import {
   emptyBuilderState,
   placePin,
@@ -118,8 +149,7 @@ import {
 } from "./sector_timing.js";
 import {
   buildGoalSeries,
-  mountGoalChart,
-  historyTableMarkup,
+  mountGoalChart,  historyTableMarkup,
   loadChartStyle,
   saveChartStyle,
   periodGoalProgress,
@@ -130,13 +160,21 @@ import {
   pointsFromRuns,
   goalPeriod,
   oneShotGoalProgress,
+  freeGoalGap,
+  freeGoalGapMarkup,
 } from "./goal_progress.js";
+
+/* heldpath-hook: summary-laps — post-run Summary + More Details views */
+import { renderSummary, renderDetails, buildSectorModel, detailsMapMeters, sectorTrackSegments } from "./summary_view.js";
 
 import { initPlansUi, renderPlansScreen } from "./plans_ui.js";
 import { initStretchesUi, showStretchesHub, showStretchGroup, showStretchWorkout, showStretchCredits, showStretchFollow, openStretchVideo, closeStretchVideo, setStretchStyle } from "./stretches_ui.js";
 import { initMapDownloadUi, showMapAreas, openCrop, closeCrop } from "./map_download_ui.js";
+/* heldpath-hook: import — universal GPX/FIT/TCX/zip import and export/share cards */
+import { initImportUi } from "./import_ui.js";
+import { initExportUi } from "./export_ui.js";
 import { listAreas } from "./map_offline.js";
-import { ensureWalkGraph, ensureLoopGraph, graphCoversPoints } from "./area_graphs.js";
+import { ensureWalkGraph, ensureLoopGraph, ensureBikeGraph, ensureBikeLoopGraph, graphCoversPoints } from "./area_graphs.js"; /* heldpath-hook: bike */
 import { assessRouteLowSignal, LOW_SIGNAL_COPY, pathBbox } from "./low_signal.js";
 import { gainLoss, displayDistance, naismithSeconds, formatGain, elevationProfileSvg, FLAT_DISCLAIMER, HILLS_DISCLAIMER, DEM_CREDIT_SHORT, DEM_ATTRIBUTION_URL } from "./elevation.js";
 import { samplePathDem } from "./elevation_dem.js";
@@ -231,7 +269,7 @@ const ui = {
   cal: startOfDay(new Date()),
   selectedDay: isoDate(new Date()),
   openActId: null,
-  startType: "walk",
+  startType: loadLastSport(), // heldpath-hook: bike — default to the last sport
   hideNav: false,
   builderRoute: null,
   straightOverrides: new Set(),
@@ -239,6 +277,15 @@ const ui = {
   findingPaths: false,
   builderSheetExpanded: false,
   pathMode: "on",
+  /* heldpath-hook: routes-heatmap */
+  insightsSport: "all",
+  insightsRange: "all",
+  insightsGroupId: null,
+  insightsSuggestion: null,
+  insightsSuggestionMeta: null,
+  insightsBusy: false,
+  insightsSaved: "",
+  /* heldpath-hook: routes-heatmap end */
 };
 
 const $ = (id) => document.getElementById(id);
@@ -389,6 +436,10 @@ function sourceLabel(activity) {
   if (!activity || !activity.source) return "Tracked on this phone";
   if (activity.source === "watch") return "Imported from a watch";
   if (activity.source === "health") return "From the health app";
+  if (activity.source === "import") {
+    const fmt = String(activity.importFormat || "").toUpperCase();
+    return fmt ? `Imported ${fmt} file` : "Imported from a file";
+  }
   if (activity.source === "indoor") return indoorSourceLabel();
   return "Tracked on this phone";
 }
@@ -414,20 +465,26 @@ function showScreen(name) {
   document.querySelectorAll(".screen").forEach((el) => {
     el.classList.toggle("active", el.dataset.screen === name);
   });
-  const mapScreens = new Set(["today", "tracking", "builder"]);
+  /* heldpath-hook: routes-heatmap, summary-laps */
+  const mapScreens = new Set(["today", "tracking", "builder", "summary-details", "insights"]);
   $("map").style.visibility = mapScreens.has(name) ? "visible" : "hidden";
-  if ($("map-tools")) $("map-tools").hidden = !mapScreens.has(name);
+  if ($("map-tools")) $("map-tools").hidden = !mapScreens.has(name) || name === "insights";
   document.body.dataset.screen = name;
   document.body.classList.toggle("on-map-screen", mapScreens.has(name));
   $("tab-bar").style.display = name === "lock" || ui.hideNav ? "none" : "grid";
   if (mapScreens.has(name)) {
     requestAnimationFrame(() => map.resizeMap());
-    if (name === "builder") startBuilderLocation({ center: false });
+    if (name === "insights") paintInsightsMap();
+    else if (name === "builder") startBuilderLocation({ center: false });
     else maybeStartLiveLocation();
     paintMapStyleButton();
   } else if (typeof stopLocationWatch === "function" && !locationWatchActive()) {
     /* leave an existing watch running so returning to the map keeps the last fix */
   }
+  if (name !== "insights") {
+    try { clearHeatmap(map.getMap()); } catch { /* map may not be ready */ }
+  }
+  /* heldpath-hook: routes-heatmap end */
 }
 
 function setTab(tab) {
@@ -527,7 +584,7 @@ function paintSessionHud(sess) {
   if (!sess) return;
   const rem = track.courseRemaining(sess);
   const onCourse = rem.onCourse;
-  $("track-kicker").textContent = `${sess.type === "run" ? "Run" : "Walk"}${sess.courseName ? " · " + sess.courseName : ""}`;
+  $("track-kicker").textContent = `${sportLabel(sess.type)}${sess.courseName ? " · " + sess.courseName : ""}`; /* heldpath-hook: bike */
   const lap = $("track-lap");
   const leftLbl = $("track-left-lbl");
   const etaLbl = $("track-eta-lbl");
@@ -565,7 +622,8 @@ function paintSessionHud(sess) {
   }
   maybeAnnounceComplete(sess, rem);
   $("track-time").textContent = formatDuration(sess.elapsedSec);
-  $("track-pace").textContent = formatPace(sess.distanceMeters, sess.elapsedSec, sess.units);
+  $("track-pace").textContent = formatSportRate(sess.type, sess.distanceMeters, sess.elapsedSec, sess.units); /* heldpath-hook: bike */
+  if ($("track-pace-lbl")) $("track-pace-lbl").textContent = rateLabel(sess.type);
   $("btn-pause").textContent = sess.paused ? "Resume" : "Pause";
   const pauseNote = $("track-pause-note");
   if (pauseNote) {
@@ -1095,6 +1153,25 @@ function maybeShowBuilderExplainer({ force = false } = {}) {
 const LOADING_PATHS = "Loading paths…";
 
 let builderGraphToken = 0;
+
+/* heldpath-hook: bike — builder and saved courses use the bike graph on a ride. */
+function rideMode() {
+  return normalizeSport(ui.startType) === "ride";
+}
+async function ensureSportGraph(points, opts = {}) {
+  if (rideMode()) {
+    const bike = await ensureBikeGraph(points, opts);
+    if (bike) return bike;
+  }
+  return ensureWalkGraph(points, opts);
+}
+async function ensureSportLoopGraph(center, meters, opts = {}) {
+  if (rideMode()) {
+    const bike = await ensureBikeLoopGraph(center, meters, opts);
+    if (bike) return bike;
+  }
+  return ensureLoopGraph(center, meters, opts);
+}
 function maybeEnsureBuilderGraph(pins) {
   if (!pins || pins.length < 1) return;
   if (ui.lockWalkGraph) return;
@@ -1108,7 +1185,7 @@ function maybeEnsureBuilderGraph(pins) {
     note.classList.add("finding");
     note.textContent = LOADING_PATHS;
   }
-  ensureWalkGraph(pins, {
+  ensureSportGraph(pins, {
     lockWalkGraph: !!ui.lockWalkGraph,
     onStatus: () => {},
   }).then(() => {
@@ -1141,7 +1218,7 @@ async function ensureCoursePath(course) {
   if (!course || !course.pins || course.pins.length < 2) return course;
   if (course.path && course.path.length >= 2 && !course.straightLine) return course;
   try {
-    const g = await ensureWalkGraph(course.pins);
+    const g = await ensureSportGraph(course.pins);
     const routed = routeCourse(g, ingestPins(course.pins), {
       straightOverrides: course.straightOverrides,
     });
@@ -1537,6 +1614,14 @@ function renderCalendar() {
     selectedDay: ui.selectedDay,
     todayIso: isoDate(new Date()),
     openActivityId: ui.openActId,
+    /* heldpath-hook: routes-heatmap */
+    hillPace: !!state.settings.hillPace,
+    /* heldpath-hook: goals-plans */
+    sport: ui.calSport || "all",
+    onSport: (s) => {
+      ui.calSport = s === "ride" || s === "run" || s === "walk" ? s : "all";
+      renderCalendar();
+    },
     onSelectDay: (iso) => {
       ui.selectedDay = iso;
       ui.openActId = null;
@@ -1884,6 +1969,8 @@ function renderGoalsScreen() {
       ? periodGoalProgress(g, acts, { locale, units: units() })
       : oneShotGoalProgress(g, acts, { units: units() });
     if (prog) parts.push(periodRingMarkup(prog, { testid: period ? "period-ring" : "goal-ring" }));
+    const gap = freeGoalGap(g, acts, { locale, units: units() });
+    if (gap) parts.push(freeGoalGapMarkup(gap, { testid: "goal-gap" }));
     parts.push(`<p class="tiny">Always free. Your progress stays on this phone.</p>`);
     parts.push(`<button class="btn btn-secondary btn-goal-remove" data-id="${escapeHtml(g.id)}" style="width:100%;margin-top:8px">Remove</button>`);
     parts.push(`</div>`);
@@ -2053,6 +2140,215 @@ function renderProgress() {
   });
 }
 
+/* heldpath-hook: routes-heatmap */
+function insightsFiltered() {
+  return filterHeatmapActivities(state.activities, {
+    sport: ui.insightsSport,
+    range: ui.insightsRange,
+  });
+}
+
+function paintInsightsMap() {
+  try {
+    const instance = map.getMap && map.getMap();
+    if (!instance) return;
+    const fc = renderHeatmap(instance, insightsFiltered(), {
+      sport: ui.insightsSport,
+      range: ui.insightsRange,
+    });
+    const bounds = heatmapBounds(fc);
+    if (bounds) {
+      map.fitBounds([
+        { lat: bounds.minLat, lon: bounds.minLon },
+        { lat: bounds.maxLat, lon: bounds.maxLon },
+      ], 64);
+    }
+  } catch { /* map may not be ready */ }
+}
+
+function insightTrendMarkup(group) {
+  const series = trendSeries(group, { units: units() });
+  const rows = series.points.slice().reverse().map((p) => {
+    const activity = (state.activities || []).find((a) => a.id === p.activityId);
+    const when = new Date(p.at).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    const value = series.metric === "speed"
+      ? `${p.speedPerHour.toFixed(1)} km/h`
+      : formatPace(p.meters, p.durationSec, units());
+    const hill = activity && state.settings.hillPace
+      ? hillPaceForActivity(activity, { units: units(), enabled: true })
+      : null;
+    const hillText = hill ? `<p class="tiny">${escapeHtml(hillPaceLine(hill, units()))}</p>` : "";
+    return `<div class="insights-trend-row"><span>${escapeHtml(when)} · ${escapeHtml(formatDistance(p.meters, units(), { digits: 1 }))}</span><span>${escapeHtml(value)}</span></div>${hillText}`;
+  }).join("");
+  return `<div class="insights-trend">
+    <p class="tiny" style="margin-bottom:6px">${escapeHtml(trendLabel(series))} · ${escapeHtml(matchSportLabel(group.sport))} · ${escapeHtml(sportOfActivity(group))}</p>
+    ${rows}
+  </div>`;
+}
+
+function sportOfActivity(group) {
+  return group.count === 1 ? "1 effort" : `${group.count} efforts`;
+}
+
+function insightsLoopsMarkup(groups) {
+  if (!groups.length) {
+    return `<p class="tiny">Finish the same loop twice and it appears here with a pace trend. Loops stay private to this phone.</p>`;
+  }
+  let html = "";
+  for (const group of groups) {
+    const open = ui.insightsGroupId === group.id;
+    html += `<button class="list-item insights-loop-row" data-loop="${escapeHtml(group.id)}" aria-expanded="${open ? "true" : "false"}">
+      <div class="grow"><h3>${escapeHtml(group.name)}</h3><p>${escapeHtml(formatTrend(group, { units: units() }))}</p></div>
+      <div class="meta">${open ? "Hide" : "Trend"}</div>
+    </button>`;
+    if (open) html += insightTrendMarkup(group);
+  }
+  return html;
+}
+
+function insightsSuggestionMarkup() {
+  const s = ui.insightsSuggestion;
+  if (!s) return "";
+  const meta = ui.insightsSuggestionMeta || {};
+  const preview = s.preview || suggestionPreview(s, { profile: meta.profile, units: units() });
+  const climb = preview.climbKnown === false && !(preview.climbM > 0)
+    ? "Climb not sampled"
+    : `Climb ${formatGain(preview.climbM, units())}`;
+  const known = Math.round((preview.knownRatio || 0) * 100);
+  return `<div class="insights-suggest-card" data-testid="insights-suggestion">
+    <h3>${escapeHtml(suggestionName(s, units()))}</h3>
+    <p class="tiny">${escapeHtml(suggestionReason(s, meta.profile, meta.goal))}</p>
+    <div class="insights-suggest-stats">
+      <span><strong>${escapeHtml(formatDistance(preview.meters, units()))}</strong> distance</span>
+      <span>${escapeHtml(climb)}</span>
+      <span><strong>${escapeHtml(formatEta(preview.seconds))}</strong> estimate</span>
+      <span>${known}% familiar ground</span>
+    </div>
+    <button class="btn btn-primary" id="btn-save-suggestion" data-testid="save-suggestion" style="width:100%">Save as a free course</button>
+  </div>`;
+}
+
+function renderInsights() {
+  document.querySelectorAll("#insights-sport button").forEach((b) => {
+    b.classList.toggle("active", b.dataset.sport === ui.insightsSport);
+  });
+  document.querySelectorAll("#insights-range button").forEach((b) => {
+    b.classList.toggle("active", b.dataset.range === ui.insightsRange);
+  });
+  const filtered = insightsFiltered();
+  const summary = heatmapSummary(filtered, { filtered: true });
+  const sportBits = [];
+  if (summary.sports.walk) sportBits.push(`${summary.sports.walk} walk${summary.sports.walk === 1 ? "" : "s"}`);
+  if (summary.sports.run) sportBits.push(`${summary.sports.run} run${summary.sports.run === 1 ? "" : "s"}`);
+  if (summary.sports.ride) sportBits.push(`${summary.sports.ride} ride${summary.sports.ride === 1 ? "" : "s"}`);
+  if ($("insights-summary")) {
+    $("insights-summary").textContent = summary.activities
+      ? `${formatDistance(summary.meters, units())} covered · ${sportBits.join(" · ")} · ${summary.groundCells.toLocaleString()} ground cells${summary.repeatedCells ? `, ${summary.repeatedCells.toLocaleString()} revisited` : ""}.`
+      : "";
+  }
+  if ($("insights-empty")) {
+    $("insights-empty").textContent = filtered.length ? "" : heatmapEmptyCopy();
+  }
+  const groups = matchedLoops(state.activities, { minCount: 2 })
+    .filter((g) => ui.insightsSport === "all" || g.sport === ui.insightsSport);
+  if ($("insights-loops")) $("insights-loops").innerHTML = insightsLoopsMarkup(groups);
+  if ($("insights-suggest")) {
+    $("insights-suggest").innerHTML = insightsSuggestionMarkup();
+    const save = $("btn-save-suggestion");
+    if (save) save.addEventListener("click", saveInsightsSuggestion);
+  }
+  if ($("insights-saved")) $("insights-saved").textContent = ui.insightsSaved || "";
+  if ($("btn-suggest-loop")) $("btn-suggest-loop").disabled = !!ui.insightsBusy;
+  if ($("hill-pace-note")) $("hill-pace-note").textContent = HILL_PACE_NOTE;
+}
+
+async function suggestLoop() {
+  if (ui.insightsBusy) return;
+  ui.insightsBusy = true;
+  ui.insightsSaved = "";
+  if ($("insights-suggest-note")) $("insights-suggest-note").textContent = "Reading your history and the local walk graph…";
+  renderInsights();
+  try {
+    let graph = getActiveGraph();
+    const known = normalizeFix(state.settings.lastKnown);
+    const firstTrack = (state.activities || [])
+      .map((a) => (a.track || [])[0])
+      .find((p) => p && Number.isFinite(Number(p.lat)));
+    const center = known || firstTrack || null;
+    if (!graph && center) {
+      try { graph = await ensureLoopGraph(center, 1600); } catch { /* no map pack */ }
+    }
+    const goal = (state.goals || []).find((g) => g && (Number(g.distanceMeters) > 0 || Number(g.finishSec) > 0)) || null;
+    const result = generateSuggestions({
+      graph,
+      activities: state.activities,
+      sport: ui.insightsSport,
+      goal,
+      count: 3,
+    });
+    if (!result.ok) {
+      ui.insightsBusy = false;
+      if ($("insights-suggest-note")) {
+        $("insights-suggest-note").textContent = result.reason === "no-graph"
+          ? "No local walk graph yet. Download your local map in Settings, then try again."
+          : "Walk a few outings first, then Heldpath can suggest a loop from where you usually start.";
+      }
+      renderInsights();
+      return;
+    }
+    const choice = result.suggestions[0];
+    choice.preview = suggestionPreview(choice, { profile: result.profile, units: units() });
+    ui.insightsSuggestion = choice;
+    ui.insightsSuggestionMeta = { profile: result.profile, goal, targetMeters: result.targetMeters };
+    ui.insightsBusy = false;
+    if ($("insights-suggest-note")) {
+      $("insights-suggest-note").textContent = suggestionReason(choice, result.profile, goal);
+    }
+    renderInsights();
+    try { map.drawRoute(choice.path, { id: "insight-suggest", color: "#F3E0A8", width: 5 }); } catch { /* map may be busy */ }
+    // Terrain sample is a bonus; history-based climb stays if offline.
+    try {
+      const { samplePathDem } = await import("./elevation_dem.js");
+      const samples = await samplePathDem(choice.path, { stepM: 90 });
+      const gl = gainLoss(samples);
+      if (gl && Number.isFinite(gl.gainM) && gl.gainM > 0) {
+        choice.climbM = gl.gainM;
+        choice.preview = suggestionPreview(choice, { profile: result.profile, climbM: gl.gainM, units: units() });
+        if (ui.insightsSuggestion === choice) renderInsights();
+      }
+    } catch { /* offline: keep the history estimate */ }
+  } catch {
+    ui.insightsBusy = false;
+    if ($("insights-suggest-note")) $("insights-suggest-note").textContent = "Could not build a loop just now. Try again near a downloaded map.";
+    renderInsights();
+  }
+}
+
+function saveInsightsSuggestion() {
+  const s = ui.insightsSuggestion;
+  if (!s) return;
+  const name = suggestionName(s, units());
+  state.courses.push(newCourse({
+    name,
+    pins: suggestionPins(s),
+    path: s.path || null,
+  }));
+  persist();
+  ui.insightsSaved = `Saved "${name}" to Courses. It is free, like every course.`;
+  ui.insightsSuggestion = null;
+  ui.insightsGroupId = null;
+  renderInsights();
+  renderCourses();
+}
+
+function openInsights({ suggest = false } = {}) {
+  ui.hideNav = false;
+  showScreen("insights");
+  renderInsights();
+  if (suggest) setTimeout(() => { suggestLoop(); }, 60);
+}
+/* heldpath-hook: routes-heatmap end */
+
 function renderSettings() {
   document.querySelectorAll("#units-tog button").forEach((b) => {
     b.classList.toggle("active", b.dataset.units === units());
@@ -2076,6 +2372,14 @@ function renderSettings() {
     $("count-hills-switch").classList.toggle("on", on);
     $("count-hills-switch").setAttribute("aria-checked", on ? "true" : "false");
   }
+  /* heldpath-hook: routes-heatmap */
+  if ($("hill-pace-switch")) {
+    const on = !!state.settings.hillPace;
+    $("hill-pace-switch").classList.toggle("on", on);
+    $("hill-pace-switch").setAttribute("aria-checked", on ? "true" : "false");
+  }
+  if ($("hill-pace-note")) $("hill-pace-note").textContent = HILL_PACE_NOTE;
+  /* heldpath-hook: routes-heatmap end */
   if (typeof refreshHealthStatus === "function") refreshHealthStatus();
   else if ($("health-note")) {
     $("health-note").textContent = state.settings.healthOptIn
@@ -2104,6 +2408,9 @@ function render() {
   if (ui.screen === "courses") renderCourses();
   if (ui.screen === "calendar") renderCalendar();
   if (ui.screen === "progress") renderProgress();
+  /* heldpath-hook: routes-heatmap */
+  if (ui.screen === "insights") renderInsights();
+  /* heldpath-hook: routes-heatmap end */
   if (ui.screen === "goals") renderGoalsScreen();
   if (ui.screen === "settings" || ui.screen === "support") renderSettings();
   if (ui.screen === "plans") renderPlansScreen();
@@ -2165,8 +2472,15 @@ function saveIndoorLog() {
 }
 
 function openStart(type) {
-  ui.startType = type;
-  $("start-sheet-title").textContent = type === "run" ? "Start a run" : "Start a walk";
+  const sport = normalizeSport(type); /* heldpath-hook: bike */
+  ui.startType = sport;
+  saveLastSport(sport);
+  document.querySelectorAll("#start-sport-picker [data-sport]").forEach((b) => {
+    const on = b.dataset.sport === sport;
+    b.classList.toggle("active", on);
+    b.setAttribute("aria-pressed", on ? "true" : "false");
+  });
+  $("start-sheet-title").textContent = sport === "ride" ? "Start a ride" : sport === "run" ? "Start a run" : "Start a walk";
   const list = $("start-course-list");
   list.innerHTML = "";
   if (!state.courses.length) {
@@ -2178,9 +2492,9 @@ function openStart(type) {
       b.className = "list-item";
       b.innerHTML = `<div class="grow"><h3></h3><p></p></div><div class="meta"></div>`;
       b.querySelector("h3").textContent = c.name;
-      b.querySelector("p").textContent = `${formatDistance(len, units())} · ${formatEta(etaSeconds(len, activityMph(type)))}`;
+      b.querySelector("p").textContent = `${formatDistance(len, units())} · ${formatEta(etaSeconds(len, activityMph(sport)))}`;
       b.querySelector(".meta").textContent = "Go";
-      b.addEventListener("click", () => promptTargetThenStart(type, c));
+      b.addEventListener("click", () => promptTargetThenStart(sport, c));
       list.appendChild(b);
     }
   }
@@ -2630,142 +2944,166 @@ function paintElevationBox(el, elev, { units: u = "mi", credit = false } = {}) {
   el.innerHTML = `<p class="tiny"><strong>Climb ${formatGain(elev.gainM, u)}</strong> · descent ${formatGain(elev.lossM, u)}</p>${svg}${creditLine}`;
 }
 
+/* heldpath-hook: summary-laps — multi-lap F1 tower fixture */
+function makeLapSummaryFixture() {
+  const a = { lat: 43.7672, lon: 11.2543 };
+  const b = destination(a.lat, a.lon, 90, 120);
+  const c = destination(b.lat, b.lon, 0, 120);
+  const d = destination(c.lat, c.lon, 270, 120);
+  const pins = [
+    { ...a, role: "start" }, { ...b, role: "via" }, { ...c, role: "via" },
+    { ...d, role: "via" }, { ...a, role: "end" },
+  ];
+  const path = [a, b, c, d, { lat: a.lat, lon: a.lon }];
+  const course = newCourse({ name: "Two-lap loop", pins, path });
+  course.goal = goalFromFinishTime(250, course);
+  course.sectorPbs = {
+    0: { seconds: 55, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+    1: { seconds: 70, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+    2: { seconds: 59, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+    3: { seconds: 60, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+  };
+  course.sectorHistory = [{ at: "2026-11-11T09:00:00.000Z", activityId: "prev", times: [55, 70, 59, 60], totalSec: 244 }];
+  const corners = [a, b, c, d, a];
+  const lapSecs = [[60, 65, 63, 62], [58, 64, 61, 60]];
+  const track = [{ lat: a.lat, lon: a.lon, t: 0, at: "2026-11-18T09:00:00.000Z" }];
+  let t = 0;
+  for (const sides of lapSecs) {
+    for (let i = 0; i < 4; i++) {
+      const p = corners[i], q = corners[i + 1];
+      const steps = 14;
+      for (let k = 1; k <= steps; k++) {
+        t += sides[i] / steps;
+        const f = k / steps;
+        track.push({
+          lat: p.lat + (q.lat - p.lat) * f,
+          lon: p.lon + (q.lon - p.lon) * f,
+          t,
+          at: new Date(Date.parse("2026-11-18T09:00:00.000Z") + t * 1000).toISOString(),
+        });
+      }
+    }
+  }
+  const act = newActivity({
+    type: "run",
+    courseId: course.id,
+    courseName: course.name,
+    startedAt: "2026-11-18T09:00:00.000Z",
+    endedAt: new Date(Date.parse("2026-11-18T09:00:00.000Z") + t * 1000).toISOString(),
+    distanceMeters: 960,
+    elapsedSec: t,
+    track,
+  });
+  return { course, act };
+}
+
 function showSummary(act, course, legResult) {
 
   ui.summary = { act, course, legResult };
-  const type = act.type === "run" ? "Run" : "Walk";
-  $("summary-title").textContent = `${type} complete`;
-  $("summary-sub").textContent = `${new Date(act.endedAt || act.startedAt).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })} · ${sourceLabel(act)}`;
-  const indoorNote = $("summary-indoor-note");
-  if (indoorNote) {
-    if (act.source === "indoor") {
-      indoorNote.hidden = false;
-      indoorNote.textContent = act.indoorNote
-        ? `${indoorSummaryNote()} ${act.indoorNote}`
-        : indoorSummaryNote();
-    } else {
-      indoorNote.hidden = true;
-      indoorNote.textContent = "";
-    }
-  }
+  const type = sportLabel(act.type); /* heldpath-hook: bike */
   const elev = activityElevation(act);
   const shown = displayDistance(act.track, act.distanceMeters, { countHills: !!state.settings.countHills });
-  $("summary-stats").innerHTML = `
-    <div class="total-box"><div class="num">${formatDistance(shown.meters, units())}</div><div class="lbl">Distance</div></div>
-    <div class="total-box"><div class="num">${formatDuration(act.elapsedSec)}</div><div class="lbl">Time</div></div>
-    <div class="total-box"><div class="num">${formatPace(shown.meters, act.elapsedSec, units())}</div><div class="lbl">Avg pace</div></div>`;
-  if (elev && (elev.gainM > 0 || elev.lossM > 0)) {
-    $("summary-stats").innerHTML += `
-    <div class="total-box"><div class="num">${formatGain(elev.gainM, units())}</div><div class="lbl">Climb</div></div>
-    <div class="total-box"><div class="num">${formatGain(elev.lossM, units())}</div><div class="lbl">Descent</div></div>`;
+  const indoorNote = act.source === "indoor"
+    ? (act.indoorNote ? `${indoorSummaryNote()} ${act.indoorNote}` : indoorSummaryNote())
+    : "";
+  const key = `${act.id || "act"}|${(course && course.id) || ""}`;
+  if (!ui.summaryModel || ui.summaryModel.key !== key) {
+    const model = buildSectorModel(course, act, { apply: true });
+    ui.summaryModel = { key, model };
+    if (model && model.hasGoal) persist();
   }
-  paintElevationBox($("summary-elevation"), elev, { units: units(), credit: true });
-  const sectorRoot = $("summary-sectors");
-  if (sectorRoot) {
-    const c = course || (act.courseId && (state.courses || []).find((x) => x.id === act.courseId));
-    if (c && resolveGoal(c)) {
-      renderSectorTable(sectorRoot, c, act);
-      persist();
-    } else {
-      sectorRoot.innerHTML = "";
-    }
-  }
-  const distNote = $("summary-distance-note");
-  if (distNote) {
-    distNote.hidden = act.source === "indoor";
-    distNote.textContent = act.source === "indoor" ? "" : shown.disclaimer;
-  }
-
-  const healthBox = $("summary-health");
-  healthBox.innerHTML = "";
-  const healthLine = healthFieldsText(act);
-  if (healthLine) {
-    const provider = (act.health && act.health.provider) || "your health app";
-    const row = document.createElement("div");
-    row.className = "pr-row";
-    row.innerHTML = `<span>From ${escapeHtml(provider)}</span><span>${escapeHtml(healthLine)}</span>`;
-    healthBox.appendChild(row);
-    const note = document.createElement("p");
-    note.className = "tiny";
-    note.style.marginTop = "10px";
-    note.textContent = "Steps and calories are read from the health app. Heldpath never counts them itself.";
-    healthBox.appendChild(note);
-  } else if (state.settings.healthOptIn) {
-    const sync = act.healthSync || {};
-    const note = document.createElement("p");
-    note.className = "tiny";
-    note.textContent = sync.written
-      ? "Workout saved to the health app. Steps and calories were not available for this walk, so they stay blank."
-      : `Health sync is on, but this workout was not written. ${sync.reason || "The health app is not connected in this build."}`;
-    healthBox.appendChild(note);
-  } else {
-    const note = document.createElement("p");
-    note.className = "tiny";
-    note.textContent = "Health sync is off. Turn it on in Settings to write workouts and show steps and calories from your health app.";
-    healthBox.appendChild(note);
-  }
-
-  const hasSectorTable = !!(sectorRoot && sectorRoot.querySelector("[data-testid='sector-table']"));
-  const splitBox = $("summary-splits");
-  splitBox.innerHTML = "";
-  splitBox.hidden = false;
-  if (course && legResult && legResult.legs.length) {
-    const status = document.createElement("p");
-    status.className = "tiny";
-    status.style.marginBottom = "6px";
-    status.textContent = splits.splitsStatus(legResult);
-    splitBox.appendChild(status);
-    const head = document.createElement("div");
-    head.className = "split-head";
-    head.innerHTML = `<span>Leg</span><span class="t">Time</span><span class="t">Pace</span>`;
-    splitBox.appendChild(head);
-    const rows = splits.splitRows(course, legResult);
-    for (const row of rows) {
-      const el = document.createElement("div");
-      el.className = "split-row";
-      const label = document.createElement("span");
-      label.textContent = row.label;
-      const time = document.createElement("span");
-      time.className = "t";
-      time.textContent = splits.formatLegTime(row.seconds);
-      const pace = document.createElement("span");
-      pace.className = "t";
-      pace.textContent = row.pace || "—";
-      el.appendChild(label);
-      el.appendChild(time);
-      el.appendChild(pace);
-      if (row.bestSeconds != null) {
-        const best = document.createElement("span");
-        best.className = "best" + (row.isNewBest ? " new" : "");
-        best.textContent = row.isNewBest
-          ? `New leg best${row.previousBestSeconds ? ` (was ${splits.formatLegTime(row.previousBestSeconds)})` : ""}`
-          : `Leg best ${splits.formatLegTime(row.bestSeconds)}`;
-        best.style.gridColumn = "1 / -1";
-        el.appendChild(best);
-      }
-      splitBox.appendChild(el);
-    }
-    const foot = document.createElement("p");
-    foot.className = "tiny";
-    foot.style.marginTop = "12px";
-    foot.textContent = "Course splits and leg bests are free. Faster weekly split targets belong to optional custom plans.";
-    splitBox.appendChild(foot);
-  } else if (hasSectorTable) {
-    splitBox.hidden = true;
-  } else if (course) {
-    const note = document.createElement("p");
-    note.className = "tiny";
-    note.textContent = "No course split was recorded for this activity. Walk or run the whole course to set leg bests.";
-    splitBox.appendChild(note);
-  } else {
-    const note = document.createElement("p");
-    note.className = "tiny";
-    note.textContent = "Free walk: no course splits. Pick a saved course next time to see a split for every leg, free.";
-    splitBox.appendChild(note);
-  }
+  const model = ui.summaryModel.model;
+  const outline = (course && ((course.path && course.path.length >= 2) ? course.path : course.pins))
+    || (act.track && act.track.length >= 2 ? act.track : null);
+  renderSummary({
+    act,
+    course,
+    units: units(),
+    shownMeters: shown.meters,
+    elev,
+    model,
+    outline,
+    title: `${type} complete`,
+    sub: `${new Date(act.endedAt || act.startedAt).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })} · ${sourceLabel(act)}`,
+    indoorNote,
+    distanceNote: act.source === "indoor" ? "" : shown.disclaimer,
+  });
   ui.hideNav = true;
   showScreen("summary");
 }
+
+function summaryDetailsCtx() {
+  const { act, course, legResult } = ui.summary || {};
+  if (!act) return null;
+  const elev = activityElevation(act);
+  const shown = displayDistance(act.track, act.distanceMeters, { countHills: !!state.settings.countHills });
+  const model = ui.summaryModel && ui.summaryModel.model ? ui.summaryModel.model : buildSectorModel(course, act, { apply: false });
+  return { act, course, legResult, elev, shown, model };
+}
+
+function openSummaryDetails() {
+  const ctx = summaryDetailsCtx();
+  if (!ctx) return;
+  const { act, course, legResult, elev, shown, model } = ctx;
+  renderDetails({
+    act,
+    course,
+    units: units(),
+    shownMeters: shown.meters,
+    elev,
+    model,
+    sub: `${new Date(act.endedAt || act.startedAt).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })} · ${sourceLabel(act)}`,
+    healthOptIn: !!state.settings.healthOptIn,
+    healthSync: act.healthSync || null,
+    legResult,
+    splits,
+  });
+  paintElevationBox($("details-elevation"), elev, { units: units(), credit: true });
+  const elevEl = $("details-elevation");
+  if (elevEl && !elevEl.innerHTML.trim()) {
+    elevEl.hidden = false;
+    elevEl.innerHTML = `<p class="tiny">No elevation samples for this activity. The health app and phone barometer add them when available.</p>`;
+  }
+  ui.hideNav = true;
+  showScreen("summary-details");
+  drawSummaryDetailsMap(act, course);
+}
+
+/* heldpath-hook: summary-laps — draw S1…Sn on the real GPS track */
+function drawSummaryDetailsMap(act, course) {
+  if (!act) return;
+  const paint = () => {
+    try { map.clearOverlays(); map.clearMarkers(); map.clearLegLabels(); } catch { /* not ready */ }
+    const track = act.track || [];
+    const meters = detailsMapMeters(course, act);
+    const segs = sectorTrackSegments(track, meters);
+    const palette = ["#4EC3F7", "#B8F3D0", "#F3E0A8", "#FFB4A8", "#9BB7FF"];
+    segs.forEach((seg, i) => {
+      map.drawRoute(seg.coords, { id: "details-leg-" + i, color: palette[i % palette.length], width: 5 });
+      const mid = seg.coords[Math.floor(seg.coords.length / 2)];
+      if (mid) map.addLegLabel(mid, "S" + (i + 1));
+    });
+    if (!segs.length && track.length >= 2) {
+      map.drawRoute(track, { id: "details-track", color: "#4EC3F7", width: 5 });
+    }
+    if (course && course.pins && course.pins.length) addCoursePins(course.pins);
+    const line = track.length >= 2 ? track : ((course && (course.path || course.pins)) || []);
+    if (line.length) {
+      const bottom = Math.round((window.innerHeight || 800) * 0.64) + 24;
+      const pad = { top: 84, bottom, left: 48, right: 48 };
+      map.whenReady(() => map.fitBounds(line, pad));
+      map.fitBounds(line, pad);
+    }
+  };
+  map.whenReady(paint);
+  paint();
+}
+
+function closeSummaryDetails() {
+  ui.hideNav = true;
+  showScreen("summary");
+}
+
 
 
 function bindBuilderSheetGestures() {
@@ -3014,11 +3352,56 @@ function bind() {
   });
   $("btn-start-walk").addEventListener("click", () => openStart("walk"));
   $("btn-start-run").addEventListener("click", () => openStart("run"));
+  if ($("btn-start-ride")) $("btn-start-ride").addEventListener("click", () => openStart("ride")); /* heldpath-hook: bike */
+  document.querySelectorAll("#start-sport-picker [data-sport]").forEach((b) => {
+    b.addEventListener("click", () => openStart(b.dataset.sport));
+  });
   if ($("btn-low-signal-download")) $("btn-low-signal-download").addEventListener("click", () => acceptLowSignalDownload());
   if ($("btn-low-signal-later")) $("btn-low-signal-later").addEventListener("click", () => dismissLowSignalPrompt());
   $("btn-build-course").addEventListener("click", beginBuilder);
   $("btn-saved-courses").addEventListener("click", () => setTab("courses"));
   $("btn-new-course").addEventListener("click", beginBuilder);
+  /* heldpath-hook: routes-heatmap */
+  if ($("btn-open-insights")) $("btn-open-insights").addEventListener("click", () => openInsights());
+  if ($("btn-suggest-from-courses")) $("btn-suggest-from-courses").addEventListener("click", () => openInsights({ suggest: true }));
+  if ($("insights-back")) $("insights-back").addEventListener("click", () => setTab("courses"));
+  if ($("btn-suggest-loop")) $("btn-suggest-loop").addEventListener("click", () => suggestLoop());
+  document.querySelectorAll("#insights-sport button").forEach((b) => {
+    b.addEventListener("click", () => {
+      ui.insightsSport = b.dataset.sport || "all";
+      ui.insightsGroupId = null;
+      ui.insightsSuggestion = null;
+      renderInsights();
+      paintInsightsMap();
+    });
+  });
+  document.querySelectorAll("#insights-range button").forEach((b) => {
+    b.addEventListener("click", () => {
+      ui.insightsRange = b.dataset.range || "all";
+      ui.insightsGroupId = null;
+      ui.insightsSuggestion = null;
+      renderInsights();
+      paintInsightsMap();
+    });
+  });
+  if ($("insights-loops")) {
+    $("insights-loops").addEventListener("click", (ev) => {
+      const row = ev.target.closest("[data-loop]");
+      if (!row) return;
+      const id = row.dataset.loop;
+      ui.insightsGroupId = ui.insightsGroupId === id ? null : id;
+      renderInsights();
+    });
+  }
+  if ($("hill-pace-switch")) {
+    $("hill-pace-switch").addEventListener("click", () => {
+      state.settings.hillPace = !state.settings.hillPace;
+      persist();
+      renderSettings();
+      if (ui.screen === "insights") renderInsights();
+    });
+  }
+  /* heldpath-hook: routes-heatmap end */
   $("btn-undo-pin").addEventListener("click", () => undoLastBuilderAction());
   if ($("btn-builder-sheet")) $("btn-builder-sheet").addEventListener("click", () => toggleBuilderSheet());
   bindBuilderSheetGestures();
@@ -3245,6 +3628,14 @@ function bind() {
   });
   $("btn-health-import").addEventListener("click", importWatchActivities);
   $("btn-summary-done").addEventListener("click", () => {
+    ui.hideNav = false;
+    setTab("today");
+    showScreen("today");
+  });
+  /* heldpath-hook: summary-laps — More Details is a free second screen */
+  if ($("btn-summary-details")) $("btn-summary-details").addEventListener("click", openSummaryDetails);
+  if ($("btn-details-back")) $("btn-details-back").addEventListener("click", closeSummaryDetails);
+  if ($("btn-details-done")) $("btn-details-done").addEventListener("click", () => {
     ui.hideNav = false;
     setTab("today");
     showScreen("today");
@@ -4691,7 +5082,7 @@ window.HeldpathTest = {
       await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
       if (name === "routing-loop") {
         const center = { lat: 43.7672, lon: 11.2543 };
-        try { await ensureLoopGraph(center, 1609); } catch { /* fixture graph */ }
+        try { await ensureSportLoopGraph(center, 1609); } catch { /* fixture graph */ }
         const loop = getActiveGraph() ? autoLoopRoute(getActiveGraph(), center, 1609) : null;
         if (loop && loop.ok && loop.pins && !loop.fallback) {
           ui.builderPins = loop.pins.map((p) => ({ ...p }));
@@ -4791,6 +5182,16 @@ window.HeldpathTest = {
       setTab("calendar");
     }
     else if (name === "progress") { ui.range = "W"; setTab("progress"); }
+    else if (name === "insights" || name === "insights-empty") {
+      ui.insightsSport = "all";
+      ui.insightsRange = "all";
+      ui.insightsGroupId = null;
+      ui.insightsSuggestion = null;
+      ui.insightsSaved = "";
+      if (name === "insights-empty") state.activities = [];
+      openInsights();
+      map.whenReady(() => paintInsightsMap());
+    }
     else if (name === "progress-all") { ui.range = "All"; setTab("progress"); }
     else if (name === "progress-empty") { ui.range = "W"; state.activities = []; setTab("progress"); }
     else if (name === "summary") {
@@ -4800,6 +5201,16 @@ window.HeldpathTest = {
         const c = act.courseId ? courseById(act.courseId) : null;
         const result = c ? splits.updateCourseLegPbs(c, act) : null;
         showSummary(act, c, result);
+      }
+    }
+    else if (name === "summary-details") {
+      const act = state.activities[state.activities.length - 1];
+      if (!act) setTab("today");
+      else {
+        const c = act.courseId ? courseById(act.courseId) : null;
+        const result = c ? splits.updateCourseLegPbs(c, act) : null;
+        showSummary(act, c, result);
+        openSummaryDetails();
       }
     }
     else if (name === "course-detail") {
@@ -4883,7 +5294,7 @@ window.HeldpathTest = {
       await ensureWalkGraph(center);
       const wantMile = name === "builder-mile-loop";
       if (wantMile) {
-        try { await ensureLoopGraph(center, 1609); } catch { /* fixture graph */ }
+        try { await ensureSportLoopGraph(center, 1609); } catch { /* fixture graph */ }
       }
       const loop = (wantMile && getActiveGraph()) ? autoLoopRoute(getActiveGraph(), center, 1609) : null;
       if (loop && loop.ok && loop.pins && loop.pins.length >= 3 && !loop.fallback) {
@@ -5152,6 +5563,37 @@ window.HeldpathTest = {
         try { localStorage.setItem("heldpath.goal-chart-style.v1", "line"); } catch { /* ignore */ }
       }
       setTab("progress");
+    } else if (name === "summary-laps") {
+      const fixture = makeLapSummaryFixture();
+      const course = fixture.course;
+      state.courses = [course, ...(state.courses || []).filter((c) => c.id !== course.id)];
+      persist();
+      showSummary(fixture.act, course, null);
+      document.querySelectorAll(".sector-expand").forEach((el) => { el.open = true; });
+    } else if (name === "summary-laps-details") {
+      const fixture = makeLapSummaryFixture();
+      const course = fixture.course;
+      state.courses = [course, ...(state.courses || []).filter((c) => c.id !== course.id)];
+      persist();
+      showSummary(fixture.act, course, null);
+      openSummaryDetails();
+    } else if (name === "summary-sectors-details") {
+      const fixture = makeSectorFixture();
+      const course = fixture.course;
+      state.courses = [course, ...(state.courses || []).filter((c) => c.id !== course.id)];
+      persist();
+      const act = newActivity({
+        type: "run",
+        courseId: course.id,
+        courseName: course.name,
+        startedAt: "2026-11-18T09:00:00.000Z",
+        endedAt: "2026-11-18T09:29:22.300Z",
+        distanceMeters: fixture.meters,
+        elapsedSec: fixture.totalSec,
+        track: fixture.track,
+      });
+      showSummary(act, course, null);
+      openSummaryDetails();
     } else if (name === "summary-sectors") {
       const fixture = makeSectorFixture();
       const course = fixture.course;
@@ -5237,13 +5679,20 @@ window.HeldpathTest = {
       const tplan = planTarget({ path, courseMeters: courseMeters({ pins, path }), targetMeters, mode: MODE_COURSE });
       const course = newCourse({ name: courseName, pins, path });
       const made = track.makeSession({ type: "run", course, units: "mi", target: tplan });
-      const pt = pointAlongPath(tplan.path, along);
-      const startPt = tplan.path[0];
+      // Dense trace so the start/finish gate can see every sector in order.
+      const sampleCount = Math.max(48, Math.ceil(along / 6));
+      const trace = [];
+      for (let i = 0; i <= sampleCount; i++) {
+        const d = (along * i) / sampleCount;
+        const p = pointAlongPath(tplan.path, d) || tplan.path[0];
+        trace.push({ lat: p.lat, lon: p.lon, t: (420 * i) / sampleCount });
+      }
       Object.assign(made, {
-        track: [startPt, pt],
+        track: trace,
         distanceMeters: along,
         elapsedSec: 420,
         courseTraveledMeters: along,
+        startDetected: true,
       });
       setTab("today");
       showScreen("tracking");
@@ -5430,6 +5879,7 @@ window.HeldpathTest = {
         climbLossM: gl.lossM,
       });
       showSummary(act, null, null);
+      openSummaryDetails();
     } else if (name === "tracking-lowpower") {
       const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
       if (!state.courses.length) state.courses.push(course);
@@ -5664,7 +6114,23 @@ async function init() {
     getCenter: () => (state.settings.lastKnown && state.settings.lastKnown.lat != null ? { lat: state.settings.lastKnown.lat, lon: state.settings.lastKnown.lon } : null),
     resolveLoopCenter,
     showPlanRoute: (plan) => openPlanRoute(plan, { from: "plans" }),
-    preloadLoopGraph: (c, meters) => ensureLoopGraph(c, meters),
+    preloadLoopGraph: (c, meters) => ensureSportLoopGraph(c, meters),
+  });
+  /* heldpath-hook: import — Settings import review and summary/course export cards */
+  initImportUi({
+    getState: () => state,
+    persist,
+    units,
+    onChanged: () => {
+      if (ui.screen === "progress") renderProgress();
+      if (ui.screen === "calendar") renderCalendar();
+      if (ui.screen === "settings") renderSettings();
+    },
+  });
+  initExportUi({
+    getSummary: () => ui.summary,
+    getCourse: () => courseById(ui.courseId),
+    units,
   });
   renderSettings();
   try {

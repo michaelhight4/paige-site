@@ -2,7 +2,7 @@
  * When GPS drops out mid-run, fill the missing stretch along the planned
  * route instead of drawing a straight jump or adding teleport distance.
  */
-import { haversineMeters, projectOnPath, pointsBetweenAlongPath } from "./util.js";
+import { haversineMeters, projectOnPath, pointsBetweenAlongPath, isRideType } from "./util.js";
 
 export const GAP_MS = 15000;
 export const ON_ROUTE_M = 50;
@@ -12,6 +12,20 @@ export const STEP_M = 30;
 export const MAX_SPEED_MPS = 8;
 /** Implied speed above this, with no route to follow, is treated as a teleport. */
 export const TELEPORT_SPEED_MPS = 12;
+/**
+ * A ride on a fast descent is not a teleport. Far above normal road speed,
+ * but still a hard cap so a bad fix cannot invent a motorway jump.
+ */
+export const RIDE_MAX_SPEED_MPS = 23; // ~51 mph
+export const RIDE_TELEPORT_SPEED_MPS = 32; // ~72 mph
+
+export function maxFillSpeedMps(type) {
+  return isRideType(type) ? RIDE_MAX_SPEED_MPS : MAX_SPEED_MPS;
+}
+
+export function teleportSpeedMps(type) {
+  return isRideType(type) ? RIDE_TELEPORT_SPEED_MPS : TELEPORT_SPEED_MPS;
+}
 
 export function lastFixTime(last) {
   if (!last) return null;
@@ -35,22 +49,22 @@ export function impliedSpeedMps(last, next, at) {
 }
 
 /** A gap long enough, or a jump faster than a person can run, is a dropout. */
-export function isDropout(last, next, at) {
+export function isDropout(last, next, at, type) {
   if (!last || !next) return false;
   const d = haversineMeters(last, next);
   const ms = timeGapMs(last, at);
   if (d < MIN_FILL_M) return false;
   if (ms >= GAP_MS) return true;
-  if (ms >= 8000 && impliedSpeedMps(last, next, at) > MAX_SPEED_MPS + 0.5) return true;
+  if (ms >= 8000 && impliedSpeedMps(last, next, at) > maxFillSpeedMps(type) + 0.5) return true;
   return false;
 }
 
-export function isTeleport(last, next, at) {
+export function isTeleport(last, next, at, type) {
   if (!last || !next) return false;
   const d = haversineMeters(last, next);
   const ms = timeGapMs(last, at);
   if (d < MIN_FILL_M) return false;
-  if (impliedSpeedMps(last, next, at) > TELEPORT_SPEED_MPS) return true;
+  if (impliedSpeedMps(last, next, at) > teleportSpeedMps(type)) return true;
   if (ms >= GAP_MS && d >= 200) return true;
   return false;
 }
@@ -66,7 +80,7 @@ function interpolateIso(last, at, t) {
  * If both fixes sit on the planned path, return intermediate points along
  * it and the along-path distance. Otherwise null.
  */
-export function fillAlongRoute(path, last, next, at) {
+export function fillAlongRoute(path, last, next, at, type) {
   if (!path || path.length < 2 || !last || !next) return null;
   const a = projectOnPath(path, last);
   const b = projectOnPath(path, next);
@@ -74,7 +88,7 @@ export function fillAlongRoute(path, last, next, at) {
   const forward = b.traveled - a.traveled;
   if (forward < MIN_FILL_M) return null;
   const ms = Math.max(timeGapMs(last, at), 1);
-  if (forward / (ms / 1000) > MAX_SPEED_MPS) return null;
+  if (forward / (ms / 1000) > maxFillSpeedMps(type)) return null;
   const raw = pointsBetweenAlongPath(path, a.traveled, b.traveled, STEP_M);
   const mids = raw.filter((p) => haversineMeters(p, last) >= 2);
   const points = mids.map((p, i) => {
@@ -106,12 +120,13 @@ export function fillAlongRoute(path, last, next, at) {
  */
 export function applyTrackPoint(session, last, next, at) {
   if (!session) return { session, filled: false };
-  const dropout = isDropout(last, next, at);
+  const type = session.type || "walk";
+  const dropout = isDropout(last, next, at, type);
   if (dropout) {
     const path = (session.coursePath && session.coursePath.length >= 2)
       ? session.coursePath
       : (session.coursePins && session.coursePins.length >= 2 ? session.coursePins : null);
-    const fill = path ? fillAlongRoute(path, last, next, at) : null;
+    const fill = path ? fillAlongRoute(path, last, next, at, type) : null;
     if (fill) {
       for (const p of fill.points) {
         const elapsed = session.elapsedSec || 0;
@@ -121,9 +136,9 @@ export function applyTrackPoint(session, last, next, at) {
       return { session, filled: true };
     }
     // No route to follow. Keep the new fix. Only drop distance if the
-    // jump is too far or too fast to be a real run.
+    // jump is too far or too fast to be a real run (or ride).
     session.track.push({ lat: next.lat, lon: next.lon, t: session.elapsedSec || 0, at: new Date(at).toISOString() });
-    if (!isTeleport(last, next, at)) session.distanceMeters += haversineMeters(last, next);
+    if (!isTeleport(last, next, at, type)) session.distanceMeters += haversineMeters(last, next);
     return { session, filled: false };
   }
   session.distanceMeters += haversineMeters(last, next);

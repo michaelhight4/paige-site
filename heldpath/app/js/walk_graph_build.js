@@ -63,6 +63,54 @@ export function isWalkableWay(props = {}) {
   return false;
 }
 
+const BIKE_EXCLUDE_DETAIL = new Set([
+  "steps",
+  "footway",
+  "pedestrian",
+  "platform",
+  "rest_area",
+  "services",
+  "no",
+]);
+
+const BIKE_OMT_CLASS = new Set([
+  "cycleway",
+  "path",
+  "track",
+  "minor",
+  "service",
+  "tertiary",
+  "secondary",
+  "primary",
+  "living_street",
+]);
+
+/**
+ * True when a way can carry a bike. Cycleways and ordinary streets are in;
+ * steps, motorways, and foot-only / bicycle=no ways are out. Shared paths
+ * stay in because they are usually legal for bikes unless tagged otherwise.
+ */
+export function isBikeableWay(props = {}) {
+  const bicycle = String(props.bicycle || props.bike || "").toLowerCase();
+  if (bicycle === "no" || bicycle === "use_sidepath") return false;
+  const foot = String(props.foot || "").toLowerCase();
+  if (foot === "designated" && !props.cycleway && !props.bicycle) return false;
+
+  if (props["pmap:kind"] != null || props["pmap:kind_detail"] != null) {
+    const kind = String(props["pmap:kind"] || "");
+    const detail = String(props["pmap:kind_detail"] || "");
+    if (kind === "highway") return false;
+    if (BIKE_EXCLUDE_DETAIL.has(detail)) return false;
+    if (kind === "other" && detail !== "living_street") return false;
+    return kind === "path" || kind === "minor_road" || kind === "medium_road"
+      || kind === "major_road" || kind === "other";
+  }
+  const cls = String(props.class || "");
+  if (EXCLUDE_OMT_CLASS.has(cls)) return false;
+  if (BIKE_OMT_CLASS.has(cls)) return true;
+  return false;
+}
+
 export function tileToLonLat(tx, ty, z, extent, px, py) {
   const n = 2 ** z;
   const lon = ((tx + px / extent) / n) * 360 - 180;
@@ -74,7 +122,7 @@ function roadLayer(tile) {
   return (tile.layers && (tile.layers.roads || tile.layers.transportation)) || null;
 }
 
-function parseTileLines(z, x, y, data) {
+function parseTileLines(z, x, y, data, accept = isWalkableWay) {
   const buf = data instanceof Uint8Array ? data : new Uint8Array(data);
   const tile = new VectorTile(new Pbf(buf));
   const layer = roadLayer(tile);
@@ -86,7 +134,7 @@ function parseTileLines(z, x, y, data) {
   for (let i = 0; i < layer.length; i++) {
     const f = layer.feature(i);
     if (f.type !== 2) continue;
-    if (!isWalkableWay(f.properties || {})) {
+    if (!accept(f.properties || {})) {
       skipped += 1;
       continue;
     }
@@ -316,13 +364,13 @@ export function packWalkGraph(lines, { name = "walk", source = "", minComponent 
   };
 }
 
-export function buildWalkGraphFromTiles(tiles, { name, source } = {}) {
+function buildGraphFromTiles(tiles, { name, source } = {}, accept = isWalkableWay) {
   const lines = [];
   let kept = 0;
   let skipped = 0;
   for (const t of tiles || []) {
     if (!t || !t.data) continue;
-    const parsed = parseTileLines(t.z, t.x, t.y, t.data);
+    const parsed = parseTileLines(t.z, t.x, t.y, t.data, accept);
     kept += parsed.kept;
     skipped += parsed.skipped;
     for (const line of parsed.lines) lines.push(line);
@@ -346,6 +394,17 @@ export function buildWalkGraphFromTiles(tiles, { name, source } = {}) {
   graph.stats.tiles = (tiles || []).length;
   graph.stats.openAreas = open.length;
   graph.stats.barriers = barriers.length;
+  return graph;
+}
+
+export function buildWalkGraphFromTiles(tiles, opts = {}) {
+  return buildGraphFromTiles(tiles, opts, isWalkableWay);
+}
+
+/** The same downloaded tiles, packed as a bikeable graph for rides. */
+export function buildBikeGraphFromTiles(tiles, { name = "Ride", source = "" } = {}) {
+  const graph = buildGraphFromTiles(tiles, { name, source }, isBikeableWay);
+  graph.profile = "bike";
   return graph;
 }
 

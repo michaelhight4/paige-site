@@ -816,13 +816,13 @@
               this._t += u2;
           };
           a.Accumulator.prototype.Sum = function(y2) {
-            var b2;
+            var b3;
             if (!y2)
               return this._s;
             else {
-              b2 = new a.Accumulator(this);
-              b2.Add(y2);
-              return b2._s;
+              b3 = new a.Accumulator(this);
+              b3.Add(y2);
+              return b3._s;
             }
           };
           a.Accumulator.prototype.Negate = function() {
@@ -1853,6 +1853,510 @@
     }
   });
 
+  // www/js/geodesic.js
+  function geodesicMeters(a, b3) {
+    if (!a || !b3) return 0;
+    const lat1 = Number(a.lat);
+    const lon1 = Number(a.lon);
+    const lat2 = Number(b3.lat);
+    const lon2 = Number(b3.lon);
+    if (![lat1, lon1, lat2, lon2].every(Number.isFinite)) return 0;
+    if (lat1 === lat2 && lon1 === lon2) return 0;
+    const r = geod.Inverse(lat1, lon1, lat2, lon2);
+    const m = Number(r && r.s12);
+    return Number.isFinite(m) ? m : 0;
+  }
+  function geodesicDirect(a, azimuthDeg, meters) {
+    const lat1 = Number(a && a.lat);
+    const lon1 = Number(a && a.lon);
+    const azi = Number(azimuthDeg);
+    const s2 = Number(meters);
+    if (![lat1, lon1, azi, s2].every(Number.isFinite)) return { lat: lat1, lon: lon1 };
+    const r = geod.Direct(lat1, lon1, azi, s2);
+    return { lat: r.lat2, lon: r.lon2, azi: r.azi2 };
+  }
+  function geodesicPathLength(coords) {
+    const list = coords || [];
+    let sum = 0;
+    for (let i = 1; i < list.length; i++) {
+      sum += geodesicMeters(list[i - 1], list[i]);
+    }
+    return sum;
+  }
+  function geodesicInterpolate(a, b3, metersFromA) {
+    const d2 = geodesicMeters(a, b3);
+    if (!(d2 > 0) || !a) return { lat: Number(a && a.lat), lon: Number(a && a.lon) };
+    const r = geod.Inverse(Number(a.lat), Number(a.lon), Number(b3.lat), Number(b3.lon));
+    const go = Math.max(0, Math.min(d2, Number(metersFromA) || 0));
+    const d22 = geod.Direct(Number(a.lat), Number(a.lon), r.azi1, go);
+    return { lat: d22.lat2, lon: d22.lon2 };
+  }
+  var import_geographiclib_geodesic, geod;
+  var init_geodesic = __esm({
+    "www/js/geodesic.js"() {
+      import_geographiclib_geodesic = __toESM(require_geographiclib_geodesic_min(), 1);
+      geod = import_geographiclib_geodesic.default.Geodesic.WGS84;
+    }
+  });
+
+  // www/js/util.js
+  function isRideType(type) {
+    return type === "ride" || type === "bike" || type === "cycling";
+  }
+  function activityMph(type) {
+    if (isRideType(type)) return RIDE_MPH;
+    return type === "run" ? RUN_MPH : WALK_MPH;
+  }
+  function prDefsFor(sport) {
+    return isRideType(sport) ? RIDE_PR_DEFS : FOOT_PR_DEFS;
+  }
+  function haversineMeters(a, b3) {
+    const R3 = 6371e3;
+    const toR = (d2) => d2 * Math.PI / 180;
+    const lat1 = toR(a.lat);
+    const lat2 = toR(b3.lat);
+    const dLat = toR(b3.lat - a.lat);
+    const dLon = toR(b3.lon - a.lon);
+    const s2 = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+    return 2 * R3 * Math.asin(Math.min(1, Math.sqrt(s2)));
+  }
+  function pathLengthMeters(coords) {
+    return geodesicPathLength(coords);
+  }
+  function legDistances(coords) {
+    const legs = [];
+    for (let i = 1; i < coords.length; i++) {
+      legs.push({
+        from: i - 1,
+        to: i,
+        meters: geodesicMeters(coords[i - 1], coords[i])
+      });
+    }
+    return legs;
+  }
+  function destination(lat, lon, bearingDeg, meters) {
+    const p = geodesicDirect({ lat, lon }, bearingDeg, meters);
+    return { lat: p.lat, lon: p.lon };
+  }
+  function pointAlongPath(coords, meters) {
+    if (!coords.length) return null;
+    if (meters <= 0) return { ...coords[0], traveled: 0, remaining: pathLengthMeters(coords) };
+    let left = meters;
+    const total = pathLengthMeters(coords);
+    for (let i = 1; i < coords.length; i++) {
+      const a = coords[i - 1];
+      const b3 = coords[i];
+      const seg = geodesicMeters(a, b3);
+      if (left <= seg) {
+        const p = seg === 0 || left <= 0 ? { lat: a.lat, lon: a.lon } : geodesicInterpolate(a, b3, left);
+        return {
+          lat: p.lat,
+          lon: p.lon,
+          traveled: Math.min(meters, total),
+          remaining: Math.max(0, total - meters)
+        };
+      }
+      left -= seg;
+    }
+    const last = coords[coords.length - 1];
+    return { ...last, traveled: total, remaining: 0 };
+  }
+  function remainingAlongPath(coords, position) {
+    const proj = projectOnPath(coords, position);
+    return { traveled: proj.traveled, remaining: proj.remaining, total: proj.total };
+  }
+  function projectOnPath(coords, position) {
+    const total = pathLengthMeters(coords);
+    const empty = { traveled: 0, remaining: 0, total, offsetMeters: Infinity, point: position ? { ...position } : null, segIndex: -1 };
+    if (!coords || coords.length < 2 || !position) return empty;
+    let bestDist = Infinity;
+    let traveledAtProj = 0;
+    let bestPoint = coords[0];
+    let bestSeg = 0;
+    let acc = 0;
+    for (let i = 1; i < coords.length; i++) {
+      const a = coords[i - 1];
+      const b3 = coords[i];
+      const seg = geodesicMeters(a, b3);
+      const proj = projectOnSegment(position, a, b3);
+      const d2 = geodesicMeters(position, proj.point);
+      if (d2 < bestDist) {
+        bestDist = d2;
+        traveledAtProj = acc + geodesicMeters(a, proj.point);
+        bestPoint = proj.point;
+        bestSeg = i - 1;
+      }
+      acc += seg;
+    }
+    const traveled = Math.min(total, Math.max(0, traveledAtProj));
+    return {
+      traveled,
+      remaining: Math.max(0, total - traveled),
+      total,
+      offsetMeters: bestDist,
+      point: bestPoint,
+      segIndex: bestSeg
+    };
+  }
+  function pointsBetweenAlongPath(coords, fromMeters, toMeters, stepMeters = 30) {
+    if (!coords || coords.length < 2) return [];
+    const total = pathLengthMeters(coords);
+    const lo = Math.max(0, Math.min(fromMeters, toMeters, total));
+    const hi = Math.max(lo, Math.min(Math.max(fromMeters, toMeters), total));
+    const step = Math.max(8, stepMeters || 30);
+    const marks = /* @__PURE__ */ new Set([
+      Math.round(lo * 100) / 100,
+      Math.round(hi * 100) / 100
+    ]);
+    for (let m = lo + step; m < hi - 1; m += step) {
+      marks.add(Math.round(m * 100) / 100);
+    }
+    let acc = 0;
+    for (let i = 1; i < coords.length - 1; i++) {
+      acc += haversineMeters(coords[i - 1], coords[i]);
+      if (acc > lo + 1 && acc < hi - 1) marks.add(Math.round(acc * 100) / 100);
+    }
+    return [...marks].sort((a, b3) => a - b3).map((m) => {
+      const p = pointAlongPath(coords, m);
+      return { lat: p.lat, lon: p.lon, traveled: m };
+    });
+  }
+  function projectOnSegment(p, a, b3) {
+    const midLat = (a.lat + b3.lat) / 2 * Math.PI / 180;
+    const x2 = (lng) => lng * Math.cos(midLat);
+    const ax = x2(a.lon), ay = a.lat;
+    const bx = x2(b3.lon), by = b3.lat;
+    const px = x2(p.lon), py = p.lat;
+    const dx = bx - ax, dy = by - ay;
+    const len2 = dx * dx + dy * dy;
+    let t = len2 === 0 ? 0 : ((px - ax) * dx + (py - ay) * dy) / len2;
+    t = Math.max(0, Math.min(1, t));
+    const seg = geodesicMeters(a, b3);
+    let point;
+    if (t <= 0 || seg === 0) point = { lat: a.lat, lon: a.lon };
+    else if (t >= 1) point = { lat: b3.lat, lon: b3.lon };
+    else point = geodesicInterpolate(a, b3, t * seg);
+    return { t, point };
+  }
+  function etaSeconds(meters, mph) {
+    if (!meters || meters <= 0 || !mph) return 0;
+    const miles = meters / METERS_PER_MILE;
+    return Math.round(miles / mph * 3600);
+  }
+  function formatDistance(meters, units3, { digits } = {}) {
+    if (meters == null || Number.isNaN(meters)) return "";
+    if (units3 === "km") {
+      if (digits != null) return `${(meters / METERS_PER_KM).toFixed(digits)} km`;
+      if (meters < 1e3) return `${Math.round(meters)} m`;
+      return `${(meters / METERS_PER_KM).toFixed(meters < 1e4 ? 2 : 2)} km`;
+    }
+    const miles = meters / METERS_PER_MILE;
+    if (digits != null) return `${miles.toFixed(digits)} mi`;
+    if (miles < 10) return `${miles.toFixed(3)} mi`;
+    return `${miles.toFixed(1)} mi`;
+  }
+  function formatDuration(seconds) {
+    const s2 = Math.max(0, Math.round(seconds || 0));
+    const h2 = Math.floor(s2 / 3600);
+    const m = Math.floor(s2 % 3600 / 60);
+    const sec = s2 % 60;
+    if (h2 > 0) {
+      return `${h2}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    }
+    return `${m}:${String(sec).padStart(2, "0")}`;
+  }
+  function formatEta(seconds) {
+    const s2 = Math.max(0, Math.round(seconds || 0));
+    if (s2 < 30) return "~1 min";
+    const mins = Math.round(s2 / 60);
+    if (mins < 60) return `~${mins} min`;
+    const h2 = Math.floor(mins / 60);
+    const m = mins % 60;
+    if (m === 0) return h2 === 1 ? "~1 hr" : `~${h2} hr`;
+    return `~${h2} hr ${m} min`;
+  }
+  function formatPace(meters, seconds, units3) {
+    if (!meters || meters <= 0 || !seconds || seconds <= 0) return "\u2014";
+    const dist3 = units3 === "km" ? meters / METERS_PER_KM : meters / METERS_PER_MILE;
+    const secPer = seconds / dist3;
+    if (!Number.isFinite(secPer) || secPer > 3600 * 2) return "\u2014";
+    const m = Math.floor(secPer / 60);
+    const s2 = Math.round(secPer % 60) % 60;
+    const suffix = units3 === "km" ? "/km" : "/mi";
+    return `${m}:${String(s2).padStart(2, "0")} ${suffix}`;
+  }
+  function formatSpeed(meters, seconds, units3) {
+    if (!(meters > 0) || !(seconds > 0)) return "\u2014";
+    if (units3 === "km") {
+      const kmh = meters / METERS_PER_KM / (seconds / 3600);
+      if (!Number.isFinite(kmh) || kmh > 200) return "\u2014";
+      return `${kmh.toFixed(1)} km/h`;
+    }
+    const mph = meters / METERS_PER_MILE / (seconds / 3600);
+    if (!Number.isFinite(mph) || mph > 120) return "\u2014";
+    return `${mph.toFixed(1)} mph`;
+  }
+  function formatSportRate(type, meters, seconds, units3) {
+    return isRideType(type) ? formatSpeed(meters, seconds, units3) : formatPace(meters, seconds, units3);
+  }
+  function completeAlertText({ kind, meters, seconds, units: units3 } = {}) {
+    const label = kind === "target" ? "Target complete" : "Route complete";
+    const dist3 = formatDistance(Math.max(0, Number(meters) || 0), units3, { digits: 2 });
+    return `${label}! ${dist3} in ${formatDuration(seconds || 0)}`;
+  }
+  function notificationDistance(meters, units3) {
+    return formatDistance(meters, units3, { digits: units3 === "km" ? 2 : 1 });
+  }
+  function notificationText({ doneMeters, leftMeters, onCourse, elapsedSec, units: units3, activityType, lapLabel, complete, completeKind, extraMeters: extraMeters2, completePrompt, completeMeters, completeSec }) {
+    if (completePrompt) {
+      return completeAlertText({
+        kind: completeKind,
+        meters: completeMeters,
+        seconds: completeSec,
+        units: units3
+      });
+    }
+    if (complete) {
+      const kind = completeKind === "target" ? "Target" : "Course";
+      const extra = Math.max(0, Number(extraMeters2) || 0);
+      if (extra > 8) return `${kind} done \xB7 +${notificationDistance(extra, units3)} extra`;
+      return `${kind} done`;
+    }
+    const done = notificationDistance(doneMeters || 0, units3);
+    if (onCourse) {
+      const left = Math.max(0, leftMeters || 0);
+      const prefix = lapLabel ? `${lapLabel} \xB7 ` : "";
+      if (left <= 8) {
+        return `${prefix}${done} done \xB7 finished`;
+      }
+      const mph = activityMph(activityType);
+      const speed = isRideType(activityType) ? ` \xB7 ${formatSpeed(doneMeters, elapsedSec, units3)}` : "";
+      return `${prefix}${done} done \xB7 ${notificationDistance(left, units3)} left \xB7 ${formatEta(etaSeconds(left, mph))}${speed}`;
+    }
+    const time = formatDuration(elapsedSec || 0);
+    const rate = isRideType(activityType) ? formatSpeed(doneMeters, elapsedSec, units3) : formatPace(doneMeters, elapsedSec, units3);
+    return `${done} \xB7 ${time} \xB7 ${rate}`;
+  }
+  function personalRecords(activities, sport) {
+    const defs = prDefsFor(sport);
+    const best = {};
+    for (const def of defs) best[def.id] = null;
+    for (const act of activities || []) {
+      if (!sport && isRideType(act && act.type)) continue;
+      if (sport && isRideType(sport) !== isRideType(act && act.type)) continue;
+      const times = splitTimes(act, defs);
+      for (const def of defs) {
+        const sec = times[def.id];
+        if (sec == null) continue;
+        if (!best[def.id] || sec < best[def.id].seconds) {
+          best[def.id] = {
+            seconds: sec,
+            activityId: act.id,
+            date: act.endedAt || act.startedAt,
+            type: act.type
+          };
+        }
+      }
+    }
+    return best;
+  }
+  function splitTimes(activity, defs = FOOT_PR_DEFS) {
+    const out = {};
+    const coords = activity && activity.track || [];
+    const start = activity && activity.startedAt ? Date.parse(activity.startedAt) : 0;
+    if (coords.length >= 2) {
+      let acc = 0;
+      for (let i = 1; i < coords.length; i++) {
+        acc += haversineMeters(
+          { lat: coords[i - 1].lat, lon: coords[i - 1].lon },
+          { lat: coords[i].lat, lon: coords[i].lon }
+        );
+        const t = coords[i].t != null ? coords[i].t : null;
+        for (const def of defs) {
+          if (out[def.id] != null) continue;
+          if (acc >= def.meters) {
+            if (t != null) out[def.id] = Math.round(t);
+            else if (start && coords[i].at) out[def.id] = Math.round((Date.parse(coords[i].at) - start) / 1e3);
+            else if (activity.elapsedSec && activity.distanceMeters) {
+              out[def.id] = Math.round(activity.elapsedSec * (def.meters / activity.distanceMeters));
+            }
+          }
+        }
+      }
+    } else if (activity && activity.distanceMeters && activity.elapsedSec) {
+      for (const def of defs) {
+        if (activity.distanceMeters >= def.meters) {
+          out[def.id] = Math.round(activity.elapsedSec * (def.meters / activity.distanceMeters));
+        }
+      }
+    }
+    return out;
+  }
+  function sumActivities(list) {
+    let distanceMeters = 0;
+    let elapsedSec = 0;
+    for (const a of list || []) {
+      distanceMeters += a.distanceMeters || 0;
+      elapsedSec += a.elapsedSec || 0;
+    }
+    return { distanceMeters, elapsedSec, count: (list || []).length };
+  }
+  function startOfDay(date, tzOffsetMin) {
+    const d2 = new Date(date);
+    return new Date(d2.getFullYear(), d2.getMonth(), d2.getDate());
+  }
+  function isoDate(date) {
+    const d2 = date instanceof Date ? date : new Date(date);
+    const y2 = d2.getFullYear();
+    const m = String(d2.getMonth() + 1).padStart(2, "0");
+    const day = String(d2.getDate()).padStart(2, "0");
+    return `${y2}-${m}-${day}`;
+  }
+  function addDays(date, n) {
+    const d2 = new Date(date);
+    d2.setDate(d2.getDate() + n);
+    return d2;
+  }
+  function filterActivitiesByRange(activities, range, now = /* @__PURE__ */ new Date()) {
+    const end = startOfDay(now);
+    end.setHours(23, 59, 59, 999);
+    let start = /* @__PURE__ */ new Date(0);
+    if (range === "W") start = addDays(startOfDay(now), -6);
+    else if (range === "M") start = addDays(startOfDay(now), -29);
+    else if (range === "Y") {
+      start = startOfDay(now);
+      start.setFullYear(start.getFullYear() - 1);
+      start = addDays(start, 1);
+    }
+    return (activities || []).filter((a) => {
+      const t = Date.parse(a.endedAt || a.startedAt || 0);
+      return t >= start.getTime() && t <= end.getTime();
+    });
+  }
+  function chartBuckets(activities, range, now = /* @__PURE__ */ new Date()) {
+    const buckets = [];
+    let allYearly = false;
+    if (range === "W") {
+      for (let i = 6; i >= 0; i--) {
+        const d2 = addDays(startOfDay(now), -i);
+        buckets.push({ key: isoDate(d2), label: d2.toLocaleDateString("en-US", { weekday: "short" }), meters: 0 });
+      }
+    } else if (range === "M") {
+      for (let i = 29; i >= 0; i--) {
+        const d2 = addDays(startOfDay(now), -i);
+        const label = i === 29 || i === 0 || i % 7 === 0 && i < 23 ? d2.toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "";
+        buckets.push({ key: isoDate(d2), label, meters: 0 });
+      }
+    } else if (range === "Y") {
+      for (let i = 11; i >= 0; i--) {
+        const d2 = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const key = `${d2.getFullYear()}-${String(d2.getMonth() + 1).padStart(2, "0")}`;
+        buckets.push({ key, label: d2.toLocaleDateString("en-US", { month: "short" }), meters: 0 });
+      }
+    } else {
+      const acts = activities || [];
+      if (!acts.length) return [];
+      const times = acts.map((a) => Date.parse(a.endedAt || a.startedAt || 0)).filter(Boolean);
+      const min = new Date(Math.min(...times));
+      const start = new Date(min.getFullYear(), min.getMonth(), 1);
+      const end = new Date(now.getFullYear(), now.getMonth(), 1);
+      const monthSpan = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()) + 1;
+      allYearly = monthSpan > 24;
+      if (allYearly) {
+        const years = now.getFullYear() - start.getFullYear() + 1;
+        const step = years > 24 ? 5 : years > 16 ? 2 : 1;
+        for (let y2 = start.getFullYear(); y2 <= now.getFullYear(); y2++) {
+          const idx = y2 - start.getFullYear();
+          buckets.push({
+            key: String(y2),
+            label: idx % step === 0 || idx === years - 1 ? String(y2) : "",
+            meters: 0
+          });
+        }
+      } else {
+        const cursor = new Date(start);
+        let monthIndex = 0;
+        const dense = monthSpan <= 6;
+        while (cursor <= end) {
+          const key = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, "0")}`;
+          const first2 = monthIndex === 0;
+          const january = cursor.getMonth() === 0;
+          const show2 = dense || first2 || january || monthIndex % 3 === 0;
+          buckets.push({
+            key,
+            label: show2 ? first2 || january ? `${cursor.toLocaleDateString("en-US", { month: "short" })} '${String(cursor.getFullYear()).slice(-2)}` : cursor.toLocaleDateString("en-US", { month: "short" }) : "",
+            meters: 0
+          });
+          monthIndex++;
+          cursor.setMonth(cursor.getMonth() + 1);
+        }
+      }
+    }
+    for (const a of activities || []) {
+      const dt = new Date(a.endedAt || a.startedAt || 0);
+      let key;
+      if (range === "W" || range === "M") key = isoDate(dt);
+      else if (range === "All" && allYearly) key = String(dt.getFullYear());
+      else key = `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}`;
+      const b3 = buckets.find((x2) => x2.key === key);
+      if (b3) b3.meters += a.distanceMeters || 0;
+    }
+    return buckets;
+  }
+  function monthGrid(year, month) {
+    const first2 = new Date(year, month, 1);
+    const start = addDays(first2, -first2.getDay());
+    const rows = [];
+    let cursor = start;
+    for (let w2 = 0; w2 < 6; w2++) {
+      const row = [];
+      for (let d2 = 0; d2 < 7; d2++) {
+        row.push({
+          date: new Date(cursor),
+          inMonth: cursor.getMonth() === month,
+          iso: isoDate(cursor)
+        });
+        cursor = addDays(cursor, 1);
+      }
+      rows.push(row);
+      if (cursor.getMonth() !== month && w2 >= 3) break;
+    }
+    return rows;
+  }
+  function uid(prefix = "id") {
+    return `${prefix}_${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36).slice(-4)}`;
+  }
+  function escapeHtml(s2) {
+    return String(s2).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  }
+  var WALK_MPH, RUN_MPH, RIDE_MPH, METERS_PER_MILE, METERS_PER_KM, FOOT_PR_DEFS, RIDE_PR_DEFS, PR_DEFS, SUPPORT_COPY;
+  var init_util = __esm({
+    "www/js/util.js"() {
+      init_geodesic();
+      init_geodesic();
+      WALK_MPH = 3;
+      RUN_MPH = 6;
+      RIDE_MPH = 15;
+      METERS_PER_MILE = 1609.344;
+      METERS_PER_KM = 1e3;
+      FOOT_PR_DEFS = [
+        { id: "1mi", label: "1 mile", meters: 1609.344 },
+        { id: "5k", label: "5K", meters: 5e3 },
+        { id: "10k", label: "10K", meters: 1e4 },
+        { id: "half", label: "Half marathon", meters: 21097.5 },
+        { id: "marathon", label: "Marathon", meters: 42195 }
+      ];
+      RIDE_PR_DEFS = [
+        { id: "ride10mi", label: "10 miles", meters: 10 * 1609.344 },
+        { id: "ride20mi", label: "20 miles", meters: 20 * 1609.344 },
+        { id: "ride40k", label: "40 km", meters: 4e4 },
+        { id: "ride100k", label: "100 km", meters: 1e5 }
+      ];
+      PR_DEFS = FOOT_PR_DEFS;
+      SUPPORT_COPY = "Totally optional. This $5 donation just helps keep the app free. Everything in the app is and always will be free, and donating doesn't unlock anything.";
+    }
+  });
+
   // node_modules/maplibre-gl/dist/maplibre-gl.js
   var require_maplibre_gl = __commonJS({
     "node_modules/maplibre-gl/dist/maplibre-gl.js"(exports, module) {
@@ -2060,7 +2564,7 @@
           function v2(t2, e2, r2) {
             return t2[0] = e2[0] + r2[0], t2[1] = e2[1] + r2[1], t2[2] = e2[2] + r2[2], t2;
           }
-          function b2(t2, e2, r2) {
+          function b3(t2, e2, r2) {
             return t2[0] = e2[0] * r2, t2[1] = e2[1] * r2, t2[2] = e2[2] * r2, t2;
           }
           function w2(t2, e2, r2) {
@@ -2137,7 +2641,7 @@
           function D3(t2, e2, r2) {
             return Math.min(r2, Math.max(e2, t2));
           }
-          function $5(t2, e2, r2) {
+          function $7(t2, e2, r2) {
             const n2 = r2 - e2, i2 = ((t2 - e2) % n2 + n2) % n2 + e2;
             return i2 === e2 ? r2 : i2;
           }
@@ -6075,8 +6579,8 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               return this.resize(g2 + 1), this.emplace(g2, t2, e2, r2, n2, i2, s3, a2, o2, l2, u3, c2, h3, p2, f3, d3, y3, m2);
             }
             emplace(t2, e2, r2, n2, i2, s3, a2, o2, l2, u3, c2, h3, p2, f3, d3, y3, m2, g2) {
-              const x3 = 24 * t2, v3 = 12 * t2, b3 = 48 * t2;
-              return this.int16[x3 + 0] = e2, this.int16[x3 + 1] = r2, this.uint16[x3 + 2] = n2, this.uint16[x3 + 3] = i2, this.uint32[v3 + 2] = s3, this.uint32[v3 + 3] = a2, this.uint32[v3 + 4] = o2, this.uint16[x3 + 10] = l2, this.uint16[x3 + 11] = u3, this.uint16[x3 + 12] = c2, this.float32[v3 + 7] = h3, this.float32[v3 + 8] = p2, this.uint8[b3 + 36] = f3, this.uint8[b3 + 37] = d3, this.uint8[b3 + 38] = y3, this.uint32[v3 + 10] = m2, this.int16[x3 + 22] = g2, t2;
+              const x3 = 24 * t2, v3 = 12 * t2, b5 = 48 * t2;
+              return this.int16[x3 + 0] = e2, this.int16[x3 + 1] = r2, this.uint16[x3 + 2] = n2, this.uint16[x3 + 3] = i2, this.uint32[v3 + 2] = s3, this.uint32[v3 + 3] = a2, this.uint32[v3 + 4] = o2, this.uint16[x3 + 10] = l2, this.uint16[x3 + 11] = u3, this.uint16[x3 + 12] = c2, this.float32[v3 + 7] = h3, this.float32[v3 + 8] = p2, this.uint8[b5 + 36] = f3, this.uint8[b5 + 37] = d3, this.uint8[b5 + 38] = y3, this.uint32[v3 + 10] = m2, this.int16[x3 + 22] = g2, t2;
             }
           }
           pa.prototype.bytesPerElement = 48, os("StructArrayLayout2i2ui3ul3ui2f3ub1ul1i48", pa);
@@ -6084,13 +6588,13 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
             _refreshViews() {
               this.uint8 = new Uint8Array(this.arrayBuffer), this.int16 = new Int16Array(this.arrayBuffer), this.uint16 = new Uint16Array(this.arrayBuffer), this.uint32 = new Uint32Array(this.arrayBuffer), this.float32 = new Float32Array(this.arrayBuffer);
             }
-            emplaceBack(t2, e2, r2, n2, i2, s3, a2, o2, l2, u3, c2, h3, p2, f3, d3, y3, m2, g2, x3, v3, b3, w3, _3, S3, A4, k2, M4, I3) {
+            emplaceBack(t2, e2, r2, n2, i2, s3, a2, o2, l2, u3, c2, h3, p2, f3, d3, y3, m2, g2, x3, v3, b5, w3, _3, S3, A4, k2, M4, I3) {
               const z3 = this.length;
-              return this.resize(z3 + 1), this.emplace(z3, t2, e2, r2, n2, i2, s3, a2, o2, l2, u3, c2, h3, p2, f3, d3, y3, m2, g2, x3, v3, b3, w3, _3, S3, A4, k2, M4, I3);
+              return this.resize(z3 + 1), this.emplace(z3, t2, e2, r2, n2, i2, s3, a2, o2, l2, u3, c2, h3, p2, f3, d3, y3, m2, g2, x3, v3, b5, w3, _3, S3, A4, k2, M4, I3);
             }
-            emplace(t2, e2, r2, n2, i2, s3, a2, o2, l2, u3, c2, h3, p2, f3, d3, y3, m2, g2, x3, v3, b3, w3, _3, S3, A4, k2, M4, I3, z3) {
+            emplace(t2, e2, r2, n2, i2, s3, a2, o2, l2, u3, c2, h3, p2, f3, d3, y3, m2, g2, x3, v3, b5, w3, _3, S3, A4, k2, M4, I3, z3) {
               const P3 = 32 * t2, C3 = 16 * t2;
-              return this.int16[P3 + 0] = e2, this.int16[P3 + 1] = r2, this.int16[P3 + 2] = n2, this.int16[P3 + 3] = i2, this.int16[P3 + 4] = s3, this.int16[P3 + 5] = a2, this.int16[P3 + 6] = o2, this.int16[P3 + 7] = l2, this.uint16[P3 + 8] = u3, this.uint16[P3 + 9] = c2, this.uint16[P3 + 10] = h3, this.uint16[P3 + 11] = p2, this.uint16[P3 + 12] = f3, this.uint16[P3 + 13] = d3, this.uint16[P3 + 14] = y3, this.uint16[P3 + 15] = m2, this.uint16[P3 + 16] = g2, this.uint16[P3 + 17] = x3, this.uint16[P3 + 18] = v3, this.uint16[P3 + 19] = b3, this.uint16[P3 + 20] = w3, this.uint16[P3 + 21] = _3, this.uint16[P3 + 22] = S3, this.uint32[C3 + 12] = A4, this.float32[C3 + 13] = k2, this.float32[C3 + 14] = M4, this.uint16[P3 + 30] = I3, this.uint16[P3 + 31] = z3, t2;
+              return this.int16[P3 + 0] = e2, this.int16[P3 + 1] = r2, this.int16[P3 + 2] = n2, this.int16[P3 + 3] = i2, this.int16[P3 + 4] = s3, this.int16[P3 + 5] = a2, this.int16[P3 + 6] = o2, this.int16[P3 + 7] = l2, this.uint16[P3 + 8] = u3, this.uint16[P3 + 9] = c2, this.uint16[P3 + 10] = h3, this.uint16[P3 + 11] = p2, this.uint16[P3 + 12] = f3, this.uint16[P3 + 13] = d3, this.uint16[P3 + 14] = y3, this.uint16[P3 + 15] = m2, this.uint16[P3 + 16] = g2, this.uint16[P3 + 17] = x3, this.uint16[P3 + 18] = v3, this.uint16[P3 + 19] = b5, this.uint16[P3 + 20] = w3, this.uint16[P3 + 21] = _3, this.uint16[P3 + 22] = S3, this.uint32[C3 + 12] = A4, this.float32[C3 + 13] = k2, this.float32[C3 + 14] = M4, this.uint16[P3 + 30] = I3, this.uint16[P3 + 31] = z3, t2;
             }
           }
           fa.prototype.bytesPerElement = 64, os("StructArrayLayout8i15ui1ul2f2ui64", fa);
@@ -7461,19 +7965,19 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
             const i2 = t2.prev, s3 = t2, a2 = t2.next;
             if (Ul(i2, s3, a2) >= 0) return false;
             const o2 = i2.x, l2 = s3.x, u3 = a2.x, c2 = i2.y, h3 = s3.y, p2 = a2.y, f3 = Math.min(o2, l2, u3), d3 = Math.min(c2, h3, p2), y3 = Math.max(o2, l2, u3), m2 = Math.max(c2, h3, p2), g2 = Dl(f3, d3, e2, r2, n2), x3 = Dl(y3, m2, e2, r2, n2);
-            let v3 = t2.prevZ, b3 = t2.nextZ;
-            for (; v3 && v3.z >= g2 && b3 && b3.z <= x3; ) {
+            let v3 = t2.prevZ, b5 = t2.nextZ;
+            for (; v3 && v3.z >= g2 && b5 && b5.z <= x3; ) {
               if (v3.x >= f3 && v3.x <= y3 && v3.y >= d3 && v3.y <= m2 && v3 !== i2 && v3 !== a2 && Ol(o2, c2, l2, h3, u3, p2, v3.x, v3.y) && Ul(v3.prev, v3, v3.next) >= 0) return false;
-              if (v3 = v3.prevZ, b3.x >= f3 && b3.x <= y3 && b3.y >= d3 && b3.y <= m2 && b3 !== i2 && b3 !== a2 && Ol(o2, c2, l2, h3, u3, p2, b3.x, b3.y) && Ul(b3.prev, b3, b3.next) >= 0) return false;
-              b3 = b3.nextZ;
+              if (v3 = v3.prevZ, b5.x >= f3 && b5.x <= y3 && b5.y >= d3 && b5.y <= m2 && b5 !== i2 && b5 !== a2 && Ol(o2, c2, l2, h3, u3, p2, b5.x, b5.y) && Ul(b5.prev, b5, b5.next) >= 0) return false;
+              b5 = b5.nextZ;
             }
             for (; v3 && v3.z >= g2; ) {
               if (v3.x >= f3 && v3.x <= y3 && v3.y >= d3 && v3.y <= m2 && v3 !== i2 && v3 !== a2 && Ol(o2, c2, l2, h3, u3, p2, v3.x, v3.y) && Ul(v3.prev, v3, v3.next) >= 0) return false;
               v3 = v3.prevZ;
             }
-            for (; b3 && b3.z <= x3; ) {
-              if (b3.x >= f3 && b3.x <= y3 && b3.y >= d3 && b3.y <= m2 && b3 !== i2 && b3 !== a2 && Ol(o2, c2, l2, h3, u3, p2, b3.x, b3.y) && Ul(b3.prev, b3, b3.next) >= 0) return false;
-              b3 = b3.nextZ;
+            for (; b5 && b5.z <= x3; ) {
+              if (b5.x >= f3 && b5.x <= y3 && b5.y >= d3 && b5.y <= m2 && b5 !== i2 && b5 !== a2 && Ol(o2, c2, l2, h3, u3, p2, b5.x, b5.y) && Ul(b5.prev, b5, b5.next) >= 0) return false;
+              b5 = b5.nextZ;
             }
             return true;
           }
@@ -7669,8 +8173,8 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                   continue;
                 }
                 !y3 && x3 > 0 && s3.push(this._vertexToIndex(a2 + p2 * x3, o2 + f3 * x3));
-                const b3 = a2 + p2 * Math.max(x3, 0), w3 = a2 + p2 * Math.min(v3, 1);
-                d3 || this._generateIntraEdgeVertices(s3, a2, o2, l2, u3, b3, w3), !y3 && v3 < 1 && s3.push(this._vertexToIndex(a2 + p2 * v3, o2 + f3 * v3)), (y3 || u3 >= n2 && u3 <= i2) && s3.push(r2[(t3 + 1) % 3]), !y3 && (u3 <= n2 || u3 >= i2) && this._generateInterEdgeVertices(s3, a2, o2, l2, u3, c2, h3, w3, n2, i2);
+                const b5 = a2 + p2 * Math.max(x3, 0), w3 = a2 + p2 * Math.min(v3, 1);
+                d3 || this._generateIntraEdgeVertices(s3, a2, o2, l2, u3, b5, w3), !y3 && v3 < 1 && s3.push(this._vertexToIndex(a2 + p2 * v3, o2 + f3 * v3)), (y3 || u3 >= n2 && u3 <= i2) && s3.push(r2[(t3 + 1) % 3]), !y3 && (u3 <= n2 || u3 >= i2) && this._generateInterEdgeVertices(s3, a2, o2, l2, u3, c2, h3, w3, n2, i2);
               }
               return s3;
             }
@@ -7687,15 +8191,15 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
             }
             _generateInterEdgeVertices(t2, e2, r2, n2, i2, s3, a2, o2, l2, u3) {
               const c2 = i2 - r2, h3 = s3 - n2, p2 = a2 - i2, f3 = (l2 - i2) / p2, d3 = (u3 - i2) / p2, y3 = Math.min(f3, d3), m2 = Math.max(f3, d3), g2 = n2 + h3 * y3;
-              let x3 = Math.floor(Math.min(g2, o2) / this._granularityCellSize) + 1, v3 = Math.ceil(Math.max(g2, o2) / this._granularityCellSize) - 1, b3 = o2 < g2;
+              let x3 = Math.floor(Math.min(g2, o2) / this._granularityCellSize) + 1, v3 = Math.ceil(Math.max(g2, o2) / this._granularityCellSize) - 1, b5 = o2 < g2;
               const w3 = 0 === p2;
               if (w3 && (a2 === l2 || a2 === u3)) return;
               if (w3 || y3 >= 1 || m2 <= 0) {
                 const t3 = r2 - a2, n3 = s3 + (e2 - s3) * Math.min((l2 - a2) / t3, (u3 - a2) / t3);
-                x3 = Math.floor(Math.min(n3, o2) / this._granularityCellSize) + 1, v3 = Math.ceil(Math.max(n3, o2) / this._granularityCellSize) - 1, b3 = o2 < n3;
+                x3 = Math.floor(Math.min(n3, o2) / this._granularityCellSize) + 1, v3 = Math.ceil(Math.max(n3, o2) / this._granularityCellSize) - 1, b5 = o2 < n3;
               }
               const _3 = c2 > 0 ? u3 : l2;
-              if (b3) for (let e3 = x3; e3 <= v3; e3++) t2.push(this._vertexToIndex(e3 * this._granularityCellSize, _3));
+              if (b5) for (let e3 = x3; e3 <= v3; e3++) t2.push(this._vertexToIndex(e3 * this._granularityCellSize, _3));
               else for (let e3 = v3; e3 >= x3; e3--) t2.push(this._vertexToIndex(e3 * this._granularityCellSize, _3));
             }
             _generateOutline(t2) {
@@ -7809,20 +8313,20 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               const d3 = c3 - s4, y3 = h3 - a3, m2 = Math.abs(d3), g2 = Math.abs(y3);
               let x3 = s4, v3 = a3;
               for (; ; ) {
-                const t3 = d3 > 0 ? (Math.floor(x3 / o2) + 1) * o2 : (Math.ceil(x3 / o2) - 1) * o2, e4 = y3 > 0 ? (Math.floor(v3 / o2) + 1) * o2 : (Math.ceil(v3 / o2) - 1) * o2, n4 = Math.abs(x3 - t3), i4 = Math.abs(v3 - e4), s5 = Math.abs(x3 - c3), a4 = Math.abs(v3 - h3), u4 = p2 ? n4 / m2 : Number.POSITIVE_INFINITY, b4 = f3 ? i4 / g2 : Number.POSITIVE_INFINITY;
+                const t3 = d3 > 0 ? (Math.floor(x3 / o2) + 1) * o2 : (Math.ceil(x3 / o2) - 1) * o2, e4 = y3 > 0 ? (Math.floor(v3 / o2) + 1) * o2 : (Math.ceil(v3 / o2) - 1) * o2, n4 = Math.abs(x3 - t3), i4 = Math.abs(v3 - e4), s5 = Math.abs(x3 - c3), a4 = Math.abs(v3 - h3), u4 = p2 ? n4 / m2 : Number.POSITIVE_INFINITY, b6 = f3 ? i4 / g2 : Number.POSITIVE_INFINITY;
                 if ((s5 <= n4 || !p2) && (a4 <= i4 || !f3)) break;
-                if (u4 < b4 && p2 || !f3) {
+                if (u4 < b6 && p2 || !f3) {
                   x3 = t3, v3 += y3 * u4;
                   const e5 = new r(x3, Math.round(v3));
                   l2[l2.length - 1].x === e5.x && l2[l2.length - 1].y === e5.y || l2.push(e5);
                 } else {
-                  x3 += d3 * b4, v3 = e4;
+                  x3 += d3 * b6, v3 = e4;
                   const t4 = new r(Math.round(x3), v3);
                   l2[l2.length - 1].x === t4.x && l2[l2.length - 1].y === t4.y || l2.push(t4);
                 }
               }
-              const b3 = new r(c3, h3);
-              l2[l2.length - 1].x === b3.x && l2[l2.length - 1].y === b3.y || l2.push(b3);
+              const b5 = new r(c3, h3);
+              l2[l2.length - 1].x === b5.x && l2[l2.length - 1].y === b5.y || l2.push(b5);
             }
             return l2;
           }
@@ -7876,8 +8380,8 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                 const p2 = i3[h3 - 2], f3 = i3[h3 - 1], d3 = i3[h3];
                 let y3 = a3[p2] < l3, m2 = a3[f3] < l3, g2 = a3[d3] < l3;
                 u4.vertexLength + ((y3 ? 1 : 0) + (m2 ? 1 : 0) + (g2 ? 1 : 0)) > Ya.MAX_VERTEX_ARRAY_LENGTH && (u4 = t3.createNewSegment(e3, r3), l3 = o3.count, y3 = true, m2 = true, g2 = true, c3 = 0);
-                const x3 = au(a3, n3, s4, o3, p2, y3, u4), v3 = au(a3, n3, s4, o3, f3, m2, u4), b3 = au(a3, n3, s4, o3, d3, g2, u4);
-                r3.emplaceBack(c3 + x3 - l3, c3 + v3 - l3, c3 + b3 - l3), u4.primitiveLength++;
+                const x3 = au(a3, n3, s4, o3, p2, y3, u4), v3 = au(a3, n3, s4, o3, f3, m2, u4), b5 = au(a3, n3, s4, o3, d3, g2, u4);
+                r3.emplaceBack(c3 + x3 - l3, c3 + v3 - l3, c3 + b5 - l3), u4.primitiveLength++;
               }
             })(e2, r2, n2, i2, s3, t2), c2 && (function(t3, e3, r3, n3, i3, s4) {
               const a3 = [];
@@ -8229,8 +8733,8 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                 for (const e4 of t3) {
                   const t4 = [], n4 = [];
                   for (const s5 of e4) {
-                    const e5 = s5.x, a4 = s5.y, y3 = i3[0] * e5 + i3[4] * a4 + i3[12], m2 = i3[1] * e5 + i3[5] * a4 + i3[13], g2 = i3[2] * e5 + i3[6] * a4 + i3[14], x3 = i3[3] * e5 + i3[7] * a4 + i3[15], v3 = g2 + u4, b3 = x3 + c3, w3 = y3 + h4, _3 = m2 + p3, S3 = g2 + f3, A4 = x3 + d3, k2 = new r((y3 + o3) / b3, (m2 + l3) / b3);
-                    k2.z = v3 / b3, t4.push(k2);
+                    const e5 = s5.x, a4 = s5.y, y3 = i3[0] * e5 + i3[4] * a4 + i3[12], m2 = i3[1] * e5 + i3[5] * a4 + i3[13], g2 = i3[2] * e5 + i3[6] * a4 + i3[14], x3 = i3[3] * e5 + i3[7] * a4 + i3[15], v3 = g2 + u4, b5 = x3 + c3, w3 = y3 + h4, _3 = m2 + p3, S3 = g2 + f3, A4 = x3 + d3, k2 = new r((y3 + o3) / b5, (m2 + l3) / b5);
+                    k2.z = v3 / b5, t4.push(k2);
                     const M4 = new r(w3 / A4, _3 / A4);
                     M4.z = S3 / A4, n4.push(M4);
                   }
@@ -8347,7 +8851,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                 g2 && (m2 = g2), f3 && (d3 = f3), f3 = t2[e3], g2 = y3 ? y3.sub(f3)._unit()._perp() : m2, m2 = m2 || g2;
                 let a3 = m2.add(g2);
                 0 === a3.x && 0 === a3.y || a3._unit();
-                const o3 = m2.x * g2.x + m2.y * g2.y, x3 = a3.x * g2.x + a3.y * g2.y, v3 = 0 !== x3 ? 1 / x3 : 1 / 0, b3 = 2 * Math.sqrt(2 - 2 * x3), w3 = x3 < $u && d3 && y3, _3 = m2.x * g2.y - m2.y * g2.x > 0;
+                const o3 = m2.x * g2.x + m2.y * g2.y, x3 = a3.x * g2.x + a3.y * g2.y, v3 = 0 !== x3 ? 1 / x3 : 1 / 0, b5 = 2 * Math.sqrt(2 - 2 * x3), w3 = x3 < $u && d3 && y3, _3 = m2.x * g2.y - m2.y * g2.x > 0;
                 if (w3 && e3 > c2) {
                   const t3 = f3.dist(d3);
                   if (t3 > 2 * h3) {
@@ -8368,7 +8872,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                 } else if ("bevel" === A4 || "fakeround" === A4) {
                   const t3 = -Math.sqrt(v3 * v3 - 1), e4 = _3 ? t3 : 0, r3 = _3 ? 0 : t3;
                   if (d3 && this.addCurrentVertex(f3, m2, e4, r3, p2), "fakeround" === A4) {
-                    const t4 = Math.round(180 * b3 / Math.PI / 20);
+                    const t4 = Math.round(180 * b5 / Math.PI / 20);
                     for (let e5 = 1; e5 < t4; e5++) {
                       let r4 = e5 / t4;
                       if (0.5 !== r4) {
@@ -9025,7 +9529,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               for (const n4 of e3) r3.push(t2.substring(i3, n4)), i3 = n4;
               return i3 < n3.length && r3.push(t2.substring(i3, n3.length)), r3;
             })(m2, Vc(m2, c2, a2, r2, i2, d3));
-            const b3 = [], w3 = { positionedLines: b3, text: m2.toString(), top: h3[1], bottom: h3[1], left: h3[0], right: h3[0], writingMode: p2, iconsInText: false, verticalizable: false };
+            const b5 = [], w3 = { positionedLines: b5, text: m2.toString(), top: h3[1], bottom: h3[1], left: h3[0], right: h3[0], writingMode: p2, iconsInText: false, verticalizable: false };
             return (function(t2, e3, r3, n3, i3, s4, a3, o3, l3, u4, c3, h4) {
               let p3 = 0, f4 = 0, d4 = 0, y4 = 0;
               const m3 = "right" === o3 ? 1 : "left" === o3 ? 0 : 0.5, g3 = tc / h4;
@@ -9040,14 +9544,14 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                   f4 += s4, ++x4;
                   continue;
                 }
-                const b5 = Dc(n3, a4, g3);
+                const b7 = Dc(n3, a4, g3);
                 for (let s5 = 0; s5 < a4.length(); s5++) {
                   const o5 = a4.getSection(s5), d5 = a4.getSectionIndex(s5), y5 = a4.getCharCode(s5), m4 = Lc(l3, c3, y5);
                   let x5;
                   if (o5.imageName) {
-                    if (t2.iconsInText = true, o5.scale = o5.scale * g3, x5 = Rc(o5, m4, i4, b5, n3), !x5) continue;
+                    if (t2.iconsInText = true, o5.scale = o5.scale * g3, x5 = Rc(o5, m4, i4, b7, n3), !x5) continue;
                     v5 = Math.max(v5, x5.imageOffset);
-                  } else if (x5 = Oc(o5, y5, m4, b5, e3, r3), !x5) continue;
+                  } else if (x5 = Oc(o5, y5, m4, b7, e3, r3), !x5) continue;
                   const { rect: w5, metrics: _3, baselineOffset: S3 } = x5;
                   h5.push({ glyph: y5, imageName: o5.imageName, x: p3, y: f4 + S3 + -17, vertical: m4, scale: o5.scale, fontStack: o5.fontStack, sectionIndex: d5, metrics: _3, rect: w5 }), m4 ? (t2.verticalizable = true, p3 += (o5.imageName ? _3.advance : tc) * o5.scale + u4) : p3 += _3.advance * o5.scale + u4;
                 }
@@ -9055,17 +9559,17 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                 const w4 = s4 * i4 + v5;
                 f4 += w4, y4 = Math.max(w4, y4), ++x4;
               }
-              const { horizontalAlign: v4, verticalAlign: b4 } = Fc(a3);
+              const { horizontalAlign: v4, verticalAlign: b6 } = Fc(a3);
               (function(t3, e4, r4, n4, i4, s5, a4, o4, l4) {
                 const u5 = (e4 - r4) * i4;
                 let c4 = 0;
                 c4 = s5 !== a4 ? -o4 * n4 - -17 : -n4 * l4 * a4 + 0.5 * a4;
                 for (const e5 of t3) for (const t4 of e5.positionedGlyphs) t4.x += u5, t4.y += c4;
-              })(t2.positionedLines, m3, v4, b4, d4, y4, s4, f4, i3.length), t2.top += -b4 * f4, t2.bottom = t2.top + f4, t2.left += -v4 * d4, t2.right = t2.left + d4;
+              })(t2.positionedLines, m3, v4, b6, d4, y4, s4, f4, i3.length), t2.top += -b6 * f4, t2.bottom = t2.top + f4, t2.left += -v4 * d4, t2.right = t2.left + d4;
             })(w3, r2, n2, i2, g2, o2, l2, u3, p2, c2, f3, y3), !(function(t2) {
               for (const e3 of t2) if (0 !== e3.positionedGlyphs.length) return false;
               return true;
-            })(b3) && w3;
+            })(b5) && w3;
           }
           const Mc = { 9: true, 10: true, 11: true, 12: true, 13: true, 32: true }, Ic = { 10: true, 32: true, 38: true, 41: true, 43: true, 45: true, 47: true, 173: true, 183: true, 8203: true, 8208: true, 8211: true, 8231: true }, zc = { 40: true };
           function Pc(t2, e2, r2, n2, i2, s3) {
@@ -9321,8 +9825,8 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                   v3 = t2 instanceof $e ? t2 : $e.fromString(t2);
                 }
                 if (!x3 && !v3) continue;
-                const b3 = this.sortFeaturesByKey ? h3.evaluate(g2, {}, n2) : void 0;
-                if (this.features.push({ id: o3, text: x3, icon: v3, index: l3, sourceLayerIndex: m2, geometry: g2.geometry, properties: r3.properties, type: yu.types[r3.type], sortKey: b3 }), v3 && (p2[v3.name] = true), x3) {
+                const b5 = this.sortFeaturesByKey ? h3.evaluate(g2, {}, n2) : void 0;
+                if (this.features.push({ id: o3, text: x3, icon: v3, index: l3, sourceLayerIndex: m2, geometry: g2.geometry, properties: r3.properties, type: yu.types[r3.type], sortKey: b5 }), v3 && (p2[v3.name] = true), x3) {
                   const e4 = a2.evaluate(g2, {}, n2).join(","), r4 = "viewport" !== s3.get("text-rotation-alignment") && "point" !== s3.get("symbol-placement");
                   this.allowVerticalPlacement = this.writingModes && this.writingModes.indexOf(t.ao.vertical) >= 0;
                   for (const t2 of x3.sections) if (t2.image) p2[t2.image.name] = true;
@@ -9400,8 +9904,8 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
             addSymbols(e2, r2, n2, i2, s3, a2, o2, l2, u3, c2, h3, p2) {
               const f3 = e2.indexArray, d3 = e2.layoutVertexArray, y3 = e2.segments.prepareSegment(4 * r2.length, d3, f3, this.canOverlap ? a2.sortKey : void 0), m2 = this.glyphOffsetArray.length, g2 = y3.vertexLength, x3 = this.allowVerticalPlacement && o2 === t.ao.vertical ? Math.PI / 2 : 0, v3 = a2.text && a2.text.sections;
               for (let t2 = 0; t2 < r2.length; t2++) {
-                const { tl: i3, tr: s4, bl: o3, br: u4, tex: c3, pixelOffsetTL: h4, pixelOffsetBR: m3, minFontScaleX: g3, minFontScaleY: b3, glyphOffset: w3, isSDF: _3, sectionIndex: S3 } = r2[t2], A4 = y3.vertexLength, k2 = w3[1];
-                Kc(d3, l2.x, l2.y, i3.x, k2 + i3.y, c3.x, c3.y, n2, _3, h4.x, h4.y, g3, b3), Kc(d3, l2.x, l2.y, s4.x, k2 + s4.y, c3.x + c3.w, c3.y, n2, _3, m3.x, h4.y, g3, b3), Kc(d3, l2.x, l2.y, o3.x, k2 + o3.y, c3.x, c3.y + c3.h, n2, _3, h4.x, m3.y, g3, b3), Kc(d3, l2.x, l2.y, u4.x, k2 + u4.y, c3.x + c3.w, c3.y + c3.h, n2, _3, m3.x, m3.y, g3, b3), Jc(e2.dynamicLayoutVertexArray, l2, x3), f3.emplaceBack(A4, A4 + 2, A4 + 1), f3.emplaceBack(A4 + 1, A4 + 2, A4 + 3), y3.vertexLength += 4, y3.primitiveLength += 2, this.glyphOffsetArray.emplaceBack(w3[0]), t2 !== r2.length - 1 && S3 === r2[t2 + 1].sectionIndex || e2.programConfigurations.populatePaintArrays(d3.length, a2, a2.index, { imagePositions: {}, canonical: p2, formattedSection: v3 && v3[S3] });
+                const { tl: i3, tr: s4, bl: o3, br: u4, tex: c3, pixelOffsetTL: h4, pixelOffsetBR: m3, minFontScaleX: g3, minFontScaleY: b5, glyphOffset: w3, isSDF: _3, sectionIndex: S3 } = r2[t2], A4 = y3.vertexLength, k2 = w3[1];
+                Kc(d3, l2.x, l2.y, i3.x, k2 + i3.y, c3.x, c3.y, n2, _3, h4.x, h4.y, g3, b5), Kc(d3, l2.x, l2.y, s4.x, k2 + s4.y, c3.x + c3.w, c3.y, n2, _3, m3.x, h4.y, g3, b5), Kc(d3, l2.x, l2.y, o3.x, k2 + o3.y, c3.x, c3.y + c3.h, n2, _3, h4.x, m3.y, g3, b5), Kc(d3, l2.x, l2.y, u4.x, k2 + u4.y, c3.x + c3.w, c3.y + c3.h, n2, _3, m3.x, m3.y, g3, b5), Jc(e2.dynamicLayoutVertexArray, l2, x3), f3.emplaceBack(A4, A4 + 2, A4 + 1), f3.emplaceBack(A4 + 1, A4 + 2, A4 + 3), y3.vertexLength += 4, y3.primitiveLength += 2, this.glyphOffsetArray.emplaceBack(w3[0]), t2 !== r2.length - 1 && S3 === r2[t2 + 1].sectionIndex || e2.programConfigurations.populatePaintArrays(d3.length, a2, a2.index, { imagePositions: {}, canonical: p2, formattedSection: v3 && v3[S3] });
               }
               e2.placedSymbolArray.emplaceBack(l2.x, l2.y, m2, this.glyphOffsetArray.length - m2, g2, u3, c2, l2.segment, n2 ? n2[0] : 0, n2 ? n2[1] : 0, i2[0], i2[1], o2, 0, false, 0, h3);
             }
@@ -9657,7 +10161,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               if (this.lng = +t2, this.lat = +e2, this.lat > 90 || this.lat < -90) throw new Error("Invalid LngLat latitude value: must be between -90 and 90");
             }
             wrap() {
-              return new gh($5(this.lng, -180, 180), this.lat);
+              return new gh($7(this.lng, -180, 180), this.lat);
             }
             toArray() {
               return [this.lng, this.lat];
@@ -9750,7 +10254,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               return `${this.z}/${this.x}/${this.y}`;
             }
           }
-          class zh {
+          class zh2 {
             constructor(t2, e2) {
               this.wrap = t2, this.canonical = e2, this.key = Ch(t2, e2.z, e2.z, e2.x, e2.y);
             }
@@ -9801,7 +10305,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               return Math.pow(2, this.overscaledZ - this.canonical.z);
             }
             toUnwrapped() {
-              return new zh(this.wrap, this.canonical);
+              return new zh2(this.wrap, this.canonical);
             }
             toString() {
               return `${this.overscaledZ}/${this.canonical.x}/${this.canonical.y}`;
@@ -10079,15 +10583,15 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
             const s3 = [], a2 = t2.image, o2 = a2.pixelRatio, l2 = a2.paddedRect.w - 2, u3 = a2.paddedRect.h - 2;
             let c2 = { x1: t2.left, y1: t2.top, x2: t2.right, y2: t2.bottom };
             const h3 = a2.stretchX || [[0, l2]], p2 = a2.stretchY || [[0, u3]], f3 = (t3, e3) => t3 + e3[1] - e3[0], d3 = h3.reduce(f3, 0), y3 = p2.reduce(f3, 0), m2 = l2 - d3, g2 = u3 - y3;
-            let x3 = 0, v3 = d3, b3 = 0, w3 = y3, _3 = 0, S3 = m2, A4 = 0, k2 = g2;
+            let x3 = 0, v3 = d3, b5 = 0, w3 = y3, _3 = 0, S3 = m2, A4 = 0, k2 = g2;
             if (a2.content && i2) {
               const e3 = a2.content, r2 = e3[2] - e3[0], n3 = e3[3] - e3[1];
-              (a2.textFitWidth || a2.textFitHeight) && (c2 = Nc(t2)), x3 = Yh(h3, 0, e3[0]), b3 = Yh(p2, 0, e3[1]), v3 = Yh(h3, e3[0], e3[2]), w3 = Yh(p2, e3[1], e3[3]), _3 = e3[0] - x3, A4 = e3[1] - b3, S3 = r2 - v3, k2 = n3 - w3;
+              (a2.textFitWidth || a2.textFitHeight) && (c2 = Nc(t2)), x3 = Yh(h3, 0, e3[0]), b5 = Yh(p2, 0, e3[1]), v3 = Yh(h3, e3[0], e3[2]), w3 = Yh(p2, e3[1], e3[3]), _3 = e3[0] - x3, A4 = e3[1] - b5, S3 = r2 - v3, k2 = n3 - w3;
             }
             const M4 = c2.x1, I3 = c2.y1, z3 = c2.x2 - M4, P3 = c2.y2 - I3, C3 = (t3, i3, s4, l3) => {
-              const u4 = Kh(t3.stretch - x3, v3, z3, M4), c3 = Jh(t3.fixed - _3, S3, t3.stretch, d3), h4 = Kh(i3.stretch - b3, w3, P3, I3), p3 = Jh(i3.fixed - A4, k2, i3.stretch, y3), f4 = Kh(s4.stretch - x3, v3, z3, M4), m3 = Jh(s4.fixed - _3, S3, s4.stretch, d3), g3 = Kh(l3.stretch - b3, w3, P3, I3), C4 = Jh(l3.fixed - A4, k2, l3.stretch, y3), E3 = new r(u4, h4), T4 = new r(f4, h4), B3 = new r(f4, g3), V3 = new r(u4, g3), F3 = new r(c3 / o2, p3 / o2), D4 = new r(m3 / o2, C4 / o2), $6 = e2 * Math.PI / 180;
-              if ($6) {
-                const t4 = Math.sin($6), e3 = Math.cos($6), r2 = [e3, -t4, t4, e3];
+              const u4 = Kh(t3.stretch - x3, v3, z3, M4), c3 = Jh(t3.fixed - _3, S3, t3.stretch, d3), h4 = Kh(i3.stretch - b5, w3, P3, I3), p3 = Jh(i3.fixed - A4, k2, i3.stretch, y3), f4 = Kh(s4.stretch - x3, v3, z3, M4), m3 = Jh(s4.fixed - _3, S3, s4.stretch, d3), g3 = Kh(l3.stretch - b5, w3, P3, I3), C4 = Jh(l3.fixed - A4, k2, l3.stretch, y3), E3 = new r(u4, h4), T4 = new r(f4, h4), B3 = new r(f4, g3), V3 = new r(u4, g3), F3 = new r(c3 / o2, p3 / o2), D4 = new r(m3 / o2, C4 / o2), $8 = e2 * Math.PI / 180;
+              if ($8) {
+                const t4 = Math.sin($8), e3 = Math.cos($8), r2 = [e3, -t4, t4, e3];
                 E3._matMult(r2), T4._matMult(r2), V3._matMult(r2), B3._matMult(r2);
               }
               const L3 = t3.stretch + t3.fixed, O3 = i3.stretch + i3.fixed;
@@ -10319,17 +10823,17 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
           function lp(e2, r2, n2, i2, s3, a2, o2, l2, u3, c2, h3, p2) {
             let f3 = a2.textMaxSize.evaluate(r2, {});
             void 0 === f3 && (f3 = o2);
-            const d3 = e2.layers[0].layout, y3 = d3.get("icon-offset").evaluate(r2, {}, h3), m2 = cp(n2.horizontal), g2 = o2 / 24, x3 = e2.tilePixelRatio * g2, v3 = e2.tilePixelRatio * f3 / 24, b3 = e2.tilePixelRatio * l2, w3 = e2.tilePixelRatio * d3.get("symbol-spacing"), _3 = d3.get("text-padding") * e2.tilePixelRatio, S3 = (function(t2, e3, r3, n3 = 1) {
+            const d3 = e2.layers[0].layout, y3 = d3.get("icon-offset").evaluate(r2, {}, h3), m2 = cp(n2.horizontal), g2 = o2 / 24, x3 = e2.tilePixelRatio * g2, v3 = e2.tilePixelRatio * f3 / 24, b5 = e2.tilePixelRatio * l2, w3 = e2.tilePixelRatio * d3.get("symbol-spacing"), _3 = d3.get("text-padding") * e2.tilePixelRatio, S3 = (function(t2, e3, r3, n3 = 1) {
               const i3 = t2.get("icon-padding").evaluate(e3, {}, r3), s4 = i3 && i3.values;
               return [s4[0] * n3, s4[1] * n3, s4[2] * n3, s4[3] * n3];
             })(d3, r2, h3, e2.tilePixelRatio), A4 = d3.get("text-max-angle") / 180 * Math.PI, k2 = "viewport" !== d3.get("text-rotation-alignment") && "point" !== d3.get("symbol-placement"), M4 = "map" === d3.get("icon-rotation-alignment") && "point" !== d3.get("symbol-placement"), I3 = d3.get("symbol-placement"), z3 = w3 / 2, C3 = d3.get("icon-text-fit");
             let E3;
             i2 && "none" !== C3 && (e2.allowVerticalPlacement && n2.vertical && (E3 = qc(i2, n2.vertical, C3, d3.get("icon-text-fit-padding"), y3, g2)), m2 && (i2 = qc(i2, m2, C3, d3.get("icon-text-fit-padding"), y3, g2)));
             const T4 = h3 ? p2.line.getGranularityForZoomLevel(h3.z) : 1, B3 = (l3, p3) => {
-              p3.x < 0 || p3.x >= P2 || p3.y < 0 || p3.y >= P2 || (function(e3, r3, n3, i3, s4, a3, o3, l4, u4, c3, h4, p4, f4, d4, y4, m3, g3, x4, v4, b4, w4, _4, S4, A5, k3) {
+              p3.x < 0 || p3.x >= P2 || p3.y < 0 || p3.y >= P2 || (function(e3, r3, n3, i3, s4, a3, o3, l4, u4, c3, h4, p4, f4, d4, y4, m3, g3, x4, v4, b6, w4, _4, S4, A5, k3) {
                 const M5 = e3.addToLineVertexArray(r3, n3);
                 let I4, z4, P3, C4, E4 = 0, T5 = 0, B4 = 0, V3 = 0, F3 = -1, D4 = -1;
-                const $6 = {};
+                const $8 = {};
                 let L3 = io("");
                 if (e3.allowVerticalPlacement && i3.vertical) {
                   const t2 = l4.layout.get("text-rotate").evaluate(w4, {}, A5) + 90;
@@ -10340,7 +10844,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                   z4 = new Wh(u4, r3, c3, h4, p4, s4, g3, x4, false, n4), E4 = 4 * a4.length;
                   const d5 = e3.iconSizeData;
                   let y5 = null;
-                  "source" === d5.kind ? (y5 = [Gc * l4.layout.get("icon-size").evaluate(w4, {})], y5[0] > Xc && q2(`${e3.layerIds[0]}: Value for "icon-size" is >= 255. Reduce your "icon-size".`)) : "composite" === d5.kind && (y5 = [Gc * _4.compositeIconSizes[0].evaluate(w4, {}, A5), Gc * _4.compositeIconSizes[1].evaluate(w4, {}, A5)], (y5[0] > Xc || y5[1] > Xc) && q2(`${e3.layerIds[0]}: Value for "icon-size" is >= 255. Reduce your "icon-size".`)), e3.addSymbols(e3.icon, a4, y5, b4, v4, w4, t.ao.none, r3, M5.lineStartIndex, M5.lineLength, -1, A5), F3 = e3.icon.placedSymbolArray.length - 1, f5 && (T5 = 4 * f5.length, e3.addSymbols(e3.icon, f5, y5, b4, v4, w4, t.ao.vertical, r3, M5.lineStartIndex, M5.lineLength, -1, A5), D4 = e3.icon.placedSymbolArray.length - 1);
+                  "source" === d5.kind ? (y5 = [Gc * l4.layout.get("icon-size").evaluate(w4, {})], y5[0] > Xc && q2(`${e3.layerIds[0]}: Value for "icon-size" is >= 255. Reduce your "icon-size".`)) : "composite" === d5.kind && (y5 = [Gc * _4.compositeIconSizes[0].evaluate(w4, {}, A5), Gc * _4.compositeIconSizes[1].evaluate(w4, {}, A5)], (y5[0] > Xc || y5[1] > Xc) && q2(`${e3.layerIds[0]}: Value for "icon-size" is >= 255. Reduce your "icon-size".`)), e3.addSymbols(e3.icon, a4, y5, b6, v4, w4, t.ao.none, r3, M5.lineStartIndex, M5.lineLength, -1, A5), F3 = e3.icon.placedSymbolArray.length - 1, f5 && (T5 = 4 * f5.length, e3.addSymbols(e3.icon, f5, y5, b6, v4, w4, t.ao.vertical, r3, M5.lineStartIndex, M5.lineLength, -1, A5), D4 = e3.icon.placedSymbolArray.length - 1);
                 }
                 const O3 = Object.keys(i3.horizontal);
                 for (const n4 of O3) {
@@ -10351,9 +10855,9 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                     I4 = new Wh(u4, r3, c3, h4, p4, s5, f4, d4, y4, t2);
                   }
                   const o4 = 1 === s5.positionedLines.length;
-                  if (B4 += up(e3, r3, s5, a3, l4, y4, w4, m3, M5, i3.vertical ? t.ao.horizontal : t.ao.horizontalOnly, o4 ? O3 : [n4], $6, F3, _4, A5), o4) break;
+                  if (B4 += up(e3, r3, s5, a3, l4, y4, w4, m3, M5, i3.vertical ? t.ao.horizontal : t.ao.horizontalOnly, o4 ? O3 : [n4], $8, F3, _4, A5), o4) break;
                 }
-                i3.vertical && (V3 += up(e3, r3, i3.vertical, a3, l4, y4, w4, m3, M5, t.ao.vertical, ["vertical"], $6, D4, _4, A5));
+                i3.vertical && (V3 += up(e3, r3, i3.vertical, a3, l4, y4, w4, m3, M5, t.ao.vertical, ["vertical"], $8, D4, _4, A5));
                 const R4 = I4 ? I4.boxStartIndex : e3.collisionBoxArray.length, U4 = I4 ? I4.boxEndIndex : e3.collisionBoxArray.length, j3 = P3 ? P3.boxStartIndex : e3.collisionBoxArray.length, N3 = P3 ? P3.boxEndIndex : e3.collisionBoxArray.length, G3 = z4 ? z4.boxStartIndex : e3.collisionBoxArray.length, X3 = z4 ? z4.boxEndIndex : e3.collisionBoxArray.length, Z3 = C4 ? C4.boxStartIndex : e3.collisionBoxArray.length, Y3 = C4 ? C4.boxEndIndex : e3.collisionBoxArray.length;
                 let H4 = -1;
                 const K2 = (t2, e4) => t2 && t2.circleDiameter ? Math.max(t2.circleDiameter, e4) : e4;
@@ -10368,8 +10872,8 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                   }
                   return [n4, e4.length];
                 })(e3.textAnchorOffsets, W2);
-                e3.symbolInstances.emplaceBack(r3.x, r3.y, $6.right >= 0 ? $6.right : -1, $6.center >= 0 ? $6.center : -1, $6.left >= 0 ? $6.left : -1, $6.vertical || -1, F3, D4, L3, R4, U4, j3, N3, G3, X3, Z3, Y3, c3, B4, V3, E4, T5, J3, 0, f4, H4, Q3, tt2);
-              })(e2, p3, l3, n2, i2, s3, E3, e2.layers[0], e2.collisionBoxArray, r2.index, r2.sourceLayerIndex, e2.index, x3, [_3, _3, _3, _3], k2, u3, b3, S3, M4, y3, r2, a2, c2, h3, o2);
+                e3.symbolInstances.emplaceBack(r3.x, r3.y, $8.right >= 0 ? $8.right : -1, $8.center >= 0 ? $8.center : -1, $8.left >= 0 ? $8.left : -1, $8.vertical || -1, F3, D4, L3, R4, U4, j3, N3, G3, X3, Z3, Y3, c3, B4, V3, E4, T5, J3, 0, f4, H4, Q3, tt2);
+              })(e2, p3, l3, n2, i2, s3, E3, e2.layers[0], e2.collisionBoxArray, r2.index, r2.sourceLayerIndex, e2.index, x3, [_3, _3, _3, _3], k2, u3, b5, S3, M4, y3, r2, a2, c2, h3, o2);
             };
             if ("line" === I3) for (const t2 of Lh(r2.geometry, 0, 0, P2, P2)) {
               const r3 = nu(t2, T4), s4 = Gh(r3, w3, A4, n2.vertical || m2, i2, 24, v3, e2.overscaling, P2);
@@ -10405,7 +10909,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                 const g3 = s4 ? [i4.x + m3, i4.y] : [0, 0];
                 let x4 = s4 ? [0, 0] : [i4.x + m3 + n3[0], i4.y + n3[1] - d4], v3 = [0, 0];
                 y4 && (v3 = x4, x4 = [0, 0]);
-                const b3 = i4.metrics.isDoubleResolution ? 2 : 1, w3 = (i4.metrics.left - h4) * i4.scale - m3 + x4[0], _3 = (-i4.metrics.top - h4) * i4.scale + x4[1], S3 = w3 + a4.w / b3 * i4.scale / f4, A4 = _3 + a4.h / b3 * i4.scale / f4, k2 = new r(w3, _3), M4 = new r(S3, _3), I3 = new r(w3, A4), z3 = new r(S3, A4);
+                const b5 = i4.metrics.isDoubleResolution ? 2 : 1, w3 = (i4.metrics.left - h4) * i4.scale - m3 + x4[0], _3 = (-i4.metrics.top - h4) * i4.scale + x4[1], S3 = w3 + a4.w / b5 * i4.scale / f4, A4 = _3 + a4.h / b5 * i4.scale / f4, k2 = new r(w3, _3), M4 = new r(S3, _3), I3 = new r(w3, A4), z3 = new r(S3, A4);
                 if (y4) {
                   const t5 = new r(-m3, m3 - -17), e4 = -Math.PI / 2, n4 = 12 - m3, s5 = new r(22 - n4, -(i4.imageName ? n4 : 0)), a5 = new r(...v3);
                   k2._rotateAround(e4, t5)._add(s5)._add(a5), M4._rotateAround(e4, t5)._add(s5)._add(a5), I3._rotateAround(e4, t5)._add(s5)._add(a5), z3._rotateAround(e4, t5)._add(s5)._add(a5);
@@ -10629,8 +11133,8 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
             var n2 = r2[0], i2 = r2[1], s3 = r2[2];
             return t2[0] = e2[0] * n2, t2[1] = e2[1] * n2, t2[2] = e2[2] * n2, t2[3] = e2[3] * n2, t2[4] = e2[4] * i2, t2[5] = e2[5] * i2, t2[6] = e2[6] * i2, t2[7] = e2[7] * i2, t2[8] = e2[8] * s3, t2[9] = e2[9] * s3, t2[10] = e2[10] * s3, t2[11] = e2[11] * s3, t2[12] = e2[12], t2[13] = e2[13], t2[14] = e2[14], t2[15] = e2[15], t2;
           }, t.O = function(t2, e2, r2) {
-            var n2 = e2[0], i2 = e2[1], s3 = e2[2], a2 = e2[3], o2 = e2[4], l2 = e2[5], u3 = e2[6], c2 = e2[7], h3 = e2[8], p2 = e2[9], f3 = e2[10], d3 = e2[11], y3 = e2[12], m2 = e2[13], g2 = e2[14], x3 = e2[15], v3 = r2[0], b3 = r2[1], w3 = r2[2], _3 = r2[3];
-            return t2[0] = v3 * n2 + b3 * o2 + w3 * h3 + _3 * y3, t2[1] = v3 * i2 + b3 * l2 + w3 * p2 + _3 * m2, t2[2] = v3 * s3 + b3 * u3 + w3 * f3 + _3 * g2, t2[3] = v3 * a2 + b3 * c2 + w3 * d3 + _3 * x3, t2[4] = (v3 = r2[4]) * n2 + (b3 = r2[5]) * o2 + (w3 = r2[6]) * h3 + (_3 = r2[7]) * y3, t2[5] = v3 * i2 + b3 * l2 + w3 * p2 + _3 * m2, t2[6] = v3 * s3 + b3 * u3 + w3 * f3 + _3 * g2, t2[7] = v3 * a2 + b3 * c2 + w3 * d3 + _3 * x3, t2[8] = (v3 = r2[8]) * n2 + (b3 = r2[9]) * o2 + (w3 = r2[10]) * h3 + (_3 = r2[11]) * y3, t2[9] = v3 * i2 + b3 * l2 + w3 * p2 + _3 * m2, t2[10] = v3 * s3 + b3 * u3 + w3 * f3 + _3 * g2, t2[11] = v3 * a2 + b3 * c2 + w3 * d3 + _3 * x3, t2[12] = (v3 = r2[12]) * n2 + (b3 = r2[13]) * o2 + (w3 = r2[14]) * h3 + (_3 = r2[15]) * y3, t2[13] = v3 * i2 + b3 * l2 + w3 * p2 + _3 * m2, t2[14] = v3 * s3 + b3 * u3 + w3 * f3 + _3 * g2, t2[15] = v3 * a2 + b3 * c2 + w3 * d3 + _3 * x3, t2;
+            var n2 = e2[0], i2 = e2[1], s3 = e2[2], a2 = e2[3], o2 = e2[4], l2 = e2[5], u3 = e2[6], c2 = e2[7], h3 = e2[8], p2 = e2[9], f3 = e2[10], d3 = e2[11], y3 = e2[12], m2 = e2[13], g2 = e2[14], x3 = e2[15], v3 = r2[0], b5 = r2[1], w3 = r2[2], _3 = r2[3];
+            return t2[0] = v3 * n2 + b5 * o2 + w3 * h3 + _3 * y3, t2[1] = v3 * i2 + b5 * l2 + w3 * p2 + _3 * m2, t2[2] = v3 * s3 + b5 * u3 + w3 * f3 + _3 * g2, t2[3] = v3 * a2 + b5 * c2 + w3 * d3 + _3 * x3, t2[4] = (v3 = r2[4]) * n2 + (b5 = r2[5]) * o2 + (w3 = r2[6]) * h3 + (_3 = r2[7]) * y3, t2[5] = v3 * i2 + b5 * l2 + w3 * p2 + _3 * m2, t2[6] = v3 * s3 + b5 * u3 + w3 * f3 + _3 * g2, t2[7] = v3 * a2 + b5 * c2 + w3 * d3 + _3 * x3, t2[8] = (v3 = r2[8]) * n2 + (b5 = r2[9]) * o2 + (w3 = r2[10]) * h3 + (_3 = r2[11]) * y3, t2[9] = v3 * i2 + b5 * l2 + w3 * p2 + _3 * m2, t2[10] = v3 * s3 + b5 * u3 + w3 * f3 + _3 * g2, t2[11] = v3 * a2 + b5 * c2 + w3 * d3 + _3 * x3, t2[12] = (v3 = r2[12]) * n2 + (b5 = r2[13]) * o2 + (w3 = r2[14]) * h3 + (_3 = r2[15]) * y3, t2[13] = v3 * i2 + b5 * l2 + w3 * p2 + _3 * m2, t2[14] = v3 * s3 + b5 * u3 + w3 * f3 + _3 * g2, t2[15] = v3 * a2 + b5 * c2 + w3 * d3 + _3 * x3, t2;
           }, t.P = r, t.Q = function(t2, e2) {
             const r2 = {};
             for (let n2 = 0; n2 < e2.length; n2++) {
@@ -10691,7 +11195,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               r2 = [r2[0] * e3 - r2[1] * t3, r2[0] * t3 + r2[1] * e3];
             }
             return [i2 ? r2[0] : C2(e2, r2[0], t2.zoom), i2 ? r2[1] : C2(e2, r2[1], t2.zoom)];
-          }, t.aF = Yc, t.aG = op, t.aH = Fc, t.aI = fp, t.aJ = Hs, t.aK = Wl, t.aL = Ta, t.aM = Ya, t.aN = qa, t.aO = $5, t.aP = et2, t.aQ = Ah, t.aR = b2, t.aS = v2, t.aT = function(t2) {
+          }, t.aF = Yc, t.aG = op, t.aH = Fc, t.aI = fp, t.aJ = Hs, t.aK = Wl, t.aL = Ta, t.aM = Ya, t.aN = qa, t.aO = $7, t.aP = et2, t.aQ = Ah, t.aR = b3, t.aS = v2, t.aT = function(t2) {
             var e2 = new f2(3);
             return e2[0] = t2[0], e2[1] = t2[1], e2[2] = t2[2], e2;
           }, t.aU = function(t2, e2, r2) {
@@ -10738,8 +11242,8 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
           }, t.ap = function(t2, { uSize: e2, uSizeT: r2 }, { lowerSize: n2, upperSize: i2 }) {
             return "source" === t2.kind ? n2 / Gc : "composite" === t2.kind ? dr.number(n2 / Gc, i2 / Gc, r2) : e2;
           }, t.aq = function(t2, e2) {
-            var r2 = e2[0], n2 = e2[1], i2 = e2[2], s3 = e2[3], a2 = e2[4], o2 = e2[5], l2 = e2[6], u3 = e2[7], c2 = e2[8], h3 = e2[9], p2 = e2[10], f3 = e2[11], d3 = e2[12], y3 = e2[13], m2 = e2[14], g2 = e2[15], x3 = r2 * o2 - n2 * a2, v3 = r2 * l2 - i2 * a2, b3 = r2 * u3 - s3 * a2, w3 = n2 * l2 - i2 * o2, _3 = n2 * u3 - s3 * o2, S3 = i2 * u3 - s3 * l2, A4 = c2 * y3 - h3 * d3, k2 = c2 * m2 - p2 * d3, M4 = c2 * g2 - f3 * d3, I3 = h3 * m2 - p2 * y3, z3 = h3 * g2 - f3 * y3, P3 = p2 * g2 - f3 * m2, C3 = x3 * P3 - v3 * z3 + b3 * I3 + w3 * M4 - _3 * k2 + S3 * A4;
-            return C3 ? (t2[0] = (o2 * P3 - l2 * z3 + u3 * I3) * (C3 = 1 / C3), t2[1] = (i2 * z3 - n2 * P3 - s3 * I3) * C3, t2[2] = (y3 * S3 - m2 * _3 + g2 * w3) * C3, t2[3] = (p2 * _3 - h3 * S3 - f3 * w3) * C3, t2[4] = (l2 * M4 - a2 * P3 - u3 * k2) * C3, t2[5] = (r2 * P3 - i2 * M4 + s3 * k2) * C3, t2[6] = (m2 * b3 - d3 * S3 - g2 * v3) * C3, t2[7] = (c2 * S3 - p2 * b3 + f3 * v3) * C3, t2[8] = (a2 * z3 - o2 * M4 + u3 * A4) * C3, t2[9] = (n2 * M4 - r2 * z3 - s3 * A4) * C3, t2[10] = (d3 * _3 - y3 * b3 + g2 * x3) * C3, t2[11] = (h3 * b3 - c2 * _3 - f3 * x3) * C3, t2[12] = (o2 * k2 - a2 * I3 - l2 * A4) * C3, t2[13] = (r2 * I3 - n2 * k2 + i2 * A4) * C3, t2[14] = (y3 * v3 - d3 * w3 - m2 * x3) * C3, t2[15] = (c2 * w3 - h3 * v3 + p2 * x3) * C3, t2) : null;
+            var r2 = e2[0], n2 = e2[1], i2 = e2[2], s3 = e2[3], a2 = e2[4], o2 = e2[5], l2 = e2[6], u3 = e2[7], c2 = e2[8], h3 = e2[9], p2 = e2[10], f3 = e2[11], d3 = e2[12], y3 = e2[13], m2 = e2[14], g2 = e2[15], x3 = r2 * o2 - n2 * a2, v3 = r2 * l2 - i2 * a2, b5 = r2 * u3 - s3 * a2, w3 = n2 * l2 - i2 * o2, _3 = n2 * u3 - s3 * o2, S3 = i2 * u3 - s3 * l2, A4 = c2 * y3 - h3 * d3, k2 = c2 * m2 - p2 * d3, M4 = c2 * g2 - f3 * d3, I3 = h3 * m2 - p2 * y3, z3 = h3 * g2 - f3 * y3, P3 = p2 * g2 - f3 * m2, C3 = x3 * P3 - v3 * z3 + b5 * I3 + w3 * M4 - _3 * k2 + S3 * A4;
+            return C3 ? (t2[0] = (o2 * P3 - l2 * z3 + u3 * I3) * (C3 = 1 / C3), t2[1] = (i2 * z3 - n2 * P3 - s3 * I3) * C3, t2[2] = (y3 * S3 - m2 * _3 + g2 * w3) * C3, t2[3] = (p2 * _3 - h3 * S3 - f3 * w3) * C3, t2[4] = (l2 * M4 - a2 * P3 - u3 * k2) * C3, t2[5] = (r2 * P3 - i2 * M4 + s3 * k2) * C3, t2[6] = (m2 * b5 - d3 * S3 - g2 * v3) * C3, t2[7] = (c2 * S3 - p2 * b5 + f3 * v3) * C3, t2[8] = (a2 * z3 - o2 * M4 + u3 * A4) * C3, t2[9] = (n2 * M4 - r2 * z3 - s3 * A4) * C3, t2[10] = (d3 * _3 - y3 * b5 + g2 * x3) * C3, t2[11] = (h3 * b5 - c2 * _3 - f3 * x3) * C3, t2[12] = (o2 * k2 - a2 * I3 - l2 * A4) * C3, t2[13] = (r2 * I3 - n2 * k2 + i2 * A4) * C3, t2[14] = (y3 * v3 - d3 * w3 - m2 * x3) * C3, t2[15] = (c2 * w3 - h3 * v3 + p2 * x3) * C3, t2) : null;
           }, t.ar = I2, t.as = function(t2) {
             var e2 = t2[0], r2 = t2[1];
             return Math.sqrt(e2 * e2 + r2 * r2);
@@ -10757,7 +11261,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
             return t2[0] = e2[0] * r2, t2[1] = e2[1] * r2, t2[2] = e2[2] * r2, t2[3] = e2[3] * r2, t2;
           }, t.b1 = function(t2, e2) {
             return t2[0] * e2[0] + t2[1] * e2[1] + t2[2] * e2[2] + t2[3];
-          }, t.b2 = zh, t.b3 = Ch, t.b4 = function(t2, e2, r2, n2, i2) {
+          }, t.b2 = zh2, t.b3 = Ch, t.b4 = function(t2, e2, r2, n2, i2) {
             var s3 = 1 / Math.tan(e2 / 2);
             if (t2[0] = s3 / r2, t2[1] = 0, t2[2] = 0, t2[3] = 0, t2[4] = 0, t2[5] = s3, t2[6] = 0, t2[7] = 0, t2[8] = 0, t2[9] = 0, t2[11] = -1, t2[12] = 0, t2[13] = 0, t2[15] = 0, null != i2 && i2 !== 1 / 0) {
               var a2 = 1 / (n2 - i2);
@@ -10954,9 +11458,9 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
             const e2 = new Float64Array(9);
             var r2, n2, i2, s3, a2, o2, l2, u3, c2, h3, p2, f3, d3, y3, m2, g2, x3, v3;
             h3 = (i2 = (n2 = t2)[0]) * (l2 = i2 + i2), p2 = (s3 = n2[1]) * l2, d3 = (a2 = n2[2]) * l2, y3 = a2 * (u3 = s3 + s3), g2 = (o2 = n2[3]) * l2, x3 = o2 * u3, v3 = o2 * (c2 = a2 + a2), (r2 = e2)[0] = 1 - (f3 = s3 * u3) - (m2 = a2 * c2), r2[3] = p2 - v3, r2[6] = d3 + x3, r2[1] = p2 + v3, r2[4] = 1 - h3 - m2, r2[7] = y3 - g2, r2[2] = d3 - x3, r2[5] = y3 + g2, r2[8] = 1 - h3 - f3;
-            const b3 = et2(-Math.asin(D3(e2[2], -1, 1)));
+            const b5 = et2(-Math.asin(D3(e2[2], -1, 1)));
             let w3, _3;
-            return Math.hypot(e2[5], e2[8]) < 1e-3 ? (w3 = 0, _3 = -et2(Math.atan2(e2[3], e2[4]))) : (w3 = et2(0 === e2[5] && 0 === e2[8] ? 0 : Math.atan2(e2[5], e2[8])), _3 = et2(0 === e2[1] && 0 === e2[0] ? 0 : Math.atan2(e2[1], e2[0]))), { roll: w3, pitch: b3 + 90, bearing: _3 };
+            return Math.hypot(e2[5], e2[8]) < 1e-3 ? (w3 = 0, _3 = -et2(Math.atan2(e2[3], e2[4]))) : (w3 = et2(0 === e2[5] && 0 === e2[8] ? 0 : Math.atan2(e2[5], e2[8])), _3 = et2(0 === e2[1] && 0 === e2[0] ? 0 : Math.atan2(e2[1], e2[0]))), { roll: w3, pitch: b5 + 90, bearing: _3 };
           }, t.be = function(t2, e2) {
             return t2.roll == e2.roll && t2.pitch == e2.pitch && t2.bearing == e2.bearing;
           }, t.bf = Me, t.bg = co, t.bh = Ql, t.bi = tu, t.bj = Jl, t.bk = T3, t.bl = B2, t.bm = Le, t.bn = function(t2, e2, r2, n2, i2) {
@@ -10972,8 +11476,8 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
             const n2 = (i2 = [t2[0], t2[1], t2[2], e2[0], e2[1], e2[2], r2[0], r2[1], r2[2]])[0] * ((c2 = i2[8]) * (a2 = i2[4]) - (o2 = i2[5]) * (u3 = i2[7])) + i2[1] * (-c2 * (s3 = i2[3]) + o2 * (l2 = i2[6])) + i2[2] * (u3 * s3 - a2 * l2);
             var i2, s3, a2, o2, l2, u3, c2;
             if (0 === n2) return null;
-            const h3 = w2([], [e2[0], e2[1], e2[2]], [r2[0], r2[1], r2[2]]), p2 = w2([], [r2[0], r2[1], r2[2]], [t2[0], t2[1], t2[2]]), f3 = w2([], [t2[0], t2[1], t2[2]], [e2[0], e2[1], e2[2]]), d3 = b2([], h3, -t2[3]);
-            return v2(d3, d3, b2([], p2, -e2[3])), v2(d3, d3, b2([], f3, -r2[3])), b2(d3, d3, 1 / n2), d3;
+            const h3 = w2([], [e2[0], e2[1], e2[2]], [r2[0], r2[1], r2[2]]), p2 = w2([], [r2[0], r2[1], r2[2]], [t2[0], t2[1], t2[2]]), f3 = w2([], [t2[0], t2[1], t2[2]], [e2[0], e2[1], e2[2]]), d3 = b3([], h3, -t2[3]);
+            return v2(d3, d3, b3([], p2, -e2[3])), v2(d3, d3, b3([], f3, -r2[3])), b3(d3, d3, 1 / n2), d3;
           }, t.bu = mh, t.bv = function() {
             return new Float64Array(4);
           }, t.bw = function(t2, e2, r2, n2) {
@@ -10999,8 +11503,8 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
           }, t.c8 = function(t2, e2) {
             return t2[0] === e2[0] && t2[1] === e2[1] && t2[2] === e2[2] && t2[3] === e2[3] && t2[4] === e2[4] && t2[5] === e2[5] && t2[6] === e2[6] && t2[7] === e2[7] && t2[8] === e2[8] && t2[9] === e2[9] && t2[10] === e2[10] && t2[11] === e2[11] && t2[12] === e2[12] && t2[13] === e2[13] && t2[14] === e2[14] && t2[15] === e2[15];
           }, t.c9 = function(t2, e2) {
-            var r2 = t2[0], n2 = t2[1], i2 = t2[2], s3 = t2[3], a2 = t2[4], o2 = t2[5], l2 = t2[6], u3 = t2[7], c2 = t2[8], h3 = t2[9], f3 = t2[10], d3 = t2[11], y3 = t2[12], m2 = t2[13], g2 = t2[14], x3 = t2[15], v3 = e2[0], b3 = e2[1], w3 = e2[2], _3 = e2[3], S3 = e2[4], A4 = e2[5], k2 = e2[6], M4 = e2[7], I3 = e2[8], z3 = e2[9], P3 = e2[10], C3 = e2[11], E3 = e2[12], T4 = e2[13], B3 = e2[14], V3 = e2[15];
-            return Math.abs(r2 - v3) <= p * Math.max(1, Math.abs(r2), Math.abs(v3)) && Math.abs(n2 - b3) <= p * Math.max(1, Math.abs(n2), Math.abs(b3)) && Math.abs(i2 - w3) <= p * Math.max(1, Math.abs(i2), Math.abs(w3)) && Math.abs(s3 - _3) <= p * Math.max(1, Math.abs(s3), Math.abs(_3)) && Math.abs(a2 - S3) <= p * Math.max(1, Math.abs(a2), Math.abs(S3)) && Math.abs(o2 - A4) <= p * Math.max(1, Math.abs(o2), Math.abs(A4)) && Math.abs(l2 - k2) <= p * Math.max(1, Math.abs(l2), Math.abs(k2)) && Math.abs(u3 - M4) <= p * Math.max(1, Math.abs(u3), Math.abs(M4)) && Math.abs(c2 - I3) <= p * Math.max(1, Math.abs(c2), Math.abs(I3)) && Math.abs(h3 - z3) <= p * Math.max(1, Math.abs(h3), Math.abs(z3)) && Math.abs(f3 - P3) <= p * Math.max(1, Math.abs(f3), Math.abs(P3)) && Math.abs(d3 - C3) <= p * Math.max(1, Math.abs(d3), Math.abs(C3)) && Math.abs(y3 - E3) <= p * Math.max(1, Math.abs(y3), Math.abs(E3)) && Math.abs(m2 - T4) <= p * Math.max(1, Math.abs(m2), Math.abs(T4)) && Math.abs(g2 - B3) <= p * Math.max(1, Math.abs(g2), Math.abs(B3)) && Math.abs(x3 - V3) <= p * Math.max(1, Math.abs(x3), Math.abs(V3));
+            var r2 = t2[0], n2 = t2[1], i2 = t2[2], s3 = t2[3], a2 = t2[4], o2 = t2[5], l2 = t2[6], u3 = t2[7], c2 = t2[8], h3 = t2[9], f3 = t2[10], d3 = t2[11], y3 = t2[12], m2 = t2[13], g2 = t2[14], x3 = t2[15], v3 = e2[0], b5 = e2[1], w3 = e2[2], _3 = e2[3], S3 = e2[4], A4 = e2[5], k2 = e2[6], M4 = e2[7], I3 = e2[8], z3 = e2[9], P3 = e2[10], C3 = e2[11], E3 = e2[12], T4 = e2[13], B3 = e2[14], V3 = e2[15];
+            return Math.abs(r2 - v3) <= p * Math.max(1, Math.abs(r2), Math.abs(v3)) && Math.abs(n2 - b5) <= p * Math.max(1, Math.abs(n2), Math.abs(b5)) && Math.abs(i2 - w3) <= p * Math.max(1, Math.abs(i2), Math.abs(w3)) && Math.abs(s3 - _3) <= p * Math.max(1, Math.abs(s3), Math.abs(_3)) && Math.abs(a2 - S3) <= p * Math.max(1, Math.abs(a2), Math.abs(S3)) && Math.abs(o2 - A4) <= p * Math.max(1, Math.abs(o2), Math.abs(A4)) && Math.abs(l2 - k2) <= p * Math.max(1, Math.abs(l2), Math.abs(k2)) && Math.abs(u3 - M4) <= p * Math.max(1, Math.abs(u3), Math.abs(M4)) && Math.abs(c2 - I3) <= p * Math.max(1, Math.abs(c2), Math.abs(I3)) && Math.abs(h3 - z3) <= p * Math.max(1, Math.abs(h3), Math.abs(z3)) && Math.abs(f3 - P3) <= p * Math.max(1, Math.abs(f3), Math.abs(P3)) && Math.abs(d3 - C3) <= p * Math.max(1, Math.abs(d3), Math.abs(C3)) && Math.abs(y3 - E3) <= p * Math.max(1, Math.abs(y3), Math.abs(E3)) && Math.abs(m2 - T4) <= p * Math.max(1, Math.abs(m2), Math.abs(T4)) && Math.abs(g2 - B3) <= p * Math.max(1, Math.abs(g2), Math.abs(B3)) && Math.abs(x3 - V3) <= p * Math.max(1, Math.abs(x3), Math.abs(V3));
           }, t.cA = function(t2, e2) {
             at.REGISTERED_PROTOCOLS[t2] = e2;
           }, t.cB = function(t2) {
@@ -11038,8 +11542,8 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                   g2 = t2 ? sp(m3, [t2 * tc, ip]) : n2.get("text-offset").evaluate(i3, {}, e2.canonical).map(((t3) => t3 * tc));
                 }
                 let v4 = o2 ? "center" : n2.get("text-justify").evaluate(i3, {}, e2.canonical);
-                const b3 = "point" === n2.get("symbol-placement") ? n2.get("text-max-width").evaluate(i3, {}, e2.canonical) * tc : 1 / 0, w3 = () => {
-                  e2.bucket.allowVerticalPlacement && ys(s4) && (d3.vertical = kc(y3, e2.glyphMap, e2.glyphPositions, e2.imagePositions, c2, b3, a2, m3, "left", f4, g2, t.ao.vertical, true, p2, h3));
+                const b5 = "point" === n2.get("symbol-placement") ? n2.get("text-max-width").evaluate(i3, {}, e2.canonical) * tc : 1 / 0, w3 = () => {
+                  e2.bucket.allowVerticalPlacement && ys(s4) && (d3.vertical = kc(y3, e2.glyphMap, e2.glyphPositions, e2.imagePositions, c2, b5, a2, m3, "left", f4, g2, t.ao.vertical, true, p2, h3));
                 };
                 if (!o2 && x4) {
                   const r3 = /* @__PURE__ */ new Set();
@@ -11048,14 +11552,14 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                   let n3 = false;
                   for (const i4 of r3) if (!d3.horizontal[i4]) if (n3) d3.horizontal[i4] = d3.horizontal[0];
                   else {
-                    const r4 = kc(y3, e2.glyphMap, e2.glyphPositions, e2.imagePositions, c2, b3, a2, "center", i4, f4, g2, t.ao.horizontal, false, p2, h3);
+                    const r4 = kc(y3, e2.glyphMap, e2.glyphPositions, e2.imagePositions, c2, b5, a2, "center", i4, f4, g2, t.ao.horizontal, false, p2, h3);
                     r4 && (d3.horizontal[i4] = r4, n3 = 1 === r4.positionedLines.length);
                   }
                   w3();
                 } else {
                   "auto" === v4 && (v4 = op(m3));
-                  const r3 = kc(y3, e2.glyphMap, e2.glyphPositions, e2.imagePositions, c2, b3, a2, m3, v4, f4, g2, t.ao.horizontal, false, p2, h3);
-                  r3 && (d3.horizontal[v4] = r3), w3(), ys(s4) && o2 && l2 && (d3.vertical = kc(y3, e2.glyphMap, e2.glyphPositions, e2.imagePositions, c2, b3, a2, m3, v4, f4, g2, t.ao.vertical, false, p2, h3));
+                  const r3 = kc(y3, e2.glyphMap, e2.glyphPositions, e2.imagePositions, c2, b5, a2, m3, v4, f4, g2, t.ao.horizontal, false, p2, h3);
+                  r3 && (d3.horizontal[v4] = r3), w3(), ys(s4) && o2 && l2 && (d3.vertical = kc(y3, e2.glyphMap, e2.glyphPositions, e2.imagePositions, c2, b5, a2, m3, v4, f4, g2, t.ao.vertical, false, p2, h3));
                 }
               }
               let x3 = false;
@@ -11267,7 +11771,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                   const e2 = new AbortController();
                   this.inFlightDependencies.push(e2), v3 = r2.sendAsync({ type: "GI", data: { icons: y3, source: this.source, tileID: this.tileID, type: "patterns" } }, e2);
                 }
-                const [w3, x3, b3] = yield Promise.all([g2, m2, v3]), S3 = new i(w3), _3 = new e.cG(x3, b3);
+                const [w3, x3, b5] = yield Promise.all([g2, m2, v3]), S3 = new i(w3), _3 = new e.cG(x3, b5);
                 for (const t3 in u3) {
                   const i2 = u3[t3];
                   i2 instanceof e.a9 ? (s2(i2.layers, this.zoom, n2), e.cH({ bucket: i2, glyphMap: w3, glyphPositions: S3.positions, imageMap: x3, imagePositions: _3.iconPositions, showCollisionBoxes: this.showCollisionBoxes, canonical: this.tileID.canonical, subdivisionGranularity: h3.subdivisionGranularity })) : i2.hasPattern && (i2 instanceof e.cI || i2 instanceof e.cJ || i2 instanceof e.cK) && (s2(i2.layers, this.zoom, n2), i2.addFeatures(h3, this.tileID.canonical, _3.patternPositions));
@@ -11466,7 +11970,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
             const i2 = typeof e2;
             "string" === i2 ? t2.writeStringField(1, e2) : "boolean" === i2 ? t2.writeBooleanField(7, e2) : "number" === i2 && (e2 % 1 != 0 ? t2.writeDoubleField(3, e2) : e2 < 0 ? t2.writeSVarintField(6, e2) : t2.writeVarintField(5, e2));
           }
-          const x2 = { minZoom: 0, maxZoom: 16, minPoints: 2, radius: 40, extent: 512, nodeSize: 64, log: false, generateId: false, reduce: null, map: (e2) => e2 }, b2 = Math.fround || (S2 = new Float32Array(1), (e2) => (S2[0] = +e2, S2[0]));
+          const x2 = { minZoom: 0, maxZoom: 16, minPoints: 2, radius: 40, extent: 512, nodeSize: 64, log: false, generateId: false, reduce: null, map: (e2) => e2 }, b3 = Math.fround || (S2 = new Float32Array(1), (e2) => (S2[0] = +e2, S2[0]));
           var S2;
           class _2 {
             constructor(e2) {
@@ -11481,7 +11985,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               for (let t3 = 0; t3 < e2.length; t3++) {
                 const i3 = e2[t3];
                 if (!i3.geometry) continue;
-                const [o3, s4] = i3.geometry.coordinates, r3 = b2(k(o3)), a2 = b2(P2(s4));
+                const [o3, s4] = i3.geometry.coordinates, r3 = b3(k(o3)), a2 = b3(P2(s4));
                 n2.push(r3, a2, 1 / 0, t3, -1, 1), this.options.reduce && n2.push(0);
               }
               let r2 = this.trees[o2 + 1] = this._createTree(n2);
@@ -11831,16 +12335,16 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
             const i2 = 1 << e2.z, o2 = e2.x, s3 = e2.y;
             for (const n2 of e2.features) {
               const e3 = n2.geometry, r2 = n2.type;
-              if (n2.geometry = [], 1 === r2) for (let r3 = 0; r3 < e3.length; r3 += 2) n2.geometry.push($5(e3[r3], e3[r3 + 1], t2, i2, o2, s3));
+              if (n2.geometry = [], 1 === r2) for (let r3 = 0; r3 < e3.length; r3 += 2) n2.geometry.push($7(e3[r3], e3[r3 + 1], t2, i2, o2, s3));
               else for (let r3 = 0; r3 < e3.length; r3++) {
                 const a2 = [];
-                for (let n3 = 0; n3 < e3[r3].length; n3 += 2) a2.push($5(e3[r3][n3], e3[r3][n3 + 1], t2, i2, o2, s3));
+                for (let n3 = 0; n3 < e3[r3].length; n3 += 2) a2.push($7(e3[r3][n3], e3[r3][n3 + 1], t2, i2, o2, s3));
                 n2.geometry.push(a2);
               }
             }
             return e2.transformed = true, e2;
           }
-          function $5(e2, t2, i2, o2, s3, n2) {
+          function $7(e2, t2, i2, o2, s3, n2) {
             return [Math.round(i2 * (e2 * o2 - s3)), Math.round(i2 * (t2 * o2 - n2))];
           }
           function U3(e2, t2, i2, o2, s3) {
@@ -11927,8 +12431,8 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                 if (d3.source = null, 0 === e2.length) continue;
                 c2 > 1 && console.time("clipping");
                 const f3 = 0.5 * l2.buffer / l2.extent, g2 = 0.5 - f3, p2 = 0.5 + f3, m2 = 1 + f3;
-                let y3 = null, v3 = null, w3 = null, x3 = null, b3 = j2(e2, u3, i2 - f3, i2 + p2, 0, d3.minX, d3.maxX, l2), S3 = j2(e2, u3, i2 + g2, i2 + m2, 0, d3.minX, d3.maxX, l2);
-                e2 = null, b3 && (y3 = j2(b3, u3, o2 - f3, o2 + p2, 1, d3.minY, d3.maxY, l2), v3 = j2(b3, u3, o2 + g2, o2 + m2, 1, d3.minY, d3.maxY, l2), b3 = null), S3 && (w3 = j2(S3, u3, o2 - f3, o2 + p2, 1, d3.minY, d3.maxY, l2), x3 = j2(S3, u3, o2 + g2, o2 + m2, 1, d3.minY, d3.maxY, l2), S3 = null), c2 > 1 && console.timeEnd("clipping"), a2.push(y3 || [], t2 + 1, 2 * i2, 2 * o2), a2.push(v3 || [], t2 + 1, 2 * i2, 2 * o2 + 1), a2.push(w3 || [], t2 + 1, 2 * i2 + 1, 2 * o2), a2.push(x3 || [], t2 + 1, 2 * i2 + 1, 2 * o2 + 1);
+                let y3 = null, v3 = null, w3 = null, x3 = null, b5 = j2(e2, u3, i2 - f3, i2 + p2, 0, d3.minX, d3.maxX, l2), S3 = j2(e2, u3, i2 + g2, i2 + m2, 0, d3.minX, d3.maxX, l2);
+                e2 = null, b5 && (y3 = j2(b5, u3, o2 - f3, o2 + p2, 1, d3.minY, d3.maxY, l2), v3 = j2(b5, u3, o2 + g2, o2 + m2, 1, d3.minY, d3.maxY, l2), b5 = null), S3 && (w3 = j2(S3, u3, o2 - f3, o2 + p2, 1, d3.minY, d3.maxY, l2), x3 = j2(S3, u3, o2 + g2, o2 + m2, 1, d3.minY, d3.maxY, l2), S3 = null), c2 > 1 && console.timeEnd("clipping"), a2.push(y3 || [], t2 + 1, 2 * i2, 2 * o2), a2.push(v3 || [], t2 + 1, 2 * i2, 2 * o2 + 1), a2.push(w3 || [], t2 + 1, 2 * i2 + 1, 2 * o2), a2.push(x3 || [], t2 + 1, 2 * i2 + 1, 2 * o2 + 1);
               }
             }
             getTile(e2, t2, i2) {
@@ -12351,7 +12855,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
             const { userImage: t2 } = e2;
             return !!(t2 && t2.render && t2.render()) && (e2.data.replace(new Uint8Array(t2.data.buffer)), true);
           }
-          class b2 extends t.E {
+          class b3 extends t.E {
             constructor() {
               super(), this.images = {}, this.updatedImages = {}, this.callbackDispatchedThisFrame = {}, this.loaded = false, this.requestors = [], this.patterns = {}, this.atlasImage = new t.R({ width: 1, height: 1 }), this.dirty = true;
             }
@@ -12916,7 +13420,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               return e2.x >= o2 && e2.x < a2 && e2.y >= r2 && e2.y < s3;
             }
           }
-          class $5 extends t.E {
+          class $7 extends t.E {
             constructor(e2, i2, o2, r2) {
               if (super(), this.id = e2, this.dispatcher = o2, this.type = "vector", this.minzoom = 0, this.maxzoom = 22, this.scheme = "xyz", this.tileSize = 512, this.reparseOverscaled = true, this.isTileClipped = true, this._loaded = false, t.e(this, t.Q(i2, ["url", "scheme", "tileSize", "promoteId"])), this._options = t.e({ type: "vector" }, i2), this._collectResourceTiming = i2.collectResourceTiming, 512 !== this.tileSize) throw new Error("vector tile sources must have a tileSize of 512");
               this.setEventedParent(r2);
@@ -13433,7 +13937,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               case "raster-dem":
                 return W;
               case "vector":
-                return $5;
+                return $7;
               case "video":
                 return K;
               case "canvas":
@@ -13791,12 +14295,12 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
           function ve(e2, i2) {
             const o2 = e2.getCameraFrustum(), r2 = e2.getClippingPlane(), a2 = e2.screenPointToMercatorCoordinate(e2.getCameraPoint()), s3 = t.a1.fromLngLat(e2.center, e2.elevation);
             a2.z = s3.z + Math.cos(e2.pitchInRadians) * e2.cameraToCenterDistance / e2.worldSize;
-            const n2 = e2.getCoveringTilesDetailsProvider(), l2 = n2.allowVariableZoom(e2, i2), c2 = ge(e2, i2), h3 = i2.minzoom || 0, u3 = void 0 !== i2.maxzoom ? i2.maxzoom : e2.maxZoom, d3 = Math.min(Math.max(0, c2), u3), _3 = Math.pow(2, d3), p2 = [_3 * a2.x, _3 * a2.y, 0], m2 = [_3 * s3.x, _3 * s3.y, 0], f3 = Math.hypot(s3.x - a2.x, s3.y - a2.y), g2 = Math.abs(s3.z - a2.z), v3 = Math.hypot(f3, g2), b3 = (e3) => ({ zoom: 0, x: 0, y: 0, wrap: e3, fullyVisible: false }), x3 = [], y3 = [];
-            if (e2.renderWorldCopies && n2.allowWorldCopies()) for (let e3 = 1; e3 <= 3; e3++) x3.push(b3(-e3)), x3.push(b3(e3));
-            for (x3.push(b3(0)); x3.length > 0; ) {
-              const _4 = x3.pop(), f4 = _4.x, b4 = _4.y;
+            const n2 = e2.getCoveringTilesDetailsProvider(), l2 = n2.allowVariableZoom(e2, i2), c2 = ge(e2, i2), h3 = i2.minzoom || 0, u3 = void 0 !== i2.maxzoom ? i2.maxzoom : e2.maxZoom, d3 = Math.min(Math.max(0, c2), u3), _3 = Math.pow(2, d3), p2 = [_3 * a2.x, _3 * a2.y, 0], m2 = [_3 * s3.x, _3 * s3.y, 0], f3 = Math.hypot(s3.x - a2.x, s3.y - a2.y), g2 = Math.abs(s3.z - a2.z), v3 = Math.hypot(f3, g2), b5 = (e3) => ({ zoom: 0, x: 0, y: 0, wrap: e3, fullyVisible: false }), x3 = [], y3 = [];
+            if (e2.renderWorldCopies && n2.allowWorldCopies()) for (let e3 = 1; e3 <= 3; e3++) x3.push(b5(-e3)), x3.push(b5(e3));
+            for (x3.push(b5(0)); x3.length > 0; ) {
+              const _4 = x3.pop(), f4 = _4.x, b6 = _4.y;
               let w3 = _4.fullyVisible;
-              const T4 = { x: f4, y: b4, z: _4.zoom }, P3 = n2.getTileBoundingVolume(T4, _4.wrap, e2.elevation, i2);
+              const T4 = { x: f4, y: b6, z: _4.zoom }, P3 = n2.getTileBoundingVolume(T4, _4.wrap, e2.elevation, i2);
               if (!w3) {
                 const e3 = _e(o2, P3, r2);
                 if (0 === e3) continue;
@@ -13808,9 +14312,9 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               const M4 = Math.min(I3, u3);
               if (_4.wrap = n2.getWrap(s3, T4, _4.wrap), _4.zoom >= M4) {
                 if (_4.zoom < h3) continue;
-                const e3 = d3 - _4.zoom, o3 = p2[0] - 0.5 - (f4 << e3), r3 = p2[1] - 0.5 - (b4 << e3), a3 = i2.reparseOverscaled ? Math.max(_4.zoom, I3) : _4.zoom;
-                y3.push({ tileID: new t.Z(_4.zoom === u3 ? a3 : _4.zoom, _4.wrap, _4.zoom, f4, b4), distanceSq: t.al([m2[0] - 0.5 - f4, m2[1] - 0.5 - b4]), tileDistanceToCamera: Math.sqrt(o3 * o3 + r3 * r3) });
-              } else for (let e3 = 0; e3 < 4; e3++) x3.push({ zoom: _4.zoom + 1, x: (f4 << 1) + e3 % 2, y: (b4 << 1) + (e3 >> 1), wrap: _4.wrap, fullyVisible: w3 });
+                const e3 = d3 - _4.zoom, o3 = p2[0] - 0.5 - (f4 << e3), r3 = p2[1] - 0.5 - (b6 << e3), a3 = i2.reparseOverscaled ? Math.max(_4.zoom, I3) : _4.zoom;
+                y3.push({ tileID: new t.Z(_4.zoom === u3 ? a3 : _4.zoom, _4.wrap, _4.zoom, f4, b6), distanceSq: t.al([m2[0] - 0.5 - f4, m2[1] - 0.5 - b6]), tileDistanceToCamera: Math.sqrt(o3 * o3 + r3 * r3) });
+              } else for (let e3 = 0; e3 < 4; e3++) x3.push({ zoom: _4.zoom + 1, x: (f4 << 1) + e3 % 2, y: (b6 << 1) + (e3 >> 1), wrap: _4.wrap, fullyVisible: w3 });
             }
             return y3.sort(((e3, t2) => e3.distanceSq - t2.distanceSq)).map(((e3) => e3.tileID));
           }
@@ -14389,10 +14893,10 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
           function De(e2, i2, o2, r2, a2, s3, n2, l2, c2, h3, u3, d3, _3) {
             const p2 = o2 ? e2.textSizeData : e2.iconSizeData, m2 = t.an(p2, i2.transform.zoom), f3 = [256 / i2.width * 2 + 1, 256 / i2.height * 2 + 1], g2 = o2 ? e2.text.dynamicLayoutVertexArray : e2.icon.dynamicLayoutVertexArray;
             g2.clear();
-            const v3 = e2.lineVertexArray, b3 = o2 ? e2.text.placedSymbolArray : e2.icon.placedSymbolArray, x3 = i2.transform.width / i2.transform.height;
+            const v3 = e2.lineVertexArray, b5 = o2 ? e2.text.placedSymbolArray : e2.icon.placedSymbolArray, x3 = i2.transform.width / i2.transform.height;
             let y3 = false;
-            for (let o3 = 0; o3 < b3.length; o3++) {
-              const w3 = b3.get(o3);
+            for (let o3 = 0; o3 < b5.length; o3++) {
+              const w3 = b5.get(o3);
               if (w3.hidden || w3.writingMode === t.ao.vertical && !y3) {
                 $e(w3.numGlyphs, g2);
                 continue;
@@ -14490,12 +14994,12 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
             o2 && (h3 *= -1, u3 = Math.PI), h3 < 0 && (u3 += Math.PI);
             let d3, _3 = h3 > 0 ? a2 + r2 : a2 + r2 + 1;
             n2.projectionCache.cachedAnchorPoint ? d3 = n2.projectionCache.cachedAnchorPoint : (d3 = Oe(n2.tileAnchorPoint.x, n2.tileAnchorPoint.y, n2).point, n2.projectionCache.cachedAnchorPoint = d3);
-            let p2, m2, f3 = d3, g2 = d3, v3 = 0, b3 = 0;
+            let p2, m2, f3 = d3, g2 = d3, v3 = 0, b5 = 0;
             const x3 = Math.abs(c2), y3 = [];
             let w3;
-            for (; v3 + b3 <= x3; ) {
+            for (; v3 + b5 <= x3; ) {
               if (_3 += h3, _3 < a2 || _3 >= s3) return null;
-              v3 += b3, g2 = f3, m2 = p2;
+              v3 += b5, g2 = f3, m2 = p2;
               const e3 = { absOffsetX: x3, direction: h3, distanceFromAnchor: v3, previousVertex: g2 };
               if (f3 = Be(_3, n2, e3), 0 === i2) y3.push(g2), w3 = f3.sub(g2);
               else {
@@ -14503,9 +15007,9 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                 const o3 = f3.sub(g2);
                 t3 = 0 === o3.mag() ? Ue(Be(_3 + h3, n2, e3).sub(f3), i2, h3) : Ue(o3, i2, h3), m2 || (m2 = g2.add(t3)), p2 = Ze(_3, t3, f3, a2, s3, m2, i2, n2, e3), y3.push(m2), w3 = p2.sub(m2);
               }
-              b3 = w3.mag();
+              b5 = w3.mag();
             }
-            const T4 = w3._mult((x3 - v3) / b3)._add(m2 || g2), P3 = u3 + Math.atan2(f3.y - g2.y, f3.x - g2.x);
+            const T4 = w3._mult((x3 - v3) / b5)._add(m2 || g2), P3 = u3 + Math.atan2(f3.y - g2.y, f3.x - g2.x);
             return y3.push(T4), { point: T4, angle: l2 ? P3 : 0, path: y3 };
           }
           const Ve = new Float32Array([-1 / 0, -1 / 0, 0, -1 / 0, -1 / 0, 0, -1 / 0, -1 / 0, 0, -1 / 0, -1 / 0, 0]);
@@ -14532,12 +15036,12 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                 const t3 = d3.x + (h3 ? h3.x * _3 : 0), i3 = d3.y + (h3 ? h3.y * _3 : 0);
                 p2 = { allPointsOccluded: false, box: [t3 + e2.x1 * _3, i3 + e2.y1 * _3, t3 + e2.x2 * _3, i3 + e2.y2 * _3] };
               }
-              const [m2, f3, g2, v3] = p2.box, b3 = a2 ? p2.allPointsOccluded : d3.isOccluded;
-              let x3 = b3;
-              return x3 || (x3 = d3.perspectiveRatio < this.perspectiveRatioCutoff), x3 || (x3 = !this.isInsideGrid(m2, f3, g2, v3)), x3 || "always" !== t2 && this.grid.hitTest(m2, f3, g2, v3, t2, l2) ? { box: [m2, f3, g2, v3], placeable: false, offscreen: false, occluded: b3 } : { box: [m2, f3, g2, v3], placeable: true, offscreen: this.isOffscreen(m2, f3, g2, v3), occluded: b3 };
+              const [m2, f3, g2, v3] = p2.box, b5 = a2 ? p2.allPointsOccluded : d3.isOccluded;
+              let x3 = b5;
+              return x3 || (x3 = d3.perspectiveRatio < this.perspectiveRatioCutoff), x3 || (x3 = !this.isInsideGrid(m2, f3, g2, v3)), x3 || "always" !== t2 && this.grid.hitTest(m2, f3, g2, v3, t2, l2) ? { box: [m2, f3, g2, v3], placeable: false, offscreen: false, occluded: b5 } : { box: [m2, f3, g2, v3], placeable: true, offscreen: this.isOffscreen(m2, f3, g2, v3), occluded: b5 };
             }
             placeCollisionCircles(e2, i2, o2, r2, a2, s3, n2, l2, c2, h3, u3, d3, _3, p2) {
-              const m2 = [], f3 = new t.P(i2.anchorX, i2.anchorY), g2 = this.getPerspectiveRatio(f3.x, f3.y, s3, p2), v3 = (c2 ? a2 * this.transform.getPitchedTextCorrection(i2.anchorX, i2.anchorY, s3) / g2 : a2 * g2) / t.aB, b3 = { getElevation: p2, pitchedLabelPlaneMatrix: n2, lineVertexArray: o2, pitchWithMap: c2, projectionCache: { projections: {}, offsets: {}, cachedAnchorPoint: void 0, anyProjectionOccluded: false }, transform: this.transform, tileAnchorPoint: f3, unwrappedTileID: s3, width: this.transform.width, height: this.transform.height, translation: _3 }, x3 = Ae(v3, r2, i2.lineOffsetX * v3, i2.lineOffsetY * v3, false, i2, false, b3);
+              const m2 = [], f3 = new t.P(i2.anchorX, i2.anchorY), g2 = this.getPerspectiveRatio(f3.x, f3.y, s3, p2), v3 = (c2 ? a2 * this.transform.getPitchedTextCorrection(i2.anchorX, i2.anchorY, s3) / g2 : a2 * g2) / t.aB, b5 = { getElevation: p2, pitchedLabelPlaneMatrix: n2, lineVertexArray: o2, pitchWithMap: c2, projectionCache: { projections: {}, offsets: {}, cachedAnchorPoint: void 0, anyProjectionOccluded: false }, transform: this.transform, tileAnchorPoint: f3, unwrappedTileID: s3, width: this.transform.width, height: this.transform.height, translation: _3 }, x3 = Ae(v3, r2, i2.lineOffsetX * v3, i2.lineOffsetY * v3, false, i2, false, b5);
               let y3 = false, w3 = false, T4 = true;
               if (x3) {
                 const i3 = 0.5 * u3 * g2 + d3, o3 = new t.P(-100, -100), r3 = new t.P(this.screenRightBoundary, this.screenBottomBoundary), a3 = new Te(), s4 = x3.first, n3 = x3.last;
@@ -14546,7 +15050,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                 for (let e3 = 1; e3 < n3.path.length; e3++) _4.push(n3.path[e3]);
                 const p3 = 2.5 * i3;
                 if (c2) {
-                  const e3 = this.projectPathToScreenSpace(_4, b3);
+                  const e3 = this.projectPathToScreenSpace(_4, b5);
                   _4 = e3.some(((e4) => e4.signedDistanceFromCamera <= 0)) ? [] : e3.map(((e4) => e4.point));
                 }
                 let f4 = [];
@@ -14642,11 +15146,11 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                 const e3 = Se(this.transform);
                 d3 = e3.vecEast[0], _3 = e3.vecEast[1], p2 = e3.vecSouth[0], m2 = e3.vecSouth[1];
               }
-              let v3 = l2.x, b3 = l2.y, x3 = i2;
-              a2 && (v3 = f3, b3 = g2, x3 = Math.pow(2, -(this.transform.zoom - o2.overscaledZ)), x3 *= this.transform.getPitchedTextCorrection(f3, g2, r2), h3 || (x3 *= t.ah(0.5 + l2.signedDistanceFromCamera / this.transform.cameraToCenterDistance * 0.5, 0, 4))), h3 && (v3 += d3 * h3.x * x3 + p2 * h3.y * x3, b3 += _3 * h3.x * x3 + m2 * h3.y * x3);
+              let v3 = l2.x, b5 = l2.y, x3 = i2;
+              a2 && (v3 = f3, b5 = g2, x3 = Math.pow(2, -(this.transform.zoom - o2.overscaledZ)), x3 *= this.transform.getPitchedTextCorrection(f3, g2, r2), h3 || (x3 *= t.ah(0.5 + l2.signedDistanceFromCamera / this.transform.cameraToCenterDistance * 0.5, 0, 4))), h3 && (v3 += d3 * h3.x * x3 + p2 * h3.y * x3, b5 += _3 * h3.x * x3 + m2 * h3.y * x3);
               const y3 = e2.x1 * x3, w3 = e2.x2 * x3, T4 = (y3 + w3) / 2, P3 = e2.y1 * x3, C3 = e2.y2 * x3, I3 = (P3 + C3) / 2, M4 = [{ offsetX: y3, offsetY: P3 }, { offsetX: T4, offsetY: P3 }, { offsetX: w3, offsetY: P3 }, { offsetX: w3, offsetY: I3 }, { offsetX: w3, offsetY: C3 }, { offsetX: T4, offsetY: C3 }, { offsetX: y3, offsetY: C3 }, { offsetX: y3, offsetY: I3 }];
               let S3 = [];
-              for (const { offsetX: e3, offsetY: i3 } of M4) S3.push(new t.P(v3 + d3 * e3 + p2 * i3, b3 + _3 * e3 + m2 * i3));
+              for (const { offsetX: e3, offsetY: i3 } of M4) S3.push(new t.P(v3 + d3 * e3 + p2 * i3, b5 + _3 * e3 + m2 * i3));
               let E3 = false;
               if (a2) {
                 const e3 = S3.map(((e4) => this.projectAndGetPerspectiveRatio(e4.x, e4.y, r2, c2, u3)));
@@ -14718,16 +15222,16 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
               }
               else e2.push({ symbolInstanceStart: 0, symbolInstanceEnd: a2.symbolInstances.length, parameters: v3 });
             }
-            attemptAnchorPlacement(e2, i2, o2, r2, a2, s3, n2, l2, c2, h3, u3, d3, _3, p2, m2, f3, g2, v3, b3, x3) {
-              const y3 = t.aE[e2.textAnchor], w3 = [e2.textOffset0, e2.textOffset1], T4 = et2(y3, o2, r2, w3, a2), P3 = this.collisionIndex.placeCollisionBox(i2, d3, l2, c2, h3, n2, s3, f3, u3.predicate, b3, T4, x3);
-              if ((!v3 || this.collisionIndex.placeCollisionBox(v3, d3, l2, c2, h3, n2, s3, g2, u3.predicate, b3, T4, x3).placeable) && P3.placeable) {
+            attemptAnchorPlacement(e2, i2, o2, r2, a2, s3, n2, l2, c2, h3, u3, d3, _3, p2, m2, f3, g2, v3, b5, x3) {
+              const y3 = t.aE[e2.textAnchor], w3 = [e2.textOffset0, e2.textOffset1], T4 = et2(y3, o2, r2, w3, a2), P3 = this.collisionIndex.placeCollisionBox(i2, d3, l2, c2, h3, n2, s3, f3, u3.predicate, b5, T4, x3);
+              if ((!v3 || this.collisionIndex.placeCollisionBox(v3, d3, l2, c2, h3, n2, s3, g2, u3.predicate, b5, T4, x3).placeable) && P3.placeable) {
                 let e3;
                 if (this.prevPlacement && this.prevPlacement.variableOffsets[_3.crossTileID] && this.prevPlacement.placements[_3.crossTileID] && this.prevPlacement.placements[_3.crossTileID].text && (e3 = this.prevPlacement.variableOffsets[_3.crossTileID].anchor), 0 === _3.crossTileID) throw new Error("symbolInstance.crossTileID can't be 0");
                 return this.variableOffsets[_3.crossTileID] = { textOffset: w3, width: o2, height: r2, anchor: y3, textBoxScale: a2, prevAnchor: e3 }, this.markUsedJustification(p2, y3, _3, m2), p2.allowVerticalPlacement && (this.markUsedOrientation(p2, m2, _3), this.placedOrientations[_3.crossTileID] = m2), { shift: T4, placedGlyphBoxes: P3 };
               }
             }
             placeLayerBucketPart(e2, i2, o2) {
-              const { bucket: r2, layout: a2, translationText: s3, translationIcon: n2, unwrappedTileID: l2, pitchedLabelPlaneMatrix: c2, textPixelRatio: h3, holdingForFade: u3, collisionBoxArray: d3, partiallyEvaluatedTextSize: _3, collisionGroup: p2 } = e2.parameters, m2 = a2.get("text-optional"), f3 = a2.get("icon-optional"), g2 = t.aF(a2, "text-overlap", "text-allow-overlap"), v3 = "always" === g2, b3 = t.aF(a2, "icon-overlap", "icon-allow-overlap"), x3 = "always" === b3, y3 = "map" === a2.get("text-rotation-alignment"), w3 = "map" === a2.get("text-pitch-alignment"), T4 = "none" !== a2.get("icon-text-fit"), P3 = "viewport-y" === a2.get("symbol-z-order"), C3 = v3 && (x3 || !r2.hasIconData() || f3), I3 = x3 && (v3 || !r2.hasTextData() || m2);
+              const { bucket: r2, layout: a2, translationText: s3, translationIcon: n2, unwrappedTileID: l2, pitchedLabelPlaneMatrix: c2, textPixelRatio: h3, holdingForFade: u3, collisionBoxArray: d3, partiallyEvaluatedTextSize: _3, collisionGroup: p2 } = e2.parameters, m2 = a2.get("text-optional"), f3 = a2.get("icon-optional"), g2 = t.aF(a2, "text-overlap", "text-allow-overlap"), v3 = "always" === g2, b5 = t.aF(a2, "icon-overlap", "icon-allow-overlap"), x3 = "always" === b5, y3 = "map" === a2.get("text-rotation-alignment"), w3 = "map" === a2.get("text-pitch-alignment"), T4 = "none" !== a2.get("icon-text-fit"), P3 = "viewport-y" === a2.get("symbol-z-order"), C3 = v3 && (x3 || !r2.hasIconData() || f3), I3 = x3 && (v3 || !r2.hasTextData() || m2);
               !r2.collisionArrays && d3 && r2.deserializeCollisionBoxes(d3);
               const M4 = this.retainedQueryData[r2.bucketInstanceId].tileID, S3 = this._getTerrainElevationFunc(M4), E3 = this.transform.getFastPathSimpleProjectionMatrix(M4), R4 = (e3, d4, x4) => {
                 var P4, R5;
@@ -14761,7 +15265,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                   } else {
                     let _4 = t.aE[null === (R5 = null === (P4 = this.prevPlacement) || void 0 === P4 ? void 0 : P4.variableOffsets[e3.crossTileID]) || void 0 === R5 ? void 0 : R5.anchor];
                     const m3 = (t2, i4, a4) => {
-                      const d5 = t2.x2 - t2.x1, m4 = t2.y2 - t2.y1, f5 = e3.textBoxScale, v4 = T4 && "never" === b3 ? i4 : null;
+                      const d5 = t2.x2 - t2.x1, m4 = t2.y2 - t2.y1, f5 = e3.textBoxScale, v4 = T4 && "never" === b5 ? i4 : null;
                       let x5 = null, P5 = "never" === g2 ? 1 : 2, C4 = "never";
                       _4 && P5++;
                       for (let i5 = 0; i5 < P5; i5++) {
@@ -14791,13 +15295,13 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                   O3 = this.collisionIndex.placeCollisionCircles(g2, i3, r2.lineVertexArray, r2.glyphOffsetArray, n3, l2, c2, o2, w3, p2.predicate, e3.collisionCircleDiameter, h4, s3, S3), O3.circles.length && O3.collisionDetected && !o2 && t.w("Collisions detected, but collision boxes are not shown"), z3 = v3 || O3.circles.length > 0 && !O3.collisionDetected, A4 = A4 && O3.offscreen;
                 }
                 if (d4.iconFeatureIndex && (Z3 = d4.iconFeatureIndex), d4.iconBox) {
-                  const e4 = (e5) => this.collisionIndex.placeCollisionBox(e5, b3, h3, M4, l2, w3, y3, n2, p2.predicate, S3, T4 && L3 ? L3 : void 0, E3);
+                  const e4 = (e5) => this.collisionIndex.placeCollisionBox(e5, b5, h3, M4, l2, w3, y3, n2, p2.predicate, S3, T4 && L3 ? L3 : void 0, E3);
                   F3 && F3.placeable && d4.verticalIconBox ? (j3 = e4(d4.verticalIconBox), D4 = j3.placeable) : (j3 = e4(d4.iconBox), D4 = j3.placeable), A4 = A4 && j3.offscreen;
                 }
-                const V3 = m2 || 0 === e3.numHorizontalGlyphVertices && 0 === e3.numVerticalGlyphVertices, $6 = f3 || 0 === e3.numIconVertices;
-                V3 || $6 ? $6 ? V3 || (D4 = D4 && z3) : z3 = D4 && z3 : D4 = z3 = D4 && z3;
+                const V3 = m2 || 0 === e3.numHorizontalGlyphVertices && 0 === e3.numVerticalGlyphVertices, $8 = f3 || 0 === e3.numIconVertices;
+                V3 || $8 ? $8 ? V3 || (D4 = D4 && z3) : z3 = D4 && z3 : D4 = z3 = D4 && z3;
                 const q3 = D4 && j3.placeable;
-                if (z3 && B3.placeable && this.collisionIndex.insertCollisionBox(B3.box, g2, a2.get("text-ignore-placement"), r2.bucketInstanceId, F3 && F3.placeable && U4 ? U4 : N3, p2.ID), q3 && this.collisionIndex.insertCollisionBox(j3.box, b3, a2.get("icon-ignore-placement"), r2.bucketInstanceId, Z3, p2.ID), O3 && z3 && this.collisionIndex.insertCollisionCircles(O3.circles, g2, a2.get("text-ignore-placement"), r2.bucketInstanceId, N3, p2.ID), o2 && this.storeCollisionData(r2.bucketInstanceId, x4, d4, B3, j3, O3), 0 === e3.crossTileID) throw new Error("symbolInstance.crossTileID can't be 0");
+                if (z3 && B3.placeable && this.collisionIndex.insertCollisionBox(B3.box, g2, a2.get("text-ignore-placement"), r2.bucketInstanceId, F3 && F3.placeable && U4 ? U4 : N3, p2.ID), q3 && this.collisionIndex.insertCollisionBox(j3.box, b5, a2.get("icon-ignore-placement"), r2.bucketInstanceId, Z3, p2.ID), O3 && z3 && this.collisionIndex.insertCollisionCircles(O3.circles, g2, a2.get("text-ignore-placement"), r2.bucketInstanceId, N3, p2.ID), o2 && this.storeCollisionData(r2.bucketInstanceId, x4, d4, B3, j3, O3), 0 === e3.crossTileID) throw new Error("symbolInstance.crossTileID can't be 0");
                 if (0 === r2.bucketInstanceId) throw new Error("bucket.bucketInstanceId can't be 0");
                 this.placements[e3.crossTileID] = new Ye((z3 || C3) && !(null == B3 ? void 0 : B3.occluded), (D4 || I3) && !(null == j3 ? void 0 : j3.occluded), A4 || r2.justReloaded), i2[e3.crossTileID] = true;
               };
@@ -14874,13 +15378,13 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                 const r3 = e2.symbolInstances.get(i3), { numHorizontalGlyphVertices: a3, numVerticalGlyphVertices: s4, crossTileID: l3 } = r3;
                 let c3 = this.opacities[l3];
                 o2[l3] ? c3 = n2 : c3 || (c3 = p2, this.opacities[l3] = c3), o2[l3] = true;
-                const g2 = r3.numIconVertices > 0, v3 = this.placedOrientations[r3.crossTileID], b3 = v3 === t.ao.vertical, x3 = v3 === t.ao.horizontal || v3 === t.ao.horizontalOnly;
+                const g2 = r3.numIconVertices > 0, v3 = this.placedOrientations[r3.crossTileID], b5 = v3 === t.ao.vertical, x3 = v3 === t.ao.horizontal || v3 === t.ao.horizontalOnly;
                 if (a3 > 0 || s4 > 0) {
                   const t2 = ht(c3.text);
-                  m2(e2.text, a3, b3 ? ut : t2), m2(e2.text, s4, x3 ? ut : t2);
+                  m2(e2.text, a3, b5 ? ut : t2), m2(e2.text, s4, x3 ? ut : t2);
                   const i4 = c3.text.isHidden();
                   [r3.rightJustifiedTextSymbolIndex, r3.centerJustifiedTextSymbolIndex, r3.leftJustifiedTextSymbolIndex].forEach(((t3) => {
-                    t3 >= 0 && (e2.text.placedSymbolArray.get(t3).hidden = i4 || b3 ? 1 : 0);
+                    t3 >= 0 && (e2.text.placedSymbolArray.get(t3).hidden = i4 || b5 ? 1 : 0);
                   })), r3.verticalPlacedTextSymbolIndex >= 0 && (e2.text.placedSymbolArray.get(r3.verticalPlacedTextSymbolIndex).hidden = i4 || x3 ? 1 : 0);
                   const o3 = this.variableOffsets[r3.crossTileID];
                   o3 && this.markUsedJustification(e2, o3.anchor, r3, v3);
@@ -14888,7 +15392,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                   n3 && (this.markUsedJustification(e2, "left", r3, n3), this.markUsedOrientation(e2, n3, r3));
                 }
                 if (g2) {
-                  const t2 = ht(c3.icon), i4 = !(_3 && r3.verticalPlacedIconSymbolIndex && b3);
+                  const t2 = ht(c3.icon), i4 = !(_3 && r3.verticalPlacedIconSymbolIndex && b5);
                   r3.placedIconSymbolIndex >= 0 && (m2(e2.icon, r3.numIconVertices, i4 ? t2 : ut), e2.icon.placedSymbolArray.get(r3.placedIconSymbolIndex).hidden = c3.icon.isHidden()), r3.verticalPlacedIconSymbolIndex >= 0 && (m2(e2.icon, r3.numVerticalIconVertices, i4 ? ut : t2), e2.icon.placedSymbolArray.get(r3.verticalPlacedIconSymbolIndex).hidden = c3.icon.isHidden());
                 }
                 const y3 = f3 && f3.has(i3) ? f3.get(i3) : { text: null, icon: null };
@@ -14904,7 +15408,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
                       }
                       if (o3.textBox || o3.verticalTextBox) {
                         let r4;
-                        o3.textBox && (r4 = b3), o3.verticalTextBox && (r4 = x3), it(e2.textCollisionBox.collisionVertexArray, c3.text.placed, !t2 || r4, y3.text, i4.x, i4.y);
+                        o3.textBox && (r4 = b5), o3.verticalTextBox && (r4 = x3), it(e2.textCollisionBox.collisionVertexArray, c3.text.placed, !t2 || r4, y3.text, i4.x, i4.y);
                       }
                     }
                     if (o3.iconBox || o3.verticalIconBox) {
@@ -16064,9 +16568,9 @@ uniform ${i3} ${o3} u_${r3};
             else e2.tr.setRoll(t.C.number(e2.startEulerAngles.roll, e2.endEulerAngles.roll, e2.k)), e2.tr.setPitch(t.C.number(e2.startEulerAngles.pitch, e2.endEulerAngles.pitch, e2.k)), e2.tr.setBearing(t.C.number(e2.startEulerAngles.bearing, e2.endEulerAngles.bearing, e2.k));
           }
           function Bt(e2, i2, o2, r2, a2) {
-            const s3 = a2.padding, n2 = le(a2.worldSize, o2.getNorthWest()), l2 = le(a2.worldSize, o2.getNorthEast()), c2 = le(a2.worldSize, o2.getSouthEast()), h3 = le(a2.worldSize, o2.getSouthWest()), u3 = t.ae(-r2), d3 = n2.rotate(u3), _3 = l2.rotate(u3), p2 = c2.rotate(u3), m2 = h3.rotate(u3), f3 = new t.P(Math.max(d3.x, _3.x, m2.x, p2.x), Math.max(d3.y, _3.y, m2.y, p2.y)), g2 = new t.P(Math.min(d3.x, _3.x, m2.x, p2.x), Math.min(d3.y, _3.y, m2.y, p2.y)), v3 = f3.sub(g2), b3 = (a2.width - (s3.left + s3.right + i2.left + i2.right)) / v3.x, x3 = (a2.height - (s3.top + s3.bottom + i2.top + i2.bottom)) / v3.y;
-            if (x3 < 0 || b3 < 0) return void kt();
-            const y3 = Math.min(t.ak(a2.scale * Math.min(b3, x3)), e2.maxZoom), w3 = t.P.convert(e2.offset), T4 = new t.P((i2.left - i2.right) / 2, (i2.top - i2.bottom) / 2).rotate(t.ae(r2)), P3 = w3.add(T4).mult(a2.scale / t.af(y3));
+            const s3 = a2.padding, n2 = le(a2.worldSize, o2.getNorthWest()), l2 = le(a2.worldSize, o2.getNorthEast()), c2 = le(a2.worldSize, o2.getSouthEast()), h3 = le(a2.worldSize, o2.getSouthWest()), u3 = t.ae(-r2), d3 = n2.rotate(u3), _3 = l2.rotate(u3), p2 = c2.rotate(u3), m2 = h3.rotate(u3), f3 = new t.P(Math.max(d3.x, _3.x, m2.x, p2.x), Math.max(d3.y, _3.y, m2.y, p2.y)), g2 = new t.P(Math.min(d3.x, _3.x, m2.x, p2.x), Math.min(d3.y, _3.y, m2.y, p2.y)), v3 = f3.sub(g2), b5 = (a2.width - (s3.left + s3.right + i2.left + i2.right)) / v3.x, x3 = (a2.height - (s3.top + s3.bottom + i2.top + i2.bottom)) / v3.y;
+            if (x3 < 0 || b5 < 0) return void kt();
+            const y3 = Math.min(t.ak(a2.scale * Math.min(b5, x3)), e2.maxZoom), w3 = t.P.convert(e2.offset), T4 = new t.P((i2.left - i2.right) / 2, (i2.top - i2.bottom) / 2).rotate(t.ae(r2)), P3 = w3.add(T4).mult(a2.scale / t.af(y3));
             return { center: ce(a2.worldSize, n2.add(c2).div(2).sub(P3)), zoom: y3, bearing: r2 };
           }
           class Ot {
@@ -16219,10 +16723,10 @@ uniform ${i3} ${o3} u_${r3};
               -1 === i3 && (s4 = e2.extendToNorthPole ? t.bh : -Ht), i3 === o2 + 1 && (s4 = e2.extendToSouthPole ? t.bi : t.$ + Ht), f3[g2++] = a3, f3[g2++] = s4;
             }
             const v3 = m2 ? new Uint32Array(_3) : new Uint16Array(_3);
-            let b3 = 0;
+            let b5 = 0;
             for (let e3 = 0; e3 < a2; e3++) for (let t2 = 0; t2 < r2; t2++) {
               const i3 = t2 + 1 + e3 * s3, o3 = t2 + (e3 + 1) * s3, r3 = t2 + 1 + (e3 + 1) * s3;
-              v3[b3++] = t2 + e3 * s3, v3[b3++] = o3, v3[b3++] = i3, v3[b3++] = i3, v3[b3++] = o3, v3[b3++] = r3;
+              v3[b5++] = t2 + e3 * s3, v3[b5++] = o3, v3[b5++] = i3, v3[b5++] = i3, v3[b5++] = o3, v3[b5++] = r3;
             }
             return { vertices: f3.buffer.slice(0), indices: v3.buffer.slice(0), uses32bitIndices: m2 };
           }
@@ -16552,8 +17056,8 @@ uniform ${i3} ${o3} u_${r3};
                 t.aV(u3, u3);
                 const d3 = t.aW([], i3[0], i3[3]);
                 t.aV(d3, d3), o3.push(t.aR([], s4, l2)), e2.y >= (1 << e2.z) / 2 && o3.push(t.aR([], ti(t.$ / 2, 0, e2.x, e2.y, e2.z), l2)), e2.y < (1 << e2.z) / 2 && o3.push(t.aR([], ti(t.$ / 2, t.$, e2.x, e2.y, e2.z), l2));
-                const _3 = mi(s4, o3), p2 = mi(h3, o3), m2 = [-s4[0], -s4[1], -s4[2], _3.max], f3 = [s4[0], s4[1], s4[2], -_3.min], g2 = [-h3[0], -h3[1], -h3[2], p2.max], v3 = [h3[0], h3[1], h3[2], -p2.min], b3 = [...u3, 0], x3 = [...d3, 0], y3 = [];
-                return 0 === e2.y ? y3.push(t.bt(x3, b3, m2), t.bt(x3, b3, f3)) : y3.push(t.bt(g2, b3, m2), t.bt(g2, b3, f3), t.bt(g2, x3, m2), t.bt(g2, x3, f3)), e2.y === (1 << e2.z) - 1 ? y3.push(t.bt(x3, b3, m2), t.bt(x3, b3, f3)) : y3.push(t.bt(v3, b3, m2), t.bt(v3, b3, f3), t.bt(v3, x3, m2), t.bt(v3, x3, f3)), new ui3(y3, [m2, f3, g2, v3, b3, x3], r3, a3);
+                const _3 = mi(s4, o3), p2 = mi(h3, o3), m2 = [-s4[0], -s4[1], -s4[2], _3.max], f3 = [s4[0], s4[1], s4[2], -_3.min], g2 = [-h3[0], -h3[1], -h3[2], p2.max], v3 = [h3[0], h3[1], h3[2], -p2.min], b5 = [...u3, 0], x3 = [...d3, 0], y3 = [];
+                return 0 === e2.y ? y3.push(t.bt(x3, b5, m2), t.bt(x3, b5, f3)) : y3.push(t.bt(g2, b5, m2), t.bt(g2, b5, f3), t.bt(g2, x3, m2), t.bt(g2, x3, f3)), e2.y === (1 << e2.z) - 1 ? y3.push(t.bt(x3, b5, m2), t.bt(x3, b5, f3)) : y3.push(t.bt(v3, b5, m2), t.bt(v3, b5, f3), t.bt(v3, x3, m2), t.bt(v3, x3, f3)), new ui3(y3, [m2, f3, g2, v3, b5, x3], r3, a3);
               }
             }
           }
@@ -16903,14 +17407,14 @@ uniform ${i3} ${o3} u_${r3};
               t.by(_3, r2, a2, -u3);
               const p2 = t.bC(_3[1], _3[2], s3[1], s3[2]), m2 = t.bp();
               t.by(m2, r2, a2, -d3);
-              const f3 = t.bC(m2[1], m2[2], s3[1], s3[2]), g2 = 0.5 * Math.PI, v3 = p2 >= -g2 && p2 <= g2, b3 = f3 >= -g2 && f3 <= g2;
+              const f3 = t.bC(m2[1], m2[2], s3[1], s3[2]), g2 = 0.5 * Math.PI, v3 = p2 >= -g2 && p2 <= g2, b5 = f3 >= -g2 && f3 <= g2;
               let x3, y3;
-              if (v3 && b3) {
+              if (v3 && b5) {
                 const e3 = this.center.lng * Math.PI / 180, i3 = this.center.lat * Math.PI / 180;
                 t.bD(u3, e3) + t.bD(p2, i3) < t.bD(d3, e3) + t.bD(f3, i3) ? (x3 = u3, y3 = p2) : (x3 = d3, y3 = f3);
               } else if (v3) x3 = u3, y3 = p2;
               else {
-                if (!b3) return;
+                if (!b5) return;
                 x3 = d3, y3 = f3;
               }
               const w3 = x3 / Math.PI * 180, T4 = y3 / Math.PI * 180, P3 = this.center.lat;
@@ -17343,10 +17847,10 @@ uniform ${i3} ${o3} u_${r3};
               if (0 === s3) return;
               const n2 = t.bA(i2.center.lng, r2.lng), l2 = n2 / (Math.abs(n2 / 180) + 1), c2 = t.bA(i2.center.lat, r2.lat), h3 = i2.getRayDirectionFromPixel(o2), u3 = i2.cameraPosition, d3 = -1 * t.aX(u3, h3), _3 = t.bp();
               t.aS(_3, u3, [h3[0] * d3, h3[1] * d3, h3[2] * d3]);
-              const p2 = t.aZ(_3) - 1, m2 = Math.exp(0.5 * -Math.max(p2 - 0.3, 0)), f3 = oi(i2.worldSize, i2.center.lat) / Math.min(i2.width, i2.height), g2 = t.bn(f3, 0.9, 0.5, 1, 0.25), v3 = (1 - t.af(-s3)) * Math.min(m2, g2), b3 = i2.center.lat, x3 = i2.zoom, y3 = new t.S(i2.center.lng + l2 * v3, t.ah(i2.center.lat + c2 * v3, -t.ai, t.ai));
+              const p2 = t.aZ(_3) - 1, m2 = Math.exp(0.5 * -Math.max(p2 - 0.3, 0)), f3 = oi(i2.worldSize, i2.center.lat) / Math.min(i2.width, i2.height), g2 = t.bn(f3, 0.9, 0.5, 1, 0.25), v3 = (1 - t.af(-s3)) * Math.min(m2, g2), b5 = i2.center.lat, x3 = i2.zoom, y3 = new t.S(i2.center.lng + l2 * v3, t.ah(i2.center.lat + c2 * v3, -t.ai, t.ai));
               i2.setLocationAtPoint(r2, o2);
               const w3 = i2.center, T4 = t.bn(Math.abs(n2), 45, 85, 0, 1), P3 = t.bn(f3, 0.75, 0.35, 0, 1), C3 = Math.pow(Math.max(T4, P3), 0.25), I3 = t.bA(w3.lng, y3.lng), M4 = t.bA(w3.lat, y3.lat);
-              i2.setCenter(new t.S(w3.lng + I3 * C3, w3.lat + M4 * C3).wrap()), i2.setZoom(x3 + si(b3, i2.center.lat));
+              i2.setCenter(new t.S(w3.lng + I3 * C3, w3.lat + M4 * C3).wrap()), i2.setZoom(x3 + si(b5, i2.center.lat));
             }
             handleMapControlsPan(e2, t2, i2) {
               if (!e2.panDelta) return;
@@ -17356,9 +17860,9 @@ uniform ${i3} ${o3} u_${r3};
             cameraForBoxAndBearing(e2, i2, o2, r2, a2) {
               const s3 = Bt(e2, i2, o2, r2, a2), n2 = i2.left / a2.width * 2 - 1, l2 = (a2.width - i2.right) / a2.width * 2 - 1, c2 = i2.top / a2.height * -2 + 1, h3 = (a2.height - i2.bottom) / a2.height * -2 + 1, u3 = t.bA(o2.getWest(), o2.getEast()) < 0, d3 = u3 ? o2.getEast() : o2.getWest(), _3 = u3 ? o2.getWest() : o2.getEast(), p2 = Math.max(o2.getNorth(), o2.getSouth()), m2 = Math.min(o2.getNorth(), o2.getSouth()), f3 = d3 + 0.5 * t.bA(d3, _3), g2 = p2 + 0.5 * t.bA(p2, m2), v3 = a2.clone();
               v3.setCenter(s3.center), v3.setBearing(s3.bearing), v3.setPitch(0), v3.setRoll(0), v3.setZoom(s3.zoom);
-              const b3 = v3.modelViewProjectionMatrix, x3 = [ii(o2.getNorthWest()), ii(o2.getNorthEast()), ii(o2.getSouthWest()), ii(o2.getSouthEast()), ii(new t.S(_3, g2)), ii(new t.S(d3, g2)), ii(new t.S(f3, p2)), ii(new t.S(f3, m2))], y3 = ii(s3.center);
+              const b5 = v3.modelViewProjectionMatrix, x3 = [ii(o2.getNorthWest()), ii(o2.getNorthEast()), ii(o2.getSouthWest()), ii(o2.getSouthEast()), ii(new t.S(_3, g2)), ii(new t.S(d3, g2)), ii(new t.S(f3, p2)), ii(new t.S(f3, m2))], y3 = ii(s3.center);
               let w3 = Number.POSITIVE_INFINITY;
-              for (const e3 of x3) n2 < 0 && (w3 = vi.getLesserNonNegativeNonNull(w3, vi.solveVectorScale(e3, y3, b3, "x", n2))), l2 > 0 && (w3 = vi.getLesserNonNegativeNonNull(w3, vi.solveVectorScale(e3, y3, b3, "x", l2))), c2 > 0 && (w3 = vi.getLesserNonNegativeNonNull(w3, vi.solveVectorScale(e3, y3, b3, "y", c2))), h3 < 0 && (w3 = vi.getLesserNonNegativeNonNull(w3, vi.solveVectorScale(e3, y3, b3, "y", h3)));
+              for (const e3 of x3) n2 < 0 && (w3 = vi.getLesserNonNegativeNonNull(w3, vi.solveVectorScale(e3, y3, b5, "x", n2))), l2 > 0 && (w3 = vi.getLesserNonNegativeNonNull(w3, vi.solveVectorScale(e3, y3, b5, "x", l2))), c2 > 0 && (w3 = vi.getLesserNonNegativeNonNull(w3, vi.solveVectorScale(e3, y3, b5, "y", c2))), h3 < 0 && (w3 = vi.getLesserNonNegativeNonNull(w3, vi.solveVectorScale(e3, y3, b5, "y", h3)));
               if (Number.isFinite(w3) && 0 !== w3) return s3.zoom = v3.zoom + t.ak(w3), s3;
               kt();
             }
@@ -17377,11 +17881,11 @@ uniform ${i3} ${o3} u_${r3};
               _3.setCenter(d3), _3.setZoom(l2 ? +i2.zoom : o2 + si(r2.lat, u3.lat)), _3.setBearing(i2.bearing);
               const p2 = new t.P(t.ah(e2.centerPoint.x + i2.offsetAsPoint.x, 0, e2.width), t.ah(e2.centerPoint.y + i2.offsetAsPoint.y, 0, e2.height));
               _3.setLocationAtPoint(d3, p2);
-              const m2 = (i2.offset && i2.offsetAsPoint.mag()) > 0 ? _3.center : d3, f3 = l2 ? +i2.zoom : o2 + si(r2.lat, m2.lat), g2 = o2 + si(r2.lat, 0), v3 = f3 + si(m2.lat, 0), b3 = t.bA(r2.lng, m2.lng), x3 = t.bA(r2.lat, m2.lat), y3 = t.af(v3 - g2);
+              const m2 = (i2.offset && i2.offsetAsPoint.mag()) > 0 ? _3.center : d3, f3 = l2 ? +i2.zoom : o2 + si(r2.lat, m2.lat), g2 = o2 + si(r2.lat, 0), v3 = f3 + si(m2.lat, 0), b5 = t.bA(r2.lng, m2.lng), x3 = t.bA(r2.lat, m2.lat), y3 = t.af(v3 - g2);
               return h3 = f3 !== o2, { easeFunc: (o3) => {
                 if (t.be(s3, n2) || Ft({ startEulerAngles: s3, endEulerAngles: n2, tr: e2, k: o3, useSlerp: s3.roll != n2.roll }), c2 && e2.interpolatePadding(a2, i2.padding, o3), i2.around) t.w("Easing around a point is not supported under globe projection."), e2.setLocationAtPoint(i2.around, i2.aroundPoint);
                 else {
-                  const t2 = v3 > g2 ? Math.min(2, y3) : Math.max(0.5, y3), i3 = Math.pow(t2, 1 - o3), a3 = ci(r2, b3, x3, o3 * i3);
+                  const t2 = v3 > g2 ? Math.min(2, y3) : Math.max(0.5, y3), i3 = Math.pow(t2, 1 - o3), a3 = ci(r2, b5, x3, o3 * i3);
                   e2.setCenter(a3.wrap());
                 }
                 if (h3) {
@@ -17406,9 +17910,9 @@ uniform ${i3} ${o3} u_${r3};
                 const o3 = +i2.minZoom + si(d3.lat, 0), r3 = Math.min(o3, p2, m2) + si(0, d3.lat), a3 = e2.getConstrained(d3, r3).zoom + si(d3.lat, 0);
                 g2 = t.af(a3 - p2);
               }
-              const v3 = t.bA(r2.lng, d3.lng), b3 = t.bA(r2.lat, d3.lat);
+              const v3 = t.bA(r2.lng, d3.lng), b5 = t.bA(r2.lat, d3.lat);
               return { easeFunc: (o3, a3, l3, h4) => {
-                const u4 = ci(r2, v3, b3, l3);
+                const u4 = ci(r2, v3, b5, l3);
                 n2 && e2.interpolatePadding(s3, i2.padding, o3);
                 const _4 = 1 === o3 ? d3 : u4;
                 e2.setCenter(_4.wrap());
@@ -17465,7 +17969,7 @@ uniform ${i3} ${o3} u_${r3};
                   const t2 = this.sourceCaches[e3].getSource().type;
                   "vector" !== t2 && "geojson" !== t2 || this.sourceCaches[e3].reload();
                 }
-              }, this.map = e2, this.dispatcher = new F2(k(), e2._getMapId()), this.dispatcher.registerMessageHandler("GG", ((e3, t2) => this.getGlyphs(e3, t2))), this.dispatcher.registerMessageHandler("GI", ((e3, t2) => this.getImages(e3, t2))), this.imageManager = new b2(), this.imageManager.setEventedParent(this);
+              }, this.map = e2, this.dispatcher = new F2(k(), e2._getMapId()), this.dispatcher.registerMessageHandler("GG", ((e3, t2) => this.getGlyphs(e3, t2))), this.dispatcher.registerMessageHandler("GI", ((e3, t2) => this.getImages(e3, t2))), this.imageManager = new b3(), this.imageManager.setEventedParent(this);
               const a2 = (null === (o2 = e2._container) || void 0 === o2 ? void 0 : o2.lang) || "undefined" != typeof document && (null === (r2 = document.documentElement) || void 0 === r2 ? void 0 : r2.lang) || void 0;
               this.glyphManager = new T3(e2._requestManager, i2.localIdeographFontFamily, a2), this.lineAtlas = new E2(256, 512), this.crossTileSymbolIndex = new vt(), this._spritesImagesIds = {}, this._layers = {}, this._order = [], this.sourceCaches = {}, this.zoomHistory = new t.bF(), this._loaded = false, this._availableImages = [], this._globalState = {}, this._resetUpdates(), this.dispatcher.broadcast("SR", t.bG()), oe().on(ee, this._rtlPluginLoaded), this.on("data", ((e3) => {
                 if ("source" !== e3.dataType || "metadata" !== e3.sourceDataType) return;
@@ -18195,8 +18699,8 @@ uniform ${i3} ${o3} u_${r3};
             constructor(e2, i2, o2, r2, a2, s3, n2, l2, c2 = []) {
               const h3 = e2.gl;
               this.program = h3.createProgram();
-              const u3 = Mi(i2.staticAttributes), d3 = o2 ? o2.getBinderAttributes() : [], _3 = u3.concat(d3), p2 = xt.prelude.staticUniforms ? Mi(xt.prelude.staticUniforms) : [], m2 = n2.staticUniforms ? Mi(n2.staticUniforms) : [], f3 = i2.staticUniforms ? Mi(i2.staticUniforms) : [], g2 = o2 ? o2.getBinderUniforms() : [], v3 = p2.concat(m2).concat(f3).concat(g2), b3 = [];
-              for (const e3 of v3) b3.indexOf(e3) < 0 && b3.push(e3);
+              const u3 = Mi(i2.staticAttributes), d3 = o2 ? o2.getBinderAttributes() : [], _3 = u3.concat(d3), p2 = xt.prelude.staticUniforms ? Mi(xt.prelude.staticUniforms) : [], m2 = n2.staticUniforms ? Mi(n2.staticUniforms) : [], f3 = i2.staticUniforms ? Mi(i2.staticUniforms) : [], g2 = o2 ? o2.getBinderUniforms() : [], v3 = p2.concat(m2).concat(f3).concat(g2), b5 = [];
+              for (const e3 of v3) b5.indexOf(e3) < 0 && b5.push(e3);
               const x3 = o2 ? o2.defines() : [];
               qt(h3) && x3.unshift("#version 300 es"), a2 && x3.push("#define OVERDRAW_INSPECTOR;"), s3 && x3.push("#define TERRAIN3D;"), l2 && x3.push(l2), c2 && x3.push(...c2);
               let y3 = x3.concat(xt.prelude.fragmentSource, n2.fragmentSource, i2.fragmentSource).join("\n"), w3 = x3.concat(xt.prelude.vertexSource, n2.vertexSource, i2.vertexSource).join("\n");
@@ -18218,8 +18722,8 @@ uniform ${i3} ${o3} u_${r3};
               for (let e3 = 0; e3 < this.numAttributes; e3++) _3[e3] && (h3.bindAttribLocation(this.program, e3, _3[e3]), this.attributes[_3[e3]] = e3);
               if (h3.linkProgram(this.program), !h3.getProgramParameter(this.program, h3.LINK_STATUS)) throw new Error(`Program failed to link: ${h3.getProgramInfoLog(this.program)}`);
               h3.deleteShader(P3), h3.deleteShader(T4);
-              for (let e3 = 0; e3 < b3.length; e3++) {
-                const t2 = b3[e3];
+              for (let e3 = 0; e3 < b5.length; e3++) {
+                const t2 = b5[e3];
                 if (t2 && !C3[t2]) {
                   const e4 = h3.getUniformLocation(this.program, t2);
                   e4 && (C3[t2] = e4);
@@ -18228,10 +18732,10 @@ uniform ${i3} ${o3} u_${r3};
               this.fixedUniforms = r2(e2, C3), this.terrainUniforms = ((e3, i3) => ({ u_depth: new t.bP(e3, i3.u_depth), u_terrain: new t.bP(e3, i3.u_terrain), u_terrain_dim: new t.bg(e3, i3.u_terrain_dim), u_terrain_matrix: new t.bR(e3, i3.u_terrain_matrix), u_terrain_unpack: new t.bS(e3, i3.u_terrain_unpack), u_terrain_exaggeration: new t.bg(e3, i3.u_terrain_exaggeration) }))(e2, C3), this.projectionUniforms = ((e3, i3) => ({ u_projection_matrix: new t.bR(e3, i3.u_projection_matrix), u_projection_tile_mercator_coords: new t.bS(e3, i3.u_projection_tile_mercator_coords), u_projection_clipping_plane: new t.bS(e3, i3.u_projection_clipping_plane), u_projection_transition: new t.bg(e3, i3.u_projection_transition), u_projection_fallback_matrix: new t.bR(e3, i3.u_projection_fallback_matrix) }))(e2, C3), this.binderUniforms = o2 ? o2.getUniforms(e2, C3) : [];
             }
             draw(e2, t2, i2, o2, r2, a2, s3, n2, l2, c2, h3, u3, d3, _3, p2, m2, f3, g2, v3) {
-              const b3 = e2.gl;
+              const b5 = e2.gl;
               if (this.failedToCreate) return;
               if (e2.program.set(this.program), e2.setDepthMode(i2), e2.setStencilMode(o2), e2.setColorMode(r2), e2.setCullFace(a2), n2) {
-                e2.activeTexture.set(b3.TEXTURE2), b3.bindTexture(b3.TEXTURE_2D, n2.depthTexture), e2.activeTexture.set(b3.TEXTURE3), b3.bindTexture(b3.TEXTURE_2D, n2.texture);
+                e2.activeTexture.set(b5.TEXTURE2), b5.bindTexture(b5.TEXTURE_2D, n2.depthTexture), e2.activeTexture.set(b5.TEXTURE3), b5.bindTexture(b5.TEXTURE_2D, n2.texture);
                 for (const e3 in this.terrainUniforms) this.terrainUniforms[e3].set(n2[e3]);
               }
               if (l2) for (const e3 in l2) this.projectionUniforms[Ii[e3]].set(l2[e3]);
@@ -18239,18 +18743,18 @@ uniform ${i3} ${o3} u_${r3};
               m2 && m2.setUniforms(e2, this.binderUniforms, _3, { zoom: p2 });
               let x3 = 0;
               switch (t2) {
-                case b3.LINES:
+                case b5.LINES:
                   x3 = 2;
                   break;
-                case b3.TRIANGLES:
+                case b5.TRIANGLES:
                   x3 = 3;
                   break;
-                case b3.LINE_STRIP:
+                case b5.LINE_STRIP:
                   x3 = 1;
               }
               for (const i3 of d3.get()) {
                 const o3 = i3.vaos || (i3.vaos = {});
-                (o3[c2] || (o3[c2] = new Pi())).bind(e2, this, h3, m2 ? m2.getPaintVertexBuffers() : [], u3, i3.vertexOffset, f3, g2, v3), b3.drawElements(t2, i3.primitiveLength * x3, b3.UNSIGNED_SHORT, i3.primitiveOffset * x3 * 2);
+                (o3[c2] || (o3[c2] = new Pi())).bind(e2, this, h3, m2 ? m2.getPaintVertexBuffers() : [], u3, i3.vertexOffset, f3, g2, v3), b5.drawElements(t2, i3.primitiveLength * x3, b5.UNSIGNED_SHORT, i3.primitiveOffset * x3 * 2);
               }
             }
           }
@@ -18868,8 +19372,8 @@ uniform ${i3} ${o3} u_${r3};
             for (let m3 = 0; m3 < _3.length; m3++) {
               const g2 = _3.get(m3), v3 = g2.hidden || !g2.crossTileID || e2.allowVerticalPlacement && !g2.placedOrientation ? null : r2[g2.crossTileID];
               if (v3) {
-                const r3 = new t.P(g2.anchorX, g2.anchorY), _4 = { getElevation: d3, width: a2.width, height: a2.height, pitchedLabelPlaneMatrix: s3, pitchWithMap: o2, transform: a2, tileAnchorPoint: r3, translation: h3, unwrappedTileID: u3 }, m4 = o2 ? Ne(r3.x, r3.y, _4) : Oe(r3.x, r3.y, _4), b3 = Re(a2.cameraToCenterDistance, m4.signedDistanceFromCamera);
-                let x3 = t.ap(e2.textSizeData, l2, g2) * b3 / t.aB;
+                const r3 = new t.P(g2.anchorX, g2.anchorY), _4 = { getElevation: d3, width: a2.width, height: a2.height, pitchedLabelPlaneMatrix: s3, pitchWithMap: o2, transform: a2, tileAnchorPoint: r3, translation: h3, unwrappedTileID: u3 }, m4 = o2 ? Ne(r3.x, r3.y, _4) : Oe(r3.x, r3.y, _4), b5 = Re(a2.cameraToCenterDistance, m4.signedDistanceFromCamera);
+                let x3 = t.ap(e2.textSizeData, l2, g2) * b5 / t.aB;
                 o2 && (x3 *= e2.tilePixelRatio / n2);
                 const { width: y3, height: w3, anchor: T4, textOffset: P3, textBoxScale: C3 } = v3, I3 = Qo(T4, y3, w3, P3, C3, x3), M4 = a2.getPitchedTextCorrection(r3.x + h3[0], r3.y + h3[1], u3), S3 = Jo(m4.point, _4, i2, I3, -a2.bearingInRadians, M4), E3 = e2.allowVerticalPlacement && g2.placedOrientation === t.ao.vertical ? Math.PI / 2 : 0;
                 for (let e3 = 0; e3 < g2.numGlyphs; e3++) t.av(p2, S3, E3);
@@ -18896,7 +19400,7 @@ uniform ${i3} ${o3} u_${r3};
             return i2.iconsInText && t2 ? "symbolTextAndIcon" : e2 ? "symbolSDF" : "symbolIcon";
           }
           function ir(e2, i2, o2, r2, a2, s3, n2, l2, c2, h3, u3, d3, _3) {
-            const p2 = e2.context, m2 = p2.gl, f3 = e2.transform, g2 = "map" === l2, v3 = "map" === c2, b3 = "viewport" !== l2 && "point" !== o2.layout.get("symbol-placement"), x3 = g2 && !v3 && !b3, y3 = !o2.layout.get("symbol-sort-key").isConstant();
+            const p2 = e2.context, m2 = p2.gl, f3 = e2.transform, g2 = "map" === l2, v3 = "map" === c2, b5 = "viewport" !== l2 && "point" !== o2.layout.get("symbol-placement"), x3 = g2 && !v3 && !b5, y3 = !o2.layout.get("symbol-sort-key").isConstant();
             let w3 = false;
             const T4 = e2.getDepthModeForSublayer(0, Zt.ReadOnly), P3 = o2._unevaluatedLayout.hasValue("text-variable-anchor") || o2._unevaluatedLayout.hasValue("text-variable-anchor-offset"), C3 = [], I3 = f3.getCircleRadiusCorrection();
             for (const l3 of r2) {
@@ -18914,13 +19418,13 @@ uniform ${i3} ${o3} u_${r3};
               const B3 = t.aC(r3, 1, e2.transform.zoom), O3 = Ie(g2, e2.transform, B3), j3 = t.L();
               t.aq(j3, O3);
               const N3 = Me(v3, g2, e2.transform, B3), U4 = t.aD(f3, r3, s3, n2), Z3 = f3.getProjectionData({ overscaledTileID: l3, applyGlobeMatrix: !_3, applyTerrainMatrix: true }), G3 = P3 && c3.hasTextData(), V3 = "none" !== o2.layout.get("icon-text-fit") && G3 && c3.hasIconData();
-              if (b3) {
+              if (b5) {
                 const t2 = e2.style.map.terrain ? (t3, i4) => e2.style.map.terrain.getElevation(l3, t3, i4) : null, i3 = "map" === o2.layout.get("text-rotation-alignment");
                 De(c3, e2, a2, O3, j3, v3, h3, i3, l3.toUnwrapped(), f3.width, f3.height, U4, t2);
               }
-              const $6 = a2 && P3 || V3, q3 = b3 || $6 ? Yo : v3 ? O3 : e2.transform.clipSpaceToPixelsMatrix, W2 = p3 && 0 !== o2.paint.get(a2 ? "text-halo-width" : "icon-halo-width").constantOr(1);
+              const $8 = a2 && P3 || V3, q3 = b5 || $8 ? Yo : v3 ? O3 : e2.transform.clipSpaceToPixelsMatrix, W2 = p3 && 0 !== o2.paint.get(a2 ? "text-halo-width" : "icon-halo-width").constantOr(1);
               let H4;
-              H4 = p3 ? c3.iconsInText ? to(T5.kind, E3, x3, v3, b3, $6, e2, q3, N3, U4, z3, k2, I3) : eo(T5.kind, E3, x3, v3, b3, $6, e2, q3, N3, U4, a2, z3, 0, I3) : Ji(T5.kind, E3, x3, v3, b3, $6, e2, q3, N3, U4, a2, z3, I3);
+              H4 = p3 ? c3.iconsInText ? to(T5.kind, E3, x3, v3, b5, $8, e2, q3, N3, U4, z3, k2, I3) : eo(T5.kind, E3, x3, v3, b5, $8, e2, q3, N3, U4, a2, z3, 0, I3) : Ji(T5.kind, E3, x3, v3, b5, $8, e2, q3, N3, U4, a2, z3, I3);
               const X3 = { program: S3, buffers: u4, uniformValues: H4, projectionData: Z3, atlasTexture: D4, atlasTextureIcon: F3, atlasInterpolation: A4, atlasInterpolationIcon: L3, isSDF: p3, hasHalo: W2 };
               if (y3 && c3.canOverlap) {
                 w3 = true;
@@ -18985,7 +19489,7 @@ uniform ${i3} ${o3} u_${r3};
           function cr(e2, i2, o2, r2, a2, s3, n2, l2) {
             const c2 = e2.context.gl, h3 = "fill-pattern", u3 = o2.paint.get(h3), d3 = u3 && u3.constantOr(1), _3 = o2.getCrossfadeParameters();
             let p2, m2, f3, g2, v3;
-            const b3 = e2.transform, x3 = o2.paint.get("fill-translate"), y3 = o2.paint.get("fill-translate-anchor");
+            const b5 = e2.transform, x3 = o2.paint.get("fill-translate"), y3 = o2.paint.get("fill-translate-anchor");
             n2 ? (m2 = d3 && !o2.getPaintProperty("fill-outline-color") ? "fillOutlinePattern" : "fillOutline", p2 = c2.LINES) : (m2 = d3 ? "fillPattern" : "fill", p2 = c2.TRIANGLES);
             const w3 = u3.constantOr(null);
             for (const u4 of r2) {
@@ -18995,7 +19499,7 @@ uniform ${i3} ${o3} u_${r3};
               if (!T4) continue;
               const P3 = T4.programConfigurations.get(o2.id), C3 = e2.useProgram(m2, P3), I3 = e2.style.map.terrain && e2.style.map.terrain.getTerrainData(u4);
               d3 && (e2.context.activeTexture.set(c2.TEXTURE0), r3.imageAtlasTexture.bind(c2.LINEAR, c2.CLAMP_TO_EDGE), P3.updatePaintBuffers(_3)), lr(P3, h3, w3, r3, o2);
-              const M4 = b3.getProjectionData({ overscaledTileID: u4, applyGlobeMatrix: !l2, applyTerrainMatrix: true }), S3 = t.aD(b3, r3, x3, y3);
+              const M4 = b5.getProjectionData({ overscaledTileID: u4, applyGlobeMatrix: !l2, applyTerrainMatrix: true }), S3 = t.aD(b5, r3, x3, y3);
               if (n2) {
                 g2 = T4.indexBuffer2, v3 = T4.segments2;
                 const t2 = [c2.drawingBufferWidth, c2.drawingBufferHeight];
@@ -19010,12 +19514,12 @@ uniform ${i3} ${o3} u_${r3};
             for (const d4 of r2) {
               const r3 = i2.getTile(d4), v3 = r3.getBucket(o2);
               if (!v3) continue;
-              const b3 = e2.style.map.terrain && e2.style.map.terrain.getTerrainData(d4), x3 = v3.programConfigurations.get(o2.id), y3 = e2.useProgram(_3 ? "fillExtrusionPattern" : "fillExtrusion", x3);
+              const b5 = e2.style.map.terrain && e2.style.map.terrain.getTerrainData(d4), x3 = v3.programConfigurations.get(o2.id), y3 = e2.useProgram(_3 ? "fillExtrusionPattern" : "fillExtrusion", x3);
               _3 && (e2.context.activeTexture.set(h3.TEXTURE0), r3.imageAtlasTexture.bind(h3.LINEAR, h3.CLAMP_TO_EDGE), x3.updatePaintBuffers(p2));
               const w3 = g2.getProjectionData({ overscaledTileID: d4, applyGlobeMatrix: !l2, applyTerrainMatrix: true });
               lr(x3, u3, f3, r3, o2);
               const T4 = t.aD(g2, r3, o2.paint.get("fill-extrusion-translate"), o2.paint.get("fill-extrusion-translate-anchor")), P3 = o2.paint.get("fill-extrusion-vertical-gradient"), C3 = _3 ? zi(e2, P3, m2, T4, d4, p2, r3) : Ri(e2, P3, m2, T4);
-              y3.draw(c2, c2.gl.TRIANGLES, a2, s3, n2, Ut.backCCW, C3, b3, w3, o2.id, v3.layoutVertexBuffer, v3.indexBuffer, v3.segments, o2.paint, e2.transform.zoom, x3, e2.style.map.terrain && v3.centroidVertexBuffer);
+              y3.draw(c2, c2.gl.TRIANGLES, a2, s3, n2, Ut.backCCW, C3, b5, w3, o2.id, v3.layoutVertexBuffer, v3.indexBuffer, v3.segments, o2.paint, e2.transform.zoom, x3, e2.style.map.terrain && v3.centroidVertexBuffer);
             }
           }
           function ur(e2, t2, i2, o2, r2, a2, s3, n2, l2) {
@@ -19024,18 +19528,18 @@ uniform ${i3} ${o3} u_${r3};
             for (const p3 of o2) {
               const o3 = t2.getTile(p3), g2 = o3.fbo;
               if (!g2) continue;
-              const v3 = h3.getMeshFromTileID(u3, p3.canonical, n2, true, "raster"), b3 = null === (c2 = e2.style.map.terrain) || void 0 === c2 ? void 0 : c2.getTerrainData(p3);
+              const v3 = h3.getMeshFromTileID(u3, p3.canonical, n2, true, "raster"), b5 = null === (c2 = e2.style.map.terrain) || void 0 === c2 ? void 0 : c2.getTerrainData(p3);
               u3.activeTexture.set(_3.TEXTURE0), _3.bindTexture(_3.TEXTURE_2D, g2.colorAttachment.get());
               const x3 = d3.getProjectionData({ overscaledTileID: p3, aligned: f3, applyGlobeMatrix: !l2, applyTerrainMatrix: true });
-              m2.draw(u3, _3.TRIANGLES, a2, r2[p3.overscaledZ], s3, Ut.backCCW, Ui(e2, o3, i2), b3, x3, i2.id, v3.vertexBuffer, v3.indexBuffer, v3.segments);
+              m2.draw(u3, _3.TRIANGLES, a2, r2[p3.overscaledZ], s3, Ut.backCCW, Ui(e2, o3, i2), b5, x3, i2.id, v3.vertexBuffer, v3.indexBuffer, v3.segments);
             }
           }
           function dr(e2, i2, o2, r2, a2, s3, n2, l2, c2) {
             var h3;
             const u3 = e2.style.projection, d3 = e2.context, _3 = e2.transform, p2 = d3.gl, m2 = e2.useProgram("colorRelief"), f3 = !e2.options.moving;
             let g2 = true, v3 = 0;
-            for (const b3 of r2) {
-              const r3 = i2.getTile(b3), x3 = r3.dem;
+            for (const b5 of r2) {
+              const r3 = i2.getTile(b5), x3 = r3.dem;
               if (g2) {
                 const e3 = p2.getParameter(p2.MAX_TEXTURE_SIZE), { elevationTexture: t2, colorTexture: i3 } = o2.getColorRampTextures(d3, e3, x3.getUnpackVector());
                 d3.activeTexture.set(p2.TEXTURE1), t2.bind(p2.NEAREST, p2.CLAMP_TO_EDGE), d3.activeTexture.set(p2.TEXTURE4), i3.bind(p2.LINEAR, p2.CLAMP_TO_EDGE), g2 = false, v3 = t2.size[0];
@@ -19046,20 +19550,20 @@ uniform ${i3} ${o3} u_${r3};
                 const e3 = r3.demTexture;
                 e3.update(w3, { premultiply: false }), e3.bind(p2.LINEAR, p2.CLAMP_TO_EDGE);
               } else r3.demTexture = new t.T(d3, w3, p2.RGBA, { premultiply: false }), r3.demTexture.bind(p2.LINEAR, p2.CLAMP_TO_EDGE);
-              const T4 = u3.getMeshFromTileID(d3, b3.canonical, l2, true, "raster"), P3 = null === (h3 = e2.style.map.terrain) || void 0 === h3 ? void 0 : h3.getTerrainData(b3), C3 = _3.getProjectionData({ overscaledTileID: b3, aligned: f3, applyGlobeMatrix: !c2, applyTerrainMatrix: true });
-              m2.draw(d3, p2.TRIANGLES, s3, a2[b3.overscaledZ], n2, Ut.backCCW, Vi(o2, r3.dem, v3), P3, C3, o2.id, T4.vertexBuffer, T4.indexBuffer, T4.segments);
+              const T4 = u3.getMeshFromTileID(d3, b5.canonical, l2, true, "raster"), P3 = null === (h3 = e2.style.map.terrain) || void 0 === h3 ? void 0 : h3.getTerrainData(b5), C3 = _3.getProjectionData({ overscaledTileID: b5, aligned: f3, applyGlobeMatrix: !c2, applyTerrainMatrix: true });
+              m2.draw(d3, p2.TRIANGLES, s3, a2[b5.overscaledZ], n2, Ut.backCCW, Vi(o2, r3.dem, v3), P3, C3, o2.id, T4.vertexBuffer, T4.indexBuffer, T4.segments);
             }
           }
           const _r = [new t.P(0, 0), new t.P(t.$, 0), new t.P(t.$, t.$), new t.P(0, t.$)];
           function pr(e2, t2, i2, o2, r2, a2, s3, n2, l2 = false, c2 = false) {
             const h3 = o2[o2.length - 1].overscaledZ, u3 = e2.context, d3 = u3.gl, _3 = e2.useProgram("raster"), p2 = e2.transform, m2 = e2.style.projection, f3 = e2.colorModeForRenderPass(), g2 = !e2.options.moving;
             for (const v3 of o2) {
-              const o3 = e2.getDepthModeForSublayer(v3.overscaledZ - h3, 1 === i2.paint.get("raster-opacity") ? Zt.ReadWrite : Zt.ReadOnly, d3.LESS), b3 = t2.getTile(v3);
-              b3.registerFadeDuration(i2.paint.get("raster-fade-duration"));
-              const x3 = t2.findLoadedParent(v3, 0), y3 = t2.findLoadedSibling(v3), w3 = mr(b3, x3 || y3 || null, t2, i2, e2.transform, e2.style.map.terrain);
+              const o3 = e2.getDepthModeForSublayer(v3.overscaledZ - h3, 1 === i2.paint.get("raster-opacity") ? Zt.ReadWrite : Zt.ReadOnly, d3.LESS), b5 = t2.getTile(v3);
+              b5.registerFadeDuration(i2.paint.get("raster-fade-duration"));
+              const x3 = t2.findLoadedParent(v3, 0), y3 = t2.findLoadedSibling(v3), w3 = mr(b5, x3 || y3 || null, t2, i2, e2.transform, e2.style.map.terrain);
               let T4, P3;
               const C3 = "nearest" === i2.paint.get("raster-resampling") ? d3.NEAREST : d3.LINEAR;
-              u3.activeTexture.set(d3.TEXTURE0), b3.texture.bind(C3, d3.CLAMP_TO_EDGE, d3.LINEAR_MIPMAP_NEAREST), u3.activeTexture.set(d3.TEXTURE1), x3 ? (x3.texture.bind(C3, d3.CLAMP_TO_EDGE, d3.LINEAR_MIPMAP_NEAREST), T4 = Math.pow(2, x3.tileID.overscaledZ - b3.tileID.overscaledZ), P3 = [b3.tileID.canonical.x * T4 % 1, b3.tileID.canonical.y * T4 % 1]) : b3.texture.bind(C3, d3.CLAMP_TO_EDGE, d3.LINEAR_MIPMAP_NEAREST), b3.texture.useMipmap && u3.extTextureFilterAnisotropic && e2.transform.pitch > 20 && d3.texParameterf(d3.TEXTURE_2D, u3.extTextureFilterAnisotropic.TEXTURE_MAX_ANISOTROPY_EXT, u3.extTextureFilterAnisotropicMax);
+              u3.activeTexture.set(d3.TEXTURE0), b5.texture.bind(C3, d3.CLAMP_TO_EDGE, d3.LINEAR_MIPMAP_NEAREST), u3.activeTexture.set(d3.TEXTURE1), x3 ? (x3.texture.bind(C3, d3.CLAMP_TO_EDGE, d3.LINEAR_MIPMAP_NEAREST), T4 = Math.pow(2, x3.tileID.overscaledZ - b5.tileID.overscaledZ), P3 = [b5.tileID.canonical.x * T4 % 1, b5.tileID.canonical.y * T4 % 1]) : b5.texture.bind(C3, d3.CLAMP_TO_EDGE, d3.LINEAR_MIPMAP_NEAREST), b5.texture.useMipmap && u3.extTextureFilterAnisotropic && e2.transform.pitch > 20 && d3.texParameterf(d3.TEXTURE_2D, u3.extTextureFilterAnisotropic.TEXTURE_MAX_ANISOTROPY_EXT, u3.extTextureFilterAnisotropicMax);
               const I3 = e2.style.map.terrain && e2.style.map.terrain.getTerrainData(v3), M4 = p2.getProjectionData({ overscaledTileID: v3, aligned: g2, applyGlobeMatrix: !c2, applyTerrainMatrix: true }), S3 = Yi(P3 || [0, 0], T4 || 1, w3, i2, n2), E3 = m2.getMeshFromTileID(u3, v3.canonical, a2, s3, "raster");
               _3.draw(u3, d3.TRIANGLES, o3, r2 ? r2[v3.overscaledZ] : Vt.disabled, f3, l2 ? Ut.frontCCW : Ut.backCCW, S3, I3, M4, i2.id, E3.vertexBuffer, E3.indexBuffer, E3.segments);
             }
@@ -19336,7 +19840,7 @@ uniform ${i3} ${o3} u_${r3};
                 for (let a4 = 0; a4 < r3.length; a4++) {
                   const n3 = r3[a4], l3 = i3.getTile(n3), c3 = l3.getBucket(o3);
                   if (!c3) continue;
-                  const u4 = o3.paint.get("circle-translate"), d4 = o3.paint.get("circle-translate-anchor"), p3 = t.aD(_3, l3, u4, d4), m3 = c3.programConfigurations.get(o3.id), f4 = e3.useProgram("circle", m3), b3 = c3.layoutVertexBuffer, x3 = c3.indexBuffer, y3 = e3.style.map.terrain && e3.style.map.terrain.getTerrainData(n3), w3 = { programConfiguration: m3, program: f4, layoutVertexBuffer: b3, indexBuffer: x3, uniformValues: ki(e3, l3, o3, p3, v3), terrainData: y3, projectionData: _3.getProjectionData({ overscaledTileID: n3, applyGlobeMatrix: !s3, applyTerrainMatrix: true }) };
+                  const u4 = o3.paint.get("circle-translate"), d4 = o3.paint.get("circle-translate-anchor"), p3 = t.aD(_3, l3, u4, d4), m3 = c3.programConfigurations.get(o3.id), f4 = e3.useProgram("circle", m3), b5 = c3.layoutVertexBuffer, x3 = c3.indexBuffer, y3 = e3.style.map.terrain && e3.style.map.terrain.getTerrainData(n3), w3 = { programConfiguration: m3, program: f4, layoutVertexBuffer: b5, indexBuffer: x3, uniformValues: ki(e3, l3, o3, p3, v3), terrainData: y3, projectionData: _3.getProjectionData({ overscaledTileID: n3, applyGlobeMatrix: !s3, applyTerrainMatrix: true }) };
                   if (h3) {
                     const e4 = c3.segments.get();
                     for (const i4 of e4) g2.push({ segments: new t.aM([i4]), sortKey: i4.sortKey, state: w3 });
@@ -19383,7 +19887,7 @@ uniform ${i3} ${o3} u_${r3};
                 if ("translucent" !== e3.renderPass) return;
                 const { isRenderingToTexture: s3 } = a3, n2 = o3.paint.get("line-opacity"), l2 = o3.paint.get("line-width");
                 if (0 === n2.constantOr(1) || 0 === l2.constantOr(1)) return;
-                const c2 = e3.getDepthModeForSublayer(0, Zt.ReadOnly), h3 = e3.colorModeForRenderPass(), u3 = o3.paint.get("line-dasharray"), d3 = o3.paint.get("line-pattern"), _3 = d3.constantOr(1), p2 = o3.paint.get("line-gradient"), m2 = o3.getCrossfadeParameters(), f3 = _3 ? "linePattern" : u3 ? "lineSDF" : p2 ? "lineGradient" : "line", g2 = e3.context, v3 = g2.gl, b3 = e3.transform;
+                const c2 = e3.getDepthModeForSublayer(0, Zt.ReadOnly), h3 = e3.colorModeForRenderPass(), u3 = o3.paint.get("line-dasharray"), d3 = o3.paint.get("line-pattern"), _3 = d3.constantOr(1), p2 = o3.paint.get("line-gradient"), m2 = o3.getCrossfadeParameters(), f3 = _3 ? "linePattern" : u3 ? "lineSDF" : p2 ? "lineGradient" : "line", g2 = e3.context, v3 = g2.gl, b5 = e3.transform;
                 let x3 = true;
                 for (const a4 of r3) {
                   const r4 = i3.getTile(a4);
@@ -19395,7 +19899,7 @@ uniform ${i3} ${o3} u_${r3};
                     const e4 = r4.imageAtlas, t2 = e4.patternPositions[C3.to.toString()], i4 = e4.patternPositions[C3.from.toString()];
                     t2 && i4 && l3.setConstantPatternPositions(t2, i4);
                   }
-                  const I3 = b3.getProjectionData({ overscaledTileID: a4, applyGlobeMatrix: !s3, applyTerrainMatrix: true }), M4 = b3.getPixelScale(), S3 = _3 ? Wi(e3, r4, o3, M4, m2) : u3 ? Hi(e3, r4, o3, M4, u3, m2) : p2 ? qi(e3, r4, o3, M4, n3.lineClipsArray.length) : $i(e3, r4, o3, M4);
+                  const I3 = b5.getProjectionData({ overscaledTileID: a4, applyGlobeMatrix: !s3, applyTerrainMatrix: true }), M4 = b5.getPixelScale(), S3 = _3 ? Wi(e3, r4, o3, M4, m2) : u3 ? Hi(e3, r4, o3, M4, u3, m2) : p2 ? qi(e3, r4, o3, M4, n3.lineClipsArray.length) : $i(e3, r4, o3, M4);
                   if (_3) g2.activeTexture.set(v3.TEXTURE0), r4.imageAtlasTexture.bind(v3.LINEAR, v3.CLAMP_TO_EDGE), l3.updatePaintBuffers(m2);
                   else if (u3 && (T4 || e3.lineAtlas.dirty)) g2.activeTexture.set(v3.TEXTURE0), e3.lineAtlas.bind(g2);
                   else if (p2) {
@@ -19499,12 +20003,12 @@ uniform ${i3} ${o3} u_${r3};
                 if (e3.isPatternMissing(_3)) return;
                 const p2 = !_3 && 1 === a3.a && 1 === s3 && e3.opaquePassEnabledForLayer() ? "opaque" : "translucent";
                 if (e3.renderPass !== p2) return;
-                const m2 = Vt.disabled, f3 = e3.getDepthModeForSublayer(0, "opaque" === p2 ? Zt.ReadWrite : Zt.ReadOnly), g2 = e3.colorModeForRenderPass(), v3 = e3.useProgram(_3 ? "backgroundPattern" : "background"), b3 = o3 || ve(u3, { tileSize: d3, terrain: e3.style.map.terrain });
+                const m2 = Vt.disabled, f3 = e3.getDepthModeForSublayer(0, "opaque" === p2 ? Zt.ReadWrite : Zt.ReadOnly), g2 = e3.colorModeForRenderPass(), v3 = e3.useProgram(_3 ? "backgroundPattern" : "background"), b5 = o3 || ve(u3, { tileSize: d3, terrain: e3.style.map.terrain });
                 _3 && (l2.activeTexture.set(c2.TEXTURE0), e3.imageManager.bind(e3.context));
                 const x3 = i3.getCrossfadeParameters();
-                for (const t3 of b3) {
-                  const o4 = u3.getProjectionData({ overscaledTileID: t3, applyGlobeMatrix: !n2, applyTerrainMatrix: true }), r4 = _3 ? oo(s3, e3, _3, { tileID: t3, tileSize: d3 }, x3) : io(s3, a3), p3 = e3.style.map.terrain && e3.style.map.terrain.getTerrainData(t3), b4 = h3.getMeshFromTileID(l2, t3.canonical, false, true, "raster");
-                  v3.draw(l2, c2.TRIANGLES, f3, m2, g2, Ut.backCCW, r4, p3, o4, i3.id, b4.vertexBuffer, b4.indexBuffer, b4.segments);
+                for (const t3 of b5) {
+                  const o4 = u3.getProjectionData({ overscaledTileID: t3, applyGlobeMatrix: !n2, applyTerrainMatrix: true }), r4 = _3 ? oo(s3, e3, _3, { tileID: t3, tileSize: d3 }, x3) : io(s3, a3), p3 = e3.style.map.terrain && e3.style.map.terrain.getTerrainData(t3), b6 = h3.getMeshFromTileID(l2, t3.canonical, false, true, "raster");
+                  v3.draw(l2, c2.TRIANGLES, f3, m2, g2, Ut.backCCW, r4, p3, o4, i3.id, b6.vertexBuffer, b6.indexBuffer, b6.segments);
                 }
               })(e2, 0, o2, r2, a2) : t.cl(o2) && (function(e3, t2, i3, o3) {
                 const { isRenderingGlobe: r3 } = o3, a3 = e3.context, s3 = i3.implementation, n2 = e3.style.projection, l2 = e3.transform, c2 = l2.getProjectionDataForCustomLayer(r3), h3 = { farZ: l2.farZ, nearZ: l2.nearZ, fov: l2.fov * Math.PI / 180, modelViewProjectionMatrix: l2.modelViewProjectionMatrix, projectionMatrix: l2.projectionMatrix, shaderData: { variantName: n2.shaderVariantName, vertexShaderPrelude: `const float PI = 3.141592653589793;
@@ -20650,8 +21154,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
               i2.dragPan = new wa(o2, m2, f3), this._add("mousePan", m2), this._add("touchPan", f3, ["touchZoom", "touchRotate"]), e2.interactive && e2.dragPan && i2.dragPan.enable(e2.dragPan);
               const g2 = new ha(), v3 = new la();
               i2.touchZoomRotate = new Pa(o2, v3, g2, c2), this._add("touchRotate", g2, ["touchPan", "touchZoom"]), this._add("touchZoom", v3, ["touchPan", "touchRotate"]), e2.interactive && e2.touchZoomRotate && i2.touchZoomRotate.enable(e2.touchZoomRotate);
-              const b3 = i2.scrollZoom = new va(i2, (() => this._triggerRenderFrame()));
-              this._add("scrollZoom", b3, ["mousePan"]), e2.interactive && e2.scrollZoom && i2.scrollZoom.enable(e2.scrollZoom);
+              const b5 = i2.scrollZoom = new va(i2, (() => this._triggerRenderFrame()));
+              this._add("scrollZoom", b5, ["mousePan"]), e2.interactive && e2.scrollZoom && i2.scrollZoom.enable(e2.scrollZoom);
               const x3 = i2.keyboard = new pa(i2);
               this._add("keyboard", x3), e2.interactive && e2.keyboard && i2.keyboard.enable(), this._add("blockableMapEvent", new Gr(i2));
             }
@@ -20961,11 +21465,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
               let p2 = o2.centerPoint.add(_3);
               const m2 = o2.screenPointToLocation(p2), f3 = this.cameraHelper.handleFlyTo(o2, { bearing: c2, pitch: h3, roll: u3, padding: d3, locationAtOffset: m2, offsetAsPoint: _3, center: e2.center, minZoom: e2.minZoom, zoom: e2.zoom });
               let g2 = e2.curve;
-              const v3 = Math.max(o2.width, o2.height), b3 = v3 / f3.scaleOfZoom, x3 = f3.pixelPathLength;
+              const v3 = Math.max(o2.width, o2.height), b5 = v3 / f3.scaleOfZoom, x3 = f3.pixelPathLength;
               "number" == typeof f3.scaleOfMinZoom && (g2 = Math.sqrt(v3 / f3.scaleOfMinZoom / x3 * 2));
               const y3 = g2 * g2;
               function w3(e3) {
-                const t2 = (b3 * b3 - v3 * v3 + (e3 ? -1 : 1) * y3 * y3 * x3 * x3) / (2 * (e3 ? b3 : v3) * y3 * x3);
+                const t2 = (b5 * b5 - v3 * v3 + (e3 ? -1 : 1) * y3 * y3 * x3 * x3) / (2 * (e3 ? b5 : v3) * y3 * x3);
                 return Math.log(Math.sqrt(t2 * t2 + 1) - t2);
               }
               function T4(e3) {
@@ -20982,9 +21486,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
                 var t2;
               }, S3 = (w3(true) - C3) / g2;
               if (Math.abs(x3) < 2e-6 || !isFinite(S3)) {
-                if (Math.abs(v3 - b3) < 1e-6) return this.easeTo(e2, i2);
-                const t2 = b3 < v3 ? -1 : 1;
-                S3 = Math.abs(Math.log(b3 / v3)) / g2, M4 = () => 0, I3 = (e3) => Math.exp(t2 * g2 * e3);
+                if (Math.abs(v3 - b5) < 1e-6) return this.easeTo(e2, i2);
+                const t2 = b5 < v3 ? -1 : 1;
+                S3 = Math.abs(Math.log(b5 / v3)) / g2, M4 = () => 0, I3 = (e3) => Math.exp(t2 * g2 * e3);
               }
               return e2.duration = "duration" in e2 ? +e2.duration : 1e3 * S3 / ("screenSpeed" in e2 ? +e2.screenSpeed / g2 : +e2.speed), e2.maxDuration && e2.duration > e2.maxDuration && (e2.duration = 0), this._zooming = true, this._rotating = r2 !== c2, this._pitching = h3 !== a2, this._rolling = u3 !== n2, this._padding = !o2.isPaddingEqual(d3), this._prepareEase(i2, false), this.terrain && this._prepareElevation(f3.targetCenter), this._ease(((s3) => {
                 const m3 = s3 * S3, g3 = 1 / I3(m3), v4 = M4(m3);
@@ -21269,9 +21773,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
               const n2 = this.painter.context, l2 = new t.cv(), c2 = new t.aN(), h3 = this.meshSize, u3 = t.$ / h3, d3 = h3 * h3;
               for (let e3 = 0; e3 <= h3; e3++) for (let t2 = 0; t2 <= h3; t2++) l2.emplaceBack(t2 * u3, e3 * u3, 0);
               for (let e3 = 0; e3 < d3; e3 += h3 + 1) for (let t2 = 0; t2 < h3; t2++) c2.emplaceBack(t2 + e3, h3 + t2 + e3 + 1, h3 + t2 + e3 + 2), c2.emplaceBack(t2 + e3, h3 + t2 + e3 + 2, t2 + e3 + 1);
-              const _3 = l2.length, p2 = _3 + (h3 + 1), m2 = (h3 + 1) * h3, f3 = r2 ? t.bh : 0, g2 = r2 ? 0 : 1, v3 = a2 ? t.bi : t.$, b3 = a2 ? 0 : 1;
+              const _3 = l2.length, p2 = _3 + (h3 + 1), m2 = (h3 + 1) * h3, f3 = r2 ? t.bh : 0, g2 = r2 ? 0 : 1, v3 = a2 ? t.bi : t.$, b5 = a2 ? 0 : 1;
               for (let e3 = 0; e3 <= h3; e3++) l2.emplaceBack(e3 * u3, f3, g2);
-              for (let e3 = 0; e3 <= h3; e3++) l2.emplaceBack(e3 * u3, v3, b3);
+              for (let e3 = 0; e3 <= h3; e3++) l2.emplaceBack(e3 * u3, v3, b5);
               for (let e3 = 0; e3 < h3; e3++) c2.emplaceBack(m2 + e3, p2 + e3, p2 + e3 + 1), c2.emplaceBack(m2 + e3, p2 + e3 + 1, m2 + e3 + 1), c2.emplaceBack(0 + e3, _3 + e3 + 1, _3 + e3), c2.emplaceBack(0 + e3, 0 + e3 + 1, _3 + e3 + 1);
               const x3 = l2.length, y3 = x3 + 2 * (h3 + 1);
               for (const e3 of [0, 1]) for (let i3 = 0; i3 <= h3; i3++) for (const o3 of [0, 1]) l2.emplaceBack(e3 * t.$, i3 * u3, o3);
@@ -22635,7 +23139,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
             onRemove() {
               n.remove(this._container), this._map.off("terrain", this._updateTerrainIcon), this._map = void 0;
             }
-          }, e.TwoFingersTouchPitchHandler = da, e.TwoFingersTouchRotateHandler = ha, e.TwoFingersTouchZoomHandler = la, e.TwoFingersTouchZoomRotateHandler = Pa, e.VectorTileSource = $5, e.VideoSource = K, e.addSourceType = (e2, i2) => t._(void 0, void 0, void 0, (function* () {
+          }, e.TwoFingersTouchPitchHandler = da, e.TwoFingersTouchRotateHandler = ha, e.TwoFingersTouchZoomHandler = la, e.TwoFingersTouchZoomRotateHandler = Pa, e.VectorTileSource = $7, e.VideoSource = K, e.addSourceType = (e2, i2) => t._(void 0, void 0, void 0, (function* () {
             if (J2(e2)) throw new Error(`A source type called "${e2}" already exists.`);
             ((e3, t2) => {
               Q2[e3] = t2;
@@ -22670,6 +23174,177 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         var maplibregl$1 = maplibregl2;
         return maplibregl$1;
       }));
+    }
+  });
+
+  // www/js/map_tiles.js
+  function inBounds(lat, lon, bounds = FLORENCE_BOUNDS) {
+    return lon >= bounds[0] && lat >= bounds[1] && lon <= bounds[2] && lat <= bounds[3];
+  }
+  function clamp(n, lo, hi) {
+    return Math.max(lo, Math.min(hi, n));
+  }
+  function lonLatToTile(lon, lat, z2) {
+    const n = 2 ** z2;
+    const x2 = Math.floor((lon + 180) / 360 * n);
+    const latRad = lat * Math.PI / 180;
+    const y2 = Math.floor(
+      (1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n
+    );
+    return { z: z2, x: clamp(x2, 0, n - 1), y: clamp(y2, 0, n - 1) };
+  }
+  function tileRange(bbox, z2) {
+    const nw = lonLatToTile(bbox.west, bbox.north, z2);
+    const se = lonLatToTile(bbox.east, bbox.south, z2);
+    return {
+      z: z2,
+      x0: Math.min(nw.x, se.x),
+      x1: Math.max(nw.x, se.x),
+      y0: Math.min(nw.y, se.y),
+      y1: Math.max(nw.y, se.y)
+    };
+  }
+  function tilesInRange(range) {
+    const tiles = [];
+    for (let x2 = range.x0; x2 <= range.x1; x2++) {
+      for (let y2 = range.y0; y2 <= range.y1; y2++) {
+        tiles.push({ z: range.z, x: x2, y: y2 });
+      }
+    }
+    return tiles;
+  }
+  function countTilesInRange(range) {
+    return (range.x1 - range.x0 + 1) * (range.y1 - range.y0 + 1);
+  }
+  function tilesInPyramid(bbox, minZoom, maxZoom) {
+    const tiles = [];
+    for (let z2 = minZoom; z2 <= maxZoom; z2++) {
+      tiles.push(...tilesInRange(tileRange(bbox, z2)));
+    }
+    return tiles;
+  }
+  function countTilesInPyramid(bbox, minZoom, maxZoom) {
+    let n = 0;
+    for (let z2 = minZoom; z2 <= maxZoom; z2++) n += countTilesInRange(tileRange(bbox, z2));
+    return n;
+  }
+  function planDownload(bbox, opt = {}) {
+    const minZoom = opt.minZoom == null ? 0 : opt.minZoom;
+    const capZoom = opt.capZoom == null ? OFM_MAXZOOM : opt.capZoom;
+    const maxTiles = opt.maxTiles == null ? OFM_MAX_TILES : opt.maxTiles;
+    const maxBytes = opt.maxBytes == null ? OFM_MAX_BYTES : opt.maxBytes;
+    const avgBytes = opt.avgBytes == null ? DEFAULT_AVG_TILE_BYTES : opt.avgBytes;
+    let maxZoom = minZoom;
+    let tileCount = countTilesInPyramid(bbox, minZoom, minZoom);
+    for (let z2 = minZoom; z2 <= capZoom; z2++) {
+      const c = countTilesInPyramid(bbox, minZoom, z2);
+      if (c > maxTiles || c * avgBytes > maxBytes) break;
+      maxZoom = z2;
+      tileCount = c;
+    }
+    const estimateBytes = tileCount * avgBytes;
+    const smallest = countTilesInPyramid(bbox, minZoom, minZoom);
+    const tooLarge = smallest > maxTiles || smallest * avgBytes > maxBytes;
+    return {
+      minZoom,
+      maxZoom,
+      tileCount,
+      estimateBytes,
+      tooLarge,
+      maxTiles,
+      maxBytes
+    };
+  }
+  function formatBytes(n) {
+    if (!Number.isFinite(n) || n < 0) return "\u2014";
+    if (n < 1024) return `${Math.round(n)} B`;
+    if (n < 1024 * 1024) return `${(n / 1024).toFixed(n < 10 * 1024 ? 1 : 0)} KB`;
+    const mb = n / (1024 * 1024);
+    return `${mb < 10 ? mb.toFixed(1) : Math.round(mb)} MB`;
+  }
+  function formatStorageLine(estimate, available) {
+    const left = available == null ? "Available storage unknown" : `${formatBytes(available)} available on this device`;
+    return `About ${formatBytes(estimate)} to download. ${left}.`;
+  }
+  function normalizeBbox(b3) {
+    const west = Math.min(b3.west, b3.east);
+    const east = Math.max(b3.west, b3.east);
+    const south = Math.min(b3.south, b3.north);
+    const north = Math.max(b3.south, b3.north);
+    return {
+      west: clamp(west, -180, 180),
+      east: clamp(east, -180, 180),
+      south: clamp(south, -85.0511, 85.0511),
+      north: clamp(north, -85.0511, 85.0511)
+    };
+  }
+  function bboxFromFrame(map2, frameEl, rootEl) {
+    if (!map2 || !frameEl) return null;
+    const fr = frameEl.getBoundingClientRect();
+    const mapCanvas = map2.getCanvas();
+    const mr = mapCanvas.getBoundingClientRect();
+    const left = fr.left - mr.left;
+    const top = fr.top - mr.top;
+    const right = fr.right - mr.left;
+    const bottom = fr.bottom - mr.top;
+    const sw = map2.unproject([left, bottom]);
+    const ne = map2.unproject([right, top]);
+    return normalizeBbox({ west: sw.lng, south: sw.lat, east: ne.lng, north: ne.lat });
+  }
+  async function resolveOfmTemplate(fetchFn = fetch) {
+    const now = Date.now();
+    if (cachedTileTemplate && now - cachedTileTemplateAt < 24 * 60 * 60 * 1e3) {
+      return cachedTileTemplate;
+    }
+    const res = await fetchFn(OFM_TILEJSON_URL, {
+      headers: { "User-Agent": OFM_USER_AGENT }
+    });
+    if (!res.ok) throw new Error("OpenFreeMap tile JSON " + res.status);
+    const json = await res.json();
+    const tmpl = json && json.tiles && json.tiles[0];
+    if (!tmpl) throw new Error("OpenFreeMap tile JSON missing tiles");
+    cachedTileTemplate = tmpl;
+    cachedTileTemplateAt = now;
+    return tmpl;
+  }
+  function tileUrl(template, z2, x2, y2) {
+    return template.replace("{z}", String(z2)).replace("{x}", String(x2)).replace("{y}", String(y2));
+  }
+  async function mapPool(items, limit, fn, onProgress) {
+    let i = 0;
+    let done = 0;
+    let bytes = 0;
+    let stop = false;
+    async function worker() {
+      while (!stop) {
+        const idx = i++;
+        if (idx >= items.length) return;
+        const n2 = await fn(items[idx], idx);
+        const add = typeof n2 === "number" ? n2 : 0;
+        bytes += add;
+        done += 1;
+        if (onProgress) onProgress({ done, total: items.length, bytes });
+        if (bytes > OFM_MAX_BYTES || done >= OFM_MAX_TILES) stop = true;
+      }
+    }
+    const n = Math.max(1, Math.min(limit, items.length));
+    await Promise.all(Array.from({ length: n }, worker));
+    return { done, bytes, stoppedEarly: stop && done < items.length };
+  }
+  var OFM_TILEJSON_URL, OFM_MAX_TILES, OFM_MAX_BYTES, OFM_PARALLEL, OFM_USER_AGENT, OFM_MAXZOOM, DEFAULT_AVG_TILE_BYTES, WORLD_MAXZOOM, FLORENCE_BOUNDS, cachedTileTemplate, cachedTileTemplateAt;
+  var init_map_tiles = __esm({
+    "www/js/map_tiles.js"() {
+      OFM_TILEJSON_URL = "https://tiles.openfreemap.org/planet";
+      OFM_MAX_TILES = 3e3;
+      OFM_MAX_BYTES = 50 * 1024 * 1024;
+      OFM_PARALLEL = 4;
+      OFM_USER_AGENT = "Heldpath/1.0 (https://paigegames.net/heldpath)";
+      OFM_MAXZOOM = 14;
+      DEFAULT_AVG_TILE_BYTES = 80 * 1024;
+      WORLD_MAXZOOM = 6;
+      FLORENCE_BOUNDS = [11.221144, 43.745121, 11.287543, 43.789306];
+      cachedTileTemplate = null;
+      cachedTileTemplateAt = 0;
     }
   });
 
@@ -22849,6 +23524,188 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         web: () => Promise.resolve().then(() => (init_web2(), web_exports2)).then((m) => new m.GeolocationWeb())
       });
       f();
+    }
+  });
+
+  // www/js/elevation.js
+  function terrariumToMeters(r, g, b3) {
+    return r * 256 + g + b3 / 256 - 32768;
+  }
+  function fuseElevation({ baroM, gpsM, demM, prevM } = {}) {
+    const have = (v2) => v2 != null && Number.isFinite(Number(v2));
+    let base = null;
+    let source = "none";
+    if (have(baroM)) {
+      base = Number(baroM);
+      source = "baro";
+    } else if (have(gpsM)) {
+      base = Number(gpsM);
+      source = "gps";
+    } else if (have(demM)) {
+      base = Number(demM);
+      source = "dem";
+    } else if (have(prevM)) {
+      return { meters: Number(prevM), source: "hold" };
+    } else return { meters: null, source: "none" };
+    if (have(demM) && source !== "dem") {
+      const dem = Number(demM);
+      const alpha = source === "baro" ? 0.25 : 0.45;
+      base = base * (1 - alpha) + dem * alpha;
+    }
+    if (have(prevM)) {
+      const prev = Number(prevM);
+      base = prev * 0.35 + base * 0.65;
+    }
+    return { meters: Math.round(base * 10) / 10, source };
+  }
+  function smoothElevations(values, window2 = 5) {
+    const arr = (values || []).map((v2) => v2 == null || !Number.isFinite(Number(v2)) ? null : Number(v2));
+    const n = arr.length;
+    if (n < 3) return arr.slice();
+    const w2 = Math.max(3, window2 % 2 === 1 ? window2 : window2 + 1);
+    const half = Math.floor(w2 / 2);
+    const out = arr.slice();
+    for (let i = 0; i < n; i++) {
+      let sum = 0, c = 0;
+      for (let j2 = i - half; j2 <= i + half; j2++) {
+        if (j2 < 0 || j2 >= n || arr[j2] == null) continue;
+        sum += arr[j2];
+        c += 1;
+      }
+      if (c) out[i] = Math.round(sum / c * 10) / 10;
+    }
+    const first2 = arr.find((v2) => v2 != null);
+    const last = [...arr].reverse().find((v2) => v2 != null);
+    if (first2 != null) out[arr.findIndex((v2) => v2 != null)] = first2;
+    if (last != null) out[n - 1 - [...arr].reverse().findIndex((v2) => v2 != null)] = last;
+    return out;
+  }
+  function seriesFrom(points) {
+    if (!points) return [];
+    if (points.length && typeof points[0] === "number") return points.map((v2) => Number.isFinite(v2) ? v2 : null);
+    return points.map((p) => {
+      if (p == null) return null;
+      const v2 = p.ele ?? p.elevation ?? p.alt ?? p.altitude;
+      return v2 == null || !Number.isFinite(Number(v2)) ? null : Number(v2);
+    });
+  }
+  function despikeElevations(values, thresholdM = GAIN_THRESHOLD_M) {
+    const arr = (values || []).map((v2) => v2 == null || !Number.isFinite(Number(v2)) ? null : Number(v2));
+    const out = arr.slice();
+    for (let i = 1; i < arr.length - 1; i++) {
+      if (arr[i] == null || arr[i - 1] == null || arr[i + 1] == null) continue;
+      const mid = Math.max(arr[i - 1], arr[i + 1]);
+      const low = Math.min(arr[i - 1], arr[i + 1]);
+      if (arr[i] - mid >= thresholdM * 2) out[i] = mid;
+      else if (low - arr[i] >= thresholdM * 2) out[i] = low;
+    }
+    return out;
+  }
+  function gainLoss(points, { thresholdM = GAIN_THRESHOLD_M, window: window2 = 3 } = {}) {
+    const cleaned = despikeElevations(seriesFrom(points), thresholdM);
+    const smooth = smoothElevations(cleaned, window2);
+    let gain = 0, loss = 0;
+    let last = null;
+    for (const v2 of cleaned) {
+      if (v2 == null) continue;
+      if (last == null) {
+        last = v2;
+        continue;
+      }
+      const d2 = v2 - last;
+      if (d2 >= thresholdM) {
+        gain += d2;
+        last = v2;
+      } else if (d2 <= -thresholdM) {
+        loss += -d2;
+        last = v2;
+      }
+    }
+    return {
+      gainM: Math.round(gain * 10) / 10,
+      lossM: Math.round(loss * 10) / 10,
+      samples: smooth
+    };
+  }
+  function distance3dMeters(points, { thresholdM = GAIN_THRESHOLD_M, window: window2 = 5 } = {}) {
+    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
+    if (pts.length < 2) return 0;
+    const smooth = smoothElevations(pts.map((p) => p.ele == null ? null : p.ele), window2);
+    let sum = 0;
+    for (let i = 1; i < pts.length; i++) {
+      const h2 = haversineMeters(pts[i - 1], pts[i]);
+      const a = smooth[i - 1];
+      const b3 = smooth[i];
+      let v2 = 0;
+      if (a != null && b3 != null) {
+        v2 = b3 - a;
+        if (Math.abs(v2) < thresholdM * 0.25) v2 = 0;
+      }
+      sum += Math.sqrt(h2 * h2 + v2 * v2);
+    }
+    return Math.round(sum * 10) / 10;
+  }
+  function displayDistance(points, flatMeters, { countHills = false } = {}) {
+    const flat = Number(flatMeters) || 0;
+    if (!countHills) {
+      return { meters: flat, disclaimer: FLAT_DISCLAIMER, countHills: false };
+    }
+    const d3 = distance3dMeters(points);
+    const meters = d3 > 0 ? d3 : flat;
+    return { meters, disclaimer: HILLS_DISCLAIMER, countHills: true, flatMeters: flat };
+  }
+  function naismithSeconds(flatMeters, gainM, mph) {
+    const miles = (Number(flatMeters) || 0) / 1609.344;
+    const speed = Number(mph) || 0;
+    const flatSec = speed > 0 && miles > 0 ? miles / speed * 3600 : 0;
+    const climbSec = Math.max(0, Number(gainM) || 0) / 600 * 3600;
+    return Math.round(flatSec + climbSec);
+  }
+  function formatGain(meters, units3 = "mi") {
+    const m = Math.max(0, Number(meters) || 0);
+    if (units3 === "km") {
+      if (m >= 1e3) return `${(m / 1e3).toFixed(1)} km`;
+      return `${Math.round(m)} m`;
+    }
+    const ft = m * 3.28084;
+    return `${Math.round(ft)} ft`;
+  }
+  function elevationProfileSvg(values, { width = 280, height = 72, gainM = 0, lossM = 0, units: units3 = "mi" } = {}) {
+    const nums = (values || []).filter((v2) => v2 != null && Number.isFinite(Number(v2))).map(Number);
+    if (nums.length < 2) return "";
+    const min = Math.min(...nums);
+    const max2 = Math.max(...nums);
+    const span = Math.max(max2 - min, 1);
+    const pad = 4;
+    const innerW = width - pad * 2;
+    const innerH = height - pad * 2;
+    const pts = nums.map((v2, i) => {
+      const x2 = pad + i / (nums.length - 1) * innerW;
+      const y2 = pad + (1 - (v2 - min) / span) * innerH;
+      return `${x2.toFixed(1)},${y2.toFixed(1)}`;
+    }).join(" ");
+    const label = `Elevation profile. Climb ${formatGain(gainM, units3)}, descent ${formatGain(lossM, units3)}.`;
+    return `<svg class="elev-profile" viewBox="0 0 ${width} ${height}" role="img" aria-label="${label.replace(/"/g, "'")}" data-testid="elevation-profile"><polyline fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" points="${pts}" /></svg>`;
+  }
+  function heightFromPressure(hpa, { seaLevelHpa = 1013.25, refHeightM = 0, refHpa = null } = {}) {
+    const p = Number(hpa);
+    if (!Number.isFinite(p) || p <= 0) return null;
+    if (refHpa && refHpa > 0) {
+      const href = 44330 * (1 - Math.pow(refHpa / seaLevelHpa, 0.1903));
+      const h2 = 44330 * (1 - Math.pow(p / seaLevelHpa, 0.1903));
+      return refHeightM + (h2 - href);
+    }
+    return 44330 * (1 - Math.pow(p / seaLevelHpa, 0.1903));
+  }
+  var GAIN_THRESHOLD_M, FLAT_DISCLAIMER, HILLS_DISCLAIMER, DEM_CREDIT_SHORT, DEM_ATTRIBUTION_URL;
+  var init_elevation = __esm({
+    "www/js/elevation.js"() {
+      init_util();
+      GAIN_THRESHOLD_M = 3;
+      FLAT_DISCLAIMER = "Distance is measured as flat ground. Elevation isn't included unless you turn on Count hills in distance.";
+      HILLS_DISCLAIMER = "Distance includes hills.";
+      DEM_CREDIT_SHORT = "Elevation data: Tilezen/Mapzen terrain tiles, hosted by AWS Open Data.";
+      DEM_ATTRIBUTION_URL = "https://github.com/tilezen/joerd/blob/master/docs/attribution.md";
     }
   });
 
@@ -23677,6 +24534,6963 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
   });
 
+  // www/js/low_signal.js
+  function pathBbox(points, padMeters = BBOX_PAD_M) {
+    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
+    if (!pts.length) return null;
+    let west = pts[0].lon, east = pts[0].lon, south = pts[0].lat, north = pts[0].lat;
+    for (const p of pts) {
+      if (p.lon < west) west = p.lon;
+      if (p.lon > east) east = p.lon;
+      if (p.lat < south) south = p.lat;
+      if (p.lat > north) north = p.lat;
+    }
+    const midLat = (south + north) / 2;
+    const dLat = padMeters / 111320;
+    const cos = Math.max(0.2, Math.cos(midLat * Math.PI / 180));
+    const dLon = padMeters / (111320 * cos);
+    return normalizeBbox({
+      west: west - dLon,
+      east: east + dLon,
+      south: south - dLat,
+      north: north + dLat
+    });
+  }
+  function pointInArea(point, area) {
+    if (!point || !area) return false;
+    return point.lon >= area.west && point.lon <= area.east && point.lat >= area.south && point.lat <= area.north;
+  }
+  function samplePath(points, stepMeters = SAMPLE_STEP_M) {
+    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
+    if (!pts.length) return [];
+    const out = [{ lat: pts[0].lat, lon: pts[0].lon }];
+    let acc = 0;
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1];
+      const b3 = pts[i];
+      const d2 = haversineMeters(a, b3);
+      if (!(d2 > 0)) continue;
+      let remain = d2;
+      let from = a;
+      while (acc + remain >= stepMeters) {
+        const need = stepMeters - acc;
+        const t = need / (haversineMeters(from, b3) || remain);
+        from = { lat: from.lat + (b3.lat - from.lat) * t, lon: from.lon + (b3.lon - from.lon) * t };
+        out.push(from);
+        remain = haversineMeters(from, b3);
+        acc = 0;
+      }
+      acc += remain;
+    }
+    const last = pts[pts.length - 1];
+    const prev = out[out.length - 1];
+    if (!prev || prev.lat !== last.lat || prev.lon !== last.lon) out.push({ lat: last.lat, lon: last.lon });
+    return out;
+  }
+  function coverageGaps(points, areas) {
+    const samples = samplePath(points);
+    const list = areas || [];
+    return samples.filter((p) => !list.some((a) => pointInArea(p, a)));
+  }
+  function isCovered(points, areas) {
+    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
+    if (!pts.length) return false;
+    return coverageGaps(pts, areas).length === 0;
+  }
+  function isLowSignalTag(tags) {
+    if (!tags || typeof tags !== "object") return false;
+    if (tags.tunnel != null && !SKIP_TUNNEL.has(String(tags.tunnel).toLowerCase())) return true;
+    if (tags.covered != null && !SKIP_TUNNEL.has(String(tags.covered).toLowerCase())) return true;
+    return false;
+  }
+  function wayPoints(way) {
+    if (way && Array.isArray(way.geometry)) {
+      return way.geometry.map((g) => ({ lat: g.lat, lon: g.lon }));
+    }
+    return way && way.points ? way.points : [];
+  }
+  function wayNearPath(way, path, maxMeters = TUNNEL_NEAR_M) {
+    const pts = wayPoints(way);
+    const samples = samplePath(path, Math.min(SAMPLE_STEP_M, maxMeters));
+    if (!pts.length || !samples.length) return false;
+    for (const a of pts) {
+      for (const b3 of samples) {
+        if (haversineMeters(a, b3) <= maxMeters) return true;
+      }
+    }
+    return false;
+  }
+  function tunnelsOnPath(ways, path) {
+    return (ways || []).filter((w2) => isLowSignalTag(w2.tags || w2) && wayNearPath(w2, path));
+  }
+  function assessLowSignal({ path, areas = [], ways = [] } = {}) {
+    const pts = path || [];
+    const bbox = pathBbox(pts);
+    const covered = isCovered(pts, areas);
+    const tunnels = tunnelsOnPath(ways, pts);
+    const coverageGap = !covered;
+    const hasTunnels = tunnels.length > 0;
+    const show2 = !!(bbox && pts.length >= 2 && (coverageGap || hasTunnels));
+    return {
+      show: show2,
+      covered,
+      coverageGap,
+      hasTunnels,
+      tunnels,
+      bbox,
+      copy: LOW_SIGNAL_COPY
+    };
+  }
+  function overpassQuery(bbox) {
+    const box = normalizeBbox(bbox);
+    const s2 = box.south.toFixed(6);
+    const w2 = box.west.toFixed(6);
+    const n = box.north.toFixed(6);
+    const e = box.east.toFixed(6);
+    return `[out:json][timeout:12];(way["tunnel"](${s2},${w2},${n},${e});way["covered"](${s2},${w2},${n},${e}););out geom tags;`;
+  }
+  function waysFromOverpass(json) {
+    const els = json && json.elements || [];
+    return els.filter((el) => el && el.type === "way" && isLowSignalTag(el.tags) && Array.isArray(el.geometry)).map((el) => ({ id: el.id, tags: el.tags, geometry: el.geometry }));
+  }
+  async function defaultTunnelFetcher(bbox, fetchFn = fetch) {
+    const res = await fetchFn(OVERPASS_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "User-Agent": OFM_USER_AGENT
+      },
+      body: "data=" + encodeURIComponent(overpassQuery(bbox))
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return waysFromOverpass(json);
+  }
+  async function loadTunnelWays(bbox, { fetchFn, timeoutMs = 8e3 } = {}) {
+    if (!bbox) return [];
+    const work = Promise.resolve().then(() => tunnelFetcher(bbox, fetchFn || fetch));
+    let timer2;
+    const timeout = new Promise((resolve2) => {
+      timer2 = setTimeout(() => resolve2([]), timeoutMs);
+    });
+    try {
+      const ways = await Promise.race([work.catch(() => []), timeout]);
+      return Array.isArray(ways) ? ways : [];
+    } finally {
+      clearTimeout(timer2);
+    }
+  }
+  function shouldFetchTunnels() {
+    try {
+      if (typeof navigator !== "undefined" && navigator.webdriver) return false;
+      if (typeof location !== "undefined") {
+        const q2 = new URLSearchParams(location.search);
+        if (q2.has("screen") || q2.has("nosw")) return false;
+      }
+    } catch {
+    }
+    return true;
+  }
+  async function assessRouteLowSignal(path, { areas, ways, fetchFn, timeoutMs } = {}) {
+    const pts = path || [];
+    const bbox = pathBbox(pts);
+    const areaList = areas || [];
+    let found = ways;
+    if (found == null) {
+      if (!shouldFetchTunnels()) found = [];
+      else {
+        try {
+          found = await loadTunnelWays(bbox, { fetchFn, timeoutMs });
+        } catch {
+          found = [];
+        }
+      }
+    }
+    return assessLowSignal({ path: pts, areas: areaList, ways: found });
+  }
+  var LOW_SIGNAL_COPY, SAMPLE_STEP_M, BBOX_PAD_M, TUNNEL_NEAR_M, OVERPASS_URL, SKIP_TUNNEL, tunnelFetcher;
+  var init_low_signal = __esm({
+    "www/js/low_signal.js"() {
+      init_util();
+      init_map_tiles();
+      LOW_SIGNAL_COPY = "Parts of this route may have weak signal. Download the route area for the best accuracy?";
+      SAMPLE_STEP_M = 50;
+      BBOX_PAD_M = 200;
+      TUNNEL_NEAR_M = 40;
+      OVERPASS_URL = "https://overpass-api.de/api/interpreter";
+      SKIP_TUNNEL = /* @__PURE__ */ new Set(["", "no", "false", "0", "none"]);
+      tunnelFetcher = defaultTunnelFetcher;
+    }
+  });
+
+  // www/js/elevation_dem.js
+  var elevation_dem_exports = {};
+  __export(elevation_dem_exports, {
+    DEM_ATTRIBUTION_URL: () => DEM_ATTRIBUTION_URL,
+    DEM_CREDIT_SHORT: () => DEM_CREDIT_SHORT,
+    DEM_TILE_URL: () => DEM_TILE_URL,
+    DEM_UA: () => DEM_UA,
+    DEM_ZOOM: () => DEM_ZOOM,
+    demTileUrl: () => demTileUrl,
+    getCachedTile: () => getCachedTile,
+    lookupDem: () => lookupDem,
+    pixelFraction: () => pixelFraction,
+    prefetchDemForBbox: () => prefetchDemForBbox,
+    putCachedTile: () => putCachedTile,
+    samplePathDem: () => samplePathDem,
+    setDemLookup: () => setDemLookup,
+    setDemPixelDecoder: () => setDemPixelDecoder,
+    tileXyz: () => tileXyz,
+    tilesForBbox: () => tilesForBbox
+  });
+  function tileXyz(lat, lon, z2 = DEM_ZOOM) {
+    const n = 2 ** z2;
+    const x2 = Math.floor((lon + 180) / 360 * n);
+    const latRad = lat * Math.PI / 180;
+    const y2 = Math.floor((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n);
+    return { z: z2, x: Math.min(n - 1, Math.max(0, x2)), y: Math.min(n - 1, Math.max(0, y2)) };
+  }
+  function demTileUrl(z2, x2, y2) {
+    return DEM_TILE_URL.replace("{z}", z2).replace("{x}", x2).replace("{y}", y2);
+  }
+  function demDb() {
+    return new Promise((resolve2, reject) => {
+      if (typeof indexedDB === "undefined") {
+        resolve2(null);
+        return;
+      }
+      const req = indexedDB.open(DB_NAME3, 1);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains(STORE3)) db.createObjectStore(STORE3);
+      };
+      req.onsuccess = () => resolve2(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+  async function getCachedTile(z2, x2, y2) {
+    const key = `${z2}/${x2}/${y2}`;
+    if (mem.has(key)) return mem.get(key);
+    try {
+      const db = await demDb();
+      if (!db) return null;
+      const rec = await new Promise((resolve2, reject) => {
+        const tx = db.transaction(STORE3, "readonly");
+        const req = tx.objectStore(STORE3).get(key);
+        req.onsuccess = () => resolve2(req.result || null);
+        req.onerror = () => reject(req.error);
+      });
+      db.close();
+      if (rec && rec.data) mem.set(key, rec.data);
+      return rec && rec.data ? rec.data : null;
+    } catch {
+      return null;
+    }
+  }
+  async function putCachedTile(z2, x2, y2, buffer) {
+    const key = `${z2}/${x2}/${y2}`;
+    mem.set(key, buffer);
+    try {
+      const db = await demDb();
+      if (!db) return;
+      await new Promise((resolve2, reject) => {
+        const tx = db.transaction(STORE3, "readwrite");
+        tx.oncomplete = resolve2;
+        tx.onerror = () => reject(tx.error);
+        tx.objectStore(STORE3).put({ data: buffer, storedAt: Date.now() }, key);
+      });
+      db.close();
+    } catch {
+    }
+  }
+  async function fetchTile(z2, x2, y2, fetchFn = fetch) {
+    const cached = await getCachedTile(z2, x2, y2);
+    if (cached) return cached;
+    const res = await fetchFn(demTileUrl(z2, x2, y2), { headers: { "User-Agent": DEM_UA } });
+    if (!res.ok) return null;
+    const buf = await res.arrayBuffer();
+    if (buf && buf.byteLength) await putCachedTile(z2, x2, y2, buf);
+    return buf;
+  }
+  function setDemPixelDecoder(fn) {
+    pixelDecoder = typeof fn === "function" ? fn : null;
+  }
+  async function defaultDecodePixel(buffer, px, py) {
+    if (pixelDecoder) return pixelDecoder(buffer, px, py);
+    if (typeof createImageBitmap !== "function" || typeof OffscreenCanvas === "undefined") return null;
+    const blob = new Blob([buffer], { type: "image/png" });
+    const bmp = await createImageBitmap(blob);
+    const canvas = new OffscreenCanvas(bmp.width, bmp.height);
+    const ctx2 = canvas.getContext("2d");
+    ctx2.drawImage(bmp, 0, 0);
+    const x2 = Math.min(bmp.width - 1, Math.max(0, Math.floor(px)));
+    const y2 = Math.min(bmp.height - 1, Math.max(0, Math.floor(py)));
+    const [r, g, b3] = ctx2.getImageData(x2, y2, 1, 1).data;
+    bmp.close();
+    return terrariumToMeters(r, g, b3);
+  }
+  function pixelFraction(lat, lon, z2 = DEM_ZOOM) {
+    const n = 2 ** z2;
+    const x2 = (lon + 180) / 360 * n;
+    const latRad = lat * Math.PI / 180;
+    const y2 = (1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n;
+    return { fx: (x2 - Math.floor(x2)) * 256, fy: (y2 - Math.floor(y2)) * 256 };
+  }
+  async function lookupDem(lat, lon, { z: z2 = DEM_ZOOM, fetchFn } = {}) {
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+    const { z: zz, x: x2, y: y2 } = tileXyz(lat, lon, z2);
+    try {
+      const buf = await fetchTile(zz, x2, y2, fetchFn);
+      if (!buf) return null;
+      const { fx, fy } = pixelFraction(lat, lon, z2);
+      const meters = await defaultDecodePixel(buf, fx, fy);
+      return meters == null || !Number.isFinite(meters) ? null : Math.round(meters * 10) / 10;
+    } catch {
+      return null;
+    }
+  }
+  function setDemLookup(fn) {
+    lookupImpl = typeof fn === "function" ? fn : lookupDem;
+  }
+  async function samplePathDem(path, { stepM = 40, fetchFn } = {}) {
+    const samples = samplePath(path, stepM);
+    const out = [];
+    for (const p of samples) {
+      const ele = await lookupImpl(p.lat, p.lon, { fetchFn });
+      out.push({ lat: p.lat, lon: p.lon, ele });
+    }
+    return out;
+  }
+  function tilesForBbox(bbox, z2 = DEM_ZOOM) {
+    if (!bbox) return [];
+    const a = tileXyz(bbox.south, bbox.west, z2);
+    const b3 = tileXyz(bbox.north, bbox.east, z2);
+    const tiles = [];
+    for (let x2 = Math.min(a.x, b3.x); x2 <= Math.max(a.x, b3.x); x2++) {
+      for (let y2 = Math.min(a.y, b3.y); y2 <= Math.max(a.y, b3.y); y2++) {
+        tiles.push({ z: z2, x: x2, y: y2 });
+      }
+    }
+    return tiles;
+  }
+  async function prefetchDemForBbox(bbox, { fetchFn, onProgress } = {}) {
+    const tiles = tilesForBbox(bbox);
+    let done = 0;
+    for (const t of tiles) {
+      try {
+        await fetchTile(t.z, t.x, t.y, fetchFn);
+      } catch {
+      }
+      done += 1;
+      if (onProgress) onProgress({ done, total: tiles.length });
+    }
+    return { ok: true, tileCount: tiles.length, done };
+  }
+  var DEM_TILE_URL, DEM_ZOOM, DEM_UA, DB_NAME3, STORE3, mem, pixelDecoder, lookupImpl;
+  var init_elevation_dem = __esm({
+    "www/js/elevation_dem.js"() {
+      init_elevation();
+      init_low_signal();
+      DEM_TILE_URL = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png";
+      DEM_ZOOM = 12;
+      DEM_UA = "Heldpath/1.0 (https://paigegames.net/heldpath; elevation)";
+      DB_NAME3 = "heldpath-dem";
+      STORE3 = "tiles";
+      mem = /* @__PURE__ */ new Map();
+      pixelDecoder = null;
+      lookupImpl = lookupDem;
+    }
+  });
+
+  // node_modules/fit-file-parser/dist/fit.js
+  var require_fit = __commonJS({
+    "node_modules/fit-file-parser/dist/fit.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.getMessageName = getMessageName;
+      exports.getFieldObject = getFieldObject;
+      var metersInOneKilometer = 1e3;
+      var secondsInOneHour = 3600;
+      var metersInOneMile = 1609.344;
+      var centiBarsInOneBar = 100;
+      var psiInOneBar = 14.5037738;
+      var FIT = exports.FIT = {
+        scConst: 180 / Math.pow(2, 31),
+        options: {
+          speedUnits: {
+            // native speed unit: meters per second [m/s]
+            "m/s": {
+              multiplier: 1,
+              offset: 0
+            },
+            // miles per hour [mph]
+            mph: {
+              multiplier: secondsInOneHour / metersInOneMile,
+              offset: 0
+            },
+            // kilometers per hour [km/h]
+            "km/h": {
+              multiplier: secondsInOneHour / metersInOneKilometer,
+              offset: 0
+            }
+          },
+          lengthUnits: {
+            // native length unit: meters [m]
+            m: {
+              multiplier: 1,
+              offset: 0
+            },
+            // (international) mile [mi]
+            mi: {
+              multiplier: 1 / metersInOneMile,
+              offset: 0
+            },
+            // kilometer [km]
+            km: {
+              multiplier: 1 / metersInOneKilometer,
+              offset: 0
+            }
+          },
+          temperatureUnits: {
+            // native temperature unit: degree Celsius [°C]
+            "\xB0C": {
+              multiplier: 1,
+              offset: 0
+            },
+            // kelvin [K]
+            kelvin: {
+              multiplier: 1,
+              offset: -273.15
+            },
+            // degree fahrenheit [°F]
+            fahrenheit: {
+              multiplier: 9 / 5,
+              offset: 32
+            }
+          },
+          pressureUnits: {
+            cbar: {
+              multiplier: 1,
+              offset: 0
+            },
+            bar: {
+              multiplier: 1 / centiBarsInOneBar,
+              offset: 0
+            },
+            psi: {
+              multiplier: 1 / centiBarsInOneBar * psiInOneBar,
+              offset: 0
+            }
+          }
+        },
+        messages: {
+          0: {
+            name: "file_id",
+            0: { field: "type", type: "file", scale: null, offset: "", units: "" },
+            1: { field: "manufacturer", type: "manufacturer", scale: null, offset: "", units: "" },
+            2: { field: "product", type: "uint16", scale: null, offset: "", units: "" },
+            3: { field: "serial_number", type: "uint32z", scale: null, offset: "", units: "" },
+            4: { field: "time_created", type: "date_time", scale: null, offset: "", units: "" },
+            5: { field: "number", type: "uint16", scale: null, offset: "", units: "" },
+            8: { field: "product_name", type: "string", scale: null, offset: "", units: "" }
+          },
+          1: {
+            name: "capabilities",
+            0: { field: "languages", type: "uint8z", scale: null, offset: "", units: "" },
+            1: { field: "sports", type: "sport_bits_0", scale: null, offset: "", units: "" },
+            21: { field: "workouts_supported", type: "workout_capabilities", scale: null, offset: "", units: "" },
+            23: { field: "connectivity_supported", type: "connectivity_capabilities", scale: null, offset: "", units: "" }
+          },
+          2: {
+            name: "device_settings",
+            0: { field: "active_time_zone", type: "uint8", scale: null, offset: "", units: "" },
+            1: { field: "utc_offset", type: "uint32", scale: null, offset: "", units: "" },
+            2: { field: "time_offset", type: "uint32", scale: null, offset: "", units: "s" },
+            5: { field: "time_zone_offset", type: "sint8", scale: 4, offset: "", units: "hr" },
+            55: { field: "display_orientation", type: "display_orientation", scale: null, offset: "", units: "" },
+            56: { field: "mounting_side", type: "side", scale: null, offset: "", units: "" },
+            94: { field: "number_of_screens", type: "uint8", scale: null, offset: "", units: "" },
+            95: { field: "smart_notification_display_orientation", type: "display_orientation", scale: null, offset: "", units: "" }
+          },
+          3: {
+            name: "user_profile",
+            254: { field: "message_index", type: "message_index", scale: null, offset: 0, units: "" },
+            0: { field: "friendly_name", type: "string", scale: null, offset: 0, units: "" },
+            1: { field: "gender", type: "gender", scale: null, offset: 0, units: "" },
+            2: { field: "age", type: "uint8", scale: null, offset: 0, units: "years" },
+            3: { field: "height", type: "uint8", scale: 100, offset: 0, units: "m" },
+            4: { field: "weight", type: "uint16", scale: 10, offset: 0, units: "kg" },
+            5: { field: "language", type: "language", scale: null, offset: 0, units: "" },
+            6: { field: "elev_setting", type: "display_measure", scale: null, offset: 0, units: "" },
+            7: { field: "weight_setting", type: "display_measure", scale: null, offset: 0, units: "" },
+            8: { field: "resting_heart_rate", type: "uint8", scale: null, offset: 0, units: "bpm" },
+            9: { field: "default_max_running_heart_rate", type: "uint8", scale: null, offset: 0, units: "bpm" },
+            10: { field: "default_max_biking_heart_rate", type: "uint8", scale: null, offset: 0, units: "bpm" },
+            11: { field: "default_max_heart_rate", type: "uint8", scale: null, offset: 0, units: "bpm" },
+            12: { field: "hr_setting", type: "display_heart", scale: null, offset: 0, units: "" },
+            13: { field: "speed_setting", type: "display_measure", scale: null, offset: 0, units: "" },
+            14: { field: "dist_setting", type: "display_measure", scale: null, offset: 0, units: "" },
+            16: { field: "power_setting", type: "display_power", scale: null, offset: 0, units: "" },
+            17: { field: "activity_class", type: "activity_class", scale: null, offset: 0, units: "" },
+            18: { field: "position_setting", type: "display_position", scale: null, offset: 0, units: "" },
+            21: { field: "temperature_setting", type: "display_measure", scale: null, offset: 0, units: "" },
+            22: { field: "local_id", type: "user_local_id", scale: null, offset: 0, units: "" },
+            23: { field: "global_id", type: "byte", scale: null, offset: 0, units: "" },
+            28: { field: "wake_time", type: "localtime_into_day", scale: null, offset: 0, units: "" },
+            29: { field: "sleep_time", type: "localtime_into_day", scale: null, offset: 0, units: "" },
+            30: { field: "height_setting", type: "display_measure", scale: null, offset: 0, units: "" }
+          },
+          4: {
+            name: "hrm_profile",
+            254: { field: "message_index", type: "message_index", scale: null, offset: "", units: "" },
+            0: { field: "enabled", type: "bool", scale: null, offset: "", units: "" },
+            1: { field: "hrm_ant_id", type: "uint16z", scale: null, offset: "", units: "" },
+            2: { field: "log_hrv", type: "bool", scale: null, offset: "", units: "" },
+            3: { field: "hrm_ant_id_trans_type", type: "uint8z", scale: null, offset: "", units: "" }
+          },
+          5: {
+            name: "sdm_profile",
+            254: { field: "message_index", type: "message_index", scale: null, offset: "", units: "" },
+            0: { field: "enabled", type: "bool", scale: null, offset: "", units: "" },
+            1: { field: "sdm_ant_id", type: "uint16z", scale: null, offset: "", units: "" },
+            2: { field: "sdm_cal_factor", type: "uint16", scale: 10, offset: "", units: "%" },
+            3: { field: "odometer", type: "uint32", scale: 100, offset: "", units: "m" },
+            4: { field: "speed_source", type: "bool", scale: null, offset: "", units: "" },
+            5: { field: "sdm_ant_id_trans_type", type: "uint8z", scale: null, offset: "", units: "" },
+            7: { field: "odometer_rollover", type: "uint8", scale: null, offset: "", units: "" }
+          },
+          6: {
+            name: "bike_profile",
+            254: { field: "message_index", type: "message_index", scale: null, offset: 0, units: "" },
+            0: { field: "name", type: "string", scale: null, offset: 0, units: "" },
+            1: { field: "sport", type: "sport", scale: null, offset: 0, units: "" },
+            2: { field: "sub_sport", type: "sub_sport", scale: null, offset: 0, units: "" },
+            3: { field: "odometer", type: "uint32", scale: 100, offset: 0, units: "m" },
+            4: { field: "bike_spd_ant_id", type: "uint16z", scale: null, offset: 0, units: "" },
+            5: { field: "bike_cad_ant_id", type: "uint16z", scale: null, offset: 0, units: "" },
+            6: { field: "bike_spdcad_ant_id", type: "uint16z", scale: null, offset: 0, units: "" },
+            7: { field: "bike_power_ant_id", type: "uint16z", scale: null, offset: 0, units: "" },
+            8: { field: "custom_wheelsize", type: "uint16", scale: 1e3, offset: 0, units: "m" },
+            9: { field: "auto_wheelsize", type: "uint16", scale: 1e3, offset: 0, units: "m" },
+            10: { field: "bike_weight", type: "uint16", scale: 10, offset: 0, units: "kg" },
+            11: { field: "power_cal_factor", type: "uint16", scale: 10, offset: 0, units: "%" },
+            12: { field: "auto_wheel_cal", type: "bool", scale: null, offset: 0, units: "" },
+            13: { field: "auto_power_zero", type: "bool", scale: null, offset: 0, units: "" },
+            14: { field: "id", type: "uint8", scale: null, offset: 0, units: "" },
+            15: { field: "spd_enabled", type: "bool", scale: null, offset: 0, units: "" },
+            16: { field: "cad_enabled", type: "bool", scale: null, offset: 0, units: "" },
+            17: { field: "spdcad_enabled", type: "bool", scale: null, offset: 0, units: "" },
+            18: { field: "power_enabled", type: "bool", scale: null, offset: 0, units: "" },
+            19: { field: "crank_length", type: "uint8", scale: 2, offset: -110, units: "mm" },
+            20: { field: "enabled", type: "bool", scale: null, offset: 0, units: "" },
+            21: { field: "bike_spd_ant_id_trans_type", type: "uint8z", scale: null, offset: 0, units: "" },
+            22: { field: "bike_cad_ant_id_trans_type", type: "uint8z", scale: null, offset: 0, units: "" },
+            23: { field: "bike_spdcad_ant_id_trans_type", type: "uint8z", scale: null, offset: 0, units: "" },
+            24: { field: "bike_power_ant_id_trans_type", type: "uint8z", scale: null, offset: 0, units: "" },
+            37: { field: "odometer_rollover", type: "uint8", scale: null, offset: 0, units: "" },
+            38: { field: "front_gear_num", type: "uint8z", scale: null, offset: 0, units: "" },
+            39: { field: "front_gear", type: "uint8z", scale: null, offset: 0, units: "" },
+            40: { field: "rear_gear_num", type: "uint8z", scale: null, offset: 0, units: "" },
+            41: { field: "rear_gear", type: "uint8z", scale: null, offset: 0, units: "" },
+            44: { field: "shimano_di2_enabled", type: "bool", scale: null, offset: 0, units: "" }
+          },
+          7: {
+            name: "zones_target",
+            1: { field: "max_heart_rate", type: "uint8", scale: null, offset: "", units: "" },
+            2: { field: "threshold_heart_rate", type: "uint8", scale: null, offset: "", units: "" },
+            3: { field: "functional_threshold_power", type: "uint16", scale: null, offset: "", units: "" },
+            5: { field: "hr_calc_type", type: "hr_zone_calc", scale: null, offset: "", units: "" },
+            7: { field: "pwr_calc_type", type: "pwr_zone_calc", scale: null, offset: "", units: "" }
+          },
+          8: {
+            name: "hr_zone",
+            254: { field: "message_index", type: "message_index", scale: null, offset: 0, units: "" },
+            1: { field: "high_bpm", type: "uint8", scale: null, offset: 0, units: "bpm" },
+            2: { field: "name", type: "string", scale: null, offset: 0, units: "" }
+          },
+          9: {
+            name: "power_zone",
+            254: { field: "message_index", type: "message_index", scale: null, offset: 0, units: "" },
+            1: { field: "high_value", type: "uint16", scale: null, offset: 0, units: "watts" },
+            2: { field: "name", type: "string", scale: null, offset: 0, units: "" }
+          },
+          10: {
+            name: "met_zone",
+            254: { field: "message_index", type: "message_index", scale: null, offset: 0, units: "" },
+            1: { field: "high_bpm", type: "uint8", scale: null, offset: 0, units: "" },
+            2: { field: "calories", type: "uint16", scale: 10, offset: 0, units: "kcal / min" },
+            3: { field: "fat_calories", type: "uint8", scale: 10, offset: 0, units: "kcal / min" }
+          },
+          12: {
+            name: "sport",
+            0: { field: "sport", type: "sport", scale: null, offset: "", units: "" },
+            1: { field: "sub_sport", type: "sub_sport", scale: null, offset: "", units: "" },
+            3: { field: "name", type: "string", scale: null, offset: "", units: "" }
+          },
+          15: {
+            name: "goal",
+            254: { field: "message_index", type: "message_index", scale: null, offset: "", units: "" },
+            0: { field: "sport", type: "sport", scale: null, offset: "", units: "" },
+            1: { field: "sub_sport", type: "sub_sport", scale: null, offset: "", units: "" },
+            2: { field: "start_date", type: "date_time", scale: null, offset: "", units: "" },
+            3: { field: "end_date", type: "date_time", scale: null, offset: "", units: "" },
+            4: { field: "type", type: "goal", scale: null, offset: "", units: "" },
+            5: { field: "value", type: "uint32", scale: null, offset: "", units: "" },
+            6: { field: "repeat", type: "bool", scale: null, offset: "", units: "" },
+            7: { field: "target_value", type: "uint32", scale: null, offset: "", units: "" },
+            8: { field: "recurrence", type: "goal_recurrence", scale: null, offset: "", units: "" },
+            9: { field: "recurrence_value", type: "uint16", scale: null, offset: "", units: "" },
+            10: { field: "enabled", type: "bool", scale: null, offset: "", units: "" }
+          },
+          18: {
+            name: "session",
+            254: { field: "message_index", type: "message_index", scale: null, offset: 0, units: "" },
+            253: { field: "timestamp", type: "date_time", scale: null, offset: 0, units: "s" },
+            0: { field: "event", type: "event", scale: null, offset: 0, units: "" },
+            1: { field: "event_type", type: "event_type", scale: null, offset: 0, units: "" },
+            2: { field: "start_time", type: "date_time", scale: null, offset: 0, units: "" },
+            3: { field: "start_position_lat", type: "sint32", scale: null, offset: 0, units: "semicircles" },
+            4: { field: "start_position_long", type: "sint32", scale: null, offset: 0, units: "semicircles" },
+            5: { field: "sport", type: "sport", scale: null, offset: 0, units: "" },
+            6: { field: "sub_sport", type: "sub_sport", scale: null, offset: 0, units: "" },
+            7: { field: "total_elapsed_time", type: "uint32", scale: 1e3, offset: 0, units: "s" },
+            8: { field: "total_timer_time", type: "uint32", scale: 1e3, offset: 0, units: "s" },
+            9: { field: "total_distance", type: "uint32", scale: 100, offset: 0, units: "m" },
+            10: { field: "total_cycles", type: "uint32", scale: null, offset: 0, units: "cycles" },
+            11: { field: "total_calories", type: "uint16", scale: null, offset: 0, units: "kcal" },
+            13: { field: "total_fat_calories", type: "uint16", scale: null, offset: 0, units: "kcal" },
+            14: { field: "avg_speed", type: "uint16", scale: 1e3, offset: 0, units: "m/s" },
+            15: { field: "max_speed", type: "uint16", scale: 1e3, offset: 0, units: "m/s" },
+            16: { field: "avg_heart_rate", type: "uint8", scale: null, offset: 0, units: "bpm" },
+            17: { field: "max_heart_rate", type: "uint8", scale: null, offset: 0, units: "bpm" },
+            18: { field: "avg_cadence", type: "uint8", scale: null, offset: 0, units: "rpm" },
+            19: { field: "max_cadence", type: "uint8", scale: null, offset: 0, units: "rpm" },
+            20: { field: "avg_power", type: "uint16", scale: null, offset: 0, units: "watts" },
+            21: { field: "max_power", type: "uint16", scale: null, offset: 0, units: "watts" },
+            22: { field: "total_ascent", type: "uint16", scale: null, offset: 0, units: "m" },
+            23: { field: "total_descent", type: "uint16", scale: null, offset: 0, units: "m" },
+            24: { field: "total_training_effect", type: "uint8", scale: 10, offset: 0, units: "" },
+            25: { field: "first_lap_index", type: "uint16", scale: null, offset: 0, units: "" },
+            26: { field: "num_laps", type: "uint16", scale: null, offset: 0, units: "" },
+            27: { field: "event_group", type: "uint8", scale: null, offset: 0, units: "" },
+            28: { field: "trigger", type: "session_trigger", scale: null, offset: 0, units: "" },
+            29: { field: "nec_lat", type: "sint32", scale: null, offset: 0, units: "semicircles" },
+            30: { field: "nec_long", type: "sint32", scale: null, offset: 0, units: "semicircles" },
+            31: { field: "swc_lat", type: "sint32", scale: null, offset: 0, units: "semicircles" },
+            32: { field: "swc_long", type: "sint32", scale: null, offset: 0, units: "semicircles" },
+            34: { field: "normalized_power", type: "uint16", scale: null, offset: 0, units: "watts" },
+            35: { field: "training_stress_score", type: "uint16", scale: 10, offset: 0, units: "tss" },
+            36: { field: "intensity_factor", type: "uint16", scale: 1e3, offset: 0, units: "if" },
+            37: { field: "left_right_balance", type: "left_right_balance_100", scale: 100, offset: 0, units: "%" },
+            41: { field: "avg_stroke_count", type: "uint32", scale: 10, offset: 0, units: "strokes/lap" },
+            42: { field: "avg_stroke_distance", type: "uint16", scale: 100, offset: 0, units: "m" },
+            43: { field: "swim_stroke", type: "swim_stroke", scale: null, offset: 0, units: "swim_stroke" },
+            44: { field: "pool_length", type: "uint16", scale: 100, offset: 0, units: "m" },
+            45: { field: "threshold_power", type: "uint16", scale: null, offset: 0, units: "watts" },
+            46: { field: "pool_length_unit", type: "display_measure", scale: null, offset: 0, units: "" },
+            47: { field: "num_active_lengths", type: "uint16", scale: null, offset: 0, units: "lengths" },
+            48: { field: "total_work", type: "uint32", scale: null, offset: 0, units: "J" },
+            49: { field: "avg_altitude", type: "uint16", scale: 5, offset: -500, units: "m" },
+            50: { field: "max_altitude", type: "uint16", scale: 5, offset: -500, units: "m" },
+            51: { field: "gps_accuracy", type: "uint8", scale: null, offset: 0, units: "m" },
+            52: { field: "avg_grade", type: "sint16", scale: 100, offset: 0, units: "%" },
+            53: { field: "avg_pos_grade", type: "sint16", scale: 100, offset: 0, units: "%" },
+            54: { field: "avg_neg_grade", type: "sint16", scale: 100, offset: 0, units: "%" },
+            55: { field: "max_pos_grade", type: "sint16", scale: 100, offset: 0, units: "%" },
+            56: { field: "max_neg_grade", type: "sint16", scale: 100, offset: 0, units: "%" },
+            57: { field: "avg_temperature", type: "sint8", scale: null, offset: 0, units: "C" },
+            58: { field: "max_temperature", type: "sint8", scale: null, offset: 0, units: "C" },
+            59: { field: "total_moving_time", type: "uint32", scale: 1e3, offset: 0, units: "s" },
+            60: { field: "avg_pos_vertical_speed", type: "uint16", scale: 1e3, offset: 0, units: "m/s" },
+            61: { field: "avg_neg_vertical_speed", type: "uint16", scale: 1e3, offset: 0, units: "m/s" },
+            62: { field: "max_pos_vertical_speed", type: "uint16", scale: 1e3, offset: 0, units: "m/s" },
+            63: { field: "max_neg_vertical_speed", type: "uint16", scale: 1e3, offset: 0, units: "m/s" },
+            64: { field: "min_heart_rate", type: "uint8", scale: null, offset: 0, units: "bpm" },
+            65: { field: "time_in_hr_zone", type: "uint32_array", scale: 1e3, offset: 0, units: "s" },
+            66: { field: "time_in_speed_zone", type: "uint32_array", scale: 1e3, offset: 0, units: "s" },
+            67: { field: "time_in_cadence_zone", type: "uint32_array", scale: 1e3, offset: 0, units: "s" },
+            68: { field: "time_in_power_zone", type: "uint32_array", scale: 1e3, offset: 0, units: "s" },
+            69: { field: "avg_lap_time", type: "uint32", scale: 1e3, offset: 0, units: "s" },
+            70: { field: "best_lap_index", type: "uint16", scale: null, offset: 0, units: "" },
+            71: { field: "min_altitude", type: "uint16", scale: 5, offset: -500, units: "m" },
+            82: { field: "player_score", type: "uint16", scale: null, offset: 0, units: "" },
+            83: { field: "opponent_score", type: "uint16", scale: null, offset: 0, units: "" },
+            84: { field: "opponent_name", type: "string", scale: null, offset: 0, units: "" },
+            85: { field: "stroke_count", type: "uint16", scale: null, offset: 0, units: "counts" },
+            86: { field: "zone_count", type: "uint16", scale: null, offset: 0, units: "counts" },
+            87: { field: "max_ball_speed", type: "uint16", scale: 100, offset: 0, units: "m/s" },
+            88: { field: "avg_ball_speed", type: "uint16", scale: 100, offset: 0, units: "m/s" },
+            89: { field: "avg_vertical_oscillation", type: "uint16", scale: 10, offset: 0, units: "mm" },
+            90: { field: "avg_stance_time_percent", type: "uint16", scale: 100, offset: 0, units: "percent" },
+            91: { field: "avg_stance_time", type: "uint16", scale: 10, offset: 0, units: "ms" },
+            92: { field: "avg_fractional_cadence", type: "uint8", scale: 128, offset: 0, units: "rpm" },
+            93: { field: "max_fractional_cadence", type: "uint8", scale: 128, offset: 0, units: "rpm" },
+            94: { field: "total_fractional_cycles", type: "uint8", scale: 128, offset: 0, units: "cycles" },
+            95: { field: "avg_total_hemoglobin_conc", type: "uint16", scale: 100, offset: 0, units: "g/dL" },
+            96: { field: "min_total_hemoglobin_conc", type: "uint16", scale: 100, offset: 0, units: "g/dL" },
+            97: { field: "max_total_hemoglobin_conc", type: "uint16", scale: 100, offset: 0, units: "g/dL" },
+            98: { field: "avg_saturated_hemoglobin_percent", type: "uint16", scale: 10, offset: 0, units: "%" },
+            99: { field: "min_saturated_hemoglobin_percent", type: "uint16", scale: 10, offset: 0, units: "%" },
+            100: { field: "max_saturated_hemoglobin_percent", type: "uint16", scale: 10, offset: 0, units: "%" },
+            101: { field: "avg_left_torque_effectiveness", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            102: { field: "avg_right_torque_effectiveness", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            103: { field: "avg_left_pedal_smoothness", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            104: { field: "avg_right_pedal_smoothness", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            105: { field: "avg_combined_pedal_smoothness", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            111: { field: "sport_index", type: "uint8", scale: null, offset: 0, units: "" },
+            112: { field: "time_standing", type: "uint32", scale: 1e3, offset: 0, units: "s" },
+            113: { field: "stand_count", type: "uint16", scale: null, offset: 0, units: "" },
+            114: { field: "avg_left_pco", type: "sint8", scale: null, offset: 0, units: "mm" },
+            115: { field: "avg_right_pco", type: "sint8", scale: null, offset: 0, units: "mm" },
+            116: { field: "avg_left_power_phase", type: "uint8", scale: "0,7111111", offset: 0, units: "degrees" },
+            117: { field: "avg_left_power_phase_peak", type: "uint8", scale: "0,7111111", offset: 0, units: "degrees" },
+            118: { field: "avg_right_power_phase", type: "uint8", scale: "0,7111111", offset: 0, units: "degrees" },
+            119: { field: "avg_right_power_phase_peak", type: "uint8", scale: "0,7111111", offset: 0, units: "degrees" },
+            120: { field: "avg_power_position", type: "uint16", scale: null, offset: 0, units: "watts" },
+            121: { field: "max_power_position", type: "uint16", scale: null, offset: 0, units: "watts" },
+            122: { field: "avg_cadence_position", type: "uint8", scale: null, offset: 0, units: "rpm" },
+            123: { field: "max_cadence_position", type: "uint8", scale: null, offset: 0, units: "rpm" },
+            124: { field: "enhanced_avg_speed", type: "uint32", scale: 1e3, offset: 0, units: "m/s" },
+            125: { field: "enhanced_max_speed", type: "uint32", scale: 1e3, offset: 0, units: "m/s" },
+            126: { field: "enhanced_avg_altitude", type: "uint32", scale: 5, offset: -500, units: "m" },
+            127: { field: "enhanced_min_altitude", type: "uint32", scale: 5, offset: -500, units: "m" },
+            128: { field: "enhanced_max_altitude", type: "uint32", scale: 5, offset: -500, units: "m" },
+            129: { field: "avg_lev_motor_power", type: "uint16", scale: null, offset: 0, units: "watts" },
+            130: { field: "max_lev_motor_power", type: "uint16", scale: null, offset: 0, units: "watts" },
+            131: { field: "lev_battery_consumption", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            132: { field: "avg_vertical_ratio", type: "uint16", scale: 100, offset: 0, units: "percent" },
+            133: { field: "avg_stance_time_balance", type: "uint16", scale: 100, offset: 0, units: "percent" },
+            134: { field: "avg_step_length", type: "uint16", scale: 10, offset: 0, units: "mm" },
+            137: { field: "total_anaerobic_effect", type: "uint8", scale: 10, offset: 0, units: "" },
+            139: { field: "avg_vam", type: "uint16", scale: 1e3, offset: 0, units: "m/s" },
+            192: { field: "workout_feel", type: "uint8", scale: null, offset: 0, units: "" },
+            193: { field: "workout_rpe", type: "uint8", scale: 10, offset: 0, units: "" }
+          },
+          19: {
+            name: "lap",
+            254: { field: "message_index", type: "message_index", scale: null, offset: 0, units: "" },
+            253: { field: "timestamp", type: "date_time", scale: null, offset: 0, units: "s" },
+            0: { field: "event", type: "event", scale: null, offset: 0, units: "" },
+            1: { field: "event_type", type: "event_type", scale: null, offset: 0, units: "" },
+            2: { field: "start_time", type: "date_time", scale: null, offset: 0, units: "" },
+            3: { field: "start_position_lat", type: "sint32", scale: null, offset: 0, units: "semicircles" },
+            4: { field: "start_position_long", type: "sint32", scale: null, offset: 0, units: "semicircles" },
+            5: { field: "end_position_lat", type: "sint32", scale: null, offset: 0, units: "semicircles" },
+            6: { field: "end_position_long", type: "sint32", scale: null, offset: 0, units: "semicircles" },
+            7: { field: "total_elapsed_time", type: "uint32", scale: 1e3, offset: 0, units: "s" },
+            8: { field: "total_timer_time", type: "uint32", scale: 1e3, offset: 0, units: "s" },
+            9: { field: "total_distance", type: "uint32", scale: 100, offset: 0, units: "m" },
+            10: { field: "total_cycles", type: "uint32", scale: null, offset: 0, units: "cycles" },
+            11: { field: "total_calories", type: "uint16", scale: null, offset: 0, units: "kcal" },
+            12: { field: "total_fat_calories", type: "uint16", scale: null, offset: 0, units: "kcal" },
+            13: { field: "avg_speed", type: "uint16", scale: 1e3, offset: 0, units: "m/s" },
+            14: { field: "max_speed", type: "uint16", scale: 1e3, offset: 0, units: "m/s" },
+            15: { field: "avg_heart_rate", type: "uint8", scale: null, offset: 0, units: "bpm" },
+            16: { field: "max_heart_rate", type: "uint8", scale: null, offset: 0, units: "bpm" },
+            17: { field: "avg_cadence", type: "uint8", scale: null, offset: 0, units: "rpm" },
+            18: { field: "max_cadence", type: "uint8", scale: null, offset: 0, units: "rpm" },
+            19: { field: "avg_power", type: "uint16", scale: null, offset: 0, units: "watts" },
+            20: { field: "max_power", type: "uint16", scale: null, offset: 0, units: "watts" },
+            21: { field: "total_ascent", type: "uint16", scale: null, offset: 0, units: "m" },
+            22: { field: "total_descent", type: "uint16", scale: null, offset: 0, units: "m" },
+            23: { field: "intensity", type: "intensity", scale: null, offset: 0, units: "" },
+            24: { field: "lap_trigger", type: "lap_trigger", scale: null, offset: 0, units: "" },
+            25: { field: "sport", type: "sport", scale: null, offset: 0, units: "" },
+            26: { field: "event_group", type: "uint8", scale: null, offset: 0, units: "" },
+            32: { field: "num_lengths", type: "uint16", scale: null, offset: 0, units: "lengths" },
+            33: { field: "normalized_power", type: "uint16", scale: null, offset: 0, units: "watts" },
+            34: { field: "left_right_balance", type: "left_right_balance_100", scale: 100, offset: 0, units: "%" },
+            35: { field: "first_length_index", type: "uint16", scale: null, offset: 0, units: "" },
+            37: { field: "avg_stroke_distance", type: "uint16", scale: 100, offset: 0, units: "m" },
+            38: { field: "swim_stroke", type: "swim_stroke", scale: null, offset: 0, units: "" },
+            39: { field: "sub_sport", type: "sub_sport", scale: null, offset: 0, units: "" },
+            40: { field: "num_active_lengths", type: "uint16", scale: null, offset: 0, units: "lengths" },
+            41: { field: "total_work", type: "uint32", scale: null, offset: 0, units: "J" },
+            42: { field: "avg_altitude", type: "uint16", scale: 5, offset: -500, units: "m" },
+            43: { field: "max_altitude", type: "uint16", scale: 5, offset: -500, units: "m" },
+            44: { field: "gps_accuracy", type: "uint8", scale: null, offset: 0, units: "m" },
+            45: { field: "avg_grade", type: "sint16", scale: 100, offset: 0, units: "%" },
+            46: { field: "avg_pos_grade", type: "sint16", scale: 100, offset: 0, units: "%" },
+            47: { field: "avg_neg_grade", type: "sint16", scale: 100, offset: 0, units: "%" },
+            48: { field: "max_pos_grade", type: "sint16", scale: 100, offset: 0, units: "%" },
+            49: { field: "max_neg_grade", type: "sint16", scale: 100, offset: 0, units: "%" },
+            50: { field: "avg_temperature", type: "sint8", scale: null, offset: 0, units: "C" },
+            51: { field: "max_temperature", type: "sint8", scale: null, offset: 0, units: "C" },
+            52: { field: "total_moving_time", type: "uint32", scale: 1e3, offset: 0, units: "s" },
+            53: { field: "avg_pos_vertical_speed", type: "uint16", scale: 1e3, offset: 0, units: "m/s" },
+            54: { field: "avg_neg_vertical_speed", type: "uint16", scale: 1e3, offset: 0, units: "m/s" },
+            55: { field: "max_pos_vertical_speed", type: "uint16", scale: 1e3, offset: 0, units: "m/s" },
+            56: { field: "max_neg_vertical_speed", type: "uint16", scale: 1e3, offset: 0, units: "m/s" },
+            57: { field: "time_in_hr_zone", type: "uint32_array", scale: 1e3, offset: 0, units: "s" },
+            58: { field: "time_in_speed_zone", type: "uint32_array", scale: 1e3, offset: 0, units: "s" },
+            59: { field: "time_in_cadence_zone", type: "uint32_array", scale: 1e3, offset: 0, units: "s" },
+            60: { field: "time_in_power_zone", type: "uint32_array", scale: 1e3, offset: 0, units: "s" },
+            61: { field: "repetition_num", type: "uint16", scale: null, offset: 0, units: "" },
+            62: { field: "min_altitude", type: "uint16", scale: 5, offset: -500, units: "m" },
+            63: { field: "min_heart_rate", type: "uint8", scale: null, offset: 0, units: "bpm" },
+            71: { field: "wkt_step_index", type: "message_index", scale: null, offset: 0, units: "" },
+            74: { field: "opponent_score", type: "uint16", scale: null, offset: 0, units: "" },
+            75: { field: "stroke_count", type: "uint16", scale: null, offset: 0, units: "counts" },
+            76: { field: "zone_count", type: "uint16", scale: null, offset: 0, units: "counts" },
+            77: { field: "avg_vertical_oscillation", type: "uint16", scale: 10, offset: 0, units: "mm" },
+            78: { field: "avg_stance_time_percent", type: "uint16", scale: 100, offset: 0, units: "percent" },
+            79: { field: "avg_stance_time", type: "uint16", scale: 10, offset: 0, units: "ms" },
+            80: { field: "avg_fractional_cadence", type: "uint8", scale: 128, offset: 0, units: "rpm" },
+            81: { field: "max_fractional_cadence", type: "uint8", scale: 128, offset: 0, units: "rpm" },
+            82: { field: "total_fractional_cycles", type: "uint8", scale: 128, offset: 0, units: "cycles" },
+            83: { field: "player_score", type: "uint16", scale: null, offset: 0, units: "" },
+            84: { field: "avg_total_hemoglobin_conc", type: "uint16", scale: 100, offset: 0, units: "g/dL" },
+            85: { field: "min_total_hemoglobin_conc", type: "uint16", scale: 100, offset: 0, units: "g/dL" },
+            86: { field: "max_total_hemoglobin_conc", type: "uint16", scale: 100, offset: 0, units: "g/dL" },
+            87: { field: "avg_saturated_hemoglobin_percent", type: "uint16", scale: 10, offset: 0, units: "%" },
+            88: { field: "min_saturated_hemoglobin_percent", type: "uint16", scale: 10, offset: 0, units: "%" },
+            89: { field: "max_saturated_hemoglobin_percent", type: "uint16", scale: 10, offset: 0, units: "%" },
+            91: { field: "avg_left_torque_effectiveness", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            92: { field: "avg_right_torque_effectiveness", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            93: { field: "avg_left_pedal_smoothness", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            94: { field: "avg_right_pedal_smoothness", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            95: { field: "avg_combined_pedal_smoothness", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            98: { field: "time_standing", type: "uint32", scale: 1e3, offset: 0, units: "s" },
+            99: { field: "stand_count", type: "uint16", scale: null, offset: 0, units: "" },
+            100: { field: "avg_left_pco", type: "sint8", scale: null, offset: 0, units: "mm" },
+            101: { field: "avg_right_pco", type: "sint8", scale: null, offset: 0, units: "mm" },
+            102: { field: "avg_left_power_phase", type: "uint8", scale: "0,7111111", offset: 0, units: "degrees" },
+            103: { field: "avg_left_power_phase_peak", type: "uint8", scale: "0,7111111", offset: 0, units: "degrees" },
+            104: { field: "avg_right_power_phase", type: "uint8", scale: "0,7111111", offset: 0, units: "degrees" },
+            105: { field: "avg_right_power_phase_peak", type: "uint8", scale: "0,7111111", offset: 0, units: "degrees" },
+            106: { field: "avg_power_position", type: "uint16", scale: null, offset: 0, units: "watts" },
+            107: { field: "max_power_position", type: "uint16", scale: null, offset: 0, units: "watts" },
+            108: { field: "avg_cadence_position", type: "uint8", scale: null, offset: 0, units: "rpm" },
+            109: { field: "max_cadence_position", type: "uint8", scale: null, offset: 0, units: "rpm" },
+            110: { field: "enhanced_avg_speed", type: "uint32", scale: 1e3, offset: 0, units: "m/s" },
+            111: { field: "enhanced_max_speed", type: "uint32", scale: 1e3, offset: 0, units: "m/s" },
+            112: { field: "enhanced_avg_altitude", type: "uint32", scale: 5, offset: -500, units: "m" },
+            113: { field: "enhanced_min_altitude", type: "uint32", scale: 5, offset: -500, units: "m" },
+            114: { field: "enhanced_max_altitude", type: "uint32", scale: 5, offset: -500, units: "m" },
+            115: { field: "avg_lev_motor_power", type: "uint16", scale: null, offset: 0, units: "watts" },
+            116: { field: "max_lev_motor_power", type: "uint16", scale: null, offset: 0, units: "watts" },
+            117: { field: "lev_battery_consumption", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            118: { field: "avg_vertical_ratio", type: "uint16", scale: 100, offset: 0, units: "percent" },
+            119: { field: "avg_stance_time_balance", type: "uint16", scale: 100, offset: 0, units: "percent" },
+            120: { field: "avg_step_length", type: "uint16", scale: 10, offset: 0, units: "mm" },
+            121: { field: "avg_vam", type: "uint16", scale: 1e3, offset: 0, units: "m/s" }
+          },
+          20: {
+            name: "record",
+            253: { field: "timestamp", type: "date_time", scale: null, offset: 0, units: "s" },
+            0: { field: "position_lat", type: "sint32", scale: null, offset: 0, units: "semicircles" },
+            1: { field: "position_long", type: "sint32", scale: null, offset: 0, units: "semicircles" },
+            2: { field: "altitude", type: "uint16", scale: 5, offset: -500, units: "m" },
+            3: { field: "heart_rate", type: "uint8", scale: null, offset: 0, units: "bpm" },
+            4: { field: "cadence", type: "uint8", scale: null, offset: 0, units: "rpm" },
+            5: { field: "distance", type: "uint32", scale: 100, offset: 0, units: "m" },
+            6: { field: "speed", type: "uint16", scale: 1e3, offset: 0, units: "m/s" },
+            7: { field: "power", type: "uint16", scale: null, offset: 0, units: "watts" },
+            8: { field: "compressed_speed_distance", type: "byte", scale: "100,16", offset: 0, units: "m/s,m" },
+            9: { field: "grade", type: "sint16", scale: 100, offset: 0, units: "%" },
+            10: { field: "resistance", type: "uint8", scale: null, offset: 0, units: "" },
+            11: { field: "time_from_course", type: "sint32", scale: 1e3, offset: 0, units: "s" },
+            12: { field: "cycle_length", type: "uint8", scale: 100, offset: 0, units: "m" },
+            13: { field: "temperature", type: "sint8", scale: null, offset: 0, units: "C" },
+            17: { field: "speed_1s", type: "uint8", scale: 16, offset: 0, units: "m/s" },
+            18: { field: "cycles", type: "uint8", scale: null, offset: 0, units: "cycles" },
+            19: { field: "total_cycles", type: "uint32", scale: null, offset: 0, units: "cycles" },
+            28: { field: "compressed_accumulated_power", type: "uint16", scale: null, offset: 0, units: "watts" },
+            29: { field: "accumulated_power", type: "uint32", scale: null, offset: 0, units: "watts" },
+            30: { field: "left_right_balance", type: "left_right_balance", scale: null, offset: 0, units: "" },
+            31: { field: "gps_accuracy", type: "uint8", scale: null, offset: 0, units: "m" },
+            32: { field: "vertical_speed", type: "sint16", scale: 1e3, offset: 0, units: "m/s" },
+            33: { field: "calories", type: "uint16", scale: null, offset: 0, units: "kcal" },
+            39: { field: "vertical_oscillation", type: "uint16", scale: 10, offset: 0, units: "mm" },
+            40: { field: "stance_time_percent", type: "uint16", scale: 100, offset: 0, units: "percent" },
+            41: { field: "stance_time", type: "uint16", scale: 10, offset: 0, units: "ms" },
+            42: { field: "activity_type", type: "activity_type", scale: null, offset: 0, units: "" },
+            43: { field: "left_torque_effectiveness", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            44: { field: "right_torque_effectiveness", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            45: { field: "left_pedal_smoothness", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            46: { field: "right_pedal_smoothness", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            47: { field: "combined_pedal_smoothness", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            48: { field: "time128", type: "uint8", scale: 128, offset: 0, units: "s" },
+            49: { field: "stroke_type", type: "stroke_type", scale: null, offset: 0, units: "" },
+            50: { field: "zone", type: "uint8", scale: null, offset: 0, units: "" },
+            51: { field: "ball_speed", type: "uint16", scale: 100, offset: 0, units: "m/s" },
+            52: { field: "cadence256", type: "uint16", scale: 256, offset: 0, units: "rpm" },
+            53: { field: "fractional_cadence", type: "uint8", scale: 128, offset: 0, units: "rpm" },
+            54: { field: "total_hemoglobin_conc", type: "uint16", scale: 100, offset: 0, units: "g/dL" },
+            55: { field: "total_hemoglobin_conc_min", type: "uint16", scale: 100, offset: 0, units: "g/dL" },
+            56: { field: "total_hemoglobin_conc_max", type: "uint16", scale: 100, offset: 0, units: "g/dL" },
+            57: { field: "saturated_hemoglobin_percent", type: "uint16", scale: 10, offset: 0, units: "%" },
+            58: { field: "saturated_hemoglobin_percent_min", type: "uint16", scale: 10, offset: 0, units: "%" },
+            59: { field: "saturated_hemoglobin_percent_max", type: "uint16", scale: 10, offset: 0, units: "%" },
+            62: { field: "device_index", type: "device_index", scale: null, offset: 0, units: "" },
+            67: { field: "left_pco", type: "sint8", scale: null, offset: 0, units: "mm" },
+            68: { field: "right_pco", type: "sint8", scale: null, offset: 0, units: "mm" },
+            69: { field: "left_power_phase", type: "uint8", scale: "0,7111111", offset: 0, units: "degrees" },
+            70: { field: "left_power_phase_peak", type: "uint8", scale: "0,7111111", offset: 0, units: "degrees" },
+            71: { field: "right_power_phase", type: "uint8", scale: "0,7111111", offset: 0, units: "degrees" },
+            72: { field: "right_power_phase_peak", type: "uint8", scale: "0,7111111", offset: 0, units: "degrees" },
+            73: { field: "enhanced_speed", type: "uint32", scale: 1e3, offset: 0, units: "m/s" },
+            78: { field: "enhanced_altitude", type: "uint32", scale: 5, offset: -500, units: "m" },
+            81: { field: "battery_soc", type: "uint8", scale: 2, offset: 0, units: "percent" },
+            82: { field: "motor_power", type: "uint16", scale: null, offset: 0, units: "watts" },
+            83: { field: "vertical_ratio", type: "uint16", scale: 100, offset: 0, units: "percent" },
+            84: { field: "stance_time_balance", type: "uint16", scale: 100, offset: 0, units: "percent" },
+            85: { field: "step_length", type: "uint16", scale: 10, offset: 0, units: "mm" },
+            91: { field: "absolute_pressure", type: "uint32", scale: null, offset: 0, units: "Pa" },
+            92: { field: "depth", type: "uint32", scale: null, offset: 0, units: "m" },
+            93: { field: "next_stop_depth", type: "uint32", scale: null, offset: 0, units: "m" },
+            94: { field: "next_stop_time", type: "uint32", scale: null, offset: 0, units: "s" },
+            95: { field: "time_to_surface", type: "uint32", scale: null, offset: 0, units: "s" },
+            96: { field: "ndl_time", type: "uint32", scale: null, offset: 0, units: "s" },
+            97: { field: "cns_load", type: "uint8", scale: null, offset: 0, units: "percent" },
+            98: { field: "n2_load", type: "uint16", scale: null, offset: 0, units: "percent" }
+          },
+          21: {
+            name: "event",
+            253: { field: "timestamp", type: "date_time", scale: null, offset: "", units: "s" },
+            0: { field: "event", type: "event", scale: null, offset: "", units: "" },
+            1: { field: "event_type", type: "event_type", scale: null, offset: "", units: "" },
+            2: { field: "data16", type: "uint16", scale: null, offset: "", units: "" },
+            3: { field: "data", type: "uint32", scale: null, offset: "", units: "" },
+            4: { field: "event_group", type: "uint8", scale: null, offset: "", units: "" },
+            7: { field: "score", type: "uint16", scale: null, offset: "", units: "" },
+            8: { field: "opponent_score", type: "uint16", scale: null, offset: "", units: "" },
+            9: { field: "front_gear_num", type: "uint8z", scale: null, offset: "", units: "" },
+            10: { field: "front_gear", type: "uint8z", scale: null, offset: "", units: "" },
+            11: { field: "rear_gear_num", type: "uint8z", scale: null, offset: "", units: "" },
+            12: { field: "rear_gear", type: "uint8z", scale: null, offset: "", units: "" },
+            13: { field: "device_index", type: "device_index", scale: null, offset: "", units: "" }
+          },
+          23: {
+            name: "device_info",
+            253: { field: "timestamp", type: "date_time", scale: null, offset: 0, units: "s" },
+            0: { field: "device_index", type: "uint8", scale: null, offset: 0, units: "" },
+            1: { field: "device_type", type: "antplus_device_type", scale: null, offset: 0, units: "" },
+            2: { field: "manufacturer", type: "manufacturer", scale: null, offset: 0, units: "" },
+            3: { field: "serial_number", type: "uint32z", scale: null, offset: 0, units: "" },
+            4: { field: "product", type: "uint16", scale: null, offset: 0, units: "" },
+            5: { field: "software_version", type: "uint16", scale: 100, offset: 0, units: "" },
+            6: { field: "hardware_version", type: "uint8", scale: null, offset: 0, units: "" },
+            7: { field: "cum_operating_time", type: "uint32", scale: null, offset: 0, units: "s" },
+            10: { field: "battery_voltage", type: "uint16", scale: 256, offset: 0, units: "V" },
+            11: { field: "battery_status", type: "battery_status", scale: null, offset: 0, units: "" },
+            18: { field: "sensor_position", type: "body_location", scale: null, offset: 0, units: "" },
+            19: { field: "descriptor", type: "string", scale: null, offset: 0, units: "" },
+            20: { field: "ant_transmission_type", type: "uint8z", scale: null, offset: 0, units: "" },
+            21: { field: "ant_device_number", type: "uint16z", scale: null, offset: 0, units: "" },
+            22: { field: "ant_network", type: "ant_network", scale: null, offset: 0, units: "" },
+            25: { field: "source_type", type: "source_type", scale: null, offset: 0, units: "" },
+            27: { field: "product_name", type: "string", scale: null, offset: 0, units: "" }
+          },
+          26: {
+            name: "workout",
+            4: { field: "sport", type: "sport", scale: null, offset: "", units: "" },
+            5: { field: "capabilities", type: "workout_capabilities", scale: null, offset: "", units: "" },
+            6: { field: "num_valid_steps", type: "uint16", scale: null, offset: "", units: "" },
+            8: { field: "wkt_name", type: "string", scale: null, offset: "", units: "" }
+          },
+          27: {
+            name: "workout_step",
+            254: { field: "message_index", type: "message_index", scale: null, offset: 0, units: "" },
+            0: { field: "wkt_step_name", type: "string", scale: null, offset: 0, units: "" },
+            1: { field: "duration_type", type: "wkt_step_duration", scale: null, offset: 0, units: "" },
+            2: { field: "duration_value", type: "uint32", scale: null, offset: 0, units: "" },
+            3: { field: "target_type", type: "wkt_step_target", scale: null, offset: 0, units: "" },
+            4: { field: "target_value", type: "uint32", scale: null, offset: 0, units: "" },
+            5: { field: "custom_target_value_low", type: "uint32", scale: null, offset: 0, units: "" },
+            6: { field: "custom_target_value_high", type: "uint32", scale: null, offset: 0, units: "" },
+            7: { field: "intensity", type: "intensity", scale: null, offset: 0, units: "" }
+          },
+          30: {
+            name: "weight_scale",
+            253: { field: "timestamp", type: "date_time", scale: null, offset: 0, units: "s" },
+            0: { field: "weight", type: "weight", scale: 100, offset: 0, units: "kg" },
+            1: { field: "percent_fat", type: "uint16", scale: 100, offset: 0, units: "%" },
+            2: { field: "percent_hydration", type: "uint16", scale: 100, offset: 0, units: "%" },
+            3: { field: "visceral_fat_mass", type: "uint16", scale: 100, offset: 0, units: "kg" },
+            4: { field: "bone_mass", type: "uint16", scale: 100, offset: 0, units: "kg" },
+            5: { field: "muscle_mass", type: "uint16", scale: 100, offset: 0, units: "kg" },
+            7: { field: "basal_met", type: "uint16", scale: 4, offset: 0, units: "kcal/day" },
+            8: { field: "physique_rating", type: "uint8", scale: null, offset: 0, units: "" },
+            9: { field: "active_met", type: "uint16", scale: 4, offset: 0, units: "kcal/day" },
+            10: { field: "metabolic_age", type: "uint8", scale: null, offset: 0, units: "years" },
+            11: { field: "visceral_fat_rating", type: "uint8", scale: null, offset: 0, units: "" },
+            12: { field: "user_profile_index", type: "message_index", scale: null, offset: 0, units: "" }
+          },
+          31: {
+            name: "course",
+            4: { field: "sport", type: "sport", scale: null, offset: "", units: "" },
+            5: { field: "name", type: "string", scale: null, offset: "", units: "" },
+            6: { field: "capabilities", type: "course_capabilities", scale: null, offset: "", units: "" }
+          },
+          32: {
+            name: "course_point",
+            254: { field: "message_index", type: "message_index", scale: null, offset: 0, units: "" },
+            1: { field: "timestamp", type: "date_time", scale: null, offset: 0, units: "" },
+            2: { field: "position_lat", type: "sint32", scale: null, offset: 0, units: "semicircles" },
+            3: { field: "position_long", type: "sint32", scale: null, offset: 0, units: "semicircles" },
+            4: { field: "distance", type: "uint32", scale: 100, offset: 0, units: "m" },
+            5: { field: "type", type: "course_point", scale: null, offset: 0, units: "" },
+            6: { field: "name", type: "string", scale: null, offset: 0, units: "" },
+            8: { field: "favorite", type: "bool", scale: null, offset: 0, units: "" }
+          },
+          33: {
+            name: "totals",
+            254: { field: "message_index", type: "message_index", scale: null, offset: 0, units: "" },
+            253: { field: "timestamp", type: "date_time", scale: null, offset: 0, units: "s" },
+            0: { field: "timer_time", type: "uint32", scale: null, offset: 0, units: "s" },
+            1: { field: "distance", type: "uint32", scale: null, offset: 0, units: "m" },
+            2: { field: "calories", type: "uint32", scale: null, offset: 0, units: "kcal" },
+            3: { field: "sport", type: "sport", scale: null, offset: 0, units: "" },
+            4: { field: "elapsed_time", type: "uint32", scale: null, offset: 0, units: "s" },
+            5: { field: "sessions", type: "uint16", scale: null, offset: 0, units: "" },
+            6: { field: "active_time", type: "uint32", scale: null, offset: 0, units: "s" },
+            9: { field: "sport_index", type: "uint8", scale: null, offset: 0, units: "" }
+          },
+          34: {
+            name: "activity",
+            253: { field: "timestamp", type: "date_time", scale: null, offset: 0, units: "" },
+            0: { field: "total_timer_time", type: "uint32", scale: 1e3, offset: 0, units: "s" },
+            1: { field: "num_sessions", type: "uint16", scale: null, offset: 0, units: "" },
+            2: { field: "type", type: "activity", scale: null, offset: 0, units: "" },
+            3: { field: "event", type: "event", scale: null, offset: 0, units: "" },
+            4: { field: "event_type", type: "event_type", scale: null, offset: 0, units: "" },
+            5: { field: "local_timestamp", type: "local_date_time", scale: null, offset: 0, units: "" },
+            6: { field: "event_group", type: "uint8", scale: null, offset: 0, units: "" }
+          },
+          35: {
+            name: "software",
+            254: { field: "message_index", type: "message_index", scale: null, offset: "", units: "" },
+            3: { field: "version", type: "uint16", scale: 100, offset: "", units: "" },
+            5: { field: "part_number", type: "string", scale: null, offset: "", units: "" }
+          },
+          37: {
+            name: "file_capabilities",
+            254: { field: "message_index", type: "message_index", scale: null, offset: 0, units: "" },
+            0: { field: "type", type: "file", scale: null, offset: 0, units: "" },
+            1: { field: "flags", type: "file_flags", scale: null, offset: 0, units: "" },
+            2: { field: "directory", type: "string", scale: null, offset: 0, units: "" },
+            3: { field: "max_count", type: "uint16", scale: null, offset: 0, units: "" },
+            4: { field: "max_size", type: "uint32", scale: null, offset: 0, units: "bytes" }
+          },
+          38: {
+            name: "mesg_capabilities",
+            254: { field: "message_index", type: "message_index", scale: null, offset: "", units: "" },
+            0: { field: "file", type: "file", scale: null, offset: "", units: "" },
+            1: { field: "mesg_num", type: "mesg_num", scale: null, offset: "", units: "" },
+            2: { field: "count_type", type: "mesg_count", scale: null, offset: "", units: "" },
+            3: { field: "count", type: "uint16", scale: null, offset: "", units: "" }
+          },
+          39: {
+            name: "field_capabilities",
+            254: { field: "message_index", type: "message_index", scale: null, offset: "", units: "" },
+            0: { field: "file", type: "file", scale: null, offset: "", units: "" },
+            1: { field: "mesg_num", type: "mesg_num", scale: null, offset: "", units: "" },
+            2: { field: "field_num", type: "uint8", scale: null, offset: "", units: "" },
+            3: { field: "count", type: "uint16", scale: null, offset: "", units: "" }
+          },
+          49: {
+            name: "file_creator",
+            0: { field: "software_version", type: "uint16", scale: null, offset: "", units: "" },
+            1: { field: "hardware_version", type: "uint8", scale: null, offset: "", units: "" }
+          },
+          51: {
+            name: "blood_pressure",
+            253: { field: "timestamp", type: "date_time", scale: null, offset: 0, units: "s" },
+            0: { field: "systolic_pressure", type: "uint16", scale: null, offset: 0, units: "mmHg" },
+            1: { field: "diastolic_pressure", type: "uint16", scale: null, offset: 0, units: "mmHg" },
+            2: { field: "mean_arterial_pressure", type: "uint16", scale: null, offset: 0, units: "mmHg" },
+            3: { field: "map_3_sample_mean", type: "uint16", scale: null, offset: 0, units: "mmHg" },
+            4: { field: "map_morning_values", type: "uint16", scale: null, offset: 0, units: "mmHg" },
+            5: { field: "map_evening_values", type: "uint16", scale: null, offset: 0, units: "mmHg" },
+            6: { field: "heart_rate", type: "uint8", scale: null, offset: 0, units: "bpm" },
+            7: { field: "heart_rate_type", type: "hr_type", scale: null, offset: 0, units: "" },
+            8: { field: "status", type: "bp_status", scale: null, offset: 0, units: "" },
+            9: { field: "user_profile_index", type: "message_index", scale: null, offset: 0, units: "" }
+          },
+          55: {
+            name: "monitoring",
+            253: { field: "timestamp", type: "uint32", scale: null, offset: 0, units: "" },
+            0: { field: "device_index", type: "device_index", scale: null, offset: 0, units: "" },
+            1: { field: "calories", type: "uint16", scale: null, offset: 0, units: "kcal" },
+            2: { field: "distance", type: "float32", scale: null, offset: 0, units: "m" },
+            3: { field: "cycles", type: "float32", scale: null, offset: 0, units: "cycles" },
+            4: { field: "active_time", type: "float32", scale: null, offset: 0, units: "s" },
+            5: { field: "activity_type", type: "activity_type", scale: null, offset: 0, units: "" },
+            6: { field: "activity_subtype", type: "activity_subtype", scale: null, offset: 0, units: "" },
+            7: { field: "activity_level", type: "activity_level", scale: null, offset: 0, units: "s" },
+            8: { field: "distance16", type: "uint16", scale: null, offset: 0, units: "m" },
+            9: { field: "cycles16", type: "uint16", scale: null, offset: 0, units: "cycles" },
+            10: { field: "active_time16", type: "uint16", scale: null, offset: 0, units: "" },
+            11: { field: "local_timestamp", type: "uint32", scale: null, offset: 0, units: "" },
+            12: { field: "temperature", type: "float32", scale: null, offset: 0, units: "C" },
+            14: { field: "temperature_min", type: "float32", scale: null, offset: 0, units: "C" },
+            15: { field: "temperature_max", type: "float32", scale: null, offset: 0, units: "C" },
+            16: { field: "activity_time", type: "int32", scale: null, offset: 0, units: "" },
+            19: { field: "active_calories", type: "uint16", scale: null, offset: 0, units: "kcal" },
+            24: { field: "current_activity_type_intensity", type: "uint8", scale: null, offset: 0, units: "" },
+            25: { field: "timestamp_min8", type: "uint8", scale: null, offset: 0, units: "" },
+            26: { field: "timestamp16", type: "uint16", scale: null, offset: 0, units: "" },
+            27: { field: "heart_rate", type: "uint8", scale: null, offset: 0, units: "bpm" },
+            28: { field: "intensity", type: "uint8", scale: null, offset: 0, units: "" },
+            29: { field: "duration_min", type: "uint16", scale: null, offset: 0, units: "" },
+            30: { field: "duration", type: "uint32", scale: null, offset: 0, units: "" },
+            31: { field: "ascent", type: "float32", scale: null, offset: 0, units: "m" },
+            32: { field: "descent", type: "float32", scale: null, offset: 0, units: "m" },
+            33: { field: "moderate_activity_minutes", type: "uint16", scale: null, offset: 0, units: "" },
+            34: { field: "vigorous_activity_inutes", type: "uint16", scale: null, offset: 0, units: "" }
+          },
+          78: {
+            name: "hrv",
+            0: { field: "time", type: "uint16_array", scale: 1e3, offset: 0, units: "s" }
+          },
+          101: {
+            name: "length",
+            254: { field: "message_index", type: "message_index", scale: null, offset: 0, units: "" },
+            253: { field: "timestamp", type: "date_time", scale: null, offset: 0, units: "s" },
+            0: { field: "event", type: "event", scale: null, offset: 0, units: "" },
+            1: { field: "event_type", type: "event_type", scale: null, offset: 0, units: "" },
+            2: { field: "start_time", type: "date_time", scale: null, offset: 0, units: "" },
+            3: { field: "total_elapsed_time", type: "uint32", scale: 1e3, offset: 0, units: "s" },
+            4: { field: "total_timer_time", type: "uint32", scale: 1e3, offset: 0, units: "s" },
+            5: { field: "total_strokes", type: "uint16", scale: null, offset: 0, units: "strokes" },
+            6: { field: "avg_speed", type: "uint16", scale: 1e3, offset: 0, units: "m/s" },
+            7: { field: "swim_stroke", type: "swim_stroke", scale: null, offset: 0, units: "swim_stroke" },
+            9: { field: "avg_swimming_cadence", type: "uint8", scale: null, offset: 0, units: "strokes/min" },
+            10: { field: "event_group", type: "uint8", scale: null, offset: 0, units: "" },
+            11: { field: "total_calories", type: "uint16", scale: null, offset: 0, units: "kcal" },
+            12: { field: "length_type", type: "length_type", scale: null, offset: 0, units: "length_type" },
+            18: { field: "player_score", type: "uint16", scale: null, offset: 0, units: "" },
+            19: { field: "opponent_score", type: "uint16", scale: null, offset: 0, units: "" },
+            20: { field: "stroke_count", type: "uint16", scale: null, offset: 0, units: "counts" },
+            21: { field: "zone_count", type: "uint16", scale: null, offset: 0, units: "counts" }
+          },
+          103: {
+            name: "monitoring_info",
+            253: { field: "timestamp", type: "date_time", scale: null, offset: 0, units: "" },
+            0: { field: "local_timestamp", type: "uint32", scale: null, offset: 0, units: "" },
+            1: { field: "activity_type", type: "activity_type", scale: null, offset: 0, units: "" },
+            3: { field: "cycles_to_distance", type: "float32", scale: null, offset: 0, units: "cycles" },
+            4: { field: "cycles_to_calories", type: "float32", scale: null, offset: 0, units: "kcal" },
+            5: { field: "resting_metabolic_rate", type: "uint16", scale: null, offset: 0, units: "" }
+          },
+          108: {
+            name: "o_hr_settings",
+            253: { field: "timestamp", type: "date_time", scale: null, offset: 0, units: "" },
+            0: { field: "enabled", type: "byte", scale: null, offset: 0, units: "" }
+          },
+          206: {
+            name: "field_description",
+            0: { field: "developer_data_index", type: "uint8", scale: null, offset: 0, units: "" },
+            1: { field: "field_definition_number", type: "uint8", scale: null, offset: 0, units: "" },
+            2: { field: "fit_base_type_id", type: "uint8", scale: null, offset: 0, units: "" },
+            3: { field: "field_name", type: "string", scale: null, offset: 0, units: "" },
+            //4: { field: 'array', type: 'uint8', scale: null, offset: 0, units: '' },
+            //5: { field: 'components', type: 'string', scale: null, offset: 0, units: '' },
+            6: { field: "scale", type: "uint8", scale: null, offset: 0, units: "" },
+            7: { field: "offset", type: "sint8", scale: null, offset: 0, units: "" },
+            8: { field: "units", type: "string", scale: null, offset: 0, units: "" },
+            // 9: { field: 'bits', type: 'string', scale: null, offset: 0, units: '' },
+            // 10: { field: 'accumulate', type: 'string', scale: null, offset: 0, units: '' },
+            //13: { field: 'fit_base_unit_id', type: 'uint16', scale: null, offset: 0, units: '' },
+            // 14: { field: 'native_mesg_num', type: 'mesg_num', scale: null, offset: 0, units: '' },
+            15: { field: "native_field_num", type: "uint8", scale: null, offset: 0, units: "" }
+          },
+          227: {
+            name: "stress_level",
+            0: { field: "stress_level_value", type: "uint16", scale: null, offset: 0, units: "" },
+            1: { field: "stress_level_time", type: "date_time", scale: null, offset: 0, units: "s" },
+            2: { field: "field_two", type: "sint8", scale: null, offset: 0, units: "" },
+            3: { field: "body_battery", type: "uint8", scale: null, offset: 0, units: "" },
+            4: { field: "field_four", type: "uint8", scale: null, offset: 0, units: "" }
+          },
+          207: {
+            name: "developer_data_id",
+            0: { field: "developer_id", type: "uint8", scale: null, offset: 0, units: "" },
+            1: { field: "application_id", type: "byte_array", scale: null, offset: 0, units: "" },
+            2: { field: "manufacturer_id", type: "manufacturer", scale: null, offset: 0, units: "" },
+            3: { field: "developer_data_index", type: "uint8", scale: null, offset: 0, units: "" },
+            4: { field: "application_version", type: "uint8", scale: null, offset: 0, units: "" }
+          },
+          258: {
+            name: "dive_settings",
+            254: { field: "message_index", type: "message_index", scale: null, offset: "", units: "" },
+            0: { field: "name", type: "string", scale: null, offset: 0, units: "" },
+            1: { field: "model", type: "tissue_model_type", scale: null, offset: 0, units: "" },
+            2: { field: "gf_low", type: "uint8", scale: null, offset: 0, units: "percent" },
+            3: { field: "gf_high", type: "uint8", scale: null, offset: 0, units: "percent" },
+            4: { field: "water_type", type: "water_type", scale: null, offset: 0, units: "" },
+            5: { field: "water_density", type: "float32", scale: null, offset: 0, units: "kg/m^3" },
+            6: { field: "po2_warn", type: "uint8", scale: null, offset: 0, units: "percent" },
+            7: { field: "po2_critical", type: "uint8", scale: null, offset: 0, units: "percent" },
+            8: { field: "po2_deco", type: "uint8", scale: null, offset: 0, units: "percent" },
+            9: { field: "safety_stop_enabled", type: "bool", scale: null, offset: 0, units: "" },
+            10: { field: "bottom_depth", type: "float32", scale: null, offset: 0, units: "" },
+            11: { field: "bottom_time", type: "uint32", scale: null, offset: 0, units: "" },
+            12: { field: "apnea_countdown_enabled", type: "bool", scale: null, offset: 0, units: "" },
+            13: { field: "apnea_countdown_time", type: "uint32", scale: null, offset: 0, units: "" },
+            14: { field: "backlight_mode", type: "dive_backlight_mode", scale: null, offset: 0, units: "" },
+            15: { field: "backlight_brightness", type: "uint8", scale: null, offset: 0, units: "" },
+            16: { field: "backlight_timeout", type: "backlight_timeout", scale: null, offset: 0, units: "" },
+            17: { field: "repeat_dive_time", type: "uint16", scale: null, offset: 0, units: "s" },
+            18: { field: "safety_stop_time", type: "uint16", scale: null, offset: 0, units: "s" },
+            19: { field: "heart_rate_source_type", type: "source_type", scale: null, offset: 0, units: "" },
+            20: { field: "heart_rate_source", type: "uint8", scale: null, offset: 0, units: "" }
+          },
+          259: {
+            name: "dive_gas",
+            254: { field: "message_index", type: "message_index", scale: null, offset: "", units: "" },
+            0: { field: "helium_content", type: "uint8", scale: null, offset: "", units: "percent" },
+            1: { field: "oxygen_content", type: "uint8", scale: null, offset: "", units: "percent" },
+            2: { field: "status", type: "dive_gas_status", scale: null, offset: "", units: "" }
+          },
+          262: {
+            name: "dive_alarm",
+            254: { field: "message_index", type: "message_index", scale: null, offset: "", units: "" },
+            0: { field: "depth", type: "uint32", scale: null, offset: "", units: "m" },
+            1: { field: "time", type: "sint32", scale: null, offset: "", units: "s" },
+            2: { field: "enabled", type: "bool", scale: null, offset: "", units: "" },
+            3: { field: "alarm_type", type: "dive_alarm_type", scale: null, offset: "", units: "" },
+            4: { field: "sound", type: "tone", scale: null, offset: "", units: "" },
+            5: { field: "dive_types", type: "sub_sport", scale: null, offset: "", units: "" }
+          },
+          268: {
+            name: "dive_summary",
+            253: { field: "timestamp", type: "date_time", scale: null, offset: 0, units: "s" },
+            0: { field: "reference_mesg", type: "mesg_num", scale: null, offset: 0, units: "" },
+            1: { field: "reference_index", type: "message_index", scale: null, offset: 0, units: "" },
+            2: { field: "avg_depth", type: "uint32", scale: null, offset: 0, units: "m" },
+            3: { field: "max_depth", type: "uint32", scale: null, offset: 0, units: "m" },
+            4: { field: "surface_interval", type: "uint32", scale: null, offset: 0, units: "s" },
+            5: { field: "start_cns", type: "uint8", scale: null, offset: 0, units: "percent" },
+            6: { field: "end_cns", type: "uint8", scale: null, offset: 0, units: "percent" },
+            7: { field: "start_n2", type: "uint16", scale: null, offset: 0, units: "percent" },
+            8: { field: "end_n2", type: "uint16", scale: null, offset: 0, units: "percent" },
+            9: { field: "o2_toxicity", type: "uint16", scale: null, offset: 0, units: "OTUs" },
+            10: { field: "dive_number", type: "uint32", scale: null, offset: 0, units: "" },
+            11: { field: "bottom_time", type: "uint32", scale: null, offset: 0, units: "s" }
+          },
+          319: {
+            name: "tank_update",
+            253: { field: "timestamp", type: "date_time", scale: null, offset: 0, units: "s" },
+            0: { field: "sensor", type: "uint32", scale: null, offset: 0, units: "" },
+            1: { field: "pressure", type: "uint16", scale: null, offset: 0, units: "cbar" }
+          },
+          323: {
+            name: "tank_summary",
+            0: { field: "sensor", type: "uint32", scale: null, offset: 0, units: "" },
+            1: { field: "start_pressure", type: "uint16", scale: null, offset: 0, units: "cbar" },
+            2: { field: "end_pressure", type: "uint16", scale: null, offset: 0, units: "cbar" },
+            3: { field: "volume_used", type: "uint16", scale: null, offset: 0, units: "cbar" }
+          }
+        },
+        types: {
+          file: {
+            1: "device",
+            2: "settings",
+            3: "sport",
+            4: "activity",
+            5: "workout",
+            6: "course",
+            7: "schedules",
+            9: "weight",
+            10: "totals",
+            11: "goals",
+            14: "blood_pressure",
+            15: "monitoring_a",
+            20: "activity_summary",
+            28: "monitoring_daily",
+            32: "monitoring_b",
+            34: "segment",
+            35: "segment_list",
+            40: "exd_configuration",
+            247: "mfg_range_min",
+            254: "mfg_range_max"
+          },
+          mesg_num: {
+            0: "file_id",
+            1: "capabilities",
+            2: "device_settings",
+            3: "user_profile",
+            4: "hrm_profile",
+            5: "sdm_profile",
+            6: "bike_profile",
+            7: "zones_target",
+            8: "hr_zone",
+            9: "power_zone",
+            10: "met_zone",
+            12: "sport",
+            15: "goal",
+            18: "session",
+            19: "lap",
+            20: "record",
+            21: "event",
+            23: "device_info",
+            26: "workout",
+            27: "workout_step",
+            28: "schedule",
+            30: "weight_scale",
+            31: "course",
+            32: "course_point",
+            33: "totals",
+            34: "activity",
+            35: "software",
+            37: "file_capabilities",
+            38: "mesg_capabilities",
+            39: "field_capabilities",
+            49: "file_creator",
+            51: "blood_pressure",
+            53: "speed_zone",
+            55: "monitoring",
+            72: "training_file",
+            78: "hrv",
+            80: "ant_rx",
+            81: "ant_tx",
+            82: "ant_channel_id",
+            101: "length",
+            103: "monitoring_info",
+            105: "pad",
+            106: "slave_device",
+            127: "connectivity",
+            128: "weather_conditions",
+            129: "weather_alert",
+            131: "cadence_zone",
+            132: "hr",
+            142: "segment_lap",
+            145: "memo_glob",
+            148: "segment_id",
+            149: "segment_leaderboard_entry",
+            150: "segment_point",
+            151: "segment_file",
+            158: "workout_session",
+            159: "watchface_settings",
+            160: "gps_metadata",
+            161: "camera_event",
+            162: "timestamp_correlation",
+            164: "gyroscope_data",
+            165: "accelerometer_data",
+            167: "three_d_sensor_calibration",
+            169: "video_frame",
+            174: "obdii_data",
+            177: "nmea_sentence",
+            178: "aviation_attitude",
+            184: "video",
+            185: "video_title",
+            186: "video_description",
+            187: "video_clip",
+            200: "exd_screen_configuration",
+            201: "exd_data_field_configuration",
+            202: "exd_data_concept_configuration",
+            206: "field_description",
+            207: "developer_data_id",
+            208: "magnetometer_data",
+            209: "barometer_data",
+            210: "one_d_sensor_calibration",
+            225: "set",
+            227: "stress_level",
+            258: "dive_settings",
+            259: "dive_gas",
+            262: "dive_alarm",
+            264: "exercise_title",
+            268: "dive_summary",
+            285: "jump",
+            317: "climb_pro",
+            319: "tank_pressure",
+            323: "tank_summary",
+            65280: "mfg_range_min",
+            65534: "mfg_range_max"
+          },
+          checksum: {
+            0: "clear",
+            1: "ok"
+          },
+          file_flags: {
+            0: 0,
+            2: "read",
+            4: "write",
+            8: "erase"
+          },
+          mesg_count: {
+            0: "num_per_file",
+            1: "max_per_file",
+            2: "max_per_file_type"
+          },
+          date_time: {
+            0: 0,
+            268435456: "min"
+          },
+          local_date_time: {
+            0: 0,
+            268435456: "min"
+          },
+          message_index: {
+            0: 0,
+            4095: "mask",
+            28672: "reserved",
+            32768: "selected"
+          },
+          gender: {
+            0: "female",
+            1: "male"
+          },
+          language: {
+            0: "english",
+            1: "french",
+            2: "italian",
+            3: "german",
+            4: "spanish",
+            5: "croatian",
+            6: "czech",
+            7: "danish",
+            8: "dutch",
+            9: "finnish",
+            10: "greek",
+            11: "hungarian",
+            12: "norwegian",
+            13: "polish",
+            14: "portuguese",
+            15: "slovakian",
+            16: "slovenian",
+            17: "swedish",
+            18: "russian",
+            19: "turkish",
+            20: "latvian",
+            21: "ukrainian",
+            22: "arabic",
+            23: "farsi",
+            24: "bulgarian",
+            25: "romanian",
+            26: "chinese",
+            27: "japanese",
+            28: "korean",
+            29: "taiwanese",
+            30: "thai",
+            31: "hebrew",
+            32: "brazilian_portuguese",
+            33: "indonesian",
+            34: "malaysian",
+            35: "vietnamese",
+            36: "burmese",
+            37: "mongolian",
+            254: "custom"
+          },
+          language_bits_0: {
+            0: 0,
+            1: "english",
+            2: "french",
+            4: "italian",
+            8: "german",
+            16: "spanish",
+            32: "croatian",
+            64: "czech",
+            128: "danish"
+          },
+          language_bits_1: {
+            0: 0,
+            1: "dutch",
+            2: "finnish",
+            4: "greek",
+            8: "hungarian",
+            16: "norwegian",
+            32: "polish",
+            64: "portuguese",
+            128: "slovakian"
+          },
+          language_bits_2: {
+            0: 0,
+            1: "slovenian",
+            2: "swedish",
+            4: "russian",
+            8: "turkish",
+            16: "latvian",
+            32: "ukrainian",
+            64: "arabic",
+            128: "farsi"
+          },
+          language_bits_3: {
+            0: 0,
+            1: "bulgarian",
+            2: "romanian",
+            4: "chinese",
+            8: "japanese",
+            16: "korean",
+            32: "taiwanese",
+            64: "thai",
+            128: "hebrew"
+          },
+          language_bits_4: {
+            0: 0,
+            1: "brazilian_portuguese",
+            2: "indonesian",
+            4: "malaysian",
+            8: "vietnamese",
+            16: "burmese",
+            32: "mongolian"
+          },
+          time_zone: {
+            0: "almaty",
+            1: "bangkok",
+            2: "bombay",
+            3: "brasilia",
+            4: "cairo",
+            5: "cape_verde_is",
+            6: "darwin",
+            7: "eniwetok",
+            8: "fiji",
+            9: "hong_kong",
+            10: "islamabad",
+            11: "kabul",
+            12: "magadan",
+            13: "mid_atlantic",
+            14: "moscow",
+            15: "muscat",
+            16: "newfoundland",
+            17: "samoa",
+            18: "sydney",
+            19: "tehran",
+            20: "tokyo",
+            21: "us_alaska",
+            22: "us_atlantic",
+            23: "us_central",
+            24: "us_eastern",
+            25: "us_hawaii",
+            26: "us_mountain",
+            27: "us_pacific",
+            28: "other",
+            29: "auckland",
+            30: "kathmandu",
+            31: "europe_western_wet",
+            32: "europe_central_cet",
+            33: "europe_eastern_eet",
+            34: "jakarta",
+            35: "perth",
+            36: "adelaide",
+            37: "brisbane",
+            38: "tasmania",
+            39: "iceland",
+            40: "amsterdam",
+            41: "athens",
+            42: "barcelona",
+            43: "berlin",
+            44: "brussels",
+            45: "budapest",
+            46: "copenhagen",
+            47: "dublin",
+            48: "helsinki",
+            49: "lisbon",
+            50: "london",
+            51: "madrid",
+            52: "munich",
+            53: "oslo",
+            54: "paris",
+            55: "prague",
+            56: "reykjavik",
+            57: "rome",
+            58: "stockholm",
+            59: "vienna",
+            60: "warsaw",
+            61: "zurich",
+            62: "quebec",
+            63: "ontario",
+            64: "manitoba",
+            65: "saskatchewan",
+            66: "alberta",
+            67: "british_columbia",
+            68: "boise",
+            69: "boston",
+            70: "chicago",
+            71: "dallas",
+            72: "denver",
+            73: "kansas_city",
+            74: "las_vegas",
+            75: "los_angeles",
+            76: "miami",
+            77: "minneapolis",
+            78: "new_york",
+            79: "new_orleans",
+            80: "phoenix",
+            81: "santa_fe",
+            82: "seattle",
+            83: "washington_dc",
+            84: "us_arizona",
+            85: "chita",
+            86: "ekaterinburg",
+            87: "irkutsk",
+            88: "kaliningrad",
+            89: "krasnoyarsk",
+            90: "novosibirsk",
+            91: "petropavlovsk_kamchatskiy",
+            92: "samara",
+            93: "vladivostok",
+            94: "mexico_central",
+            95: "mexico_mountain",
+            96: "mexico_pacific",
+            97: "cape_town",
+            98: "winkhoek",
+            99: "lagos",
+            100: "riyahd",
+            101: "venezuela",
+            102: "australia_lh",
+            103: "santiago",
+            253: "manual",
+            254: "automatic"
+          },
+          display_measure: {
+            0: "metric",
+            1: "statute",
+            2: "nautical"
+          },
+          display_heart: {
+            0: "bpm",
+            1: "max",
+            2: "reserve"
+          },
+          display_power: {
+            0: "watts",
+            1: "percent_ftp"
+          },
+          display_position: {
+            0: "degree",
+            1: "degree_minute",
+            2: "degree_minute_second",
+            3: "austrian_grid",
+            4: "british_grid",
+            5: "dutch_grid",
+            6: "hungarian_grid",
+            7: "finnish_grid",
+            8: "german_grid",
+            9: "icelandic_grid",
+            10: "indonesian_equatorial",
+            11: "indonesian_irian",
+            12: "indonesian_southern",
+            13: "india_zone_0",
+            14: "india_zone_IA",
+            15: "india_zone_IB",
+            16: "india_zone_IIA",
+            17: "india_zone_IIB",
+            18: "india_zone_IIIA",
+            19: "india_zone_IIIB",
+            20: "india_zone_IVA",
+            21: "india_zone_IVB",
+            22: "irish_transverse",
+            23: "irish_grid",
+            24: "loran",
+            25: "maidenhead_grid",
+            26: "mgrs_grid",
+            27: "new_zealand_grid",
+            28: "new_zealand_transverse",
+            29: "qatar_grid",
+            30: "modified_swedish_grid",
+            31: "swedish_grid",
+            32: "south_african_grid",
+            33: "swiss_grid",
+            34: "taiwan_grid",
+            35: "united_states_grid",
+            36: "utm_ups_grid",
+            37: "west_malayan",
+            38: "borneo_rso",
+            39: "estonian_grid",
+            40: "latvian_grid",
+            41: "swedish_ref_99_grid"
+          },
+          "switch": {
+            0: "off",
+            1: "on",
+            2: "auto"
+          },
+          sport: {
+            0: "generic",
+            1: "running",
+            2: "cycling",
+            3: "transition",
+            4: "fitness_equipment",
+            5: "swimming",
+            6: "basketball",
+            7: "soccer",
+            8: "tennis",
+            9: "american_football",
+            10: "training",
+            11: "walking",
+            12: "cross_country_skiing",
+            13: "alpine_skiing",
+            14: "snowboarding",
+            15: "rowing",
+            16: "mountaineering",
+            17: "hiking",
+            18: "multisport",
+            19: "paddling",
+            20: "flying",
+            21: "e_biking",
+            22: "motorcycling",
+            23: "boating",
+            24: "driving",
+            25: "golf",
+            26: "hang_gliding",
+            27: "horseback_riding",
+            28: "hunting",
+            29: "fishing",
+            30: "inline_skating",
+            31: "rock_climbing",
+            32: "sailing",
+            33: "ice_skating",
+            34: "sky_diving",
+            35: "snowshoeing",
+            36: "snowmobiling",
+            37: "stand_up_paddleboarding",
+            38: "surfing",
+            39: "wakeboarding",
+            40: "water_skiing",
+            41: "kayaking",
+            42: "rafting",
+            43: "windsurfing",
+            44: "kitesurfing",
+            45: "tactical",
+            46: "jumpmaster",
+            47: "boxing",
+            48: "floor_climbing",
+            53: "diving",
+            254: "all"
+          },
+          sport_bits_0: {
+            0: 0,
+            1: "generic",
+            2: "running",
+            4: "cycling",
+            8: "transition",
+            16: "fitness_equipment",
+            32: "swimming",
+            64: "basketball",
+            128: "soccer"
+          },
+          sport_bits_1: {
+            0: 0,
+            1: "tennis",
+            2: "american_football",
+            4: "training",
+            8: "walking",
+            16: "cross_country_skiing",
+            32: "alpine_skiing",
+            64: "snowboarding",
+            128: "rowing"
+          },
+          sport_bits_2: {
+            0: 0,
+            1: "mountaineering",
+            2: "hiking",
+            4: "multisport",
+            8: "paddling",
+            16: "flying",
+            32: "e_biking",
+            64: "motorcycling",
+            128: "boating"
+          },
+          sport_bits_3: {
+            0: 0,
+            1: "driving",
+            2: "golf",
+            4: "hang_gliding",
+            8: "horseback_riding",
+            16: "hunting",
+            32: "fishing",
+            64: "inline_skating",
+            128: "rock_climbing"
+          },
+          sport_bits_4: {
+            0: 0,
+            1: "sailing",
+            2: "ice_skating",
+            4: "sky_diving",
+            8: "snowshoeing",
+            16: "snowmobiling",
+            32: "stand_up_paddleboarding",
+            64: "surfing",
+            128: "wakeboarding"
+          },
+          sport_bits_5: {
+            0: 0,
+            1: "water_skiing",
+            2: "kayaking",
+            4: "rafting",
+            8: "windsurfing",
+            16: "kitesurfing",
+            32: "tactical",
+            64: "jumpmaster",
+            128: "boxing"
+          },
+          sport_bits_6: {
+            0: 0,
+            1: "floor_climbing"
+          },
+          sub_sport: {
+            0: "generic",
+            1: "treadmill",
+            2: "street",
+            3: "trail",
+            4: "track",
+            5: "spin",
+            6: "indoor_cycling",
+            7: "road",
+            8: "mountain",
+            9: "downhill",
+            10: "recumbent",
+            11: "cyclocross",
+            12: "hand_cycling",
+            13: "track_cycling",
+            14: "indoor_rowing",
+            15: "elliptical",
+            16: "stair_climbing",
+            17: "lap_swimming",
+            18: "open_water",
+            19: "flexibility_training",
+            20: "strength_training",
+            21: "warm_up",
+            22: "match",
+            23: "exercise",
+            24: "challenge",
+            25: "indoor_skiing",
+            26: "cardio_training",
+            27: "indoor_walking",
+            28: "e_bike_fitness",
+            29: "bmx",
+            30: "casual_walking",
+            31: "speed_walking",
+            32: "bike_to_run_transition",
+            33: "run_to_bike_transition",
+            34: "swim_to_bike_transition",
+            35: "atv",
+            36: "motocross",
+            37: "backcountry",
+            38: "resort",
+            39: "rc_drone",
+            40: "wingsuit",
+            41: "whitewater",
+            42: "skate_skiing",
+            43: "yoga",
+            44: "pilates",
+            45: "indoor_running",
+            46: "gravel_cycling",
+            47: "e_bike_mountain",
+            48: "commuting",
+            49: "mixed_surface",
+            50: "navigate",
+            51: "track_me",
+            52: "map",
+            53: "single_gas_diving",
+            54: "multi_gas_diving",
+            55: "gauge_diving",
+            56: "apnea_diving",
+            57: "apnea_hunting",
+            58: "virtual_activity",
+            59: "obstacle",
+            254: "all"
+          },
+          sport_event: {
+            0: "uncategorized",
+            1: "geocaching",
+            2: "fitness",
+            3: "recreation",
+            4: "race",
+            5: "special_event",
+            6: "training",
+            7: "transportation",
+            8: "touring"
+          },
+          activity: {
+            0: "manual",
+            1: "auto_multi_sport"
+          },
+          intensity: {
+            0: "active",
+            1: "rest",
+            2: "warmup",
+            3: "cooldown",
+            4: "recovery",
+            5: "interval",
+            6: "other"
+          },
+          session_trigger: {
+            0: "activity_end",
+            1: "manual",
+            2: "auto_multi_sport",
+            3: "fitness_equipment"
+          },
+          autolap_trigger: {
+            0: "time",
+            1: "distance",
+            2: "position_start",
+            3: "position_lap",
+            4: "position_waypoint",
+            5: "position_marked",
+            6: "off"
+          },
+          lap_trigger: {
+            0: "manual",
+            1: "time",
+            2: "distance",
+            3: "position_start",
+            4: "position_lap",
+            5: "position_waypoint",
+            6: "position_marked",
+            7: "session_end",
+            8: "fitness_equipment"
+          },
+          time_mode: {
+            0: "hour12",
+            1: "hour24",
+            2: "military",
+            3: "hour_12_with_seconds",
+            4: "hour_24_with_seconds",
+            5: "utc"
+          },
+          backlight_mode: {
+            0: "off",
+            1: "manual",
+            2: "key_and_messages",
+            3: "auto_brightness",
+            4: "smart_notifications",
+            5: "key_and_messages_night",
+            6: "key_and_messages_and_smart_notifications"
+          },
+          date_mode: {
+            0: "day_month",
+            1: "month_day"
+          },
+          backlight_timeout: {
+            0: "infinite"
+          },
+          event: {
+            0: "timer",
+            3: "workout",
+            4: "workout_step",
+            5: "power_down",
+            6: "power_up",
+            7: "off_course",
+            8: "session",
+            9: "lap",
+            10: "course_point",
+            11: "battery",
+            12: "virtual_partner_pace",
+            13: "hr_high_alert",
+            14: "hr_low_alert",
+            15: "speed_high_alert",
+            16: "speed_low_alert",
+            17: "cad_high_alert",
+            18: "cad_low_alert",
+            19: "power_high_alert",
+            20: "power_low_alert",
+            21: "recovery_hr",
+            22: "battery_low",
+            23: "time_duration_alert",
+            24: "distance_duration_alert",
+            25: "calorie_duration_alert",
+            26: "activity",
+            27: "fitness_equipment",
+            28: "length",
+            32: "user_marker",
+            33: "sport_point",
+            36: "calibration",
+            42: "front_gear_change",
+            43: "rear_gear_change",
+            44: "rider_position_change",
+            45: "elev_high_alert",
+            46: "elev_low_alert",
+            47: "comm_timeout"
+          },
+          event_type: {
+            0: "start",
+            1: "stop",
+            2: "consecutive_depreciated",
+            3: "marker",
+            4: "stop_all",
+            5: "begin_depreciated",
+            6: "end_depreciated",
+            7: "end_all_depreciated",
+            8: "stop_disable",
+            9: "stop_disable_all"
+          },
+          timer_trigger: {
+            0: "manual",
+            1: "auto",
+            2: "fitness_equipment"
+          },
+          fitness_equipment_state: {
+            0: "ready",
+            1: "in_use",
+            2: "paused",
+            3: "unknown"
+          },
+          tone: {
+            0: "off",
+            1: "tone",
+            2: "vibrate",
+            3: "tone_and_vibrate"
+          },
+          autoscroll: {
+            0: "none",
+            1: "slow",
+            2: "medium",
+            3: "fast"
+          },
+          activity_class: {
+            0: 0,
+            100: "level_max",
+            127: "level",
+            128: "athlete"
+          },
+          hr_zone_calc: {
+            0: "custom",
+            1: "percent_max_hr",
+            2: "percent_hrr"
+          },
+          pwr_zone_calc: {
+            0: "custom",
+            1: "percent_ftp"
+          },
+          wkt_step_duration: {
+            0: "time",
+            1: "distance",
+            2: "hr_less_than",
+            3: "hr_greater_than",
+            4: "calories",
+            5: "open",
+            6: "repeat_until_steps_cmplt",
+            7: "repeat_until_time",
+            8: "repeat_until_distance",
+            9: "repeat_until_calories",
+            10: "repeat_until_hr_less_than",
+            11: "repeat_until_hr_greater_than",
+            12: "repeat_until_power_less_than",
+            13: "repeat_until_power_greater_than",
+            14: "power_less_than",
+            15: "power_greater_than",
+            16: "training_peaks_tss",
+            17: "repeat_until_power_last_lap_less_than",
+            18: "repeat_until_max_power_last_lap_less_than",
+            19: "power_3s_less_than",
+            20: "power_10s_less_than",
+            21: "power_30s_less_than",
+            22: "power_3s_greater_than",
+            23: "power_10s_greater_than",
+            24: "power_30s_greater_than",
+            25: "power_lap_less_than",
+            26: "power_lap_greater_than",
+            27: "repeat_until_training_peaks_tss",
+            28: "repetition_time",
+            29: "reps"
+          },
+          wkt_step_target: {
+            0: "speed",
+            1: "heart_rate",
+            2: "open",
+            3: "cadence",
+            4: "power",
+            5: "grade",
+            6: "resistance",
+            7: "power_3s",
+            8: "power_10s",
+            9: "power_30s",
+            10: "power_lap",
+            11: "swim_stroke",
+            12: "speed_lap",
+            13: "heart_rate_lap"
+          },
+          goal: {
+            0: "time",
+            1: "distance",
+            2: "calories",
+            3: "frequency",
+            4: "steps",
+            5: "ascent",
+            6: "active_minutes"
+          },
+          goal_recurrence: {
+            0: "off",
+            1: "daily",
+            2: "weekly",
+            3: "monthly",
+            4: "yearly",
+            5: "custom"
+          },
+          goal_source: {
+            0: "auto",
+            1: "community",
+            2: "user"
+          },
+          schedule: {
+            0: "workout",
+            1: "course"
+          },
+          course_point: {
+            0: "generic",
+            1: "summit",
+            2: "valley",
+            3: "water",
+            4: "food",
+            5: "danger",
+            6: "left",
+            7: "right",
+            8: "straight",
+            9: "first_aid",
+            10: "fourth_category",
+            11: "third_category",
+            12: "second_category",
+            13: "first_category",
+            14: "hors_category",
+            15: "sprint",
+            16: "left_fork",
+            17: "right_fork",
+            18: "middle_fork",
+            19: "slight_left",
+            20: "sharp_left",
+            21: "slight_right",
+            22: "sharp_right",
+            23: "u_turn",
+            24: "segment_start",
+            25: "segment_end"
+          },
+          manufacturer: {
+            0: 0,
+            1: "garmin",
+            2: "garmin_fr405_antfs",
+            3: "zephyr",
+            4: "dayton",
+            5: "idt",
+            6: "srm",
+            7: "quarq",
+            8: "ibike",
+            9: "saris",
+            10: "spark_hk",
+            11: "tanita",
+            12: "echowell",
+            13: "dynastream_oem",
+            14: "nautilus",
+            15: "dynastream",
+            16: "timex",
+            17: "metrigear",
+            18: "xelic",
+            19: "beurer",
+            20: "cardiosport",
+            21: "a_and_d",
+            22: "hmm",
+            23: "suunto",
+            24: "thita_elektronik",
+            25: "gpulse",
+            26: "clean_mobile",
+            27: "pedal_brain",
+            28: "peaksware",
+            29: "saxonar",
+            30: "lemond_fitness",
+            31: "dexcom",
+            32: "wahoo_fitness",
+            33: "octane_fitness",
+            34: "archinoetics",
+            35: "the_hurt_box",
+            36: "citizen_systems",
+            37: "magellan",
+            38: "osynce",
+            39: "holux",
+            40: "concept2",
+            42: "one_giant_leap",
+            43: "ace_sensor",
+            44: "brim_brothers",
+            45: "xplova",
+            46: "perception_digital",
+            47: "bf1systems",
+            48: "pioneer",
+            49: "spantec",
+            50: "metalogics",
+            51: "4iiiis",
+            52: "seiko_epson",
+            53: "seiko_epson_oem",
+            54: "ifor_powell",
+            55: "maxwell_guider",
+            56: "star_trac",
+            57: "breakaway",
+            58: "alatech_technology_ltd",
+            59: "mio_technology_europe",
+            60: "rotor",
+            61: "geonaute",
+            62: "id_bike",
+            63: "specialized",
+            64: "wtek",
+            65: "physical_enterprises",
+            66: "north_pole_engineering",
+            67: "bkool",
+            68: "cateye",
+            69: "stages_cycling",
+            70: "sigmasport",
+            71: "tomtom",
+            72: "peripedal",
+            73: "wattbike",
+            76: "moxy",
+            77: "ciclosport",
+            78: "powerbahn",
+            79: "acorn_projects_aps",
+            80: "lifebeam",
+            81: "bontrager",
+            82: "wellgo",
+            83: "scosche",
+            84: "magura",
+            85: "woodway",
+            86: "elite",
+            87: "nielsen_kellerman",
+            88: "dk_city",
+            89: "tacx",
+            90: "direction_technology",
+            91: "magtonic",
+            92: "1partcarbon",
+            93: "inside_ride_technologies",
+            94: "sound_of_motion",
+            95: "stryd",
+            96: "icg",
+            97: "mipulse",
+            98: "bsx_athletics",
+            99: "look",
+            100: "campagnolo_srl",
+            101: "body_bike_smart",
+            102: "praxisworks",
+            103: "limits_technology",
+            104: "topaction_technology",
+            105: "cosinuss",
+            106: "fitcare",
+            107: "magene",
+            108: "giant_manufacturing_co",
+            109: "tigrasport",
+            110: "salutron",
+            111: "technogym",
+            112: "bryton_sensors",
+            113: "latitude_limited",
+            114: "soaring_technology",
+            115: "igpsport",
+            116: "thinkrider",
+            117: "gopher_sport",
+            118: "waterrower",
+            119: "orangetheory",
+            120: "inpeak",
+            121: "kinetic",
+            122: "johnson_health_tech",
+            123: "polar_electro",
+            124: "seesense",
+            125: "nci_technology",
+            255: "development",
+            257: "healthandlife",
+            258: "lezyne",
+            259: "scribe_labs",
+            260: "zwift",
+            261: "watteam",
+            262: "recon",
+            263: "favero_electronics",
+            264: "dynovelo",
+            265: "strava",
+            266: "precor",
+            267: "bryton",
+            268: "sram",
+            269: "navman",
+            270: "cobi",
+            271: "spivi",
+            272: "mio_magellan",
+            273: "evesports",
+            274: "sensitivus_gauge",
+            275: "podoon",
+            276: "life_time_fitness",
+            277: "falco_e_motors",
+            278: "minoura",
+            279: "cycliq",
+            280: "luxottica",
+            281: "trainer_road",
+            282: "the_sufferfest",
+            283: "fullspeedahead",
+            284: "virtualtraining",
+            285: "feedbacksports",
+            286: "omata",
+            287: "vdo",
+            288: "magneticdays",
+            289: "hammerhead",
+            290: "kinetic_by_kurt",
+            291: "shapelog",
+            292: "dabuziduo",
+            293: "jetblack",
+            294: "coros",
+            295: "virtugo",
+            296: "velosense",
+            5759: "actigraphcorp"
+          },
+          garmin_product: {
+            0: "hrm_bike",
+            1: "hrm1",
+            2: "axh01",
+            3: "axb01",
+            4: "axb02",
+            5: "hrm2ss",
+            6: "dsi_alf02",
+            7: "hrm3ss",
+            8: "hrm_run_single_byte_product_id",
+            9: "bsm",
+            10: "bcm",
+            11: "axs01",
+            12: "hrm_tri_single_byte_product_id",
+            14: "fr225_single_byte_product_id",
+            473: "fr301_china",
+            474: "fr301_japan",
+            475: "fr301_korea",
+            494: "fr301_taiwan",
+            717: "fr405",
+            782: "fr50",
+            987: "fr405_japan",
+            988: "fr60",
+            1011: "dsi_alf01",
+            1018: "fr310xt",
+            1036: "edge500",
+            1124: "fr110",
+            1169: "edge800",
+            1199: "edge500_taiwan",
+            1213: "edge500_japan",
+            1253: "chirp",
+            1274: "fr110_japan",
+            1325: "edge200",
+            1328: "fr910xt",
+            1333: "edge800_taiwan",
+            1334: "edge800_japan",
+            1341: "alf04",
+            1345: "fr610",
+            1360: "fr210_japan",
+            1380: "vector_ss",
+            1381: "vector_cp",
+            1386: "edge800_china",
+            1387: "edge500_china",
+            1410: "fr610_japan",
+            1422: "edge500_korea",
+            1436: "fr70",
+            1446: "fr310xt_4t",
+            1461: "amx",
+            1482: "fr10",
+            1497: "edge800_korea",
+            1499: "swim",
+            1537: "fr910xt_china",
+            1551: "fenix",
+            1555: "edge200_taiwan",
+            1561: "edge510",
+            1567: "edge810",
+            1570: "tempe",
+            1600: "fr910xt_japan",
+            1623: "fr620",
+            1632: "fr220",
+            1664: "fr910xt_korea",
+            1688: "fr10_japan",
+            1721: "edge810_japan",
+            1735: "virb_elite",
+            1736: "edge_touring",
+            1742: "edge510_japan",
+            1743: "hrm_tri",
+            1752: "hrm_run",
+            1765: "fr920xt",
+            1821: "edge510_asia",
+            1822: "edge810_china",
+            1823: "edge810_taiwan",
+            1836: "edge1000",
+            1837: "vivo_fit",
+            1853: "virb_remote",
+            1885: "vivo_ki",
+            1903: "fr15",
+            1907: "vivo_active",
+            1918: "edge510_korea",
+            1928: "fr620_japan",
+            1929: "fr620_china",
+            1930: "fr220_japan",
+            1931: "fr220_china",
+            1936: "approach_s6",
+            1956: "vivo_smart",
+            1967: "fenix2",
+            1988: "epix",
+            2050: "fenix3",
+            2052: "edge1000_taiwan",
+            2053: "edge1000_japan",
+            2061: "fr15_japan",
+            2067: "edge520",
+            2070: "edge1000_china",
+            2072: "fr620_russia",
+            2073: "fr220_russia",
+            2079: "vector_s",
+            2100: "edge1000_korea",
+            2130: "fr920xt_taiwan",
+            2131: "fr920xt_china",
+            2132: "fr920xt_japan",
+            2134: "virbx",
+            2135: "vivo_smart_apac",
+            2140: "etrex_touch",
+            2147: "edge25",
+            2148: "fr25",
+            2150: "vivo_fit2",
+            2153: "fr225",
+            2156: "fr630",
+            2157: "fr230",
+            2158: "fr735xt",
+            2160: "vivo_active_apac",
+            2161: "vector_2",
+            2162: "vector_2s",
+            2172: "virbxe",
+            2173: "fr620_taiwan",
+            2174: "fr220_taiwan",
+            2175: "truswing",
+            2188: "fenix3_china",
+            2189: "fenix3_twn",
+            2192: "varia_headlight",
+            2193: "varia_taillight_old",
+            2204: "edge_explore_1000",
+            2219: "fr225_asia",
+            2225: "varia_radar_taillight",
+            2226: "varia_radar_display",
+            2238: "edge20",
+            2262: "d2_bravo",
+            2266: "approach_s20",
+            2276: "varia_remote",
+            2327: "hrm4_run",
+            2337: "vivo_active_hr",
+            2348: "vivo_smart_hr",
+            2368: "vivo_move",
+            2398: "varia_vision",
+            2406: "vivo_fit3",
+            2413: "fenix3_hr",
+            2417: "virb_ultra_30",
+            2429: "index_smart_scale",
+            2431: "fr235",
+            2432: "fenix3_chronos",
+            2441: "oregon7xx",
+            2444: "rino7xx",
+            2496: "nautix",
+            2530: "edge_820",
+            2531: "edge_explore_820",
+            2544: "fenix5s",
+            2547: "d2_bravo_titanium",
+            2567: "varia_ut800",
+            2593: "running_dynamics_pod",
+            2604: "fenix5x",
+            2606: "vivo_fit_jr",
+            2691: "fr935",
+            2697: "fenix5",
+            2859: "descent",
+            10007: "sdm4",
+            10014: "edge_remote",
+            20119: "training_center",
+            65531: "connectiq_simulator",
+            65532: "android_antplus_plugin",
+            65534: "connect"
+          },
+          antplus_device_type: {
+            0: 0,
+            1: "antfs",
+            11: "bike_power",
+            12: "environment_sensor_legacy",
+            15: "multi_sport_speed_distance",
+            16: "control",
+            17: "fitness_equipment",
+            18: "blood_pressure",
+            19: "geocache_node",
+            20: "light_electric_vehicle",
+            25: "env_sensor",
+            26: "racquet",
+            27: "control_hub",
+            31: "muscle_oxygen",
+            35: "bike_light_main",
+            36: "bike_light_shared",
+            38: "exd",
+            40: "bike_radar",
+            119: "weight_scale",
+            120: "heart_rate",
+            121: "bike_speed_cadence",
+            122: "bike_cadence",
+            123: "bike_speed",
+            124: "stride_speed_distance"
+          },
+          ant_network: {
+            0: "public",
+            1: "antplus",
+            2: "antfs",
+            3: "private"
+          },
+          workout_capabilities: {
+            0: 0,
+            1: "interval",
+            2: "custom",
+            4: "fitness_equipment",
+            8: "firstbeat",
+            16: "new_leaf",
+            32: "tcx",
+            128: "speed",
+            256: "heart_rate",
+            512: "distance",
+            1024: "cadence",
+            2048: "power",
+            4096: "grade",
+            8192: "resistance",
+            16384: "protected"
+          },
+          battery_status: {
+            0: 0,
+            1: "new",
+            2: "good",
+            3: "ok",
+            4: "low",
+            5: "critical",
+            6: "charging",
+            7: "unknown"
+          },
+          hr_type: {
+            0: "normal",
+            1: "irregular"
+          },
+          course_capabilities: {
+            0: 0,
+            1: "processed",
+            2: "valid",
+            4: "time",
+            8: "distance",
+            16: "position",
+            32: "heart_rate",
+            64: "power",
+            128: "cadence",
+            256: "training",
+            512: "navigation",
+            1024: "bikeway"
+          },
+          weight: {
+            0: 0,
+            65534: "calculating"
+          },
+          workout_hr: {
+            0: 0,
+            100: "bpm_offset"
+          },
+          workout_power: {
+            0: 0,
+            1e3: "watts_offset"
+          },
+          bp_status: {
+            0: "no_error",
+            1: "error_incomplete_data",
+            2: "error_no_measurement",
+            3: "error_data_out_of_range",
+            4: "error_irregular_heart_rate"
+          },
+          user_local_id: {
+            0: "local_min",
+            15: "local_max",
+            16: "stationary_min",
+            255: "stationary_max",
+            256: "portable_min",
+            65534: "portable_max"
+          },
+          swim_stroke: {
+            0: "freestyle",
+            1: "backstroke",
+            2: "breaststroke",
+            3: "butterfly",
+            4: "drill",
+            5: "mixed",
+            6: "im"
+          },
+          activity_type: {
+            0: "generic",
+            1: "running",
+            2: "cycling",
+            3: "transition",
+            4: "fitness_equipment",
+            5: "swimming",
+            6: "walking",
+            8: "sedentary",
+            254: "all"
+          },
+          activity_subtype: {
+            0: "generic",
+            1: "treadmill",
+            2: "street",
+            3: "trail",
+            4: "track",
+            5: "spin",
+            6: "indoor_cycling",
+            7: "road",
+            8: "mountain",
+            9: "downhill",
+            10: "recumbent",
+            11: "cyclocross",
+            12: "hand_cycling",
+            13: "track_cycling",
+            14: "indoor_rowing",
+            15: "elliptical",
+            16: "stair_climbing",
+            17: "lap_swimming",
+            18: "open_water",
+            254: "all"
+          },
+          activity_level: {
+            0: "low",
+            1: "medium",
+            2: "high"
+          },
+          side: {
+            0: "right",
+            1: "left"
+          },
+          left_right_balance: {
+            0: 0,
+            127: "mask",
+            128: "right"
+          },
+          left_right_balance_100: {
+            0: 0,
+            16383: "mask",
+            32768: "right"
+          },
+          length_type: {
+            0: "idle",
+            1: "active"
+          },
+          day_of_week: {
+            0: "sunday",
+            1: "monday",
+            2: "tuesday",
+            3: "wednesday",
+            4: "thursday",
+            5: "friday",
+            6: "saturday"
+          },
+          connectivity_capabilities: {
+            0: 0,
+            1: "bluetooth",
+            2: "bluetooth_le",
+            4: "ant",
+            8: "activity_upload",
+            16: "course_download",
+            32: "workout_download",
+            64: "live_track",
+            128: "weather_conditions",
+            256: "weather_alerts",
+            512: "gps_ephemeris_download",
+            1024: "explicit_archive",
+            2048: "setup_incomplete",
+            4096: "continue_sync_after_software_update",
+            8192: "connect_iq_app_download",
+            16384: "golf_course_download",
+            32768: "device_initiates_sync",
+            65536: "connect_iq_watch_app_download",
+            131072: "connect_iq_widget_download",
+            262144: "connect_iq_watch_face_download",
+            524288: "connect_iq_data_field_download",
+            1048576: "connect_iq_app_managment",
+            2097152: "swing_sensor",
+            4194304: "swing_sensor_remote",
+            8388608: "incident_detection",
+            16777216: "audio_prompts",
+            33554432: "wifi_verification",
+            67108864: "true_up",
+            134217728: "find_my_watch",
+            268435456: "remote_manual_sync",
+            536870912: "live_track_auto_start",
+            1073741824: "live_track_messaging",
+            2147483648: "instant_input"
+          },
+          weather_report: {
+            0: "current",
+            1: "hourly_forecast",
+            2: "daily_forecast"
+          },
+          weather_status: {
+            0: "clear",
+            1: "partly_cloudy",
+            2: "mostly_cloudy",
+            3: "rain",
+            4: "snow",
+            5: "windy",
+            6: "thunderstorms",
+            7: "wintry_mix",
+            8: "fog",
+            11: "hazy",
+            12: "hail",
+            13: "scattered_showers",
+            14: "scattered_thunderstorms",
+            15: "unknown_precipitation",
+            16: "light_rain",
+            17: "heavy_rain",
+            18: "light_snow",
+            19: "heavy_snow",
+            20: "light_rain_snow",
+            21: "heavy_rain_snow",
+            22: "cloudy"
+          },
+          weather_severity: {
+            0: "unknown",
+            1: "warning",
+            2: "watch",
+            3: "advisory",
+            4: "statement"
+          },
+          weather_severe_type: {
+            0: "unspecified",
+            1: "tornado",
+            2: "tsunami",
+            3: "hurricane",
+            4: "extreme_wind",
+            5: "typhoon",
+            6: "inland_hurricane",
+            7: "hurricane_force_wind",
+            8: "waterspout",
+            9: "severe_thunderstorm",
+            10: "wreckhouse_winds",
+            11: "les_suetes_wind",
+            12: "avalanche",
+            13: "flash_flood",
+            14: "tropical_storm",
+            15: "inland_tropical_storm",
+            16: "blizzard",
+            17: "ice_storm",
+            18: "freezing_rain",
+            19: "debris_flow",
+            20: "flash_freeze",
+            21: "dust_storm",
+            22: "high_wind",
+            23: "winter_storm",
+            24: "heavy_freezing_spray",
+            25: "extreme_cold",
+            26: "wind_chill",
+            27: "cold_wave",
+            28: "heavy_snow_alert",
+            29: "lake_effect_blowing_snow",
+            30: "snow_squall",
+            31: "lake_effect_snow",
+            32: "winter_weather",
+            33: "sleet",
+            34: "snowfall",
+            35: "snow_and_blowing_snow",
+            36: "blowing_snow",
+            37: "snow_alert",
+            38: "arctic_outflow",
+            39: "freezing_drizzle",
+            40: "storm",
+            41: "storm_surge",
+            42: "rainfall",
+            43: "areal_flood",
+            44: "coastal_flood",
+            45: "lakeshore_flood",
+            46: "excessive_heat",
+            47: "heat",
+            48: "weather",
+            49: "high_heat_and_humidity",
+            50: "humidex_and_health",
+            51: "humidex",
+            52: "gale",
+            53: "freezing_spray",
+            54: "special_marine",
+            55: "squall",
+            56: "strong_wind",
+            57: "lake_wind",
+            58: "marine_weather",
+            59: "wind",
+            60: "small_craft_hazardous_seas",
+            61: "hazardous_seas",
+            62: "small_craft",
+            63: "small_craft_winds",
+            64: "small_craft_rough_bar",
+            65: "high_water_level",
+            66: "ashfall",
+            67: "freezing_fog",
+            68: "dense_fog",
+            69: "dense_smoke",
+            70: "blowing_dust",
+            71: "hard_freeze",
+            72: "freeze",
+            73: "frost",
+            74: "fire_weather",
+            75: "flood",
+            76: "rip_tide",
+            77: "high_surf",
+            78: "smog",
+            79: "air_quality",
+            80: "brisk_wind",
+            81: "air_stagnation",
+            82: "low_water",
+            83: "hydrological",
+            84: "special_weather"
+          },
+          stroke_type: {
+            0: "no_event",
+            1: "other",
+            2: "serve",
+            3: "forehand",
+            4: "backhand",
+            5: "smash"
+          },
+          body_location: {
+            0: "left_leg",
+            1: "left_calf",
+            2: "left_shin",
+            3: "left_hamstring",
+            4: "left_quad",
+            5: "left_glute",
+            6: "right_leg",
+            7: "right_calf",
+            8: "right_shin",
+            9: "right_hamstring",
+            10: "right_quad",
+            11: "right_glute",
+            12: "torso_back",
+            13: "left_lower_back",
+            14: "left_upper_back",
+            15: "right_lower_back",
+            16: "right_upper_back",
+            17: "torso_front",
+            18: "left_abdomen",
+            19: "left_chest",
+            20: "right_abdomen",
+            21: "right_chest",
+            22: "left_arm",
+            23: "left_shoulder",
+            24: "left_bicep",
+            25: "left_tricep",
+            26: "left_brachioradialis",
+            27: "left_forearm_extensors",
+            28: "right_arm",
+            29: "right_shoulder",
+            30: "right_bicep",
+            31: "right_tricep",
+            32: "right_brachioradialis",
+            33: "right_forearm_extensors",
+            34: "neck",
+            35: "throat",
+            36: "waist_mid_back",
+            37: "waist_front",
+            38: "waist_left",
+            39: "waist_right"
+          },
+          segment_lap_status: {
+            0: "end",
+            1: "fail"
+          },
+          segment_leaderboard_type: {
+            0: "overall",
+            1: "personal_best",
+            2: "connections",
+            3: "group",
+            4: "challenger",
+            5: "kom",
+            6: "qom",
+            7: "pr",
+            8: "goal",
+            9: "rival",
+            10: "club_leader"
+          },
+          segment_delete_status: {
+            0: "do_not_delete",
+            1: "delete_one",
+            2: "delete_all"
+          },
+          segment_selection_type: {
+            0: "starred",
+            1: "suggested"
+          },
+          source_type: {
+            0: "ant",
+            1: "antplus",
+            2: "bluetooth",
+            3: "bluetooth_low_energy",
+            4: "wifi",
+            5: "local"
+          },
+          display_orientation: {
+            0: "auto",
+            1: "portrait",
+            2: "landscape",
+            3: "portrait_flipped",
+            4: "landscape_flipped"
+          },
+          workout_equipment: {
+            0: "none",
+            1: "swim_fins",
+            2: "swim_kickboard",
+            3: "swim_paddles",
+            4: "swim_pull_buoy",
+            5: "swim_snorkel"
+          },
+          watchface_mode: {
+            0: "digital",
+            1: "analog",
+            2: "connect_iq",
+            3: "disabled"
+          },
+          digital_watchface_layout: {
+            0: "traditional",
+            1: "modern",
+            2: "bold"
+          },
+          analog_watchface_layout: {
+            0: "minimal",
+            1: "traditional",
+            2: "modern"
+          },
+          rider_position_type: {
+            0: "seated",
+            1: "standing",
+            2: "transition_to_seated",
+            3: "transition_to_standing"
+          },
+          power_phase_type: {
+            0: "power_phase_start_angle",
+            1: "power_phase_end_angle",
+            2: "power_phase_arc_length",
+            3: "power_phase_center"
+          },
+          camera_event_type: {
+            0: "video_start",
+            1: "video_split",
+            2: "video_end",
+            3: "photo_taken",
+            4: "video_second_stream_start",
+            5: "video_second_stream_split",
+            6: "video_second_stream_end",
+            7: "video_split_start",
+            8: "video_second_stream_split_start",
+            11: "video_pause",
+            12: "video_second_stream_pause",
+            13: "video_resume",
+            14: "video_second_stream_resume"
+          },
+          sensor_type: {
+            0: "accelerometer",
+            1: "gyroscope",
+            2: "compass",
+            3: "barometer"
+          },
+          bike_light_network_config_type: {
+            0: "auto",
+            4: "individual",
+            5: "high_visibility",
+            6: "trail"
+          },
+          comm_timeout_type: {
+            0: "wildcard_pairing_timeout",
+            1: "pairing_timeout",
+            2: "connection_lost",
+            3: "connection_timeout"
+          },
+          camera_orientation_type: {
+            0: "camera_orientation_0",
+            1: "camera_orientation_90",
+            2: "camera_orientation_180",
+            3: "camera_orientation_270"
+          },
+          attitude_stage: {
+            0: "failed",
+            1: "aligning",
+            2: "degraded",
+            3: "valid"
+          },
+          attitude_validity: {
+            0: 0,
+            1: "track_angle_heading_valid",
+            2: "pitch_valid",
+            4: "roll_valid",
+            8: "lateral_body_accel_valid",
+            16: "normal_body_accel_valid",
+            32: "turn_rate_valid",
+            64: "hw_fail",
+            128: "mag_invalid",
+            256: "no_gps",
+            512: "gps_invalid",
+            1024: "solution_coasting",
+            2048: "true_track_angle",
+            4096: "magnetic_heading"
+          },
+          auto_sync_frequency: {
+            0: "never",
+            1: "occasionally",
+            2: "frequent",
+            3: "once_a_day",
+            4: "remote"
+          },
+          exd_layout: {
+            0: "full_screen",
+            1: "half_vertical",
+            2: "half_horizontal",
+            3: "half_vertical_right_split",
+            4: "half_horizontal_bottom_split",
+            5: "full_quarter_split",
+            6: "half_vertical_left_split",
+            7: "half_horizontal_top_split"
+          },
+          exd_display_type: {
+            0: "numerical",
+            1: "simple",
+            2: "graph",
+            3: "bar",
+            4: "circle_graph",
+            5: "virtual_partner",
+            6: "balance",
+            7: "string_list",
+            8: "string",
+            9: "simple_dynamic_icon",
+            10: "gauge"
+          },
+          exd_data_units: {
+            0: "no_units",
+            1: "laps",
+            2: "miles_per_hour",
+            3: "kilometers_per_hour",
+            4: "feet_per_hour",
+            5: "meters_per_hour",
+            6: "degrees_celsius",
+            7: "degrees_farenheit",
+            8: "zone",
+            9: "gear",
+            10: "rpm",
+            11: "bpm",
+            12: "degrees",
+            13: "millimeters",
+            14: "meters",
+            15: "kilometers",
+            16: "feet",
+            17: "yards",
+            18: "kilofeet",
+            19: "miles",
+            20: "time",
+            21: "enum_turn_type",
+            22: "percent",
+            23: "watts",
+            24: "watts_per_kilogram",
+            25: "enum_battery_status",
+            26: "enum_bike_light_beam_angle_mode",
+            27: "enum_bike_light_battery_status",
+            28: "enum_bike_light_network_config_type",
+            29: "lights",
+            30: "seconds",
+            31: "minutes",
+            32: "hours",
+            33: "calories",
+            34: "kilojoules",
+            35: "milliseconds",
+            36: "second_per_mile",
+            37: "second_per_kilometer",
+            38: "centimeter",
+            39: "enum_course_point",
+            40: "bradians",
+            41: "enum_sport",
+            42: "inches_hg",
+            43: "mm_hg",
+            44: "mbars",
+            45: "hecto_pascals",
+            46: "feet_per_min",
+            47: "meters_per_min",
+            48: "meters_per_sec",
+            49: "eight_cardinal"
+          },
+          exd_qualifiers: {
+            0: "no_qualifier",
+            1: "instantaneous",
+            2: "average",
+            3: "lap",
+            4: "maximum",
+            5: "maximum_average",
+            6: "maximum_lap",
+            7: "last_lap",
+            8: "average_lap",
+            9: "to_destination",
+            10: "to_go",
+            11: "to_next",
+            12: "next_course_point",
+            13: "total",
+            14: "three_second_average",
+            15: "ten_second_average",
+            16: "thirty_second_average",
+            17: "percent_maximum",
+            18: "percent_maximum_average",
+            19: "lap_percent_maximum",
+            20: "elapsed",
+            21: "sunrise",
+            22: "sunset",
+            23: "compared_to_virtual_partner",
+            24: "maximum_24h",
+            25: "minimum_24h",
+            26: "minimum",
+            27: "first",
+            28: "second",
+            29: "third",
+            30: "shifter",
+            31: "last_sport",
+            32: "moving",
+            33: "stopped",
+            34: "estimated_total",
+            242: "zone_9",
+            243: "zone_8",
+            244: "zone_7",
+            245: "zone_6",
+            246: "zone_5",
+            247: "zone_4",
+            248: "zone_3",
+            249: "zone_2",
+            250: "zone_1"
+          },
+          exd_descriptors: {
+            0: "bike_light_battery_status",
+            1: "beam_angle_status",
+            2: "batery_level",
+            3: "light_network_mode",
+            4: "number_lights_connected",
+            5: "cadence",
+            6: "distance",
+            7: "estimated_time_of_arrival",
+            8: "heading",
+            9: "time",
+            10: "battery_level",
+            11: "trainer_resistance",
+            12: "trainer_target_power",
+            13: "time_seated",
+            14: "time_standing",
+            15: "elevation",
+            16: "grade",
+            17: "ascent",
+            18: "descent",
+            19: "vertical_speed",
+            20: "di2_battery_level",
+            21: "front_gear",
+            22: "rear_gear",
+            23: "gear_ratio",
+            24: "heart_rate",
+            25: "heart_rate_zone",
+            26: "time_in_heart_rate_zone",
+            27: "heart_rate_reserve",
+            28: "calories",
+            29: "gps_accuracy",
+            30: "gps_signal_strength",
+            31: "temperature",
+            32: "time_of_day",
+            33: "balance",
+            34: "pedal_smoothness",
+            35: "power",
+            36: "functional_threshold_power",
+            37: "intensity_factor",
+            38: "work",
+            39: "power_ratio",
+            40: "normalized_power",
+            41: "training_stress_Score",
+            42: "time_on_zone",
+            43: "speed",
+            44: "laps",
+            45: "reps",
+            46: "workout_step",
+            47: "course_distance",
+            48: "navigation_distance",
+            49: "course_estimated_time_of_arrival",
+            50: "navigation_estimated_time_of_arrival",
+            51: "course_time",
+            52: "navigation_time",
+            53: "course_heading",
+            54: "navigation_heading",
+            55: "power_zone",
+            56: "torque_effectiveness",
+            57: "timer_time",
+            58: "power_weight_ratio",
+            59: "left_platform_center_offset",
+            60: "right_platform_center_offset",
+            61: "left_power_phase_start_angle",
+            62: "right_power_phase_start_angle",
+            63: "left_power_phase_finish_angle",
+            64: "right_power_phase_finish_angle",
+            65: "gears",
+            66: "pace",
+            67: "training_effect",
+            68: "vertical_oscillation",
+            69: "vertical_ratio",
+            70: "ground_contact_time",
+            71: "left_ground_contact_time_balance",
+            72: "right_ground_contact_time_balance",
+            73: "stride_length",
+            74: "running_cadence",
+            75: "performance_condition",
+            76: "course_type",
+            77: "time_in_power_zone",
+            78: "navigation_turn",
+            79: "course_location",
+            80: "navigation_location",
+            81: "compass",
+            82: "gear_combo",
+            83: "muscle_oxygen",
+            84: "icon",
+            85: "compass_heading",
+            86: "gps_heading",
+            87: "gps_elevation",
+            88: "anaerobic_training_effect",
+            89: "course",
+            90: "off_course",
+            91: "glide_ratio",
+            92: "vertical_distance",
+            93: "vmg",
+            94: "ambient_pressure",
+            95: "pressure",
+            96: "vam"
+          },
+          auto_activity_detect: {
+            0: "none",
+            1: "running",
+            2: "cycling",
+            4: "swimming",
+            8: "walking",
+            16: "elliptical",
+            32: "sedentary"
+          },
+          supported_exd_screen_layouts: {
+            0: 0,
+            1: "full_screen",
+            2: "half_vertical",
+            4: "half_horizontal",
+            8: "half_vertical_right_split",
+            16: "half_horizontal_bottom_split",
+            32: "full_quarter_split",
+            64: "half_vertical_left_split",
+            128: "half_horizontal_top_split"
+          },
+          fit_base_type: {
+            0: "enum",
+            1: "sint8",
+            2: "uint8",
+            7: "string",
+            10: "uint8z",
+            13: "byte",
+            131: "sint16",
+            132: "uint16",
+            133: "sint32",
+            134: "uint32",
+            136: "float32",
+            137: "float64",
+            139: "uint16z",
+            140: "uint32z",
+            142: "sint64",
+            143: "uint64",
+            144: "uint64z"
+          },
+          turn_type: {
+            0: "arriving_idx",
+            1: "arriving_left_idx",
+            2: "arriving_right_idx",
+            3: "arriving_via_idx",
+            4: "arriving_via_left_idx",
+            5: "arriving_via_right_idx",
+            6: "bear_keep_left_idx",
+            7: "bear_keep_right_idx",
+            8: "continue_idx",
+            9: "exit_left_idx",
+            10: "exit_right_idx",
+            11: "ferry_idx",
+            12: "roundabout_45_idx",
+            13: "roundabout_90_idx",
+            14: "roundabout_135_idx",
+            15: "roundabout_180_idx",
+            16: "roundabout_225_idx",
+            17: "roundabout_270_idx",
+            18: "roundabout_315_idx",
+            19: "roundabout_360_idx",
+            20: "roundabout_neg_45_idx",
+            21: "roundabout_neg_90_idx",
+            22: "roundabout_neg_135_idx",
+            23: "roundabout_neg_180_idx",
+            24: "roundabout_neg_225_idx",
+            25: "roundabout_neg_270_idx",
+            26: "roundabout_neg_315_idx",
+            27: "roundabout_neg_360_idx",
+            28: "roundabout_generic_idx",
+            29: "roundabout_neg_generic_idx",
+            30: "sharp_turn_left_idx",
+            31: "sharp_turn_right_idx",
+            32: "turn_left_idx",
+            33: "turn_right_idx",
+            34: "uturn_left_idx",
+            35: "uturn_right_idx",
+            36: "icon_inv_idx",
+            37: "icon_idx_cnt"
+          },
+          bike_light_beam_angle_mode: {
+            0: "manual",
+            1: "auto"
+          },
+          fit_base_unit: {
+            0: "other",
+            1: "kilogram",
+            2: "pound"
+          },
+          set_type: {
+            0: "rest",
+            1: "active"
+          },
+          exercise_category: {
+            0: "bench_press",
+            1: "calf_raise",
+            2: "cardio",
+            3: "carry",
+            4: "chop",
+            5: "core",
+            6: "crunch",
+            7: "curl",
+            8: "deadlift",
+            9: "flye",
+            10: "hip_raise",
+            11: "hip_stability",
+            12: "hip_swing",
+            13: "hyperextension",
+            14: "lateral_raise",
+            15: "leg_curl",
+            16: "leg_raise",
+            17: "lunge",
+            18: "olympic_lift",
+            19: "plank",
+            20: "plyo",
+            21: "pull_up",
+            22: "push_up",
+            23: "row",
+            24: "shoulder_press",
+            25: "shoulder_stability",
+            26: "shrug",
+            27: "sit_up",
+            28: "squat",
+            29: "total_body",
+            30: "triceps_extension",
+            31: "warm_up",
+            32: "run",
+            65534: "unknown"
+          },
+          bench_press_exercise_name: {
+            0: "alternating_dumbbell_chest_press_on_swiss_ball",
+            1: "barbell_bench_press",
+            2: "barbell_board_bench_press",
+            3: "barbell_floor_press",
+            4: "close_grip_barbell_bench_press",
+            5: "decline_dumbbell_bench_press",
+            6: "dumbbell_bench_press",
+            7: "dumbbell_floor_press",
+            8: "incline_barbell_bench_press",
+            9: "incline_dumbbell_bench_press",
+            10: "incline_smith_machine_bench_press",
+            11: "isometric_barbell_bench_press",
+            12: "kettlebell_chest_press",
+            13: "neutral_grip_dumbbell_bench_press",
+            14: "neutral_grip_dumbbell_incline_bench_press",
+            15: "one_arm_floor_press",
+            16: "weighted_one_arm_floor_press",
+            17: "partial_lockout",
+            18: "reverse_grip_barbell_bench_press",
+            19: "reverse_grip_incline_bench_press",
+            20: "single_arm_cable_chest_press",
+            21: "single_arm_dumbbell_bench_press",
+            22: "smith_machine_bench_press",
+            23: "swiss_ball_dumbbell_chest_press",
+            24: "triple_stop_barbell_bench_press",
+            25: "wide_grip_barbell_bench_press",
+            26: "alternating_dumbbell_chest_press"
+          },
+          calf_raise_exercise_name: {
+            0: "3_way_calf_raise",
+            1: "3_way_weighted_calf_raise",
+            2: "3_way_single_leg_calf_raise",
+            3: "3_way_weighted_single_leg_calf_raise",
+            4: "donkey_calf_raise",
+            5: "weighted_donkey_calf_raise",
+            6: "seated_calf_raise",
+            7: "weighted_seated_calf_raise",
+            8: "seated_dumbbell_toe_raise",
+            9: "single_leg_bent_knee_calf_raise",
+            10: "weighted_single_leg_bent_knee_calf_raise",
+            11: "single_leg_decline_push_up",
+            12: "single_leg_donkey_calf_raise",
+            13: "weighted_single_leg_donkey_calf_raise",
+            14: "single_leg_hip_raise_with_knee_hold",
+            15: "single_leg_standing_calf_raise",
+            16: "single_leg_standing_dumbbell_calf_raise",
+            17: "standing_barbell_calf_raise",
+            18: "standing_calf_raise",
+            19: "weighted_standing_calf_raise",
+            20: "standing_dumbbell_calf_raise"
+          },
+          cardio_exercise_name: {
+            0: "bob_and_weave_circle",
+            1: "weighted_bob_and_weave_circle",
+            2: "cardio_core_crawl",
+            3: "weighted_cardio_core_crawl",
+            4: "double_under",
+            5: "weighted_double_under",
+            6: "jump_rope",
+            7: "weighted_jump_rope",
+            8: "jump_rope_crossover",
+            9: "weighted_jump_rope_crossover",
+            10: "jump_rope_jog",
+            11: "weighted_jump_rope_jog",
+            12: "jumping_jacks",
+            13: "weighted_jumping_jacks",
+            14: "ski_moguls",
+            15: "weighted_ski_moguls",
+            16: "split_jacks",
+            17: "weighted_split_jacks",
+            18: "squat_jacks",
+            19: "weighted_squat_jacks",
+            20: "triple_under",
+            21: "weighted_triple_under"
+          },
+          carry_exercise_name: {
+            0: "bar_holds",
+            1: "farmers_walk",
+            2: "farmers_walk_on_toes",
+            3: "hex_dumbbell_hold",
+            4: "overhead_carry"
+          },
+          chop_exercise_name: {
+            0: "cable_pull_through",
+            1: "cable_rotational_lift",
+            2: "cable_woodchop",
+            3: "cross_chop_to_knee",
+            4: "weighted_cross_chop_to_knee",
+            5: "dumbbell_chop",
+            6: "half_kneeling_rotation",
+            7: "weighted_half_kneeling_rotation",
+            8: "half_kneeling_rotational_chop",
+            9: "half_kneeling_rotational_reverse_chop",
+            10: "half_kneeling_stability_chop",
+            11: "half_kneeling_stability_reverse_chop",
+            12: "kneeling_rotational_chop",
+            13: "kneeling_rotational_reverse_chop",
+            14: "kneeling_stability_chop",
+            15: "kneeling_woodchopper",
+            16: "medicine_ball_wood_chops",
+            17: "power_squat_chops",
+            18: "weighted_power_squat_chops",
+            19: "standing_rotational_chop",
+            20: "standing_split_rotational_chop",
+            21: "standing_split_rotational_reverse_chop",
+            22: "standing_stability_reverse_chop"
+          },
+          core_exercise_name: {
+            0: "abs_jabs",
+            1: "weighted_abs_jabs",
+            2: "alternating_plate_reach",
+            3: "barbell_rollout",
+            4: "weighted_barbell_rollout",
+            5: "body_bar_oblique_twist",
+            6: "cable_core_press",
+            7: "cable_side_bend",
+            8: "side_bend",
+            9: "weighted_side_bend",
+            10: "crescent_circle",
+            11: "weighted_crescent_circle",
+            12: "cycling_russian_twist",
+            13: "weighted_cycling_russian_twist",
+            14: "elevated_feet_russian_twist",
+            15: "weighted_elevated_feet_russian_twist",
+            16: "half_turkish_get_up",
+            17: "kettlebell_windmill",
+            18: "kneeling_ab_wheel",
+            19: "weighted_kneeling_ab_wheel",
+            20: "modified_front_lever",
+            21: "open_knee_tucks",
+            22: "weighted_open_knee_tucks",
+            23: "side_abs_leg_lift",
+            24: "weighted_side_abs_leg_lift",
+            25: "swiss_ball_jackknife",
+            26: "weighted_swiss_ball_jackknife",
+            27: "swiss_ball_pike",
+            28: "weighted_swiss_ball_pike",
+            29: "swiss_ball_rollout",
+            30: "weighted_swiss_ball_rollout",
+            31: "triangle_hip_press",
+            32: "weighted_triangle_hip_press",
+            33: "trx_suspended_jackknife",
+            34: "weighted_trx_suspended_jackknife",
+            35: "u_boat",
+            36: "weighted_u_boat",
+            37: "windmill_switches",
+            38: "weighted_windmill_switches",
+            39: "alternating_slide_out",
+            40: "weighted_alternating_slide_out",
+            41: "ghd_back_extensions",
+            42: "weighted_ghd_back_extensions",
+            43: "overhead_walk",
+            44: "inchworm",
+            45: "weighted_modified_front_lever",
+            46: "russian_twist",
+            47: "abdominal_leg_rotations",
+            48: "arm_and_leg_extension_on_knees",
+            49: "bicycle",
+            50: "bicep_curl_with_leg_extension",
+            51: "cat_cow",
+            52: "corkscrew",
+            53: "criss_cross",
+            54: "criss_cross_with_ball",
+            55: "double_leg_stretch",
+            56: "knee_folds",
+            57: "lower_lift",
+            58: "neck_pull",
+            59: "pelvic_clocks",
+            60: "roll_over",
+            61: "roll_up",
+            62: "rolling",
+            63: "rowing_1",
+            64: "rowing_2",
+            65: "scissors",
+            66: "single_leg_circles",
+            67: "single_leg_stretch",
+            68: "snake_twist_1_and_2",
+            69: "swan",
+            70: "swimming",
+            71: "teaser",
+            72: "the_hundred"
+          },
+          crunch_exercise_name: {
+            0: "bicycle_crunch",
+            1: "cable_crunch",
+            2: "circular_arm_crunch",
+            3: "crossed_arms_crunch",
+            4: "weighted_crossed_arms_crunch",
+            5: "cross_leg_reverse_crunch",
+            6: "weighted_cross_leg_reverse_crunch",
+            7: "crunch_chop",
+            8: "weighted_crunch_chop",
+            9: "double_crunch",
+            10: "weighted_double_crunch",
+            11: "elbow_to_knee_crunch",
+            12: "weighted_elbow_to_knee_crunch",
+            13: "flutter_kicks",
+            14: "weighted_flutter_kicks",
+            15: "foam_roller_reverse_crunch_on_bench",
+            16: "weighted_foam_roller_reverse_crunch_on_bench",
+            17: "foam_roller_reverse_crunch_with_dumbbell",
+            18: "foam_roller_reverse_crunch_with_medicine_ball",
+            19: "frog_press",
+            20: "hanging_knee_raise_oblique_crunch",
+            21: "weighted_hanging_knee_raise_oblique_crunch",
+            22: "hip_crossover",
+            23: "weighted_hip_crossover",
+            24: "hollow_rock",
+            25: "weighted_hollow_rock",
+            26: "incline_reverse_crunch",
+            27: "weighted_incline_reverse_crunch",
+            28: "kneeling_cable_crunch",
+            29: "kneeling_cross_crunch",
+            30: "weighted_kneeling_cross_crunch",
+            31: "kneeling_oblique_cable_crunch",
+            32: "knees_to_elbow",
+            33: "leg_extensions",
+            34: "weighted_leg_extensions",
+            35: "leg_levers",
+            36: "mcgill_curl_up",
+            37: "weighted_mcgill_curl_up",
+            38: "modified_pilates_roll_up_with_ball",
+            39: "weighted_modified_pilates_roll_up_with_ball",
+            40: "pilates_crunch",
+            41: "weighted_pilates_crunch",
+            42: "pilates_roll_up_with_ball",
+            43: "weighted_pilates_roll_up_with_ball",
+            44: "raised_legs_crunch",
+            45: "weighted_raised_legs_crunch",
+            46: "reverse_crunch",
+            47: "weighted_reverse_crunch",
+            48: "reverse_crunch_on_a_bench",
+            49: "weighted_reverse_crunch_on_a_bench",
+            50: "reverse_curl_and_lift",
+            51: "weighted_reverse_curl_and_lift",
+            52: "rotational_lift",
+            53: "weighted_rotational_lift",
+            54: "seated_alternating_reverse_crunch",
+            55: "weighted_seated_alternating_reverse_crunch",
+            56: "seated_leg_u",
+            57: "weighted_seated_leg_u",
+            58: "side_to_side_crunch_and_weave",
+            59: "weighted_side_to_side_crunch_and_weave",
+            60: "single_leg_reverse_crunch",
+            61: "weighted_single_leg_reverse_crunch",
+            62: "skater_crunch_cross",
+            63: "weighted_skater_crunch_cross",
+            64: "standing_cable_crunch",
+            65: "standing_side_crunch",
+            66: "step_climb",
+            67: "weighted_step_climb",
+            68: "swiss_ball_crunch",
+            69: "swiss_ball_reverse_crunch",
+            70: "weighted_swiss_ball_reverse_crunch",
+            71: "swiss_ball_russian_twist",
+            72: "weighted_swiss_ball_russian_twist",
+            73: "swiss_ball_side_crunch",
+            74: "weighted_swiss_ball_side_crunch",
+            75: "thoracic_crunches_on_foam_roller",
+            76: "weighted_thoracic_crunches_on_foam_roller",
+            77: "triceps_crunch",
+            78: "weighted_bicycle_crunch",
+            79: "weighted_crunch",
+            80: "weighted_swiss_ball_crunch",
+            81: "toes_to_bar",
+            82: "weighted_toes_to_bar",
+            83: "crunch",
+            84: "straight_leg_crunch_with_ball"
+          },
+          curl_exercise_name: {
+            0: "alternating_dumbbell_biceps_curl",
+            1: "alternating_dumbbell_biceps_curl_on_swiss_ball",
+            2: "alternating_incline_dumbbell_biceps_curl",
+            3: "barbell_biceps_curl",
+            4: "barbell_reverse_wrist_curl",
+            5: "barbell_wrist_curl",
+            6: "behind_the_back_barbell_reverse_wrist_curl",
+            7: "behind_the_back_one_arm_cable_curl",
+            8: "cable_biceps_curl",
+            9: "cable_hammer_curl",
+            10: "cheating_barbell_biceps_curl",
+            11: "close_grip_ez_bar_biceps_curl",
+            12: "cross_body_dumbbell_hammer_curl",
+            13: "dead_hang_biceps_curl",
+            14: "decline_hammer_curl",
+            15: "dumbbell_biceps_curl_with_static_hold",
+            16: "dumbbell_hammer_curl",
+            17: "dumbbell_reverse_wrist_curl",
+            18: "dumbbell_wrist_curl",
+            19: "ez_bar_preacher_curl",
+            20: "forward_bend_biceps_curl",
+            21: "hammer_curl_to_press",
+            22: "incline_dumbbell_biceps_curl",
+            23: "incline_offset_thumb_dumbbell_curl",
+            24: "kettlebell_biceps_curl",
+            25: "lying_concentration_cable_curl",
+            26: "one_arm_preacher_curl",
+            27: "plate_pinch_curl",
+            28: "preacher_curl_with_cable",
+            29: "reverse_ez_bar_curl",
+            30: "reverse_grip_wrist_curl",
+            31: "reverse_grip_barbell_biceps_curl",
+            32: "seated_alternating_dumbbell_biceps_curl",
+            33: "seated_dumbbell_biceps_curl",
+            34: "seated_reverse_dumbbell_curl",
+            35: "split_stance_offset_pinky_dumbbell_curl",
+            36: "standing_alternating_dumbbell_curls",
+            37: "standing_dumbbell_biceps_curl",
+            38: "standing_ez_bar_biceps_curl",
+            39: "static_curl",
+            40: "swiss_ball_dumbbell_overhead_triceps_extension",
+            41: "swiss_ball_ez_bar_preacher_curl",
+            42: "twisting_standing_dumbbell_biceps_curl",
+            43: "wide_grip_ez_bar_biceps_curl"
+          },
+          deadlift_exercise_name: {
+            0: "barbell_deadlift",
+            1: "barbell_straight_leg_deadlift",
+            2: "dumbbell_deadlift",
+            3: "dumbbell_single_leg_deadlift_to_row",
+            4: "dumbbell_straight_leg_deadlift",
+            5: "kettlebell_floor_to_shelf",
+            6: "one_arm_one_leg_deadlift",
+            7: "rack_pull",
+            8: "rotational_dumbbell_straight_leg_deadlift",
+            9: "single_arm_deadlift",
+            10: "single_leg_barbell_deadlift",
+            11: "single_leg_barbell_straight_leg_deadlift",
+            12: "single_leg_deadlift_with_barbell",
+            13: "single_leg_rdl_circuit",
+            14: "single_leg_romanian_deadlift_with_dumbbell",
+            15: "sumo_deadlift",
+            16: "sumo_deadlift_high_pull",
+            17: "trap_bar_deadlift",
+            18: "wide_grip_barbell_deadlift"
+          },
+          flye_exercise_name: {
+            0: "cable_crossover",
+            1: "decline_dumbbell_flye",
+            2: "dumbbell_flye",
+            3: "incline_dumbbell_flye",
+            4: "kettlebell_flye",
+            5: "kneeling_rear_flye",
+            6: "single_arm_standing_cable_reverse_flye",
+            7: "swiss_ball_dumbbell_flye",
+            8: "arm_rotations",
+            9: "hug_a_tree"
+          },
+          hip_raise_exercise_name: {
+            0: "barbell_hip_thrust_on_floor",
+            1: "barbell_hip_thrust_with_bench",
+            2: "bent_knee_swiss_ball_reverse_hip_raise",
+            3: "weighted_bent_knee_swiss_ball_reverse_hip_raise",
+            4: "bridge_with_leg_extension",
+            5: "weighted_bridge_with_leg_extension",
+            6: "clam_bridge",
+            7: "front_kick_tabletop",
+            8: "weighted_front_kick_tabletop",
+            9: "hip_extension_and_cross",
+            10: "weighted_hip_extension_and_cross",
+            11: "hip_raise",
+            12: "weighted_hip_raise",
+            13: "hip_raise_with_feet_on_swiss_ball",
+            14: "weighted_hip_raise_with_feet_on_swiss_ball",
+            15: "hip_raise_with_head_on_bosu_ball",
+            16: "weighted_hip_raise_with_head_on_bosu_ball",
+            17: "hip_raise_with_head_on_swiss_ball",
+            18: "weighted_hip_raise_with_head_on_swiss_ball",
+            19: "hip_raise_with_knee_squeeze",
+            20: "weighted_hip_raise_with_knee_squeeze",
+            21: "incline_rear_leg_extension",
+            22: "weighted_incline_rear_leg_extension",
+            23: "kettlebell_swing",
+            24: "marching_hip_raise",
+            25: "weighted_marching_hip_raise",
+            26: "marching_hip_raise_with_feet_on_a_swiss_ball",
+            27: "weighted_marching_hip_raise_with_feet_on_a_swiss_ball",
+            28: "reverse_hip_raise",
+            29: "weighted_reverse_hip_raise",
+            30: "single_leg_hip_raise",
+            31: "weighted_single_leg_hip_raise",
+            32: "single_leg_hip_raise_with_foot_on_bench",
+            33: "weighted_single_leg_hip_raise_with_foot_on_bench",
+            34: "single_leg_hip_raise_with_foot_on_bosu_ball",
+            35: "weighted_single_leg_hip_raise_with_foot_on_bosu_ball",
+            36: "single_leg_hip_raise_with_foot_on_foam_roller",
+            37: "weighted_single_leg_hip_raise_with_foot_on_foam_roller",
+            38: "single_leg_hip_raise_with_foot_on_medicine_ball",
+            39: "weighted_single_leg_hip_raise_with_foot_on_medicine_ball",
+            40: "single_leg_hip_raise_with_head_on_bosu_ball",
+            41: "weighted_single_leg_hip_raise_with_head_on_bosu_ball",
+            42: "weighted_clam_bridge",
+            43: "single_leg_swiss_ball_hip_raise_and_leg_curl",
+            44: "clams",
+            45: "inner_thigh_circles",
+            46: "inner_thigh_side_lift",
+            47: "leg_circles",
+            48: "leg_lift",
+            49: "leg_lift_in_external_rotation"
+          },
+          hip_stability_exercise_name: {
+            0: "band_side_lying_leg_raise",
+            1: "dead_bug",
+            2: "weighted_dead_bug",
+            3: "external_hip_raise",
+            4: "weighted_external_hip_raise",
+            5: "fire_hydrant_kicks",
+            6: "weighted_fire_hydrant_kicks",
+            7: "hip_circles",
+            8: "weighted_hip_circles",
+            9: "inner_thigh_lift",
+            10: "weighted_inner_thigh_lift",
+            11: "lateral_walks_with_band_at_ankles",
+            12: "pretzel_side_kick",
+            13: "weighted_pretzel_side_kick",
+            14: "prone_hip_internal_rotation",
+            15: "weighted_prone_hip_internal_rotation",
+            16: "quadruped",
+            17: "quadruped_hip_extension",
+            18: "weighted_quadruped_hip_extension",
+            19: "quadruped_with_leg_lift",
+            20: "weighted_quadruped_with_leg_lift",
+            21: "side_lying_leg_raise",
+            22: "weighted_side_lying_leg_raise",
+            23: "sliding_hip_adduction",
+            24: "weighted_sliding_hip_adduction",
+            25: "standing_adduction",
+            26: "weighted_standing_adduction",
+            27: "standing_cable_hip_abduction",
+            28: "standing_hip_abduction",
+            29: "weighted_standing_hip_abduction",
+            30: "standing_rear_leg_raise",
+            31: "weighted_standing_rear_leg_raise",
+            32: "supine_hip_internal_rotation",
+            33: "weighted_supine_hip_internal_rotation"
+          },
+          hip_swing_excercise_name: {
+            0: "single_arm_kettlebell_swing",
+            1: "single_arm_dumbbell_swing",
+            2: "step_out_swing"
+          },
+          hyperextension_exercise_name: {
+            0: "back_extension_with_opposite_arm_and_leg_reach",
+            1: "weighted_back_extension_with_opposite_arm_and_leg_reach",
+            2: "base_rotations",
+            3: "weighted_base_rotations",
+            4: "bent_knee_reverse_hyperextension",
+            5: "weighted_bent_knee_reverse_hyperextension",
+            6: "hollow_hold_and_roll",
+            7: "weighted_hollow_hold_and_roll",
+            8: "kicks",
+            9: "weighted_kicks",
+            10: "knee_raises",
+            11: "weighted_knee_raises",
+            12: "kneeling_superman",
+            13: "weighted_kneeling_superman",
+            14: "lat_pull_down_with_row",
+            15: "medicine_ball_deadlift_to_reach",
+            16: "one_arm_one_leg_row",
+            17: "one_arm_row_with_band",
+            18: "overhead_lunge_with_medicine_ball",
+            19: "plank_knee_tucks",
+            20: "weighted_plank_knee_tucks",
+            21: "side_step",
+            22: "weighted_side_step",
+            23: "single_leg_back_extension",
+            24: "weighted_single_leg_back_extension",
+            25: "spine_extension",
+            26: "weighted_spine_extension",
+            27: "static_back_extension",
+            28: "weighted_static_back_extension",
+            29: "superman_from_floor",
+            30: "weighted_superman_from_floor",
+            31: "swiss_ball_back_extension",
+            32: "weighted_swiss_ball_back_extension",
+            33: "swiss_ball_hyperextension",
+            34: "weighted_swiss_ball_hyperextension",
+            35: "swiss_ball_opposite_arm_and_leg_lift",
+            36: "weighted_swiss_ball_opposite_arm_and_leg_lift",
+            37: "superman_on_swiss_ball",
+            38: "cobra",
+            39: "supine_floor_barre"
+          },
+          lateral_raise_exercise_name: {
+            0: "45_degree_cable_external_rotation",
+            1: "alternating_lateral_raise_with_static_hold",
+            2: "bar_muscle_up",
+            3: "bent_over_lateral_raise",
+            4: "cable_diagonal_raise",
+            5: "cable_front_raise",
+            6: "calorie_row",
+            7: "combo_shoulder_raise",
+            8: "dumbbell_diagonal_raise",
+            9: "dumbbell_v_raise",
+            10: "front_raise",
+            11: "leaning_dumbbell_lateral_raise",
+            12: "lying_dumbbell_raise",
+            13: "muscle_up",
+            14: "one_arm_cable_lateral_raise",
+            15: "overhand_grip_rear_lateral_raise",
+            16: "plate_raises",
+            17: "ring_dip",
+            18: "weighted_ring_dip",
+            19: "ring_muscle_up",
+            20: "weighted_ring_muscle_up",
+            21: "rope_climb",
+            22: "weighted_rope_climb",
+            23: "scaption",
+            24: "seated_lateral_raise",
+            25: "seated_rear_lateral_raise",
+            26: "side_lying_lateral_raise",
+            27: "standing_lift",
+            28: "suspended_row",
+            29: "underhand_grip_rear_lateral_raise",
+            30: "wall_slide",
+            31: "weighted_wall_slide",
+            32: "arm_circles",
+            33: "shaving_the_head"
+          },
+          leg_curl_exercise_name: {
+            0: "leg_curl",
+            1: "weighted_leg_curl",
+            2: "good_morning",
+            3: "seated_barbell_good_morning",
+            4: "single_leg_barbell_good_morning",
+            5: "single_leg_sliding_leg_curl",
+            6: "sliding_leg_curl",
+            7: "split_barbell_good_morning",
+            8: "split_stance_extension",
+            9: "staggered_stance_good_morning",
+            10: "swiss_ball_hip_raise_and_leg_curl",
+            11: "zercher_good_morning"
+          },
+          leg_raise_exercise_name: {
+            0: "hanging_knee_raise",
+            1: "hanging_leg_raise",
+            2: "weighted_hanging_leg_raise",
+            3: "hanging_single_leg_raise",
+            4: "weighted_hanging_single_leg_raise",
+            5: "kettlebell_leg_raises",
+            6: "leg_lowering_drill",
+            7: "weighted_leg_lowering_drill",
+            8: "lying_straight_leg_raise",
+            9: "weighted_lying_straight_leg_raise",
+            10: "medicine_ball_leg_drops",
+            11: "quadruped_leg_raise",
+            12: "weighted_quadruped_leg_raise",
+            13: "reverse_leg_raise",
+            14: "weighted_reverse_leg_raise",
+            15: "reverse_leg_raise_on_swiss_ball",
+            16: "weighted_reverse_leg_raise_on_swiss_ball",
+            17: "single_leg_lowering_drill",
+            18: "weighted_single_leg_lowering_drill",
+            19: "weighted_hanging_knee_raise",
+            20: "lateral_stepover",
+            21: "weighted_lateral_stepover"
+          },
+          lunge_exercise_name: {
+            0: "overhead_lunge",
+            1: "lunge_matrix",
+            2: "weighted_lunge_matrix",
+            3: "alternating_barbell_forward_lunge",
+            4: "alternating_dumbbell_lunge_with_reach",
+            5: "back_foot_elevated_dumbbell_split_squat",
+            6: "barbell_box_lunge",
+            7: "barbell_bulgarian_split_squat",
+            8: "barbell_crossover_lunge",
+            9: "barbell_front_split_squat",
+            10: "barbell_lunge",
+            11: "barbell_reverse_lunge",
+            12: "barbell_side_lunge",
+            13: "barbell_split_squat",
+            14: "core_control_rear_lunge",
+            15: "diagonal_lunge",
+            16: "drop_lunge",
+            17: "dumbbell_box_lunge",
+            18: "dumbbell_bulgarian_split_squat",
+            19: "dumbbell_crossover_lunge",
+            20: "dumbbell_diagonal_lunge",
+            21: "dumbbell_lunge",
+            22: "dumbbell_lunge_and_rotation",
+            23: "dumbbell_overhead_bulgarian_split_squat",
+            24: "dumbbell_reverse_lunge_to_high_knee_and_press",
+            25: "dumbbell_side_lunge",
+            26: "elevated_front_foot_barbell_split_squat",
+            27: "front_foot_elevated_dumbbell_split_squat",
+            28: "gunslinger_lunge",
+            29: "lawnmower_lunge",
+            30: "low_lunge_with_isometric_adduction",
+            31: "low_side_to_side_lunge",
+            32: "lunge",
+            33: "weighted_lunge",
+            34: "lunge_with_arm_reach",
+            35: "lunge_with_diagonal_reach",
+            36: "lunge_with_side_bend",
+            37: "offset_dumbbell_lunge",
+            38: "offset_dumbbell_reverse_lunge",
+            39: "overhead_bulgarian_split_squat",
+            40: "overhead_dumbbell_reverse_lunge",
+            41: "overhead_dumbbell_split_squat",
+            42: "overhead_lunge_with_rotation",
+            43: "reverse_barbell_box_lunge",
+            44: "reverse_box_lunge",
+            45: "reverse_dumbbell_box_lunge",
+            46: "reverse_dumbbell_crossover_lunge",
+            47: "reverse_dumbbell_diagonal_lunge",
+            48: "reverse_lunge_with_reach_back",
+            49: "weighted_reverse_lunge_with_reach_back",
+            50: "reverse_lunge_with_twist_and_overhead_reach",
+            51: "weighted_reverse_lunge_with_twist_and_overhead_reach",
+            52: "reverse_sliding_box_lunge",
+            53: "weighted_reverse_sliding_box_lunge",
+            54: "reverse_sliding_lunge",
+            55: "weighted_reverse_sliding_lunge",
+            56: "runners_lunge_to_balance",
+            57: "weighted_runners_lunge_to_balance",
+            58: "shifting_side_lunge",
+            59: "side_and_crossover_lunge",
+            60: "weighted_side_and_crossover_lunge",
+            61: "side_lunge",
+            62: "weighted_side_lunge",
+            63: "side_lunge_and_press",
+            64: "side_lunge_jump_off",
+            65: "side_lunge_sweep",
+            66: "weighted_side_lunge_sweep",
+            67: "side_lunge_to_crossover_tap",
+            68: "weighted_side_lunge_to_crossover_tap",
+            69: "side_to_side_lunge_chops",
+            70: "weighted_side_to_side_lunge_chops",
+            71: "siff_jump_lunge",
+            72: "weighted_siff_jump_lunge",
+            73: "single_arm_reverse_lunge_and_press",
+            74: "sliding_lateral_lunge",
+            75: "weighted_sliding_lateral_lunge",
+            76: "walking_barbell_lunge",
+            77: "walking_dumbbell_lunge",
+            78: "walking_lunge",
+            79: "weighted_walking_lunge",
+            80: "wide_grip_overhead_barbell_split_squat"
+          },
+          olympic_lift_exercise_name: {
+            0: "barbell_hang_power_clean",
+            1: "barbell_hang_squat_clean",
+            2: "barbell_power_clean",
+            3: "barbell_power_snatch",
+            4: "barbell_squat_clean",
+            5: "clean_and_jerk",
+            6: "barbell_hang_power_snatch",
+            7: "barbell_hang_pull",
+            8: "barbell_high_pull",
+            9: "barbell_snatch",
+            10: "barbell_split_jerk",
+            11: "clean",
+            12: "dumbbell_clean",
+            13: "dumbbell_hang_pull",
+            14: "one_hand_dumbbell_split_snatch",
+            15: "push_jerk",
+            16: "single_arm_dumbbell_snatch",
+            17: "single_arm_hang_snatch",
+            18: "single_arm_kettlebell_snatch",
+            19: "split_jerk",
+            20: "squat_clean_and_jerk"
+          },
+          plank_exercise_name: {
+            0: "45_degree_plank",
+            1: "weighted_45_degree_plank",
+            2: "90_degree_static_hold",
+            3: "weighted_90_degree_static_hold",
+            4: "bear_crawl",
+            5: "weighted_bear_crawl",
+            6: "cross_body_mountain_climber",
+            7: "weighted_cross_body_mountain_climber",
+            8: "elbow_plank_pike_jacks",
+            9: "weighted_elbow_plank_pike_jacks",
+            10: "elevated_feet_plank",
+            11: "weighted_elevated_feet_plank",
+            12: "elevator_abs",
+            13: "weighted_elevator_abs",
+            14: "extended_plank",
+            15: "weighted_extended_plank",
+            16: "full_plank_passe_twist",
+            17: "weighted_full_plank_passe_twist",
+            18: "inching_elbow_plank",
+            19: "weighted_inching_elbow_plank",
+            20: "inchworm_to_side_plank",
+            21: "weighted_inchworm_to_side_plank",
+            22: "kneeling_plank",
+            23: "weighted_kneeling_plank",
+            24: "kneeling_side_plank_with_leg_lift",
+            25: "weighted_kneeling_side_plank_with_leg_lift",
+            26: "lateral_roll",
+            27: "weighted_lateral_roll",
+            28: "lying_reverse_plank",
+            29: "weighted_lying_reverse_plank",
+            30: "medicine_ball_mountain_climber",
+            31: "weighted_medicine_ball_mountain_climber",
+            32: "modified_mountain_climber_and_extension",
+            33: "weighted_modified_mountain_climber_and_extension",
+            34: "mountain_climber",
+            35: "weighted_mountain_climber",
+            36: "mountain_climber_on_sliding_discs",
+            37: "weighted_mountain_climber_on_sliding_discs",
+            38: "mountain_climber_with_feet_on_bosu_ball",
+            39: "weighted_mountain_climber_with_feet_on_bosu_ball",
+            40: "mountain_climber_with_hands_on_bench",
+            41: "mountain_climber_with_hands_on_swiss_ball",
+            42: "weighted_mountain_climber_with_hands_on_swiss_ball",
+            43: "plank",
+            44: "plank_jacks_with_feet_on_sliding_discs",
+            45: "weighted_plank_jacks_with_feet_on_sliding_discs",
+            46: "plank_knee_twist",
+            47: "weighted_plank_knee_twist",
+            48: "plank_pike_jumps",
+            49: "weighted_plank_pike_jumps",
+            50: "plank_pikes",
+            51: "weighted_plank_pikes",
+            52: "plank_to_stand_up",
+            53: "weighted_plank_to_stand_up",
+            54: "plank_with_arm_raise",
+            55: "weighted_plank_with_arm_raise",
+            56: "plank_with_knee_to_elbow",
+            57: "weighted_plank_with_knee_to_elbow",
+            58: "plank_with_oblique_crunch",
+            59: "weighted_plank_with_oblique_crunch",
+            60: "plyometric_side_plank",
+            61: "weighted_plyometric_side_plank",
+            62: "rolling_side_plank",
+            63: "weighted_rolling_side_plank",
+            64: "side_kick_plank",
+            65: "weighted_side_kick_plank",
+            66: "side_plank",
+            67: "weighted_side_plank",
+            68: "side_plank_and_row",
+            69: "weighted_side_plank_and_row",
+            70: "side_plank_lift",
+            71: "weighted_side_plank_lift",
+            72: "side_plank_with_elbow_on_bosu_ball",
+            73: "weighted_side_plank_with_elbow_on_bosu_ball",
+            74: "side_plank_with_feet_on_bench",
+            75: "weighted_side_plank_with_feet_on_bench",
+            76: "side_plank_with_knee_circle",
+            77: "weighted_side_plank_with_knee_circle",
+            78: "side_plank_with_knee_tuck",
+            79: "weighted_side_plank_with_knee_tuck",
+            80: "side_plank_with_leg_lift",
+            81: "weighted_side_plank_with_leg_lift",
+            82: "side_plank_with_reach_under",
+            83: "weighted_side_plank_with_reach_under",
+            84: "single_leg_elevated_feet_plank",
+            85: "weighted_single_leg_elevated_feet_plank",
+            86: "single_leg_flex_and_extend",
+            87: "weighted_single_leg_flex_and_extend",
+            88: "single_leg_side_plank",
+            89: "weighted_single_leg_side_plank",
+            90: "spiderman_plank",
+            91: "weighted_spiderman_plank",
+            92: "straight_arm_plank",
+            93: "weighted_straight_arm_plank",
+            94: "straight_arm_plank_with_shoulder_touch",
+            95: "weighted_straight_arm_plank_with_shoulder_touch",
+            96: "swiss_ball_plank",
+            97: "weighted_swiss_ball_plank",
+            98: "swiss_ball_plank_leg_lift",
+            99: "weighted_swiss_ball_plank_leg_lift",
+            100: "swiss_ball_plank_leg_lift_and_hold",
+            101: "swiss_ball_plank_with_feet_on_bench",
+            102: "weighted_swiss_ball_plank_with_feet_on_bench",
+            103: "swiss_ball_prone_jackknife",
+            104: "weighted_swiss_ball_prone_jackknife",
+            105: "swiss_ball_side_plank",
+            106: "weighted_swiss_ball_side_plank",
+            107: "three_way_plank",
+            108: "weighted_three_way_plank",
+            109: "towel_plank_and_knee_in",
+            110: "weighted_towel_plank_and_knee_in",
+            111: "t_stabilization",
+            112: "weighted_t_stabilization",
+            113: "turkish_get_up_to_side_plank",
+            114: "weighted_turkish_get_up_to_side_plank",
+            115: "two_point_plank",
+            116: "weighted_two_point_plank",
+            117: "weighted_plank",
+            118: "wide_stance_plank_with_diagonal_arm_lift",
+            119: "weighted_wide_stance_plank_with_diagonal_arm_lift",
+            120: "wide_stance_plank_with_diagonal_leg_lift",
+            121: "weighted_wide_stance_plank_with_diagonal_leg_lift",
+            122: "wide_stance_plank_with_leg_lift",
+            123: "weighted_wide_stance_plank_with_leg_lift",
+            124: "wide_stance_plank_with_opposite_arm_and_leg_lift",
+            125: "weighted_mountain_climber_with_hands_on_bench",
+            126: "weighted_swiss_ball_plank_leg_lift_and_hold",
+            127: "weighted_wide_stance_plank_with_opposite_arm_and_leg_lift",
+            128: "plank_with_feet_on_swiss_ball",
+            129: "side_plank_to_plank_with_reach_under",
+            130: "bridge_with_glute_lower_lift",
+            131: "bridge_one_leg_bridge",
+            132: "plank_with_arm_variations",
+            133: "plank_with_leg_lift",
+            134: "reverse_plank_with_leg_pull"
+          },
+          plyo_exercise_name: {
+            0: "alternating_jump_lunge",
+            1: "weighted_alternating_jump_lunge",
+            2: "barbell_jump_squat",
+            3: "body_weight_jump_squat",
+            4: "weighted_jump_squat",
+            5: "cross_knee_strike",
+            6: "weighted_cross_knee_strike",
+            7: "depth_jump",
+            8: "weighted_depth_jump",
+            9: "dumbbell_jump_squat",
+            10: "dumbbell_split_jump",
+            11: "front_knee_strike",
+            12: "weighted_front_knee_strike",
+            13: "high_box_jump",
+            14: "weighted_high_box_jump",
+            15: "isometric_explosive_body_weight_jump_squat",
+            16: "weighted_isometric_explosive_jump_squat",
+            17: "lateral_leap_and_hop",
+            18: "weighted_lateral_leap_and_hop",
+            19: "lateral_plyo_squats",
+            20: "weighted_lateral_plyo_squats",
+            21: "lateral_slide",
+            22: "weighted_lateral_slide",
+            23: "medicine_ball_overhead_throws",
+            24: "medicine_ball_side_throw",
+            25: "medicine_ball_slam",
+            26: "side_to_side_medicine_ball_throws",
+            27: "side_to_side_shuffle_jump",
+            28: "weighted_side_to_side_shuffle_jump",
+            29: "squat_jump_onto_box",
+            30: "weighted_squat_jump_onto_box",
+            31: "squat_jumps_in_and_out",
+            32: "weighted_squat_jumps_in_and_out"
+          },
+          pull_up_exercise_name: {
+            0: "banded_pull_ups",
+            1: "30_degree_lat_pulldown",
+            2: "band_assisted_chin_up",
+            3: "close_grip_chin_up",
+            4: "weighted_close_grip_chin_up",
+            5: "close_grip_lat_pulldown",
+            6: "crossover_chin_up",
+            7: "weighted_crossover_chin_up",
+            8: "ez_bar_pullover",
+            9: "hanging_hurdle",
+            10: "weighted_hanging_hurdle",
+            11: "kneeling_lat_pulldown",
+            12: "kneeling_underhand_grip_lat_pulldown",
+            13: "lat_pulldown",
+            14: "mixed_grip_chin_up",
+            15: "weighted_mixed_grip_chin_up",
+            16: "mixed_grip_pull_up",
+            17: "weighted_mixed_grip_pull_up",
+            18: "reverse_grip_pulldown",
+            19: "standing_cable_pullover",
+            20: "straight_arm_pulldown",
+            21: "swiss_ball_ez_bar_pullover",
+            22: "towel_pull_up",
+            23: "weighted_towel_pull_up",
+            24: "weighted_pull_up",
+            25: "wide_grip_lat_pulldown",
+            26: "wide_grip_pull_up",
+            27: "weighted_wide_grip_pull_up",
+            28: "burpee_pull_up",
+            29: "weighted_burpee_pull_up",
+            30: "jumping_pull_ups",
+            31: "weighted_jumping_pull_ups",
+            32: "kipping_pull_up",
+            33: "weighted_kipping_pull_up",
+            34: "l_pull_up",
+            35: "weighted_l_pull_up",
+            36: "suspended_chin_up",
+            37: "weighted_suspended_chin_up",
+            38: "pull_up"
+          },
+          push_up_exercise_name: {
+            0: "chest_press_with_band",
+            1: "alternating_staggered_push_up",
+            2: "weighted_alternating_staggered_push_up",
+            3: "alternating_hands_medicine_ball_push_up",
+            4: "weighted_alternating_hands_medicine_ball_push_up",
+            5: "bosu_ball_push_up",
+            6: "weighted_bosu_ball_push_up",
+            7: "clapping_push_up",
+            8: "weighted_clapping_push_up",
+            9: "close_grip_medicine_ball_push_up",
+            10: "weighted_close_grip_medicine_ball_push_up",
+            11: "close_hands_push_up",
+            12: "weighted_close_hands_push_up",
+            13: "decline_push_up",
+            14: "weighted_decline_push_up",
+            15: "diamond_push_up",
+            16: "weighted_diamond_push_up",
+            17: "explosive_crossover_push_up",
+            18: "weighted_explosive_crossover_push_up",
+            19: "explosive_push_up",
+            20: "weighted_explosive_push_up",
+            21: "feet_elevated_side_to_side_push_up",
+            22: "weighted_feet_elevated_side_to_side_push_up",
+            23: "hand_release_push_up",
+            24: "weighted_hand_release_push_up",
+            25: "handstand_push_up",
+            26: "weighted_handstand_push_up",
+            27: "incline_push_up",
+            28: "weighted_incline_push_up",
+            29: "isometric_explosive_push_up",
+            30: "weighted_isometric_explosive_push_up",
+            31: "judo_push_up",
+            32: "weighted_judo_push_up",
+            33: "kneeling_push_up",
+            34: "weighted_kneeling_push_up",
+            35: "medicine_ball_chest_pass",
+            36: "medicine_ball_push_up",
+            37: "weighted_medicine_ball_push_up",
+            38: "one_arm_push_up",
+            39: "weighted_one_arm_push_up",
+            40: "weighted_push_up",
+            41: "push_up_and_row",
+            42: "weighted_push_up_and_row",
+            43: "push_up_plus",
+            44: "weighted_push_up_plus",
+            45: "push_up_with_feet_on_swiss_ball",
+            46: "weighted_push_up_with_feet_on_swiss_ball",
+            47: "push_up_with_one_hand_on_medicine_ball",
+            48: "weighted_push_up_with_one_hand_on_medicine_ball",
+            49: "shoulder_push_up",
+            50: "weighted_shoulder_push_up",
+            51: "single_arm_medicine_ball_push_up",
+            52: "weighted_single_arm_medicine_ball_push_up",
+            53: "spiderman_push_up",
+            54: "weighted_spiderman_push_up",
+            55: "stacked_feet_push_up",
+            56: "weighted_stacked_feet_push_up",
+            57: "staggered_hands_push_up",
+            58: "weighted_staggered_hands_push_up",
+            59: "suspended_push_up",
+            60: "weighted_suspended_push_up",
+            61: "swiss_ball_push_up",
+            62: "weighted_swiss_ball_push_up",
+            63: "swiss_ball_push_up_plus",
+            64: "weighted_swiss_ball_push_up_plus",
+            65: "t_push_up",
+            66: "weighted_t_push_up",
+            67: "triple_stop_push_up",
+            68: "weighted_triple_stop_push_up",
+            69: "wide_hands_push_up",
+            70: "weighted_wide_hands_push_up",
+            71: "parallette_handstand_push_up",
+            72: "weighted_parallette_handstand_push_up",
+            73: "ring_handstand_push_up",
+            74: "weighted_ring_handstand_push_up",
+            75: "ring_push_up",
+            76: "weighted_ring_push_up",
+            77: "push_up",
+            78: "pilates_pushup"
+          },
+          row_exercise_name: {
+            0: "barbell_straight_leg_deadlift_to_row",
+            1: "cable_row_standing",
+            2: "dumbbell_row",
+            3: "elevated_feet_inverted_row",
+            4: "weighted_elevated_feet_inverted_row",
+            5: "face_pull",
+            6: "face_pull_with_external_rotation",
+            7: "inverted_row_with_feet_on_swiss_ball",
+            8: "weighted_inverted_row_with_feet_on_swiss_ball",
+            9: "kettlebell_row",
+            10: "modified_inverted_row",
+            11: "weighted_modified_inverted_row",
+            12: "neutral_grip_alternating_dumbbell_row",
+            13: "one_arm_bent_over_row",
+            14: "one_legged_dumbbell_row",
+            15: "renegade_row",
+            16: "reverse_grip_barbell_row",
+            17: "rope_handle_cable_row",
+            18: "seated_cable_row",
+            19: "seated_dumbbell_row",
+            20: "single_arm_cable_row",
+            21: "single_arm_cable_row_and_rotation",
+            22: "single_arm_inverted_row",
+            23: "weighted_single_arm_inverted_row",
+            24: "single_arm_neutral_grip_dumbbell_row",
+            25: "single_arm_neutral_grip_dumbbell_row_and_rotation",
+            26: "suspended_inverted_row",
+            27: "weighted_suspended_inverted_row",
+            28: "t_bar_row",
+            29: "towel_grip_inverted_row",
+            30: "weighted_towel_grip_inverted_row",
+            31: "underhand_grip_cable_row",
+            32: "v_grip_cable_row",
+            33: "wide_grip_seated_cable_row"
+          },
+          shoulder_press_exercise_name: {
+            0: "alternating_dumbbell_shoulder_press",
+            1: "arnold_press",
+            2: "barbell_front_squat_to_push_press",
+            3: "barbell_push_press",
+            4: "barbell_shoulder_press",
+            5: "dead_curl_press",
+            6: "dumbbell_alternating_shoulder_press_and_twist",
+            7: "dumbbell_hammer_curl_to_lunge_to_press",
+            8: "dumbbell_push_press",
+            9: "floor_inverted_shoulder_press",
+            10: "weighted_floor_inverted_shoulder_press",
+            11: "inverted_shoulder_press",
+            12: "weighted_inverted_shoulder_press",
+            13: "one_arm_push_press",
+            14: "overhead_barbell_press",
+            15: "overhead_dumbbell_press",
+            16: "seated_barbell_shoulder_press",
+            17: "seated_dumbbell_shoulder_press",
+            18: "single_arm_dumbbell_shoulder_press",
+            19: "single_arm_step_up_and_press",
+            20: "smith_machine_overhead_press",
+            21: "split_stance_hammer_curl_to_press",
+            22: "swiss_ball_dumbbell_shoulder_press",
+            23: "weight_plate_front_raise"
+          },
+          shoulder_stability_exercise_name: {
+            0: "90_degree_cable_external_rotation",
+            1: "band_external_rotation",
+            2: "band_internal_rotation",
+            3: "bent_arm_lateral_raise_and_external_rotation",
+            4: "cable_external_rotation",
+            5: "dumbbell_face_pull_with_external_rotation",
+            6: "floor_i_raise",
+            7: "weighted_floor_i_raise",
+            8: "floor_t_raise",
+            9: "weighted_floor_t_raise",
+            10: "floor_y_raise",
+            11: "weighted_floor_y_raise",
+            12: "incline_i_raise",
+            13: "weighted_incline_i_raise",
+            14: "incline_l_raise",
+            15: "weighted_incline_l_raise",
+            16: "incline_t_raise",
+            17: "weighted_incline_t_raise",
+            18: "incline_w_raise",
+            19: "weighted_incline_w_raise",
+            20: "incline_y_raise",
+            21: "weighted_incline_y_raise",
+            22: "lying_external_rotation",
+            23: "seated_dumbbell_external_rotation",
+            24: "standing_l_raise",
+            25: "swiss_ball_i_raise",
+            26: "weighted_swiss_ball_i_raise",
+            27: "swiss_ball_t_raise",
+            28: "weighted_swiss_ball_t_raise",
+            29: "swiss_ball_w_raise",
+            30: "weighted_swiss_ball_w_raise",
+            31: "swiss_ball_y_raise",
+            32: "weighted_swiss_ball_y_raise"
+          },
+          shrug_exercise_name: {
+            0: "barbell_jump_shrug",
+            1: "barbell_shrug",
+            2: "barbell_upright_row",
+            3: "behind_the_back_smith_machine_shrug",
+            4: "dumbbell_jump_shrug",
+            5: "dumbbell_shrug",
+            6: "dumbbell_upright_row",
+            7: "incline_dumbbell_shrug",
+            8: "overhead_barbell_shrug",
+            9: "overhead_dumbbell_shrug",
+            10: "scaption_and_shrug",
+            11: "scapular_retraction",
+            12: "serratus_chair_shrug",
+            13: "weighted_serratus_chair_shrug",
+            14: "serratus_shrug",
+            15: "weighted_serratus_shrug",
+            16: "wide_grip_jump_shrug"
+          },
+          sit_up_exercise_name: {
+            0: "alternating_sit_up",
+            1: "weighted_alternating_sit_up",
+            2: "bent_knee_v_up",
+            3: "weighted_bent_knee_v_up",
+            4: "butterfly_sit_up",
+            5: "weighted_butterfly_situp",
+            6: "cross_punch_roll_up",
+            7: "weighted_cross_punch_roll_up",
+            8: "crossed_arms_sit_up",
+            9: "weighted_crossed_arms_sit_up",
+            10: "get_up_sit_up",
+            11: "weighted_get_up_sit_up",
+            12: "hovering_sit_up",
+            13: "weighted_hovering_sit_up",
+            14: "kettlebell_sit_up",
+            15: "medicine_ball_alternating_v_up",
+            16: "medicine_ball_sit_up",
+            17: "medicine_ball_v_up",
+            18: "modified_sit_up",
+            19: "negative_sit_up",
+            20: "one_arm_full_sit_up",
+            21: "reclining_circle",
+            22: "weighted_reclining_circle",
+            23: "reverse_curl_up",
+            24: "weighted_reverse_curl_up",
+            25: "single_leg_swiss_ball_jackknife",
+            26: "weighted_single_leg_swiss_ball_jackknife",
+            27: "the_teaser",
+            28: "the_teaser_weighted",
+            29: "three_part_roll_down",
+            30: "weighted_three_part_roll_down",
+            31: "v_up",
+            32: "weighted_v_up",
+            33: "weighted_russian_twist_on_swiss_ball",
+            34: "weighted_sit_up",
+            35: "x_abs",
+            36: "weighted_x_abs",
+            37: "sit_up"
+          },
+          squat_exercise_name: {
+            0: "leg_press",
+            1: "back_squat_with_body_bar",
+            2: "back_squats",
+            3: "weighted_back_squats",
+            4: "balancing_squat",
+            5: "weighted_balancing_squat",
+            6: "barbell_back_squat",
+            7: "barbell_box_squat",
+            8: "barbell_front_squat",
+            9: "barbell_hack_squat",
+            10: "barbell_hang_squat_snatch",
+            11: "barbell_lateral_step_up",
+            12: "barbell_quarter_squat",
+            13: "barbell_siff_squat",
+            14: "barbell_squat_snatch",
+            15: "barbell_squat_with_heels_raised",
+            16: "barbell_stepover",
+            17: "barbell_step_up",
+            18: "bench_squat_with_rotational_chop",
+            19: "weighted_bench_squat_with_rotational_chop",
+            20: "body_weight_wall_squat",
+            21: "weighted_wall_squat",
+            22: "box_step_squat",
+            23: "weighted_box_step_squat",
+            24: "braced_squat",
+            25: "crossed_arm_barbell_front_squat",
+            26: "crossover_dumbbell_step_up",
+            27: "dumbbell_front_squat",
+            28: "dumbbell_split_squat",
+            29: "dumbbell_squat",
+            30: "dumbbell_squat_clean",
+            31: "dumbbell_stepover",
+            32: "dumbbell_step_up",
+            33: "elevated_single_leg_squat",
+            34: "weighted_elevated_single_leg_squat",
+            35: "figure_four_squats",
+            36: "weighted_figure_four_squats",
+            37: "goblet_squat",
+            38: "kettlebell_squat",
+            39: "kettlebell_swing_overhead",
+            40: "kettlebell_swing_with_flip_to_squat",
+            41: "lateral_dumbbell_step_up",
+            42: "one_legged_squat",
+            43: "overhead_dumbbell_squat",
+            44: "overhead_squat",
+            45: "partial_single_leg_squat",
+            46: "weighted_partial_single_leg_squat",
+            47: "pistol_squat",
+            48: "weighted_pistol_squat",
+            49: "plie_slides",
+            50: "weighted_plie_slides",
+            51: "plie_squat",
+            52: "weighted_plie_squat",
+            53: "prisoner_squat",
+            54: "weighted_prisoner_squat",
+            55: "single_leg_bench_get_up",
+            56: "weighted_single_leg_bench_get_up",
+            57: "single_leg_bench_squat",
+            58: "weighted_single_leg_bench_squat",
+            59: "single_leg_squat_on_swiss_ball",
+            60: "weighted_single_leg_squat_on_swiss_ball",
+            61: "squat",
+            62: "weighted_squat",
+            63: "squats_with_band",
+            64: "staggered_squat",
+            65: "weighted_staggered_squat",
+            66: "step_up",
+            67: "weighted_step_up",
+            68: "suitcase_squats",
+            69: "sumo_squat",
+            70: "sumo_squat_slide_in",
+            71: "weighted_sumo_squat_slide_in",
+            72: "sumo_squat_to_high_pull",
+            73: "sumo_squat_to_stand",
+            74: "weighted_sumo_squat_to_stand",
+            75: "sumo_squat_with_rotation",
+            76: "weighted_sumo_squat_with_rotation",
+            77: "swiss_ball_body_weight_wall_squat",
+            78: "weighted_swiss_ball_wall_squat",
+            79: "thrusters",
+            80: "uneven_squat",
+            81: "weighted_uneven_squat",
+            82: "waist_slimming_squat",
+            83: "wall_ball",
+            84: "wide_stance_barbell_squat",
+            85: "wide_stance_goblet_squat",
+            86: "zercher_squat",
+            87: "kbs_overhead",
+            88: "squat_and_side_kick",
+            89: "squat_jumps_in_n_out",
+            90: "pilates_plie_squats_parallel_turned_out_flat_and_heels",
+            91: "releve_straight_leg_and_knee_bent_with_one_leg_variation"
+          },
+          total_body_exercise_name: {
+            0: "burpee",
+            1: "weighted_burpee",
+            2: "burpee_box_jump",
+            3: "weighted_burpee_box_jump",
+            4: "high_pull_burpee",
+            5: "man_makers",
+            6: "one_arm_burpee",
+            7: "squat_thrusts",
+            8: "weighted_squat_thrusts",
+            9: "squat_plank_push_up",
+            10: "weighted_squat_plank_push_up",
+            11: "standing_t_rotation_balance",
+            12: "weighted_standing_t_rotation_balance"
+          },
+          triceps_extension_exercise_name: {
+            0: "bench_dip",
+            1: "weighted_bench_dip",
+            2: "body_weight_dip",
+            3: "cable_kickback",
+            4: "cable_lying_triceps_extension",
+            5: "cable_overhead_triceps_extension",
+            6: "dumbbell_kickback",
+            7: "dumbbell_lying_triceps_extension",
+            8: "ez_bar_overhead_triceps_extension",
+            9: "incline_dip",
+            10: "weighted_incline_dip",
+            11: "incline_ez_bar_lying_triceps_extension",
+            12: "lying_dumbbell_pullover_to_extension",
+            13: "lying_ez_bar_triceps_extension",
+            14: "lying_triceps_extension_to_close_grip_bench_press",
+            15: "overhead_dumbbell_triceps_extension",
+            16: "reclining_triceps_press",
+            17: "reverse_grip_pressdown",
+            18: "reverse_grip_triceps_pressdown",
+            19: "rope_pressdown",
+            20: "seated_barbell_overhead_triceps_extension",
+            21: "seated_dumbbell_overhead_triceps_extension",
+            22: "seated_ez_bar_overhead_triceps_extension",
+            23: "seated_single_arm_overhead_dumbbell_extension",
+            24: "single_arm_dumbbell_overhead_triceps_extension",
+            25: "single_dumbbell_seated_overhead_triceps_extension",
+            26: "single_leg_bench_dip_and_kick",
+            27: "weighted_single_leg_bench_dip_and_kick",
+            28: "single_leg_dip",
+            29: "weighted_single_leg_dip",
+            30: "static_lying_triceps_extension",
+            31: "suspended_dip",
+            32: "weighted_suspended_dip",
+            33: "swiss_ball_dumbbell_lying_triceps_extension",
+            34: "swiss_ball_ez_bar_lying_triceps_extension",
+            35: "swiss_ball_ez_bar_overhead_triceps_extension",
+            36: "tabletop_dip",
+            37: "weighted_tabletop_dip",
+            38: "triceps_extension_on_floor",
+            39: "triceps_pressdown",
+            40: "weighted_dip"
+          },
+          warm_up_exercise_name: {
+            0: "quadruped_rocking",
+            1: "neck_tilts",
+            2: "ankle_circles",
+            3: "ankle_dorsiflexion_with_band",
+            4: "ankle_internal_rotation",
+            5: "arm_circles",
+            6: "bent_over_reach_to_sky",
+            7: "cat_camel",
+            8: "elbow_to_foot_lunge",
+            9: "forward_and_backward_leg_swings",
+            10: "groiners",
+            11: "inverted_hamstring_stretch",
+            12: "lateral_duck_under",
+            13: "neck_rotations",
+            14: "opposite_arm_and_leg_balance",
+            15: "reach_roll_and_lift",
+            16: "scorpion",
+            17: "shoulder_circles",
+            18: "side_to_side_leg_swings",
+            19: "sleeper_stretch",
+            20: "slide_out",
+            21: "swiss_ball_hip_crossover",
+            22: "swiss_ball_reach_roll_and_lift",
+            23: "swiss_ball_windshield_wipers",
+            24: "thoracic_rotation",
+            25: "walking_high_kicks",
+            26: "walking_high_knees",
+            27: "walking_knee_hugs",
+            28: "walking_leg_cradles",
+            29: "walkout",
+            30: "walkout_from_push_up_position"
+          },
+          run_exercise_name: {
+            0: "run",
+            1: "walk",
+            2: "jog",
+            3: "sprint"
+          },
+          water_type: {
+            0: "fresh",
+            1: "salt",
+            2: "en13319",
+            3: "custom"
+          },
+          tissue_model_type: {
+            0: "zhl_16c"
+          },
+          dive_gas_status: {
+            0: "disabled",
+            1: "enabled",
+            2: "backup_only"
+          },
+          dive_alarm_type: {
+            0: "depth",
+            1: "time"
+          },
+          dive_backlight_mode: {
+            0: "at_depth",
+            1: "always_on"
+          },
+          favero_product: {
+            10: "assioma_uno",
+            12: "assioma_duo"
+          }
+        }
+      };
+      function getMessageName(messageNum) {
+        var message = FIT.messages[messageNum];
+        return message ? message.name : "";
+      }
+      function getFieldObject(fieldNum, messageNum) {
+        var message = FIT.messages[messageNum];
+        if (!message) {
+          return "";
+        }
+        var fieldObj = message[fieldNum];
+        return fieldObj ? fieldObj : {};
+      }
+    }
+  });
+
+  // node_modules/fit-file-parser/dist/messages.js
+  var require_messages = __commonJS({
+    "node_modules/fit-file-parser/dist/messages.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.getFitMessage = getFitMessage;
+      exports.getFitMessageBaseType = getFitMessageBaseType;
+      var _fit = require_fit();
+      function getFitMessage(messageNum) {
+        return {
+          name: (0, _fit.getMessageName)(messageNum),
+          getAttributes: function getAttributes(fieldNum) {
+            return (0, _fit.getFieldObject)(fieldNum, messageNum);
+          }
+        };
+      }
+      function getFitMessageBaseType(foo) {
+        return foo;
+      }
+    }
+  });
+
+  // node_modules/base64-js/index.js
+  var require_base64_js = __commonJS({
+    "node_modules/base64-js/index.js"(exports) {
+      "use strict";
+      exports.byteLength = byteLength;
+      exports.toByteArray = toByteArray;
+      exports.fromByteArray = fromByteArray;
+      var lookup = [];
+      var revLookup = [];
+      var Arr = typeof Uint8Array !== "undefined" ? Uint8Array : Array;
+      var code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+      for (i = 0, len = code.length; i < len; ++i) {
+        lookup[i] = code[i];
+        revLookup[code.charCodeAt(i)] = i;
+      }
+      var i;
+      var len;
+      revLookup["-".charCodeAt(0)] = 62;
+      revLookup["_".charCodeAt(0)] = 63;
+      function getLens(b64) {
+        var len2 = b64.length;
+        if (len2 % 4 > 0) {
+          throw new Error("Invalid string. Length must be a multiple of 4");
+        }
+        var validLen = b64.indexOf("=");
+        if (validLen === -1) validLen = len2;
+        var placeHoldersLen = validLen === len2 ? 0 : 4 - validLen % 4;
+        return [validLen, placeHoldersLen];
+      }
+      function byteLength(b64) {
+        var lens = getLens(b64);
+        var validLen = lens[0];
+        var placeHoldersLen = lens[1];
+        return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
+      }
+      function _byteLength(b64, validLen, placeHoldersLen) {
+        return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
+      }
+      function toByteArray(b64) {
+        var tmp;
+        var lens = getLens(b64);
+        var validLen = lens[0];
+        var placeHoldersLen = lens[1];
+        var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen));
+        var curByte = 0;
+        var len2 = placeHoldersLen > 0 ? validLen - 4 : validLen;
+        var i2;
+        for (i2 = 0; i2 < len2; i2 += 4) {
+          tmp = revLookup[b64.charCodeAt(i2)] << 18 | revLookup[b64.charCodeAt(i2 + 1)] << 12 | revLookup[b64.charCodeAt(i2 + 2)] << 6 | revLookup[b64.charCodeAt(i2 + 3)];
+          arr[curByte++] = tmp >> 16 & 255;
+          arr[curByte++] = tmp >> 8 & 255;
+          arr[curByte++] = tmp & 255;
+        }
+        if (placeHoldersLen === 2) {
+          tmp = revLookup[b64.charCodeAt(i2)] << 2 | revLookup[b64.charCodeAt(i2 + 1)] >> 4;
+          arr[curByte++] = tmp & 255;
+        }
+        if (placeHoldersLen === 1) {
+          tmp = revLookup[b64.charCodeAt(i2)] << 10 | revLookup[b64.charCodeAt(i2 + 1)] << 4 | revLookup[b64.charCodeAt(i2 + 2)] >> 2;
+          arr[curByte++] = tmp >> 8 & 255;
+          arr[curByte++] = tmp & 255;
+        }
+        return arr;
+      }
+      function tripletToBase64(num3) {
+        return lookup[num3 >> 18 & 63] + lookup[num3 >> 12 & 63] + lookup[num3 >> 6 & 63] + lookup[num3 & 63];
+      }
+      function encodeChunk(uint8, start, end) {
+        var tmp;
+        var output = [];
+        for (var i2 = start; i2 < end; i2 += 3) {
+          tmp = (uint8[i2] << 16 & 16711680) + (uint8[i2 + 1] << 8 & 65280) + (uint8[i2 + 2] & 255);
+          output.push(tripletToBase64(tmp));
+        }
+        return output.join("");
+      }
+      function fromByteArray(uint8) {
+        var tmp;
+        var len2 = uint8.length;
+        var extraBytes = len2 % 3;
+        var parts = [];
+        var maxChunkLength = 16383;
+        for (var i2 = 0, len22 = len2 - extraBytes; i2 < len22; i2 += maxChunkLength) {
+          parts.push(encodeChunk(uint8, i2, i2 + maxChunkLength > len22 ? len22 : i2 + maxChunkLength));
+        }
+        if (extraBytes === 1) {
+          tmp = uint8[len2 - 1];
+          parts.push(
+            lookup[tmp >> 2] + lookup[tmp << 4 & 63] + "=="
+          );
+        } else if (extraBytes === 2) {
+          tmp = (uint8[len2 - 2] << 8) + uint8[len2 - 1];
+          parts.push(
+            lookup[tmp >> 10] + lookup[tmp >> 4 & 63] + lookup[tmp << 2 & 63] + "="
+          );
+        }
+        return parts.join("");
+      }
+    }
+  });
+
+  // node_modules/ieee754/index.js
+  var require_ieee754 = __commonJS({
+    "node_modules/ieee754/index.js"(exports) {
+      exports.read = function(buffer, offset, isLE, mLen, nBytes) {
+        var e, m;
+        var eLen = nBytes * 8 - mLen - 1;
+        var eMax = (1 << eLen) - 1;
+        var eBias = eMax >> 1;
+        var nBits = -7;
+        var i = isLE ? nBytes - 1 : 0;
+        var d2 = isLE ? -1 : 1;
+        var s2 = buffer[offset + i];
+        i += d2;
+        e = s2 & (1 << -nBits) - 1;
+        s2 >>= -nBits;
+        nBits += eLen;
+        for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d2, nBits -= 8) {
+        }
+        m = e & (1 << -nBits) - 1;
+        e >>= -nBits;
+        nBits += mLen;
+        for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d2, nBits -= 8) {
+        }
+        if (e === 0) {
+          e = 1 - eBias;
+        } else if (e === eMax) {
+          return m ? NaN : (s2 ? -1 : 1) * Infinity;
+        } else {
+          m = m + Math.pow(2, mLen);
+          e = e - eBias;
+        }
+        return (s2 ? -1 : 1) * m * Math.pow(2, e - mLen);
+      };
+      exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
+        var e, m, c;
+        var eLen = nBytes * 8 - mLen - 1;
+        var eMax = (1 << eLen) - 1;
+        var eBias = eMax >> 1;
+        var rt = mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0;
+        var i = isLE ? 0 : nBytes - 1;
+        var d2 = isLE ? 1 : -1;
+        var s2 = value < 0 || value === 0 && 1 / value < 0 ? 1 : 0;
+        value = Math.abs(value);
+        if (isNaN(value) || value === Infinity) {
+          m = isNaN(value) ? 1 : 0;
+          e = eMax;
+        } else {
+          e = Math.floor(Math.log(value) / Math.LN2);
+          if (value * (c = Math.pow(2, -e)) < 1) {
+            e--;
+            c *= 2;
+          }
+          if (e + eBias >= 1) {
+            value += rt / c;
+          } else {
+            value += rt * Math.pow(2, 1 - eBias);
+          }
+          if (value * c >= 2) {
+            e++;
+            c /= 2;
+          }
+          if (e + eBias >= eMax) {
+            m = 0;
+            e = eMax;
+          } else if (e + eBias >= 1) {
+            m = (value * c - 1) * Math.pow(2, mLen);
+            e = e + eBias;
+          } else {
+            m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen);
+            e = 0;
+          }
+        }
+        for (; mLen >= 8; buffer[offset + i] = m & 255, i += d2, m /= 256, mLen -= 8) {
+        }
+        e = e << mLen | m;
+        eLen += mLen;
+        for (; eLen > 0; buffer[offset + i] = e & 255, i += d2, e /= 256, eLen -= 8) {
+        }
+        buffer[offset + i - d2] |= s2 * 128;
+      };
+    }
+  });
+
+  // node_modules/buffer/index.js
+  var require_buffer = __commonJS({
+    "node_modules/buffer/index.js"(exports) {
+      "use strict";
+      var base64 = require_base64_js();
+      var ieee754 = require_ieee754();
+      var customInspectSymbol = typeof Symbol === "function" && typeof Symbol["for"] === "function" ? Symbol["for"]("nodejs.util.inspect.custom") : null;
+      exports.Buffer = Buffer2;
+      exports.SlowBuffer = SlowBuffer;
+      exports.INSPECT_MAX_BYTES = 50;
+      var K_MAX_LENGTH = 2147483647;
+      exports.kMaxLength = K_MAX_LENGTH;
+      Buffer2.TYPED_ARRAY_SUPPORT = typedArraySupport();
+      if (!Buffer2.TYPED_ARRAY_SUPPORT && typeof console !== "undefined" && typeof console.error === "function") {
+        console.error(
+          "This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."
+        );
+      }
+      function typedArraySupport() {
+        try {
+          var arr = new Uint8Array(1);
+          var proto = { foo: function() {
+            return 42;
+          } };
+          Object.setPrototypeOf(proto, Uint8Array.prototype);
+          Object.setPrototypeOf(arr, proto);
+          return arr.foo() === 42;
+        } catch (e) {
+          return false;
+        }
+      }
+      Object.defineProperty(Buffer2.prototype, "parent", {
+        enumerable: true,
+        get: function() {
+          if (!Buffer2.isBuffer(this)) return void 0;
+          return this.buffer;
+        }
+      });
+      Object.defineProperty(Buffer2.prototype, "offset", {
+        enumerable: true,
+        get: function() {
+          if (!Buffer2.isBuffer(this)) return void 0;
+          return this.byteOffset;
+        }
+      });
+      function createBuffer(length) {
+        if (length > K_MAX_LENGTH) {
+          throw new RangeError('The value "' + length + '" is invalid for option "size"');
+        }
+        var buf = new Uint8Array(length);
+        Object.setPrototypeOf(buf, Buffer2.prototype);
+        return buf;
+      }
+      function Buffer2(arg, encodingOrOffset, length) {
+        if (typeof arg === "number") {
+          if (typeof encodingOrOffset === "string") {
+            throw new TypeError(
+              'The "string" argument must be of type string. Received type number'
+            );
+          }
+          return allocUnsafe(arg);
+        }
+        return from(arg, encodingOrOffset, length);
+      }
+      Buffer2.poolSize = 8192;
+      function from(value, encodingOrOffset, length) {
+        if (typeof value === "string") {
+          return fromString(value, encodingOrOffset);
+        }
+        if (ArrayBuffer.isView(value)) {
+          return fromArrayView(value);
+        }
+        if (value == null) {
+          throw new TypeError(
+            "The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value
+          );
+        }
+        if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer)) {
+          return fromArrayBuffer(value, encodingOrOffset, length);
+        }
+        if (typeof SharedArrayBuffer !== "undefined" && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) {
+          return fromArrayBuffer(value, encodingOrOffset, length);
+        }
+        if (typeof value === "number") {
+          throw new TypeError(
+            'The "value" argument must not be of type number. Received type number'
+          );
+        }
+        var valueOf = value.valueOf && value.valueOf();
+        if (valueOf != null && valueOf !== value) {
+          return Buffer2.from(valueOf, encodingOrOffset, length);
+        }
+        var b3 = fromObject(value);
+        if (b3) return b3;
+        if (typeof Symbol !== "undefined" && Symbol.toPrimitive != null && typeof value[Symbol.toPrimitive] === "function") {
+          return Buffer2.from(
+            value[Symbol.toPrimitive]("string"),
+            encodingOrOffset,
+            length
+          );
+        }
+        throw new TypeError(
+          "The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value
+        );
+      }
+      Buffer2.from = function(value, encodingOrOffset, length) {
+        return from(value, encodingOrOffset, length);
+      };
+      Object.setPrototypeOf(Buffer2.prototype, Uint8Array.prototype);
+      Object.setPrototypeOf(Buffer2, Uint8Array);
+      function assertSize(size) {
+        if (typeof size !== "number") {
+          throw new TypeError('"size" argument must be of type number');
+        } else if (size < 0) {
+          throw new RangeError('The value "' + size + '" is invalid for option "size"');
+        }
+      }
+      function alloc(size, fill, encoding) {
+        assertSize(size);
+        if (size <= 0) {
+          return createBuffer(size);
+        }
+        if (fill !== void 0) {
+          return typeof encoding === "string" ? createBuffer(size).fill(fill, encoding) : createBuffer(size).fill(fill);
+        }
+        return createBuffer(size);
+      }
+      Buffer2.alloc = function(size, fill, encoding) {
+        return alloc(size, fill, encoding);
+      };
+      function allocUnsafe(size) {
+        assertSize(size);
+        return createBuffer(size < 0 ? 0 : checked(size) | 0);
+      }
+      Buffer2.allocUnsafe = function(size) {
+        return allocUnsafe(size);
+      };
+      Buffer2.allocUnsafeSlow = function(size) {
+        return allocUnsafe(size);
+      };
+      function fromString(string, encoding) {
+        if (typeof encoding !== "string" || encoding === "") {
+          encoding = "utf8";
+        }
+        if (!Buffer2.isEncoding(encoding)) {
+          throw new TypeError("Unknown encoding: " + encoding);
+        }
+        var length = byteLength(string, encoding) | 0;
+        var buf = createBuffer(length);
+        var actual = buf.write(string, encoding);
+        if (actual !== length) {
+          buf = buf.slice(0, actual);
+        }
+        return buf;
+      }
+      function fromArrayLike(array) {
+        var length = array.length < 0 ? 0 : checked(array.length) | 0;
+        var buf = createBuffer(length);
+        for (var i = 0; i < length; i += 1) {
+          buf[i] = array[i] & 255;
+        }
+        return buf;
+      }
+      function fromArrayView(arrayView) {
+        if (isInstance(arrayView, Uint8Array)) {
+          var copy = new Uint8Array(arrayView);
+          return fromArrayBuffer(copy.buffer, copy.byteOffset, copy.byteLength);
+        }
+        return fromArrayLike(arrayView);
+      }
+      function fromArrayBuffer(array, byteOffset, length) {
+        if (byteOffset < 0 || array.byteLength < byteOffset) {
+          throw new RangeError('"offset" is outside of buffer bounds');
+        }
+        if (array.byteLength < byteOffset + (length || 0)) {
+          throw new RangeError('"length" is outside of buffer bounds');
+        }
+        var buf;
+        if (byteOffset === void 0 && length === void 0) {
+          buf = new Uint8Array(array);
+        } else if (length === void 0) {
+          buf = new Uint8Array(array, byteOffset);
+        } else {
+          buf = new Uint8Array(array, byteOffset, length);
+        }
+        Object.setPrototypeOf(buf, Buffer2.prototype);
+        return buf;
+      }
+      function fromObject(obj) {
+        if (Buffer2.isBuffer(obj)) {
+          var len = checked(obj.length) | 0;
+          var buf = createBuffer(len);
+          if (buf.length === 0) {
+            return buf;
+          }
+          obj.copy(buf, 0, 0, len);
+          return buf;
+        }
+        if (obj.length !== void 0) {
+          if (typeof obj.length !== "number" || numberIsNaN(obj.length)) {
+            return createBuffer(0);
+          }
+          return fromArrayLike(obj);
+        }
+        if (obj.type === "Buffer" && Array.isArray(obj.data)) {
+          return fromArrayLike(obj.data);
+        }
+      }
+      function checked(length) {
+        if (length >= K_MAX_LENGTH) {
+          throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + K_MAX_LENGTH.toString(16) + " bytes");
+        }
+        return length | 0;
+      }
+      function SlowBuffer(length) {
+        if (+length != length) {
+          length = 0;
+        }
+        return Buffer2.alloc(+length);
+      }
+      Buffer2.isBuffer = function isBuffer(b3) {
+        return b3 != null && b3._isBuffer === true && b3 !== Buffer2.prototype;
+      };
+      Buffer2.compare = function compare(a, b3) {
+        if (isInstance(a, Uint8Array)) a = Buffer2.from(a, a.offset, a.byteLength);
+        if (isInstance(b3, Uint8Array)) b3 = Buffer2.from(b3, b3.offset, b3.byteLength);
+        if (!Buffer2.isBuffer(a) || !Buffer2.isBuffer(b3)) {
+          throw new TypeError(
+            'The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array'
+          );
+        }
+        if (a === b3) return 0;
+        var x2 = a.length;
+        var y2 = b3.length;
+        for (var i = 0, len = Math.min(x2, y2); i < len; ++i) {
+          if (a[i] !== b3[i]) {
+            x2 = a[i];
+            y2 = b3[i];
+            break;
+          }
+        }
+        if (x2 < y2) return -1;
+        if (y2 < x2) return 1;
+        return 0;
+      };
+      Buffer2.isEncoding = function isEncoding(encoding) {
+        switch (String(encoding).toLowerCase()) {
+          case "hex":
+          case "utf8":
+          case "utf-8":
+          case "ascii":
+          case "latin1":
+          case "binary":
+          case "base64":
+          case "ucs2":
+          case "ucs-2":
+          case "utf16le":
+          case "utf-16le":
+            return true;
+          default:
+            return false;
+        }
+      };
+      Buffer2.concat = function concat(list, length) {
+        if (!Array.isArray(list)) {
+          throw new TypeError('"list" argument must be an Array of Buffers');
+        }
+        if (list.length === 0) {
+          return Buffer2.alloc(0);
+        }
+        var i;
+        if (length === void 0) {
+          length = 0;
+          for (i = 0; i < list.length; ++i) {
+            length += list[i].length;
+          }
+        }
+        var buffer = Buffer2.allocUnsafe(length);
+        var pos = 0;
+        for (i = 0; i < list.length; ++i) {
+          var buf = list[i];
+          if (isInstance(buf, Uint8Array)) {
+            if (pos + buf.length > buffer.length) {
+              Buffer2.from(buf).copy(buffer, pos);
+            } else {
+              Uint8Array.prototype.set.call(
+                buffer,
+                buf,
+                pos
+              );
+            }
+          } else if (!Buffer2.isBuffer(buf)) {
+            throw new TypeError('"list" argument must be an Array of Buffers');
+          } else {
+            buf.copy(buffer, pos);
+          }
+          pos += buf.length;
+        }
+        return buffer;
+      };
+      function byteLength(string, encoding) {
+        if (Buffer2.isBuffer(string)) {
+          return string.length;
+        }
+        if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) {
+          return string.byteLength;
+        }
+        if (typeof string !== "string") {
+          throw new TypeError(
+            'The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string
+          );
+        }
+        var len = string.length;
+        var mustMatch = arguments.length > 2 && arguments[2] === true;
+        if (!mustMatch && len === 0) return 0;
+        var loweredCase = false;
+        for (; ; ) {
+          switch (encoding) {
+            case "ascii":
+            case "latin1":
+            case "binary":
+              return len;
+            case "utf8":
+            case "utf-8":
+              return utf8ToBytes(string).length;
+            case "ucs2":
+            case "ucs-2":
+            case "utf16le":
+            case "utf-16le":
+              return len * 2;
+            case "hex":
+              return len >>> 1;
+            case "base64":
+              return base64ToBytes(string).length;
+            default:
+              if (loweredCase) {
+                return mustMatch ? -1 : utf8ToBytes(string).length;
+              }
+              encoding = ("" + encoding).toLowerCase();
+              loweredCase = true;
+          }
+        }
+      }
+      Buffer2.byteLength = byteLength;
+      function slowToString(encoding, start, end) {
+        var loweredCase = false;
+        if (start === void 0 || start < 0) {
+          start = 0;
+        }
+        if (start > this.length) {
+          return "";
+        }
+        if (end === void 0 || end > this.length) {
+          end = this.length;
+        }
+        if (end <= 0) {
+          return "";
+        }
+        end >>>= 0;
+        start >>>= 0;
+        if (end <= start) {
+          return "";
+        }
+        if (!encoding) encoding = "utf8";
+        while (true) {
+          switch (encoding) {
+            case "hex":
+              return hexSlice(this, start, end);
+            case "utf8":
+            case "utf-8":
+              return utf8Slice(this, start, end);
+            case "ascii":
+              return asciiSlice(this, start, end);
+            case "latin1":
+            case "binary":
+              return latin1Slice(this, start, end);
+            case "base64":
+              return base64Slice(this, start, end);
+            case "ucs2":
+            case "ucs-2":
+            case "utf16le":
+            case "utf-16le":
+              return utf16leSlice(this, start, end);
+            default:
+              if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
+              encoding = (encoding + "").toLowerCase();
+              loweredCase = true;
+          }
+        }
+      }
+      Buffer2.prototype._isBuffer = true;
+      function swap(b3, n, m) {
+        var i = b3[n];
+        b3[n] = b3[m];
+        b3[m] = i;
+      }
+      Buffer2.prototype.swap16 = function swap16() {
+        var len = this.length;
+        if (len % 2 !== 0) {
+          throw new RangeError("Buffer size must be a multiple of 16-bits");
+        }
+        for (var i = 0; i < len; i += 2) {
+          swap(this, i, i + 1);
+        }
+        return this;
+      };
+      Buffer2.prototype.swap32 = function swap32() {
+        var len = this.length;
+        if (len % 4 !== 0) {
+          throw new RangeError("Buffer size must be a multiple of 32-bits");
+        }
+        for (var i = 0; i < len; i += 4) {
+          swap(this, i, i + 3);
+          swap(this, i + 1, i + 2);
+        }
+        return this;
+      };
+      Buffer2.prototype.swap64 = function swap64() {
+        var len = this.length;
+        if (len % 8 !== 0) {
+          throw new RangeError("Buffer size must be a multiple of 64-bits");
+        }
+        for (var i = 0; i < len; i += 8) {
+          swap(this, i, i + 7);
+          swap(this, i + 1, i + 6);
+          swap(this, i + 2, i + 5);
+          swap(this, i + 3, i + 4);
+        }
+        return this;
+      };
+      Buffer2.prototype.toString = function toString() {
+        var length = this.length;
+        if (length === 0) return "";
+        if (arguments.length === 0) return utf8Slice(this, 0, length);
+        return slowToString.apply(this, arguments);
+      };
+      Buffer2.prototype.toLocaleString = Buffer2.prototype.toString;
+      Buffer2.prototype.equals = function equals(b3) {
+        if (!Buffer2.isBuffer(b3)) throw new TypeError("Argument must be a Buffer");
+        if (this === b3) return true;
+        return Buffer2.compare(this, b3) === 0;
+      };
+      Buffer2.prototype.inspect = function inspect() {
+        var str = "";
+        var max2 = exports.INSPECT_MAX_BYTES;
+        str = this.toString("hex", 0, max2).replace(/(.{2})/g, "$1 ").trim();
+        if (this.length > max2) str += " ... ";
+        return "<Buffer " + str + ">";
+      };
+      if (customInspectSymbol) {
+        Buffer2.prototype[customInspectSymbol] = Buffer2.prototype.inspect;
+      }
+      Buffer2.prototype.compare = function compare(target, start, end, thisStart, thisEnd) {
+        if (isInstance(target, Uint8Array)) {
+          target = Buffer2.from(target, target.offset, target.byteLength);
+        }
+        if (!Buffer2.isBuffer(target)) {
+          throw new TypeError(
+            'The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target
+          );
+        }
+        if (start === void 0) {
+          start = 0;
+        }
+        if (end === void 0) {
+          end = target ? target.length : 0;
+        }
+        if (thisStart === void 0) {
+          thisStart = 0;
+        }
+        if (thisEnd === void 0) {
+          thisEnd = this.length;
+        }
+        if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
+          throw new RangeError("out of range index");
+        }
+        if (thisStart >= thisEnd && start >= end) {
+          return 0;
+        }
+        if (thisStart >= thisEnd) {
+          return -1;
+        }
+        if (start >= end) {
+          return 1;
+        }
+        start >>>= 0;
+        end >>>= 0;
+        thisStart >>>= 0;
+        thisEnd >>>= 0;
+        if (this === target) return 0;
+        var x2 = thisEnd - thisStart;
+        var y2 = end - start;
+        var len = Math.min(x2, y2);
+        var thisCopy = this.slice(thisStart, thisEnd);
+        var targetCopy = target.slice(start, end);
+        for (var i = 0; i < len; ++i) {
+          if (thisCopy[i] !== targetCopy[i]) {
+            x2 = thisCopy[i];
+            y2 = targetCopy[i];
+            break;
+          }
+        }
+        if (x2 < y2) return -1;
+        if (y2 < x2) return 1;
+        return 0;
+      };
+      function bidirectionalIndexOf(buffer, val, byteOffset, encoding, dir) {
+        if (buffer.length === 0) return -1;
+        if (typeof byteOffset === "string") {
+          encoding = byteOffset;
+          byteOffset = 0;
+        } else if (byteOffset > 2147483647) {
+          byteOffset = 2147483647;
+        } else if (byteOffset < -2147483648) {
+          byteOffset = -2147483648;
+        }
+        byteOffset = +byteOffset;
+        if (numberIsNaN(byteOffset)) {
+          byteOffset = dir ? 0 : buffer.length - 1;
+        }
+        if (byteOffset < 0) byteOffset = buffer.length + byteOffset;
+        if (byteOffset >= buffer.length) {
+          if (dir) return -1;
+          else byteOffset = buffer.length - 1;
+        } else if (byteOffset < 0) {
+          if (dir) byteOffset = 0;
+          else return -1;
+        }
+        if (typeof val === "string") {
+          val = Buffer2.from(val, encoding);
+        }
+        if (Buffer2.isBuffer(val)) {
+          if (val.length === 0) {
+            return -1;
+          }
+          return arrayIndexOf(buffer, val, byteOffset, encoding, dir);
+        } else if (typeof val === "number") {
+          val = val & 255;
+          if (typeof Uint8Array.prototype.indexOf === "function") {
+            if (dir) {
+              return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset);
+            } else {
+              return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset);
+            }
+          }
+          return arrayIndexOf(buffer, [val], byteOffset, encoding, dir);
+        }
+        throw new TypeError("val must be string, number or Buffer");
+      }
+      function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
+        var indexSize = 1;
+        var arrLength = arr.length;
+        var valLength = val.length;
+        if (encoding !== void 0) {
+          encoding = String(encoding).toLowerCase();
+          if (encoding === "ucs2" || encoding === "ucs-2" || encoding === "utf16le" || encoding === "utf-16le") {
+            if (arr.length < 2 || val.length < 2) {
+              return -1;
+            }
+            indexSize = 2;
+            arrLength /= 2;
+            valLength /= 2;
+            byteOffset /= 2;
+          }
+        }
+        function read(buf, i2) {
+          if (indexSize === 1) {
+            return buf[i2];
+          } else {
+            return buf.readUInt16BE(i2 * indexSize);
+          }
+        }
+        var i;
+        if (dir) {
+          var foundIndex = -1;
+          for (i = byteOffset; i < arrLength; i++) {
+            if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
+              if (foundIndex === -1) foundIndex = i;
+              if (i - foundIndex + 1 === valLength) return foundIndex * indexSize;
+            } else {
+              if (foundIndex !== -1) i -= i - foundIndex;
+              foundIndex = -1;
+            }
+          }
+        } else {
+          if (byteOffset + valLength > arrLength) byteOffset = arrLength - valLength;
+          for (i = byteOffset; i >= 0; i--) {
+            var found = true;
+            for (var j2 = 0; j2 < valLength; j2++) {
+              if (read(arr, i + j2) !== read(val, j2)) {
+                found = false;
+                break;
+              }
+            }
+            if (found) return i;
+          }
+        }
+        return -1;
+      }
+      Buffer2.prototype.includes = function includes(val, byteOffset, encoding) {
+        return this.indexOf(val, byteOffset, encoding) !== -1;
+      };
+      Buffer2.prototype.indexOf = function indexOf(val, byteOffset, encoding) {
+        return bidirectionalIndexOf(this, val, byteOffset, encoding, true);
+      };
+      Buffer2.prototype.lastIndexOf = function lastIndexOf(val, byteOffset, encoding) {
+        return bidirectionalIndexOf(this, val, byteOffset, encoding, false);
+      };
+      function hexWrite(buf, string, offset, length) {
+        offset = Number(offset) || 0;
+        var remaining = buf.length - offset;
+        if (!length) {
+          length = remaining;
+        } else {
+          length = Number(length);
+          if (length > remaining) {
+            length = remaining;
+          }
+        }
+        var strLen = string.length;
+        if (length > strLen / 2) {
+          length = strLen / 2;
+        }
+        for (var i = 0; i < length; ++i) {
+          var parsed = parseInt(string.substr(i * 2, 2), 16);
+          if (numberIsNaN(parsed)) return i;
+          buf[offset + i] = parsed;
+        }
+        return i;
+      }
+      function utf8Write(buf, string, offset, length) {
+        return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length);
+      }
+      function asciiWrite(buf, string, offset, length) {
+        return blitBuffer(asciiToBytes(string), buf, offset, length);
+      }
+      function base64Write(buf, string, offset, length) {
+        return blitBuffer(base64ToBytes(string), buf, offset, length);
+      }
+      function ucs2Write(buf, string, offset, length) {
+        return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length);
+      }
+      Buffer2.prototype.write = function write(string, offset, length, encoding) {
+        if (offset === void 0) {
+          encoding = "utf8";
+          length = this.length;
+          offset = 0;
+        } else if (length === void 0 && typeof offset === "string") {
+          encoding = offset;
+          length = this.length;
+          offset = 0;
+        } else if (isFinite(offset)) {
+          offset = offset >>> 0;
+          if (isFinite(length)) {
+            length = length >>> 0;
+            if (encoding === void 0) encoding = "utf8";
+          } else {
+            encoding = length;
+            length = void 0;
+          }
+        } else {
+          throw new Error(
+            "Buffer.write(string, encoding, offset[, length]) is no longer supported"
+          );
+        }
+        var remaining = this.length - offset;
+        if (length === void 0 || length > remaining) length = remaining;
+        if (string.length > 0 && (length < 0 || offset < 0) || offset > this.length) {
+          throw new RangeError("Attempt to write outside buffer bounds");
+        }
+        if (!encoding) encoding = "utf8";
+        var loweredCase = false;
+        for (; ; ) {
+          switch (encoding) {
+            case "hex":
+              return hexWrite(this, string, offset, length);
+            case "utf8":
+            case "utf-8":
+              return utf8Write(this, string, offset, length);
+            case "ascii":
+            case "latin1":
+            case "binary":
+              return asciiWrite(this, string, offset, length);
+            case "base64":
+              return base64Write(this, string, offset, length);
+            case "ucs2":
+            case "ucs-2":
+            case "utf16le":
+            case "utf-16le":
+              return ucs2Write(this, string, offset, length);
+            default:
+              if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
+              encoding = ("" + encoding).toLowerCase();
+              loweredCase = true;
+          }
+        }
+      };
+      Buffer2.prototype.toJSON = function toJSON() {
+        return {
+          type: "Buffer",
+          data: Array.prototype.slice.call(this._arr || this, 0)
+        };
+      };
+      function base64Slice(buf, start, end) {
+        if (start === 0 && end === buf.length) {
+          return base64.fromByteArray(buf);
+        } else {
+          return base64.fromByteArray(buf.slice(start, end));
+        }
+      }
+      function utf8Slice(buf, start, end) {
+        end = Math.min(buf.length, end);
+        var res = [];
+        var i = start;
+        while (i < end) {
+          var firstByte = buf[i];
+          var codePoint = null;
+          var bytesPerSequence = firstByte > 239 ? 4 : firstByte > 223 ? 3 : firstByte > 191 ? 2 : 1;
+          if (i + bytesPerSequence <= end) {
+            var secondByte, thirdByte, fourthByte, tempCodePoint;
+            switch (bytesPerSequence) {
+              case 1:
+                if (firstByte < 128) {
+                  codePoint = firstByte;
+                }
+                break;
+              case 2:
+                secondByte = buf[i + 1];
+                if ((secondByte & 192) === 128) {
+                  tempCodePoint = (firstByte & 31) << 6 | secondByte & 63;
+                  if (tempCodePoint > 127) {
+                    codePoint = tempCodePoint;
+                  }
+                }
+                break;
+              case 3:
+                secondByte = buf[i + 1];
+                thirdByte = buf[i + 2];
+                if ((secondByte & 192) === 128 && (thirdByte & 192) === 128) {
+                  tempCodePoint = (firstByte & 15) << 12 | (secondByte & 63) << 6 | thirdByte & 63;
+                  if (tempCodePoint > 2047 && (tempCodePoint < 55296 || tempCodePoint > 57343)) {
+                    codePoint = tempCodePoint;
+                  }
+                }
+                break;
+              case 4:
+                secondByte = buf[i + 1];
+                thirdByte = buf[i + 2];
+                fourthByte = buf[i + 3];
+                if ((secondByte & 192) === 128 && (thirdByte & 192) === 128 && (fourthByte & 192) === 128) {
+                  tempCodePoint = (firstByte & 15) << 18 | (secondByte & 63) << 12 | (thirdByte & 63) << 6 | fourthByte & 63;
+                  if (tempCodePoint > 65535 && tempCodePoint < 1114112) {
+                    codePoint = tempCodePoint;
+                  }
+                }
+            }
+          }
+          if (codePoint === null) {
+            codePoint = 65533;
+            bytesPerSequence = 1;
+          } else if (codePoint > 65535) {
+            codePoint -= 65536;
+            res.push(codePoint >>> 10 & 1023 | 55296);
+            codePoint = 56320 | codePoint & 1023;
+          }
+          res.push(codePoint);
+          i += bytesPerSequence;
+        }
+        return decodeCodePointsArray(res);
+      }
+      var MAX_ARGUMENTS_LENGTH = 4096;
+      function decodeCodePointsArray(codePoints) {
+        var len = codePoints.length;
+        if (len <= MAX_ARGUMENTS_LENGTH) {
+          return String.fromCharCode.apply(String, codePoints);
+        }
+        var res = "";
+        var i = 0;
+        while (i < len) {
+          res += String.fromCharCode.apply(
+            String,
+            codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH)
+          );
+        }
+        return res;
+      }
+      function asciiSlice(buf, start, end) {
+        var ret = "";
+        end = Math.min(buf.length, end);
+        for (var i = start; i < end; ++i) {
+          ret += String.fromCharCode(buf[i] & 127);
+        }
+        return ret;
+      }
+      function latin1Slice(buf, start, end) {
+        var ret = "";
+        end = Math.min(buf.length, end);
+        for (var i = start; i < end; ++i) {
+          ret += String.fromCharCode(buf[i]);
+        }
+        return ret;
+      }
+      function hexSlice(buf, start, end) {
+        var len = buf.length;
+        if (!start || start < 0) start = 0;
+        if (!end || end < 0 || end > len) end = len;
+        var out = "";
+        for (var i = start; i < end; ++i) {
+          out += hexSliceLookupTable[buf[i]];
+        }
+        return out;
+      }
+      function utf16leSlice(buf, start, end) {
+        var bytes = buf.slice(start, end);
+        var res = "";
+        for (var i = 0; i < bytes.length - 1; i += 2) {
+          res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256);
+        }
+        return res;
+      }
+      Buffer2.prototype.slice = function slice(start, end) {
+        var len = this.length;
+        start = ~~start;
+        end = end === void 0 ? len : ~~end;
+        if (start < 0) {
+          start += len;
+          if (start < 0) start = 0;
+        } else if (start > len) {
+          start = len;
+        }
+        if (end < 0) {
+          end += len;
+          if (end < 0) end = 0;
+        } else if (end > len) {
+          end = len;
+        }
+        if (end < start) end = start;
+        var newBuf = this.subarray(start, end);
+        Object.setPrototypeOf(newBuf, Buffer2.prototype);
+        return newBuf;
+      };
+      function checkOffset(offset, ext, length) {
+        if (offset % 1 !== 0 || offset < 0) throw new RangeError("offset is not uint");
+        if (offset + ext > length) throw new RangeError("Trying to access beyond buffer length");
+      }
+      Buffer2.prototype.readUintLE = Buffer2.prototype.readUIntLE = function readUIntLE(offset, byteLength2, noAssert) {
+        offset = offset >>> 0;
+        byteLength2 = byteLength2 >>> 0;
+        if (!noAssert) checkOffset(offset, byteLength2, this.length);
+        var val = this[offset];
+        var mul = 1;
+        var i = 0;
+        while (++i < byteLength2 && (mul *= 256)) {
+          val += this[offset + i] * mul;
+        }
+        return val;
+      };
+      Buffer2.prototype.readUintBE = Buffer2.prototype.readUIntBE = function readUIntBE(offset, byteLength2, noAssert) {
+        offset = offset >>> 0;
+        byteLength2 = byteLength2 >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, byteLength2, this.length);
+        }
+        var val = this[offset + --byteLength2];
+        var mul = 1;
+        while (byteLength2 > 0 && (mul *= 256)) {
+          val += this[offset + --byteLength2] * mul;
+        }
+        return val;
+      };
+      Buffer2.prototype.readUint8 = Buffer2.prototype.readUInt8 = function readUInt8(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) checkOffset(offset, 1, this.length);
+        return this[offset];
+      };
+      Buffer2.prototype.readUint16LE = Buffer2.prototype.readUInt16LE = function readUInt16LE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) checkOffset(offset, 2, this.length);
+        return this[offset] | this[offset + 1] << 8;
+      };
+      Buffer2.prototype.readUint16BE = Buffer2.prototype.readUInt16BE = function readUInt16BE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) checkOffset(offset, 2, this.length);
+        return this[offset] << 8 | this[offset + 1];
+      };
+      Buffer2.prototype.readUint32LE = Buffer2.prototype.readUInt32LE = function readUInt32LE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) checkOffset(offset, 4, this.length);
+        return (this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16) + this[offset + 3] * 16777216;
+      };
+      Buffer2.prototype.readUint32BE = Buffer2.prototype.readUInt32BE = function readUInt32BE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) checkOffset(offset, 4, this.length);
+        return this[offset] * 16777216 + (this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3]);
+      };
+      Buffer2.prototype.readIntLE = function readIntLE(offset, byteLength2, noAssert) {
+        offset = offset >>> 0;
+        byteLength2 = byteLength2 >>> 0;
+        if (!noAssert) checkOffset(offset, byteLength2, this.length);
+        var val = this[offset];
+        var mul = 1;
+        var i = 0;
+        while (++i < byteLength2 && (mul *= 256)) {
+          val += this[offset + i] * mul;
+        }
+        mul *= 128;
+        if (val >= mul) val -= Math.pow(2, 8 * byteLength2);
+        return val;
+      };
+      Buffer2.prototype.readIntBE = function readIntBE(offset, byteLength2, noAssert) {
+        offset = offset >>> 0;
+        byteLength2 = byteLength2 >>> 0;
+        if (!noAssert) checkOffset(offset, byteLength2, this.length);
+        var i = byteLength2;
+        var mul = 1;
+        var val = this[offset + --i];
+        while (i > 0 && (mul *= 256)) {
+          val += this[offset + --i] * mul;
+        }
+        mul *= 128;
+        if (val >= mul) val -= Math.pow(2, 8 * byteLength2);
+        return val;
+      };
+      Buffer2.prototype.readInt8 = function readInt8(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) checkOffset(offset, 1, this.length);
+        if (!(this[offset] & 128)) return this[offset];
+        return (255 - this[offset] + 1) * -1;
+      };
+      Buffer2.prototype.readInt16LE = function readInt16LE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) checkOffset(offset, 2, this.length);
+        var val = this[offset] | this[offset + 1] << 8;
+        return val & 32768 ? val | 4294901760 : val;
+      };
+      Buffer2.prototype.readInt16BE = function readInt16BE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) checkOffset(offset, 2, this.length);
+        var val = this[offset + 1] | this[offset] << 8;
+        return val & 32768 ? val | 4294901760 : val;
+      };
+      Buffer2.prototype.readInt32LE = function readInt32LE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) checkOffset(offset, 4, this.length);
+        return this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16 | this[offset + 3] << 24;
+      };
+      Buffer2.prototype.readInt32BE = function readInt32BE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) checkOffset(offset, 4, this.length);
+        return this[offset] << 24 | this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3];
+      };
+      Buffer2.prototype.readFloatLE = function readFloatLE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) checkOffset(offset, 4, this.length);
+        return ieee754.read(this, offset, true, 23, 4);
+      };
+      Buffer2.prototype.readFloatBE = function readFloatBE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) checkOffset(offset, 4, this.length);
+        return ieee754.read(this, offset, false, 23, 4);
+      };
+      Buffer2.prototype.readDoubleLE = function readDoubleLE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) checkOffset(offset, 8, this.length);
+        return ieee754.read(this, offset, true, 52, 8);
+      };
+      Buffer2.prototype.readDoubleBE = function readDoubleBE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) checkOffset(offset, 8, this.length);
+        return ieee754.read(this, offset, false, 52, 8);
+      };
+      function checkInt(buf, value, offset, ext, max2, min) {
+        if (!Buffer2.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance');
+        if (value > max2 || value < min) throw new RangeError('"value" argument is out of bounds');
+        if (offset + ext > buf.length) throw new RangeError("Index out of range");
+      }
+      Buffer2.prototype.writeUintLE = Buffer2.prototype.writeUIntLE = function writeUIntLE(value, offset, byteLength2, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        byteLength2 = byteLength2 >>> 0;
+        if (!noAssert) {
+          var maxBytes = Math.pow(2, 8 * byteLength2) - 1;
+          checkInt(this, value, offset, byteLength2, maxBytes, 0);
+        }
+        var mul = 1;
+        var i = 0;
+        this[offset] = value & 255;
+        while (++i < byteLength2 && (mul *= 256)) {
+          this[offset + i] = value / mul & 255;
+        }
+        return offset + byteLength2;
+      };
+      Buffer2.prototype.writeUintBE = Buffer2.prototype.writeUIntBE = function writeUIntBE(value, offset, byteLength2, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        byteLength2 = byteLength2 >>> 0;
+        if (!noAssert) {
+          var maxBytes = Math.pow(2, 8 * byteLength2) - 1;
+          checkInt(this, value, offset, byteLength2, maxBytes, 0);
+        }
+        var i = byteLength2 - 1;
+        var mul = 1;
+        this[offset + i] = value & 255;
+        while (--i >= 0 && (mul *= 256)) {
+          this[offset + i] = value / mul & 255;
+        }
+        return offset + byteLength2;
+      };
+      Buffer2.prototype.writeUint8 = Buffer2.prototype.writeUInt8 = function writeUInt8(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) checkInt(this, value, offset, 1, 255, 0);
+        this[offset] = value & 255;
+        return offset + 1;
+      };
+      Buffer2.prototype.writeUint16LE = Buffer2.prototype.writeUInt16LE = function writeUInt16LE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) checkInt(this, value, offset, 2, 65535, 0);
+        this[offset] = value & 255;
+        this[offset + 1] = value >>> 8;
+        return offset + 2;
+      };
+      Buffer2.prototype.writeUint16BE = Buffer2.prototype.writeUInt16BE = function writeUInt16BE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) checkInt(this, value, offset, 2, 65535, 0);
+        this[offset] = value >>> 8;
+        this[offset + 1] = value & 255;
+        return offset + 2;
+      };
+      Buffer2.prototype.writeUint32LE = Buffer2.prototype.writeUInt32LE = function writeUInt32LE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) checkInt(this, value, offset, 4, 4294967295, 0);
+        this[offset + 3] = value >>> 24;
+        this[offset + 2] = value >>> 16;
+        this[offset + 1] = value >>> 8;
+        this[offset] = value & 255;
+        return offset + 4;
+      };
+      Buffer2.prototype.writeUint32BE = Buffer2.prototype.writeUInt32BE = function writeUInt32BE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) checkInt(this, value, offset, 4, 4294967295, 0);
+        this[offset] = value >>> 24;
+        this[offset + 1] = value >>> 16;
+        this[offset + 2] = value >>> 8;
+        this[offset + 3] = value & 255;
+        return offset + 4;
+      };
+      Buffer2.prototype.writeIntLE = function writeIntLE(value, offset, byteLength2, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          var limit = Math.pow(2, 8 * byteLength2 - 1);
+          checkInt(this, value, offset, byteLength2, limit - 1, -limit);
+        }
+        var i = 0;
+        var mul = 1;
+        var sub = 0;
+        this[offset] = value & 255;
+        while (++i < byteLength2 && (mul *= 256)) {
+          if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
+            sub = 1;
+          }
+          this[offset + i] = (value / mul >> 0) - sub & 255;
+        }
+        return offset + byteLength2;
+      };
+      Buffer2.prototype.writeIntBE = function writeIntBE(value, offset, byteLength2, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          var limit = Math.pow(2, 8 * byteLength2 - 1);
+          checkInt(this, value, offset, byteLength2, limit - 1, -limit);
+        }
+        var i = byteLength2 - 1;
+        var mul = 1;
+        var sub = 0;
+        this[offset + i] = value & 255;
+        while (--i >= 0 && (mul *= 256)) {
+          if (value < 0 && sub === 0 && this[offset + i + 1] !== 0) {
+            sub = 1;
+          }
+          this[offset + i] = (value / mul >> 0) - sub & 255;
+        }
+        return offset + byteLength2;
+      };
+      Buffer2.prototype.writeInt8 = function writeInt8(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) checkInt(this, value, offset, 1, 127, -128);
+        if (value < 0) value = 255 + value + 1;
+        this[offset] = value & 255;
+        return offset + 1;
+      };
+      Buffer2.prototype.writeInt16LE = function writeInt16LE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) checkInt(this, value, offset, 2, 32767, -32768);
+        this[offset] = value & 255;
+        this[offset + 1] = value >>> 8;
+        return offset + 2;
+      };
+      Buffer2.prototype.writeInt16BE = function writeInt16BE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) checkInt(this, value, offset, 2, 32767, -32768);
+        this[offset] = value >>> 8;
+        this[offset + 1] = value & 255;
+        return offset + 2;
+      };
+      Buffer2.prototype.writeInt32LE = function writeInt32LE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) checkInt(this, value, offset, 4, 2147483647, -2147483648);
+        this[offset] = value & 255;
+        this[offset + 1] = value >>> 8;
+        this[offset + 2] = value >>> 16;
+        this[offset + 3] = value >>> 24;
+        return offset + 4;
+      };
+      Buffer2.prototype.writeInt32BE = function writeInt32BE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) checkInt(this, value, offset, 4, 2147483647, -2147483648);
+        if (value < 0) value = 4294967295 + value + 1;
+        this[offset] = value >>> 24;
+        this[offset + 1] = value >>> 16;
+        this[offset + 2] = value >>> 8;
+        this[offset + 3] = value & 255;
+        return offset + 4;
+      };
+      function checkIEEE754(buf, value, offset, ext, max2, min) {
+        if (offset + ext > buf.length) throw new RangeError("Index out of range");
+        if (offset < 0) throw new RangeError("Index out of range");
+      }
+      function writeFloat(buf, value, offset, littleEndian, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkIEEE754(buf, value, offset, 4, 34028234663852886e22, -34028234663852886e22);
+        }
+        ieee754.write(buf, value, offset, littleEndian, 23, 4);
+        return offset + 4;
+      }
+      Buffer2.prototype.writeFloatLE = function writeFloatLE(value, offset, noAssert) {
+        return writeFloat(this, value, offset, true, noAssert);
+      };
+      Buffer2.prototype.writeFloatBE = function writeFloatBE(value, offset, noAssert) {
+        return writeFloat(this, value, offset, false, noAssert);
+      };
+      function writeDouble(buf, value, offset, littleEndian, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkIEEE754(buf, value, offset, 8, 17976931348623157e292, -17976931348623157e292);
+        }
+        ieee754.write(buf, value, offset, littleEndian, 52, 8);
+        return offset + 8;
+      }
+      Buffer2.prototype.writeDoubleLE = function writeDoubleLE(value, offset, noAssert) {
+        return writeDouble(this, value, offset, true, noAssert);
+      };
+      Buffer2.prototype.writeDoubleBE = function writeDoubleBE(value, offset, noAssert) {
+        return writeDouble(this, value, offset, false, noAssert);
+      };
+      Buffer2.prototype.copy = function copy(target, targetStart, start, end) {
+        if (!Buffer2.isBuffer(target)) throw new TypeError("argument should be a Buffer");
+        if (!start) start = 0;
+        if (!end && end !== 0) end = this.length;
+        if (targetStart >= target.length) targetStart = target.length;
+        if (!targetStart) targetStart = 0;
+        if (end > 0 && end < start) end = start;
+        if (end === start) return 0;
+        if (target.length === 0 || this.length === 0) return 0;
+        if (targetStart < 0) {
+          throw new RangeError("targetStart out of bounds");
+        }
+        if (start < 0 || start >= this.length) throw new RangeError("Index out of range");
+        if (end < 0) throw new RangeError("sourceEnd out of bounds");
+        if (end > this.length) end = this.length;
+        if (target.length - targetStart < end - start) {
+          end = target.length - targetStart + start;
+        }
+        var len = end - start;
+        if (this === target && typeof Uint8Array.prototype.copyWithin === "function") {
+          this.copyWithin(targetStart, start, end);
+        } else {
+          Uint8Array.prototype.set.call(
+            target,
+            this.subarray(start, end),
+            targetStart
+          );
+        }
+        return len;
+      };
+      Buffer2.prototype.fill = function fill(val, start, end, encoding) {
+        if (typeof val === "string") {
+          if (typeof start === "string") {
+            encoding = start;
+            start = 0;
+            end = this.length;
+          } else if (typeof end === "string") {
+            encoding = end;
+            end = this.length;
+          }
+          if (encoding !== void 0 && typeof encoding !== "string") {
+            throw new TypeError("encoding must be a string");
+          }
+          if (typeof encoding === "string" && !Buffer2.isEncoding(encoding)) {
+            throw new TypeError("Unknown encoding: " + encoding);
+          }
+          if (val.length === 1) {
+            var code = val.charCodeAt(0);
+            if (encoding === "utf8" && code < 128 || encoding === "latin1") {
+              val = code;
+            }
+          }
+        } else if (typeof val === "number") {
+          val = val & 255;
+        } else if (typeof val === "boolean") {
+          val = Number(val);
+        }
+        if (start < 0 || this.length < start || this.length < end) {
+          throw new RangeError("Out of range index");
+        }
+        if (end <= start) {
+          return this;
+        }
+        start = start >>> 0;
+        end = end === void 0 ? this.length : end >>> 0;
+        if (!val) val = 0;
+        var i;
+        if (typeof val === "number") {
+          for (i = start; i < end; ++i) {
+            this[i] = val;
+          }
+        } else {
+          var bytes = Buffer2.isBuffer(val) ? val : Buffer2.from(val, encoding);
+          var len = bytes.length;
+          if (len === 0) {
+            throw new TypeError('The value "' + val + '" is invalid for argument "value"');
+          }
+          for (i = 0; i < end - start; ++i) {
+            this[i + start] = bytes[i % len];
+          }
+        }
+        return this;
+      };
+      var INVALID_BASE64_RE = /[^+/0-9A-Za-z-_]/g;
+      function base64clean(str) {
+        str = str.split("=")[0];
+        str = str.trim().replace(INVALID_BASE64_RE, "");
+        if (str.length < 2) return "";
+        while (str.length % 4 !== 0) {
+          str = str + "=";
+        }
+        return str;
+      }
+      function utf8ToBytes(string, units3) {
+        units3 = units3 || Infinity;
+        var codePoint;
+        var length = string.length;
+        var leadSurrogate = null;
+        var bytes = [];
+        for (var i = 0; i < length; ++i) {
+          codePoint = string.charCodeAt(i);
+          if (codePoint > 55295 && codePoint < 57344) {
+            if (!leadSurrogate) {
+              if (codePoint > 56319) {
+                if ((units3 -= 3) > -1) bytes.push(239, 191, 189);
+                continue;
+              } else if (i + 1 === length) {
+                if ((units3 -= 3) > -1) bytes.push(239, 191, 189);
+                continue;
+              }
+              leadSurrogate = codePoint;
+              continue;
+            }
+            if (codePoint < 56320) {
+              if ((units3 -= 3) > -1) bytes.push(239, 191, 189);
+              leadSurrogate = codePoint;
+              continue;
+            }
+            codePoint = (leadSurrogate - 55296 << 10 | codePoint - 56320) + 65536;
+          } else if (leadSurrogate) {
+            if ((units3 -= 3) > -1) bytes.push(239, 191, 189);
+          }
+          leadSurrogate = null;
+          if (codePoint < 128) {
+            if ((units3 -= 1) < 0) break;
+            bytes.push(codePoint);
+          } else if (codePoint < 2048) {
+            if ((units3 -= 2) < 0) break;
+            bytes.push(
+              codePoint >> 6 | 192,
+              codePoint & 63 | 128
+            );
+          } else if (codePoint < 65536) {
+            if ((units3 -= 3) < 0) break;
+            bytes.push(
+              codePoint >> 12 | 224,
+              codePoint >> 6 & 63 | 128,
+              codePoint & 63 | 128
+            );
+          } else if (codePoint < 1114112) {
+            if ((units3 -= 4) < 0) break;
+            bytes.push(
+              codePoint >> 18 | 240,
+              codePoint >> 12 & 63 | 128,
+              codePoint >> 6 & 63 | 128,
+              codePoint & 63 | 128
+            );
+          } else {
+            throw new Error("Invalid code point");
+          }
+        }
+        return bytes;
+      }
+      function asciiToBytes(str) {
+        var byteArray = [];
+        for (var i = 0; i < str.length; ++i) {
+          byteArray.push(str.charCodeAt(i) & 255);
+        }
+        return byteArray;
+      }
+      function utf16leToBytes(str, units3) {
+        var c, hi, lo;
+        var byteArray = [];
+        for (var i = 0; i < str.length; ++i) {
+          if ((units3 -= 2) < 0) break;
+          c = str.charCodeAt(i);
+          hi = c >> 8;
+          lo = c % 256;
+          byteArray.push(lo);
+          byteArray.push(hi);
+        }
+        return byteArray;
+      }
+      function base64ToBytes(str) {
+        return base64.toByteArray(base64clean(str));
+      }
+      function blitBuffer(src, dst, offset, length) {
+        for (var i = 0; i < length; ++i) {
+          if (i + offset >= dst.length || i >= src.length) break;
+          dst[i + offset] = src[i];
+        }
+        return i;
+      }
+      function isInstance(obj, type) {
+        return obj instanceof type || obj != null && obj.constructor != null && obj.constructor.name != null && obj.constructor.name === type.name;
+      }
+      function numberIsNaN(obj) {
+        return obj !== obj;
+      }
+      var hexSliceLookupTable = (function() {
+        var alphabet = "0123456789abcdef";
+        var table = new Array(256);
+        for (var i = 0; i < 16; ++i) {
+          var i16 = i * 16;
+          for (var j2 = 0; j2 < 16; ++j2) {
+            table[i16 + j2] = alphabet[i] + alphabet[j2];
+          }
+        }
+        return table;
+      })();
+    }
+  });
+
+  // node_modules/fit-file-parser/dist/binary.js
+  var require_binary = __commonJS({
+    "node_modules/fit-file-parser/dist/binary.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.addEndian = addEndian;
+      exports.readRecord = readRecord;
+      exports.getArrayBuffer = getArrayBuffer;
+      exports.calculateCRC = calculateCRC;
+      var _fit = require_fit();
+      var _messages = require_messages();
+      var _buffer = require_buffer();
+      function addEndian(littleEndian, bytes) {
+        var result = 0;
+        if (!littleEndian) bytes.reverse();
+        for (var i = 0; i < bytes.length; i++) {
+          result += bytes[i] << (i << 3) >>> 0;
+        }
+        return result;
+      }
+      var timestamp = 0;
+      var lastTimeOffset = 0;
+      var CompressedTimeMask = 31;
+      var CompressedLocalMesgNumMask = 96;
+      var CompressedHeaderMask = 128;
+      var GarminTimeOffset = 6310656e5;
+      var monitoring_timestamp = 0;
+      function readData(blob, fDef, startIndex, options) {
+        if (fDef.endianAbility === true) {
+          var temp = [];
+          for (var i = 0; i < fDef.size; i++) {
+            temp.push(blob[startIndex + i]);
+          }
+          var buffer = new Uint8Array(temp).buffer;
+          var dataView = new DataView(buffer);
+          try {
+            switch (fDef.type) {
+              case "sint16":
+                return dataView.getInt16(0, fDef.littleEndian);
+              case "uint16":
+              case "uint16z":
+                return dataView.getUint16(0, fDef.littleEndian);
+              case "sint32":
+                return dataView.getInt32(0, fDef.littleEndian);
+              case "uint32":
+              case "uint32z":
+                return dataView.getUint32(0, fDef.littleEndian);
+              case "float32":
+                return dataView.getFloat32(0, fDef.littleEndian);
+              case "float64":
+                return dataView.getFloat64(0, fDef.littleEndian);
+              case "uint32_array":
+                var array32 = [];
+                for (var _i = 0; _i < fDef.size; _i += 4) {
+                  array32.push(dataView.getUint32(_i, fDef.littleEndian));
+                }
+                return array32;
+              case "uint16_array":
+                var array = [];
+                for (var _i2 = 0; _i2 < fDef.size; _i2 += 2) {
+                  array.push(dataView.getUint16(_i2, fDef.littleEndian));
+                }
+                return array;
+            }
+          } catch (e) {
+            if (!options.force) {
+              throw e;
+            }
+          }
+          return addEndian(fDef.littleEndian, temp);
+        }
+        if (fDef.type === "string") {
+          var _temp = [];
+          for (var _i3 = 0; _i3 < fDef.size; _i3++) {
+            if (blob[startIndex + _i3]) {
+              _temp.push(blob[startIndex + _i3]);
+            }
+          }
+          return new _buffer.Buffer.from(_temp).toString("utf-8");
+        }
+        if (fDef.type === "byte_array") {
+          var _temp2 = [];
+          for (var _i4 = 0; _i4 < fDef.size; _i4++) {
+            _temp2.push(blob[startIndex + _i4]);
+          }
+          return _temp2;
+        }
+        return blob[startIndex];
+      }
+      function formatByType(data, type, scale, offset) {
+        switch (type) {
+          case "date_time":
+          case "local_date_time":
+            return new Date(data * 1e3 + GarminTimeOffset);
+          case "sint32":
+            return data * _fit.FIT.scConst;
+          case "uint8":
+          case "sint16":
+          case "uint32":
+          case "uint16":
+            return scale ? data / scale + offset : data;
+          case "uint32_array":
+          case "uint16_array":
+            return data.map(function(dataItem2) {
+              return scale ? dataItem2 / scale + offset : dataItem2;
+            });
+          default:
+            if (!_fit.FIT.types[type]) {
+              return data;
+            }
+            var values = [];
+            for (var key in _fit.FIT.types[type]) {
+              if (_fit.FIT.types[type].hasOwnProperty(key)) {
+                values.push(_fit.FIT.types[type][key]);
+              }
+            }
+            if (values.indexOf("mask") === -1) {
+              return _fit.FIT.types[type][data];
+            }
+            var dataItem = {};
+            for (var key in _fit.FIT.types[type]) {
+              if (_fit.FIT.types[type].hasOwnProperty(key)) {
+                if (_fit.FIT.types[type][key] === "mask") {
+                  dataItem.value = data & key;
+                } else {
+                  dataItem[_fit.FIT.types[type][key]] = !!((data & key) >> 7);
+                }
+              }
+            }
+            return dataItem;
+        }
+      }
+      function isInvalidValue(data, type) {
+        switch (type) {
+          case "enum":
+            return data === 255;
+          case "sint8":
+            return data === 127;
+          case "uint8":
+            return data === 255;
+          case "sint16":
+            return data === 32767;
+          case "uint16":
+            return data === 65535;
+          case "sint32":
+            return data === 2147483647;
+          case "uint32":
+            return data === 4294967295;
+          case "string":
+            return data === 0;
+          case "float32":
+            return data === 4294967295;
+          case "float64":
+            return data === 18446744073709552e3;
+          case "uint8z":
+            return data === 0;
+          case "uint16z":
+            return data === 0;
+          case "uint32z":
+            return data === 0;
+          case "byte":
+            return data === 255;
+          case "sint64":
+            return data === 9223372036854776e3;
+          case "uint64":
+            return data === 18446744073709552e3;
+          case "uint64z":
+            return data === 0;
+          default:
+            return false;
+        }
+      }
+      function convertTo(data, unitsList, speedUnit) {
+        var unitObj = _fit.FIT.options[unitsList][speedUnit];
+        return unitObj ? data * unitObj.multiplier + unitObj.offset : data;
+      }
+      function applyOptions(data, field, options) {
+        switch (field) {
+          case "speed":
+          case "enhanced_speed":
+          case "vertical_speed":
+          case "avg_speed":
+          case "max_speed":
+          case "speed_1s":
+          case "ball_speed":
+          case "enhanced_avg_speed":
+          case "enhanced_max_speed":
+          case "avg_pos_vertical_speed":
+          case "max_pos_vertical_speed":
+          case "avg_neg_vertical_speed":
+          case "max_neg_vertical_speed":
+            return convertTo(data, "speedUnits", options.speedUnit);
+          case "distance":
+          case "total_distance":
+          case "enhanced_avg_altitude":
+          case "enhanced_min_altitude":
+          case "enhanced_max_altitude":
+          case "enhanced_altitude":
+          case "height":
+          case "odometer":
+          case "avg_stroke_distance":
+          case "min_altitude":
+          case "avg_altitude":
+          case "max_altitude":
+          case "total_ascent":
+          case "total_descent":
+          case "altitude":
+          case "cycle_length":
+          case "auto_wheelsize":
+          case "custom_wheelsize":
+          case "gps_accuracy":
+            return convertTo(data, "lengthUnits", options.lengthUnit);
+          case "temperature":
+          case "avg_temperature":
+          case "max_temperature":
+            return convertTo(data, "temperatureUnits", options.temperatureUnit);
+          case "pressure":
+          case "start_pressure":
+          case "end_pressure":
+            return convertTo(data, "pressureUnits", options.pressureUnit);
+          default:
+            return data;
+        }
+      }
+      function readRecord(blob, messageTypes, developerFields, startIndex, options, startDate, pausedTime) {
+        var recordHeader = blob[startIndex];
+        var localMessageType = recordHeader & 15;
+        if ((recordHeader & CompressedHeaderMask) === CompressedHeaderMask) {
+          var timeoffset = recordHeader & CompressedTimeMask;
+          timestamp += timeoffset - lastTimeOffset & CompressedTimeMask;
+          lastTimeOffset = timeoffset;
+          localMessageType = (recordHeader & CompressedLocalMesgNumMask) >> 5;
+        } else if ((recordHeader & 64) === 64) {
+          var hasDeveloperData = (recordHeader & 32) === 32;
+          var lEnd = blob[startIndex + 2] === 0;
+          var numberOfFields = blob[startIndex + 5];
+          var numberOfDeveloperDataFields = hasDeveloperData ? blob[startIndex + 5 + numberOfFields * 3 + 1] : 0;
+          var mTypeDef = {
+            littleEndian: lEnd,
+            globalMessageNumber: addEndian(lEnd, [blob[startIndex + 3], blob[startIndex + 4]]),
+            numberOfFields: numberOfFields + numberOfDeveloperDataFields,
+            fieldDefs: []
+          };
+          var _message = (0, _messages.getFitMessage)(mTypeDef.globalMessageNumber);
+          for (var i = 0; i < numberOfFields; i++) {
+            var fDefIndex = startIndex + 6 + i * 3;
+            var baseType = blob[fDefIndex + 2];
+            var _message$getAttribute = _message.getAttributes(blob[fDefIndex]), field = _message$getAttribute.field, type = _message$getAttribute.type;
+            var fDef = {
+              type,
+              fDefNo: blob[fDefIndex],
+              size: blob[fDefIndex + 1],
+              endianAbility: (baseType & 128) === 128,
+              littleEndian: lEnd,
+              baseTypeNo: baseType & 15,
+              name: field,
+              dataType: (0, _messages.getFitMessageBaseType)(baseType & 15)
+            };
+            mTypeDef.fieldDefs.push(fDef);
+          }
+          for (var _i5 = 0; _i5 < numberOfDeveloperDataFields; _i5++) {
+            try {
+              var _fDefIndex = startIndex + 6 + numberOfFields * 3 + 1 + _i5 * 3;
+              var fieldNum = blob[_fDefIndex];
+              var size = blob[_fDefIndex + 1];
+              var devDataIndex = blob[_fDefIndex + 2];
+              var devDef = developerFields[devDataIndex][fieldNum];
+              var _baseType = devDef.fit_base_type_id;
+              var _fDef = {
+                type: _fit.FIT.types.fit_base_type[_baseType],
+                fDefNo: fieldNum,
+                size,
+                endianAbility: (_baseType & 128) === 128,
+                littleEndian: lEnd,
+                baseTypeNo: _baseType & 15,
+                name: devDef.field_name,
+                dataType: (0, _messages.getFitMessageBaseType)(_baseType & 15),
+                scale: devDef.scale || 1,
+                offset: devDef.offset || 0,
+                developerDataIndex: devDataIndex,
+                isDeveloperField: true
+              };
+              mTypeDef.fieldDefs.push(_fDef);
+            } catch (e) {
+              if (options.force) {
+                continue;
+              }
+              throw e;
+            }
+          }
+          messageTypes[localMessageType] = mTypeDef;
+          var nextIndex = startIndex + 6 + mTypeDef.numberOfFields * 3;
+          var nextIndexWithDeveloperData = nextIndex + 1;
+          return {
+            messageType: "definition",
+            nextIndex: hasDeveloperData ? nextIndexWithDeveloperData : nextIndex
+          };
+        }
+        var messageType = messageTypes[localMessageType] || messageTypes[0];
+        var messageSize = 0;
+        var readDataFromIndex = startIndex + 1;
+        var fields = {};
+        var message = (0, _messages.getFitMessage)(messageType.globalMessageNumber);
+        for (var _i6 = 0; _i6 < messageType.fieldDefs.length; _i6++) {
+          var _fDef2 = messageType.fieldDefs[_i6];
+          var data = readData(blob, _fDef2, readDataFromIndex, options);
+          if (!isInvalidValue(data, _fDef2.type)) {
+            if (_fDef2.isDeveloperField) {
+              var field = _fDef2.name;
+              var type = _fDef2.type;
+              var scale = _fDef2.scale;
+              var offset = _fDef2.offset;
+              fields[_fDef2.name] = applyOptions(formatByType(data, type, scale, offset), field, options);
+            } else {
+              var _message$getAttribute2 = message.getAttributes(_fDef2.fDefNo), _field = _message$getAttribute2.field, _type = _message$getAttribute2.type, _scale = _message$getAttribute2.scale, _offset = _message$getAttribute2.offset;
+              if (_field !== "unknown" && _field !== "" && _field !== void 0) {
+                fields[_field] = applyOptions(formatByType(data, _type, _scale, _offset), _field, options);
+              }
+            }
+            if (message.name === "record" && options.elapsedRecordField) {
+              fields.elapsed_time = (fields.timestamp - startDate) / 1e3;
+              fields.timer_time = fields.elapsed_time - pausedTime;
+            }
+          }
+          readDataFromIndex += _fDef2.size;
+          messageSize += _fDef2.size;
+        }
+        if (message.name === "field_description") {
+          developerFields[fields.developer_data_index] = developerFields[fields.developer_data_index] || [];
+          developerFields[fields.developer_data_index][fields.field_definition_number] = fields;
+        }
+        if (message.name === "monitoring") {
+          if (fields.timestamp) {
+            monitoring_timestamp = fields.timestamp;
+            fields.timestamp = new Date(fields.timestamp * 1e3 + GarminTimeOffset);
+          }
+          if (fields.timestamp16 && !fields.timestamp) {
+            monitoring_timestamp += fields.timestamp16 - (monitoring_timestamp & 65535) & 65535;
+            fields.timestamp = new Date(monitoring_timestamp * 1e3 + GarminTimeOffset);
+          }
+        }
+        var result = {
+          messageType: message.name,
+          nextIndex: startIndex + messageSize + 1,
+          message: fields
+        };
+        return result;
+      }
+      function getArrayBuffer(buffer) {
+        if (buffer instanceof ArrayBuffer) {
+          return buffer;
+        }
+        var ab = new ArrayBuffer(buffer.length);
+        var view2 = new Uint8Array(ab);
+        for (var i = 0; i < buffer.length; ++i) {
+          view2[i] = buffer[i];
+        }
+        return ab;
+      }
+      function calculateCRC(blob, start, end) {
+        var crcTable = [0, 52225, 55297, 5120, 61441, 15360, 10240, 58369, 40961, 27648, 30720, 46081, 20480, 39937, 34817, 17408];
+        var crc = 0;
+        for (var i = start; i < end; i++) {
+          var byteVal = blob[i];
+          var tmp = crcTable[crc & 15];
+          crc = crc >> 4 & 4095;
+          crc = crc ^ tmp ^ crcTable[byteVal & 15];
+          tmp = crcTable[crc & 15];
+          crc = crc >> 4 & 4095;
+          crc = crc ^ tmp ^ crcTable[byteVal >> 4 & 15];
+        }
+        return crc;
+      }
+    }
+  });
+
+  // node_modules/fit-file-parser/dist/helper.js
+  var require_helper = __commonJS({
+    "node_modules/fit-file-parser/dist/helper.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      function _toConsumableArray(arr) {
+        if (Array.isArray(arr)) {
+          for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+            arr2[i] = arr[i];
+          }
+          return arr2;
+        } else {
+          return Array.from(arr);
+        }
+      }
+      var mapDataIntoLap = exports.mapDataIntoLap = function mapDataIntoLap2(inputLaps, lapKey, data) {
+        var laps = [].concat(_toConsumableArray(inputLaps));
+        var index = 0;
+        for (var i = 0; i < laps.length; i++) {
+          var lap = laps[i];
+          var nextLap = laps[i + 1];
+          var tempData = [];
+          var lapStartTime = new Date(lap.start_time).getTime();
+          var nextLapStartTime = nextLap ? new Date(nextLap.start_time).getTime() : null;
+          for (var j2 = index; j2 < data.length; j2++) {
+            var row = data[j2];
+            if (nextLap) {
+              var timestamp = new Date(row.timestamp).getTime();
+              if (lapStartTime <= timestamp && nextLapStartTime > timestamp) {
+                tempData.push(row);
+              } else if (nextLapStartTime <= timestamp) {
+                index = j2;
+                break;
+              }
+            } else {
+              tempData.push(row);
+            }
+          }
+          if (!laps[i][lapKey]) {
+            laps[i][lapKey] = tempData;
+          }
+        }
+        return laps;
+      };
+      var mapDataIntoSession = exports.mapDataIntoSession = function mapDataIntoSession2(inputSessions, laps) {
+        var sessions = [].concat(_toConsumableArray(inputSessions));
+        var lapIndex = 0;
+        for (var i = 0; i < sessions.length; i++) {
+          var session2 = sessions[i];
+          var nextSession = sessions[i + 1];
+          var tempLaps = [];
+          var sessionStartTime = new Date(session2.start_time).getTime();
+          var nextSessionStartTime = nextSession ? new Date(nextSession.start_time).getTime() : null;
+          for (var j2 = lapIndex; j2 < laps.length; j2++) {
+            var lap = laps[j2];
+            if (nextSession) {
+              var lapStartTime = new Date(lap.start_time).getTime();
+              if (sessionStartTime <= lapStartTime && nextSessionStartTime > lapStartTime) {
+                tempLaps.push(lap);
+              } else if (nextSessionStartTime <= lapStartTime) {
+                lapIndex = j2;
+                break;
+              }
+            } else {
+              tempLaps.push(lap);
+            }
+          }
+          if (!sessions[i].laps) {
+            sessions[i].laps = tempLaps;
+          }
+        }
+        return sessions;
+      };
+    }
+  });
+
+  // node_modules/fit-file-parser/dist/fit-parser.js
+  var require_fit_parser = __commonJS({
+    "node_modules/fit-file-parser/dist/fit-parser.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      var _createClass = /* @__PURE__ */ (function() {
+        function defineProperties(target, props) {
+          for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+          }
+        }
+        return function(Constructor, protoProps, staticProps) {
+          if (protoProps) defineProperties(Constructor.prototype, protoProps);
+          if (staticProps) defineProperties(Constructor, staticProps);
+          return Constructor;
+        };
+      })();
+      var _binary = require_binary();
+      var _helper = require_helper();
+      function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+          throw new TypeError("Cannot call a class as a function");
+        }
+      }
+      var FitParser2 = (function() {
+        function FitParser3() {
+          var options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+          _classCallCheck(this, FitParser3);
+          this.options = {
+            force: options.force != null ? options.force : true,
+            speedUnit: options.speedUnit || "m/s",
+            lengthUnit: options.lengthUnit || "m",
+            temperatureUnit: options.temperatureUnit || "celsius",
+            elapsedRecordField: options.elapsedRecordField || false,
+            pressureUnit: options.pressureUnit || "bar",
+            mode: options.mode || "list"
+          };
+        }
+        _createClass(FitParser3, [{
+          key: "parse",
+          value: function parse(content, callback) {
+            var blob = new Uint8Array((0, _binary.getArrayBuffer)(content));
+            if (blob.length < 12) {
+              callback("File to small to be a FIT file", {});
+              if (!this.options.force) {
+                return;
+              }
+            }
+            var headerLength = blob[0];
+            if (headerLength !== 14 && headerLength !== 12) {
+              callback("Incorrect header size", {});
+              if (!this.options.force) {
+                return;
+              }
+            }
+            var fileTypeString = "";
+            for (var i = 8; i < 12; i++) {
+              fileTypeString += String.fromCharCode(blob[i]);
+            }
+            if (fileTypeString !== ".FIT") {
+              callback("Missing '.FIT' in header", {});
+              if (!this.options.force) {
+                return;
+              }
+            }
+            if (headerLength === 14) {
+              var crcHeader = blob[12] + (blob[13] << 8);
+              var crcHeaderCalc = (0, _binary.calculateCRC)(blob, 0, 12);
+              if (crcHeader !== crcHeaderCalc) {
+                if (!this.options.force) {
+                  return;
+                }
+              }
+            }
+            var protocolVersion = blob[1];
+            var profileVersion = blob[2] + (blob[3] << 8);
+            var dataLength = blob[4] + (blob[5] << 8) + (blob[6] << 16) + (blob[7] << 24);
+            var crcStart = dataLength + headerLength;
+            var crcFile = blob[crcStart] + (blob[crcStart + 1] << 8);
+            var crcFileCalc = (0, _binary.calculateCRC)(blob, headerLength === 12 ? 0 : headerLength, crcStart);
+            if (crcFile !== crcFileCalc) {
+              if (!this.options.force) {
+                return;
+              }
+            }
+            var fitObj = {};
+            fitObj.protocolVersion = protocolVersion;
+            fitObj.profileVersion = profileVersion;
+            var sessions = [];
+            var laps = [];
+            var records = [];
+            var events = [];
+            var hrv = [];
+            var devices = [];
+            var applications = [];
+            var fieldDescriptions = [];
+            var dive_gases = [];
+            var course_points = [];
+            var sports = [];
+            var monitors = [];
+            var stress = [];
+            var definitions = [];
+            var file_ids = [];
+            var monitor_info = [];
+            var lengths = [];
+            var tank_updates = [];
+            var tank_summaries = [];
+            var loopIndex = headerLength;
+            var messageTypes = [];
+            var developerFields = [];
+            var isModeCascade = this.options.mode === "cascade";
+            var isCascadeNeeded = isModeCascade || this.options.mode === "both";
+            var startDate = void 0;
+            var lastStopTimestamp = void 0;
+            var pausedTime = 0;
+            while (loopIndex < crcStart) {
+              var _readRecord = (0, _binary.readRecord)(blob, messageTypes, developerFields, loopIndex, this.options, startDate, pausedTime), nextIndex = _readRecord.nextIndex, messageType = _readRecord.messageType, message = _readRecord.message;
+              loopIndex = nextIndex;
+              switch (messageType) {
+                case "lap":
+                  laps.push(message);
+                  break;
+                case "session":
+                  sessions.push(message);
+                  break;
+                case "event":
+                  if (message.event === "timer") {
+                    if (message.event_type === "stop_all") {
+                      lastStopTimestamp = message.timestamp;
+                    } else if (message.event_type === "start" && lastStopTimestamp) {
+                      pausedTime += (message.timestamp - lastStopTimestamp) / 1e3;
+                    }
+                  }
+                  events.push(message);
+                  break;
+                case "length":
+                  lengths.push(message);
+                  break;
+                case "hrv":
+                  hrv.push(message);
+                  break;
+                case "record":
+                  if (!startDate) {
+                    startDate = message.timestamp;
+                    message.elapsed_time = 0;
+                    message.timer_time = 0;
+                  }
+                  records.push(message);
+                  break;
+                case "field_description":
+                  fieldDescriptions.push(message);
+                  break;
+                case "device_info":
+                  devices.push(message);
+                  break;
+                case "developer_data_id":
+                  applications.push(message);
+                  break;
+                case "dive_gas":
+                  dive_gases.push(message);
+                  break;
+                case "course_point":
+                  course_points.push(message);
+                  break;
+                case "sport":
+                  sports.push(message);
+                  break;
+                case "file_id":
+                  if (message) {
+                    file_ids.push(message);
+                  }
+                  break;
+                case "definition":
+                  if (message) {
+                    definitions.push(message);
+                  }
+                  break;
+                case "monitoring":
+                  monitors.push(message);
+                  break;
+                case "monitoring_info":
+                  monitor_info.push(message);
+                  break;
+                case "stress_level":
+                  stress.push(message);
+                  break;
+                case "software":
+                  fitObj.software = message;
+                  break;
+                case "tank_update":
+                  tank_updates.push(message);
+                  break;
+                case "tank_summary":
+                  tank_summaries.push(message);
+                  break;
+                default:
+                  if (messageType !== "") {
+                    fitObj[messageType] = message;
+                  }
+                  break;
+              }
+            }
+            if (isCascadeNeeded) {
+              fitObj.activity = fitObj.activity || {};
+              laps = (0, _helper.mapDataIntoLap)(laps, "records", records);
+              laps = (0, _helper.mapDataIntoLap)(laps, "lengths", lengths);
+              sessions = (0, _helper.mapDataIntoSession)(sessions, laps);
+              fitObj.activity.sessions = sessions;
+              fitObj.activity.events = events;
+              fitObj.activity.hrv = hrv;
+              fitObj.activity.device_infos = devices;
+              fitObj.activity.developer_data_ids = applications;
+              fitObj.activity.field_descriptions = fieldDescriptions;
+              fitObj.activity.sports = sports;
+            }
+            if (!isModeCascade) {
+              fitObj.sessions = sessions;
+              fitObj.laps = laps;
+              fitObj.lengths = lengths;
+              fitObj.records = records;
+              fitObj.events = events;
+              fitObj.device_infos = devices;
+              fitObj.developer_data_ids = applications;
+              fitObj.field_descriptions = fieldDescriptions;
+              fitObj.hrv = hrv;
+              fitObj.dive_gases = dive_gases;
+              fitObj.course_points = course_points;
+              fitObj.sports = sports;
+              fitObj.devices = devices;
+              fitObj.monitors = monitors;
+              fitObj.stress = stress;
+              fitObj.file_ids = file_ids;
+              fitObj.monitor_info = monitor_info;
+              fitObj.definitions = definitions;
+              fitObj.tank_updates = tank_updates;
+              fitObj.tank_summaries = tank_summaries;
+            }
+            callback(null, fitObj);
+          }
+        }]);
+        return FitParser3;
+      })();
+      exports.default = FitParser2;
+    }
+  });
+
   // node_modules/jsqr/dist/jsQR.js
   var require_jsQR = __commonJS({
     "node_modules/jsqr/dist/jsQR.js"(exports, module) {
@@ -23790,8 +31604,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
               "use strict";
               Object.defineProperty(exports2, "__esModule", { value: true });
               var GenericGFPoly_1 = __webpack_require__(2);
-              function addOrSubtractGF(a, b2) {
-                return a ^ b2;
+              function addOrSubtractGF(a, b3) {
+                return a ^ b3;
               }
               exports2.addOrSubtractGF = addOrSubtractGF;
               var GenericGF = (
@@ -23817,11 +31631,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
                     this.zero = new GenericGFPoly_1.default(this, Uint8ClampedArray.from([0]));
                     this.one = new GenericGFPoly_1.default(this, Uint8ClampedArray.from([1]));
                   }
-                  GenericGF2.prototype.multiply = function(a, b2) {
-                    if (a === 0 || b2 === 0) {
+                  GenericGF2.prototype.multiply = function(a, b3) {
+                    if (a === 0 || b3 === 0) {
                       return 0;
                     }
-                    return this.expTable[(this.logTable[a] + this.logTable[b2]) % (this.size - 1)];
+                    return this.expTable[(this.logTable[a] + this.logTable[b3]) % (this.size - 1)];
                   };
                   GenericGF2.prototype.inverse = function(a) {
                     if (a === 0) {
@@ -24084,8 +31898,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
                   for (var y2 = 0; y2 < height; y2++) {
                     var r = data[(y2 * width + x2) * 4 + 0];
                     var g = data[(y2 * width + x2) * 4 + 1];
-                    var b2 = data[(y2 * width + x2) * 4 + 2];
-                    greyscalePixels.set(x2, y2, 0.2126 * r + 0.7152 * g + 0.0722 * b2);
+                    var b3 = data[(y2 * width + x2) * 4 + 2];
+                    greyscalePixels.set(x2, y2, 0.2126 * r + 0.7152 * g + 0.0722 * b3);
                   }
                 }
                 var horizontalRegionCount = Math.ceil(width / REGION_SIZE);
@@ -24427,8 +32241,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
                 if (!dataBlocks) {
                   return null;
                 }
-                var totalBytes = dataBlocks.reduce(function(a, b2) {
-                  return a + b2.numDataCodewords;
+                var totalBytes = dataBlocks.reduce(function(a, b3) {
+                  return a + b3.numDataCodewords;
                 }, 0);
                 var resultBytes = new Uint8ClampedArray(totalBytes);
                 var resultIndex = 0;
@@ -24498,33 +32312,33 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
                 var characterCountSize = [10, 12, 14][size];
                 var length = stream.readBits(characterCountSize);
                 while (length >= 3) {
-                  var num2 = stream.readBits(10);
-                  if (num2 >= 1e3) {
+                  var num3 = stream.readBits(10);
+                  if (num3 >= 1e3) {
                     throw new Error("Invalid numeric value above 999");
                   }
-                  var a = Math.floor(num2 / 100);
-                  var b2 = Math.floor(num2 / 10) % 10;
-                  var c = num2 % 10;
-                  bytes.push(48 + a, 48 + b2, 48 + c);
-                  text += a.toString() + b2.toString() + c.toString();
+                  var a = Math.floor(num3 / 100);
+                  var b3 = Math.floor(num3 / 10) % 10;
+                  var c = num3 % 10;
+                  bytes.push(48 + a, 48 + b3, 48 + c);
+                  text += a.toString() + b3.toString() + c.toString();
                   length -= 3;
                 }
                 if (length === 2) {
-                  var num2 = stream.readBits(7);
-                  if (num2 >= 100) {
+                  var num3 = stream.readBits(7);
+                  if (num3 >= 100) {
                     throw new Error("Invalid numeric value above 99");
                   }
-                  var a = Math.floor(num2 / 10);
-                  var b2 = num2 % 10;
-                  bytes.push(48 + a, 48 + b2);
-                  text += a.toString() + b2.toString();
+                  var a = Math.floor(num3 / 10);
+                  var b3 = num3 % 10;
+                  bytes.push(48 + a, 48 + b3);
+                  text += a.toString() + b3.toString();
                 } else if (length === 1) {
-                  var num2 = stream.readBits(4);
-                  if (num2 >= 10) {
+                  var num3 = stream.readBits(4);
+                  if (num3 >= 10) {
                     throw new Error("Invalid numeric value above 9");
                   }
-                  bytes.push(48 + num2);
-                  text += num2.toString();
+                  bytes.push(48 + num3);
+                  text += num3.toString();
                 }
                 return { bytes, text };
               }
@@ -24583,9 +32397,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
                 while (length >= 2) {
                   var v2 = stream.readBits(11);
                   var a = Math.floor(v2 / 45);
-                  var b2 = v2 % 45;
-                  bytes.push(AlphanumericCharacterCodes[a].charCodeAt(0), AlphanumericCharacterCodes[b2].charCodeAt(0));
-                  text += AlphanumericCharacterCodes[a] + AlphanumericCharacterCodes[b2];
+                  var b3 = v2 % 45;
+                  bytes.push(AlphanumericCharacterCodes[a].charCodeAt(0), AlphanumericCharacterCodes[b3].charCodeAt(0));
+                  text += AlphanumericCharacterCodes[a] + AlphanumericCharacterCodes[b3];
                   length -= 2;
                 }
                 if (length === 1) {
@@ -24601,12 +32415,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
                 var characterCountSize = [8, 16, 16][size];
                 var length = stream.readBits(characterCountSize);
                 for (var i = 0; i < length; i++) {
-                  var b2 = stream.readBits(8);
-                  bytes.push(b2);
+                  var b3 = stream.readBits(8);
+                  bytes.push(b3);
                 }
                 try {
-                  text += decodeURIComponent(bytes.map(function(b3) {
-                    return "%" + ("0" + b3.toString(16)).substr(-2);
+                  text += decodeURIComponent(bytes.map(function(b5) {
+                    return "%" + ("0" + b5.toString(16)).substr(-2);
                   }).join(""));
                 } catch (_a2) {
                 }
@@ -31814,13 +39628,13 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
               Object.defineProperty(exports2, "__esModule", { value: true });
               var GenericGF_1 = __webpack_require__(1);
               var GenericGFPoly_1 = __webpack_require__(2);
-              function runEuclideanAlgorithm(field, a, b2, R3) {
+              function runEuclideanAlgorithm(field, a, b3, R3) {
                 var _a2;
-                if (a.degree() < b2.degree()) {
-                  _a2 = [b2, a], a = _a2[0], b2 = _a2[1];
+                if (a.degree() < b3.degree()) {
+                  _a2 = [b3, a], a = _a2[0], b3 = _a2[1];
                 }
                 var rLast = a;
-                var r = b2;
+                var r = b3;
                 var tLast = field.zero;
                 var t = field.one;
                 while (r.degree() >= R3 / 2) {
@@ -33295,17 +41109,17 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
                   a33: sToQ.a11 * sToQ.a22 - sToQ.a12 * sToQ.a21
                 };
               }
-              function times(a, b2) {
+              function times(a, b3) {
                 return {
-                  a11: a.a11 * b2.a11 + a.a21 * b2.a12 + a.a31 * b2.a13,
-                  a12: a.a12 * b2.a11 + a.a22 * b2.a12 + a.a32 * b2.a13,
-                  a13: a.a13 * b2.a11 + a.a23 * b2.a12 + a.a33 * b2.a13,
-                  a21: a.a11 * b2.a21 + a.a21 * b2.a22 + a.a31 * b2.a23,
-                  a22: a.a12 * b2.a21 + a.a22 * b2.a22 + a.a32 * b2.a23,
-                  a23: a.a13 * b2.a21 + a.a23 * b2.a22 + a.a33 * b2.a23,
-                  a31: a.a11 * b2.a31 + a.a21 * b2.a32 + a.a31 * b2.a33,
-                  a32: a.a12 * b2.a31 + a.a22 * b2.a32 + a.a32 * b2.a33,
-                  a33: a.a13 * b2.a31 + a.a23 * b2.a32 + a.a33 * b2.a33
+                  a11: a.a11 * b3.a11 + a.a21 * b3.a12 + a.a31 * b3.a13,
+                  a12: a.a12 * b3.a11 + a.a22 * b3.a12 + a.a32 * b3.a13,
+                  a13: a.a13 * b3.a11 + a.a23 * b3.a12 + a.a33 * b3.a13,
+                  a21: a.a11 * b3.a21 + a.a21 * b3.a22 + a.a31 * b3.a23,
+                  a22: a.a12 * b3.a21 + a.a22 * b3.a22 + a.a32 * b3.a23,
+                  a23: a.a13 * b3.a21 + a.a23 * b3.a22 + a.a33 * b3.a23,
+                  a31: a.a11 * b3.a31 + a.a21 * b3.a32 + a.a31 * b3.a33,
+                  a32: a.a12 * b3.a31 + a.a22 * b3.a32 + a.a32 * b3.a33,
+                  a33: a.a13 * b3.a31 + a.a23 * b3.a32 + a.a33 * b3.a33
                 };
               }
               function extract(image, location2) {
@@ -33343,12 +41157,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
               var MAX_FINDERPATTERNS_TO_SEARCH = 4;
               var MIN_QUAD_RATIO = 0.5;
               var MAX_QUAD_RATIO = 1.5;
-              var distance = function(a, b2) {
-                return Math.sqrt(Math.pow(b2.x - a.x, 2) + Math.pow(b2.y - a.y, 2));
+              var distance = function(a, b3) {
+                return Math.sqrt(Math.pow(b3.x - a.x, 2) + Math.pow(b3.y - a.y, 2));
               };
               function sum(values) {
-                return values.reduce(function(a, b2) {
-                  return a + b2;
+                return values.reduce(function(a, b3) {
+                  return a + b3;
                 });
               }
               function reorderFinderPatterns(pattern1, pattern2, pattern3) {
@@ -33593,8 +41407,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
                   return { score, x: x2, y: y3, size };
                 }).filter(function(q2) {
                   return !!q2;
-                }).sort(function(a, b2) {
-                  return a.score - b2.score;
+                }).sort(function(a, b3) {
+                  return a.score - b3.score;
                 }).map(function(point, i, finderPatterns) {
                   if (i > MAX_FINDERPATTERNS_TO_SEARCH) {
                     return null;
@@ -33603,8 +41417,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
                     return i !== ii;
                   }).map(function(p) {
                     return { x: p.x, y: p.y, score: p.score + Math.pow(p.size - point.size, 2) / point.size, size: p.size };
-                  }).sort(function(a, b2) {
-                    return a.score - b2.score;
+                  }).sort(function(a, b3) {
+                    return a.score - b3.score;
                   });
                   if (otherPoints.length < 2) {
                     return null;
@@ -33613,8 +41427,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
                   return { points: [point].concat(otherPoints.slice(0, 2)), score };
                 }).filter(function(q2) {
                   return !!q2;
-                }).sort(function(a, b2) {
-                  return a.score - b2.score;
+                }).sort(function(a, b3) {
+                  return a.score - b3.score;
                 });
                 if (finderPatternGroups.length === 0) {
                   return null;
@@ -33682,8 +41496,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
                   return { x: x2, y: y2, score };
                 }).filter(function(v2) {
                   return !!v2;
-                }).sort(function(a, b2) {
-                  return a.score - b2.score;
+                }).sort(function(a, b3) {
+                  return a.score - b3.score;
                 });
                 var alignmentPattern = modulesBetweenFinderPatterns >= 15 && alignmentPatterns.length ? alignmentPatterns[0] : expectedAlignmentPattern;
                 return { alignmentPattern, dimension };
@@ -33724,466 +41538,47 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
 
   // www/js/app.js
   init_dist();
+  init_util();
 
-  // www/js/geodesic.js
-  var import_geographiclib_geodesic = __toESM(require_geographiclib_geodesic_min(), 1);
-  var geod = import_geographiclib_geodesic.default.Geodesic.WGS84;
-  function geodesicMeters(a, b2) {
-    if (!a || !b2) return 0;
-    const lat1 = Number(a.lat);
-    const lon1 = Number(a.lon);
-    const lat2 = Number(b2.lat);
-    const lon2 = Number(b2.lon);
-    if (![lat1, lon1, lat2, lon2].every(Number.isFinite)) return 0;
-    if (lat1 === lat2 && lon1 === lon2) return 0;
-    const r = geod.Inverse(lat1, lon1, lat2, lon2);
-    const m = Number(r && r.s12);
-    return Number.isFinite(m) ? m : 0;
-  }
-  function geodesicDirect(a, azimuthDeg, meters) {
-    const lat1 = Number(a && a.lat);
-    const lon1 = Number(a && a.lon);
-    const azi = Number(azimuthDeg);
-    const s2 = Number(meters);
-    if (![lat1, lon1, azi, s2].every(Number.isFinite)) return { lat: lat1, lon: lon1 };
-    const r = geod.Direct(lat1, lon1, azi, s2);
-    return { lat: r.lat2, lon: r.lon2, azi: r.azi2 };
-  }
-  function geodesicPathLength(coords) {
-    const list = coords || [];
-    let sum = 0;
-    for (let i = 1; i < list.length; i++) {
-      sum += geodesicMeters(list[i - 1], list[i]);
-    }
-    return sum;
-  }
-  function geodesicInterpolate(a, b2, metersFromA) {
-    const d2 = geodesicMeters(a, b2);
-    if (!(d2 > 0) || !a) return { lat: Number(a && a.lat), lon: Number(a && a.lon) };
-    const r = geod.Inverse(Number(a.lat), Number(a.lon), Number(b2.lat), Number(b2.lon));
-    const go = Math.max(0, Math.min(d2, Number(metersFromA) || 0));
-    const d22 = geod.Direct(Number(a.lat), Number(a.lon), r.azi1, go);
-    return { lat: d22.lat2, lon: d22.lon2 };
-  }
+  // www/js/storage.js
+  init_util();
 
-  // www/js/util.js
-  var WALK_MPH = 3;
-  var RUN_MPH = 6;
-  var METERS_PER_MILE = 1609.344;
-  var METERS_PER_KM = 1e3;
-  var PR_DEFS = [
-    { id: "1mi", label: "1 mile", meters: 1609.344 },
-    { id: "5k", label: "5K", meters: 5e3 },
-    { id: "10k", label: "10K", meters: 1e4 },
-    { id: "half", label: "Half marathon", meters: 21097.5 },
-    { id: "marathon", label: "Marathon", meters: 42195 }
-  ];
-  function activityMph(type) {
-    return type === "run" ? RUN_MPH : WALK_MPH;
+  // www/js/sport.js
+  init_util();
+  var LAST_SPORT_KEY = "heldpath.lastSport";
+  function normalizeSport(type) {
+    if (isRideType(type)) return "ride";
+    return type === "run" ? "run" : "walk";
   }
-  function haversineMeters(a, b2) {
-    const R3 = 6371e3;
-    const toR = (d2) => d2 * Math.PI / 180;
-    const lat1 = toR(a.lat);
-    const lat2 = toR(b2.lat);
-    const dLat = toR(b2.lat - a.lat);
-    const dLon = toR(b2.lon - a.lon);
-    const s2 = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
-    return 2 * R3 * Math.asin(Math.min(1, Math.sqrt(s2)));
+  function isRide(type) {
+    return normalizeSport(type) === "ride";
   }
-  function pathLengthMeters(coords) {
-    return geodesicPathLength(coords);
+  function sportLabel(type) {
+    const s2 = normalizeSport(type);
+    if (s2 === "ride") return "Ride";
+    return s2 === "run" ? "Run" : "Walk";
   }
-  function legDistances(coords) {
-    const legs = [];
-    for (let i = 1; i < coords.length; i++) {
-      legs.push({
-        from: i - 1,
-        to: i,
-        meters: geodesicMeters(coords[i - 1], coords[i])
-      });
+  function rateLabel(type) {
+    return isRide(type) ? "avg speed" : "avg pace";
+  }
+  function loadLastSport(storage) {
+    try {
+      const store = storage || (typeof localStorage !== "undefined" ? localStorage : null);
+      if (!store) return "walk";
+      return normalizeSport(store.getItem(LAST_SPORT_KEY));
+    } catch {
+      return "walk";
     }
-    return legs;
   }
-  function destination(lat, lon, bearingDeg, meters) {
-    const R3 = 6371e3;
-    const br = bearingDeg * Math.PI / 180;
-    const ang = meters / R3;
-    const lat1 = lat * Math.PI / 180;
-    const lon1 = lon * Math.PI / 180;
-    const lat2 = Math.asin(
-      Math.sin(lat1) * Math.cos(ang) + Math.cos(lat1) * Math.sin(ang) * Math.cos(br)
-    );
-    const lon2 = lon1 + Math.atan2(
-      Math.sin(br) * Math.sin(ang) * Math.cos(lat1),
-      Math.cos(ang) - Math.sin(lat1) * Math.sin(lat2)
-    );
-    return { lat: lat2 * 180 / Math.PI, lon: lon2 * 180 / Math.PI };
-  }
-  function pointAlongPath(coords, meters) {
-    if (!coords.length) return null;
-    if (meters <= 0) return { ...coords[0], traveled: 0, remaining: pathLengthMeters(coords) };
-    let left = meters;
-    const total = pathLengthMeters(coords);
-    for (let i = 1; i < coords.length; i++) {
-      const seg = haversineMeters(coords[i - 1], coords[i]);
-      if (left <= seg) {
-        const t = seg === 0 ? 0 : left / seg;
-        return {
-          lat: coords[i - 1].lat + (coords[i].lat - coords[i - 1].lat) * t,
-          lon: coords[i - 1].lon + (coords[i].lon - coords[i - 1].lon) * t,
-          traveled: Math.min(meters, total),
-          remaining: Math.max(0, total - meters)
-        };
-      }
-      left -= seg;
+  function saveLastSport(type, storage) {
+    const sport = normalizeSport(type);
+    try {
+      const store = storage || (typeof localStorage !== "undefined" ? localStorage : null);
+      if (store) store.setItem(LAST_SPORT_KEY, sport);
+    } catch {
     }
-    const last = coords[coords.length - 1];
-    return { ...last, traveled: total, remaining: 0 };
+    return sport;
   }
-  function remainingAlongPath(coords, position) {
-    const proj = projectOnPath(coords, position);
-    return { traveled: proj.traveled, remaining: proj.remaining, total: proj.total };
-  }
-  function projectOnPath(coords, position) {
-    const total = pathLengthMeters(coords);
-    const empty = { traveled: 0, remaining: 0, total, offsetMeters: Infinity, point: position ? { ...position } : null, segIndex: -1 };
-    if (!coords || coords.length < 2 || !position) return empty;
-    let bestDist = Infinity;
-    let traveledAtProj = 0;
-    let bestPoint = coords[0];
-    let bestSeg = 0;
-    let acc = 0;
-    for (let i = 1; i < coords.length; i++) {
-      const a = coords[i - 1];
-      const b2 = coords[i];
-      const seg = haversineMeters(a, b2);
-      const proj = projectOnSegment(position, a, b2);
-      const d2 = haversineMeters(position, proj.point);
-      if (d2 < bestDist) {
-        bestDist = d2;
-        traveledAtProj = acc + proj.t * seg;
-        bestPoint = proj.point;
-        bestSeg = i - 1;
-      }
-      acc += seg;
-    }
-    const traveled = Math.min(total, Math.max(0, traveledAtProj));
-    return {
-      traveled,
-      remaining: Math.max(0, total - traveled),
-      total,
-      offsetMeters: bestDist,
-      point: bestPoint,
-      segIndex: bestSeg
-    };
-  }
-  function pointsBetweenAlongPath(coords, fromMeters, toMeters, stepMeters = 30) {
-    if (!coords || coords.length < 2) return [];
-    const total = pathLengthMeters(coords);
-    const lo = Math.max(0, Math.min(fromMeters, toMeters, total));
-    const hi = Math.max(lo, Math.min(Math.max(fromMeters, toMeters), total));
-    const step = Math.max(8, stepMeters || 30);
-    const marks = /* @__PURE__ */ new Set([
-      Math.round(lo * 100) / 100,
-      Math.round(hi * 100) / 100
-    ]);
-    for (let m = lo + step; m < hi - 1; m += step) {
-      marks.add(Math.round(m * 100) / 100);
-    }
-    let acc = 0;
-    for (let i = 1; i < coords.length - 1; i++) {
-      acc += haversineMeters(coords[i - 1], coords[i]);
-      if (acc > lo + 1 && acc < hi - 1) marks.add(Math.round(acc * 100) / 100);
-    }
-    return [...marks].sort((a, b2) => a - b2).map((m) => {
-      const p = pointAlongPath(coords, m);
-      return { lat: p.lat, lon: p.lon, traveled: m };
-    });
-  }
-  function projectOnSegment(p, a, b2) {
-    const midLat = (a.lat + b2.lat) / 2 * Math.PI / 180;
-    const x2 = (lng) => lng * Math.cos(midLat);
-    const ax = x2(a.lon), ay = a.lat;
-    const bx = x2(b2.lon), by = b2.lat;
-    const px = x2(p.lon), py = p.lat;
-    const dx = bx - ax, dy = by - ay;
-    const len2 = dx * dx + dy * dy;
-    let t = len2 === 0 ? 0 : ((px - ax) * dx + (py - ay) * dy) / len2;
-    t = Math.max(0, Math.min(1, t));
-    return { t, point: { lat: a.lat + (b2.lat - a.lat) * t, lon: a.lon + (b2.lon - a.lon) * t } };
-  }
-  function etaSeconds(meters, mph) {
-    if (!meters || meters <= 0 || !mph) return 0;
-    const miles = meters / METERS_PER_MILE;
-    return Math.round(miles / mph * 3600);
-  }
-  function formatDistance(meters, units3, { digits } = {}) {
-    if (meters == null || Number.isNaN(meters)) return "";
-    if (units3 === "km") {
-      if (digits != null) return `${(meters / METERS_PER_KM).toFixed(digits)} km`;
-      if (meters < 1e3) return `${Math.round(meters)} m`;
-      return `${(meters / METERS_PER_KM).toFixed(meters < 1e4 ? 2 : 2)} km`;
-    }
-    const miles = meters / METERS_PER_MILE;
-    if (digits != null) return `${miles.toFixed(digits)} mi`;
-    if (miles < 10) return `${miles.toFixed(3)} mi`;
-    return `${miles.toFixed(1)} mi`;
-  }
-  function formatDuration(seconds) {
-    const s2 = Math.max(0, Math.round(seconds || 0));
-    const h2 = Math.floor(s2 / 3600);
-    const m = Math.floor(s2 % 3600 / 60);
-    const sec = s2 % 60;
-    if (h2 > 0) {
-      return `${h2}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-    }
-    return `${m}:${String(sec).padStart(2, "0")}`;
-  }
-  function formatEta(seconds) {
-    const s2 = Math.max(0, Math.round(seconds || 0));
-    if (s2 < 30) return "~1 min";
-    const mins = Math.round(s2 / 60);
-    if (mins < 60) return `~${mins} min`;
-    const h2 = Math.floor(mins / 60);
-    const m = mins % 60;
-    if (m === 0) return h2 === 1 ? "~1 hr" : `~${h2} hr`;
-    return `~${h2} hr ${m} min`;
-  }
-  function formatPace(meters, seconds, units3) {
-    if (!meters || meters <= 0 || !seconds || seconds <= 0) return "\u2014";
-    const dist3 = units3 === "km" ? meters / METERS_PER_KM : meters / METERS_PER_MILE;
-    const secPer = seconds / dist3;
-    if (!Number.isFinite(secPer) || secPer > 3600 * 2) return "\u2014";
-    const m = Math.floor(secPer / 60);
-    const s2 = Math.round(secPer % 60) % 60;
-    const suffix = units3 === "km" ? "/km" : "/mi";
-    return `${m}:${String(s2).padStart(2, "0")} ${suffix}`;
-  }
-  function completeAlertText({ kind, meters, seconds, units: units3 } = {}) {
-    const label = kind === "target" ? "Target complete" : "Route complete";
-    const dist3 = formatDistance(Math.max(0, Number(meters) || 0), units3, { digits: 2 });
-    return `${label}! ${dist3} in ${formatDuration(seconds || 0)}`;
-  }
-  function notificationText({ doneMeters, leftMeters, onCourse, elapsedSec, units: units3, activityType, lapLabel, complete, completeKind, extraMeters: extraMeters2, completePrompt, completeMeters, completeSec }) {
-    if (completePrompt) {
-      return completeAlertText({
-        kind: completeKind,
-        meters: completeMeters,
-        seconds: completeSec,
-        units: units3
-      });
-    }
-    if (complete) {
-      const kind = completeKind === "target" ? "Target" : "Course";
-      const extra = Math.max(0, Number(extraMeters2) || 0);
-      if (extra > 8) return `${kind} done \xB7 +${formatDistance(extra, units3)} extra`;
-      return `${kind} done`;
-    }
-    const done = formatDistance(doneMeters || 0, units3);
-    if (onCourse) {
-      const left = Math.max(0, leftMeters || 0);
-      const prefix = lapLabel ? `${lapLabel} \xB7 ` : "";
-      if (left <= 8) {
-        return `${prefix}${done} done \xB7 finished`;
-      }
-      const mph = activityMph(activityType);
-      return `${prefix}${done} done \xB7 ${formatDistance(left, units3)} left \xB7 ${formatEta(etaSeconds(left, mph))}`;
-    }
-    const time = formatDuration(elapsedSec || 0);
-    const pace = formatPace(doneMeters, elapsedSec, units3);
-    return `${done} \xB7 ${time} \xB7 ${pace}`;
-  }
-  function personalRecords(activities) {
-    const best = {};
-    for (const def of PR_DEFS) best[def.id] = null;
-    for (const act of activities || []) {
-      const times = splitTimes(act);
-      for (const def of PR_DEFS) {
-        const sec = times[def.id];
-        if (sec == null) continue;
-        if (!best[def.id] || sec < best[def.id].seconds) {
-          best[def.id] = {
-            seconds: sec,
-            activityId: act.id,
-            date: act.endedAt || act.startedAt,
-            type: act.type
-          };
-        }
-      }
-    }
-    return best;
-  }
-  function splitTimes(activity) {
-    const out = {};
-    const coords = activity && activity.track || [];
-    const start = activity && activity.startedAt ? Date.parse(activity.startedAt) : 0;
-    if (coords.length >= 2) {
-      let acc = 0;
-      for (let i = 1; i < coords.length; i++) {
-        acc += haversineMeters(
-          { lat: coords[i - 1].lat, lon: coords[i - 1].lon },
-          { lat: coords[i].lat, lon: coords[i].lon }
-        );
-        const t = coords[i].t != null ? coords[i].t : null;
-        for (const def of PR_DEFS) {
-          if (out[def.id] != null) continue;
-          if (acc >= def.meters) {
-            if (t != null) out[def.id] = Math.round(t);
-            else if (start && coords[i].at) out[def.id] = Math.round((Date.parse(coords[i].at) - start) / 1e3);
-            else if (activity.elapsedSec && activity.distanceMeters) {
-              out[def.id] = Math.round(activity.elapsedSec * (def.meters / activity.distanceMeters));
-            }
-          }
-        }
-      }
-    } else if (activity && activity.distanceMeters && activity.elapsedSec) {
-      for (const def of PR_DEFS) {
-        if (activity.distanceMeters >= def.meters) {
-          out[def.id] = Math.round(activity.elapsedSec * (def.meters / activity.distanceMeters));
-        }
-      }
-    }
-    return out;
-  }
-  function sumActivities(list) {
-    let distanceMeters = 0;
-    let elapsedSec = 0;
-    for (const a of list || []) {
-      distanceMeters += a.distanceMeters || 0;
-      elapsedSec += a.elapsedSec || 0;
-    }
-    return { distanceMeters, elapsedSec, count: (list || []).length };
-  }
-  function startOfDay(date, tzOffsetMin) {
-    const d2 = new Date(date);
-    return new Date(d2.getFullYear(), d2.getMonth(), d2.getDate());
-  }
-  function isoDate(date) {
-    const d2 = date instanceof Date ? date : new Date(date);
-    const y2 = d2.getFullYear();
-    const m = String(d2.getMonth() + 1).padStart(2, "0");
-    const day = String(d2.getDate()).padStart(2, "0");
-    return `${y2}-${m}-${day}`;
-  }
-  function addDays(date, n) {
-    const d2 = new Date(date);
-    d2.setDate(d2.getDate() + n);
-    return d2;
-  }
-  function filterActivitiesByRange(activities, range, now = /* @__PURE__ */ new Date()) {
-    const end = startOfDay(now);
-    end.setHours(23, 59, 59, 999);
-    let start = /* @__PURE__ */ new Date(0);
-    if (range === "W") start = addDays(startOfDay(now), -6);
-    else if (range === "M") start = addDays(startOfDay(now), -29);
-    else if (range === "Y") {
-      start = startOfDay(now);
-      start.setFullYear(start.getFullYear() - 1);
-      start = addDays(start, 1);
-    }
-    return (activities || []).filter((a) => {
-      const t = Date.parse(a.endedAt || a.startedAt || 0);
-      return t >= start.getTime() && t <= end.getTime();
-    });
-  }
-  function chartBuckets(activities, range, now = /* @__PURE__ */ new Date()) {
-    const buckets = [];
-    let allYearly = false;
-    if (range === "W") {
-      for (let i = 6; i >= 0; i--) {
-        const d2 = addDays(startOfDay(now), -i);
-        buckets.push({ key: isoDate(d2), label: d2.toLocaleDateString("en-US", { weekday: "short" }), meters: 0 });
-      }
-    } else if (range === "M") {
-      for (let i = 29; i >= 0; i--) {
-        const d2 = addDays(startOfDay(now), -i);
-        const label = i === 29 || i === 0 || i % 7 === 0 && i < 23 ? d2.toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "";
-        buckets.push({ key: isoDate(d2), label, meters: 0 });
-      }
-    } else if (range === "Y") {
-      for (let i = 11; i >= 0; i--) {
-        const d2 = new Date(now.getFullYear(), now.getMonth() - i, 1);
-        const key = `${d2.getFullYear()}-${String(d2.getMonth() + 1).padStart(2, "0")}`;
-        buckets.push({ key, label: d2.toLocaleDateString("en-US", { month: "short" }), meters: 0 });
-      }
-    } else {
-      const acts = activities || [];
-      if (!acts.length) return [];
-      const times = acts.map((a) => Date.parse(a.endedAt || a.startedAt || 0)).filter(Boolean);
-      const min = new Date(Math.min(...times));
-      const start = new Date(min.getFullYear(), min.getMonth(), 1);
-      const end = new Date(now.getFullYear(), now.getMonth(), 1);
-      const monthSpan = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()) + 1;
-      allYearly = monthSpan > 24;
-      if (allYearly) {
-        const years = now.getFullYear() - start.getFullYear() + 1;
-        const step = years > 24 ? 5 : years > 16 ? 2 : 1;
-        for (let y2 = start.getFullYear(); y2 <= now.getFullYear(); y2++) {
-          const idx = y2 - start.getFullYear();
-          buckets.push({
-            key: String(y2),
-            label: idx % step === 0 || idx === years - 1 ? String(y2) : "",
-            meters: 0
-          });
-        }
-      } else {
-        const cursor = new Date(start);
-        let monthIndex = 0;
-        const dense = monthSpan <= 6;
-        while (cursor <= end) {
-          const key = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, "0")}`;
-          const first = monthIndex === 0;
-          const january = cursor.getMonth() === 0;
-          const show2 = dense || first || january || monthIndex % 3 === 0;
-          buckets.push({
-            key,
-            label: show2 ? first || january ? `${cursor.toLocaleDateString("en-US", { month: "short" })} '${String(cursor.getFullYear()).slice(-2)}` : cursor.toLocaleDateString("en-US", { month: "short" }) : "",
-            meters: 0
-          });
-          monthIndex++;
-          cursor.setMonth(cursor.getMonth() + 1);
-        }
-      }
-    }
-    for (const a of activities || []) {
-      const dt = new Date(a.endedAt || a.startedAt || 0);
-      let key;
-      if (range === "W" || range === "M") key = isoDate(dt);
-      else if (range === "All" && allYearly) key = String(dt.getFullYear());
-      else key = `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}`;
-      const b2 = buckets.find((x2) => x2.key === key);
-      if (b2) b2.meters += a.distanceMeters || 0;
-    }
-    return buckets;
-  }
-  function monthGrid(year, month) {
-    const first = new Date(year, month, 1);
-    const start = addDays(first, -first.getDay());
-    const rows = [];
-    let cursor = start;
-    for (let w2 = 0; w2 < 6; w2++) {
-      const row = [];
-      for (let d2 = 0; d2 < 7; d2++) {
-        row.push({
-          date: new Date(cursor),
-          inMonth: cursor.getMonth() === month,
-          iso: isoDate(cursor)
-        });
-        cursor = addDays(cursor, 1);
-      }
-      rows.push(row);
-      if (cursor.getMonth() !== month && w2 >= 3) break;
-    }
-    return rows;
-  }
-  function uid(prefix = "id") {
-    return `${prefix}_${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36).slice(-4)}`;
-  }
-  function escapeHtml(s2) {
-    return String(s2).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-  }
-  var SUPPORT_COPY = "Totally optional. This $5 donation just helps keep the app free. Everything in the app is and always will be free, and donating doesn't unlock anything.";
 
   // www/js/storage.js
   var KEY = "heldpath.v1";
@@ -34208,7 +41603,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     lastSessionDistanceMeters: null,
     weightUnit: null,
     // "lb" | "kg" — null means pick from locale / units
-    bodyKg: null
+    bodyKg: null,
+    lastSport: "walk"
+    // walk | run | ride — the start picker default
   };
   function emptyState() {
     return {
@@ -34339,7 +41736,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function newActivity(partial = {}) {
     return {
       id: uid("act"),
-      type: partial.type || "walk",
+      type: normalizeSport(partial.type),
       courseId: partial.courseId || null,
       courseName: partial.courseName || null,
       startedAt: partial.startedAt || (/* @__PURE__ */ new Date()).toISOString(),
@@ -34357,7 +41754,15 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       // {written, status, reason} for honesty in the summary
       climbGainM: partial.climbGainM || 0,
       climbLossM: partial.climbLossM || 0,
-      distance3dMeters: partial.distance3dMeters || 0
+      distance3dMeters: partial.distance3dMeters || 0,
+      /* heldpath-hook: import — file import metadata (no purchase data) */
+      importHash: partial.importHash || null,
+      importFormat: partial.importFormat || null,
+      importName: partial.importName || null,
+      mergedIds: Array.isArray(partial.mergedIds) ? partial.mergedIds : [],
+      replacedSource: partial.replacedSource || null,
+      avgHr: Number.isFinite(Number(partial.avgHr)) ? Number(partial.avgHr) : null,
+      maxHr: Number.isFinite(Number(partial.maxHr)) ? Number(partial.maxHr) : null
     };
   }
   function newPlan(partial = {}) {
@@ -34491,15 +41896,31 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       return { ...errorResult(err2), granted: false, scopes: [] };
     }
   }
+  function healthType(type) {
+    if (type === "ride" || type === "bike" || type === "cycling") return "ride";
+    return type === "run" ? "run" : "walk";
+  }
+  function healthSamples(activity) {
+    const src = activity && activity.samples || {};
+    const clean = (list) => Array.isArray(list) ? list.filter((s2) => s2 && Number.isFinite(Number(s2.offsetSec)) && Number.isFinite(Number(s2.value))).map((s2) => ({ offsetSec: Number(s2.offsetSec), value: Number(s2.value) })) : [];
+    return {
+      heartRate: clean(src.heartRate),
+      cadence: clean(src.cadence),
+      power: clean(src.power)
+    };
+  }
   function workoutPayload(activity) {
     const track = activity && activity.track || [];
+    const type = healthType(activity && activity.type);
     return {
-      type: activity && activity.type === "run" ? "run" : "walk",
+      type,
       startedAt: activity && activity.startedAt,
       endedAt: activity && activity.endedAt || (/* @__PURE__ */ new Date()).toISOString(),
       distanceMeters: Number(activity && activity.distanceMeters) || 0,
       elapsedSec: Number(activity && activity.elapsedSec) || 0,
-      avgPaceSecPerKm: activity && activity.distanceMeters > 0 && activity.elapsedSec > 0 ? Math.round(activity.elapsedSec / (activity.distanceMeters / 1e3)) : null,
+      avgPaceSecPerKm: type !== "ride" && activity && activity.distanceMeters > 0 && activity.elapsedSec > 0 ? Math.round(activity.elapsedSec / (activity.distanceMeters / 1e3)) : null,
+      avgSpeedMps: type === "ride" && activity && activity.distanceMeters > 0 && activity.elapsedSec > 0 ? activity.distanceMeters / activity.elapsedSec : null,
+      ...healthSamples(activity),
       route: track.filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon)).map((p) => ({
         lat: p.lat,
         lon: p.lon,
@@ -34560,7 +41981,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (!(distanceMeters > 0) || !(elapsedSec > 0)) return null;
     const track = Array.isArray(raw.track) ? raw.track.filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon)) : [];
     return {
-      type: raw.type === "run" ? "run" : "walk",
+      type: healthType(raw.type),
       startedAt: startedAt || new Date(Date.now() - elapsedSec * 1e3).toISOString(),
       endedAt: endedAt || (/* @__PURE__ */ new Date()).toISOString(),
       distanceMeters,
@@ -34574,7 +41995,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       },
       healthId: raw.id ? String(raw.id) : `${startedAt || "watch"}:${distanceMeters}:${elapsedSec}`,
       courseId: null,
-      courseName: raw.name || null
+      courseName: raw.name || null,
+      samples: healthSamples(raw),
+      climbGainM: Number.isFinite(raw.climbGainM) ? raw.climbGainM : 0
     };
   }
   async function importWatchWorkouts(from, to) {
@@ -34599,7 +42022,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
 
   // www/js/plans_hook.js
-  var PLANS_HOOK_COPY = "All goals are free. Track yourself and keep beating your results. A $2 plan adds a target date, with the app easing you there in smaller, guided steps. $2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. Importing a shared plan is always free. No account. Published pacing, effort and hydration sources are listed on the Plans screen and in CREDITS.md.";
+  var PLANS_HOOK_COPY = "All goals are free. Set a distance, a time, or a weekly total, and a time frame if you want one. Free goals show your current speed, the speed you need, and the gap. A $2 plan adds incremental session targets, mixed run-walk or ride patterns, water and nutrition guidance. $2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. Importing a shared plan is always free. No account. Published pacing, effort, hydration and nutrition sources are listed on the Plans screen and in CREDITS.md.";
 
   // www/js/map.js
   var import_maplibre_gl = __toESM(require_maplibre_gl(), 1);
@@ -34681,17 +42104,17 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   ]);
   var clim = new u8([16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15]);
   var freb = function(eb, start) {
-    var b2 = new u16(31);
+    var b3 = new u16(31);
     for (var i = 0; i < 31; ++i) {
-      b2[i] = start += 1 << eb[i - 1];
+      b3[i] = start += 1 << eb[i - 1];
     }
-    var r = new i32(b2[30]);
+    var r = new i32(b3[30]);
     for (var i = 1; i < 30; ++i) {
-      for (var j2 = b2[i]; j2 < b2[i + 1]; ++j2) {
-        r[j2] = j2 - b2[i] << 5 | i;
+      for (var j2 = b3[i]; j2 < b3[i + 1]; ++j2) {
+        r[j2] = j2 - b3[i] << 5 | i;
       }
     }
-    return { b: b2, r };
+    return { b: b3, r };
   };
   var _a = freb(fleb, 2);
   var fl = _a.b;
@@ -34922,9 +42345,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         } else {
           var add = sym - 254;
           if (sym > 264) {
-            var i = sym - 257, b2 = fleb[i];
-            add = bits(dat, pos, (1 << b2) - 1) + fl[i];
-            pos += b2;
+            var i = sym - 257, b3 = fleb[i];
+            add = bits(dat, pos, (1 << b3) - 1) + fl[i];
+            pos += b3;
           }
           var d2 = dm[bits16(dat, pos) & dms], dsym = d2 >> 4;
           if (!d2)
@@ -34932,8 +42355,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           pos += d2 & 15;
           var dt = fd[dsym];
           if (dsym > 3) {
-            var b2 = fdeb[dsym];
-            dt += bits16(dat, pos) & (1 << b2) - 1, pos += b2;
+            var b3 = fdeb[dsym];
+            dt += bits16(dat, pos) & (1 << b3) - 1, pos += b3;
           }
           if (pos > tbts) {
             if (noSt)
@@ -34988,8 +42411,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       v2[t[0].s] = 1;
       return { t: v2, l: 1 };
     }
-    t.sort(function(a, b2) {
-      return a.f - b2.f;
+    t.sort(function(a, b3) {
+      return a.f - b3.f;
     });
     t.push({ s: -1, f: 25001 });
     var l = t[0], r = t[1], i0 = 0, i1 = 1, i2 = 2;
@@ -35009,8 +42432,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (mbt > mb) {
       var i = 0, dt = 0;
       var lft = mbt - mb, cst = 1 << lft;
-      t2.sort(function(a, b2) {
-        return tr[b2.s] - tr[a.s] || a.f - b2.f;
+      t2.sort(function(a, b3) {
+        return tr[b3.s] - tr[a.s] || a.f - b3.f;
       });
       for (; i < s2; ++i) {
         var i2_1 = t2[i].s;
@@ -35275,6 +42698,15 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     return dflt(dat, opt.level == null ? 6 : opt.level, opt.mem == null ? st.l ? Math.ceil(Math.max(8, Math.min(13, Math.log(dat.length))) * 1.5) : 20 : 12 + opt.mem, pre, post, st);
   };
+  var b2 = function(d2, b3) {
+    return d2[b3] | d2[b3 + 1] << 8;
+  };
+  var b4 = function(d2, b3) {
+    return (d2[b3] | d2[b3 + 1] << 8 | d2[b3 + 2] << 16 | d2[b3 + 3] << 24) >>> 0;
+  };
+  var b8 = function(d2, b3) {
+    return b4(d2, b3) + b4(d2, b3 + 4) * 4294967296;
+  };
   var gzs = function(d2) {
     if (d2[0] != 31 || d2[1] != 139 || d2[2] != 8)
       err(6, "invalid gzip data");
@@ -35321,6 +42753,105 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     td.decode(et, { stream: true });
     tds = 1;
   } catch (e) {
+  }
+  var dutf8 = function(d2) {
+    for (var r = "", i = 0; ; ) {
+      var c = d2[i++];
+      var eb = (c > 127) + (c > 223) + (c > 239);
+      if (i + eb > d2.length)
+        return { s: r, r: slc(d2, i - 1) };
+      if (!eb)
+        r += String.fromCharCode(c);
+      else if (eb == 3) {
+        c = ((c & 15) << 18 | (d2[i++] & 63) << 12 | (d2[i++] & 63) << 6 | d2[i++] & 63) - 65536, r += String.fromCharCode(55296 | c >> 10, 56320 | c & 1023);
+      } else if (eb & 1)
+        r += String.fromCharCode((c & 31) << 6 | d2[i++] & 63);
+      else
+        r += String.fromCharCode((c & 15) << 12 | (d2[i++] & 63) << 6 | d2[i++] & 63);
+    }
+  };
+  function strFromU8(dat, latin1) {
+    if (latin1) {
+      var r = "";
+      for (var i = 0; i < dat.length; i += 16384)
+        r += String.fromCharCode.apply(null, dat.subarray(i, i + 16384));
+      return r;
+    } else if (td) {
+      return td.decode(dat);
+    } else {
+      var _a2 = dutf8(dat), s2 = _a2.s, r = _a2.r;
+      if (r.length)
+        err(8);
+      return s2;
+    }
+  }
+  var slzh = function(d2, b3) {
+    return b3 + 30 + b2(d2, b3 + 26) + b2(d2, b3 + 28);
+  };
+  var zh = function(d2, b3, z2) {
+    var fnl = b2(d2, b3 + 28), efl = b2(d2, b3 + 30), fn = strFromU8(d2.subarray(b3 + 46, b3 + 46 + fnl), !(b2(d2, b3 + 8) & 2048)), es = b3 + 46 + fnl;
+    var _a2 = z64hs(d2, es, efl, z2, b4(d2, b3 + 20), b4(d2, b3 + 24), b4(d2, b3 + 42)), sc = _a2[0], su = _a2[1], off = _a2[2];
+    return [b2(d2, b3 + 10), sc, su, fn, es + efl + b2(d2, b3 + 32), off];
+  };
+  var z64hs = function(d2, b3, l, z2, sc, su, off) {
+    var nsc = sc == 4294967295, nsu = su == 4294967295, noff = off == 4294967295, e = b3 + l;
+    var nf = nsc + nsu + noff;
+    if (z2 && nf) {
+      for (; b3 + 4 < e; b3 += 4 + b2(d2, b3 + 2)) {
+        if (b2(d2, b3) == 1) {
+          return [
+            nsc ? b8(d2, b3 + 4 + 8 * nsu) : sc,
+            nsu ? b8(d2, b3 + 4) : su,
+            noff ? b8(d2, b3 + 4 + 8 * (nsu + nsc)) : off,
+            1
+          ];
+        }
+      }
+      if (z2 < 2)
+        err(13);
+    }
+    return [sc, su, off, 0];
+  };
+  function unzipSync(data, opts) {
+    var files = {};
+    var e = data.length - 22;
+    for (; b4(data, e) != 101010256; --e) {
+      if (!e || data.length - e > 65558)
+        err(13);
+    }
+    ;
+    var c = b2(data, e + 8);
+    if (!c)
+      return {};
+    var o = b4(data, e + 16);
+    var z2 = b4(data, e - 20) == 117853008;
+    if (z2) {
+      var ze = b4(data, e - 12);
+      z2 = b4(data, ze) == 101075792;
+      if (z2) {
+        c = b4(data, ze + 32);
+        o = b4(data, ze + 48);
+      }
+    }
+    var fltr = opts && opts.filter;
+    for (var i = 0; i < c; ++i) {
+      var _a2 = zh(data, o, z2), c_2 = _a2[0], sc = _a2[1], su = _a2[2], fn = _a2[3], no = _a2[4], off = _a2[5], b3 = slzh(data, off);
+      o = no;
+      if (!fltr || fltr({
+        name: fn,
+        size: sc,
+        originalSize: su,
+        compression: c_2
+      })) {
+        if (!c_2)
+          files[fn] = slc(data, b3, b3 + sc);
+        else if (c_2 == 8)
+          files[fn] = inflateSync(data.subarray(b3, b3 + sc), { out: new u8(su) });
+        else
+          err(14, "unknown compression type " + c_2);
+      }
+    }
+    return files;
   }
 
   // node_modules/pmtiles/dist/esm/index.js
@@ -35880,7 +43411,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       req.onerror = () => reject(req.error);
     });
     db.close();
-    return recs.sort((a, b2) => (b2.updatedAt || b2.createdAt || "").localeCompare(a.updatedAt || a.createdAt || ""));
+    return recs.sort((a, b3) => (b3.updatedAt || b3.createdAt || "").localeCompare(a.updatedAt || a.createdAt || ""));
   }
   async function saveArea(area) {
     const db = await tileDb();
@@ -35979,171 +43510,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     };
   }
 
-  // www/js/map_tiles.js
-  var OFM_TILEJSON_URL = "https://tiles.openfreemap.org/planet";
-  var OFM_MAX_TILES = 3e3;
-  var OFM_MAX_BYTES = 50 * 1024 * 1024;
-  var OFM_PARALLEL = 4;
-  var OFM_USER_AGENT = "Heldpath/1.0 (https://paigegames.net/heldpath)";
-  var OFM_MAXZOOM = 14;
-  var DEFAULT_AVG_TILE_BYTES = 80 * 1024;
-  var WORLD_MAXZOOM = 6;
-  var FLORENCE_BOUNDS = [11.221144, 43.745121, 11.287543, 43.789306];
-  function inBounds(lat, lon, bounds = FLORENCE_BOUNDS) {
-    return lon >= bounds[0] && lat >= bounds[1] && lon <= bounds[2] && lat <= bounds[3];
-  }
-  function clamp(n, lo, hi) {
-    return Math.max(lo, Math.min(hi, n));
-  }
-  function lonLatToTile(lon, lat, z2) {
-    const n = 2 ** z2;
-    const x2 = Math.floor((lon + 180) / 360 * n);
-    const latRad = lat * Math.PI / 180;
-    const y2 = Math.floor(
-      (1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n
-    );
-    return { z: z2, x: clamp(x2, 0, n - 1), y: clamp(y2, 0, n - 1) };
-  }
-  function tileRange(bbox, z2) {
-    const nw = lonLatToTile(bbox.west, bbox.north, z2);
-    const se = lonLatToTile(bbox.east, bbox.south, z2);
-    return {
-      z: z2,
-      x0: Math.min(nw.x, se.x),
-      x1: Math.max(nw.x, se.x),
-      y0: Math.min(nw.y, se.y),
-      y1: Math.max(nw.y, se.y)
-    };
-  }
-  function tilesInRange(range) {
-    const tiles = [];
-    for (let x2 = range.x0; x2 <= range.x1; x2++) {
-      for (let y2 = range.y0; y2 <= range.y1; y2++) {
-        tiles.push({ z: range.z, x: x2, y: y2 });
-      }
-    }
-    return tiles;
-  }
-  function countTilesInRange(range) {
-    return (range.x1 - range.x0 + 1) * (range.y1 - range.y0 + 1);
-  }
-  function tilesInPyramid(bbox, minZoom, maxZoom) {
-    const tiles = [];
-    for (let z2 = minZoom; z2 <= maxZoom; z2++) {
-      tiles.push(...tilesInRange(tileRange(bbox, z2)));
-    }
-    return tiles;
-  }
-  function countTilesInPyramid(bbox, minZoom, maxZoom) {
-    let n = 0;
-    for (let z2 = minZoom; z2 <= maxZoom; z2++) n += countTilesInRange(tileRange(bbox, z2));
-    return n;
-  }
-  function planDownload(bbox, opt = {}) {
-    const minZoom = opt.minZoom == null ? 0 : opt.minZoom;
-    const capZoom = opt.capZoom == null ? OFM_MAXZOOM : opt.capZoom;
-    const maxTiles = opt.maxTiles == null ? OFM_MAX_TILES : opt.maxTiles;
-    const maxBytes = opt.maxBytes == null ? OFM_MAX_BYTES : opt.maxBytes;
-    const avgBytes = opt.avgBytes == null ? DEFAULT_AVG_TILE_BYTES : opt.avgBytes;
-    let maxZoom = minZoom;
-    let tileCount = countTilesInPyramid(bbox, minZoom, minZoom);
-    for (let z2 = minZoom; z2 <= capZoom; z2++) {
-      const c = countTilesInPyramid(bbox, minZoom, z2);
-      if (c > maxTiles || c * avgBytes > maxBytes) break;
-      maxZoom = z2;
-      tileCount = c;
-    }
-    const estimateBytes = tileCount * avgBytes;
-    const smallest = countTilesInPyramid(bbox, minZoom, minZoom);
-    const tooLarge = smallest > maxTiles || smallest * avgBytes > maxBytes;
-    return {
-      minZoom,
-      maxZoom,
-      tileCount,
-      estimateBytes,
-      tooLarge,
-      maxTiles,
-      maxBytes
-    };
-  }
-  function formatBytes(n) {
-    if (!Number.isFinite(n) || n < 0) return "\u2014";
-    if (n < 1024) return `${Math.round(n)} B`;
-    if (n < 1024 * 1024) return `${(n / 1024).toFixed(n < 10 * 1024 ? 1 : 0)} KB`;
-    const mb = n / (1024 * 1024);
-    return `${mb < 10 ? mb.toFixed(1) : Math.round(mb)} MB`;
-  }
-  function formatStorageLine(estimate, available) {
-    const left = available == null ? "Available storage unknown" : `${formatBytes(available)} available on this device`;
-    return `About ${formatBytes(estimate)} to download. ${left}.`;
-  }
-  function normalizeBbox(b2) {
-    const west = Math.min(b2.west, b2.east);
-    const east = Math.max(b2.west, b2.east);
-    const south = Math.min(b2.south, b2.north);
-    const north = Math.max(b2.south, b2.north);
-    return {
-      west: clamp(west, -180, 180),
-      east: clamp(east, -180, 180),
-      south: clamp(south, -85.0511, 85.0511),
-      north: clamp(north, -85.0511, 85.0511)
-    };
-  }
-  function bboxFromFrame(map2, frameEl, rootEl) {
-    if (!map2 || !frameEl) return null;
-    const fr = frameEl.getBoundingClientRect();
-    const mapCanvas = map2.getCanvas();
-    const mr = mapCanvas.getBoundingClientRect();
-    const left = fr.left - mr.left;
-    const top = fr.top - mr.top;
-    const right = fr.right - mr.left;
-    const bottom = fr.bottom - mr.top;
-    const sw = map2.unproject([left, bottom]);
-    const ne = map2.unproject([right, top]);
-    return normalizeBbox({ west: sw.lng, south: sw.lat, east: ne.lng, north: ne.lat });
-  }
-  var cachedTileTemplate = null;
-  var cachedTileTemplateAt = 0;
-  async function resolveOfmTemplate(fetchFn = fetch) {
-    const now = Date.now();
-    if (cachedTileTemplate && now - cachedTileTemplateAt < 24 * 60 * 60 * 1e3) {
-      return cachedTileTemplate;
-    }
-    const res = await fetchFn(OFM_TILEJSON_URL, {
-      headers: { "User-Agent": OFM_USER_AGENT }
-    });
-    if (!res.ok) throw new Error("OpenFreeMap tile JSON " + res.status);
-    const json = await res.json();
-    const tmpl = json && json.tiles && json.tiles[0];
-    if (!tmpl) throw new Error("OpenFreeMap tile JSON missing tiles");
-    cachedTileTemplate = tmpl;
-    cachedTileTemplateAt = now;
-    return tmpl;
-  }
-  function tileUrl(template, z2, x2, y2) {
-    return template.replace("{z}", String(z2)).replace("{x}", String(x2)).replace("{y}", String(y2));
-  }
-  async function mapPool(items, limit, fn, onProgress) {
-    let i = 0;
-    let done = 0;
-    let bytes = 0;
-    let stop = false;
-    async function worker() {
-      while (!stop) {
-        const idx = i++;
-        if (idx >= items.length) return;
-        const n2 = await fn(items[idx], idx);
-        const add = typeof n2 === "number" ? n2 : 0;
-        bytes += add;
-        done += 1;
-        if (onProgress) onProgress({ done, total: items.length, bytes });
-        if (bytes > OFM_MAX_BYTES || done >= OFM_MAX_TILES) stop = true;
-      }
-    }
-    const n = Math.max(1, Math.min(limit, items.length));
-    await Promise.all(Array.from({ length: n }, worker));
-    return { done, bytes, stoppedEarly: stop && done < items.length };
-  }
+  // www/js/map.js
+  init_map_tiles();
 
   // www/js/locate.js
   var WORLD_VIEW = { lat: 20, lon: 0, zoom: 2 };
@@ -36431,6 +43799,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
 
   // www/js/map.js
+  init_util();
   var map = null;
   var protocolAdded = false;
   var ofmProtocolAdded = false;
@@ -37077,11 +44446,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
   function fitBounds(coords, pad = 60) {
     if (!map || !coords.length) return;
-    const b2 = new import_maplibre_gl.default.LngLatBounds();
-    coords.forEach((c) => b2.extend([c.lon, c.lat]));
+    const b3 = new import_maplibre_gl.default.LngLatBounds();
+    coords.forEach((c) => b3.extend([c.lon, c.lat]));
     const maxZoom = pad && typeof pad === "object" && pad.maxZoom || 16;
     const padding = pad && typeof pad === "object" ? { top: pad.top ?? 60, bottom: pad.bottom ?? 60, left: pad.left ?? 60, right: pad.right ?? 60 } : pad;
-    map.fitBounds(b2, { padding, maxZoom, duration: 0 });
+    map.fitBounds(b3, { padding, maxZoom, duration: 0 });
   }
   function setCenter(lat, lon, zoom) {
     if (!map) return;
@@ -37535,7 +44904,17 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   var WEB_APP_NOTE = "For screen-off tracking and health sync, get the app from Google Play";
   var WEB_PAY_NOTE = "Purchases aren't available in the web app yet. The optional $5 donation and $2 plans will stay in the store app for now.";
 
+  // www/js/track.js
+  init_util();
+
+  // www/js/target_distance.js
+  init_util();
+
+  // www/js/routing.js
+  init_util();
+
   // www/js/open_areas.js
+  init_geodesic();
   var OPEN_KIND = /* @__PURE__ */ new Set([
     "pitch",
     "park",
@@ -37654,9 +45033,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function setBit(bits2, i) {
     bits2[i >> 3] |= 1 << (i & 7);
   }
-  function stampSegment(a, b2, mark, toX, toY) {
+  function stampSegment(a, b3, mark, toX, toY) {
     const x0 = toX(a.lon), y0 = toY(a.lat);
-    const x1 = toX(b2.lon), y1 = toY(b2.lat);
+    const x1 = toX(b3.lon), y1 = toY(b3.lat);
     const dx = Math.abs(x1 - x0);
     const dy = Math.abs(y1 - y0);
     const sx = x0 < x1 ? 1 : -1;
@@ -37700,7 +45079,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           ys.push(x2);
         }
       }
-      ys.sort((a, b2) => a - b2);
+      ys.sort((a, b3) => a - b3);
       for (let k = 0; k + 1 < ys.length; k += 2) {
         const x0 = Math.max(0, ys[k]);
         const x1 = Math.min(cols - 1, ys[k + 1]);
@@ -37728,9 +45107,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       const kind = bar.kind || "";
       const lineOnly = kind === "rail" || kind === "highway";
       for (let i = 0; i < ring.length - 1; i++) stampSegment(ring[i], ring[i + 1], mark, toX, toY);
-      const last = ring[ring.length - 1], first = ring[0];
+      const last = ring[ring.length - 1], first2 = ring[0];
       if (!lineOnly && ring.length >= 3) {
-        if (last.lat !== first.lat || last.lon !== first.lon) stampSegment(last, first, mark, toX, toY);
+        if (last.lat !== first2.lat || last.lon !== first2.lon) stampSegment(last, first2, mark, toX, toY);
         fillRing(ring, mark, toX, toY, cols, rows);
       }
     }
@@ -37830,12 +45209,20 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
   var EARTH_LAT_M2 = 111320;
   var activeGraph = null;
+  var activeBikeGraph = null;
   function setActiveGraph(graph) {
     activeGraph = graph || null;
     return activeGraph;
   }
   function getActiveGraph() {
     return activeGraph;
+  }
+  function setActiveBikeGraph(graph) {
+    activeBikeGraph = graph || null;
+    return activeBikeGraph;
+  }
+  function getActiveBikeGraph() {
+    return activeBikeGraph;
   }
   function lonCell(meters, lat) {
     return meters / (EARTH_LAT_M2 * Math.cos(lat * Math.PI / 180));
@@ -37855,14 +45242,14 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const edges = raw.edges;
     for (let i = 0; i < edges.length; i += 2) {
       const a = edges[i];
-      const b2 = edges[i + 1];
-      if (a < 0 || b2 < 0 || a >= n || b2 >= n || a === b2) continue;
+      const b3 = edges[i + 1];
+      if (a < 0 || b3 < 0 || a >= n || b3 >= n || a === b3) continue;
       const meters = geodesicMeters(
         { lon: lon[a], lat: lat[a] },
-        { lon: lon[b2], lat: lat[b2] }
+        { lon: lon[b3], lat: lat[b3] }
       );
-      adj[a].push({ to: b2, meters });
-      adj[b2].push({ to: a, meters });
+      adj[a].push({ to: b3, meters });
+      adj[b3].push({ to: a, meters });
     }
     const bounds = raw.bounds || [
       Math.min.apply(null, lon),
@@ -37901,8 +45288,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return { lat: graph.lat[id], lon: graph.lon[id] };
   }
   function inGraphBounds(graph, lat, lon, pad = 2e-3) {
-    const b2 = graph.bounds;
-    return lon >= b2[0] - pad && lat >= b2[1] - pad && lon <= b2[2] + pad && lat <= b2[3] + pad;
+    const b3 = graph.bounds;
+    return lon >= b3[0] - pad && lat >= b3[1] - pad && lon <= b3[2] + pad && lat <= b3[3] + pad;
   }
   function snapToNode(graph, lat, lon, maxMeters = DEFAULT_SNAP) {
     if (!graph) return null;
@@ -37927,8 +45314,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (best < 0 || bestD > maxMeters) return null;
     return { id: best, meters: bestD, lat: graph.lat[best], lon: graph.lon[best], kind: "node" };
   }
-  function closestOnSegment(lat, lon, a, b2) {
-    const aLat = a.lat, aLon = a.lon, bLat = b2.lat, bLon = b2.lon;
+  function closestOnSegment(lat, lon, a, b3) {
+    const aLat = a.lat, aLon = a.lon, bLat = b3.lat, bLon = b3.lon;
     const vx = bLat - aLat, vy = bLon - aLon;
     const len2 = vx * vx + vy * vy;
     const t = len2 > 0 ? Math.max(0, Math.min(1, ((lat - aLat) * vx + (lon - aLon) * vy) / len2)) : 0;
@@ -37955,8 +45342,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
             if (seen.has(key)) continue;
             seen.add(key);
             const a = nodePoint(graph, lo);
-            const b2 = nodePoint(graph, hi);
-            const hit = closestOnSegment(lat, lon, a, b2);
+            const b3 = nodePoint(graph, hi);
+            const hit = closestOnSegment(lat, lon, a, b3);
             const d2 = haversineMeters({ lat, lon }, hit);
             if (d2 < bestD && d2 <= maxMeters) {
               bestD = d2;
@@ -38054,16 +45441,16 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function pointsFromNodes(graph, ids) {
     return ids.map((id) => nodePoint(graph, id));
   }
-  function pairPoints(a, b2) {
+  function pairPoints(a, b3) {
     return [
       { lat: a.lat, lon: a.lon },
-      { lat: b2.lat, lon: b2.lon }
+      { lat: b3.lat, lon: b3.lon }
     ];
   }
-  function straightLeg(a, b2, reason) {
-    const meters = geodesicMeters(a, b2);
+  function straightLeg(a, b3, reason) {
+    const meters = geodesicMeters(a, b3);
     return {
-      points: pairPoints(a, b2),
+      points: pairPoints(a, b3),
       meters,
       straightMeters: meters,
       mode: "straight",
@@ -38071,34 +45458,34 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       offMap: reason === "off-map" || reason === "use-anyway"
     };
   }
-  function unroutableLeg(a, b2, reason) {
+  function unroutableLeg(a, b3, reason) {
     return {
-      points: pairPoints(a, b2),
+      points: pairPoints(a, b3),
       meters: 0,
-      straightMeters: geodesicMeters(a, b2),
+      straightMeters: geodesicMeters(a, b3),
       mode: "unroutable",
       reason: reason || "no-route",
       note: UNROUTABLE_SWITCH_HINT
     };
   }
-  function legKey(a, b2) {
-    if (!a || !b2) return "";
+  function legKey(a, b3) {
+    if (!a || !b3) return "";
     const fmt = (p) => `${Number(p.lat).toFixed(6)},${Number(p.lon).toFixed(6)}`;
-    return `${fmt(a)}>${fmt(b2)}`;
+    return `${fmt(a)}>${fmt(b3)}`;
   }
-  function routePair(graph, a, b2, opts = {}) {
-    if (!a || !b2) return null;
-    if (opts.straightLine || isOffPathMode(opts.pathMode != null ? opts.pathMode : b2 && b2.pathMode)) {
-      return straightLeg(a, b2, opts.straightLine ? "toggle" : "off-path");
+  function routePair(graph, a, b3, opts = {}) {
+    if (!a || !b3) return null;
+    if (opts.straightLine || isOffPathMode(opts.pathMode != null ? opts.pathMode : b3 && b3.pathMode)) {
+      return straightLeg(a, b3, opts.straightLine ? "toggle" : "off-path");
     }
-    if (opts.allowStraight) return straightLeg(a, b2, "off-path");
-    if (!graph) return unroutableLeg(a, b2, "no-graph");
+    if (opts.allowStraight) return straightLeg(a, b3, "off-path");
+    if (!graph) return unroutableLeg(a, b3, "no-graph");
     const maxSnap = opts.maxSnap == null ? DEFAULT_SNAP : opts.maxSnap;
     const sa = snapToGraph(graph, a.lat, a.lon, maxSnap);
-    const sb = snapToGraph(graph, b2.lat, b2.lon, maxSnap);
-    if (!sa || !sb) return unroutableLeg(a, b2, "no-snap");
+    const sb = snapToGraph(graph, b3.lat, b3.lon, maxSnap);
+    if (!sa || !sb) return unroutableLeg(a, b3, "no-snap");
     const path = shortestPath(graph, sa.id, sb.id);
-    if (!path) return unroutableLeg(a, b2, "no-route");
+    if (!path) return unroutableLeg(a, b3, "no-route");
     const points = [{ lat: a.lat, lon: a.lon }];
     if (haversineMeters(points[0], sa) > 0.4) points.push({ lat: sa.lat, lon: sa.lon });
     const mid = pointsFromNodes(graph, path.nodes);
@@ -38107,10 +45494,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       if (haversineMeters(last, p) > 0.4) points.push(p);
     }
     if (haversineMeters(points[points.length - 1], sb) > 0.4) points.push({ lat: sb.lat, lon: sb.lon });
-    const end = { lat: b2.lat, lon: b2.lon };
+    const end = { lat: b3.lat, lon: b3.lon };
     if (haversineMeters(points[points.length - 1], end) > 0.4) points.push(end);
     const meters = pathLengthMeters(points);
-    const straight = geodesicMeters(a, b2);
+    const straight = geodesicMeters(a, b3);
     const longDetour = !opts.skipDetourGuard && isExcessiveDetour(meters, straight);
     return {
       points,
@@ -38123,11 +45510,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       note: longDetour ? LONG_DETOUR_HINT : null
     };
   }
-  function pinsSharePrefix(a, b2) {
-    if (!a || !b2) return 0;
-    const n = Math.min(a.length, b2.length);
+  function pinsSharePrefix(a, b3) {
+    if (!a || !b3) return 0;
+    const n = Math.min(a.length, b3.length);
     let i = 0;
-    while (i < n && a[i] && b2[i] && a[i].lat === b2[i].lat && a[i].lon === b2[i].lon && normalizePathMode(a[i].pathMode) === normalizePathMode(b2[i].pathMode)) i++;
+    while (i < n && a[i] && b3[i] && a[i].lat === b3[i].lat && a[i].lon === b3[i].lon && normalizePathMode(a[i].pathMode) === normalizePathMode(b3[i].pathMode)) i++;
     return i;
   }
   function routeLegs(graph, pins, opts = {}) {
@@ -38208,10 +45595,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     return out;
   }
-  function bearingDegrees(a, b2) {
+  function bearingDegrees(a, b3) {
     const lat1 = Number(a.lat) * Math.PI / 180;
-    const lat2 = Number(b2.lat) * Math.PI / 180;
-    const dLon = (Number(b2.lon) - Number(a.lon)) * Math.PI / 180;
+    const lat2 = Number(b3.lat) * Math.PI / 180;
+    const dLon = (Number(b3.lon) - Number(a.lon)) * Math.PI / 180;
     const y2 = Math.sin(dLon) * Math.cos(lat2);
     const x2 = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
     return (Math.atan2(y2, x2) * 180 / Math.PI + 360) % 360;
@@ -38244,10 +45631,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     if (!graph) return autoLoopFailed("no-graph");
     const pathCache = /* @__PURE__ */ new Map();
-    function hop(a, b2, avoid) {
-      const key = a + ">" + b2 + ">" + (avoid == null ? -1 : avoid);
+    function hop(a, b3, avoid) {
+      const key = a + ">" + b3 + ">" + (avoid == null ? -1 : avoid);
       if (pathCache.has(key)) return pathCache.get(key);
-      const res = shortestPath(graph, a, b2, avoid == null ? {} : { avoid });
+      const res = shortestPath(graph, a, b3, avoid == null ? {} : { avoid });
       pathCache.set(key, res);
       return res;
     }
@@ -38260,8 +45647,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         if (!piece) return null;
         if (maxDetour) {
           const a = { lat: graph.lat[stops[i]], lon: graph.lon[stops[i]] };
-          const b2 = { lat: graph.lat[stops[i + 1]], lon: graph.lon[stops[i + 1]] };
-          const crow = haversineMeters(a, b2);
+          const b3 = { lat: graph.lat[stops[i + 1]], lon: graph.lon[stops[i + 1]] };
+          const crow = haversineMeters(a, b3);
           if (crow > 5 && piece.meters > crow * maxDetour + 80) return null;
         }
         meters += piece.meters;
@@ -38301,8 +45688,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       built.quality = loopQuality(built.path);
       return built;
     }
-    function edgeKey(a, b2) {
-      return a < b2 ? a + ":" + b2 : b2 + ":" + a;
+    function edgeKey2(a, b3) {
+      return a < b3 ? a + ":" + b3 : b3 + ":" + a;
     }
     function walkToward(fromId, heading, budgetMeters, used) {
       const nodes = [fromId];
@@ -38321,7 +45708,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
             { lat: graph.lat[id], lon: graph.lon[id] },
             { lat: graph.lat[e.to], lon: graph.lon[e.to] }
           );
-          const reused = seen.has(edgeKey(id, e.to));
+          const reused = seen.has(edgeKey2(id, e.to));
           const score = turnDelta(heading, brg) + (reused ? 80 : 0);
           if (score < bestScore) {
             bestScore = score;
@@ -38337,7 +45724,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           }
         }
         if (!best2) break;
-        seen.add(edgeKey(id, best2.to));
+        seen.add(edgeKey2(id, best2.to));
         prev = id;
         id = best2.to;
         meters += best2.meters;
@@ -38365,7 +45752,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       const seen = /* @__PURE__ */ new Set();
       let reused = 0, total = 0;
       for (let i = 1; i < nodes.length; i++) {
-        const key = edgeKey(nodes[i - 1], nodes[i]);
+        const key = edgeKey2(nodes[i - 1], nodes[i]);
         total++;
         if (seen.has(key)) reused++;
         else seen.add(key);
@@ -38521,9 +45908,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       const start = snapToNode(graph, center.lat, center.lon, maxSnap);
       if (!start) continue;
       start._snap = maxSnap;
-      const first = searchWithStart(start, tightCounts, tightScales, tightOffsets);
-      const wide = !first || Math.abs(first.meters - target) > close ? searchWithStart(start, wideCounts, wideScales, wideOffsets) : null;
-      for (const cand of [first, wide]) {
+      const first2 = searchWithStart(start, tightCounts, tightScales, tightOffsets);
+      const wide = !first2 || Math.abs(first2.meters - target) > close ? searchWithStart(start, wideCounts, wideScales, wideOffsets) : null;
+      for (const cand of [first2, wide]) {
         if (!cand) continue;
         if (!best || Math.abs(cand.meters - target) < Math.abs(best.meters - target)) best = cand;
       }
@@ -38609,7 +45996,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const word = kind === "lap" ? "Lap" : "Pass";
     return `${word} ${index} of ${total}`;
   }
-  function progressOnPlan(plan, traveledMeters) {
+  function progressOnPlan(plan, traveledMeters, { gate = null } = {}) {
     if (!plan) return null;
     const target = plan.targetMeters;
     const traveled = Math.max(0, Number(traveledMeters) || 0);
@@ -38632,7 +46019,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     if (courseLen > 0 && total > 0) {
       if (hitTarget) index = total;
-      else index = Math.min(total, Math.floor(traveled / courseLen) + 1);
+      else if (plan.kind === "lap" && gate && gate.gated && gate.currentLap > 0) {
+        index = Math.min(total, gate.currentLap);
+      } else index = Math.min(total, Math.floor(traveled / courseLen) + 1);
     }
     return {
       kind: plan.kind,
@@ -38642,7 +46031,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       traveled: Math.min(traveled, target),
       left,
       hitTarget,
-      pastCourse: false
+      pastCourse: false,
+      gated: !!(plan.kind === "lap" && gate && gate.gated),
+      completedLaps: gate && gate.gated ? gate.completedLaps : null,
+      bestLapSec: gate && gate.gated ? gate.bestLapSec : null
     };
   }
   function planTarget({ course, path, courseMeters: courseLenArg, targetMeters, mode = MODE_COURSE, closeMeters = CLOSE_METERS } = {}) {
@@ -38799,16 +46191,342 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
   }
 
+  // www/js/lap_gate.js
+  init_util();
+
+  // www/js/plan_legs.js
+  init_elevation();
+  init_util();
+  function legDistances2(pins) {
+    const list = pins || [];
+    const legs = [];
+    for (let i = 0; i < list.length - 1; i++) {
+      legs.push({
+        from: i,
+        to: i + 1,
+        meters: haversineMeters(list[i], list[i + 1])
+      });
+    }
+    return legs;
+  }
+  function buildEvenPaceLegTargets(pins, totalSec, { path, meters: givenMeters, legs: givenLegs } = {}) {
+    const total = Math.max(0, Number(totalSec) || 0);
+    const legs = givenLegs || (Array.isArray(givenMeters) ? givenMeters.map((m, i) => ({ from: i, to: i + 1, meters: Math.max(0, Number(m) || 0) })) : sectorDistances(pins, path));
+    if (!legs.length) return [];
+    const meters = legs.reduce((s2, l) => s2 + Math.max(0, l.meters || 0), 0);
+    if (!(meters > 0) || !(total > 0)) {
+      return legs.map(() => 0);
+    }
+    const out = legs.map((l) => Math.max(0, Math.max(0, l.meters) / meters * total));
+    const drift = total - out.reduce((s2, v2) => s2 + v2, 0);
+    out[out.length - 1] = Math.max(0, out[out.length - 1] + drift);
+    return out;
+  }
+  function sectorDistances(pins, path) {
+    const list = pins || [];
+    if (list.length < 2) return [];
+    const line = path && path.length >= 2 ? path : null;
+    if (!line) return legDistances2(list);
+    const prefixes = [0];
+    for (let i = 1; i < line.length; i++) {
+      prefixes[i] = prefixes[i - 1] + geodesicMeters(line[i - 1], line[i]);
+    }
+    const total = prefixes[prefixes.length - 1] || 0;
+    const cuts = list.map((p) => {
+      let best = 0, bestD = Infinity;
+      for (let i = 0; i < line.length; i++) {
+        const d2 = haversineMeters(p, line[i]);
+        if (d2 < bestD) {
+          bestD = d2;
+          best = prefixes[i];
+        }
+      }
+      return best;
+    });
+    for (let i = 1; i < cuts.length; i++) {
+      if (cuts[i] < cuts[i - 1]) cuts[i] = cuts[i - 1];
+    }
+    if (cuts[cuts.length - 1] < total) cuts[cuts.length - 1] = total;
+    const legs = [];
+    for (let i = 0; i < cuts.length - 1; i++) {
+      legs.push({ from: i, to: i + 1, meters: Math.max(0, cuts[i + 1] - cuts[i]) });
+    }
+    return legs;
+  }
+  function recentAveragePaceSecPerMeter(activities, { type, limit = 8 } = {}) {
+    const list = (activities || []).filter((a) => a && (!type || a.type === type) && a.distanceMeters > 50 && a.elapsedSec > 0).slice(-limit);
+    let m = 0;
+    let s2 = 0;
+    for (const a of list) {
+      m += Number(a.distanceMeters) || 0;
+      s2 += Number(a.elapsedSec) || 0;
+    }
+    if (!(m > 0) || !(s2 > 0)) return null;
+    return s2 / m;
+  }
+  function pointElapsedSec(pt, origin) {
+    if (!pt) return 0;
+    if (Number.isFinite(Number(pt.t)) && Number(pt.t) < 1e7) return Number(pt.t);
+    const at = pt.at;
+    let ms = null;
+    if (typeof at === "number" && Number.isFinite(at)) ms = at > 1e11 ? at : at * 1e3;
+    else if (at) {
+      const parsed = Date.parse(at);
+      if (Number.isFinite(parsed)) ms = parsed;
+    } else if (Number.isFinite(Number(pt.t))) {
+      const n = Number(pt.t);
+      ms = n > 1e11 ? n : n * 1e3;
+    }
+    if (ms == null) return 0;
+    const o = origin == null ? ms : origin;
+    return (ms - o) / 1e3;
+  }
+  function trackOriginMs(track) {
+    const p = track && track[0];
+    if (!p) return 0;
+    if (typeof p.at === "number" && Number.isFinite(p.at)) return p.at > 1e11 ? p.at : p.at * 1e3;
+    if (p.at) {
+      const parsed = Date.parse(p.at);
+      if (Number.isFinite(parsed)) return parsed;
+    }
+    return 0;
+  }
+  function legSplitsFromTrack(pins, track) {
+    if (!pins || pins.length < 2 || !track || track.length < 2) return null;
+    const legs = legDistances2(pins).map((l) => l.meters);
+    const origin = trackOriginMs(track);
+    let travelled = 0;
+    let cursor = 0;
+    const splits = [];
+    let boundary = 0;
+    for (const leg of legs) {
+      boundary += leg;
+      let hit = null;
+      for (let i = cursor; i < track.length; i++) {
+        if (i > 0) travelled += haversineMeters(track[i - 1], track[i]);
+        cursor = i;
+        if (travelled >= boundary - 1) {
+          hit = pointElapsedSec(track[i], origin);
+          break;
+        }
+      }
+      const prev = splits.length ? splits.reduce((s2, v2) => s2 + v2, 0) : 0;
+      splits.push(hit == null ? 0 : Math.max(0.1, hit - prev));
+    }
+    return splits;
+  }
+
+  // www/js/lap_gate.js
+  var DEFAULT_GATE_METERS = CLOSE_METERS;
+  var DEFAULT_SECTOR_METERS = CLOSE_METERS;
+  function pointElapsedSec2(pt, originMs2) {
+    if (!pt) return 0;
+    if (Number.isFinite(Number(pt.t)) && Number(pt.t) < 1e7) return Number(pt.t);
+    const at = pt.at;
+    let ms = null;
+    if (typeof at === "number" && Number.isFinite(at)) ms = at > 1e11 ? at : at * 1e3;
+    else if (at) {
+      const parsed = Date.parse(at);
+      if (Number.isFinite(parsed)) ms = parsed;
+    } else if (Number.isFinite(Number(pt.t))) {
+      const n = Number(pt.t);
+      ms = n > 1e11 ? n : n * 1e3;
+    }
+    if (ms == null) return 0;
+    return (ms - (originMs2 == null ? ms : originMs2)) / 1e3;
+  }
+  function originMs(track) {
+    const p = track && track[0];
+    if (!p) return 0;
+    if (typeof p.at === "number" && Number.isFinite(p.at)) return p.at > 1e11 ? p.at : p.at * 1e3;
+    if (p.at) {
+      const parsed = Date.parse(p.at);
+      if (Number.isFinite(parsed)) return parsed;
+    }
+    return 0;
+  }
+  function coursePins(course) {
+    if (!course) return [];
+    if (Array.isArray(course.pins) && course.pins.length >= 2) return course.pins;
+    return [];
+  }
+  function courseLine(course) {
+    if (!course) return [];
+    if (course.path && course.path.length >= 2) return course.path;
+    return course.pins || [];
+  }
+  function isGatedLoop(course, closeMeters = DEFAULT_GATE_METERS) {
+    const pins = coursePins(course);
+    if (pins.length < 2) return false;
+    const line = courseLine(course);
+    if (line.length >= 2 && !isClosedCircuit(line, closeMeters)) return false;
+    return haversineMeters(pins[0], pins[pins.length - 1]) <= closeMeters;
+  }
+  function analyzeLapGate(course, track, {
+    gateMeters = DEFAULT_GATE_METERS,
+    sectorMeters = DEFAULT_SECTOR_METERS
+  } = {}) {
+    const pins = coursePins(course);
+    const line = courseLine(course);
+    const closed = isGatedLoop(course, gateMeters) || pins.length >= 2 && isClosedCircuit(line, gateMeters);
+    const pointCount = track ? track.length : 0;
+    const result = {
+      closed,
+      gated: false,
+      segmentCount: Math.max(0, pins.length - 1),
+      courseMeters: line.length >= 2 ? pathLengthMeters(line) : 0,
+      gate: pins.length ? { lat: pins[0].lat, lon: pins[0].lon } : null,
+      gateMeters,
+      sectorMeters,
+      completedLaps: 0,
+      currentLap: 1,
+      lap: 1,
+      armed: false,
+      nextSector: 0,
+      leftGate: false,
+      atGate: false,
+      points: pointCount,
+      lapTimes: [],
+      sectorTimesByLap: [[]],
+      sectorTimes: [],
+      gateCrossings: [],
+      bestLapSec: null,
+      lastLapSec: null
+    };
+    if (!closed || pins.length < 2 || !track || track.length < 2) return result;
+    result.gated = true;
+    const origin = originMs(track);
+    const times = track.map((p) => pointElapsedSec2(p, origin));
+    const gate = pins[0];
+    const total = result.courseMeters;
+    const legs = sectorDistances(pins, line);
+    let boundaryAcc = 0;
+    const sectorEnds = legs.map((l) => boundaryAcc += Number(l.meters) || 0);
+    if (sectorEnds.length) sectorEnds[sectorEnds.length - 1] = total;
+    const boundaryPins = pins.slice(1);
+    let inGate = haversineMeters(track[0], gate) <= gateMeters;
+    let leftGate = !inGate;
+    let nextSector = 0;
+    let armed = false;
+    let lapStartSec = times[0] || 0;
+    let sectorStartSec = lapStartSec;
+    let currentLap = 1;
+    let completedLaps = 0;
+    let lapOffset = 0;
+    let prevRaw = 0;
+    let prevProgress = 0;
+    let prevT = times[0] || 0;
+    result.atGate = inGate;
+    for (let i = 0; i < track.length; i++) {
+      const pt = track[i];
+      const t = times[i] || 0;
+      const gateDist = haversineMeters(pt, gate);
+      const nowInGate = gateDist <= gateMeters;
+      const proj = projectOnPath(line, pt);
+      let raw = proj.traveled;
+      if (raw + total * 0.3 < prevRaw) {
+        if (prevRaw > total * 0.7 && raw < total * 0.3) lapOffset += total;
+        else raw = prevRaw;
+      }
+      let progress = lapOffset + raw;
+      if (progress < prevProgress) progress = prevProgress;
+      if (leftGate && nextSector < sectorEnds.length) {
+        const boundary = completedLaps * total + sectorEnds[nextSector];
+        if (progress + 0.5 >= boundary) {
+          const near = haversineMeters(pt, boundaryPins[nextSector]) <= sectorMeters;
+          if (near) {
+            const span = progress - prevProgress;
+            const frac = span > 0.05 ? Math.min(1, Math.max(0, (boundary - prevProgress) / span)) : 1;
+            const crossT = prevT + (t - prevT) * frac;
+            const sec = Math.max(0, crossT - sectorStartSec);
+            const lapSectors = result.sectorTimesByLap[currentLap - 1];
+            if (lapSectors) lapSectors.push(Math.round(sec * 10) / 10);
+            result.sectorTimes.push(Math.round(sec * 10) / 10);
+            sectorStartSec = crossT;
+            nextSector += 1;
+            if (nextSector >= sectorEnds.length) {
+              armed = true;
+              result.gateCrossings.push(i);
+              result.lapTimes.push({
+                lap: currentLap,
+                seconds: Math.round(Math.max(0, crossT - lapStartSec) * 10) / 10,
+                startSec: Math.round(lapStartSec * 10) / 10,
+                endSec: Math.round(crossT * 10) / 10,
+                endIndex: i
+              });
+              completedLaps += 1;
+              currentLap += 1;
+              lapStartSec = crossT;
+              sectorStartSec = crossT;
+              nextSector = 0;
+              armed = false;
+              result.sectorTimesByLap.push([]);
+              prevProgress = progress;
+              prevT = t;
+              prevRaw = raw;
+              if (inGate && !nowInGate) leftGate = true;
+              inGate = nowInGate;
+              continue;
+            }
+          }
+        }
+      }
+      if (inGate && !nowInGate) leftGate = true;
+      inGate = nowInGate;
+      prevProgress = progress;
+      prevT = t;
+      prevRaw = raw;
+    }
+    result.completedLaps = completedLaps;
+    result.currentLap = currentLap;
+    result.lap = currentLap;
+    result.armed = armed;
+    result.nextSector = nextSector;
+    result.leftGate = leftGate;
+    result.atGate = inGate;
+    result.sectorTimesByLap = result.sectorTimesByLap.filter((l, i) => i === 0 || l.length > 0);
+    const laps = result.lapTimes.map((l) => l.seconds).filter((s2) => s2 > 0);
+    if (laps.length) {
+      result.lastLapSec = laps[laps.length - 1];
+      result.bestLapSec = Math.min(...laps);
+    }
+    return result;
+  }
+
   // www/js/auto_pause.js
+  init_util();
   var STOP_SPEED_MPS = 0.45;
   var MOVE_SPEED_MPS = 0.7;
   var STOP_DWELL_MS = 5e3;
   var MOVE_DWELL_MS = 2e3;
   var START_GRACE_MS = 1e4;
-  var SAMPLE_KEEP_MS = STOP_DWELL_MS + 2e3;
-  function createAutoPauseState(startedAt = 0) {
+  var RIDE_STOP_SPEED_MPS = 0.5;
+  var RIDE_MOVE_SPEED_MPS = 1.2;
+  var RIDE_STOP_DWELL_MS = 8e3;
+  var RIDE_MOVE_DWELL_MS = 3e3;
+  function autoPauseThresholds(type) {
+    if (isRideType(type)) {
+      return {
+        stopSpeedMps: RIDE_STOP_SPEED_MPS,
+        moveSpeedMps: RIDE_MOVE_SPEED_MPS,
+        stopDwellMs: RIDE_STOP_DWELL_MS,
+        moveDwellMs: RIDE_MOVE_DWELL_MS,
+        startGraceMs: START_GRACE_MS
+      };
+    }
+    return {
+      stopSpeedMps: STOP_SPEED_MPS,
+      moveSpeedMps: MOVE_SPEED_MPS,
+      stopDwellMs: STOP_DWELL_MS,
+      moveDwellMs: MOVE_DWELL_MS,
+      startGraceMs: START_GRACE_MS
+    };
+  }
+  var SAMPLE_KEEP_MS = Math.max(STOP_DWELL_MS, RIDE_STOP_DWELL_MS) + 2e3;
+  function createAutoPauseState(startedAt = 0, type = "walk") {
     return {
       startedAt: startedAt || 0,
+      type,
       samples: [],
       lastMovingAt: null,
       movingSince: null,
@@ -38818,10 +46536,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function windowStats(samples, fromAt) {
     const window2 = samples.filter((s2) => s2.at >= fromAt);
     if (window2.length < 2) return { net: 0, path: 0, span: 0, speed: 0, straight: 0 };
-    const first = window2[0];
+    const first2 = window2[0];
     const last = window2[window2.length - 1];
-    const span = last.at - first.at;
-    const net = haversineMeters(first, last);
+    const span = last.at - first2.at;
+    const net = haversineMeters(first2, last);
     let path = 0;
     for (let i = 1; i < window2.length; i += 1) {
       path += haversineMeters(window2[i - 1], window2[i]);
@@ -38841,39 +46559,51 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (Number.isFinite(input.startedAt)) state3.startedAt = input.startedAt;
     else if (!state3.startedAt) state3.startedAt = at;
     if (input.paused && input.pauseReason === "manual") return null;
+    const type = input.type || state3.type || "walk";
+    state3.type = type;
+    const th = autoPauseThresholds(type);
     if (Number.isFinite(input.lat) && Number.isFinite(input.lon)) {
       state3.samples.push({ lat: input.lat, lon: input.lon, at });
     }
     const keepAfter = at - SAMPLE_KEEP_MS;
     state3.samples = state3.samples.filter((s2) => s2.at >= keepAfter);
-    const window2 = windowStats(state3.samples, at - STOP_DWELL_MS);
-    const recent = windowStats(state3.samples, at - MOVE_DWELL_MS);
+    const window2 = windowStats(state3.samples, at - th.stopDwellMs);
+    const recent = windowStats(state3.samples, at - th.moveDwellMs);
     const lastAt = state3.samples.length ? state3.samples[state3.samples.length - 1].at : null;
     const quietMs = lastAt != null ? at - lastAt : 0;
-    const movingNow = recent.speed >= MOVE_SPEED_MPS && recent.straight >= 0.55 && recent.net >= 1.2;
+    const movingNow = recent.speed >= th.moveSpeedMps && recent.straight >= 0.55 && recent.net >= 1.2;
     if (movingNow) {
       state3.hasMoved = true;
       state3.lastMovingAt = at;
       if (state3.movingSince == null) state3.movingSince = at;
-    } else if (recent.span >= MOVE_DWELL_MS - 400 && recent.speed < STOP_SPEED_MPS || quietMs >= MOVE_DWELL_MS) {
+    } else if (recent.span >= th.moveDwellMs - 400 && recent.speed < th.stopSpeedMps || quietMs >= th.moveDwellMs) {
       state3.movingSince = null;
     }
-    const pastGrace = at - state3.startedAt >= START_GRACE_MS;
-    const windowStill = window2.span >= STOP_DWELL_MS - 400 && window2.speed < MOVE_SPEED_MPS || quietMs >= STOP_DWELL_MS;
+    const pastGrace = at - state3.startedAt >= th.startGraceMs;
+    const windowStill = window2.span >= th.stopDwellMs - 400 && window2.speed < th.moveSpeedMps || quietMs >= th.stopDwellMs;
     if (!input.paused && state3.hasMoved && pastGrace && windowStill) return "pause";
-    if (input.paused && input.pauseReason === "auto" && state3.movingSince != null && at - state3.movingSince >= MOVE_DWELL_MS && movingNow) {
+    if (input.paused && input.pauseReason === "auto" && state3.movingSince != null && at - state3.movingSince >= th.moveDwellMs && movingNow) {
       return "resume";
     }
     return null;
   }
 
   // www/js/gap_fill.js
+  init_util();
   var GAP_MS = 15e3;
   var ON_ROUTE_M = 50;
   var MIN_FILL_M = 25;
   var STEP_M = 30;
   var MAX_SPEED_MPS = 8;
   var TELEPORT_SPEED_MPS = 12;
+  var RIDE_MAX_SPEED_MPS = 23;
+  var RIDE_TELEPORT_SPEED_MPS = 32;
+  function maxFillSpeedMps(type) {
+    return isRideType(type) ? RIDE_MAX_SPEED_MPS : MAX_SPEED_MPS;
+  }
+  function teleportSpeedMps(type) {
+    return isRideType(type) ? RIDE_TELEPORT_SPEED_MPS : TELEPORT_SPEED_MPS;
+  }
   function lastFixTime(last) {
     if (!last) return null;
     if (last.at) {
@@ -38892,21 +46622,21 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (ms <= 0) return d2 > 0 ? Infinity : 0;
     return d2 / (ms / 1e3);
   }
-  function isDropout(last, next, at) {
+  function isDropout(last, next, at, type) {
     if (!last || !next) return false;
     const d2 = haversineMeters(last, next);
     const ms = timeGapMs(last, at);
     if (d2 < MIN_FILL_M) return false;
     if (ms >= GAP_MS) return true;
-    if (ms >= 8e3 && impliedSpeedMps(last, next, at) > MAX_SPEED_MPS + 0.5) return true;
+    if (ms >= 8e3 && impliedSpeedMps(last, next, at) > maxFillSpeedMps(type) + 0.5) return true;
     return false;
   }
-  function isTeleport(last, next, at) {
+  function isTeleport(last, next, at, type) {
     if (!last || !next) return false;
     const d2 = haversineMeters(last, next);
     const ms = timeGapMs(last, at);
     if (d2 < MIN_FILL_M) return false;
-    if (impliedSpeedMps(last, next, at) > TELEPORT_SPEED_MPS) return true;
+    if (impliedSpeedMps(last, next, at) > teleportSpeedMps(type)) return true;
     if (ms >= GAP_MS && d2 >= 200) return true;
     return false;
   }
@@ -38916,16 +46646,16 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const ms = start + Math.max(0, Math.min(1, t)) * Math.max(0, at - start);
     return new Date(ms).toISOString();
   }
-  function fillAlongRoute(path, last, next, at) {
+  function fillAlongRoute(path, last, next, at, type) {
     if (!path || path.length < 2 || !last || !next) return null;
     const a = projectOnPath(path, last);
-    const b2 = projectOnPath(path, next);
-    if (a.offsetMeters > ON_ROUTE_M || b2.offsetMeters > ON_ROUTE_M) return null;
-    const forward = b2.traveled - a.traveled;
+    const b3 = projectOnPath(path, next);
+    if (a.offsetMeters > ON_ROUTE_M || b3.offsetMeters > ON_ROUTE_M) return null;
+    const forward = b3.traveled - a.traveled;
     if (forward < MIN_FILL_M) return null;
     const ms = Math.max(timeGapMs(last, at), 1);
-    if (forward / (ms / 1e3) > MAX_SPEED_MPS) return null;
-    const raw = pointsBetweenAlongPath(path, a.traveled, b2.traveled, STEP_M);
+    if (forward / (ms / 1e3) > maxFillSpeedMps(type)) return null;
+    const raw = pointsBetweenAlongPath(path, a.traveled, b3.traveled, STEP_M);
     const mids = raw.filter((p) => haversineMeters(p, last) >= 2);
     const points = mids.map((p, i) => {
       const t = forward === 0 ? 1 : (p.traveled - a.traveled) / forward;
@@ -38945,15 +46675,16 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       lastMid.at = new Date(at).toISOString();
       lastMid.filled = false;
     }
-    const snap = haversineMeters({ lat: b2.point.lat, lon: b2.point.lon }, next);
+    const snap = haversineMeters({ lat: b3.point.lat, lon: b3.point.lon }, next);
     return { points, meters: forward + Math.min(snap, ON_ROUTE_M), filled: true };
   }
   function applyTrackPoint(session2, last, next, at) {
     if (!session2) return { session: session2, filled: false };
-    const dropout = isDropout(last, next, at);
+    const type = session2.type || "walk";
+    const dropout = isDropout(last, next, at, type);
     if (dropout) {
       const path = session2.coursePath && session2.coursePath.length >= 2 ? session2.coursePath : session2.coursePins && session2.coursePins.length >= 2 ? session2.coursePins : null;
-      const fill = path ? fillAlongRoute(path, last, next, at) : null;
+      const fill = path ? fillAlongRoute(path, last, next, at, type) : null;
       if (fill) {
         for (const p of fill.points) {
           const elapsed = session2.elapsedSec || 0;
@@ -38963,7 +46694,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         return { session: session2, filled: true };
       }
       session2.track.push({ lat: next.lat, lon: next.lon, t: session2.elapsedSec || 0, at: new Date(at).toISOString() });
-      if (!isTeleport(last, next, at)) session2.distanceMeters += haversineMeters(last, next);
+      if (!isTeleport(last, next, at, type)) session2.distanceMeters += haversineMeters(last, next);
       return { session: session2, filled: false };
     }
     session2.distanceMeters += haversineMeters(last, next);
@@ -38972,6 +46703,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
 
   // www/js/off_route.js
+  init_util();
   var OFF_ROUTE_M = 40;
   var NUDGE_AFTER_MS = 6e3;
   function sessionPath(sess) {
@@ -39037,6 +46769,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
 
   // www/js/start_detect.js
+  init_util();
   var START_CONFIRM_M = 30;
   var MID_START_M = 40;
   function reversePath2(path) {
@@ -39049,9 +46782,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function inferStart(path, fixes) {
     if (!path || path.length < 2 || !fixes || fixes.length < 2) return null;
     if (movementMeters(fixes) < START_CONFIRM_M) return null;
-    const first = projectOnPath(path, fixes[0]);
+    const first2 = projectOnPath(path, fixes[0]);
     const last = projectOnPath(path, fixes[fixes.length - 1]);
-    const along = last.traveled - first.traveled;
+    const along = last.traveled - first2.traveled;
     const reversed = along <= -START_CONFIRM_M * 0.6;
     const oriented = reversed ? reversePath2(path) : path;
     const originProj = projectOnPath(oriented, fixes[0]);
@@ -39061,7 +46794,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       path: oriented,
       originMeters,
       midStart: originMeters >= MID_START_M,
-      firstOffset: first.offsetMeters
+      firstOffset: first2.offsetMeters
     };
   }
   function applyStartDetection(sess, inference) {
@@ -39098,6 +46831,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
 
   // www/js/low_power.js
+  init_util();
   var NORMAL_DISTANCE_FILTER_M = 5;
   var LOW_DISTANCE_FILTER_M = 30;
   var LOW_INTERVAL_MS = 1e4;
@@ -39162,183 +46896,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return dist3 >= LOW_MIN_FIX_M;
   }
 
-  // www/js/elevation.js
-  var GAIN_THRESHOLD_M = 3;
-  var FLAT_DISCLAIMER = "Distance is measured as flat ground. Elevation isn't included unless you turn on Count hills in distance.";
-  var HILLS_DISCLAIMER = "Distance includes hills.";
-  var DEM_CREDIT_SHORT = "Elevation data: Tilezen/Mapzen terrain tiles, hosted by AWS Open Data.";
-  var DEM_ATTRIBUTION_URL = "https://github.com/tilezen/joerd/blob/master/docs/attribution.md";
-  function terrariumToMeters(r, g, b2) {
-    return r * 256 + g + b2 / 256 - 32768;
-  }
-  function fuseElevation({ baroM, gpsM, demM, prevM } = {}) {
-    const have = (v2) => v2 != null && Number.isFinite(Number(v2));
-    let base = null;
-    let source = "none";
-    if (have(baroM)) {
-      base = Number(baroM);
-      source = "baro";
-    } else if (have(gpsM)) {
-      base = Number(gpsM);
-      source = "gps";
-    } else if (have(demM)) {
-      base = Number(demM);
-      source = "dem";
-    } else if (have(prevM)) {
-      return { meters: Number(prevM), source: "hold" };
-    } else return { meters: null, source: "none" };
-    if (have(demM) && source !== "dem") {
-      const dem = Number(demM);
-      const alpha = source === "baro" ? 0.25 : 0.45;
-      base = base * (1 - alpha) + dem * alpha;
-    }
-    if (have(prevM)) {
-      const prev = Number(prevM);
-      base = prev * 0.35 + base * 0.65;
-    }
-    return { meters: Math.round(base * 10) / 10, source };
-  }
-  function smoothElevations(values, window2 = 5) {
-    const arr = (values || []).map((v2) => v2 == null || !Number.isFinite(Number(v2)) ? null : Number(v2));
-    const n = arr.length;
-    if (n < 3) return arr.slice();
-    const w2 = Math.max(3, window2 % 2 === 1 ? window2 : window2 + 1);
-    const half = Math.floor(w2 / 2);
-    const out = arr.slice();
-    for (let i = 0; i < n; i++) {
-      let sum = 0, c = 0;
-      for (let j2 = i - half; j2 <= i + half; j2++) {
-        if (j2 < 0 || j2 >= n || arr[j2] == null) continue;
-        sum += arr[j2];
-        c += 1;
-      }
-      if (c) out[i] = Math.round(sum / c * 10) / 10;
-    }
-    const first = arr.find((v2) => v2 != null);
-    const last = [...arr].reverse().find((v2) => v2 != null);
-    if (first != null) out[arr.findIndex((v2) => v2 != null)] = first;
-    if (last != null) out[n - 1 - [...arr].reverse().findIndex((v2) => v2 != null)] = last;
-    return out;
-  }
-  function seriesFrom(points) {
-    if (!points) return [];
-    if (points.length && typeof points[0] === "number") return points.map((v2) => Number.isFinite(v2) ? v2 : null);
-    return points.map((p) => {
-      if (p == null) return null;
-      const v2 = p.ele ?? p.elevation ?? p.alt ?? p.altitude;
-      return v2 == null || !Number.isFinite(Number(v2)) ? null : Number(v2);
-    });
-  }
-  function despikeElevations(values, thresholdM = GAIN_THRESHOLD_M) {
-    const arr = (values || []).map((v2) => v2 == null || !Number.isFinite(Number(v2)) ? null : Number(v2));
-    const out = arr.slice();
-    for (let i = 1; i < arr.length - 1; i++) {
-      if (arr[i] == null || arr[i - 1] == null || arr[i + 1] == null) continue;
-      const mid = Math.max(arr[i - 1], arr[i + 1]);
-      const low = Math.min(arr[i - 1], arr[i + 1]);
-      if (arr[i] - mid >= thresholdM * 2) out[i] = mid;
-      else if (low - arr[i] >= thresholdM * 2) out[i] = low;
-    }
-    return out;
-  }
-  function gainLoss(points, { thresholdM = GAIN_THRESHOLD_M, window: window2 = 3 } = {}) {
-    const cleaned = despikeElevations(seriesFrom(points), thresholdM);
-    const smooth = smoothElevations(cleaned, window2);
-    let gain = 0, loss = 0;
-    let last = null;
-    for (const v2 of cleaned) {
-      if (v2 == null) continue;
-      if (last == null) {
-        last = v2;
-        continue;
-      }
-      const d2 = v2 - last;
-      if (d2 >= thresholdM) {
-        gain += d2;
-        last = v2;
-      } else if (d2 <= -thresholdM) {
-        loss += -d2;
-        last = v2;
-      }
-    }
-    return {
-      gainM: Math.round(gain * 10) / 10,
-      lossM: Math.round(loss * 10) / 10,
-      samples: smooth
-    };
-  }
-  function distance3dMeters(points, { thresholdM = GAIN_THRESHOLD_M, window: window2 = 5 } = {}) {
-    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
-    if (pts.length < 2) return 0;
-    const smooth = smoothElevations(pts.map((p) => p.ele == null ? null : p.ele), window2);
-    let sum = 0;
-    for (let i = 1; i < pts.length; i++) {
-      const h2 = haversineMeters(pts[i - 1], pts[i]);
-      const a = smooth[i - 1];
-      const b2 = smooth[i];
-      let v2 = 0;
-      if (a != null && b2 != null) {
-        v2 = b2 - a;
-        if (Math.abs(v2) < thresholdM * 0.25) v2 = 0;
-      }
-      sum += Math.sqrt(h2 * h2 + v2 * v2);
-    }
-    return Math.round(sum * 10) / 10;
-  }
-  function displayDistance(points, flatMeters, { countHills = false } = {}) {
-    const flat = Number(flatMeters) || 0;
-    if (!countHills) {
-      return { meters: flat, disclaimer: FLAT_DISCLAIMER, countHills: false };
-    }
-    const d3 = distance3dMeters(points);
-    const meters = d3 > 0 ? d3 : flat;
-    return { meters, disclaimer: HILLS_DISCLAIMER, countHills: true, flatMeters: flat };
-  }
-  function naismithSeconds(flatMeters, gainM, mph) {
-    const miles = (Number(flatMeters) || 0) / 1609.344;
-    const speed = Number(mph) || 0;
-    const flatSec = speed > 0 && miles > 0 ? miles / speed * 3600 : 0;
-    const climbSec = Math.max(0, Number(gainM) || 0) / 600 * 3600;
-    return Math.round(flatSec + climbSec);
-  }
-  function formatGain(meters, units3 = "mi") {
-    const m = Math.max(0, Number(meters) || 0);
-    if (units3 === "km") {
-      if (m >= 1e3) return `${(m / 1e3).toFixed(1)} km`;
-      return `${Math.round(m)} m`;
-    }
-    const ft = m * 3.28084;
-    return `${Math.round(ft)} ft`;
-  }
-  function elevationProfileSvg(values, { width = 280, height = 72, gainM = 0, lossM = 0, units: units3 = "mi" } = {}) {
-    const nums = (values || []).filter((v2) => v2 != null && Number.isFinite(Number(v2))).map(Number);
-    if (nums.length < 2) return "";
-    const min = Math.min(...nums);
-    const max2 = Math.max(...nums);
-    const span = Math.max(max2 - min, 1);
-    const pad = 4;
-    const innerW = width - pad * 2;
-    const innerH = height - pad * 2;
-    const pts = nums.map((v2, i) => {
-      const x2 = pad + i / (nums.length - 1) * innerW;
-      const y2 = pad + (1 - (v2 - min) / span) * innerH;
-      return `${x2.toFixed(1)},${y2.toFixed(1)}`;
-    }).join(" ");
-    const label = `Elevation profile. Climb ${formatGain(gainM, units3)}, descent ${formatGain(lossM, units3)}.`;
-    return `<svg class="elev-profile" viewBox="0 0 ${width} ${height}" role="img" aria-label="${label.replace(/"/g, "'")}" data-testid="elevation-profile"><polyline fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" points="${pts}" /></svg>`;
-  }
-  function heightFromPressure(hpa, { seaLevelHpa = 1013.25, refHeightM = 0, refHpa = null } = {}) {
-    const p = Number(hpa);
-    if (!Number.isFinite(p) || p <= 0) return null;
-    if (refHpa && refHpa > 0) {
-      const href = 44330 * (1 - Math.pow(refHpa / seaLevelHpa, 0.1903));
-      const h2 = 44330 * (1 - Math.pow(p / seaLevelHpa, 0.1903));
-      return refHeightM + (h2 - href);
-    }
-    return 44330 * (1 - Math.pow(p / seaLevelHpa, 0.1903));
-  }
-
   // www/js/track.js
+  init_elevation();
   var BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
   var watcherId = null;
   var timer = null;
@@ -39362,11 +46921,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function makeSession({ type, course, units: units3, target } = {}) {
     const planned = target && target.path && target.path.length >= 2 ? target.path.slice() : course && course.path && course.path.length >= 2 ? course.path.slice() : course ? course.pins.slice() : null;
     session = {
-      type: type || "walk",
+      type: normalizeSport(type),
       courseId: course ? course.id : null,
       courseName: course ? course.name : null,
       coursePins: course ? course.pins.slice() : null,
       coursePath: planned,
+      lapPath: course ? course.path && course.path.length >= 2 ? course.path.slice() : course.pins ? course.pins.slice() : null : null,
       target: target || null,
       targetAnnounced: false,
       goalComplete: false,
@@ -39394,7 +46954,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       pathOriginMeters: 0,
       lowPower: !!lowPowerEnabled
     };
-    autoWatch = createAutoPauseState(Date.parse(session.startedAt));
+    autoWatch = createAutoPauseState(Date.parse(session.startedAt), session.type);
     return session;
   }
   function setAutoPauseEnabled(on) {
@@ -39440,7 +47000,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       session.pausedAcc = (session.pausedAcc || 0) + gap;
       session.pauseStarted = null;
     }
-    autoWatch = createAutoPauseState(Date.parse(session.startedAt) || at);
+    autoWatch = createAutoPauseState(Date.parse(session.startedAt) || at, session.type);
     if (session.paused) return session;
     return tickElapsed(at);
   }
@@ -39485,6 +47045,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     sess.courseTraveledMeters = traveled;
     return { traveled, remaining: Math.max(0, adj.total - traveled), total: adj.total };
   }
+  function sessionLapGate(sess) {
+    if (!sess || !sess.coursePins || sess.coursePins.length < 2) return null;
+    if (!sess.track || sess.track.length < 2) return null;
+    return analyzeLapGate({ pins: sess.coursePins, path: sess.lapPath || null }, sess.track);
+  }
   function courseRemaining(sess) {
     if (!sess) return { onCourse: false, traveled: 0, remaining: 0, total: 0 };
     if (sess.target && sess.target.targetMeters > 0) {
@@ -39498,15 +47063,18 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       } else {
         traveled = alongCourseProgress(sess, path2, last2).traveled;
       }
-      const prog = progressOnPlan(sess.target, traveled);
+      const gate2 = sess.target.mode === MODE_CONTINUE ? null : sessionLapGate(sess);
+      const prog = progressOnPlan(sess.target, traveled, { gate: gate2 });
+      const lapLabel = prog.label || (gate2 && gate2.gated ? `Lap ${gate2.currentLap}` : "");
       return stampGoal(sess, {
         onCourse: true,
         traveled: prog.traveled,
         remaining: prog.left,
         total: sess.target.targetMeters,
-        lapLabel: prog.label || "",
+        lapLabel,
         hitTarget: prog.hitTarget,
-        pastCourse: !!prog.pastCourse
+        pastCourse: !!prog.pastCourse,
+        lives: gate2 && gate2.gated ? gate2 : null
       });
     }
     const path = sessionCoursePath(sess);
@@ -39519,7 +47087,17 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       return { onCourse: true, traveled: 0, remaining: total, total };
     }
     const adj = alongCourseProgress(sess, path, last);
-    const result = { onCourse: true, traveled: adj.traveled, remaining: adj.remaining, total: adj.total, hitTarget: false, pastCourse: false };
+    const gate = sessionLapGate(sess);
+    const result = {
+      onCourse: true,
+      traveled: adj.traveled,
+      remaining: adj.remaining,
+      total: adj.total,
+      lapLabel: gate && gate.gated ? `Lap ${gate.currentLap}` : "",
+      hitTarget: false,
+      pastCourse: false,
+      lives: gate && gate.gated ? gate : null
+    };
     return stampGoal(sess, result);
   }
   function stampGoal(sess, result) {
@@ -39579,7 +47157,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
   function notificationPayload(sess = session) {
     const paused = !!(sess && sess.paused);
-    const body = sess ? liveNotification(sess) : "Tracking your walk";
+    const body = sess ? liveNotification(sess) : "Tracking your activity";
     const awaiting = awaitingKeepGoing(sess);
     const actions = awaiting ? [
       { id: "keep-going", label: "Keep going" },
@@ -39697,6 +47275,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       enabled: autoPauseEnabled,
       paused: !!(session && session.paused),
       pauseReason: session ? session.pauseReason : null,
+      type: session ? session.type : "walk",
       startedAt: session ? Date.parse(session.startedAt) : at,
       at,
       ...fix || {}
@@ -39864,6 +47443,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
 
   // www/js/session_autosave.js
+  init_util();
   var LIVE_KEY = "heldpath.live-session.v1";
   var SAVE_EVERY_MS = 5e3;
   var MIN_RESUME_METERS = 20;
@@ -39876,6 +47456,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     "courseName",
     "coursePins",
     "coursePath",
+    /* heldpath-hook: summary-laps — one-lap path for gate lap detection */
+    "lapPath",
     "target",
     "targetAnnounced",
     "goalComplete",
@@ -39966,6 +47548,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
 
   // www/js/forgot_stop.js
+  init_util();
   var FORGOT_MS = 10 * 60 * 1e3;
   var TRIM_AFTER_MS = 2 * 60 * 1e3;
   var STILL_RADIUS_M = 15;
@@ -40066,6 +47649,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
 
   // www/js/indoor_log.js
+  init_util();
   var MAX_DISTANCE_M = 200 * 1e3;
   var MAX_ELAPSED_SEC = 24 * 60 * 60;
   var MIN_DISTANCE_M = 10;
@@ -40143,6 +47727,19 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
 
   // www/js/splits.js
+  var splits_exports = {};
+  __export(splits_exports, {
+    activityLegSplits: () => activityLegSplits,
+    courseLegSummary: () => courseLegSummary,
+    courseLegs: () => courseLegs,
+    formatLegTime: () => formatLegTime,
+    legLabel: () => legLabel,
+    pinLabel: () => pinLabel,
+    splitRows: () => splitRows,
+    splitsStatus: () => splitsStatus,
+    updateCourseLegPbs: () => updateCourseLegPbs
+  });
+  init_util();
   function pinLabel(index, pinCount) {
     if (index <= 0) return "Start";
     if (index >= pinCount - 1) return "End";
@@ -40312,7 +47909,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }));
     return legs.map((leg, index) => {
       const best = pbs[index] || null;
-      const previous = newBests.find((b2) => b2.index === index) || null;
+      const previous = newBests.find((b3) => b3.index === index) || null;
       return {
         ...leg,
         bestSeconds: best ? best.seconds : null,
@@ -40334,6 +47931,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
 
   // www/js/demo.js
+  init_util();
   var ORIGIN = { lat: 43.7694, lon: 11.2478 };
   function arnoLoopPins() {
     const target = 2 * METERS_PER_MILE;
@@ -40521,7 +48119,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   var PLAN_PRICE_USD = 2;
   var SUPPORT_PRODUCT_ID = "support_5";
   var SUPPORT_PRICE_USD = 5;
-  var OWNERSHIP_COPY = "All goals are free. Track yourself and keep beating your results. A $2 plan adds a target date, with the app easing you there in smaller, guided steps. $2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. A plan does not unlock goals \u2014 it adds a target date and eases you there in smaller, guided steps, plus water, reminders and a schedule.";
+  var OWNERSHIP_COPY = "All goals are free. Set a distance, a time, or a weekly total, and a time frame if you want one. Free goals show your current speed, the speed you need, and the gap. A $2 plan adds incremental session targets, mixed run-walk or ride patterns, water and nutrition guidance. $2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. A plan does not unlock goals \u2014 it adds incremental session targets, mixed patterns, water reminders, and carb and protein guidance.";
   var memoryLedger = /* @__PURE__ */ new Map();
   function readKey(key) {
     try {
@@ -40627,6 +48225,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     memoryLedger.clear();
   }
 
+  // www/js/calendar_view.js
+  init_util();
+
   // www/js/calendar_conflict.js
   function plansOnDate(plans, date) {
     return (plans || []).filter((p) => p && p.date === date);
@@ -40665,14 +48266,113 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     return `${n} sessions land on days that already have a plan or Group Run. Both will stay on the calendar.`;
   }
   function sortCalendarItems(plans) {
-    return (plans || []).slice().sort((a, b2) => {
+    return (plans || []).slice().sort((a, b3) => {
       const da = a && a.date || "";
-      const db = b2 && b2.date || "";
+      const db = b3 && b3.date || "";
       if (da !== db) return da < db ? -1 : 1;
       const ta = a && a.startAt || "";
-      const tb = b2 && b2.startAt || "";
+      const tb = b3 && b3.startAt || "";
       if (ta !== tb) return ta < tb ? -1 : 1;
-      return String(a && a.id || "").localeCompare(String(b2 && b2.id || ""));
+      return String(a && a.id || "").localeCompare(String(b3 && b3.id || ""));
+    });
+  }
+
+  // www/js/hill_pace.js
+  init_util();
+  init_elevation();
+  var HILL_PACE_LABEL = "Hill-adjusted pace";
+  var HILL_PACE_SOURCE = "Minetti et al. 2002 energy-cost model";
+  var MINETTI_FLAT_COST = 3.6;
+  var MINETTI_MAX_GRADE = 0.4;
+  var HILL_PACE_NOTE = "Off by default. When on, an activity can also show an effort-equivalent pace for its hills. The model is Minetti et al. (2002), a published energy-cost curve. Sector targets and goal times always use flat time, never this.";
+  var COEFFS = [155.4, -30.4, -43.3, 46.3, 19.5, MINETTI_FLAT_COST];
+  function minettiCost(grade) {
+    const i = Math.max(-MINETTI_MAX_GRADE, Math.min(MINETTI_MAX_GRADE, Number(grade) || 0));
+    let v2 = 0;
+    for (let p = 0; p < COEFFS.length; p++) v2 += COEFFS[p] * Math.pow(i, COEFFS.length - 1 - p);
+    return Math.max(0.5, v2);
+  }
+  function gradeFactor(grade) {
+    return minettiCost(grade) / MINETTI_FLAT_COST;
+  }
+  function sportSupportsHillPace(activityOrSport) {
+    const raw = typeof activityOrSport === "string" ? activityOrSport : activityOrSport && activityOrSport.type || "walk";
+    return raw !== "ride" && raw !== "bike" && raw !== "cycle" && raw !== "cycling";
+  }
+  function elevationOf(point) {
+    if (!point) return null;
+    const v2 = point.ele ?? point.elevation ?? point.alt ?? point.altitude;
+    return v2 == null || !Number.isFinite(Number(v2)) ? null : Number(v2);
+  }
+  function unitMeters(units3) {
+    return units3 === "km" ? METERS_PER_KM : METERS_PER_MILE;
+  }
+  function paceText(seconds) {
+    const s2 = Math.max(0, Math.round(Number(seconds) || 0));
+    const h2 = Math.floor(s2 / 3600);
+    const m = Math.floor(s2 % 3600 / 60);
+    const sec = s2 % 60;
+    if (h2 > 0) return `${h2}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    return `${m}:${String(sec).padStart(2, "0")}`;
+  }
+  function hillAdjustedPace({ track, distanceMeters, elapsedSec, units: units3 = "mi" } = {}) {
+    const pts = (track || []).filter((p) => p && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon)));
+    const seconds = Number(elapsedSec) || 0;
+    let meters = Number(distanceMeters) || 0;
+    if (pts.length < 3 || seconds <= 0) return null;
+    const rawEle = pts.map(elevationOf);
+    const haveEle = rawEle.filter((v2) => v2 != null).length;
+    if (haveEle < Math.max(2, Math.floor(pts.length * 0.5))) return null;
+    const ele = smoothElevations(despikeElevations(rawEle), 5);
+    let actual = 0;
+    let effective = 0;
+    let graded = 0;
+    for (let i = 1; i < pts.length; i++) {
+      const run = haversineMeters(pts[i - 1], pts[i]);
+      if (!(run > 0)) continue;
+      actual += run;
+      let factor = 1;
+      if (ele[i] != null && ele[i - 1] != null) {
+        const grade = (ele[i] - ele[i - 1]) / run;
+        factor = gradeFactor(grade);
+        graded++;
+      }
+      effective += run * factor;
+    }
+    if (!(effective > 0)) return null;
+    if (!(meters > 0)) meters = actual;
+    if (!(meters > 0)) return null;
+    const uM = unitMeters(units3);
+    const actualPace = seconds / (meters / uM);
+    const adjustedPace = actualPace * (actual > 0 ? actual / effective : 1);
+    const gl = gainLoss(pts);
+    return {
+      ok: true,
+      sport: "walk",
+      actualPaceSecPerUnit: actualPace,
+      adjustedPaceSecPerUnit: adjustedPace,
+      adjustedTimeSec: seconds * (actual > 0 ? actual / effective : 1),
+      actualTimeSec: seconds,
+      factor: actual > 0 ? effective / actual : 1,
+      gainM: gl.gainM,
+      lossM: gl.lossM,
+      gradedSegments: graded,
+      source: HILL_PACE_SOURCE,
+      units: units3
+    };
+  }
+  function hillPaceLine(result, units3 = "mi") {
+    if (!result || !result.ok) return "";
+    const suffix = units3 === "km" ? "/km" : "/mi";
+    return `${HILL_PACE_LABEL} ${paceText(result.adjustedPaceSecPerUnit)}${suffix} \xB7 actual ${paceText(result.actualPaceSecPerUnit)}${suffix}`;
+  }
+  function hillPaceForActivity(activity, { units: units3 = "mi", enabled = false } = {}) {
+    if (!enabled || !activity || !sportSupportsHillPace(activity)) return null;
+    return hillAdjustedPace({
+      track: activity.track,
+      distanceMeters: activity.distanceMeters,
+      elapsedSec: activity.elapsedSec,
+      units: units3
     });
   }
 
@@ -40744,11 +48444,13 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     for (let i = 0; i < planDots; i++) html += `<i class="dot plan"></i>`;
     return html;
   }
-  function activityRow(a, units3, open) {
+  function activityRow(a, units3, open, hillPaceOn = false) {
     const when = timeOfDay(a.endedAt || a.startedAt);
     const title = `${a.type === "run" ? "Run" : "Walk"}${a.courseName ? " \xB7 " + a.courseName : ""}`;
     const source = SOURCE_LABEL[a.source] || SOURCE_LABEL.phone;
     const pace = formatPace(a.distanceMeters, a.elapsedSec, units3);
+    const hill = open && hillPaceOn ? hillPaceForActivity(a, { units: units3, enabled: true }) : null;
+    const hillLine = hill ? `<p class="tiny act-meta" data-testid="hill-pace-line">${escapeHtml(hillPaceLine(hill, units3))}</p>` : "";
     const course = a.courseId ? `<button class="btn btn-secondary act-again" data-repeat="${escapeHtml(a.courseId)}" data-type="${a.type === "run" ? "run" : "walk"}">${a.type === "run" ? "Run" : "Walk"} this course again</button>` : "";
     return `<button class="list-item act-row" data-act="${escapeHtml(a.id)}" aria-expanded="${open ? "true" : "false"}">
       <div class="grow">
@@ -40764,6 +48466,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         <div><span>Avg pace</span><strong>${escapeHtml(pace)}</strong></div>
       </div>
       <p class="tiny act-meta">${when} \xB7 ${escapeHtml(source)}</p>
+      ${hillLine}
       ${course}
     </div>` : ""}`;
   }
@@ -40840,7 +48543,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const {
       grid,
       panel,
-      activities = [],
+      activities: allActivities = [],
       plans = [],
       courses = [],
       units: units3 = "mi",
@@ -40848,6 +48551,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       selectedDay = isoDate(/* @__PURE__ */ new Date()),
       todayIso = isoDate(/* @__PURE__ */ new Date()),
       openActivityId = null,
+      /* heldpath-hook: routes-heatmap */
+      hillPace = false,
+      /* heldpath-hook: goals-plans */
+      sport = "all",
+      onSport,
       onSelectDay,
       onStartPlan,
       onOpenGroup,
@@ -40858,6 +48566,13 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       onStartCourse,
       onStartWalk
     } = ctx2 || {};
+    const presentSports = new Set((allActivities || []).map((a) => a && a.type === "ride" ? "ride" : a && a.type === "run" ? "run" : "walk"));
+    const sportChoices = [["all", "All"], ["walk", "Walk"], ["run", "Run"]].concat(presentSports.has("ride") ? [["ride", "Ride"]] : []);
+    const activeSport = sportChoices.some(([v2]) => v2 === sport) ? sport : "all";
+    const activities = activeSport === "all" ? allActivities : (allActivities || []).filter((a) => (a && a.type === "ride" ? "ride" : a && a.type === "run" ? "run" : "walk") === activeSport);
+    const sportTog = `<div class="range-tog sport-tog" id="cal-sport-tog" data-testid="cal-sport-tog">
+    ${sportChoices.map(([v2, label]) => `<button type="button" data-sport="${v2}" class="${v2 === activeSport ? "active" : ""}">${label}</button>`).join("")}
+  </div>`;
     const actsByDay = groupActivitiesByDay(activities);
     const plansByDay = groupPlansByDay(plans);
     grid.innerHTML = "";
@@ -40868,28 +48583,28 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         const acts2 = actsByDay[cell.iso] || [];
         const dayPlans2 = plansByDay[cell.iso] || [];
         const meters2 = dayTotalMeters(acts2);
-        const b2 = document.createElement("button");
-        b2.className = "day";
-        if (!cell.inMonth) b2.classList.add("out");
-        if (cell.iso === todayIso) b2.classList.add("today");
-        if (cell.iso === selectedDay) b2.classList.add("selected");
-        b2.dataset.iso = cell.iso;
+        const b3 = document.createElement("button");
+        b3.className = "day";
+        if (!cell.inMonth) b3.classList.add("out");
+        if (cell.iso === todayIso) b3.classList.add("today");
+        if (cell.iso === selectedDay) b3.classList.add("selected");
+        b3.dataset.iso = cell.iso;
         const bits2 = [];
         if (acts2.length) bits2.push(`${acts2.length} ${acts2.length === 1 ? "activity" : "activities"}`, dist(meters2, units3));
         if (dayPlans2.length) bits2.push(`${dayPlans2.length} planned`);
-        b2.setAttribute(
+        b3.setAttribute(
           "aria-label",
           `${cell.date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}: ${bits2.length ? bits2.join(", ") : "nothing logged"}`
         );
         const noteClass = acts2.length ? "has-acts" : dayPlans2.length > 1 ? "has-plan has-conflict" : dayPlans2.length ? "has-plan" : "";
         const note = acts2.length ? dist(meters2, units3) : dayPlanLabel(dayPlans2);
-        b2.innerHTML = `<span class="n">${cell.date.getDate()}</span>
+        b3.innerHTML = `<span class="n">${cell.date.getDate()}</span>
         <span class="dots">${dotMarkup(acts2, dayPlans2)}</span>
         <span class="day-note ${noteClass}">${escapeHtml(note)}</span>`;
-        b2.addEventListener("click", () => {
+        b3.addEventListener("click", () => {
           if (onSelectDay) onSelectDay(cell.iso);
         });
-        row.appendChild(b2);
+        row.appendChild(b3);
       }
       grid.appendChild(row);
     }
@@ -40903,7 +48618,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const isFuture = selectedDay > todayIso;
     const isToday = selectedDay === todayIso;
     const historyEmpty = !activities.length && !plans.length;
-    let html = "";
+    let html = `<div class="sport-tog-row">${sportTog}</div>`;
     if (historyEmpty) html += emptyStateMarkup(true);
     const meters = dayTotalMeters(acts);
     const seconds = acts.reduce((s2, a) => s2 + (a.elapsedSec || 0), 0);
@@ -40924,7 +48639,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       html += hasGroup ? `<p class="tiny plan-hint">Tap a group event to see its date and route. Tap a planned session to start it.</p>` : `<p class="tiny plan-hint">Tap a planned session to start it.</p>`;
     }
     for (const a of acts) {
-      html += activityRow(a, units3, a.id === openActivityId);
+      html += activityRow(a, units3, a.id === openActivityId, hillPace);
     }
     for (const p of sortCalendarItems(dayPlans)) {
       html += planRow(p, courses, units3, isToday, isFuture);
@@ -40976,9 +48691,21 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (emptyPlan && onSchedule) emptyPlan.addEventListener("click", onSchedule);
     const emptyWalk = panel.querySelector("#cal-empty-walk");
     if (emptyWalk && onStartWalk) emptyWalk.addEventListener("click", onStartWalk);
+    const sportTogEl = panel.querySelector("#cal-sport-tog");
+    if (sportTogEl) {
+      sportTogEl.addEventListener("click", (ev) => {
+        const btn = ev.target.closest("button[data-sport]");
+        if (btn && onSport) onSport(btn.getAttribute("data-sport"));
+      });
+    }
   }
 
+  // www/js/progress_view.js
+  init_util();
+  init_elevation();
+
   // www/js/progress_stats.js
+  init_util();
   function activityDayKey(activity) {
     if (!activity) return null;
     const t = Date.parse(activity.endedAt || activity.startedAt || 0);
@@ -41032,13 +48759,15 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     let elapsedSec = 0;
     let walks = 0;
     let runs = 0;
+    let rides = 0;
     let longestMeters = 0;
     let firstAt = null;
     let lastAt = null;
     for (const a of list) {
       distanceMeters += a.distanceMeters || 0;
       elapsedSec += a.elapsedSec || 0;
-      if ((a.type || "walk") === "run") runs++;
+      if ((a.type || "walk") === "ride") rides++;
+      else if ((a.type || "walk") === "run") runs++;
       else walks++;
       if ((a.distanceMeters || 0) > longestMeters) longestMeters = a.distanceMeters || 0;
       const t = parseTime(a);
@@ -41054,6 +48783,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       elapsedSec,
       walks,
       runs,
+      rides,
       longestMeters,
       activeDays: streak.activeDays,
       currentStreak: streak.current,
@@ -41236,6 +48966,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
 
   // www/js/goal_progress.js
+  init_util();
   var CHART_STYLE_KEY = "heldpath.goal-chart-style.v1";
   function paceSecPerUnit(meters, seconds, units3 = "mi") {
     if (!(meters > 0) || !(seconds > 0)) return null;
@@ -41287,8 +49018,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
   function inCurrentWeek(day, now, opts) {
     const a = startOfCalendarWeek(day + "T12:00:00", opts);
-    const b2 = startOfCalendarWeek(now, opts);
-    return !!(a && b2 && a.getTime() === b2.getTime());
+    const b3 = startOfCalendarWeek(now, opts);
+    return !!(a && b3 && a.getTime() === b3.getTime());
   }
   function inCurrentMonth(day, now) {
     return monthKeyFor(day + "T12:00:00") === monthKeyFor(now);
@@ -41305,11 +49036,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (plan && plan.goal && plan.goal.distanceMeters > 0 && !(plan.goal.durationSec > 0)) return "distance";
     return "time";
   }
-  function runsForGoal({ activities, course, plan, overall, metric } = {}) {
+  function runsForGoal({ activities, course, plan, overall, metric, type } = {}) {
     const list = activities || [];
     const wantDistance = metric === "distance";
     return list.filter((a) => {
       if (!a) return false;
+      if (type && type !== "all" && (a.type === "ride" ? "ride" : a.type === "run" ? "run" : "walk") !== type) return false;
       if (wantDistance) {
         if (!(Number(a.distanceMeters) > 0)) return false;
       } else if (!(Number(a.elapsedSec) > 0) && !(Number(a.distanceMeters) > 0)) {
@@ -41321,7 +49053,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         if (a.planId === plan.id || a.sourcePlanId === plan.id || a.activePlanId === plan.id) return true;
       }
       return false;
-    }).slice().sort((a, b2) => String(a.startedAt || a.endedAt || "").localeCompare(String(b2.startedAt || b2.endedAt || "")));
+    }).slice().sort((a, b3) => String(a.startedAt || a.endedAt || "").localeCompare(String(b3.startedAt || b3.endedAt || "")));
   }
   function pointsFromRuns(runs, units3 = "mi", metric = "time") {
     const out = [];
@@ -41381,11 +49113,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     now = /* @__PURE__ */ new Date(),
     locale,
     weekStart,
-    overall = false
+    overall = false,
+    type = "all"
   } = {}) {
     const resolvedGoal = goal || course && course.goal || null;
     const metric = metricForGoal(resolvedGoal, plan);
-    const runs = runsForGoal({ activities, course, plan, overall, metric });
+    const runs = runsForGoal({ activities, course, plan, overall, metric, type });
     const points = pointsFromRuns(runs, units3, metric);
     const weekAvg = currentPeriodAverage(points, "week", { now, locale, weekStart, metric });
     const monthAvg = currentPeriodAverage(points, "month", { now, locale, weekStart, metric });
@@ -41417,7 +49150,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       const avgTimeSec = count ? totalSec / count : 0;
       const avgDistance = count ? totalMeters / count : 0;
       const avgPaceSec = paceSecPerUnit(totalMeters, totalSec, units3);
-      const first = list[0].day;
+      const first2 = list[0].day;
       const last = list[list.length - 1].day;
       return {
         key,
@@ -41428,19 +49161,19 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         avgTimeSec,
         avgDistance,
         avgPaceSec,
-        first,
+        first: first2,
         last,
         label: period === "month" ? monthLabel(key) : weekLabel(key, last)
       };
     });
-    rows.sort((a, b2) => b2.key.localeCompare(a.key));
+    rows.sort((a, b3) => b3.key.localeCompare(a.key));
     return rows;
   }
   function weekLabel(startIso, endIso) {
     const a = /* @__PURE__ */ new Date(startIso + "T12:00:00");
-    const b2 = endIso ? /* @__PURE__ */ new Date(endIso + "T12:00:00") : a;
+    const b3 = endIso ? /* @__PURE__ */ new Date(endIso + "T12:00:00") : a;
     const fa = a.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-    const fb = b2.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    const fb = b3.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
     return `${fa}\u2013${fb}`;
   }
   function monthLabel(key) {
@@ -41781,6 +49514,106 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     return null;
   }
+  function freeGoalGap(goal, activities, { units: units3 = "mi", now = /* @__PURE__ */ new Date(), locale, weekStart } = {}) {
+    if (!goal) return null;
+    const acts = activities || [];
+    const fmt = (v2, metric) => formatMetricValue(v2, metric, units3);
+    const period = goalPeriod(goal);
+    if (period) {
+      const prog = periodGoalProgress(goal, acts, { now, locale, weekStart, units: units3 });
+      if (!prog) return null;
+      const metric = prog.metric === "count" ? "count" : prog.metric;
+      return {
+        metric,
+        current: prog.current,
+        required: prog.target,
+        gap: prog.remaining,
+        currentLabel: prog.currentLabel,
+        requiredLabel: prog.targetLabel,
+        gapLabel: prog.complete ? "Goal met" : `${fmt(prog.remaining, metric)} to go`,
+        complete: prog.complete
+      };
+    }
+    const kind = String(goal.kind || "");
+    if (kind === "route-time" || goal.courseId && Number(goal.finishSec) > 0 && kind.includes("time")) {
+      const runs = acts.filter((a) => a && a.courseId === goal.courseId && Number(a.elapsedSec) > 0);
+      const best = runs.reduce((m, a) => Math.min(m, Number(a.elapsedSec)), Infinity);
+      const has = Number.isFinite(best) && best !== Infinity;
+      const required = Number(goal.finishSec) || 0;
+      return {
+        metric: "time",
+        current: has ? best : null,
+        required,
+        gap: has ? Math.max(0, best - required) : required,
+        currentLabel: has ? formatDuration(best) : "\u2014",
+        requiredLabel: fmt(required, "time"),
+        gapLabel: has ? best <= required ? "Goal met" : `${formatDuration(best - required)} to go` : "No time on this route yet",
+        complete: !!(has && required > 0 && best <= required)
+      };
+    }
+    if (kind === "speed" || Number(goal.paceSecPerMile) > 0) {
+      const requiredPace = Number(goal.paceSecPerMile) || 0;
+      const withPace = acts.filter((a) => Number(a.distanceMeters) > 50 && Number(a.elapsedSec) > 0);
+      const latest = withPace[withPace.length - 1];
+      const currentPace = latest ? paceSecPerUnit(latest.distanceMeters, latest.elapsedSec, units3) : null;
+      const gapSec = currentPace != null ? currentPace - requiredPace : null;
+      return {
+        metric: "pace",
+        current: currentPace,
+        required: requiredPace,
+        gap: gapSec,
+        currentLabel: currentPace != null ? formatPaceTick(currentPace, units3) : "\u2014",
+        requiredLabel: formatPaceTick(requiredPace, units3),
+        gapLabel: gapSec == null ? "No pace yet" : gapSec <= 0 ? "On or ahead of goal" : `${formatPaceTick(gapSec, units3).replace(/\/.*$/, "")} slower`,
+        complete: gapSec != null && gapSec <= 0
+      };
+    }
+    if (kind === "time-distance" || Number(goal.distanceMeters) > 0 && Number(goal.finishSec) > 0) {
+      const need = Number(goal.distanceMeters) || 0;
+      const requiredPace = need > 0 ? Number(goal.finishSec) / (need / (units3 === "km" ? METERS_PER_KM : METERS_PER_MILE)) : null;
+      const qualifying = acts.filter((a) => a && Number(a.distanceMeters) >= need && Number(a.elapsedSec) > 0);
+      const latestAny = acts.filter((a) => Number(a.distanceMeters) > 50 && Number(a.elapsedSec) > 0).slice(-1)[0];
+      const source = qualifying.slice(-1)[0] || latestAny;
+      const currentPace = source ? paceSecPerUnit(source.distanceMeters, source.elapsedSec, units3) : null;
+      const gapSec = currentPace != null && requiredPace != null ? currentPace - requiredPace : null;
+      const gapClock = gapSec == null ? "" : formatPaceTick(Math.abs(gapSec), units3).replace(/\/.*$/, "");
+      return {
+        metric: "pace",
+        current: currentPace,
+        required: requiredPace,
+        gap: gapSec,
+        currentLabel: currentPace != null ? formatPaceTick(currentPace, units3) : "\u2014",
+        requiredLabel: requiredPace != null ? formatPaceTick(requiredPace, units3) : "\u2014",
+        gapLabel: gapSec == null ? "No pace yet" : gapSec <= 0 ? `${gapClock} in hand` : `${gapClock} to find`,
+        complete: !!(gapSec != null && gapSec <= 0 && qualifying.length)
+      };
+    }
+    if (kind === "distance" || Number(goal.distanceMeters) > 0) {
+      const best = acts.reduce((m, a) => Math.max(m, Number(a.distanceMeters) || 0), 0);
+      const required = Number(goal.distanceMeters) || 0;
+      return {
+        metric: "distance",
+        current: best,
+        required,
+        gap: Math.max(0, required - best),
+        currentLabel: fmt(best, "distance"),
+        requiredLabel: fmt(required, "distance"),
+        gapLabel: best >= required ? "Goal met" : `${fmt(required - best, "distance")} to go`,
+        complete: best >= required && required > 0
+      };
+    }
+    return null;
+  }
+  function freeGoalGapMarkup(gap, { testid = "goal-gap" } = {}) {
+    if (!gap) return "";
+    const label = gap.metric === "pace" ? "Speed/pace" : gap.metric === "distance" ? "Distance" : gap.metric === "count" ? "Count" : "Time";
+    return `<div class="goal-gap" data-testid="${testid}" data-metric="${gap.metric}">
+    <div class="goal-gap-row"><span>Current</span><strong>${esc(gap.currentLabel)}</strong></div>
+    <div class="goal-gap-row"><span>Required</span><strong>${esc(gap.requiredLabel)}</strong></div>
+    <div class="goal-gap-row goal-gap-diff" data-complete="${gap.complete ? "1" : "0"}"><span>Gap</span><strong>${esc(gap.gapLabel)}</strong></div>
+    <p class="tiny goal-gap-note">${esc(label)} target. Free \u2014 no plan needed.</p>
+  </div>`;
+  }
   function periodRingMarkup(progress, { size = 120, testid = "period-ring" } = {}) {
     if (!progress) return "";
     const p = Math.max(0, Math.min(1, Number(progress.pct) || 0));
@@ -41843,7 +49676,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const padB = 28;
     const plotW = w2 - padL - padR;
     const plotH = h2 - padT - padB;
-    const maxMeters = buckets.reduce((m, b2) => Math.max(m, b2.meters || 0), 0);
+    const maxMeters = buckets.reduce((m, b3) => Math.max(m, b3.meters || 0), 0);
     const axisMeters = maxMeters > 0 ? maxMeters : units3 === "km" ? 1e3 : METERS_PER_MILE;
     const { max: max2, ticks } = chartTicks(axisMeters, units3);
     const count = buckets.length;
@@ -41859,22 +49692,22 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         `<text x="${padL - 8}" y="${(y2 + 3.5).toFixed(1)}" text-anchor="end" fill="#A8B2C0" font-size="10" font-weight="600">${escapeHtml(tick.label)}</text>`
       );
     }
-    buckets.forEach((b2, i) => {
+    buckets.forEach((b3, i) => {
       const x2 = padL + i * (barW + gap);
-      const bh = maxMeters > 0 ? Math.max(b2.meters ? 3 : 0, b2.meters / max2 * plotH) : 0;
+      const bh = maxMeters > 0 ? Math.max(b3.meters ? 3 : 0, b3.meters / max2 * plotH) : 0;
       const y2 = padT + plotH - bh;
       parts.push(
-        `<rect x="${x2.toFixed(1)}" y="${y2.toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(bh, 1).toFixed(1)}" rx="${Math.min(3, barW / 2).toFixed(1)}" fill="${b2.meters ? "#4EC3F7" : "#2B3340"}"><title>${escapeHtml(b2.label || b2.key)}: ${dist2(b2.meters, units3)}</title></rect>`
+        `<rect x="${x2.toFixed(1)}" y="${y2.toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(bh, 1).toFixed(1)}" rx="${Math.min(3, barW / 2).toFixed(1)}" fill="${b3.meters ? "#4EC3F7" : "#2B3340"}"><title>${escapeHtml(b3.label || b3.key)}: ${dist2(b3.meters, units3)}</title></rect>`
       );
-      if (b2.meters > 0 && count <= 12) {
-        const label = formatDistance(b2.meters, units3, { digits: 1 }).replace(/ (mi|km)$/, "");
+      if (b3.meters > 0 && count <= 12) {
+        const label = formatDistance(b3.meters, units3, { digits: 1 }).replace(/ (mi|km)$/, "");
         parts.push(
           `<text x="${(x2 + barW / 2).toFixed(1)}" y="${(y2 - 6).toFixed(1)}" text-anchor="middle" fill="#D7E0EA" font-size="10" font-weight="700">${escapeHtml(label)}</text>`
         );
       }
-      if (b2.label) {
+      if (b3.label) {
         parts.push(
-          `<text x="${(x2 + barW / 2).toFixed(1)}" y="${h2 - 9}" text-anchor="middle" fill="#A8B2C0" font-size="10">${escapeHtml(b2.label)}</text>`
+          `<text x="${(x2 + barW / 2).toFixed(1)}" y="${h2 - 9}" text-anchor="middle" fill="#A8B2C0" font-size="10">${escapeHtml(b3.label)}</text>`
         );
       }
     });
@@ -41918,18 +49751,36 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function renderProgressView(root, ctx2) {
     const {
-      activities = [],
+      activities: allActivities = [],
       courses = [],
       goals = [],
       planLibrary = [],
       range = "W",
       units: units3 = "mi",
       now = /* @__PURE__ */ new Date(),
+      sport = "all",
       onStartWalk,
       onOpenGoals
     } = ctx2 || {};
+    const presentSports = new Set((allActivities || []).map((a) => a && a.type === "ride" ? "ride" : a && a.type === "run" ? "run" : "walk"));
+    const sportChoices = [["all", "All"], ["walk", "Walk"], ["run", "Run"]].concat(presentSports.has("ride") ? [["ride", "Ride"]] : []);
+    const activeSport = sportChoices.some(([v2]) => v2 === sport) ? sport : "all";
+    const activities = activeSport === "all" ? allActivities : (allActivities || []).filter((a) => (a && a.type === "ride" ? "ride" : a && a.type === "run" ? "run" : "walk") === activeSport);
+    const sportTog = `<div class="range-tog sport-tog" id="sport-tog" data-testid="sport-tog">
+    ${sportChoices.map(([v2, label]) => `<button type="button" data-sport="${v2}" class="${v2 === activeSport ? "active" : ""}">${label}</button>`).join("")}
+  </div>`;
+    const wireSport = (scope) => {
+      const tog = scope && scope.querySelector("#sport-tog");
+      if (!tog) return;
+      tog.addEventListener("click", (ev) => {
+        const btn = ev.target.closest("button[data-sport]");
+        if (!btn) return;
+        renderProgressView(root, { ...ctx2 || {}, sport: btn.getAttribute("data-sport") });
+      });
+    };
     if (!activities.length) {
-      root.innerHTML = emptyProgressMarkup() + `<div id="goal-progress-block"></div>`;
+      root.innerHTML = `<div class="sport-tog-row">${sportTog}</div>` + emptyProgressMarkup() + `<div id="goal-progress-block"></div>`;
+      wireSport(root);
       const start = root.querySelector("#empty-go-walk");
       if (start && onStartWalk) start.addEventListener("click", onStartWalk);
       mountGoalProgress(root.querySelector("#goal-progress-block"), {
@@ -41939,7 +49790,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         planLibrary,
         units: units3,
         now,
-        onOpenGoals
+        onOpenGoals,
+        sport: activeSport
       });
       return;
     }
@@ -41954,11 +49806,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const prs = personalRecords(activities);
     const achievements = evaluateAchievements(activities, { units: units3, now });
     const earned = achievements.filter((a) => a.earned).length;
-    const recent = [...activities].sort((a, b2) => Date.parse(b2.endedAt || b2.startedAt) - Date.parse(a.endedAt || a.startedAt)).slice(0, 8);
+    const recent = [...activities].sort((a, b3) => Date.parse(b3.endedAt || b3.startedAt) - Date.parse(a.endedAt || a.startedAt)).slice(0, 12);
     root.innerHTML = `
     <div class="card chart-card">
       <div class="chart-head">
         <h2>Distance over time</h2>
+        ${sportTog}
+      </div>
         <div class="chart-total">
           <strong>${dist2(sums.distanceMeters, units3)}</strong>
           <span>${RANGE_LABEL[range] || "Selected range"}</span>
@@ -42010,6 +49864,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       <div class="list" id="recent-list"></div>
     </div>`;
     paintChart(root.querySelector("#chart"), buckets, units3);
+    wireSport(root);
     mountGoalProgress(root.querySelector("#goal-progress-block"), {
       activities,
       courses,
@@ -42017,7 +49872,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       planLibrary,
       units: units3,
       now,
-      onOpenGoals
+      onOpenGoals,
+      sport: activeSport
     });
     const list = root.querySelector("#recent-list");
     for (const a of recent) {
@@ -42028,7 +49884,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       list.appendChild(el);
     }
   }
-  function mountGoalProgress(root, { activities, courses, goals, planLibrary, units: units3, now, onOpenGoals }) {
+  function mountGoalProgress(root, { activities, courses, goals, planLibrary, units: units3, now, onOpenGoals, sport = "all" }) {
     if (!root) return;
     const locale = typeof navigator !== "undefined" && navigator.language || "en-US";
     const items = [];
@@ -42084,12 +49940,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         units: units3,
         now,
         locale,
-        overall: item.overall || item.kind === "overall"
+        overall: item.overall || item.kind === "overall",
+        type: sport
       });
       const el = root.querySelector(`#goal-chart-${i}`);
       if (el) mountGoalChart(el, series, { mode, title: item.title });
     });
-    const overallRuns = runsForGoal({ activities, overall: true, metric: "distance" });
+    const overallRuns = runsForGoal({ activities, overall: true, metric: "distance", type: sport });
     const overallPoints = pointsFromRuns(overallRuns, units3, "distance");
     const paintHist = (period) => {
       const rows = periodHistory(overallPoints, period, { locale, metric: "distance", units: units3 });
@@ -42116,12 +49973,731 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
           sessionStorage.setItem("heldpath.hist-period", period);
         } catch {
         }
-        histTog.querySelectorAll("button").forEach((b2) => b2.classList.toggle("active", b2.getAttribute("data-period") === period));
+        histTog.querySelectorAll("button").forEach((b3) => b3.classList.toggle("active", b3.getAttribute("data-period") === period));
         paintHist(period);
       });
     }
     const go = root.querySelector("#progress-open-goals");
     if (go && onOpenGoals) go.addEventListener("click", onOpenGoals);
+  }
+
+  // www/js/heatmap.js
+  init_util();
+  var HEATMAP_SOURCE = "heldpath-heatmap";
+  var HEATMAP_GLOW_LAYER = "heldpath-heatmap-glow";
+  var HEATMAP_LINE_LAYER = "heldpath-heatmap-line";
+  var HEATMAP_CELL_M = 25;
+  var RANGE_FILTERS = [
+    { id: "30d", label: "30 days", days: 30 },
+    { id: "90d", label: "90 days", days: 90 },
+    { id: "12m", label: "12 months", days: 365 },
+    { id: "all", label: "All time", days: null }
+  ];
+  function sportOf(activity) {
+    const raw = String(activity && activity.type || "walk").toLowerCase();
+    if (raw === "ride" || raw === "bike" || raw === "cycle" || raw === "cycling") return "ride";
+    if (raw === "run" || raw === "running") return "run";
+    return "walk";
+  }
+  function pointTime(activity) {
+    const raw = activity && (activity.startedAt || activity.endedAt) || "";
+    const t = Date.parse(raw);
+    return Number.isFinite(t) ? t : null;
+  }
+  function rangeStart(range, now) {
+    const preset = RANGE_FILTERS.find((r) => r.id === range);
+    if (!preset || preset.days == null) return null;
+    return (now instanceof Date ? now.getTime() : Date.now()) - preset.days * 864e5;
+  }
+  function filterActivities(activities, opts = {}) {
+    const sport = opts.sport || "all";
+    const since = opts.since != null ? Date.parse(opts.since) : opts.range ? rangeStart(opts.range, opts.now) : null;
+    const until = opts.until != null ? Date.parse(opts.until) : null;
+    return (activities || []).filter((a) => {
+      if (!a || !Array.isArray(a.track) || a.track.length < 2) return false;
+      if (sport !== "all" && sportOf(a) !== sport) return false;
+      const t = pointTime(a);
+      if (Number.isFinite(since) && t != null && t < since) return false;
+      if (Number.isFinite(until) && t != null && t > until) return false;
+      return true;
+    });
+  }
+  function cellKey(lat, lon, cellM = HEATMAP_CELL_M) {
+    const latM = 111320;
+    const lonM = latM * Math.max(0.1, Math.cos(Number(lat) * Math.PI / 180));
+    return `${Math.round(Number(lat) * latM / cellM)}:${Math.round(Number(lon) * lonM / cellM)}`;
+  }
+  function validPoint(p) {
+    return p && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon));
+  }
+  function heatGrid(activities, opts = {}) {
+    const cellM = Number(opts.cellM) > 0 ? Number(opts.cellM) : HEATMAP_CELL_M;
+    const cells = /* @__PURE__ */ new Map();
+    let segments = 0;
+    for (const a of activities || []) {
+      const pts = (a.track || []).filter(validPoint);
+      for (let i = 1; i < pts.length; i++) {
+        const p = pts[i - 1];
+        const q2 = pts[i];
+        const key = cellKey((Number(p.lat) + Number(q2.lat)) / 2, (Number(p.lon) + Number(q2.lon)) / 2, cellM);
+        cells.set(key, (cells.get(key) || 0) + 1);
+        segments++;
+      }
+    }
+    let max2 = 0;
+    for (const v2 of cells.values()) if (v2 > max2) max2 = v2;
+    return { cells, segments, max: max2, cellM };
+  }
+  function heatmapFeatureCollection(activities, opts = {}) {
+    const grid = heatGrid(activities, opts);
+    const features = [];
+    const maxFeatures = Number(opts.maxFeatures) > 0 ? Number(opts.maxFeatures) : 12e3;
+    for (const a of activities || []) {
+      const pts = (a.track || []).filter(validPoint);
+      const sport = sportOf(a);
+      const stride = pts.length > 3e3 ? Math.ceil(pts.length / 3e3) : 1;
+      for (let i = 1; i < pts.length; i += stride) {
+        const p = pts[i - stride] || pts[i - 1];
+        const q2 = pts[i];
+        if (!p || !q2) continue;
+        const key = cellKey((Number(p.lat) + Number(q2.lat)) / 2, (Number(p.lon) + Number(q2.lon)) / 2, grid.cellM);
+        const weight = grid.cells.get(key) || 1;
+        features.push({
+          type: "Feature",
+          properties: { weight, sport, activityId: a.id || null },
+          geometry: {
+            type: "LineString",
+            coordinates: [
+              [Number(p.lon), Number(p.lat)],
+              [Number(q2.lon), Number(q2.lat)]
+            ]
+          }
+        });
+        if (features.length >= maxFeatures) break;
+      }
+      if (features.length >= maxFeatures) break;
+    }
+    return {
+      type: "FeatureCollection",
+      features,
+      maxWeight: grid.max,
+      meta: { segments: grid.segments, groundCells: grid.cells.size, source: "local-only" }
+    };
+  }
+  function heatmapSummary(activities, opts = {}) {
+    const list = opts.filtered ? activities || [] : filterActivities(activities, opts);
+    const grid = heatGrid(list, opts);
+    let meters = 0;
+    const sports = { walk: 0, run: 0, ride: 0 };
+    for (const a of list) {
+      const stored = Number(a.distanceMeters) || 0;
+      meters += stored > 0 ? stored : pathLengthMeters((a.track || []).filter(validPoint));
+      sports[sportOf(a)] += 1;
+    }
+    const repeated = Array.from(grid.cells.values()).filter((n) => n > 1).length;
+    return {
+      activities: list.length,
+      meters,
+      sports,
+      groundCells: grid.cells.size,
+      repeatedCells: repeated,
+      maxPasses: grid.max
+    };
+  }
+  function heatmapBounds(features) {
+    let minLat = Infinity, minLon = Infinity, maxLat = -Infinity, maxLon = -Infinity;
+    for (const f2 of features && features.features || []) {
+      for (const [lon, lat] of f2.geometry.coordinates || []) {
+        if (lat < minLat) minLat = lat;
+        if (lat > maxLat) maxLat = lat;
+        if (lon < minLon) minLon = lon;
+        if (lon > maxLon) maxLon = lon;
+      }
+    }
+    if (!(minLat < maxLat) || !(minLon < maxLon)) return null;
+    return { minLat, minLon, maxLat, maxLon };
+  }
+  var COLOR_MATCH = [
+    "match",
+    ["get", "sport"],
+    "run",
+    "#F3E0A8",
+    "ride",
+    "#B8F3D0",
+    "#4EC3F7"
+  ];
+  var WEIGHT_OPACITY = [
+    "interpolate",
+    ["linear"],
+    ["min", ["coalesce", ["get", "weight"], 1], 8],
+    1,
+    0.18,
+    2,
+    0.38,
+    4,
+    0.62,
+    8,
+    0.9
+  ];
+  var WEIGHT_WIDTH = [
+    "interpolate",
+    ["linear"],
+    ["min", ["coalesce", ["get", "weight"], 1], 8],
+    1,
+    2,
+    4,
+    4,
+    8,
+    7
+  ];
+  function removeLayer(map2, id) {
+    if (map2.getLayer && map2.getLayer(id)) map2.removeLayer(id);
+  }
+  function removeSource(map2, id) {
+    if (map2.getSource && map2.getSource(id)) map2.removeSource(id);
+  }
+  function renderHeatmap(map2, activities, opts = {}) {
+    if (!map2 || typeof map2.addSource !== "function") return null;
+    const fc = opts.featureCollection || heatmapFeatureCollection(activities, opts);
+    if (!fc.features.length) {
+      clearHeatmap(map2);
+      return fc;
+    }
+    try {
+      if (map2.getSource(HEATMAP_SOURCE)) {
+        map2.getSource(HEATMAP_SOURCE).setData(fc);
+      } else {
+        map2.addSource(HEATMAP_SOURCE, { type: "geojson", data: fc });
+      }
+      if (!map2.getLayer(HEATMAP_GLOW_LAYER)) {
+        map2.addLayer({
+          id: HEATMAP_GLOW_LAYER,
+          type: "line",
+          source: HEATMAP_SOURCE,
+          layout: { "line-cap": "round", "line-join": "round" },
+          paint: {
+            "line-color": "#1E6F95",
+            "line-width": 6,
+            "line-opacity": 0.18,
+            "line-blur": 5
+          }
+        });
+      }
+      if (!map2.getLayer(HEATMAP_LINE_LAYER)) {
+        map2.addLayer({
+          id: HEATMAP_LINE_LAYER,
+          type: "line",
+          source: HEATMAP_SOURCE,
+          layout: { "line-cap": "round", "line-join": "round" },
+          paint: {
+            "line-color": COLOR_MATCH,
+            "line-width": WEIGHT_WIDTH,
+            "line-opacity": WEIGHT_OPACITY
+          }
+        });
+      }
+      const glow = map2.getLayer(HEATMAP_GLOW_LAYER);
+      if (glow) {
+        try {
+          map2.setPaintProperty(HEATMAP_GLOW_LAYER, "line-width", [
+            "interpolate",
+            ["linear"],
+            ["min", ["coalesce", ["get", "weight"], 1], 8],
+            1,
+            4,
+            8,
+            14
+          ]);
+        } catch {
+        }
+      }
+    } catch {
+    }
+    return fc;
+  }
+  function clearHeatmap(map2) {
+    if (!map2) return;
+    try {
+      removeLayer(map2, HEATMAP_LINE_LAYER);
+      removeLayer(map2, HEATMAP_GLOW_LAYER);
+      removeSource(map2, HEATMAP_SOURCE);
+    } catch {
+    }
+  }
+  function heatmapEmptyCopy() {
+    return "Your heatmap fills in as you finish walks, runs and rides. It stays on this phone \u2014 there is no community map and nothing is uploaded.";
+  }
+
+  // www/js/matched_loops.js
+  init_util();
+  var MATCH_START_M = 250;
+  var MATCH_DISTANCE_RATIO = 0.12;
+  var MATCH_MIN_CLOSED_M = 200;
+  function sportOf2(activity) {
+    const raw = String(activity && activity.type || "walk").toLowerCase();
+    if (raw === "ride" || raw === "bike" || raw === "cycle" || raw === "cycling") return "ride";
+    if (raw === "run" || raw === "running") return "run";
+    return "walk";
+  }
+  function sportLabel2(sport) {
+    if (sport === "ride") return "Ride";
+    if (sport === "run") return "Run";
+    return "Walk";
+  }
+  function validPoint2(p) {
+    return p && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon));
+  }
+  function activityTime(activity) {
+    const t = Date.parse(activity && (activity.startedAt || activity.endedAt) || "");
+    return Number.isFinite(t) ? t : 0;
+  }
+  function bearingDegrees2(a, b3) {
+    const lat1 = Number(a.lat) * Math.PI / 180;
+    const lat2 = Number(b3.lat) * Math.PI / 180;
+    const dLon = (Number(b3.lon) - Number(a.lon)) * Math.PI / 180;
+    const y2 = Math.sin(dLon) * Math.cos(lat2);
+    const x2 = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+    return (Math.atan2(y2, x2) * 180 / Math.PI + 360) % 360;
+  }
+  function bearingDelta(a, b3) {
+    const d2 = Math.abs(Number(a) - Number(b3)) % 360;
+    return d2 > 180 ? 360 - d2 : d2;
+  }
+  function loopFacts(activity) {
+    if (!activity) return null;
+    const track = (activity.track || []).filter(validPoint2);
+    const meters = Number(activity.distanceMeters) || 0;
+    if (track.length < 2 || meters <= 0) return null;
+    const start = track[0];
+    const end = track[track.length - 1];
+    const startEndM = haversineMeters(start, end);
+    const closed = startEndM <= Math.max(MATCH_MIN_CLOSED_M, meters * 0.12);
+    const look = track[Math.min(3, track.length - 1)];
+    const startBearing = look && look !== start ? bearingDegrees2(start, look) : null;
+    const back = track[Math.max(0, track.length - 4)];
+    const endBearing = back && back !== end ? bearingDegrees2(back, end) : null;
+    return {
+      id: activity.id || null,
+      sport: sportOf2(activity),
+      courseId: activity.courseId || null,
+      courseName: activity.courseName || "",
+      start: { lat: Number(start.lat), lon: Number(start.lon) },
+      end: { lat: Number(end.lat), lon: Number(end.lon) },
+      meters,
+      durationSec: Math.max(0, Number(activity.elapsedSec) || 0),
+      startEndM,
+      closed,
+      startBearing,
+      endBearing,
+      at: activityTime(activity),
+      date: activity.startedAt || activity.endedAt || null
+    };
+  }
+  function sameLoop(a, b3, opts = {}) {
+    if (!a || !b3) return false;
+    if (a.sport !== b3.sport) return false;
+    if (!a.closed || !b3.closed) return false;
+    const startTol = Number(opts.startM) > 0 ? Number(opts.startM) : MATCH_START_M;
+    const endTol = Number(opts.endM) > 0 ? Number(opts.endM) : startTol;
+    if (haversineMeters(a.start, b3.start) > startTol) return false;
+    if (haversineMeters(a.end, b3.end) > endTol) return false;
+    const small = Math.min(a.meters, b3.meters);
+    const big = Math.max(a.meters, b3.meters);
+    const ratio = Number(opts.distanceRatio) > 0 ? Number(opts.distanceRatio) : MATCH_DISTANCE_RATIO;
+    if (small <= 0 || big / small > 1 + ratio) return false;
+    if (a.startBearing != null && b3.startBearing != null && bearingDelta(a.startBearing, b3.startBearing) > 75) return false;
+    return true;
+  }
+  function mostCommon(values) {
+    const counts = /* @__PURE__ */ new Map();
+    for (const v2 of values) {
+      if (!v2) continue;
+      counts.set(v2, (counts.get(v2) || 0) + 1);
+    }
+    let best = "";
+    let bestN = 0;
+    for (const [v2, n] of counts) {
+      if (n > bestN) {
+        best = v2;
+        bestN = n;
+      }
+    }
+    return best;
+  }
+  function median(values) {
+    const list = values.filter((v2) => Number.isFinite(v2)).sort((a, b3) => a - b3);
+    if (!list.length) return 0;
+    const mid = Math.floor(list.length / 2);
+    return list.length % 2 ? list[mid] : (list[mid - 1] + list[mid]) / 2;
+  }
+  function groupName(facts) {
+    const course = mostCommon(facts.map((f2) => f2.courseName));
+    if (course) return course;
+    const sport = sportLabel2(facts[0] && facts[0].sport);
+    const km = median(facts.map((f2) => f2.meters)) / 1e3;
+    return `${sport} loop \xB7 ${km.toFixed(1)} km`;
+  }
+  function matchedLoops(activities, opts = {}) {
+    const minCount = Number(opts.minCount) > 0 ? Number(opts.minCount) : 2;
+    const facts = (activities || []).map(loopFacts).filter(Boolean).filter((f2) => f2.closed);
+    facts.sort((a, b3) => a.at - b3.at);
+    const groups = [];
+    for (const fact of facts) {
+      let group = groups.find((g) => sameLoop(g.facts[0], fact, opts));
+      if (!group) {
+        group = { id: `loop-${fact.id || groups.length}`, facts: [] };
+        groups.push(group);
+      }
+      group.facts.push(fact);
+    }
+    const out = groups.filter((g) => g.facts.length >= minCount).map((g) => {
+      const list = g.facts.slice().sort((a, b3) => a.at - b3.at);
+      const first2 = list[0];
+      return {
+        id: g.id,
+        name: groupName(list),
+        sport: first2.sport,
+        count: list.length,
+        distanceMeters: median(list.map((f2) => f2.meters)),
+        firstAt: first2.at,
+        lastAt: list[list.length - 1].at,
+        start: { ...first2.start },
+        end: { ...first2.end },
+        courseIds: Array.from(new Set(list.map((f2) => f2.courseId).filter(Boolean))),
+        activityIds: list.map((f2) => f2.id).filter(Boolean),
+        efforts: list
+      };
+    });
+    out.sort((a, b3) => b3.lastAt - a.lastAt || b3.count - a.count);
+    return out;
+  }
+  function unitMeters2(units3) {
+    return units3 === "km" ? 1e3 : METERS_PER_MILE;
+  }
+  function trendSeries(group, { units: units3 = "mi" } = {}) {
+    const efforts = (group && group.efforts || []).filter((f2) => f2.meters > 0 && f2.durationSec > 0).slice().sort((a, b3) => a.at - b3.at);
+    const uM = unitMeters2(units3);
+    const isRide2 = group && group.sport === "ride";
+    const points = efforts.map((f2) => ({
+      activityId: f2.id,
+      at: f2.at,
+      date: f2.date,
+      meters: f2.meters,
+      durationSec: f2.durationSec,
+      paceSecPerUnit: f2.durationSec / (f2.meters / uM),
+      speedPerHour: f2.meters / 1e3 / (f2.durationSec / 3600)
+    }));
+    const first2 = points[0] || null;
+    const last = points.length ? points[points.length - 1] : null;
+    return {
+      metric: isRide2 ? "speed" : "pace",
+      unitLabel: isRide2 ? "km/h" : `/${units3 === "km" ? "km" : "mi"}`,
+      lowerIsBetter: !isRide2,
+      points,
+      first: first2,
+      last,
+      deltaSec: first2 && last ? last.paceSecPerUnit - first2.paceSecPerUnit : 0,
+      deltaSpeed: first2 && last ? last.speedPerHour - first2.speedPerHour : 0,
+      improves: first2 && last ? isRide2 ? last.speedPerHour > first2.speedPerHour : last.paceSecPerUnit < first2.paceSecPerUnit : false
+    };
+  }
+  function shortPace(seconds) {
+    const s2 = Math.max(0, Math.round(Number(seconds) || 0));
+    return `${Math.floor(s2 / 60)}:${String(s2 % 60).padStart(2, "0")}`;
+  }
+  function formatTrend(group, { units: units3 = "mi" } = {}) {
+    const series = trendSeries(group, { units: units3 });
+    const count = group && group.count || series.points.length;
+    const km = Math.round((group && group.distanceMeters || 0) / 100) / 10;
+    const head = `${count} ${sportLabel2(group && group.sport).toLowerCase()}s on the same loop \xB7 ${km.toFixed(1)} km`;
+    if (series.points.length < 2 || !series.last) return `${head} \xB7 first effort`;
+    if (series.metric === "speed") {
+      const delta2 = series.deltaSpeed;
+      const tail2 = Math.abs(delta2) < 0.05 ? "same speed as the first" : `${Math.abs(delta2).toFixed(1)} km/h ${delta2 > 0 ? "faster" : "slower"} than the first`;
+      return `${head} \xB7 ${series.last.speedPerHour.toFixed(1)} km/h \xB7 ${tail2}`;
+    }
+    const delta = series.deltaSec;
+    const tail = Math.abs(delta) < 0.5 ? "same pace as the first" : `${Math.abs(Math.round(delta))}s ${delta < 0 ? "faster" : "slower"} than the first`;
+    return `${head} \xB7 ${shortPace(series.last.paceSecPerUnit)}${series.unitLabel} \xB7 ${tail}`;
+  }
+  function trendLabel(series) {
+    if (!series || !series.points || series.points.length < 2) return "Needs a second effort";
+    if (series.metric === "speed") return series.deltaSpeed > 0 ? "Trending faster" : series.deltaSpeed < 0 ? "Trending slower" : "Holding steady";
+    return series.deltaSec < 0 ? "Trending faster" : series.deltaSec > 0 ? "Trending slower" : "Holding steady";
+  }
+
+  // www/js/suggest_routes.js
+  init_util();
+  init_elevation();
+  var SUGGEST_DEFAULT_METERS = 5e3;
+  var RIDE_MPH2 = 12;
+  var START_CLUSTER_M = 300;
+  function sportOf3(activity) {
+    const raw = String(activity && activity.type || "walk").toLowerCase();
+    if (raw === "ride" || raw === "bike" || raw === "cycle" || raw === "cycling") return "ride";
+    if (raw === "run" || raw === "running") return "run";
+    return "walk";
+  }
+  function edgeKey(a, b3) {
+    const lo = Math.min(a, b3);
+    const hi = Math.max(a, b3);
+    return `${lo}:${hi}`;
+  }
+  function median2(values) {
+    const list = (values || []).filter((v2) => Number.isFinite(v2)).sort((a, b3) => a - b3);
+    if (!list.length) return 0;
+    const mid = Math.floor(list.length / 2);
+    return list.length % 2 ? list[mid] : (list[mid - 1] + list[mid]) / 2;
+  }
+  function clusterKey(point, cellM) {
+    const latM = 111320;
+    const lonM = latM * Math.max(0.1, Math.cos(Number(point.lat) * Math.PI / 180));
+    return `${Math.round(Number(point.lat) * latM / cellM)}:${Math.round(Number(point.lon) * lonM / cellM)}`;
+  }
+  function trackStart(activity) {
+    const track = activity && activity.track || [];
+    for (const p of track) {
+      if (p && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon))) {
+        return { lat: Number(p.lat), lon: Number(p.lon) };
+      }
+    }
+    return null;
+  }
+  function startClusters(activities, { cellM = START_CLUSTER_M } = {}) {
+    const buckets = /* @__PURE__ */ new Map();
+    for (const a of activities || []) {
+      const start = trackStart(a);
+      if (!start) continue;
+      const key = clusterKey(start, cellM);
+      const b3 = buckets.get(key) || { lat: 0, lon: 0, count: 0, lastAt: 0 };
+      b3.lat += start.lat;
+      b3.lon += start.lon;
+      b3.count += 1;
+      const t = Date.parse(a.startedAt || a.endedAt || "");
+      b3.lastAt = Math.max(b3.lastAt, Number.isFinite(t) ? t : 0);
+      buckets.set(key, b3);
+    }
+    return Array.from(buckets.values()).map((b3) => ({ lat: b3.lat / b3.count, lon: b3.lon / b3.count, count: b3.count, lastAt: b3.lastAt })).sort((a, b3) => b3.count - a.count || b3.lastAt - a.lastAt);
+  }
+  function historyProfile(activities, opts = {}) {
+    const sport = opts.sport && opts.sport !== "all" ? opts.sport : null;
+    const list = (activities || []).filter((a) => a && Array.isArray(a.track) && a.track.length >= 2);
+    const matching = sport ? list.filter((a) => sportOf3(a) === sport) : list;
+    const source = matching.length ? matching : list;
+    const withDistance = source.filter((a) => Number(a.distanceMeters) > 300);
+    const usualDistanceMeters = median2(withDistance.map((a) => Number(a.distanceMeters)));
+    let totalSec = 0;
+    let totalM = 0;
+    for (const a of withDistance) {
+      const sec = Number(a.elapsedSec) || 0;
+      if (sec > 0) {
+        totalSec += sec;
+        totalM += Number(a.distanceMeters);
+      }
+    }
+    const paceSecPerMeter = totalM > 0 ? totalSec / totalM : 0;
+    const climbs = withDistance.filter((a) => Number(a.climbGainM) > 0).map((a) => Number(a.climbGainM) / (Number(a.distanceMeters) / 1e3));
+    return {
+      sport: sport || (source.length ? sportOf3(source[source.length - 1]) : opts.fallbackSport || "walk"),
+      activities: source.length,
+      usualDistanceMeters: usualDistanceMeters || (opts.fallbackMeters || SUGGEST_DEFAULT_METERS),
+      paceSecPerMeter,
+      usualMph: paceSecPerMeter > 0 ? 3600 / paceSecPerMeter / METERS_PER_MILE : 0,
+      usualClimbPerKm: median2(climbs),
+      starts: startClusters(source),
+      latestStart: source.length ? trackStart(source[source.length - 1]) : null
+    };
+  }
+  function edgeUsage(graph, activities, opts = {}) {
+    const sport = opts.sport && opts.sport !== "all" ? opts.sport : null;
+    const maxSamples = Number(opts.maxSamples) > 0 ? Number(opts.maxSamples) : 500;
+    const maxSnap = Number(opts.maxSnap) > 0 ? Number(opts.maxSnap) : 60;
+    const usage = /* @__PURE__ */ new Map();
+    if (!graph) return usage;
+    for (const a of activities || []) {
+      if (sport && sportOf3(a) !== sport) continue;
+      const pts = (a.track || []).filter((p) => p && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon)));
+      if (pts.length < 2) continue;
+      const stride = Math.max(1, Math.ceil(pts.length / maxSamples));
+      const sampled = [];
+      for (let i = 0; i < pts.length; i += stride) sampled.push(pts[i]);
+      if (sampled[sampled.length - 1] !== pts[pts.length - 1]) sampled.push(pts[pts.length - 1]);
+      for (let i = 1; i < sampled.length; i++) {
+        const sa = snapToGraph(graph, sampled[i - 1].lat, sampled[i - 1].lon, maxSnap);
+        const sb = snapToGraph(graph, sampled[i].lat, sampled[i].lon, maxSnap);
+        if (!sa || !sb) continue;
+        const hop = shortestPath(graph, sa.id, sb.id);
+        if (!hop || hop.nodes.length < 2 || hop.nodes.length > 400) continue;
+        for (let k = 1; k < hop.nodes.length; k++) {
+          const key = edgeKey(hop.nodes[k - 1], hop.nodes[k]);
+          const rec = usage.get(key) || { count: 0, a: hop.nodes[k - 1], b: hop.nodes[k] };
+          rec.count += 1;
+          usage.set(key, rec);
+        }
+      }
+    }
+    return usage;
+  }
+  function routeMix(graph, path, usage) {
+    if (!graph || !path || path.length < 2 || !usage) {
+      return { knownMeters: 0, newMeters: 0, knownRatio: 0, edges: 0, knownEdges: 0 };
+    }
+    let knownMeters = 0;
+    let newMeters = 0;
+    let knownEdges = 0;
+    let edges = 0;
+    let prev = null;
+    for (const p of path) {
+      const snap = snapToGraph(graph, Number(p.lat), Number(p.lon), 60);
+      if (!snap) {
+        prev = null;
+        continue;
+      }
+      if (prev != null && snap.id !== prev) {
+        const key = edgeKey(prev, snap.id);
+        const meters = graphEdgeMeters(graph, prev, snap.id);
+        edges += 1;
+        if (usage.has(key)) {
+          knownEdges += 1;
+          knownMeters += meters;
+        } else {
+          newMeters += meters;
+        }
+      }
+      prev = snap.id;
+    }
+    const total = knownMeters + newMeters;
+    return {
+      knownMeters,
+      newMeters,
+      knownRatio: total > 0 ? knownMeters / total : 0,
+      edges,
+      knownEdges
+    };
+  }
+  function graphEdgeMeters(graph, a, b3) {
+    const nbrs = graph.adj && graph.adj[a] || [];
+    const hit = nbrs.find((e) => e.to === b3);
+    if (hit) return Number(hit.meters) || 0;
+    return haversineMeters(
+      { lat: graph.lat[a], lon: graph.lon[a] },
+      { lat: graph.lat[b3], lon: graph.lon[b3] }
+    );
+  }
+  function scoreCandidate(candidate, { targetMeters, mix, profile } = {}) {
+    if (!candidate || !candidate.path || !candidate.meters) return -Infinity;
+    const target = Math.max(200, Number(targetMeters) || 0);
+    const err2 = target > 0 ? Math.abs(candidate.meters - target) / target : 1;
+    let score = 2.4 * Math.max(0, 1 - err2);
+    if (mix) {
+      const blend = 1 - Math.abs((mix.knownRatio || 0) - 0.6) / 0.6;
+      score += 1.5 * Math.max(0, blend);
+      if ((mix.newMeters || 0) >= Math.min(250, target * 0.12)) score += 0.35;
+      if ((mix.knownRatio || 0) > 0.97) score -= 0.45;
+    }
+    const quality = Number(candidate.quality);
+    if (Number.isFinite(quality)) score += Math.min(0.5, quality * 0.5);
+    if (profile && profile.activities >= 3 && candidate.meters) {
+      const usual = profile.usualDistanceMeters;
+      if (usual > 0) score += 0.2 * Math.max(0, 1 - Math.abs(candidate.meters - usual) / usual);
+    }
+    return score;
+  }
+  function targetFromHistory(profile, goal, explicit) {
+    if (Number(explicit) > 0) return Number(explicit);
+    const usual = Math.max(500, Number(profile.usualDistanceMeters) || SUGGEST_DEFAULT_METERS);
+    if (!goal) return usual;
+    const goalMeters = Number(goal.distanceMeters) || 0;
+    if (goalMeters > usual * 1.02) {
+      return Math.min(goalMeters, usual * 1.1);
+    }
+    if (goalMeters > 0) return goalMeters;
+    return usual;
+  }
+  function uniqueSuggestions(list) {
+    const out = [];
+    for (const s2 of list) {
+      const dup = out.some((o) => Math.abs(o.meters - s2.meters) < 60 && o.start && s2.start && haversineMeters(o.start, s2.start) < 120);
+      if (!dup) out.push(s2);
+    }
+    return out;
+  }
+  function generateSuggestions(opts = {}) {
+    const graph = opts.graph;
+    const activities = opts.activities || [];
+    const sport = opts.sport && opts.sport !== "all" ? opts.sport : null;
+    const profile = historyProfile(activities, { sport: sport || void 0, fallbackSport: opts.sport });
+    if (!graph) return { ok: false, reason: "no-graph", profile, suggestions: [] };
+    const center = opts.center || profile.starts[0] || profile.latestStart;
+    if (!center) return { ok: false, reason: "no-start", profile, suggestions: [] };
+    const target = targetFromHistory(profile, opts.goal, opts.targetMeters);
+    const usage = opts.usage || edgeUsage(graph, activities, { sport: sport || void 0 });
+    const loopFn = opts.autoLoop || autoLoopRoute;
+    const targets = [target, target * 1.05, target * 0.95];
+    const offsets = [0, 35, 70, 110];
+    const raw = [];
+    for (let i = 0; i < targets.length; i++) {
+      const built = loopFn(graph, center, targets[i], { offsets: offsets.slice(i % 2, i % 2 + 2) });
+      if (!built || !built.ok || !built.path) continue;
+      const mix = routeMix(graph, built.path, usage);
+      raw.push({
+        ...built,
+        start: { lat: center.lat, lon: center.lon },
+        sport: profile.sport,
+        targetMeters: Math.round(targets[i]),
+        mix,
+        score: scoreCandidate(built, { targetMeters: target, mix, profile })
+      });
+    }
+    const suggestions = uniqueSuggestions(raw).sort((a, b3) => b3.score - a.score).slice(0, Math.max(1, Number(opts.count) || 3));
+    return { ok: suggestions.length > 0, profile, targetMeters: Math.round(target), suggestions };
+  }
+  function estimateSpeed(profile, sport) {
+    if (profile && profile.usualMph > 0) return profile.usualMph;
+    if (sport === "ride") return RIDE_MPH2;
+    return activityMph(sport === "run" ? "run" : "walk");
+  }
+  function suggestionPreview(suggestion, opts = {}) {
+    const meters = Number(suggestion && suggestion.meters) || 0;
+    const profile = opts.profile || null;
+    const sport = suggestion && suggestion.sport || opts.sport || "walk";
+    const km = meters / 1e3;
+    const climbM = Number.isFinite(Number(opts.climbM)) ? Number(opts.climbM) : Math.max(0, Math.round((profile && profile.usualClimbPerKm ? profile.usualClimbPerKm : 0) * km));
+    const seconds = Number(opts.seconds) > 0 ? Math.round(Number(opts.seconds)) : naismithSeconds(meters, climbM, estimateSpeed(profile, sport));
+    return {
+      meters,
+      climbM,
+      climbKnown: Number.isFinite(Number(opts.climbM)),
+      seconds,
+      sport,
+      knownRatio: suggestion && suggestion.mix ? suggestion.mix.knownRatio : 0
+    };
+  }
+  function suggestionReason(suggestion, profile, goal) {
+    const meters = Math.round(Number(suggestion && suggestion.meters) || 0);
+    const usual = Math.round(Number(profile && profile.usualDistanceMeters) || 0);
+    if (goal && Number(goal.distanceMeters) > 0 && meters > usual) return "A little further toward your goal";
+    if (usual > 0 && Math.abs(meters - usual) / usual < 0.12) return "Your usual distance, on new ground";
+    if (profile && profile.starts && profile.starts.length) return "Starts at a place you usually start";
+    return "A fresh loop from here";
+  }
+  function suggestionName(suggestion, units3 = "mi") {
+    const meters = Number(suggestion && suggestion.meters) || 0;
+    const sport = suggestion && suggestion.sport === "ride" ? "Ride" : suggestion && suggestion.sport === "run" ? "Run" : "Walk";
+    if (units3 === "km") return `${sport} loop \xB7 ${(meters / 1e3).toFixed(1)} km`;
+    return `${sport} loop \xB7 ${(meters / METERS_PER_MILE).toFixed(1)} mi`;
+  }
+  function suggestionPins(suggestion) {
+    if (!suggestion) return [];
+    if (Array.isArray(suggestion.pins) && suggestion.pins.length >= 2) {
+      return suggestion.pins.map((p) => ({ lat: p.lat, lon: p.lon, role: p.role }));
+    }
+    const path = suggestion.path || [];
+    if (path.length < 2) return [];
+    return [
+      { lat: path[0].lat, lon: path[0].lon, role: "start" },
+      { lat: path[path.length - 1].lat, lon: path[path.length - 1].lon, role: "end" }
+    ];
   }
 
   // www/js/course_builder.js
@@ -42138,10 +50714,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       endMode: false
     };
   }
-  function samePin(a, b2, meters = SAME_M) {
-    if (!a || !b2) return false;
-    const dlat = (a.lat - b2.lat) * 111320;
-    const dlon = (a.lon - b2.lon) * 111320 * Math.cos(a.lat * Math.PI / 180);
+  function samePin(a, b3, meters = SAME_M) {
+    if (!a || !b3) return false;
+    const dlat = (a.lat - b3.lat) * 111320;
+    const dlon = (a.lon - b3.lon) * 111320 * Math.cos(a.lat * Math.PI / 180);
     return dlat * dlat + dlon * dlon <= meters * meters;
   }
   function placePin(state3, coord, opts = {}) {
@@ -42359,7 +50935,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function ingestPins(pins) {
     const state3 = emptyBuilderState();
     if (!pins || !pins.length) return state3;
-    const first = pins[0];
+    const first2 = pins[0];
     const last = pins[pins.length - 1];
     const earlier = pins.slice(0, -1);
     const match = earlier.findIndex((p) => samePin(p, last));
@@ -42457,127 +51033,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return "End is set. You can still add pins; the route visits them in order and then returns to the end. Distances use the walkable path.";
   }
 
-  // www/js/plan_legs.js
-  function legDistances2(pins) {
-    const list = pins || [];
-    const legs = [];
-    for (let i = 0; i < list.length - 1; i++) {
-      legs.push({
-        from: i,
-        to: i + 1,
-        meters: haversineMeters(list[i], list[i + 1])
-      });
-    }
-    return legs;
-  }
-  function buildEvenPaceLegTargets(pins, totalSec, { path, meters: givenMeters, legs: givenLegs } = {}) {
-    const total = Math.max(0, Number(totalSec) || 0);
-    const legs = givenLegs || (Array.isArray(givenMeters) ? givenMeters.map((m, i) => ({ from: i, to: i + 1, meters: Math.max(0, Number(m) || 0) })) : sectorDistances(pins, path));
-    if (!legs.length) return [];
-    const meters = legs.reduce((s2, l) => s2 + Math.max(0, l.meters || 0), 0);
-    if (!(meters > 0) || !(total > 0)) {
-      return legs.map(() => 0);
-    }
-    const out = legs.map((l) => Math.max(0, Math.max(0, l.meters) / meters * total));
-    const drift = total - out.reduce((s2, v2) => s2 + v2, 0);
-    out[out.length - 1] = Math.max(0, out[out.length - 1] + drift);
-    return out;
-  }
-  function sectorDistances(pins, path) {
-    const list = pins || [];
-    if (list.length < 2) return [];
-    const line = path && path.length >= 2 ? path : null;
-    if (!line) return legDistances2(list);
-    const prefixes = [0];
-    for (let i = 1; i < line.length; i++) {
-      prefixes[i] = prefixes[i - 1] + geodesicMeters(line[i - 1], line[i]);
-    }
-    const total = prefixes[prefixes.length - 1] || 0;
-    const cuts = list.map((p) => {
-      let best = 0, bestD = Infinity;
-      for (let i = 0; i < line.length; i++) {
-        const d2 = haversineMeters(p, line[i]);
-        if (d2 < bestD) {
-          bestD = d2;
-          best = prefixes[i];
-        }
-      }
-      return best;
-    });
-    for (let i = 1; i < cuts.length; i++) {
-      if (cuts[i] < cuts[i - 1]) cuts[i] = cuts[i - 1];
-    }
-    if (cuts[cuts.length - 1] < total) cuts[cuts.length - 1] = total;
-    const legs = [];
-    for (let i = 0; i < cuts.length - 1; i++) {
-      legs.push({ from: i, to: i + 1, meters: Math.max(0, cuts[i + 1] - cuts[i]) });
-    }
-    return legs;
-  }
-  function recentAveragePaceSecPerMeter(activities, { type, limit = 8 } = {}) {
-    const list = (activities || []).filter((a) => a && (!type || a.type === type) && a.distanceMeters > 50 && a.elapsedSec > 0).slice(-limit);
-    let m = 0;
-    let s2 = 0;
-    for (const a of list) {
-      m += Number(a.distanceMeters) || 0;
-      s2 += Number(a.elapsedSec) || 0;
-    }
-    if (!(m > 0) || !(s2 > 0)) return null;
-    return s2 / m;
-  }
-  function pointElapsedSec(pt, origin) {
-    if (!pt) return 0;
-    if (Number.isFinite(Number(pt.t)) && Number(pt.t) < 1e7) return Number(pt.t);
-    const at = pt.at;
-    let ms = null;
-    if (typeof at === "number" && Number.isFinite(at)) ms = at > 1e11 ? at : at * 1e3;
-    else if (at) {
-      const parsed = Date.parse(at);
-      if (Number.isFinite(parsed)) ms = parsed;
-    } else if (Number.isFinite(Number(pt.t))) {
-      const n = Number(pt.t);
-      ms = n > 1e11 ? n : n * 1e3;
-    }
-    if (ms == null) return 0;
-    const o = origin == null ? ms : origin;
-    return (ms - o) / 1e3;
-  }
-  function trackOriginMs(track) {
-    const p = track && track[0];
-    if (!p) return 0;
-    if (typeof p.at === "number" && Number.isFinite(p.at)) return p.at > 1e11 ? p.at : p.at * 1e3;
-    if (p.at) {
-      const parsed = Date.parse(p.at);
-      if (Number.isFinite(parsed)) return parsed;
-    }
-    return 0;
-  }
-  function legSplitsFromTrack(pins, track) {
-    if (!pins || pins.length < 2 || !track || track.length < 2) return null;
-    const legs = legDistances2(pins).map((l) => l.meters);
-    const origin = trackOriginMs(track);
-    let travelled = 0;
-    let cursor = 0;
-    const splits = [];
-    let boundary = 0;
-    for (const leg of legs) {
-      boundary += leg;
-      let hit = null;
-      for (let i = cursor; i < track.length; i++) {
-        if (i > 0) travelled += haversineMeters(track[i - 1], track[i]);
-        cursor = i;
-        if (travelled >= boundary - 1) {
-          hit = pointElapsedSec(track[i], origin);
-          break;
-        }
-      }
-      const prev = splits.length ? splits.reduce((s2, v2) => s2 + v2, 0) : 0;
-      splits.push(hit == null ? 0 : Math.max(0.1, hit - prev));
-    }
-    return splits;
-  }
-
   // www/js/sector_timing.js
+  init_util();
+  init_geodesic();
   function routeMeters(course) {
     if (!course) return 0;
     if (Array.isArray(course.legs) && course.legs.length) {
@@ -42730,7 +51188,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function synthesizeSectorTrack(course, sectorSeconds, { startedAt = "2026-11-18T09:00:00.000Z", stepMeters = 8 } = {}) {
     const path = course && course.path && course.path.length >= 2 ? course.path : course && course.pins || [];
     const metersList = sectorMetersList(course);
-    const startMs = Date.parse(startedAt) || Date.now();
+    const startMs2 = Date.parse(startedAt) || Date.now();
     if (path.length < 2 || !metersList.length) return [];
     const points = [];
     const pushPt = (coord, elapsed2, distM) => {
@@ -42739,7 +51197,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         lon: coord.lon,
         t: elapsed2,
         d: distM,
-        at: new Date(startMs + Math.round(elapsed2 * 1e3)).toISOString()
+        at: new Date(startMs2 + Math.round(elapsed2 * 1e3)).toISOString()
       });
     };
     pushPt(path[0], 0, 0);
@@ -42751,7 +51209,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       for (let k = 1; k <= steps; k++) {
         const along = sectorM * k / steps;
         let remain = along - (k === 1 ? 0 : sectorM * (k - 1) / steps);
-        const targetDist = metersList.slice(0, s2).reduce((a, b2) => a + (b2 || 0), 0) + along;
+        const targetDist = metersList.slice(0, s2).reduce((a, b3) => a + (b3 || 0), 0) + along;
         let acc = 0;
         let pt = path[0];
         for (let i = 1; i < path.length; i++) {
@@ -42956,6 +51414,462 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return null;
   }
 
+  // www/js/summary_view.js
+  init_util();
+  function num(v2) {
+    const n = Number(v2);
+    return Number.isFinite(n) ? n : 0;
+  }
+  function formatSpeed2(meters, seconds, units3 = "mi") {
+    const m = num(meters);
+    const s2 = num(seconds);
+    if (!(m > 0) || !(s2 > 0)) return "\u2014";
+    const perHour = units3 === "km" ? m / 1e3 / (s2 / 3600) : m / METERS_PER_MILE / (s2 / 3600);
+    if (!Number.isFinite(perHour)) return "\u2014";
+    return `${perHour.toFixed(1)} ${units3 === "km" ? "km/h" : "mph"}`;
+  }
+  function paceOrSpeed(act, meters, units3 = "mi") {
+    if (act && act.type === "ride") return { label: "Avg speed", value: formatSpeed2(meters, act.elapsedSec, units3) };
+    return { label: "Avg pace", value: formatPace(meters, act.elapsedSec, units3) };
+  }
+  function heartRateInfo(act) {
+    const h2 = act && act.health || {};
+    const direct = [
+      h2.avgHeartRate,
+      h2.averageHeartRate,
+      h2.heartRate,
+      h2.avgHr,
+      h2.hr,
+      act && act.avgHeartRate,
+      act && act.averageHeartRate,
+      act && act.heartRate
+    ].map(Number).find((n) => Number.isFinite(n) && n > 0);
+    let sum = 0, count = 0, min = Infinity, max2 = -Infinity;
+    for (const p of act && act.track || []) {
+      const v2 = Number(p && (p.hr != null ? p.hr : p.heartRate));
+      if (!Number.isFinite(v2) || v2 <= 0) continue;
+      sum += v2;
+      count += 1;
+      if (v2 < min) min = v2;
+      if (v2 > max2) max2 = v2;
+    }
+    const avg = direct || (count ? sum / count : null);
+    if (!(avg > 0)) return null;
+    return {
+      avg: Math.round(avg),
+      min: count ? Math.round(min) : null,
+      max: count ? Math.round(max2) : null,
+      samples: count,
+      from: h2.provider || null
+    };
+  }
+  function formatF1Row(refLabel, refSec, timeSec) {
+    const ref = num(refSec);
+    const time = num(timeSec);
+    const delta = ref > 0 && time > 0 ? time - ref : null;
+    const refTxt = ref > 0 ? formatSectorTime(ref) : "\u2014";
+    const deltaTxt = delta == null ? "\u2014" : formatSectorDelta(delta);
+    return `${refLabel} ${refTxt} / TIME ${deltaTxt}`;
+  }
+  function sectorColor(deltaSec, isNewPb = false) {
+    if (isNewPb) return "purple";
+    if (deltaSec == null || !Number.isFinite(Number(deltaSec))) return "neutral";
+    if (Math.abs(Number(deltaSec)) < 0.05) return "neutral";
+    return Number(deltaSec) < 0 ? "green" : "red";
+  }
+  function bestSectorIndex(rows) {
+    let best = -1;
+    let gain = null;
+    for (const row of rows || []) {
+      if (row.vsGoal == null) continue;
+      if (gain == null || row.vsGoal < gain) {
+        gain = row.vsGoal;
+        best = row.index;
+      }
+    }
+    return best;
+  }
+  function lapTimesFor(course, act) {
+    const track = act && act.track || [];
+    const analysis = analyzeLapGate(course, track);
+    if (analysis.gated && analysis.sectorTimesByLap.some((l) => l.length)) {
+      return {
+        analysis,
+        laps: analysis.sectorTimesByLap.map((times, i) => ({ lap: i + 1, times: times.slice() }))
+      };
+    }
+    return {
+      analysis,
+      laps: [{ lap: 1, times: sectorTimesFromTrack(course, track) }]
+    };
+  }
+  function buildSectorModel(course, act, { apply = false } = {}) {
+    const goal = course && resolveGoal(course);
+    if (!course || !act) {
+      return { hasGoal: false, hasSectors: false, rows: [], laps: [], computed: null, applied: null };
+    }
+    const targets = goal ? sectorTargets(course, goal) : [];
+    const pbs = readSectorPbs(course);
+    const hadHistory = hasSectorHistory(course);
+    const { analysis, laps } = lapTimesFor(course, act);
+    const lapCount = Math.max(1, laps.length);
+    const sectorCount = Math.max(targets.length, ...laps.map((l) => l.times.length), 0);
+    const rows = [];
+    let cumulative = 0;
+    let bestPossibleSum = 0;
+    let anyBest = false;
+    let hasTargets = false;
+    for (let i = 0; i < sectorCount; i++) {
+      const target = num(targets[i]);
+      if (target > 0) hasTargets = true;
+      const perLap = laps.map((l) => ({
+        lap: l.lap,
+        time: num(l.times[i])
+      }));
+      const timed = perLap.filter((l) => l.time > 0);
+      const best = timed.length ? Math.min(...timed.map((l) => l.time)) : 0;
+      const pb = pbs[String(i)] ? num(pbs[String(i)].seconds) : null;
+      const vsGoal = best > 0 && target > 0 ? best - target : null;
+      const vsPb = best > 0 && pb > 0 ? best - pb : null;
+      let earlierBest = null;
+      const lapRows = perLap.map((l) => {
+        const isLapPb = l.time > 0 && earlierBest != null && l.time < earlierBest - 9e-3;
+        if (l.time > 0 && (earlierBest == null || l.time < earlierBest)) earlierBest = l.time;
+        const isPb = hadHistory && l.time > 0 && pb != null && l.time < pb - 9e-3 || isLapPb;
+        return {
+          ...l,
+          vsGoal: l.time > 0 && target > 0 ? l.time - target : null,
+          vsPb: l.time > 0 && pb > 0 ? l.time - pb : null,
+          isNewPb: isPb,
+          color: sectorColor(l.time > 0 && target > 0 ? l.time - target : null, isPb)
+        };
+      });
+      const beatHistory = !!(hadHistory && best > 0 && pb != null && best < pb - 9e-3);
+      const improvedWithin = lapRows.some((l) => l.isNewPb && l.lap > 1);
+      const isNewPb = beatHistory || improvedWithin;
+      const color = sectorColor(vsGoal, isNewPb);
+      if (vsGoal != null) cumulative += vsGoal;
+      const possible = pb > 0 ? pb : target;
+      if (possible > 0) {
+        bestPossibleSum += possible;
+        anyBest = true;
+      }
+      rows.push({
+        index: i,
+        label: `S${i + 1}`,
+        target,
+        pb,
+        best,
+        vsGoal,
+        vsPb,
+        isNewPb,
+        color,
+        goalLine: target > 0 ? formatF1Row("GOAL", target, best) : "",
+        prLine: hadHistory && pb > 0 ? formatF1Row("PR", pb, best) : "",
+        laps: lapRows
+      });
+    }
+    const hasTimed = rows.some((r) => r.best > 0);
+    const result = apply && hasTimed ? applySectorResult(course, rows.map((r) => r.best), { activityId: act.id, at: act.endedAt }) : null;
+    if (result && hadHistory) {
+      for (const i of result.newBests || []) {
+        if (rows[i]) {
+          rows[i].isNewPb = true;
+          rows[i].color = "purple";
+        }
+      }
+    }
+    const timedLaps = laps.map((l) => l.times.reduce((s2, v2) => s2 + num(v2), 0)).filter((s2) => s2 > 0);
+    return {
+      hasGoal: !!goal,
+      hasSectors: rows.length > 0,
+      hasTargets,
+      rows,
+      laps,
+      lapCount,
+      lapTimes: laps.map((l) => ({
+        lap: l.lap,
+        seconds: l.times.reduce((s2, v2) => s2 + num(v2), 0)
+      })),
+      bestLapSec: analysis.bestLapSec != null ? analysis.bestLapSec : timedLaps.length ? Math.min(...timedLaps) : null,
+      analysis,
+      cumulative,
+      bestPossible: anyBest ? bestPossibleSum : null,
+      newBests: result ? result.newBests : [],
+      applied: result
+    };
+  }
+  function routeOutlineSvg(coords, { width = 340, height = 190, stroke = "#4EC3F7" } = {}) {
+    const pts = (coords || []).filter((p) => p && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon)));
+    if (pts.length < 2) return "";
+    const lats = pts.map((p) => Number(p.lat));
+    const lons = pts.map((p) => Number(p.lon));
+    const minLat = Math.min(...lats), maxLat = Math.max(...lats);
+    const minLon = Math.min(...lons), maxLon = Math.max(...lons);
+    const pad = 18;
+    const dLat = Math.max(1e-9, maxLat - minLat);
+    const dLon = Math.max(1e-9, maxLon - minLon);
+    const scale = Math.min((width - pad * 2) / dLon, (height - pad * 2) / dLat);
+    const ox = (width - dLon * scale) / 2;
+    const oy = (height - dLat * scale) / 2;
+    const xy = (p) => {
+      const x2 = ox + (Number(p.lon) - minLon) * scale;
+      const y2 = height - (oy + (Number(p.lat) - minLat) * scale);
+      return [Math.round(x2 * 10) / 10, Math.round(y2 * 10) / 10];
+    };
+    const d2 = pts.map((p, i) => `${i ? "L" : "M"}${xy(p)[0]} ${xy(p)[1]}`).join(" ");
+    const [sx, sy] = xy(pts[0]);
+    const [ex, ey] = xy(pts[pts.length - 1]);
+    return `<svg class="summary-outline-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Route outline"><path d="${d2}" fill="none" stroke="#2B8FD4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/><path d="${d2}" fill="none" stroke="${stroke}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${ex}" cy="${ey}" r="7" fill="#B8F3D0" stroke="#12161C" stroke-width="3"/><circle cx="${sx}" cy="${sy}" r="5" fill="#F3F6FA" stroke="#12161C" stroke-width="2"/></svg>`;
+  }
+  function sectorTrackSegments(track, meters) {
+    const pts = (track || []).filter(Boolean);
+    const list = (meters || []).map(num);
+    if (pts.length < 2 || !list.length) return [];
+    const prefix = [0];
+    for (let i = 1; i < pts.length; i++) prefix[i] = prefix[i - 1] + haversineMeters(pts[i - 1], pts[i]);
+    const out = [];
+    let startM = 0;
+    for (let s2 = 0; s2 < list.length; s2++) {
+      const endM = startM + list[s2];
+      const seg = [];
+      for (let i = 0; i < pts.length; i++) {
+        if (prefix[i] < startM - 0.01) continue;
+        if (prefix[i] > endM + 0.01) break;
+        seg.push({ lat: pts[i].lat, lon: pts[i].lon });
+      }
+      const startPt = pointAt(pts, prefix, startM);
+      const endPt = pointAt(pts, prefix, endM);
+      if (startPt && (!seg.length || haversineMeters(seg[0], startPt) > 0.5)) seg.unshift(startPt);
+      if (endPt && (!seg.length || haversineMeters(seg[seg.length - 1], endPt) > 0.5)) seg.push(endPt);
+      if (seg.length >= 2) out.push({ index: s2, coords: seg });
+      startM = endM;
+    }
+    return out;
+  }
+  function pointAt(pts, prefix, meters) {
+    if (!pts.length) return null;
+    if (meters <= 0) return { lat: pts[0].lat, lon: pts[0].lon };
+    for (let i = 1; i < pts.length; i++) {
+      if (prefix[i] >= meters - 1e-3) {
+        const seg = prefix[i] - prefix[i - 1];
+        const f2 = seg > 0 ? (meters - prefix[i - 1]) / seg : 1;
+        return {
+          lat: pts[i - 1].lat + (pts[i].lat - pts[i - 1].lat) * f2,
+          lon: pts[i - 1].lon + (pts[i].lon - pts[i - 1].lon) * f2
+        };
+      }
+    }
+    return { lat: pts[pts.length - 1].lat, lon: pts[pts.length - 1].lon };
+  }
+  function sectorChips(model) {
+    return model.rows.map((r) => `
+    <div class="total-box summary-sector-chip ${r.color}">
+      <div class="num">${escapeHtml(formatSectorTime(r.best))}</div>
+      <div class="lbl">${escapeHtml(r.label)}</div>
+    </div>`).join("");
+  }
+  function lapRowsHtml(row) {
+    if (row.laps.length <= 1) return "";
+    return `<div class="sector-lap-list">${row.laps.map((l) => `
+    <div class="sector-lap-row ${l.color}">
+      <span class="sector-lap-n">Lap ${l.lap}</span>
+      <span class="sector-lap-time">${escapeHtml(formatSectorTime(l.time))}</span>
+      <span class="sector-lap-delta ${l.color}">${escapeHtml(formatSectorDelta(l.vsGoal))}</span>
+    </div>`).join("")}</div>`;
+  }
+  function towerRowHtml(row, bestIndex = -1) {
+    const pr = row.prLine ? `<div class="sector-f1 pr">${escapeHtml(row.prLine)}</div>` : "";
+    const goal = row.goalLine ? `<div class="sector-f1 goal">${escapeHtml(row.goalLine)}</div>` : "";
+    const best = row.index === bestIndex ? `<span class="best-sector-badge">BEST</span>` : "";
+    return `
+    <div class="sector-f1-row ${row.color}${row.index === bestIndex ? " best-sector" : ""}" data-testid="summary-sector-${row.index + 1}">
+      <div class="sector-f1-chip">${escapeHtml(row.label)}${best}</div>
+      <div class="sector-f1-body">
+        <div class="sector-f1-main">${escapeHtml(formatSectorTime(row.best))}${row.isNewPb ? `<span class="pb-badge">PB</span>` : ""}</div>
+        ${goal}
+        ${pr}
+      </div>
+    </div>`;
+  }
+  function renderSectorTower(root, model) {
+    if (!root) return;
+    if (!model || !model.hasSectors || !model.rows.length) {
+      root.innerHTML = "";
+      root.hidden = true;
+      return;
+    }
+    root.hidden = false;
+    const multi = model.lapCount > 1;
+    const bestIndex = bestSectorIndex(model.rows);
+    const rows = model.rows.map((row) => {
+      if (!multi) return towerRowHtml(row, bestIndex);
+      return `<details class="sector-expand" data-testid="summary-lap-expand-${row.index + 1}">
+      <summary>${towerRowHtml(row, bestIndex)}<span class="sector-expand-hint">${model.lapCount} laps</span></summary>
+      ${lapRowsHtml(row)}
+    </details>`;
+    }).join("");
+    const bits2 = [];
+    if (model.hasTargets) bits2.push(`Total ${formatSectorDelta(model.cumulative)}`);
+    if (model.bestPossible != null) bits2.push(`Best possible ${formatSectorTime(model.bestPossible)}`);
+    if (model.bestLapSec != null && multi) bits2.push(`Best lap ${formatSectorTime(model.bestLapSec)}`);
+    root.innerHTML = `<div class="sector-tower">${rows}</div>` + (bits2.length ? `<p class="summary-delta-line" data-testid="summary-delta-line">${escapeHtml(bits2.join(" \xB7 "))}</p>` : "");
+  }
+  function renderSummary(ctx2) {
+    const {
+      act,
+      course,
+      units: units3 = "mi",
+      shownMeters = 0,
+      elev = null,
+      title = "Activity complete",
+      sub = "",
+      indoorNote = "",
+      outline = null,
+      model = null,
+      distanceNote = ""
+    } = ctx2 || {};
+    const set = (id, text) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    };
+    set("summary-title", title);
+    set("summary-sub", sub);
+    const note = document.getElementById("summary-indoor-note");
+    if (note) {
+      note.hidden = !indoorNote;
+      note.textContent = indoorNote || "";
+    }
+    const outlineEl = document.getElementById("summary-outline");
+    if (outlineEl) {
+      const svg = routeOutlineSvg(outline || act && act.track || []);
+      outlineEl.innerHTML = svg;
+      outlineEl.hidden = !svg;
+    }
+    const pace = paceOrSpeed(act, shownMeters, units3);
+    const stats = document.getElementById("summary-stats");
+    if (stats) {
+      let html = `
+      <div class="total-box"><div class="num">${escapeHtml(formatDistance(shownMeters, units3))}</div><div class="lbl">Distance</div></div>
+      <div class="total-box"><div class="num">${escapeHtml(formatDuration(act.elapsedSec))}</div><div class="lbl">Time</div></div>
+      <div class="total-box"><div class="num">${escapeHtml(pace.value)}</div><div class="lbl">${escapeHtml(pace.label)}</div></div>`;
+      if (elev && elev.gainM > 15) {
+        html += `<div class="total-box"><div class="num">${escapeHtml(formatGainSafe(elev.gainM, units3))}</div><div class="lbl">Climb</div></div>`;
+      }
+      if (model && model.hasSectors && model.rows.length) html += sectorChips(model);
+      stats.innerHTML = html;
+    }
+    renderSectorTower(document.getElementById("summary-sector-tower"), model);
+    const distNote = document.getElementById("summary-distance-note");
+    if (distNote) {
+      distNote.hidden = !distanceNote;
+      distNote.textContent = distanceNote || "";
+    }
+    const detailsBtn = document.getElementById("btn-summary-details");
+    if (detailsBtn) detailsBtn.hidden = false;
+  }
+  function formatGainSafe(meters, units3) {
+    const m = Math.round(num(meters));
+    return units3 === "km" ? `${m} m` : `${Math.round(m * 3.28084)} ft`;
+  }
+  function healthHtml(act) {
+    const h2 = act && act.health;
+    const provider = h2 && h2.provider || "your health app";
+    const bits2 = [];
+    if (h2 && Number.isFinite(h2.steps)) bits2.push(`${h2.steps.toLocaleString()} steps`);
+    if (h2 && Number.isFinite(h2.calories)) bits2.push(`${Math.round(h2.calories).toLocaleString()} cal`);
+    if (bits2.length) {
+      return `<div class="pr-row" data-testid="details-health-row"><span>From ${escapeHtml(provider)}</span><span>${escapeHtml(bits2.join(" \xB7 "))}</span></div>
+      <p class="tiny details-note">Calories and steps come from the health app. Heldpath never counts them itself.</p>`;
+    }
+    return "";
+  }
+  function renderDetails(ctx2) {
+    const {
+      act,
+      course,
+      units: units3 = "mi",
+      shownMeters = 0,
+      elev = null,
+      model = null,
+      sub = "",
+      healthOptIn = false,
+      healthSync = null,
+      legResult = null,
+      splits = null
+    } = ctx2 || {};
+    const set = (id, text) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    };
+    set("summary-details-title", act && act.type === "ride" ? "Ride details" : "More details");
+    set("summary-details-sub", sub);
+    const stats = document.getElementById("details-stats");
+    if (stats) {
+      const pace = paceOrSpeed(act, shownMeters, units3);
+      let html = `
+      <div class="total-box"><div class="num">${escapeHtml(formatDistance(shownMeters, units3))}</div><div class="lbl">Distance</div></div>
+      <div class="total-box"><div class="num">${escapeHtml(formatDuration(act.elapsedSec))}</div><div class="lbl">Time</div></div>
+      <div class="total-box"><div class="num">${escapeHtml(pace.value)}</div><div class="lbl">${escapeHtml(pace.label)}</div></div>`;
+      if (elev && (elev.gainM > 0 || elev.lossM > 0)) {
+        html += `<div class="total-box"><div class="num">${escapeHtml(formatGainSafe(elev.gainM, units3))}</div><div class="lbl">Climb</div></div>
+      <div class="total-box"><div class="num">${escapeHtml(formatGainSafe(elev.lossM, units3))}</div><div class="lbl">Descent</div></div>`;
+      }
+      const hr = heartRateInfo(act);
+      if (hr) html += `<div class="total-box"><div class="num">${hr.avg}</div><div class="lbl">Avg bpm</div></div>`;
+      if (model && model.hasSectors && model.rows.length) html += `<div class="total-box"><div class="num">${model.lapCount}</div><div class="lbl">${model.lapCount === 1 ? "Lap" : "Laps"}</div></div>`;
+      stats.innerHTML = html;
+    }
+    const health = document.getElementById("details-health");
+    if (health) {
+      const body = healthHtml(act);
+      const hr = heartRateInfo(act);
+      const hrHtml = hr ? `<div class="pr-row" data-testid="details-hr-row"><span>Heart rate${hr.from ? ` \xB7 ${escapeHtml(hr.from)}` : ""}</span><span>avg ${hr.avg} bpm${hr.min != null && hr.max != null ? ` \xB7 ${hr.min}\u2013${hr.max}` : ""}</span></div>` : "";
+      if (body || hrHtml) health.innerHTML = body + hrHtml;
+      else if (!healthOptIn) health.innerHTML = `<p class="tiny details-note">Health sync is off. Turn it on in Settings to show steps and calories from your health app.</p>`;
+      else health.innerHTML = `<p class="tiny details-note">No steps or calories were reported by the health app for this activity, so they stay blank. Heldpath never counts them itself.</p>`;
+    }
+    const sectorRoot = document.getElementById("details-sector-table");
+    if (sectorRoot) {
+      if (model && model.hasSectors && model.rows.length) {
+        const laps = model.analysis && model.analysis.lapTimes && model.analysis.lapTimes.length ? model.analysis.lapTimes.map((l) => ({ lap: l.lap, seconds: l.seconds })) : model.lapTimes.length > 1 ? model.lapTimes : [];
+        const bestLap = model.bestLapSec;
+        const lapStrip = laps.length > 1 ? `<div class="details-lap-times" data-testid="details-lap-times">${laps.map((l) => `
+            <div class="details-lap-time${bestLap != null && Math.abs(l.seconds - bestLap) < 0.05 ? " best" : ""}">
+              <span>Lap ${l.lap}</span><strong>${escapeHtml(formatSectorTime(l.seconds))}</strong>
+            </div>`).join("")}</div>` : "";
+        sectorRoot.innerHTML = `<div class="sector-table details-sector-table">${model.rows.map((row) => {
+          const pr = row.prLine ? `<div class="sector-line pr">${escapeHtml(row.prLine)}</div>` : "";
+          const goal = row.goalLine ? `<div class="sector-line goal">${escapeHtml(row.goalLine)}</div>` : "";
+          const laps2 = row.laps.length > 1 ? `<div class="details-lap-grid">${row.laps.map((l) => `
+          <div class="details-lap-cell"><span>Lap ${l.lap}</span><strong>${escapeHtml(formatSectorTime(l.time))}</strong></div>`).join("")}</div>` : "";
+          return `<div class="sector-block ${row.color}" data-testid="details-sector-${row.index + 1}">
+          <div class="sector-block-label"><span>${escapeHtml(row.label)}</span><span class="sector-block-time">${escapeHtml(formatSectorTime(row.best))}</span></div>
+          ${goal}
+          ${pr}${laps2}
+        </div>`;
+        }).join("")}</div>${lapStrip}
+      <p class="tiny details-note">Even pace from the goal time and the full route distance. Elevation is shown as info, not in the target.</p>`;
+      } else {
+        sectorRoot.innerHTML = course ? `<p class="tiny details-note">This route has no saved goal yet, so there are no sector targets. Add a goal time for free in the course card.</p>` : `<p class="tiny details-note">Free walk: no course sectors. Pick a saved course next time to see an F1 sector tower, free.</p>`;
+      }
+    }
+    const splitRoot = document.getElementById("details-splits");
+    if (splitRoot) {
+      if (course && legResult && legResult.legs && legResult.legs.length && splits) {
+        const rows = splits.splitRows(course, legResult);
+        splitRoot.innerHTML = `<div class="split-head"><span>Leg</span><span class="t">Time</span><span class="t">Pace</span></div>` + rows.map((row) => `<div class="split-row"><span>${escapeHtml(row.label)}</span><span class="t">${escapeHtml(splits.formatLegTime(row.seconds))}</span><span class="t">${escapeHtml(row.pace || "\u2014")}</span></div>`).join("");
+      } else {
+        splitRoot.innerHTML = "";
+      }
+    }
+  }
+  function detailsMapMeters(course, act) {
+    const list = course ? sectorMetersList(course) : [];
+    if (list.length) return list;
+    return act && act.distanceMeters ? [act.distanceMeters] : [];
+  }
+
   // www/js/plans_ui.js
   init_dist();
 
@@ -42987,6 +51901,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   var LocalNotifications = registerPlugin("LocalNotifications", {
     web: () => Promise.resolve().then(() => (init_web4(), web_exports4)).then((m) => new m.LocalNotificationsWeb())
   });
+
+  // www/js/plans_ui.js
+  init_util();
+
+  // www/js/plan_progress.js
+  init_util();
+  init_util();
 
   // node_modules/@mapbox/point-geometry/index.js
   function Point(x2, y2) {
@@ -43160,16 +52081,16 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
      * @param {Point} b the other point
      * @return {number} angle
      */
-    angleTo(b2) {
-      return Math.atan2(this.y - b2.y, this.x - b2.x);
+    angleTo(b3) {
+      return Math.atan2(this.y - b3.y, this.x - b3.x);
     },
     /**
      * Get the angle between this point and another point, in radians
      * @param {Point} b the other point
      * @return {number} angle
      */
-    angleWith(b2) {
-      return this.angleWithSep(b2.x, b2.y);
+    angleWith(b3) {
+      return this.angleWithSep(b3.x, b3.y);
     },
     /**
      * Find the angle of the two vectors, solving the formula for
@@ -43606,29 +52527,29 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
      */
     readVarint(isSigned) {
       const buf = this.buf;
-      let val, b2;
-      b2 = buf[this.pos++];
-      val = b2 & 127;
-      if (b2 < 128) return val;
-      b2 = buf[this.pos++];
-      val |= (b2 & 127) << 7;
-      if (b2 < 128) return val;
-      b2 = buf[this.pos++];
-      val |= (b2 & 127) << 14;
-      if (b2 < 128) return val;
-      b2 = buf[this.pos++];
-      val |= (b2 & 127) << 21;
-      if (b2 < 128) return val;
-      b2 = buf[this.pos];
-      val |= (b2 & 15) << 28;
+      let val, b3;
+      b3 = buf[this.pos++];
+      val = b3 & 127;
+      if (b3 < 128) return val;
+      b3 = buf[this.pos++];
+      val |= (b3 & 127) << 7;
+      if (b3 < 128) return val;
+      b3 = buf[this.pos++];
+      val |= (b3 & 127) << 14;
+      if (b3 < 128) return val;
+      b3 = buf[this.pos++];
+      val |= (b3 & 127) << 21;
+      if (b3 < 128) return val;
+      b3 = buf[this.pos];
+      val |= (b3 & 15) << 28;
       return readVarintRemainder(val, isSigned, this);
     }
     readVarint64() {
       return this.readVarint(true);
     }
     readSVarint() {
-      const num2 = this.readVarint();
-      return num2 % 2 === 1 ? (num2 + 1) / -2 : num2 / 2;
+      const num3 = this.readVarint();
+      return num3 % 2 === 1 ? (num3 + 1) / -2 : num3 / 2;
     }
     readBoolean() {
       return Boolean(this.readVarint());
@@ -44003,25 +52924,25 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   };
   function readVarintRemainder(l, s2, p) {
     const buf = p.buf;
-    let h2, b2;
-    b2 = buf[p.pos++];
-    h2 = (b2 & 112) >> 4;
-    if (b2 < 128) return toNum(l, h2, s2);
-    b2 = buf[p.pos++];
-    h2 |= (b2 & 127) << 3;
-    if (b2 < 128) return toNum(l, h2, s2);
-    b2 = buf[p.pos++];
-    h2 |= (b2 & 127) << 10;
-    if (b2 < 128) return toNum(l, h2, s2);
-    b2 = buf[p.pos++];
-    h2 |= (b2 & 127) << 17;
-    if (b2 < 128) return toNum(l, h2, s2);
-    b2 = buf[p.pos++];
-    h2 |= (b2 & 127) << 24;
-    if (b2 < 128) return toNum(l, h2, s2);
-    b2 = buf[p.pos++];
-    h2 |= (b2 & 1) << 31;
-    if (b2 < 128) return toNum(l, h2, s2);
+    let h2, b3;
+    b3 = buf[p.pos++];
+    h2 = (b3 & 112) >> 4;
+    if (b3 < 128) return toNum(l, h2, s2);
+    b3 = buf[p.pos++];
+    h2 |= (b3 & 127) << 3;
+    if (b3 < 128) return toNum(l, h2, s2);
+    b3 = buf[p.pos++];
+    h2 |= (b3 & 127) << 10;
+    if (b3 < 128) return toNum(l, h2, s2);
+    b3 = buf[p.pos++];
+    h2 |= (b3 & 127) << 17;
+    if (b3 < 128) return toNum(l, h2, s2);
+    b3 = buf[p.pos++];
+    h2 |= (b3 & 127) << 24;
+    if (b3 < 128) return toNum(l, h2, s2);
+    b3 = buf[p.pos++];
+    h2 |= (b3 & 1) << 31;
+    if (b3 < 128) return toNum(l, h2, s2);
     throw new Error("Expected varint not more than 10 bytes");
   }
   function toNum(low, high, isSigned) {
@@ -44114,7 +53035,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       let c = null;
       let bytesPerSequence = b0 > 239 ? 4 : b0 > 223 ? 3 : b0 > 191 ? 2 : 1;
       if (i + bytesPerSequence > end) break;
-      let b1, b2, b3;
+      let b1, b22, b3;
       if (bytesPerSequence === 1) {
         if (b0 < 128) {
           c = b0;
@@ -44129,19 +53050,19 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         }
       } else if (bytesPerSequence === 3) {
         b1 = buf[i + 1];
-        b2 = buf[i + 2];
-        if ((b1 & 192) === 128 && (b2 & 192) === 128) {
-          c = (b0 & 15) << 12 | (b1 & 63) << 6 | b2 & 63;
+        b22 = buf[i + 2];
+        if ((b1 & 192) === 128 && (b22 & 192) === 128) {
+          c = (b0 & 15) << 12 | (b1 & 63) << 6 | b22 & 63;
           if (c <= 2047 || c >= 55296 && c <= 57343) {
             c = null;
           }
         }
       } else if (bytesPerSequence === 4) {
         b1 = buf[i + 1];
-        b2 = buf[i + 2];
+        b22 = buf[i + 2];
         b3 = buf[i + 3];
-        if ((b1 & 192) === 128 && (b2 & 192) === 128 && (b3 & 192) === 128) {
-          c = (b0 & 15) << 18 | (b1 & 63) << 12 | (b2 & 63) << 6 | b3 & 63;
+        if ((b1 & 192) === 128 && (b22 & 192) === 128 && (b3 & 192) === 128) {
+          c = (b0 & 15) << 18 | (b1 & 63) << 12 | (b22 & 63) << 6 | b3 & 63;
           if (c <= 65535 || c >= 1114112) {
             c = null;
           }
@@ -44212,6 +53133,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
 
   // www/js/walk_graph_build.js
+  init_geodesic();
   var GRAPH_VERSION = 1;
   var OSM_ATTRIBUTION = "\xA9 OpenStreetMap contributors";
   var GRID_METERS = 2.5;
@@ -44261,6 +53183,44 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (KEEP_OMT_CLASS.has(cls)) return true;
     return false;
   }
+  var BIKE_EXCLUDE_DETAIL = /* @__PURE__ */ new Set([
+    "steps",
+    "footway",
+    "pedestrian",
+    "platform",
+    "rest_area",
+    "services",
+    "no"
+  ]);
+  var BIKE_OMT_CLASS = /* @__PURE__ */ new Set([
+    "cycleway",
+    "path",
+    "track",
+    "minor",
+    "service",
+    "tertiary",
+    "secondary",
+    "primary",
+    "living_street"
+  ]);
+  function isBikeableWay(props = {}) {
+    const bicycle = String(props.bicycle || props.bike || "").toLowerCase();
+    if (bicycle === "no" || bicycle === "use_sidepath") return false;
+    const foot = String(props.foot || "").toLowerCase();
+    if (foot === "designated" && !props.cycleway && !props.bicycle) return false;
+    if (props["pmap:kind"] != null || props["pmap:kind_detail"] != null) {
+      const kind = String(props["pmap:kind"] || "");
+      const detail = String(props["pmap:kind_detail"] || "");
+      if (kind === "highway") return false;
+      if (BIKE_EXCLUDE_DETAIL.has(detail)) return false;
+      if (kind === "other" && detail !== "living_street") return false;
+      return kind === "path" || kind === "minor_road" || kind === "medium_road" || kind === "major_road" || kind === "other";
+    }
+    const cls = String(props.class || "");
+    if (EXCLUDE_OMT_CLASS.has(cls)) return false;
+    if (BIKE_OMT_CLASS.has(cls)) return true;
+    return false;
+  }
   function tileToLonLat(tx, ty, z2, extent, px, py) {
     const n = 2 ** z2;
     const lon = (tx + px / extent) / n * 360 - 180;
@@ -44270,7 +53230,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function roadLayer(tile) {
     return tile.layers && (tile.layers.roads || tile.layers.transportation) || null;
   }
-  function parseTileLines(z2, x2, y2, data) {
+  function parseTileLines(z2, x2, y2, data, accept = isWalkableWay) {
     const buf = data instanceof Uint8Array ? data : new Uint8Array(data);
     const tile = new VectorTile(new Pbf(buf));
     const layer = roadLayer(tile);
@@ -44282,7 +53242,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     for (let i = 0; i < layer.length; i++) {
       const f2 = layer.feature(i);
       if (f2.type !== 2) continue;
-      if (!isWalkableWay(f2.properties || {})) {
+      if (!accept(f2.properties || {})) {
         skipped += 1;
         continue;
       }
@@ -44345,8 +53305,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     let best = Infinity;
     for (let i = 0; i < ring.length; i++) {
       const a = ring[i];
-      const b2 = ring[(i + 1) % ring.length];
-      const vx = b2.lat - a.lat, vy = b2.lon - a.lon;
+      const b3 = ring[(i + 1) % ring.length];
+      const vx = b3.lat - a.lat, vy = b3.lon - a.lon;
       const len2 = vx * vx + vy * vy;
       const t = len2 > 0 ? Math.max(0, Math.min(1, ((point.lat - a.lat) * vx + (point.lon - a.lon) * vy) / len2)) : 0;
       const hit = { lat: a.lat + vx * t, lon: a.lon + vy * t };
@@ -44370,10 +53330,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const kept = [];
     for (let i = 0; i + 1 < graph.edges.length; i += 2) {
       const ia = graph.edges[i], ib = graph.edges[i + 1];
-      const a = pts[ia], b2 = pts[ib];
-      if (!a || !b2) continue;
-      const meters = geodesicMeters(a, b2);
-      const mid = { lat: (a.lat + b2.lat) / 2, lon: (a.lon + b2.lon) / 2 };
+      const a = pts[ia], b3 = pts[ib];
+      if (!a || !b3) continue;
+      const meters = geodesicMeters(a, b3);
+      const mid = { lat: (a.lat + b3.lat) / 2, lon: (a.lon + b3.lon) / 2 };
       let cut = false;
       if (meters >= minCut) {
         for (const pitch of pitches) {
@@ -44410,15 +53370,15 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     const edgeSet = /* @__PURE__ */ new Set();
     const adj = [];
-    function addEdge(a, b2) {
-      if (a === b2) return;
-      const lo = Math.min(a, b2);
-      const hi = Math.max(a, b2);
+    function addEdge(a, b3) {
+      if (a === b3) return;
+      const lo = Math.min(a, b3);
+      const hi = Math.max(a, b3);
       const k = lo + ":" + hi;
       if (edgeSet.has(k)) return;
       edgeSet.add(k);
-      (adj[a] || (adj[a] = [])).push(b2);
-      (adj[b2] || (adj[b2] = [])).push(a);
+      (adj[a] || (adj[a] = [])).push(b3);
+      (adj[b3] || (adj[b3] = [])).push(a);
     }
     for (const line of lines || []) {
       let prev = -1;
@@ -44457,9 +53417,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     const outEdges = [];
     for (const k of edgeSet) {
-      const [a, b2] = k.split(":").map(Number);
-      if (remap[a] < 0 || remap[b2] < 0) continue;
-      outEdges.push(remap[a], remap[b2]);
+      const [a, b3] = k.split(":").map(Number);
+      if (remap[a] < 0 || remap[b3] < 0) continue;
+      outEdges.push(remap[a], remap[b3]);
     }
     const packedNodes = [];
     let minLon = Infinity, minLat = Infinity, maxLon = -Infinity, maxLat = -Infinity;
@@ -44489,13 +53449,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       }
     };
   }
-  function buildWalkGraphFromTiles(tiles, { name, source } = {}) {
+  function buildGraphFromTiles(tiles, { name, source } = {}, accept = isWalkableWay) {
     const lines = [];
     let kept = 0;
     let skipped = 0;
     for (const t of tiles || []) {
       if (!t || !t.data) continue;
-      const parsed = parseTileLines(t.z, t.x, t.y, t.data);
+      const parsed = parseTileLines(t.z, t.x, t.y, t.data, accept);
       kept += parsed.kept;
       skipped += parsed.skipped;
       for (const line of parsed.lines) lines.push(line);
@@ -44522,24 +53482,33 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     graph.stats.barriers = barriers.length;
     return graph;
   }
+  function buildWalkGraphFromTiles(tiles, opts = {}) {
+    return buildGraphFromTiles(tiles, opts, isWalkableWay);
+  }
+  function buildBikeGraphFromTiles(tiles, { name = "Ride", source = "" } = {}) {
+    const graph = buildGraphFromTiles(tiles, { name, source }, isBikeableWay);
+    graph.profile = "bike";
+    return graph;
+  }
   function pointsInGraphBounds(graph, points, pad = 2e-3) {
-    const b2 = graph && graph.bounds;
-    if (!b2 || !points || !points.length) return false;
+    const b3 = graph && graph.bounds;
+    if (!b3 || !points || !points.length) return false;
     return points.every((p) => {
       if (!p || !Number.isFinite(p.lat) || !Number.isFinite(p.lon)) return false;
-      return p.lon >= b2[0] - pad && p.lat >= b2[1] - pad && p.lon <= b2[2] + pad && p.lat <= b2[3] + pad;
+      return p.lon >= b3[0] - pad && p.lat >= b3[1] - pad && p.lon <= b3[2] + pad && p.lat <= b3[3] + pad;
     });
   }
   function somePointsInGraphBounds(graph, points, pad = 2e-3) {
-    const b2 = graph && graph.bounds;
-    if (!b2 || !points || !points.length) return false;
+    const b3 = graph && graph.bounds;
+    if (!b3 || !points || !points.length) return false;
     return points.some((p) => {
       if (!p || !Number.isFinite(p.lat) || !Number.isFinite(p.lon)) return false;
-      return p.lon >= b2[0] - pad && p.lat >= b2[1] - pad && p.lon <= b2[2] + pad && p.lat <= b2[3] + pad;
+      return p.lon >= b3[0] - pad && p.lat >= b3[1] - pad && p.lon <= b3[2] + pad && p.lat <= b3[3] + pad;
     });
   }
 
   // www/js/area_graphs.js
+  init_map_tiles();
   var DB_NAME2 = "heldpath-graphs";
   var STORE2 = "graphs";
   var bundledPromise = null;
@@ -44642,7 +53611,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     return parsed.filter((t) => t.z === maxZ);
   }
-  async function buildGraphForArea(area, { onProgress } = {}) {
+  function isBikeRecord(rec) {
+    return !!rec && (rec.profile === "bike" || /:bike$/.test(String(rec.id || "")));
+  }
+  async function buildGraphForArea(area, { onProgress, kind } = {}) {
     if (!area || !area.id) return { ok: false, reason: "no-area" };
     const tiles = highestZoomKeys(area);
     if (!tiles.length) return { ok: false, reason: "no-tiles" };
@@ -44658,11 +53630,12 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       if (onProgress) onProgress({ done, total: tiles.length });
     }
     if (!loaded.length) return { ok: false, reason: "no-tile-data" };
-    const raw = buildWalkGraphFromTiles(loaded, {
-      name: (area.name || "Downloaded area") + " walk",
+    const bike = kind === "bike";
+    const raw = (bike ? buildBikeGraphFromTiles : buildWalkGraphFromTiles)(loaded, {
+      name: (area.name || "Downloaded area") + (bike ? " ride" : " walk"),
       source: "downloaded-area:" + area.id
     });
-    raw.id = area.id;
+    raw.id = bike ? area.id + ":bike" : area.id;
     raw.areaId = area.id;
     raw.west = area.west;
     raw.south = area.south;
@@ -44673,12 +53646,16 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     await saveAreaGraph(raw);
     return { ok: true, graph: raw };
   }
-  async function ensureGraphForArea(area) {
+  async function ensureGraphForArea(area, { kind } = {}) {
     if (!area || !area.id) return null;
-    const existing = await loadAreaGraph(area.id);
+    const id = kind === "bike" ? area.id + ":bike" : area.id;
+    const existing = await loadAreaGraph(id);
     if (existing && existing.nodes && existing.edges) return existing;
-    const built = await buildGraphForArea(area);
+    const built = await buildGraphForArea(area, { kind });
     return built.ok ? built.graph : null;
+  }
+  async function ensureBikeGraphForArea(area) {
+    return ensureGraphForArea(area, { kind: "bike" });
   }
   async function getBundledGraph() {
     if (!bundledPromise) {
@@ -44753,7 +53730,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     return null;
   }
-  async function buildGraphForBounds(bounds, { onProgress, maxTiles = ON_DEMAND_MAX_TILES } = {}) {
+  async function buildGraphForBounds(bounds, { onProgress, maxTiles = ON_DEMAND_MAX_TILES, kind } = {}) {
     if (!bounds) return { ok: false, reason: "no-bounds" };
     let z2 = OFM_MAXZOOM;
     let range = tileRange(bounds, z2);
@@ -44772,11 +53749,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       if (onProgress) onProgress({ done, total: tiles.length });
     }
     if (!loaded.length) return { ok: false, reason: "no-tile-data" };
-    const raw = buildWalkGraphFromTiles(loaded, {
-      name: "On-demand walk",
+    const bike = kind === "bike";
+    const raw = (bike ? buildBikeGraphFromTiles : buildWalkGraphFromTiles)(loaded, {
+      name: bike ? "On-demand ride" : "On-demand walk",
       source: "ofm-bounds"
     });
-    raw.id = `ondemand:${bounds.west.toFixed(3)},${bounds.south.toFixed(3)},${bounds.east.toFixed(3)},${bounds.north.toFixed(3)},z${z2}`;
+    const baseId = `ondemand:${bounds.west.toFixed(3)},${bounds.south.toFixed(3)},${bounds.east.toFixed(3)},${bounds.north.toFixed(3)},z${z2}`;
+    raw.id = bike ? baseId + ":bike" : baseId;
     raw.west = bounds.west;
     raw.south = bounds.south;
     raw.east = bounds.east;
@@ -44792,7 +53771,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   async function selectWalkGraph(points, opts = {}) {
     const pts = pointsFrom(points);
     const records = await listAreaGraphs();
-    const parsedAreas = records.map(asRoutable).filter(Boolean);
+    const parsedAreas = records.filter((r) => !isBikeRecord(r)).map(asRoutable).filter(Boolean);
     const bundled = asRoutable(await getBundledGraph());
     if (pts.length) {
       const allHit = parsedAreas.find((g) => pointsInGraphBounds(g, pts)) || (bundled && pointsInGraphBounds(bundled, pts) ? bundled : null);
@@ -44836,6 +53815,25 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function graphCoversPoints(graph, points) {
     return pointsInGraphBounds(graph, pointsFrom(points));
   }
+  async function ensureBikeLoopGraph(center, targetMeters, opts = {}) {
+    if (!center) return null;
+    const existing = opts.graph || getActiveBikeGraph();
+    if (graphCoversLoop(existing, center, targetMeters)) return existing;
+    const pad = padDegForLoop(targetMeters);
+    const bounds = {
+      west: center.lon - pad,
+      south: center.lat - pad,
+      east: center.lon + pad,
+      north: center.lat + pad
+    };
+    const built = await buildGraphForBounds(bounds, { ...opts, kind: "bike" });
+    const g = asRoutable(built.ok ? built.graph : null);
+    if (g) {
+      setActiveBikeGraph(g);
+      return g;
+    }
+    return ensureBikeGraph(center, { ...opts, bounds, padDeg: pad });
+  }
   async function ensureLoopGraph(center, targetMeters, opts = {}) {
     if (!center) return null;
     const existing = opts.graph || getActiveGraph();
@@ -44855,15 +53853,110 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     return ensureWalkGraph(center, { ...opts, bounds, padDeg: pad });
   }
+  function padBoundsForBike(pts, padDeg = 6e-3) {
+    return padBoundsFromPoints(pts, padDeg);
+  }
+  async function selectBikeGraph(points, opts = {}) {
+    const pts = pointsFrom(points);
+    const records = await listAreaGraphs();
+    const parsedAreas = records.filter(isBikeRecord).map(asRoutable).filter(Boolean);
+    if (pts.length) {
+      const allHit = parsedAreas.find((g) => pointsInGraphBounds(g, pts));
+      if (allHit) return allHit;
+      if (!opts.lockWalkGraph) {
+        if (opts.onStatus) opts.onStatus("finding");
+        try {
+          const built = await buildGraphForBounds(
+            opts.bounds || padBoundsForBike(pts, opts.padDeg),
+            { kind: "bike" }
+          );
+          const g = asRoutable(built.ok ? built.graph : null);
+          if (g && pointsInGraphBounds(g, pts)) return g;
+          if (g && somePointsInGraphBounds(g, pts)) parsedAreas.unshift(g);
+        } catch {
+        }
+        if (opts.onStatus) opts.onStatus("idle");
+      }
+      const someHit = parsedAreas.find((g) => somePointsInGraphBounds(g, pts));
+      if (someHit) return someHit;
+      try {
+        const areas = await listAreas();
+        for (const area of areas) {
+          const covers = pts.some((p) => p && inBounds(p.lat, p.lon, [area.west, area.south, area.east, area.north]));
+          if (!covers) continue;
+          const built = await ensureBikeGraphForArea(area);
+          const g = asRoutable(built);
+          if (g) return g;
+        }
+      } catch {
+      }
+      return null;
+    }
+    return parsedAreas[0] || null;
+  }
+  async function ensureBikeGraph(points, opts = {}) {
+    const graph = await selectBikeGraph(points, opts);
+    setActiveBikeGraph(graph);
+    return graph;
+  }
+
+  // www/js/body_weight.js
+  var KG_PER_LB = 0.45359237;
+  function lbToKg(lb) {
+    const n = Number(lb);
+    if (!Number.isFinite(n)) return null;
+    return n * KG_PER_LB;
+  }
+  function kgToLb(kg) {
+    const n = Number(kg);
+    if (!Number.isFinite(n)) return null;
+    return n / KG_PER_LB;
+  }
+  function defaultWeightUnit({ locale, units: units3, remembered } = {}) {
+    if (remembered === "lb" || remembered === "kg") return remembered;
+    if (units3 === "mi") return "lb";
+    if (units3 === "km") return "kg";
+    const loc = String(locale || "").toLowerCase().replace(/_/g, "-");
+    if (loc === "en-us" || loc.startsWith("en-us") || loc.endsWith("-us")) return "lb";
+    return "kg";
+  }
+  var MIN_KG = 30;
+  var MAX_KG = 250;
+  function parseWeightInput(raw, unit) {
+    const text = String(raw == null ? "" : raw).trim();
+    if (!text) return null;
+    const n = Number(text);
+    if (!Number.isFinite(n) || n <= 0) return null;
+    const kg = unit === "lb" ? lbToKg(n) : n;
+    if (!Number.isFinite(kg) || kg < MIN_KG || kg > MAX_KG) return null;
+    return kg;
+  }
+  function formatWeightInput(kg, unit) {
+    const n = Number(kg);
+    if (!Number.isFinite(n) || n <= 0) return "";
+    if (unit === "lb") return String(Number(kgToLb(n).toFixed(1)));
+    return String(Number(n.toFixed(1)));
+  }
 
   // www/js/plan_progress.js
   var MS_WEEK = 7 * 24 * 60 * 60 * 1e3;
   var DEFAULT_STEP = 0.02;
   var MIN_STEP = 0.01;
   var MAX_STEP = 0.03;
+  var RIDE_MPH3 = 12;
+  function planActivityMph(type) {
+    if (type === "ride") return RIDE_MPH3;
+    return activityMph(type);
+  }
+  function planActivityType(type) {
+    return type === "run" ? "run" : type === "ride" ? "ride" : "walk";
+  }
   function metsForPace({ activityType = "walk", mph, grade = 0 } = {}) {
     const speed = Number(mph);
     if (!Number.isFinite(speed) || speed <= 0) return 0;
+    if (activityType === "ride") {
+      return Math.round(Math.max(3.5, speed * 0.65) * 100) / 100;
+    }
     const metersPerMin = speed * METERS_PER_MILE / 60;
     const g = Math.max(0, Number(grade) || 0);
     const vo2 = activityType === "run" ? 0.2 * metersPerMin + 0.9 * metersPerMin * g + 3.5 : 0.1 * metersPerMin + 1.8 * metersPerMin * g + 3.5;
@@ -44903,9 +53996,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const target = Number(vdot) * fraction;
     if (!(target > 0)) return 0;
     const a = 104e-6;
-    const b2 = 0.182258;
+    const b3 = 0.182258;
     const c = -(4.6 + target);
-    return (-b2 + Math.sqrt(b2 * b2 - 4 * a * c)) / (2 * a);
+    return (-b3 + Math.sqrt(b3 * b3 - 4 * a * c)) / (2 * a);
   }
   function trainingPacesFromVdot(vdot) {
     const v2 = Number(vdot);
@@ -44959,6 +54052,82 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       reason: tightened ? "tighten" : "at_goal"
     };
   }
+  function evenGapSteps({ currentTargetSec, goalTargetSec = null, sessions = 1 } = {}) {
+    const current = Number(currentTargetSec);
+    const n = Math.max(1, Math.round(Number(sessions) || 1));
+    const goal = Number(goalTargetSec);
+    if (!(current > 0)) return Array(n).fill(0);
+    if (!(goal > 0) || goal >= current) return Array(n).fill(Math.round(current * 10) / 10);
+    const gap = current - goal;
+    if (n === 1) return [Math.round(goal * 10) / 10];
+    return Array.from({ length: n }, (_2, i) => {
+      const sec = i === n - 1 ? goal : current - gap * i / (n - 1);
+      return Math.round(sec * 10) / 10;
+    });
+  }
+  function nextLadderTarget({ sessionTargetsSec, index = 0, performedSec = null } = {}) {
+    const ladder = Array.isArray(sessionTargetsSec) && sessionTargetsSec.length ? sessionTargetsSec.map((v2) => Number(v2) || 0) : [];
+    if (!ladder.length) return { targetSec: 0, nextIndex: 0, advanced: false, reason: "no_target" };
+    const i = Math.max(0, Math.min(ladder.length - 1, Math.round(Number(index) || 0)));
+    const targetSec = ladder[i];
+    const performed = Number(performedSec);
+    const beaten = Number.isFinite(performed) && performed > 0 && performed <= targetSec + 0.5;
+    if (!beaten) {
+      return { targetSec, nextIndex: i, advanced: false, reason: "not_met" };
+    }
+    if (i >= ladder.length - 1) {
+      return { targetSec, nextIndex: i, advanced: false, reason: "at_goal" };
+    }
+    return {
+      targetSec: ladder[i + 1],
+      nextIndex: i + 1,
+      advanced: true,
+      reason: "advance"
+    };
+  }
+  function applyCoachedSessionResult(progression, performedSec, now = /* @__PURE__ */ new Date(), goalTargetSec = null, legPerformedSec = null, { pins = null, path = null, goalLegTargetsSec = null } = {}) {
+    const ladder = Array.isArray(progression && progression.sessionTargetsSec) ? progression.sessionTargetsSec.slice() : null;
+    if (!ladder || !ladder.length) {
+      return applySessionResult(progression, performedSec, now, goalTargetSec, legPerformedSec);
+    }
+    const step = nextLadderTarget({
+      sessionTargetsSec: ladder,
+      index: progression.sessionIndex || 0,
+      performedSec
+    });
+    const nextTarget = step.advanced ? step.targetSec : ladder[Math.max(0, Math.min(ladder.length - 1, progression.sessionIndex || 0))];
+    const out = {
+      ...progression,
+      currentTargetSec: nextTarget,
+      sessionIndex: step.nextIndex,
+      lastReason: step.reason,
+      lastPerformedSec: performedSec,
+      lastSessionTargetSec: ladder[Math.max(0, Math.min(ladder.length - 1, progression.sessionIndex || 0))],
+      lastAdvanced: step.advanced
+    };
+    if (step.advanced) out.targetStartedAt = startOfDay(now).toISOString();
+    if (pins && pins.length >= 2 && Array.isArray(legPerformedSec)) {
+      const currentLegs = Array.isArray(out.legTargetsSec) ? out.legTargetsSec.slice() : [];
+      const nextLegs = buildLegTargets(pins, nextTarget, { path });
+      const goals = Array.isArray(goalLegTargetsSec) ? goalLegTargetsSec : Array.isArray(out.legGoalTargetsSec) ? out.legGoalTargetsSec : null;
+      const started = Array.isArray(out.legStartedAt) ? out.legStartedAt.slice() : [];
+      for (let i = 0; i < nextLegs.length; i++) {
+        const have = Number(legPerformedSec[i]);
+        const cur = Number(currentLegs[i]) || 0;
+        const candidate = Number(nextLegs[i]) || cur;
+        const goal = goals && goals[i] != null ? Number(goals[i]) : null;
+        const beaten = Number.isFinite(have) && have > 0 && have <= cur + 0.5;
+        const allowed = goal == null || candidate >= goal;
+        if (beaten && allowed && candidate < cur - 0.01) {
+          currentLegs[i] = candidate;
+          started[i] = startOfDay(now).toISOString();
+        }
+      }
+      out.legTargetsSec = currentLegs;
+      out.legStartedAt = started;
+    }
+    return out;
+  }
   function waterTargetMl({ bodyKg, sessionHoursThatDay }) {
     const baseline = bodyKg ? Math.round(32.5 * bodyKg / 50) * 50 : 2e3;
     const extra = Math.round((sessionHoursThatDay || 0) * 500 / 50) * 50;
@@ -44997,17 +54166,17 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const allowNight = opts.allowNight != null ? !!opts.allowNight : !!(plan && plan.water && plan.water.allowNight);
     return allowNight ? times : times.filter((t) => !isNightTime(t));
   }
-  var MAX_SESSIONS_PER_WEEK = { walk: 5, run: 4 };
+  var MAX_SESSIONS_PER_WEEK = { walk: 5, run: 4, ride: 5 };
   var DEFAULT_REMINDER_TIMES = ["08:00", "12:00", "16:00", "20:00"];
   var ML_PER_OZ = 29.5735;
   function clamp2(v2, lo, hi) {
     return Math.min(hi, Math.max(lo, v2));
   }
-  function bearingBetween(a, b2) {
+  function bearingBetween(a, b3) {
     const toR = (d2) => d2 * Math.PI / 180;
     const lat1 = toR(a.lat);
-    const lat2 = toR(b2.lat);
-    const dLon = toR(b2.lon - a.lon);
+    const lat2 = toR(b3.lat);
+    const dLon = toR(b3.lon - a.lon);
     const y2 = Math.sin(dLon) * Math.cos(lat2);
     const x2 = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
     return Math.atan2(y2, x2) * 180 / Math.PI;
@@ -45020,8 +54189,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return pins.map((p) => {
       const meters = pathLengthMeters([a, p]);
       if (meters <= 0.5) return { ...p };
-      const b2 = bearingBetween(a, p);
-      const q2 = destination(a.lat, a.lon, b2, meters * f2);
+      const b3 = bearingBetween(a, p);
+      const q2 = destination(a.lat, a.lon, b3, meters * f2);
       return { ...p, lat: q2.lat, lon: q2.lon };
     });
   }
@@ -45043,12 +54212,12 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     });
     return out;
   }
-  function haversine(a, b2) {
+  function haversine(a, b3) {
     const R3 = 6371e3;
     const toR = (d2) => d2 * Math.PI / 180;
-    const dLat = toR(b2.lat - a.lat);
-    const dLon = toR(b2.lon - a.lon);
-    const s2 = Math.sin(dLat / 2) ** 2 + Math.cos(toR(a.lat)) * Math.cos(toR(b2.lat)) * Math.sin(dLon / 2) ** 2;
+    const dLat = toR(b3.lat - a.lat);
+    const dLon = toR(b3.lon - a.lon);
+    const s2 = Math.sin(dLat / 2) ** 2 + Math.cos(toR(a.lat)) * Math.cos(toR(b3.lat)) * Math.sin(dLon / 2) ** 2;
     return 2 * R3 * Math.asin(Math.min(1, Math.sqrt(s2)));
   }
   function autoloopResult(loop, target) {
@@ -45236,6 +54405,105 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       minutes: Math.round((Number(sessionSec) || 0) / 60)
     };
   }
+  function rideMix({ activityType, beginner = true, sessionSec = 1800 } = {}) {
+    if (activityType !== "ride") return null;
+    const minutes = Math.max(10, Math.round((Number(sessionSec) || 1800) / 60));
+    return beginner ? {
+      label: "Ride easy 5 min, then repeat 2 min steady / 2 min easy. Spin easy for the last 5 min.",
+      warmupSec: 300,
+      hardSec: 120,
+      easySec: 120,
+      minutes
+    } : {
+      label: "Ride easy 10 min, then 3 \xD7 5 min steady with 2 min easy between. Finish easy.",
+      warmupSec: 600,
+      hardSec: 300,
+      easySec: 120,
+      minutes
+    };
+  }
+  function sessionMix({ activityType = "walk", beginner = true, sessionSec = 1800 } = {}) {
+    const type = planActivityType(activityType);
+    if (type === "run") return runWalkMix({ activityType: type, beginner, sessionSec });
+    if (type === "ride") return rideMix({ activityType: type, beginner, sessionSec });
+    return {
+      label: "Walk at an easy, even effort. Keep a rest day between longer walks.",
+      minutes: Math.max(10, Math.round((Number(sessionSec) || 1800) / 60))
+    };
+  }
+  var NUTRITION_DISCLAIMER_PERSONAL = "General guidance for healthy adults, not medical advice. Daily gram ranges are based on your weight and published per-body-weight rates for recreational endurance activity. Needs vary with health and medications \u2014 adjust with a clinician or dietitian if you are unsure.";
+  var NUTRITION_DISCLAIMER_REFERENCE = "General guidance for healthy adults, not medical advice. Without a body weight, daily gram ranges follow a 2,000-calorie reference diet (carbohydrate about 45\u201365% of calories, protein about 10\u201335%). Enter your weight for a personalised daily range. Needs vary \u2014 adjust with a clinician or dietitian if you are unsure.";
+  var NUTRITION_SOURCES = [
+    "ACSM, Nutrition and Athletic Performance (2016): carbohydrate and protein ranges for training and recovery.",
+    "ISSN position stand, Protein and Exercise (2017): 1.2\u20131.6 g/kg/day for endurance activity.",
+    "ISSN position stand, Carbohydrate and Exercise Performance (2018): 3\u20135 g/kg/day for moderate endurance training."
+  ];
+  var REFERENCE_CARB_G = { minG: 225, maxG: 325, minPct: 45, maxPct: 65 };
+  var REFERENCE_PROTEIN_G = { minG: 50, maxG: 175, minPct: 10, maxPct: 35 };
+  function formatGramsPerBodyMass(minPerKg, maxPerKg, unit, { suffix = "/day" } = {}) {
+    const tag = suffix == null ? "" : String(suffix);
+    if (unit === "lb") {
+      const lo = Number(minPerKg) * KG_PER_LB;
+      const hi = Number(maxPerKg) * KG_PER_LB;
+      return `${lo.toFixed(2)}\u2013${hi.toFixed(2)} g/lb${tag}`;
+    }
+    const trim = (n) => {
+      const s2 = Number(n);
+      return Number.isInteger(s2) ? String(s2) : String(s2);
+    };
+    return `${trim(minPerKg)}\u2013${trim(maxPerKg)} g/kg${tag}`;
+  }
+  function carbProteinGuidance({ activityType = "walk", bodyKg = null, sessionSec = 0, weightUnit = "kg" } = {}) {
+    const type = planActivityType(activityType);
+    const unit = weightUnit === "lb" ? "lb" : "kg";
+    const hasWeight = Number(bodyKg) > 0;
+    const kg = hasWeight ? Number(bodyKg) : null;
+    const assumedBodyKg = !hasWeight;
+    const hours = Math.max(0, Number(sessionSec) || 0) / 3600;
+    const carbRate = { minPerKg: 3, maxPerKg: 5 };
+    const proteinRate = { minPerKg: 1.2, maxPerKg: 1.6 };
+    const carbLow = hasWeight ? Math.round(carbRate.minPerKg * kg) : REFERENCE_CARB_G.minG;
+    const carbHigh = hasWeight ? Math.round(carbRate.maxPerKg * kg) : REFERENCE_CARB_G.maxG;
+    const proteinLow = hasWeight ? Math.round(proteinRate.minPerKg * kg) : REFERENCE_PROTEIN_G.minG;
+    const proteinHigh = hasWeight ? Math.round(proteinRate.maxPerKg * kg) : REFERENCE_PROTEIN_G.maxG;
+    const carbPct = hasWeight ? null : REFERENCE_CARB_G.maxPct;
+    const proteinPct = hasWeight ? null : REFERENCE_PROTEIN_G.maxPct;
+    const proteinAfter = formatGramsPerBodyMass(0.25, 0.3, unit, { suffix: "" });
+    return {
+      activityType: type,
+      bodyKg: kg,
+      assumedBodyKg,
+      weightUnit: unit,
+      carbs: {
+        minG: carbLow,
+        maxG: carbHigh,
+        minPerKg: carbRate.minPerKg,
+        maxPerKg: carbRate.maxPerKg,
+        perKg: formatGramsPerBodyMass(carbRate.minPerKg, carbRate.maxPerKg, "kg"),
+        perUnit: formatGramsPerBodyMass(carbRate.minPerKg, carbRate.maxPerKg, unit),
+        note: hours >= 1 ? "On longer session days, favour the upper end and eat something with carbohydrate 1\u20134 hours before." : "Spread carbohydrate across the day; a normal mixed diet usually covers a short session."
+      },
+      protein: {
+        minG: proteinLow,
+        maxG: proteinHigh,
+        minPerKg: proteinRate.minPerKg,
+        maxPerKg: proteinRate.maxPerKg,
+        perKg: formatGramsPerBodyMass(proteinRate.minPerKg, proteinRate.maxPerKg, "kg"),
+        perUnit: formatGramsPerBodyMass(proteinRate.minPerKg, proteinRate.maxPerKg, unit),
+        note: `Include ${proteinAfter} of protein after a session and at meals through the day.`
+      },
+      reference: {
+        kcal: 2e3,
+        carbPct,
+        proteinPct,
+        personalized: hasWeight,
+        line: hasWeight ? "Daily totals use your weight and published per-body-weight rates; your needs may differ." : "Daily totals follow a 2,000-calorie reference diet; enter your weight for a personalised range."
+      },
+      disclaimer: hasWeight ? NUTRITION_DISCLAIMER_PERSONAL : NUTRITION_DISCLAIMER_REFERENCE,
+      sources: NUTRITION_SOURCES.slice(),
+      userAdjustable: true
+    };
+  }
   function planSessionOutline({
     activityType = "walk",
     goalDistanceMeters = null,
@@ -45243,8 +54511,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     windowDays = 14,
     course = null
   } = {}) {
-    const type = activityType === "run" ? "run" : "walk";
-    const mph = activityMph(type);
+    const type = planActivityType(activityType);
+    const mph = planActivityMph(type);
     const days = Math.max(1, Math.round(windowDays || 14));
     const goalDistance = Number(goalDistanceMeters) > 0 ? Number(goalDistanceMeters) : null;
     const goalDuration = Number(goalDurationSec) > 0 ? Number(goalDurationSec) : null;
@@ -45294,9 +54562,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function formatPlanLength(outline) {
     const o = outline || {};
-    const kind = o.activityType === "run" ? "run" : "walk";
+    const kind = planActivityType(o.activityType);
+    const noun = kind === "ride" ? "ride" : kind;
     const n = Math.max(1, Number(o.sessions) || 1);
-    const guided = n === 1 ? `1 guided ${kind}` : `${n} guided ${kind}s`;
+    const guided = n === 1 ? `1 guided ${noun}` : `${n} guided ${noun}s`;
     const days = Math.max(1, Number(o.days) || 1);
     const weeks = Number(o.weeks) || Math.ceil(days / 7);
     const window2 = days >= 7 && days % 7 === 0 ? `${weeks} week${weeks === 1 ? "" : "s"}` : `${days} day${days === 1 ? "" : "s"}`;
@@ -45305,7 +54574,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function planTeaserModel(goal = {}, { units: units3 = "mi", formatDistance: formatDistance2 } = {}) {
     const outline = planSessionOutline(goal);
     const type = outline.activityType;
-    const kind = type === "run" ? "Run" : "Walk";
+    const kind = type === "ride" ? "Ride" : type === "run" ? "Run" : "Walk";
     let goalLabel = kind;
     const dist3 = Number(goal.goalDistanceMeters);
     if (dist3 > 0 && typeof formatDistance2 === "function") {
@@ -45324,7 +54593,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return {
       goalLabel,
       lengthLabel: formatPlanLength(outline),
-      includes: ["Step goals", "Per-leg paces", "Water reminders"],
+      includes: ["Even gap-split interval targets", "Walk-run or ride intervals", "Water guidance", "Carb and protein guidance"],
       activityType: type,
       windowDays: outline.days,
       weeks: outline.weeks,
@@ -45341,12 +54610,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     center = null,
     loop = null,
     bodyKg = null,
+    weightUnit = "kg",
     now = /* @__PURE__ */ new Date(),
     name = "",
     beginner = true
   }) {
-    const type = activityType === "run" ? "run" : "walk";
-    const mph = activityMph(type);
+    const type = planActivityType(activityType);
+    const mph = planActivityMph(type);
     const maxPerWeek = MAX_SESSIONS_PER_WEEK[type];
     const outline = planSessionOutline({
       activityType: type,
@@ -45373,6 +54643,12 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       toMeters: sessionMeters
     }) : null;
     const initialTargetSec = goalTargetSec ? Math.max(goalTargetSec, sessionSecTypical) : sessionSecTypical;
+    const sessionTargetsSec = evenGapSteps({
+      currentTargetSec: initialTargetSec,
+      goalTargetSec,
+      sessions: sessionsNeeded
+    });
+    const nutrition = carbProteinGuidance({ activityType: type, bodyKg, sessionSec: sessionSecTypical, weightUnit });
     const effort = effortEstimate({
       activityType: type,
       mph,
@@ -45429,13 +54705,15 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         sessionDates: dates,
         initialTargetSec,
         goalTargetSec,
+        sessionTargetsSec,
         legTargetsSec,
         legGoalTargetsSec,
         maxSessionsPerWeek: maxPerWeek,
         effort,
         vdot,
         trainingPaces,
-        mix: runWalkMix({ activityType: type, beginner, sessionSec: sessionSecTypical }),
+        nutrition,
+        mix: sessionMix({ activityType: type, beginner, sessionSec: sessionSecTypical }),
         weekly: weeklyProgression({
           windowDays: days,
           sessionsPerWeek: sessionsNeeded / days * 7,
@@ -45446,6 +54724,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         currentTargetSec: initialTargetSec,
         targetStartedAt: startedAt,
         step: DEFAULT_STEP,
+        sessionIndex: 0,
+        sessionTargetsSec,
         legTargetsSec,
         legStartedAt: legTargetsSec.map(() => startedAt),
         legGoalTargetsSec
@@ -45453,7 +54733,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     };
   }
   function defaultTitle(type, dist3, dur, days) {
-    const kind = type === "run" ? "Run" : "Walk";
+    const kind = type === "ride" ? "Ride" : type === "run" ? "Run" : "Walk";
     if (dist3) return `${days}-day ${kind.toLowerCase()} plan`;
     return `${days}-day ${kind.toLowerCase()} plan`;
   }
@@ -45474,7 +54754,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         if (offsets[i] + move !== offsets[i + 1] || move < 0) offsets[i] += move;
       }
     }
-    const dates = unique(offsets.sort((a, b2) => a - b2)).map((o) => isoDate(addDays(start, o)));
+    const dates = unique(offsets.sort((a, b3) => a - b3)).map((o) => isoDate(addDays(start, o)));
     return dates;
   }
   function unique(arr) {
@@ -45507,50 +54787,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return out;
   }
 
-  // www/js/body_weight.js
-  var KG_PER_LB = 0.45359237;
-  function lbToKg(lb) {
-    const n = Number(lb);
-    if (!Number.isFinite(n)) return null;
-    return n * KG_PER_LB;
-  }
-  function kgToLb(kg) {
-    const n = Number(kg);
-    if (!Number.isFinite(n)) return null;
-    return n / KG_PER_LB;
-  }
-  function defaultWeightUnit({ locale, units: units3, remembered } = {}) {
-    if (remembered === "lb" || remembered === "kg") return remembered;
-    if (units3 === "mi") return "lb";
-    if (units3 === "km") return "kg";
-    const loc = String(locale || "").toLowerCase().replace(/_/g, "-");
-    if (loc === "en-us" || loc.startsWith("en-us") || loc.endsWith("-us")) return "lb";
-    return "kg";
-  }
-  var MIN_KG = 30;
-  var MAX_KG = 250;
-  function parseWeightInput(raw, unit) {
-    const text = String(raw == null ? "" : raw).trim();
-    if (!text) return null;
-    const n = Number(text);
-    if (!Number.isFinite(n) || n <= 0) return null;
-    const kg = unit === "lb" ? lbToKg(n) : n;
-    if (!Number.isFinite(kg) || kg < MIN_KG || kg > MAX_KG) return null;
-    return kg;
-  }
-  function formatWeightInput(kg, unit) {
-    const n = Number(kg);
-    if (!Number.isFinite(n) || n <= 0) return "";
-    if (unit === "lb") return String(Number(kgToLb(n).toFixed(1)));
-    return String(Number(n.toFixed(1)));
-  }
-
   // www/js/plans.js
+  init_util();
   var PLAN_FORMAT = "heldpath-plan";
   var PLAN_FORMAT_VERSION = 1;
   var MAX_PLAN_PINS = 5e3;
   var MAX_SESSIONS = 1e3;
-  function num(v2, fallback = 0) {
+  function num2(v2, fallback = 0) {
     const n = Number(v2);
     return Number.isFinite(n) ? n : fallback;
   }
@@ -45590,7 +54833,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       title: cleanTitle(draft.title),
       createdAt: iso,
       updatedAt: iso,
-      activityType: draft.activityType === "run" ? "run" : "walk",
+      activityType: draft.activityType === "run" ? "run" : draft.activityType === "ride" ? "ride" : "walk",
       goal: { ...draft.goal },
       water: { ...draft.water, reminderLocalTimes: normaliseReminderTimes(draft.water?.reminderLocalTimes) },
       route: {
@@ -45665,18 +54908,18 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return JSON.stringify(planFileFor(plan, now), null, 2);
   }
   function exportFileName(plan) {
-    const slug = String(plan?.title || "plan").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "plan";
-    return `heldpath-${slug}.paceplan`;
+    const slug3 = String(plan?.title || "plan").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "plan";
+    return `heldpath-${slug3}.paceplan`;
   }
   function sanitiseImportedPlan(raw) {
     if (!raw || typeof raw !== "object") return { ok: false, error: "missing_plan" };
-    const activityType = raw.activityType === "run" ? "run" : raw.activityType === "walk" ? "walk" : null;
+    const activityType = raw.activityType === "run" ? "run" : raw.activityType === "ride" ? "ride" : raw.activityType === "walk" ? "walk" : null;
     if (!activityType) return { ok: false, error: "bad_activity" };
     const schedule = raw.schedule || {};
     const sessionDates = cleanDates(schedule.sessionDates);
     if (!sessionDates.length) return { ok: false, error: "bad_schedule" };
-    const sessionMeters = num(schedule.sessionDistanceMeters);
-    const sessionSec = num(schedule.sessionDurationSec);
+    const sessionMeters = num2(schedule.sessionDistanceMeters);
+    const sessionSec = num2(schedule.sessionDurationSec);
     if (!(sessionMeters > 0) || !(sessionSec > 0)) return { ok: false, error: "bad_schedule" };
     const goal = raw.goal || {};
     const water = raw.water || {};
@@ -45684,7 +54927,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const pins = cleanPins(route.pins);
     const path = Array.isArray(route.path) ? route.path.map((p) => ({ lat: Number(p.lat), lon: Number(p.lon) })).filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lon)) : null;
     if (pins.length < 2 && route.mode !== "none") return { ok: false, error: "bad_route" };
-    const dailyMl = num(water.dailyMl, 2e3);
+    const dailyMl = num2(water.dailyMl, 2e3);
     const plan = {
       id: uid("plan"),
       version: 1,
@@ -45694,15 +54937,15 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       activityType,
       goal: {
         kind: goal.kind === "time" || goal.kind === "both" ? goal.kind : "distance",
-        distanceMeters: goal.distanceMeters == null ? null : num(goal.distanceMeters, null),
-        durationSec: goal.durationSec == null ? null : num(goal.durationSec, null),
-        windowDays: Math.max(1, Math.round(num(goal.windowDays, sessionDates.length)))
+        distanceMeters: goal.distanceMeters == null ? null : num2(goal.distanceMeters, null),
+        durationSec: goal.durationSec == null ? null : num2(goal.durationSec, null),
+        windowDays: Math.max(1, Math.round(num2(goal.windowDays, sessionDates.length)))
       },
       water: {
         dailyMl: Math.max(500, Math.min(1e4, Math.round(dailyMl / 50) * 50)),
-        baselineMl: Math.max(0, Math.round(num(water.baselineMl, dailyMl))),
-        exerciseMl: Math.max(0, Math.round(num(water.exerciseMl, 0))),
-        restDayMl: water.restDayMl == null ? void 0 : Math.max(0, Math.round(num(water.restDayMl, 0))),
+        baselineMl: Math.max(0, Math.round(num2(water.baselineMl, dailyMl))),
+        exerciseMl: Math.max(0, Math.round(num2(water.exerciseMl, 0))),
+        restDayMl: water.restDayMl == null ? void 0 : Math.max(0, Math.round(num2(water.restDayMl, 0))),
         userAdjusted: !!water.userAdjusted,
         reminderLocalTimes: normaliseReminderTimes(water.reminderLocalTimes).length ? normaliseReminderTimes(water.reminderLocalTimes) : ["08:00", "12:00", "16:00", "20:00"],
         source: String(water.source || "efsa-acsm-general").slice(0, 60),
@@ -45711,33 +54954,41 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       route: {
         mode: route.mode === "course" ? "course" : route.mode === "none" ? "none" : pins.length >= 2 ? "autoloop" : "none",
         courseId: route.courseId ? String(route.courseId).slice(0, 100) : null,
-        targetLengthMeters: num(route.targetLengthMeters, sessionMeters),
-        scaleFactor: num(route.scaleFactor, 1),
-        repeatTimes: Math.max(1, Math.round(num(route.repeatTimes, 1))),
+        targetLengthMeters: num2(route.targetLengthMeters, sessionMeters),
+        scaleFactor: num2(route.scaleFactor, 1),
+        repeatTimes: Math.max(1, Math.round(num2(route.repeatTimes, 1))),
         loop: { type: "LineString", coordinates: (path && path.length >= 2 ? path : pins).map((p) => [p.lon, p.lat]) },
         pins,
         path: path && path.length >= 2 ? path : null
       },
       schedule: {
-        sessionsPerWeek: num(schedule.sessionsPerWeek, 3),
+        sessionsPerWeek: num2(schedule.sessionsPerWeek, 3),
         sessionDistanceMeters: sessionMeters,
         sessionDurationSec: sessionSec,
         sessionDates,
-        initialTargetSec: num(schedule.initialTargetSec, sessionSec),
-        goalTargetSec: schedule.goalTargetSec == null ? null : num(schedule.goalTargetSec, null),
-        legTargetsSec: pins.length >= 2 ? buildLegTargets(pins, num(schedule.initialTargetSec, sessionSec)) : [Math.round(num(schedule.initialTargetSec, sessionSec)) || 1]
+        initialTargetSec: num2(schedule.initialTargetSec, sessionSec),
+        goalTargetSec: schedule.goalTargetSec == null ? null : num2(schedule.goalTargetSec, null),
+        sessionTargetsSec: evenGapSteps({
+          currentTargetSec: num2(schedule.initialTargetSec, sessionSec),
+          goalTargetSec: schedule.goalTargetSec == null ? null : num2(schedule.goalTargetSec, null),
+          sessions: sessionDates.length
+        }),
+        legTargetsSec: pins.length >= 2 ? buildLegTargets(pins, num2(schedule.initialTargetSec, sessionSec)) : [Math.round(num2(schedule.initialTargetSec, sessionSec)) || 1],
+        nutrition: carbProteinGuidance({ activityType, sessionSec })
       },
       progression: {},
       // Imported plans are owned locally, but never re-charged.
       ownership: { state: "imported" }
     };
     const startedAt = plan.createdAt;
-    const stepRaw = num(raw.progression?.step, 0.02);
+    const stepRaw = num2(raw.progression?.step, 0.02);
     const step = Math.max(0.01, Math.min(0.03, stepRaw || 0.02));
     plan.progression = {
       currentTargetSec: plan.schedule.initialTargetSec,
       targetStartedAt: startedAt,
       step,
+      sessionIndex: 0,
+      sessionTargetsSec: plan.schedule.sessionTargetsSec,
       legTargetsSec: plan.schedule.legTargetsSec,
       legStartedAt: plan.schedule.legTargetsSec.map(() => startedAt)
     };
@@ -45806,15 +55057,20 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function applyCompletedSession(plan, activity, now = /* @__PURE__ */ new Date()) {
     if (!plan || !activity) return plan;
-    const performed = num(activity.elapsedSec);
+    const performed = num2(activity.elapsedSec);
     if (!(performed > 0)) return plan;
     const legPerformed = legSplitsFromTrack2(plan.route?.pins, activity.track);
-    plan.progression = applySessionResult(
+    plan.progression = applyCoachedSessionResult(
       plan.progression,
       performed,
       now,
       plan.schedule?.goalTargetSec ?? null,
-      legPerformed
+      legPerformed,
+      {
+        pins: plan.route?.pins || null,
+        path: plan.route?.path || null,
+        goalLegTargetsSec: plan.schedule?.legGoalTargetsSec || plan.progression?.legGoalTargetsSec || null
+      }
     );
     plan.updatedAt = (now instanceof Date ? now : new Date(now)).toISOString();
     return plan;
@@ -46193,8 +55449,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function paintBodyWeightField({ force = false } = {}) {
     const unit = currentWeightUnit();
-    document.querySelectorAll("#plan-body-unit-tog button").forEach((b2) => {
-      b2.classList.toggle("active", b2.dataset.unit === unit);
+    document.querySelectorAll("#plan-body-unit-tog button").forEach((b3) => {
+      b3.classList.toggle("active", b3.dataset.unit === unit);
     });
     const input = $("plan-body");
     if (!input) return;
@@ -46227,6 +55483,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       course,
       autoLoop: !course,
       bodyKg,
+      weightUnit: currentWeightUnit(),
       name,
       center: userCenter() || void 0
     };
@@ -46369,6 +55626,50 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     if ($("plan-water-ml")) $("plan-water-ml").focus();
   }
+  function renderNutrition(draft) {
+    const box = $("plan-nutrition");
+    if (!box) return;
+    const plan = newestPlan();
+    const hasNutrition = plan && plan.schedule && plan.schedule.nutrition || draft && draft.schedule && draft.schedule.nutrition;
+    if (!hasNutrition) {
+      box.innerHTML = `<p class="tiny">Carb and protein ranges are included in a $2 plan. General guidance, not a prescription.</p>`;
+      return;
+    }
+    const type = plan && plan.activityType || draft && draft.activityType || "walk";
+    const settings = state().settings || {};
+    const sessionSec = draft && draft.sessionSecTypical || plan && plan.sessionSecTypical || 0;
+    const n = carbProteinGuidance({
+      activityType: type,
+      bodyKg: settings.bodyKg,
+      sessionSec,
+      weightUnit: currentWeightUnit()
+    });
+    const unit = currentWeightUnit();
+    const carbRate = n.carbs.perUnit || formatGramsPerBodyMass(n.carbs.minPerKg, n.carbs.maxPerKg, unit);
+    const proteinRate = n.protein.perUnit || formatGramsPerBodyMass(n.protein.minPerKg, n.protein.maxPerKg, unit);
+    let weightLine;
+    if (n.assumedBodyKg || !(n.bodyKg > 0)) {
+      weightLine = "No weight entered \u2014 showing 2,000-calorie diet guidance. Enter your weight for a personalised daily range.";
+    } else if (unit === "lb") {
+      weightLine = `Based on ${fmtNum(kgToLb(n.bodyKg), 1)} lb.`;
+    } else {
+      weightLine = `Based on ${fmtNum(n.bodyKg, 1)} kg.`;
+    }
+    const mix = plan && plan.schedule && plan.schedule.mix || draft && draft.schedule && draft.schedule.mix;
+    const pctLine = n.reference.personalized ? "" : `<p class="tiny">${n.reference.kcal} kcal reference \xB7 carbohydrate about 45\u201365% and protein about 10\u201335% of calories.</p>`;
+    box.innerHTML = `
+    <div class="goal-gap-row"><span>Carbohydrate</span><strong>${n.carbs.minG}\u2013${n.carbs.maxG} g/day</strong></div>
+    <p class="tiny" data-testid="nutrition-carb-rate">${esc2(carbRate)}</p>
+    <div class="goal-gap-row"><span>Protein</span><strong>${n.protein.minG}\u2013${n.protein.maxG} g/day</strong></div>
+    <p class="tiny" data-testid="nutrition-protein-rate">${esc2(proteinRate)}</p>
+    <p class="tiny">${esc2(weightLine)} ${esc2(n.reference.line)} You can adjust these ranges.</p>
+    ${mix && mix.label ? `<p class="tiny"><strong>Session pattern:</strong> ${esc2(mix.label)}</p>` : ""}
+    <p class="tiny">${esc2(n.carbs.note)} ${esc2(n.protein.note)}</p>
+    ${pctLine}
+    <p class="tiny">${n.sources.map((s2) => esc2(s2)).join(" ")}</p>`;
+    if ($("plan-nutrition-disclaimer")) $("plan-nutrition-disclaimer").textContent = n.disclaimer;
+    if ($("plan-nutrition-sources")) $("plan-nutrition-sources").textContent = "Sources: " + n.sources.join(" ");
+  }
   function renderRouteOptions() {
     const sel = $("plan-route");
     const current = sel.value;
@@ -46381,6 +55682,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     ui.preview = null;
     fillTeaser(readGoal());
     renderWater();
+    renderNutrition();
     renderCreditNote();
   }
   function renderPlanList() {
@@ -46402,9 +55704,11 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         <h3>${esc2(plan.title)}</h3>
         <span class="plan-owned">${plan.ownership?.state === "imported" ? "Imported free" : "Yours"}</span>
       </div>
-      <p>${plan.activityType === "run" ? "Run" : "Walk"} \xB7 ${s2.sessionDates?.length || 0} sessions \xB7 ${formatDistance(s2.sessionDistanceMeters || 0, u2)} each</p>
+      <p>${plan.activityType === "ride" ? "Ride" : plan.activityType === "run" ? "Run" : "Walk"} \xB7 ${s2.sessionDates?.length || 0} sessions \xB7 ${formatDistance(s2.sessionDistanceMeters || 0, u2)} each</p>
       <p class="tiny">${next ? "First session " + next + " \xB7 " : ""}${plan.water?.dailyMl || 2e3} ml water target</p>
+      ${s2.mix && s2.mix.label ? `<p class="tiny">${esc2(s2.mix.label)}</p>` : ""}
       ${legs.length ? `<p class="tiny">Per-leg targets: ${legs.map((x2) => formatDuration(x2)).join(" \xB7 ")}</p>` : ""}
+      ${Array.isArray(s2.sessionTargetsSec) && s2.sessionTargetsSec.length > 1 ? `<p class="tiny">Next targets: ${s2.sessionTargetsSec.slice(0, 4).map((x2) => formatDuration(x2)).join(" \xB7 ")}${s2.sessionTargetsSec.length > 4 ? " \u2026" : ""}</p>` : ""}
       <div class="btn-row plan-item-actions">
         <button class="btn btn-secondary" data-export-plan="${esc2(plan.id)}">Export</button>
         <button class="btn btn-secondary" data-share-plan="${esc2(plan.id)}">Share link</button>
@@ -46569,10 +55873,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (bound) return;
     bound = true;
     $("plan-type-tog").addEventListener("click", (e) => {
-      const b2 = e.target.closest("button[data-type]");
-      if (!b2) return;
-      ui.type = b2.dataset.type === "run" ? "run" : "walk";
-      document.querySelectorAll("#plan-type-tog button").forEach((x2) => x2.classList.toggle("active", x2 === b2));
+      const b3 = e.target.closest("button[data-type]");
+      if (!b3) return;
+      ui.type = b3.dataset.type === "ride" ? "ride" : b3.dataset.type === "run" ? "run" : "walk";
+      document.querySelectorAll("#plan-type-tog button").forEach((x2) => x2.classList.toggle("active", x2 === b3));
       ui.waterOverrideMl = null;
       updatePreview();
     });
@@ -46587,9 +55891,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     $("plan-body").addEventListener("input", updatePreview);
     if ($("plan-body-unit-tog")) {
       $("plan-body-unit-tog").addEventListener("click", (e) => {
-        const b2 = e.target.closest("button[data-unit]");
-        if (!b2) return;
-        setWeightUnit(b2.dataset.unit);
+        const b3 = e.target.closest("button[data-unit]");
+        if (!b3) return;
+        setWeightUnit(b3.dataset.unit);
       });
     }
     $("plan-title").addEventListener("input", updatePreview);
@@ -47801,336 +57105,12 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     });
   }
 
-  // www/js/low_signal.js
-  var LOW_SIGNAL_COPY = "Parts of this route may have weak signal. Download the route area for the best accuracy?";
-  var SAMPLE_STEP_M = 50;
-  var BBOX_PAD_M = 200;
-  var TUNNEL_NEAR_M = 40;
-  var OVERPASS_URL = "https://overpass-api.de/api/interpreter";
-  var SKIP_TUNNEL = /* @__PURE__ */ new Set(["", "no", "false", "0", "none"]);
-  function pathBbox(points, padMeters = BBOX_PAD_M) {
-    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
-    if (!pts.length) return null;
-    let west = pts[0].lon, east = pts[0].lon, south = pts[0].lat, north = pts[0].lat;
-    for (const p of pts) {
-      if (p.lon < west) west = p.lon;
-      if (p.lon > east) east = p.lon;
-      if (p.lat < south) south = p.lat;
-      if (p.lat > north) north = p.lat;
-    }
-    const midLat = (south + north) / 2;
-    const dLat = padMeters / 111320;
-    const cos = Math.max(0.2, Math.cos(midLat * Math.PI / 180));
-    const dLon = padMeters / (111320 * cos);
-    return normalizeBbox({
-      west: west - dLon,
-      east: east + dLon,
-      south: south - dLat,
-      north: north + dLat
-    });
-  }
-  function pointInArea(point, area) {
-    if (!point || !area) return false;
-    return point.lon >= area.west && point.lon <= area.east && point.lat >= area.south && point.lat <= area.north;
-  }
-  function samplePath(points, stepMeters = SAMPLE_STEP_M) {
-    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
-    if (!pts.length) return [];
-    const out = [{ lat: pts[0].lat, lon: pts[0].lon }];
-    let acc = 0;
-    for (let i = 1; i < pts.length; i++) {
-      const a = pts[i - 1];
-      const b2 = pts[i];
-      const d2 = haversineMeters(a, b2);
-      if (!(d2 > 0)) continue;
-      let remain = d2;
-      let from = a;
-      while (acc + remain >= stepMeters) {
-        const need = stepMeters - acc;
-        const t = need / (haversineMeters(from, b2) || remain);
-        from = { lat: from.lat + (b2.lat - from.lat) * t, lon: from.lon + (b2.lon - from.lon) * t };
-        out.push(from);
-        remain = haversineMeters(from, b2);
-        acc = 0;
-      }
-      acc += remain;
-    }
-    const last = pts[pts.length - 1];
-    const prev = out[out.length - 1];
-    if (!prev || prev.lat !== last.lat || prev.lon !== last.lon) out.push({ lat: last.lat, lon: last.lon });
-    return out;
-  }
-  function coverageGaps(points, areas) {
-    const samples = samplePath(points);
-    const list = areas || [];
-    return samples.filter((p) => !list.some((a) => pointInArea(p, a)));
-  }
-  function isCovered(points, areas) {
-    const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
-    if (!pts.length) return false;
-    return coverageGaps(pts, areas).length === 0;
-  }
-  function isLowSignalTag(tags) {
-    if (!tags || typeof tags !== "object") return false;
-    if (tags.tunnel != null && !SKIP_TUNNEL.has(String(tags.tunnel).toLowerCase())) return true;
-    if (tags.covered != null && !SKIP_TUNNEL.has(String(tags.covered).toLowerCase())) return true;
-    return false;
-  }
-  function wayPoints(way) {
-    if (way && Array.isArray(way.geometry)) {
-      return way.geometry.map((g) => ({ lat: g.lat, lon: g.lon }));
-    }
-    return way && way.points ? way.points : [];
-  }
-  function wayNearPath(way, path, maxMeters = TUNNEL_NEAR_M) {
-    const pts = wayPoints(way);
-    const samples = samplePath(path, Math.min(SAMPLE_STEP_M, maxMeters));
-    if (!pts.length || !samples.length) return false;
-    for (const a of pts) {
-      for (const b2 of samples) {
-        if (haversineMeters(a, b2) <= maxMeters) return true;
-      }
-    }
-    return false;
-  }
-  function tunnelsOnPath(ways, path) {
-    return (ways || []).filter((w2) => isLowSignalTag(w2.tags || w2) && wayNearPath(w2, path));
-  }
-  function assessLowSignal({ path, areas = [], ways = [] } = {}) {
-    const pts = path || [];
-    const bbox = pathBbox(pts);
-    const covered = isCovered(pts, areas);
-    const tunnels = tunnelsOnPath(ways, pts);
-    const coverageGap = !covered;
-    const hasTunnels = tunnels.length > 0;
-    const show2 = !!(bbox && pts.length >= 2 && (coverageGap || hasTunnels));
-    return {
-      show: show2,
-      covered,
-      coverageGap,
-      hasTunnels,
-      tunnels,
-      bbox,
-      copy: LOW_SIGNAL_COPY
-    };
-  }
-  function overpassQuery(bbox) {
-    const box = normalizeBbox(bbox);
-    const s2 = box.south.toFixed(6);
-    const w2 = box.west.toFixed(6);
-    const n = box.north.toFixed(6);
-    const e = box.east.toFixed(6);
-    return `[out:json][timeout:12];(way["tunnel"](${s2},${w2},${n},${e});way["covered"](${s2},${w2},${n},${e}););out geom tags;`;
-  }
-  function waysFromOverpass(json) {
-    const els = json && json.elements || [];
-    return els.filter((el) => el && el.type === "way" && isLowSignalTag(el.tags) && Array.isArray(el.geometry)).map((el) => ({ id: el.id, tags: el.tags, geometry: el.geometry }));
-  }
-  var tunnelFetcher = defaultTunnelFetcher;
-  async function defaultTunnelFetcher(bbox, fetchFn = fetch) {
-    const res = await fetchFn(OVERPASS_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "User-Agent": OFM_USER_AGENT
-      },
-      body: "data=" + encodeURIComponent(overpassQuery(bbox))
-    });
-    if (!res.ok) return [];
-    const json = await res.json();
-    return waysFromOverpass(json);
-  }
-  async function loadTunnelWays(bbox, { fetchFn, timeoutMs = 8e3 } = {}) {
-    if (!bbox) return [];
-    const work = Promise.resolve().then(() => tunnelFetcher(bbox, fetchFn || fetch));
-    let timer2;
-    const timeout = new Promise((resolve2) => {
-      timer2 = setTimeout(() => resolve2([]), timeoutMs);
-    });
-    try {
-      const ways = await Promise.race([work.catch(() => []), timeout]);
-      return Array.isArray(ways) ? ways : [];
-    } finally {
-      clearTimeout(timer2);
-    }
-  }
-  function shouldFetchTunnels() {
-    try {
-      if (typeof navigator !== "undefined" && navigator.webdriver) return false;
-      if (typeof location !== "undefined") {
-        const q2 = new URLSearchParams(location.search);
-        if (q2.has("screen") || q2.has("nosw")) return false;
-      }
-    } catch {
-    }
-    return true;
-  }
-  async function assessRouteLowSignal(path, { areas, ways, fetchFn, timeoutMs } = {}) {
-    const pts = path || [];
-    const bbox = pathBbox(pts);
-    const areaList = areas || [];
-    let found = ways;
-    if (found == null) {
-      if (!shouldFetchTunnels()) found = [];
-      else {
-        try {
-          found = await loadTunnelWays(bbox, { fetchFn, timeoutMs });
-        } catch {
-          found = [];
-        }
-      }
-    }
-    return assessLowSignal({ path: pts, areas: areaList, ways: found });
-  }
-
-  // www/js/elevation_dem.js
-  var DEM_TILE_URL = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png";
-  var DEM_ZOOM = 12;
-  var DEM_UA = "Heldpath/1.0 (https://paigegames.net/heldpath; elevation)";
-  var DB_NAME3 = "heldpath-dem";
-  var STORE3 = "tiles";
-  var mem = /* @__PURE__ */ new Map();
-  function tileXyz(lat, lon, z2 = DEM_ZOOM) {
-    const n = 2 ** z2;
-    const x2 = Math.floor((lon + 180) / 360 * n);
-    const latRad = lat * Math.PI / 180;
-    const y2 = Math.floor((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n);
-    return { z: z2, x: Math.min(n - 1, Math.max(0, x2)), y: Math.min(n - 1, Math.max(0, y2)) };
-  }
-  function demTileUrl(z2, x2, y2) {
-    return DEM_TILE_URL.replace("{z}", z2).replace("{x}", x2).replace("{y}", y2);
-  }
-  function demDb() {
-    return new Promise((resolve2, reject) => {
-      if (typeof indexedDB === "undefined") {
-        resolve2(null);
-        return;
-      }
-      const req = indexedDB.open(DB_NAME3, 1);
-      req.onupgradeneeded = () => {
-        const db = req.result;
-        if (!db.objectStoreNames.contains(STORE3)) db.createObjectStore(STORE3);
-      };
-      req.onsuccess = () => resolve2(req.result);
-      req.onerror = () => reject(req.error);
-    });
-  }
-  async function getCachedTile(z2, x2, y2) {
-    const key = `${z2}/${x2}/${y2}`;
-    if (mem.has(key)) return mem.get(key);
-    try {
-      const db = await demDb();
-      if (!db) return null;
-      const rec = await new Promise((resolve2, reject) => {
-        const tx = db.transaction(STORE3, "readonly");
-        const req = tx.objectStore(STORE3).get(key);
-        req.onsuccess = () => resolve2(req.result || null);
-        req.onerror = () => reject(req.error);
-      });
-      db.close();
-      if (rec && rec.data) mem.set(key, rec.data);
-      return rec && rec.data ? rec.data : null;
-    } catch {
-      return null;
-    }
-  }
-  async function putCachedTile(z2, x2, y2, buffer) {
-    const key = `${z2}/${x2}/${y2}`;
-    mem.set(key, buffer);
-    try {
-      const db = await demDb();
-      if (!db) return;
-      await new Promise((resolve2, reject) => {
-        const tx = db.transaction(STORE3, "readwrite");
-        tx.oncomplete = resolve2;
-        tx.onerror = () => reject(tx.error);
-        tx.objectStore(STORE3).put({ data: buffer, storedAt: Date.now() }, key);
-      });
-      db.close();
-    } catch {
-    }
-  }
-  async function fetchTile(z2, x2, y2, fetchFn = fetch) {
-    const cached = await getCachedTile(z2, x2, y2);
-    if (cached) return cached;
-    const res = await fetchFn(demTileUrl(z2, x2, y2), { headers: { "User-Agent": DEM_UA } });
-    if (!res.ok) return null;
-    const buf = await res.arrayBuffer();
-    if (buf && buf.byteLength) await putCachedTile(z2, x2, y2, buf);
-    return buf;
-  }
-  var pixelDecoder = null;
-  async function defaultDecodePixel(buffer, px, py) {
-    if (pixelDecoder) return pixelDecoder(buffer, px, py);
-    if (typeof createImageBitmap !== "function" || typeof OffscreenCanvas === "undefined") return null;
-    const blob = new Blob([buffer], { type: "image/png" });
-    const bmp = await createImageBitmap(blob);
-    const canvas = new OffscreenCanvas(bmp.width, bmp.height);
-    const ctx2 = canvas.getContext("2d");
-    ctx2.drawImage(bmp, 0, 0);
-    const x2 = Math.min(bmp.width - 1, Math.max(0, Math.floor(px)));
-    const y2 = Math.min(bmp.height - 1, Math.max(0, Math.floor(py)));
-    const [r, g, b2] = ctx2.getImageData(x2, y2, 1, 1).data;
-    bmp.close();
-    return terrariumToMeters(r, g, b2);
-  }
-  function pixelFraction(lat, lon, z2 = DEM_ZOOM) {
-    const n = 2 ** z2;
-    const x2 = (lon + 180) / 360 * n;
-    const latRad = lat * Math.PI / 180;
-    const y2 = (1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n;
-    return { fx: (x2 - Math.floor(x2)) * 256, fy: (y2 - Math.floor(y2)) * 256 };
-  }
-  async function lookupDem(lat, lon, { z: z2 = DEM_ZOOM, fetchFn } = {}) {
-    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
-    const { z: zz, x: x2, y: y2 } = tileXyz(lat, lon, z2);
-    try {
-      const buf = await fetchTile(zz, x2, y2, fetchFn);
-      if (!buf) return null;
-      const { fx, fy } = pixelFraction(lat, lon, z2);
-      const meters = await defaultDecodePixel(buf, fx, fy);
-      return meters == null || !Number.isFinite(meters) ? null : Math.round(meters * 10) / 10;
-    } catch {
-      return null;
-    }
-  }
-  var lookupImpl = lookupDem;
-  async function samplePathDem(path, { stepM = 40, fetchFn } = {}) {
-    const samples = samplePath(path, stepM);
-    const out = [];
-    for (const p of samples) {
-      const ele = await lookupImpl(p.lat, p.lon, { fetchFn });
-      out.push({ lat: p.lat, lon: p.lon, ele });
-    }
-    return out;
-  }
-  function tilesForBbox(bbox, z2 = DEM_ZOOM) {
-    if (!bbox) return [];
-    const a = tileXyz(bbox.south, bbox.west, z2);
-    const b2 = tileXyz(bbox.north, bbox.east, z2);
-    const tiles = [];
-    for (let x2 = Math.min(a.x, b2.x); x2 <= Math.max(a.x, b2.x); x2++) {
-      for (let y2 = Math.min(a.y, b2.y); y2 <= Math.max(a.y, b2.y); y2++) {
-        tiles.push({ z: z2, x: x2, y: y2 });
-      }
-    }
-    return tiles;
-  }
-  async function prefetchDemForBbox(bbox, { fetchFn, onProgress } = {}) {
-    const tiles = tilesForBbox(bbox);
-    let done = 0;
-    for (const t of tiles) {
-      try {
-        await fetchTile(t.z, t.x, t.y, fetchFn);
-      } catch {
-      }
-      done += 1;
-      if (onProgress) onProgress({ done, total: tiles.length });
-    }
-    return { ok: true, tileCount: tiles.length, done };
-  }
+  // www/js/map_download_ui.js
+  init_map_tiles();
 
   // www/js/map_offline.js
+  init_map_tiles();
+  init_elevation_dem();
   async function deleteAreaRecord2(id) {
     await deleteAreaRecord(id);
     try {
@@ -48609,7 +57589,1299 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     stage.addEventListener("pointercancel", end);
   }
 
+  // www/js/import_activities.js
+  var import_fit_file_parser = __toESM(require_fit_parser(), 1);
+  init_util();
+  var FitParser = import_fit_file_parser.default && import_fit_file_parser.default.default ? import_fit_file_parser.default.default : import_fit_file_parser.default;
+  var IMPORT_MAX_BYTES = 100 * 1024 * 1024;
+  var IMPORT_MAX_FILES = 2e3;
+  var IMPORT_NEAR_START_SEC = 60;
+  var IMPORT_NEAR_DISTANCE_FRACTION = 0.02;
+  var IMPORT_NEAR_DISTANCE_MIN_M = 30;
+  var XML_MIME = "application/xml";
+  function toBytes(input) {
+    if (input == null) return new Uint8Array();
+    if (input instanceof Uint8Array) return input;
+    if (input instanceof ArrayBuffer) return new Uint8Array(input);
+    if (ArrayBuffer.isView(input)) return new Uint8Array(input.buffer, input.byteOffset, input.byteLength);
+    if (typeof input === "string") return new TextEncoder().encode(input);
+    return new Uint8Array();
+  }
+  function toArrayBuffer(bytes) {
+    const src = toBytes(bytes);
+    const copy = new Uint8Array(src.length);
+    copy.set(src);
+    return copy.buffer;
+  }
+  async function sha256Hex(input) {
+    const bytes = toBytes(input);
+    if (!globalThis.crypto || !globalThis.crypto.subtle) {
+      let h2 = 2166136261;
+      for (let i = 0; i < bytes.length; i++) {
+        h2 ^= bytes[i];
+        h2 = Math.imul(h2, 16777619) >>> 0;
+      }
+      return `fnv1a-${h2.toString(16).padStart(8, "0")}-${bytes.length}`;
+    }
+    const digest = await globalThis.crypto.subtle.digest("SHA-256", toArrayBuffer(bytes));
+    return Array.from(new Uint8Array(digest)).map((b3) => b3.toString(16).padStart(2, "0")).join("");
+  }
+  function formatFromName(name) {
+    const lower = String(name || "").toLowerCase();
+    if (lower.endsWith(".gpx")) return "gpx";
+    if (lower.endsWith(".tcx")) return "tcx";
+    if (lower.endsWith(".fit.gz") || lower.endsWith(".fit")) return "fit";
+    if (lower.endsWith(".zip")) return "zip";
+    return null;
+  }
+  function sportToType(raw) {
+    const s2 = String(raw || "").toLowerCase();
+    if (!s2) return null;
+    if (/(^|[^a-z])(run|running|trailrun|trail_running|treadmill|track)([^a-z]|$)/.test(s2)) return "run";
+    if (/(^|[^a-z])(ride|bike|biking|cycling|cycle|ebike|e-bike|e_biking|bicycle|mountainbike|mountain_biking)([^a-z]|$)/.test(s2)) return "ride";
+    if (/(^|[^a-z])(walk|walking|hike|hiking|step|steps)([^a-z]|$)/.test(s2)) return "walk";
+    return null;
+  }
+  function normalizeType(type) {
+    return type === "run" || type === "ride" || type === "walk" ? type : null;
+  }
+  function parseDate(value) {
+    if (!value) return null;
+    if (value instanceof Date && Number.isFinite(value.getTime())) return value;
+    const d2 = new Date(value);
+    return Number.isFinite(d2.getTime()) ? d2 : null;
+  }
+  function round(n, places = 6) {
+    const f2 = 10 ** places;
+    return Math.round(Number(n) * f2) / f2;
+  }
+  function gainLossFromTrack(track) {
+    let gain = 0;
+    let loss = 0;
+    let prev = null;
+    for (const p of track) {
+      if (!Number.isFinite(p.ele)) continue;
+      if (prev != null) {
+        const d2 = p.ele - prev;
+        if (d2 > 0) gain += d2;
+        else loss -= d2;
+      }
+      prev = p.ele;
+    }
+    return { climbGainM: Math.round(gain), climbLossM: Math.round(loss) };
+  }
+  function xmlNode(tag, attrs) {
+    return {
+      nodeName: tag,
+      localName: tag.split(":").pop(),
+      attrs: attrs || {},
+      children: [],
+      text: "",
+      getAttribute(name) {
+        if (this.attrs[name] != null) return String(this.attrs[name]);
+        const lname = String(name).split(":").pop();
+        for (const [k, v2] of Object.entries(this.attrs)) {
+          if (k.split(":").pop() === lname) return String(v2);
+        }
+        return null;
+      },
+      get textContent() {
+        return this.text + this.children.map((c) => c.textContent).join("");
+      },
+      getElementsByTagName(name) {
+        const want = String(name).split(":").pop();
+        const out = [];
+        const walk = (node) => {
+          for (const child of node.children) {
+            if (child.localName === want) out.push(child);
+            walk(child);
+          }
+        };
+        walk(this);
+        return out;
+      }
+    };
+  }
+  function parseXmlFallback(text) {
+    const root = xmlNode("#document");
+    const stack = [root];
+    const s2 = String(text || "").replace(/<!--[\s\S]*?-->/g, "").replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1").replace(/<\?[\s\S]*?\?>/g, "").replace(/<!DOCTYPE[\s\S]*?>/gi, "");
+    const re2 = /<(\/?)([A-Za-z_][\w:.-]*)((?:[^>"']|"[^"]*"|'[^']*')*?)(\/?)>|([^<]+)/g;
+    let m;
+    while (m = re2.exec(s2)) {
+      if (m[5] != null) {
+        const txt = m[5].trim();
+        if (txt) stack[stack.length - 1].text += txt;
+        continue;
+      }
+      const closing = m[1] === "/";
+      const tag = m[2];
+      const attrText = m[3] || "";
+      const selfClosing = m[4] === "/";
+      if (closing) {
+        for (let i = stack.length - 1; i > 0; i--) {
+          if (stack[i].localName === tag.split(":").pop()) {
+            stack.length = i;
+            break;
+          }
+        }
+        continue;
+      }
+      const attrs = {};
+      const are = /([A-Za-z_][\w:.-]*)\s*=\s*("([^"]*)"|'([^']*)')/g;
+      let a;
+      while (a = are.exec(attrText)) attrs[a[1]] = a[3] != null ? a[3] : a[4];
+      const node = xmlNode(tag, attrs);
+      stack[stack.length - 1].children.push(node);
+      if (!selfClosing) stack.push(node);
+    }
+    return root;
+  }
+  function parseXml(text) {
+    if (typeof DOMParser !== "undefined") {
+      try {
+        const doc = new DOMParser().parseFromString(String(text || ""), XML_MIME);
+        const err2 = doc.getElementsByTagName("parsererror");
+        if (!err2 || !err2.length) return doc;
+      } catch {
+      }
+    }
+    return parseXmlFallback(text);
+  }
+  function elements(root, name) {
+    if (!root) return [];
+    if (root.getElementsByTagNameNS) {
+      const ns = root.getElementsByTagNameNS("*", name);
+      if (ns && ns.length) return Array.from(ns);
+    }
+    return Array.from(root.getElementsByTagName(name) || []);
+  }
+  function first(root, name) {
+    return elements(root, name)[0] || null;
+  }
+  function childText(node, name) {
+    if (!node) return "";
+    const kids = node.children ? Array.from(node.children) : [];
+    const found = kids.find((c) => (c.localName || c.nodeName || "").split(":").pop() === name);
+    return found ? String(found.textContent || "").trim() : "";
+  }
+  function directText(root, name) {
+    return childText(root, name);
+  }
+  function numberIn(node, name) {
+    const t = directText(node, name);
+    const n = Number(t);
+    return t !== "" && Number.isFinite(n) ? n : null;
+  }
+  function pointsFrom2(trackEls, { timeTag = "time", eleTag = "ele", hrTag = null } = {}) {
+    const points = [];
+    let start = null;
+    for (const el of trackEls) {
+      const latAttr = el.getAttribute("lat");
+      const lonAttr = el.getAttribute("lon");
+      let lat = latAttr != null && latAttr !== "" ? Number(latAttr) : NaN;
+      let lon = lonAttr != null && lonAttr !== "" ? Number(lonAttr) : NaN;
+      if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+        const latEl = elements(el, "LatitudeDegrees")[0];
+        const lonEl = elements(el, "LongitudeDegrees")[0];
+        lat = latEl ? Number(latEl.textContent) : NaN;
+        lon = lonEl ? Number(lonEl.textContent) : NaN;
+      }
+      if (!Number.isFinite(lat) || !Number.isFinite(lon)) continue;
+      const timeText = directText(el, timeTag);
+      const when = parseDate(timeText);
+      if (when && !start) start = when;
+      const eleText = directText(el, eleTag);
+      const ele = eleText !== "" ? Number(eleText) : NaN;
+      let hr = null;
+      if (hrTag) {
+        const hrEls = elements(el, hrTag);
+        const rawText = hrEls.length ? directText(hrEls[0], "Value") || String(hrEls[0].textContent || "").trim() : "";
+        const raw = rawText ? Number(rawText) : null;
+        if (Number.isFinite(raw)) hr = raw;
+      }
+      const p = {
+        lat: round(lat),
+        lon: round(lon),
+        ...Number.isFinite(ele) ? { ele: round(ele, 2) } : {},
+        ...hr != null ? { hr } : {}
+      };
+      if (when) p.at = when.toISOString();
+      points.push(p);
+    }
+    return { points, start };
+  }
+  function timeSecondsFrom(start, points) {
+    if (!start) return points.map((p) => 0);
+    return points.map((p) => {
+      const t = p.at ? (Date.parse(p.at) - start.getTime()) / 1e3 : 0;
+      return Number.isFinite(t) && t >= 0 ? t : 0;
+    });
+  }
+  function withTrack(points, start, extra = {}) {
+    const times = timeSecondsFrom(start, points);
+    const track = points.map((p, i) => ({
+      lat: p.lat,
+      lon: p.lon,
+      t: extra.trackTimes && Number.isFinite(extra.trackTimes[i]) ? extra.trackTimes[i] : times[i],
+      ...p.ele != null ? { ele: p.ele } : {},
+      ...p.hr != null ? { hr: p.hr } : {},
+      ...p.at ? { at: p.at } : {}
+    }));
+    const lastT = track.length ? track[track.length - 1].t : 0;
+    return { track, elapsedSec: Math.max(0, Math.round(lastT)) };
+  }
+  function parseGpx(text) {
+    const doc = parseXml(text);
+    if (!doc) return { ok: false, error: "xml" };
+    const trkpts = elements(doc, "trkpt");
+    if (!trkpts.length) {
+      const routes = elements(doc, "rtept");
+      return { ok: false, error: routes.length ? "route_only" : "no_track" };
+    }
+    const metaName = first(doc, "name");
+    const typeText = (first(doc, "type") || {}).textContent || "";
+    const nameText = metaName ? String(metaName.textContent || "").trim() : "";
+    const sportRaw = `${typeText} ${nameText}`;
+    const { points, start } = pointsFrom2(trkpts, { hrTag: "hr" });
+    if (!points.length) return { ok: false, error: "no_track" };
+    const built = withTrack(points, start);
+    const meters = pathLengthMeters(points);
+    if (!(meters > 0)) return { ok: false, error: "no_track" };
+    return {
+      ok: true,
+      format: "gpx",
+      activity: {
+        type: sportToType(sportRaw),
+        startedAt: (start || /* @__PURE__ */ new Date()).toISOString(),
+        endedAt: start ? new Date(start.getTime() + built.elapsedSec * 1e3).toISOString() : null,
+        distanceMeters: round(meters, 1),
+        elapsedSec: built.elapsedSec,
+        track: built.track,
+        name: nameText || null,
+        ...gainLossFromTrack(built.track),
+        ...heartRateSummary(built.track)
+      },
+      hasTimes: !!start
+    };
+  }
+  function parseTcx(text) {
+    const doc = parseXml(text);
+    if (!doc) return { ok: false, error: "xml" };
+    const activityEl = first(doc, "Activity");
+    const sport = activityEl ? activityEl.getAttribute("Sport") : "";
+    const trackpointEls = elements(doc, "Trackpoint");
+    const { points, start: firstPointTime } = pointsFrom2(trackpointEls, { timeTag: "Time", eleTag: "Altitude", hrTag: "HeartRateBpm" });
+    let start = firstPointTime;
+    if (!start && activityEl) {
+      const id = childText(activityEl, "Id") || (elements(activityEl, "Id")[0] || {}).textContent;
+      start = parseDate(id);
+    }
+    const laps = elements(doc, "Lap");
+    let totalSec = 0;
+    let totalMeters = 0;
+    for (const lap of laps) {
+      const t = numberIn(lap, "TotalTimeSeconds");
+      const d2 = numberIn(lap, "DistanceMeters");
+      if (t > 0) totalSec += t;
+      if (d2 > 0) totalMeters += d2;
+    }
+    const built = withTrack(points, start);
+    const meters = totalMeters > 0 ? totalMeters : points.length >= 2 ? pathLengthMeters(points) : 0;
+    if (!(meters > 0) && !(totalSec > 0)) return { ok: false, error: "no_track" };
+    return {
+      ok: true,
+      format: "tcx",
+      activity: {
+        type: sportToType(sport),
+        startedAt: (start || /* @__PURE__ */ new Date()).toISOString(),
+        endedAt: start ? new Date(start.getTime() + (totalSec || built.elapsedSec) * 1e3).toISOString() : null,
+        distanceMeters: round(meters, 1),
+        elapsedSec: Math.max(0, Math.round(totalSec || built.elapsedSec)),
+        track: built.track,
+        name: null,
+        ...gainLossFromTrack(built.track),
+        ...heartRateSummary(built.track)
+      },
+      hasTimes: !!start && (totalSec > 0 || built.elapsedSec > 0)
+    };
+  }
+  function heartRateSummary(track) {
+    const values = track.map((p) => p.hr).filter((v2) => Number.isFinite(v2));
+    if (!values.length) return {};
+    const sum = values.reduce((a, b3) => a + b3, 0);
+    return {
+      avgHr: Math.round(sum / values.length),
+      maxHr: Math.max(...values)
+    };
+  }
+  function fitNumber(v2) {
+    if (v2 == null) return null;
+    if (v2 instanceof Date) return null;
+    const n = Number(v2);
+    return Number.isFinite(n) ? n : null;
+  }
+  function fitPosition(value) {
+    const n = fitNumber(value);
+    if (n == null) return null;
+    return Math.abs(n) > 180 ? n * (180 / 2147483648) : n;
+  }
+  async function parseFit(input) {
+    const bytes = toBytes(input);
+    if (!bytes.length) return { ok: false, error: "fit_empty" };
+    let data;
+    try {
+      data = await new Promise((resolve2, reject) => {
+        const parser = new FitParser({
+          force: true,
+          speedUnit: "m/s",
+          lengthUnit: "m",
+          temperatureUnit: "celsius",
+          elapsedRecordField: true,
+          mode: "list"
+        });
+        parser.parse(toArrayBuffer(bytes), (err2, parsed) => {
+          if (err2) reject(new Error(String(err2)));
+          else resolve2(parsed || {});
+        });
+      });
+    } catch (err2) {
+      return { ok: false, error: "fit_parse", detail: String(err2 && err2.message ? err2.message : err2) };
+    }
+    const records = Array.isArray(data.records) ? data.records : [];
+    const session2 = Array.isArray(data.sessions) && data.sessions[0] || {};
+    const sports = [];
+    if (data.sport && data.sport.sport) sports.push(data.sport.sport);
+    if (session2.sport) sports.push(session2.sport);
+    if (data.sports && Array.isArray(data.sports)) data.sports.forEach((s2) => sports.push(s2 && s2.sport));
+    let sportType = null;
+    for (const s2 of sports) {
+      sportType = sportToType(s2);
+      if (sportType) break;
+    }
+    const track = [];
+    let start = null;
+    let lastT = 0;
+    for (const rec of records) {
+      const lat = fitPosition(rec.position_lat);
+      const lon = fitPosition(rec.position_long);
+      const when = parseDate(rec.timestamp);
+      if (when && !start) start = when;
+      if (when && start) lastT = Math.max(0, Math.round((when.getTime() - start.getTime()) / 1e3));
+      const hasPos = Number.isFinite(lat) && Number.isFinite(lon) && Math.abs(lat) <= 90 && Math.abs(lon) <= 180;
+      if (!hasPos && !when) continue;
+      const p = {
+        ...hasPos ? { lat: round(lat), lon: round(lon) } : {},
+        ...when ? { at: when.toISOString() } : {},
+        t: lastT,
+        ...Number.isFinite(Number(rec.altitude)) ? { ele: round(Number(rec.altitude), 2) } : {},
+        ...Number.isFinite(Number(rec.heart_rate)) ? { hr: Number(rec.heart_rate) } : {}
+      };
+      track.push(p);
+    }
+    const sessionStart = parseDate(session2.start_time) || start;
+    if (sessionStart && !start) start = sessionStart;
+    const sessionDistance = fitNumber(session2.total_distance);
+    const lastDistance = records.length ? fitNumber(records[records.length - 1].distance) : null;
+    const meters = sessionDistance != null && sessionDistance > 0 ? sessionDistance : lastDistance != null && lastDistance > 0 ? lastDistance : track.filter((p) => Number.isFinite(p.lat)).length >= 2 ? pathLengthMeters(track) : 0;
+    const elapsed = fitNumber(session2.total_elapsed_time) || fitNumber(session2.total_timer_time) || lastT;
+    if (!(meters > 0) && !(elapsed > 0)) return { ok: false, error: "no_track" };
+    const pts = track.filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lon));
+    const gl = gainLossFromTrack(pts);
+    return {
+      ok: true,
+      format: "fit",
+      activity: {
+        type: sportType,
+        startedAt: (start || /* @__PURE__ */ new Date()).toISOString(),
+        endedAt: start ? new Date(start.getTime() + Math.max(0, elapsed) * 1e3).toISOString() : null,
+        distanceMeters: round(meters, 1),
+        elapsedSec: Math.max(0, Math.round(elapsed)),
+        track: pts.map((p) => ({ ...p, t: Number.isFinite(p.t) ? p.t : 0 })),
+        name: session2.sport ? null : null,
+        ...gl,
+        ...heartRateSummary(pts),
+        ...Number.isFinite(Number(session2.avg_heart_rate)) ? { avgHr: Number(session2.avg_heart_rate) } : {},
+        ...Number.isFinite(Number(session2.max_heart_rate)) ? { maxHr: Number(session2.max_heart_rate) } : {}
+      },
+      hasTimes: !!start && elapsed > 0
+    };
+  }
+  function inflateEntries({ name, bytes }, depth = 0) {
+    const src = toBytes(bytes);
+    const lower = String(name || "").toLowerCase();
+    if (lower.endsWith(".fit.gz") || lower.endsWith(".gpx.gz") || lower.endsWith(".tcx.gz")) {
+      try {
+        const raw = gunzipSync(src);
+        return [{ name: lower.replace(/\.gz$/, ""), bytes: raw }];
+      } catch {
+        return [{ name, bytes: src, error: "gunzip" }];
+      }
+    }
+    if (lower.endsWith(".zip")) {
+      if (depth > 2) return [{ name, bytes: src, error: "nested_zip" }];
+      let files;
+      try {
+        files = unzipSync(src);
+      } catch {
+        return [{ name, bytes: src, error: "unzip" }];
+      }
+      const out = [];
+      for (const [inner, data] of Object.entries(files || {})) {
+        if (!inner || inner.endsWith("/")) continue;
+        const clean = inner.replace(/\\/g, "/");
+        const base = clean.split("/").pop();
+        if (!base || base.startsWith(".") || clean.includes("__MACOSX/")) continue;
+        if (data.length > IMPORT_MAX_BYTES) continue;
+        const fmt = formatFromName(clean);
+        if (fmt === "zip" || fmt === "fit" || fmt === "gpx" || fmt === "tcx") {
+          out.push(...inflateEntries({ name: clean, bytes: data }, depth + 1));
+        } else if (/\.fit\.gz$/i.test(clean)) {
+          out.push(...inflateEntries({ name: clean, bytes: data }, depth + 1));
+        }
+        if (out.length >= IMPORT_MAX_FILES) break;
+      }
+      return out.slice(0, IMPORT_MAX_FILES);
+    }
+    return [{ name, bytes: src }];
+  }
+  async function parseOne({ name, bytes }, { typeHint = null } = {}) {
+    const format = formatFromName(name);
+    if (!format) return { ok: false, error: "unsupported", name };
+    const src = toBytes(bytes);
+    if (src.length > IMPORT_MAX_BYTES) return { ok: false, error: "too_large", name };
+    let parsed;
+    if (format === "gpx") parsed = parseGpx(new TextDecoder().decode(src));
+    else if (format === "tcx") parsed = parseTcx(new TextDecoder().decode(src));
+    else if (format === "fit") parsed = await parseFit(src);
+    else return { ok: false, error: "unsupported", name };
+    if (!parsed.ok) return { ok: false, error: parsed.error, detail: parsed.detail, name };
+    const hash = await sha256Hex(src);
+    const hinted = normalizeType(typeHint);
+    const activity = {
+      ...parsed.activity,
+      id: uid("act"),
+      type: hinted || normalizeType(parsed.activity.type),
+      source: "import",
+      importFormat: format,
+      importName: String(name || "").split("/").pop().slice(0, 120),
+      importHash: hash,
+      healthId: hash ? `file:${hash}` : null
+    };
+    return {
+      ok: true,
+      name,
+      format,
+      activity,
+      needsType: !activity.type,
+      hasTimes: !!parsed.hasTimes
+    };
+  }
+  async function expandAndParse(files, options = {}) {
+    const out = [];
+    for (const file of files || []) {
+      const entries = inflateEntries(file);
+      for (const entry of entries) {
+        if (entry.error) {
+          out.push({ ok: false, error: entry.error, name: entry.name });
+          continue;
+        }
+        if (!formatFromName(entry.name)) continue;
+        out.push(await parseOne(entry, options));
+      }
+    }
+    return out;
+  }
+  function startMs(activity) {
+    const raw = activity && (activity.startedAt || activity.startTime);
+    const t = raw ? Date.parse(raw) : NaN;
+    return Number.isFinite(t) ? t : null;
+  }
+  function sameRoughActivity(a, b3) {
+    if (!a || !b3) return false;
+    const ta = normalizeType(a.type);
+    const tb = normalizeType(b3.type);
+    if (ta && tb && ta !== tb) return false;
+    const sa = startMs(a);
+    const sb = startMs(b3);
+    if (sa == null || sb == null || Math.abs(sa - sb) > IMPORT_NEAR_START_SEC * 1e3) return false;
+    const da = Number(a.distanceMeters) || 0;
+    const db = Number(b3.distanceMeters) || 0;
+    if (!(da > 0) || !(db > 0)) return false;
+    const tol = Math.max(IMPORT_NEAR_DISTANCE_MIN_M, IMPORT_NEAR_DISTANCE_FRACTION * Math.max(da, db));
+    return Math.abs(da - db) <= tol;
+  }
+  function richness(activity) {
+    const track = Array.isArray(activity && activity.track) ? activity.track : [];
+    const hasHr = track.some((p) => Number.isFinite(p.hr)) || Number(activity && activity.avgHr) > 0;
+    const hasEle = track.some((p) => Number.isFinite(p.ele));
+    return track.length + (hasHr ? 10 : 0) + (hasEle ? 5 : 0);
+  }
+  function dedupeDecision(candidate, existing = []) {
+    if (!candidate) return { status: "new" };
+    for (const act of existing || []) {
+      if (!act) continue;
+      const merged = Array.isArray(act.mergedIds) ? act.mergedIds : [];
+      if (candidate.healthId && (candidate.healthId === act.healthId || merged.includes(candidate.healthId))) {
+        return { status: "duplicate", match: act, reason: "same_health_id" };
+      }
+      if (candidate.importHash && (candidate.importHash === act.importHash || merged.includes(`file:${candidate.importHash}`))) {
+        return { status: "duplicate", match: act, reason: "same_file_hash" };
+      }
+    }
+    for (const act of existing || []) {
+      if (!act || !sameRoughActivity(candidate, act)) continue;
+      const richer = richness(candidate) > richness(act);
+      const candidateFromFile = candidate.source === "import" && Array.isArray(candidate.track) && candidate.track.length > 0;
+      const existingThin = act.source === "watch" || act.source === "health" || !(act.track && act.track.length);
+      if (richer && candidateFromFile && existingThin) {
+        return { status: "replace", match: act, reason: "richer_file" };
+      }
+      return { status: "duplicate", match: act, reason: "near_match" };
+    }
+    return { status: "new" };
+  }
+  async function reviewImport(files, { existing = [], defaultType = null, typeHints = {} } = {}) {
+    const parsed = await expandAndParse(files, { typeHint: defaultType });
+    const rows = [];
+    const seen = [];
+    for (const item of parsed) {
+      if (!item.ok) {
+        rows.push({ status: "unreadable", name: item.name, error: item.error, detail: item.detail || null });
+        continue;
+      }
+      const activity = item.activity;
+      if (!activity.type && item.needsType) {
+        const hint = normalizeType(typeHints[item.name]);
+        activity.type = hint || normalizeType(defaultType) || "walk";
+        item.needsType = !hint && !normalizeType(defaultType);
+      }
+      const decision = dedupeDecision(activity, [...existing || [], ...seen]);
+      if (decision.status === "new") seen.push(activity);
+      rows.push({
+        status: decision.status,
+        name: item.name,
+        format: item.format,
+        activity,
+        needsType: item.needsType,
+        matchId: decision.match ? decision.match.id : null,
+        reason: decision.reason || null
+      });
+    }
+    return {
+      rows,
+      imported: rows.filter((r) => r.status === "new" || r.status === "replace").length,
+      duplicates: rows.filter((r) => r.status === "duplicate").length,
+      unreadable: rows.filter((r) => r.status === "unreadable").length,
+      needsType: rows.filter((r) => r.status !== "unreadable" && r.needsType).length
+    };
+  }
+  function applyImportRows(rows, existing = []) {
+    const next = (existing || []).slice();
+    const added = [];
+    const replaced = [];
+    for (const row of rows || []) {
+      if (!row || row.status === "duplicate" || row.status === "unreadable" || !row.activity) continue;
+      const act = { ...row.activity, type: normalizeType(row.activity.type) || "walk" };
+      if (row.status === "replace" && row.matchId) {
+        const idx = next.findIndex((a) => a.id === row.matchId);
+        if (idx >= 0) {
+          const previous = next[idx];
+          const keepIds = [
+            previous.healthId,
+            previous.id,
+            previous.importHash ? `file:${previous.importHash}` : null
+          ].filter(Boolean);
+          next[idx] = {
+            ...act,
+            id: previous.id || act.id,
+            mergedIds: Array.from(/* @__PURE__ */ new Set([...previous.mergedIds || [], ...keepIds])),
+            replacedSource: previous.source || null
+          };
+          replaced.push(next[idx]);
+          continue;
+        }
+      }
+      next.push(act);
+      added.push(act);
+    }
+    return { activities: next, added, replaced };
+  }
+  var IMPORT_HELP = [
+    "Strava: on the website, open an activity, then More \u2192 Export GPX or Export Original. The full archive is Settings \u2192 My Account \u2192 Download your account.",
+    "Garmin Connect: open the activity on the website and use the gear icon \u2192 Export File (FIT, GPX or TCX).",
+    "Runkeeper: Settings \u2192 Account Settings \u2192 Export Data, for a date range.",
+    "Polar Flow, COROS, Suunto and Komoot export one workout or route at a time.",
+    "Nike Run Club and Samsung Health do not document an in-app GPX export; use Health Connect / Apple Health or files you already have."
+  ];
+
+  // www/js/import_ui.js
+  function $4(id) {
+    return document.getElementById(id);
+  }
+  function statusText(review) {
+    const bits2 = [];
+    if (review.imported) bits2.push(`${review.imported} ready`);
+    if (review.duplicates) bits2.push(`${review.duplicates} already here`);
+    if (review.unreadable) bits2.push(`${review.unreadable} unreadable`);
+    if (review.needsType) bits2.push(`${review.needsType} need a sport`);
+    return bits2.join(" \xB7 ") || "No activity files found.";
+  }
+  function rowTitle(row) {
+    const act = row.activity || {};
+    const when = act.startedAt ? new Date(act.startedAt) : null;
+    const day = when && Number.isFinite(when.getTime()) ? when.toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "";
+    return [row.name ? String(row.name).split("/").pop().slice(0, 46) : "", day].filter(Boolean).join(" \xB7 ");
+  }
+  function rowSub(row) {
+    const act = row.activity;
+    if (!act) return row.detail || "This file could not be read.";
+    const km = Number(act.distanceMeters) > 0 ? act.distanceMeters >= 1e3 ? `${(act.distanceMeters / 1e3).toFixed(2)} km` : `${Math.round(act.distanceMeters)} m` : "distance unknown";
+    const sec = Number(act.elapsedSec) > 0 ? `${Math.round(act.elapsedSec / 60)} min` : "time unknown";
+    return `${km} \xB7 ${sec} \xB7 ${String(row.format || "").toUpperCase()}`;
+  }
+  function badge(row) {
+    if (row.status === "new") return "Ready";
+    if (row.status === "replace") return "Replaces a thinner copy";
+    if (row.status === "duplicate") return "Already on this phone";
+    return "Unreadable";
+  }
+  function initImportUi({ getState, persist: persist2, units: units3 = () => "mi", onChanged = () => {
+  } } = {}) {
+    const input = $4("import-activity-files");
+    const button = $4("btn-import-activities");
+    const status = $4("import-activity-status");
+    const sheet = $4("sheet-import-review");
+    if (!input || !button || !sheet) return;
+    const help = $4("import-help");
+    if (help) help.textContent = IMPORT_HELP.join("\n");
+    const helpButton = $4("btn-import-help");
+    const helpWrap = $4("import-help-wrap");
+    if (helpButton && helpWrap) {
+      helpButton.addEventListener("click", () => {
+        helpWrap.hidden = !helpWrap.hidden;
+        helpButton.textContent = helpWrap.hidden ? "Where to get your files" : "Hide export help";
+      });
+    }
+    button.addEventListener("click", () => input.click());
+    let rows = [];
+    let busy = false;
+    function closeSheet2() {
+      sheet.classList.remove("open");
+    }
+    function renderRows() {
+      const list = $4("import-review-list");
+      if (!list) return;
+      list.innerHTML = "";
+      for (const row of rows) {
+        if (row.status === "unreadable") {
+          const el2 = document.createElement("div");
+          el2.className = "import-row";
+          el2.innerHTML = `<strong></strong><p class="tiny"></p>`;
+          el2.querySelector("strong").textContent = rowTitle(row);
+          el2.querySelector("p").textContent = `${badge(row)}. ${rowSub(row)}`;
+          el2.style.cssText = "padding:12px 0;border-bottom:1px solid var(--line)";
+          list.appendChild(el2);
+          continue;
+        }
+        const el = document.createElement("div");
+        el.className = "import-row";
+        el.style.cssText = "padding:12px 0;border-bottom:1px solid var(--line)";
+        el.innerHTML = `<div class="row" style="display:flex;gap:12px;align-items:flex-start"><div class="grow" style="flex:1;min-width:0"><strong></strong><p class="tiny" style="margin-top:4px"></p></div><span class="tiny" style="color:var(--blue);white-space:nowrap"></span></div>`;
+        el.querySelector("strong").textContent = rowTitle(row) || "Activity";
+        el.querySelector("p").textContent = rowSub(row);
+        el.querySelector("span").textContent = badge(row);
+        if (row.status !== "duplicate" && row.needsType) {
+          const field = document.createElement("div");
+          field.className = "field";
+          field.style.cssText = "margin:10px 0 0";
+          const label = document.createElement("label");
+          label.textContent = "Sport (this file does not say)";
+          const select = document.createElement("select");
+          for (const [value, text] of [["walk", "Walk"], ["run", "Run"], ["ride", "Ride"]]) {
+            const opt = document.createElement("option");
+            opt.value = value;
+            opt.textContent = text;
+            if (value === (row.activity && row.activity.type)) opt.selected = true;
+            select.appendChild(opt);
+          }
+          const id = `import-sport-${rows.indexOf(row)}`;
+          select.id = id;
+          label.setAttribute("for", id);
+          select.addEventListener("change", () => {
+            row.activity.type = select.value;
+            row.needsType = false;
+            renderRows();
+          });
+          field.appendChild(label);
+          field.appendChild(select);
+          el.appendChild(field);
+        }
+        list.appendChild(el);
+      }
+      const sub = $4("import-review-sub");
+      if (sub) sub.textContent = statusText({
+        imported: rows.filter((r) => r.status === "new" || r.status === "replace").length,
+        duplicates: rows.filter((r) => r.status === "duplicate").length,
+        unreadable: rows.filter((r) => r.status === "unreadable").length,
+        needsType: rows.filter((r) => r.status !== "unreadable" && r.needsType).length
+      });
+      const apply2 = $4("btn-import-apply");
+      if (apply2) {
+        const n = rows.filter((r) => r.status === "new" || r.status === "replace").length;
+        apply2.textContent = n ? `Add ${n} ${n === 1 ? "activity" : "activities"}` : "Nothing to add";
+        apply2.disabled = !n;
+      }
+    }
+    async function readFiles(files) {
+      if (busy || !files || !files.length) return;
+      busy = true;
+      if (status) status.textContent = `Reading ${files.length} ${files.length === 1 ? "file" : "files"} on this phone\u2026`;
+      const items = [];
+      for (const file of Array.from(files)) {
+        try {
+          items.push({ name: file.name || "activity", bytes: new Uint8Array(await file.arrayBuffer()) });
+        } catch {
+          items.push({ name: file.name || "activity", bytes: new Uint8Array() });
+        }
+      }
+      let review;
+      try {
+        review = await reviewImport(items, { existing: (getState().activities || []).slice(), defaultType: null });
+      } catch (err2) {
+        if (status) status.textContent = `Could not read those files: ${String(err2 && err2.message ? err2.message : err2)}`;
+        busy = false;
+        return;
+      }
+      rows = review.rows || [];
+      busy = false;
+      renderRows();
+      if (!rows.length) {
+        if (status) status.textContent = "No GPX, TCX, FIT or zip activity files were found in that selection.";
+        return;
+      }
+      sheet.classList.add("open");
+    }
+    input.addEventListener("change", () => {
+      const files = input.files ? Array.from(input.files) : [];
+      input.value = "";
+      readFiles(files).catch(() => {
+      });
+    });
+    const apply = $4("btn-import-apply");
+    if (apply) {
+      apply.addEventListener("click", () => {
+        const state3 = getState();
+        const result = applyImportRows(rows, state3.activities || []);
+        state3.activities = result.activities;
+        persist2();
+        closeSheet2();
+        if (status) {
+          const bits2 = [`Added ${result.added.length} ${result.added.length === 1 ? "activity" : "activities"}.`];
+          if (result.replaced.length) bits2.push(`${result.replaced.length} thinner copy replaced.`);
+          const dup = rows.filter((r) => r.status === "duplicate").length;
+          if (dup) bits2.push(`${dup} duplicate ${dup === 1 ? "was" : "were"} skipped.`);
+          status.textContent = bits2.join(" ");
+        }
+        if (typeof onChanged === "function") onChanged(result);
+      });
+    }
+    const cancel = $4("btn-import-cancel");
+    if (cancel) cancel.addEventListener("click", closeSheet2);
+    const back = sheet.querySelector(".sheet-back-close");
+    if (back) back.addEventListener("click", closeSheet2);
+  }
+
+  // www/js/export_activities.js
+  init_dist();
+  init_util();
+  var GPX_CREATOR = "Heldpath";
+  var GPX_NS = "http://www.topografix.com/GPX/1/1";
+  var GPX_TPX_NS = "http://www.garmin.com/xmlschemas/TrackPointExtension/v1";
+  function esc4(value) {
+    return String(value == null ? "" : value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+  }
+  function slug(text, fallback = "activity") {
+    return String(text || fallback).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || fallback;
+  }
+  function xmlStamp(value) {
+    const d2 = value instanceof Date ? value : new Date(value);
+    return Number.isFinite(d2.getTime()) ? d2.toISOString().replace(/\.\d{3}Z$/, "Z") : (/* @__PURE__ */ new Date()).toISOString().replace(/\.\d{3}Z$/, "Z");
+  }
+  function trackFromActivity(activity) {
+    const started = activity && activity.startedAt ? Date.parse(activity.startedAt) : null;
+    return (activity && activity.track || []).filter((p) => p && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon))).map((p, i) => {
+      let at = p.at || null;
+      if (!at && Number.isFinite(Number(p.t)) && Number.isFinite(started)) {
+        at = new Date(started + Number(p.t) * 1e3).toISOString();
+      }
+      return {
+        lat: Number(p.lat),
+        lon: Number(p.lon),
+        ele: Number.isFinite(Number(p.ele)) ? Number(p.ele) : null,
+        hr: Number.isFinite(Number(p.hr)) ? Math.round(Number(p.hr)) : null,
+        at,
+        t: Number.isFinite(Number(p.t)) ? Number(p.t) : i
+      };
+    });
+  }
+  function pointXml(p, { indent = "      " } = {}) {
+    const bits2 = [`${indent}<trkpt lat="${p.lat.toFixed(7)}" lon="${p.lon.toFixed(7)}">`];
+    if (p.ele != null) bits2.push(`${indent}  <ele>${p.ele.toFixed(1)}</ele>`);
+    if (p.at) bits2.push(`${indent}  <time>${xmlStamp(p.at)}</time>`);
+    if (p.hr != null) {
+      bits2.push(`${indent}  <extensions><gpxtpx:TrackPointExtension><gpxtpx:hr>${p.hr}</gpxtpx:hr></gpxtpx:TrackPointExtension></extensions>`);
+    }
+    bits2.push(`${indent}</trkpt>`);
+    return bits2.join("\n");
+  }
+  function activityToGpx(activity) {
+    const act = activity || {};
+    const points = trackFromActivity(act);
+    const type = act.type === "run" || act.type === "ride" ? act.type : "walk";
+    const name = String(act.courseName || act.name || `Heldpath ${type}`).slice(0, 120);
+    const start = act.startedAt || points[0] && points[0].at || (/* @__PURE__ */ new Date()).toISOString();
+    const rows = [
+      '<?xml version="1.0" encoding="UTF-8"?>',
+      `<gpx version="1.1" creator="${GPX_CREATOR}" xmlns="${GPX_NS}" xmlns:gpxtpx="${GPX_TPX_NS}">`,
+      "  <metadata>",
+      `    <name>${esc4(name)}</name>`,
+      `    <time>${xmlStamp(start)}</time>`,
+      "  </metadata>",
+      `  <trk>`,
+      `    <name>${esc4(name)}</name>`,
+      `    <type>${esc4(type === "ride" ? "cycling" : type === "run" ? "running" : "walking")}</type>`,
+      "    <trkseg>",
+      ...points.map((p) => pointXml(p)),
+      "    </trkseg>",
+      "  </trk>",
+      "</gpx>",
+      ""
+    ];
+    return rows.join("\n");
+  }
+  function coursePoints(course) {
+    const path = course && Array.isArray(course.path) && course.path.length >= 2 ? course.path : course && course.pins || [];
+    return path.filter((p) => p && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon))).map((p) => ({ lat: Number(p.lat), lon: Number(p.lon), ele: Number.isFinite(Number(p.ele)) ? Number(p.ele) : null }));
+  }
+  function courseToGpx(course) {
+    const c = course || {};
+    const name = String(c.name || "Heldpath course").slice(0, 120);
+    const pins = (c.pins || []).filter((p) => p && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon))).slice(0, 500);
+    const points = coursePoints(c);
+    const meters = pathLengthMeters(points);
+    const rows = [
+      '<?xml version="1.0" encoding="UTF-8"?>',
+      `<gpx version="1.1" creator="${GPX_CREATOR}" xmlns="${GPX_NS}">`,
+      "  <metadata>",
+      `    <name>${esc4(name)}</name>`,
+      `    <desc>Heldpath course \xB7 ${meters > 0 ? Math.round(meters) : 0} m</desc>`,
+      "  </metadata>",
+      ...pins.map((p, i) => {
+        const role = p.role === "start" ? "Start" : p.role === "end" ? "Finish" : `Pin ${i + 1}`;
+        return `  <wpt lat="${Number(p.lat).toFixed(7)}" lon="${Number(p.lon).toFixed(7)}"><name>${esc4(role)}</name></wpt>`;
+      }),
+      "  <rte>",
+      `    <name>${esc4(name)}</name>`,
+      ...points.map((p) => {
+        const ele = p.ele != null ? `<ele>${p.ele.toFixed(1)}</ele>` : "";
+        return `    <rtept lat="${p.lat.toFixed(7)}" lon="${p.lon.toFixed(7)}">${ele}</rtept>`;
+      }),
+      "  </rte>",
+      "</gpx>",
+      ""
+    ];
+    return rows.join("\n");
+  }
+  function activityGpxName(activity) {
+    const when = activity && (activity.startedAt || activity.endedAt);
+    const d2 = when ? new Date(when) : /* @__PURE__ */ new Date();
+    const date = Number.isFinite(d2.getTime()) ? d2.toISOString().slice(0, 10) : "activity";
+    return `heldpath-${slug(activity && (activity.courseName || activity.name), activity && activity.type) || "activity"}-${date}.gpx`;
+  }
+  function courseGpxName(course) {
+    return `heldpath-course-${slug(course && course.name, "course")}.gpx`;
+  }
+  async function saveBlob({ text, bytes, name, mime }) {
+    const blob = bytes ? new Blob([bytes], { type: mime }) : new Blob([text], { type: mime });
+    if (Capacitor.isNativePlatform()) {
+      try {
+        const data = bytes ? await blobToBase64(blob) : text;
+        await Filesystem.writeFile({
+          path: name,
+          data,
+          directory: Directory.Documents,
+          ...bytes ? {} : { encoding: Encoding.UTF8 },
+          recursive: true
+        });
+        return { ok: true, saved: true, name, where: "Documents" };
+      } catch {
+      }
+    }
+    if (typeof document !== "undefined") {
+      try {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+        return { ok: true, saved: true, name, where: "download" };
+      } catch {
+      }
+    }
+    return { ok: false, saved: false, name, reason: "This device cannot save a file here." };
+  }
+  function blobToBase64(blob) {
+    return new Promise((resolve2, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve2(String(reader.result || "").replace(/^data:[^,]*,/, ""));
+      reader.onerror = () => reject(reader.error || new Error("read failed"));
+      reader.readAsDataURL(blob);
+    });
+  }
+  function exportTextFile(text, name, mime = "application/gpx+xml") {
+    return saveBlob({ text, name, mime });
+  }
+  function exportActivityGpx(activity) {
+    return exportTextFile(activityToGpx(activity), activityGpxName(activity));
+  }
+  function exportCourseGpx(course) {
+    return exportTextFile(courseToGpx(course), courseGpxName(course));
+  }
+
+  // www/js/share_card.js
+  init_util();
+  var CARD_WIDTH = 1080;
+  var CARD_HEIGHT = 1350;
+  var THEME = {
+    bg: "#12161C",
+    panel: "#1A2028",
+    blue: "#4EC3F7",
+    mint: "#B8F3D0",
+    gold: "#F3E0A8",
+    text: "#E8EEF3",
+    dim: "#8A9AA8",
+    line: "#2A333D"
+  };
+  function slug2(text, fallback = "card") {
+    return String(text || fallback).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 36) || fallback;
+  }
+  function typeLabel(type) {
+    return type === "ride" ? "RIDE" : type === "run" ? "RUN" : "WALK";
+  }
+  function speedLabel(meters, seconds, units3) {
+    if (!(meters > 0) || !(seconds > 0)) return "\u2014";
+    const mph = meters / METERS_PER_MILE / (seconds / 3600);
+    const kmh = meters / METERS_PER_KM / (seconds / 3600);
+    return units3 === "km" ? `${kmh.toFixed(1)} km/h avg` : `${mph.toFixed(1)} mph avg`;
+  }
+  function dateLabel(iso) {
+    const d2 = iso ? new Date(iso) : /* @__PURE__ */ new Date();
+    if (!Number.isFinite(d2.getTime())) return "";
+    return d2.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  }
+  function cleanPoints(points) {
+    return (points || []).map((p) => ({ lat: Number(p && p.lat), lon: Number(p && (p.lon != null ? p.lon : p.lng)) })).filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lon));
+  }
+  function cardModel({ activity = null, course = null, units: units3 = "mi", sectors = [] } = {}) {
+    const act = activity || null;
+    const c = course || null;
+    const type = act && act.type || c && c.activityType || "walk";
+    const points = cleanPoints(
+      act ? act.track && act.track.length ? act.track : c && (c.path || c.pins) : c && (c.path || c.pins)
+    );
+    const meters = act ? Number(act.distanceMeters) || (points.length >= 2 ? pathLengthMeters(points) : 0) : c && pathLengthMeters(c.path || c.pins) || 0;
+    const seconds = act ? Number(act.elapsedSec) || 0 : Number(c && c.goal && c.goal.finishSec) || 0;
+    const when = act && (act.endedAt || act.startedAt) || c && c.createdAt || null;
+    const title = act && (act.courseName || act.name) || c && c.name || `Heldpath ${type}`;
+    const pace = type === "ride" ? speedLabel(meters, seconds, units3) : meters > 0 && seconds > 0 ? `${formatPace(meters, seconds, units3)} avg` : "\u2014";
+    const sectorRows = (sectors || []).slice(0, 12).map((s2, i) => ({
+      label: String(s2 && (s2.label || s2.name) || `S${i + 1}`).slice(0, 26),
+      time: Number(s2 && (s2.seconds != null ? s2.seconds : s2.time)) || 0
+    }));
+    return {
+      title: String(title).slice(0, 60),
+      typeLabel: typeLabel(type),
+      dateLabel: dateLabel(when),
+      distanceLabel: meters > 0 ? formatDistance(meters, units3) : "\u2014",
+      timeLabel: seconds > 0 ? formatDuration(seconds) : "\u2014",
+      paceLabel: pace,
+      paceCaption: type === "ride" ? "Speed" : "Pace",
+      units: units3 === "km" ? "km" : "mi",
+      points,
+      meters,
+      seconds,
+      sectors: sectorRows,
+      hasRoute: points.length >= 2
+    };
+  }
+  function projectPoints(points, { x: x2 = 0, y: y2 = 0, width = CARD_WIDTH, height = 560, pad = 64 } = {}) {
+    const pts = cleanPoints(points);
+    if (pts.length < 2) return [];
+    const lats = pts.map((p) => p.lat);
+    const lons = pts.map((p) => p.lon);
+    let minLat = Math.min(...lats);
+    let maxLat = Math.max(...lats);
+    let minLon = Math.min(...lons);
+    let maxLon = Math.max(...lons);
+    if (maxLat === minLat) {
+      minLat -= 1e-3;
+      maxLat += 1e-3;
+    }
+    if (maxLon === minLon) {
+      minLon -= 1e-3;
+      maxLon += 1e-3;
+    }
+    const midLat = (minLat + maxLat) / 2;
+    const cos = Math.cos(midLat * Math.PI / 180) || 1;
+    const spanX = Math.max((maxLon - minLon) * cos, 1e-9);
+    const spanY = Math.max(maxLat - minLat, 1e-9);
+    const innerW = width - pad * 2;
+    const innerH = height - pad * 2;
+    const scale = Math.min(innerW / spanX, innerH / spanY);
+    const ox = x2 + pad + (innerW - spanX * scale) / 2;
+    const oy = y2 + pad + (innerH - spanY * scale) / 2;
+    return pts.map((p) => ({
+      x: ox + (p.lon - minLon) * cos * scale,
+      y: oy + (maxLat - p.lat) * scale
+    }));
+  }
+  function roundRect(ctx2, x2, y2, w2, h2, r) {
+    const rr = Math.min(r, w2 / 2, h2 / 2);
+    ctx2.beginPath();
+    ctx2.moveTo(x2 + rr, y2);
+    ctx2.arcTo(x2 + w2, y2, x2 + w2, y2 + h2, rr);
+    ctx2.arcTo(x2 + w2, y2 + h2, x2, y2 + h2, rr);
+    ctx2.arcTo(x2, y2 + h2, x2, y2, rr);
+    ctx2.arcTo(x2, y2, x2 + w2, y2, rr);
+    ctx2.closePath();
+  }
+  function drawCard(canvas, model) {
+    if (!canvas || !canvas.getContext) return null;
+    const m = model || cardModel({});
+    const width = canvas.width || CARD_WIDTH;
+    const height = canvas.height || CARD_HEIGHT;
+    const ctx2 = canvas.getContext("2d");
+    ctx2.fillStyle = THEME.bg;
+    ctx2.fillRect(0, 0, width, height);
+    ctx2.fillStyle = THEME.blue;
+    ctx2.font = "700 34px system-ui, -apple-system, Segoe UI, sans-serif";
+    ctx2.fillText("HELDPATH", 48, 84);
+    ctx2.fillStyle = THEME.gold;
+    ctx2.textAlign = "right";
+    ctx2.font = "600 28px system-ui, -apple-system, Segoe UI, sans-serif";
+    ctx2.fillText(m.typeLabel, width - 48, 84);
+    ctx2.fillStyle = THEME.text;
+    ctx2.textAlign = "left";
+    ctx2.font = "500 32px system-ui, -apple-system, Segoe UI, sans-serif";
+    ctx2.fillText(clip(ctx2, m.title, width - 300), 48, 132);
+    ctx2.fillStyle = THEME.dim;
+    ctx2.textAlign = "right";
+    ctx2.font = "400 24px system-ui, -apple-system, Segoe UI, sans-serif";
+    ctx2.fillText(m.dateLabel, width - 48, 132);
+    ctx2.textAlign = "left";
+    ctx2.fillStyle = THEME.panel;
+    roundRect(ctx2, 48, 170, width - 96, 520, 24);
+    ctx2.fill();
+    const projected = projectPoints(m.points, { x: 48, y: 170, width: width - 96, height: 520, pad: 16 });
+    if (projected.length >= 2) {
+      ctx2.strokeStyle = THEME.blue;
+      ctx2.lineWidth = 7;
+      ctx2.lineJoin = "round";
+      ctx2.lineCap = "round";
+      ctx2.beginPath();
+      projected.forEach((p, i) => i ? ctx2.lineTo(p.x, p.y) : ctx2.moveTo(p.x, p.y));
+      ctx2.stroke();
+      const a = projected[0];
+      const b3 = projected[projected.length - 1];
+      ctx2.fillStyle = THEME.mint;
+      ctx2.beginPath();
+      ctx2.arc(a.x, a.y, 11, 0, Math.PI * 2);
+      ctx2.fill();
+      ctx2.fillStyle = THEME.text;
+      ctx2.beginPath();
+      ctx2.arc(b3.x, b3.y, 11, 0, Math.PI * 2);
+      ctx2.fill();
+    } else {
+      ctx2.fillStyle = THEME.dim;
+      ctx2.textAlign = "center";
+      ctx2.font = "400 28px system-ui, -apple-system, Segoe UI, sans-serif";
+      ctx2.fillText("No GPS track for this session", width / 2, 440);
+      ctx2.textAlign = "left";
+    }
+    const third = (width - 96) / 3;
+    ctx2.fillStyle = THEME.dim;
+    ctx2.font = "400 26px system-ui, -apple-system, Segoe UI, sans-serif";
+    ctx2.fillText("Distance", 48, 770);
+    ctx2.fillText("Time", 48 + third, 770);
+    ctx2.textAlign = "right";
+    ctx2.fillText(m.paceCaption, width - 48, 770);
+    ctx2.textAlign = "left";
+    ctx2.fillStyle = THEME.text;
+    ctx2.font = "700 68px system-ui, -apple-system, Segoe UI, sans-serif";
+    ctx2.fillText(m.distanceLabel, 48, 838);
+    ctx2.fillText(m.timeLabel, 48 + third, 838);
+    ctx2.textAlign = "right";
+    ctx2.fillStyle = THEME.mint;
+    ctx2.font = "600 40px system-ui, -apple-system, Segoe UI, sans-serif";
+    ctx2.fillText(m.paceLabel, width - 48, 838);
+    ctx2.textAlign = "left";
+    ctx2.font = "400 26px system-ui, -apple-system, Segoe UI, sans-serif";
+    m.sectors.slice(0, 12).forEach((s2, i) => {
+      const y2 = 916 + i * 46;
+      ctx2.fillStyle = THEME.dim;
+      ctx2.fillText(s2.label, 48, y2);
+      ctx2.textAlign = "right";
+      ctx2.fillStyle = THEME.mint;
+      ctx2.fillText(formatDuration(s2.time), width - 48, y2);
+      ctx2.textAlign = "left";
+    });
+    ctx2.fillStyle = THEME.dim;
+    ctx2.font = "400 22px system-ui, -apple-system, Segoe UI, sans-serif";
+    ctx2.fillText("Made with Heldpath. No account, no server relay.", 48, height - 40);
+    return canvas;
+  }
+  function clip(ctx2, text, maxWidth) {
+    let s2 = String(text || "");
+    if (ctx2.measureText(s2).width <= maxWidth) return s2;
+    while (s2.length > 4 && ctx2.measureText(`${s2}\u2026`).width > maxWidth) s2 = s2.slice(0, -1);
+    return `${s2}\u2026`;
+  }
+  function cardFileName(model) {
+    const m = model || {};
+    const date = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
+    return `heldpath-${slug2(m.title, "activity")}-${date}.png`;
+  }
+  function canvasToBlob(canvas) {
+    if (!canvas || !canvas.toBlob) return Promise.resolve(null);
+    return new Promise((resolve2) => canvas.toBlob((blob) => resolve2(blob), "image/png"));
+  }
+  function makeCanvas(width, height) {
+    if (typeof document === "undefined") return null;
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    return canvas;
+  }
+  async function shareActivityCard({ activity = null, course = null, units: units3 = "mi", sectors = [] } = {}) {
+    const model = cardModel({ activity, course, units: units3, sectors });
+    const name = cardFileName(model);
+    const canvas = makeCanvas(CARD_WIDTH, CARD_HEIGHT);
+    if (!canvas) return { ok: false, reason: "This device cannot draw a card here." };
+    drawCard(canvas, model);
+    const blob = await canvasToBlob(canvas);
+    if (!blob) return { ok: false, reason: "Could not draw the card." };
+    if (typeof File !== "undefined" && typeof navigator !== "undefined" && navigator.canShare) {
+      try {
+        const file = new File([blob], name, { type: "image/png" });
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: model.title,
+            text: `${model.distanceLabel} \xB7 ${model.timeLabel} \xB7 ${model.paceLabel}`
+          });
+          return { ok: true, shared: true, name };
+        }
+      } catch (err2) {
+        if (err2 && err2.name === "AbortError") return { ok: false, cancelled: true, name };
+      }
+    }
+    if (typeof document !== "undefined" && URL && URL.createObjectURL) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
+      return { ok: true, saved: true, name };
+    }
+    return { ok: false, reason: "This device cannot save the card here." };
+  }
+
+  // www/js/export_ui.js
+  function $5(id) {
+    return document.getElementById(id);
+  }
+  function setNote(id, text) {
+    const el = $5(id);
+    if (el) el.textContent = text;
+  }
+  function initExportUi({ getSummary, getCourse, units: units3 = () => "mi" } = {}) {
+    const summaryCard = $5("btn-summary-share-card");
+    if (summaryCard) {
+      summaryCard.addEventListener("click", async () => {
+        const summary = typeof getSummary === "function" ? getSummary() : null;
+        if (!summary || !summary.act) return;
+        setNote("summary-export-status", "Opening the share sheet\u2026");
+        try {
+          const res = await shareActivityCard({
+            activity: summary.act,
+            course: summary.course,
+            units: units3(),
+            sectors: summary.legResult && summary.legResult.legs || []
+          });
+          setNote("summary-export-status", res.ok ? res.shared ? "Card shared from this phone." : `Card saved as ${res.name}.` : res.cancelled ? "" : res.reason || "Could not share the card here.");
+        } catch (err2) {
+          setNote("summary-export-status", `Could not share the card: ${String(err2 && err2.message ? err2.message : err2)}`);
+        }
+      });
+    }
+    const summaryGpx = $5("btn-summary-export-gpx");
+    if (summaryGpx) {
+      summaryGpx.addEventListener("click", async () => {
+        const summary = typeof getSummary === "function" ? getSummary() : null;
+        if (!summary || !summary.act) return;
+        setNote("summary-export-status", "Preparing the GPX file\u2026");
+        try {
+          const res = await exportActivityGpx(summary.act);
+          setNote("summary-export-status", res.ok ? `GPX saved as ${res.name}${res.where === "Documents" ? " in Documents" : ""}.` : res.reason || "Could not export the GPX here.");
+        } catch (err2) {
+          setNote("summary-export-status", `Could not export the GPX: ${String(err2 && err2.message ? err2.message : err2)}`);
+        }
+      });
+    }
+    const courseGpx = $5("btn-course-export-gpx");
+    if (courseGpx) {
+      courseGpx.addEventListener("click", async () => {
+        const course = typeof getCourse === "function" ? getCourse() : null;
+        if (!course) return;
+        setNote("course-export-status", "Preparing the course file\u2026");
+        try {
+          const res = await exportCourseGpx(course);
+          setNote("course-export-status", res.ok ? `Course saved as ${res.name}${res.where === "Documents" ? " in Documents" : ""}.` : res.reason || "Could not export the course here.");
+        } catch (err2) {
+          setNote("course-export-status", `Could not export the course: ${String(err2 && err2.message ? err2.message : err2)}`);
+        }
+      });
+    }
+    const courseCard = $5("btn-course-share-card");
+    if (courseCard) {
+      courseCard.addEventListener("click", async () => {
+        const course = typeof getCourse === "function" ? getCourse() : null;
+        if (!course) return;
+        setNote("course-export-status", "Opening the share sheet\u2026");
+        try {
+          const res = await shareActivityCard({ course, units: units3() });
+          setNote("course-export-status", res.ok ? res.shared ? "Card shared from this phone." : `Card saved as ${res.name}.` : res.cancelled ? "" : res.reason || "Could not share the card here.");
+        } catch (err2) {
+          setNote("course-export-status", `Could not share the card: ${String(err2 && err2.message ? err2.message : err2)}`);
+        }
+      });
+    }
+  }
+
+  // www/js/app.js
+  init_low_signal();
+  init_elevation();
+  init_elevation_dem();
+
   // www/js/share_link.js
+  init_util();
   var SHARE_ORIGIN = "https://paigegames.net";
   var SHARE_PATH = "/heldpath/s/";
   var PLAN_SHARE_PATH = "/heldpath/plan/";
@@ -48684,13 +58956,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       const read = () => {
         let shift = 0;
         let result = 0;
-        let b2;
+        let b3;
         do {
           if (i >= s2.length) return null;
-          b2 = s2.charCodeAt(i++) - 63;
-          result |= (b2 & 31) << shift;
+          b3 = s2.charCodeAt(i++) - 63;
+          result |= (b3 & 31) << shift;
           shift += 5;
-        } while (b2 >= 32);
+        } while (b3 >= 32);
         return result & 1 ? ~(result >> 1) : result >> 1;
       };
       const dlat = read();
@@ -49061,13 +59333,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const places = parsePhotonResponse(await res.json());
     cache.set(key, places);
     if (cache.size > CACHE_LIMIT) {
-      const first = cache.keys().next().value;
-      cache.delete(first);
+      const first2 = cache.keys().next().value;
+      cache.delete(first2);
     }
     return places;
   }
 
   // www/js/group_run.js
+  init_util();
   function courseLengthOf(course) {
     if (course && Array.isArray(course.path) && course.path.length >= 2) {
       return pathLengthMeters(course.path);
@@ -49171,8 +59444,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return folded.join("\r\n") + "\r\n";
   }
   function icsFileName(run) {
-    const slug = String(run && run.courseName || "group-run").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "group-run";
-    return `heldpath-${slug}.ics`;
+    const slug3 = String(run && run.courseName || "group-run").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "group-run";
+    return `heldpath-${slug3}.ics`;
   }
   function calendarRowFor(run) {
     return {
@@ -49742,9 +60015,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const unicodeMap = (function() {
       const bin = base64DecodeInputStream(unicodeData);
       const read = function() {
-        const b2 = bin.read();
-        if (b2 == -1) throw "eof";
-        return b2;
+        const b3 = bin.read();
+        if (b3 == -1) throw "eof";
+        return b3;
       };
       let count = 0;
       const unicodeMap2 = {};
@@ -49752,10 +60025,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         const b0 = bin.read();
         if (b0 == -1) break;
         const b1 = read();
-        const b2 = read();
+        const b22 = read();
         const b3 = read();
         const k = String.fromCharCode(b0 << 8 | b1);
-        const v2 = b2 << 8 | b3;
+        const v2 = b22 << 8 | b3;
         unicodeMap2[k] = v2;
         count += 1;
       }
@@ -49772,13 +60045,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         if (c < 128) {
           bytes.push(c);
         } else {
-          const b2 = unicodeMap[s2.charAt(i)];
-          if (typeof b2 == "number") {
-            if ((b2 & 255) == b2) {
-              bytes.push(b2);
+          const b3 = unicodeMap[s2.charAt(i)];
+          if (typeof b3 == "number") {
+            if ((b3 & 255) == b3) {
+              bytes.push(b3);
             } else {
-              bytes.push(b2 >>> 8);
-              bytes.push(b2 & 255);
+              bytes.push(b3 >>> 8);
+              bytes.push(b3 & 255);
             }
           } else {
             bytes.push(unknownChar);
@@ -50070,18 +60343,18 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     };
     return _this;
   })();
-  var qrPolynomial = function(num2, shift) {
-    if (typeof num2.length == "undefined") {
-      throw num2.length + "/" + shift;
+  var qrPolynomial = function(num3, shift) {
+    if (typeof num3.length == "undefined") {
+      throw num3.length + "/" + shift;
     }
     const _num = (function() {
       let offset = 0;
-      while (offset < num2.length && num2[offset] == 0) {
+      while (offset < num3.length && num3[offset] == 0) {
         offset += 1;
       }
-      const _num2 = new Array(num2.length - offset + shift);
-      for (let i = 0; i < num2.length - offset; i += 1) {
-        _num2[i] = num2[i + offset];
+      const _num2 = new Array(num3.length - offset + shift);
+      for (let i = 0; i < num3.length - offset; i += 1) {
+        _num2[i] = num3[i + offset];
       }
       return _num2;
     })();
@@ -50093,27 +60366,27 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       return _num.length;
     };
     _this.multiply = function(e) {
-      const num3 = new Array(_this.getLength() + e.getLength() - 1);
+      const num4 = new Array(_this.getLength() + e.getLength() - 1);
       for (let i = 0; i < _this.getLength(); i += 1) {
         for (let j2 = 0; j2 < e.getLength(); j2 += 1) {
-          num3[i + j2] ^= QRMath.gexp(QRMath.glog(_this.getAt(i)) + QRMath.glog(e.getAt(j2)));
+          num4[i + j2] ^= QRMath.gexp(QRMath.glog(_this.getAt(i)) + QRMath.glog(e.getAt(j2)));
         }
       }
-      return qrPolynomial(num3, 0);
+      return qrPolynomial(num4, 0);
     };
     _this.mod = function(e) {
       if (_this.getLength() - e.getLength() < 0) {
         return _this;
       }
       const ratio = QRMath.glog(_this.getAt(0)) - QRMath.glog(e.getAt(0));
-      const num3 = new Array(_this.getLength());
+      const num4 = new Array(_this.getLength());
       for (let i = 0; i < _this.getLength(); i += 1) {
-        num3[i] = _this.getAt(i);
+        num4[i] = _this.getAt(i);
       }
       for (let i = 0; i < e.getLength(); i += 1) {
-        num3[i] ^= QRMath.gexp(QRMath.glog(e.getAt(i)) + ratio);
+        num4[i] ^= QRMath.gexp(QRMath.glog(e.getAt(i)) + ratio);
       }
-      return qrPolynomial(num3, 0).mod(e);
+      return qrPolynomial(num4, 0).mod(e);
     };
     return _this;
   };
@@ -50375,9 +60648,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       const bufIndex = Math.floor(index / 8);
       return (_buffer[bufIndex] >>> 7 - index % 8 & 1) == 1;
     };
-    _this.put = function(num2, length) {
+    _this.put = function(num3, length) {
       for (let i = 0; i < length; i += 1) {
-        _this.putBit((num2 >>> length - i - 1 & 1) == 1);
+        _this.putBit((num3 >>> length - i - 1 & 1) == 1);
       }
     };
     _this.getLengthInBits = function() {
@@ -50421,11 +60694,11 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       }
     };
     const strToNum = function(s2) {
-      let num2 = 0;
+      let num3 = 0;
       for (let i = 0; i < s2.length; i += 1) {
-        num2 = num2 * 10 + chatToNum(s2.charAt(i));
+        num3 = num3 * 10 + chatToNum(s2.charAt(i));
       }
-      return num2;
+      return num3;
     };
     const chatToNum = function(c) {
       if ("0" <= c && c <= "9") {
@@ -50552,18 +60825,18 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   var byteArrayOutputStream = function() {
     const _bytes = [];
     const _this = {};
-    _this.writeByte = function(b2) {
-      _bytes.push(b2 & 255);
+    _this.writeByte = function(b3) {
+      _bytes.push(b3 & 255);
     };
     _this.writeShort = function(i) {
       _this.writeByte(i);
       _this.writeByte(i >>> 8);
     };
-    _this.writeBytes = function(b2, off, len) {
+    _this.writeBytes = function(b3, off, len) {
       off = off || 0;
-      len = len || b2.length;
+      len = len || b3.length;
       for (let i = 0; i < len; i += 1) {
-        _this.writeByte(b2[i + off]);
+        _this.writeByte(b3[i + off]);
       }
     };
     _this.writeString = function(s2) {
@@ -50594,8 +60867,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     let _length = 0;
     let _base64 = "";
     const _this = {};
-    const writeEncoded = function(b2) {
-      _base64 += String.fromCharCode(encode2(b2 & 63));
+    const writeEncoded = function(b3) {
+      _base64 += String.fromCharCode(encode2(b3 & 63));
     };
     const encode2 = function(n) {
       if (n < 0) {
@@ -50822,10 +61095,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         gif.setPixel(x2, y2, getPixel(x2, y2));
       }
     }
-    const b2 = byteArrayOutputStream();
-    gif.write(b2);
+    const b3 = byteArrayOutputStream();
+    gif.write(b3);
     const base64 = base64EncodeOutputStream();
-    const bytes = b2.toByteArray();
+    const bytes = b3.toByteArray();
     for (let i = 0; i < bytes.length; i += 1) {
       base64.writeByte(bytes[i]);
     }
@@ -50976,6 +61249,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
 
   // www/js/route_save.js
+  init_util();
   var PAST_METERS = 100;
   function plannedMeters(sess) {
     if (!sess) return 0;
@@ -51015,29 +61289,29 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const monthDay = date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
     return `${period} ${kind}, ${monthDay}`;
   }
-  function headingRad(a, b2) {
-    const mid = (a.lat + b2.lat) / 2 * Math.PI / 180;
-    const dx = (b2.lon - a.lon) * Math.cos(mid);
-    const dy = b2.lat - a.lat;
+  function headingRad(a, b3) {
+    const mid = (a.lat + b3.lat) / 2 * Math.PI / 180;
+    const dx = (b3.lon - a.lon) * Math.cos(mid);
+    const dy = b3.lat - a.lat;
     return Math.atan2(dx, dy);
   }
-  function turnDeg(a, b2, c) {
-    let d2 = headingRad(b2, c) - headingRad(a, b2);
+  function turnDeg(a, b3, c) {
+    let d2 = headingRad(b3, c) - headingRad(a, b3);
     while (d2 > Math.PI) d2 -= 2 * Math.PI;
     while (d2 < -Math.PI) d2 += 2 * Math.PI;
     return Math.abs(d2 * 180 / Math.PI);
   }
-  function perpMeters(p, a, b2) {
-    const midLat = (a.lat + b2.lat) / 2 * Math.PI / 180;
+  function perpMeters(p, a, b3) {
+    const midLat = (a.lat + b3.lat) / 2 * Math.PI / 180;
     const x2 = (lng) => lng * Math.cos(midLat);
     const ax = x2(a.lon), ay = a.lat;
-    const bx = x2(b2.lon), by = b2.lat;
+    const bx = x2(b3.lon), by = b3.lat;
     const px = x2(p.lon), py = p.lat;
     const dx = bx - ax, dy = by - ay;
     const len2 = dx * dx + dy * dy;
     let t = len2 === 0 ? 0 : ((px - ax) * dx + (py - ay) * dy) / len2;
     t = Math.max(0, Math.min(1, t));
-    const q2 = { lat: a.lat + (b2.lat - a.lat) * t, lon: a.lon + (b2.lon - a.lon) * t };
+    const q2 = { lat: a.lat + (b3.lat - a.lat) * t, lon: a.lon + (b3.lon - a.lon) * t };
     return haversineMeters(p, q2);
   }
   function douglasPeucker(points, epsilon) {
@@ -51045,9 +61319,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     let maxD = 0;
     let idx = 0;
     const a = points[0];
-    const b2 = points[points.length - 1];
+    const b3 = points[points.length - 1];
     for (let i = 1; i < points.length - 1; i++) {
-      const d2 = perpMeters(points[i], a, b2);
+      const d2 = perpMeters(points[i], a, b3);
       if (d2 > maxD) {
         maxD = d2;
         idx = i;
@@ -51058,7 +61332,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       const right = douglasPeucker(points.slice(idx), epsilon);
       return left.slice(0, -1).concat(right);
     }
-    return [a, b2];
+    return [a, b3];
   }
   function simplifyTrackToPins(track, { turnDeg: turn = 40, minSpacing = 25, dpMeters = 16, keyEvery = 350 } = {}) {
     const raw = (track || []).map((p) => ({ lat: p.lat, lon: p.lon })).filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lon));
@@ -51097,8 +61371,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       role: i === 0 ? "start" : i === simplified.length - 1 ? "end" : "via"
     }));
   }
-  function almostSame(a, b2, meters = 8) {
-    return a && b2 && haversineMeters(a, b2) < meters;
+  function almostSame(a, b3, meters = 8) {
+    return a && b3 && haversineMeters(a, b3) < meters;
   }
   function snapPinsToGraph(pins, graph, maxSnap = 80) {
     if (!graph || !pins || !pins.length) return { pins: (pins || []).map((p) => ({ ...p })), snapped: 0 };
@@ -51161,13 +61435,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     return pts.slice(-1);
   }
-  function courseLine(course) {
+  function courseLine2(course) {
     if (course && course.path && course.path.length >= 2) return course.path.map((p) => ({ lat: p.lat, lon: p.lon }));
     if (course && course.pins && course.pins.length >= 2) return course.pins.map((p) => ({ lat: p.lat, lon: p.lon }));
     return [];
   }
   function extendCourseWithExtra(course, track, sess, graph = null) {
-    const line = courseLine(course);
+    const line = courseLine2(course);
     const cutAt = sess && sess.goalCompleteMeters != null ? sess.goalCompleteMeters : plannedMeters(sess || { coursePath: line, coursePins: course && course.pins, target: sess && sess.target, distanceMeters: 0 });
     const extra = extraTrackAfter(track, cutAt);
     const built = routeFromTrack(extra, graph);
@@ -51214,16 +61488,26 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     cal: startOfDay(/* @__PURE__ */ new Date()),
     selectedDay: isoDate(/* @__PURE__ */ new Date()),
     openActId: null,
-    startType: "walk",
+    startType: loadLastSport(),
+    // heldpath-hook: bike — default to the last sport
     hideNav: false,
     builderRoute: null,
     straightOverrides: /* @__PURE__ */ new Set(),
     lockWalkGraph: false,
     findingPaths: false,
     builderSheetExpanded: false,
-    pathMode: "on"
+    pathMode: "on",
+    /* heldpath-hook: routes-heatmap */
+    insightsSport: "all",
+    insightsRange: "all",
+    insightsGroupId: null,
+    insightsSuggestion: null,
+    insightsSuggestionMeta: null,
+    insightsBusy: false,
+    insightsSaved: ""
+    /* heldpath-hook: routes-heatmap end */
   };
-  var $4 = (id) => document.getElementById(id);
+  var $6 = (id) => document.getElementById(id);
   var params = new URLSearchParams(location.search);
   function persist() {
     saveState(state2);
@@ -51256,14 +61540,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (!s2) return;
     if (shouldPromptForgot(s2)) {
       const copy = forgotCopy(stillForMs(s2));
-      if ($4("forgot-title")) $4("forgot-title").textContent = copy.title;
-      if ($4("forgot-body")) $4("forgot-body").textContent = copy.body;
+      if ($6("forgot-title")) $6("forgot-title").textContent = copy.title;
+      if ($6("forgot-body")) $6("forgot-body").textContent = copy.body;
       openSheet("sheet-forgot");
       return;
     }
     if (stillForMs(s2) < 3e4) {
       noteForgotMoved(s2);
-      const sheet = $4("sheet-forgot");
+      const sheet = $6("sheet-forgot");
       if (sheet && sheet.classList.contains("open")) closeSheet("sheet-forgot");
     }
   }
@@ -51276,9 +61560,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function showResumeSheet(snap) {
     ui2.pendingResume = snap;
     const copy = resumePromptCopy(snap, units2());
-    if ($4("resume-title")) $4("resume-title").textContent = copy.title;
-    if ($4("resume-body")) $4("resume-body").textContent = copy.body;
-    if ($4("resume-stats")) $4("resume-stats").textContent = copy.stats;
+    if ($6("resume-title")) $6("resume-title").textContent = copy.title;
+    if ($6("resume-body")) $6("resume-body").textContent = copy.body;
+    if ($6("resume-stats")) $6("resume-stats").textContent = copy.stats;
     const path = snap && snap.session && (snap.session.track || snap.session.coursePath || snap.session.coursePins);
     if (path && path.length) {
       try {
@@ -51338,23 +61622,19 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function units2() {
     return state2.settings.units || "mi";
   }
-  function healthFieldsText(activity) {
-    const h2 = activity && activity.health;
-    if (!h2) return "";
-    const bits2 = [];
-    if (Number.isFinite(h2.steps)) bits2.push(`${h2.steps.toLocaleString()} steps`);
-    if (Number.isFinite(h2.calories)) bits2.push(`${Math.round(h2.calories).toLocaleString()} cal`);
-    return bits2.join(" \xB7 ");
-  }
   function sourceLabel(activity) {
     if (!activity || !activity.source) return "Tracked on this phone";
     if (activity.source === "watch") return "Imported from a watch";
     if (activity.source === "health") return "From the health app";
+    if (activity.source === "import") {
+      const fmt = String(activity.importFormat || "").toUpperCase();
+      return fmt ? `Imported ${fmt} file` : "Imported from a file";
+    }
     if (activity.source === "indoor") return indoorSourceLabel();
     return "Tracked on this phone";
   }
   async function refreshHealthStatus() {
-    const note = $4("health-note");
+    const note = $6("health-note");
     if (!note) return;
     if (!state2.settings.healthOptIn) {
       note.textContent = "Off. Steps and calories always come from your phone's health app, never from Heldpath. Turn this on when you want workouts written to Health Connect or Apple Health.";
@@ -51373,24 +61653,31 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     document.querySelectorAll(".screen").forEach((el) => {
       el.classList.toggle("active", el.dataset.screen === name);
     });
-    const mapScreens = /* @__PURE__ */ new Set(["today", "tracking", "builder"]);
-    $4("map").style.visibility = mapScreens.has(name) ? "visible" : "hidden";
-    if ($4("map-tools")) $4("map-tools").hidden = !mapScreens.has(name);
+    const mapScreens = /* @__PURE__ */ new Set(["today", "tracking", "builder", "summary-details", "insights"]);
+    $6("map").style.visibility = mapScreens.has(name) ? "visible" : "hidden";
+    if ($6("map-tools")) $6("map-tools").hidden = !mapScreens.has(name) || name === "insights";
     document.body.dataset.screen = name;
     document.body.classList.toggle("on-map-screen", mapScreens.has(name));
-    $4("tab-bar").style.display = name === "lock" || ui2.hideNav ? "none" : "grid";
+    $6("tab-bar").style.display = name === "lock" || ui2.hideNav ? "none" : "grid";
     if (mapScreens.has(name)) {
       requestAnimationFrame(() => resizeMap());
-      if (name === "builder") startBuilderLocation({ center: false });
+      if (name === "insights") paintInsightsMap();
+      else if (name === "builder") startBuilderLocation({ center: false });
       else maybeStartLiveLocation();
       paintMapStyleButton();
     } else if (typeof stopLocationWatch === "function" && !locationWatchActive()) {
     }
+    if (name !== "insights") {
+      try {
+        clearHeatmap(getMap());
+      } catch {
+      }
+    }
   }
   function setTab(tab) {
     ui2.tab = tab;
-    document.querySelectorAll("#tab-bar .tab").forEach((b2) => {
-      b2.classList.toggle("active", b2.dataset.tab === tab);
+    document.querySelectorAll("#tab-bar .tab").forEach((b3) => {
+      b3.classList.toggle("active", b3.dataset.tab === tab);
     });
     if (tab === "today") {
       if (getSession()) showScreen("tracking");
@@ -51405,16 +61692,16 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     document.querySelectorAll(".sheet-back.open").forEach((el) => {
       if (el.id !== id) el.classList.remove("open");
     });
-    $4(id).classList.add("open");
+    $6(id).classList.add("open");
   }
   function closeSheet(id) {
-    $4(id).classList.remove("open");
+    $6(id).classList.remove("open");
   }
   function courseById2(id) {
     return state2.courses.find((c) => c.id === id);
   }
   function renderToday() {
-    const banner = $4("map-banner");
+    const banner = $6("map-banner");
     if (banner && !ui2.keepMapBanner) banner.hidden = true;
   }
   function playQuietCompleteAlert() {
@@ -51450,16 +61737,16 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function paintCompletePrompt(sess, rem) {
     const awaiting = awaitingKeepGoing(sess);
-    const banner = $4("track-complete-banner");
-    const text = $4("track-complete-text");
+    const banner = $6("track-complete-banner");
+    const text = $6("track-complete-text");
     if (banner) {
       banner.hidden = !awaiting;
       banner.classList.toggle("show", awaiting);
     }
     if (text && awaiting) text.textContent = completePromptCopy(sess, rem || courseRemaining(sess));
-    const live = $4("lock-actions-live");
-    const done = $4("lock-actions-complete");
-    const hud = $4("track-live-actions");
+    const live = $6("lock-actions-live");
+    const done = $6("lock-actions-complete");
+    const hud = $6("track-live-actions");
     if (live) live.hidden = !!awaiting;
     if (done) done.hidden = !awaiting;
     if (hud) hud.hidden = !!awaiting;
@@ -51477,10 +61764,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (!sess) return;
     const rem = courseRemaining(sess);
     const onCourse = rem.onCourse;
-    $4("track-kicker").textContent = `${sess.type === "run" ? "Run" : "Walk"}${sess.courseName ? " \xB7 " + sess.courseName : ""}`;
-    const lap = $4("track-lap");
-    const leftLbl = $4("track-left-lbl");
-    const etaLbl = $4("track-eta-lbl");
+    $6("track-kicker").textContent = `${sportLabel(sess.type)}${sess.courseName ? " \xB7 " + sess.courseName : ""}`;
+    const lap = $6("track-lap");
+    const leftLbl = $6("track-left-lbl");
+    const etaLbl = $6("track-eta-lbl");
     paintCompletePrompt(sess, rem);
     if (rem.complete) {
       if (lap) {
@@ -51488,12 +61775,12 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         lap.hidden = false;
         lap.textContent = rem.extraMeters > 8 ? `${kind} \xB7 +${formatDistance(rem.extraMeters, sess.units)} extra` : kind;
       }
-      $4("track-remain-wrap").style.display = "grid";
-      $4("track-left").textContent = `+${formatDistance(rem.extraMeters || 0, sess.units)}`;
+      $6("track-remain-wrap").style.display = "grid";
+      $6("track-left").textContent = `+${formatDistance(rem.extraMeters || 0, sess.units)}`;
       if (leftLbl) leftLbl.textContent = "extra";
-      $4("track-eta").textContent = formatDuration(rem.completeSec != null ? rem.completeSec : 0);
+      $6("track-eta").textContent = formatDuration(rem.completeSec != null ? rem.completeSec : 0);
       if (etaLbl) etaLbl.textContent = sess.target && sess.target.targetMeters > 0 ? "goal time" : "course time";
-      $4("track-done").textContent = formatDistance(sess.distanceMeters, sess.units);
+      $6("track-done").textContent = formatDistance(sess.distanceMeters, sess.units);
     } else {
       if (lap) {
         if (rem.lapLabel) {
@@ -51504,42 +61791,43 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
           lap.textContent = "";
         }
       }
-      $4("track-remain-wrap").style.display = onCourse ? "grid" : "none";
+      $6("track-remain-wrap").style.display = onCourse ? "grid" : "none";
       if (leftLbl) leftLbl.textContent = "left";
       if (etaLbl) etaLbl.textContent = "remaining";
       if (onCourse) {
-        $4("track-left").textContent = formatDistance(rem.remaining, sess.units);
-        $4("track-eta").textContent = rem.remaining <= 8 ? "Done" : formatEta(etaSeconds(rem.remaining, activityMph(sess.type)));
+        $6("track-left").textContent = formatDistance(rem.remaining, sess.units);
+        $6("track-eta").textContent = rem.remaining <= 8 ? "Done" : formatEta(etaSeconds(rem.remaining, activityMph(sess.type)));
       }
-      $4("track-done").textContent = formatDistance(onCourse ? rem.traveled : sess.distanceMeters, sess.units);
+      $6("track-done").textContent = formatDistance(onCourse ? rem.traveled : sess.distanceMeters, sess.units);
     }
     maybeAnnounceComplete(sess, rem);
-    $4("track-time").textContent = formatDuration(sess.elapsedSec);
-    $4("track-pace").textContent = formatPace(sess.distanceMeters, sess.elapsedSec, sess.units);
-    $4("btn-pause").textContent = sess.paused ? "Resume" : "Pause";
-    const pauseNote = $4("track-pause-note");
+    $6("track-time").textContent = formatDuration(sess.elapsedSec);
+    $6("track-pace").textContent = formatSportRate(sess.type, sess.distanceMeters, sess.elapsedSec, sess.units);
+    if ($6("track-pace-lbl")) $6("track-pace-lbl").textContent = rateLabel(sess.type);
+    $6("btn-pause").textContent = sess.paused ? "Resume" : "Pause";
+    const pauseNote = $6("track-pause-note");
     if (pauseNote) {
       const auto = !!(sess.paused && sess.pauseReason === "auto");
       pauseNote.hidden = !auto;
     }
-    const lowNote = $4("track-lowpower-note");
+    const lowNote = $6("track-lowpower-note");
     if (lowNote) {
       const on = !!(sess.lowPower || isLowPowerEnabled());
       lowNote.hidden = !on;
     }
     updateOffRoute(sess);
-    const startNote = $4("track-start-note");
+    const startNote = $6("track-start-note");
     if (startNote) {
       const copy = startDetectCopy(sess);
       startNote.hidden = !copy;
       if (copy) startNote.textContent = copy;
     }
-    const offNote = $4("track-offroute-note");
+    const offNote = $6("track-offroute-note");
     if (offNote) {
       offNote.hidden = !sess.offRoute;
       if (sess.offRoute) offNote.textContent = offRouteCopy(sess.offRouteMeters, sess.units);
     }
-    $4("lock-body").textContent = liveNotification(sess);
+    $6("lock-body").textContent = liveNotification(sess);
     paintSectorFlash(sess);
   }
   function courseForSession(sess) {
@@ -51564,10 +61852,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function makeSectorFixture() {
     const a = { lat: 41.85, lon: -87.65, role: "start" };
-    const b2 = { ...geodesicDirect(a, 90, 0.5 * METERS_PER_MILE), role: "via" };
-    const c = { ...geodesicDirect(b2, 90, 1.7 * METERS_PER_MILE), role: "via" };
+    const b3 = { ...geodesicDirect(a, 90, 0.5 * METERS_PER_MILE), role: "via" };
+    const c = { ...geodesicDirect(b3, 90, 1.7 * METERS_PER_MILE), role: "via" };
     const d2 = { ...geodesicDirect(c, 90, 0.8 * METERS_PER_MILE), role: "end" };
-    const pins = [a, b2, c, d2];
+    const pins = [a, b3, c, d2];
     const course = newCourse({ name: "Even-pace loop", pins });
     course.goal = goalFromFinishTime(30 * 60, course);
     course.sectorPbs = {
@@ -51588,7 +61876,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     };
   }
   function paintSectorFlash(sess) {
-    const el = $4("sector-flash");
+    const el = $6("sector-flash");
     if (!el) return;
     const course = courseForSession(sess);
     const goal = course && resolveGoal(course);
@@ -51619,116 +61907,51 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     el.hidden = false;
     el.classList.remove("green", "red", "purple");
     if (flash.color) el.classList.add(flash.color);
-    if ($4("sector-flash-label")) $4("sector-flash-label").textContent = flash.label || "";
-    if ($4("sector-flash-main")) $4("sector-flash-main").textContent = flash.sectorLine;
-    const bestEl = $4("sector-flash-best");
+    if ($6("sector-flash-label")) $6("sector-flash-label").textContent = flash.label || "";
+    if ($6("sector-flash-main")) $6("sector-flash-main").textContent = flash.sectorLine;
+    const bestEl = $6("sector-flash-best");
     if (bestEl) {
       bestEl.hidden = !flash.bestLine;
       bestEl.textContent = flash.bestLine || "";
       bestEl.classList.toggle("purple", !!(flash.showBest && row.isNewPb));
     }
-    if ($4("sector-flash-cum")) $4("sector-flash-cum").textContent = [flash.cumulativeLine, flash.bestPossibleLine].filter(Boolean).join(" \xB7 ");
+    if ($6("sector-flash-cum")) $6("sector-flash-cum").textContent = [flash.cumulativeLine, flash.bestPossibleLine].filter(Boolean).join(" \xB7 ");
     ui2.sectorFlashSticky = true;
     if (course.sectorCallout) maybeCallout(flash.spoken, { audio: true, haptic: true });
-  }
-  function paintSectorLineEl(el, label, target, you, deltaSec, color) {
-    el.textContent = "";
-    const tgt = Number(target) > 0 ? formatSectorTime(target) : "\u2014";
-    const youTxt = Number(you) > 0 ? formatSectorTime(you) : "\u2014";
-    el.appendChild(document.createTextNode(`${label} ${tgt} | You ${youTxt}`));
-    const delta = Number(you) > 0 && Number(target) > 0 && deltaSec != null ? formatSectorDelta(deltaSec) : "";
-    if (delta) {
-      el.appendChild(document.createTextNode(" "));
-      const s2 = document.createElement("span");
-      s2.className = "sector-delta " + (color || "");
-      s2.textContent = delta;
-      el.appendChild(s2);
-    }
-  }
-  function renderSectorTable(root, course, act) {
-    if (!root) return;
-    root.innerHTML = "";
-    const goal = course && resolveGoal(course);
-    if (!course || !goal || !act) return;
-    const times = sectorTimesFromTrack(course, act.track || []);
-    const targets = sectorTargets(course, goal);
-    const pbs = readSectorPbs(course);
-    const histBefore = hasSectorHistory(course);
-    const compared = compareSectors({ times, targets, pbs, hasHistory: histBefore });
-    const applied = applySectorResult(course, times, { activityId: act.id, at: act.endedAt });
-    const hist = hasSectorHistory(course);
-    const bp = bestPossibleSec(readSectorPbs(course), targets);
-    const table = document.createElement("div");
-    table.className = "sector-table";
-    table.setAttribute("data-testid", "sector-table");
-    let cum = 0;
-    compared.forEach((row, i) => {
-      const appliedRow = applied && applied.rows && applied.rows[i];
-      const isPb = !!(appliedRow && appliedRow.isNewPb);
-      const block = document.createElement("div");
-      block.className = "sector-block";
-      block.dataset.testid = "sector-block-" + (i + 1);
-      const lab = document.createElement("div");
-      lab.className = "sector-block-label";
-      lab.textContent = "S" + (i + 1);
-      block.appendChild(lab);
-      const goalLine = document.createElement("div");
-      goalLine.className = "sector-line";
-      goalLine.dataset.testid = "sector-goal-" + (i + 1);
-      paintSectorLineEl(goalLine, "Goal", row.target, row.time, row.vsGoal, row.colorVsGoal);
-      block.appendChild(goalLine);
-      if (histBefore && row.pb > 0) {
-        const bestLine = document.createElement("div");
-        bestLine.className = "sector-line";
-        bestLine.dataset.testid = "sector-best-" + (i + 1);
-        paintSectorLineEl(bestLine, "Best", row.pb, row.time, row.vsPb, isPb ? "purple" : row.colorVsPb);
-        block.appendChild(bestLine);
-      }
-      if (row.vsGoal != null) cum += row.vsGoal;
-      table.appendChild(block);
-    });
-    root.appendChild(table);
-    const foot = document.createElement("p");
-    foot.className = "tiny";
-    foot.style.marginTop = "12px";
-    const bits2 = [`Total ${formatSectorDelta(cum)}`];
-    if (bp != null) bits2.push(`Best possible ${formatSectorTime(bp)}`);
-    foot.textContent = bits2.join(" \xB7 ") + ". Even pace from the goal time and the full route distance.";
-    root.appendChild(foot);
   }
   function paintCourseGoalFields(course) {
     if (!course) return;
     const goal = course.goal || {};
-    if ($4("course-goal-time")) {
-      $4("course-goal-time").value = goal.finishInput || (goal.finishSec ? formatDuration(goal.finishSec) : "");
+    if ($6("course-goal-time")) {
+      $6("course-goal-time").value = goal.finishInput || (goal.finishSec ? formatDuration(goal.finishSec) : "");
     }
-    if ($4("course-goal-pace")) {
+    if ($6("course-goal-pace")) {
       const unit = units2();
-      if ($4("course-goal-pace-unit")) $4("course-goal-pace-unit").textContent = unit === "km" ? "/km" : "/mi";
-      $4("course-goal-pace").value = goal.paceInput || "";
+      if ($6("course-goal-pace-unit")) $6("course-goal-pace-unit").textContent = unit === "km" ? "/km" : "/mi";
+      $6("course-goal-pace").value = goal.paceInput || "";
     }
-    if ($4("course-sector-callout")) $4("course-sector-callout").checked = !!course.sectorCallout;
-    if ($4("course-goal-status")) {
+    if ($6("course-sector-callout")) $6("course-sector-callout").checked = !!course.sectorCallout;
+    if ($6("course-goal-status")) {
       const g = resolveGoal(course);
-      $4("course-goal-status").textContent = g ? "Goal saved. Sector targets use even pace and stay free." : "No goal yet. Add a finish time or a pace \u2014 free.";
+      $6("course-goal-status").textContent = g ? "Goal saved. Sector targets use even pace and stay free." : "No goal yet. Add a finish time or a pace \u2014 free.";
     }
   }
   function saveCourseGoal() {
     const course = (state2.courses || []).find((c) => c.id === ui2.courseId);
     if (!course) return;
-    const finish = parseFinishInput($4("course-goal-time") && $4("course-goal-time").value || "");
-    const paceRaw = $4("course-goal-pace") && $4("course-goal-pace").value || "";
+    const finish = parseFinishInput($6("course-goal-time") && $6("course-goal-time").value || "");
+    const paceRaw = $6("course-goal-pace") && $6("course-goal-pace").value || "";
     const pace = parsePaceInput(paceRaw);
     let goal = null;
     if (finish) {
       goal = goalFromFinishTime(finish, course);
-      if (goal) goal.finishInput = String($4("course-goal-time").value || "").trim();
+      if (goal) goal.finishInput = String($6("course-goal-time").value || "").trim();
     } else if (pace) {
       goal = goalFromPace(pace, course, units2());
       if (goal) goal.paceInput = String(paceRaw).trim();
     }
     course.goal = goal;
-    course.sectorCallout = !!($4("course-sector-callout") && $4("course-sector-callout").checked);
+    course.sectorCallout = !!($6("course-sector-callout") && $6("course-sector-callout").checked);
     course.updatedAt = (/* @__PURE__ */ new Date()).toISOString();
     persist();
     paintCourseGoalFields(course);
@@ -51835,7 +62058,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     } catch {
     }
     const panel = document.querySelector(".builder-panel");
-    const mapEl = $4("map");
+    const mapEl = $6("map");
     const vh = mapEl && mapEl.getBoundingClientRect().height || window.innerHeight || 800;
     let bottom = 160;
     if (panel) {
@@ -51846,7 +62069,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     fitBounds(coords, { top: 80, bottom, left: 56, right: 56, maxZoom: extra.maxZoom || 16 });
   }
   function paintEndPointButton() {
-    const btn = $4("btn-end-point-pin");
+    const btn = $6("btn-end-point-pin");
     if (!btn) return;
     const on = !!(ui2.builder && ui2.builder.endMode);
     btn.setAttribute("aria-pressed", on ? "true" : "false");
@@ -51858,14 +62081,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (!st.pins[index]) return;
     ui2.pinActionIndex = index;
     const label = pinLabel2(st, index);
-    if ($4("pin-action-title")) $4("pin-action-title").textContent = label || `Pin ${index + 1}`;
+    if ($6("pin-action-title")) $6("pin-action-title").textContent = label || `Pin ${index + 1}`;
     const shared = sharedPinIndices(st, index);
-    const sub = $4("pin-action-sub");
+    const sub = $6("pin-action-sub");
     if (sub) {
       sub.textContent = shared.length > 1 ? "This pin is visited more than once. Delete one stop number, set this place as the end, or add another visit." : "Delete this pin, set it as the end, or add it as another stop.";
     }
-    const deletes = $4("pin-action-deletes");
-    const singleBtn = $4("btn-pin-delete");
+    const deletes = $6("pin-action-deletes");
+    const singleBtn = $6("btn-pin-delete");
     if (deletes) deletes.innerHTML = "";
     if (shared.length > 1) {
       if (singleBtn) singleBtn.hidden = true;
@@ -51884,12 +62107,12 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       singleBtn.hidden = false;
       singleBtn.textContent = "Delete this pin";
     }
-    const setEnd = $4("btn-pin-set-end");
-    const removeEndBtn = $4("btn-pin-remove-end");
+    const setEnd = $6("btn-pin-set-end");
+    const removeEndBtn = $6("btn-pin-remove-end");
     if (setEnd) setEnd.hidden = st.endIndex === index;
     if (removeEndBtn) removeEndBtn.hidden = st.endIndex !== index;
-    const onBtn = $4("btn-pin-path-on");
-    const offBtn = $4("btn-pin-path-off");
+    const onBtn = $6("btn-pin-path-on");
+    const offBtn = $6("btn-pin-path-off");
     const mode = normalizePathMode(st.pins[index].pathMode);
     if (onBtn) {
       onBtn.setAttribute("aria-pressed", mode === "on" ? "true" : "false");
@@ -51944,7 +62167,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     paintPathModeButton();
   }
   function paintPathModeButton() {
-    const btn = $4("btn-path-mode");
+    const btn = $6("btn-path-mode");
     if (!btn) return;
     const off = isOffPathMode(currentPathMode());
     btn.textContent = off ? "Off path" : "On path";
@@ -51954,8 +62177,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     btn.classList.toggle("on-path", !off);
   }
   function hidePathModeExplainer({ seen = false } = {}) {
-    const coach = $4("path-mode-coach");
-    const btn = $4("btn-path-mode");
+    const coach = $6("path-mode-coach");
+    const btn = $6("btn-path-mode");
     if (coach) coach.hidden = true;
     if (btn) btn.classList.remove("path-mode-pulse");
     if (seen) markPathModeExplainerSeen();
@@ -51965,10 +62188,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       hidePathModeExplainer();
       return;
     }
-    const copy = $4("path-mode-coach-copy");
+    const copy = $6("path-mode-coach-copy");
     if (copy) copy.textContent = PATH_MODE_EXPLAINER_BODY;
-    const coach = $4("path-mode-coach");
-    const btn = $4("btn-path-mode");
+    const coach = $6("path-mode-coach");
+    const btn = $6("btn-path-mode");
     if (coach) coach.hidden = false;
     if (btn) btn.classList.add("path-mode-pulse");
   }
@@ -51981,12 +62204,29 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function maybeShowBuilderExplainer({ force = false } = {}) {
     if (!force && isExplainerSeen()) return;
-    if ($4("builder-help-title")) $4("builder-help-title").textContent = EXPLAINER_TITLE;
-    if ($4("builder-help-copy")) $4("builder-help-copy").textContent = EXPLAINER_BODY;
+    if ($6("builder-help-title")) $6("builder-help-title").textContent = EXPLAINER_TITLE;
+    if ($6("builder-help-copy")) $6("builder-help-copy").textContent = EXPLAINER_BODY;
     openSheet("sheet-builder-help");
   }
   var LOADING_PATHS = "Loading paths\u2026";
   var builderGraphToken = 0;
+  function rideMode() {
+    return normalizeSport(ui2.startType) === "ride";
+  }
+  async function ensureSportGraph(points, opts = {}) {
+    if (rideMode()) {
+      const bike = await ensureBikeGraph(points, opts);
+      if (bike) return bike;
+    }
+    return ensureWalkGraph(points, opts);
+  }
+  async function ensureSportLoopGraph(center, meters, opts = {}) {
+    if (rideMode()) {
+      const bike = await ensureBikeLoopGraph(center, meters, opts);
+      if (bike) return bike;
+    }
+    return ensureLoopGraph(center, meters, opts);
+  }
   function maybeEnsureBuilderGraph(pins) {
     if (!pins || pins.length < 1) return;
     if (ui2.lockWalkGraph) return;
@@ -51994,13 +62234,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (current && graphCoversPoints(current, pins)) return;
     const token = ++builderGraphToken;
     ui2.findingPaths = true;
-    const note = $4("route-fallback-note");
+    const note = $6("route-fallback-note");
     if (note) {
       note.hidden = false;
       note.classList.add("finding");
       note.textContent = LOADING_PATHS;
     }
-    ensureWalkGraph(pins, {
+    ensureSportGraph(pins, {
       lockWalkGraph: !!ui2.lockWalkGraph,
       onStatus: () => {
       }
@@ -52030,7 +62270,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (!course || !course.pins || course.pins.length < 2) return course;
     if (course.path && course.path.length >= 2 && !course.straightLine) return course;
     try {
-      const g = await ensureWalkGraph(course.pins);
+      const g = await ensureSportGraph(course.pins);
       const routed = routeCourse(g, ingestPins(course.pins), {
         straightOverrides: course.straightOverrides
       });
@@ -52109,9 +62349,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (typeof resolveLegLabelCollisions === "function") resolveLegLabelCollisions();
   }
   function paintBuilderLiveBar(routed, st) {
-    const bar = $4("builder-live-bar");
-    const distEl = $4("builder-live-distance");
-    const etaEl = $4("builder-live-eta");
+    const bar = $6("builder-live-bar");
+    const distEl = $6("builder-live-distance");
+    const etaEl = $6("builder-live-eta");
     const pins = st && st.pins || [];
     if (!bar) return;
     if (pins.length < 2 || !routed) {
@@ -52166,9 +62406,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return dest && dest.index != null ? dest.index : null;
   }
   function paintRouteHint(routed, st, waiting) {
-    const wrap = $4("route-detour-hint");
-    const note = $4("route-fallback-note");
-    const btn = $4("btn-switch-pin-green");
+    const wrap = $6("route-detour-hint");
+    const note = $6("route-fallback-note");
+    const btn = $6("btn-switch-pin-green");
     if (note) note.classList.remove("finding");
     ui2.hintDestPinIndex = null;
     if (!wrap || !note) return;
@@ -52206,14 +62446,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const st = activeBuilder();
     const pins = st.pins || [];
     maybeEnsureBuilderGraph(pins);
-    const hint = $4("builder-hint");
+    const hint = $6("builder-hint");
     if (hint) {
       hint.textContent = builderHint(st);
       hint.hidden = true;
     }
     paintEndPointButton();
-    const box = $4("builder-legs");
-    const note = $4("route-fallback-note");
+    const box = $6("builder-legs");
+    const note = $6("route-fallback-note");
     const waiting = !!ui2.findingPaths;
     let routed = null;
     if (waiting) {
@@ -52223,7 +62463,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     } else {
       ui2.builderRoute = null;
     }
-    const warnings = $4("route-warnings");
+    const warnings = $6("route-warnings");
     if (note) note.classList.remove("finding");
     paintRouteHint(routed, st, waiting);
     if (warnings) {
@@ -52233,7 +62473,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     paintBuilderLiveBar(routed, st);
     if (box) {
       box.innerHTML = "";
-      const toggle = $4("btn-legs-toggle");
+      const toggle = $6("btn-legs-toggle");
       if (waiting && pins.length >= 2) {
         if (toggle) toggle.hidden = true;
         box.classList.remove("is-collapsed");
@@ -52288,7 +62528,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         }
       }
     }
-    if ($4("btn-save-course")) $4("btn-save-course").disabled = !canSave(st);
+    if ($6("btn-save-course")) $6("btn-save-course").disabled = !canSave(st);
     clearOverlays();
     clearMarkers();
     if (!waiting) {
@@ -52300,7 +62540,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (!waiting) refreshBuilderElevation(line, { countedMeters: routed ? routed.meters : void 0 });
   }
   function renderCourses() {
-    const root = $4("courses-list");
+    const root = $6("courses-list");
     root.innerHTML = "";
     if (!state2.courses.length) {
       root.innerHTML = `<div class="empty card">
@@ -52326,17 +62566,17 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     ui2.courseId = course.id;
     if (course && course.pins && course.pins.length >= 2 && !(course.path && course.path.length >= 2)) {
       ensureCoursePath(course).then((updated) => {
-        if (ui2.courseId === course.id && updated && updated.path && $4("course-sub")) {
+        if (ui2.courseId === course.id && updated && updated.path && $6("course-sub")) {
           const len2 = courseMeters(updated);
-          $4("course-sub").textContent = `${formatDistance(len2, units2())} \xB7 ${formatEta(etaSeconds(len2, 3))} walk \xB7 ${formatEta(etaSeconds(len2, 6))} run`;
+          $6("course-sub").textContent = `${formatDistance(len2, units2())} \xB7 ${formatEta(etaSeconds(len2, 3))} walk \xB7 ${formatEta(etaSeconds(len2, 6))} run`;
           renderCourses();
         }
       });
     }
     const len = courseMeters(course);
-    $4("course-title").textContent = course.name;
-    $4("course-sub").textContent = `${formatDistance(len, units2())} \xB7 ${formatEta(etaSeconds(len, 3))} walk \xB7 ${formatEta(etaSeconds(len, 6))} run`;
-    const box = $4("course-legs");
+    $6("course-title").textContent = course.name;
+    $6("course-sub").textContent = `${formatDistance(len, units2())} \xB7 ${formatEta(etaSeconds(len, 3))} walk \xB7 ${formatEta(etaSeconds(len, 6))} run`;
+    const box = $6("course-legs");
     box.innerHTML = "";
     const rows = courseLegSummary(course);
     if (!rows.length) {
@@ -52380,10 +62620,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     ui2.selectedDay = today.getFullYear() === ui2.cal.getFullYear() && today.getMonth() === ui2.cal.getMonth() ? isoDate(today) : isoDate(new Date(ui2.cal.getFullYear(), ui2.cal.getMonth(), 1));
   }
   function renderCalendar() {
-    $4("cal-month").textContent = ui2.cal.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    $6("cal-month").textContent = ui2.cal.toLocaleDateString("en-US", { month: "long", year: "numeric" });
     renderCalendarView({
-      grid: $4("cal-grid"),
-      panel: $4("cal-day-panel"),
+      grid: $6("cal-grid"),
+      panel: $6("cal-day-panel"),
       activities: state2.activities,
       plans: state2.plans,
       courses: state2.courses,
@@ -52392,6 +62632,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       selectedDay: ui2.selectedDay,
       todayIso: isoDate(/* @__PURE__ */ new Date()),
       openActivityId: ui2.openActId,
+      /* heldpath-hook: routes-heatmap */
+      hillPace: !!state2.settings.hillPace,
+      /* heldpath-hook: goals-plans */
+      sport: ui2.calSport || "all",
+      onSport: (s2) => {
+        ui2.calSport = s2 === "ride" || s2 === "run" || s2 === "walk" ? s2 : "all";
+        renderCalendar();
+      },
       onSelectDay: (iso) => {
         ui2.selectedDay = iso;
         ui2.openActId = null;
@@ -52436,12 +62684,12 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return (/* @__PURE__ */ new Date(ui2.selectedDay + "T12:00:00")).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
   }
   function openSessionChoice() {
-    const sub = $4("session-choice-sub");
+    const sub = $6("session-choice-sub");
     if (sub) sub.textContent = `For ${selectedDayLabel()}.`;
     const hasRoutes = (state2.courses || []).some((c) => c && c.pins && c.pins.length >= 2);
-    const empty = $4("session-choice-empty");
+    const empty = $6("session-choice-empty");
     if (empty) empty.hidden = hasRoutes;
-    const useBtn = $4("btn-session-use-route");
+    const useBtn = $6("btn-session-use-route");
     if (useBtn) useBtn.disabled = !hasRoutes;
     openSheet("sheet-session-choice");
   }
@@ -52496,16 +62744,16 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (!plan) return;
     ui2.pendingGroupPlan = plan;
     const run = (state2.groupRuns || []).find((g) => g.id === plan.groupRunId);
-    const titleEl = $4("group-event-title");
+    const titleEl = $6("group-event-title");
     if (titleEl) titleEl.textContent = run && run.title || plan.courseName || "Group event";
-    const whenEl = $4("group-event-when");
+    const whenEl = $6("group-event-when");
     if (whenEl) whenEl.textContent = formatWhen(plan.startAt || run && run.startAt) || selectedDayLabel();
     const course = courseForGroupPlan(plan);
-    const courseEl = $4("group-event-course");
+    const courseEl = $6("group-event-course");
     if (courseEl) courseEl.textContent = course ? course.name : plan.courseName || "Route unavailable";
-    const note = $4("group-event-note");
+    const note = $6("group-event-note");
     if (note) note.textContent = "";
-    const openBtn = $4("btn-group-open-route");
+    const openBtn = $6("btn-group-open-route");
     if (openBtn) openBtn.disabled = !(course && course.pins && course.pins.length >= 2);
     openSheet("sheet-group-event");
   }
@@ -52513,7 +62761,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const plan = ui2.pendingGroupPlan;
     const course = courseForGroupPlan(plan);
     if (!course || !course.pins || course.pins.length < 2) {
-      const note = $4("group-event-note");
+      const note = $6("group-event-note");
       if (note) note.textContent = "This event has no route to open.";
       return;
     }
@@ -52521,7 +62769,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     closeSheet("sheet-group-event");
     setTab("today");
     showScreen("today");
-    if ($4("today-dock")) $4("today-dock").hidden = true;
+    if ($6("today-dock")) $6("today-dock").hidden = true;
     clearOverlays();
     clearMarkers();
     const line = course.path && course.path.length >= 2 ? course.path : course.pins;
@@ -52542,17 +62790,17 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         finish = `${formatEta(dur)} \xB7 finish around ${clock.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`;
       }
     }
-    if ($4("group-route-title")) $4("group-route-title").textContent = course.name || "Route";
-    if ($4("group-route-stats")) $4("group-route-stats").textContent = `${formatDistance(meters, units2())} \xB7 ${finish}`;
-    if ($4("group-route-pace-note")) {
-      $4("group-route-pace-note").textContent = usedRecent ? "Estimated finish uses your recent pace." : "Estimated finish uses the default walk or run pace.";
+    if ($6("group-route-title")) $6("group-route-title").textContent = course.name || "Route";
+    if ($6("group-route-stats")) $6("group-route-stats").textContent = `${formatDistance(meters, units2())} \xB7 ${finish}`;
+    if ($6("group-route-pace-note")) {
+      $6("group-route-pace-note").textContent = usedRecent ? "Estimated finish uses your recent pace." : "Estimated finish uses the default walk or run pace.";
     }
-    if ($4("group-route-note")) $4("group-route-note").textContent = "";
+    if ($6("group-route-note")) $6("group-route-note").textContent = "";
     openSheet("sheet-group-route");
   }
   function closeGroupRouteView() {
     closeSheet("sheet-group-route");
-    if ($4("today-dock")) $4("today-dock").hidden = false;
+    if ($6("today-dock")) $6("today-dock").hidden = false;
     try {
       clearOverlays();
       clearMarkers();
@@ -52576,7 +62824,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return existing || null;
   }
   function showMapBanner(text) {
-    const banner = $4("map-banner");
+    const banner = $6("map-banner");
     const copy = String(text || "");
     ui2.keepMapBanner = !!copy;
     if (!banner) return;
@@ -52587,7 +62835,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const plan = typeof planOrId === "string" ? (state2.plans || []).find((p) => p.id === planOrId) : planOrId;
     const course = courseForPlanSession(plan);
     if (!course || !course.pins || course.pins.length < 2) {
-      const note = $4("plan-create-note");
+      const note = $6("plan-create-note");
       if (note) note.textContent = AUTO_LOOP_FAIL_COPY;
       return;
     }
@@ -52595,7 +62843,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     closeSheet("sheet-plan-route");
     setTab("today");
     showScreen("today");
-    if ($4("today-dock")) $4("today-dock").hidden = true;
+    if ($6("today-dock")) $6("today-dock").hidden = true;
     clearOverlays();
     clearMarkers();
     const line = course.path && course.path.length >= 2 ? course.path : course.pins;
@@ -52608,19 +62856,19 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const type = plan && plan.activityType || "walk";
     const usedRecent = !!recentAveragePaceSecPerMeter(state2.activities || [], { type });
     const dur = estimateSessionSec(meters, type);
-    if ($4("plan-route-title")) $4("plan-route-title").textContent = course.name || "Plan loop";
-    if ($4("plan-route-stats")) $4("plan-route-stats").textContent = `${formatDistance(meters, units2())} \xB7 ${formatEta(dur)}`;
-    if ($4("plan-route-pace-note")) {
-      $4("plan-route-pace-note").textContent = usedRecent ? "Estimated finish uses your recent pace." : "Estimated finish uses the default walk or run pace.";
+    if ($6("plan-route-title")) $6("plan-route-title").textContent = course.name || "Plan loop";
+    if ($6("plan-route-stats")) $6("plan-route-stats").textContent = `${formatDistance(meters, units2())} \xB7 ${formatEta(dur)}`;
+    if ($6("plan-route-pace-note")) {
+      $6("plan-route-pace-note").textContent = usedRecent ? "Estimated finish uses your recent pace." : "Estimated finish uses the default walk or run pace.";
     }
-    if ($4("plan-route-note")) $4("plan-route-note").textContent = "";
-    const startBtn = $4("btn-plan-route-start");
+    if ($6("plan-route-note")) $6("plan-route-note").textContent = "";
+    const startBtn = $6("btn-plan-route-start");
     if (startBtn) startBtn.hidden = false;
     openSheet("sheet-plan-route");
   }
   function closePlanRouteView() {
     closeSheet("sheet-plan-route");
-    if ($4("today-dock")) $4("today-dock").hidden = false;
+    if ($6("today-dock")) $6("today-dock").hidden = false;
     try {
       clearOverlays();
       clearMarkers();
@@ -52634,7 +62882,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const pending = ui2.pendingPlanRoute;
     if (!pending || !pending.course) return;
     closeSheet("sheet-plan-route");
-    if ($4("today-dock")) $4("today-dock").hidden = false;
+    if ($6("today-dock")) $6("today-dock").hidden = false;
     const plan = pending.plan || {};
     startTracking(plan.activityType || "walk", pending.course, plan);
   }
@@ -52690,30 +62938,30 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       openSessionChoice();
       return;
     }
-    $4("sched-sub").textContent = `For ${selectedDayLabel()}.`;
-    const schedNote = $4("sched-conflict");
+    $6("sched-sub").textContent = `For ${selectedDayLabel()}.`;
+    const schedNote = $6("sched-conflict");
     if (schedNote) {
       const copy = conflictCopy(plansOnDate(state2.plans, ui2.selectedDay));
       schedNote.hidden = !copy;
       schedNote.textContent = copy;
     }
-    const sel = $4("sched-course");
+    const sel = $6("sched-course");
     sel.innerHTML = state2.courses.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join("");
     if (opt.courseId && state2.courses.some((c) => c.id === opt.courseId)) sel.value = opt.courseId;
     const updatePrev = () => {
       const c = courseById2(sel.value);
-      const type = $4("sched-type").value;
+      const type = $6("sched-type").value;
       if (!c) return;
       const len = courseMeters(c);
-      $4("sched-preview").textContent = `${formatDistance(len, units2())} \xB7 ${formatEta(etaSeconds(len, activityMph(type)))} estimated`;
+      $6("sched-preview").textContent = `${formatDistance(len, units2())} \xB7 ${formatEta(etaSeconds(len, activityMph(type)))} estimated`;
     };
     sel.onchange = updatePrev;
-    $4("sched-type").onchange = updatePrev;
+    $6("sched-type").onchange = updatePrev;
     updatePrev();
     openSheet("sheet-schedule");
   }
   function renderGoalsScreen() {
-    const root = $4("goals-list");
+    const root = $6("goals-list");
     if (!root) return;
     const items = state2.goals || [];
     const acts = state2.activities || [];
@@ -52729,14 +62977,16 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       parts.push(`<h3>${escapeHtml(title)}</h3>`);
       const prog = period ? periodGoalProgress(g, acts, { locale, units: units2() }) : oneShotGoalProgress(g, acts, { units: units2() });
       if (prog) parts.push(periodRingMarkup(prog, { testid: period ? "period-ring" : "goal-ring" }));
+      const gap = freeGoalGap(g, acts, { locale, units: units2() });
+      if (gap) parts.push(freeGoalGapMarkup(gap, { testid: "goal-gap" }));
       parts.push(`<p class="tiny">Always free. Your progress stays on this phone.</p>`);
       parts.push(`<button class="btn btn-secondary btn-goal-remove" data-id="${escapeHtml(g.id)}" style="width:100%;margin-top:8px">Remove</button>`);
       parts.push(`</div>`);
     }
     root.innerHTML = parts.join("");
-    root.querySelectorAll(".btn-goal-remove").forEach((b2) => {
-      b2.addEventListener("click", () => {
-        const id = b2.getAttribute("data-id");
+    root.querySelectorAll(".btn-goal-remove").forEach((b3) => {
+      b3.addEventListener("click", () => {
+        const id = b3.getAttribute("data-id");
         state2.goals = (state2.goals || []).filter((g) => g.id !== id);
         persist();
         renderGoalsScreen();
@@ -52764,26 +63014,26 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return g.kind || "Goal";
   }
   function paintGoalTypeFields() {
-    const kind = $4("goal-new-kind") && $4("goal-new-kind").value || "time-distance";
+    const kind = $6("goal-new-kind") && $6("goal-new-kind").value || "time-distance";
     const showDistance = kind === "time-distance" || kind === "distance" || kind.endsWith("-distance");
     const showTime = kind === "time-distance" || kind === "route-time";
     const showCount = kind.endsWith("-count");
     const showCourse = kind === "route-time";
-    if ($4("goal-field-distance")) $4("goal-field-distance").hidden = !showDistance;
-    if ($4("goal-field-time")) $4("goal-field-time").hidden = !showTime;
-    if ($4("goal-field-count")) $4("goal-field-count").hidden = !showCount;
-    if ($4("goal-field-course")) $4("goal-field-course").hidden = !showCourse;
-    const distLabel = $4("goal-new-distance-label");
+    if ($6("goal-field-distance")) $6("goal-field-distance").hidden = !showDistance;
+    if ($6("goal-field-time")) $6("goal-field-time").hidden = !showTime;
+    if ($6("goal-field-count")) $6("goal-field-count").hidden = !showCount;
+    if ($6("goal-field-course")) $6("goal-field-course").hidden = !showCourse;
+    const distLabel = $6("goal-new-distance-label");
     if (distLabel) {
       distLabel.textContent = units2() === "km" ? "Distance (km)" : "Distance (mi)";
     }
-    const timeLabel = $4("goal-new-time-label");
+    const timeLabel = $6("goal-new-time-label");
     if (timeLabel) timeLabel.textContent = "Time";
     fillGoalCourseSelect();
   }
   function fillGoalCourseSelect() {
-    const sel = $4("goal-new-course");
-    const empty = $4("goal-new-course-empty");
+    const sel = $6("goal-new-course");
+    const empty = $6("goal-new-course-empty");
     if (!sel) return;
     const courses = state2.courses || [];
     const prev = sel.value;
@@ -52810,11 +63060,11 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function openNewGoalSheet() {
     showScreen("goals");
     renderGoalsScreen();
-    if ($4("goal-new-kind")) $4("goal-new-kind").value = "time-distance";
-    if ($4("goal-new-distance")) $4("goal-new-distance").value = units2() === "km" ? "5" : "3";
-    if ($4("goal-new-time")) $4("goal-new-time").value = "18:00";
-    if ($4("goal-new-count")) $4("goal-new-count").value = "3";
-    const err2 = $4("goal-new-error");
+    if ($6("goal-new-kind")) $6("goal-new-kind").value = "time-distance";
+    if ($6("goal-new-distance")) $6("goal-new-distance").value = units2() === "km" ? "5" : "3";
+    if ($6("goal-new-time")) $6("goal-new-time").value = "18:00";
+    if ($6("goal-new-count")) $6("goal-new-count").value = "3";
+    const err2 = $6("goal-new-error");
     if (err2) {
       err2.hidden = true;
       err2.textContent = "";
@@ -52823,14 +63073,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     openSheet("sheet-new-goal");
   }
   function showGoalFormError(msg) {
-    const err2 = $4("goal-new-error");
+    const err2 = $6("goal-new-error");
     if (!err2) return;
     err2.hidden = !msg;
     err2.textContent = msg || "";
   }
   function addGoalFromForm() {
     showGoalFormError("");
-    const kind = $4("goal-new-kind") && $4("goal-new-kind").value || "time-distance";
+    const kind = $6("goal-new-kind") && $6("goal-new-kind").value || "time-distance";
     if (kind === "week-time" || kind === "month-time") {
       showGoalFormError("A time goal is a target time for a set distance, tracked run over run. Weekly or monthly time totals are not used.");
       return;
@@ -52838,13 +63088,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const period = kind.startsWith("week") ? "week" : kind.startsWith("month") ? "month" : null;
     const g = newGoal({ kind, period, paid: false });
     if (kind === "route-time") {
-      const courseId = $4("goal-new-course") && $4("goal-new-course").value;
+      const courseId = $6("goal-new-course") && $6("goal-new-course").value;
       const course = (state2.courses || []).find((c) => c.id === courseId);
       if (!course) {
         showGoalFormError("Save a course first, then you can set a goal time on it.");
         return;
       }
-      const dur = parseDurationInput($4("goal-new-time") && $4("goal-new-time").value);
+      const dur = parseDurationInput($6("goal-new-time") && $6("goal-new-time").value);
       if (!dur.ok) {
         showGoalFormError(dur.reason || "Enter a time.");
         return;
@@ -52853,12 +63103,12 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       g.finishSec = dur.seconds;
       g.name = defaultGoalName(g);
     } else if (kind === "time-distance") {
-      const dist3 = parseDistanceInput($4("goal-new-distance") && $4("goal-new-distance").value, units2());
+      const dist3 = parseDistanceInput($6("goal-new-distance") && $6("goal-new-distance").value, units2());
       if (!dist3.ok) {
         showGoalFormError(dist3.reason || "Enter a distance.");
         return;
       }
-      const dur = parseDurationInput($4("goal-new-time") && $4("goal-new-time").value);
+      const dur = parseDurationInput($6("goal-new-time") && $6("goal-new-time").value);
       if (!dur.ok) {
         showGoalFormError(dur.reason || "Enter a time.");
         return;
@@ -52867,7 +63117,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       g.finishSec = dur.seconds;
       g.name = defaultGoalName(g);
     } else if (kind.endsWith("-count")) {
-      const raw = Number($4("goal-new-count") && $4("goal-new-count").value);
+      const raw = Number($6("goal-new-count") && $6("goal-new-count").value);
       if (!(raw > 0)) {
         showGoalFormError("Enter how many walks or runs.");
         return;
@@ -52875,7 +63125,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       g.targetCount = Math.round(raw);
       g.name = defaultGoalName(g);
     } else {
-      const dist3 = parseDistanceInput($4("goal-new-distance") && $4("goal-new-distance").value, units2());
+      const dist3 = parseDistanceInput($6("goal-new-distance") && $6("goal-new-distance").value, units2());
       if (!dist3.ok) {
         showGoalFormError(dist3.reason || "Enter a distance.");
         return;
@@ -52890,10 +63140,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     renderGoalsScreen();
   }
   function renderProgress() {
-    document.querySelectorAll("#range-tog button").forEach((b2) => {
-      b2.classList.toggle("active", b2.dataset.range === ui2.range);
+    document.querySelectorAll("#range-tog button").forEach((b3) => {
+      b3.classList.toggle("active", b3.dataset.range === ui2.range);
     });
-    renderProgressView($4("progress-body"), {
+    renderProgressView($6("progress-body"), {
       activities: state2.activities,
       courses: state2.courses,
       goals: state2.goals,
@@ -52907,43 +63157,242 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       onOpenGoals: () => showScreen("goals")
     });
   }
-  function renderSettings() {
-    document.querySelectorAll("#units-tog button").forEach((b2) => {
-      b2.classList.toggle("active", b2.dataset.units === units2());
+  function insightsFiltered() {
+    return filterActivities(state2.activities, {
+      sport: ui2.insightsSport,
+      range: ui2.insightsRange
     });
-    if ($4("health-switch")) {
-      $4("health-switch").classList.toggle("on", !!state2.settings.healthOptIn);
-      $4("health-switch").setAttribute("aria-checked", state2.settings.healthOptIn ? "true" : "false");
+  }
+  function paintInsightsMap() {
+    try {
+      const instance = getMap && getMap();
+      if (!instance) return;
+      const fc = renderHeatmap(instance, insightsFiltered(), {
+        sport: ui2.insightsSport,
+        range: ui2.insightsRange
+      });
+      const bounds = heatmapBounds(fc);
+      if (bounds) {
+        fitBounds([
+          { lat: bounds.minLat, lon: bounds.minLon },
+          { lat: bounds.maxLat, lon: bounds.maxLon }
+        ], 64);
+      }
+    } catch {
     }
-    if ($4("auto-pause-switch")) {
+  }
+  function insightTrendMarkup(group) {
+    const series = trendSeries(group, { units: units2() });
+    const rows = series.points.slice().reverse().map((p) => {
+      const activity = (state2.activities || []).find((a) => a.id === p.activityId);
+      const when = new Date(p.at).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      const value = series.metric === "speed" ? `${p.speedPerHour.toFixed(1)} km/h` : formatPace(p.meters, p.durationSec, units2());
+      const hill = activity && state2.settings.hillPace ? hillPaceForActivity(activity, { units: units2(), enabled: true }) : null;
+      const hillText = hill ? `<p class="tiny">${escapeHtml(hillPaceLine(hill, units2()))}</p>` : "";
+      return `<div class="insights-trend-row"><span>${escapeHtml(when)} \xB7 ${escapeHtml(formatDistance(p.meters, units2(), { digits: 1 }))}</span><span>${escapeHtml(value)}</span></div>${hillText}`;
+    }).join("");
+    return `<div class="insights-trend">
+    <p class="tiny" style="margin-bottom:6px">${escapeHtml(trendLabel(series))} \xB7 ${escapeHtml(sportLabel2(group.sport))} \xB7 ${escapeHtml(sportOfActivity(group))}</p>
+    ${rows}
+  </div>`;
+  }
+  function sportOfActivity(group) {
+    return group.count === 1 ? "1 effort" : `${group.count} efforts`;
+  }
+  function insightsLoopsMarkup(groups) {
+    if (!groups.length) {
+      return `<p class="tiny">Finish the same loop twice and it appears here with a pace trend. Loops stay private to this phone.</p>`;
+    }
+    let html = "";
+    for (const group of groups) {
+      const open = ui2.insightsGroupId === group.id;
+      html += `<button class="list-item insights-loop-row" data-loop="${escapeHtml(group.id)}" aria-expanded="${open ? "true" : "false"}">
+      <div class="grow"><h3>${escapeHtml(group.name)}</h3><p>${escapeHtml(formatTrend(group, { units: units2() }))}</p></div>
+      <div class="meta">${open ? "Hide" : "Trend"}</div>
+    </button>`;
+      if (open) html += insightTrendMarkup(group);
+    }
+    return html;
+  }
+  function insightsSuggestionMarkup() {
+    const s2 = ui2.insightsSuggestion;
+    if (!s2) return "";
+    const meta = ui2.insightsSuggestionMeta || {};
+    const preview = s2.preview || suggestionPreview(s2, { profile: meta.profile, units: units2() });
+    const climb = preview.climbKnown === false && !(preview.climbM > 0) ? "Climb not sampled" : `Climb ${formatGain(preview.climbM, units2())}`;
+    const known = Math.round((preview.knownRatio || 0) * 100);
+    return `<div class="insights-suggest-card" data-testid="insights-suggestion">
+    <h3>${escapeHtml(suggestionName(s2, units2()))}</h3>
+    <p class="tiny">${escapeHtml(suggestionReason(s2, meta.profile, meta.goal))}</p>
+    <div class="insights-suggest-stats">
+      <span><strong>${escapeHtml(formatDistance(preview.meters, units2()))}</strong> distance</span>
+      <span>${escapeHtml(climb)}</span>
+      <span><strong>${escapeHtml(formatEta(preview.seconds))}</strong> estimate</span>
+      <span>${known}% familiar ground</span>
+    </div>
+    <button class="btn btn-primary" id="btn-save-suggestion" data-testid="save-suggestion" style="width:100%">Save as a free course</button>
+  </div>`;
+  }
+  function renderInsights() {
+    document.querySelectorAll("#insights-sport button").forEach((b3) => {
+      b3.classList.toggle("active", b3.dataset.sport === ui2.insightsSport);
+    });
+    document.querySelectorAll("#insights-range button").forEach((b3) => {
+      b3.classList.toggle("active", b3.dataset.range === ui2.insightsRange);
+    });
+    const filtered = insightsFiltered();
+    const summary = heatmapSummary(filtered, { filtered: true });
+    const sportBits = [];
+    if (summary.sports.walk) sportBits.push(`${summary.sports.walk} walk${summary.sports.walk === 1 ? "" : "s"}`);
+    if (summary.sports.run) sportBits.push(`${summary.sports.run} run${summary.sports.run === 1 ? "" : "s"}`);
+    if (summary.sports.ride) sportBits.push(`${summary.sports.ride} ride${summary.sports.ride === 1 ? "" : "s"}`);
+    if ($6("insights-summary")) {
+      $6("insights-summary").textContent = summary.activities ? `${formatDistance(summary.meters, units2())} covered \xB7 ${sportBits.join(" \xB7 ")} \xB7 ${summary.groundCells.toLocaleString()} ground cells${summary.repeatedCells ? `, ${summary.repeatedCells.toLocaleString()} revisited` : ""}.` : "";
+    }
+    if ($6("insights-empty")) {
+      $6("insights-empty").textContent = filtered.length ? "" : heatmapEmptyCopy();
+    }
+    const groups = matchedLoops(state2.activities, { minCount: 2 }).filter((g) => ui2.insightsSport === "all" || g.sport === ui2.insightsSport);
+    if ($6("insights-loops")) $6("insights-loops").innerHTML = insightsLoopsMarkup(groups);
+    if ($6("insights-suggest")) {
+      $6("insights-suggest").innerHTML = insightsSuggestionMarkup();
+      const save = $6("btn-save-suggestion");
+      if (save) save.addEventListener("click", saveInsightsSuggestion);
+    }
+    if ($6("insights-saved")) $6("insights-saved").textContent = ui2.insightsSaved || "";
+    if ($6("btn-suggest-loop")) $6("btn-suggest-loop").disabled = !!ui2.insightsBusy;
+    if ($6("hill-pace-note")) $6("hill-pace-note").textContent = HILL_PACE_NOTE;
+  }
+  async function suggestLoop() {
+    if (ui2.insightsBusy) return;
+    ui2.insightsBusy = true;
+    ui2.insightsSaved = "";
+    if ($6("insights-suggest-note")) $6("insights-suggest-note").textContent = "Reading your history and the local walk graph\u2026";
+    renderInsights();
+    try {
+      let graph = getActiveGraph();
+      const known = normalizeFix(state2.settings.lastKnown);
+      const firstTrack = (state2.activities || []).map((a) => (a.track || [])[0]).find((p) => p && Number.isFinite(Number(p.lat)));
+      const center = known || firstTrack || null;
+      if (!graph && center) {
+        try {
+          graph = await ensureLoopGraph(center, 1600);
+        } catch {
+        }
+      }
+      const goal = (state2.goals || []).find((g) => g && (Number(g.distanceMeters) > 0 || Number(g.finishSec) > 0)) || null;
+      const result = generateSuggestions({
+        graph,
+        activities: state2.activities,
+        sport: ui2.insightsSport,
+        goal,
+        count: 3
+      });
+      if (!result.ok) {
+        ui2.insightsBusy = false;
+        if ($6("insights-suggest-note")) {
+          $6("insights-suggest-note").textContent = result.reason === "no-graph" ? "No local walk graph yet. Download your local map in Settings, then try again." : "Walk a few outings first, then Heldpath can suggest a loop from where you usually start.";
+        }
+        renderInsights();
+        return;
+      }
+      const choice = result.suggestions[0];
+      choice.preview = suggestionPreview(choice, { profile: result.profile, units: units2() });
+      ui2.insightsSuggestion = choice;
+      ui2.insightsSuggestionMeta = { profile: result.profile, goal, targetMeters: result.targetMeters };
+      ui2.insightsBusy = false;
+      if ($6("insights-suggest-note")) {
+        $6("insights-suggest-note").textContent = suggestionReason(choice, result.profile, goal);
+      }
+      renderInsights();
+      try {
+        drawRoute(choice.path, { id: "insight-suggest", color: "#F3E0A8", width: 5 });
+      } catch {
+      }
+      try {
+        const { samplePathDem: samplePathDem2 } = await Promise.resolve().then(() => (init_elevation_dem(), elevation_dem_exports));
+        const samples = await samplePathDem2(choice.path, { stepM: 90 });
+        const gl = gainLoss(samples);
+        if (gl && Number.isFinite(gl.gainM) && gl.gainM > 0) {
+          choice.climbM = gl.gainM;
+          choice.preview = suggestionPreview(choice, { profile: result.profile, climbM: gl.gainM, units: units2() });
+          if (ui2.insightsSuggestion === choice) renderInsights();
+        }
+      } catch {
+      }
+    } catch {
+      ui2.insightsBusy = false;
+      if ($6("insights-suggest-note")) $6("insights-suggest-note").textContent = "Could not build a loop just now. Try again near a downloaded map.";
+      renderInsights();
+    }
+  }
+  function saveInsightsSuggestion() {
+    const s2 = ui2.insightsSuggestion;
+    if (!s2) return;
+    const name = suggestionName(s2, units2());
+    state2.courses.push(newCourse({
+      name,
+      pins: suggestionPins(s2),
+      path: s2.path || null
+    }));
+    persist();
+    ui2.insightsSaved = `Saved "${name}" to Courses. It is free, like every course.`;
+    ui2.insightsSuggestion = null;
+    ui2.insightsGroupId = null;
+    renderInsights();
+    renderCourses();
+  }
+  function openInsights({ suggest = false } = {}) {
+    ui2.hideNav = false;
+    showScreen("insights");
+    renderInsights();
+    if (suggest) setTimeout(() => {
+      suggestLoop();
+    }, 60);
+  }
+  function renderSettings() {
+    document.querySelectorAll("#units-tog button").forEach((b3) => {
+      b3.classList.toggle("active", b3.dataset.units === units2());
+    });
+    if ($6("health-switch")) {
+      $6("health-switch").classList.toggle("on", !!state2.settings.healthOptIn);
+      $6("health-switch").setAttribute("aria-checked", state2.settings.healthOptIn ? "true" : "false");
+    }
+    if ($6("auto-pause-switch")) {
       const on = state2.settings.autoPause !== false;
-      $4("auto-pause-switch").classList.toggle("on", on);
-      $4("auto-pause-switch").setAttribute("aria-checked", on ? "true" : "false");
+      $6("auto-pause-switch").classList.toggle("on", on);
+      $6("auto-pause-switch").setAttribute("aria-checked", on ? "true" : "false");
     }
-    if ($4("low-power-switch")) {
+    if ($6("low-power-switch")) {
       const on = !!state2.settings.lowPower;
-      $4("low-power-switch").classList.toggle("on", on);
-      $4("low-power-switch").setAttribute("aria-checked", on ? "true" : "false");
+      $6("low-power-switch").classList.toggle("on", on);
+      $6("low-power-switch").setAttribute("aria-checked", on ? "true" : "false");
     }
-    if ($4("count-hills-switch")) {
+    if ($6("count-hills-switch")) {
       const on = !!state2.settings.countHills;
-      $4("count-hills-switch").classList.toggle("on", on);
-      $4("count-hills-switch").setAttribute("aria-checked", on ? "true" : "false");
+      $6("count-hills-switch").classList.toggle("on", on);
+      $6("count-hills-switch").setAttribute("aria-checked", on ? "true" : "false");
     }
+    if ($6("hill-pace-switch")) {
+      const on = !!state2.settings.hillPace;
+      $6("hill-pace-switch").classList.toggle("on", on);
+      $6("hill-pace-switch").setAttribute("aria-checked", on ? "true" : "false");
+    }
+    if ($6("hill-pace-note")) $6("hill-pace-note").textContent = HILL_PACE_NOTE;
     if (typeof refreshHealthStatus === "function") refreshHealthStatus();
-    else if ($4("health-note")) {
-      $4("health-note").textContent = state2.settings.healthOptIn ? HEALTH_STATUS.reason + " Your preference is saved and will apply when health sync is wired." : "Health sync stays off until you turn it on.";
+    else if ($6("health-note")) {
+      $6("health-note").textContent = state2.settings.healthOptIn ? HEALTH_STATUS.reason + " Your preference is saved and will apply when health sync is wired." : "Health sync stays off until you turn it on.";
     }
-    if ($4("web-native-note")) $4("web-native-note").textContent = WEB_APP_NOTE;
-    if ($4("web-pay-note")) $4("web-pay-note").textContent = WEB_PAY_NOTE;
-    $4("plans-hook").textContent = PLANS_HOOK_COPY;
+    if ($6("web-native-note")) $6("web-native-note").textContent = WEB_APP_NOTE;
+    if ($6("web-pay-note")) $6("web-pay-note").textContent = WEB_PAY_NOTE;
+    $6("plans-hook").textContent = PLANS_HOOK_COPY;
     const mode = defaultMapDataMode(state2.settings);
-    $4("map-pack-status").textContent = "A world overview (zoom 0\u20136) is in the app, so zooming out never goes black. Street detail can be downloaded for offline use, or loaded over the network as you go.";
-    const modeNote = $4("map-data-mode-note");
+    $6("map-pack-status").textContent = "A world overview (zoom 0\u20136) is in the app, so zooming out never goes black. Street detail can be downloaded for offline use, or loaded over the network as you go.";
+    const modeNote = $6("map-data-mode-note");
     if (modeNote) {
       modeNote.textContent = mode === "offline" ? "Current choice: download your local map for offline use. You can change this at any time." : mode === "mobile" ? "Current choice: use mobile data (the map loads as you go). You can change this at any time." : "Choose whether to download your local map or load streets over mobile data.";
     }
-    $4("support-copy").textContent = SUPPORT_COPY;
+    $6("support-copy").textContent = SUPPORT_COPY;
   }
   function render() {
     if (ui2.screen === "today") renderToday();
@@ -52951,6 +63400,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (ui2.screen === "courses") renderCourses();
     if (ui2.screen === "calendar") renderCalendar();
     if (ui2.screen === "progress") renderProgress();
+    if (ui2.screen === "insights") renderInsights();
     if (ui2.screen === "goals") renderGoalsScreen();
     if (ui2.screen === "settings" || ui2.screen === "support") renderSettings();
     if (ui2.screen === "plans") renderPlansScreen();
@@ -52961,7 +63411,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return `${d2.getFullYear()}-${pad(d2.getMonth() + 1)}-${pad(d2.getDate())}T${pad(d2.getHours())}:${pad(d2.getMinutes())}`;
   }
   function setIndoorError(msg) {
-    const el = $4("indoor-error");
+    const el = $6("indoor-error");
     if (!el) return;
     if (!msg) {
       el.hidden = true;
@@ -52975,28 +63425,28 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     closeSheet("sheet-start");
     ui2.indoorType = type === "run" ? "run" : "walk";
     const copy = indoorPromptCopy(ui2.indoorType);
-    if ($4("indoor-title")) $4("indoor-title").textContent = copy.title;
-    if ($4("indoor-body")) $4("indoor-body").textContent = copy.body;
-    if ($4("indoor-unit")) $4("indoor-unit").textContent = units2();
-    if ($4("indoor-distance")) $4("indoor-distance").value = "";
-    if ($4("indoor-time")) $4("indoor-time").value = "";
-    if ($4("indoor-when")) $4("indoor-when").value = localDateTimeValue(/* @__PURE__ */ new Date());
-    if ($4("indoor-note")) $4("indoor-note").value = "";
+    if ($6("indoor-title")) $6("indoor-title").textContent = copy.title;
+    if ($6("indoor-body")) $6("indoor-body").textContent = copy.body;
+    if ($6("indoor-unit")) $6("indoor-unit").textContent = units2();
+    if ($6("indoor-distance")) $6("indoor-distance").value = "";
+    if ($6("indoor-time")) $6("indoor-time").value = "";
+    if ($6("indoor-when")) $6("indoor-when").value = localDateTimeValue(/* @__PURE__ */ new Date());
+    if ($6("indoor-note")) $6("indoor-note").value = "";
     setIndoorError("");
     openSheet("sheet-indoor");
   }
   function saveIndoorLog() {
-    const dist3 = parseDistanceInput($4("indoor-distance") && $4("indoor-distance").value, units2());
+    const dist3 = parseDistanceInput($6("indoor-distance") && $6("indoor-distance").value, units2());
     if (!dist3.ok) {
       setIndoorError(dist3.reason);
       return;
     }
-    const dur = parseDurationInput($4("indoor-time") && $4("indoor-time").value);
+    const dur = parseDurationInput($6("indoor-time") && $6("indoor-time").value);
     if (!dur.ok) {
       setIndoorError(dur.reason);
       return;
     }
-    const when = parseWhenInput($4("indoor-when") && $4("indoor-when").value, /* @__PURE__ */ new Date());
+    const when = parseWhenInput($6("indoor-when") && $6("indoor-when").value, /* @__PURE__ */ new Date());
     if (!when.ok) {
       setIndoorError(when.reason);
       return;
@@ -53006,7 +63456,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       meters: dist3.meters,
       elapsedSec: dur.seconds,
       endedAt: when.date,
-      note: $4("indoor-note") ? $4("indoor-note").value : ""
+      note: $6("indoor-note") ? $6("indoor-note").value : ""
     });
     const act = newActivity(built);
     state2.activities.push(act);
@@ -53015,23 +63465,30 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     showSummary(act, null, null);
   }
   function openStart(type) {
-    ui2.startType = type;
-    $4("start-sheet-title").textContent = type === "run" ? "Start a run" : "Start a walk";
-    const list = $4("start-course-list");
+    const sport = normalizeSport(type);
+    ui2.startType = sport;
+    saveLastSport(sport);
+    document.querySelectorAll("#start-sport-picker [data-sport]").forEach((b3) => {
+      const on = b3.dataset.sport === sport;
+      b3.classList.toggle("active", on);
+      b3.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    $6("start-sheet-title").textContent = sport === "ride" ? "Start a ride" : sport === "run" ? "Start a run" : "Start a walk";
+    const list = $6("start-course-list");
     list.innerHTML = "";
     if (!state2.courses.length) {
       list.innerHTML = `<p class="tiny">No saved courses yet. You can start without one, or build a course first.</p>`;
     } else {
       for (const c of state2.courses) {
         const len = courseMeters(c);
-        const b2 = document.createElement("button");
-        b2.className = "list-item";
-        b2.innerHTML = `<div class="grow"><h3></h3><p></p></div><div class="meta"></div>`;
-        b2.querySelector("h3").textContent = c.name;
-        b2.querySelector("p").textContent = `${formatDistance(len, units2())} \xB7 ${formatEta(etaSeconds(len, activityMph(type)))}`;
-        b2.querySelector(".meta").textContent = "Go";
-        b2.addEventListener("click", () => promptTargetThenStart(type, c));
-        list.appendChild(b2);
+        const b3 = document.createElement("button");
+        b3.className = "list-item";
+        b3.innerHTML = `<div class="grow"><h3></h3><p></p></div><div class="meta"></div>`;
+        b3.querySelector("h3").textContent = c.name;
+        b3.querySelector("p").textContent = `${formatDistance(len, units2())} \xB7 ${formatEta(etaSeconds(len, activityMph(sport)))}`;
+        b3.querySelector(".meta").textContent = "Go";
+        b3.addEventListener("click", () => promptTargetThenStart(sport, c));
+        list.appendChild(b3);
       }
     }
     openSheet("sheet-start");
@@ -53040,9 +63497,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function ensureLocationDisclosure() {
     if (disclosurePending) return disclosurePending;
     disclosurePending = new Promise((resolve2) => {
-      const copy = $4("loc-copy");
+      const copy = $6("loc-copy");
       if (copy && LOCATION_EXPLAINER) copy.textContent = LOCATION_EXPLAINER;
-      const yes = $4("btn-loc-continue");
+      const yes = $6("btn-loc-continue");
       if (!yes) {
         resolve2({ allowed: false, locatePromise: null });
         return;
@@ -53067,7 +63524,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return disclosurePending;
   }
   function parseTargetMeters() {
-    const raw = $4("target-distance").value;
+    const raw = $6("target-distance").value;
     if (raw === "" || raw == null) return null;
     const n = Number(raw);
     if (!(n > 0) || !Number.isFinite(n)) return null;
@@ -53078,10 +63535,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const meters = parseTargetMeters();
     const len = course ? courseMeters(course) : 0;
     const over = meters != null && len > 0 && meters > len + 0.5;
-    const overBox = $4("target-over-options");
-    const startBtn = $4("btn-target-start");
-    const hint = $4("target-blank-hint");
-    const preview = $4("target-lap-preview");
+    const overBox = $6("target-over-options");
+    const startBtn = $6("btn-target-start");
+    const hint = $6("target-blank-hint");
+    const preview = $6("target-lap-preview");
     const label = meters != null && len > 0 ? formatLapPlanLabel(len, meters, units2()) : "";
     if (preview) {
       preview.textContent = label;
@@ -53090,19 +63547,19 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (overBox) overBox.hidden = !over;
     if (startBtn) startBtn.hidden = false;
     if (hint) hint.hidden = meters != null || !!over;
-    const sheet = $4("sheet-target");
+    const sheet = $6("sheet-target");
     if (sheet) sheet.classList.toggle("target-is-over", !!over);
   }
   function hideSessionDistanceExplainer() {
-    const coach = $4("session-distance-coach");
-    const row = $4("target-input-row");
+    const coach = $6("session-distance-coach");
+    const row = $6("target-input-row");
     if (coach) coach.hidden = true;
     if (row) row.classList.remove("session-distance-pulse");
   }
   function maybeShowSessionDistanceExplainer({ force } = {}) {
-    const coach = $4("session-distance-coach");
-    const copy = $4("session-distance-coach-copy");
-    const row = $4("target-input-row");
+    const coach = $6("session-distance-coach");
+    const copy = $6("session-distance-coach-copy");
+    const row = $6("target-input-row");
     if (copy) copy.textContent = SESSION_DISTANCE_EXPLAINER_BODY;
     const show2 = !!force || !isSessionDistanceExplainerSeen();
     if (coach) coach.hidden = !show2;
@@ -53121,10 +63578,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     closeSheet("sheet-start");
     closeSheet("sheet-course");
     const len = courseMeters(course);
-    $4("target-course-sub").textContent = `${course.name} \xB7 ${formatDistance(len, units2())}`;
-    $4("target-unit").textContent = units2() === "km" ? "km" : "mi";
+    $6("target-course-sub").textContent = `${course.name} \xB7 ${formatDistance(len, units2())}`;
+    $6("target-unit").textContent = units2() === "km" ? "km" : "mi";
     const last = state2.settings && Number(state2.settings.lastSessionDistanceMeters);
-    $4("target-distance").value = last > 0 ? inputValueForMeters(last, units2()) : "";
+    $6("target-distance").value = last > 0 ? inputValueForMeters(last, units2()) : "";
     refreshTargetOptions();
     maybeShowSessionDistanceExplainer();
     openSheet("sheet-target");
@@ -53164,7 +63621,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       const risk = await assessRouteLowSignal(path, { areas });
       if (risk.show) {
         ui2.pendingLowSignal = { type, course, plan, targetPlan, bbox: risk.bbox || pathBbox(path) };
-        const copy = $4("low-signal-copy");
+        const copy = $6("low-signal-copy");
         if (copy) copy.textContent = LOW_SIGNAL_COPY;
         openSheet("sheet-low-signal");
         return;
@@ -53239,7 +63696,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     flushLiveSession(true);
   }
   async function importWatchActivities() {
-    const status = $4("health-import-status");
+    const status = $6("health-import-status");
     if (!state2.settings.healthOptIn) {
       status.textContent = "Turn on health sync first so Heldpath can read workouts from the health app.";
       return;
@@ -53286,8 +63743,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (offer.offer) {
       ui2.pendingFinish = { sess };
       const copy = trimCopy(offer.idleSec, sess.type);
-      if ($4("trim-title")) $4("trim-title").textContent = copy.title;
-      if ($4("trim-body")) $4("trim-body").textContent = copy.body;
+      if ($6("trim-title")) $6("trim-title").textContent = copy.title;
+      if ($6("trim-body")) $6("trim-body").textContent = copy.body;
       openSheet("sheet-trim-end");
       return;
     }
@@ -53359,7 +63816,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         await ensureWalkGraph(sess.track);
         ui2.pendingSaveRoute = { act, course, sess, track: (sess.track || []).slice(), graph: getActiveGraph(), legResult };
         const pct = percentOfPlan(act.distanceMeters, plannedMeters(sess));
-        $4("celebrate-copy").textContent = celebrationCopy(pct, { hasCourse: !!course });
+        $6("celebrate-copy").textContent = celebrationCopy(pct, { hasCourse: !!course });
         showOfferMap(sess, course);
         openSheet("sheet-celebrate");
         return;
@@ -53368,8 +63825,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         await ensureWalkGraph(sess.track);
         const built = routeFromTrack(sess.track, getActiveGraph());
         ui2.pendingFreeRoute = { act, course, built, legResult };
-        $4("save-free-distance").textContent = formatDistance(built.meters || act.distanceMeters, units2());
-        $4("save-free-name").value = defaultRouteName(act);
+        $6("save-free-distance").textContent = formatDistance(built.meters || act.distanceMeters, units2());
+        $6("save-free-name").value = defaultRouteName(act);
         showFreeRouteMap(built);
         openSheet("sheet-save-free");
         return;
@@ -53386,7 +63843,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   var builderElevToken = 0;
   async function refreshBuilderElevation(path, { countedMeters } = {}) {
-    const el = $4("builder-elevation");
+    const el = $6("builder-elevation");
     if (!el) return;
     if (!path || path.length < 2) {
       el.hidden = true;
@@ -53409,7 +63866,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       /* filled below */
       null
     ) : null;
-    const tot = $4("builder-total") || document.querySelector("[data-testid='builder-total']");
+    const tot = $6("builder-total") || document.querySelector("[data-testid='builder-total']");
     if (tot && gl.gainM > 0) {
       const flat = countedMeters != null ? countedMeters : pathLengthMeters(path);
       if (!(flat > 0)) return paintElevationBox(el, gl, { units: units2(), credit: true });
@@ -53417,8 +63874,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       const walkEta = formatEta(naismithSeconds(flat, gl.gainM, activityMph("walk")));
       const runEta = formatEta(naismithSeconds(flat, gl.gainM, activityMph("run")));
       tot.innerHTML = `<span>Total</span><span>${formatDistance(shown.meters, units2())} \xB7 ${formatGain(gl.gainM, units2())} climb \xB7 ${walkEta} walk \xB7 ${runEta} run</span>`;
-      const distEl = $4("builder-live-distance");
-      const etaEl = $4("builder-live-eta");
+      const distEl = $6("builder-live-distance");
+      const etaEl = $6("builder-live-eta");
       if (distEl) distEl.textContent = formatDistance(shown.meters, units2());
       if (etaEl) etaEl.textContent = walkEta + " walk \xB7 " + runEta + " run";
     }
@@ -53451,130 +63908,159 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     el.hidden = false;
     el.innerHTML = `<p class="tiny"><strong>Climb ${formatGain(elev.gainM, u2)}</strong> \xB7 descent ${formatGain(elev.lossM, u2)}</p>${svg}${creditLine}`;
   }
+  function makeLapSummaryFixture() {
+    const a = { lat: 43.7672, lon: 11.2543 };
+    const b3 = destination(a.lat, a.lon, 90, 120);
+    const c = destination(b3.lat, b3.lon, 0, 120);
+    const d2 = destination(c.lat, c.lon, 270, 120);
+    const pins = [
+      { ...a, role: "start" },
+      { ...b3, role: "via" },
+      { ...c, role: "via" },
+      { ...d2, role: "via" },
+      { ...a, role: "end" }
+    ];
+    const path = [a, b3, c, d2, { lat: a.lat, lon: a.lon }];
+    const course = newCourse({ name: "Two-lap loop", pins, path });
+    course.goal = goalFromFinishTime(250, course);
+    course.sectorPbs = {
+      0: { seconds: 55, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+      1: { seconds: 70, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+      2: { seconds: 59, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+      3: { seconds: 60, activityId: "prev", date: "2026-11-11T09:00:00.000Z" }
+    };
+    course.sectorHistory = [{ at: "2026-11-11T09:00:00.000Z", activityId: "prev", times: [55, 70, 59, 60], totalSec: 244 }];
+    const corners = [a, b3, c, d2, a];
+    const lapSecs = [[60, 65, 63, 62], [58, 64, 61, 60]];
+    const track = [{ lat: a.lat, lon: a.lon, t: 0, at: "2026-11-18T09:00:00.000Z" }];
+    let t = 0;
+    for (const sides of lapSecs) {
+      for (let i = 0; i < 4; i++) {
+        const p = corners[i], q2 = corners[i + 1];
+        const steps = 14;
+        for (let k = 1; k <= steps; k++) {
+          t += sides[i] / steps;
+          const f2 = k / steps;
+          track.push({
+            lat: p.lat + (q2.lat - p.lat) * f2,
+            lon: p.lon + (q2.lon - p.lon) * f2,
+            t,
+            at: new Date(Date.parse("2026-11-18T09:00:00.000Z") + t * 1e3).toISOString()
+          });
+        }
+      }
+    }
+    const act = newActivity({
+      type: "run",
+      courseId: course.id,
+      courseName: course.name,
+      startedAt: "2026-11-18T09:00:00.000Z",
+      endedAt: new Date(Date.parse("2026-11-18T09:00:00.000Z") + t * 1e3).toISOString(),
+      distanceMeters: 960,
+      elapsedSec: t,
+      track
+    });
+    return { course, act };
+  }
   function showSummary(act, course, legResult) {
     ui2.summary = { act, course, legResult };
-    const type = act.type === "run" ? "Run" : "Walk";
-    $4("summary-title").textContent = `${type} complete`;
-    $4("summary-sub").textContent = `${new Date(act.endedAt || act.startedAt).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })} \xB7 ${sourceLabel(act)}`;
-    const indoorNote = $4("summary-indoor-note");
-    if (indoorNote) {
-      if (act.source === "indoor") {
-        indoorNote.hidden = false;
-        indoorNote.textContent = act.indoorNote ? `${indoorSummaryNote()} ${act.indoorNote}` : indoorSummaryNote();
-      } else {
-        indoorNote.hidden = true;
-        indoorNote.textContent = "";
-      }
-    }
+    const type = sportLabel(act.type);
     const elev = activityElevation(act);
     const shown = displayDistance(act.track, act.distanceMeters, { countHills: !!state2.settings.countHills });
-    $4("summary-stats").innerHTML = `
-    <div class="total-box"><div class="num">${formatDistance(shown.meters, units2())}</div><div class="lbl">Distance</div></div>
-    <div class="total-box"><div class="num">${formatDuration(act.elapsedSec)}</div><div class="lbl">Time</div></div>
-    <div class="total-box"><div class="num">${formatPace(shown.meters, act.elapsedSec, units2())}</div><div class="lbl">Avg pace</div></div>`;
-    if (elev && (elev.gainM > 0 || elev.lossM > 0)) {
-      $4("summary-stats").innerHTML += `
-    <div class="total-box"><div class="num">${formatGain(elev.gainM, units2())}</div><div class="lbl">Climb</div></div>
-    <div class="total-box"><div class="num">${formatGain(elev.lossM, units2())}</div><div class="lbl">Descent</div></div>`;
+    const indoorNote = act.source === "indoor" ? act.indoorNote ? `${indoorSummaryNote()} ${act.indoorNote}` : indoorSummaryNote() : "";
+    const key = `${act.id || "act"}|${course && course.id || ""}`;
+    if (!ui2.summaryModel || ui2.summaryModel.key !== key) {
+      const model2 = buildSectorModel(course, act, { apply: true });
+      ui2.summaryModel = { key, model: model2 };
+      if (model2 && model2.hasGoal) persist();
     }
-    paintElevationBox($4("summary-elevation"), elev, { units: units2(), credit: true });
-    const sectorRoot = $4("summary-sectors");
-    if (sectorRoot) {
-      const c = course || act.courseId && (state2.courses || []).find((x2) => x2.id === act.courseId);
-      if (c && resolveGoal(c)) {
-        renderSectorTable(sectorRoot, c, act);
-        persist();
-      } else {
-        sectorRoot.innerHTML = "";
+    const model = ui2.summaryModel.model;
+    const outline = course && (course.path && course.path.length >= 2 ? course.path : course.pins) || (act.track && act.track.length >= 2 ? act.track : null);
+    renderSummary({
+      act,
+      course,
+      units: units2(),
+      shownMeters: shown.meters,
+      elev,
+      model,
+      outline,
+      title: `${type} complete`,
+      sub: `${new Date(act.endedAt || act.startedAt).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })} \xB7 ${sourceLabel(act)}`,
+      indoorNote,
+      distanceNote: act.source === "indoor" ? "" : shown.disclaimer
+    });
+    ui2.hideNav = true;
+    showScreen("summary");
+  }
+  function summaryDetailsCtx() {
+    const { act, course, legResult } = ui2.summary || {};
+    if (!act) return null;
+    const elev = activityElevation(act);
+    const shown = displayDistance(act.track, act.distanceMeters, { countHills: !!state2.settings.countHills });
+    const model = ui2.summaryModel && ui2.summaryModel.model ? ui2.summaryModel.model : buildSectorModel(course, act, { apply: false });
+    return { act, course, legResult, elev, shown, model };
+  }
+  function openSummaryDetails() {
+    const ctx2 = summaryDetailsCtx();
+    if (!ctx2) return;
+    const { act, course, legResult, elev, shown, model } = ctx2;
+    renderDetails({
+      act,
+      course,
+      units: units2(),
+      shownMeters: shown.meters,
+      elev,
+      model,
+      sub: `${new Date(act.endedAt || act.startedAt).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })} \xB7 ${sourceLabel(act)}`,
+      healthOptIn: !!state2.settings.healthOptIn,
+      healthSync: act.healthSync || null,
+      legResult,
+      splits: splits_exports
+    });
+    paintElevationBox($6("details-elevation"), elev, { units: units2(), credit: true });
+    const elevEl = $6("details-elevation");
+    if (elevEl && !elevEl.innerHTML.trim()) {
+      elevEl.hidden = false;
+      elevEl.innerHTML = `<p class="tiny">No elevation samples for this activity. The health app and phone barometer add them when available.</p>`;
+    }
+    ui2.hideNav = true;
+    showScreen("summary-details");
+    drawSummaryDetailsMap(act, course);
+  }
+  function drawSummaryDetailsMap(act, course) {
+    if (!act) return;
+    const paint = () => {
+      try {
+        clearOverlays();
+        clearMarkers();
+        clearLegLabels();
+      } catch {
       }
-    }
-    const distNote = $4("summary-distance-note");
-    if (distNote) {
-      distNote.hidden = act.source === "indoor";
-      distNote.textContent = act.source === "indoor" ? "" : shown.disclaimer;
-    }
-    const healthBox = $4("summary-health");
-    healthBox.innerHTML = "";
-    const healthLine = healthFieldsText(act);
-    if (healthLine) {
-      const provider = act.health && act.health.provider || "your health app";
-      const row = document.createElement("div");
-      row.className = "pr-row";
-      row.innerHTML = `<span>From ${escapeHtml(provider)}</span><span>${escapeHtml(healthLine)}</span>`;
-      healthBox.appendChild(row);
-      const note = document.createElement("p");
-      note.className = "tiny";
-      note.style.marginTop = "10px";
-      note.textContent = "Steps and calories are read from the health app. Heldpath never counts them itself.";
-      healthBox.appendChild(note);
-    } else if (state2.settings.healthOptIn) {
-      const sync = act.healthSync || {};
-      const note = document.createElement("p");
-      note.className = "tiny";
-      note.textContent = sync.written ? "Workout saved to the health app. Steps and calories were not available for this walk, so they stay blank." : `Health sync is on, but this workout was not written. ${sync.reason || "The health app is not connected in this build."}`;
-      healthBox.appendChild(note);
-    } else {
-      const note = document.createElement("p");
-      note.className = "tiny";
-      note.textContent = "Health sync is off. Turn it on in Settings to write workouts and show steps and calories from your health app.";
-      healthBox.appendChild(note);
-    }
-    const hasSectorTable = !!(sectorRoot && sectorRoot.querySelector("[data-testid='sector-table']"));
-    const splitBox = $4("summary-splits");
-    splitBox.innerHTML = "";
-    splitBox.hidden = false;
-    if (course && legResult && legResult.legs.length) {
-      const status = document.createElement("p");
-      status.className = "tiny";
-      status.style.marginBottom = "6px";
-      status.textContent = splitsStatus(legResult);
-      splitBox.appendChild(status);
-      const head = document.createElement("div");
-      head.className = "split-head";
-      head.innerHTML = `<span>Leg</span><span class="t">Time</span><span class="t">Pace</span>`;
-      splitBox.appendChild(head);
-      const rows = splitRows(course, legResult);
-      for (const row of rows) {
-        const el = document.createElement("div");
-        el.className = "split-row";
-        const label = document.createElement("span");
-        label.textContent = row.label;
-        const time = document.createElement("span");
-        time.className = "t";
-        time.textContent = formatLegTime(row.seconds);
-        const pace = document.createElement("span");
-        pace.className = "t";
-        pace.textContent = row.pace || "\u2014";
-        el.appendChild(label);
-        el.appendChild(time);
-        el.appendChild(pace);
-        if (row.bestSeconds != null) {
-          const best = document.createElement("span");
-          best.className = "best" + (row.isNewBest ? " new" : "");
-          best.textContent = row.isNewBest ? `New leg best${row.previousBestSeconds ? ` (was ${formatLegTime(row.previousBestSeconds)})` : ""}` : `Leg best ${formatLegTime(row.bestSeconds)}`;
-          best.style.gridColumn = "1 / -1";
-          el.appendChild(best);
-        }
-        splitBox.appendChild(el);
+      const track = act.track || [];
+      const meters = detailsMapMeters(course, act);
+      const segs = sectorTrackSegments(track, meters);
+      const palette = ["#4EC3F7", "#B8F3D0", "#F3E0A8", "#FFB4A8", "#9BB7FF"];
+      segs.forEach((seg, i) => {
+        drawRoute(seg.coords, { id: "details-leg-" + i, color: palette[i % palette.length], width: 5 });
+        const mid = seg.coords[Math.floor(seg.coords.length / 2)];
+        if (mid) addLegLabel(mid, "S" + (i + 1));
+      });
+      if (!segs.length && track.length >= 2) {
+        drawRoute(track, { id: "details-track", color: "#4EC3F7", width: 5 });
       }
-      const foot = document.createElement("p");
-      foot.className = "tiny";
-      foot.style.marginTop = "12px";
-      foot.textContent = "Course splits and leg bests are free. Faster weekly split targets belong to optional custom plans.";
-      splitBox.appendChild(foot);
-    } else if (hasSectorTable) {
-      splitBox.hidden = true;
-    } else if (course) {
-      const note = document.createElement("p");
-      note.className = "tiny";
-      note.textContent = "No course split was recorded for this activity. Walk or run the whole course to set leg bests.";
-      splitBox.appendChild(note);
-    } else {
-      const note = document.createElement("p");
-      note.className = "tiny";
-      note.textContent = "Free walk: no course splits. Pick a saved course next time to see a split for every leg, free.";
-      splitBox.appendChild(note);
-    }
+      if (course && course.pins && course.pins.length) addCoursePins(course.pins);
+      const line = track.length >= 2 ? track : course && (course.path || course.pins) || [];
+      if (line.length) {
+        const bottom = Math.round((window.innerHeight || 800) * 0.64) + 24;
+        const pad = { top: 84, bottom, left: 48, right: 48 };
+        whenReady(() => fitBounds(line, pad));
+        fitBounds(line, pad);
+      }
+    };
+    whenReady(paint);
+    paint();
+  }
+  function closeSummaryDetails() {
     ui2.hideNav = true;
     showScreen("summary");
   }
@@ -53610,7 +64096,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       panel.classList.toggle("is-collapsed", !expanded);
     }
     document.body.classList.toggle("builder-sheet-open", expanded && ui2.screen === "builder");
-    const btn = $4("btn-builder-sheet");
+    const btn = $6("btn-builder-sheet");
     if (btn) {
       btn.textContent = expanded ? "\u2193" : "\u2191";
       btn.setAttribute("aria-expanded", expanded ? "true" : "false");
@@ -53673,14 +64159,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function saveBuilder() {
     if (!canSave(activeBuilder())) return;
-    $4("course-name").value = "New course";
+    $6("course-name").value = "New course";
     openSheet("sheet-save-course");
   }
   function setOfferChrome(on) {
-    const dock = $4("today-dock");
+    const dock = $6("today-dock");
     if (dock) dock.hidden = !!on;
     ui2.hideNav = !!on;
-    if ($4("tab-bar")) $4("tab-bar").style.display = on ? "none" : "grid";
+    if ($6("tab-bar")) $6("tab-bar").style.display = on ? "none" : "grid";
   }
   function showOfferMap(sess, course) {
     setOfferChrome(true);
@@ -53743,14 +64229,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       return;
     }
     const name = pending.course ? pending.course.name : "this course";
-    const updateBtn = $4("btn-save-route-update");
+    const updateBtn = $6("btn-save-route-update");
     if (updateBtn) {
       updateBtn.hidden = !pending.course;
       updateBtn.textContent = pending.course ? `Add the new part to ${name}` : "Add the new part";
     }
-    $4("btn-save-route-new").textContent = "Save as a new route";
-    $4("btn-save-route-skip").textContent = "Keep the activity only";
-    $4("save-route-sub").textContent = pending.course ? `You went past ${pending.course.name}. Add the new part to the saved route, or save a new one?` : "Save a new route from the path you just ran, or keep the activity only.";
+    $6("btn-save-route-new").textContent = "Save as a new route";
+    $6("btn-save-route-skip").textContent = "Keep the activity only";
+    $6("save-route-sub").textContent = pending.course ? `You went past ${pending.course.name}. Add the new part to the saved route, or save a new one?` : "Save a new route from the path you just ran, or keep the activity only.";
     openSheet("sheet-save-route");
   }
   function commitSavedRoute(how) {
@@ -53778,7 +64264,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const pending = ui2.pendingFreeRoute;
     closeSheet("sheet-save-free");
     if (save && pending && pending.built && pending.built.pins && pending.built.pins.length >= 2) {
-      const typed = ($4("save-free-name") && $4("save-free-name").value || "").trim();
+      const typed = ($6("save-free-name") && $6("save-free-name").value || "").trim();
       const name = typed || defaultRouteName(pending.act);
       state2.courses.push(newCourse({ name, pins: pending.built.pins, path: pending.built.path }));
       persist();
@@ -53786,8 +64272,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     finishOfferAndSummarize();
   }
   function bind2() {
-    document.querySelectorAll("#tab-bar .tab").forEach((b2) => {
-      b2.addEventListener("click", () => {
+    document.querySelectorAll("#tab-bar .tab").forEach((b3) => {
+      b3.addEventListener("click", () => {
         if (ui2.screen === "builder") cancelBuilder();
         if (ui2.screen === "support") {
           setTab("settings");
@@ -53798,31 +64284,74 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
           setTab("today");
           return;
         }
-        setTab(b2.dataset.tab);
+        setTab(b3.dataset.tab);
       });
     });
-    $4("btn-start-walk").addEventListener("click", () => openStart("walk"));
-    $4("btn-start-run").addEventListener("click", () => openStart("run"));
-    if ($4("btn-low-signal-download")) $4("btn-low-signal-download").addEventListener("click", () => acceptLowSignalDownload());
-    if ($4("btn-low-signal-later")) $4("btn-low-signal-later").addEventListener("click", () => dismissLowSignalPrompt());
-    $4("btn-build-course").addEventListener("click", beginBuilder);
-    $4("btn-saved-courses").addEventListener("click", () => setTab("courses"));
-    $4("btn-new-course").addEventListener("click", beginBuilder);
-    $4("btn-undo-pin").addEventListener("click", () => undoLastBuilderAction());
-    if ($4("btn-builder-sheet")) $4("btn-builder-sheet").addEventListener("click", () => toggleBuilderSheet());
+    $6("btn-start-walk").addEventListener("click", () => openStart("walk"));
+    $6("btn-start-run").addEventListener("click", () => openStart("run"));
+    if ($6("btn-start-ride")) $6("btn-start-ride").addEventListener("click", () => openStart("ride"));
+    document.querySelectorAll("#start-sport-picker [data-sport]").forEach((b3) => {
+      b3.addEventListener("click", () => openStart(b3.dataset.sport));
+    });
+    if ($6("btn-low-signal-download")) $6("btn-low-signal-download").addEventListener("click", () => acceptLowSignalDownload());
+    if ($6("btn-low-signal-later")) $6("btn-low-signal-later").addEventListener("click", () => dismissLowSignalPrompt());
+    $6("btn-build-course").addEventListener("click", beginBuilder);
+    $6("btn-saved-courses").addEventListener("click", () => setTab("courses"));
+    $6("btn-new-course").addEventListener("click", beginBuilder);
+    if ($6("btn-open-insights")) $6("btn-open-insights").addEventListener("click", () => openInsights());
+    if ($6("btn-suggest-from-courses")) $6("btn-suggest-from-courses").addEventListener("click", () => openInsights({ suggest: true }));
+    if ($6("insights-back")) $6("insights-back").addEventListener("click", () => setTab("courses"));
+    if ($6("btn-suggest-loop")) $6("btn-suggest-loop").addEventListener("click", () => suggestLoop());
+    document.querySelectorAll("#insights-sport button").forEach((b3) => {
+      b3.addEventListener("click", () => {
+        ui2.insightsSport = b3.dataset.sport || "all";
+        ui2.insightsGroupId = null;
+        ui2.insightsSuggestion = null;
+        renderInsights();
+        paintInsightsMap();
+      });
+    });
+    document.querySelectorAll("#insights-range button").forEach((b3) => {
+      b3.addEventListener("click", () => {
+        ui2.insightsRange = b3.dataset.range || "all";
+        ui2.insightsGroupId = null;
+        ui2.insightsSuggestion = null;
+        renderInsights();
+        paintInsightsMap();
+      });
+    });
+    if ($6("insights-loops")) {
+      $6("insights-loops").addEventListener("click", (ev) => {
+        const row = ev.target.closest("[data-loop]");
+        if (!row) return;
+        const id = row.dataset.loop;
+        ui2.insightsGroupId = ui2.insightsGroupId === id ? null : id;
+        renderInsights();
+      });
+    }
+    if ($6("hill-pace-switch")) {
+      $6("hill-pace-switch").addEventListener("click", () => {
+        state2.settings.hillPace = !state2.settings.hillPace;
+        persist();
+        renderSettings();
+        if (ui2.screen === "insights") renderInsights();
+      });
+    }
+    $6("btn-undo-pin").addEventListener("click", () => undoLastBuilderAction());
+    if ($6("btn-builder-sheet")) $6("btn-builder-sheet").addEventListener("click", () => toggleBuilderSheet());
     bindBuilderSheetGestures();
-    if ($4("btn-legs-toggle")) $4("btn-legs-toggle").addEventListener("click", () => {
+    if ($6("btn-legs-toggle")) $6("btn-legs-toggle").addEventListener("click", () => {
       ui2.legsOpen = ui2.legsOpen === false;
-      const box = $4("builder-legs");
-      const toggle = $4("btn-legs-toggle");
+      const box = $6("builder-legs");
+      const toggle = $6("btn-legs-toggle");
       if (box) box.classList.toggle("is-collapsed", ui2.legsOpen === false);
       if (toggle) toggle.setAttribute("aria-expanded", ui2.legsOpen === false ? "false" : "true");
     });
-    $4("btn-cancel-build").addEventListener("click", cancelBuilder);
-    $4("btn-save-course").addEventListener("click", saveBuilder);
-    $4("btn-course-name-cancel").addEventListener("click", () => closeSheet("sheet-save-course"));
-    $4("btn-course-name-save").addEventListener("click", () => {
-      const name = ($4("course-name").value || "New course").trim();
+    $6("btn-cancel-build").addEventListener("click", cancelBuilder);
+    $6("btn-save-course").addEventListener("click", saveBuilder);
+    $6("btn-course-name-cancel").addEventListener("click", () => closeSheet("sheet-save-course"));
+    $6("btn-course-name-save").addEventListener("click", () => {
+      const name = ($6("course-name").value || "New course").trim();
       const st = activeBuilder();
       const routed = ui2.builderRoute || builderRoute();
       const c = newCourse({
@@ -53863,15 +64392,15 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       }
       setTab("courses");
     });
-    $4("btn-pause").addEventListener("click", pauseOrResume);
-    $4("btn-stop").addEventListener("click", finishTracking);
-    if ($4("btn-forgot-stay")) $4("btn-forgot-stay").addEventListener("click", () => stayGoingFromForgot());
-    if ($4("btn-forgot-stop")) $4("btn-forgot-stop").addEventListener("click", () => finishTracking());
-    if ($4("btn-trim-yes")) $4("btn-trim-yes").addEventListener("click", () => confirmTrimEnd(true));
-    if ($4("btn-trim-no")) $4("btn-trim-no").addEventListener("click", () => confirmTrimEnd(false));
-    if ($4("btn-resume-session")) $4("btn-resume-session").addEventListener("click", () => resumePendingSession());
-    if ($4("btn-resume-save")) $4("btn-resume-save").addEventListener("click", () => savePendingSession());
-    if ($4("btn-resume-discard")) $4("btn-resume-discard").addEventListener("click", () => discardPendingSession());
+    $6("btn-pause").addEventListener("click", pauseOrResume);
+    $6("btn-stop").addEventListener("click", finishTracking);
+    if ($6("btn-forgot-stay")) $6("btn-forgot-stay").addEventListener("click", () => stayGoingFromForgot());
+    if ($6("btn-forgot-stop")) $6("btn-forgot-stop").addEventListener("click", () => finishTracking());
+    if ($6("btn-trim-yes")) $6("btn-trim-yes").addEventListener("click", () => confirmTrimEnd(true));
+    if ($6("btn-trim-no")) $6("btn-trim-no").addEventListener("click", () => confirmTrimEnd(false));
+    if ($6("btn-resume-session")) $6("btn-resume-session").addEventListener("click", () => resumePendingSession());
+    if ($6("btn-resume-save")) $6("btn-resume-save").addEventListener("click", () => savePendingSession());
+    if ($6("btn-resume-discard")) $6("btn-resume-discard").addEventListener("click", () => discardPendingSession());
     document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "hidden") flushLiveSession(true);
     });
@@ -53882,8 +64411,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       });
     } catch {
     }
-    $4("lock-pause").addEventListener("click", pauseOrResume);
-    $4("lock-stop").addEventListener("click", finishTracking);
+    $6("lock-pause").addEventListener("click", pauseOrResume);
+    $6("lock-stop").addEventListener("click", finishTracking);
     function keepGoingFromUi() {
       const s2 = getSession();
       if (!s2) return;
@@ -53892,111 +64421,111 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       });
       paintSessionHud(s2);
     }
-    if ($4("btn-keep-going")) $4("btn-keep-going").addEventListener("click", keepGoingFromUi);
-    if ($4("btn-complete-stop")) $4("btn-complete-stop").addEventListener("click", finishTracking);
-    if ($4("lock-keep-going")) $4("lock-keep-going").addEventListener("click", keepGoingFromUi);
-    if ($4("lock-complete-stop")) $4("lock-complete-stop").addEventListener("click", finishTracking);
-    $4("btn-start-free").addEventListener("click", () => {
+    if ($6("btn-keep-going")) $6("btn-keep-going").addEventListener("click", keepGoingFromUi);
+    if ($6("btn-complete-stop")) $6("btn-complete-stop").addEventListener("click", finishTracking);
+    if ($6("lock-keep-going")) $6("lock-keep-going").addEventListener("click", keepGoingFromUi);
+    if ($6("lock-complete-stop")) $6("lock-complete-stop").addEventListener("click", finishTracking);
+    $6("btn-start-free").addEventListener("click", () => {
       closeSheet("sheet-start");
       startTracking(ui2.startType, null);
     });
-    if ($4("btn-log-indoor")) $4("btn-log-indoor").addEventListener("click", () => openIndoorLog(ui2.startType));
-    $4("btn-start-cancel").addEventListener("click", () => closeSheet("sheet-start"));
-    if ($4("btn-indoor-save")) $4("btn-indoor-save").addEventListener("click", () => saveIndoorLog());
-    if ($4("btn-indoor-cancel")) $4("btn-indoor-cancel").addEventListener("click", () => closeSheet("sheet-indoor"));
-    $4("target-distance").addEventListener("input", refreshTargetOptions);
-    if ($4("btn-session-distance-gotit")) {
-      $4("btn-session-distance-gotit").addEventListener("click", () => {
+    if ($6("btn-log-indoor")) $6("btn-log-indoor").addEventListener("click", () => openIndoorLog(ui2.startType));
+    $6("btn-start-cancel").addEventListener("click", () => closeSheet("sheet-start"));
+    if ($6("btn-indoor-save")) $6("btn-indoor-save").addEventListener("click", () => saveIndoorLog());
+    if ($6("btn-indoor-cancel")) $6("btn-indoor-cancel").addEventListener("click", () => closeSheet("sheet-indoor"));
+    $6("target-distance").addEventListener("input", refreshTargetOptions);
+    if ($6("btn-session-distance-gotit")) {
+      $6("btn-session-distance-gotit").addEventListener("click", () => {
         markSessionDistanceExplainerSeen();
         hideSessionDistanceExplainer();
       });
     }
-    $4("btn-target-start").addEventListener("click", () => startPendingWithMode(MODE_COURSE));
-    $4("btn-target-use-course").addEventListener("click", () => startPendingWithMode(MODE_COURSE));
-    $4("btn-target-continue-past").addEventListener("click", () => startPendingWithMode(MODE_CONTINUE));
-    $4("btn-target-cancel").addEventListener("click", () => {
+    $6("btn-target-start").addEventListener("click", () => startPendingWithMode(MODE_COURSE));
+    $6("btn-target-use-course").addEventListener("click", () => startPendingWithMode(MODE_COURSE));
+    $6("btn-target-continue-past").addEventListener("click", () => startPendingWithMode(MODE_CONTINUE));
+    $6("btn-target-cancel").addEventListener("click", () => {
       closeSheet("sheet-target");
       if (ui2.pendingStart) openSheet("sheet-start");
     });
-    $4("btn-save-route-new").addEventListener("click", () => commitSavedRoute("new"));
-    $4("btn-save-route-update").addEventListener("click", () => commitSavedRoute("extend"));
-    $4("btn-save-route-skip").addEventListener("click", () => commitSavedRoute("skip"));
-    if ($4("btn-celebrate-next")) $4("btn-celebrate-next").addEventListener("click", openSaveRouteChoice);
-    if ($4("btn-save-free-save")) $4("btn-save-free-save").addEventListener("click", () => commitFreeRoute(true));
-    if ($4("btn-save-free-skip")) $4("btn-save-free-skip").addEventListener("click", () => commitFreeRoute(false));
-    $4("cal-prev").addEventListener("click", () => {
+    $6("btn-save-route-new").addEventListener("click", () => commitSavedRoute("new"));
+    $6("btn-save-route-update").addEventListener("click", () => commitSavedRoute("extend"));
+    $6("btn-save-route-skip").addEventListener("click", () => commitSavedRoute("skip"));
+    if ($6("btn-celebrate-next")) $6("btn-celebrate-next").addEventListener("click", openSaveRouteChoice);
+    if ($6("btn-save-free-save")) $6("btn-save-free-save").addEventListener("click", () => commitFreeRoute(true));
+    if ($6("btn-save-free-skip")) $6("btn-save-free-skip").addEventListener("click", () => commitFreeRoute(false));
+    $6("cal-prev").addEventListener("click", () => {
       ui2.cal = new Date(ui2.cal.getFullYear(), ui2.cal.getMonth() - 1, 1);
       syncSelectedDayToMonth();
       renderCalendar();
     });
-    $4("cal-next").addEventListener("click", () => {
+    $6("cal-next").addEventListener("click", () => {
       ui2.cal = new Date(ui2.cal.getFullYear(), ui2.cal.getMonth() + 1, 1);
       syncSelectedDayToMonth();
       renderCalendar();
     });
-    $4("btn-sched-cancel").addEventListener("click", () => closeSheet("sheet-schedule"));
-    if ($4("btn-session-use-route")) {
-      $4("btn-session-use-route").addEventListener("click", () => {
+    $6("btn-sched-cancel").addEventListener("click", () => closeSheet("sheet-schedule"));
+    if ($6("btn-session-use-route")) {
+      $6("btn-session-use-route").addEventListener("click", () => {
         closeSheet("sheet-session-choice");
         openSchedule();
       });
     }
-    if ($4("btn-session-create-route")) {
-      $4("btn-session-create-route").addEventListener("click", () => beginBuilderForSchedule());
+    if ($6("btn-session-create-route")) {
+      $6("btn-session-create-route").addEventListener("click", () => beginBuilderForSchedule());
     }
-    if ($4("btn-session-choice-cancel")) {
-      $4("btn-session-choice-cancel").addEventListener("click", () => closeSheet("sheet-session-choice"));
+    if ($6("btn-session-choice-cancel")) {
+      $6("btn-session-choice-cancel").addEventListener("click", () => closeSheet("sheet-session-choice"));
     }
-    if ($4("btn-group-open-route")) $4("btn-group-open-route").addEventListener("click", () => openGroupRoute());
-    if ($4("btn-group-save-route")) {
-      $4("btn-group-save-route").addEventListener("click", () => {
-        saveGroupCourseTemplate(courseForGroupPlan(ui2.pendingGroupPlan), $4("group-event-note"));
+    if ($6("btn-group-open-route")) $6("btn-group-open-route").addEventListener("click", () => openGroupRoute());
+    if ($6("btn-group-save-route")) {
+      $6("btn-group-save-route").addEventListener("click", () => {
+        saveGroupCourseTemplate(courseForGroupPlan(ui2.pendingGroupPlan), $6("group-event-note"));
       });
     }
-    if ($4("btn-group-event-close")) $4("btn-group-event-close").addEventListener("click", () => closeSheet("sheet-group-event"));
-    if ($4("btn-group-route-save")) {
-      $4("btn-group-route-save").addEventListener("click", () => {
-        saveGroupCourseTemplate(ui2.pendingGroupCourse || courseForGroupPlan(ui2.pendingGroupPlan), $4("group-route-note"));
+    if ($6("btn-group-event-close")) $6("btn-group-event-close").addEventListener("click", () => closeSheet("sheet-group-event"));
+    if ($6("btn-group-route-save")) {
+      $6("btn-group-route-save").addEventListener("click", () => {
+        saveGroupCourseTemplate(ui2.pendingGroupCourse || courseForGroupPlan(ui2.pendingGroupPlan), $6("group-route-note"));
       });
     }
-    if ($4("btn-group-route-back")) $4("btn-group-route-back").addEventListener("click", () => closeGroupRouteView());
-    if ($4("btn-plan-route-start")) $4("btn-plan-route-start").addEventListener("click", () => startPendingPlanRoute());
-    if ($4("btn-plan-route-save")) {
-      $4("btn-plan-route-save").addEventListener("click", () => {
+    if ($6("btn-group-route-back")) $6("btn-group-route-back").addEventListener("click", () => closeGroupRouteView());
+    if ($6("btn-plan-route-start")) $6("btn-plan-route-start").addEventListener("click", () => startPendingPlanRoute());
+    if ($6("btn-plan-route-save")) {
+      $6("btn-plan-route-save").addEventListener("click", () => {
         const pending = ui2.pendingPlanRoute;
-        saveGroupCourseTemplate(pending && pending.course, $4("plan-route-note"));
+        saveGroupCourseTemplate(pending && pending.course, $6("plan-route-note"));
       });
     }
-    if ($4("btn-plan-route-back")) $4("btn-plan-route-back").addEventListener("click", () => closePlanRouteView());
-    $4("btn-sched-save").addEventListener("click", () => {
-      const c = courseById2($4("sched-course").value);
+    if ($6("btn-plan-route-back")) $6("btn-plan-route-back").addEventListener("click", () => closePlanRouteView());
+    $6("btn-sched-save").addEventListener("click", () => {
+      const c = courseById2($6("sched-course").value);
       if (!c) return;
       state2.plans.push(newPlan({
         date: ui2.selectedDay,
         courseId: c.id,
         courseName: c.name,
-        activityType: $4("sched-type").value
+        activityType: $6("sched-type").value
       }));
       persist();
       closeSheet("sheet-schedule");
       renderCalendar();
     });
-    $4("range-tog").addEventListener("click", (e) => {
-      const b2 = e.target.closest("button[data-range]");
-      if (!b2) return;
-      ui2.range = b2.dataset.range;
-      document.querySelectorAll("#range-tog button").forEach((x2) => x2.classList.toggle("active", x2 === b2));
+    $6("range-tog").addEventListener("click", (e) => {
+      const b3 = e.target.closest("button[data-range]");
+      if (!b3) return;
+      ui2.range = b3.dataset.range;
+      document.querySelectorAll("#range-tog button").forEach((x2) => x2.classList.toggle("active", x2 === b3));
       renderProgress();
     });
-    $4("units-tog").addEventListener("click", (e) => {
-      const b2 = e.target.closest("button[data-units]");
-      if (!b2) return;
-      state2.settings.units = b2.dataset.units;
+    $6("units-tog").addEventListener("click", (e) => {
+      const b3 = e.target.closest("button[data-units]");
+      if (!b3) return;
+      state2.settings.units = b3.dataset.units;
       persist();
       render();
     });
-    if ($4("auto-pause-switch")) {
-      $4("auto-pause-switch").addEventListener("click", () => {
+    if ($6("auto-pause-switch")) {
+      $6("auto-pause-switch").addEventListener("click", () => {
         const next = !(state2.settings.autoPause !== false);
         state2.settings.autoPause = next;
         setAutoPauseEnabled(next);
@@ -54006,8 +64535,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         if (sess) paintSessionHud(sess);
       });
     }
-    if ($4("low-power-switch")) {
-      $4("low-power-switch").addEventListener("click", () => {
+    if ($6("low-power-switch")) {
+      $6("low-power-switch").addEventListener("click", () => {
         const next = !state2.settings.lowPower;
         state2.settings.lowPower = next;
         const changed = setLowPowerEnabled(next);
@@ -54021,8 +64550,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         }
       });
     }
-    if ($4("count-hills-switch")) {
-      $4("count-hills-switch").addEventListener("click", () => {
+    if ($6("count-hills-switch")) {
+      $6("count-hills-switch").addEventListener("click", () => {
         state2.settings.countHills = !state2.settings.countHills;
         persist();
         renderSettings();
@@ -54031,7 +64560,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         if (ui2.screen === "progress") renderProgress();
       });
     }
-    $4("health-switch").addEventListener("click", async () => {
+    $6("health-switch").addEventListener("click", async () => {
       const next = !state2.settings.healthOptIn;
       state2.settings.healthOptIn = next;
       persist();
@@ -54041,73 +64570,80 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         if (access.status === "granted") renderSettings();
       }
     });
-    $4("btn-health-import").addEventListener("click", importWatchActivities);
-    $4("btn-summary-done").addEventListener("click", () => {
+    $6("btn-health-import").addEventListener("click", importWatchActivities);
+    $6("btn-summary-done").addEventListener("click", () => {
       ui2.hideNav = false;
       setTab("today");
       showScreen("today");
     });
-    $4("btn-course-close").addEventListener("click", () => closeSheet("sheet-course"));
-    $4("btn-course-share").addEventListener("click", () => {
+    if ($6("btn-summary-details")) $6("btn-summary-details").addEventListener("click", openSummaryDetails);
+    if ($6("btn-details-back")) $6("btn-details-back").addEventListener("click", closeSummaryDetails);
+    if ($6("btn-details-done")) $6("btn-details-done").addEventListener("click", () => {
+      ui2.hideNav = false;
+      setTab("today");
+      showScreen("today");
+    });
+    $6("btn-course-close").addEventListener("click", () => closeSheet("sheet-course"));
+    $6("btn-course-share").addEventListener("click", () => {
       const c = courseById2(ui2.courseId);
       if (!c) return;
       openShareSheet("course", c);
     });
-    $4("btn-course-group").addEventListener("click", () => {
+    $6("btn-course-group").addEventListener("click", () => {
       const c = courseById2(ui2.courseId);
       closeSheet("sheet-course");
       openGroupRun({ courseId: c && c.id });
     });
-    $4("btn-group-cancel").addEventListener("click", () => closeSheet("sheet-group"));
-    $4("btn-group-create").addEventListener("click", () => {
+    $6("btn-group-cancel").addEventListener("click", () => closeSheet("sheet-group"));
+    $6("btn-group-create").addEventListener("click", () => {
       createGroupRunFromSheet();
     });
-    $4("btn-group-invite-close").addEventListener("click", () => closeSheet("sheet-group-invite"));
-    $4("btn-group-copy").addEventListener("click", () => {
+    $6("btn-group-invite-close").addEventListener("click", () => closeSheet("sheet-group-invite"));
+    $6("btn-group-copy").addEventListener("click", () => {
       copyGroupInvite().catch(() => {
       });
     });
-    $4("btn-group-cal").addEventListener("click", () => {
+    $6("btn-group-cal").addEventListener("click", () => {
       addGroupToCalendar().catch(() => {
       });
     });
-    $4("btn-share-close").addEventListener("click", () => closeSheet("sheet-share"));
-    $4("btn-share-copy").addEventListener("click", () => {
+    $6("btn-share-close").addEventListener("click", () => closeSheet("sheet-share"));
+    $6("btn-share-copy").addEventListener("click", () => {
       copyShareLink().catch(() => {
       });
     });
-    $4("btn-share-send").addEventListener("click", () => {
+    $6("btn-share-send").addEventListener("click", () => {
       sendShareLink().catch(() => {
       });
     });
-    if ($4("btn-share-qr")) $4("btn-share-qr").addEventListener("click", () => openShareQrSheet());
-    if ($4("btn-share-qr-close")) $4("btn-share-qr-close").addEventListener("click", () => closeSheet("sheet-share-qr"));
-    if ($4("btn-share-qr-prev")) $4("btn-share-qr-prev").addEventListener("click", () => stepShareQr(-1));
-    if ($4("btn-share-qr-next")) $4("btn-share-qr-next").addEventListener("click", () => stepShareQr(1));
-    if ($4("btn-scan-qr-courses")) $4("btn-scan-qr-courses").addEventListener("click", () => startQrScan());
-    if ($4("btn-scan-qr-plans")) $4("btn-scan-qr-plans").addEventListener("click", () => startQrScan());
-    if ($4("btn-scan-qr-close")) $4("btn-scan-qr-close").addEventListener("click", () => stopQrScan());
-    $4("btn-share-import-cancel").addEventListener("click", () => {
+    if ($6("btn-share-qr")) $6("btn-share-qr").addEventListener("click", () => openShareQrSheet());
+    if ($6("btn-share-qr-close")) $6("btn-share-qr-close").addEventListener("click", () => closeSheet("sheet-share-qr"));
+    if ($6("btn-share-qr-prev")) $6("btn-share-qr-prev").addEventListener("click", () => stepShareQr(-1));
+    if ($6("btn-share-qr-next")) $6("btn-share-qr-next").addEventListener("click", () => stepShareQr(1));
+    if ($6("btn-scan-qr-courses")) $6("btn-scan-qr-courses").addEventListener("click", () => startQrScan());
+    if ($6("btn-scan-qr-plans")) $6("btn-scan-qr-plans").addEventListener("click", () => startQrScan());
+    if ($6("btn-scan-qr-close")) $6("btn-scan-qr-close").addEventListener("click", () => stopQrScan());
+    $6("btn-share-import-cancel").addEventListener("click", () => {
       ui2.pendingShare = null;
       closeSheet("sheet-share-import");
     });
-    $4("btn-share-import-add").addEventListener("click", () => {
+    $6("btn-share-import-add").addEventListener("click", () => {
       acceptIncomingShare();
     });
-    $4("share-url").addEventListener("click", (e) => {
+    $6("share-url").addEventListener("click", (e) => {
       e.target.select();
     });
-    $4("btn-course-walk").addEventListener("click", () => {
+    $6("btn-course-walk").addEventListener("click", () => {
       const c = courseById2(ui2.courseId);
       if (!c) return;
       promptTargetThenStart("walk", c);
     });
-    $4("btn-course-run").addEventListener("click", () => {
+    $6("btn-course-run").addEventListener("click", () => {
       const c = courseById2(ui2.courseId);
       if (!c) return;
       promptTargetThenStart("run", c);
     });
-    $4("btn-course-rename").addEventListener("click", () => {
+    $6("btn-course-rename").addEventListener("click", () => {
       const c = courseById2(ui2.courseId);
       if (!c) return;
       const name = window.prompt("New name", c.name);
@@ -54119,7 +64655,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         openCourseActions(c);
       }
     });
-    $4("btn-course-delete").addEventListener("click", () => {
+    $6("btn-course-delete").addEventListener("click", () => {
       const c = courseById2(ui2.courseId);
       if (!c) return;
       if (window.confirm(`Delete \u201C${c.name}\u201D? This cannot be undone.`)) {
@@ -54129,82 +64665,82 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         renderCourses();
       }
     });
-    $4("btn-support").addEventListener("click", () => {
+    $6("btn-support").addEventListener("click", () => {
       showScreen("support");
       renderSettings();
     });
-    $4("support-back").addEventListener("click", () => setTab("settings"));
-    if ($4("btn-goals-open")) $4("btn-goals-open").addEventListener("click", () => {
+    $6("support-back").addEventListener("click", () => setTab("settings"));
+    if ($6("btn-goals-open")) $6("btn-goals-open").addEventListener("click", () => {
       showScreen("goals");
       renderGoalsScreen();
     });
-    if ($4("goals-back")) $4("goals-back").addEventListener("click", () => setTab("settings"));
-    if ($4("btn-goals-open-plans")) $4("btn-goals-open-plans").addEventListener("click", () => {
+    if ($6("goals-back")) $6("goals-back").addEventListener("click", () => setTab("settings"));
+    if ($6("btn-goals-open-plans")) $6("btn-goals-open-plans").addEventListener("click", () => {
       showScreen("plans");
       renderPlansScreen();
     });
-    if ($4("btn-end-point-pin")) $4("btn-end-point-pin").addEventListener("click", () => {
+    if ($6("btn-end-point-pin")) $6("btn-end-point-pin").addEventListener("click", () => {
       applyBuilderChange((st) => toggleEndMode(st));
       paintEndPointButton();
     });
-    if ($4("btn-builder-help")) $4("btn-builder-help").addEventListener("click", () => maybeShowBuilderExplainer({ force: true }));
-    if ($4("btn-path-mode")) $4("btn-path-mode").addEventListener("click", (ev) => {
+    if ($6("btn-builder-help")) $6("btn-builder-help").addEventListener("click", () => maybeShowBuilderExplainer({ force: true }));
+    if ($6("btn-path-mode")) $6("btn-path-mode").addEventListener("click", (ev) => {
       ev.preventDefault();
       ev.stopPropagation();
       setCurrentPathMode(isOffPathMode(currentPathMode()) ? "on" : "off");
     });
-    if ($4("btn-path-mode-gotit")) $4("btn-path-mode-gotit").addEventListener("click", (ev) => {
+    if ($6("btn-path-mode-gotit")) $6("btn-path-mode-gotit").addEventListener("click", (ev) => {
       ev.preventDefault();
       ev.stopPropagation();
       hidePathModeExplainer({ seen: true });
     });
-    if ($4("btn-switch-pin-green")) $4("btn-switch-pin-green").addEventListener("click", (ev) => {
+    if ($6("btn-switch-pin-green")) $6("btn-switch-pin-green").addEventListener("click", (ev) => {
       ev.preventDefault();
       ev.stopPropagation();
       switchHintPinToGreen();
     });
-    if ($4("btn-builder-help-gotit")) $4("btn-builder-help-gotit").addEventListener("click", () => {
+    if ($6("btn-builder-help-gotit")) $6("btn-builder-help-gotit").addEventListener("click", () => {
       markExplainerSeen();
       closeSheet("sheet-builder-help");
       maybeShowPathModeExplainer();
     });
-    if ($4("btn-pin-add-stop")) $4("btn-pin-add-stop").addEventListener("click", () => {
+    if ($6("btn-pin-add-stop")) $6("btn-pin-add-stop").addEventListener("click", () => {
       const i = ui2.pinActionIndex;
       closeSheet("sheet-pin-action");
       closeSheet("sheet-new-goal");
       if (i == null) return;
       applyBuilderChange((st) => addNextStop(st, i, { pathMode: currentPathMode() }));
     });
-    if ($4("btn-pin-path-on")) $4("btn-pin-path-on").addEventListener("click", () => {
+    if ($6("btn-pin-path-on")) $6("btn-pin-path-on").addEventListener("click", () => {
       const i = ui2.pinActionIndex;
       closeSheet("sheet-pin-action");
       if (i != null) applyBuilderChange((s2) => setPinPathMode(s2, i, "on"));
     });
-    if ($4("btn-pin-path-off")) $4("btn-pin-path-off").addEventListener("click", () => {
+    if ($6("btn-pin-path-off")) $6("btn-pin-path-off").addEventListener("click", () => {
       const i = ui2.pinActionIndex;
       closeSheet("sheet-pin-action");
       if (i != null) applyBuilderChange((s2) => setPinPathMode(s2, i, "off"));
     });
-    if ($4("btn-pin-set-end")) $4("btn-pin-set-end").addEventListener("click", () => {
+    if ($6("btn-pin-set-end")) $6("btn-pin-set-end").addEventListener("click", () => {
       const i = ui2.pinActionIndex;
       closeSheet("sheet-pin-action");
       closeSheet("sheet-new-goal");
       if (i == null) return;
       applyBuilderChange((st) => setEndIndex(st, i));
     });
-    if ($4("btn-pin-delete")) $4("btn-pin-delete").addEventListener("click", () => {
+    if ($6("btn-pin-delete")) $6("btn-pin-delete").addEventListener("click", () => {
       const i = ui2.pinActionIndex;
       if (i == null) return;
       applyPinDelete(i);
     });
-    if ($4("btn-pin-remove-end")) $4("btn-pin-remove-end").addEventListener("click", () => {
+    if ($6("btn-pin-remove-end")) $6("btn-pin-remove-end").addEventListener("click", () => {
       closeSheet("sheet-pin-action");
       closeSheet("sheet-new-goal");
       applyBuilderChange((st) => removeEnd(st));
     });
-    if ($4("btn-pin-action-cancel")) $4("btn-pin-action-cancel").addEventListener("click", () => closeSheet("sheet-pin-action"));
-    if ($4("btn-course-goal-save")) $4("btn-course-goal-save").addEventListener("click", () => saveCourseGoal());
-    if ($4("btn-plans-open")) $4("btn-plans-open").addEventListener("click", () => {
+    if ($6("btn-pin-action-cancel")) $6("btn-pin-action-cancel").addEventListener("click", () => closeSheet("sheet-pin-action"));
+    if ($6("btn-course-goal-save")) $6("btn-course-goal-save").addEventListener("click", () => saveCourseGoal());
+    if ($6("btn-plans-open")) $6("btn-plans-open").addEventListener("click", () => {
       showScreen("plans");
       renderPlansScreen();
     });
@@ -54214,51 +64750,51 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       goSettings: () => setTab("settings"),
       setHideNav: (v2) => {
         ui2.hideNav = !!v2;
-        $4("tab-bar").style.display = v2 || ui2.screen === "lock" ? "none" : "grid";
+        $6("tab-bar").style.display = v2 || ui2.screen === "lock" ? "none" : "grid";
       }
     });
-    if ($4("plans-back")) $4("plans-back").addEventListener("click", () => {
+    if ($6("plans-back")) $6("plans-back").addEventListener("click", () => {
       showScreen("goals");
     });
-    if ($4("btn-donate")) {
-      $4("btn-donate").addEventListener("click", async () => {
+    if ($6("btn-donate")) {
+      $6("btn-donate").addEventListener("click", async () => {
         const res = await purchaseSupport();
-        const msg = $4("donate-msg");
+        const msg = $6("donate-msg");
         if (msg) {
           msg.textContent = res.ok ? "Thank you. This $5 donation (" + SUPPORT_PRODUCT_ID + ") is recorded as a stub until Play Billing is wired. Nothing is unlocked, and you never have to donate to use the app." : "Donation could not be started.";
         }
       });
     }
-    if ($4("btn-locate-me")) {
-      $4("btn-locate-me").addEventListener("click", () => locateUser({ animate: true }));
+    if ($6("btn-locate-me")) {
+      $6("btn-locate-me").addEventListener("click", () => locateUser({ animate: true }));
     }
-    if ($4("btn-map-style")) {
-      $4("btn-map-style").addEventListener("click", () => toggleMapStyle());
+    if ($6("btn-map-style")) {
+      $6("btn-map-style").addEventListener("click", () => toggleMapStyle());
     }
     const openNewGoal = () => openNewGoalSheet();
-    if ($4("btn-new-goal")) $4("btn-new-goal").addEventListener("click", openNewGoal);
-    if ($4("btn-today-new-goal")) $4("btn-today-new-goal").addEventListener("click", openNewGoal);
-    if ($4("btn-settings-new-goal")) $4("btn-settings-new-goal").addEventListener("click", openNewGoal);
-    if ($4("goal-new-kind")) $4("goal-new-kind").addEventListener("change", () => paintGoalTypeFields());
-    if ($4("btn-goal-save")) $4("btn-goal-save").addEventListener("click", addGoalFromForm);
-    if ($4("btn-goal-cancel")) $4("btn-goal-cancel").addEventListener("click", () => closeSheet("sheet-new-goal"));
-    bindPlaceSearch($4("place-search"), $4("place-search-results"));
-    bindPlaceSearch($4("map-choice-search"), $4("map-choice-search-results"));
-    if ($4("btn-map-download-local")) {
-      $4("btn-map-download-local").addEventListener("click", () => chooseMapDataMode("offline"));
+    if ($6("btn-new-goal")) $6("btn-new-goal").addEventListener("click", openNewGoal);
+    if ($6("btn-today-new-goal")) $6("btn-today-new-goal").addEventListener("click", openNewGoal);
+    if ($6("btn-settings-new-goal")) $6("btn-settings-new-goal").addEventListener("click", openNewGoal);
+    if ($6("goal-new-kind")) $6("goal-new-kind").addEventListener("change", () => paintGoalTypeFields());
+    if ($6("btn-goal-save")) $6("btn-goal-save").addEventListener("click", addGoalFromForm);
+    if ($6("btn-goal-cancel")) $6("btn-goal-cancel").addEventListener("click", () => closeSheet("sheet-new-goal"));
+    bindPlaceSearch($6("place-search"), $6("place-search-results"));
+    bindPlaceSearch($6("map-choice-search"), $6("map-choice-search-results"));
+    if ($6("btn-map-download-local")) {
+      $6("btn-map-download-local").addEventListener("click", () => chooseMapDataMode("offline"));
     }
-    if ($4("btn-map-use-data")) {
-      $4("btn-map-use-data").addEventListener("click", () => chooseMapDataMode("mobile"));
+    if ($6("btn-map-use-data")) {
+      $6("btn-map-use-data").addEventListener("click", () => chooseMapDataMode("mobile"));
     }
-    if ($4("btn-map-mode-download")) {
-      $4("btn-map-mode-download").addEventListener("click", () => chooseMapDataMode("offline", { fromSettings: true }));
+    if ($6("btn-map-mode-download")) {
+      $6("btn-map-mode-download").addEventListener("click", () => chooseMapDataMode("offline", { fromSettings: true }));
     }
-    if ($4("btn-map-mode-data")) {
-      $4("btn-map-mode-data").addEventListener("click", () => chooseMapDataMode("mobile", { fromSettings: true }));
+    if ($6("btn-map-mode-data")) {
+      $6("btn-map-mode-data").addEventListener("click", () => chooseMapDataMode("mobile", { fromSettings: true }));
     }
-    const a2hsBtn = $4("btn-a2hs");
+    const a2hsBtn = $6("btn-a2hs");
     if (a2hsBtn) {
-      const note = $4("a2hs-note");
+      const note = $6("a2hs-note");
       const refresh = () => {
         if (canPromptInstall()) {
           a2hsBtn.disabled = false;
@@ -54287,14 +64823,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function paintMapStyleButton() {
     const sat = (state2.settings.mapStyle || "map") === "satellite";
-    const btn = $4("btn-map-style");
+    const btn = $6("btn-map-style");
     if (btn) {
       btn.setAttribute("aria-pressed", sat ? "true" : "false");
       btn.textContent = sat ? "Satellite" : "Map";
       btn.title = sat ? "Switch to map" : "Switch to satellite";
       btn.setAttribute("aria-label", sat ? "Satellite view, switch to map" : "Map view, switch to satellite");
     }
-    const note = $4("map-style-note");
+    const note = $6("map-style-note");
     if (note) {
       if (sat && !isOnline()) {
         note.hidden = false;
@@ -54372,12 +64908,12 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function renderMapChoiceSheet() {
     const hasFix = !!normalizeFix(state2.settings.lastKnown);
-    const wrap = $4("map-choice-search-wrap");
+    const wrap = $6("map-choice-search-wrap");
     if (wrap) wrap.hidden = hasFix;
     if (hasFix) hideSheetSearchResults();
   }
   function hideSheetSearchResults() {
-    const list = $4("map-choice-search-results");
+    const list = $6("map-choice-search-results");
     if (list) {
       list.hidden = true;
       list.innerHTML = "";
@@ -54401,7 +64937,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
   }
   function setLocateBusy(busy) {
-    const btn = $4("btn-locate-me");
+    const btn = $6("btn-locate-me");
     if (btn) {
       btn.classList.toggle("busy", !!busy);
       btn.disabled = !!busy;
@@ -54409,7 +64945,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     showFindingYou(busy);
   }
   function showFindingYou(show2) {
-    const el = $4("finding-you");
+    const el = $6("finding-you");
     if (!el) return;
     el.hidden = !show2;
     el.textContent = show2 ? FINDING_YOU : "";
@@ -54417,7 +64953,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function showLocateDenied(reason) {
     const note = noteForLocateReason(reason) || (reason ? LOCATION_DENIED_NOTE : "");
     for (const id of ["map-locate-note", "map-choice-locate-note"]) {
-      const el = $4(id);
+      const el = $6(id);
       if (!el) continue;
       if (note) {
         el.hidden = false;
@@ -54427,18 +64963,18 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         el.textContent = "";
       }
     }
-    const wrap = $4("map-choice-search-wrap");
+    const wrap = $6("map-choice-search-wrap");
     if (wrap) wrap.hidden = !note;
   }
   function hideLocateDenied() {
     for (const id of ["map-locate-note", "map-choice-locate-note"]) {
-      const el = $4(id);
+      const el = $6(id);
       if (el) {
         el.hidden = true;
         el.textContent = "";
       }
     }
-    const wrap = $4("map-choice-search-wrap");
+    const wrap = $6("map-choice-search-wrap");
     if (wrap && normalizeFix(state2.settings.lastKnown)) wrap.hidden = true;
   }
   function applyLocateResult(res, { animate = true } = {}) {
@@ -54487,15 +65023,15 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       }
       for (const place of places) {
         const li = document.createElement("li");
-        const b2 = document.createElement("button");
-        b2.type = "button";
-        b2.textContent = place.label;
-        b2.addEventListener("click", () => {
+        const b3 = document.createElement("button");
+        b3.type = "button";
+        b3.textContent = place.label;
+        b3.addEventListener("click", () => {
           input.value = place.label;
           close();
           flyToPlace(place);
         });
-        li.appendChild(b2);
+        li.appendChild(b3);
         list.appendChild(li);
       }
       list.hidden = false;
@@ -54577,13 +65113,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return true;
   }
   function fillGroupPreview() {
-    const c = courseById2($4("group-course").value);
-    const type = $4("group-type").value;
-    const date = $4("group-date").value;
-    const time = $4("group-time").value;
+    const c = courseById2($6("group-course").value);
+    const type = $6("group-type").value;
+    const date = $6("group-date").value;
+    const time = $6("group-time").value;
     if (!c || !date || !time) {
-      $4("group-preview").textContent = "Choose a course, date, and time.";
-      const groupNote0 = $4("group-conflict");
+      $6("group-preview").textContent = "Choose a course, date, and time.";
+      const groupNote0 = $6("group-conflict");
       if (groupNote0) {
         groupNote0.hidden = true;
         groupNote0.textContent = "";
@@ -54592,12 +65128,12 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     const start = /* @__PURE__ */ new Date(`${date}T${time}`);
     if (Number.isNaN(start.getTime())) {
-      $4("group-preview").textContent = "That date or time could not be read.";
+      $6("group-preview").textContent = "That date or time could not be read.";
       return;
     }
     const len = courseMeters(c);
-    $4("group-preview").textContent = `${c.name} \xB7 ${formatDistance(len, units2())} \xB7 ${formatWhen(start.toISOString())} \xB7 ${formatEta(etaSeconds(len, activityMph(type)))}`;
-    const groupNote = $4("group-conflict");
+    $6("group-preview").textContent = `${c.name} \xB7 ${formatDistance(len, units2())} \xB7 ${formatWhen(start.toISOString())} \xB7 ${formatEta(etaSeconds(len, activityMph(type)))}`;
+    const groupNote = $6("group-conflict");
     if (groupNote) {
       const copy = conflictCopy(plansOnDate(state2.plans, date));
       groupNote.hidden = !copy;
@@ -54610,30 +65146,30 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       setTab("courses");
       return;
     }
-    const sel = $4("group-course");
+    const sel = $6("group-course");
     sel.innerHTML = state2.courses.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join("");
     const preferred = opt.courseId || ui2.courseId;
     if (preferred && state2.courses.some((c) => c.id === preferred)) sel.value = preferred;
     const today = isoDate(/* @__PURE__ */ new Date());
-    $4("group-date").value = opt.date || ui2.selectedDay || today;
-    $4("group-time").value = opt.time || "09:00";
-    $4("group-type").value = opt.type || "walk";
+    $6("group-date").value = opt.date || ui2.selectedDay || today;
+    $6("group-time").value = opt.time || "09:00";
+    $6("group-type").value = opt.type || "walk";
     sel.onchange = fillGroupPreview;
-    $4("group-type").onchange = fillGroupPreview;
-    $4("group-date").onchange = fillGroupPreview;
-    $4("group-time").onchange = fillGroupPreview;
+    $6("group-type").onchange = fillGroupPreview;
+    $6("group-date").onchange = fillGroupPreview;
+    $6("group-time").onchange = fillGroupPreview;
     fillGroupPreview();
     openSheet("sheet-group");
   }
   function createGroupRunFromSheet() {
-    const c = courseById2($4("group-course").value);
-    const date = $4("group-date").value;
-    const time = $4("group-time").value;
+    const c = courseById2($6("group-course").value);
+    const date = $6("group-date").value;
+    const time = $6("group-time").value;
     if (!c || !date || !time) return;
     const start = /* @__PURE__ */ new Date(`${date}T${time}`);
-    const made = makeGroupRun({ course: c, startAt: start, activityType: $4("group-type").value });
+    const made = makeGroupRun({ course: c, startAt: start, activityType: $6("group-type").value });
     if (!made.ok) {
-      $4("group-preview").textContent = "Could not create that Group Run. Check the date and course.";
+      $6("group-preview").textContent = "Could not create that Group Run. Check the date and course.";
       return;
     }
     addGroupRunToState(state2, made.run);
@@ -54645,23 +65181,23 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function openGroupInvite(run) {
     ui2.pendingGroupRun = run;
-    $4("group-invite-title").textContent = run.title || "Invite your group";
-    $4("group-invite-sub").textContent = formatWhen(run.startAt);
-    $4("group-invite-text").value = inviteMessage(run);
-    const sms = $4("btn-group-sms");
+    $6("group-invite-title").textContent = run.title || "Invite your group";
+    $6("group-invite-sub").textContent = formatWhen(run.startAt);
+    $6("group-invite-text").value = inviteMessage(run);
+    const sms = $6("btn-group-sms");
     sms.href = smsHref(run);
-    $4("group-invite-note").textContent = "Text friends opens your SMS app so you can pick people from your contacts. Heldpath does not read your address book.";
+    $6("group-invite-note").textContent = "Text friends opens your SMS app so you can pick people from your contacts. Heldpath does not read your address book.";
     openSheet("sheet-group-invite");
   }
   async function copyGroupInvite() {
-    const text = $4("group-invite-text").value;
+    const text = $6("group-invite-text").value;
     if (!text) return;
     try {
       await navigator.clipboard.writeText(text);
-      $4("group-invite-note").textContent = "Invite copied.";
+      $6("group-invite-note").textContent = "Invite copied.";
     } catch {
-      $4("group-invite-text").select();
-      $4("group-invite-note").textContent = "Copy the invite from the field above.";
+      $6("group-invite-text").select();
+      $6("group-invite-note").textContent = "Copy the invite from the field above.";
     }
   }
   async function addGroupToCalendar() {
@@ -54686,16 +65222,16 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1e3);
-    $4("group-invite-note").textContent = "Calendar file saved. Open it to add this Group Run to your calendar.";
+    $6("group-invite-note").textContent = "Calendar file saved. Open it to add this Group Run to your calendar.";
   }
   function openShareSheet(kind, obj) {
     closeSheet("sheet-course");
     ui2.pendingShareOut = { kind, obj };
     const encoded = kind === "plan" ? encodePlan(obj) : encodeCourse(obj);
     const summary = kind === "plan" ? shareSummary({ ok: true, kind: "plan", plan: obj }, units2()) : shareSummary(decodeShare(encoded.url), units2());
-    $4("share-title").textContent = kind === "plan" ? "Share this plan" : "Share this course";
-    $4("share-sub").textContent = summary.sub || "";
-    $4("share-url").value = encoded.url;
+    $6("share-title").textContent = kind === "plan" ? "Share this plan" : "Share this course";
+    $6("share-sub").textContent = summary.sub || "";
+    $6("share-url").value = encoded.url;
     let note = kind === "plan" ? "Anyone with the link can import this plan for free. The plan stays in the link, not on a server." : "Anyone with the link can add this course. The route stays in the link, not on a server.";
     if (encoded.omittedPath) {
       note = "The link uses the pins so it stays short. Heldpath can route the path again when someone opens it.";
@@ -54703,7 +65239,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (encoded.tooLong) {
       note = "This plan is large for a link. Export the file instead if the link does not open.";
     }
-    $4("share-note").textContent = note;
+    $6("share-note").textContent = note;
     openSheet("sheet-share");
   }
   function openShareQrSheet() {
@@ -54724,9 +65260,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function renderShareQrFrame() {
     const frames = ui2.qrFrames || [];
-    const box = $4("share-qr");
-    const count = $4("share-qr-count");
-    const nav = $4("share-qr-nav");
+    const box = $6("share-qr");
+    const count = $6("share-qr-count");
+    const nav = $6("share-qr-nav");
     if (!frames.length) {
       if (box) {
         box.innerHTML = "";
@@ -54773,7 +65309,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         }
       });
     }
-    const video = $4("scan-qr-video");
+    const video = $6("scan-qr-video");
     if (video) {
       try {
         video.srcObject = null;
@@ -54786,7 +65322,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     stopQrScanKeepSheet();
     ui2.qrAssembler = createQrAssembler();
     ui2.scanActive = !previewOnly;
-    const note = $4("scan-qr-note");
+    const note = $6("scan-qr-note");
     if (note) note.textContent = previewOnly ? "Camera stays off in this preview." : "Point the camera at each code. Works with no signal.";
     openSheet("sheet-scan-qr");
     if (previewOnly) return;
@@ -54804,7 +65340,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         return;
       }
       ui2.scanStream = stream;
-      const video = $4("scan-qr-video");
+      const video = $6("scan-qr-video");
       if (video) {
         video.srcObject = stream;
         try {
@@ -54839,7 +65375,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         }
       });
     }
-    const video = $4("scan-qr-video");
+    const video = $6("scan-qr-video");
     if (video) {
       try {
         video.srcObject = null;
@@ -54849,8 +65385,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function tickQrScan() {
     if (!ui2.scanActive) return;
-    const video = $4("scan-qr-video");
-    const canvas = $4("scan-qr-canvas");
+    const video = $6("scan-qr-video");
+    const canvas = $6("scan-qr-canvas");
     if (video && canvas && video.readyState >= 2 && video.videoWidth) {
       const w2 = video.videoWidth;
       const h2 = video.videoHeight;
@@ -54869,7 +65405,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function handleScannedQr(text) {
     if (!ui2.qrAssembler) ui2.qrAssembler = createQrAssembler();
     const result = ui2.qrAssembler.add(text);
-    const note = $4("scan-qr-note");
+    const note = $6("scan-qr-note");
     if (result.status === "need_more") {
       if (note) note.textContent = `Got ${result.got} of ${result.total}. Scan the next code.`;
       return;
@@ -54887,20 +65423,20 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
   }
   async function copyShareLink() {
-    const url = $4("share-url").value;
+    const url = $6("share-url").value;
     if (!url) return;
     try {
       await navigator.clipboard.writeText(url);
-      $4("share-note").textContent = "Link copied.";
+      $6("share-note").textContent = "Link copied.";
     } catch {
-      $4("share-url").select();
-      $4("share-note").textContent = "Copy the link from the field above.";
+      $6("share-url").select();
+      $6("share-note").textContent = "Copy the link from the field above.";
     }
   }
   async function sendShareLink() {
-    const url = $4("share-url").value;
+    const url = $6("share-url").value;
     if (!url) return;
-    const title = $4("share-title").textContent || "Heldpath";
+    const title = $6("share-title").textContent || "Heldpath";
     if (navigator.share) {
       try {
         await navigator.share({ title, text: "Open this in Heldpath.", url });
@@ -54921,10 +65457,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }), { existingIds: (state2.planLibrary || []).map((p) => p.id) });
     if (!res.ok) {
       ui2.pendingShare = decoded;
-      $4("share-import-title").textContent = "Could not add this plan";
-      $4("share-import-sub").textContent = "That plan could not be imported. Nothing was charged.";
-      $4("btn-share-import-add").textContent = "Try again";
-      $4("share-import-preview").innerHTML = "";
+      $6("share-import-title").textContent = "Could not add this plan";
+      $6("share-import-sub").textContent = "That plan could not be imported. Nothing was charged.";
+      $6("btn-share-import-add").textContent = "Try again";
+      $6("share-import-preview").innerHTML = "";
       openSheet("sheet-share-import");
       return true;
     }
@@ -54934,9 +65470,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     closeSheet("sheet-share-import");
     showScreen("plans");
     renderPlansScreen();
-    const note = $4("plan-import-note") || $4("plans-price-line");
-    if (note && $4("plan-import-note")) {
-      $4("plan-import-note").textContent = "Plan added to this phone. This is your own copy \u2014 your progress, metrics, graphs and history stay on this device and are not shared.";
+    const note = $6("plan-import-note") || $6("plans-price-line");
+    if (note && $6("plan-import-note")) {
+      $6("plan-import-note").textContent = "Plan added to this phone. This is your own copy \u2014 your progress, metrics, graphs and history stay on this device and are not shared.";
     }
     return true;
   }
@@ -54945,17 +65481,17 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     ui2.pendingShare = decoded;
     const summary = shareSummary(decoded, units2());
     if (decoded.kind === "plan") {
-      $4("share-import-title").textContent = "Add this plan?";
-      $4("share-import-sub").textContent = `${summary.title} \xB7 ${summary.sub}`;
-      $4("btn-share-import-add").textContent = "Import this plan for free";
+      $6("share-import-title").textContent = "Add this plan?";
+      $6("share-import-sub").textContent = `${summary.title} \xB7 ${summary.sub}`;
+      $6("btn-share-import-add").textContent = "Import this plan for free";
       const pins = decoded.plan && decoded.plan.route && decoded.plan.route.pins;
-      $4("share-import-preview").innerHTML = pins && pins.length ? pathPreviewSvg(pins) : "";
+      $6("share-import-preview").innerHTML = pins && pins.length ? pathPreviewSvg(pins) : "";
     } else {
-      $4("share-import-title").textContent = "Add this course?";
-      $4("share-import-sub").textContent = `${summary.title} \xB7 ${summary.sub}`;
-      $4("btn-share-import-add").textContent = "Add to my library";
+      $6("share-import-title").textContent = "Add this course?";
+      $6("share-import-sub").textContent = `${summary.title} \xB7 ${summary.sub}`;
+      $6("btn-share-import-add").textContent = "Add to my library";
       const pts = decoded.course.path && decoded.course.path.length ? decoded.course.path : decoded.course.pins;
-      $4("share-import-preview").innerHTML = pathPreviewSvg(pts);
+      $6("share-import-preview").innerHTML = pathPreviewSvg(pts);
     }
     openSheet("sheet-share-import");
   }
@@ -54970,7 +65506,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         plan: decoded.plan
       }), { existingIds: (state2.planLibrary || []).map((p) => p.id) });
       if (!res.ok) {
-        $4("share-import-sub").textContent = "That plan could not be imported. Nothing was charged.";
+        $6("share-import-sub").textContent = "That plan could not be imported. Nothing was charged.";
         return;
       }
       addPlanToState(state2, res.plan);
@@ -55104,7 +65640,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     persist();
     setTab("today");
     showScreen("today");
-    if ($4("today-dock")) $4("today-dock").hidden = true;
+    if ($6("today-dock")) $6("today-dock").hidden = true;
     showMapBanner("Loading paths\u2026");
     await waitMapReady();
     setCenter(center.lat, center.lon, 15);
@@ -55170,9 +65706,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     ui2.findingPaths = false;
     ui2.straightOverrides = /* @__PURE__ */ new Set();
     ui2.builderRoute = null;
-    const coursePins = loopPins && loopPins.length >= 2 ? loopPins : pins;
-    const shouldClose = closeLoop != null ? !!closeLoop : !!(coursePins && coursePins.length >= 3);
-    const ingest = shouldClose ? [...coursePins, coursePins[0]] : [...coursePins || []];
+    const coursePins2 = loopPins && loopPins.length >= 2 ? loopPins : pins;
+    const shouldClose = closeLoop != null ? !!closeLoop : !!(coursePins2 && coursePins2.length >= 3);
+    const ingest = shouldClose ? [...coursePins2, coursePins2[0]] : [...coursePins2 || []];
     ui2.builder = ingestPins(ingest.filter(Boolean));
     if (ui2.builder.endIndex == null && ui2.builder.pins.length) ui2.builder = setEndIndex(ui2.builder, 0);
     ui2.builderPins = ui2.builder.pins;
@@ -55217,11 +65753,11 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     let pins = [];
     for (let i = 0; i < 8; i++) {
       const a = { lat: center.lat, lon: center.lon, role: "start" };
-      const b2 = { ...destination(a.lat, a.lon, 90, side), role: "via" };
-      const c = { ...destination(b2.lat, b2.lon, 0, side), role: "via" };
+      const b3 = { ...destination(a.lat, a.lon, 90, side), role: "via" };
+      const c = { ...destination(b3.lat, b3.lon, 0, side), role: "via" };
       const d2 = { ...destination(c.lat, c.lon, 270, side), role: "via" };
       const end = { lat: a.lat, lon: a.lon, role: "end" };
-      pins = [a, b2, c, d2, end];
+      pins = [a, b3, c, d2, end];
       const len = pathLengthMeters(pins);
       if (!(len > 0)) break;
       side *= target / len;
@@ -55235,9 +65771,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     persist();
     ui2.pendingStart = { type: "run", course };
     const len = courseMeters(course);
-    $4("target-course-sub").textContent = `${course.name} \xB7 ${formatDistance(len, "mi")}`;
-    $4("target-unit").textContent = "mi";
-    $4("target-distance").value = value == null ? "" : String(value);
+    $6("target-course-sub").textContent = `${course.name} \xB7 ${formatDistance(len, "mi")}`;
+    $6("target-unit").textContent = "mi";
+    $6("target-distance").value = value == null ? "" : String(value);
     refreshTargetOptions();
     setTab("today");
     showScreen("today");
@@ -55306,13 +65842,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     show: async function show(name, opt = {}) {
       hideLocateDenied();
       closeStretchVideo();
-      if ($4("map-banner")) {
-        $4("map-banner").hidden = true;
-        $4("map-banner").textContent = "";
+      if ($6("map-banner")) {
+        $6("map-banner").hidden = true;
+        $6("map-banner").textContent = "";
       }
       closeAllSheets();
       try {
-        const cropRoot = $4("map-crop-root");
+        const cropRoot = $6("map-crop-root");
         if (document.body.classList.contains("map-crop-open") || cropRoot && !cropRoot.hidden) closeCrop();
       } catch {
       }
@@ -55323,7 +65859,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         clearMarkers();
       } catch {
       }
-      if ($4("today-dock")) $4("today-dock").hidden = false;
+      if ($6("today-dock")) $6("today-dock").hidden = false;
       if (name !== "builder-help") {
         try {
           markExplainerSeen();
@@ -55388,11 +65924,11 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         });
         drawSessionOnMap(made);
         if (name === "lock") {
-          $4("lock-body").textContent = liveNotification(made);
+          $6("lock-body").textContent = liveNotification(made);
           const now = /* @__PURE__ */ new Date();
-          $4("lock-clock").textContent = now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }).replace(/ AM| PM/, (m) => m.toLowerCase() === " am" || m.toLowerCase() === " pm" ? "" : m);
-          $4("lock-clock").textContent = "9:41";
-          $4("lock-date").textContent = now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+          $6("lock-clock").textContent = now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }).replace(/ AM| PM/, (m) => m.toLowerCase() === " am" || m.toLowerCase() === " pm" ? "" : m);
+          $6("lock-clock").textContent = "9:41";
+          $6("lock-date").textContent = now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
           ui2.hideNav = true;
           showScreen("lock");
         }
@@ -55485,9 +66021,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         });
         drawSessionOnMap(made);
         if (name === "lock-complete") {
-          $4("lock-body").textContent = liveNotification(made);
-          $4("lock-clock").textContent = "9:41";
-          $4("lock-date").textContent = (/* @__PURE__ */ new Date()).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+          $6("lock-body").textContent = liveNotification(made);
+          $6("lock-clock").textContent = "9:41";
+          $6("lock-date").textContent = (/* @__PURE__ */ new Date()).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
           ui2.hideNav = true;
           showScreen("lock");
         }
@@ -55508,7 +66044,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         });
         ui2.pendingSaveRoute = { act, course, sess, track: sess.track.slice(), graph: getActiveGraph() };
         const pct = percentOfPlan(act.distanceMeters, plannedMeters(sess));
-        $4("celebrate-copy").textContent = celebrationCopy(pct, { hasCourse: true });
+        $6("celebrate-copy").textContent = celebrationCopy(pct, { hasCourse: true });
         showOfferMap(sess, course);
         if (name === "save-route-choice") openSaveRouteChoice();
         else openSheet("sheet-celebrate");
@@ -55534,8 +66070,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
           source: "phone"
         });
         ui2.pendingFreeRoute = { act, built };
-        $4("save-free-distance").textContent = formatDistance(built.meters || act.distanceMeters, units2());
-        $4("save-free-name").value = "Morning run, Nov 20";
+        $6("save-free-distance").textContent = formatDistance(built.meters || act.distanceMeters, units2());
+        $6("save-free-name").value = "Morning run, Nov 20";
         showFreeRouteMap(built);
         openSheet("sheet-save-free");
       } else if (name === "builder" || name === "routing-builder" || name === "routing-straight" || name === "routing-loop") {
@@ -55544,7 +66080,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         if (name === "routing-loop") {
           const center = { lat: 43.7672, lon: 11.2543 };
           try {
-            await ensureLoopGraph(center, 1609);
+            await ensureSportLoopGraph(center, 1609);
           } catch {
           }
           const loop = getActiveGraph() ? autoLoopRoute(getActiveGraph(), center, 1609) : null;
@@ -55645,7 +66181,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         ui2.selectedDay = isoDate(/* @__PURE__ */ new Date());
         setTab("calendar");
       } else if (name === "calendar-history") {
-        const latest = [...state2.activities].sort((a, b2) => Date.parse(b2.endedAt || b2.startedAt) - Date.parse(a.endedAt || a.startedAt))[0];
+        const latest = [...state2.activities].sort((a, b3) => Date.parse(b3.endedAt || b3.startedAt) - Date.parse(a.endedAt || a.startedAt))[0];
         if (latest) {
           const d2 = new Date(latest.endedAt || latest.startedAt);
           ui2.cal = startOfDay(d2);
@@ -55656,6 +66192,15 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       } else if (name === "progress") {
         ui2.range = "W";
         setTab("progress");
+      } else if (name === "insights" || name === "insights-empty") {
+        ui2.insightsSport = "all";
+        ui2.insightsRange = "all";
+        ui2.insightsGroupId = null;
+        ui2.insightsSuggestion = null;
+        ui2.insightsSaved = "";
+        if (name === "insights-empty") state2.activities = [];
+        openInsights();
+        whenReady(() => paintInsightsMap());
       } else if (name === "progress-all") {
         ui2.range = "All";
         setTab("progress");
@@ -55670,6 +66215,15 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
           const c = act.courseId ? courseById2(act.courseId) : null;
           const result = c ? updateCourseLegPbs(c, act) : null;
           showSummary(act, c, result);
+        }
+      } else if (name === "summary-details") {
+        const act = state2.activities[state2.activities.length - 1];
+        if (!act) setTab("today");
+        else {
+          const c = act.courseId ? courseById2(act.courseId) : null;
+          const result = c ? updateCourseLegPbs(c, act) : null;
+          showSummary(act, c, result);
+          openSummaryDetails();
         }
       } else if (name === "course-detail") {
         if (!state2.courses[0]) {
@@ -55759,7 +66313,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         const wantMile = name === "builder-mile-loop";
         if (wantMile) {
           try {
-            await ensureLoopGraph(center, 1609);
+            await ensureSportLoopGraph(center, 1609);
           } catch {
           }
         }
@@ -55877,7 +66431,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         showScreen("goals");
         renderGoalsScreen();
         openNewGoalSheet();
-        const sel = $4("goal-new-kind");
+        const sel = $6("goal-new-kind");
         if (sel) {
           sel.size = Math.max(2, sel.options.length);
           sel.style.height = "auto";
@@ -55889,9 +66443,9 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         showScreen("goals");
         renderGoalsScreen();
         openNewGoalSheet();
-        if ($4("goal-new-kind")) $4("goal-new-kind").value = "time-distance";
-        if ($4("goal-new-distance")) $4("goal-new-distance").value = "3";
-        if ($4("goal-new-time")) $4("goal-new-time").value = "18:00";
+        if ($6("goal-new-kind")) $6("goal-new-kind").value = "time-distance";
+        if ($6("goal-new-distance")) $6("goal-new-distance").value = "3";
+        if ($6("goal-new-time")) $6("goal-new-time").value = "18:00";
         paintGoalTypeFields();
       } else if (name === "goal-created") {
         state2.goals = [
@@ -55937,7 +66491,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         } catch {
         }
         showMapBanner("Loading paths\u2026");
-        if ($4("plan-create-note")) $4("plan-create-note").textContent = "Loading paths\u2026";
+        if ($6("plan-create-note")) $6("plan-create-note").textContent = "Loading paths\u2026";
       } else if (name === "plan-autoloop-nolocation") {
         state2.settings.lastKnown = null;
         persist();
@@ -56001,11 +66555,11 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         if (name === "plans-teaser") state2.planLibrary = [];
         showScreen("plans");
         if (name === "plans-teaser") {
-          const days = $4("plan-days");
+          const days = $6("plan-days");
           if (days) days.value = "56";
           const runBtn = document.querySelector("#plan-type-tog button[data-type='run']");
           if (runBtn) runBtn.click();
-          const dist3 = $4("plan-distance");
+          const dist3 = $6("plan-distance");
           if (dist3) {
             dist3.value = "10";
             dist3.dispatchEvent(new Event("input", { bubbles: true }));
@@ -56019,7 +66573,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
             } catch {
             }
           }, 0);
-          const rec = $4("btn-water-recommend");
+          const rec = $6("btn-water-recommend");
           if (rec) rec.click();
         }
       } else if (name === "progress-goals" || name === "progress-bars") {
@@ -56041,6 +66595,39 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
           }
         }
         setTab("progress");
+      } else if (name === "summary-laps") {
+        const fixture = makeLapSummaryFixture();
+        const course = fixture.course;
+        state2.courses = [course, ...(state2.courses || []).filter((c) => c.id !== course.id)];
+        persist();
+        showSummary(fixture.act, course, null);
+        document.querySelectorAll(".sector-expand").forEach((el) => {
+          el.open = true;
+        });
+      } else if (name === "summary-laps-details") {
+        const fixture = makeLapSummaryFixture();
+        const course = fixture.course;
+        state2.courses = [course, ...(state2.courses || []).filter((c) => c.id !== course.id)];
+        persist();
+        showSummary(fixture.act, course, null);
+        openSummaryDetails();
+      } else if (name === "summary-sectors-details") {
+        const fixture = makeSectorFixture();
+        const course = fixture.course;
+        state2.courses = [course, ...(state2.courses || []).filter((c) => c.id !== course.id)];
+        persist();
+        const act = newActivity({
+          type: "run",
+          courseId: course.id,
+          courseName: course.name,
+          startedAt: "2026-11-18T09:00:00.000Z",
+          endedAt: "2026-11-18T09:29:22.300Z",
+          distanceMeters: fixture.meters,
+          elapsedSec: fixture.totalSec,
+          track: fixture.track
+        });
+        showSummary(act, course, null);
+        openSummaryDetails();
       } else if (name === "summary-sectors") {
         const fixture = makeSectorFixture();
         const course = fixture.course;
@@ -56086,10 +66673,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         if (!state2.courses.length) state2.courses.push(course);
         ui2.pendingStart = { type: "run", course };
         const len = courseMeters(course);
-        $4("target-course-sub").textContent = `${course.name} \xB7 ${formatDistance(len, units2())}`;
-        $4("target-unit").textContent = "mi";
+        $6("target-course-sub").textContent = `${course.name} \xB7 ${formatDistance(len, units2())}`;
+        $6("target-unit").textContent = "mi";
         const over = (units2() === "km" ? len / 1e3 : len / METERS_PER_MILE) + 0.5;
-        $4("target-distance").value = String(Math.round(over * 100) / 100);
+        $6("target-distance").value = String(Math.round(over * 100) / 100);
         refreshTargetOptions();
         setTab("today");
         showScreen("today");
@@ -56123,13 +66710,19 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         const tplan = planTarget({ path, courseMeters: courseMeters({ pins, path }), targetMeters, mode: MODE_COURSE });
         const course = newCourse({ name: courseName, pins, path });
         const made = makeSession({ type: "run", course, units: "mi", target: tplan });
-        const pt = pointAlongPath(tplan.path, along);
-        const startPt = tplan.path[0];
+        const sampleCount = Math.max(48, Math.ceil(along / 6));
+        const trace = [];
+        for (let i = 0; i <= sampleCount; i++) {
+          const d2 = along * i / sampleCount;
+          const p = pointAlongPath(tplan.path, d2) || tplan.path[0];
+          trace.push({ lat: p.lat, lon: p.lon, t: 420 * i / sampleCount });
+        }
         Object.assign(made, {
-          track: [startPt, pt],
+          track: trace,
           distanceMeters: along,
           elapsedSec: 420,
-          courseTraveledMeters: along
+          courseTraveledMeters: along,
+          startDetected: true
         });
         setTab("today");
         showScreen("tracking");
@@ -56209,14 +66802,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         setTab("courses");
         showScreen("courses");
         startQrScan({ previewOnly: true });
-        const note = $4("scan-qr-note");
+        const note = $6("scan-qr-note");
         if (note) note.textContent = "Point the camera at a Heldpath QR code. Works with no signal.";
       } else if (name === "indoor-log") {
         setTab("today");
         showScreen("today");
         openIndoorLog("run");
-        if ($4("indoor-distance")) $4("indoor-distance").value = "3.1";
-        if ($4("indoor-time")) $4("indoor-time").value = "28:00";
+        if ($6("indoor-distance")) $6("indoor-distance").value = "3.1";
+        if ($6("indoor-time")) $6("indoor-time").value = "28:00";
       } else if (name === "forgot-stop") {
         const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
         if (!state2.courses[0]) state2.courses = [course];
@@ -56231,8 +66824,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         showScreen("tracking");
         paintSessionHud(made);
         const copy = forgotCopy(10 * 60 * 1e3);
-        if ($4("forgot-title")) $4("forgot-title").textContent = copy.title;
-        if ($4("forgot-body")) $4("forgot-body").textContent = copy.body;
+        if ($6("forgot-title")) $6("forgot-title").textContent = copy.title;
+        if ($6("forgot-body")) $6("forgot-body").textContent = copy.body;
         openSheet("sheet-forgot");
         whenReady(() => {
           drawSessionOnMap(made);
@@ -56244,8 +66837,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         if (!state2.courses[0]) state2.courses = [course];
         const sess = midCourseWalk(course, units2());
         const copy = trimCopy(12 * 60, "walk");
-        if ($4("trim-title")) $4("trim-title").textContent = copy.title;
-        if ($4("trim-body")) $4("trim-body").textContent = copy.body;
+        if ($6("trim-title")) $6("trim-title").textContent = copy.title;
+        if ($6("trim-body")) $6("trim-body").textContent = copy.body;
         ui2.pendingFinish = { sess };
         setTab("today");
         showScreen("today");
@@ -56275,7 +66868,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
         if (!state2.courses.length) state2.courses.push(course);
         ui2.pendingLowSignal = { type: "walk", course, plan: null, targetPlan: null, bbox: pathBbox(course.pins || course.path) };
-        const copy = $4("low-signal-copy");
+        const copy = $6("low-signal-copy");
         if (copy) copy.textContent = LOW_SIGNAL_COPY;
         setTab("today");
         showScreen("today");
@@ -56307,6 +66900,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
           climbLossM: gl.lossM
         });
         showSummary(act, null, null);
+        openSummaryDetails();
       } else if (name === "tracking-lowpower") {
         const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
         if (!state2.courses.length) state2.courses.push(course);
@@ -56462,16 +67056,16 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         setCenter(43.7672134, 11.2543435, 13);
         await whenIdle();
       }
-      return { screen: ui2.screen, notification: $4("lock-body").textContent };
+      return { screen: ui2.screen, notification: $6("lock-body").textContent };
     },
     state: () => state2,
-    notification: () => getSession() ? liveNotification(getSession()) : $4("lock-body").textContent,
+    notification: () => getSession() ? liveNotification(getSession()) : $6("lock-body").textContent,
     builderSnapshot: () => {
-      const note = $4("route-fallback-note");
+      const note = $6("route-fallback-note");
       const legs = ui2.builderRoute && ui2.builderRoute.legs || [];
       return {
         findingPaths: !!ui2.findingPaths,
-        hasToggle: !!$4("toggle-follow-paths"),
+        hasToggle: !!$6("toggle-follow-paths"),
         note: note && !note.hidden ? note.textContent || "" : "",
         legs: legs.map((l) => ({
           mode: l.mode,
@@ -56502,10 +67096,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       const pins = (ui2.builder && ui2.builder.pins || []).map(toPt).filter(Boolean);
       const routed = ui2.builderRoute || {};
       const path = (routed.path || []).map(toPt).filter(Boolean);
-      const dist3 = (a, b2) => {
-        if (!a || !b2) return Infinity;
-        const dlat = (a.lat - b2.lat) * 111320;
-        const dlon = (a.lon - b2.lon) * 111320 * Math.cos(a.lat * Math.PI / 180);
+      const dist3 = (a, b3) => {
+        if (!a || !b3) return Infinity;
+        const dlat = (a.lat - b3.lat) * 111320;
+        const dlon = (a.lon - b3.lon) * 111320 * Math.cos(a.lat * Math.PI / 180);
         return Math.sqrt(dlat * dlat + dlon * dlon);
       };
       const distToPath = (pin) => {
@@ -56514,8 +67108,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
           const d2 = dist3(pin, path[i]);
           if (d2 < best) best = d2;
           if (i + 1 < path.length) {
-            const a = path[i], b2 = path[i + 1];
-            const vx = b2.lat - a.lat, vy = b2.lon - a.lon;
+            const a = path[i], b3 = path[i + 1];
+            const vx = b3.lat - a.lat, vy = b3.lon - a.lon;
             const len2 = vx * vx + vy * vy;
             const t = len2 > 0 ? Math.max(0, Math.min(1, ((pin.lat - a.lat) * vx + (pin.lon - a.lon) * vy) / len2)) : 0;
             const d22 = dist3(pin, { lat: a.lat + vx * t, lon: a.lon + vy * t });
@@ -56623,7 +67217,22 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       getCenter: () => state2.settings.lastKnown && state2.settings.lastKnown.lat != null ? { lat: state2.settings.lastKnown.lat, lon: state2.settings.lastKnown.lon } : null,
       resolveLoopCenter,
       showPlanRoute: (plan) => openPlanRoute(plan, { from: "plans" }),
-      preloadLoopGraph: (c, meters) => ensureLoopGraph(c, meters)
+      preloadLoopGraph: (c, meters) => ensureSportLoopGraph(c, meters)
+    });
+    initImportUi({
+      getState: () => state2,
+      persist,
+      units: units2,
+      onChanged: () => {
+        if (ui2.screen === "progress") renderProgress();
+        if (ui2.screen === "calendar") renderCalendar();
+        if (ui2.screen === "settings") renderSettings();
+      }
+    });
+    initExportUi({
+      getSummary: () => ui2.summary,
+      getCourse: () => courseById2(ui2.courseId),
+      units: units2
     });
     renderSettings();
     try {
@@ -56635,7 +67244,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     const graphReady = ensureWalkGraph();
     const launchView = viewForLaunch({ lastKnown: state2.settings.lastKnown });
-    await initMap($4("map"), {
+    await initMap($6("map"), {
       center: launchView,
       zoom: launchView.zoom,
       mapStyle: state2.settings.mapStyle === "satellite" ? "satellite" : "map"
@@ -56667,6 +67276,17 @@ maplibre-gl/dist/maplibre-gl.js:
   (**
    * MapLibre GL JS
    * @license 3-Clause BSD. Full text of license: https://github.com/maplibre/maplibre-gl-js/blob/v5.7.3/LICENSE.txt
+   *)
+
+ieee754/index.js:
+  (*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> *)
+
+buffer/index.js:
+  (*!
+   * The buffer module from node.js, for the browser.
+   *
+   * @author   Feross Aboukhadijeh <https://feross.org>
+   * @license  MIT
    *)
 */
 //# sourceMappingURL=app.bundle.js.map

@@ -72,13 +72,15 @@ export function summarizeActivities(activities, now = new Date()) {
   let elapsedSec = 0;
   let walks = 0;
   let runs = 0;
+  let rides = 0;
   let longestMeters = 0;
   let firstAt = null;
   let lastAt = null;
   for (const a of list) {
     distanceMeters += a.distanceMeters || 0;
     elapsedSec += a.elapsedSec || 0;
-    if ((a.type || "walk") === "run") runs++;
+    if ((a.type || "walk") === "ride") rides++;
+    else if ((a.type || "walk") === "run") runs++;
     else walks++;
     if ((a.distanceMeters || 0) > longestMeters) longestMeters = a.distanceMeters || 0;
     const t = parseTime(a);
@@ -94,6 +96,7 @@ export function summarizeActivities(activities, now = new Date()) {
     elapsedSec,
     walks,
     runs,
+    rides,
     longestMeters,
     activeDays: streak.activeDays,
     currentStreak: streak.current,

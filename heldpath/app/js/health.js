@@ -129,19 +129,44 @@ export async function requestAccess() {
   }
 }
 
+function healthType(type) {
+  if (type === "ride" || type === "bike" || type === "cycling") return "ride";
+  return type === "run" ? "run" : "walk";
+}
+
+function healthSamples(activity) {
+  const src = (activity && activity.samples) || {};
+  const clean = (list) => (Array.isArray(list)
+    ? list
+        .filter((s) => s && Number.isFinite(Number(s.offsetSec)) && Number.isFinite(Number(s.value)))
+        .map((s) => ({ offsetSec: Number(s.offsetSec), value: Number(s.value) }))
+    : []);
+  return {
+    heartRate: clean(src.heartRate),
+    cadence: clean(src.cadence),
+    power: clean(src.power),
+  };
+}
+
 /** Shape written to the health app. Pace is distance/time, never steps. */
 export function workoutPayload(activity) {
   const track = (activity && activity.track) || [];
+  const type = healthType(activity && activity.type);
   return {
-    type: activity && activity.type === "run" ? "run" : "walk",
+    type,
     startedAt: activity && activity.startedAt,
     endedAt: (activity && activity.endedAt) || new Date().toISOString(),
     distanceMeters: Number(activity && activity.distanceMeters) || 0,
     elapsedSec: Number(activity && activity.elapsedSec) || 0,
     avgPaceSecPerKm:
-      activity && activity.distanceMeters > 0 && activity.elapsedSec > 0
+      type !== "ride" && activity && activity.distanceMeters > 0 && activity.elapsedSec > 0
         ? Math.round(activity.elapsedSec / (activity.distanceMeters / 1000))
         : null,
+    avgSpeedMps:
+      type === "ride" && activity && activity.distanceMeters > 0 && activity.elapsedSec > 0
+        ? activity.distanceMeters / activity.elapsedSec
+        : null,
+    ...healthSamples(activity),
     route: track
       .filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon))
       .map((p) => ({
@@ -218,7 +243,7 @@ function normalizeImported(raw) {
     ? raw.track.filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon))
     : [];
   return {
-    type: raw.type === "run" ? "run" : "walk",
+    type: healthType(raw.type),
     startedAt: startedAt || new Date(Date.now() - elapsedSec * 1000).toISOString(),
     endedAt: endedAt || new Date().toISOString(),
     distanceMeters,
@@ -233,6 +258,8 @@ function normalizeImported(raw) {
     healthId: raw.id ? String(raw.id) : `${startedAt || "watch"}:${distanceMeters}:${elapsedSec}`,
     courseId: null,
     courseName: raw.name || null,
+    samples: healthSamples(raw),
+    climbGainM: Number.isFinite(raw.climbGainM) ? raw.climbGainM : 0,
   };
 }
 
