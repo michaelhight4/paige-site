@@ -371,6 +371,20 @@ img { display: block; max-width: 100%; }
 .route-mode-label { font-size: 14px; font-weight: 600; line-height: 1.3; }
 .route-flag { color: var(--gold); margin: 0 0 10px; }
 .route-flag.finding { color: var(--muted); }
+.route-detour-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+}
+.route-detour-hint[hidden] { display: none; }
+.route-detour-hint .route-flag { margin: 0; flex: 1 1 auto; }
+.btn-switch-green {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  min-height: 36px;
+  white-space: nowrap;
+}
 .route-warnings { margin: 0 0 10px; display: flex; flex-direction: column; gap: 8px; }
 .route-warnings[hidden] { display: none; }
 .leg-warn {

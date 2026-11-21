@@ -37639,42 +37639,6 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     return inside;
   }
-  function orient(a, b2, c) {
-    const v2 = (b2.lon - a.lon) * (c.lat - a.lat) - (b2.lat - a.lat) * (c.lon - a.lon);
-    if (Math.abs(v2) < 1e-18) return 0;
-    return v2 > 0 ? 1 : -1;
-  }
-  function onSeg(a, b2, c) {
-    return Math.min(a.lon, b2.lon) - 1e-12 <= c.lon && c.lon <= Math.max(a.lon, b2.lon) + 1e-12 && Math.min(a.lat, b2.lat) - 1e-12 <= c.lat && c.lat <= Math.max(a.lat, b2.lat) + 1e-12;
-  }
-  function segmentsCross(a, b2, c, d2) {
-    const o1 = orient(a, b2, c);
-    const o2 = orient(a, b2, d2);
-    const o3 = orient(c, d2, a);
-    const o4 = orient(c, d2, b2);
-    if (o1 !== o2 && o3 !== o4) return true;
-    if (o1 === 0 && onSeg(a, b2, c)) return true;
-    if (o2 === 0 && onSeg(a, b2, d2)) return true;
-    if (o3 === 0 && onSeg(c, d2, a)) return true;
-    if (o4 === 0 && onSeg(c, d2, b2)) return true;
-    return false;
-  }
-  function segmentCrossesRing(a, b2, ring) {
-    if (!ring || ring.length < 2) return false;
-    for (let i = 0; i < ring.length - 1; i++) {
-      if (segmentsCross(a, b2, ring[i], ring[i + 1])) return true;
-    }
-    if (ring.length >= 3) {
-      const last = ring[ring.length - 1];
-      const first = ring[0];
-      if (last.lat !== first.lat || last.lon !== first.lon) {
-        if (segmentsCross(a, b2, last, first)) return true;
-      }
-    }
-    const mid = { lat: (a.lat + b2.lat) / 2, lon: (a.lon + b2.lon) / 2 };
-    if (pointInRing(mid, ring) && !pointInRing(a, ring) && !pointInRing(b2, ring)) return true;
-    return false;
-  }
   function ringBBox(ring) {
     let minLat = 90, maxLat = -90, minLon = 180, maxLon = -180;
     for (const p of ring) {
@@ -37685,38 +37649,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     return { minLat, maxLat, minLon, maxLon };
   }
-  function pointInArea(point, area) {
-    if (!area || !point) return false;
-    if (point.lon < area.minLon || point.lon > area.maxLon || point.lat < area.minLat || point.lat > area.maxLat) {
-      return false;
-    }
-    return pointInRing(point, area.ring);
-  }
-  function findOpenArea(areas, point) {
-    if (!areas) return null;
-    for (const area of areas) {
-      if (pointInArea(point, area)) return area;
-    }
-    return null;
-  }
-  function segmentStaysOnOpenGround(areas, a, b2) {
-    if (!areas || !a || !b2) return false;
-    if (!findOpenArea(areas, a) || !findOpenArea(areas, b2)) return false;
-    const meters = geodesicMeters(a, b2);
-    const samples = Math.max(4, Math.ceil(meters / 8));
-    for (let i = 1; i < samples; i++) {
-      const t = i / samples;
-      const p = { lat: a.lat + (b2.lat - a.lat) * t, lon: a.lon + (b2.lon - a.lon) * t };
-      if (!findOpenArea(areas, p)) return false;
-    }
-    return true;
-  }
   var EARTH_LAT_M = 111320;
   function setBit(bits2, i) {
     bits2[i >> 3] |= 1 << (i & 7);
-  }
-  function getBit(bits2, i) {
-    return (bits2[i >> 3] & 1 << (i & 7)) !== 0;
   }
   function stampSegment(a, b2, mark, toX, toY) {
     const x0 = toX(a.lon), y0 = toY(a.lat);
@@ -37836,53 +37771,6 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     return { ...raw, bits: bits2 };
   }
-  function segmentCrossesBlocked(grid, a, b2) {
-    if (!grid || !a || !b2) return false;
-    const samples = Math.max(2, Math.ceil(Math.hypot(
-      (a.lat - b2.lat) / grid.cellLat,
-      (a.lon - b2.lon) / grid.cellLon
-    ) * 2));
-    const ax = Math.floor((a.lon - grid.minLon) / grid.cellLon);
-    const ay = Math.floor((a.lat - grid.minLat) / grid.cellLat);
-    const bx = Math.floor((b2.lon - grid.minLon) / grid.cellLon);
-    const by = Math.floor((b2.lat - grid.minLat) / grid.cellLat);
-    for (let i = 1; i < samples; i++) {
-      const t = i / samples;
-      const p = { lat: a.lat + (b2.lat - a.lat) * t, lon: a.lon + (b2.lon - a.lon) * t };
-      const gx = Math.floor((p.lon - grid.minLon) / grid.cellLon);
-      const gy = Math.floor((p.lat - grid.minLat) / grid.cellLat);
-      if (gx === ax && gy === ay || gx === bx && gy === by) continue;
-      if (gx < 0 || gy < 0 || gx >= grid.cols || gy >= grid.rows) continue;
-      if (getBit(grid.bits, gy * grid.cols + gx)) return true;
-    }
-    return false;
-  }
-  function segmentCrossesBarriers(graph, a, b2) {
-    if (!graph || !a || !b2) return false;
-    if (graph.blocked && segmentCrossesBlocked(graph.blocked, a, b2)) return true;
-    for (const bar of graph.barriers || []) {
-      if (bar && bar.ring && segmentCrossesRing(a, b2, bar.ring)) return true;
-    }
-    return false;
-  }
-  function openAreaLegAllowed(graph, a, b2) {
-    const areas = graph && graph.openAreas;
-    if (!areas || !areas.length || !a || !b2) return null;
-    const aa = findOpenArea(areas, a);
-    if (!aa) return null;
-    const bb = findOpenArea(areas, b2);
-    if (!bb) return null;
-    const same = aa === bb || sameRing(aa, bb);
-    if (!same && !segmentStaysOnOpenGround(areas, a, b2)) return null;
-    if (segmentCrossesBarriers(graph, a, b2)) return null;
-    return aa;
-  }
-  function sameRing(a, b2) {
-    if (!a || !b2) return false;
-    if (a.id != null && a.id === b2.id) return true;
-    if (a.ring === b2.ring) return true;
-    return false;
-  }
   function packRings(records, scale = 1e6) {
     return (records || []).map((r) => {
       const ring = [];
@@ -37921,6 +37809,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   var SHORT_HOP_EXTRA_M = 300;
   var ON_PATH_COLOR = "#4EC3F7";
   var OFF_PATH_COLOR = "#3CCB7F";
+  var LONG_DETOUR_HINT = "Path is much longer. Switch this pin to green to cut straight across";
+  var UNROUTABLE_SWITCH_HINT = "No walkable path. Switch this pin to green to cut straight across";
   function normalizePathMode(mode) {
     const v2 = String(mode || "on").toLowerCase();
     if (v2 === "off" || v2 === "off-path" || v2 === "offpath") return "off";
@@ -38087,20 +37977,6 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     return best;
   }
-  function straightOrDetour(a, b2, routedMeters, reason, graph) {
-    if (graph && segmentCrossesBarriers(graph, a, b2)) {
-      return unroutableLeg(a, b2, "blocked");
-    }
-    const straight = geodesicMeters(a, b2);
-    if (routedMeters != null && isExcessiveDetour(routedMeters, straight)) {
-      const leg2 = straightLeg(a, b2, "detour");
-      leg2.routedMeters = routedMeters;
-      leg2.note = "Straight line used, path was much longer";
-      return leg2;
-    }
-    const leg = straightLeg(a, b2, reason || "off-path");
-    return leg;
-  }
   var MinHeap = class {
     constructor() {
       this.a = [];
@@ -38200,7 +38076,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       meters: 0,
       straightMeters: geodesicMeters(a, b2),
       mode: "unroutable",
-      reason: reason || "no-route"
+      reason: reason || "no-route",
+      note: UNROUTABLE_SWITCH_HINT
     };
   }
   function legKey(a, b2) {
@@ -38214,16 +38091,13 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       return straightLeg(a, b2, opts.straightLine ? "toggle" : "off-path");
     }
     if (opts.allowStraight) return straightLeg(a, b2, "off-path");
-    if (!opts.skipOpenArea && graph && openAreaLegAllowed(graph, a, b2)) {
-      return straightLeg(a, b2, "open-area");
-    }
-    if (!graph) return straightOrDetour(a, b2, null, "no-graph");
+    if (!graph) return unroutableLeg(a, b2, "no-graph");
     const maxSnap = opts.maxSnap == null ? DEFAULT_SNAP : opts.maxSnap;
     const sa = snapToGraph(graph, a.lat, a.lon, maxSnap);
     const sb = snapToGraph(graph, b2.lat, b2.lon, maxSnap);
-    if (!sa || !sb) return straightOrDetour(a, b2, null, "no-snap", graph);
+    if (!sa || !sb) return unroutableLeg(a, b2, "no-snap");
     const path = shortestPath(graph, sa.id, sb.id);
-    if (!path) return straightOrDetour(a, b2, null, "no-route", graph);
+    if (!path) return unroutableLeg(a, b2, "no-route");
     const points = [{ lat: a.lat, lon: a.lon }];
     if (haversineMeters(points[0], sa) > 0.4) points.push({ lat: sa.lat, lon: sa.lon });
     const mid = pointsFromNodes(graph, path.nodes);
@@ -38236,8 +38110,17 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (haversineMeters(points[points.length - 1], end) > 0.4) points.push(end);
     const meters = pathLengthMeters(points);
     const straight = geodesicMeters(a, b2);
-    if (!opts.skipDetourGuard && isExcessiveDetour(meters, straight)) return straightOrDetour(a, b2, meters, "detour", graph);
-    return { points, meters, mode: "routed", snapA: sa, snapB: sb };
+    const longDetour = !opts.skipDetourGuard && isExcessiveDetour(meters, straight);
+    return {
+      points,
+      meters,
+      straightMeters: straight,
+      mode: "routed",
+      snapA: sa,
+      snapB: sb,
+      longDetour,
+      note: longDetour ? LONG_DETOUR_HINT : null
+    };
   }
   function pinsSharePrefix(a, b2) {
     if (!a || !b2) return 0;
@@ -38295,7 +38178,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         key,
         pathMode: destMode,
         note: leg.note || null,
-        routedMeters: leg.routedMeters
+        routedMeters: leg.routedMeters,
+        longDetour: !!leg.longDetour
       });
       if (leg.mode === "straight" && leg.reason !== "open-area") usedStraight = true;
       if (!path.length) path.push(...leg.points);
@@ -47845,7 +47729,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       north: north + dLat
     });
   }
-  function pointInArea2(point, area) {
+  function pointInArea(point, area) {
     if (!point || !area) return false;
     return point.lon >= area.west && point.lon <= area.east && point.lat >= area.south && point.lat <= area.north;
   }
@@ -47879,7 +47763,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function coverageGaps(points, areas) {
     const samples = samplePath(points);
     const list = areas || [];
-    return samples.filter((p) => !list.some((a) => pointInArea2(p, a)));
+    return samples.filter((p) => !list.some((a) => pointInArea(p, a)));
   }
   function isCovered(points, areas) {
     const pts = (points || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
@@ -52058,13 +51942,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     ui2.builderRoute = null;
     ui2.builderHistory = [];
   }
-  function useAnyway(key) {
-    if (!key) return;
-    if (!ui2.straightOverrides) ui2.straightOverrides = /* @__PURE__ */ new Set();
-    ui2.straightOverrides.add(key);
-    ui2.builderRoute = null;
-    renderBuilder();
-  }
   function paintBuilderLine(routed, st) {
     if (routed && Array.isArray(routed.legs) && routed.legs.length) {
       routed.legs.forEach((leg, i) => {
@@ -52077,7 +51954,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
           color = "#E24B4A";
           dash = true;
           width = 5;
-        } else if (leg.mode === "straight" || isOffPathMode(leg.pathMode) || leg.reason === "off-path" || leg.reason === "detour" || leg.reason === "open-area") {
+        } else if (leg.mode === "straight" || isOffPathMode(leg.pathMode) || leg.reason === "off-path") {
           color = OFF_PATH_COLOR;
           dash = false;
           width = 5;
@@ -52143,7 +52020,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function legLineColor(leg) {
     if (!leg) return ON_PATH_COLOR;
     if (leg.mode === "unroutable") return "#E24B4A";
-    if (leg.mode === "straight" || isOffPathMode(leg.pathMode) || leg.reason === "off-path" || leg.reason === "detour" || leg.reason === "open-area" || leg.offMap) {
+    if (leg.mode === "straight" || isOffPathMode(leg.pathMode) || leg.reason === "off-path" || leg.offMap) {
       return OFF_PATH_COLOR;
     }
     return ON_PATH_COLOR;
@@ -52161,12 +52038,57 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function legFlagText(leg) {
     if (leg.mode === "unroutable") return " \xB7 no walkable path";
-    if (leg.reason === "detour") return " \xB7 Straight line used, path was much longer";
+    if (leg.longDetour) return " \xB7 path is much longer";
     if (leg.reason === "off-path" || isOffPathMode(leg.pathMode)) return " \xB7 off path";
-    if (leg.reason === "open-area") return "";
     if (leg.offMap) return " \xB7 off path";
     if (leg.mode === "straight") return " \xB7 off path";
     return "";
+  }
+  function firstHintableLeg(routed) {
+    const legs = routed && routed.legs || [];
+    const i = legs.findIndex((l) => l && (l.mode === "unroutable" || l.longDetour));
+    if (i < 0) return null;
+    return { leg: legs[i], i };
+  }
+  function destPinIndexForLeg(st, legIndex) {
+    const stops = routeStops(st || activeBuilder());
+    const dest = stops[legIndex + 1];
+    return dest && dest.index != null ? dest.index : null;
+  }
+  function paintRouteHint(routed, st, waiting) {
+    const wrap = $4("route-detour-hint");
+    const note = $4("route-fallback-note");
+    const btn = $4("btn-switch-pin-green");
+    if (note) note.classList.remove("finding");
+    ui2.hintDestPinIndex = null;
+    if (!wrap || !note) return;
+    if (waiting) {
+      wrap.hidden = false;
+      note.hidden = false;
+      note.classList.add("finding");
+      note.textContent = LOADING_PATHS;
+      if (btn) btn.hidden = true;
+      return;
+    }
+    const hit = firstHintableLeg(routed);
+    if (!hit) {
+      wrap.hidden = true;
+      note.hidden = true;
+      note.textContent = "";
+      if (btn) btn.hidden = true;
+      return;
+    }
+    const destIndex = destPinIndexForLeg(st, hit.i);
+    ui2.hintDestPinIndex = destIndex;
+    wrap.hidden = false;
+    note.hidden = false;
+    note.textContent = hit.leg.mode === "unroutable" ? UNROUTABLE_SWITCH_HINT : LONG_DETOUR_HINT;
+    if (btn) btn.hidden = destIndex == null;
+  }
+  function switchHintPinToGreen() {
+    const i = ui2.hintDestPinIndex;
+    if (i == null) return;
+    applyBuilderChange((s2) => setPinPathMode(s2, i, "off"));
   }
   function renderBuilder() {
     applyBuilderSheet();
@@ -52193,46 +52115,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     const warnings = $4("route-warnings");
     if (note) note.classList.remove("finding");
-    if (note) {
-      if (waiting) {
-        note.hidden = false;
-        note.classList.add("finding");
-        note.textContent = LOADING_PATHS;
-      } else {
-        const detour = routed && routed.legs && routed.legs.find((l) => l.reason === "detour");
-        if (detour) {
-          note.hidden = false;
-          note.textContent = "Straight line used, path was much longer";
-        } else {
-          note.hidden = true;
-          note.textContent = "";
-        }
-      }
-    }
+    paintRouteHint(routed, st, waiting);
     if (warnings) {
       warnings.innerHTML = "";
-      const gaps = !waiting && routed && routed.legs ? routed.legs.map((leg, i) => ({ leg, i })).filter((row) => row.leg.mode === "unroutable") : [];
-      if (!gaps.length) {
-        warnings.hidden = true;
-      } else {
-        warnings.hidden = false;
-        gaps.forEach(({ leg, i }) => {
-          const card = document.createElement("div");
-          card.className = "leg-warn";
-          card.dataset.testid = "unroutable-leg-" + i;
-          const p = document.createElement("p");
-          p.textContent = `No walkable path between pin ${i + 1} and pin ${i + 2}. Move a pin, or add a pin on a walkable route.`;
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = "btn-use-anyway";
-          btn.dataset.testid = "use-anyway-" + i;
-          btn.textContent = "Use anyway";
-          btn.addEventListener("click", () => useAnyway(leg.key));
-          card.appendChild(p);
-          card.appendChild(btn);
-          warnings.appendChild(card);
-        });
-      }
+      warnings.hidden = true;
     }
     paintBuilderLiveBar(routed, st);
     if (box) {
@@ -52263,8 +52149,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
           row.className = "leg-row";
           if (leg.mode === "unroutable") row.classList.add("unroutable");
           if (leg.offMap) row.classList.add("off-map");
-          if (leg.reason === "open-area") row.classList.add("open-area");
-          if (leg.reason === "detour") row.classList.add("detour");
+          if (leg.longDetour) row.classList.add("long-detour");
           if (leg.reason === "off-path" || isOffPathMode(leg.pathMode) || leg.mode === "straight" && leg.reason !== "open-area") row.classList.add("off-path");
           const shown = leg.mode === "unroutable" ? leg.straightMeters || 0 : leg.meters;
           const dist3 = leg.mode === "unroutable" ? formatDistance(shown, units2()) + " (not counted)" : formatDistance(leg.meters, units2());
@@ -54123,6 +54008,11 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       ev.stopPropagation();
       hidePathModeExplainer({ seen: true });
     });
+    if ($4("btn-switch-pin-green")) $4("btn-switch-pin-green").addEventListener("click", (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      switchHintPinToGreen();
+    });
     if ($4("btn-builder-help-gotit")) $4("btn-builder-help-gotit").addEventListener("click", () => {
       markExplainerSeen();
       closeSheet("sheet-builder-help");
@@ -55574,26 +55464,21 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         } catch {
         }
         await new Promise((r) => setTimeout(r, 400));
-      } else if (name === "builder-field-detour-before") {
+      } else if (name === "builder-field-detour" || name === "builder-field-detour-blue" || name === "builder-field-detour-before") {
         await showUsTownBuilderLoop({ ...US_TOWN_ROUTES.founders, closeLoop: false, zoom: 17, meters: 1609 });
-        const legacy = routeCourse(getActiveGraph(), ui2.builder, {
-          maxSnap: 200,
-          skipDetourGuard: true,
-          skipOpenArea: true
-        });
-        ui2.builderRoute = legacy;
-        paintBuilderLine(legacy, ui2.builder);
         setBuilderSheet(true);
         renderBuilder();
         try {
           raiseOverlays();
         } catch {
         }
-        const fit = legacy && legacy.path || routeStops(ui2.builder);
-        fitBuilderCourse(fit, { maxZoom: 16.2 });
         await new Promise((r) => setTimeout(r, 400));
-      } else if (name === "builder-field-detour") {
-        await showUsTownBuilderLoop({ ...US_TOWN_ROUTES.founders, closeLoop: false, zoom: 17, meters: 1609 });
+      } else if (name === "builder-field-detour-green") {
+        const pins = (US_TOWN_ROUTES.founders.loopPins || []).map((p, i) => ({
+          ...p,
+          pathMode: i === 0 ? "on" : "off"
+        }));
+        await showUsTownBuilderLoop({ ...US_TOWN_ROUTES.founders, loopPins: pins, closeLoop: false, zoom: 17, meters: 1609 });
         setBuilderSheet(true);
         renderBuilder();
         try {
@@ -56337,6 +56222,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
           reason: l.reason || null,
           pathMode: l.pathMode || null,
           note: l.note || null,
+          longDetour: !!l.longDetour,
           meters: l.meters,
           points: (l.points || []).length
         })),
@@ -56346,7 +56232,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
           pathMode: p.pathMode || "on",
           role: p.role
         })),
-        pathModeCoach: !!(document.getElementById("path-mode-coach") && !document.getElementById("path-mode-coach").hidden)
+        pathModeCoach: !!(document.getElementById("path-mode-coach") && !document.getElementById("path-mode-coach").hidden),
+        detourHint: !!(document.getElementById("route-detour-hint") && !document.getElementById("route-detour-hint").hidden),
+        detourHintText: (() => {
+          const n = document.getElementById("route-fallback-note");
+          return n && !n.hidden ? n.textContent || "" : "";
+        })(),
+        switchVisible: !!(document.getElementById("btn-switch-pin-green") && !document.getElementById("btn-switch-pin-green").hidden)
       };
     },
     builderGeometry: () => {

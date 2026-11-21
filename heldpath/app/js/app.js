@@ -186,6 +186,8 @@ import {
   isOffPathMode,
   ON_PATH_COLOR,
   OFF_PATH_COLOR,
+  LONG_DETOUR_HINT,
+  UNROUTABLE_SWITCH_HINT,
 } from "./routing.js";
 import {
   planFromCourse,
@@ -1160,7 +1162,7 @@ function paintBuilderLine(routed, st) {
         color = "#E24B4A";
         dash = true;
         width = 5;
-      } else if (leg.mode === "straight" || isOffPathMode(leg.pathMode) || leg.reason === "off-path" || leg.reason === "detour" || leg.reason === "open-area") {
+      } else if (leg.mode === "straight" || isOffPathMode(leg.pathMode) || leg.reason === "off-path") {
         color = OFF_PATH_COLOR;
         dash = false;
         width = 5;
@@ -1230,7 +1232,7 @@ function paintBuilderLiveBar(routed, st) {
 function legLineColor(leg) {
   if (!leg) return ON_PATH_COLOR;
   if (leg.mode === "unroutable") return "#E24B4A";
-  if (leg.mode === "straight" || isOffPathMode(leg.pathMode) || leg.reason === "off-path" || leg.reason === "detour" || leg.reason === "open-area" || leg.offMap) {
+  if (leg.mode === "straight" || isOffPathMode(leg.pathMode) || leg.reason === "off-path" || leg.offMap) {
     return OFF_PATH_COLOR;
   }
   return ON_PATH_COLOR;
@@ -1250,12 +1252,62 @@ function paintCourseLegs(legs, fallback, { id = "course-line", width = 5 } = {})
 
 function legFlagText(leg) {
   if (leg.mode === "unroutable") return " · no walkable path";
-  if (leg.reason === "detour") return " · Straight line used, path was much longer";
+  if (leg.longDetour) return " · path is much longer";
   if (leg.reason === "off-path" || isOffPathMode(leg.pathMode)) return " · off path";
-  if (leg.reason === "open-area") return "";
   if (leg.offMap) return " · off path";
   if (leg.mode === "straight") return " · off path";
   return "";
+}
+
+
+function firstHintableLeg(routed) {
+  const legs = (routed && routed.legs) || [];
+  const i = legs.findIndex((l) => l && (l.mode === "unroutable" || l.longDetour));
+  if (i < 0) return null;
+  return { leg: legs[i], i };
+}
+
+function destPinIndexForLeg(st, legIndex) {
+  const stops = routeStops(st || activeBuilder());
+  const dest = stops[legIndex + 1];
+  return dest && dest.index != null ? dest.index : null;
+}
+
+function paintRouteHint(routed, st, waiting) {
+  const wrap = $("route-detour-hint");
+  const note = $("route-fallback-note");
+  const btn = $("btn-switch-pin-green");
+  if (note) note.classList.remove("finding");
+  ui.hintDestPinIndex = null;
+  if (!wrap || !note) return;
+  if (waiting) {
+    wrap.hidden = false;
+    note.hidden = false;
+    note.classList.add("finding");
+    note.textContent = LOADING_PATHS;
+    if (btn) btn.hidden = true;
+    return;
+  }
+  const hit = firstHintableLeg(routed);
+  if (!hit) {
+    wrap.hidden = true;
+    note.hidden = true;
+    note.textContent = "";
+    if (btn) btn.hidden = true;
+    return;
+  }
+  const destIndex = destPinIndexForLeg(st, hit.i);
+  ui.hintDestPinIndex = destIndex;
+  wrap.hidden = false;
+  note.hidden = false;
+  note.textContent = hit.leg.mode === "unroutable" ? UNROUTABLE_SWITCH_HINT : LONG_DETOUR_HINT;
+  if (btn) btn.hidden = destIndex == null;
+}
+
+function switchHintPinToGreen() {
+  const i = ui.hintDestPinIndex;
+  if (i == null) return;
+  applyBuilderChange((s) => setPinPathMode(s, i, "off"));
 }
 
 function renderBuilder() {
@@ -1285,48 +1337,10 @@ function renderBuilder() {
   }
   const warnings = $("route-warnings");
   if (note) note.classList.remove("finding");
-  if (note) {
-    if (waiting) {
-      note.hidden = false;
-      note.classList.add("finding");
-      note.textContent = LOADING_PATHS;
-    } else {
-      const detour = routed && routed.legs && routed.legs.find((l) => l.reason === "detour");
-      if (detour) {
-        note.hidden = false;
-        note.textContent = "Straight line used, path was much longer";
-      } else {
-        note.hidden = true;
-        note.textContent = "";
-      }
-    }
-  }
+  paintRouteHint(routed, st, waiting);
   if (warnings) {
     warnings.innerHTML = "";
-    const gaps = (!waiting && routed && routed.legs)
-      ? routed.legs.map((leg, i) => ({ leg, i })).filter((row) => row.leg.mode === "unroutable")
-      : [];
-    if (!gaps.length) {
-      warnings.hidden = true;
-    } else {
-      warnings.hidden = false;
-      gaps.forEach(({ leg, i }) => {
-        const card = document.createElement("div");
-        card.className = "leg-warn";
-        card.dataset.testid = "unroutable-leg-" + i;
-        const p = document.createElement("p");
-        p.textContent = `No walkable path between pin ${i + 1} and pin ${i + 2}. Move a pin, or add a pin on a walkable route.`;
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "btn-use-anyway";
-        btn.dataset.testid = "use-anyway-" + i;
-        btn.textContent = "Use anyway";
-        btn.addEventListener("click", () => useAnyway(leg.key));
-        card.appendChild(p);
-        card.appendChild(btn);
-        warnings.appendChild(card);
-      });
-    }
+    warnings.hidden = true;
   }
   paintBuilderLiveBar(routed, st);
   if (box) {
@@ -1357,8 +1371,7 @@ function renderBuilder() {
         row.className = "leg-row";
         if (leg.mode === "unroutable") row.classList.add("unroutable");
         if (leg.offMap) row.classList.add("off-map");
-        if (leg.reason === "open-area") row.classList.add("open-area");
-        if (leg.reason === "detour") row.classList.add("detour");
+        if (leg.longDetour) row.classList.add("long-detour");
         if (leg.reason === "off-path" || isOffPathMode(leg.pathMode) || (leg.mode === "straight" && leg.reason !== "open-area")) row.classList.add("off-path");
         const shown = leg.mode === "unroutable" ? (leg.straightMeters || 0) : leg.meters;
         const dist = leg.mode === "unroutable"
@@ -3254,6 +3267,11 @@ function bind() {
     ev.stopPropagation();
     hidePathModeExplainer({ seen: true });
   });
+  if ($("btn-switch-pin-green")) $("btn-switch-pin-green").addEventListener("click", (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    switchHintPinToGreen();
+  });
 
   if ($("btn-builder-help-gotit")) $("btn-builder-help-gotit").addEventListener("click", () => {
     markExplainerSeen();
@@ -4674,23 +4692,18 @@ window.HeldpathTest = {
       renderBuilder();
       try { map.raiseOverlays(); } catch { /* map helper */ }
       await new Promise((r) => setTimeout(r, 400));
-    } else if (name === "builder-field-detour-before") {
+    } else if (name === "builder-field-detour" || name === "builder-field-detour-blue" || name === "builder-field-detour-before") {
       await showUsTownBuilderLoop({ ...US_TOWN_ROUTES.founders, closeLoop: false, zoom: 17, meters: 1609 });
-      const legacy = routeCourse(getActiveGraph(), ui.builder, {
-        maxSnap: 200,
-        skipDetourGuard: true,
-        skipOpenArea: true,
-      });
-      ui.builderRoute = legacy;
-      paintBuilderLine(legacy, ui.builder);
       setBuilderSheet(true);
       renderBuilder();
       try { map.raiseOverlays(); } catch { /* map helper */ }
-      const fit = (legacy && legacy.path) || routeStops(ui.builder);
-      fitBuilderCourse(fit, { maxZoom: 16.2 });
       await new Promise((r) => setTimeout(r, 400));
-    } else if (name === "builder-field-detour") {
-      await showUsTownBuilderLoop({ ...US_TOWN_ROUTES.founders, closeLoop: false, zoom: 17, meters: 1609 });
+    } else if (name === "builder-field-detour-green") {
+      const pins = (US_TOWN_ROUTES.founders.loopPins || []).map((p, i) => ({
+        ...p,
+        pathMode: i === 0 ? "on" : "off",
+      }));
+      await showUsTownBuilderLoop({ ...US_TOWN_ROUTES.founders, loopPins: pins, closeLoop: false, zoom: 17, meters: 1609 });
       setBuilderSheet(true);
       renderBuilder();
       try { map.raiseOverlays(); } catch { /* map helper */ }
@@ -5346,6 +5359,7 @@ window.HeldpathTest = {
         reason: l.reason || null,
         pathMode: l.pathMode || null,
         note: l.note || null,
+        longDetour: !!l.longDetour,
         meters: l.meters,
         points: (l.points || []).length,
       })),
@@ -5356,6 +5370,12 @@ window.HeldpathTest = {
         role: p.role,
       })),
       pathModeCoach: !!(document.getElementById("path-mode-coach") && !document.getElementById("path-mode-coach").hidden),
+      detourHint: !!(document.getElementById("route-detour-hint") && !document.getElementById("route-detour-hint").hidden),
+      detourHintText: (() => {
+        const n = document.getElementById("route-fallback-note");
+        return n && !n.hidden ? (n.textContent || "") : "";
+      })(),
+      switchVisible: !!(document.getElementById("btn-switch-pin-green") && !document.getElementById("btn-switch-pin-green").hidden),
     };
   },
   builderGeometry: () => {

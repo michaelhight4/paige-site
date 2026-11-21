@@ -142,7 +142,10 @@
               <div class="live-dist" id="builder-live-distance" data-testid="builder-live-distance">—</div>
               <div class="live-eta" id="builder-live-eta" data-testid="builder-live-eta"></div>
             </div>
-            <p class="tiny route-flag" id="route-fallback-note" data-testid="route-fallback-note" hidden></p>
+            <div class="route-detour-hint" id="route-detour-hint" data-testid="route-detour-hint" hidden>
+              <p class="tiny route-flag" id="route-fallback-note" data-testid="route-fallback-note"></p>
+              <button type="button" class="btn btn-secondary btn-switch-green" id="btn-switch-pin-green" data-testid="switch-pin-green" hidden>Switch</button>
+            </div>
             <div id="route-warnings" class="route-warnings" data-testid="route-warnings" hidden></div>
             <button type="button" class="legs-toggle" id="btn-legs-toggle" data-testid="legs-toggle" aria-expanded="true" hidden>Legs</button>
             <div class="legs" id="builder-legs" data-testid="builder-legs"></div>
