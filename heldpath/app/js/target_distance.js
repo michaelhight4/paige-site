@@ -8,12 +8,15 @@
  *   - continue-past: follow the course once, then keep tracking the real path
  *     and alert when the target distance is reached.
  */
-import { haversineMeters, pathLengthMeters, pointAlongPath } from "./util.js";
+import { haversineMeters, pathLengthMeters, pointAlongPath, formatDistance, METERS_PER_MILE, METERS_PER_KM } from "./util.js";
 import { coursePath, courseMeters } from "./routing.js";
 
 export const MODE_COURSE = "use-course";
 export const MODE_CONTINUE = "continue-past";
 export const CLOSE_METERS = 30;
+export const SESSION_DISTANCE_EXPLAINER_KEY = "heldpath.session-distance-explainer.v1";
+export const SESSION_DISTANCE_EXPLAINER_BODY =
+  "On a loop, set how far you want to go. We'll count the laps and place an end marker on the map, including partway around a lap if you stop short of a whole number.";
 
 export function isClosedCircuit(path, closeMeters = CLOSE_METERS) {
   if (!path || path.length < 2) return false;
@@ -180,3 +183,121 @@ export function planTarget({ course, path, courseMeters: courseLenArg, targetMet
 export function planFromCourse(course, targetMeters, mode) {
   return planTarget({ course, targetMeters, mode });
 }
+
+/**
+ * Start and end are the designated pins, not a path that happens to close
+ * or a return leg to some earlier waypoint.
+ */
+export function courseStartPin(course) {
+  const pins = (course && course.pins) || [];
+  if (!pins.length) return null;
+  const start = pins.find((p) => p && p.role === "start");
+  return start || pins[0];
+}
+
+export function courseEndPin(course) {
+  const pins = (course && course.pins) || [];
+  if (!pins.length) return null;
+  for (let i = pins.length - 1; i >= 0; i--) {
+    if (pins[i] && pins[i].role === "end") return pins[i];
+  }
+  return pins[pins.length - 1];
+}
+
+export function courseHasSharedStartEnd(course, closeMeters = CLOSE_METERS) {
+  const pins = (course && course.pins) || [];
+  if (pins.length < 2) return false;
+  const start = courseStartPin(course);
+  const end = courseEndPin(course);
+  if (!start || !end) return false;
+  const limit = closeMeters == null ? CLOSE_METERS : closeMeters;
+  return haversineMeters(start, end) <= limit;
+}
+
+/** Show the session-distance / lap picker only for a shared start/end loop. */
+export function shouldPromptSessionDistance(course) {
+  return courseHasSharedStartEnd(course);
+}
+
+/**
+ * A planned loop (use-course) ends at the computed stop pin.
+ * Point-to-point and continue-past keep tracking after the end.
+ */
+export function shouldAutoEndAtTarget(sess) {
+  if (!sess || !sess.goalComplete) return false;
+  const target = sess.target;
+  if (!target || !(Number(target.targetMeters) > 0)) return false;
+  if (target.mode === MODE_CONTINUE) return false;
+  return courseHasSharedStartEnd({ pins: sess.coursePins, path: sess.coursePath });
+}
+
+export function lapPlanFromMeters(courseMeters, targetMeters) {
+  const course = Number(courseMeters) || 0;
+  const target = Number(targetMeters) || 0;
+  if (!(course > 0) || !(target > 0)) return null;
+  const totalPasses = Math.max(1, Math.ceil((target - 0.01) / course));
+  const remainder = target - (totalPasses - 1) * course;
+  const exact = Math.abs(remainder - course) <= 0.5 || remainder <= 0.5;
+  return {
+    courseMeters: course,
+    targetMeters: target,
+    totalPasses,
+    remainderMeters: exact ? 0 : remainder,
+    exact,
+    kind: "lap",
+    underOneLap: target < course - 0.5,
+  };
+}
+
+function formatPartial(meters, units) {
+  return formatDistance(meters, units, { digits: 2 });
+}
+
+/** Human lap summary for the distance picker, e.g. "2 laps + 0.56 mi". */
+export function formatLapPlanLabel(courseMeters, targetMeters, units = "mi") {
+  const plan = lapPlanFromMeters(courseMeters, targetMeters);
+  if (!plan) return "";
+  const u = units === "km" ? "km" : "mi";
+  if (plan.underOneLap) {
+    return `Ends ${formatPartial(plan.targetMeters, u)} into the first lap`;
+  }
+  if (plan.exact) {
+    return plan.totalPasses === 1 ? "1 lap" : `${plan.totalPasses} laps`;
+  }
+  const full = plan.totalPasses - 1;
+  const laps = full === 1 ? "1 lap" : `${full} laps`;
+  return `${laps} + ${formatPartial(plan.remainderMeters, u)}`;
+}
+
+export function inputValueForMeters(meters, units = "mi") {
+  const n = Number(meters) || 0;
+  if (!(n > 0)) return "";
+  if (units === "km") return String(Math.round((n / METERS_PER_KM) * 100) / 100);
+  return String(Math.round((n / METERS_PER_MILE) * 100) / 100);
+}
+
+function defaultStorage() {
+  try {
+    if (typeof localStorage !== "undefined") return localStorage;
+  } catch { /* private mode */ }
+  return null;
+}
+
+export function isSessionDistanceExplainerSeen(storage) {
+  const store = storage || defaultStorage();
+  if (!store) return false;
+  try {
+    return store.getItem(SESSION_DISTANCE_EXPLAINER_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+export function markSessionDistanceExplainerSeen(storage) {
+  const store = storage || defaultStorage();
+  if (!store) return;
+  try {
+    store.setItem(SESSION_DISTANCE_EXPLAINER_KEY, "1");
+  } catch { /* quota */ }
+}
+

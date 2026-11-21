@@ -34205,6 +34205,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     // "map" | "satellite"
     lastPathMode: "on",
     // "on" | "off" — next pin in the course builder
+    lastSessionDistanceMeters: null,
     weightUnit: null,
     // "lb" | "kg" — null means pick from locale / units
     bodyKg: null
@@ -38555,6 +38556,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   var MODE_COURSE = "use-course";
   var MODE_CONTINUE = "continue-past";
   var CLOSE_METERS = 30;
+  var SESSION_DISTANCE_EXPLAINER_KEY = "heldpath.session-distance-explainer.v1";
+  var SESSION_DISTANCE_EXPLAINER_BODY = "On a loop, set how far you want to go. We'll count the laps and place an end marker on the map, including partway around a lap if you stop short of a whole number.";
   function isClosedCircuit(path, closeMeters = CLOSE_METERS) {
     if (!path || path.length < 2) return false;
     const len = pathLengthMeters(path);
@@ -38697,6 +38700,103 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
   function planFromCourse(course, targetMeters, mode) {
     return planTarget({ course, targetMeters, mode });
+  }
+  function courseStartPin(course) {
+    const pins = course && course.pins || [];
+    if (!pins.length) return null;
+    const start = pins.find((p) => p && p.role === "start");
+    return start || pins[0];
+  }
+  function courseEndPin(course) {
+    const pins = course && course.pins || [];
+    if (!pins.length) return null;
+    for (let i = pins.length - 1; i >= 0; i--) {
+      if (pins[i] && pins[i].role === "end") return pins[i];
+    }
+    return pins[pins.length - 1];
+  }
+  function courseHasSharedStartEnd(course, closeMeters = CLOSE_METERS) {
+    const pins = course && course.pins || [];
+    if (pins.length < 2) return false;
+    const start = courseStartPin(course);
+    const end = courseEndPin(course);
+    if (!start || !end) return false;
+    const limit = closeMeters == null ? CLOSE_METERS : closeMeters;
+    return haversineMeters(start, end) <= limit;
+  }
+  function shouldPromptSessionDistance(course) {
+    return courseHasSharedStartEnd(course);
+  }
+  function shouldAutoEndAtTarget(sess) {
+    if (!sess || !sess.goalComplete) return false;
+    const target = sess.target;
+    if (!target || !(Number(target.targetMeters) > 0)) return false;
+    if (target.mode === MODE_CONTINUE) return false;
+    return courseHasSharedStartEnd({ pins: sess.coursePins, path: sess.coursePath });
+  }
+  function lapPlanFromMeters(courseMeters2, targetMeters) {
+    const course = Number(courseMeters2) || 0;
+    const target = Number(targetMeters) || 0;
+    if (!(course > 0) || !(target > 0)) return null;
+    const totalPasses = Math.max(1, Math.ceil((target - 0.01) / course));
+    const remainder = target - (totalPasses - 1) * course;
+    const exact = Math.abs(remainder - course) <= 0.5 || remainder <= 0.5;
+    return {
+      courseMeters: course,
+      targetMeters: target,
+      totalPasses,
+      remainderMeters: exact ? 0 : remainder,
+      exact,
+      kind: "lap",
+      underOneLap: target < course - 0.5
+    };
+  }
+  function formatPartial(meters, units3) {
+    return formatDistance(meters, units3, { digits: 2 });
+  }
+  function formatLapPlanLabel(courseMeters2, targetMeters, units3 = "mi") {
+    const plan = lapPlanFromMeters(courseMeters2, targetMeters);
+    if (!plan) return "";
+    const u2 = units3 === "km" ? "km" : "mi";
+    if (plan.underOneLap) {
+      return `Ends ${formatPartial(plan.targetMeters, u2)} into the first lap`;
+    }
+    if (plan.exact) {
+      return plan.totalPasses === 1 ? "1 lap" : `${plan.totalPasses} laps`;
+    }
+    const full = plan.totalPasses - 1;
+    const laps = full === 1 ? "1 lap" : `${full} laps`;
+    return `${laps} + ${formatPartial(plan.remainderMeters, u2)}`;
+  }
+  function inputValueForMeters(meters, units3 = "mi") {
+    const n = Number(meters) || 0;
+    if (!(n > 0)) return "";
+    if (units3 === "km") return String(Math.round(n / METERS_PER_KM * 100) / 100);
+    return String(Math.round(n / METERS_PER_MILE * 100) / 100);
+  }
+  function defaultStorage() {
+    try {
+      if (typeof localStorage !== "undefined") return localStorage;
+    } catch {
+    }
+    return null;
+  }
+  function isSessionDistanceExplainerSeen(storage) {
+    const store = storage || defaultStorage();
+    if (!store) return false;
+    try {
+      return store.getItem(SESSION_DISTANCE_EXPLAINER_KEY) === "1";
+    } catch {
+      return false;
+    }
+  }
+  function markSessionDistanceExplainerSeen(storage) {
+    const store = storage || defaultStorage();
+    if (!store) return;
+    try {
+      store.setItem(SESSION_DISTANCE_EXPLAINER_KEY, "1");
+    } catch {
+    }
   }
 
   // www/js/auto_pause.js
@@ -41391,7 +41491,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   }
   function loadChartStyle(storage) {
     try {
-      const v2 = (storage || defaultStorage())?.getItem(CHART_STYLE_KEY);
+      const v2 = (storage || defaultStorage2())?.getItem(CHART_STYLE_KEY);
       return v2 === "bar" ? "bar" : "line";
     } catch {
       return "line";
@@ -41400,7 +41500,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   function saveChartStyle(style, storage) {
     const v2 = style === "bar" ? "bar" : "line";
     try {
-      (storage || defaultStorage())?.setItem(CHART_STYLE_KEY, v2);
+      (storage || defaultStorage2())?.setItem(CHART_STYLE_KEY, v2);
     } catch {
     }
     return v2;
@@ -41548,7 +41648,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }).join("");
     return `<div class="hist-table" data-testid="history-table">${head}${body}</div>`;
   }
-  function defaultStorage() {
+  function defaultStorage2() {
     try {
       if (typeof localStorage !== "undefined") return localStorage;
     } catch {
@@ -42300,7 +42400,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return routed;
   }
   function isExplainerSeen(storage) {
-    const store = storage || defaultStorage2();
+    const store = storage || defaultStorage3();
     if (!store) return false;
     try {
       return store.getItem(EXPLAINER_KEY) === "1";
@@ -42309,7 +42409,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
   }
   function markExplainerSeen(storage) {
-    const store = storage || defaultStorage2();
+    const store = storage || defaultStorage3();
     if (!store) return;
     try {
       store.setItem(EXPLAINER_KEY, "1");
@@ -42317,7 +42417,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
   }
   function isPathModeExplainerSeen(storage) {
-    const store = storage || defaultStorage2();
+    const store = storage || defaultStorage3();
     if (!store) return false;
     try {
       return store.getItem(PATH_MODE_EXPLAINER_KEY) === "1";
@@ -42326,14 +42426,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
   }
   function markPathModeExplainerSeen(storage) {
-    const store = storage || defaultStorage2();
+    const store = storage || defaultStorage3();
     if (!store) return;
     try {
       store.setItem(PATH_MODE_EXPLAINER_KEY, "1");
     } catch {
     }
   }
-  function defaultStorage2() {
+  function defaultStorage3() {
     try {
       if (typeof localStorage !== "undefined") return localStorage;
     } catch {
@@ -45927,7 +46027,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     };
   }
   function readCachedTemperature(storage, now = Date.now()) {
-    const store = storage || defaultStorage3();
+    const store = storage || defaultStorage4();
     if (!store) return null;
     try {
       const raw = store.getItem(WEATHER_CACHE_KEY);
@@ -45943,7 +46043,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
   }
   function loadWaterPrefs(storage, hints) {
-    const store = storage || defaultStorage3();
+    const store = storage || defaultStorage4();
     let raw = {};
     if (store) {
       try {
@@ -45955,7 +46055,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return normaliseWaterPrefs(raw, hints);
   }
   function saveWaterPrefs(prefs, storage, hints) {
-    const store = storage || defaultStorage3();
+    const store = storage || defaultStorage4();
     const next = normaliseWaterPrefs(prefs, hints);
     if (store) {
       try {
@@ -45972,7 +46072,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return `${y2}-${m}-${day}`;
   }
   function loadWaterLog(storage) {
-    const store = storage || defaultStorage3();
+    const store = storage || defaultStorage4();
     if (!store) return {};
     try {
       return JSON.parse(store.getItem(WATER_LOG_KEY) || "{}") || {};
@@ -45981,7 +46081,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
   }
   function logWaterMl(ml, { storage, at, bottleOz } = {}) {
-    const store = storage || defaultStorage3();
+    const store = storage || defaultStorage4();
     const log = loadWaterLog(store);
     const key = todayKey(at || /* @__PURE__ */ new Date());
     const row = log[key] || { ml: 0, bottleOz: bottleOz || DEFAULT_BOTTLE_OZ };
@@ -46004,7 +46104,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const row = loadWaterLog(storage)[todayKey(at || /* @__PURE__ */ new Date())];
     return row ? Number(row.ml) || 0 : 0;
   }
-  function defaultStorage3() {
+  function defaultStorage4() {
     try {
       if (typeof localStorage !== "undefined") return localStorage;
     } catch {
@@ -51136,12 +51236,21 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (!s2) return;
     maybeSaveLiveSession(s2, { ...liveSessionExtra(), force });
   }
+  var autoEndingSession = false;
   function onLiveSessionUpdate(s2, why) {
     if (!s2) return;
     paintSessionHud(s2);
     drawSessionOnMap(s2);
     maybeSaveLiveSession(s2, { ...liveSessionExtra(), force: why === "hide" });
     maybeForgotPrompt(s2);
+    maybeAutoEndLoopTarget(s2);
+  }
+  function maybeAutoEndLoopTarget(s2) {
+    if (autoEndingSession || !shouldAutoEndAtTarget(s2)) return;
+    autoEndingSession = true;
+    Promise.resolve(finishTracking()).finally(() => {
+      autoEndingSession = false;
+    });
   }
   function maybeForgotPrompt(s2) {
     if (!s2) return;
@@ -51633,7 +51742,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       paintCourseLegs(sess.courseLegs || c && c.legs, guide, { id: "course-line", width: 4 });
       if (sess.coursePins) addCoursePins(sess.coursePins);
       if (sess.target && sess.target.stopPin) {
-        addPin(sess.target.stopPin, { kind: "stop", label: "Stop" });
+        const stopLabel2 = sess.target.targetMeters ? formatDistance(sess.target.targetMeters, units2(), { digits: 2 }) : "End";
+        addPin(sess.target.stopPin, { kind: "stop", label: stopLabel2 });
       }
     }
     if (sess.track.length >= 2) drawRoute(sess.track, { id: "live-line", color: "#4EC3F7", width: 5 });
@@ -52971,15 +53081,40 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const overBox = $4("target-over-options");
     const startBtn = $4("btn-target-start");
     const hint = $4("target-blank-hint");
+    const preview = $4("target-lap-preview");
+    const label = meters != null && len > 0 ? formatLapPlanLabel(len, meters, units2()) : "";
+    if (preview) {
+      preview.textContent = label;
+      preview.hidden = !label;
+    }
     if (overBox) overBox.hidden = !over;
-    if (startBtn) startBtn.hidden = !!over;
-    if (hint) hint.hidden = !!over;
+    if (startBtn) startBtn.hidden = false;
+    if (hint) hint.hidden = meters != null || !!over;
     const sheet = $4("sheet-target");
     if (sheet) sheet.classList.toggle("target-is-over", !!over);
+  }
+  function hideSessionDistanceExplainer() {
+    const coach = $4("session-distance-coach");
+    const row = $4("target-input-row");
+    if (coach) coach.hidden = true;
+    if (row) row.classList.remove("session-distance-pulse");
+  }
+  function maybeShowSessionDistanceExplainer({ force } = {}) {
+    const coach = $4("session-distance-coach");
+    const copy = $4("session-distance-coach-copy");
+    const row = $4("target-input-row");
+    if (copy) copy.textContent = SESSION_DISTANCE_EXPLAINER_BODY;
+    const show2 = !!force || !isSessionDistanceExplainerSeen();
+    if (coach) coach.hidden = !show2;
+    if (row) row.classList.toggle("session-distance-pulse", !!show2);
   }
   function promptTargetThenStart(type, course) {
     if (!course) {
       startTracking(type, null);
+      return;
+    }
+    if (!shouldPromptSessionDistance(course)) {
+      startTracking(type, course);
       return;
     }
     ui2.pendingStart = { type, course };
@@ -52988,14 +53123,23 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const len = courseMeters(course);
     $4("target-course-sub").textContent = `${course.name} \xB7 ${formatDistance(len, units2())}`;
     $4("target-unit").textContent = units2() === "km" ? "km" : "mi";
-    $4("target-distance").value = "";
+    const last = state2.settings && Number(state2.settings.lastSessionDistanceMeters);
+    $4("target-distance").value = last > 0 ? inputValueForMeters(last, units2()) : "";
     refreshTargetOptions();
+    maybeShowSessionDistanceExplainer();
     openSheet("sheet-target");
   }
   function startPendingWithMode(mode) {
     const pending = ui2.pendingStart;
     if (!pending) return;
     const meters = parseTargetMeters();
+    if (meters > 0) {
+      if (!state2.settings) state2.settings = {};
+      state2.settings.lastSessionDistanceMeters = meters;
+      persist();
+    }
+    markSessionDistanceExplainerSeen();
+    hideSessionDistanceExplainer();
     const plan = meters ? planFromCourse(pending.course, meters, mode || MODE_COURSE) : null;
     closeSheet("sheet-target");
     startTracking(pending.type, pending.course, null, plan);
@@ -53761,6 +53905,12 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if ($4("btn-indoor-save")) $4("btn-indoor-save").addEventListener("click", () => saveIndoorLog());
     if ($4("btn-indoor-cancel")) $4("btn-indoor-cancel").addEventListener("click", () => closeSheet("sheet-indoor"));
     $4("target-distance").addEventListener("input", refreshTargetOptions);
+    if ($4("btn-session-distance-gotit")) {
+      $4("btn-session-distance-gotit").addEventListener("click", () => {
+        markSessionDistanceExplainerSeen();
+        hideSessionDistanceExplainer();
+      });
+    }
     $4("btn-target-start").addEventListener("click", () => startPendingWithMode(MODE_COURSE));
     $4("btn-target-use-course").addEventListener("click", () => startPendingWithMode(MODE_COURSE));
     $4("btn-target-continue-past").addEventListener("click", () => startPendingWithMode(MODE_CONTINUE));
@@ -55059,6 +55209,99 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     } catch {
     }
   }
+  function oneMileLoopCourse(name = "Park loop") {
+    const town = US_TOWN_ROUTES.gulfport;
+    const center = town && (town.loopCenter || town.center) || { lat: 30.3678, lon: -89.0948 };
+    const target = METERS_PER_MILE;
+    let side = target / 4;
+    let pins = [];
+    for (let i = 0; i < 8; i++) {
+      const a = { lat: center.lat, lon: center.lon, role: "start" };
+      const b2 = { ...destination(a.lat, a.lon, 90, side), role: "via" };
+      const c = { ...destination(b2.lat, b2.lon, 0, side), role: "via" };
+      const d2 = { ...destination(c.lat, c.lon, 270, side), role: "via" };
+      const end = { lat: a.lat, lon: a.lon, role: "end" };
+      pins = [a, b2, c, d2, end];
+      const len = pathLengthMeters(pins);
+      if (!(len > 0)) break;
+      side *= target / len;
+    }
+    return newCourse({ name, pins, path: pins });
+  }
+  function openLoopDistancePicker({ explainer = false, value = "2.56" } = {}) {
+    if (state2.settings) state2.settings.units = "mi";
+    const course = oneMileLoopCourse();
+    state2.courses = [course, ...(state2.courses || []).filter((c) => c.id !== course.id)];
+    persist();
+    ui2.pendingStart = { type: "run", course };
+    const len = courseMeters(course);
+    $4("target-course-sub").textContent = `${course.name} \xB7 ${formatDistance(len, "mi")}`;
+    $4("target-unit").textContent = "mi";
+    $4("target-distance").value = value == null ? "" : String(value);
+    refreshTargetOptions();
+    setTab("today");
+    showScreen("today");
+    if (explainer) {
+      try {
+        localStorage.removeItem(SESSION_DISTANCE_EXPLAINER_KEY);
+      } catch {
+      }
+      maybeShowSessionDistanceExplainer({ force: true });
+    } else {
+      markSessionDistanceExplainerSeen();
+      hideSessionDistanceExplainer();
+    }
+    openSheet("sheet-target");
+    return course;
+  }
+  function showLoopDistanceMap() {
+    if (state2.settings) state2.settings.units = "mi";
+    const course = oneMileLoopCourse();
+    state2.courses = [course, ...(state2.courses || []).filter((c) => c.id !== course.id)];
+    persist();
+    const targetMeters = 2.56 * METERS_PER_MILE;
+    const tplan = planFromCourse(course, targetMeters, MODE_COURSE);
+    stopSession();
+    const made = makeSession({ type: "run", course, units: "mi", target: tplan });
+    const startPt = tplan && tplan.path && tplan.path[0] || course.pins[0];
+    Object.assign(made, {
+      track: [startPt],
+      distanceMeters: 0,
+      elapsedSec: 0,
+      courseTraveledMeters: 0
+    });
+    setTab("today");
+    showScreen("tracking");
+    paintSessionHud(made);
+    const bounds = course.path && course.path.length >= 2 ? course.path : course.pins;
+    const paint = () => {
+      try {
+        resizeMap();
+      } catch {
+      }
+      if (startPt) {
+        try {
+          setCenter(startPt.lat, startPt.lon, 15.6);
+        } catch {
+        }
+      }
+      drawSessionOnMap(made);
+      fitBounds(bounds, { top: 72, bottom: 360, left: 48, right: 48, maxZoom: 16.8 });
+    };
+    paint();
+    whenReady(paint);
+    return new Promise((resolve2) => {
+      const finish = () => {
+        paint();
+        resolve2(made);
+      };
+      if (whenIdle) {
+        whenIdle().then(finish).catch(finish);
+      } else {
+        setTimeout(finish, 600);
+      }
+    });
+  }
   window.HeldpathTest = {
     show: async function show(name, opt = {}) {
       hideLocateDenied();
@@ -55091,6 +55334,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         try {
           markPathModeExplainerSeen();
           hidePathModeExplainer();
+        } catch {
+        }
+      }
+      if (name !== "session-distance-explainer" && name !== "loop-distance-popup") {
+        try {
+          markSessionDistanceExplainerSeen();
+          hideSessionDistanceExplainer();
         } catch {
         }
       }
@@ -55448,6 +55698,12 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         renderBuilder();
         maybeShowPathModeExplainer({ force: true });
         await new Promise((r) => setTimeout(r, 300));
+      } else if (name === "session-distance-explainer" || name === "loop-distance-popup") {
+        openLoopDistancePicker({ explainer: true, value: "2.56" });
+      } else if (name === "loop-distance-picker" || name === "session-distance-picker") {
+        openLoopDistancePicker({ explainer: false, value: "2.56" });
+      } else if (name === "loop-distance-map" || name === "loop-end-marker") {
+        await showLoopDistanceMap();
       } else if (name === "builder-mixed-course") {
         const base = US_TOWN_ROUTES.gulfport.loopPins;
         const mixed = [

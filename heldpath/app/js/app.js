@@ -195,6 +195,14 @@ import {
   MODE_COURSE,
   MODE_CONTINUE,
   progressOnPlan,
+  shouldPromptSessionDistance,
+  shouldAutoEndAtTarget,
+  formatLapPlanLabel,
+  inputValueForMeters,
+  SESSION_DISTANCE_EXPLAINER_KEY,
+  SESSION_DISTANCE_EXPLAINER_BODY,
+  isSessionDistanceExplainerSeen,
+  markSessionDistanceExplainerSeen,
 } from "./target_distance.js";
 import {
   activityDistanceMeters,
@@ -250,12 +258,23 @@ function flushLiveSession(force = true) {
   maybeSaveLiveSession(s, { ...liveSessionExtra(), force });
 }
 
+let autoEndingSession = false;
+
 function onLiveSessionUpdate(s, why) {
   if (!s) return;
   paintSessionHud(s);
   drawSessionOnMap(s);
   maybeSaveLiveSession(s, { ...liveSessionExtra(), force: why === "hide" });
   maybeForgotPrompt(s);
+  maybeAutoEndLoopTarget(s);
+}
+
+function maybeAutoEndLoopTarget(s) {
+  if (autoEndingSession || !shouldAutoEndAtTarget(s)) return;
+  autoEndingSession = true;
+  Promise.resolve(finishTracking()).finally(() => {
+    autoEndingSession = false;
+  });
 }
 
 function maybeForgotPrompt(s) {
@@ -788,7 +807,10 @@ function drawSessionOnMap(sess) {
     paintCourseLegs(sess.courseLegs || (c && c.legs), guide, { id: "course-line", width: 4 });
     if (sess.coursePins) addCoursePins(sess.coursePins);
     if (sess.target && sess.target.stopPin) {
-      map.addPin(sess.target.stopPin, { kind: "stop", label: "Stop" });
+      const stopLabel = sess.target.targetMeters
+        ? formatDistance(sess.target.targetMeters, units(), { digits: 2 })
+        : "End";
+      map.addPin(sess.target.stopPin, { kind: "stop", label: stopLabel });
     }
   }
   if (sess.track.length >= 2) map.drawRoute(sess.track, { id: "live-line", color: "#4EC3F7", width: 5 });
@@ -2215,16 +2237,45 @@ function refreshTargetOptions() {
   const overBox = $("target-over-options");
   const startBtn = $("btn-target-start");
   const hint = $("target-blank-hint");
+  const preview = $("target-lap-preview");
+  const label = meters != null && len > 0 ? formatLapPlanLabel(len, meters, units()) : "";
+  if (preview) {
+    preview.textContent = label;
+    preview.hidden = !label;
+  }
   if (overBox) overBox.hidden = !over;
-  if (startBtn) startBtn.hidden = !!over;
-  if (hint) hint.hidden = !!over;
+  if (startBtn) startBtn.hidden = false;
+  if (hint) hint.hidden = meters != null || !!over;
   const sheet = $("sheet-target");
   if (sheet) sheet.classList.toggle("target-is-over", !!over);
+}
+
+function hideSessionDistanceExplainer() {
+  const coach = $("session-distance-coach");
+  const row = $("target-input-row");
+  if (coach) coach.hidden = true;
+  if (row) row.classList.remove("session-distance-pulse");
+}
+
+function maybeShowSessionDistanceExplainer({ force } = {}) {
+  const coach = $("session-distance-coach");
+  const copy = $("session-distance-coach-copy");
+  const row = $("target-input-row");
+  if (copy) copy.textContent = SESSION_DISTANCE_EXPLAINER_BODY;
+  const show = !!force || !isSessionDistanceExplainerSeen();
+  if (coach) coach.hidden = !show;
+  if (row) row.classList.toggle("session-distance-pulse", !!show);
 }
 
 function promptTargetThenStart(type, course) {
   if (!course) {
     startTracking(type, null);
+    return;
+  }
+  // Session-distance / lap picker is only for a shared start/end loop.
+  // Point-to-point and an end pin elsewhere start immediately.
+  if (!shouldPromptSessionDistance(course)) {
+    startTracking(type, course);
     return;
   }
   ui.pendingStart = { type, course };
@@ -2233,8 +2284,10 @@ function promptTargetThenStart(type, course) {
   const len = courseMeters(course);
   $("target-course-sub").textContent = `${course.name} · ${formatDistance(len, units())}`;
   $("target-unit").textContent = units() === "km" ? "km" : "mi";
-  $("target-distance").value = "";
+  const last = state.settings && Number(state.settings.lastSessionDistanceMeters);
+  $("target-distance").value = last > 0 ? inputValueForMeters(last, units()) : "";
   refreshTargetOptions();
+  maybeShowSessionDistanceExplainer();
   openSheet("sheet-target");
 }
 
@@ -2242,6 +2295,13 @@ function startPendingWithMode(mode) {
   const pending = ui.pendingStart;
   if (!pending) return;
   const meters = parseTargetMeters();
+  if (meters > 0) {
+    if (!state.settings) state.settings = {};
+    state.settings.lastSessionDistanceMeters = meters;
+    persist();
+  }
+  markSessionDistanceExplainerSeen();
+  hideSessionDistanceExplainer();
   const plan = meters ? planFromCourse(pending.course, meters, mode || MODE_COURSE) : null;
   closeSheet("sheet-target");
   startTracking(pending.type, pending.course, null, plan);
@@ -3048,6 +3108,12 @@ function bind() {
   if ($("btn-indoor-save")) $("btn-indoor-save").addEventListener("click", () => saveIndoorLog());
   if ($("btn-indoor-cancel")) $("btn-indoor-cancel").addEventListener("click", () => closeSheet("sheet-indoor"));
   $("target-distance").addEventListener("input", refreshTargetOptions);
+  if ($("btn-session-distance-gotit")) {
+    $("btn-session-distance-gotit").addEventListener("click", () => {
+      markSessionDistanceExplainerSeen();
+      hideSessionDistanceExplainer();
+    });
+  }
   $("btn-target-start").addEventListener("click", () => startPendingWithMode(MODE_COURSE));
   $("btn-target-use-course").addEventListener("click", () => startPendingWithMode(MODE_COURSE));
   $("btn-target-continue-past").addEventListener("click", () => startPendingWithMode(MODE_CONTINUE));
@@ -4330,6 +4396,90 @@ async function showUsTownBuilderLoop({ center, loopCenter, loopPins, pins, zoom 
   try { map.raiseOverlays(); } catch { /* map helper */ }
 }
 
+function oneMileLoopCourse(name = "Park loop") {
+  const town = US_TOWN_ROUTES.gulfport;
+  const center = (town && (town.loopCenter || town.center)) || { lat: 30.3678, lon: -89.0948 };
+  const target = METERS_PER_MILE;
+  let side = target / 4;
+  let pins = [];
+  for (let i = 0; i < 8; i++) {
+    const a = { lat: center.lat, lon: center.lon, role: "start" };
+    const b = { ...destination(a.lat, a.lon, 90, side), role: "via" };
+    const c = { ...destination(b.lat, b.lon, 0, side), role: "via" };
+    const d = { ...destination(c.lat, c.lon, 270, side), role: "via" };
+    const end = { lat: a.lat, lon: a.lon, role: "end" };
+    pins = [a, b, c, d, end];
+    const len = pathLengthMeters(pins);
+    if (!(len > 0)) break;
+    side *= target / len;
+  }
+  return newCourse({ name, pins, path: pins });
+}
+
+function openLoopDistancePicker({ explainer = false, value = "2.56" } = {}) {
+  if (state.settings) state.settings.units = "mi";
+  const course = oneMileLoopCourse();
+  state.courses = [course, ...(state.courses || []).filter((c) => c.id !== course.id)];
+  persist();
+  ui.pendingStart = { type: "run", course };
+  const len = courseMeters(course);
+  $("target-course-sub").textContent = `${course.name} · ${formatDistance(len, "mi")}`;
+  $("target-unit").textContent = "mi";
+  $("target-distance").value = value == null ? "" : String(value);
+  refreshTargetOptions();
+  setTab("today");
+  showScreen("today");
+  if (explainer) {
+    try { localStorage.removeItem(SESSION_DISTANCE_EXPLAINER_KEY); } catch { /* ignore */ }
+    maybeShowSessionDistanceExplainer({ force: true });
+  } else {
+    markSessionDistanceExplainerSeen();
+    hideSessionDistanceExplainer();
+  }
+  openSheet("sheet-target");
+  return course;
+}
+
+function showLoopDistanceMap() {
+  if (state.settings) state.settings.units = "mi";
+  const course = oneMileLoopCourse();
+  state.courses = [course, ...(state.courses || []).filter((c) => c.id !== course.id)];
+  persist();
+  const targetMeters = 2.56 * METERS_PER_MILE;
+  const tplan = planFromCourse(course, targetMeters, MODE_COURSE);
+  track.stopSession();
+  const made = track.makeSession({ type: "run", course, units: "mi", target: tplan });
+  const startPt = (tplan && tplan.path && tplan.path[0]) || course.pins[0];
+  Object.assign(made, {
+    track: [startPt],
+    distanceMeters: 0,
+    elapsedSec: 0,
+    courseTraveledMeters: 0,
+  });
+  setTab("today");
+  showScreen("tracking");
+  paintSessionHud(made);
+  const bounds = (course.path && course.path.length >= 2) ? course.path : course.pins;
+  const paint = () => {
+    try { map.resizeMap(); } catch { /* map helper */ }
+    if (startPt) {
+      try { map.setCenter(startPt.lat, startPt.lon, 15.6); } catch { /* map helper */ }
+    }
+    drawSessionOnMap(made);
+    map.fitBounds(bounds, { top: 72, bottom: 360, left: 48, right: 48, maxZoom: 16.8 });
+  };
+  paint();
+  map.whenReady(paint);
+  return new Promise((resolve) => {
+    const finish = () => { paint(); resolve(made); };
+    if (map.whenIdle) {
+      map.whenIdle().then(finish).catch(finish);
+    } else {
+      setTimeout(finish, 600);
+    }
+  });
+}
+
 window.HeldpathTest = {
   show: async function show(name, opt = {}) {
     hideLocateDenied();
@@ -4349,6 +4499,9 @@ window.HeldpathTest = {
     }
     if (name !== "path-mode-explainer") {
       try { markPathModeExplainerSeen(); hidePathModeExplainer(); } catch { /* ignore */ }
+    }
+    if (name !== "session-distance-explainer" && name !== "loop-distance-popup") {
+      try { markSessionDistanceExplainerSeen(); hideSessionDistanceExplainer(); } catch { /* ignore */ }
     }
     if (opt.empty) {
       state = resetState();
@@ -4679,6 +4832,12 @@ window.HeldpathTest = {
       renderBuilder();
       maybeShowPathModeExplainer({ force: true });
       await new Promise((r) => setTimeout(r, 300));
+    } else if (name === "session-distance-explainer" || name === "loop-distance-popup") {
+      openLoopDistancePicker({ explainer: true, value: "2.56" });
+    } else if (name === "loop-distance-picker" || name === "session-distance-picker") {
+      openLoopDistancePicker({ explainer: false, value: "2.56" });
+    } else if (name === "loop-distance-map" || name === "loop-end-marker") {
+      await showLoopDistanceMap();
     } else if (name === "builder-mixed-course") {
       const base = US_TOWN_ROUTES.gulfport.loopPins;
       const mixed = [

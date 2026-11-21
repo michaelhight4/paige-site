@@ -931,8 +931,32 @@ html.is-native .web-only { display: none !important; }
 .target-over-copy { font-size: 15px; line-height: 1.4; margin: 12px 0; }
 .pp-map-marker.pin-stop { filter: hue-rotate(160deg) drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
 
-#sheet-target.target-is-over #btn-target-start,
 #sheet-target.target-is-over #target-blank-hint { display: none !important; }
+#target-lap-preview {
+  margin: 0 0 8px;
+  color: var(--text);
+  font-weight: 600;
+}
+.session-distance-coach {
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(18, 22, 28, 0.96);
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.session-distance-coach[hidden] { display: none !important; }
+.session-distance-coach p {
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--text);
+}
+.session-distance-coach .btn { width: 100%; min-height: 44px; }
+.target-input-row.session-distance-pulse input {
+  border-color: #4EC3F7;
+  animation: path-mode-pulse 1.5s ease-out infinite;
+}
 
 /* Share links */
 .share-qr {

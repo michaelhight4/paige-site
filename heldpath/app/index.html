@@ -852,17 +852,22 @@
       <div class="sheet" role="dialog" data-testid="target-sheet">
         <h2>Target distance</h2>
         <p class="page-sub" id="target-course-sub">Course</p>
+        <div class="session-distance-coach" id="session-distance-coach" hidden data-testid="session-distance-explainer">
+          <p id="session-distance-coach-copy"></p>
+          <button class="btn btn-primary" id="btn-session-distance-gotit" data-testid="session-distance-gotit">Got it</button>
+        </div>
         <label class="field-label" for="target-distance">How far do you want to go?</label>
-        <div class="target-input-row">
+        <div class="target-input-row" id="target-input-row">
           <input id="target-distance" data-testid="target-distance" type="number" min="0" step="0.05" inputmode="decimal" placeholder="Optional" />
           <span id="target-unit">mi</span>
         </div>
-        <p class="tiny" id="target-blank-hint">Leave this blank to just follow the course.</p>
+        <p class="tiny" id="target-lap-preview" data-testid="target-lap-preview" hidden></p>
+        <p class="tiny" id="target-blank-hint">Leave this blank to just follow the course once.</p>
         <div id="target-over-options" data-testid="target-over-options" hidden>
-          <p class="target-over-copy">Your target is longer than the course. How should the rest be covered?</p>
+          <p class="target-over-copy">That's farther than one lap. Start will follow the loop and place an end marker. Or continue past the course after one lap.</p>
           <button class="btn btn-primary" id="btn-target-continue-past" data-testid="target-continue-past" style="width:100%;margin-bottom:10px">Continue past the course</button>
           <button class="btn btn-primary" id="btn-target-use-course" data-testid="target-use-course" style="width:100%;margin-bottom:10px">Use the course for the rest</button>
-          <p class="tiny">Continue past tracks your actual path after the end and alerts you at the target. Use the course repeats a loop, or goes out and back, and puts a stop pin at the exact target.</p>
+          <p class="tiny">Continue past tracks your actual path after the end and alerts you at the target. Start (or use the course) repeats the loop and puts an end marker at the exact target, even partway around a lap.</p>
         </div>
         <button class="btn btn-primary" id="btn-target-start" data-testid="target-start" style="width:100%;margin:16px 0 12px">Start</button>
         <button class="btn btn-secondary" id="btn-target-cancel" style="width:100%">Back</button>

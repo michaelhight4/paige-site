@@ -16,6 +16,7 @@ const DEFAULT_SETTINGS = {
   countHills: false,
   mapStyle: "map", // "map" | "satellite"
   lastPathMode: "on", // "on" | "off" — next pin in the course builder
+  lastSessionDistanceMeters: null,
   weightUnit: null, // "lb" | "kg" — null means pick from locale / units
   bodyKg: null,
 };
