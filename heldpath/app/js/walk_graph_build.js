@@ -5,7 +5,8 @@
  */
 import { VectorTile } from "@mapbox/vector-tile";
 import Pbf from "pbf";
-import { isOpenWalkableProps, isBarrierProps, barrierKind, packRings, rasterizeBarriers, packBlocked } from "./open_areas.js";
+import { isOpenWalkableProps, isBarrierProps, barrierKind, packRings, rasterizeBarriers, packBlocked, pointInRing } from "./open_areas.js";
+import { geodesicMeters } from "./geodesic.js";
 
 export const GRAPH_VERSION = 1;
 export const OSM_ATTRIBUTION = "© OpenStreetMap contributors";
@@ -155,6 +156,60 @@ function midLatOf(lines) {
  * Pack a walk graph from geographic lines (arrays of {lon,lat}).
  * Drops isolated fragments smaller than MIN_COMPONENT nodes.
  */
+
+function pointToRingDistanceMeters(point, ring) {
+  let best = Infinity;
+  for (let i = 0; i < ring.length; i++) {
+    const a = ring[i];
+    const b = ring[(i + 1) % ring.length];
+    const vx = b.lat - a.lat, vy = b.lon - a.lon;
+    const len2 = vx * vx + vy * vy;
+    const t = len2 > 0 ? Math.max(0, Math.min(1, ((point.lat - a.lat) * vx + (point.lon - a.lon) * vy) / len2)) : 0;
+    const hit = { lat: a.lat + vx * t, lon: a.lon + vy * t };
+    const d = geodesicMeters(point, hit);
+    if (d < best) best = d;
+  }
+  return best;
+}
+
+/** Drop long graph edges that cut through the interior of a sports pitch. */
+export function dropPitchCuttingEdges(graph, open, minCut = 40, inset = 8) {
+  if (!graph || !graph.edges || !graph.nodes || !open || !open.length) return graph;
+  const scale = graph.scale || SCALE;
+  const pts = [];
+  for (let i = 0; i + 1 < graph.nodes.length; i += 2) {
+    pts.push({ lon: graph.nodes[i] / scale, lat: graph.nodes[i + 1] / scale });
+  }
+  const pitches = open.filter((a) => {
+    const k = String(a.kind || a.k || "").toLowerCase();
+    return k === "pitch" || k.includes("pitch") || k === "track" || k === "stadium";
+  });
+  if (!pitches.length) return graph;
+  const kept = [];
+  for (let i = 0; i + 1 < graph.edges.length; i += 2) {
+    const ia = graph.edges[i], ib = graph.edges[i + 1];
+    const a = pts[ia], b = pts[ib];
+    if (!a || !b) continue;
+    const meters = geodesicMeters(a, b);
+    const mid = { lat: (a.lat + b.lat) / 2, lon: (a.lon + b.lon) / 2 };
+    let cut = false;
+    if (meters >= minCut) {
+      for (const pitch of pitches) {
+        const ring = pitch.ring || [];
+        if (ring.length < 4) continue;
+        if (pointInRing(mid, ring) && pointToRingDistanceMeters(mid, ring) > inset) {
+          cut = true;
+          break;
+        }
+      }
+    }
+    if (!cut) kept.push(ia, ib);
+  }
+  graph.edges = kept;
+  if (graph.stats) graph.stats.edges = kept.length / 2;
+  return graph;
+}
+
 export function packWalkGraph(lines, { name = "walk", source = "", minComponent = MIN_COMPONENT } = {}) {
   const midLat = midLatOf(lines);
   const latM = 111320;
@@ -283,6 +338,7 @@ export function buildWalkGraphFromTiles(tiles, { name, source } = {}) {
       barriers.push(...areas.barriers);
     } catch { /* skip a bad tile */ }
   }
+  dropPitchCuttingEdges(graph, open);
   graph.open = packRings(open, SCALE);
   graph.blocked = packBlocked(rasterizeBarriers(barriers, graph.bounds, 10));
   graph.stats.keptFeatures = kept;

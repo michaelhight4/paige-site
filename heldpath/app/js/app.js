@@ -85,9 +85,13 @@ import {
   routeCourse,
   isExplainerSeen,
   markExplainerSeen,
+  isPathModeExplainerSeen,
+  markPathModeExplainerSeen,
+  setPinPathMode,
   builderHint,
   EXPLAINER_BODY,
   EXPLAINER_TITLE,
+  PATH_MODE_EXPLAINER_BODY,
   legLabels,
 } from "./course_builder.js";
 import {
@@ -178,6 +182,10 @@ import {
   coursePath,
   courseMeters,
   snapToNode,
+  normalizePathMode,
+  isOffPathMode,
+  ON_PATH_COLOR,
+  OFF_PATH_COLOR,
 } from "./routing.js";
 import {
   planFromCourse,
@@ -220,6 +228,7 @@ const ui = {
   lockWalkGraph: false,
   findingPaths: false,
   builderSheetExpanded: false,
+  pathMode: "on",
 };
 
 const $ = (id) => document.getElementById(id);
@@ -773,7 +782,8 @@ function drawSessionOnMap(sess) {
   map.clearMarkers();
   const guide = (sess.coursePath && sess.coursePath.length >= 2) ? sess.coursePath : sess.coursePins;
   if (guide && guide.length) {
-    map.drawRoute(guide, { id: "course-line", color: "#7A8798", width: 4 });
+    const c = sess.courseId ? courseById(sess.courseId) : null;
+    paintCourseLegs(sess.courseLegs || (c && c.legs), guide, { id: "course-line", width: 4 });
     if (sess.coursePins) addCoursePins(sess.coursePins);
     if (sess.target && sess.target.stopPin) {
       map.addPin(sess.target.stopPin, { kind: "stop", label: "Stop" });
@@ -800,9 +810,11 @@ function addCoursePins(pins, { builderState = null, clickable = false } = {}) {
     });
     placed.forEach((p) => {
       const kind = p.indices.includes(0) ? "start" : (builderState.endIndex != null && p.indices.includes(builderState.endIndex) ? "end" : "via");
+      const pathMode = normalizePathMode((builderState.pins[p.index] || p).pathMode);
       const opts = {
         kind,
         label: pinLabel(builderState, p.index),
+        pathMode,
         onClick: (ev) => {
           if (ev && ev.stopPropagation) ev.stopPropagation();
           openPinAction(p.index);
@@ -815,7 +827,7 @@ function addCoursePins(pins, { builderState = null, clickable = false } = {}) {
   (pins || []).forEach((p, i) => {
     const kind = p.role || (i === 0 ? "start" : i === pins.length - 1 ? "end" : "via");
     const label = kind === "start" ? "Start" : kind === "end" ? "End" : String(i + 1);
-    map.addPin(p, { kind, label });
+    map.addPin(p, { kind, label, pathMode: normalizePathMode(p.pathMode) });
   });
 }
 
@@ -947,6 +959,17 @@ function openPinAction(index) {
   const removeEndBtn = $("btn-pin-remove-end");
   if (setEnd) setEnd.hidden = st.endIndex === index;
   if (removeEndBtn) removeEndBtn.hidden = st.endIndex !== index;
+  const onBtn = $("btn-pin-path-on");
+  const offBtn = $("btn-pin-path-off");
+  const mode = normalizePathMode(st.pins[index].pathMode);
+  if (onBtn) {
+    onBtn.setAttribute("aria-pressed", mode === "on" ? "true" : "false");
+    onBtn.classList.toggle("on", mode === "on");
+  }
+  if (offBtn) {
+    offBtn.setAttribute("aria-pressed", mode === "off" ? "true" : "false");
+    offBtn.classList.toggle("on", mode === "off");
+  }
   openSheet("sheet-pin-action");
 }
 
@@ -982,6 +1005,60 @@ function undoLastBuilderAction() {
   ui.builderPins = ui.builder.pins;
   ui.builderRoute = null;
   renderBuilder();
+}
+
+function currentPathMode() {
+  return normalizePathMode(ui.pathMode || (state.settings && state.settings.lastPathMode) || "on");
+}
+
+function setCurrentPathMode(mode, { persistChoice = true } = {}) {
+  const next = normalizePathMode(mode);
+  ui.pathMode = next;
+  if (persistChoice) {
+    state.settings.lastPathMode = next;
+    persist();
+  }
+  paintPathModeButton();
+}
+
+function paintPathModeButton() {
+  const btn = $("btn-path-mode");
+  if (!btn) return;
+  const off = isOffPathMode(currentPathMode());
+  btn.textContent = off ? "Off path" : "On path";
+  btn.setAttribute("aria-label", btn.textContent);
+  btn.setAttribute("aria-pressed", off ? "true" : "false");
+  btn.classList.toggle("off-path", off);
+  btn.classList.toggle("on-path", !off);
+}
+
+function hidePathModeExplainer({ seen = false } = {}) {
+  const coach = $("path-mode-coach");
+  const btn = $("btn-path-mode");
+  if (coach) coach.hidden = true;
+  if (btn) btn.classList.remove("path-mode-pulse");
+  if (seen) markPathModeExplainerSeen();
+}
+
+function maybeShowPathModeExplainer({ force = false } = {}) {
+  if (!force && isPathModeExplainerSeen()) {
+    hidePathModeExplainer();
+    return;
+  }
+  const copy = $("path-mode-coach-copy");
+  if (copy) copy.textContent = PATH_MODE_EXPLAINER_BODY;
+  const coach = $("path-mode-coach");
+  const btn = $("btn-path-mode");
+  if (coach) coach.hidden = false;
+  if (btn) btn.classList.add("path-mode-pulse");
+}
+
+function cyclePinPathMode(index) {
+  const st = activeBuilder();
+  const pin = st.pins[index];
+  if (!pin) return;
+  const next = isOffPathMode(pin.pathMode) ? "on" : "off";
+  applyBuilderChange((s) => setPinPathMode(s, index, next));
 }
 
 function maybeShowBuilderExplainer({ force = false } = {}) {
@@ -1026,14 +1103,14 @@ async function waitBuilderRouted(ms = 20000) {
   while (Date.now() - start < ms) {
     const routed = ui.builderRoute;
     const ready = !ui.findingPaths && routed && Array.isArray(routed.legs)
-      && routed.legs.some((l) => l.mode === "routed" || l.reason === "open-area");
+      && routed.legs.some((l) => l.mode === "routed" || l.mode === "straight" || l.reason === "open-area" || l.reason === "detour" || l.reason === "off-path");
     if (ready) return true;
     const failed = !ui.findingPaths && routed && routed.legs
       && routed.legs.every((l) => l.mode === "unroutable");
     if (failed && Date.now() - start > 1500) return false;
     await new Promise((r) => setTimeout(r, 200));
   }
-  return !!(ui.builderRoute && ui.builderRoute.legs && ui.builderRoute.legs.some((l) => l.mode === "routed"));
+  return !!(ui.builderRoute && ui.builderRoute.legs && ui.builderRoute.legs.some((l) => l.mode === "routed" || l.mode === "straight"));
 }
 
 async function ensureCoursePath(course) {
@@ -1076,17 +1153,21 @@ function paintBuilderLine(routed, st) {
     routed.legs.forEach((leg, i) => {
       const pts = leg.points || [];
       if (pts.length < 2) return;
-      let color = "#4EC3F7";
+      let color = ON_PATH_COLOR;
       let dash = false;
       let width = 5;
       if (leg.mode === "unroutable") {
         color = "#E24B4A";
         dash = true;
         width = 5;
+      } else if (leg.mode === "straight" || isOffPathMode(leg.pathMode) || leg.reason === "off-path" || leg.reason === "detour" || leg.reason === "open-area") {
+        color = OFF_PATH_COLOR;
+        dash = false;
+        width = 5;
       } else if (leg.offMap) {
-        color = "#9BB0C4";
-        dash = true;
-        width = 4;
+        color = OFF_PATH_COLOR;
+        dash = false;
+        width = 5;
       }
       map.drawRoute(pts, { id: "build-line-" + i, color, width, dash });
     });
@@ -1107,13 +1188,23 @@ function paintBuilderLegLabels(routed) {
   if (typeof map.clearLegLabels === "function") map.clearLegLabels();
   const legs = routed && routed.legs;
   if (!legs || !legs.length) return;
-  legs.forEach((leg) => {
+  const st = activeBuilder();
+  const stops = routeStops(st);
+  legs.forEach((leg, i) => {
     const mid = midPathPoint(leg.points || []);
     if (!mid) return;
     const meters = leg.mode === "unroutable" ? (leg.straightMeters || 0) : leg.meters;
     if (!(meters > 0)) return;
-    map.addLegLabel(mid, formatDistance(meters, units()), { muted: leg.mode === "unroutable" });
+    const dest = stops[i + 1];
+    map.addLegLabel(mid, formatDistance(meters, units()), {
+      muted: leg.mode === "unroutable",
+      onClick: dest ? (ev) => {
+        if (ev && ev.stopPropagation) ev.stopPropagation();
+        cyclePinPathMode(dest.index);
+      } : null,
+    });
   });
+  if (typeof map.resolveLegLabelCollisions === "function") map.resolveLegLabelCollisions();
 }
 
 function paintBuilderLiveBar(routed, st) {
@@ -1136,16 +1227,40 @@ function paintBuilderLiveBar(routed, st) {
   if (etaEl) etaEl.textContent = walkEta + " walk · " + runEta + " run";
 }
 
+function legLineColor(leg) {
+  if (!leg) return ON_PATH_COLOR;
+  if (leg.mode === "unroutable") return "#E24B4A";
+  if (leg.mode === "straight" || isOffPathMode(leg.pathMode) || leg.reason === "off-path" || leg.reason === "detour" || leg.reason === "open-area" || leg.offMap) {
+    return OFF_PATH_COLOR;
+  }
+  return ON_PATH_COLOR;
+}
+
+function paintCourseLegs(legs, fallback, { id = "course-line", width = 5 } = {}) {
+  if (legs && legs.length) {
+    legs.forEach((leg, i) => {
+      const pts = leg.points || [];
+      if (pts.length < 2) return;
+      map.drawRoute(pts, { id: id + "-" + i, color: legLineColor(leg), width, dash: leg.mode === "unroutable" });
+    });
+    return;
+  }
+  if (fallback && fallback.length >= 2) map.drawRoute(fallback, { id, color: ON_PATH_COLOR, width });
+}
+
 function legFlagText(leg) {
   if (leg.mode === "unroutable") return " · no walkable path";
-  if (leg.offMap) return " · off-map leg";
+  if (leg.reason === "detour") return " · Straight line used, path was much longer";
+  if (leg.reason === "off-path" || isOffPathMode(leg.pathMode)) return " · off path";
   if (leg.reason === "open-area") return "";
-  if (leg.mode === "straight") return " · straight line";
+  if (leg.offMap) return " · off path";
+  if (leg.mode === "straight") return " · off path";
   return "";
 }
 
 function renderBuilder() {
   applyBuilderSheet();
+  paintPathModeButton();
   const st = activeBuilder();
   const pins = st.pins || [];
   maybeEnsureBuilderGraph(pins);
@@ -1176,8 +1291,14 @@ function renderBuilder() {
       note.classList.add("finding");
       note.textContent = LOADING_PATHS;
     } else {
-      note.hidden = true;
-      note.textContent = "";
+      const detour = routed && routed.legs && routed.legs.find((l) => l.reason === "detour");
+      if (detour) {
+        note.hidden = false;
+        note.textContent = "Straight line used, path was much longer";
+      } else {
+        note.hidden = true;
+        note.textContent = "";
+      }
     }
   }
   if (warnings) {
@@ -1237,6 +1358,8 @@ function renderBuilder() {
         if (leg.mode === "unroutable") row.classList.add("unroutable");
         if (leg.offMap) row.classList.add("off-map");
         if (leg.reason === "open-area") row.classList.add("open-area");
+        if (leg.reason === "detour") row.classList.add("detour");
+        if (leg.reason === "off-path" || isOffPathMode(leg.pathMode) || (leg.mode === "straight" && leg.reason !== "open-area")) row.classList.add("off-path");
         const shown = leg.mode === "unroutable" ? (leg.straightMeters || 0) : leg.meters;
         const dist = leg.mode === "unroutable"
           ? formatDistance(shown, units()) + " (not counted)"
@@ -1522,7 +1645,7 @@ function openGroupRoute() {
   map.clearOverlays();
   map.clearMarkers();
   const line = (course.path && course.path.length >= 2) ? course.path : course.pins;
-  if (line.length >= 2) map.drawRoute(line, { id: "course-line", color: "#4EC3F7", width: 5 });
+  if (line.length >= 2) paintCourseLegs(course.legs, line, { id: "course-line", width: 5 });
   addCoursePins(course.pins);
   const pad = { top: 56, bottom: 360, left: 48, right: 48 };
   map.whenReady(() => map.fitBounds(line, pad));
@@ -1600,7 +1723,7 @@ function openPlanRoute(planOrId, { from = "calendar" } = {}) {
   map.clearOverlays();
   map.clearMarkers();
   const line = (course.path && course.path.length >= 2) ? course.path : course.pins;
-  if (line.length >= 2) map.drawRoute(line, { id: "course-line", color: "#4EC3F7", width: 5 });
+  if (line.length >= 2) paintCourseLegs(course.legs, line, { id: "course-line", width: 5 });
   addCoursePins(course.pins);
   const pad = { top: 56, bottom: 360, left: 48, right: 48 };
   map.whenReady(() => map.fitBounds(line, pad));
@@ -2630,17 +2753,20 @@ function beginBuilder() {
   ui.builder = emptyBuilderState();
   ui.builderPins = ui.builder.pins;
   ui.builderSheetExpanded = false;
+  ui.pathMode = currentPathMode();
   setTab("today");
   showScreen("builder");
   applyBuilderSheet();
+  paintPathModeButton();
   map.clearOverlays();
   map.clearMarkers();
   startBuilderLocation({ center: true });
   renderBuilder();
   maybeShowBuilderExplainer();
+  if (isExplainerSeen()) maybeShowPathModeExplainer();
   if (ui.offBuildClick) ui.offBuildClick();
   ui.offBuildClick = map.onMapClick((pt) => {
-    applyBuilderChange((st) => placePin(st, pt));
+    applyBuilderChange((st) => placePin(st, pt, { pathMode: currentPathMode() }));
   });
 }
 
@@ -2697,7 +2823,7 @@ function showOfferMap(sess, course) {
   map.clearMarkers();
   const guide = (sess && sess.coursePath && sess.coursePath.length >= 2) ? sess.coursePath : (course && course.pins);
   if (guide && guide.length) {
-    map.drawRoute(guide, { id: "course-line", color: "#7A8798", width: 4 });
+    paintCourseLegs(course && course.legs, guide, { id: "course-line", width: 4 });
     if (course && course.pins) addCoursePins(course.pins);
   }
   if (sess && sess.track && sess.track.length >= 2) {
@@ -3118,18 +3244,40 @@ function bind() {
     paintEndPointButton();
   });
   if ($("btn-builder-help")) $("btn-builder-help").addEventListener("click", () => maybeShowBuilderExplainer({ force: true }));
+  if ($("btn-path-mode")) $("btn-path-mode").addEventListener("click", (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    setCurrentPathMode(isOffPathMode(currentPathMode()) ? "on" : "off");
+  });
+  if ($("btn-path-mode-gotit")) $("btn-path-mode-gotit").addEventListener("click", (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    hidePathModeExplainer({ seen: true });
+  });
+
   if ($("btn-builder-help-gotit")) $("btn-builder-help-gotit").addEventListener("click", () => {
     markExplainerSeen();
     closeSheet("sheet-builder-help");
+    maybeShowPathModeExplainer();
   });
   if ($("btn-pin-add-stop")) $("btn-pin-add-stop").addEventListener("click", () => {
     const i = ui.pinActionIndex;
     closeSheet("sheet-pin-action");
     closeSheet("sheet-new-goal");
     if (i == null) return;
-    applyBuilderChange((st) => addNextStop(st, i));
+    applyBuilderChange((st) => addNextStop(st, i, { pathMode: currentPathMode() }));
   });
-  if ($("btn-pin-set-end")) $("btn-pin-set-end").addEventListener("click", () => {
+    if ($("btn-pin-path-on")) $("btn-pin-path-on").addEventListener("click", () => {
+    const i = ui.pinActionIndex;
+    closeSheet("sheet-pin-action");
+    if (i != null) applyBuilderChange((s) => setPinPathMode(s, i, "on"));
+  });
+  if ($("btn-pin-path-off")) $("btn-pin-path-off").addEventListener("click", () => {
+    const i = ui.pinActionIndex;
+    closeSheet("sheet-pin-action");
+    if (i != null) applyBuilderChange((s) => setPinPathMode(s, i, "off"));
+  });
+if ($("btn-pin-set-end")) $("btn-pin-set-end").addEventListener("click", () => {
     const i = ui.pinActionIndex;
     closeSheet("sheet-pin-action");
     closeSheet("sheet-new-goal");
@@ -4047,6 +4195,16 @@ const US_TOWN_ROUTES = {
     loopCenter: { lat: 42.7902, lon: -86.1089 },
     zoom: 16.2,
   },
+  founders: {
+    center: { lat: 41.87224, lon: -88.14636 },
+    pins: [{ lat: 41.87200, lon: -88.14540 }, { lat: 41.87115, lon: -88.14540 }],
+    loopPins: [
+      { lat: 41.87200, lon: -88.14540, pathMode: "on" },
+      { lat: 41.87115, lon: -88.14540, pathMode: "on" },
+    ],
+    loopCenter: { lat: 41.8716, lon: -88.1456 },
+    zoom: 17,
+  },
 };
 
 
@@ -4115,7 +4273,7 @@ async function showUsTownBuilder({ center, pins, satellite = false, zoom = 16.2 
 }
 
 
-async function showUsTownBuilderLoop({ center, loopCenter, loopPins, pins, zoom = 16.2, meters = 1609 } = {}) {
+async function showUsTownBuilderLoop({ center, loopCenter, loopPins, pins, zoom = 16.2, meters = 1609, closeLoop } = {}) {
   const at = loopCenter || center;
   const fix = { lat: at.lat, lon: at.lon, accuracy: 18, at: Date.now() };
   state.settings.lastKnown = fix;
@@ -4126,8 +4284,10 @@ async function showUsTownBuilderLoop({ center, loopCenter, loopPins, pins, zoom 
   ui.findingPaths = false;
   ui.straightOverrides = new Set();
   ui.builderRoute = null;
-  const coursePins = (loopPins && loopPins.length >= 3) ? loopPins : pins;
-  ui.builder = ingestPins([...(coursePins || []), (coursePins && coursePins[0])].filter(Boolean));
+  const coursePins = (loopPins && loopPins.length >= 2) ? loopPins : pins;
+  const shouldClose = closeLoop != null ? !!closeLoop : !!(coursePins && coursePins.length >= 3);
+  const ingest = shouldClose ? [...coursePins, coursePins[0]] : [...(coursePins || [])];
+  ui.builder = ingestPins(ingest.filter(Boolean));
   if (ui.builder.endIndex == null && ui.builder.pins.length) ui.builder = setEndIndex(ui.builder, 0);
   ui.builderPins = ui.builder.pins;
   setTab("today");
@@ -4168,6 +4328,9 @@ window.HeldpathTest = {
     if ($("today-dock")) $("today-dock").hidden = false;
     if (name !== "builder-help") {
       try { markExplainerSeen(); } catch { /* ignore */ }
+    }
+    if (name !== "path-mode-explainer") {
+      try { markPathModeExplainerSeen(); hidePathModeExplainer(); } catch { /* ignore */ }
     }
     if (opt.empty) {
       state = resetState();
@@ -4492,6 +4655,53 @@ window.HeldpathTest = {
       renderBuilder();
       try { map.raiseOverlays(); } catch { /* map helper */ }
       await new Promise((r) => setTimeout(r, 300));
+    } else if (name === "path-mode-explainer") {
+      await showUsTownBuilderLoop({ ...US_TOWN_ROUTES.gulfport, meters: 1609 });
+      setBuilderSheet(false);
+      renderBuilder();
+      maybeShowPathModeExplainer({ force: true });
+      await new Promise((r) => setTimeout(r, 300));
+    } else if (name === "builder-mixed-course") {
+      const base = US_TOWN_ROUTES.gulfport.loopPins;
+      const mixed = [
+        { ...base[0], pathMode: "on" },
+        { ...base[1], pathMode: "off" },
+        { ...base[2], pathMode: "on" },
+        { ...base[3], pathMode: "off" },
+      ];
+      await showUsTownBuilderLoop({ ...US_TOWN_ROUTES.gulfport, loopPins: mixed, meters: 1609 });
+      setBuilderSheet(true);
+      renderBuilder();
+      try { map.raiseOverlays(); } catch { /* map helper */ }
+      await new Promise((r) => setTimeout(r, 400));
+    } else if (name === "builder-field-detour-before") {
+      await showUsTownBuilderLoop({ ...US_TOWN_ROUTES.founders, closeLoop: false, zoom: 17, meters: 1609 });
+      const legacy = routeCourse(getActiveGraph(), ui.builder, {
+        maxSnap: 200,
+        skipDetourGuard: true,
+        skipOpenArea: true,
+      });
+      ui.builderRoute = legacy;
+      paintBuilderLine(legacy, ui.builder);
+      setBuilderSheet(true);
+      renderBuilder();
+      try { map.raiseOverlays(); } catch { /* map helper */ }
+      const fit = (legacy && legacy.path) || routeStops(ui.builder);
+      fitBuilderCourse(fit, { maxZoom: 16.2 });
+      await new Promise((r) => setTimeout(r, 400));
+    } else if (name === "builder-field-detour") {
+      await showUsTownBuilderLoop({ ...US_TOWN_ROUTES.founders, closeLoop: false, zoom: 17, meters: 1609 });
+      setBuilderSheet(true);
+      renderBuilder();
+      try { map.raiseOverlays(); } catch { /* map helper */ }
+      await new Promise((r) => setTimeout(r, 400));
+    } else if (name === "builder-world-zoom") {
+      await showUsTownBuilderLoop({ ...US_TOWN_ROUTES.gulfport, meters: 1609 });
+      setBuilderSheet(false);
+      renderBuilder();
+      const at = US_TOWN_ROUTES.gulfport.loopCenter;
+      map.setCenter(at.lat, at.lon, 1.8);
+      await new Promise((r) => setTimeout(r, 600));
     } else if (name === "builder-loop" || name === "builder-mile-loop") {
       ui.builderSheetExpanded = true;
       state.settings.mapStyle = "map";
@@ -4914,7 +5124,7 @@ window.HeldpathTest = {
       map.clearOverlays();
       map.clearMarkers();
       if (pts && pts.length >= 2) {
-        map.drawRoute(pts, { id: "course-line", color: "#4EC3F7", width: 5 });
+        paintCourseLegs(course.legs, pts, { id: "course-line", width: 5 });
         addCoursePins(course.pins || pts);
         const pad = { top: 56, bottom: 420, left: 48, right: 48 };
         map.whenReady(() => map.fitBounds(pts, pad));
@@ -5134,11 +5344,18 @@ window.HeldpathTest = {
       legs: legs.map((l) => ({
         mode: l.mode,
         reason: l.reason || null,
+        pathMode: l.pathMode || null,
+        note: l.note || null,
         meters: l.meters,
         points: (l.points || []).length,
       })),
       meters: ui.builderRoute && ui.builderRoute.meters,
       unroutable: !!(ui.builderRoute && ui.builderRoute.unroutable),
+      pins: ((ui.builder && ui.builder.pins) || []).map((p) => ({
+        pathMode: p.pathMode || "on",
+        role: p.role,
+      })),
+      pathModeCoach: !!(document.getElementById("path-mode-coach") && !document.getElementById("path-mode-coach").hidden),
     };
   },
   builderGeometry: () => {
@@ -5210,10 +5427,21 @@ window.HeldpathTest = {
           i,
           dx: tip && proj ? Math.round((tip.x - proj.x) * 10) / 10 : null,
           dy: tip && proj ? Math.round((tip.y - proj.y) * 10) / 10 : null,
+          tipX: tip ? Math.round(tip.x * 10) / 10 : null,
+          tipY: tip ? Math.round(tip.y * 10) / 10 : null,
+          projX: proj ? Math.round(proj.x * 10) / 10 : null,
+          projY: proj ? Math.round(proj.y * 10) / 10 : null,
+          position: el ? getComputedStyle(el).position : null,
         };
       }),
+      zoom: m && m.getZoom ? m.getZoom() : null,
       openSheets: Array.from(document.querySelectorAll(".sheet-back.open")).map((el) => el.id),
     };
+  },
+  setMapView: async (lat, lon, zoom) => {
+    map.setCenter(lat, lon, zoom);
+    if (typeof map.whenIdle === "function") await map.whenIdle();
+    else await new Promise((r) => setTimeout(r, 400));
   },
 };
 

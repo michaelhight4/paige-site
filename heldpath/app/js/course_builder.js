@@ -5,7 +5,7 @@
  * When the end is an earlier pin, the route visits every placed pin
  * in order and then returns to that end. Pure helpers; works offline.
  */
-import { routeLegs } from "./routing.js";
+import { routeLegs, normalizePathMode } from "./routing.js";
 
 export const EXPLAINER_KEY = "heldpath.builder-explainer.v1";
 
@@ -13,6 +13,11 @@ export const EXPLAINER_TITLE = "Build a course";
 
 export const EXPLAINER_BODY =
   "Your first pin is your start. Add as many pins as you like to shape your exact route. To finish, turn on End point pin before placing your last pin, or tap any pin on the route to make it the end.";
+
+export const PATH_MODE_EXPLAINER_KEY = "heldpath.path-mode-explainer.v1";
+
+export const PATH_MODE_EXPLAINER_BODY =
+  "The mode you choose is saved on the next pin you place. That pin sets how the leg into it is drawn: on path follows walkable routes, off path goes straight, including across grass and other ground.";
 
 const SAME_M = 0.8;
 
@@ -31,24 +36,41 @@ export function samePin(a, b, meters = SAME_M) {
   return dlat * dlat + dlon * dlon <= meters * meters;
 }
 
-export function placePin(state, coord) {
+export function placePin(state, coord, opts = {}) {
   const lat = Number(coord.lat);
   const lon = Number(coord.lon);
   if (!Number.isFinite(lat) || !Number.isFinite(lon)) return state;
+  const pathMode = normalizePathMode(opts.pathMode != null ? opts.pathMode : coord.pathMode);
   // No pin cap — 100+ stops (marathon-length courses) are allowed.
   if (state.pins.length === 0) {
-    state.pins.push({ lat, lon, role: "start" });
+    state.pins.push({ lat, lon, role: "start", pathMode });
     return state;
   }
   if (state.endMode) {
-    state.pins.push({ lat, lon, role: "end" });
+    const pin = { lat, lon, role: "end", pathMode };
+    // Closing a loop onto an earlier pin: that pin is the destination of
+    // the return leg, so it takes this placement's mode.
+    const match = state.pins.findIndex((p) => samePin(p, pin));
+    state.pins.push(pin);
     state.endIndex = state.pins.length - 1;
+    if (match >= 0) {
+      state.pins[match].pathMode = pathMode;
+      state.endIndex = match;
+      state.pins.pop();
+    }
     state.endMode = false;
     refreshRoles(state);
     return state;
   }
-  state.pins.push({ lat, lon, role: "via" });
+  state.pins.push({ lat, lon, role: "via", pathMode });
   refreshRoles(state);
+  return state;
+}
+
+export function setPinPathMode(state, index, mode) {
+  const i = Number(index);
+  if (!state || !state.pins[i]) return state;
+  state.pins[i].pathMode = normalizePathMode(mode);
   return state;
 }
 
@@ -75,11 +97,12 @@ export function setEndIndex(state, index) {
  * Reuse an existing pin as the next stop in placement order.
  * The same pin can appear more than once (e.g. numbers "2, 5").
  */
-export function addNextStop(state, pinIndex) {
+export function addNextStop(state, pinIndex, opts = {}) {
   const i = Number(pinIndex);
   const pin = state.pins[i];
   if (!pin || i < 0) return state;
-  const copy = { lat: pin.lat, lon: pin.lon, role: "via", ref: i };
+  const pathMode = normalizePathMode(opts && opts.pathMode != null ? opts.pathMode : pin.pathMode);
+  const copy = { lat: pin.lat, lon: pin.lon, role: "via", ref: i, pathMode };
   if (state.endMode) {
     state.pins.push(copy);
     state.endIndex = state.pins.length - 1;
@@ -210,7 +233,9 @@ function refreshRoles(state) {
  */
 export function routeStops(state) {
   const pins = state.pins || [];
-  const stops = pins.map((p, i) => ({ lat: p.lat, lon: p.lon, role: p.role, index: i }));
+  const stops = pins.map((p, i) => ({
+    lat: p.lat, lon: p.lon, role: p.role, index: i, pathMode: normalizePathMode(p.pathMode),
+  }));
   if (state.endIndex == null || !pins.length) return stops;
   if (state.endIndex === pins.length - 1) return stops;
   const end = pins[state.endIndex];
@@ -221,6 +246,7 @@ export function routeStops(state) {
     role: "end",
     index: state.endIndex,
     returnLeg: true,
+    pathMode: normalizePathMode(end.pathMode),
   });
   return stops;
 }
@@ -239,6 +265,7 @@ export function savedPins(state) {
     lat: p.lat,
     lon: p.lon,
     role: i === 0 ? "start" : i === arr.length - 1 ? "end" : "via",
+    pathMode: normalizePathMode(p.pathMode),
   }));
 }
 
@@ -287,12 +314,18 @@ export function ingestPins(pins) {
   const earlier = pins.slice(0, -1);
   const match = earlier.findIndex((p) => samePin(p, last));
   if (pins.length >= 2 && (last.role === "end" || match >= 0) && match >= 0) {
-    state.pins = earlier.map((p) => ({ lat: p.lat, lon: p.lon, role: p.role || "via" }));
+    state.pins = earlier.map((p) => ({
+      lat: p.lat, lon: p.lon, role: p.role || "via", pathMode: normalizePathMode(p.pathMode),
+    }));
     state.endIndex = match;
+    // The closing pin is the destination of the return leg.
+    state.pins[match].pathMode = normalizePathMode(last.pathMode || state.pins[match].pathMode);
     refreshRoles(state);
     return state;
   }
-  state.pins = pins.map((p) => ({ lat: p.lat, lon: p.lon, role: p.role || "via" }));
+  state.pins = pins.map((p) => ({
+    lat: p.lat, lon: p.lon, role: p.role || "via", pathMode: normalizePathMode(p.pathMode),
+  }));
   if (pins.length >= 2) state.endIndex = state.pins.length - 1;
   refreshRoles(state);
   return state;
@@ -306,6 +339,8 @@ export function routeCourse(graph, state, opts = {}) {
     previous,
     straightOverrides: opts.straightOverrides,
     maxSnap: opts.maxSnap,
+    skipDetourGuard: !!opts.skipDetourGuard,
+    skipOpenArea: !!opts.skipOpenArea,
   });
   routed.stops = stops;
   return routed;
@@ -326,6 +361,26 @@ export function markExplainerSeen(storage) {
   if (!store) return;
   try {
     store.setItem(EXPLAINER_KEY, "1");
+  } catch {
+    /* quota / private mode */
+  }
+}
+
+export function isPathModeExplainerSeen(storage) {
+  const store = storage || defaultStorage();
+  if (!store) return false;
+  try {
+    return store.getItem(PATH_MODE_EXPLAINER_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+export function markPathModeExplainerSeen(storage) {
+  const store = storage || defaultStorage();
+  if (!store) return;
+  try {
+    store.setItem(PATH_MODE_EXPLAINER_KEY, "1");
   } catch {
     /* quota / private mode */
   }

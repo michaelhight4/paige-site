@@ -125,7 +125,12 @@
           <div class="builder-slim" id="builder-slim">
             <button class="btn btn-secondary" id="btn-undo-pin" data-testid="undo-pin">Undo</button>
             <button class="btn btn-secondary" id="btn-end-point-pin" data-testid="end-point-pin" aria-pressed="false">End point pin</button>
+            <button type="button" class="btn btn-secondary path-mode-btn on-path" id="btn-path-mode" data-testid="path-mode" aria-pressed="false" aria-label="On path">On path</button>
             <button type="button" class="icon-btn builder-sheet-toggle" id="btn-builder-sheet" data-testid="builder-sheet-toggle" aria-expanded="false" aria-label="Show course details">↑</button>
+          </div>
+          <div class="path-mode-coach" id="path-mode-coach" hidden data-testid="path-mode-explainer">
+            <p id="path-mode-coach-copy">The mode you choose is saved on the next pin you place. That pin sets how the leg into it is drawn: on path follows walkable routes, off path goes straight, including across grass and other ground.</p>
+            <button class="btn btn-primary" id="btn-path-mode-gotit" data-testid="path-mode-gotit" type="button">Got it</button>
           </div>
           <div class="builder-full" id="builder-full">
             <div class="builder-head">
@@ -1087,6 +1092,10 @@
         <p class="page-sub" id="pin-action-sub">Delete this pin, set it as the end, or add it as another stop.</p>
         <div id="pin-action-deletes" class="pin-action-deletes" data-testid="pin-action-deletes"></div>
         <button class="btn btn-danger" id="btn-pin-delete" data-testid="pin-delete" style="width:100%;margin-bottom:10px">Delete this pin</button>
+        <div class="pin-path-modes" id="pin-path-modes">
+          <button class="btn btn-secondary" id="btn-pin-path-on" data-testid="pin-path-on" type="button">On path</button>
+          <button class="btn btn-secondary" id="btn-pin-path-off" data-testid="pin-path-off" type="button">Off path</button>
+        </div>
         <button class="btn btn-secondary" id="btn-pin-set-end" data-testid="pin-set-end" style="width:100%;margin-bottom:10px">Set as end</button>
         <button class="btn btn-secondary" id="btn-pin-remove-end" data-testid="pin-remove-end" style="width:100%;margin-bottom:10px" hidden>Remove end</button>
         <button class="btn btn-primary" id="btn-pin-add-stop" data-testid="pin-add-stop" style="width:100%;margin-bottom:10px">Add next stop here</button>

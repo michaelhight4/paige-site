@@ -4,9 +4,36 @@
  * The bundled Florence graph is derived from the firenze.pmtiles OSM extract.
  */
 import { haversineMeters, destination, pathLengthMeters, geodesicMeters } from "./util.js";
-import { openAreaLegAllowed, unpackRings, unpackBlocked } from "./open_areas.js";
+import { openAreaLegAllowed, unpackRings, unpackBlocked, segmentCrossesBarriers } from "./open_areas.js";
 
-export const DEFAULT_SNAP = 200;
+export const DEFAULT_SNAP = 40;
+/** On-path pins only snap to a nearby walkable edge, not a distant road. */
+export const PATH_SNAP_METERS = 40;
+export const DETOUR_RATIO = 4;
+export const SHORT_HOP_M = 200;
+export const SHORT_HOP_EXTRA_M = 300;
+export const ON_PATH_COLOR = "#4EC3F7";
+export const OFF_PATH_COLOR = "#3CCB7F";
+
+export function normalizePathMode(mode) {
+  const v = String(mode || "on").toLowerCase();
+  if (v === "off" || v === "off-path" || v === "offpath") return "off";
+  return "on";
+}
+
+export function isOffPathMode(mode) {
+  return normalizePathMode(mode) === "off";
+}
+
+export function isExcessiveDetour(routedMeters, straightMeters) {
+  const routed = Number(routedMeters) || 0;
+  const straight = Number(straightMeters) || 0;
+  if (!(straight > 0) || !(routed > 0)) return false;
+  if (routed > straight * DETOUR_RATIO) return true;
+  if (straight <= SHORT_HOP_M && routed > straight + SHORT_HOP_EXTRA_M) return true;
+  return false;
+}
+
 const EARTH_LAT_M = 111320;
 
 let activeGraph = null;
@@ -126,7 +153,76 @@ export function snapToNode(graph, lat, lon, maxMeters = DEFAULT_SNAP) {
     }
   }
   if (best < 0 || bestD > maxMeters) return null;
-  return { id: best, meters: bestD, lat: graph.lat[best], lon: graph.lon[best] };
+  return { id: best, meters: bestD, lat: graph.lat[best], lon: graph.lon[best], kind: "node" };
+}
+
+function closestOnSegment(lat, lon, a, b) {
+  const aLat = a.lat, aLon = a.lon, bLat = b.lat, bLon = b.lon;
+  const vx = bLat - aLat, vy = bLon - aLon;
+  const len2 = vx * vx + vy * vy;
+  const t = len2 > 0 ? Math.max(0, Math.min(1, ((lat - aLat) * vx + (lon - aLon) * vy) / len2)) : 0;
+  return { lat: aLat + vx * t, lon: aLon + vy * t, t };
+}
+
+/** Snap to the nearest point on a walkable edge (or node) within maxMeters. */
+export function snapToGraph(graph, lat, lon, maxMeters = DEFAULT_SNAP) {
+  const node = snapToNode(graph, lat, lon, maxMeters);
+  if (!graph) return node;
+  const gx = Math.floor(lon / graph.cell.lon);
+  const gy = Math.floor(lat / graph.cell.lat);
+  const reach = Math.max(1, Math.ceil(maxMeters / 40) + 1);
+  let best = node;
+  let bestD = node ? node.meters : Infinity;
+  const seen = new Set();
+  for (let dx = -reach; dx <= reach; dx++) {
+    for (let dy = -reach; dy <= reach; dy++) {
+      const bucket = graph.grid.get(gx + dx + ":" + (gy + dy));
+      if (!bucket) continue;
+      for (const id of bucket) {
+        for (const edge of graph.adj[id] || []) {
+          const lo = Math.min(id, edge.to);
+          const hi = Math.max(id, edge.to);
+          const key = lo + ":" + hi;
+          if (seen.has(key)) continue;
+          seen.add(key);
+          const a = nodePoint(graph, lo);
+          const b = nodePoint(graph, hi);
+          const hit = closestOnSegment(lat, lon, a, b);
+          const d = haversineMeters({ lat, lon }, hit);
+          if (d < bestD && d <= maxMeters) {
+            bestD = d;
+            const nearer = hit.t < 0.5 ? lo : hi;
+            best = {
+              id: nearer,
+              from: lo,
+              to: hi,
+              t: hit.t,
+              meters: d,
+              lat: hit.lat,
+              lon: hit.lon,
+              kind: "edge",
+            };
+          }
+        }
+      }
+    }
+  }
+  return best;
+}
+
+function straightOrDetour(a, b, routedMeters, reason, graph) {
+  if (graph && segmentCrossesBarriers(graph, a, b)) {
+    return unroutableLeg(a, b, "blocked");
+  }
+  const straight = geodesicMeters(a, b);
+  if (routedMeters != null && isExcessiveDetour(routedMeters, straight)) {
+    const leg = straightLeg(a, b, "detour");
+    leg.routedMeters = routedMeters;
+    leg.note = "Straight line used, path was much longer";
+    return leg;
+  }
+  const leg = straightLeg(a, b, reason || "off-path");
+  return leg;
 }
 
 class MinHeap {
@@ -246,31 +342,38 @@ export function legKey(a, b) {
 
 export function routePair(graph, a, b, opts = {}) {
   if (!a || !b) return null;
-  if (opts.straightLine) return straightLeg(a, b, "toggle");
-  if (opts.allowStraight) return straightLeg(a, b, "off-map");
+  // Destination pin owns the leg: off-path is a straight geodesic, no warning.
+  if (opts.straightLine || isOffPathMode(opts.pathMode != null ? opts.pathMode : b && b.pathMode)) {
+    return straightLeg(a, b, opts.straightLine ? "toggle" : "off-path");
+  }
+  if (opts.allowStraight) return straightLeg(a, b, "off-path");
   // Open walkable areas (soccer pitches, parks, grass, tracks…) take
   // priority over a network detour around the field: both pins in the
   // same polygon and a clear straight line is a normal valid leg.
-  if (graph && openAreaLegAllowed(graph, a, b)) {
+  if (!opts.skipOpenArea && graph && openAreaLegAllowed(graph, a, b)) {
     return straightLeg(a, b, "open-area");
   }
-  if (!graph) return unroutableLeg(a, b, "no-graph");
+  if (!graph) return straightOrDetour(a, b, null, "no-graph");
   const maxSnap = opts.maxSnap == null ? DEFAULT_SNAP : opts.maxSnap;
-  const sa = snapToNode(graph, a.lat, a.lon, maxSnap);
-  const sb = snapToNode(graph, b.lat, b.lon, maxSnap);
-  if (!sa || !sb) return unroutableLeg(a, b, "no-snap");
+  const sa = snapToGraph(graph, a.lat, a.lon, maxSnap);
+  const sb = snapToGraph(graph, b.lat, b.lon, maxSnap);
+  if (!sa || !sb) return straightOrDetour(a, b, null, "no-snap", graph);
   const path = shortestPath(graph, sa.id, sb.id);
-  if (!path) return unroutableLeg(a, b, "no-route");
+  if (!path) return straightOrDetour(a, b, null, "no-route", graph);
   const points = [{ lat: a.lat, lon: a.lon }];
+  if (haversineMeters(points[0], sa) > 0.4) points.push({ lat: sa.lat, lon: sa.lon });
   const mid = pointsFromNodes(graph, path.nodes);
   for (const p of mid) {
     const last = points[points.length - 1];
     if (haversineMeters(last, p) > 0.4) points.push(p);
   }
+  if (haversineMeters(points[points.length - 1], sb) > 0.4) points.push({ lat: sb.lat, lon: sb.lon });
   const end = { lat: b.lat, lon: b.lon };
   if (haversineMeters(points[points.length - 1], end) > 0.4) points.push(end);
   // Measure the exact drawn geometry, segment by segment, no simplification.
   const meters = pathLengthMeters(points);
+  const straight = geodesicMeters(a, b);
+  if (!opts.skipDetourGuard && isExcessiveDetour(meters, straight)) return straightOrDetour(a, b, meters, "detour", graph);
   return { points, meters, mode: "routed", snapA: sa, snapB: sb };
 }
 
@@ -278,7 +381,11 @@ function pinsSharePrefix(a, b) {
   if (!a || !b) return 0;
   const n = Math.min(a.length, b.length);
   let i = 0;
-  while (i < n && a[i] && b[i] && a[i].lat === b[i].lat && a[i].lon === b[i].lon) i++;
+  while (
+    i < n && a[i] && b[i]
+    && a[i].lat === b[i].lat && a[i].lon === b[i].lon
+    && normalizePathMode(a[i].pathMode) === normalizePathMode(b[i].pathMode)
+  ) i++;
   return i;
 }
 
@@ -320,19 +427,26 @@ export function routeLegs(graph, pins, opts = {}) {
       (typeof overrides.has === "function" && overrides.has(key))
       || (Array.isArray(overrides) && overrides.includes(key))
     ));
+    const destMode = normalizePathMode(list[i + 1] && list[i + 1].pathMode);
     const leg = routePair(graph, list[i], list[i + 1], {
       straightLine: !!opts.straightLine,
       allowStraight: override && !opts.straightLine,
       maxSnap: opts.maxSnap,
+      pathMode: destMode,
+      skipDetourGuard: !!opts.skipDetourGuard,
+      skipOpenArea: !!opts.skipOpenArea,
     });
     legs.push({
       meters: leg.meters,
-      straightMeters: leg.straightMeters,
+      straightMeters: leg.straightMeters != null ? leg.straightMeters : geodesicMeters(list[i], list[i + 1]),
       mode: leg.mode,
       reason: leg.reason || null,
       offMap: !!leg.offMap,
       points: leg.points,
       key,
+      pathMode: destMode,
+      note: leg.note || null,
+      routedMeters: leg.routedMeters,
     });
     if (leg.mode === "straight" && leg.reason !== "open-area") usedStraight = true;
     if (!path.length) path.push(...leg.points);

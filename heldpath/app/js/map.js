@@ -687,6 +687,8 @@ export async function initMap(container, opt = {}) {
     raiseOverlays();
   });
   map.on("styledata", () => raiseOverlays());
+    map.on("zoomend", () => { try { resolveLegLabelCollisions(); } catch { /* ignore */ } });
+    map.on("moveend", () => { try { resolveLegLabelCollisions(); } catch { /* ignore */ } });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
   map.on("error", (e) => {
     // Missing glyphs or a single tile should not kill the map.
@@ -824,13 +826,72 @@ export function inStarterPack(lat, lon) {
 
 export function onMapClick(handler) {
   if (!map) return () => {};
+  const TAP_PX = 10;
+  const DEBOUNCE_MS = 400;
+  let start = null;
+  let ignoreUntil = 0;
+  let lastTapAt = 0;
+
+  const pointOf = (e) => {
+    if (e && e.point && Number.isFinite(e.point.x)) return { x: e.point.x, y: e.point.y };
+    const oe = e && e.originalEvent;
+    if (!oe) return null;
+    const t = (oe.touches && oe.touches[0]) || (oe.changedTouches && oe.changedTouches[0]) || oe;
+    if (t && Number.isFinite(t.clientX)) return { x: t.clientX, y: t.clientY };
+    return null;
+  };
+  const touchCount = (e) => {
+    const oe = e && e.originalEvent;
+    return (oe && oe.touches && oe.touches.length) || 0;
+  };
+  const onDown = (e) => {
+    if (touchCount(e) > 1) {
+      start = null;
+      ignoreUntil = Date.now() + 500;
+      return;
+    }
+    const pt = pointOf(e);
+    start = pt ? { x: pt.x, y: pt.y, at: Date.now() } : null;
+  };
+  const onMove = (e) => {
+    if (touchCount(e) > 1) {
+      start = null;
+      ignoreUntil = Date.now() + 500;
+    }
+  };
   const fn = (e) => {
-    const t = e.originalEvent && e.originalEvent.target;
-    if (t && typeof t.closest === "function" && t.closest(".pp-map-marker")) return;
+    const now = Date.now();
+    if (now < ignoreUntil) { start = null; return; }
+    const oe = e.originalEvent;
+    const target = (oe && oe.target) || e.target;
+    if (target && typeof target.closest === "function") {
+      if (target.closest(".pp-map-marker, .pp-leg-label, .path-mode-coach, .builder-panel, .sheet-back, button, a")) {
+        start = null;
+        return;
+      }
+    }
+    const pt = pointOf(e);
+    if (start && pt) {
+      const dx = pt.x - start.x;
+      const dy = pt.y - start.y;
+      if (Math.hypot(dx, dy) > TAP_PX) { start = null; return; }
+    }
+    start = null;
+    if (now - lastTapAt < DEBOUNCE_MS) return;
+    lastTapAt = now;
+    if (!e.lngLat) return;
     handler({ lat: e.lngLat.lat, lon: e.lngLat.lng });
   };
+  map.on("mousedown", onDown);
+  map.on("touchstart", onDown);
+  map.on("touchmove", onMove);
   map.on("click", fn);
-  return () => map.off("click", fn);
+  return () => {
+    map.off("mousedown", onDown);
+    map.off("touchstart", onDown);
+    map.off("touchmove", onMove);
+    map.off("click", fn);
+  };
 }
 
 function lineGeo(coords) {
@@ -918,11 +979,19 @@ export function clearLegLabels() {
 }
 
 /** A small distance chip at a point along a builder leg. */
-export function addLegLabel(coord, text, { muted = false } = {}) {
+export function addLegLabel(coord, text, { muted = false, onClick = null } = {}) {
   if (!map || !coord || !text) return null;
   const el = document.createElement("div");
   el.className = "pp-leg-label" + (muted ? " muted" : "");
   el.textContent = String(text);
+  if (onClick) {
+    el.style.cursor = "pointer";
+    el.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      onClick(ev);
+    });
+  }
   const marker = new maplibregl.Marker({ element: el, anchor: "center", pitchAlignment: "viewport" })
     .setLngLat([Number(coord.lon), Number(coord.lat)])
     .addTo(map);
@@ -930,10 +999,37 @@ export function addLegLabel(coord, text, { muted = false } = {}) {
   return marker;
 }
 
-export function addPin(coord, { label, kind, onClick } = {}) {
+/** Hide stacked distance chips; never move pins to declutter. */
+export function resolveLegLabelCollisions() {
+  if (!map) return;
+  const zoom = map.getZoom ? map.getZoom() : 16;
+  const hideAll = zoom < 14;
+  const boxes = [];
+  for (const marker of legLabelMarkers) {
+    const el = marker && marker.getElement && marker.getElement();
+    if (!el) continue;
+    if (hideAll) {
+      el.style.visibility = "hidden";
+      continue;
+    }
+    el.style.visibility = "visible";
+    const r = el.getBoundingClientRect();
+    const box = { el, t: r.top, l: r.left, r: r.right, b: r.bottom };
+    let hide = false;
+    for (const prev of boxes) {
+      const iw = Math.min(box.r, prev.r) - Math.max(box.l, prev.l);
+      const ih = Math.min(box.b, prev.b) - Math.max(box.t, prev.t);
+      if (iw > 2 && ih > 2) { hide = true; break; }
+    }
+    if (hide) el.style.visibility = "hidden";
+    else boxes.push(box);
+  }
+}
+
+export function addPin(coord, { label, kind, onClick, pathMode } = {}) {
   if (!map) return null;
   const el = document.createElement("div");
-  el.className = `pp-map-marker pin pin-${kind || "via"}`;
+  el.className = `pp-map-marker pin pin-${kind || "via"}` + (pathMode ? ` pin-path-${pathMode}` : "");
   el.setAttribute("aria-label", label || kind || "pin");
   const cap = document.createElement("span");
   cap.className = "pp-map-marker-label";

@@ -398,7 +398,14 @@ img { display: block; max-width: 100%; }
 .leg-row.open-area .leg-flag { display: none; }
 
 
-/* Map markers */
+/* Map markers — must stay absolutely positioned by MapLibre at lngLat.
+   Never use relative/flex stacking: at low/world zoom that turns pins
+   into a vertical column spaced by each marker's height (~24px). */
+.maplibregl-marker,
+.pp-map-marker,
+.pp-leg-label {
+  position: absolute !important;
+}
 .pp-map-marker.pin {
   width: 44px;
   height: 52px;
@@ -1238,6 +1245,7 @@ body:has(#sheet-map.open) #map-locate-note { display: none; }
   display: flex;
   flex-direction: column;
 }
+.builder-panel { position: relative; }
 .builder-panel.is-expanded .builder-slim { flex: 0 0 auto; }
 .builder-panel.is-expanded .builder-full {
   flex: 1 1 auto;
@@ -1246,17 +1254,68 @@ body:has(#sheet-map.open) #map-locate-note { display: none; }
 }
 .builder-slim {
   display: grid;
-  grid-template-columns: 1fr 1fr 44px;
-  gap: 8px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(72px, 0.9fr) 44px;
+  gap: 6px;
   align-items: center;
+  position: relative;
 }
 .builder-slim .btn {
   width: 100%;
   min-height: 44px;
   margin: 0;
-  padding: 0 8px;
-  font-size: 14px;
+  padding: 0 6px;
+  font-size: 13px;
 }
+.path-mode-btn.on-path {
+  color: #4EC3F7;
+  border-color: rgba(78, 195, 247, 0.7);
+}
+.path-mode-btn.off-path {
+  color: #3CCB7F;
+  border-color: rgba(60, 203, 127, 0.7);
+}
+.path-mode-btn.path-mode-pulse {
+  animation: path-mode-pulse 1.5s ease-out infinite;
+}
+@keyframes path-mode-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(78, 195, 247, 0.7); }
+  70% { box-shadow: 0 0 0 12px rgba(78, 195, 247, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(78, 195, 247, 0); }
+}
+.path-mode-coach {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 100%;
+  margin-bottom: 8px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(18, 22, 28, 0.96);
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  z-index: 6;
+  pointer-events: auto;
+}
+.path-mode-coach[hidden] { display: none !important; }
+.path-mode-coach p {
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--text);
+}
+.path-mode-coach .btn { width: 100%; min-height: 44px; }
+.pin-path-modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.pin-path-modes .btn { width: 100%; min-height: var(--tap); }
+.pp-map-marker.pin-path-off { box-shadow: 0 0 0 2px #3CCB7F; }
+.pp-map-marker.pin-path-on { box-shadow: 0 0 0 2px #4EC3F7; }
+.leg-row.off-path span:last-child { color: #3CCB7F; }
+.leg-row.detour span:last-child { color: #3CCB7F; }
+.pp-leg-label { cursor: pointer; }
 .builder-sheet-toggle {
   width: 44px;
   height: 44px;
