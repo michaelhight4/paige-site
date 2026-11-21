@@ -361,6 +361,16 @@ img { display: block; max-width: 100%; }
 }
 .pp-leg-label.muted { color: #E8B4B2; border-color: #5A3036; }
 
+.pp-leg-label.sector-leg,
+.pp-leg-label.persist {
+  pointer-events: none;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  z-index: 2;
+}
+
 .route-mode-row {
   display: flex;
   align-items: center;

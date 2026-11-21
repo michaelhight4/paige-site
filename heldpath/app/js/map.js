@@ -979,11 +979,15 @@ export function clearLegLabels() {
 }
 
 /** A small distance chip at a point along a builder leg. */
-export function addLegLabel(coord, text, { muted = false, onClick = null } = {}) {
+export function addLegLabel(coord, text, { muted = false, onClick = null, persist = false, color = null, className = "" } = {}) {
   if (!map || !coord || !text) return null;
   const el = document.createElement("div");
-  el.className = "pp-leg-label" + (muted ? " muted" : "");
+  el.className = "pp-leg-label" + (muted ? " muted" : "") + (persist ? " persist" : "") + (className ? " " + className : "");
   el.textContent = String(text);
+  if (color) {
+    el.style.borderColor = color;
+    el.style.color = color;
+  }
   if (onClick) {
     el.style.cursor = "pointer";
     el.addEventListener("click", (ev) => {
@@ -1008,7 +1012,8 @@ export function resolveLegLabelCollisions() {
   for (const marker of legLabelMarkers) {
     const el = marker && marker.getElement && marker.getElement();
     if (!el) continue;
-    if (hideAll) {
+    const persist = el.classList.contains("persist") || el.classList.contains("sector-leg");
+    if (hideAll && !persist) {
       el.style.visibility = "hidden";
       continue;
     }

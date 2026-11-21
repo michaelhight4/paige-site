@@ -44709,11 +44709,15 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       }
     }
   }
-  function addLegLabel(coord, text, { muted = false, onClick = null } = {}) {
+  function addLegLabel(coord, text, { muted = false, onClick = null, persist: persist2 = false, color = null, className = "" } = {}) {
     if (!map || !coord || !text) return null;
     const el = document.createElement("div");
-    el.className = "pp-leg-label" + (muted ? " muted" : "");
+    el.className = "pp-leg-label" + (muted ? " muted" : "") + (persist2 ? " persist" : "") + (className ? " " + className : "");
     el.textContent = String(text);
+    if (color) {
+      el.style.borderColor = color;
+      el.style.color = color;
+    }
     if (onClick) {
       el.style.cursor = "pointer";
       el.addEventListener("click", (ev) => {
@@ -44734,7 +44738,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     for (const marker of legLabelMarkers) {
       const el = marker && marker.getElement && marker.getElement();
       if (!el) continue;
-      if (hideAll) {
+      const persist2 = el.classList.contains("persist") || el.classList.contains("sector-leg");
+      if (hideAll && !persist2) {
         el.style.visibility = "hidden";
         continue;
       }
@@ -51414,6 +51419,206 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return null;
   }
 
+  // www/js/summary_fixture.js
+  init_util();
+  var FLORENCE_STREET_LOOP = [
+    { lat: 43.7672, lon: 11.2543 },
+    { lat: 43.767162, lon: 11.254171 },
+    { lat: 43.767011, lon: 11.254528 },
+    { lat: 43.766666, lon: 11.255437 },
+    { lat: 43.766042, lon: 11.257108 },
+    { lat: 43.765612, lon: 11.25824 },
+    { lat: 43.765595, lon: 11.258326 },
+    { lat: 43.765616, lon: 11.258371 },
+    { lat: 43.766807, lon: 11.258929 },
+    { lat: 43.766829, lon: 11.258926 },
+    { lat: 43.766844, lon: 11.258897 },
+    { lat: 43.766935, lon: 11.258937 },
+    { lat: 43.767146, lon: 11.25791 },
+    { lat: 43.767203, lon: 11.257913 },
+    { lat: 43.767309, lon: 11.257929 },
+    { lat: 43.767288, lon: 11.258044 },
+    { lat: 43.767412, lon: 11.258055 },
+    { lat: 43.767387, lon: 11.258419 },
+    { lat: 43.767358, lon: 11.258747 },
+    { lat: 43.76729, lon: 11.259179 },
+    { lat: 43.766912, lon: 11.259023 },
+    { lat: 43.766935, lon: 11.258937 },
+    { lat: 43.767146, lon: 11.25791 },
+    { lat: 43.767203, lon: 11.257913 },
+    { lat: 43.767235, lon: 11.257786 },
+    { lat: 43.767191, lon: 11.257765 },
+    { lat: 43.767228, lon: 11.257615 },
+    { lat: 43.767251, lon: 11.25751 },
+    { lat: 43.767536, lon: 11.257634 },
+    { lat: 43.767553, lon: 11.257553 },
+    { lat: 43.767609, lon: 11.257572 },
+    { lat: 43.767617, lon: 11.25773 },
+    { lat: 43.767652, lon: 11.258124 },
+    { lat: 43.767635, lon: 11.258124 },
+    { lat: 43.767619, lon: 11.258095 },
+    { lat: 43.767439, lon: 11.258068 },
+    { lat: 43.767414, lon: 11.258444 },
+    { lat: 43.767369, lon: 11.258835 },
+    { lat: 43.767309, lon: 11.259192 },
+    { lat: 43.7676, lon: 11.259302 },
+    { lat: 43.767642, lon: 11.259321 },
+    { lat: 43.767685, lon: 11.259342 },
+    { lat: 43.767714, lon: 11.259356 },
+    { lat: 43.767904, lon: 11.25946 },
+    { lat: 43.768016, lon: 11.25953 },
+    { lat: 43.768115, lon: 11.259575 },
+    { lat: 43.768051, lon: 11.25971 },
+    { lat: 43.768442, lon: 11.260061 },
+    { lat: 43.768051, lon: 11.25971 },
+    { lat: 43.768115, lon: 11.259575 },
+    { lat: 43.768016, lon: 11.25953 },
+    { lat: 43.767904, lon: 11.25946 },
+    { lat: 43.767714, lon: 11.259356 },
+    { lat: 43.767685, lon: 11.259342 },
+    { lat: 43.767642, lon: 11.259321 },
+    { lat: 43.767615, lon: 11.259425 },
+    { lat: 43.767642, lon: 11.259321 },
+    { lat: 43.7676, lon: 11.259302 },
+    { lat: 43.767309, lon: 11.259192 },
+    { lat: 43.767369, lon: 11.258835 },
+    { lat: 43.767414, lon: 11.258444 },
+    { lat: 43.767439, lon: 11.258068 },
+    { lat: 43.767619, lon: 11.258095 },
+    { lat: 43.767635, lon: 11.258124 },
+    { lat: 43.767652, lon: 11.258124 },
+    { lat: 43.767617, lon: 11.25773 },
+    { lat: 43.767609, lon: 11.257572 },
+    { lat: 43.767613, lon: 11.257398 },
+    { lat: 43.767807, lon: 11.256185 },
+    { lat: 43.767859, lon: 11.256185 },
+    { lat: 43.767881, lon: 11.25622 },
+    { lat: 43.768024, lon: 11.256335 },
+    { lat: 43.768351, lon: 11.256617 },
+    { lat: 43.768644, lon: 11.256896 },
+    { lat: 43.76856, lon: 11.257127 },
+    { lat: 43.768413, lon: 11.257448 },
+    { lat: 43.768152, lon: 11.25799 },
+    { lat: 43.768105, lon: 11.258098 },
+    { lat: 43.76807, lon: 11.258157 },
+    { lat: 43.768078, lon: 11.258248 },
+    { lat: 43.768072, lon: 11.258487 },
+    { lat: 43.768053, lon: 11.258562 },
+    { lat: 43.767983, lon: 11.258733 },
+    { lat: 43.767877, lon: 11.258937 },
+    { lat: 43.767671, lon: 11.259415 },
+    { lat: 43.767625, lon: 11.259549 },
+    { lat: 43.767288, lon: 11.260619 },
+    { lat: 43.767146, lon: 11.261158 },
+    { lat: 43.76827, lon: 11.261716 },
+    { lat: 43.768415, lon: 11.261815 },
+    { lat: 43.768977, lon: 11.26222 },
+    { lat: 43.768926, lon: 11.262432 },
+    { lat: 43.76881, lon: 11.262872 },
+    { lat: 43.768704, lon: 11.263172 },
+    { lat: 43.768512, lon: 11.263655 },
+    { lat: 43.768156, lon: 11.264594 },
+    { lat: 43.768055, lon: 11.264854 },
+    { lat: 43.768028, lon: 11.264835 },
+    { lat: 43.768148, lon: 11.264495 },
+    { lat: 43.76844, lon: 11.263722 },
+    { lat: 43.768491, lon: 11.263575 },
+    { lat: 43.768537, lon: 11.26361 },
+    { lat: 43.770143, lon: 11.264567 },
+    { lat: 43.770255, lon: 11.264015 },
+    { lat: 43.76979, lon: 11.263749 },
+    { lat: 43.770003, lon: 11.262783 },
+    { lat: 43.770158, lon: 11.262083 },
+    { lat: 43.770251, lon: 11.261601 },
+    { lat: 43.770716, lon: 11.261965 },
+    { lat: 43.770768, lon: 11.261657 },
+    { lat: 43.770887, lon: 11.261037 },
+    { lat: 43.770658, lon: 11.260823 },
+    { lat: 43.77042, lon: 11.26063 },
+    { lat: 43.770426, lon: 11.2606 },
+    { lat: 43.770449, lon: 11.260257 },
+    { lat: 43.770482, lon: 11.259948 },
+    { lat: 43.770486, lon: 11.259911 },
+    { lat: 43.770507, lon: 11.259761 },
+    { lat: 43.770581, lon: 11.258733 },
+    { lat: 43.770582, lon: 11.258698 },
+    { lat: 43.770641, lon: 11.257894 },
+    { lat: 43.770889, lon: 11.257915 },
+    { lat: 43.770892, lon: 11.25787 },
+    { lat: 43.770786, lon: 11.257851 },
+    { lat: 43.770509, lon: 11.257778 },
+    { lat: 43.770391, lon: 11.257765 },
+    { lat: 43.770311, lon: 11.257725 },
+    { lat: 43.770083, lon: 11.257454 },
+    { lat: 43.770077, lon: 11.25744 },
+    { lat: 43.770061, lon: 11.257416 },
+    { lat: 43.769992, lon: 11.2574 },
+    { lat: 43.769922, lon: 11.257406 },
+    { lat: 43.769527, lon: 11.257475 },
+    { lat: 43.769508, lon: 11.257612 },
+    { lat: 43.769471, lon: 11.257604 },
+    { lat: 43.769442, lon: 11.257623 },
+    { lat: 43.769401, lon: 11.257671 },
+    { lat: 43.769449, lon: 11.257529 },
+    { lat: 43.769459, lon: 11.257478 },
+    { lat: 43.769556, lon: 11.256561 },
+    { lat: 43.769748, lon: 11.25592 },
+    { lat: 43.769848, lon: 11.25544 },
+    { lat: 43.769887, lon: 11.255295 },
+    { lat: 43.769893, lon: 11.255203 },
+    { lat: 43.769891, lon: 11.254404 },
+    { lat: 43.769812, lon: 11.254402 },
+    { lat: 43.769614, lon: 11.254377 },
+    { lat: 43.769283, lon: 11.25409 },
+    { lat: 43.76894, lon: 11.253822 },
+    { lat: 43.768475, lon: 11.253473 },
+    { lat: 43.768438, lon: 11.253455 },
+    { lat: 43.768419, lon: 11.253444 },
+    { lat: 43.767611, lon: 11.252849 },
+    { lat: 43.767493, lon: 11.252789 },
+    { lat: 43.767466, lon: 11.252835 },
+    { lat: 43.767396, lon: 11.252779 },
+    { lat: 43.767387, lon: 11.252811 },
+    { lat: 43.767379, lon: 11.252886 },
+    { lat: 43.767301, lon: 11.253141 },
+    { lat: 43.76723, lon: 11.253417 },
+    { lat: 43.76704, lon: 11.254093 },
+    { lat: 43.767162, lon: 11.254171 },
+    { lat: 43.7672, lon: 11.2543 }
+  ];
+  var STREET_LOOP_SECTOR_ENDS_MI = [0.5, 2.2];
+  function streetLoopPath() {
+    return FLORENCE_STREET_LOOP.map((p) => ({ lat: p.lat, lon: p.lon }));
+  }
+  function streetLoopMeters() {
+    return pathLengthMeters(streetLoopPath());
+  }
+  function streetLoopPins() {
+    const path = streetLoopPath();
+    const pins = [{ ...path[0], role: "start" }];
+    for (const mi of STREET_LOOP_SECTOR_ENDS_MI) {
+      const pt = pointAlongPath(path, mi * METERS_PER_MILE);
+      pins.push({ lat: pt.lat, lon: pt.lon, role: "via" });
+    }
+    const end = path[path.length - 1];
+    pins.push({ lat: end.lat, lon: end.lon, role: "end" });
+    return pins;
+  }
+  function streetLoopGoalSec(totalMeters, s1Meters = 0.5 * METERS_PER_MILE) {
+    const total = Number(totalMeters) || streetLoopMeters();
+    const s1 = Number(s1Meters) || 0.5 * METERS_PER_MILE;
+    return 300 * total / s1;
+  }
+  function addLoopElevation(track, { peakM = 100 } = {}) {
+    const n = (track || []).length;
+    if (n < 2) return track || [];
+    return track.map((p, i) => {
+      const t = i / (n - 1);
+      const climb = t <= 0.5 ? t / 0.5 * peakM : (1 - t) / 0.5 * peakM;
+      return { ...p, ele: Math.round(climb * 10) / 10 };
+    });
+  }
+
   // www/js/summary_view.js
   init_util();
   function num(v2) {
@@ -51463,16 +51668,29 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       from: h2.provider || null
     };
   }
-  function formatF1Row(refLabel, refSec, timeSec) {
+  function formatF1Pair(refLabel, refSec, timeSec) {
     const ref = num(refSec);
     const time = num(timeSec);
     const delta = ref > 0 && time > 0 ? time - ref : null;
     const refTxt = ref > 0 ? formatSectorTime(ref) : "\u2014";
     const deltaTxt = delta == null ? "\u2014" : formatSectorDelta(delta);
-    return `${refLabel} ${refTxt} / TIME ${deltaTxt}`;
+    return {
+      refLine: `${refLabel} ${refTxt}`,
+      timeLine: `TIME ${deltaTxt}`,
+      delta,
+      color: sectorColor(delta)
+    };
   }
-  function sectorColor(deltaSec, isNewPb = false) {
-    if (isNewPb) return "purple";
+  function formatF1Row(refLabel, refSec, timeSec) {
+    const pair = formatF1Pair(refLabel, refSec, timeSec);
+    return `${pair.refLine}
+${pair.timeLine}`;
+  }
+  function f1PairHtml(pair, kind) {
+    if (!pair || !pair.refLine) return "";
+    return `<div class="sector-f1-stack ${kind || ""}"><div class="sector-f1-ref">${escapeHtml(pair.refLine)}</div><div class="sector-f1-time ${pair.color || "neutral"}">${escapeHtml(pair.timeLine)}</div></div>`;
+  }
+  function sectorColor(deltaSec) {
     if (deltaSec == null || !Number.isFinite(Number(deltaSec))) return "neutral";
     if (Math.abs(Number(deltaSec)) < 0.05) return "neutral";
     return Number(deltaSec) < 0 ? "green" : "red";
@@ -51535,19 +51753,19 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       const lapRows = perLap.map((l) => {
         const isLapPb = l.time > 0 && earlierBest != null && l.time < earlierBest - 9e-3;
         if (l.time > 0 && (earlierBest == null || l.time < earlierBest)) earlierBest = l.time;
-        const isPb = hadHistory && l.time > 0 && pb != null && l.time < pb - 9e-3 || isLapPb;
+        const beatsHistoric = !!(hadHistory && l.time > 0 && pb != null && l.time < pb - 9e-3);
         return {
           ...l,
           vsGoal: l.time > 0 && target > 0 ? l.time - target : null,
           vsPb: l.time > 0 && pb > 0 ? l.time - pb : null,
-          isNewPb: isPb,
-          color: sectorColor(l.time > 0 && target > 0 ? l.time - target : null, isPb)
+          improvedWithin: isLapPb,
+          isNewPb: beatsHistoric,
+          color: sectorColor(l.time > 0 && target > 0 ? l.time - target : null)
         };
       });
       const beatHistory = !!(hadHistory && best > 0 && pb != null && best < pb - 9e-3);
-      const improvedWithin = lapRows.some((l) => l.isNewPb && l.lap > 1);
-      const isNewPb = beatHistory || improvedWithin;
-      const color = sectorColor(vsGoal, isNewPb);
+      const isNewPb = beatHistory;
+      const color = sectorColor(vsGoal);
       if (vsGoal != null) cumulative += vsGoal;
       const possible = pb > 0 ? pb : target;
       if (possible > 0) {
@@ -51564,6 +51782,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         vsPb,
         isNewPb,
         color,
+        goalPair: target > 0 ? formatF1Pair("GOAL", target, best) : null,
+        prPair: hadHistory && pb > 0 ? formatF1Pair("PR", pb, best) : null,
         goalLine: target > 0 ? formatF1Row("GOAL", target, best) : "",
         prLine: hadHistory && pb > 0 ? formatF1Row("PR", pb, best) : "",
         laps: lapRows
@@ -51575,7 +51795,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       for (const i of result.newBests || []) {
         if (rows[i]) {
           rows[i].isNewPb = true;
-          rows[i].color = "purple";
         }
       }
     }
@@ -51599,7 +51818,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       applied: result
     };
   }
-  function routeOutlineSvg(coords, { width = 340, height = 190, stroke = "#4EC3F7" } = {}) {
+  var SECTOR_LEG_COLORS = ["#4EC3F7", "#B8F3D0", "#F3E0A8", "#FFB4A8", "#9BB7FF"];
+  function routeOutlineSvg(coords, { width = 340, height = null, stroke = "#4EC3F7", segments = null } = {}) {
     const pts = (coords || []).filter((p) => p && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon)));
     if (pts.length < 2) return "";
     const lats = pts.map((p) => Number(p.lat));
@@ -51609,6 +51829,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const pad = 18;
     const dLat = Math.max(1e-9, maxLat - minLat);
     const dLon = Math.max(1e-9, maxLon - minLon);
+    const midLat = (minLat + maxLat) / 2;
+    const lonScale = Math.max(0.2, Math.cos(midLat * Math.PI / 180));
+    const geoW = dLon * lonScale;
+    const geoH = dLat;
+    if (height == null) {
+      height = Math.round(width * (geoH / geoW));
+      height = Math.max(150, Math.min(320, height));
+    }
     const scale = Math.min((width - pad * 2) / dLon, (height - pad * 2) / dLat);
     const ox = (width - dLon * scale) / 2;
     const oy = (height - dLat * scale) / 2;
@@ -51617,10 +51845,18 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       const y2 = height - (oy + (Number(p.lat) - minLat) * scale);
       return [Math.round(x2 * 10) / 10, Math.round(y2 * 10) / 10];
     };
-    const d2 = pts.map((p, i) => `${i ? "L" : "M"}${xy(p)[0]} ${xy(p)[1]}`).join(" ");
+    const pathD = (list) => list.map((p, i) => `${i ? "L" : "M"}${xy(p)[0]} ${xy(p)[1]}`).join(" ");
+    const legs = segments && segments.length ? segments.filter((s2) => s2 && s2.coords && s2.coords.length >= 2) : [{ coords: pts, color: stroke }];
+    let body = "";
+    for (let i = 0; i < legs.length; i++) {
+      const d2 = pathD(legs[i].coords);
+      const color = legs[i].color || SECTOR_LEG_COLORS[i % SECTOR_LEG_COLORS.length] || stroke;
+      body += `<path d="${d2}" fill="none" stroke="#0C1218" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>`;
+      body += `<path d="${d2}" fill="none" stroke="${color}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`;
+    }
     const [sx, sy] = xy(pts[0]);
     const [ex, ey] = xy(pts[pts.length - 1]);
-    return `<svg class="summary-outline-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Route outline"><path d="${d2}" fill="none" stroke="#2B8FD4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/><path d="${d2}" fill="none" stroke="${stroke}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${ex}" cy="${ey}" r="7" fill="#B8F3D0" stroke="#12161C" stroke-width="3"/><circle cx="${sx}" cy="${sy}" r="5" fill="#F3F6FA" stroke="#12161C" stroke-width="2"/></svg>`;
+    return `<svg class="summary-outline-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Route outline">` + body + `<circle cx="${ex}" cy="${ey}" r="7" fill="#B8F3D0" stroke="#12161C" stroke-width="3"/><circle cx="${sx}" cy="${sy}" r="5" fill="#F3F6FA" stroke="#12161C" stroke-width="2"/></svg>`;
   }
   function sectorTrackSegments(track, meters) {
     const pts = (track || []).filter(Boolean);
@@ -51679,8 +51915,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     </div>`).join("")}</div>`;
   }
   function towerRowHtml(row, bestIndex = -1) {
-    const pr = row.prLine ? `<div class="sector-f1 pr">${escapeHtml(row.prLine)}</div>` : "";
-    const goal = row.goalLine ? `<div class="sector-f1 goal">${escapeHtml(row.goalLine)}</div>` : "";
+    const goal = f1PairHtml(row.goalPair, "goal");
+    const pr = f1PairHtml(row.prPair, "pr");
     const best = row.index === bestIndex ? `<span class="best-sector-badge">BEST</span>` : "";
     return `
     <div class="sector-f1-row ${row.color}${row.index === bestIndex ? " best-sector" : ""}" data-testid="summary-sector-${row.index + 1}">
@@ -51742,7 +51978,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     const outlineEl = document.getElementById("summary-outline");
     if (outlineEl) {
-      const svg = routeOutlineSvg(outline || act && act.track || []);
+      const line = outline || act && act.track || [];
+      const meters = course ? sectorMetersList(course) : [];
+      const segs = model && model.hasSectors && meters.length ? sectorTrackSegments(line, meters).map((seg, i) => ({
+        ...seg,
+        color: SECTOR_LEG_COLORS[i % SECTOR_LEG_COLORS.length]
+      })) : null;
+      const svg = routeOutlineSvg(line, { segments: segs });
       outlineEl.innerHTML = svg;
       outlineEl.hidden = !svg;
     }
@@ -51839,8 +52081,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
               <span>Lap ${l.lap}</span><strong>${escapeHtml(formatSectorTime(l.seconds))}</strong>
             </div>`).join("")}</div>` : "";
         sectorRoot.innerHTML = `<div class="sector-table details-sector-table">${model.rows.map((row) => {
-          const pr = row.prLine ? `<div class="sector-line pr">${escapeHtml(row.prLine)}</div>` : "";
-          const goal = row.goalLine ? `<div class="sector-line goal">${escapeHtml(row.goalLine)}</div>` : "";
+          const pr = f1PairHtml(row.prPair, "pr");
+          const goal = f1PairHtml(row.goalPair, "goal");
           const laps2 = row.laps.length > 1 ? `<div class="details-lap-grid">${row.laps.map((l) => `
           <div class="details-lap-cell"><span>Lap ${l.lap}</span><strong>${escapeHtml(formatSectorTime(l.time))}</strong></div>`).join("")}</div>` : "";
           return `<div class="sector-block ${row.color}" data-testid="details-sector-${row.index + 1}">
@@ -61851,29 +62093,74 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return null;
   }
   function makeSectorFixture() {
-    const a = { lat: 41.85, lon: -87.65, role: "start" };
-    const b3 = { ...geodesicDirect(a, 90, 0.5 * METERS_PER_MILE), role: "via" };
-    const c = { ...geodesicDirect(b3, 90, 1.7 * METERS_PER_MILE), role: "via" };
-    const d2 = { ...geodesicDirect(c, 90, 0.8 * METERS_PER_MILE), role: "end" };
-    const pins = [a, b3, c, d2];
-    const course = newCourse({ name: "Even-pace loop", pins });
-    course.goal = goalFromFinishTime(30 * 60, course);
+    const path = streetLoopPath();
+    const pins = streetLoopPins();
+    const course = newCourse({ name: "Arno street loop", pins, path });
+    const sectorMeters = sectorMetersList(course);
+    const meters = sectorMeters.reduce((s2, v2) => s2 + v2, 0);
+    course.goal = goalFromFinishTime(streetLoopGoalSec(meters, sectorMeters[0]), course);
+    const targets = sectorTargets(course);
+    const sectorSeconds = [
+      Math.round((targets[0] - 7.7) * 10) / 10,
+      Math.round((targets[1] + 15) * 10) / 10,
+      Math.round((targets[2] - 6.9) * 10) / 10
+    ];
+    const prev = [
+      Math.round((targets[0] - 4.9) * 10) / 10,
+      Math.round((targets[1] - 5) * 10) / 10,
+      Math.round((targets[2] - 16.9) * 10) / 10
+    ];
     course.sectorPbs = {
-      0: { seconds: 295.1, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
-      1: { seconds: 1030, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
-      2: { seconds: 470, activityId: "prev", date: "2026-11-11T09:00:00.000Z" }
+      0: { seconds: prev[0], activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+      1: { seconds: prev[1], activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+      2: { seconds: prev[2], activityId: "prev", date: "2026-11-11T09:00:00.000Z" }
     };
-    course.sectorHistory = [{ at: "2026-11-11T09:00:00.000Z", activityId: "prev", times: [295.1, 1030, 470], totalSec: 1795.1 }];
-    const sectorSeconds = [292.3, 1010, 460];
-    const trackPts = synthesizeSectorTrack(course, sectorSeconds, { stepMeters: 8 });
+    course.sectorHistory = [{ at: "2026-11-11T09:00:00.000Z", activityId: "prev", times: prev, totalSec: prev.reduce((s2, v2) => s2 + v2, 0) }];
+    const startedAt = "2026-11-18T09:00:00.000Z";
+    const totalSec = sectorSeconds.reduce((s2, v2) => s2 + v2, 0);
+    const trackPts = synthesizeSectorTrack(course, sectorSeconds, { startedAt, stepMeters: 8 });
     return {
       course,
       track: trackPts,
       sectorSeconds,
-      sectorMeters: sectorMetersList(course),
-      meters: sectorMetersList(course).reduce((s2, v2) => s2 + v2, 0),
-      totalSec: sectorSeconds.reduce((s2, v2) => s2 + v2, 0)
+      sectorMeters,
+      meters,
+      totalSec,
+      startedAt,
+      endedAt: new Date(Date.parse(startedAt) + Math.round(totalSec * 1e3)).toISOString(),
+      targets
     };
+  }
+  function activityFromSectorFixture(fixture) {
+    return newActivity({
+      type: "run",
+      courseId: fixture.course.id,
+      courseName: fixture.course.name,
+      startedAt: fixture.startedAt,
+      endedAt: fixture.endedAt,
+      distanceMeters: fixture.meters,
+      elapsedSec: fixture.totalSec,
+      track: fixture.track
+    });
+  }
+  function synthesizeLappedTrack(course, lapSecs, startedAt) {
+    const startMs2 = Date.parse(startedAt) || Date.now();
+    const out = [];
+    let offset = 0;
+    for (let lap = 0; lap < lapSecs.length; lap++) {
+      const pts = synthesizeSectorTrack(course, lapSecs[lap], { startedAt, stepMeters: 8 });
+      for (let i = 0; i < pts.length; i++) {
+        if (lap > 0 && i === 0) continue;
+        const t = pts[i].t + offset;
+        out.push({
+          ...pts[i],
+          t,
+          at: new Date(startMs2 + Math.round(t * 1e3)).toISOString()
+        });
+      }
+      offset += lapSecs[lap].reduce((s2, v2) => s2 + (Number(v2) || 0), 0);
+    }
+    return out;
   }
   function paintSectorFlash(sess) {
     const el = $6("sector-flash");
@@ -61979,7 +62266,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       setCenter(last.lat, last.lon);
     }
   }
-  function addCoursePins(pins, { builderState = null, clickable = false } = {}) {
+  function addCoursePins(pins, { builderState = null, clickable = false, endsOnly = false } = {}) {
     if (clickable && builderState) {
       const placed = [];
       (builderState.pins || []).forEach((p, i) => {
@@ -62005,6 +62292,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     (pins || []).forEach((p, i) => {
       const kind = p.role || (i === 0 ? "start" : i === pins.length - 1 ? "end" : "via");
+      if (endsOnly && kind !== "start" && kind !== "end") return;
+      if (endsOnly && kind === "end" && pins[0] && pathLengthMeters([pins[0], p]) < 20) return;
       const label = kind === "start" ? "Start" : kind === "end" ? "End" : String(i + 1);
       addPin(p, { kind, label, pathMode: normalizePathMode(p.pathMode) });
     });
@@ -63909,55 +64198,52 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     el.innerHTML = `<p class="tiny"><strong>Climb ${formatGain(elev.gainM, u2)}</strong> \xB7 descent ${formatGain(elev.lossM, u2)}</p>${svg}${creditLine}`;
   }
   function makeLapSummaryFixture() {
-    const a = { lat: 43.7672, lon: 11.2543 };
-    const b3 = destination(a.lat, a.lon, 90, 120);
-    const c = destination(b3.lat, b3.lon, 0, 120);
-    const d2 = destination(c.lat, c.lon, 270, 120);
-    const pins = [
-      { ...a, role: "start" },
-      { ...b3, role: "via" },
-      { ...c, role: "via" },
-      { ...d2, role: "via" },
-      { ...a, role: "end" }
+    const path = streetLoopPath();
+    const pins = streetLoopPins();
+    const course = newCourse({ name: "Two-lap street loop", pins, path });
+    const sectorMeters = sectorMetersList(course);
+    const meters = sectorMeters.reduce((s2, v2) => s2 + v2, 0);
+    course.goal = goalFromFinishTime(streetLoopGoalSec(meters, sectorMeters[0]), course);
+    const targets = sectorTargets(course);
+    const prev = [
+      Math.round((targets[0] - 2) * 10) / 10,
+      Math.round((targets[1] - 8) * 10) / 10,
+      Math.round((targets[2] - 4) * 10) / 10
     ];
-    const path = [a, b3, c, d2, { lat: a.lat, lon: a.lon }];
-    const course = newCourse({ name: "Two-lap loop", pins, path });
-    course.goal = goalFromFinishTime(250, course);
     course.sectorPbs = {
-      0: { seconds: 55, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
-      1: { seconds: 70, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
-      2: { seconds: 59, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
-      3: { seconds: 60, activityId: "prev", date: "2026-11-11T09:00:00.000Z" }
+      0: { seconds: prev[0], activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+      1: { seconds: prev[1], activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+      2: { seconds: prev[2], activityId: "prev", date: "2026-11-11T09:00:00.000Z" }
     };
-    course.sectorHistory = [{ at: "2026-11-11T09:00:00.000Z", activityId: "prev", times: [55, 70, 59, 60], totalSec: 244 }];
-    const corners = [a, b3, c, d2, a];
-    const lapSecs = [[60, 65, 63, 62], [58, 64, 61, 60]];
-    const track = [{ lat: a.lat, lon: a.lon, t: 0, at: "2026-11-18T09:00:00.000Z" }];
-    let t = 0;
-    for (const sides of lapSecs) {
-      for (let i = 0; i < 4; i++) {
-        const p = corners[i], q2 = corners[i + 1];
-        const steps = 14;
-        for (let k = 1; k <= steps; k++) {
-          t += sides[i] / steps;
-          const f2 = k / steps;
-          track.push({
-            lat: p.lat + (q2.lat - p.lat) * f2,
-            lon: p.lon + (q2.lon - p.lon) * f2,
-            t,
-            at: new Date(Date.parse("2026-11-18T09:00:00.000Z") + t * 1e3).toISOString()
-          });
-        }
-      }
-    }
+    course.sectorHistory = [{ at: "2026-11-11T09:00:00.000Z", activityId: "prev", times: prev, totalSec: prev.reduce((s2, v2) => s2 + v2, 0) }];
+    const lapSecs = [
+      [
+        Math.round((targets[0] + 2) * 10) / 10,
+        Math.round((targets[1] + 12) * 10) / 10,
+        Math.round((targets[2] - 3) * 10) / 10
+      ],
+      [
+        Math.round((targets[0] - 6) * 10) / 10,
+        Math.round((targets[1] + 4) * 10) / 10,
+        Math.round((targets[2] - 8) * 10) / 10
+      ],
+      [
+        Math.round((targets[0] - 3) * 10) / 10,
+        Math.round((targets[1] + 8) * 10) / 10,
+        Math.round((targets[2] - 5) * 10) / 10
+      ]
+    ];
+    const startedAt = "2026-11-18T09:00:00.000Z";
+    const track = synthesizeLappedTrack(course, lapSecs, startedAt);
+    const totalSec = track.length ? track[track.length - 1].t : 0;
     const act = newActivity({
       type: "run",
       courseId: course.id,
       courseName: course.name,
-      startedAt: "2026-11-18T09:00:00.000Z",
-      endedAt: new Date(Date.parse("2026-11-18T09:00:00.000Z") + t * 1e3).toISOString(),
-      distanceMeters: 960,
-      elapsedSec: t,
+      startedAt,
+      endedAt: new Date(Date.parse(startedAt) + Math.round(totalSec * 1e3)).toISOString(),
+      distanceMeters: meters * lapSecs.length,
+      elapsedSec: totalSec,
       track
     });
     return { course, act };
@@ -64027,6 +64313,20 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     showScreen("summary-details");
     drawSummaryDetailsMap(act, course);
   }
+  function midTrackCoord(coords) {
+    const pts = coords || [];
+    if (pts.length < 2) return pts[0] || null;
+    const total = pathLengthMeters(pts);
+    if (!total) return pts[Math.floor(pts.length / 2)];
+    const half = total / 2;
+    let acc = 0;
+    for (let i = 1; i < pts.length; i++) {
+      const step = pathLengthMeters([pts[i - 1], pts[i]]);
+      if (acc + step >= half) return pts[i];
+      acc += step;
+    }
+    return pts[pts.length - 1];
+  }
   function drawSummaryDetailsMap(act, course) {
     if (!act) return;
     const paint = () => {
@@ -64041,14 +64341,15 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       const segs = sectorTrackSegments(track, meters);
       const palette = ["#4EC3F7", "#B8F3D0", "#F3E0A8", "#FFB4A8", "#9BB7FF"];
       segs.forEach((seg, i) => {
-        drawRoute(seg.coords, { id: "details-leg-" + i, color: palette[i % palette.length], width: 5 });
-        const mid = seg.coords[Math.floor(seg.coords.length / 2)];
-        if (mid) addLegLabel(mid, "S" + (i + 1));
+        const color = palette[i % palette.length];
+        drawRoute(seg.coords, { id: "details-leg-" + i, color, width: 7 });
+        const mid = midTrackCoord(seg.coords);
+        if (mid) addLegLabel(mid, "S" + (i + 1), { persist: true, color, className: "sector-leg" });
       });
       if (!segs.length && track.length >= 2) {
-        drawRoute(track, { id: "details-track", color: "#4EC3F7", width: 5 });
+        drawRoute(track, { id: "details-track", color: "#4EC3F7", width: 7 });
       }
-      if (course && course.pins && course.pins.length) addCoursePins(course.pins);
+      if (course && course.pins && course.pins.length) addCoursePins(course.pins, { endsOnly: true });
       const line = track.length >= 2 ? track : course && (course.path || course.pins) || [];
       if (line.length) {
         const bottom = Math.round((window.innerHeight || 800) * 0.64) + 24;
@@ -65908,13 +66209,17 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         };
         whenReady(paint);
         setTimeout(paint, 300);
-      } else if (name === "tracking" || name === "lock") {
+      } else if (name === "tracking" || name === "lock" || name === "tracking-run" || name === "tracking-bike") {
+        const type = name === "tracking-bike" ? "ride" : name === "tracking-run" ? "run" : "walk";
         const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
         if (!state2.courses[0]) state2.courses = [course];
         const sess = midCourseWalk(course, units2());
         stopSession();
-        const made = makeSession({ type: "walk", course, units: units2() });
-        Object.assign(made, sess);
+        const made = makeSession({ type, course, units: units2() });
+        Object.assign(made, sess, { type });
+        if (type === "ride" && made.distanceMeters > 0) {
+          made.elapsedSec = Math.max(60, Math.round(made.distanceMeters / 6.7));
+        }
         setTab("today");
         showScreen("tracking");
         paintSessionHud(made);
@@ -66209,22 +66514,18 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         state2.activities = [];
         setTab("progress");
       } else if (name === "summary") {
-        const act = state2.activities[state2.activities.length - 1];
-        if (!act) setTab("today");
-        else {
-          const c = act.courseId ? courseById2(act.courseId) : null;
-          const result = c ? updateCourseLegPbs(c, act) : null;
-          showSummary(act, c, result);
-        }
+        const fixture = makeSectorFixture();
+        const course = fixture.course;
+        state2.courses = [course, ...(state2.courses || []).filter((c) => c.id !== course.id)];
+        persist();
+        showSummary(activityFromSectorFixture(fixture), course, null);
       } else if (name === "summary-details") {
-        const act = state2.activities[state2.activities.length - 1];
-        if (!act) setTab("today");
-        else {
-          const c = act.courseId ? courseById2(act.courseId) : null;
-          const result = c ? updateCourseLegPbs(c, act) : null;
-          showSummary(act, c, result);
-          openSummaryDetails();
-        }
+        const fixture = makeSectorFixture();
+        const course = fixture.course;
+        state2.courses = [course, ...(state2.courses || []).filter((c) => c.id !== course.id)];
+        persist();
+        showSummary(activityFromSectorFixture(fixture), course, null);
+        openSummaryDetails();
       } else if (name === "course-detail") {
         if (!state2.courses[0]) {
           seedDemo(state2);
@@ -66616,34 +66917,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         const course = fixture.course;
         state2.courses = [course, ...(state2.courses || []).filter((c) => c.id !== course.id)];
         persist();
-        const act = newActivity({
-          type: "run",
-          courseId: course.id,
-          courseName: course.name,
-          startedAt: "2026-11-18T09:00:00.000Z",
-          endedAt: "2026-11-18T09:29:22.300Z",
-          distanceMeters: fixture.meters,
-          elapsedSec: fixture.totalSec,
-          track: fixture.track
-        });
-        showSummary(act, course, null);
+        showSummary(activityFromSectorFixture(fixture), course, null);
         openSummaryDetails();
       } else if (name === "summary-sectors") {
         const fixture = makeSectorFixture();
         const course = fixture.course;
         state2.courses = [course, ...(state2.courses || []).filter((c) => c.id !== course.id)];
         persist();
-        const act = newActivity({
-          type: "run",
-          courseId: course.id,
-          courseName: course.name,
-          startedAt: "2026-11-18T09:00:00.000Z",
-          endedAt: "2026-11-18T09:29:22.300Z",
-          distanceMeters: fixture.meters,
-          elapsedSec: fixture.totalSec,
-          track: fixture.track
-        });
-        showSummary(act, course, null);
+        showSummary(activityFromSectorFixture(fixture), course, null);
       } else if (name === "tracking-sectors") {
         const fixture = makeSectorFixture();
         const course = fixture.course;
@@ -66881,25 +67162,36 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         state2.settings.countHills = true;
         setTab("settings");
       } else if (name === "summary-elevation") {
-        const trackPts = [];
-        for (let i = 0; i <= 10; i++) {
-          const ele = i <= 5 ? i * 20 : (10 - i) * 20;
-          trackPts.push({ lat: 41.88 + i * 9e-4, lon: -87.63, ele, t: i * 60 });
-        }
+        const fixture = makeSectorFixture();
+        const course = fixture.course;
+        const trackPts = addLoopElevation(fixture.track, { peakM: 100 }).map((p, i, arr) => {
+          const mid = arr.length > 1 ? i / (arr.length - 1) : 0;
+          return { ...p, hr: Math.round(138 + 22 * Math.sin(Math.PI * mid)) };
+        });
         const gl = gainLoss(trackPts);
+        state2.courses = [course, ...(state2.courses || []).filter((c) => c.id !== course.id)];
+        state2.settings.healthOptIn = true;
+        persist();
         const act = newActivity({
-          type: "walk",
-          courseName: "Hill path",
-          startedAt: "2026-11-20T16:00:00.000Z",
-          endedAt: "2026-11-20T16:45:00.000Z",
-          distanceMeters: 1e3,
-          elapsedSec: 2700,
+          type: "run",
+          courseId: course.id,
+          courseName: course.name,
+          startedAt: fixture.startedAt,
+          endedAt: fixture.endedAt,
+          distanceMeters: fixture.meters,
+          elapsedSec: fixture.totalSec,
           track: trackPts,
           source: "phone",
           climbGainM: gl.gainM,
-          climbLossM: gl.lossM
+          climbLossM: gl.lossM,
+          health: {
+            calories: 412,
+            steps: 5840,
+            avgHeartRate: 148,
+            provider: "Health Connect"
+          }
         });
-        showSummary(act, null, null);
+        showSummary(act, course, null);
         openSummaryDetails();
       } else if (name === "tracking-lowpower") {
         const course = state2.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });

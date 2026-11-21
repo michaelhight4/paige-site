@@ -20,7 +20,6 @@ import {
   METERS_PER_MILE,
   pointAlongPath,
   destination,
-  geodesicDirect,
 } from "./util.js";
 import { loadState, saveState, resetState, newCourse, newActivity, newPlan, newGoal, migrateCourses } from "./storage.js";
 import * as health from "./health.js";
@@ -147,6 +146,12 @@ import {
   goalFromPace,
   synthesizeSectorTrack,
 } from "./sector_timing.js";
+import {
+  streetLoopPath,
+  streetLoopPins,
+  streetLoopGoalSec,
+  addLoopElevation,
+} from "./summary_fixture.js";
 import {
   buildGoalSeries,
   mountGoalChart,  historyTableMarkup,
@@ -674,30 +679,78 @@ function courseForSession(sess) {
 
 
 function makeSectorFixture() {
-  const a = { lat: 41.85, lon: -87.65, role: "start" };
-  const b = { ...geodesicDirect(a, 90, 0.5 * METERS_PER_MILE), role: "via" };
-  const c = { ...geodesicDirect(b, 90, 1.7 * METERS_PER_MILE), role: "via" };
-  const d = { ...geodesicDirect(c, 90, 0.8 * METERS_PER_MILE), role: "end" };
-  const pins = [a, b, c, d];
-  const course = newCourse({ name: "Even-pace loop", pins });
-  course.goal = goalFromFinishTime(30 * 60, course);
-  // Previous bests so the Best row is visible (not a first run).
+  const path = streetLoopPath();
+  const pins = streetLoopPins();
+  const course = newCourse({ name: "Arno street loop", pins, path });
+  const sectorMeters = sectorMetersList(course);
+  const meters = sectorMeters.reduce((s, v) => s + v, 0);
+  course.goal = goalFromFinishTime(streetLoopGoalSec(meters, sectorMeters[0]), course);
+  const targets = sectorTargets(course);
+  // S1 matches Gary's stack (GOAL 5:00.0 / TIME −0:07.7 / PR 4:55.1 / TIME −0:02.8).
+  // S2 is behind both goal and PR (red). S3 is ahead of goal (green) but behind PR (red).
+  const sectorSeconds = [
+    Math.round((targets[0] - 7.7) * 10) / 10,
+    Math.round((targets[1] + 15.0) * 10) / 10,
+    Math.round((targets[2] - 6.9) * 10) / 10,
+  ];
+  const prev = [
+    Math.round((targets[0] - 4.9) * 10) / 10,
+    Math.round((targets[1] - 5.0) * 10) / 10,
+    Math.round((targets[2] - 16.9) * 10) / 10,
+  ];
   course.sectorPbs = {
-    0: { seconds: 295.1, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
-    1: { seconds: 1030.0, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
-    2: { seconds: 470.0, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+    0: { seconds: prev[0], activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+    1: { seconds: prev[1], activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+    2: { seconds: prev[2], activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
   };
-  course.sectorHistory = [{ at: "2026-11-11T09:00:00.000Z", activityId: "prev", times: [295.1, 1030.0, 470.0], totalSec: 1795.1 }];
-  const sectorSeconds = [292.3, 1010.0, 460.0]; // 4:52.3, 16:50.0, 7:40.0
-  const trackPts = synthesizeSectorTrack(course, sectorSeconds, { stepMeters: 8 });
+  course.sectorHistory = [{ at: "2026-11-11T09:00:00.000Z", activityId: "prev", times: prev, totalSec: prev.reduce((s, v) => s + v, 0) }];
+  const startedAt = "2026-11-18T09:00:00.000Z";
+  const totalSec = sectorSeconds.reduce((s, v) => s + v, 0);
+  const trackPts = synthesizeSectorTrack(course, sectorSeconds, { startedAt, stepMeters: 8 });
   return {
     course,
     track: trackPts,
     sectorSeconds,
-    sectorMeters: sectorMetersList(course),
-    meters: sectorMetersList(course).reduce((s, v) => s + v, 0),
-    totalSec: sectorSeconds.reduce((s, v) => s + v, 0),
+    sectorMeters,
+    meters,
+    totalSec,
+    startedAt,
+    endedAt: new Date(Date.parse(startedAt) + Math.round(totalSec * 1000)).toISOString(),
+    targets,
   };
+}
+
+function activityFromSectorFixture(fixture) {
+  return newActivity({
+    type: "run",
+    courseId: fixture.course.id,
+    courseName: fixture.course.name,
+    startedAt: fixture.startedAt,
+    endedAt: fixture.endedAt,
+    distanceMeters: fixture.meters,
+    elapsedSec: fixture.totalSec,
+    track: fixture.track,
+  });
+}
+
+function synthesizeLappedTrack(course, lapSecs, startedAt) {
+  const startMs = Date.parse(startedAt) || Date.now();
+  const out = [];
+  let offset = 0;
+  for (let lap = 0; lap < lapSecs.length; lap++) {
+    const pts = synthesizeSectorTrack(course, lapSecs[lap], { startedAt, stepMeters: 8 });
+    for (let i = 0; i < pts.length; i++) {
+      if (lap > 0 && i === 0) continue;
+      const t = pts[i].t + offset;
+      out.push({
+        ...pts[i],
+        t,
+        at: new Date(startMs + Math.round(t * 1000)).toISOString(),
+      });
+    }
+    offset += lapSecs[lap].reduce((s, v) => s + (Number(v) || 0), 0);
+  }
+  return out;
 }
 
 function paintSectorFlash(sess) {
@@ -882,7 +935,7 @@ function drawSessionOnMap(sess) {
   }
 }
 
-function addCoursePins(pins, { builderState = null, clickable = false } = {}) {
+function addCoursePins(pins, { builderState = null, clickable = false, endsOnly = false } = {}) {
   if (clickable && builderState) {
     const placed = [];
     (builderState.pins || []).forEach((p, i) => {
@@ -908,6 +961,8 @@ function addCoursePins(pins, { builderState = null, clickable = false } = {}) {
   }
   (pins || []).forEach((p, i) => {
     const kind = p.role || (i === 0 ? "start" : i === pins.length - 1 ? "end" : "via");
+    if (endsOnly && kind !== "start" && kind !== "end") return;
+    if (endsOnly && kind === "end" && pins[0] && pathLengthMeters([pins[0], p]) < 20) return;
     const label = kind === "start" ? "Start" : kind === "end" ? "End" : String(i + 1);
     map.addPin(p, { kind, label, pathMode: normalizePathMode(p.pathMode) });
   });
@@ -2946,52 +3001,55 @@ function paintElevationBox(el, elev, { units: u = "mi", credit = false } = {}) {
 
 /* heldpath-hook: summary-laps — multi-lap F1 tower fixture */
 function makeLapSummaryFixture() {
-  const a = { lat: 43.7672, lon: 11.2543 };
-  const b = destination(a.lat, a.lon, 90, 120);
-  const c = destination(b.lat, b.lon, 0, 120);
-  const d = destination(c.lat, c.lon, 270, 120);
-  const pins = [
-    { ...a, role: "start" }, { ...b, role: "via" }, { ...c, role: "via" },
-    { ...d, role: "via" }, { ...a, role: "end" },
+  const path = streetLoopPath();
+  const pins = streetLoopPins();
+  const course = newCourse({ name: "Two-lap street loop", pins, path });
+  const sectorMeters = sectorMetersList(course);
+  const meters = sectorMeters.reduce((s, v) => s + v, 0);
+  course.goal = goalFromFinishTime(streetLoopGoalSec(meters, sectorMeters[0]), course);
+  const targets = sectorTargets(course);
+  const prev = [
+    Math.round((targets[0] - 2.0) * 10) / 10,
+    Math.round((targets[1] - 8.0) * 10) / 10,
+    Math.round((targets[2] - 4.0) * 10) / 10,
   ];
-  const path = [a, b, c, d, { lat: a.lat, lon: a.lon }];
-  const course = newCourse({ name: "Two-lap loop", pins, path });
-  course.goal = goalFromFinishTime(250, course);
   course.sectorPbs = {
-    0: { seconds: 55, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
-    1: { seconds: 70, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
-    2: { seconds: 59, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
-    3: { seconds: 60, activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+    0: { seconds: prev[0], activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+    1: { seconds: prev[1], activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
+    2: { seconds: prev[2], activityId: "prev", date: "2026-11-11T09:00:00.000Z" },
   };
-  course.sectorHistory = [{ at: "2026-11-11T09:00:00.000Z", activityId: "prev", times: [55, 70, 59, 60], totalSec: 244 }];
-  const corners = [a, b, c, d, a];
-  const lapSecs = [[60, 65, 63, 62], [58, 64, 61, 60]];
-  const track = [{ lat: a.lat, lon: a.lon, t: 0, at: "2026-11-18T09:00:00.000Z" }];
-  let t = 0;
-  for (const sides of lapSecs) {
-    for (let i = 0; i < 4; i++) {
-      const p = corners[i], q = corners[i + 1];
-      const steps = 14;
-      for (let k = 1; k <= steps; k++) {
-        t += sides[i] / steps;
-        const f = k / steps;
-        track.push({
-          lat: p.lat + (q.lat - p.lat) * f,
-          lon: p.lon + (q.lon - p.lon) * f,
-          t,
-          at: new Date(Date.parse("2026-11-18T09:00:00.000Z") + t * 1000).toISOString(),
-        });
-      }
-    }
-  }
+  course.sectorHistory = [{ at: "2026-11-11T09:00:00.000Z", activityId: "prev", times: prev, totalSec: prev.reduce((s, v) => s + v, 0) }];
+  // Three laps: lap 1 is mixed, lap 2 sets a true S1/S3 PB, lap 3 is slightly
+  // slower than lap 2 but still ahead of goal on S1/S3. S2 stays behind the
+  // historic PR on every lap, so it must not get a PB badge.
+  const lapSecs = [
+    [
+      Math.round((targets[0] + 2.0) * 10) / 10,
+      Math.round((targets[1] + 12.0) * 10) / 10,
+      Math.round((targets[2] - 3.0) * 10) / 10,
+    ],
+    [
+      Math.round((targets[0] - 6.0) * 10) / 10,
+      Math.round((targets[1] + 4.0) * 10) / 10,
+      Math.round((targets[2] - 8.0) * 10) / 10,
+    ],
+    [
+      Math.round((targets[0] - 3.0) * 10) / 10,
+      Math.round((targets[1] + 8.0) * 10) / 10,
+      Math.round((targets[2] - 5.0) * 10) / 10,
+    ],
+  ];
+  const startedAt = "2026-11-18T09:00:00.000Z";
+  const track = synthesizeLappedTrack(course, lapSecs, startedAt);
+  const totalSec = track.length ? track[track.length - 1].t : 0;
   const act = newActivity({
     type: "run",
     courseId: course.id,
     courseName: course.name,
-    startedAt: "2026-11-18T09:00:00.000Z",
-    endedAt: new Date(Date.parse("2026-11-18T09:00:00.000Z") + t * 1000).toISOString(),
-    distanceMeters: 960,
-    elapsedSec: t,
+    startedAt,
+    endedAt: new Date(Date.parse(startedAt) + Math.round(totalSec * 1000)).toISOString(),
+    distanceMeters: meters * lapSecs.length,
+    elapsedSec: totalSec,
     track,
   });
   return { course, act };
@@ -3069,6 +3127,21 @@ function openSummaryDetails() {
   drawSummaryDetailsMap(act, course);
 }
 
+function midTrackCoord(coords) {
+  const pts = coords || [];
+  if (pts.length < 2) return pts[0] || null;
+  const total = pathLengthMeters(pts);
+  if (!total) return pts[Math.floor(pts.length / 2)];
+  const half = total / 2;
+  let acc = 0;
+  for (let i = 1; i < pts.length; i++) {
+    const step = pathLengthMeters([pts[i - 1], pts[i]]);
+    if (acc + step >= half) return pts[i];
+    acc += step;
+  }
+  return pts[pts.length - 1];
+}
+
 /* heldpath-hook: summary-laps — draw S1…Sn on the real GPS track */
 function drawSummaryDetailsMap(act, course) {
   if (!act) return;
@@ -3079,14 +3152,15 @@ function drawSummaryDetailsMap(act, course) {
     const segs = sectorTrackSegments(track, meters);
     const palette = ["#4EC3F7", "#B8F3D0", "#F3E0A8", "#FFB4A8", "#9BB7FF"];
     segs.forEach((seg, i) => {
-      map.drawRoute(seg.coords, { id: "details-leg-" + i, color: palette[i % palette.length], width: 5 });
-      const mid = seg.coords[Math.floor(seg.coords.length / 2)];
-      if (mid) map.addLegLabel(mid, "S" + (i + 1));
+      const color = palette[i % palette.length];
+      map.drawRoute(seg.coords, { id: "details-leg-" + i, color, width: 7 });
+      const mid = midTrackCoord(seg.coords);
+      if (mid) map.addLegLabel(mid, "S" + (i + 1), { persist: true, color, className: "sector-leg" });
     });
     if (!segs.length && track.length >= 2) {
-      map.drawRoute(track, { id: "details-track", color: "#4EC3F7", width: 5 });
+      map.drawRoute(track, { id: "details-track", color: "#4EC3F7", width: 7 });
     }
-    if (course && course.pins && course.pins.length) addCoursePins(course.pins);
+    if (course && course.pins && course.pins.length) addCoursePins(course.pins, { endsOnly: true });
     const line = track.length >= 2 ? track : ((course && (course.path || course.pins)) || []);
     if (line.length) {
       const bottom = Math.round((window.innerHeight || 800) * 0.64) + 24;
@@ -4923,15 +4997,20 @@ window.HeldpathTest = {
       map.whenReady(paint);
       setTimeout(paint, 300);
     }
-    else if (name === "tracking" || name === "lock") {
+    else if (name === "tracking" || name === "lock" || name === "tracking-run" || name === "tracking-bike") {
+      const type = name === "tracking-bike" ? "ride" : name === "tracking-run" ? "run" : "walk";
       const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
       if (!state.courses[0]) state.courses = [course];
       const sess = midCourseWalk(course, units());
       // Install frozen session
       track.stopSession();
       // reuse make + overwrite
-      const made = track.makeSession({ type: "walk", course, units: units() });
-      Object.assign(made, sess);
+      const made = track.makeSession({ type, course, units: units() });
+      Object.assign(made, sess, { type });
+      if (type === "ride" && made.distanceMeters > 0) {
+        // Cycling speed (~15 mph) so the HUD shows speed, not pace.
+        made.elapsedSec = Math.max(60, Math.round(made.distanceMeters / 6.7));
+      }
       setTab("today");
       showScreen("tracking");
       paintSessionHud(made);
@@ -5195,23 +5274,19 @@ window.HeldpathTest = {
     else if (name === "progress-all") { ui.range = "All"; setTab("progress"); }
     else if (name === "progress-empty") { ui.range = "W"; state.activities = []; setTab("progress"); }
     else if (name === "summary") {
-      const act = state.activities[state.activities.length - 1];
-      if (!act) setTab("today");
-      else {
-        const c = act.courseId ? courseById(act.courseId) : null;
-        const result = c ? splits.updateCourseLegPbs(c, act) : null;
-        showSummary(act, c, result);
-      }
+      const fixture = makeSectorFixture();
+      const course = fixture.course;
+      state.courses = [course, ...(state.courses || []).filter((c) => c.id !== course.id)];
+      persist();
+      showSummary(activityFromSectorFixture(fixture), course, null);
     }
     else if (name === "summary-details") {
-      const act = state.activities[state.activities.length - 1];
-      if (!act) setTab("today");
-      else {
-        const c = act.courseId ? courseById(act.courseId) : null;
-        const result = c ? splits.updateCourseLegPbs(c, act) : null;
-        showSummary(act, c, result);
-        openSummaryDetails();
-      }
+      const fixture = makeSectorFixture();
+      const course = fixture.course;
+      state.courses = [course, ...(state.courses || []).filter((c) => c.id !== course.id)];
+      persist();
+      showSummary(activityFromSectorFixture(fixture), course, null);
+      openSummaryDetails();
     }
     else if (name === "course-detail") {
       if (!state.courses[0]) {
@@ -5582,34 +5657,14 @@ window.HeldpathTest = {
       const course = fixture.course;
       state.courses = [course, ...(state.courses || []).filter((c) => c.id !== course.id)];
       persist();
-      const act = newActivity({
-        type: "run",
-        courseId: course.id,
-        courseName: course.name,
-        startedAt: "2026-11-18T09:00:00.000Z",
-        endedAt: "2026-11-18T09:29:22.300Z",
-        distanceMeters: fixture.meters,
-        elapsedSec: fixture.totalSec,
-        track: fixture.track,
-      });
-      showSummary(act, course, null);
+      showSummary(activityFromSectorFixture(fixture), course, null);
       openSummaryDetails();
     } else if (name === "summary-sectors") {
       const fixture = makeSectorFixture();
       const course = fixture.course;
       state.courses = [course, ...(state.courses || []).filter((c) => c.id !== course.id)];
       persist();
-      const act = newActivity({
-        type: "run",
-        courseId: course.id,
-        courseName: course.name,
-        startedAt: "2026-11-18T09:00:00.000Z",
-        endedAt: "2026-11-18T09:29:22.300Z",
-        distanceMeters: fixture.meters,
-        elapsedSec: fixture.totalSec,
-        track: fixture.track,
-      });
-      showSummary(act, course, null);
+      showSummary(activityFromSectorFixture(fixture), course, null);
     } else if (name === "tracking-sectors") {
       const fixture = makeSectorFixture();
       const course = fixture.course;
@@ -5860,25 +5915,36 @@ window.HeldpathTest = {
       state.settings.countHills = true;
       setTab("settings");
     } else if (name === "summary-elevation") {
-      const trackPts = [];
-      for (let i = 0; i <= 10; i++) {
-        const ele = i <= 5 ? i * 20 : (10 - i) * 20;
-        trackPts.push({ lat: 41.88 + i * 0.0009, lon: -87.63, ele, t: i * 60 });
-      }
+      const fixture = makeSectorFixture();
+      const course = fixture.course;
+      const trackPts = addLoopElevation(fixture.track, { peakM: 100 }).map((p, i, arr) => {
+        const mid = arr.length > 1 ? i / (arr.length - 1) : 0;
+        return { ...p, hr: Math.round(138 + 22 * Math.sin(Math.PI * mid)) };
+      });
       const gl = gainLoss(trackPts);
+      state.courses = [course, ...(state.courses || []).filter((c) => c.id !== course.id)];
+      state.settings.healthOptIn = true;
+      persist();
       const act = newActivity({
-        type: "walk",
-        courseName: "Hill path",
-        startedAt: "2026-11-20T16:00:00.000Z",
-        endedAt: "2026-11-20T16:45:00.000Z",
-        distanceMeters: 1000,
-        elapsedSec: 2700,
+        type: "run",
+        courseId: course.id,
+        courseName: course.name,
+        startedAt: fixture.startedAt,
+        endedAt: fixture.endedAt,
+        distanceMeters: fixture.meters,
+        elapsedSec: fixture.totalSec,
         track: trackPts,
         source: "phone",
         climbGainM: gl.gainM,
         climbLossM: gl.lossM,
+        health: {
+          calories: 412,
+          steps: 5840,
+          avgHeartRate: 148,
+          provider: "Health Connect",
+        },
       });
-      showSummary(act, null, null);
+      showSummary(act, course, null);
       openSummaryDetails();
     } else if (name === "tracking-lowpower") {
       const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });

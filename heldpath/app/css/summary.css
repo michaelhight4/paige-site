@@ -4,7 +4,7 @@
   background: var(--bg-elev);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 10px;
+  padding: 14px 12px;
   margin: 0 0 16px;
 }
 #summary-outline[hidden] { display: none; }
@@ -12,7 +12,7 @@
   display: block;
   width: 100%;
   height: auto;
-  max-height: 210px;
+  max-height: 520px;
 }
 
 .summary-sector-chip { border: 1px solid var(--line); }
@@ -30,9 +30,9 @@
 .sector-f1-row {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 12px 14px;
-  min-height: 52px;
+  gap: 14px;
+  padding: 16px 16px;
+  min-height: 88px;
   border-left: 4px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
@@ -62,12 +62,34 @@
 }
 .sector-f1-body { flex: 1; min-width: 0; }
 .sector-f1-main {
-  font-size: 19px;
+  font-size: 22px;
   font-weight: 800;
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
   overflow-wrap: anywhere;
+  color: var(--text);
 }
+.sector-f1-stack { margin-top: 8px; }
+.sector-f1-ref {
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.sector-f1-time {
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+  margin: 1px 0 6px;
+}
+.sector-f1-time.green { color: #7dffb8; }
+.sector-f1-time.red { color: #ff8f8f; }
+.sector-f1-time.neutral { color: var(--muted); }
 .sector-f1 {
   font-size: 13px;
   font-weight: 700;
@@ -77,15 +99,6 @@
   overflow-wrap: anywhere;
   margin-top: 4px;
 }
-.sector-f1-row.green .sector-f1-main { color: #7dffb8; }
-.sector-f1-row.red .sector-f1-main { color: #ff8f8f; }
-.sector-f1-row.purple .sector-f1-main { color: #d4b3ff; }
-.sector-f1-row.green .sector-f1.goal,
-.sector-f1-row.green .sector-f1.pr { color: #7dffb8; }
-.sector-f1-row.red .sector-f1.goal,
-.sector-f1-row.red .sector-f1.pr { color: #ff8f8f; }
-.sector-f1-row.purple .sector-f1.goal,
-.sector-f1-row.purple .sector-f1.pr { color: #d4b3ff; }
 .pb-badge {
   display: inline-block;
   margin-left: 8px;

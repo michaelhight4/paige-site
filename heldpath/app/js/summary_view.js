@@ -84,22 +84,40 @@ export function heartRateInfo(act) {
 }
 
 /**
- * One F1 row line, exactly the app's tower pattern:
- *   GOAL 5:00.0 / TIME −0:07.7
- *   PR 4:52.3 / TIME −0:03.2
+ * Stacked F1 pair, exactly the tower pattern:
+ *   GOAL 5:00.0
+ *   TIME −0:07.7
  */
-export function formatF1Row(refLabel, refSec, timeSec) {
+export function formatF1Pair(refLabel, refSec, timeSec) {
   const ref = num(refSec);
   const time = num(timeSec);
   const delta = (ref > 0 && time > 0) ? time - ref : null;
   const refTxt = ref > 0 ? formatSectorTime(ref) : "—";
   const deltaTxt = delta == null ? "—" : formatSectorDelta(delta);
-  return `${refLabel} ${refTxt} / TIME ${deltaTxt}`;
+  return {
+    refLine: `${refLabel} ${refTxt}`,
+    timeLine: `TIME ${deltaTxt}`,
+    delta,
+    color: sectorColor(delta),
+  };
 }
 
-/** green = ahead (minus), red = behind (plus), purple = new sector PB. */
-export function sectorColor(deltaSec, isNewPb = false) {
-  if (isNewPb) return "purple";
+/** Stacked F1 copy: "GOAL 5:00.0\\nTIME −0:07.7". */
+export function formatF1Row(refLabel, refSec, timeSec) {
+  const pair = formatF1Pair(refLabel, refSec, timeSec);
+  return `${pair.refLine}\n${pair.timeLine}`;
+}
+
+function f1PairHtml(pair, kind) {
+  if (!pair || !pair.refLine) return "";
+  return `<div class="sector-f1-stack ${kind || ""}">`
+    + `<div class="sector-f1-ref">${escapeHtml(pair.refLine)}</div>`
+    + `<div class="sector-f1-time ${pair.color || "neutral"}">${escapeHtml(pair.timeLine)}</div>`
+    + `</div>`;
+}
+
+/** green = ahead (minus), red = behind (plus). Purple is only used on a PB badge, never on the delta. */
+export function sectorColor(deltaSec) {
   if (deltaSec == null || !Number.isFinite(Number(deltaSec))) return "neutral";
   if (Math.abs(Number(deltaSec)) < 0.05) return "neutral";
   return Number(deltaSec) < 0 ? "green" : "red";
@@ -168,19 +186,21 @@ export function buildSectorModel(course, act, { apply = false } = {}) {
     const lapRows = perLap.map((l) => {
       const isLapPb = l.time > 0 && earlierBest != null && l.time < earlierBest - 0.009;
       if (l.time > 0 && (earlierBest == null || l.time < earlierBest)) earlierBest = l.time;
-      const isPb = (hadHistory && l.time > 0 && pb != null && l.time < pb - 0.009) || isLapPb;
+      // Purple PB is only for beating the saved sector best, never for a
+      // faster later lap that is still behind the historic PR.
+      const beatsHistoric = !!(hadHistory && l.time > 0 && pb != null && l.time < pb - 0.009);
       return {
         ...l,
         vsGoal: l.time > 0 && target > 0 ? l.time - target : null,
         vsPb: l.time > 0 && pb > 0 ? l.time - pb : null,
-        isNewPb: isPb,
-        color: sectorColor(l.time > 0 && target > 0 ? l.time - target : null, isPb),
+        improvedWithin: isLapPb,
+        isNewPb: beatsHistoric,
+        color: sectorColor(l.time > 0 && target > 0 ? l.time - target : null),
       };
     });
     const beatHistory = !!(hadHistory && best > 0 && pb != null && best < pb - 0.009);
-    const improvedWithin = lapRows.some((l) => l.isNewPb && l.lap > 1);
-    const isNewPb = beatHistory || improvedWithin;
-    const color = sectorColor(vsGoal, isNewPb);
+    const isNewPb = beatHistory;
+    const color = sectorColor(vsGoal);
     if (vsGoal != null) cumulative += vsGoal;
     const possible = pb > 0 ? pb : target;
     if (possible > 0) { bestPossibleSum += possible; anyBest = true; }
@@ -194,6 +214,8 @@ export function buildSectorModel(course, act, { apply = false } = {}) {
       vsPb,
       isNewPb,
       color,
+      goalPair: target > 0 ? formatF1Pair("GOAL", target, best) : null,
+      prPair: hadHistory && pb > 0 ? formatF1Pair("PR", pb, best) : null,
       goalLine: target > 0 ? formatF1Row("GOAL", target, best) : "",
       prLine: hadHistory && pb > 0 ? formatF1Row("PR", pb, best) : "",
       laps: lapRows,
@@ -206,7 +228,7 @@ export function buildSectorModel(course, act, { apply = false } = {}) {
     : null;
   if (result && hadHistory) {
     for (const i of result.newBests || []) {
-      if (rows[i]) { rows[i].isNewPb = true; rows[i].color = "purple"; }
+      if (rows[i]) { rows[i].isNewPb = true; }
     }
   }
 
@@ -232,7 +254,9 @@ export function buildSectorModel(course, act, { apply = false } = {}) {
 }
 
 /** Project a path to an SVG outline (Summary only — not an interactive map). */
-export function routeOutlineSvg(coords, { width = 340, height = 190, stroke = "#4EC3F7" } = {}) {
+export const SECTOR_LEG_COLORS = ["#4EC3F7", "#B8F3D0", "#F3E0A8", "#FFB4A8", "#9BB7FF"];
+
+export function routeOutlineSvg(coords, { width = 340, height = null, stroke = "#4EC3F7", segments = null } = {}) {
   const pts = (coords || []).filter((p) => p && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon)));
   if (pts.length < 2) return "";
   const lats = pts.map((p) => Number(p.lat));
@@ -242,6 +266,14 @@ export function routeOutlineSvg(coords, { width = 340, height = 190, stroke = "#
   const pad = 18;
   const dLat = Math.max(1e-9, maxLat - minLat);
   const dLon = Math.max(1e-9, maxLon - minLon);
+  const midLat = (minLat + maxLat) / 2;
+  const lonScale = Math.max(0.2, Math.cos(midLat * Math.PI / 180));
+  const geoW = dLon * lonScale;
+  const geoH = dLat;
+  if (height == null) {
+    height = Math.round(width * (geoH / geoW));
+    height = Math.max(150, Math.min(320, height));
+  }
   const scale = Math.min((width - pad * 2) / dLon, (height - pad * 2) / dLat);
   const ox = (width - dLon * scale) / 2;
   const oy = (height - dLat * scale) / 2;
@@ -250,12 +282,21 @@ export function routeOutlineSvg(coords, { width = 340, height = 190, stroke = "#
     const y = height - (oy + (Number(p.lat) - minLat) * scale);
     return [Math.round(x * 10) / 10, Math.round(y * 10) / 10];
   };
-  const d = pts.map((p, i) => `${i ? "L" : "M"}${xy(p)[0]} ${xy(p)[1]}`).join(" ");
+  const pathD = (list) => list.map((p, i) => `${i ? "L" : "M"}${xy(p)[0]} ${xy(p)[1]}`).join(" ");
+  const legs = (segments && segments.length)
+    ? segments.filter((s) => s && s.coords && s.coords.length >= 2)
+    : [{ coords: pts, color: stroke }];
+  let body = "";
+  for (let i = 0; i < legs.length; i++) {
+    const d = pathD(legs[i].coords);
+    const color = legs[i].color || SECTOR_LEG_COLORS[i % SECTOR_LEG_COLORS.length] || stroke;
+    body += `<path d="${d}" fill="none" stroke="#0C1218" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>`;
+    body += `<path d="${d}" fill="none" stroke="${color}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`;
+  }
   const [sx, sy] = xy(pts[0]);
   const [ex, ey] = xy(pts[pts.length - 1]);
   return `<svg class="summary-outline-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Route outline">`
-    + `<path d="${d}" fill="none" stroke="#2B8FD4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/>`
-    + `<path d="${d}" fill="none" stroke="${stroke}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`
+    + body
     + `<circle cx="${ex}" cy="${ey}" r="7" fill="#B8F3D0" stroke="#12161C" stroke-width="3"/>`
     + `<circle cx="${sx}" cy="${sy}" r="5" fill="#F3F6FA" stroke="#12161C" stroke-width="2"/>`
     + `</svg>`;
@@ -323,8 +364,8 @@ function lapRowsHtml(row) {
 }
 
 function towerRowHtml(row, bestIndex = -1) {
-  const pr = row.prLine ? `<div class="sector-f1 pr">${escapeHtml(row.prLine)}</div>` : "";
-  const goal = row.goalLine ? `<div class="sector-f1 goal">${escapeHtml(row.goalLine)}</div>` : "";
+  const goal = f1PairHtml(row.goalPair, "goal");
+  const pr = f1PairHtml(row.prPair, "pr");
   const best = row.index === bestIndex ? `<span class="best-sector-badge">BEST</span>` : "";
   return `
     <div class="sector-f1-row ${row.color}${row.index === bestIndex ? " best-sector" : ""}" data-testid="summary-sector-${row.index + 1}">
@@ -385,7 +426,15 @@ export function renderSummary(ctx) {
   }
   const outlineEl = document.getElementById("summary-outline");
   if (outlineEl) {
-    const svg = routeOutlineSvg(outline || (act && act.track) || []);
+    const line = outline || (act && act.track) || [];
+    const meters = course ? sectorMetersList(course) : [];
+    const segs = (model && model.hasSectors && meters.length)
+      ? sectorTrackSegments(line, meters).map((seg, i) => ({
+        ...seg,
+        color: SECTOR_LEG_COLORS[i % SECTOR_LEG_COLORS.length],
+      }))
+      : null;
+    const svg = routeOutlineSvg(line, { segments: segs });
     outlineEl.innerHTML = svg;
     outlineEl.hidden = !svg;
   }
@@ -483,8 +532,8 @@ export function renderDetails(ctx) {
             </div>`).join("")}</div>`
         : "";
       sectorRoot.innerHTML = `<div class="sector-table details-sector-table">${model.rows.map((row) => {
-        const pr = row.prLine ? `<div class="sector-line pr">${escapeHtml(row.prLine)}</div>` : "";
-        const goal = row.goalLine ? `<div class="sector-line goal">${escapeHtml(row.goalLine)}</div>` : "";
+        const pr = f1PairHtml(row.prPair, "pr");
+        const goal = f1PairHtml(row.goalPair, "goal");
         const laps = row.laps.length > 1 ? `<div class="details-lap-grid">${row.laps.map((l) => `
           <div class="details-lap-cell"><span>Lap ${l.lap}</span><strong>${escapeHtml(formatSectorTime(l.time))}</strong></div>`).join("")}</div>` : "";
         return `<div class="sector-block ${row.color}" data-testid="details-sector-${row.index + 1}">
