@@ -48,13 +48,44 @@ export function lerpHeading(from, to, t) {
 }
 
 /**
+ * Degrees clockwise the UI has rotated from the device's natural portrait,
+ * taken from a Screen Orientation API type string.
+ */
+export function orientationTypeOffset(type) {
+  switch (type) {
+    case "portrait-primary": return 0;
+    case "portrait-secondary": return 180;
+    case "landscape-primary": return 90;
+    case "landscape-secondary": return 270;
+    default: return null;
+  }
+}
+
+function isPortraitOffset(deg) {
+  const n = wrapDeg(deg);
+  return n === 0 || n === 180;
+}
+
+/**
  * Degrees clockwise that the screen has been rotated from the device's
- * natural portrait. Portrait is 0, landscape-left is typically 90.
+ * natural portrait. Portrait is 0, landscape-primary is typically 90.
+ *
+ * Some Android WebViews report screen.orientation.angle as 90 even when
+ * the UI is portrait-primary (or 0 when it is landscape). Subtracting
+ * that lying angle turns the cone 90° to the left. When type and angle
+ * disagree about portrait vs landscape, trust the UI type.
  */
 export function screenOrientationOffset(env = typeof globalThis !== "undefined" ? globalThis : {}) {
   const screenObj = env.screen || (env.window && env.window.screen);
   const o = screenObj && screenObj.orientation;
-  if (o && Number.isFinite(Number(o.angle))) return wrapDeg(Number(o.angle));
+  const typeOffset = o ? orientationTypeOffset(o.type) : null;
+  const angle = o && Number.isFinite(Number(o.angle)) ? wrapDeg(Number(o.angle)) : null;
+  if (typeOffset != null && angle != null) {
+    if (isPortraitOffset(typeOffset) !== isPortraitOffset(angle)) return typeOffset;
+    return angle;
+  }
+  if (typeOffset != null) return typeOffset;
+  if (angle != null) return angle;
   const raw = env.orientation != null
     ? env.orientation
     : (env.window && env.window.orientation);
@@ -62,29 +93,86 @@ export function screenOrientationOffset(env = typeof globalThis !== "undefined" 
   return 0;
 }
 
+function mul3(a, b) {
+  const r = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      r[i][j] = a[i][0] * b[0][j] + a[i][1] * b[1][j] + a[i][2] * b[2][j];
+    }
+  }
+  return r;
+}
+
+function apply3(m, v) {
+  return [
+    m[0][0] * v[0] + m[0][1] * v[1] + m[0][2] * v[2],
+    m[1][0] * v[0] + m[1][1] * v[1] + m[1][2] * v[2],
+    m[2][0] * v[0] + m[2][1] * v[1] + m[2][2] * v[2],
+  ];
+}
+
 /**
- * Tilt-compensated compass heading of the top of the device, in degrees
- * clockwise from north, before any screen-orientation offset. Based on the
- * W3C device-orientation worked example so the reading stays usable when
- * the phone is not lying flat.
+ * W3C device-orientation matrix: world = R * device, with world X east,
+ * Y north, Z up. R = Rz(alpha) Rx(beta) Ry(gamma). Alpha is 0 when the
+ * top of the device points north and increases counter-clockwise.
+ */
+export function deviceOrientationMatrix(alpha, beta, gamma) {
+  const d = Math.PI / 180;
+  const ca = Math.cos(Number(alpha) * d);
+  const sa = Math.sin(Number(alpha) * d);
+  const cb = Math.cos(Number(beta) * d);
+  const sb = Math.sin(Number(beta) * d);
+  const cg = Math.cos(Number(gamma) * d);
+  const sg = Math.sin(Number(gamma) * d);
+  const rz = [[ca, -sa, 0], [sa, ca, 0], [0, 0, 1]];
+  const rx = [[1, 0, 0], [0, cb, -sb], [0, sb, cb]];
+  const ry = [[cg, 0, sg], [0, 1, 0], [-sg, 0, cg]];
+  return mul3(mul3(rz, rx), ry);
+}
+
+/** Clockwise heading from north of a horizontal (east, north) vector. */
+export function headingFromEastNorth(east, north) {
+  if (!Number.isFinite(Number(east)) || !Number.isFinite(Number(north))) return null;
+  if (Math.abs(east) < 1e-8 && Math.abs(north) < 1e-8) return null;
+  return wrapDeg(Math.atan2(Number(east), Number(north)) * (180 / Math.PI));
+}
+
+/**
+ * Tilt-compensated compass heading of the top of the device (+Y), in
+ * degrees clockwise from north, before any screen-orientation offset.
+ * When the device is lying flat the W3C "out the back" worked example is
+ * undefined, so this falls back to (360 - alpha). When the top points at
+ * the sky, it falls back to the direction out the back of the screen.
  */
 export function tiltCompensatedHeading(alpha, beta, gamma) {
   if (![alpha, beta, gamma].every((v) => Number.isFinite(Number(v)))) return null;
-  const deg = Math.PI / 180;
-  const _x = Number(beta) * deg;
-  const _y = Number(gamma) * deg;
-  const _z = Number(alpha) * deg;
-  const cX = Math.cos(_x);
-  const cY = Math.cos(_y);
-  const cZ = Math.cos(_z);
-  const sX = Math.sin(_x);
-  const sY = Math.sin(_y);
-  const sZ = Math.sin(_z);
-  const vx = -cZ * sY - sZ * sX * cY;
-  const vy = -sZ * sY + cZ * sX * cY;
-  let heading = Math.atan2(vx, vy);
-  if (heading < 0) heading += 2 * Math.PI;
-  return wrapDeg(heading * (180 / Math.PI));
+  return screenHeadingFromOrientation(alpha, beta, gamma, 0);
+}
+
+/**
+ * Clockwise heading from north of the top of the visible screen.
+ * `screenAngle` is the clockwise UI rotation from the device's natural
+ * portrait (portrait 0, landscape-primary 90, landscape-secondary 270).
+ * When the screen-up vector is nearly vertical (phone held upright), the
+ * heading is the direction out the back of the screen — the way the
+ * person holding the phone is facing.
+ */
+export function screenHeadingFromOrientation(alpha, beta, gamma, screenAngle = 0) {
+  if (![alpha, beta, gamma].every((v) => Number.isFinite(Number(v)))) return null;
+  const R = deviceOrientationMatrix(alpha, beta, gamma);
+  const a = (Number(screenAngle) || 0) * (Math.PI / 180);
+  // Screen-up in the device frame: portrait (0,1,0), landscape-primary (-1,0,0).
+  const screenUp = apply3(R, [-Math.sin(a), Math.cos(a), 0]);
+  let heading = headingFromEastNorth(screenUp[0], screenUp[1]);
+  if (heading == null) {
+    const back = apply3(R, [0, 0, -1]);
+    heading = headingFromEastNorth(back[0], back[1]);
+  }
+  if (heading == null) {
+    // Perfectly flat degenerate case: heading of the device top is 360 - alpha.
+    return wrapDeg(-(Number(alpha) + (Number(screenAngle) || 0)));
+  }
+  return heading;
 }
 
 /**
@@ -103,10 +191,10 @@ export function compassFromDeviceOrientation(event, { screenAngle = 0 } = {}) {
       screenRelative: true,
     };
   }
-  const tilt = tiltCompensatedHeading(event.alpha, event.beta, event.gamma);
-  if (tilt == null) return null;
+  const heading = screenHeadingFromOrientation(event.alpha, event.beta, event.gamma, Number(screenAngle) || 0);
+  if (heading == null) return null;
   return {
-    heading: wrapDeg(tilt - (Number(screenAngle) || 0)),
+    heading,
     accuracyDeg: null,
     source: event.absolute === true || event.type === "deviceorientationabsolute" ? "absolute" : "relative",
     screenRelative: true,
@@ -316,15 +404,16 @@ export function startCompassWatch(onReading, env = typeof window !== "undefined"
     });
     if (reading && onReading) onReading(reading, event);
   };
+  // Prefer deviceorientationabsolute. Relative deviceorientation on
+  // Android Chrome is not north-based and would yank the cone off north.
   const abs = "ondeviceorientationabsolute" in env;
-  if (abs) env.addEventListener("deviceorientationabsolute", handle, true);
-  env.addEventListener("deviceorientation", handle, true);
+  const type = abs ? "deviceorientationabsolute" : "deviceorientation";
+  env.addEventListener(type, handle, true);
   let stopped = false;
   return () => {
     if (stopped) return;
     stopped = true;
-    if (abs) env.removeEventListener("deviceorientationabsolute", handle, true);
-    env.removeEventListener("deviceorientation", handle, true);
+    env.removeEventListener(type, handle, true);
   };
 }
 

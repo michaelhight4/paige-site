@@ -46334,31 +46334,87 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const a = Math.max(0, Math.min(1, Number(t) || 0));
     return wrapDeg(Number(from) + shortestDelta(from, to) * a);
   }
+  function orientationTypeOffset(type) {
+    switch (type) {
+      case "portrait-primary":
+        return 0;
+      case "portrait-secondary":
+        return 180;
+      case "landscape-primary":
+        return 90;
+      case "landscape-secondary":
+        return 270;
+      default:
+        return null;
+    }
+  }
+  function isPortraitOffset(deg) {
+    const n = wrapDeg(deg);
+    return n === 0 || n === 180;
+  }
   function screenOrientationOffset(env = typeof globalThis !== "undefined" ? globalThis : {}) {
     const screenObj = env.screen || env.window && env.window.screen;
     const o = screenObj && screenObj.orientation;
-    if (o && Number.isFinite(Number(o.angle))) return wrapDeg(Number(o.angle));
+    const typeOffset = o ? orientationTypeOffset(o.type) : null;
+    const angle = o && Number.isFinite(Number(o.angle)) ? wrapDeg(Number(o.angle)) : null;
+    if (typeOffset != null && angle != null) {
+      if (isPortraitOffset(typeOffset) !== isPortraitOffset(angle)) return typeOffset;
+      return angle;
+    }
+    if (typeOffset != null) return typeOffset;
+    if (angle != null) return angle;
     const raw = env.orientation != null ? env.orientation : env.window && env.window.orientation;
     if (Number.isFinite(Number(raw))) return wrapDeg(Number(raw));
     return 0;
   }
-  function tiltCompensatedHeading(alpha, beta, gamma) {
+  function mul3(a, b3) {
+    const r = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+    for (let i = 0; i < 3; i++) {
+      for (let j2 = 0; j2 < 3; j2++) {
+        r[i][j2] = a[i][0] * b3[0][j2] + a[i][1] * b3[1][j2] + a[i][2] * b3[2][j2];
+      }
+    }
+    return r;
+  }
+  function apply3(m, v2) {
+    return [
+      m[0][0] * v2[0] + m[0][1] * v2[1] + m[0][2] * v2[2],
+      m[1][0] * v2[0] + m[1][1] * v2[1] + m[1][2] * v2[2],
+      m[2][0] * v2[0] + m[2][1] * v2[1] + m[2][2] * v2[2]
+    ];
+  }
+  function deviceOrientationMatrix(alpha, beta, gamma) {
+    const d2 = Math.PI / 180;
+    const ca = Math.cos(Number(alpha) * d2);
+    const sa = Math.sin(Number(alpha) * d2);
+    const cb = Math.cos(Number(beta) * d2);
+    const sb = Math.sin(Number(beta) * d2);
+    const cg = Math.cos(Number(gamma) * d2);
+    const sg = Math.sin(Number(gamma) * d2);
+    const rz = [[ca, -sa, 0], [sa, ca, 0], [0, 0, 1]];
+    const rx = [[1, 0, 0], [0, cb, -sb], [0, sb, cb]];
+    const ry = [[cg, 0, sg], [0, 1, 0], [-sg, 0, cg]];
+    return mul3(mul3(rz, rx), ry);
+  }
+  function headingFromEastNorth(east, north) {
+    if (!Number.isFinite(Number(east)) || !Number.isFinite(Number(north))) return null;
+    if (Math.abs(east) < 1e-8 && Math.abs(north) < 1e-8) return null;
+    return wrapDeg(Math.atan2(Number(east), Number(north)) * (180 / Math.PI));
+  }
+  function screenHeadingFromOrientation(alpha, beta, gamma, screenAngle = 0) {
     if (![alpha, beta, gamma].every((v2) => Number.isFinite(Number(v2)))) return null;
-    const deg = Math.PI / 180;
-    const _x = Number(beta) * deg;
-    const _y = Number(gamma) * deg;
-    const _z = Number(alpha) * deg;
-    const cX = Math.cos(_x);
-    const cY = Math.cos(_y);
-    const cZ = Math.cos(_z);
-    const sX = Math.sin(_x);
-    const sY = Math.sin(_y);
-    const sZ = Math.sin(_z);
-    const vx = -cZ * sY - sZ * sX * cY;
-    const vy = -sZ * sY + cZ * sX * cY;
-    let heading = Math.atan2(vx, vy);
-    if (heading < 0) heading += 2 * Math.PI;
-    return wrapDeg(heading * (180 / Math.PI));
+    const R3 = deviceOrientationMatrix(alpha, beta, gamma);
+    const a = (Number(screenAngle) || 0) * (Math.PI / 180);
+    const screenUp = apply3(R3, [-Math.sin(a), Math.cos(a), 0]);
+    let heading = headingFromEastNorth(screenUp[0], screenUp[1]);
+    if (heading == null) {
+      const back = apply3(R3, [0, 0, -1]);
+      heading = headingFromEastNorth(back[0], back[1]);
+    }
+    if (heading == null) {
+      return wrapDeg(-(Number(alpha) + (Number(screenAngle) || 0)));
+    }
+    return heading;
   }
   function compassFromDeviceOrientation(event, { screenAngle = 0 } = {}) {
     if (!event) return null;
@@ -46371,10 +46427,10 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         screenRelative: true
       };
     }
-    const tilt = tiltCompensatedHeading(event.alpha, event.beta, event.gamma);
-    if (tilt == null) return null;
+    const heading = screenHeadingFromOrientation(event.alpha, event.beta, event.gamma, Number(screenAngle) || 0);
+    if (heading == null) return null;
     return {
-      heading: wrapDeg(tilt - (Number(screenAngle) || 0)),
+      heading,
       accuracyDeg: null,
       source: event.absolute === true || event.type === "deviceorientationabsolute" ? "absolute" : "relative",
       screenRelative: true
@@ -46550,14 +46606,13 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       if (reading && onReading) onReading(reading, event);
     };
     const abs = "ondeviceorientationabsolute" in env;
-    if (abs) env.addEventListener("deviceorientationabsolute", handle, true);
-    env.addEventListener("deviceorientation", handle, true);
+    const type = abs ? "deviceorientationabsolute" : "deviceorientation";
+    env.addEventListener(type, handle, true);
     let stopped = false;
     return () => {
       if (stopped) return;
       stopped = true;
-      if (abs) env.removeEventListener("deviceorientationabsolute", handle, true);
-      env.removeEventListener("deviceorientation", handle, true);
+      env.removeEventListener(type, handle, true);
     };
   }
   async function requestCompassPermission(env = typeof window !== "undefined" ? window : null) {
@@ -48240,7 +48295,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     } catch {
     }
   }
-  async function startLocationWatch({ onFix, onError } = {}) {
+  async function startLocationWatch({ onFix, onError, onHeading } = {}) {
     stopLocationWatch();
     const opts = { enableHighAccuracy: true, maximumAge: 0, timeout: 2e4 };
     try {
@@ -48255,7 +48310,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
             },
             (err2) => {
               if (onError) onError(reasonFromGeoError(err2));
-            }
+            },
+            onHeading || null
           );
           liveWatch = {
             kind: "heldpath",
@@ -68163,29 +68219,51 @@ ${pair.timeLine}`;
   }
   var mapHeading = createHeadingTracker();
   var mapCompassStop = null;
+  var lastNativeCompassAt = 0;
+  function paintMapHeading() {
+    if (getSession()) return;
+    if (!mapHeading.shouldRedraw && mapHeading.allowMapRotate === false) return;
+    const last = typeof getLastUserCoord === "function" ? getLastUserCoord() : null;
+    if (last) {
+      const view2 = { ...last, heading: mapHeading.heading, allowMapRotate: mapHeading.allowMapRotate };
+      if (typeof getMapOrientation === "function" && typeof setUserDotGlide === "function") {
+        setUserDotGlide(view2, { follow: getMapOrientation() === "heading" && !isFollowPaused() });
+      } else setUserDot(view2);
+    }
+    paintCompassCalibrate(mapHeading.needsCalibration);
+  }
+  function applyMapCompass(reading, at = Date.now(), { source } = {}) {
+    if (!reading) return;
+    if (source === "native") lastNativeCompassAt = at;
+    else if (lastNativeCompassAt && at - lastNativeCompassAt < 1500) return;
+    mapHeading = updateHeadingTracker(mapHeading, { compass: reading, at });
+    paintMapHeading();
+  }
   function ensureMapCompass() {
     if (mapCompassStop) return;
     requestCompassPermission().catch(() => {
     });
     mapCompassStop = startCompassWatch((reading) => {
-      mapHeading = updateHeadingTracker(mapHeading, { compass: reading, at: Date.now() });
-      if (getSession()) return;
-      if (!mapHeading.shouldRedraw && mapHeading.allowMapRotate === false) return;
-      const last = typeof getLastUserCoord === "function" ? getLastUserCoord() : null;
-      if (last) {
-        const view2 = { ...last, heading: mapHeading.heading, allowMapRotate: mapHeading.allowMapRotate };
-        if (typeof getMapOrientation === "function" && typeof setUserDotGlide === "function") {
-          setUserDotGlide(view2, { follow: getMapOrientation() === "heading" && !isFollowPaused() });
-        } else setUserDot(view2);
-      }
-      paintCompassCalibrate(mapHeading.needsCalibration);
+      applyMapCompass(reading, Date.now(), { source: "web" });
     });
+  }
+  function onNativeHeading(data) {
+    if (!data) return;
+    const heading = data.heading ?? data.compassHeading;
+    if (!Number.isFinite(Number(heading))) return;
+    applyMapCompass({
+      heading: Number(heading),
+      sensorAccuracy: data.sensorAccuracy,
+      source: "native"
+    }, Date.now(), { source: "native" });
   }
   function onLiveFix(fix) {
     const saved = rememberLocation(fix);
     const point = saved || fix;
     if (!point) return;
+    if (Number.isFinite(Number(point.compassHeading))) lastNativeCompassAt = point.at || Date.now();
     mapHeading = updateHeadingTracker(mapHeading, {
+      compass: Number.isFinite(Number(point.compassHeading)) ? { heading: Number(point.compassHeading), sensorAccuracy: point.sensorAccuracy, source: "native" } : void 0,
       gpsHeading: point.heading,
       speedMps: point.speed,
       accuracyM: point.accuracy,
@@ -68210,6 +68288,7 @@ ${pair.timeLine}`;
     ensureMapCompass();
     startLocationWatch({
       onFix: onLiveFix,
+      onHeading: onNativeHeading,
       onError: () => {
       }
     }).catch(() => {

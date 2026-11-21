@@ -4586,30 +4586,57 @@ function toggleMapStyle() {
 
 let mapHeading = createHeadingTracker();
 let mapCompassStop = null;
+let lastNativeCompassAt = 0;
+
+function paintMapHeading() {
+  if (track.getSession()) return;
+  if (!mapHeading.shouldRedraw && mapHeading.allowMapRotate === false) return;
+  const last = typeof map.getLastUserCoord === "function" ? map.getLastUserCoord() : null;
+  if (last) {
+    const view = { ...last, heading: mapHeading.heading, allowMapRotate: mapHeading.allowMapRotate };
+    if (typeof map.getMapOrientation === "function" && typeof map.setUserDotGlide === "function") {
+      map.setUserDotGlide(view, { follow: map.getMapOrientation() === "heading" && !map.isFollowPaused() });
+    } else map.setUserDot(view);
+  }
+  paintCompassCalibrate(mapHeading.needsCalibration);
+}
+
+function applyMapCompass(reading, at = Date.now(), { source } = {}) {
+  if (!reading) return;
+  if (source === "native") lastNativeCompassAt = at;
+  else if (lastNativeCompassAt && at - lastNativeCompassAt < 1500) return;
+  mapHeading = updateHeadingTracker(mapHeading, { compass: reading, at });
+  paintMapHeading();
+}
 
 function ensureMapCompass() {
   if (mapCompassStop) return;
   requestCompassPermission().catch(() => {});
   mapCompassStop = startCompassWatch((reading) => {
-    mapHeading = updateHeadingTracker(mapHeading, { compass: reading, at: Date.now() });
-    if (track.getSession()) return;
-    if (!mapHeading.shouldRedraw && mapHeading.allowMapRotate === false) return;
-    const last = typeof map.getLastUserCoord === "function" ? map.getLastUserCoord() : null;
-    if (last) {
-      const view = { ...last, heading: mapHeading.heading, allowMapRotate: mapHeading.allowMapRotate };
-      if (typeof map.getMapOrientation === "function" && typeof map.setUserDotGlide === "function") {
-        map.setUserDotGlide(view, { follow: map.getMapOrientation() === "heading" && !map.isFollowPaused() });
-      } else map.setUserDot(view);
-    }
-    paintCompassCalibrate(mapHeading.needsCalibration);
+    applyMapCompass(reading, Date.now(), { source: "web" });
   });
+}
+
+function onNativeHeading(data) {
+  if (!data) return;
+  const heading = data.heading ?? data.compassHeading;
+  if (!Number.isFinite(Number(heading))) return;
+  applyMapCompass({
+    heading: Number(heading),
+    sensorAccuracy: data.sensorAccuracy,
+    source: "native",
+  }, Date.now(), { source: "native" });
 }
 
 function onLiveFix(fix) {
   const saved = rememberLocation(fix);
   const point = saved || fix;
   if (!point) return;
+  if (Number.isFinite(Number(point.compassHeading))) lastNativeCompassAt = point.at || Date.now();
   mapHeading = updateHeadingTracker(mapHeading, {
+    compass: Number.isFinite(Number(point.compassHeading))
+      ? { heading: Number(point.compassHeading), sensorAccuracy: point.sensorAccuracy, source: "native" }
+      : undefined,
     gpsHeading: point.heading,
     speedMps: point.speed,
     accuracyM: point.accuracy,
@@ -4638,6 +4665,7 @@ function maybeStartLiveLocation() {
   ensureMapCompass();
   startLocationWatch({
     onFix: onLiveFix,
+    onHeading: onNativeHeading,
     onError: () => {},
   }).catch(() => {});
 }

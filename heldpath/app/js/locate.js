@@ -294,7 +294,7 @@ export function stopLocationWatch() {
  * Uses the ordinary Geolocation API, not the run-session background watcher.
  * Works offline once permission is granted, from the last device fix.
  */
-export async function startLocationWatch({ onFix, onError } = {}) {
+export async function startLocationWatch({ onFix, onError, onHeading } = {}) {
   stopLocationWatch();
   const opts = { enableHighAccuracy: true, maximumAge: 0, timeout: 20000 };
   try {
@@ -308,6 +308,7 @@ export async function startLocationWatch({ onFix, onError } = {}) {
           { enhanced: !!(opts.enhanced), background: false, intervalMs: 1000, distanceFilter: 0 },
           (fix) => { if (fix && onFix) onFix(fix); },
           (err) => { if (onError) onError(reasonFromGeoError(err)); },
+          onHeading || null,
         );
         liveWatch = {
           kind: "heldpath",
