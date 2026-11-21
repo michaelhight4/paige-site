@@ -16,13 +16,50 @@ import { geodesicDirect } from "./util.js";
 let map = null;
 let protocolAdded = false;
 let ofmProtocolAdded = false;
+let naipProtocolAdded = false;
 const overlayIds = [];
 
-export const SATELLITE_ATTRIBUTION =
+/** Global fallback: EOX 2016 cloudless Sentinel-2, CC BY 4.0, keyless, max native zoom 14. */
+export const EOX_ATTRIBUTION =
   'EOxCloudless <a href="https://cloudless.eox.at">cloudless.eox.at</a> by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2016)';
-export const SATELLITE_TILES =
+export const EOX_TILES =
   "https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless_3857/default/g/{z}/{y}/{x}.jpg";
-export const SATELLITE_MAXZOOM = 14;
+export const EOX_MAXZOOM = 14;
+
+/** Public-domain USGS/NAIP orthoimagery for the United States (requested credit). */
+export const USGS_ATTRIBUTION =
+  'Map services and data available from <a href="https://www.usgs.gov/">U.S. Geological Survey</a>, National Geospatial Program (NAIP / USDA orthoimagery, public domain)';
+export const USGS_TILES =
+  "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}";
+export const USGS_MAXZOOM = 16;
+// CONUS + Hawaii + Puerto Rico + USVI. Excludes Alaska: the same USGSImageryOnly
+// service serves 10 m SPOT there, which is licence-restricted.
+export const USGS_BOUNDS = [-161.0, 17.6, -64.5, 49.4];
+export const NAIP_MAXZOOM = 18;
+export const MERCATOR_ORIGIN = 20037508.342789244;
+
+export const SATELLITE_ATTRIBUTION = USGS_ATTRIBUTION + ". Outside the United States: " + EOX_ATTRIBUTION;
+// Kept as aliases so older copy still points at the global fallback.
+export const SATELLITE_TILES = EOX_TILES;
+export const SATELLITE_MAXZOOM = EOX_MAXZOOM;
+
+const SAT_RASTER_LAYERS = ["s2-sat", "usgs-sat", "naip-sat"];
+const SAT_HYBRID_LAYERS = [
+  "hy-world-roads-casing", "hy-world-roads",
+  "hy-fi-roads-casing", "hy-fi-roads",
+  "hy-ofm-roads-minor-casing", "hy-ofm-roads-minor",
+  "hy-ofm-roads-major-casing", "hy-ofm-roads-major",
+  "hy-ofm-road-labels", "hy-ofm-places",
+  "hy-fi-road-labels", "hy-fi-places",
+];
+const SAT_HIDE_WHEN_ON = [
+  "world-earth", "world-landuse", "world-landcover", "world-water", "world-water-line", "world-buildings",
+  "world-roads-minor", "world-roads-major",
+  "fi-earth", "fi-landuse", "fi-landcover", "fi-water", "fi-water-line", "fi-buildings",
+  "fi-roads-minor", "fi-roads-major",
+  "ofm-landcover", "ofm-landuse", "ofm-park", "ofm-water", "ofm-waterway", "ofm-building",
+  "ofm-roads-minor", "ofm-roads-major",
+];
 
 let mapStyle = "map";
 
@@ -30,48 +67,267 @@ export function getMapStyle() {
   return mapStyle;
 }
 
+function tileBBox3857(z, x, y) {
+  const n = 2 ** z;
+  const res = (2 * MERCATOR_ORIGIN) / n;
+  const xmin = -MERCATOR_ORIGIN + x * res;
+  const ymax = MERCATOR_ORIGIN - y * res;
+  return [xmin, ymax - res, xmin + res, ymax];
+}
+
+function ensureNaipProtocol() {
+  if (naipProtocolAdded) return;
+  maplibregl.addProtocol("usgs-naip", async (params, abortController) => {
+    const m = String(params.url || "").match(/usgs-naip:\/\/(\d+)\/(\d+)\/(\d+)/);
+    if (!m) return { data: new ArrayBuffer(0) };
+    const z = Number(m[1]);
+    const x = Number(m[2]);
+    const y = Number(m[3]);
+    const [xmin, ymin, xmax, ymax] = tileBBox3857(z, x, y);
+    const url = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/exportImage"
+      + "?bbox=" + [xmin, ymin, xmax, ymax].join(",")
+      + "&bboxSR=3857&imageSR=3857&size=256,256&format=jpg&f=image";
+    const signal = abortController && abortController.signal;
+    const res = await fetch(url, { signal });
+    if (!res.ok) return { data: new ArrayBuffer(0) };
+    return { data: await res.arrayBuffer() };
+  });
+  naipProtocolAdded = true;
+}
+
+function addLayerOnce(layer, beforeId) {
+  if (!map || map.getLayer(layer.id)) return;
+  const before = beforeId && map.getLayer(beforeId) ? beforeId : undefined;
+  if (before) map.addLayer(layer, before);
+  else map.addLayer(layer);
+}
+
+function firstDrawnOverlay() {
+  for (const id of overlayIds) {
+    if (map && map.getLayer(id)) return id;
+  }
+  if (map && map.getLayer("user-accuracy-fill")) return "user-accuracy-fill";
+  return undefined;
+}
+
+function hybridRoadLayers(source, prefix, sourceLayer, filter, minzoom) {
+  const mz = minzoom == null ? {} : { minzoom };
+  const flt = filter ? { filter } : {};
+  const width = ["interpolate", ["linear"], ["zoom"], 12, 0.8, 16, 2.4, 18, 3.4];
+  const casing = ["interpolate", ["linear"], ["zoom"], 12, 1.6, 16, 3.6, 18, 5];
+  return [
+    {
+      id: prefix + "casing",
+      type: "line",
+      source,
+      "source-layer": sourceLayer,
+      ...mz,
+      ...flt,
+      layout: { visibility: "none", "line-cap": "round", "line-join": "round" },
+      paint: { "line-color": "rgba(18,22,28,0.62)", "line-width": casing },
+    },
+    {
+      id: prefix,
+      type: "line",
+      source,
+      "source-layer": sourceLayer,
+      ...mz,
+      ...flt,
+      layout: { visibility: "none", "line-cap": "round", "line-join": "round" },
+      paint: { "line-color": "#f4f1e6", "line-width": width, "line-opacity": 0.92 },
+    },
+  ];
+}
+
 function ensureSatelliteLayer() {
   if (!map) return;
+  ensureNaipProtocol();
   if (!map.getSource("s2cloudless")) {
     map.addSource("s2cloudless", {
       type: "raster",
-      tiles: [SATELLITE_TILES],
+      tiles: [EOX_TILES],
       tileSize: 256,
-      maxzoom: SATELLITE_MAXZOOM,
+      maxzoom: EOX_MAXZOOM,
       attribution: "",
     });
   }
-  if (!map.getLayer("s2-sat")) {
-    map.addLayer({
-      id: "s2-sat",
+  if (!map.getSource("usgs-imagery")) {
+    map.addSource("usgs-imagery", {
       type: "raster",
-      source: "s2cloudless",
-      maxzoom: 22,
-      layout: { visibility: "none" },
-      paint: { "raster-opacity": 1, "raster-fade-duration": 0 },
+      tiles: [USGS_TILES],
+      tileSize: 256,
+      maxzoom: USGS_MAXZOOM,
+      bounds: USGS_BOUNDS,
+      attribution: "",
     });
+  }
+  if (!map.getSource("usgs-naip")) {
+    map.addSource("usgs-naip", {
+      type: "raster",
+      tiles: ["usgs-naip://{z}/{x}/{y}"],
+      tileSize: 256,
+      minzoom: 17,
+      maxzoom: NAIP_MAXZOOM,
+      bounds: USGS_BOUNDS,
+      attribution: "",
+    });
+  }
+  const under = "world-earth";
+  addLayerOnce({
+    id: "s2-sat",
+    type: "raster",
+    source: "s2cloudless",
+    maxzoom: 22,
+    layout: { visibility: "none" },
+    paint: { "raster-opacity": 1, "raster-fade-duration": 0 },
+  }, under);
+  addLayerOnce({
+    id: "usgs-sat",
+    type: "raster",
+    source: "usgs-imagery",
+    maxzoom: 22,
+    layout: { visibility: "none" },
+    paint: { "raster-opacity": 1, "raster-fade-duration": 0 },
+  }, under);
+  addLayerOnce({
+    id: "naip-sat",
+    type: "raster",
+    source: "usgs-naip",
+    minzoom: 17,
+    maxzoom: 22,
+    layout: { visibility: "none" },
+    paint: { "raster-opacity": 1, "raster-fade-duration": 0 },
+  }, under);
+
+  const beforeHybrid = firstDrawnOverlay();
+  const ofmMinor = ["in", ["get", "class"], ["literal", ["minor", "service", "path", "track", "tertiary", "busway"]]];
+  const ofmMajor = ["in", ["get", "class"], ["literal", ["motorway", "trunk", "primary", "secondary"]]];
+  for (const layer of [
+    ...hybridRoadLayers("world", "hy-world-roads", "roads"),
+    ...hybridRoadLayers("firenze", "hy-fi-roads", "roads"),
+    ...hybridRoadLayers("ofm", "hy-ofm-roads-minor", "transportation", ofmMinor, 6),
+    ...hybridRoadLayers("ofm", "hy-ofm-roads-major", "transportation", ofmMajor, 6),
+    {
+      id: "hy-ofm-road-labels",
+      type: "symbol",
+      source: "ofm",
+      "source-layer": "transportation_name",
+      minzoom: 12,
+      layout: {
+        visibility: "none",
+        "symbol-placement": "line",
+        "text-field": ["coalesce", ["get", "name"], ["get", "ref"]],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 12, 10, 16, 13, 18, 15],
+        "text-max-angle": 35,
+        "text-optional": true,
+      },
+      paint: {
+        "text-color": "#ffffff",
+        "text-halo-color": "rgba(18,22,28,0.86)",
+        "text-halo-width": 1.4,
+      },
+    },
+    {
+      id: "hy-ofm-places",
+      type: "symbol",
+      source: "ofm",
+      "source-layer": "place",
+      minzoom: 9,
+      layout: {
+        visibility: "none",
+        "text-field": ["get", "name"],
+        "text-font": ["Noto Sans Bold"],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 9, 11, 14, 15, 16, 17],
+        "text-optional": true,
+        "text-padding": 4,
+      },
+      paint: {
+        "text-color": "#ffffff",
+        "text-halo-color": "rgba(18,22,28,0.86)",
+        "text-halo-width": 1.5,
+      },
+    },
+    {
+      id: "hy-fi-road-labels",
+      type: "symbol",
+      source: "firenze",
+      "source-layer": "roads",
+      minzoom: 13,
+      layout: {
+        visibility: "none",
+        "symbol-placement": "line",
+        "text-field": ["get", "name"],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": 12,
+        "text-optional": true,
+      },
+      paint: {
+        "text-color": "#ffffff",
+        "text-halo-color": "rgba(18,22,28,0.86)",
+        "text-halo-width": 1.4,
+      },
+    },
+    {
+      id: "hy-fi-places",
+      type: "symbol",
+      source: "firenze",
+      "source-layer": "places",
+      minzoom: 11,
+      layout: {
+        visibility: "none",
+        "text-field": ["get", "name"],
+        "text-font": ["Noto Sans Bold"],
+        "text-size": 13,
+        "text-optional": true,
+      },
+      paint: {
+        "text-color": "#ffffff",
+        "text-halo-color": "rgba(18,22,28,0.86)",
+        "text-halo-width": 1.5,
+      },
+    },
+  ]) {
+    addLayerOnce(layer, beforeHybrid);
   }
 }
 
-/** Switch between the vector map and the online EOX 2016 satellite layer. */
+function refreshAttribution() {
+  if (!map || !map._controls) return;
+  for (const c of map._controls) {
+    if (c && typeof c._updateAttributions === "function") {
+      try { c._updateAttributions(); } catch { /* ignore */ }
+    }
+  }
+}
+
+/** Switch between the vector map and online satellite (USGS/NAIP in the US, EOX elsewhere) plus a roads/labels hybrid overlay. */
 export function setMapStyle(style, { online = true } = {}) {
   const want = style === "satellite" ? "satellite" : "map";
   mapStyle = want;
   if (!map) return { ok: true, style: mapStyle, online, needsSignal: want === "satellite" && !online };
   try {
     ensureSatelliteLayer();
-    const vis = want === "satellite" ? "visible" : "none";
-    if (map.getLayer("s2-sat")) map.setLayoutProperty("s2-sat", "visibility", vis);
-    const src = map.getSource("s2cloudless");
-    if (src) src.attribution = want === "satellite" ? SATELLITE_ATTRIBUTION : "";
-    // Nudge the attribution control to pick up the source text.
-    if (map._controls) {
-      for (const c of map._controls) {
-        if (c && typeof c._updateAttributions === "function") {
-          try { c._updateAttributions(); } catch { /* ignore */ }
-        }
-      }
+    const sat = want === "satellite";
+    const visSat = sat ? "visible" : "none";
+    const visMap = sat ? "none" : "visible";
+    for (const id of SAT_RASTER_LAYERS) {
+      if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", visSat);
     }
+    for (const id of SAT_HYBRID_LAYERS) {
+      if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", visSat);
+    }
+    for (const id of SAT_HIDE_WHEN_ON) {
+      if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", visMap);
+    }
+    const credit = sat ? SATELLITE_ATTRIBUTION : "";
+    for (const sid of ["s2cloudless", "usgs-imagery", "usgs-naip"]) {
+      const src = map.getSource(sid);
+      if (src) src.attribution = sid === "usgs-imagery" ? credit : (sat && sid === "s2cloudless" ? "" : "");
+    }
+    const usgs = map.getSource("usgs-imagery");
+    if (usgs) usgs.attribution = credit;
+    refreshAttribution();
   } catch (err) {
     console.warn("map style", err && err.message ? err.message : err);
   }
@@ -234,6 +490,7 @@ function darkStyle() {
   return {
     version: 8,
     name: "Heldpath Dark",
+    glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",
     sources: {
       world: {
         type: "vector",

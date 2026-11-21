@@ -1068,7 +1068,8 @@ body[data-screen="today"] .map-search { top: calc(68px + var(--safe-top)); }
   position: absolute;
   top: calc(188px + var(--safe-top));
   right: 10px;
-  max-width: 220px;
+  max-width: 260px;
+  line-height: 1.35;
   margin: 0;
   padding: 6px 8px;
   border-radius: 8px;

@@ -2970,7 +2970,7 @@ function paintMapStyleButton() {
       note.textContent = "Satellite needs signal.";
     } else if (sat) {
       note.hidden = false;
-      note.textContent = "EOX Cloudless 2016 by EOX (modified Copernicus Sentinel data 2016)";
+      note.textContent = "USGS / NAIP (public domain) in the U.S.; EOX Cloudless 2016 elsewhere. Roads © OpenStreetMap.";
     } else {
       note.hidden = true;
     }
@@ -4253,29 +4253,30 @@ window.HeldpathTest = {
       renderBuilder();
       await new Promise((r) => setTimeout(r, 400));
     } else if (name === "builder-satellite" || name === "map-satellite") {
-      await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
+      // Gulfport, MS waterfront at street zoom — USGS/NAIP coverage, not Florence/EOX.
+      const gport = { lat: 30.3674, lon: -89.0928, accuracy: 18, at: Date.now() };
+      state.settings.lastKnown = gport;
+      state.settings.locationDisclosureAccepted = true;
       state.settings.mapStyle = "satellite";
       persist();
       applySavedMapStyle();
-      ui.followPaths = true;
-      ui.lockWalkGraph = true;
+      ui.followPaths = false;
+      ui.lockWalkGraph = false;
       ui.findingPaths = false;
       ui.builder = emptyBuilderState();
-      placePin(ui.builder, { lat: 43.76797, lon: 11.25316 });
-      placePin(ui.builder, { lat: 43.76956, lon: 11.25586 });
-      placePin(ui.builder, { lat: 43.77313, lon: 11.25596 });
-      ui.builder = setEndIndex(ui.builder, 0);
+      placePin(ui.builder, { lat: 30.36785, lon: -89.09415 });
+      placePin(ui.builder, { lat: 30.3687, lon: -89.0909 });
       ui.builderPins = ui.builder.pins;
       ui.builderRoute = null;
       setTab("today");
       showScreen("builder");
       renderBuilder();
-      const satFit = (ui.builderRoute && ui.builderRoute.path) || routeStops(ui.builder);
       await waitMapReady();
-      fitBuilderCourse(satFit, { maxZoom: 16 });
-      await new Promise((r) => setTimeout(r, 800));
-      fitBuilderCourse(satFit, { maxZoom: 16 });
-      await new Promise((r) => setTimeout(r, 400));
+      map.setCenter(gport.lat, gport.lon, 16.4);
+      applySavedMapStyle();
+      await new Promise((r) => setTimeout(r, 2200));
+      map.setCenter(gport.lat, gport.lon, 16.4);
+      await new Promise((r) => setTimeout(r, 1200));
     } else if (name === "goals") {
       const now = new Date("2026-11-18T18:00:00");
       state.goals = [
