@@ -271,6 +271,7 @@ import {
   OFF_PATH_COLOR,
   LONG_DETOUR_HINT,
   UNROUTABLE_SWITCH_HINT,
+  MISSING_MAP_HINT,
 } from "./routing.js";
 import {
   planFromCourse,
@@ -1535,6 +1536,34 @@ function legFlagText(leg) {
 }
 
 
+function pinsBbox(pins, padDeg = 0.004) {
+  const list = (pins || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
+  if (!list.length) return null;
+  let west = 180, south = 90, east = -180, north = -90;
+  for (const p of list) {
+    if (p.lon < west) west = p.lon;
+    if (p.lon > east) east = p.lon;
+    if (p.lat < south) south = p.lat;
+    if (p.lat > north) north = p.lat;
+  }
+  return { west: west - padDeg, south: south - padDeg, east: east + padDeg, north: north + padDeg };
+}
+
+function builderMissingDownloadedMap(routed, pins) {
+  const graph = getActiveGraph();
+  if (routed && routed.legs && routed.legs.some((l) => l.reason === "no-graph")) return true;
+  if (!graph) return true;
+  if (routed && routed.unroutable && !graphCoversPoints(graph, pins)) return true;
+  return false;
+}
+
+function openBuilderAreaDownload() {
+  const pins = ((activeBuilder() || {}).pins) || [];
+  const bbox = pinsBbox(pins) || null;
+  if (bbox) openCrop({ bbox, afterClose: "builder" });
+  else openCrop({ afterClose: "builder" });
+}
+
 function firstHintableLeg(routed) {
   const legs = (routed && routed.legs) || [];
   const i = legs.findIndex((l) => l && (l.mode === "unroutable" || l.longDetour));
@@ -1552,6 +1581,7 @@ function paintRouteHint(routed, st, waiting) {
   const wrap = $("route-detour-hint");
   const note = $("route-fallback-note");
   const btn = $("btn-switch-pin-green");
+  const dl = $("btn-download-route-area");
   if (note) note.classList.remove("finding");
   ui.hintDestPinIndex = null;
   if (!wrap || !note) return;
@@ -1561,6 +1591,7 @@ function paintRouteHint(routed, st, waiting) {
     note.classList.add("finding");
     note.textContent = LOADING_PATHS;
     if (btn) btn.hidden = true;
+    if (dl) dl.hidden = true;
     return;
   }
   const hit = firstHintableLeg(routed);
@@ -1569,14 +1600,19 @@ function paintRouteHint(routed, st, waiting) {
     note.hidden = true;
     note.textContent = "";
     if (btn) btn.hidden = true;
+    if (dl) dl.hidden = true;
     return;
   }
   const destIndex = destPinIndexForLeg(st, hit.i);
   ui.hintDestPinIndex = destIndex;
   wrap.hidden = false;
   note.hidden = false;
-  note.textContent = hit.leg.mode === "unroutable" ? UNROUTABLE_SWITCH_HINT : LONG_DETOUR_HINT;
+  const needDownload = builderMissingDownloadedMap(routed, (st && st.pins) || []);
+  note.textContent = needDownload && hit.leg.mode === "unroutable"
+    ? MISSING_MAP_HINT
+    : (hit.leg.mode === "unroutable" ? UNROUTABLE_SWITCH_HINT : LONG_DETOUR_HINT);
   if (btn) btn.hidden = destIndex == null;
+  if (dl) dl.hidden = !needDownload;
 }
 
 function switchHintPinToGreen() {
@@ -4380,6 +4416,11 @@ function bind() {
     ev.stopPropagation();
     switchHintPinToGreen();
   });
+  if ($("btn-download-route-area")) $("btn-download-route-area").addEventListener("click", (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    openBuilderAreaDownload();
+  });
 
   if ($("btn-builder-help-gotit")) $("btn-builder-help-gotit").addEventListener("click", () => {
     markExplainerSeen();
@@ -4426,6 +4467,7 @@ if ($("btn-pin-set-end")) $("btn-pin-set-end").addEventListener("click", () => {
   initStretchesUi({ showScreen, goSettings: () => setTab("settings") });
   initMapDownloadUi({
     showScreen,
+    render,
     goSettings: () => setTab("settings"),
     setHideNav: (v) => {
       ui.hideNav = !!v;

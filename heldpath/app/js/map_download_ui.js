@@ -161,6 +161,11 @@ export function closeCrop() {
     if (hooks.showScreen) hooks.showScreen("today");
     return;
   }
+  if (back === "builder") {
+    if (hooks.showScreen) hooks.showScreen("builder");
+    if (hooks.render) hooks.render();
+    return;
+  }
   if (hooks.showScreen) hooks.showScreen("map-areas");
   renderAreas();
 }

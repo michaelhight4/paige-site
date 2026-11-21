@@ -12,9 +12,11 @@ export const GRAPH_VERSION = 1;
 export const OSM_ATTRIBUTION = "© OpenStreetMap contributors";
 export const GRID_METERS = 2.5;
 export const MIN_COMPONENT = 8;
+/** Merge nodes this close, so a road split across a tile edge stays connected. */
+export const STITCH_METERS = 15;
 export const SCALE = 1e6;
 
-const EXCLUDE_PMAP_DETAIL = new Set([
+const EXCLUDE_ROADS = new Set([
   "motorway",
   "motorway_link",
   "trunk",
@@ -23,43 +25,70 @@ const EXCLUDE_PMAP_DETAIL = new Set([
   "services",
   "platform",
   "no",
-]);
-
-const EXCLUDE_OMT_CLASS = new Set([
-  "motorway",
-  "motorway_link",
-  "trunk",
-  "trunk_link",
   "raceway",
   "ferry",
   "rail",
   "transit",
+  "runway",
+  "taxiway",
 ]);
 
 const KEEP_OMT_CLASS = new Set([
   "path",
   "minor",
+  "minor_road",
   "service",
   "track",
   "tertiary",
+  "tertiary_link",
   "busway",
   "primary",
+  "primary_link",
   "secondary",
+  "secondary_link",
+  "residential",
+  "unclassified",
+  "living_street",
+  "footway",
+  "sidewalk",
+  "pedestrian",
+  "steps",
+  "cycleway",
+  "bridleway",
+  "crossing",
+  "road",
 ]);
+
+const WALKABLE_KINDS = new Set([
+  "path",
+  "minor_road",
+  "medium_road",
+  "major_road",
+]);
+
+function roadKind(props = {}) {
+  return String(props["pmap:kind"] || props.kind || "").toLowerCase();
+}
+
+function roadDetail(props = {}) {
+  return String(props["pmap:kind_detail"] || props.kind_detail || props.subclass || "").toLowerCase();
+}
+
+function roadClass(props = {}) {
+  return String(props.class || props.highway || "").toLowerCase();
+}
 
 /** True when a road/path feature should be in the pedestrian graph. */
 export function isWalkableWay(props = {}) {
-  if (props["pmap:kind"] != null || props["pmap:kind_detail"] != null) {
-    const kind = String(props["pmap:kind"] || "");
-    const detail = String(props["pmap:kind_detail"] || "");
-    if (kind === "highway") return false;
-    if (EXCLUDE_PMAP_DETAIL.has(detail)) return false;
-    if (kind === "other" && detail !== "living_street") return false;
-    return kind === "path" || kind === "minor_road" || kind === "medium_road" || kind === "major_road" || kind === "other";
-  }
-  const cls = String(props.class || "");
-  if (EXCLUDE_OMT_CLASS.has(cls)) return false;
-  if (KEEP_OMT_CLASS.has(cls)) return true;
+  const kind = roadKind(props);
+  const detail = roadDetail(props);
+  const cls = roadClass(props);
+  if (kind === "highway") return false;
+  if (EXCLUDE_ROADS.has(detail) || EXCLUDE_ROADS.has(cls)) return false;
+  if (WALKABLE_KINDS.has(kind)) return true;
+  // Protomaps puts living streets (and sometimes service) under kind=other.
+  if (kind === "other" && (KEEP_OMT_CLASS.has(detail) || detail === "living_street")) return true;
+  if (KEEP_OMT_CLASS.has(cls) || KEEP_OMT_CLASS.has(detail)) return true;
   return false;
 }
 
@@ -96,18 +125,16 @@ export function isBikeableWay(props = {}) {
   const foot = String(props.foot || "").toLowerCase();
   if (foot === "designated" && !props.cycleway && !props.bicycle) return false;
 
-  if (props["pmap:kind"] != null || props["pmap:kind_detail"] != null) {
-    const kind = String(props["pmap:kind"] || "");
-    const detail = String(props["pmap:kind_detail"] || "");
-    if (kind === "highway") return false;
-    if (BIKE_EXCLUDE_DETAIL.has(detail)) return false;
-    if (kind === "other" && detail !== "living_street") return false;
-    return kind === "path" || kind === "minor_road" || kind === "medium_road"
-      || kind === "major_road" || kind === "other";
-  }
-  const cls = String(props.class || "");
-  if (EXCLUDE_OMT_CLASS.has(cls)) return false;
-  if (BIKE_OMT_CLASS.has(cls)) return true;
+  const kind = roadKind(props);
+  const detail = roadDetail(props);
+  if (kind === "highway") return false;
+  if (BIKE_EXCLUDE_DETAIL.has(detail) || EXCLUDE_ROADS.has(detail)) return false;
+  if (kind === "path" || kind === "minor_road" || kind === "medium_road"
+    || kind === "major_road") return !BIKE_EXCLUDE_DETAIL.has(detail);
+  if (kind === "other" && (detail === "living_street" || detail === "service" || detail === "residential" || detail === "unclassified")) return true;
+  const cls = roadClass(props);
+  if (EXCLUDE_ROADS.has(cls)) return false;
+  if (BIKE_OMT_CLASS.has(cls) || cls === "residential" || cls === "unclassified" || cls === "minor_road") return true;
   return false;
 }
 
@@ -258,7 +285,45 @@ export function dropPitchCuttingEdges(graph, open, minCut = 40, inset = 8) {
   return graph;
 }
 
-export function packWalkGraph(lines, { name = "walk", source = "", minComponent = MIN_COMPONENT } = {}) {
+function stitchNearbyNodes(nodes, addEdge, meters = STITCH_METERS) {
+  if (!nodes.length || !(meters > 0)) return 0;
+  const midLat = midLatOf([nodes]);
+  const latM = 111320;
+  const lonM = 111320 * Math.max(0.2, Math.cos((midLat * Math.PI) / 180));
+  const cellLat = meters / latM;
+  const cellLon = meters / lonM;
+  const buckets = new Map();
+  for (let i = 0; i < nodes.length; i++) {
+    const gx = Math.round(nodes[i].lon / cellLon);
+    const gy = Math.round(nodes[i].lat / cellLat);
+    const key = gx + ":" + gy;
+    const bucket = buckets.get(key);
+    if (bucket) bucket.push(i);
+    else buckets.set(key, [i]);
+  }
+  let added = 0;
+  for (let i = 0; i < nodes.length; i++) {
+    const gx = Math.round(nodes[i].lon / cellLon);
+    const gy = Math.round(nodes[i].lat / cellLat);
+    for (let dx = -1; dx <= 1; dx++) {
+      for (let dy = -1; dy <= 1; dy++) {
+        const bucket = buckets.get((gx + dx) + ":" + (gy + dy));
+        if (!bucket) continue;
+        for (const j of bucket) {
+          if (j <= i) continue;
+          const d = geodesicMeters(nodes[i], nodes[j]);
+          if (d > 0 && d <= meters) {
+            addEdge(i, j);
+            added += 1;
+          }
+        }
+      }
+    }
+  }
+  return added;
+}
+
+export function packWalkGraph(lines, { name = "walk", source = "", minComponent = MIN_COMPONENT, stitchMeters = STITCH_METERS } = {}) {
   const midLat = midLatOf(lines);
   const latM = 111320;
   const lonM = 111320 * Math.max(0.2, Math.cos((midLat * Math.PI) / 180));
@@ -299,6 +364,8 @@ export function packWalkGraph(lines, { name = "walk", source = "", minComponent 
       prev = id;
     }
   }
+
+  const stitched = stitchNearbyNodes(nodes, addEdge, stitchMeters);
 
   const seen = new Uint8Array(nodes.length);
   const keep = new Uint8Array(nodes.length);
@@ -360,6 +427,7 @@ export function packWalkGraph(lines, { name = "walk", source = "", minComponent 
       nodesIn: nodes.length,
       nodesOut: outNodes.length,
       edges: outEdges.length / 2,
+      stitched,
     },
   };
 }

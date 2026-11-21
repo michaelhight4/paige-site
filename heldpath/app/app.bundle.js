@@ -34752,18 +34752,24 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   });
 
   // www/js/walk_graph_build.js
+  function roadKind(props = {}) {
+    return String(props["pmap:kind"] || props.kind || "").toLowerCase();
+  }
+  function roadDetail(props = {}) {
+    return String(props["pmap:kind_detail"] || props.kind_detail || props.subclass || "").toLowerCase();
+  }
+  function roadClass(props = {}) {
+    return String(props.class || props.highway || "").toLowerCase();
+  }
   function isWalkableWay(props = {}) {
-    if (props["pmap:kind"] != null || props["pmap:kind_detail"] != null) {
-      const kind = String(props["pmap:kind"] || "");
-      const detail = String(props["pmap:kind_detail"] || "");
-      if (kind === "highway") return false;
-      if (EXCLUDE_PMAP_DETAIL.has(detail)) return false;
-      if (kind === "other" && detail !== "living_street") return false;
-      return kind === "path" || kind === "minor_road" || kind === "medium_road" || kind === "major_road" || kind === "other";
-    }
-    const cls = String(props.class || "");
-    if (EXCLUDE_OMT_CLASS.has(cls)) return false;
-    if (KEEP_OMT_CLASS.has(cls)) return true;
+    const kind = roadKind(props);
+    const detail = roadDetail(props);
+    const cls = roadClass(props);
+    if (kind === "highway") return false;
+    if (EXCLUDE_ROADS.has(detail) || EXCLUDE_ROADS.has(cls)) return false;
+    if (WALKABLE_KINDS.has(kind)) return true;
+    if (kind === "other" && (KEEP_OMT_CLASS.has(detail) || detail === "living_street")) return true;
+    if (KEEP_OMT_CLASS.has(cls) || KEEP_OMT_CLASS.has(detail)) return true;
     return false;
   }
   function isBikeableWay(props = {}) {
@@ -34771,17 +34777,15 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (bicycle === "no" || bicycle === "use_sidepath") return false;
     const foot = String(props.foot || "").toLowerCase();
     if (foot === "designated" && !props.cycleway && !props.bicycle) return false;
-    if (props["pmap:kind"] != null || props["pmap:kind_detail"] != null) {
-      const kind = String(props["pmap:kind"] || "");
-      const detail = String(props["pmap:kind_detail"] || "");
-      if (kind === "highway") return false;
-      if (BIKE_EXCLUDE_DETAIL.has(detail)) return false;
-      if (kind === "other" && detail !== "living_street") return false;
-      return kind === "path" || kind === "minor_road" || kind === "medium_road" || kind === "major_road" || kind === "other";
-    }
-    const cls = String(props.class || "");
-    if (EXCLUDE_OMT_CLASS.has(cls)) return false;
-    if (BIKE_OMT_CLASS.has(cls)) return true;
+    const kind = roadKind(props);
+    const detail = roadDetail(props);
+    if (kind === "highway") return false;
+    if (BIKE_EXCLUDE_DETAIL.has(detail) || EXCLUDE_ROADS.has(detail)) return false;
+    if (kind === "path" || kind === "minor_road" || kind === "medium_road" || kind === "major_road") return !BIKE_EXCLUDE_DETAIL.has(detail);
+    if (kind === "other" && (detail === "living_street" || detail === "service" || detail === "residential" || detail === "unclassified")) return true;
+    const cls = roadClass(props);
+    if (EXCLUDE_ROADS.has(cls)) return false;
+    if (BIKE_OMT_CLASS.has(cls) || cls === "residential" || cls === "unclassified" || cls === "minor_road") return true;
     return false;
   }
   function tileToLonLat(tx, ty, z2, extent, px, py) {
@@ -34914,7 +34918,44 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     if (graph.stats) graph.stats.edges = kept.length / 2;
     return graph;
   }
-  function packWalkGraph(lines, { name = "walk", source = "", minComponent = MIN_COMPONENT } = {}) {
+  function stitchNearbyNodes(nodes, addEdge, meters = STITCH_METERS) {
+    if (!nodes.length || !(meters > 0)) return 0;
+    const midLat = midLatOf([nodes]);
+    const latM = 111320;
+    const lonM = 111320 * Math.max(0.2, Math.cos(midLat * Math.PI / 180));
+    const cellLat = meters / latM;
+    const cellLon = meters / lonM;
+    const buckets = /* @__PURE__ */ new Map();
+    for (let i = 0; i < nodes.length; i++) {
+      const gx = Math.round(nodes[i].lon / cellLon);
+      const gy = Math.round(nodes[i].lat / cellLat);
+      const key = gx + ":" + gy;
+      const bucket = buckets.get(key);
+      if (bucket) bucket.push(i);
+      else buckets.set(key, [i]);
+    }
+    let added = 0;
+    for (let i = 0; i < nodes.length; i++) {
+      const gx = Math.round(nodes[i].lon / cellLon);
+      const gy = Math.round(nodes[i].lat / cellLat);
+      for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+          const bucket = buckets.get(gx + dx + ":" + (gy + dy));
+          if (!bucket) continue;
+          for (const j2 of bucket) {
+            if (j2 <= i) continue;
+            const d2 = geodesicMeters(nodes[i], nodes[j2]);
+            if (d2 > 0 && d2 <= meters) {
+              addEdge(i, j2);
+              added += 1;
+            }
+          }
+        }
+      }
+    }
+    return added;
+  }
+  function packWalkGraph(lines, { name = "walk", source = "", minComponent = MIN_COMPONENT, stitchMeters = STITCH_METERS } = {}) {
     const midLat = midLatOf(lines);
     const latM = 111320;
     const lonM = 111320 * Math.max(0.2, Math.cos(midLat * Math.PI / 180));
@@ -34952,6 +34993,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         prev = id;
       }
     }
+    const stitched = stitchNearbyNodes(nodes, addEdge, stitchMeters);
     const seen = new Uint8Array(nodes.length);
     const keep = new Uint8Array(nodes.length);
     for (let i = 0; i < nodes.length; i++) {
@@ -35008,7 +35050,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       stats: {
         nodesIn: nodes.length,
         nodesOut: outNodes.length,
-        edges: outEdges.length / 2
+        edges: outEdges.length / 2,
+        stitched
       }
     };
   }
@@ -35069,7 +35112,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       return p.lon >= b3[0] - pad && p.lat >= b3[1] - pad && p.lon <= b3[2] + pad && p.lat <= b3[3] + pad;
     });
   }
-  var GRAPH_VERSION, OSM_ATTRIBUTION, GRID_METERS, MIN_COMPONENT, SCALE, EXCLUDE_PMAP_DETAIL, EXCLUDE_OMT_CLASS, KEEP_OMT_CLASS, BIKE_EXCLUDE_DETAIL, BIKE_OMT_CLASS;
+  var GRAPH_VERSION, OSM_ATTRIBUTION, GRID_METERS, MIN_COMPONENT, STITCH_METERS, SCALE, EXCLUDE_ROADS, KEEP_OMT_CLASS, WALKABLE_KINDS, BIKE_EXCLUDE_DETAIL, BIKE_OMT_CLASS;
   var init_walk_graph_build = __esm({
     "www/js/walk_graph_build.js"() {
       init_vector_tile();
@@ -35080,8 +35123,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       OSM_ATTRIBUTION = "\xA9 OpenStreetMap contributors";
       GRID_METERS = 2.5;
       MIN_COMPONENT = 8;
+      STITCH_METERS = 15;
       SCALE = 1e6;
-      EXCLUDE_PMAP_DETAIL = /* @__PURE__ */ new Set([
+      EXCLUDE_ROADS = /* @__PURE__ */ new Set([
         "motorway",
         "motorway_link",
         "trunk",
@@ -35089,27 +35133,44 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         "rest_area",
         "services",
         "platform",
-        "no"
-      ]);
-      EXCLUDE_OMT_CLASS = /* @__PURE__ */ new Set([
-        "motorway",
-        "motorway_link",
-        "trunk",
-        "trunk_link",
+        "no",
         "raceway",
         "ferry",
         "rail",
-        "transit"
+        "transit",
+        "runway",
+        "taxiway"
       ]);
       KEEP_OMT_CLASS = /* @__PURE__ */ new Set([
         "path",
         "minor",
+        "minor_road",
         "service",
         "track",
         "tertiary",
+        "tertiary_link",
         "busway",
         "primary",
-        "secondary"
+        "primary_link",
+        "secondary",
+        "secondary_link",
+        "residential",
+        "unclassified",
+        "living_street",
+        "footway",
+        "sidewalk",
+        "pedestrian",
+        "steps",
+        "cycleway",
+        "bridleway",
+        "crossing",
+        "road"
+      ]);
+      WALKABLE_KINDS = /* @__PURE__ */ new Set([
+        "path",
+        "minor_road",
+        "medium_road",
+        "major_road"
       ]);
       BIKE_EXCLUDE_DETAIL = /* @__PURE__ */ new Set([
         "steps",
@@ -49472,7 +49533,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   // www/js/routing.js
   init_util();
   init_open_areas();
-  var DEFAULT_SNAP = 40;
+  var DEFAULT_SNAP = 50;
   var DETOUR_RATIO = 4;
   var SHORT_HOP_M = 200;
   var SHORT_HOP_EXTRA_M = 300;
@@ -49480,6 +49541,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   var OFF_PATH_COLOR = "#3CCB7F";
   var LONG_DETOUR_HINT = "Path is much longer. Switch this pin to green to cut straight across";
   var UNROUTABLE_SWITCH_HINT = "No walkable path. Switch this pin to green to cut straight across";
+  var MISSING_MAP_HINT = "This area is not in a downloaded map, so Heldpath cannot follow the streets yet. Download your local map, or switch this pin to green to cut straight across.";
   function normalizePathMode(mode) {
     const v2 = String(mode || "on").toLowerCase();
     if (v2 === "off" || v2 === "off-path" || v2 === "offpath") return "off";
@@ -60710,6 +60772,11 @@ ${pair.timeLine}`;
       if (hooks2.showScreen) hooks2.showScreen("today");
       return;
     }
+    if (back === "builder") {
+      if (hooks2.showScreen) hooks2.showScreen("builder");
+      if (hooks2.render) hooks2.render();
+      return;
+    }
     if (hooks2.showScreen) hooks2.showScreen("map-areas");
     renderAreas();
   }
@@ -65139,6 +65206,31 @@ ${pair.timeLine}`;
     if (leg.mode === "straight") return " \xB7 off path";
     return "";
   }
+  function pinsBbox(pins, padDeg = 4e-3) {
+    const list = (pins || []).filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
+    if (!list.length) return null;
+    let west = 180, south = 90, east = -180, north = -90;
+    for (const p of list) {
+      if (p.lon < west) west = p.lon;
+      if (p.lon > east) east = p.lon;
+      if (p.lat < south) south = p.lat;
+      if (p.lat > north) north = p.lat;
+    }
+    return { west: west - padDeg, south: south - padDeg, east: east + padDeg, north: north + padDeg };
+  }
+  function builderMissingDownloadedMap(routed, pins) {
+    const graph = getActiveGraph();
+    if (routed && routed.legs && routed.legs.some((l) => l.reason === "no-graph")) return true;
+    if (!graph) return true;
+    if (routed && routed.unroutable && !graphCoversPoints(graph, pins)) return true;
+    return false;
+  }
+  function openBuilderAreaDownload() {
+    const pins = (activeBuilder() || {}).pins || [];
+    const bbox = pinsBbox(pins) || null;
+    if (bbox) openCrop({ bbox, afterClose: "builder" });
+    else openCrop({ afterClose: "builder" });
+  }
   function firstHintableLeg(routed) {
     const legs = routed && routed.legs || [];
     const i = legs.findIndex((l) => l && (l.mode === "unroutable" || l.longDetour));
@@ -65154,6 +65246,7 @@ ${pair.timeLine}`;
     const wrap = $6("route-detour-hint");
     const note = $6("route-fallback-note");
     const btn = $6("btn-switch-pin-green");
+    const dl = $6("btn-download-route-area");
     if (note) note.classList.remove("finding");
     ui2.hintDestPinIndex = null;
     if (!wrap || !note) return;
@@ -65163,6 +65256,7 @@ ${pair.timeLine}`;
       note.classList.add("finding");
       note.textContent = LOADING_PATHS;
       if (btn) btn.hidden = true;
+      if (dl) dl.hidden = true;
       return;
     }
     const hit = firstHintableLeg(routed);
@@ -65171,14 +65265,17 @@ ${pair.timeLine}`;
       note.hidden = true;
       note.textContent = "";
       if (btn) btn.hidden = true;
+      if (dl) dl.hidden = true;
       return;
     }
     const destIndex = destPinIndexForLeg(st, hit.i);
     ui2.hintDestPinIndex = destIndex;
     wrap.hidden = false;
     note.hidden = false;
-    note.textContent = hit.leg.mode === "unroutable" ? UNROUTABLE_SWITCH_HINT : LONG_DETOUR_HINT;
+    const needDownload = builderMissingDownloadedMap(routed, st && st.pins || []);
+    note.textContent = needDownload && hit.leg.mode === "unroutable" ? MISSING_MAP_HINT : hit.leg.mode === "unroutable" ? UNROUTABLE_SWITCH_HINT : LONG_DETOUR_HINT;
     if (btn) btn.hidden = destIndex == null;
+    if (dl) dl.hidden = !needDownload;
   }
   function switchHintPinToGreen() {
     const i = ui2.hintDestPinIndex;
@@ -67900,6 +67997,11 @@ ${pair.timeLine}`;
       ev.stopPropagation();
       switchHintPinToGreen();
     });
+    if ($6("btn-download-route-area")) $6("btn-download-route-area").addEventListener("click", (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      openBuilderAreaDownload();
+    });
     if ($6("btn-builder-help-gotit")) $6("btn-builder-help-gotit").addEventListener("click", () => {
       markExplainerSeen();
       closeSheet("sheet-builder-help");
@@ -67948,6 +68050,7 @@ ${pair.timeLine}`;
     initStretchesUi({ showScreen, goSettings: () => setTab("settings") });
     initMapDownloadUi({
       showScreen,
+      render,
       goSettings: () => setTab("settings"),
       setHideNav: (v2) => {
         ui2.hideNav = !!v2;

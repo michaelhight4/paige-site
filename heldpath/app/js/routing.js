@@ -6,9 +6,9 @@
 import { haversineMeters, destination, pathLengthMeters, geodesicMeters } from "./util.js";
 import { unpackRings, unpackBlocked } from "./open_areas.js";
 
-export const DEFAULT_SNAP = 40;
+export const DEFAULT_SNAP = 50;
 /** On-path pins only snap to a nearby walkable edge, not a distant road. */
-export const PATH_SNAP_METERS = 40;
+export const PATH_SNAP_METERS = 50;
 export const DETOUR_RATIO = 4;
 export const SHORT_HOP_M = 200;
 export const SHORT_HOP_EXTRA_M = 300;
@@ -16,6 +16,7 @@ export const ON_PATH_COLOR = "#4EC3F7";
 export const OFF_PATH_COLOR = "#3CCB7F";
 export const LONG_DETOUR_HINT = "Path is much longer. Switch this pin to green to cut straight across";
 export const UNROUTABLE_SWITCH_HINT = "No walkable path. Switch this pin to green to cut straight across";
+export const MISSING_MAP_HINT = "This area is not in a downloaded map, so Heldpath cannot follow the streets yet. Download your local map, or switch this pin to green to cut straight across.";
 
 export function normalizePathMode(mode) {
   const v = String(mode || "on").toLowerCase();
