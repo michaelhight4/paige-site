@@ -72,6 +72,36 @@ export function migrateGoals(goals) {
   return out;
 }
 
+/**
+ * The builder "Follow walkable paths" toggle is gone; routing is always on.
+ * Drop any leftover setting that turned it off.
+ */
+export function migrateSettings(settings) {
+  const s = { ...(settings || {}) };
+  delete s.followPaths;
+  delete s.routeMode;
+  return s;
+}
+
+/**
+ * Whole-course straightLine came from the removed toggle.
+ * Keep per-leg Use anyway overrides; clear the global flag and any
+ * straight-only path so the course is re-routed on walkable paths.
+ */
+export function migrateCourses(courses) {
+  return (courses || []).map((c) => {
+    if (!c || !c.straightLine) return c;
+    const next = { ...c, straightLine: false };
+    const overrides = Array.isArray(c.straightOverrides) ? c.straightOverrides : [];
+    if (!overrides.length) {
+      next.path = null;
+      next.legs = null;
+      next.usedStraight = false;
+    }
+    return next;
+  });
+}
+
 export function loadState() {
   try {
     const raw = localStorage.getItem(KEY);
@@ -80,8 +110,8 @@ export function loadState() {
     return {
       ...emptyState(),
       ...parsed,
-      settings: { ...DEFAULT_SETTINGS, ...(parsed.settings || {}) },
-      courses: parsed.courses || [],
+      settings: migrateSettings({ ...DEFAULT_SETTINGS, ...(parsed.settings || {}) }),
+      courses: migrateCourses(parsed.courses || []),
       activities: parsed.activities || [],
       plans: parsed.plans || [],
       planLibrary: parsed.planLibrary || [],

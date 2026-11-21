@@ -222,7 +222,7 @@ export function coursePayload(course, { includePath = true } = {}) {
   if (includePath && course && Array.isArray(course.path) && course.path.length >= 2) {
     body.path = encodePolyline(course.path);
   }
-  if (course && course.straightLine) body.sl = 1;
+  // Global straight-line (old builder toggle) is no longer encoded.
   return body;
 }
 

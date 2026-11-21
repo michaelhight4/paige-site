@@ -34253,6 +34253,25 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     return out;
   }
+  function migrateSettings(settings) {
+    const s2 = { ...settings || {} };
+    delete s2.followPaths;
+    delete s2.routeMode;
+    return s2;
+  }
+  function migrateCourses(courses) {
+    return (courses || []).map((c) => {
+      if (!c || !c.straightLine) return c;
+      const next = { ...c, straightLine: false };
+      const overrides = Array.isArray(c.straightOverrides) ? c.straightOverrides : [];
+      if (!overrides.length) {
+        next.path = null;
+        next.legs = null;
+        next.usedStraight = false;
+      }
+      return next;
+    });
+  }
   function loadState() {
     try {
       const raw = localStorage.getItem(KEY);
@@ -34261,8 +34280,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       return {
         ...emptyState(),
         ...parsed,
-        settings: { ...DEFAULT_SETTINGS, ...parsed.settings || {} },
-        courses: parsed.courses || [],
+        settings: migrateSettings({ ...DEFAULT_SETTINGS, ...parsed.settings || {} }),
+        courses: migrateCourses(parsed.courses || []),
         activities: parsed.activities || [],
         plans: parsed.plans || [],
         planLibrary: parsed.planLibrary || [],
@@ -41836,21 +41855,21 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     return null;
   }
-  function builderHint(state3, { followPaths = true } = {}) {
+  function builderHint(state3) {
     const n = state3.pins.length;
     if (state3.endMode) {
       return n === 0 ? "Tap the map to place a Start pin first. After that, End point pin will mark the next pin as the end." : "The next pin you place will be the End.";
     }
     if (n === 0) {
-      return followPaths ? "Tap the map to place a Start pin. Legs follow walkable paths when a map pack covers the area." : "Tap the map to place a Start pin. Straight line is on \u2014 legs will not follow roads.";
+      return "Tap the map to place a Start pin. Legs follow walkable paths.";
     }
     if (state3.endIndex == null) {
       return n === 1 ? "Start is placed. Add as many pins as you like, then turn on End point pin or tap a pin to set the end." : "Keep adding pins to shape the route. Turn on End point pin or tap a pin to set the end before you save.";
     }
     if (state3.endIndex === 0) {
-      return followPaths ? "This course loops back to the Start. You can still add pins; the route will visit them and then return home." : "This course loops back to the Start (straight line). You can still add pins.";
+      return "This course loops back to the Start. You can still add pins; the route will visit them and then return home.";
     }
-    return followPaths ? "End is set. You can still add pins; the route visits them in order and then returns to the end. Distances use the walkable path." : "End is set. You can still add pins; the route visits them in order and then returns to the end. Straight line is on.";
+    return "End is set. You can still add pins; the route visits them in order and then returns to the end. Distances use the walkable path.";
   }
 
   // www/js/plan_legs.js
@@ -48052,7 +48071,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (includePath && course && Array.isArray(course.path) && course.path.length >= 2) {
       body.path = encodePolyline(course.path);
     }
-    if (course && course.straightLine) body.sl = 1;
     return body;
   }
   function planPayload(plan) {
@@ -50463,7 +50481,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     openActId: null,
     startType: "walk",
     hideNav: false,
-    followPaths: true,
     builderRoute: null,
     straightOverrides: /* @__PURE__ */ new Set(),
     lockWalkGraph: false,
@@ -51030,7 +51047,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   function builderRoute() {
     const st = activeBuilder();
     const routed = routeCourse(getActiveGraph(), st, {
-      straightLine: !ui2.followPaths,
       previous: ui2.builderRoute || null,
       straightOverrides: ui2.straightOverrides
     });
@@ -51147,12 +51163,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if ($4("builder-help-copy")) $4("builder-help-copy").textContent = EXPLAINER_BODY;
     openSheet("sheet-builder-help");
   }
-  function paintFollowToggle() {
-    const btn = $4("toggle-follow-paths");
-    if (!btn) return;
-    btn.classList.toggle("on", !!ui2.followPaths);
-    btn.setAttribute("aria-checked", ui2.followPaths ? "true" : "false");
-  }
+  var LOADING_PATHS = "Loading paths\u2026";
   var builderGraphToken = 0;
   function maybeEnsureBuilderGraph(pins) {
     if (!pins || pins.length < 1) return;
@@ -51165,13 +51176,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (note) {
       note.hidden = false;
       note.classList.add("finding");
-      note.textContent = "Finding walkable paths\u2026";
+      note.textContent = LOADING_PATHS;
     }
     ensureWalkGraph(pins, {
       lockWalkGraph: !!ui2.lockWalkGraph,
       onStatus: () => {
       }
-    }).then((g) => {
+    }).then(() => {
       if (token !== builderGraphToken) return;
       ui2.findingPaths = false;
       if (ui2.screen === "builder") renderBuilder();
@@ -51180,6 +51191,37 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       ui2.findingPaths = false;
       if (ui2.screen === "builder") renderBuilder();
     });
+  }
+  async function waitBuilderRouted(ms = 2e4) {
+    const start = Date.now();
+    while (Date.now() - start < ms) {
+      const routed = ui2.builderRoute;
+      const ready = !ui2.findingPaths && routed && Array.isArray(routed.legs) && routed.legs.some((l) => l.mode === "routed" || l.reason === "open-area");
+      if (ready) return true;
+      const failed = !ui2.findingPaths && routed && routed.legs && routed.legs.every((l) => l.mode === "unroutable");
+      if (failed && Date.now() - start > 1500) return false;
+      await new Promise((r) => setTimeout(r, 200));
+    }
+    return !!(ui2.builderRoute && ui2.builderRoute.legs && ui2.builderRoute.legs.some((l) => l.mode === "routed"));
+  }
+  async function ensureCoursePath(course) {
+    if (!course || !course.pins || course.pins.length < 2) return course;
+    if (course.path && course.path.length >= 2 && !course.straightLine) return course;
+    try {
+      const g = await ensureWalkGraph(course.pins);
+      const routed = routeCourse(g, ingestPins(course.pins), {
+        straightOverrides: course.straightOverrides
+      });
+      if (routed && routed.path && routed.path.length >= 2 && !routed.unroutable) {
+        course.path = routed.path;
+        course.legs = routed.legs;
+        course.straightLine = false;
+        course.usedStraight = !!routed.usedStraight;
+        persist();
+      }
+    } catch {
+    }
+    return course;
   }
   function resetBuilderRoutingFlags() {
     ui2.straightOverrides = /* @__PURE__ */ new Set();
@@ -51257,7 +51299,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (etaEl) etaEl.textContent = walkEta + " walk \xB7 " + runEta + " run";
   }
   function legFlagText(leg) {
-    if (!ui2.followPaths) return "";
     if (leg.mode === "unroutable") return " \xB7 no walkable path";
     if (leg.offMap) return " \xB7 off-map leg";
     if (leg.reason === "open-area") return "";
@@ -51269,22 +51310,26 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const pins = st.pins || [];
     maybeEnsureBuilderGraph(pins);
     const hint = $4("builder-hint");
-    if (hint) hint.textContent = builderHint(st, { followPaths: !!ui2.followPaths });
-    paintFollowToggle();
+    if (hint) hint.textContent = builderHint(st);
     paintEndPointButton();
     const box = $4("builder-legs");
     const note = $4("route-fallback-note");
-    const routed = pins.length >= 2 && st.endIndex != null ? builderRoute() : pins.length >= 2 ? builderRoute() : ui2.builderRoute = null;
+    const waiting = !!ui2.findingPaths;
+    let routed = null;
+    if (waiting) {
+      ui2.builderRoute = null;
+    } else if (pins.length >= 2) {
+      routed = builderRoute();
+    } else {
+      ui2.builderRoute = null;
+    }
     const warnings = $4("route-warnings");
     if (note) note.classList.remove("finding");
     if (note) {
-      if (ui2.findingPaths && ui2.followPaths) {
+      if (waiting) {
         note.hidden = false;
         note.classList.add("finding");
-        note.textContent = "Finding walkable paths\u2026";
-      } else if (!ui2.followPaths) {
-        note.hidden = false;
-        note.textContent = "Straight line \u2014 not following roads.";
+        note.textContent = LOADING_PATHS;
       } else {
         note.hidden = true;
         note.textContent = "";
@@ -51292,7 +51337,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     if (warnings) {
       warnings.innerHTML = "";
-      const gaps = ui2.followPaths && routed && routed.legs ? routed.legs.map((leg, i) => ({ leg, i })).filter((row) => row.leg.mode === "unroutable") : [];
+      const gaps = !waiting && routed && routed.legs ? routed.legs.map((leg, i) => ({ leg, i })).filter((row) => row.leg.mode === "unroutable") : [];
       if (!gaps.length) {
         warnings.hidden = true;
       } else {
@@ -51319,7 +51364,11 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if (box) {
       box.innerHTML = "";
       const toggle = $4("btn-legs-toggle");
-      if (pins.length < 2 || !routed || !routed.legs || !routed.legs.length) {
+      if (waiting && pins.length >= 2) {
+        if (toggle) toggle.hidden = true;
+        box.classList.remove("is-collapsed");
+        box.innerHTML = `<p class="tiny">${LOADING_PATHS}</p>`;
+      } else if (pins.length < 2 || !routed || !routed.legs || !routed.legs.length) {
         if (toggle) toggle.hidden = true;
         box.classList.remove("is-collapsed");
         box.innerHTML = `<p class="tiny">Leg distances will show here after the second pin.</p>`;
@@ -51371,11 +51420,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     if ($4("btn-save-course")) $4("btn-save-course").disabled = !canSave(st);
     clearOverlays();
     clearMarkers();
-    paintBuilderLine(routed, st);
-    paintBuilderLegLabels(routed);
+    if (!waiting) {
+      paintBuilderLine(routed, st);
+      paintBuilderLegLabels(routed);
+    }
     addCoursePins(pins, { builderState: st, clickable: true });
     const line = routed && routed.path && routed.path.length >= 2 ? routed.path : routeStops(st);
-    refreshBuilderElevation(line, { countedMeters: routed ? routed.meters : void 0 });
+    if (!waiting) refreshBuilderElevation(line, { countedMeters: routed ? routed.meters : void 0 });
   }
   function renderCourses() {
     const root = $4("courses-list");
@@ -51402,6 +51453,15 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function openCourseActions(course) {
     ui2.courseId = course.id;
+    if (course && course.pins && course.pins.length >= 2 && !(course.path && course.path.length >= 2)) {
+      ensureCoursePath(course).then((updated) => {
+        if (ui2.courseId === course.id && updated && updated.path && $4("course-sub")) {
+          const len2 = courseMeters(updated);
+          $4("course-sub").textContent = `${formatDistance(len2, units2())} \xB7 ${formatEta(etaSeconds(len2, 3))} walk \xB7 ${formatEta(etaSeconds(len2, 6))} run`;
+          renderCourses();
+        }
+      });
+    }
     const len = courseMeters(course);
     $4("course-title").textContent = course.name;
     $4("course-sub").textContent = `${formatDistance(len, units2())} \xB7 ${formatEta(etaSeconds(len, 3))} walk \xB7 ${formatEta(etaSeconds(len, 6))} run`;
@@ -52671,11 +52731,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     });
     $4("btn-cancel-build").addEventListener("click", cancelBuilder);
     $4("btn-save-course").addEventListener("click", saveBuilder);
-    $4("toggle-follow-paths").addEventListener("click", () => {
-      ui2.followPaths = !ui2.followPaths;
-      paintFollowToggle();
-      renderBuilder();
-    });
     $4("btn-course-name-cancel").addEventListener("click", () => closeSheet("sheet-save-course"));
     $4("btn-course-name-save").addEventListener("click", () => {
       const name = ($4("course-name").value || "New course").trim();
@@ -52685,7 +52740,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         name,
         pins: savedPins(st),
         path: routed && routed.path && routed.path.length >= 2 ? routed.path.slice() : null,
-        straightLine: !ui2.followPaths,
+        straightLine: false,
         usedStraight: !!(routed && routed.usedStraight),
         offMap: !!(routed && routed.offMap),
         legs: (routed && routed.legs || []).map((l) => ({
@@ -53814,12 +53869,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       openCourseActions(existing);
       return;
     }
-    const course = newCourse({
+    const course = migrateCourses([newCourse({
       name: incoming.name,
       pins: incoming.pins,
       path: incoming.path,
-      straightLine: incoming.straightLine
-    });
+      straightLine: incoming.straightLine,
+      straightOverrides: incoming.straightOverrides
+    })])[0];
     state2.courses.push(course);
     persist();
     ui2.pendingShare = null;
@@ -53864,6 +53920,54 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     while (!getMap() && Date.now() - start < 2e4) {
       await new Promise((r) => setTimeout(r, 50));
     }
+  }
+  var US_TOWN_ROUTES = {
+    gulfport: {
+      center: { lat: 30.3688, lon: -89.09315 },
+      pins: [{ lat: 30.3678, lon: -89.0948 }, { lat: 30.3698, lon: -89.0915 }],
+      zoom: 16.4
+    },
+    "oak-park": {
+      center: { lat: 41.888, lon: -87.799 },
+      pins: [{ lat: 41.88755, lon: -87.80394 }, { lat: 41.8884, lon: -87.794 }],
+      zoom: 15.8
+    },
+    holland: {
+      center: { lat: 42.7888, lon: -86.10765 },
+      pins: [{ lat: 42.7902, lon: -86.1089 }, { lat: 42.7874, lon: -86.1064 }],
+      zoom: 16.2
+    }
+  };
+  async function showUsTownBuilder({ center, pins, satellite = false, zoom = 16.2 } = {}) {
+    const fix = { lat: center.lat, lon: center.lon, accuracy: 18, at: Date.now() };
+    state2.settings.lastKnown = fix;
+    state2.settings.locationDisclosureAccepted = true;
+    state2.settings.mapStyle = satellite ? "satellite" : "map";
+    persist();
+    ui2.lockWalkGraph = false;
+    ui2.findingPaths = false;
+    ui2.builderRoute = null;
+    ui2.straightOverrides = /* @__PURE__ */ new Set();
+    ui2.builder = emptyBuilderState();
+    for (const pin of pins) placePin(ui2.builder, pin);
+    ui2.builderPins = ui2.builder.pins;
+    setTab("today");
+    showScreen("builder");
+    applySavedMapStyle();
+    await waitMapReady();
+    try {
+      await ensureWalkGraph(pins);
+    } catch {
+    }
+    ui2.findingPaths = false;
+    renderBuilder();
+    await waitBuilderRouted(2e4);
+    const fit = ui2.builderRoute && ui2.builderRoute.path && ui2.builderRoute.path.length >= 2 ? ui2.builderRoute.path : pins;
+    setCenter(center.lat, center.lon, zoom);
+    fitBuilderCourse(fit, { maxZoom: 17 });
+    applySavedMapStyle();
+    await new Promise((r) => setTimeout(r, satellite ? 1800 : 800));
+    fitBuilderCourse(fit, { maxZoom: 17 });
   }
   window.HeldpathTest = {
     show: async function show(name, opt = {}) {
@@ -54109,7 +54213,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         openSheet("sheet-save-free");
       } else if (name === "builder" || name === "routing-builder" || name === "routing-straight" || name === "routing-loop") {
         await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
-        ui2.followPaths = name !== "routing-straight";
         if (name === "routing-loop") {
           const center = { lat: 43.7672, lon: 11.2543 };
           const loop = getActiveGraph() ? autoLoopRoute(getActiveGraph(), center, 1609) : null;
@@ -54252,7 +54355,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         applySavedMapStyle();
         const center = { lat: 43.7672, lon: 11.2543 };
         await ensureWalkGraph(center);
-        ui2.followPaths = true;
         const wantMile = name === "builder-mile-loop";
         const loop = wantMile && getActiveGraph() ? autoLoopRoute(getActiveGraph(), center, 1609) : null;
         if (loop && loop.pins && loop.pins.length >= 3) {
@@ -54278,7 +54380,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         await new Promise((r) => setTimeout(r, 300));
       } else if (name === "builder-unroutable" || name === "builder-warning") {
         await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
-        ui2.followPaths = true;
         ui2.straightOverrides = /* @__PURE__ */ new Set();
         ui2.lockWalkGraph = true;
         ui2.findingPaths = false;
@@ -54298,7 +54399,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         await new Promise((r) => setTimeout(r, 200));
       } else if (name === "builder-soccer") {
         await ensureWalkGraph({ lat: 43.779187, lon: 11.284345 });
-        ui2.followPaths = true;
         ui2.straightOverrides = /* @__PURE__ */ new Set();
         ui2.lockWalkGraph = true;
         ui2.findingPaths = false;
@@ -54324,7 +54424,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         await new Promise((r) => setTimeout(r, 200));
       } else if (name === "builder-live" || name === "builder-mid") {
         await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
-        ui2.followPaths = true;
         ui2.straightOverrides = /* @__PURE__ */ new Set();
         ui2.lockWalkGraph = true;
         ui2.findingPaths = false;
@@ -54347,7 +54446,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         await new Promise((r) => setTimeout(r, 300));
       } else if (name === "builder-pin-menu") {
         await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
-        ui2.followPaths = true;
         ui2.lockWalkGraph = true;
         ui2.findingPaths = false;
         ui2.builder = emptyBuilderState();
@@ -54406,7 +54504,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         state2.settings.lastKnown = fix;
         state2.settings.locationDisclosureAccepted = true;
         persist();
-        ui2.followPaths = true;
         ui2.lockWalkGraph = true;
         ui2.builder = emptyBuilderState();
         ui2.builderPins = ui2.builder.pins;
@@ -54419,29 +54516,28 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         renderBuilder();
         await new Promise((r) => setTimeout(r, 400));
       } else if (name === "builder-satellite" || name === "map-satellite") {
-        const gport = { lat: 30.3674, lon: -89.0928, accuracy: 18, at: Date.now() };
-        state2.settings.lastKnown = gport;
+        await showUsTownBuilder({ ...US_TOWN_ROUTES.gulfport, satellite: true });
+      } else if (name === "builder-gulfport" || name === "builder-oak-park" || name === "builder-holland") {
+        const key = name === "builder-oak-park" ? "oak-park" : name === "builder-holland" ? "holland" : "gulfport";
+        await showUsTownBuilder({ ...US_TOWN_ROUTES[key], satellite: false });
+      } else if (name === "builder-loading-paths") {
+        const pins = [{ lat: 43.3035, lon: -91.786 }, { lat: 43.3052, lon: -91.7832 }];
+        const center = { lat: 43.3044, lon: -91.7846 };
+        state2.settings.lastKnown = { ...center, accuracy: 18, at: Date.now() };
         state2.settings.locationDisclosureAccepted = true;
-        state2.settings.mapStyle = "satellite";
+        state2.settings.mapStyle = "map";
         persist();
-        applySavedMapStyle();
-        ui2.followPaths = false;
         ui2.lockWalkGraph = false;
         ui2.findingPaths = false;
-        ui2.builder = emptyBuilderState();
-        placePin(ui2.builder, { lat: 30.36785, lon: -89.09415 });
-        placePin(ui2.builder, { lat: 30.3687, lon: -89.0909 });
-        ui2.builderPins = ui2.builder.pins;
         ui2.builderRoute = null;
+        ui2.straightOverrides = /* @__PURE__ */ new Set();
+        ui2.builder = emptyBuilderState();
+        for (const pin of pins) placePin(ui2.builder, pin);
+        ui2.builderPins = ui2.builder.pins;
         setTab("today");
         showScreen("builder");
+        setCenter(center.lat, center.lon, 16);
         renderBuilder();
-        await waitMapReady();
-        setCenter(gport.lat, gport.lon, 16.4);
-        applySavedMapStyle();
-        await new Promise((r) => setTimeout(r, 2200));
-        setCenter(gport.lat, gport.lon, 16.4);
-        await new Promise((r) => setTimeout(r, 1200));
       } else if (name === "goals") {
         const now = /* @__PURE__ */ new Date("2026-11-18T18:00:00");
         state2.goals = [
@@ -54919,7 +55015,24 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       return { screen: ui2.screen, notification: $4("lock-body").textContent };
     },
     state: () => state2,
-    notification: () => getSession() ? liveNotification(getSession()) : $4("lock-body").textContent
+    notification: () => getSession() ? liveNotification(getSession()) : $4("lock-body").textContent,
+    builderSnapshot: () => {
+      const note = $4("route-fallback-note");
+      const legs = ui2.builderRoute && ui2.builderRoute.legs || [];
+      return {
+        findingPaths: !!ui2.findingPaths,
+        hasToggle: !!$4("toggle-follow-paths"),
+        note: note && !note.hidden ? note.textContent || "" : "",
+        legs: legs.map((l) => ({
+          mode: l.mode,
+          reason: l.reason || null,
+          meters: l.meters,
+          points: (l.points || []).length
+        })),
+        meters: ui2.builderRoute && ui2.builderRoute.meters,
+        unroutable: !!(ui2.builderRoute && ui2.builderRoute.unroutable)
+      };
+    }
   };
   async function init() {
     applyPlatformVisibility();

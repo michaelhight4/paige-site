@@ -340,7 +340,7 @@ function defaultStorage() {
   return null;
 }
 
-export function builderHint(state, { followPaths = true } = {}) {
+export function builderHint(state) {
   const n = state.pins.length;
   if (state.endMode) {
     return n === 0
@@ -348,9 +348,7 @@ export function builderHint(state, { followPaths = true } = {}) {
       : "The next pin you place will be the End.";
   }
   if (n === 0) {
-    return followPaths
-      ? "Tap the map to place a Start pin. Legs follow walkable paths when a map pack covers the area."
-      : "Tap the map to place a Start pin. Straight line is on — legs will not follow roads.";
+    return "Tap the map to place a Start pin. Legs follow walkable paths.";
   }
   if (state.endIndex == null) {
     return n === 1
@@ -358,11 +356,7 @@ export function builderHint(state, { followPaths = true } = {}) {
       : "Keep adding pins to shape the route. Turn on End point pin or tap a pin to set the end before you save.";
   }
   if (state.endIndex === 0) {
-    return followPaths
-      ? "This course loops back to the Start. You can still add pins; the route will visit them and then return home."
-      : "This course loops back to the Start (straight line). You can still add pins.";
+    return "This course loops back to the Start. You can still add pins; the route will visit them and then return home.";
   }
-  return followPaths
-    ? "End is set. You can still add pins; the route visits them in order and then returns to the end. Distances use the walkable path."
-    : "End is set. You can still add pins; the route visits them in order and then returns to the end. Straight line is on.";
+  return "End is set. You can still add pins; the route visits them in order and then returns to the end. Distances use the walkable path.";
 }

@@ -21,7 +21,7 @@ import {
   destination,
   geodesicDirect,
 } from "./util.js";
-import { loadState, saveState, resetState, newCourse, newActivity, newPlan, newGoal } from "./storage.js";
+import { loadState, saveState, resetState, newCourse, newActivity, newPlan, newGoal, migrateCourses } from "./storage.js";
 import * as health from "./health.js";
 import { PLANS_HOOK_COPY } from "./plans_hook.js";
 import * as map from "./map.js";
@@ -213,7 +213,6 @@ const ui = {
   openActId: null,
   startType: "walk",
   hideNav: false,
-  followPaths: true,
   builderRoute: null,
   straightOverrides: new Set(),
   lockWalkGraph: false,
@@ -828,7 +827,6 @@ function activeBuilder() {
 function builderRoute() {
   const st = activeBuilder();
   const routed = routeCourse(getActiveGraph(), st, {
-    straightLine: !ui.followPaths,
     previous: ui.builderRoute || null,
     straightOverrides: ui.straightOverrides,
   });
@@ -951,12 +949,7 @@ function maybeShowBuilderExplainer({ force = false } = {}) {
   openSheet("sheet-builder-help");
 }
 
-function paintFollowToggle() {
-  const btn = $("toggle-follow-paths");
-  if (!btn) return;
-  btn.classList.toggle("on", !!ui.followPaths);
-  btn.setAttribute("aria-checked", ui.followPaths ? "true" : "false");
-}
+const LOADING_PATHS = "Loading paths…";
 
 let builderGraphToken = 0;
 function maybeEnsureBuilderGraph(pins) {
@@ -970,12 +963,12 @@ function maybeEnsureBuilderGraph(pins) {
   if (note) {
     note.hidden = false;
     note.classList.add("finding");
-    note.textContent = "Finding walkable paths…";
+    note.textContent = LOADING_PATHS;
   }
   ensureWalkGraph(pins, {
     lockWalkGraph: !!ui.lockWalkGraph,
     onStatus: () => {},
-  }).then((g) => {
+  }).then(() => {
     if (token !== builderGraphToken) return;
     ui.findingPaths = false;
     if (ui.screen === "builder") renderBuilder();
@@ -984,6 +977,40 @@ function maybeEnsureBuilderGraph(pins) {
     ui.findingPaths = false;
     if (ui.screen === "builder") renderBuilder();
   });
+}
+
+async function waitBuilderRouted(ms = 20000) {
+  const start = Date.now();
+  while (Date.now() - start < ms) {
+    const routed = ui.builderRoute;
+    const ready = !ui.findingPaths && routed && Array.isArray(routed.legs)
+      && routed.legs.some((l) => l.mode === "routed" || l.reason === "open-area");
+    if (ready) return true;
+    const failed = !ui.findingPaths && routed && routed.legs
+      && routed.legs.every((l) => l.mode === "unroutable");
+    if (failed && Date.now() - start > 1500) return false;
+    await new Promise((r) => setTimeout(r, 200));
+  }
+  return !!(ui.builderRoute && ui.builderRoute.legs && ui.builderRoute.legs.some((l) => l.mode === "routed"));
+}
+
+async function ensureCoursePath(course) {
+  if (!course || !course.pins || course.pins.length < 2) return course;
+  if (course.path && course.path.length >= 2 && !course.straightLine) return course;
+  try {
+    const g = await ensureWalkGraph(course.pins);
+    const routed = routeCourse(g, ingestPins(course.pins), {
+      straightOverrides: course.straightOverrides,
+    });
+    if (routed && routed.path && routed.path.length >= 2 && !routed.unroutable) {
+      course.path = routed.path;
+      course.legs = routed.legs;
+      course.straightLine = false;
+      course.usedStraight = !!routed.usedStraight;
+      persist();
+    }
+  } catch { /* leave unrepaired; never invent a silent straight path */ }
+  return course;
 }
 
 function resetBuilderRoutingFlags() {
@@ -1068,7 +1095,6 @@ function paintBuilderLiveBar(routed, st) {
 }
 
 function legFlagText(leg) {
-  if (!ui.followPaths) return "";
   if (leg.mode === "unroutable") return " · no walkable path";
   if (leg.offMap) return " · off-map leg";
   if (leg.reason === "open-area") return "";
@@ -1081,22 +1107,28 @@ function renderBuilder() {
   const pins = st.pins || [];
   maybeEnsureBuilderGraph(pins);
   const hint = $("builder-hint");
-  if (hint) hint.textContent = builderHint(st, { followPaths: !!ui.followPaths });
-  paintFollowToggle();
+  if (hint) hint.textContent = builderHint(st);
   paintEndPointButton();
   const box = $("builder-legs");
   const note = $("route-fallback-note");
-  const routed = pins.length >= 2 && st.endIndex != null ? builderRoute() : (pins.length >= 2 ? builderRoute() : (ui.builderRoute = null));
+  const waiting = !!ui.findingPaths;
+  let routed = null;
+  if (waiting) {
+    // Do not route (or draw a straight/unroutable stand-in) while the
+    // walk graph is still loading.
+    ui.builderRoute = null;
+  } else if (pins.length >= 2) {
+    routed = builderRoute();
+  } else {
+    ui.builderRoute = null;
+  }
   const warnings = $("route-warnings");
   if (note) note.classList.remove("finding");
   if (note) {
-    if (ui.findingPaths && ui.followPaths) {
+    if (waiting) {
       note.hidden = false;
       note.classList.add("finding");
-      note.textContent = "Finding walkable paths…";
-    } else if (!ui.followPaths) {
-      note.hidden = false;
-      note.textContent = "Straight line — not following roads.";
+      note.textContent = LOADING_PATHS;
     } else {
       note.hidden = true;
       note.textContent = "";
@@ -1104,7 +1136,7 @@ function renderBuilder() {
   }
   if (warnings) {
     warnings.innerHTML = "";
-    const gaps = (ui.followPaths && routed && routed.legs)
+    const gaps = (!waiting && routed && routed.legs)
       ? routed.legs.map((leg, i) => ({ leg, i })).filter((row) => row.leg.mode === "unroutable")
       : [];
     if (!gaps.length) {
@@ -1133,7 +1165,11 @@ function renderBuilder() {
   if (box) {
     box.innerHTML = "";
     const toggle = $("btn-legs-toggle");
-    if (pins.length < 2 || !routed || !routed.legs || !routed.legs.length) {
+    if (waiting && pins.length >= 2) {
+      if (toggle) toggle.hidden = true;
+      box.classList.remove("is-collapsed");
+      box.innerHTML = `<p class="tiny">${LOADING_PATHS}</p>`;
+    } else if (pins.length < 2 || !routed || !routed.legs || !routed.legs.length) {
       if (toggle) toggle.hidden = true;
       box.classList.remove("is-collapsed");
       box.innerHTML = `<p class="tiny">Leg distances will show here after the second pin.</p>`;
@@ -1187,11 +1223,13 @@ function renderBuilder() {
   if ($("btn-save-course")) $("btn-save-course").disabled = !canSave(st);
   map.clearOverlays();
   map.clearMarkers();
-  paintBuilderLine(routed, st);
-  paintBuilderLegLabels(routed);
+  if (!waiting) {
+    paintBuilderLine(routed, st);
+    paintBuilderLegLabels(routed);
+  }
   addCoursePins(pins, { builderState: st, clickable: true });
   const line = routed && routed.path && routed.path.length >= 2 ? routed.path : routeStops(st);
-  refreshBuilderElevation(line, { countedMeters: routed ? routed.meters : undefined });
+  if (!waiting) refreshBuilderElevation(line, { countedMeters: routed ? routed.meters : undefined });
 }
 
 function renderCourses() {
@@ -1220,6 +1258,15 @@ function renderCourses() {
 
 function openCourseActions(course) {
   ui.courseId = course.id;
+  if (course && course.pins && course.pins.length >= 2 && !(course.path && course.path.length >= 2)) {
+    ensureCoursePath(course).then((updated) => {
+      if (ui.courseId === course.id && updated && updated.path && $("course-sub")) {
+        const len2 = courseMeters(updated);
+        $("course-sub").textContent = `${formatDistance(len2, units())} · ${formatEta(etaSeconds(len2, 3))} walk · ${formatEta(etaSeconds(len2, 6))} run`;
+        renderCourses();
+      }
+    });
+  }
   const len = courseMeters(course);
   $("course-title").textContent = course.name;
   $("course-sub").textContent = `${formatDistance(len, units())} · ${formatEta(etaSeconds(len, 3))} walk · ${formatEta(etaSeconds(len, 6))} run`;
@@ -2558,11 +2605,6 @@ function bind() {
   });
   $("btn-cancel-build").addEventListener("click", cancelBuilder);
   $("btn-save-course").addEventListener("click", saveBuilder);
-  $("toggle-follow-paths").addEventListener("click", () => {
-    ui.followPaths = !ui.followPaths;
-    paintFollowToggle();
-    renderBuilder();
-  });
   $("btn-course-name-cancel").addEventListener("click", () => closeSheet("sheet-save-course"));
   $("btn-course-name-save").addEventListener("click", () => {
     const name = ($("course-name").value || "New course").trim();
@@ -2572,7 +2614,7 @@ function bind() {
       name,
       pins: savedPins(st),
       path: routed && routed.path && routed.path.length >= 2 ? routed.path.slice() : null,
-      straightLine: !ui.followPaths,
+      straightLine: false,
       usedStraight: !!(routed && routed.usedStraight),
       offMap: !!(routed && routed.offMap),
       legs: (routed && routed.legs || []).map((l) => ({
@@ -3681,12 +3723,13 @@ function acceptIncomingShare() {
     openCourseActions(existing);
     return;
   }
-  const course = newCourse({
+  const course = migrateCourses([newCourse({
     name: incoming.name,
     pins: incoming.pins,
     path: incoming.path,
     straightLine: incoming.straightLine,
-  });
+    straightOverrides: incoming.straightOverrides,
+  })])[0];
   state.courses.push(course);
   persist();
   ui.pendingShare = null;
@@ -3732,6 +3775,56 @@ async function wireAppLinks() {
       await new Promise((r) => setTimeout(r, 50));
     }
   }
+
+
+const US_TOWN_ROUTES = {
+  gulfport: {
+    center: { lat: 30.3688, lon: -89.09315 },
+    pins: [{ lat: 30.3678, lon: -89.0948 }, { lat: 30.3698, lon: -89.0915 }],
+    zoom: 16.4,
+  },
+  "oak-park": {
+    center: { lat: 41.8880, lon: -87.7990 },
+    pins: [{ lat: 41.88755, lon: -87.80394 }, { lat: 41.8884, lon: -87.794 }],
+    zoom: 15.8,
+  },
+  holland: {
+    center: { lat: 42.7888, lon: -86.10765 },
+    pins: [{ lat: 42.7902, lon: -86.1089 }, { lat: 42.7874, lon: -86.1064 }],
+    zoom: 16.2,
+  },
+};
+
+async function showUsTownBuilder({ center, pins, satellite = false, zoom = 16.2 } = {}) {
+  const fix = { lat: center.lat, lon: center.lon, accuracy: 18, at: Date.now() };
+  state.settings.lastKnown = fix;
+  state.settings.locationDisclosureAccepted = true;
+  state.settings.mapStyle = satellite ? "satellite" : "map";
+  persist();
+  ui.lockWalkGraph = false;
+  ui.findingPaths = false;
+  ui.builderRoute = null;
+  ui.straightOverrides = new Set();
+  ui.builder = emptyBuilderState();
+  for (const pin of pins) placePin(ui.builder, pin);
+  ui.builderPins = ui.builder.pins;
+  setTab("today");
+  showScreen("builder");
+  applySavedMapStyle();
+  await waitMapReady();
+  try { await ensureWalkGraph(pins); } catch { /* renderBuilder will warn if the graph fails */ }
+  ui.findingPaths = false;
+  renderBuilder();
+  await waitBuilderRouted(20000);
+  const fit = (ui.builderRoute && ui.builderRoute.path && ui.builderRoute.path.length >= 2)
+    ? ui.builderRoute.path
+    : pins;
+  map.setCenter(center.lat, center.lon, zoom);
+  fitBuilderCourse(fit, { maxZoom: 17 });
+  applySavedMapStyle();
+  await new Promise((r) => setTimeout(r, satellite ? 1800 : 800));
+  fitBuilderCourse(fit, { maxZoom: 17 });
+}
 
 window.HeldpathTest = {
   show: async function show(name, opt = {}) {
@@ -3956,7 +4049,6 @@ window.HeldpathTest = {
       openSheet("sheet-save-free");
     } else if (name === "builder" || name === "routing-builder" || name === "routing-straight" || name === "routing-loop") {
       await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
-      ui.followPaths = name !== "routing-straight";
       if (name === "routing-loop") {
         const center = { lat: 43.7672, lon: 11.2543 };
         const loop = getActiveGraph() ? autoLoopRoute(getActiveGraph(), center, 1609) : null;
@@ -4085,7 +4177,6 @@ window.HeldpathTest = {
       applySavedMapStyle();
       const center = { lat: 43.7672, lon: 11.2543 };
       await ensureWalkGraph(center);
-      ui.followPaths = true;
       const wantMile = name === "builder-mile-loop";
       const loop = (wantMile && getActiveGraph()) ? autoLoopRoute(getActiveGraph(), center, 1609) : null;
       if (loop && loop.pins && loop.pins.length >= 3) {
@@ -4111,7 +4202,6 @@ window.HeldpathTest = {
       await new Promise((r) => setTimeout(r, 300));
     } else if (name === "builder-unroutable" || name === "builder-warning") {
       await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
-      ui.followPaths = true;
       ui.straightOverrides = new Set();
       ui.lockWalkGraph = true;
       ui.findingPaths = false;
@@ -4131,7 +4221,6 @@ window.HeldpathTest = {
       await new Promise((r) => setTimeout(r, 200));
     } else if (name === "builder-soccer") {
       await ensureWalkGraph({ lat: 43.779187, lon: 11.284345 });
-      ui.followPaths = true;
       ui.straightOverrides = new Set();
       ui.lockWalkGraph = true;
       ui.findingPaths = false;
@@ -4157,7 +4246,6 @@ window.HeldpathTest = {
       await new Promise((r) => setTimeout(r, 200));
     } else if (name === "builder-live" || name === "builder-mid") {
       await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
-      ui.followPaths = true;
       ui.straightOverrides = new Set();
       ui.lockWalkGraph = true;
       ui.findingPaths = false;
@@ -4180,7 +4268,6 @@ window.HeldpathTest = {
       await new Promise((r) => setTimeout(r, 300));
     } else if (name === "builder-pin-menu") {
       await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
-      ui.followPaths = true;
       ui.lockWalkGraph = true;
       ui.findingPaths = false;
       ui.builder = emptyBuilderState();
@@ -4240,7 +4327,6 @@ window.HeldpathTest = {
       state.settings.lastKnown = fix;
       state.settings.locationDisclosureAccepted = true;
       persist();
-      ui.followPaths = true;
       ui.lockWalkGraph = true;
       ui.builder = emptyBuilderState();
       ui.builderPins = ui.builder.pins;
@@ -4253,30 +4339,29 @@ window.HeldpathTest = {
       renderBuilder();
       await new Promise((r) => setTimeout(r, 400));
     } else if (name === "builder-satellite" || name === "map-satellite") {
-      // Gulfport, MS waterfront at street zoom — USGS/NAIP coverage, not Florence/EOX.
-      const gport = { lat: 30.3674, lon: -89.0928, accuracy: 18, at: Date.now() };
-      state.settings.lastKnown = gport;
+      await showUsTownBuilder({ ...US_TOWN_ROUTES.gulfport, satellite: true });
+    } else if (name === "builder-gulfport" || name === "builder-oak-park" || name === "builder-holland") {
+      const key = name === "builder-oak-park" ? "oak-park" : (name === "builder-holland" ? "holland" : "gulfport");
+      await showUsTownBuilder({ ...US_TOWN_ROUTES[key], satellite: false });
+    } else if (name === "builder-loading-paths") {
+      // Start a route in a fresh town and return while the graph is still loading.
+      const pins = [{ lat: 43.3035, lon: -91.7860 }, { lat: 43.3052, lon: -91.7832 }]; // Decorah, IA
+      const center = { lat: 43.3044, lon: -91.7846 };
+      state.settings.lastKnown = { ...center, accuracy: 18, at: Date.now() };
       state.settings.locationDisclosureAccepted = true;
-      state.settings.mapStyle = "satellite";
+      state.settings.mapStyle = "map";
       persist();
-      applySavedMapStyle();
-      ui.followPaths = false;
       ui.lockWalkGraph = false;
       ui.findingPaths = false;
-      ui.builder = emptyBuilderState();
-      placePin(ui.builder, { lat: 30.36785, lon: -89.09415 });
-      placePin(ui.builder, { lat: 30.3687, lon: -89.0909 });
-      ui.builderPins = ui.builder.pins;
       ui.builderRoute = null;
+      ui.straightOverrides = new Set();
+      ui.builder = emptyBuilderState();
+      for (const pin of pins) placePin(ui.builder, pin);
+      ui.builderPins = ui.builder.pins;
       setTab("today");
       showScreen("builder");
+      map.setCenter(center.lat, center.lon, 16);
       renderBuilder();
-      await waitMapReady();
-      map.setCenter(gport.lat, gport.lon, 16.4);
-      applySavedMapStyle();
-      await new Promise((r) => setTimeout(r, 2200));
-      map.setCenter(gport.lat, gport.lon, 16.4);
-      await new Promise((r) => setTimeout(r, 1200));
     } else if (name === "goals") {
       const now = new Date("2026-11-18T18:00:00");
       state.goals = [
@@ -4674,6 +4759,23 @@ window.HeldpathTest = {
   },
   state: () => state,
   notification: () => (track.getSession() ? track.liveNotification(track.getSession()) : $("lock-body").textContent),
+  builderSnapshot: () => {
+    const note = $("route-fallback-note");
+    const legs = (ui.builderRoute && ui.builderRoute.legs) || [];
+    return {
+      findingPaths: !!ui.findingPaths,
+      hasToggle: !!$("toggle-follow-paths"),
+      note: (note && !note.hidden) ? (note.textContent || "") : "",
+      legs: legs.map((l) => ({
+        mode: l.mode,
+        reason: l.reason || null,
+        meters: l.meters,
+        points: (l.points || []).length,
+      })),
+      meters: ui.builderRoute && ui.builderRoute.meters,
+      unroutable: !!(ui.builderRoute && ui.builderRoute.unroutable),
+    };
+  },
 };
 
 async function init() {
