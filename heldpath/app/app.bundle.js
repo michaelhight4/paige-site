@@ -36738,12 +36738,77 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       const usgs = map.getSource("usgs-imagery");
       if (usgs) usgs.attribution = credit;
       refreshAttribution();
+      flashAttribution(3500);
     } catch (err2) {
       console.warn("map style", err2 && err2.message ? err2.message : err2);
     }
     return { ok: true, style: mapStyle, online, needsSignal: want === "satellite" && !online };
   }
   var ATTRIBUTION = '\xA9 <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors \xB7 <a href="https://protomaps.com">Protomaps</a> \xB7 <a href="https://openfreemap.org/">OpenFreeMap</a> \xA9 <a href="https://openmaptiles.org/">OpenMapTiles</a>';
+  var SEARCH_ATTRIBUTION = 'Place search uses <a href="https://photon.komoot.io/">Photon</a> and <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.';
+  var attribTimer = null;
+  var attribBound = false;
+  function attribEl() {
+    return map && map.getContainer ? map.getContainer().querySelector(".maplibregl-ctrl-attrib") : document.querySelector(".maplibregl-ctrl-attrib");
+  }
+  function bindAttribToggle() {
+    const el = attribEl();
+    if (!el || attribBound) return;
+    attribBound = true;
+    el.addEventListener("click", () => {
+      if (attribTimer) {
+        clearTimeout(attribTimer);
+        attribTimer = null;
+      }
+    });
+  }
+  function skipAttribFlash() {
+    try {
+      if (typeof location === "undefined") return false;
+      const q2 = new URLSearchParams(location.search);
+      return q2.has("demo") || q2.has("screen") || q2.has("empty");
+    } catch {
+      return false;
+    }
+  }
+  function showAttribution() {
+    const el = attribEl();
+    if (!el) return;
+    bindAttribToggle();
+    if (attribTimer) {
+      clearTimeout(attribTimer);
+      attribTimer = null;
+    }
+    el.classList.add("maplibregl-compact");
+    el.classList.add("maplibregl-compact-show");
+  }
+  function collapseAttribution() {
+    if (attribTimer) {
+      clearTimeout(attribTimer);
+      attribTimer = null;
+    }
+    const el = attribEl();
+    if (!el) return;
+    el.classList.add("maplibregl-compact");
+    el.classList.remove("maplibregl-compact-show");
+  }
+  function flashAttribution(ms = 3500, { force = false } = {}) {
+    if (!force && skipAttribFlash()) {
+      collapseAttribution();
+      return;
+    }
+    const el = attribEl();
+    if (!el) return;
+    bindAttribToggle();
+    el.classList.add("maplibregl-compact");
+    el.classList.add("maplibregl-compact-show");
+    if (attribTimer) clearTimeout(attribTimer);
+    attribTimer = setTimeout(() => {
+      attribTimer = null;
+      if (el.contains(document.activeElement)) return;
+      el.classList.remove("maplibregl-compact-show");
+    }, Math.max(2500, Number(ms) || 3500));
+  }
   function packUrl(file) {
     return new URL("maps/" + file, window.location.href).href;
   }
@@ -36967,7 +37032,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       zoom: startZoom,
       minZoom: 0,
       maxZoom: 18,
-      attributionControl: { compact: true },
+      attributionControl: { compact: true, customAttribution: SEARCH_ATTRIBUTION },
       maxPitch: 0,
       pitchWithRotate: false,
       preserveDrawingBuffer: true,
@@ -36977,6 +37042,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     map.on("load", () => {
       map.resize();
       if (opt.mapStyle) setMapStyle(opt.mapStyle, { online: typeof navigator === "undefined" || navigator.onLine !== false });
+      bindAttribToggle();
+      flashAttribution(3500);
     });
     map.addControl(new import_maplibre_gl.default.NavigationControl({ showCompass: false }), "top-right");
     map.on("error", (e) => {
@@ -50825,7 +50892,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     builderRoute: null,
     straightOverrides: /* @__PURE__ */ new Set(),
     lockWalkGraph: false,
-    findingPaths: false
+    findingPaths: false,
+    builderSheetExpanded: false
   };
   var $4 = (id) => document.getElementById(id);
   var params = new URLSearchParams(location.search);
@@ -51647,11 +51715,15 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return "";
   }
   function renderBuilder() {
+    applyBuilderSheet();
     const st = activeBuilder();
     const pins = st.pins || [];
     maybeEnsureBuilderGraph(pins);
     const hint = $4("builder-hint");
-    if (hint) hint.textContent = builderHint(st);
+    if (hint) {
+      hint.textContent = builderHint(st);
+      hint.hidden = true;
+    }
     paintEndPointButton();
     const box = $4("builder-legs");
     const note = $4("route-fallback-note");
@@ -53014,12 +53086,65 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     ui2.hideNav = true;
     showScreen("summary");
   }
+  function bindBuilderSheetGestures() {
+    const panel = document.querySelector(".builder-panel");
+    if (!panel || panel.dataset.sheetGestures === "1") return;
+    panel.dataset.sheetGestures = "1";
+    let startY = null;
+    let dragging2 = false;
+    panel.addEventListener("pointerdown", (e) => {
+      if (e.target && e.target.closest("button, a, input, .legs, .builder-live-bar")) return;
+      startY = e.clientY;
+      dragging2 = true;
+    });
+    panel.addEventListener("pointerup", (e) => {
+      if (!dragging2 || startY == null) return;
+      const dy = e.clientY - startY;
+      startY = null;
+      dragging2 = false;
+      if (dy > 36 && ui2.builderSheetExpanded) setBuilderSheet(false);
+      else if (dy < -36 && !ui2.builderSheetExpanded) setBuilderSheet(true);
+    });
+    panel.addEventListener("pointercancel", () => {
+      dragging2 = false;
+      startY = null;
+    });
+  }
+  function applyBuilderSheet() {
+    const panel = document.querySelector(".builder-panel");
+    const expanded = ui2.builderSheetExpanded === true;
+    if (panel) {
+      panel.classList.toggle("is-expanded", expanded);
+      panel.classList.toggle("is-collapsed", !expanded);
+    }
+    document.body.classList.toggle("builder-sheet-open", expanded && ui2.screen === "builder");
+    const btn = $4("btn-builder-sheet");
+    if (btn) {
+      btn.textContent = expanded ? "\u2193" : "\u2191";
+      btn.setAttribute("aria-expanded", expanded ? "true" : "false");
+      btn.setAttribute("aria-label", expanded ? "Hide course details" : "Show course details");
+    }
+  }
+  function setBuilderSheet(expanded) {
+    ui2.builderSheetExpanded = !!expanded;
+    applyBuilderSheet();
+    try {
+      const line = ui2.builderRoute && ui2.builderRoute.path && ui2.builderRoute.path.length >= 2 ? ui2.builderRoute.path : ui2.builder ? routeStops(ui2.builder) : null;
+      if (line && line.length) fitBuilderCourse(line);
+    } catch {
+    }
+  }
+  function toggleBuilderSheet() {
+    setBuilderSheet(!ui2.builderSheetExpanded);
+  }
   function beginBuilder() {
     resetBuilderRoutingFlags();
     ui2.builder = emptyBuilderState();
     ui2.builderPins = ui2.builder.pins;
+    ui2.builderSheetExpanded = false;
     setTab("today");
     showScreen("builder");
+    applyBuilderSheet();
     clearOverlays();
     clearMarkers();
     startBuilderLocation({ center: true });
@@ -53189,6 +53314,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     $4("btn-saved-courses").addEventListener("click", () => setTab("courses"));
     $4("btn-new-course").addEventListener("click", beginBuilder);
     $4("btn-undo-pin").addEventListener("click", () => undoLastBuilderAction());
+    if ($4("btn-builder-sheet")) $4("btn-builder-sheet").addEventListener("click", () => toggleBuilderSheet());
+    bindBuilderSheetGestures();
     if ($4("btn-legs-toggle")) $4("btn-legs-toggle").addEventListener("click", () => {
       ui2.legsOpen = ui2.legsOpen === false;
       const box = $4("builder-legs");
@@ -53645,9 +53772,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       if (sat && !isOnline()) {
         note.hidden = false;
         note.textContent = "Satellite needs signal.";
-      } else if (sat) {
-        note.hidden = false;
-        note.textContent = "USGS / NAIP (public domain) in the U.S.; EOX Cloudless 2016 elsewhere. Roads \xA9 OpenStreetMap.";
       } else {
         note.hidden = true;
       }
@@ -54720,6 +54844,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         showFreeRouteMap(built);
         openSheet("sheet-save-free");
       } else if (name === "builder" || name === "routing-builder" || name === "routing-straight" || name === "routing-loop") {
+        ui2.builderSheetExpanded = false;
         await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
         if (name === "routing-loop") {
           const center = { lat: 43.7672, lon: 11.2543 };
@@ -54860,8 +54985,15 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         if (state2.courses[0]) openCourseActions(state2.courses[0]);
       } else if (name === "builder-help") {
         await window.HeldpathTest.show("builder", opt);
+        setBuilderSheet(true);
         maybeShowBuilderExplainer({ force: true });
+      } else if (name === "builder-collapsed" || name === "builder-expanded") {
+        await window.HeldpathTest.show("builder-mile-loop", opt);
+        setBuilderSheet(name === "builder-expanded");
+        renderBuilder();
+        await new Promise((r) => setTimeout(r, 250));
       } else if (name === "builder-loop" || name === "builder-mile-loop") {
+        ui2.builderSheetExpanded = true;
         state2.settings.mapStyle = "map";
         persist();
         applySavedMapStyle();
@@ -55057,6 +55189,27 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         showMapBanner("Tap the map to set the start of your loop");
       } else if (name === "builder-satellite" || name === "map-satellite") {
         await showUsTownBuilder({ ...US_TOWN_ROUTES.gulfport, satellite: true });
+      } else if (name === "attribution-open" || name === "attribution-flash") {
+        setTab("today");
+        showScreen("today");
+        await waitMapReady();
+        showAttribution();
+        await new Promise((r) => setTimeout(r, 200));
+      } else if (name === "attribution-compact") {
+        setTab("today");
+        showScreen("today");
+        await waitMapReady();
+        collapseAttribution();
+        await new Promise((r) => setTimeout(r, 200));
+      } else if (name === "attribution-satellite") {
+        state2.settings.mapStyle = "satellite";
+        persist();
+        applySavedMapStyle();
+        setTab("today");
+        showScreen("today");
+        await waitMapReady();
+        showAttribution();
+        await new Promise((r) => setTimeout(r, 300));
       } else if (name === "builder-gulfport" || name === "builder-oak-park" || name === "builder-holland") {
         const key = name === "builder-oak-park" ? "oak-park" : name === "builder-holland" ? "holland" : "gulfport";
         await showUsTownBuilder({ ...US_TOWN_ROUTES[key], satellite: false });

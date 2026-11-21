@@ -217,6 +217,7 @@ const ui = {
   straightOverrides: new Set(),
   lockWalkGraph: false,
   findingPaths: false,
+  builderSheetExpanded: false,
 };
 
 const $ = (id) => document.getElementById(id);
@@ -1103,11 +1104,15 @@ function legFlagText(leg) {
 }
 
 function renderBuilder() {
+  applyBuilderSheet();
   const st = activeBuilder();
   const pins = st.pins || [];
   maybeEnsureBuilderGraph(pins);
   const hint = $("builder-hint");
-  if (hint) hint.textContent = builderHint(st);
+  if (hint) {
+    hint.textContent = builderHint(st);
+    hint.hidden = true;
+  }
   paintEndPointButton();
   const box = $("builder-legs");
   const note = $("route-fallback-note");
@@ -2525,12 +2530,68 @@ function showSummary(act, course, legResult) {
   showScreen("summary");
 }
 
+
+function bindBuilderSheetGestures() {
+  const panel = document.querySelector(".builder-panel");
+  if (!panel || panel.dataset.sheetGestures === "1") return;
+  panel.dataset.sheetGestures = "1";
+  let startY = null;
+  let dragging = false;
+  panel.addEventListener("pointerdown", (e) => {
+    if (e.target && e.target.closest("button, a, input, .legs, .builder-live-bar")) return;
+    startY = e.clientY;
+    dragging = true;
+  });
+  panel.addEventListener("pointerup", (e) => {
+    if (!dragging || startY == null) return;
+    const dy = e.clientY - startY;
+    startY = null;
+    dragging = false;
+    if (dy > 36 && ui.builderSheetExpanded) setBuilderSheet(false);
+    else if (dy < -36 && !ui.builderSheetExpanded) setBuilderSheet(true);
+  });
+  panel.addEventListener("pointercancel", () => { dragging = false; startY = null; });
+}
+
+function applyBuilderSheet() {
+  const panel = document.querySelector(".builder-panel");
+  const expanded = ui.builderSheetExpanded === true;
+  if (panel) {
+    panel.classList.toggle("is-expanded", expanded);
+    panel.classList.toggle("is-collapsed", !expanded);
+  }
+  document.body.classList.toggle("builder-sheet-open", expanded && ui.screen === "builder");
+  const btn = $("btn-builder-sheet");
+  if (btn) {
+    btn.textContent = expanded ? "↓" : "↑";
+    btn.setAttribute("aria-expanded", expanded ? "true" : "false");
+    btn.setAttribute("aria-label", expanded ? "Hide course details" : "Show course details");
+  }
+}
+
+function setBuilderSheet(expanded) {
+  ui.builderSheetExpanded = !!expanded;
+  applyBuilderSheet();
+  try {
+    const line = ui.builderRoute && ui.builderRoute.path && ui.builderRoute.path.length >= 2
+      ? ui.builderRoute.path
+      : (ui.builder ? routeStops(ui.builder) : null);
+    if (line && line.length) fitBuilderCourse(line);
+  } catch { /* no route yet */ }
+}
+
+function toggleBuilderSheet() {
+  setBuilderSheet(!ui.builderSheetExpanded);
+}
+
 function beginBuilder() {
   resetBuilderRoutingFlags();
   ui.builder = emptyBuilderState();
   ui.builderPins = ui.builder.pins;
+  ui.builderSheetExpanded = false;
   setTab("today");
   showScreen("builder");
+  applyBuilderSheet();
   map.clearOverlays();
   map.clearMarkers();
   startBuilderLocation({ center: true });
@@ -2719,6 +2780,8 @@ function bind() {
   $("btn-saved-courses").addEventListener("click", () => setTab("courses"));
   $("btn-new-course").addEventListener("click", beginBuilder);
   $("btn-undo-pin").addEventListener("click", () => undoLastBuilderAction());
+  if ($("btn-builder-sheet")) $("btn-builder-sheet").addEventListener("click", () => toggleBuilderSheet());
+  bindBuilderSheetGestures();
   if ($("btn-legs-toggle")) $("btn-legs-toggle").addEventListener("click", () => {
     ui.legsOpen = ui.legsOpen === false;
     const box = $("builder-legs");
@@ -3141,9 +3204,6 @@ function paintMapStyleButton() {
     if (sat && !isOnline()) {
       note.hidden = false;
       note.textContent = "Satellite needs signal.";
-    } else if (sat) {
-      note.hidden = false;
-      note.textContent = "USGS / NAIP (public domain) in the U.S.; EOX Cloudless 2016 elsewhere. Roads © OpenStreetMap.";
     } else {
       note.hidden = true;
     }
@@ -4214,6 +4274,7 @@ window.HeldpathTest = {
       showFreeRouteMap(built);
       openSheet("sheet-save-free");
     } else if (name === "builder" || name === "routing-builder" || name === "routing-straight" || name === "routing-loop") {
+      ui.builderSheetExpanded = false;
       await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
       if (name === "routing-loop") {
         const center = { lat: 43.7672, lon: 11.2543 };
@@ -4338,8 +4399,15 @@ window.HeldpathTest = {
     }
     else if (name === "builder-help") {
       await window.HeldpathTest.show("builder", opt);
+      setBuilderSheet(true);
       maybeShowBuilderExplainer({ force: true });
+    } else if (name === "builder-collapsed" || name === "builder-expanded") {
+      await window.HeldpathTest.show("builder-mile-loop", opt);
+      setBuilderSheet(name === "builder-expanded");
+      renderBuilder();
+      await new Promise((r) => setTimeout(r, 250));
     } else if (name === "builder-loop" || name === "builder-mile-loop") {
+      ui.builderSheetExpanded = true;
       state.settings.mapStyle = "map";
       persist();
       applySavedMapStyle();
@@ -4530,6 +4598,27 @@ window.HeldpathTest = {
       showMapBanner("Tap the map to set the start of your loop");
     } else if (name === "builder-satellite" || name === "map-satellite") {
       await showUsTownBuilder({ ...US_TOWN_ROUTES.gulfport, satellite: true });
+    } else if (name === "attribution-open" || name === "attribution-flash") {
+      setTab("today");
+      showScreen("today");
+      await waitMapReady();
+      map.showAttribution();
+      await new Promise((r) => setTimeout(r, 200));
+    } else if (name === "attribution-compact") {
+      setTab("today");
+      showScreen("today");
+      await waitMapReady();
+      map.collapseAttribution();
+      await new Promise((r) => setTimeout(r, 200));
+    } else if (name === "attribution-satellite") {
+      state.settings.mapStyle = "satellite";
+      persist();
+      applySavedMapStyle();
+      setTab("today");
+      showScreen("today");
+      await waitMapReady();
+      map.showAttribution();
+      await new Promise((r) => setTimeout(r, 300));
     } else if (name === "builder-gulfport" || name === "builder-oak-park" || name === "builder-holland") {
       const key = name === "builder-oak-park" ? "oak-park" : (name === "builder-holland" ? "holland" : "gulfport");
       await showUsTownBuilder({ ...US_TOWN_ROUTES[key], satellite: false });

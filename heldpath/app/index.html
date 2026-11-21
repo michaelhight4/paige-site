@@ -24,7 +24,7 @@
       <div class="map-search">
         <input id="place-search" type="search" placeholder="Search a place or address" autocomplete="off" data-testid="place-search" aria-label="Search a place or address" />
         <ul id="place-search-results" class="place-results" hidden data-testid="place-search-results"></ul>
-        <p class="tiny place-search-credit">Place search uses Photon and OpenStreetMap.</p>
+        <p class="tiny place-search-credit" id="place-search-credit" hidden>Place search uses Photon and OpenStreetMap.</p>
       </div>
       <button type="button" class="btn-locate-me" id="btn-locate-me" data-testid="locate-me" aria-label="Re-center on me" title="Re-center on me">
         <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
@@ -120,28 +120,33 @@
 
     <!-- Course builder -->
     <section class="screen" id="screen-builder" data-screen="builder">
-      <div class="dock">
-        <div class="hud builder-panel" data-testid="builder-panel">
-          <div class="builder-head">
-            <div class="hud-kicker">Build a course</div>
-            <button class="icon-btn" id="btn-builder-help" data-testid="builder-help" aria-label="How to build a course">?</button>
-          </div>
-          <p class="builder-hint" id="builder-hint">Tap the map to place a Start pin. Add as many pins as you like to shape your exact route.</p>
-          <div class="builder-live-bar" id="builder-live-bar" data-testid="builder-live-bar" hidden>
-            <div class="live-dist" id="builder-live-distance" data-testid="builder-live-distance">—</div>
-            <div class="live-eta" id="builder-live-eta" data-testid="builder-live-eta"></div>
-          </div>
-          <p class="tiny route-flag" id="route-fallback-note" data-testid="route-fallback-note" hidden></p>
-          <div id="route-warnings" class="route-warnings" data-testid="route-warnings" hidden></div>
-          <button type="button" class="legs-toggle" id="btn-legs-toggle" data-testid="legs-toggle" aria-expanded="true" hidden>Legs</button>
-          <div class="legs" id="builder-legs" data-testid="builder-legs"></div>
-          <div id="builder-elevation" data-testid="builder-elevation" hidden></div>
-          <button class="btn btn-secondary" id="btn-end-point-pin" data-testid="end-point-pin" aria-pressed="false" style="width:100%;margin-bottom:10px">End point pin</button>
-          <div class="btn-row" style="margin-bottom:10px">
+      <div class="dock builder-dock" id="builder-dock">
+        <div class="hud builder-panel is-collapsed" data-testid="builder-panel">
+          <div class="builder-slim" id="builder-slim">
             <button class="btn btn-secondary" id="btn-undo-pin" data-testid="undo-pin">Undo</button>
-            <button class="btn btn-secondary" id="btn-cancel-build">Cancel</button>
+            <button class="btn btn-secondary" id="btn-end-point-pin" data-testid="end-point-pin" aria-pressed="false">End point pin</button>
+            <button type="button" class="icon-btn builder-sheet-toggle" id="btn-builder-sheet" data-testid="builder-sheet-toggle" aria-expanded="false" aria-label="Show course details">↑</button>
           </div>
-          <button class="btn btn-primary" id="btn-save-course" data-testid="save-course" disabled>Save course</button>
+          <div class="builder-full" id="builder-full">
+            <div class="builder-head">
+              <div class="hud-kicker">Build a course</div>
+              <button class="icon-btn" id="btn-builder-help" data-testid="builder-help" aria-label="How to build a course">?</button>
+            </div>
+            <p class="builder-hint" id="builder-hint" hidden>Tap the map to place a Start pin. Add as many pins as you like to shape your exact route.</p>
+            <div class="builder-live-bar" id="builder-live-bar" data-testid="builder-live-bar" hidden>
+              <div class="live-dist" id="builder-live-distance" data-testid="builder-live-distance">—</div>
+              <div class="live-eta" id="builder-live-eta" data-testid="builder-live-eta"></div>
+            </div>
+            <p class="tiny route-flag" id="route-fallback-note" data-testid="route-fallback-note" hidden></p>
+            <div id="route-warnings" class="route-warnings" data-testid="route-warnings" hidden></div>
+            <button type="button" class="legs-toggle" id="btn-legs-toggle" data-testid="legs-toggle" aria-expanded="true" hidden>Legs</button>
+            <div class="legs" id="builder-legs" data-testid="builder-legs"></div>
+            <div id="builder-elevation" data-testid="builder-elevation" hidden></div>
+          </div>
+          <div class="btn-row builder-full-actions">
+            <button class="btn btn-secondary" id="btn-cancel-build">Cancel</button>
+            <button class="btn btn-primary" id="btn-save-course" data-testid="save-course" disabled>Save course</button>
+          </div>
         </div>
       </div>
     </section>

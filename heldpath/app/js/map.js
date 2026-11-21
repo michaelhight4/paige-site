@@ -328,6 +328,7 @@ export function setMapStyle(style, { online = true } = {}) {
     const usgs = map.getSource("usgs-imagery");
     if (usgs) usgs.attribution = credit;
     refreshAttribution();
+    flashAttribution(3500);
   } catch (err) {
     console.warn("map style", err && err.message ? err.message : err);
   }
@@ -338,6 +339,82 @@ export function setMapStyle(style, { online = true } = {}) {
 const BOUNDS = FLORENCE_BOUNDS;
 const ATTRIBUTION =
   '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · <a href="https://protomaps.com">Protomaps</a> · <a href="https://openfreemap.org/">OpenFreeMap</a> © <a href="https://openmaptiles.org/">OpenMapTiles</a>';
+export const SEARCH_ATTRIBUTION =
+  'Place search uses <a href="https://photon.komoot.io/">Photon</a> and <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.';
+export const ROAD_ATTRIBUTION = 'Roads © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+let attribTimer = null;
+let attribBound = false;
+
+function attribEl() {
+  return map && map.getContainer ? map.getContainer().querySelector(".maplibregl-ctrl-attrib") : document.querySelector(".maplibregl-ctrl-attrib");
+}
+
+function bindAttribToggle() {
+  const el = attribEl();
+  if (!el || attribBound) return;
+  attribBound = true;
+  el.addEventListener("click", () => {
+    if (attribTimer) {
+      clearTimeout(attribTimer);
+      attribTimer = null;
+    }
+  });
+}
+
+function skipAttribFlash() {
+  try {
+    if (typeof location === "undefined") return false;
+    const q = new URLSearchParams(location.search);
+    return q.has("demo") || q.has("screen") || q.has("empty");
+  } catch {
+    return false;
+  }
+}
+
+/** Keep the compact attribution open (no auto-close). Licence credits stay reachable via ⓘ. */
+export function showAttribution() {
+  const el = attribEl();
+  if (!el) return;
+  bindAttribToggle();
+  if (attribTimer) {
+    clearTimeout(attribTimer);
+    attribTimer = null;
+  }
+  el.classList.add("maplibregl-compact");
+  el.classList.add("maplibregl-compact-show");
+}
+
+/** Collapse attribution to the compact ⓘ button. */
+export function collapseAttribution() {
+  if (attribTimer) {
+    clearTimeout(attribTimer);
+    attribTimer = null;
+  }
+  const el = attribEl();
+  if (!el) return;
+  el.classList.add("maplibregl-compact");
+  el.classList.remove("maplibregl-compact-show");
+}
+
+/** Open the compact attribution popup briefly, then collapse to ⓘ. Always reachable. */
+export function flashAttribution(ms = 3500, { force = false } = {}) {
+  if (!force && skipAttribFlash()) {
+    collapseAttribution();
+    return;
+  }
+  const el = attribEl();
+  if (!el) return;
+  bindAttribToggle();
+  el.classList.add("maplibregl-compact");
+  el.classList.add("maplibregl-compact-show");
+  if (attribTimer) clearTimeout(attribTimer);
+  attribTimer = setTimeout(() => {
+    attribTimer = null;
+    if (el.contains(document.activeElement)) return;
+    el.classList.remove("maplibregl-compact-show");
+  }, Math.max(2500, Number(ms) || 3500));
+}
 
 export function defaultCenter() {
   return { lat: WORLD_VIEW.lat, lon: WORLD_VIEW.lon, zoom: WORLD_VIEW.zoom };
@@ -595,7 +672,7 @@ export async function initMap(container, opt = {}) {
     zoom: startZoom,
     minZoom: 0,
     maxZoom: 18,
-    attributionControl: { compact: true },
+    attributionControl: { compact: true, customAttribution: SEARCH_ATTRIBUTION },
     maxPitch: 0,
     pitchWithRotate: false,
     preserveDrawingBuffer: true, // so headless screenshots capture the WebGL canvas
@@ -604,6 +681,8 @@ export async function initMap(container, opt = {}) {
   map.on("load", () => {
     map.resize();
     if (opt.mapStyle) setMapStyle(opt.mapStyle, { online: typeof navigator === "undefined" || navigator.onLine !== false });
+    bindAttribToggle();
+    flashAttribution(3500);
   });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
   map.on("error", (e) => {
