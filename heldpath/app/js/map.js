@@ -770,14 +770,17 @@ function ensureUserAccuracyLayer() {
       paint: { "line-color": "#4EC3F7", "line-opacity": 0.45, "line-width": 1 },
     });
   }
+  // Keep the walked / planned line above the accuracy halo so the puck never buries it.
+  raiseOverlays();
 }
 
 function userArrowSvg() {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("viewBox", "0 0 48 48");
+  svg.setAttribute("viewBox", "0 0 24 32");
   svg.setAttribute("class", "user-heading-arrow");
   svg.setAttribute("aria-hidden", "true");
-  svg.innerHTML = '<path class="user-heading-cone" d="M24 1.2 L38 26.5 L24 20.5 L10 26.5 Z" fill="#4EC3F7" stroke="#F3F6FA" stroke-width="3.2" stroke-linejoin="round"/><circle cx="24" cy="29" r="11" fill="#4EC3F7" stroke="#F3F6FA" stroke-width="3.6"/><circle cx="24" cy="29" r="4" fill="#F3F6FA"/>';
+  // 16px dot (r=7 at this scale when the SVG is 24×32) plus a short, see-through cone.
+  svg.innerHTML = '<path class="user-heading-cone" d="M12 1.6 L17.2 15.2 L12 13 L6.8 15.2 Z" fill="#4EC3F7" fill-opacity="0.4" stroke="rgba(243,246,250,0.7)" stroke-width="0.8" stroke-linejoin="round"/><circle class="user-heading-dot" cx="12" cy="21" r="7" fill="#4EC3F7" stroke="#F3F6FA" stroke-width="1.4"/>';
   return svg;
 }
 

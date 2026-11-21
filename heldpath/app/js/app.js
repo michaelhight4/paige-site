@@ -99,7 +99,7 @@ import {
 import * as splits from "./splits.js";
 import { seedDemo, midCourseWalk, pastCourseRun, arnoLoopPins } from "./demo.js";
 import { purchaseSupport, SUPPORT_PRODUCT_ID, BILLING_COMING_SOON } from "./iap.js";
-import { isWeb, applyPlatformVisibility, registerServiceWorker, listenForInstallPrompt, canPromptInstall, promptInstall, WEB_APP_NOTE, WEB_PAY_NOTE } from "./platform.js";
+import { isWeb, isNative, applyPlatformVisibility, registerServiceWorker, listenForInstallPrompt, canPromptInstall, promptInstall, WEB_APP_NOTE, WEB_PAY_NOTE } from "./platform.js";
 import { renderCalendarView } from "./calendar_view.js";
 import { conflictCopy, plansOnDate } from "./calendar_conflict.js";
 import { renderProgressView } from "./progress_view.js";
@@ -2791,12 +2791,7 @@ function renderSettings() {
   }
   if ($("hill-pace-note")) $("hill-pace-note").textContent = HILL_PACE_NOTE;
   /* heldpath-hook: routes-heatmap end */
-  if (typeof refreshHealthStatus === "function") refreshHealthStatus();
-  else if ($("health-note")) {
-    $("health-note").textContent = state.settings.healthOptIn
-      ? health.HEALTH_STATUS.reason + " Your preference is saved and will apply when health sync is wired."
-      : "Health sync stays off until you turn it on.";
-  }
+  refreshHealthStatus();
   if ($("web-native-note")) $("web-native-note").textContent = WEB_APP_NOTE;
   if ($("web-pay-note")) $("web-pay-note").textContent = WEB_PAY_NOTE;
   $("plans-hook").textContent = PLANS_HOOK_COPY;
@@ -3079,6 +3074,101 @@ function dismissLowSignalPrompt() {
   beginTracking(pending.type, pending.course, pending.plan, pending.targetPlan);
 }
 
+const GPS_LOCK_GOOD_M = 40;
+const GPS_LOCK_FRESH_MS = 20000;
+
+function gpsLockSportNoun() {
+  const sport = normalizeSport(ui.startType || "walk");
+  return sport === "ride" ? "ride" : sport === "run" ? "run" : "walk";
+}
+
+function hasFreshGpsLock() {
+  const known = state.settings && state.settings.lastKnown;
+  if (!known) return false;
+  const acc = Number(known.accuracy);
+  const at = Number(known.at);
+  return Number.isFinite(acc) && acc > 0 && acc <= GPS_LOCK_GOOD_M
+    && Number.isFinite(at) && (Date.now() - at) <= GPS_LOCK_FRESH_MS;
+}
+
+function paintGpsLockStatus(fix) {
+  const status = $("gps-lock-status");
+  if (!status) return;
+  const acc = fix && Number(fix.accuracy);
+  if (Number.isFinite(acc)) {
+    status.textContent = acc <= GPS_LOCK_GOOD_M
+      ? `GPS locked at ${Math.round(acc)} m.`
+      : `Accuracy ${Math.round(acc)} m. Waiting for ${GPS_LOCK_GOOD_M} m or better…`;
+  } else {
+    status.textContent = "Looking for GPS…";
+  }
+}
+
+function ensureGpsLock() {
+  // Browser / QA fixtures skip this sheet. On a phone, wait for a clear fix
+  // unless a recent good reading is already on hand.
+  if (!isNative()) return Promise.resolve({ ok: true, skipped: true });
+  if (!$("sheet-gps-lock")) return Promise.resolve({ ok: true, skipped: true });
+  if (hasFreshGpsLock()) return Promise.resolve({ ok: true, skipped: true });
+
+  return new Promise((resolve) => {
+    let settled = false;
+    let timer = 0;
+    const waitBtn = $("btn-gps-lock-wait");
+    const startBtn = $("btn-gps-lock-start");
+    const cancelBtn = $("btn-gps-lock-cancel");
+    const copy = $("gps-lock-copy");
+    if (copy) {
+      copy.textContent = `Waiting for a clear satellite fix before the ${gpsLockSportNoun()} starts. This stays on your phone.`;
+    }
+    if (waitBtn) { waitBtn.disabled = true; waitBtn.textContent = "Waiting"; }
+    paintGpsLockStatus(state.settings && state.settings.lastKnown);
+
+    const finish = (result) => {
+      if (settled) return;
+      settled = true;
+      if (timer) clearInterval(timer);
+      if (startBtn) startBtn.removeEventListener("click", onStart);
+      if (cancelBtn) cancelBtn.removeEventListener("click", onCancel);
+      closeSheet("sheet-gps-lock");
+      resolve(result);
+    };
+    const onStart = () => finish({ ok: true, anyway: true });
+    const onCancel = () => finish({ ok: false, cancelled: true });
+    if (startBtn) startBtn.addEventListener("click", onStart);
+    if (cancelBtn) cancelBtn.addEventListener("click", onCancel);
+
+    const considerFix = (fix) => {
+      if (!fix || !Number.isFinite(Number(fix.lat))) return;
+      if (typeof rememberLocation === "function") rememberLocation(fix);
+      paintGpsLockStatus(fix);
+      const acc = Number(fix.accuracy);
+      if (Number.isFinite(acc) && acc > 0 && acc <= GPS_LOCK_GOOD_M) {
+        if (waitBtn) waitBtn.textContent = "Locked";
+        finish({ ok: true, locked: true });
+      }
+    };
+
+    const poll = () => {
+      if (settled) return;
+      requestPosition({ timeout: 8000, enableHighAccuracy: true, maximumAge: 0 }).then((res) => {
+        if (settled) return;
+        if (res && res.ok && res.fix) considerFix(res.fix);
+        else if ($("gps-lock-status")) {
+          const knownAcc = state.settings && state.settings.lastKnown && Number(state.settings.lastKnown.accuracy);
+          if (!Number.isFinite(knownAcc)) {
+            $("gps-lock-status").textContent = "Still looking for GPS… You can start anyway, or cancel.";
+          }
+        }
+      }).catch(() => {});
+    };
+
+    openSheet("sheet-gps-lock");
+    poll();
+    timer = setInterval(poll, 2500);
+  });
+}
+
 async function beginTracking(type, course, plan, targetPlan) {
   const perm = await queryLocationPermission();
   if (perm !== "granted") {
@@ -3094,6 +3184,8 @@ async function beginTracking(type, course, plan, targetPlan) {
       if (!res || !res.ok) return;
     }
   }
+  const lock = await ensureGpsLock();
+  if (!lock || !lock.ok) return;
   const sess = track.makeSession({ type, course, units: units(), target: targetPlan || null });
   track.setAutoPauseEnabled(state.settings.autoPause !== false);
   track.setLowPowerEnabled(!!state.settings.lowPower);

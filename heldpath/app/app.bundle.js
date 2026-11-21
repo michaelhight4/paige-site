@@ -48929,13 +48929,14 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         paint: { "line-color": "#4EC3F7", "line-opacity": 0.45, "line-width": 1 }
       });
     }
+    raiseOverlays();
   }
   function userArrowSvg() {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("viewBox", "0 0 48 48");
+    svg.setAttribute("viewBox", "0 0 24 32");
     svg.setAttribute("class", "user-heading-arrow");
     svg.setAttribute("aria-hidden", "true");
-    svg.innerHTML = '<path class="user-heading-cone" d="M24 1.2 L38 26.5 L24 20.5 L10 26.5 Z" fill="#4EC3F7" stroke="#F3F6FA" stroke-width="3.2" stroke-linejoin="round"/><circle cx="24" cy="29" r="11" fill="#4EC3F7" stroke="#F3F6FA" stroke-width="3.6"/><circle cx="24" cy="29" r="4" fill="#F3F6FA"/>';
+    svg.innerHTML = '<path class="user-heading-cone" d="M12 1.6 L17.2 15.2 L12 13 L6.8 15.2 Z" fill="#4EC3F7" fill-opacity="0.4" stroke="rgba(243,246,250,0.7)" stroke-width="0.8" stroke-linejoin="round"/><circle class="user-heading-dot" cx="12" cy="21" r="7" fill="#4EC3F7" stroke="#F3F6FA" stroke-width="1.4"/>';
     return svg;
   }
   var lastUserCoord = null;
@@ -53830,7 +53831,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     mode = "line"
   } = {}) {
     const { points, weekAvg, monthAvg, goalValue: goalVal, metric = "time", units: units3 } = series || {};
-    const pad = { l: 52, r: 12, t: 22, b: 44 };
+    const pad = { l: 52, r: 16, t: 22, b: 52 };
     const iw = Math.max(40, width - pad.l - pad.r);
     const ih = Math.max(40, height - pad.t - pad.b);
     const better = metric === "distance" ? "higher is better" : "lower is better";
@@ -53886,15 +53887,24 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const goalLine = flat(goalVal, "goal-chart-goal");
     const weekLine = flat(weekAvg, "goal-chart-week");
     const monthLine = flat(monthAvg, "goal-chart-month");
-    const legend = `<g class="goal-chart-legend-row" font-size="10" transform="translate(0, ${height - 8})">
-      <line class="goal-chart-goal" x1="${pad.l}" y1="-2" x2="${pad.l + 14}" y2="-2"/>
-      <text class="goal-chart-legend-text" x="${pad.l + 18}" y="1">Goal ${esc2(formatMetricValue(goalVal, metric, units3))}</text>
-      <line class="goal-chart-week" x1="${pad.l + 118}" y1="-2" x2="${pad.l + 132}" y2="-2"/>
-      <text class="goal-chart-legend-text" x="${pad.l + 136}" y="1">Weekly avg ${esc2(formatMetricValue(weekAvg, metric, units3))}</text>
-      <line class="goal-chart-month" x1="${pad.l + 250}" y1="-2" x2="${pad.l + 264}" y2="-2"/>
-      <text class="goal-chart-legend-text" x="${pad.l + 268}" y="1">Monthly avg ${esc2(formatMetricValue(monthAvg, metric, units3))}</text>
+    const chartW = Math.max(width, 480);
+    const chartH = Math.max(height, 236);
+    const g1 = `Goal ${esc2(formatMetricValue(goalVal, metric, units3))}`;
+    const g2 = `Weekly avg ${esc2(formatMetricValue(weekAvg, metric, units3))}`;
+    const g3 = `Monthly avg ${esc2(formatMetricValue(monthAvg, metric, units3))}`;
+    const legend = `<g class="goal-chart-legend-row" font-size="10">
+      <g transform="translate(0, ${chartH - 22})">
+        <line class="goal-chart-goal" x1="${pad.l}" y1="-2" x2="${pad.l + 14}" y2="-2"/>
+        <text class="goal-chart-legend-text" x="${pad.l + 18}" y="1">${g1}</text>
+        <line class="goal-chart-week" x1="${pad.l + 150}" y1="-2" x2="${pad.l + 164}" y2="-2"/>
+        <text class="goal-chart-legend-text" x="${pad.l + 168}" y="1">${g2}</text>
+      </g>
+      <g transform="translate(0, ${chartH - 8})">
+        <line class="goal-chart-month" x1="${pad.l}" y1="-2" x2="${pad.l + 14}" y2="-2"/>
+        <text class="goal-chart-legend-text" x="${pad.l + 18}" y="1">${g3}</text>
+      </g>
     </g>`;
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${Math.max(width, 400)} ${Math.max(height, 228)}" width="100%" class="goal-chart" role="img" aria-label="${esc2(title)}. ${axisName}, ${better}.">
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${chartW} ${chartH}" width="100%" class="goal-chart" role="img" aria-label="${esc2(title)}. ${axisName}, ${better}.">
     <rect class="goal-chart-bg" width="100%" height="100%"/>
     <text class="goal-chart-axis" x="${pad.l}" y="14">${esc2(metric === "distance" ? `Distance (${units3}, higher is better)` : "Time (lower is better)")} \xB7 sessions</text>
     ${yLabels}
@@ -60175,7 +60185,7 @@ ${pair.timeLine}`;
   function initStretchesUi(opts) {
     hooks = opts;
     view.style = getStretchStyle();
-    document.querySelectorAll("[data-style]").forEach((btn) => {
+    document.querySelectorAll(".stretch-style-btn[data-style]").forEach((btn) => {
       btn.addEventListener("click", () => {
         setStretchStyle(btn.getAttribute("data-style"));
         renderHub();
@@ -60290,7 +60300,7 @@ ${pair.timeLine}`;
     const hint = $2("stretch-style-hint");
     const styleMeta = STYLES.find((s2) => s2.id === view.style) || STYLES[1];
     if (hint) hint.textContent = styleMeta.hint + " Browse and Random workout use this style.";
-    document.querySelectorAll("[data-style]").forEach((btn) => {
+    document.querySelectorAll(".stretch-style-btn[data-style]").forEach((btn) => {
       const on = btn.getAttribute("data-style") === view.style;
       btn.classList.toggle("is-on", on);
       btn.setAttribute("aria-checked", on ? "true" : "false");
@@ -66341,10 +66351,7 @@ ${pair.timeLine}`;
       $6("hill-pace-switch").setAttribute("aria-checked", on ? "true" : "false");
     }
     if ($6("hill-pace-note")) $6("hill-pace-note").textContent = HILL_PACE_NOTE;
-    if (typeof refreshHealthStatus === "function") refreshHealthStatus();
-    else if ($6("health-note")) {
-      $6("health-note").textContent = state2.settings.healthOptIn ? HEALTH_STATUS.reason + " Your preference is saved and will apply when health sync is wired." : "Health sync stays off until you turn it on.";
-    }
+    refreshHealthStatus();
     if ($6("web-native-note")) $6("web-native-note").textContent = WEB_APP_NOTE;
     if ($6("web-pay-note")) $6("web-pay-note").textContent = WEB_PAY_NOTE;
     $6("plans-hook").textContent = PLANS_HOOK_COPY;
@@ -66610,6 +66617,90 @@ ${pair.timeLine}`;
     if (!pending) return;
     beginTracking(pending.type, pending.course, pending.plan, pending.targetPlan);
   }
+  var GPS_LOCK_GOOD_M = 40;
+  var GPS_LOCK_FRESH_MS = 2e4;
+  function gpsLockSportNoun() {
+    const sport = normalizeSport(ui2.startType || "walk");
+    return sport === "ride" ? "ride" : sport === "run" ? "run" : "walk";
+  }
+  function hasFreshGpsLock() {
+    const known = state2.settings && state2.settings.lastKnown;
+    if (!known) return false;
+    const acc = Number(known.accuracy);
+    const at = Number(known.at);
+    return Number.isFinite(acc) && acc > 0 && acc <= GPS_LOCK_GOOD_M && Number.isFinite(at) && Date.now() - at <= GPS_LOCK_FRESH_MS;
+  }
+  function paintGpsLockStatus(fix) {
+    const status = $6("gps-lock-status");
+    if (!status) return;
+    const acc = fix && Number(fix.accuracy);
+    if (Number.isFinite(acc)) {
+      status.textContent = acc <= GPS_LOCK_GOOD_M ? `GPS locked at ${Math.round(acc)} m.` : `Accuracy ${Math.round(acc)} m. Waiting for ${GPS_LOCK_GOOD_M} m or better\u2026`;
+    } else {
+      status.textContent = "Looking for GPS\u2026";
+    }
+  }
+  function ensureGpsLock() {
+    if (!isNative()) return Promise.resolve({ ok: true, skipped: true });
+    if (!$6("sheet-gps-lock")) return Promise.resolve({ ok: true, skipped: true });
+    if (hasFreshGpsLock()) return Promise.resolve({ ok: true, skipped: true });
+    return new Promise((resolve2) => {
+      let settled = false;
+      let timer2 = 0;
+      const waitBtn = $6("btn-gps-lock-wait");
+      const startBtn = $6("btn-gps-lock-start");
+      const cancelBtn = $6("btn-gps-lock-cancel");
+      const copy = $6("gps-lock-copy");
+      if (copy) {
+        copy.textContent = `Waiting for a clear satellite fix before the ${gpsLockSportNoun()} starts. This stays on your phone.`;
+      }
+      if (waitBtn) {
+        waitBtn.disabled = true;
+        waitBtn.textContent = "Waiting";
+      }
+      paintGpsLockStatus(state2.settings && state2.settings.lastKnown);
+      const finish = (result) => {
+        if (settled) return;
+        settled = true;
+        if (timer2) clearInterval(timer2);
+        if (startBtn) startBtn.removeEventListener("click", onStart);
+        if (cancelBtn) cancelBtn.removeEventListener("click", onCancel);
+        closeSheet("sheet-gps-lock");
+        resolve2(result);
+      };
+      const onStart = () => finish({ ok: true, anyway: true });
+      const onCancel = () => finish({ ok: false, cancelled: true });
+      if (startBtn) startBtn.addEventListener("click", onStart);
+      if (cancelBtn) cancelBtn.addEventListener("click", onCancel);
+      const considerFix = (fix) => {
+        if (!fix || !Number.isFinite(Number(fix.lat))) return;
+        if (typeof rememberLocation === "function") rememberLocation(fix);
+        paintGpsLockStatus(fix);
+        const acc = Number(fix.accuracy);
+        if (Number.isFinite(acc) && acc > 0 && acc <= GPS_LOCK_GOOD_M) {
+          if (waitBtn) waitBtn.textContent = "Locked";
+          finish({ ok: true, locked: true });
+        }
+      };
+      const poll = () => {
+        if (settled) return;
+        requestPosition({ timeout: 8e3, enableHighAccuracy: true, maximumAge: 0 }).then((res) => {
+          if (settled) return;
+          if (res && res.ok && res.fix) considerFix(res.fix);
+          else if ($6("gps-lock-status")) {
+            const knownAcc = state2.settings && state2.settings.lastKnown && Number(state2.settings.lastKnown.accuracy);
+            if (!Number.isFinite(knownAcc)) {
+              $6("gps-lock-status").textContent = "Still looking for GPS\u2026 You can start anyway, or cancel.";
+            }
+          }
+        }).catch(() => {
+        });
+      };
+      openSheet("sheet-gps-lock");
+      poll();
+      timer2 = setInterval(poll, 2500);
+    });
+  }
   async function beginTracking(type, course, plan, targetPlan) {
     const perm = await queryLocationPermission();
     if (perm !== "granted") {
@@ -66625,6 +66716,8 @@ ${pair.timeLine}`;
         if (!res2 || !res2.ok) return;
       }
     }
+    const lock = await ensureGpsLock();
+    if (!lock || !lock.ok) return;
     const sess = makeSession({ type, course, units: units2(), target: targetPlan || null });
     setAutoPauseEnabled(state2.settings.autoPause !== false);
     setLowPowerEnabled(!!state2.settings.lowPower);

@@ -66,7 +66,7 @@ function escapeHtml(s) {
 export function initStretchesUi(opts) {
   hooks = opts;
   view.style = getStretchStyle();
-  document.querySelectorAll("[data-style]").forEach((btn) => {
+  document.querySelectorAll(".stretch-style-btn[data-style]").forEach((btn) => {
     btn.addEventListener("click", () => {
       setStretchStyle(btn.getAttribute("data-style"));
       renderHub();
@@ -181,7 +181,7 @@ function renderHub() {
   const hint = $("stretch-style-hint");
   const styleMeta = STYLES.find((s) => s.id === view.style) || STYLES[1];
   if (hint) hint.textContent = styleMeta.hint + " Browse and Random workout use this style.";
-  document.querySelectorAll("[data-style]").forEach((btn) => {
+  document.querySelectorAll(".stretch-style-btn[data-style]").forEach((btn) => {
     const on = btn.getAttribute("data-style") === view.style;
     btn.classList.toggle("is-on", on);
     btn.setAttribute("aria-checked", on ? "true" : "false");

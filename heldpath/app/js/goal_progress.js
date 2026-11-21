@@ -325,7 +325,7 @@ export function renderGoalProgressChart(series, {
   mode = "line",
 } = {}) {
   const { points, weekAvg, monthAvg, goalValue: goalVal, metric = "time", units } = series || {};
-  const pad = { l: 52, r: 12, t: 22, b: 44 };
+  const pad = { l: 52, r: 16, t: 22, b: 52 };
   const iw = Math.max(40, width - pad.l - pad.r);
   const ih = Math.max(40, height - pad.t - pad.b);
   const better = metric === "distance" ? "higher is better" : "lower is better";
@@ -393,16 +393,26 @@ export function renderGoalProgressChart(series, {
   const weekLine = flat(weekAvg, "goal-chart-week");
   const monthLine = flat(monthAvg, "goal-chart-month");
 
-  const legend = `<g class="goal-chart-legend-row" font-size="10" transform="translate(0, ${height - 8})">
-      <line class="goal-chart-goal" x1="${pad.l}" y1="-2" x2="${pad.l + 14}" y2="-2"/>
-      <text class="goal-chart-legend-text" x="${pad.l + 18}" y="1">Goal ${esc(formatMetricValue(goalVal, metric, units))}</text>
-      <line class="goal-chart-week" x1="${pad.l + 118}" y1="-2" x2="${pad.l + 132}" y2="-2"/>
-      <text class="goal-chart-legend-text" x="${pad.l + 136}" y="1">Weekly avg ${esc(formatMetricValue(weekAvg, metric, units))}</text>
-      <line class="goal-chart-month" x1="${pad.l + 250}" y1="-2" x2="${pad.l + 264}" y2="-2"/>
-      <text class="goal-chart-legend-text" x="${pad.l + 268}" y="1">Monthly avg ${esc(formatMetricValue(monthAvg, metric, units))}</text>
+  const chartW = Math.max(width, 480);
+  const chartH = Math.max(height, 236);
+  const g1 = `Goal ${esc(formatMetricValue(goalVal, metric, units))}`;
+  const g2 = `Weekly avg ${esc(formatMetricValue(weekAvg, metric, units))}`;
+  const g3 = `Monthly avg ${esc(formatMetricValue(monthAvg, metric, units))}`;
+  // Two rows so long pace/distance labels never clip the right edge.
+  const legend = `<g class="goal-chart-legend-row" font-size="10">
+      <g transform="translate(0, ${chartH - 22})">
+        <line class="goal-chart-goal" x1="${pad.l}" y1="-2" x2="${pad.l + 14}" y2="-2"/>
+        <text class="goal-chart-legend-text" x="${pad.l + 18}" y="1">${g1}</text>
+        <line class="goal-chart-week" x1="${pad.l + 150}" y1="-2" x2="${pad.l + 164}" y2="-2"/>
+        <text class="goal-chart-legend-text" x="${pad.l + 168}" y="1">${g2}</text>
+      </g>
+      <g transform="translate(0, ${chartH - 8})">
+        <line class="goal-chart-month" x1="${pad.l}" y1="-2" x2="${pad.l + 14}" y2="-2"/>
+        <text class="goal-chart-legend-text" x="${pad.l + 18}" y="1">${g3}</text>
+      </g>
     </g>`;
 
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${Math.max(width, 400)} ${Math.max(height, 228)}" width="100%" class="goal-chart" role="img" aria-label="${esc(title)}. ${axisName}, ${better}.">
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${chartW} ${chartH}" width="100%" class="goal-chart" role="img" aria-label="${esc(title)}. ${axisName}, ${better}.">
     <rect class="goal-chart-bg" width="100%" height="100%"/>
     <text class="goal-chart-axis" x="${pad.l}" y="14">${esc(metric === "distance" ? `Distance (${units}, higher is better)` : "Time (lower is better)")} · sessions</text>
     ${yLabels}
@@ -417,25 +427,6 @@ export function renderGoalProgressChart(series, {
   </svg>`;
   return { svg, series };
 }
-
-function legendSvg(x, { goal, week, month }) {
-  const item = (cls, label, tx) =>
-    `<line class="${cls}" x1="${tx}" y1="12" x2="${tx + 14}" y2="12"/>
-     <text class="goal-chart-legend-text" x="${tx + 18}" y="15">${esc(label)}</text>`;
-  // Place items on a wrapping-friendly single row; values go in the label.
-  return `<g class="goal-chart-legend-row" font-size="10" transform="translate(0, ${/* drawn at top of bottom pad via labels below chart */ 0})">
-    <g transform="translate(${x}, 0)">
-      ${item("goal-chart-goal", `Goal ${goal}`, 0)}
-      ${item("goal-chart-week", `Weekly avg ${week}`, 110)}
-      ${item("goal-chart-month", `Monthly avg ${month}`, 230)}
-    </g>
-  </g>`.replace('transform="translate(0, 0)"', `transform="translate(0, 0)"`);
-}
-
-// Put the legend just above the bottom edge by injecting y via a wrapper in render — fix placement:
-// The legend group is currently at origin. Re-render will position it using height in the template.
-// I'll position it in the SVG after x labels by wrapping with a transform in renderGoalProgressChart.
-// (Patch after write if needed.)
 
 export function pointDetail(point, units = "mi", metric = "time") {
   if (!point) return "";

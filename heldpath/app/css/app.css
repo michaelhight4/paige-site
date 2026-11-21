@@ -470,13 +470,15 @@ img { display: block; max-width: 100%; }
   border: 1px solid var(--line);
 }
 .pp-map-marker.user-dot {
-  width: 84px;
-  height: 84px;
+  /* 16px dot; the box is only tall enough for a short heading cone. */
+  width: 24px;
+  height: 32px;
   background: transparent;
   border: 0;
   border-radius: 0;
   box-shadow: none;
   position: absolute;
+  pointer-events: none;
 }
 .pp-map-marker.user-dot .user-heading-rot {
   position: absolute;
@@ -484,15 +486,22 @@ img { display: block; max-width: 100%; }
   display: grid;
   place-items: center;
   transform: rotate(var(--user-heading, 0deg));
-  transform-origin: 50% 62%;
+  /* Rotate around the dot, not the cone tip. */
+  transform-origin: 50% 66%;
   will-change: transform;
 }
 .pp-map-marker.user-dot .user-heading-arrow {
-  width: 80px;
-  height: 80px;
+  width: 24px;
+  height: 32px;
   display: block;
   overflow: visible;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45));
+  filter: drop-shadow(0 0.5px 1px rgba(0,0,0,0.35));
+}
+.pp-map-marker.user-dot .user-heading-cone {
+  fill: #4EC3F7;
+  fill-opacity: 0.4;
+  stroke: rgba(243, 246, 250, 0.7);
+  stroke-width: 0.8;
 }
 .pp-map-marker.user-dot:not(.has-heading) .user-heading-cone { display: none; }
 .pp-map-marker.user-dot:not(.has-heading) .user-heading-rot { transform: none; }
@@ -1604,12 +1613,9 @@ body:has(#sheet-map.open) #map-locate-note { display: none; }
   font: inherit;
 }
 
-/* The tracking puck is large on an activity map; shrink it in the course builder so it does not cover the route. */
-body.is-builder .pp-map-marker.user-dot {
-  width: 28px;
-  height: 28px;
-}
+/* Same compact puck on every map — tracking, builder, and post-run — so the route stays visible. */
+body.is-builder .pp-map-marker.user-dot,
 body.is-builder .pp-map-marker.user-dot .user-heading-arrow {
   width: 24px;
-  height: 24px;
+  height: 32px;
 }
