@@ -172,10 +172,12 @@ import {
 import { qrSvg, encodeQrFrames, createQrAssembler, scanQrImageData } from "./share_qr.js";
 import {
   getActiveGraph,
+  setActiveGraph,
   routeLegs,
   autoLoopRoute,
   coursePath,
   courseMeters,
+  snapToNode,
 } from "./routing.js";
 import {
   planFromCourse,
@@ -410,7 +412,16 @@ function setTab(tab) {
   render();
 }
 
+function closeAllSheets() {
+  document.querySelectorAll(".sheet-back.open").forEach((el) => el.classList.remove("open"));
+}
+
 function openSheet(id) {
+  // Only one sheet at a time — a leftover prompt (e.g. low-signal) must
+  // not sit on top of a later dialog.
+  document.querySelectorAll(".sheet-back.open").forEach((el) => {
+    if (el.id !== id) el.classList.remove("open");
+  });
   $(id).classList.add("open");
 }
 function closeSheet(id) {
@@ -856,8 +867,38 @@ function fitBuilderCourse(coords, extra = {}) {
   if (!coords || !coords.length) return;
   try { map.resizeMap(); } catch { /* map may not be ready */ }
   const panel = document.querySelector(".builder-panel");
-  const bottom = panel ? Math.min(Math.round(panel.getBoundingClientRect().height + 28), 720) : 520;
-  map.fitBounds(coords, { top: 72, bottom, left: 64, right: 64, maxZoom: extra.maxZoom || 17 });
+  const mapEl = $("map");
+  const vh = (mapEl && mapEl.getBoundingClientRect().height) || window.innerHeight || 800;
+  // Padding is relative to the full-screen map, so it must clear the
+  // sheet *and* the tab bar — not just the panel's own height.
+  let bottom = 160;
+  if (panel) {
+    const top = panel.getBoundingClientRect().top;
+    if (top > 0) bottom = Math.round(vh - top + 28);
+  }
+  bottom = Math.min(Math.max(bottom, 140), Math.round(vh * 0.72));
+  map.fitBounds(coords, { top: 80, bottom, left: 56, right: 56, maxZoom: extra.maxZoom || 16 });
+}
+
+/** Evenly spaced pins that already sit on a walkable path, for a visible loop. */
+function pinsFromPath(path, count = 4, graph = null) {
+  const pts = (path || []).filter((p) => p && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon)));
+  if (pts.length < 2) return [];
+  const total = pathLengthMeters(pts);
+  if (!(total > 20)) return [];
+  const n = Math.max(3, Number(count) || 4);
+  const pins = [];
+  for (let i = 0; i < n; i++) {
+    const raw = pointAlongPath(pts, (total * i) / n) || pts[0];
+    const snap = graph ? snapToNode(graph, raw.lat, raw.lon, 150) : null;
+    const pt = snap ? { lat: snap.lat, lon: snap.lon } : raw;
+    const last = pins[pins.length - 1];
+    if (last && samePin(last, pt, 40)) continue;
+    pins.push({ lat: pt.lat, lon: pt.lon, role: pins.length === 0 ? "start" : "via" });
+  }
+  if (pins.length < 3) return [];
+  pins.push({ lat: pins[0].lat, lon: pins[0].lon, role: "end" });
+  return pins;
 }
 
 function paintEndPointButton() {
@@ -3972,16 +4013,38 @@ const US_TOWN_ROUTES = {
   gulfport: {
     center: { lat: 30.3688, lon: -89.09315 },
     pins: [{ lat: 30.3678, lon: -89.0948 }, { lat: 30.3698, lon: -89.0915 }],
+    // Four street-corner pins in the same connected component, compact loop.
+    loopPins: [
+      { lat: 30.370061, lon: -89.094878 },
+      { lat: 30.368182, lon: -89.092829 },
+      { lat: 30.366164, lon: -89.094771 },
+      { lat: 30.368127, lon: -89.097565 },
+    ],
+    loopCenter: { lat: 30.3678, lon: -89.0948 },
     zoom: 16.4,
   },
   "oak-park": {
     center: { lat: 41.8880, lon: -87.7990 },
     pins: [{ lat: 41.88755, lon: -87.80394 }, { lat: 41.8884, lon: -87.794 }],
+    loopPins: [
+      { lat: 41.890334, lon: -87.801796 },
+      { lat: 41.885665, lon: -87.799972 },
+      { lat: 41.885665, lon: -87.805063 },
+      { lat: 41.888625, lon: -87.807112 },
+    ],
+    loopCenter: { lat: 41.88755, lon: -87.80394 },
     zoom: 15.8,
   },
   holland: {
     center: { lat: 42.7888, lon: -86.10765 },
     pins: [{ lat: 42.7902, lon: -86.1089 }, { lat: 42.7874, lon: -86.1064 }],
+    loopPins: [
+      { lat: 42.791315, lon: -86.107342 },
+      { lat: 42.788575, lon: -86.107106 },
+      { lat: 42.788539, lon: -86.111183 },
+      { lat: 42.791279, lon: -86.110212 },
+    ],
+    loopCenter: { lat: 42.7902, lon: -86.1089 },
     zoom: 16.2,
   },
 };
@@ -4051,42 +4114,58 @@ async function showUsTownBuilder({ center, pins, satellite = false, zoom = 16.2 
   fitBuilderCourse(fit, { maxZoom: 17 });
 }
 
+
+async function showUsTownBuilderLoop({ center, loopCenter, loopPins, pins, zoom = 16.2, meters = 1609 } = {}) {
+  const at = loopCenter || center;
+  const fix = { lat: at.lat, lon: at.lon, accuracy: 18, at: Date.now() };
+  state.settings.lastKnown = fix;
+  state.settings.locationDisclosureAccepted = true;
+  state.settings.mapStyle = "map";
+  persist();
+  ui.lockWalkGraph = false;
+  ui.findingPaths = false;
+  ui.straightOverrides = new Set();
+  ui.builderRoute = null;
+  const coursePins = (loopPins && loopPins.length >= 3) ? loopPins : pins;
+  ui.builder = ingestPins([...(coursePins || []), (coursePins && coursePins[0])].filter(Boolean));
+  if (ui.builder.endIndex == null && ui.builder.pins.length) ui.builder = setEndIndex(ui.builder, 0);
+  ui.builderPins = ui.builder.pins;
+  setTab("today");
+  showScreen("builder");
+  applySavedMapStyle();
+  await waitMapReady();
+  map.setCenter(at.lat, at.lon, zoom);
+  try { setActiveGraph(null); } catch { /* ok */ }
+  try { await ensureWalkGraph(ui.builder.pins, { padDeg: 0.008 }); } catch { /* renderBuilder will warn if the graph fails */ }
+  ui.builderRoute = null;
+  ui.findingPaths = false;
+  renderBuilder();
+  await waitBuilderRouted(20000);
+  const fit = [
+    ...((ui.builderRoute && ui.builderRoute.path) || []),
+    ...routeStops(ui.builder),
+  ];
+  fitBuilderCourse(fit, { maxZoom: 16.2 });
+  try { map.raiseOverlays(); } catch { /* map helper */ }
+  await new Promise((r) => setTimeout(r, 800));
+  fitBuilderCourse(fit, { maxZoom: 16.2 });
+  try { map.raiseOverlays(); } catch { /* map helper */ }
+}
+
 window.HeldpathTest = {
   show: async function show(name, opt = {}) {
     hideLocateDenied();
     closeStretchVideo();
     if ($("map-banner")) { $("map-banner").hidden = true; $("map-banner").textContent = ""; }
-    closeSheet("sheet-map");
-    closeSheet("sheet-schedule");
-    closeSheet("sheet-save-course");
-    closeSheet("sheet-start");
-    closeSheet("sheet-indoor");
-    closeSheet("sheet-resume");
-    closeSheet("sheet-forgot");
-    closeSheet("sheet-trim-end");
-    closeSheet("sheet-location");
-    closeSheet("sheet-course");
-    closeSheet("sheet-target");
-    closeSheet("sheet-save-route");
-    closeSheet("sheet-celebrate");
-    closeSheet("sheet-save-free");
-    closeSheet("sheet-share");
-    closeSheet("sheet-share-qr");
+    closeAllSheets();
+    try {
+      const cropRoot = $("map-crop-root");
+      if (document.body.classList.contains("map-crop-open") || (cropRoot && !cropRoot.hidden)) closeCrop();
+    } catch { /* crop ui may not be ready */ }
     if (typeof stopQrScanKeepSheet === "function") stopQrScanKeepSheet();
-    closeSheet("sheet-scan-qr");
     if (typeof setOfferChrome === "function") setOfferChrome(false);
     try { map.clearOverlays(); map.clearMarkers(); } catch { /* map may not be ready */ }
-    closeSheet("sheet-share-import");
-    closeSheet("sheet-session-choice");
-    closeSheet("sheet-group");
-    closeSheet("sheet-group-invite");
-    closeSheet("sheet-group-event");
-    closeSheet("sheet-group-route");
-    closeSheet("sheet-plan-route");
     if ($("today-dock")) $("today-dock").hidden = false;
-    closeSheet("sheet-builder-help");
-    closeSheet("sheet-pin-action");
-    closeSheet("sheet-new-goal");
     if (name !== "builder-help") {
       try { markExplainerSeen(); } catch { /* ignore */ }
     }
@@ -4401,11 +4480,18 @@ window.HeldpathTest = {
       await window.HeldpathTest.show("builder", opt);
       setBuilderSheet(true);
       maybeShowBuilderExplainer({ force: true });
-    } else if (name === "builder-collapsed" || name === "builder-expanded") {
-      await window.HeldpathTest.show("builder-mile-loop", opt);
-      setBuilderSheet(name === "builder-expanded");
+    } else if (
+      name === "builder-collapsed" || name === "builder-expanded"
+      || name === "builder-collapsed-gulfport" || name === "builder-expanded-gulfport"
+      || name === "builder-collapsed-oak-park" || name === "builder-expanded-oak-park"
+      || name === "builder-collapsed-holland" || name === "builder-expanded-holland"
+    ) {
+      const town = name.includes("oak-park") ? "oak-park" : name.includes("holland") ? "holland" : "gulfport";
+      await showUsTownBuilderLoop({ ...US_TOWN_ROUTES[town], meters: 1609 });
+      setBuilderSheet(name.includes("expanded"));
       renderBuilder();
-      await new Promise((r) => setTimeout(r, 250));
+      try { map.raiseOverlays(); } catch { /* map helper */ }
+      await new Promise((r) => setTimeout(r, 300));
     } else if (name === "builder-loop" || name === "builder-mile-loop") {
       ui.builderSheetExpanded = true;
       state.settings.mapStyle = "map";
@@ -5053,6 +5139,80 @@ window.HeldpathTest = {
       })),
       meters: ui.builderRoute && ui.builderRoute.meters,
       unroutable: !!(ui.builderRoute && ui.builderRoute.unroutable),
+    };
+  },
+  builderGeometry: () => {
+    const toPt = (p) => (p && Number.isFinite(Number(p.lat)) ? { lat: Number(p.lat), lon: Number(p.lon) } : null);
+    const pins = ((ui.builder && ui.builder.pins) || []).map(toPt).filter(Boolean);
+    const routed = ui.builderRoute || {};
+    const path = (routed.path || []).map(toPt).filter(Boolean);
+    const dist = (a, b) => {
+      if (!a || !b) return Infinity;
+      const dlat = (a.lat - b.lat) * 111320;
+      const dlon = (a.lon - b.lon) * 111320 * Math.cos((a.lat * Math.PI) / 180);
+      return Math.sqrt(dlat * dlat + dlon * dlon);
+    };
+    const distToPath = (pin) => {
+      let best = Infinity;
+      for (let i = 0; i < path.length; i++) {
+        const d = dist(pin, path[i]);
+        if (d < best) best = d;
+        if (i + 1 < path.length) {
+          // rough point-to-segment
+          const a = path[i], b = path[i + 1];
+          const vx = (b.lat - a.lat), vy = (b.lon - a.lon);
+          const len2 = vx * vx + vy * vy;
+          const t = len2 > 0 ? Math.max(0, Math.min(1, ((pin.lat - a.lat) * vx + (pin.lon - a.lon) * vy) / len2)) : 0;
+          const d2 = dist(pin, { lat: a.lat + vx * t, lon: a.lon + vy * t });
+          if (d2 < best) best = d2;
+        }
+      }
+      return best;
+    };
+    const m = typeof map.getMap === "function" ? map.getMap() : null;
+    const lineLayers = [];
+    if (m && m.getStyle && m.getStyle()) {
+      for (const layer of m.getStyle().layers || []) {
+        if (/build-line|route-line|preview/i.test(layer.id)) {
+          const src = m.getSource(layer.id);
+          let n = 0;
+          try {
+            const data = src && src._data;
+            const feats = data && data.features || [];
+            n = feats.reduce((s, f) => s + ((f.geometry && f.geometry.coordinates) || []).length, 0);
+          } catch { /* ignore */ }
+          lineLayers.push({ id: layer.id, type: layer.type, coords: n });
+        }
+      }
+    }
+    return {
+      endIndex: ui.builder ? ui.builder.endIndex : null,
+      findingPaths: !!ui.findingPaths,
+      meters: routed.meters,
+      pins,
+      pinDistToPath: pins.map((p, i) => ({ i, dist: Math.round(distToPath(p) * 10) / 10 })),
+      legs: (routed.legs || []).map((l) => ({
+        mode: l.mode,
+        meters: Math.round(l.meters || 0),
+        n: (l.points || []).length,
+        first: toPt((l.points || [])[0]),
+        last: toPt((l.points || [])[(l.points || []).length - 1]),
+      })),
+      pathPoints: path.length,
+      lineLayers,
+      pinScreen: pins.map((pin, i) => {
+        const proj = m && m.project ? m.project([pin.lon, pin.lat]) : null;
+        const origin = m && m.getContainer ? m.getContainer().getBoundingClientRect() : { left: 0, top: 0 };
+        const el = document.querySelectorAll(".pp-map-marker.pin")[i];
+        const r = el ? el.getBoundingClientRect() : null;
+        const tip = r ? { x: r.left + r.width / 2 - origin.left, y: r.bottom - origin.top } : null;
+        return {
+          i,
+          dx: tip && proj ? Math.round((tip.x - proj.x) * 10) / 10 : null,
+          dy: tip && proj ? Math.round((tip.y - proj.y) * 10) / 10 : null,
+        };
+      }),
+      openSheets: Array.from(document.querySelectorAll(".sheet-back.open")).map((el) => el.id),
     };
   },
 };

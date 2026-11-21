@@ -404,7 +404,11 @@ img { display: block; max-width: 100%; }
   height: 52px;
   background: url("../assets/icon_pin.png") center / 28px 36px no-repeat;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-  position: relative;
+  /* Must stay absolute (MapLibre's default). `relative` puts markers in
+     document flow, so each pin is shifted down by every earlier marker's
+     height and floats off the route line. Absolute is still a containing
+     block for the label and ::after hit target. */
+  position: absolute;
 }
 .pp-map-marker.pin::after {
   content: "";
@@ -441,7 +445,7 @@ img { display: block; max-width: 100%; }
   border: 3px solid #F3F6FA;
   border-radius: 50%;
   box-shadow: 0 0 0 6px rgba(78,195,247,0.25);
-  position: relative;
+  position: absolute;
 }
 .pp-map-marker.user-dot .user-heading-rot {
   position: absolute;

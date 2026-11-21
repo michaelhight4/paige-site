@@ -36738,6 +36738,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       const usgs = map.getSource("usgs-imagery");
       if (usgs) usgs.attribution = credit;
       refreshAttribution();
+      raiseOverlays();
       flashAttribution(3500);
     } catch (err2) {
       console.warn("map style", err2 && err2.message ? err2.message : err2);
@@ -37044,7 +37045,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       if (opt.mapStyle) setMapStyle(opt.mapStyle, { online: typeof navigator === "undefined" || navigator.onLine !== false });
       bindAttribToggle();
       flashAttribution(3500);
+      raiseOverlays();
     });
+    map.on("styledata", () => raiseOverlays());
     map.addControl(new import_maplibre_gl.default.NavigationControl({ showCompass: false }), "top-right");
     map.on("error", (e) => {
       console.warn("map error", e && e.error ? e.error.message : e);
@@ -37182,30 +37185,51 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       geometry: { type: "LineString", coordinates: coords.map((c) => [c.lon, c.lat]) }
     };
   }
+  function raiseOverlays() {
+    if (!map) return;
+    for (const id of overlayIds) {
+      if (map.getLayer(id)) {
+        try {
+          map.moveLayer(id);
+        } catch {
+        }
+      }
+    }
+  }
+  function addOrUpdateLine(id, data, paint, layout) {
+    if (map.getSource(id)) {
+      map.getSource(id).setData(data);
+      if (!map.getLayer(id)) {
+        map.addLayer({ id, type: "line", source: id, paint, layout });
+        if (!overlayIds.includes(id)) overlayIds.push(id);
+      }
+    } else {
+      map.addSource(id, { type: "geojson", data });
+      map.addLayer({ id, type: "line", source: id, paint, layout });
+      overlayIds.push(id);
+    }
+  }
   function drawRoute(coords, opt = {}) {
     if (!map || !coords || coords.length < 2) return;
     const id = opt.id || "route-line";
     const color = opt.color || "#4EC3F7";
     const width = opt.width || 5;
     const data = { type: "FeatureCollection", features: [lineGeo(coords)] };
-    if (map.getSource(id)) {
-      map.getSource(id).setData(data);
-      return;
-    }
-    map.addSource(id, { type: "geojson", data });
-    map.addLayer({
-      id,
-      type: "line",
-      source: id,
-      paint: {
-        "line-color": color,
-        "line-width": width,
-        "line-opacity": 0.95,
-        ...opt.dash ? { "line-dasharray": [1.6, 1.4] } : {}
-      },
-      layout: { "line-cap": "round", "line-join": "round" }
-    });
-    overlayIds.push(id);
+    const layout = { "line-cap": "round", "line-join": "round" };
+    const dash = opt.dash ? { "line-dasharray": [1.6, 1.4] } : {};
+    addOrUpdateLine(id + "-casing", data, {
+      "line-color": "#0C1218",
+      "line-width": width + 3,
+      "line-opacity": 0.88,
+      ...dash
+    }, layout);
+    addOrUpdateLine(id, data, {
+      "line-color": color,
+      "line-width": width,
+      "line-opacity": 0.95,
+      ...dash
+    }, layout);
+    raiseOverlays();
   }
   function clearOverlays() {
     if (!map) return;
@@ -51061,7 +51085,13 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     } else showScreen(tab);
     render();
   }
+  function closeAllSheets() {
+    document.querySelectorAll(".sheet-back.open").forEach((el) => el.classList.remove("open"));
+  }
   function openSheet(id) {
+    document.querySelectorAll(".sheet-back.open").forEach((el) => {
+      if (el.id !== id) el.classList.remove("open");
+    });
     $4(id).classList.add("open");
   }
   function closeSheet(id) {
@@ -51488,8 +51518,15 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     } catch {
     }
     const panel = document.querySelector(".builder-panel");
-    const bottom = panel ? Math.min(Math.round(panel.getBoundingClientRect().height + 28), 720) : 520;
-    fitBounds(coords, { top: 72, bottom, left: 64, right: 64, maxZoom: extra.maxZoom || 17 });
+    const mapEl = $4("map");
+    const vh = mapEl && mapEl.getBoundingClientRect().height || window.innerHeight || 800;
+    let bottom = 160;
+    if (panel) {
+      const top = panel.getBoundingClientRect().top;
+      if (top > 0) bottom = Math.round(vh - top + 28);
+    }
+    bottom = Math.min(Math.max(bottom, 140), Math.round(vh * 0.72));
+    fitBounds(coords, { top: 80, bottom, left: 56, right: 56, maxZoom: extra.maxZoom || 16 });
   }
   function paintEndPointButton() {
     const btn = $4("btn-end-point-pin");
@@ -54524,16 +54561,38 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     gulfport: {
       center: { lat: 30.3688, lon: -89.09315 },
       pins: [{ lat: 30.3678, lon: -89.0948 }, { lat: 30.3698, lon: -89.0915 }],
+      // Four street-corner pins in the same connected component, compact loop.
+      loopPins: [
+        { lat: 30.370061, lon: -89.094878 },
+        { lat: 30.368182, lon: -89.092829 },
+        { lat: 30.366164, lon: -89.094771 },
+        { lat: 30.368127, lon: -89.097565 }
+      ],
+      loopCenter: { lat: 30.3678, lon: -89.0948 },
       zoom: 16.4
     },
     "oak-park": {
       center: { lat: 41.888, lon: -87.799 },
       pins: [{ lat: 41.88755, lon: -87.80394 }, { lat: 41.8884, lon: -87.794 }],
+      loopPins: [
+        { lat: 41.890334, lon: -87.801796 },
+        { lat: 41.885665, lon: -87.799972 },
+        { lat: 41.885665, lon: -87.805063 },
+        { lat: 41.888625, lon: -87.807112 }
+      ],
+      loopCenter: { lat: 41.88755, lon: -87.80394 },
       zoom: 15.8
     },
     holland: {
       center: { lat: 42.7888, lon: -86.10765 },
       pins: [{ lat: 42.7902, lon: -86.1089 }, { lat: 42.7874, lon: -86.1064 }],
+      loopPins: [
+        { lat: 42.791315, lon: -86.107342 },
+        { lat: 42.788575, lon: -86.107106 },
+        { lat: 42.788539, lon: -86.111183 },
+        { lat: 42.791279, lon: -86.110212 }
+      ],
+      loopCenter: { lat: 42.7902, lon: -86.1089 },
       zoom: 16.2
     }
   };
@@ -54600,6 +54659,54 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     await new Promise((r) => setTimeout(r, satellite ? 1800 : 800));
     fitBuilderCourse(fit, { maxZoom: 17 });
   }
+  async function showUsTownBuilderLoop({ center, loopCenter, loopPins, pins, zoom = 16.2, meters = 1609 } = {}) {
+    const at = loopCenter || center;
+    const fix = { lat: at.lat, lon: at.lon, accuracy: 18, at: Date.now() };
+    state2.settings.lastKnown = fix;
+    state2.settings.locationDisclosureAccepted = true;
+    state2.settings.mapStyle = "map";
+    persist();
+    ui2.lockWalkGraph = false;
+    ui2.findingPaths = false;
+    ui2.straightOverrides = /* @__PURE__ */ new Set();
+    ui2.builderRoute = null;
+    const coursePins = loopPins && loopPins.length >= 3 ? loopPins : pins;
+    ui2.builder = ingestPins([...coursePins || [], coursePins && coursePins[0]].filter(Boolean));
+    if (ui2.builder.endIndex == null && ui2.builder.pins.length) ui2.builder = setEndIndex(ui2.builder, 0);
+    ui2.builderPins = ui2.builder.pins;
+    setTab("today");
+    showScreen("builder");
+    applySavedMapStyle();
+    await waitMapReady();
+    setCenter(at.lat, at.lon, zoom);
+    try {
+      setActiveGraph(null);
+    } catch {
+    }
+    try {
+      await ensureWalkGraph(ui2.builder.pins, { padDeg: 8e-3 });
+    } catch {
+    }
+    ui2.builderRoute = null;
+    ui2.findingPaths = false;
+    renderBuilder();
+    await waitBuilderRouted(2e4);
+    const fit = [
+      ...ui2.builderRoute && ui2.builderRoute.path || [],
+      ...routeStops(ui2.builder)
+    ];
+    fitBuilderCourse(fit, { maxZoom: 16.2 });
+    try {
+      raiseOverlays();
+    } catch {
+    }
+    await new Promise((r) => setTimeout(r, 800));
+    fitBuilderCourse(fit, { maxZoom: 16.2 });
+    try {
+      raiseOverlays();
+    } catch {
+    }
+  }
   window.HeldpathTest = {
     show: async function show(name, opt = {}) {
       hideLocateDenied();
@@ -54608,41 +54715,20 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         $4("map-banner").hidden = true;
         $4("map-banner").textContent = "";
       }
-      closeSheet("sheet-map");
-      closeSheet("sheet-schedule");
-      closeSheet("sheet-save-course");
-      closeSheet("sheet-start");
-      closeSheet("sheet-indoor");
-      closeSheet("sheet-resume");
-      closeSheet("sheet-forgot");
-      closeSheet("sheet-trim-end");
-      closeSheet("sheet-location");
-      closeSheet("sheet-course");
-      closeSheet("sheet-target");
-      closeSheet("sheet-save-route");
-      closeSheet("sheet-celebrate");
-      closeSheet("sheet-save-free");
-      closeSheet("sheet-share");
-      closeSheet("sheet-share-qr");
+      closeAllSheets();
+      try {
+        const cropRoot = $4("map-crop-root");
+        if (document.body.classList.contains("map-crop-open") || cropRoot && !cropRoot.hidden) closeCrop();
+      } catch {
+      }
       if (typeof stopQrScanKeepSheet === "function") stopQrScanKeepSheet();
-      closeSheet("sheet-scan-qr");
       if (typeof setOfferChrome === "function") setOfferChrome(false);
       try {
         clearOverlays();
         clearMarkers();
       } catch {
       }
-      closeSheet("sheet-share-import");
-      closeSheet("sheet-session-choice");
-      closeSheet("sheet-group");
-      closeSheet("sheet-group-invite");
-      closeSheet("sheet-group-event");
-      closeSheet("sheet-group-route");
-      closeSheet("sheet-plan-route");
       if ($4("today-dock")) $4("today-dock").hidden = false;
-      closeSheet("sheet-builder-help");
-      closeSheet("sheet-pin-action");
-      closeSheet("sheet-new-goal");
       if (name !== "builder-help") {
         try {
           markExplainerSeen();
@@ -54987,11 +55073,16 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         await window.HeldpathTest.show("builder", opt);
         setBuilderSheet(true);
         maybeShowBuilderExplainer({ force: true });
-      } else if (name === "builder-collapsed" || name === "builder-expanded") {
-        await window.HeldpathTest.show("builder-mile-loop", opt);
-        setBuilderSheet(name === "builder-expanded");
+      } else if (name === "builder-collapsed" || name === "builder-expanded" || name === "builder-collapsed-gulfport" || name === "builder-expanded-gulfport" || name === "builder-collapsed-oak-park" || name === "builder-expanded-oak-park" || name === "builder-collapsed-holland" || name === "builder-expanded-holland") {
+        const town = name.includes("oak-park") ? "oak-park" : name.includes("holland") ? "holland" : "gulfport";
+        await showUsTownBuilderLoop({ ...US_TOWN_ROUTES[town], meters: 1609 });
+        setBuilderSheet(name.includes("expanded"));
         renderBuilder();
-        await new Promise((r) => setTimeout(r, 250));
+        try {
+          raiseOverlays();
+        } catch {
+        }
+        await new Promise((r) => setTimeout(r, 300));
       } else if (name === "builder-loop" || name === "builder-mile-loop") {
         ui2.builderSheetExpanded = true;
         state2.settings.mapStyle = "map";
@@ -55724,6 +55815,80 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         })),
         meters: ui2.builderRoute && ui2.builderRoute.meters,
         unroutable: !!(ui2.builderRoute && ui2.builderRoute.unroutable)
+      };
+    },
+    builderGeometry: () => {
+      const toPt = (p) => p && Number.isFinite(Number(p.lat)) ? { lat: Number(p.lat), lon: Number(p.lon) } : null;
+      const pins = (ui2.builder && ui2.builder.pins || []).map(toPt).filter(Boolean);
+      const routed = ui2.builderRoute || {};
+      const path = (routed.path || []).map(toPt).filter(Boolean);
+      const dist3 = (a, b2) => {
+        if (!a || !b2) return Infinity;
+        const dlat = (a.lat - b2.lat) * 111320;
+        const dlon = (a.lon - b2.lon) * 111320 * Math.cos(a.lat * Math.PI / 180);
+        return Math.sqrt(dlat * dlat + dlon * dlon);
+      };
+      const distToPath = (pin) => {
+        let best = Infinity;
+        for (let i = 0; i < path.length; i++) {
+          const d2 = dist3(pin, path[i]);
+          if (d2 < best) best = d2;
+          if (i + 1 < path.length) {
+            const a = path[i], b2 = path[i + 1];
+            const vx = b2.lat - a.lat, vy = b2.lon - a.lon;
+            const len2 = vx * vx + vy * vy;
+            const t = len2 > 0 ? Math.max(0, Math.min(1, ((pin.lat - a.lat) * vx + (pin.lon - a.lon) * vy) / len2)) : 0;
+            const d22 = dist3(pin, { lat: a.lat + vx * t, lon: a.lon + vy * t });
+            if (d22 < best) best = d22;
+          }
+        }
+        return best;
+      };
+      const m = typeof getMap === "function" ? getMap() : null;
+      const lineLayers = [];
+      if (m && m.getStyle && m.getStyle()) {
+        for (const layer of m.getStyle().layers || []) {
+          if (/build-line|route-line|preview/i.test(layer.id)) {
+            const src = m.getSource(layer.id);
+            let n = 0;
+            try {
+              const data = src && src._data;
+              const feats = data && data.features || [];
+              n = feats.reduce((s2, f2) => s2 + (f2.geometry && f2.geometry.coordinates || []).length, 0);
+            } catch {
+            }
+            lineLayers.push({ id: layer.id, type: layer.type, coords: n });
+          }
+        }
+      }
+      return {
+        endIndex: ui2.builder ? ui2.builder.endIndex : null,
+        findingPaths: !!ui2.findingPaths,
+        meters: routed.meters,
+        pins,
+        pinDistToPath: pins.map((p, i) => ({ i, dist: Math.round(distToPath(p) * 10) / 10 })),
+        legs: (routed.legs || []).map((l) => ({
+          mode: l.mode,
+          meters: Math.round(l.meters || 0),
+          n: (l.points || []).length,
+          first: toPt((l.points || [])[0]),
+          last: toPt((l.points || [])[(l.points || []).length - 1])
+        })),
+        pathPoints: path.length,
+        lineLayers,
+        pinScreen: pins.map((pin, i) => {
+          const proj = m && m.project ? m.project([pin.lon, pin.lat]) : null;
+          const origin = m && m.getContainer ? m.getContainer().getBoundingClientRect() : { left: 0, top: 0 };
+          const el = document.querySelectorAll(".pp-map-marker.pin")[i];
+          const r = el ? el.getBoundingClientRect() : null;
+          const tip = r ? { x: r.left + r.width / 2 - origin.left, y: r.bottom - origin.top } : null;
+          return {
+            i,
+            dx: tip && proj ? Math.round((tip.x - proj.x) * 10) / 10 : null,
+            dy: tip && proj ? Math.round((tip.y - proj.y) * 10) / 10 : null
+          };
+        }),
+        openSheets: Array.from(document.querySelectorAll(".sheet-back.open")).map((el) => el.id)
       };
     }
   };

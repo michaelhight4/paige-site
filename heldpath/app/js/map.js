@@ -328,6 +328,7 @@ export function setMapStyle(style, { online = true } = {}) {
     const usgs = map.getSource("usgs-imagery");
     if (usgs) usgs.attribution = credit;
     refreshAttribution();
+    raiseOverlays();
     flashAttribution(3500);
   } catch (err) {
     console.warn("map style", err && err.message ? err.message : err);
@@ -683,7 +684,9 @@ export async function initMap(container, opt = {}) {
     if (opt.mapStyle) setMapStyle(opt.mapStyle, { online: typeof navigator === "undefined" || navigator.onLine !== false });
     bindAttribToggle();
     flashAttribution(3500);
+    raiseOverlays();
   });
+  map.on("styledata", () => raiseOverlays());
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
   map.on("error", (e) => {
     // Missing glyphs or a single tile should not kill the map.
@@ -838,30 +841,51 @@ function lineGeo(coords) {
   };
 }
 
+/** Keep course lines above basemap fills (parks, buildings, landcover). */
+export function raiseOverlays() {
+  if (!map) return;
+  for (const id of overlayIds) {
+    if (map.getLayer(id)) {
+      try { map.moveLayer(id); } catch { /* layer may be mid-update */ }
+    }
+  }
+}
+
+function addOrUpdateLine(id, data, paint, layout) {
+  if (map.getSource(id)) {
+    map.getSource(id).setData(data);
+    if (!map.getLayer(id)) {
+      map.addLayer({ id, type: "line", source: id, paint, layout });
+      if (!overlayIds.includes(id)) overlayIds.push(id);
+    }
+  } else {
+    map.addSource(id, { type: "geojson", data });
+    map.addLayer({ id, type: "line", source: id, paint, layout });
+    overlayIds.push(id);
+  }
+}
+
 export function drawRoute(coords, opt = {}) {
   if (!map || !coords || coords.length < 2) return;
   const id = opt.id || "route-line";
   const color = opt.color || "#4EC3F7";
   const width = opt.width || 5;
   const data = { type: "FeatureCollection", features: [lineGeo(coords)] };
-  if (map.getSource(id)) {
-    map.getSource(id).setData(data);
-    return;
-  }
-  map.addSource(id, { type: "geojson", data });
-  map.addLayer({
-    id,
-    type: "line",
-    source: id,
-    paint: {
-      "line-color": color,
-      "line-width": width,
-      "line-opacity": 0.95,
-      ...(opt.dash ? { "line-dasharray": [1.6, 1.4] } : {}),
-    },
-    layout: { "line-cap": "round", "line-join": "round" },
-  });
-  overlayIds.push(id);
+  const layout = { "line-cap": "round", "line-join": "round" };
+  const dash = opt.dash ? { "line-dasharray": [1.6, 1.4] } : {};
+  addOrUpdateLine(id + "-casing", data, {
+    "line-color": "#0C1218",
+    "line-width": width + 3,
+    "line-opacity": 0.88,
+    ...dash,
+  }, layout);
+  addOrUpdateLine(id, data, {
+    "line-color": color,
+    "line-width": width,
+    "line-opacity": 0.95,
+    ...dash,
+  }, layout);
+  raiseOverlays();
 }
 
 export function clearOverlays() {
