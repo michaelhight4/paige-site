@@ -132,13 +132,13 @@ import { initPlansUi, renderPlansScreen } from "./plans_ui.js";
 import { initStretchesUi, showStretchesHub, showStretchGroup, showStretchWorkout, showStretchCredits, showStretchFollow, openStretchVideo, closeStretchVideo, setStretchStyle } from "./stretches_ui.js";
 import { initMapDownloadUi, showMapAreas, openCrop, closeCrop } from "./map_download_ui.js";
 import { listAreas } from "./map_offline.js";
-import { ensureWalkGraph, graphCoversPoints } from "./area_graphs.js";
+import { ensureWalkGraph, ensureLoopGraph, graphCoversPoints } from "./area_graphs.js";
 import { assessRouteLowSignal, LOW_SIGNAL_COPY, pathBbox } from "./low_signal.js";
 import { gainLoss, displayDistance, naismithSeconds, formatGain, elevationProfileSvg, FLAT_DISCLAIMER, HILLS_DISCLAIMER, DEM_CREDIT_SHORT, DEM_ATTRIBUTION_URL } from "./elevation.js";
 import { samplePathDem } from "./elevation_dem.js";
 
 import { applyCompletedSession, importPlanFile, addPlanToState, makePlan, PLAN_FORMAT, PLAN_FORMAT_VERSION } from "./plans.js";
-import { buildPlanDraft } from "./plan_progress.js";
+import { buildPlanDraft, buildAutoLoop, AUTO_LOOP_FAIL_COPY } from "./plan_progress.js";
 import { recentAveragePaceSecPerMeter } from "./plan_legs.js";
 import { encodeCourse, encodePlan, decodeShare, isShareHash, shareSummary, pathPreviewSvg } from "./share_link.js";
 import {
@@ -423,7 +423,7 @@ function courseById(id) {
 /* ——— Renderers ——— */
 function renderToday() {
   const banner = $("map-banner");
-  if (banner) banner.hidden = true;
+  if (banner && !ui.keepMapBanner) banner.hidden = true;
 }
 
 function playQuietCompleteAlert() {
@@ -1352,6 +1352,7 @@ function renderCalendar() {
           id: p.sourcePlanId ? null : c ? c.id : null,
           name: p.courseName || (c && c.name) || "Plan session",
           pins,
+          path: p.routePath || (c && c.path) || null,
         };
         startTracking(p.activityType, course, p);
       } else if (c) {
@@ -1359,6 +1360,7 @@ function renderCalendar() {
       }
     },
     onOpenGroup: (id) => openGroupEvent(id),
+    onOpenPlanRoute: (id) => openPlanRoute(id, { from: "calendar" }),
     onSchedule: () => openSessionChoice(),
     onGroupRun: () => openGroupRun(),
     onStartCourse: (courseId, type) => {
@@ -1412,7 +1414,7 @@ function courseForGroupPlan(plan) {
     }
   }
   if (plan.routePins && plan.routePins.length >= 2) {
-    return { id: plan.courseId || null, name: plan.courseName, pins: plan.routePins };
+    return { id: plan.courseId || null, name: plan.courseName, pins: plan.routePins, path: plan.routePath || null };
   }
   return existing || null;
 }
@@ -1508,6 +1510,127 @@ function closeGroupRouteView() {
   try { map.clearOverlays(); map.clearMarkers(); } catch { /* ignore */ }
   setTab("calendar");
   if (ui.pendingGroupPlan) openGroupEvent(ui.pendingGroupPlan);
+}
+
+function courseForPlanSession(plan) {
+  if (!plan) return null;
+  const existing = plan.courseId ? courseById(plan.courseId) : null;
+  if (existing && existing.pins && existing.pins.length >= 2) {
+    return existing.path ? existing : { ...existing, path: plan.routePath || existing.path || null };
+  }
+  if (plan.routePins && plan.routePins.length >= 2) {
+    return { id: plan.courseId || null, name: plan.courseName || "Plan loop", pins: plan.routePins, path: plan.routePath || null };
+  }
+  if (plan.route && plan.route.pins && plan.route.pins.length >= 2) {
+    return { id: plan.route.courseId || null, name: plan.title || plan.courseName || "Plan loop", pins: plan.route.pins, path: plan.route.path || null };
+  }
+  return existing || null;
+}
+
+function showMapBanner(text) {
+  const banner = $("map-banner");
+  const copy = String(text || "");
+  ui.keepMapBanner = !!copy;
+  if (!banner) return;
+  banner.hidden = !copy;
+  banner.textContent = copy;
+}
+
+function openPlanRoute(planOrId, { from = "calendar" } = {}) {
+  const plan = typeof planOrId === "string"
+    ? (state.plans || []).find((p) => p.id === planOrId)
+    : planOrId;
+  const course = courseForPlanSession(plan);
+  if (!course || !course.pins || course.pins.length < 2) {
+    const note = $("plan-create-note");
+    if (note) note.textContent = AUTO_LOOP_FAIL_COPY;
+    return;
+  }
+  ui.pendingPlanRoute = { plan, course, from };
+  closeSheet("sheet-plan-route");
+  setTab("today");
+  showScreen("today");
+  if ($("today-dock")) $("today-dock").hidden = true;
+  map.clearOverlays();
+  map.clearMarkers();
+  const line = (course.path && course.path.length >= 2) ? course.path : course.pins;
+  if (line.length >= 2) map.drawRoute(line, { id: "course-line", color: "#4EC3F7", width: 5 });
+  addCoursePins(course.pins);
+  const pad = { top: 56, bottom: 360, left: 48, right: 48 };
+  map.whenReady(() => map.fitBounds(line, pad));
+  map.fitBounds(line, pad);
+  const meters = courseMeters(course);
+  const type = (plan && plan.activityType) || "walk";
+  const usedRecent = !!recentAveragePaceSecPerMeter(state.activities || [], { type });
+  const dur = estimateSessionSec(meters, type);
+  if ($("plan-route-title")) $("plan-route-title").textContent = course.name || "Plan loop";
+  if ($("plan-route-stats")) $("plan-route-stats").textContent = `${formatDistance(meters, units())} · ${formatEta(dur)}`;
+  if ($("plan-route-pace-note")) {
+    $("plan-route-pace-note").textContent = usedRecent
+      ? "Estimated finish uses your recent pace."
+      : "Estimated finish uses the default walk or run pace.";
+  }
+  if ($("plan-route-note")) $("plan-route-note").textContent = "";
+  const startBtn = $("btn-plan-route-start");
+  if (startBtn) startBtn.hidden = false;
+  openSheet("sheet-plan-route");
+}
+
+function closePlanRouteView() {
+  closeSheet("sheet-plan-route");
+  if ($("today-dock")) $("today-dock").hidden = false;
+  try { map.clearOverlays(); map.clearMarkers(); } catch { /* ignore */ }
+  const from = ui.pendingPlanRoute && ui.pendingPlanRoute.from;
+  if (from === "plans") setTab("plans");
+  else setTab("calendar");
+}
+
+function startPendingPlanRoute() {
+  const pending = ui.pendingPlanRoute;
+  if (!pending || !pending.course) return;
+  closeSheet("sheet-plan-route");
+  if ($("today-dock")) $("today-dock").hidden = false;
+  const plan = pending.plan || {};
+  startTracking(plan.activityType || "walk", pending.course, plan);
+}
+
+function pickLoopStartOnMap() {
+  return new Promise((resolve) => {
+    if (ui.offPickLoop) {
+      try { ui.offPickLoop(); } catch { /* ignore */ }
+      ui.offPickLoop = null;
+    }
+    setTab("today");
+    showScreen("today");
+    showMapBanner("Tap the map to set the start of your loop");
+    ui.offPickLoop = map.onMapClick((pt) => {
+      if (ui.offPickLoop) {
+        try { ui.offPickLoop(); } catch { /* ignore */ }
+        ui.offPickLoop = null;
+      }
+      showMapBanner("");
+      const fix = { lat: pt.lat, lon: pt.lon, accuracy: 25, at: Date.now() };
+      state.settings.lastKnown = fix;
+      persist();
+      try { map.setUserDot(fix); } catch { /* ignore */ }
+      resolve({ lat: pt.lat, lon: pt.lon });
+    });
+  });
+}
+
+async function resolveLoopCenter({ onNeedTap } = {}) {
+  const known = normalizeFix(state.settings.lastKnown);
+  if (known) return { lat: known.lat, lon: known.lon };
+  try {
+    const disc = await ensureLocationDisclosure();
+    if (disc && disc.allowed) {
+      const res = await (disc.locatePromise || requestPosition());
+      applyLocateResult(res, { animate: true });
+      if (res && res.ok && res.fix) return { lat: res.fix.lat, lon: res.fix.lon };
+    }
+  } catch { /* permission denied or unavailable */ }
+  if (typeof onNeedTap === "function") onNeedTap();
+  return pickLoopStartOnMap();
 }
 
 function openSchedule(opt = {}) {
@@ -2731,6 +2854,14 @@ function bind() {
     });
   }
   if ($("btn-group-route-back")) $("btn-group-route-back").addEventListener("click", () => closeGroupRouteView());
+  if ($("btn-plan-route-start")) $("btn-plan-route-start").addEventListener("click", () => startPendingPlanRoute());
+  if ($("btn-plan-route-save")) {
+    $("btn-plan-route-save").addEventListener("click", () => {
+      const pending = ui.pendingPlanRoute;
+      saveGroupCourseTemplate(pending && pending.course, $("plan-route-note"));
+    });
+  }
+  if ($("btn-plan-route-back")) $("btn-plan-route-back").addEventListener("click", () => closePlanRouteView());
   $("btn-sched-save").addEventListener("click", () => {
     const c = courseById($("sched-course").value);
     if (!c) return;
@@ -3795,6 +3926,40 @@ const US_TOWN_ROUTES = {
   },
 };
 
+
+async function showUsTownAutoLoop({ center, meters = 1609 } = {}) {
+  const fix = { lat: center.lat, lon: center.lon, accuracy: 18, at: Date.now() };
+  state.settings.lastKnown = fix;
+  state.settings.locationDisclosureAccepted = true;
+  state.settings.mapStyle = "map";
+  persist();
+  setTab("today");
+  showScreen("today");
+  if ($("today-dock")) $("today-dock").hidden = true;
+  showMapBanner("Loading paths…");
+  await waitMapReady();
+  map.setCenter(center.lat, center.lon, 15);
+  const loop = await buildAutoLoop(center, meters);
+  showMapBanner("");
+  if (!loop || loop.ok === false || !loop.pins || loop.pins.length < 2) {
+    showMapBanner(AUTO_LOOP_FAIL_COPY);
+    return loop;
+  }
+  const course = { id: null, name: "Plan loop", pins: loop.pins, path: loop.path };
+  const plan = {
+    id: "hook-plan-loop",
+    activityType: "walk",
+    courseName: "Plan loop",
+    courseId: null,
+    routePins: loop.pins,
+    routePath: loop.path,
+    targetLengthMeters: loop.meters || meters,
+  };
+  openPlanRoute(plan, { from: "plans" });
+  await new Promise((r) => setTimeout(r, 400));
+  return loop;
+}
+
 async function showUsTownBuilder({ center, pins, satellite = false, zoom = 16.2 } = {}) {
   const fix = { lat: center.lat, lon: center.lon, accuracy: 18, at: Date.now() };
   state.settings.lastKnown = fix;
@@ -3857,6 +4022,7 @@ window.HeldpathTest = {
     closeSheet("sheet-group-invite");
     closeSheet("sheet-group-event");
     closeSheet("sheet-group-route");
+    closeSheet("sheet-plan-route");
     if ($("today-dock")) $("today-dock").hidden = false;
     closeSheet("sheet-builder-help");
     closeSheet("sheet-pin-action");
@@ -4051,11 +4217,13 @@ window.HeldpathTest = {
       await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
       if (name === "routing-loop") {
         const center = { lat: 43.7672, lon: 11.2543 };
+        try { await ensureLoopGraph(center, 1609); } catch { /* fixture graph */ }
         const loop = getActiveGraph() ? autoLoopRoute(getActiveGraph(), center, 1609) : null;
-        if (loop && loop.pins) {
+        if (loop && loop.ok && loop.pins && !loop.fallback) {
           ui.builderPins = loop.pins.map((p) => ({ ...p }));
           ui.builderRoute = loop;
         } else {
+          // Last-resort fixture for this named Florence screenshot only — never a rectangle.
           ui.builderPins = arnoLoopPins().map((p) => ({ ...p }));
         }
       } else if (name === "routing-builder" || name === "routing-straight") {
@@ -4178,8 +4346,11 @@ window.HeldpathTest = {
       const center = { lat: 43.7672, lon: 11.2543 };
       await ensureWalkGraph(center);
       const wantMile = name === "builder-mile-loop";
+      if (wantMile) {
+        try { await ensureLoopGraph(center, 1609); } catch { /* fixture graph */ }
+      }
       const loop = (wantMile && getActiveGraph()) ? autoLoopRoute(getActiveGraph(), center, 1609) : null;
-      if (loop && loop.pins && loop.pins.length >= 3) {
+      if (loop && loop.ok && loop.pins && loop.pins.length >= 3 && !loop.fallback) {
         ui.builder = ingestPins(loop.pins);
         ui.builder = setEndIndex(ui.builder, 0);
         ui.builderRoute = loop;
@@ -4338,6 +4509,25 @@ window.HeldpathTest = {
       startBuilderLocation({ center: true });
       renderBuilder();
       await new Promise((r) => setTimeout(r, 400));
+    } else if (name === "plan-autoloop" || name === "plan-autoloop-gulfport" || name === "plan-autoloop-oak-park" || name === "plan-autoloop-holland") {
+      const key = name === "plan-autoloop-oak-park" ? "oak-park" : (name === "plan-autoloop-holland" ? "holland" : "gulfport");
+      await showUsTownAutoLoop({ ...US_TOWN_ROUTES[key], meters: 1609 });
+    } else if (name === "plan-autoloop-loading") {
+      const center = US_TOWN_ROUTES.gulfport.center;
+      state.settings.lastKnown = { ...center, accuracy: 18, at: Date.now() };
+      state.settings.locationDisclosureAccepted = true;
+      persist();
+      setTab("today");
+      showScreen("today");
+      try { map.setCenter(center.lat, center.lon, 15); } catch { /* map may still be starting */ }
+      showMapBanner("Loading paths…");
+      if ($("plan-create-note")) $("plan-create-note").textContent = "Loading paths…";
+    } else if (name === "plan-autoloop-nolocation") {
+      state.settings.lastKnown = null;
+      persist();
+      setTab("today");
+      showScreen("today");
+      showMapBanner("Tap the map to set the start of your loop");
     } else if (name === "builder-satellite" || name === "map-satellite") {
       await showUsTownBuilder({ ...US_TOWN_ROUTES.gulfport, satellite: true });
     } else if (name === "builder-gulfport" || name === "builder-oak-park" || name === "builder-holland") {
@@ -4810,7 +5000,16 @@ async function init() {
     }
   });
   await wireAppLinks();
-  initPlansUi({ getState: () => state, persist, units, openShare: (plan) => openShareSheet("plan", plan), getCenter: () => (state.settings.lastKnown && state.settings.lastKnown.lat != null ? { lat: state.settings.lastKnown.lat, lon: state.settings.lastKnown.lon } : null) });
+  initPlansUi({
+    getState: () => state,
+    persist,
+    units,
+    openShare: (plan) => openShareSheet("plan", plan),
+    getCenter: () => (state.settings.lastKnown && state.settings.lastKnown.lat != null ? { lat: state.settings.lastKnown.lat, lon: state.settings.lastKnown.lon } : null),
+    resolveLoopCenter,
+    showPlanRoute: (plan) => openPlanRoute(plan, { from: "plans" }),
+    preloadLoopGraph: (c, meters) => ensureLoopGraph(c, meters),
+  });
   renderSettings();
   try {
     if (Capacitor.isNativePlatform()) {

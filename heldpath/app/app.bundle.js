@@ -38019,11 +38019,41 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     }
     return out;
   }
+  function bearingDegrees(a, b2) {
+    const lat1 = Number(a.lat) * Math.PI / 180;
+    const lat2 = Number(b2.lat) * Math.PI / 180;
+    const dLon = (Number(b2.lon) - Number(a.lon)) * Math.PI / 180;
+    const y2 = Math.sin(dLon) * Math.cos(lat2);
+    const x2 = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+    return (Math.atan2(y2, x2) * 180 / Math.PI + 360) % 360;
+  }
+  function turnDelta(fromDeg, toDeg) {
+    let d2 = Math.abs(Number(fromDeg) - Number(toDeg)) % 360;
+    return d2 > 180 ? 360 - d2 : d2;
+  }
+  function autoLoopFailed(reason) {
+    return { ok: false, reason: reason || "no-loop", pins: null, path: null, meters: 0, fallback: null };
+  }
+  function attachLoopToUser(built, center) {
+    if (!built || !built.path || built.path.length < 4 || !center) return built;
+    const start = { lat: Number(center.lat), lon: Number(center.lon) };
+    const path = [start, ...built.path];
+    const last = path[path.length - 1];
+    if (haversineMeters(last, start) > 0.5) path.push({ ...start });
+    else path[path.length - 1] = { ...start };
+    const pins = (built.pins || []).map((p) => ({ ...p }));
+    if (pins.length) {
+      pins[0] = { lat: start.lat, lon: start.lon, role: "start" };
+      pins[pins.length - 1] = { lat: start.lat, lon: start.lon, role: "end" };
+    }
+    return { ...built, ok: true, fallback: null, pins, path, meters: pathLengthMeters(path) };
+  }
   function autoLoopRoute(graph, center, targetMeters, opts = {}) {
     const target = Math.max(200, Number(targetMeters) || 0);
-    if (!graph || !center) return { fallback: "rectangle", pins: null, path: null, meters: 0 };
-    const start = snapToNode(graph, center.lat, center.lon, opts.maxSnap || 120);
-    if (!start) return { fallback: "rectangle", pins: null, path: null, meters: 0 };
+    if (!center || !Number.isFinite(Number(center.lat)) || !Number.isFinite(Number(center.lon))) {
+      return autoLoopFailed("no-center");
+    }
+    if (!graph) return autoLoopFailed("no-graph");
     const pathCache = /* @__PURE__ */ new Map();
     function hop(a, b2, avoid) {
       const key = a + ">" + b2 + ">" + (avoid == null ? -1 : avoid);
@@ -38032,12 +38062,19 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       pathCache.set(key, res);
       return res;
     }
-    function assemble(stops, viaPts) {
+    function assemble(start, stops, viaPts, opts2 = {}) {
       const path = [];
       let meters = 0;
+      const maxDetour = opts2.maxDetour || 0;
       for (let i = 0; i < stops.length - 1; i++) {
         const piece = hop(stops[i], stops[i + 1]);
         if (!piece) return null;
+        if (maxDetour) {
+          const a = { lat: graph.lat[stops[i]], lon: graph.lon[stops[i]] };
+          const b2 = { lat: graph.lat[stops[i + 1]], lon: graph.lon[stops[i + 1]] };
+          const crow = haversineMeters(a, b2);
+          if (crow > 5 && piece.meters > crow * maxDetour + 80) return null;
+        }
         meters += piece.meters;
         const pts = pointsFromNodes(graph, piece.nodes);
         if (!path.length) path.push(...pts);
@@ -38053,15 +38090,15 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
         pins.push({ lat: p.lat, lon: p.lon, role: "via" });
       }
       pins.push({ lat: start.lat, lon: start.lon, role: "end" });
-      return { pins, path, meters, fallback: null };
+      return { pins, path, meters, fallback: null, ok: true };
     }
-    function tryOnce(radius, count, offsetDeg) {
+    function tryOnce(start, radius, count, offsetDeg, snapPad) {
       const ids = [start.id];
       const viaPts = [];
       for (let i = 0; i < count; i++) {
         const bearing = offsetDeg + i * 360 / count;
         const dest = destination(center.lat, center.lon, bearing, radius);
-        const snap = snapToNode(graph, dest.lat, dest.lon, Math.max(80, radius * 0.45));
+        const snap = snapToNode(graph, dest.lat, dest.lon, Math.max(snapPad || 80, radius * 0.45));
         if (!snap) return null;
         viaPts.push(snap);
         if (snap.id !== ids[ids.length - 1]) ids.push(snap.id);
@@ -38070,11 +38107,130 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       const stops = uniqueStops(ids);
       if (stops.length < 3) return null;
       if (stops[0] !== stops[stops.length - 1]) stops.push(stops[0]);
-      const built = assemble(stops, viaPts);
-      if (!built || built.meters < target * 0.4) return null;
+      const built = assemble(start, stops, viaPts, { maxDetour: 3 });
+      if (!built || built.meters < target * 0.55 || built.meters > target * 1.6) return null;
+      built.quality = loopQuality(built.path);
       return built;
     }
-    function smallestBlock() {
+    function edgeKey(a, b2) {
+      return a < b2 ? a + ":" + b2 : b2 + ":" + a;
+    }
+    function walkToward(fromId, heading, budgetMeters, used) {
+      const nodes = [fromId];
+      let id = fromId;
+      let meters = 0;
+      let prev = -1;
+      const seen = used || /* @__PURE__ */ new Set();
+      for (let guard = 0; guard < 500 && meters < budgetMeters; guard++) {
+        const nbrs = graph.adj[id] || [];
+        if (!nbrs.length) break;
+        let best2 = null;
+        let bestScore = Infinity;
+        for (const e of nbrs) {
+          if (e.to === prev) continue;
+          const brg = bearingDegrees(
+            { lat: graph.lat[id], lon: graph.lon[id] },
+            { lat: graph.lat[e.to], lon: graph.lon[e.to] }
+          );
+          const reused = seen.has(edgeKey(id, e.to));
+          const score = turnDelta(heading, brg) + (reused ? 80 : 0);
+          if (score < bestScore) {
+            bestScore = score;
+            best2 = e;
+          }
+        }
+        if (!best2) {
+          for (const e of nbrs) {
+            if (e.to === prev) {
+              best2 = e;
+              break;
+            }
+          }
+        }
+        if (!best2) break;
+        seen.add(edgeKey(id, best2.to));
+        prev = id;
+        id = best2.to;
+        meters += best2.meters;
+        nodes.push(id);
+      }
+      return { nodes, meters, end: id };
+    }
+    function loopQuality(pts) {
+      if (!pts || pts.length < 4) return 0;
+      let minLat = Infinity, maxLat = -Infinity, minLon = Infinity, maxLon = -Infinity;
+      for (const p of pts) {
+        if (p.lat < minLat) minLat = p.lat;
+        if (p.lat > maxLat) maxLat = p.lat;
+        if (p.lon < minLon) minLon = p.lon;
+        if (p.lon > maxLon) maxLon = p.lon;
+      }
+      const height = haversineMeters({ lat: minLat, lon: minLon }, { lat: maxLat, lon: minLon });
+      const width = haversineMeters({ lat: minLat, lon: minLon }, { lat: minLat, lon: maxLon });
+      const short = Math.min(width, height);
+      const long = Math.max(width, height) || 1;
+      return short / long;
+    }
+    function retraceRatio(nodes) {
+      if (!nodes || nodes.length < 3) return 1;
+      const seen = /* @__PURE__ */ new Set();
+      let reused = 0, total = 0;
+      for (let i = 1; i < nodes.length; i++) {
+        const key = edgeKey(nodes[i - 1], nodes[i]);
+        total++;
+        if (seen.has(key)) reused++;
+        else seen.add(key);
+      }
+      return total ? reused / total : 1;
+    }
+    function tryHeadingLoop(start, sides, offsetDeg, scale, shareUsed = true) {
+      const budget = target / sides * scale;
+      const nodes = [start.id];
+      const viaPts = [];
+      const used = shareUsed ? /* @__PURE__ */ new Set() : null;
+      let id = start.id;
+      for (let s2 = 0; s2 < sides; s2++) {
+        const heading = (offsetDeg + s2 * 360 / sides) % 360;
+        const walk = walkToward(id, heading, budget, used);
+        if (!walk.nodes.length || walk.end == null) return null;
+        for (const n of walk.nodes.slice(1)) {
+          if (n !== nodes[nodes.length - 1]) nodes.push(n);
+        }
+        const viaId = walk.end;
+        viaPts.push({ id: viaId, lat: graph.lat[viaId], lon: graph.lon[viaId] });
+        id = walk.end;
+      }
+      if (nodes[nodes.length - 1] !== start.id) {
+        const closeHop = hop(nodes[nodes.length - 1], start.id);
+        if (!closeHop) return null;
+        const crow = haversineMeters(
+          { lat: graph.lat[nodes[nodes.length - 1]], lon: graph.lon[nodes[nodes.length - 1]] },
+          { lat: start.lat, lon: start.lon }
+        );
+        if (crow > 0.5 && closeHop.meters > crow * 3 + 80) return null;
+        if (closeHop.meters > target * 0.45) return null;
+        for (const n of closeHop.nodes.slice(1)) {
+          if (n !== nodes[nodes.length - 1]) nodes.push(n);
+        }
+      }
+      if (nodes.length < 4) return null;
+      const pts = pointsFromNodes(graph, nodes);
+      if (pts.length < 4) return null;
+      pts[0] = { lat: start.lat, lon: start.lon };
+      pts[pts.length - 1] = { lat: start.lat, lon: start.lon };
+      const meters = pathLengthMeters(pts);
+      if (meters < target * 0.55 || meters > target * 1.6) return null;
+      const pins = [{ lat: start.lat, lon: start.lon, role: "start" }];
+      const step = Math.max(1, Math.floor(viaPts.length / 3) || 1);
+      for (let i = 0; i < viaPts.length; i += step) {
+        const p = viaPts[i];
+        if (p.id === start.id) continue;
+        pins.push({ lat: p.lat, lon: p.lon, role: "via" });
+      }
+      pins.push({ lat: start.lat, lon: start.lon, role: "end" });
+      return { pins, path: pts, meters, fallback: null, ok: true, quality: loopQuality(pts), retrace: retraceRatio(nodes) };
+    }
+    function smallestBlock(start) {
       const nbrs = graph.adj[start.id] || [];
       let best2 = null;
       for (let i = 0; i < nbrs.length; i++) {
@@ -38082,13 +38238,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
           const mid = hop(nbrs[i].to, nbrs[j2].to, start.id);
           if (!mid) continue;
           const meters = mid.meters + nbrs[i].meters + nbrs[j2].meters;
-          if (meters < 80) continue;
-          const nodes = [start.id, nbrs[i].to, ...mid.nodes.slice(1), start.id];
-          const viaPts = [
-            { id: nbrs[i].to, lat: graph.lat[nbrs[i].to], lon: graph.lon[nbrs[i].to] },
-            { id: nbrs[j2].to, lat: graph.lat[nbrs[j2].to], lon: graph.lon[nbrs[j2].to] }
-          ];
-          const built = assemble(uniqueStops(nodes).concat(uniqueStops(nodes)[0] === nodes[nodes.length - 1] ? [] : [start.id]), viaPts);
+          if (meters < 80 || meters > target * 1.8) continue;
           const path = pointsFromNodes(graph, [start.id, ...mid.nodes, start.id]);
           path[0] = { lat: start.lat, lon: start.lon };
           path[path.length - 1] = { lat: start.lat, lon: start.lon };
@@ -38101,30 +38251,97 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
             ],
             path,
             meters,
-            fallback: null
+            fallback: null,
+            ok: true
           };
           if (!best2 || Math.abs(cand.meters - target) < Math.abs(best2.meters - target)) best2 = cand;
         }
       }
       return best2;
     }
-    const baseR = target / (2 * Math.PI);
-    const counts = opts.waypointCounts || [3, 4, 5, 6];
-    const scales = opts.scales || [0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.65, 0.8, 1, 1.2];
-    const offsets = opts.offsets || [0, 20, 40, 60, 80, 100, 120, 150];
-    let best = target < 700 ? smallestBlock() : null;
-    const close = target * 0.05;
-    outer: for (const offsetDeg of offsets) {
-      for (const count of counts) {
-        for (const scale of scales) {
-          const cand = tryOnce(baseR * scale, count, offsetDeg);
-          if (!cand) continue;
-          if (!best || Math.abs(cand.meters - target) < Math.abs(best.meters - target)) best = cand;
-          if (Math.abs(best.meters - target) <= close) break outer;
+    function loopRank(cand) {
+      const err2 = Math.abs(cand.meters - target) / target;
+      const q2 = Number(cand.quality);
+      const quality = Number.isFinite(q2) ? q2 : loopQuality(cand.path);
+      const retrace = Number(cand.retrace);
+      const shaped = quality >= 0.18 && !(retrace > 0.25);
+      if (err2 <= 0.05 && shaped) return 0;
+      if (err2 <= 0.05) return 1;
+      if (err2 <= 0.08 && shaped) return 2;
+      if (err2 <= 0.1 && shaped) return 3;
+      return 4;
+    }
+    function consider(cand, best2) {
+      if (!cand) return best2;
+      const attached = attachLoopToUser(cand, center);
+      if (!attached || !attached.path) return best2;
+      attached.quality = cand.quality != null ? cand.quality : loopQuality(attached.path);
+      attached.retrace = cand.retrace;
+      attached._rank = loopRank(attached);
+      attached._err = Math.abs(attached.meters - target);
+      if (!best2) return attached;
+      if (attached._rank < best2._rank) return attached;
+      if (attached._rank === best2._rank && attached._err < best2._err) return attached;
+      return best2;
+    }
+    function searchWithStart(start, counts, scales, offsets) {
+      const baseR = target / (2 * Math.PI);
+      let best2 = target < 700 ? consider(smallestBlock(start), null) : null;
+      const close2 = target * 0.05;
+      const headingScales = opts.headingScales || [0.7, 0.8, 0.85, 0.9, 0.93, 0.96, 0.98, 1, 1.02, 1.05, 1.08, 1.12, 1.18, 1.25, 1.35];
+      outer: for (const offsetDeg of offsets) {
+        for (const count of counts) {
+          for (const scale of headingScales) {
+            best2 = consider(tryHeadingLoop(start, count, offsetDeg, scale), best2);
+            if (best2 && best2._rank === 0) break outer;
+          }
         }
       }
+      if (!(best2 && best2._rank <= 1)) {
+        outerU: for (const offsetDeg of offsets) {
+          for (const count of counts) {
+            for (const scale of headingScales) {
+              best2 = consider(tryHeadingLoop(start, count, offsetDeg, scale, false), best2);
+              if (best2 && best2._rank <= 1) break outerU;
+            }
+          }
+        }
+      }
+      if (!(best2 && best2._rank <= 1)) {
+        outer2: for (const offsetDeg of offsets) {
+          for (const count of counts) {
+            for (const scale of scales) {
+              best2 = consider(tryOnce(start, baseR * scale, count, offsetDeg, Math.max(80, start._snap || 120)), best2);
+              if (best2 && best2._rank <= 1) break outer2;
+            }
+          }
+        }
+      }
+      return best2;
     }
-    return best || { fallback: "rectangle", pins: null, path: null, meters: 0 };
+    const tightCounts = opts.waypointCounts || [3, 4, 5, 6];
+    const tightScales = opts.scales || [0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.65, 0.8, 1, 1.2];
+    const tightOffsets = opts.offsets || [0, 20, 40, 60, 80, 100, 120, 150];
+    const wideCounts = opts.wideCounts || [3, 4, 5, 6, 7, 8];
+    const wideScales = opts.wideScales || [0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.7, 0.8, 0.9, 1, 1.15, 1.3, 1.5, 1.7];
+    const wideOffsets = opts.wideOffsets || [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165];
+    const snapRadii = opts.snapRadii || [120, 200, 350, 500];
+    let best = null;
+    const close = target * 0.05;
+    for (const maxSnap of snapRadii) {
+      const start = snapToNode(graph, center.lat, center.lon, maxSnap);
+      if (!start) continue;
+      start._snap = maxSnap;
+      const first = searchWithStart(start, tightCounts, tightScales, tightOffsets);
+      const wide = !first || Math.abs(first.meters - target) > close ? searchWithStart(start, wideCounts, wideScales, wideOffsets) : null;
+      for (const cand of [first, wide]) {
+        if (!cand) continue;
+        if (!best || Math.abs(cand.meters - target) < Math.abs(best.meters - target)) best = cand;
+      }
+      if (best && best._rank === 0) break;
+    }
+    if (!best) return autoLoopFailed("no-loop");
+    return best.path && best.path[0] && haversineMeters(best.path[0], center) < 1 ? best : attachLoopToUser(best, center);
   }
   function coursePath(course) {
     if (!course) return [];
@@ -40180,6 +40397,20 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     health: "From the health app"
   };
   var dist = (meters, units3) => formatDistance(meters, units3, { digits: 1 });
+  function courseForPlanRow(p, courses) {
+    const c = (courses || []).find((x2) => x2.id === p.courseId);
+    if (c && c.pins && c.pins.length >= 2) return c;
+    if (p.routePins && p.routePins.length >= 2) {
+      return { id: p.courseId || null, name: p.courseName || "Plan loop", pins: p.routePins, path: p.routePath || null };
+    }
+    return null;
+  }
+  function planRouteMeters(p, courses) {
+    const c = courseForPlanRow(p, courses);
+    if (!c) return Number(p.targetLengthMeters) || 0;
+    const line = c.path && c.path.length >= 2 ? c.path : c.pins;
+    return pathLengthMeters(line) || Number(p.targetLengthMeters) || 0;
+  }
   function groupActivitiesByDay(activities) {
     const out = {};
     for (const a of activities || []) {
@@ -40249,8 +40480,8 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     </div>` : ""}`;
   }
   function planRow(p, courses, units3, isToday, isFuture) {
-    const c = (courses || []).find((x2) => x2.id === p.courseId);
-    const len = c ? pathLengthMeters(c.pins) : 0;
+    const c = courseForPlanRow(p, courses);
+    const len = planRouteMeters(p, courses);
     const eta = formatEta(etaSeconds(len, activityMph(p.activityType)));
     const isGroup = !!p.groupRunId;
     const timeLabel = p.startAt ? new Date(p.startAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) : "";
@@ -40273,6 +40504,12 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       <div class="grow"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p></div>
       <div class="meta muted">\u2014</div>
     </div>`;
+    }
+    if (!p.courseId && p.routePins && p.routePins.length >= 2) {
+      return `<button class="list-item plan-row" data-plan-route="${escapeHtml(p.id)}" data-testid="plan-loop-row">
+      <div class="grow"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p></div>
+      <div class="meta">View</div>
+    </button>`;
     }
     return `<button class="list-item plan-row" data-plan="${escapeHtml(p.id)}">
       <div class="grow"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p></div>
@@ -40297,8 +40534,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     const next = sortCalendarItems((plans || []).filter((p) => p.date && p.date >= todayIso)).slice(0, 3);
     if (!next.length) return "";
     const rows = next.map((p) => {
-      const c = (courses || []).find((x2) => x2.id === p.courseId);
-      const len = c ? pathLengthMeters(c.pins) : 0;
+      const len = planRouteMeters(p, courses);
       return `<button class="list-item upcoming-row" data-up="${escapeHtml(p.date)}">
       <div class="grow">
         <h3>${escapeHtml(shortDate(p.date))}</h3>
@@ -40327,6 +40563,7 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
       onSelectDay,
       onStartPlan,
       onOpenGroup,
+      onOpenPlanRoute,
       onSchedule,
       onGroupRun,
       onToggleActivity,
@@ -40426,6 +40663,11 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
     panel.querySelectorAll("[data-group-plan]").forEach((el) => {
       el.addEventListener("click", () => {
         if (onOpenGroup) onOpenGroup(el.dataset.groupPlan);
+      });
+    });
+    panel.querySelectorAll("[data-plan-route]").forEach((el) => {
+      el.addEventListener("click", () => {
+        if (onOpenPlanRoute) onOpenPlanRoute(el.dataset.planRoute);
       });
     });
     panel.querySelectorAll("[data-repeat]").forEach((el) => {
@@ -42403,1011 +42645,6 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     web: () => Promise.resolve().then(() => (init_web4(), web_exports4)).then((m) => new m.LocalNotificationsWeb())
   });
 
-  // www/js/plan_progress.js
-  var MS_WEEK = 7 * 24 * 60 * 60 * 1e3;
-  var DEFAULT_STEP = 0.02;
-  var MIN_STEP = 0.01;
-  var MAX_STEP = 0.03;
-  function metsForPace({ activityType = "walk", mph, grade = 0 } = {}) {
-    const speed = Number(mph);
-    if (!Number.isFinite(speed) || speed <= 0) return 0;
-    const metersPerMin = speed * METERS_PER_MILE / 60;
-    const g = Math.max(0, Number(grade) || 0);
-    const vo2 = activityType === "run" ? 0.2 * metersPerMin + 0.9 * metersPerMin * g + 3.5 : 0.1 * metersPerMin + 1.8 * metersPerMin * g + 3.5;
-    return Math.round(vo2 / 3.5 * 100) / 100;
-  }
-  function effortEstimate({ activityType = "walk", mph, durationSec = 0, bodyKg = null, gainM = 0, distanceM = 0 } = {}) {
-    const grade = Number(distanceM) > 0 && Number(gainM) > 0 ? Number(gainM) / Number(distanceM) : 0;
-    const mets = metsForPace({ activityType, mph, grade });
-    const minutes = Math.max(0, Number(durationSec) || 0) / 60;
-    const kg = Number(bodyKg) > 0 ? Number(bodyKg) : 70;
-    const kcalPerMin = mets * 3.5 * kg / 200;
-    return {
-      mets,
-      kcalPerMin: Math.round(kcalPerMin * 10) / 10,
-      kcal: Math.round(kcalPerMin * minutes),
-      bodyKg: kg,
-      assumedBodyKg: !(Number(bodyKg) > 0)
-    };
-  }
-  function riegelPredict({ timeSec, fromMeters, toMeters, exponent = 1.06 } = {}) {
-    const t = Number(timeSec);
-    const from = Number(fromMeters);
-    const to = Number(toMeters);
-    if (!(t > 0) || !(from > 0) || !(to > 0)) return null;
-    return t * Math.pow(to / from, exponent);
-  }
-  function vdotFromPerformance({ distanceMeters, timeSec } = {}) {
-    const d2 = Number(distanceMeters);
-    const t = Number(timeSec) / 60;
-    if (!(d2 > 0) || !(t > 0)) return null;
-    const v2 = d2 / t;
-    const vo2 = -4.6 + 0.182258 * v2 + 104e-6 * v2 * v2;
-    const pct = 0.8 + 0.1894393 * Math.exp(-0.012778 * t) + 0.2989558 * Math.exp(-0.1932605 * t);
-    return Math.round(vo2 / pct * 10) / 10;
-  }
-  function velocityForVdot(vdot, fraction) {
-    const target = Number(vdot) * fraction;
-    if (!(target > 0)) return 0;
-    const a = 104e-6;
-    const b2 = 0.182258;
-    const c = -(4.6 + target);
-    return (-b2 + Math.sqrt(b2 * b2 - 4 * a * c)) / (2 * a);
-  }
-  function trainingPacesFromVdot(vdot) {
-    const v2 = Number(vdot);
-    if (!(v2 > 0)) return null;
-    const band = (fraction) => {
-      const mpm = velocityForVdot(v2, fraction);
-      const mph = mpm * 60 / METERS_PER_MILE;
-      const secPerMile = mph > 0 ? 3600 / mph : null;
-      const secPerKm = mpm > 0 ? 1e3 / mpm * 60 : null;
-      return {
-        mph: Math.round(mph * 100) / 100,
-        secPerMile: secPerMile == null ? null : Math.round(secPerMile),
-        secPerKm: secPerKm == null ? null : Math.round(secPerKm)
-      };
-    };
-    return {
-      vdot: v2,
-      easy: band(0.7),
-      marathon: band(0.79),
-      threshold: band(0.88),
-      interval: band(1)
-    };
-  }
-  function nextSplitTarget({
-    currentTargetSec,
-    bestPerformedSec,
-    targetStartedAt,
-    now,
-    goalTargetSec = null,
-    step = DEFAULT_STEP
-  }) {
-    const stepClamped = Math.min(MAX_STEP, Math.max(MIN_STEP, step || DEFAULT_STEP));
-    const met = bestPerformedSec != null && Number.isFinite(bestPerformedSec) && bestPerformedSec <= currentTargetSec + 0.5;
-    const started = new Date(targetStartedAt).getTime();
-    const at = now instanceof Date ? now.getTime() : new Date(now).getTime();
-    const fullWeekPassed = Number.isFinite(started) && at - started >= MS_WEEK;
-    if (!met) {
-      return { targetSec: currentTargetSec, tightened: false, reason: "not_met" };
-    }
-    if (!fullWeekPassed) {
-      return { targetSec: currentTargetSec, tightened: false, reason: "week1_hold" };
-    }
-    let next = currentTargetSec * (1 - stepClamped);
-    if (goalTargetSec != null && Number.isFinite(goalTargetSec)) {
-      next = Math.max(next, goalTargetSec);
-    }
-    const tightened = next < currentTargetSec - 0.01;
-    return {
-      targetSec: tightened ? next : currentTargetSec,
-      tightened,
-      reason: tightened ? "tighten" : "at_goal"
-    };
-  }
-  function waterTargetMl({ bodyKg, sessionHoursThatDay }) {
-    const baseline = bodyKg ? Math.round(32.5 * bodyKg / 50) * 50 : 2e3;
-    const extra = Math.round((sessionHoursThatDay || 0) * 500 / 50) * 50;
-    return { dailyMl: baseline + extra, baselineMl: baseline, exerciseMl: extra };
-  }
-  var WATER_DISCLAIMER = "This is general guidance, not medical advice. Needs vary with body size, climate, health and medications. Ask a clinician if you are unsure. You can adjust this number.";
-  function mlToOz(ml) {
-    return Math.round((Number(ml) || 0) / ML_PER_OZ * 10) / 10;
-  }
-  function ozToMl(oz) {
-    return Math.round((Number(oz) || 0) * ML_PER_OZ);
-  }
-  function normaliseReminderTimes(times) {
-    if (!Array.isArray(times)) return [];
-    const out = [];
-    for (const raw of times) {
-      const m = String(raw || "").trim().match(/^(\d{1,2}):(\d{2})$/);
-      if (!m) continue;
-      const h2 = Number(m[1]);
-      const min = Number(m[2]);
-      if (h2 < 0 || h2 > 23 || min < 0 || min > 59) continue;
-      const hhmm = `${String(h2).padStart(2, "0")}:${String(min).padStart(2, "0")}`;
-      if (!out.includes(hhmm)) out.push(hhmm);
-    }
-    return out.sort();
-  }
-  function isNightTime(hhmm) {
-    const [h2] = normaliseReminderTimes([hhmm]);
-    if (!h2) return false;
-    const hour = Number(h2.slice(0, 2));
-    return hour >= 22 || hour < 6;
-  }
-  function reminderTimesFor(plan, opts = {}) {
-    const raw = plan && plan.water && Array.isArray(plan.water.reminderLocalTimes) ? plan.water.reminderLocalTimes : DEFAULT_REMINDER_TIMES;
-    const times = normaliseReminderTimes(raw.length ? raw : DEFAULT_REMINDER_TIMES);
-    const allowNight = opts.allowNight != null ? !!opts.allowNight : !!(plan && plan.water && plan.water.allowNight);
-    return allowNight ? times : times.filter((t) => !isNightTime(t));
-  }
-  var MAX_SESSIONS_PER_WEEK = { walk: 5, run: 4 };
-  var DEFAULT_REMINDER_TIMES = ["08:00", "12:00", "16:00", "20:00"];
-  var ML_PER_OZ = 29.5735;
-  function clamp2(v2, lo, hi) {
-    return Math.min(hi, Math.max(lo, v2));
-  }
-  function bearingBetween(a, b2) {
-    const toR = (d2) => d2 * Math.PI / 180;
-    const lat1 = toR(a.lat);
-    const lat2 = toR(b2.lat);
-    const dLon = toR(b2.lon - a.lon);
-    const y2 = Math.sin(dLon) * Math.cos(lat2);
-    const x2 = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
-    return Math.atan2(y2, x2) * 180 / Math.PI;
-  }
-  function autoLoopPins(center, meters, opts = {}) {
-    const target = Math.max(200, Number(meters) || 0);
-    const side = target / 4;
-    const aspect = clamp2(Number(opts.aspect) || 1.12, 0.8, 1.4);
-    const east = side * aspect;
-    const north = side * (2 - aspect);
-    const seed = Math.abs(Math.round((center.lat * 1e5 + center.lon * 1e5) % 24));
-    const offset = opts.bearingOffset == null ? seed - 12 : Number(opts.bearingOffset);
-    const bearings = [90 + offset, 180 + offset, 270 + offset, 360 + offset];
-    const dists = [east, north, east, north];
-    const origin = { lat: center.lat, lon: center.lon, role: "start" };
-    const pins = [{ ...origin }];
-    let cur = { ...origin };
-    for (let i = 0; i < 3; i++) {
-      cur = destination(cur.lat, cur.lon, bearings[i], dists[i]);
-      pins.push({ lat: cur.lat, lon: cur.lon, role: "via" });
-    }
-    pins.push({ lat: origin.lat, lon: origin.lon, role: "end" });
-    return pins;
-  }
-  function scalePins(pins, factor, anchor = null) {
-    if (!pins || pins.length < 1) return [];
-    const f2 = Number(factor);
-    if (!(f2 > 0) || Math.abs(f2 - 1) < 1e-3) return pins.map((p) => ({ ...p }));
-    const a = anchor || pins[0];
-    return pins.map((p) => {
-      const meters = pathLengthMeters([a, p]);
-      if (meters <= 0.5) return { ...p };
-      const b2 = bearingBetween(a, p);
-      const q2 = destination(a.lat, a.lon, b2, meters * f2);
-      return { ...p, lat: q2.lat, lon: q2.lon };
-    });
-  }
-  function repeatPins(pins, times) {
-    if (!pins || pins.length < 2) return pins ? pins.map((p) => ({ ...p })) : [];
-    const n = Math.max(1, Math.round(Number(times) || 1));
-    if (n === 1) return pins.map((p) => ({ ...p }));
-    const total = pathLengthMeters(pins);
-    const closed = haversine(pins[0], pins[pins.length - 1]) <= Math.max(30, total * 0.05);
-    const out = [];
-    for (let k = 0; k < n; k++) {
-      let chunk = pins.map((p) => ({ ...p }));
-      if (!closed) chunk = k % 2 === 1 ? chunk.slice().reverse() : chunk;
-      if (out.length) chunk = chunk.slice(1);
-      out.push(...chunk);
-    }
-    out.forEach((p, i) => {
-      p.role = i === 0 ? "start" : i === out.length - 1 ? "end" : "via";
-    });
-    return out;
-  }
-  function haversine(a, b2) {
-    const R3 = 6371e3;
-    const toR = (d2) => d2 * Math.PI / 180;
-    const dLat = toR(b2.lat - a.lat);
-    const dLon = toR(b2.lon - a.lon);
-    const s2 = Math.sin(dLat / 2) ** 2 + Math.cos(toR(a.lat)) * Math.cos(toR(b2.lat)) * Math.sin(dLon / 2) ** 2;
-    return 2 * R3 * Math.asin(Math.min(1, Math.sqrt(s2)));
-  }
-  function routeForGoal({ targetMeters, course = null, autoLoop = false, center = null } = {}) {
-    const target = Math.max(50, Number(targetMeters) || 0);
-    if (course && course.pins && course.pins.length >= 2 && !autoLoop) {
-      const base = pathLengthMeters(course.pins);
-      if (base > 1) {
-        const ratio = target / base;
-        let pins2;
-        let repeatTimes = 1;
-        let scaleFactor = ratio;
-        if (ratio > 2.5) {
-          repeatTimes = Math.max(2, Math.round(ratio));
-          pins2 = repeatPins(course.pins, repeatTimes);
-          scaleFactor = target / Math.max(1, pathLengthMeters(pins2));
-          pins2 = scalePins(pins2, scaleFactor, course.pins[0]);
-        } else {
-          pins2 = scalePins(course.pins, ratio, course.pins[0]);
-        }
-        return {
-          mode: "course",
-          courseId: course.id || null,
-          pins: pins2,
-          targetLengthMeters: target,
-          scaleFactor,
-          repeatTimes
-        };
-      }
-    }
-    const origin = center || { lat: 43.7672, lon: 11.2543 };
-    const graph = getActiveGraph();
-    if (graph) {
-      const loop = autoLoopRoute(graph, origin, target);
-      if (loop && !loop.fallback && loop.pins && loop.path && loop.path.length >= 2) {
-        return {
-          mode: "autoloop",
-          courseId: null,
-          pins: loop.pins,
-          path: loop.path,
-          targetLengthMeters: target,
-          scaleFactor: 1,
-          repeatTimes: 1
-        };
-      }
-    }
-    const pins = autoLoopPins(origin, target);
-    return {
-      mode: "autoloop",
-      courseId: null,
-      pins,
-      targetLengthMeters: target,
-      scaleFactor: 1,
-      repeatTimes: 1,
-      fallback: "rectangle"
-    };
-  }
-  function buildLegTargets(pins, totalSec) {
-    const total = Math.max(1, Math.round(Number(totalSec) || 0));
-    const legs = pins && pins.length >= 2 ? legDistances(pins) : [];
-    if (!legs.length) return [];
-    const meters = legs.reduce((s2, l) => s2 + l.meters, 0);
-    if (meters <= 0) {
-      const each = Math.round(total / legs.length);
-      return legs.map((_2, i) => i === legs.length - 1 ? total - each * (legs.length - 1) : each);
-    }
-    const out = legs.map((l) => Math.max(1, Math.round(l.meters / meters * total)));
-    const drift = total - out.reduce((s2, v2) => s2 + v2, 0);
-    out[out.length - 1] = Math.max(1, out[out.length - 1] + drift);
-    return out;
-  }
-  function applyLegSessionResult(progression, performedSecs, now = /* @__PURE__ */ new Date(), goalTargetsSec = null) {
-    const targets = Array.isArray(progression.legTargetsSec) ? progression.legTargetsSec.slice() : [];
-    const started = Array.isArray(progression.legStartedAt) ? progression.legStartedAt.slice() : [];
-    const goals = Array.isArray(goalTargetsSec) ? goalTargetsSec : null;
-    const reasons = [];
-    let anyTightened = false;
-    for (let i = 0; i < targets.length; i++) {
-      const res = nextSplitTarget({
-        currentTargetSec: targets[i],
-        bestPerformedSec: Array.isArray(performedSecs) ? performedSecs[i] : null,
-        targetStartedAt: started[i] || progression.targetStartedAt,
-        now,
-        goalTargetSec: goals ? goals[i] : null,
-        step: progression.step || DEFAULT_STEP
-      });
-      reasons.push(res.reason);
-      if (res.tightened) {
-        targets[i] = res.targetSec;
-        started[i] = startOfDay(now).toISOString();
-        anyTightened = true;
-      }
-    }
-    return {
-      ...progression,
-      legTargetsSec: targets,
-      legStartedAt: started,
-      lastLegReasons: reasons,
-      lastLegTightened: anyTightened
-    };
-  }
-  function legSplitsFromTrack2(pins, track) {
-    if (!pins || pins.length < 2 || !track || track.length < 2) return null;
-    if (!track.every((p) => p && Number.isFinite(p.t))) return null;
-    const legs = legDistances(pins).map((l) => l.meters);
-    const out = [];
-    let boundary = 0;
-    let idx = 1;
-    let traveled = 0;
-    let prevTraveled = 0;
-    let prevT = 0;
-    for (const leg of legs) {
-      boundary += leg;
-      while (idx < track.length && traveled < boundary) {
-        prevTraveled = traveled;
-        traveled += geodesicMeters(track[idx - 1], track[idx]);
-        prevT = track[idx - 1].t;
-        idx++;
-      }
-      if (traveled < boundary) return null;
-      const span = traveled - prevTraveled;
-      const frac = span <= 0 ? 0 : (boundary - prevTraveled) / span;
-      const t = prevT + (track[idx - 1].t - prevT) * frac;
-      out.push(Math.max(1, Math.round(t - out.reduce((s2, v2) => s2 + v2, 0))));
-    }
-    return out;
-  }
-  function safeWeeklyIncrease(previousMeters, nextMeters, maxIncreasePct = 0.1) {
-    const prev = Number(previousMeters);
-    const next = Number(nextMeters);
-    if (!(prev > 0) || !Number.isFinite(next)) return false;
-    return next <= prev * (1 + maxIncreasePct) + 0.5;
-  }
-  function weeklyProgression({ windowDays = 14, sessionsPerWeek = 3, sessionMeters = 0, maxIncreasePct = 0.1 } = {}) {
-    const days = Math.max(1, Math.round(Number(windowDays) || 14));
-    const weeks = Math.max(1, Math.ceil(days / 7));
-    const perWeek = Math.max(0, Number(sessionsPerWeek) || 0);
-    const meters = Math.max(0, Number(sessionMeters) || 0);
-    const out = [];
-    for (let i = 0; i < weeks; i++) {
-      const weekMeters = Math.round(perWeek * meters);
-      const prev = i ? out[i - 1].meters : weekMeters;
-      out.push({
-        week: i + 1,
-        sessions: perWeek,
-        meters: weekMeters,
-        safe: i === 0 ? true : safeWeeklyIncrease(prev, weekMeters, maxIncreasePct)
-      });
-    }
-    return { weeks: out, maxIncreasePct, safe: out.every((w2) => w2.safe) };
-  }
-  function runWalkMix({ activityType, beginner = true, sessionSec = 1800 } = {}) {
-    if (activityType !== "run" || !beginner) return null;
-    return {
-      label: "Walk 5 min to warm up, then repeat 1 min easy run / 2 min walk. Finish with 5 min walking.",
-      warmupSec: 300,
-      runSec: 60,
-      walkSec: 120,
-      minutes: Math.round((Number(sessionSec) || 0) / 60)
-    };
-  }
-  function planSessionOutline({
-    activityType = "walk",
-    goalDistanceMeters = null,
-    goalDurationSec = null,
-    windowDays = 14,
-    course = null
-  } = {}) {
-    const type = activityType === "run" ? "run" : "walk";
-    const mph = activityMph(type);
-    const days = Math.max(1, Math.round(windowDays || 14));
-    const goalDistance = Number(goalDistanceMeters) > 0 ? Number(goalDistanceMeters) : null;
-    const goalDuration = Number(goalDurationSec) > 0 ? Number(goalDurationSec) : null;
-    const maxPerWeek = MAX_SESSIONS_PER_WEEK[type];
-    const weeksFrac = Math.max(1, days / 7);
-    const maxSessions = Math.max(1, Math.min(days, Math.floor(weeksFrac * maxPerWeek)));
-    const typical30 = mph * METERS_PER_MILE / 2;
-    const typical45 = typical30 * 1.5;
-    const targetSessions = clamp2(Math.round(weeksFrac * 3) || 3, 2, maxSessions);
-    const minSession = typical30 * 0.18;
-    const maxSession = typical45 * 1.25;
-    let sessionMeters;
-    if (goalDistance) {
-      sessionMeters = clamp2(goalDistance / targetSessions, minSession, maxSession);
-    } else if (goalDuration) {
-      sessionMeters = goalDuration / targetSessions * (mph * METERS_PER_MILE / 3600);
-      sessionMeters = clamp2(sessionMeters, minSession, maxSession);
-    } else if (course && course.pins && course.pins.length >= 2) {
-      sessionMeters = pathLengthMeters(course.pins);
-    } else {
-      sessionMeters = typical30;
-    }
-    let sessionSecTypical = etaSeconds(sessionMeters, mph) || 1;
-    let sessionsNeeded = 1;
-    if (goalDistance) sessionsNeeded = Math.max(sessionsNeeded, Math.ceil(goalDistance / sessionMeters - 1e-6));
-    if (goalDuration) sessionsNeeded = Math.max(sessionsNeeded, Math.ceil(goalDuration / sessionSecTypical - 1e-6));
-    if (sessionsNeeded > maxSessions) {
-      sessionsNeeded = maxSessions;
-      if (goalDistance) {
-        sessionMeters = goalDistance / maxSessions;
-        sessionSecTypical = etaSeconds(sessionMeters, mph) || 1;
-      } else if (goalDuration) {
-        sessionSecTypical = goalDuration / maxSessions;
-        sessionMeters = sessionSecTypical * (mph * METERS_PER_MILE / 3600);
-      }
-    }
-    sessionsNeeded = Math.max(1, Math.min(sessionsNeeded, days));
-    const weeks = days % 7 === 0 ? days / 7 : Math.ceil(days / 7);
-    return {
-      activityType: type,
-      days,
-      weeks,
-      sessions: sessionsNeeded,
-      sessionMeters,
-      sessionSecTypical
-    };
-  }
-  function formatPlanLength(outline) {
-    const o = outline || {};
-    const kind = o.activityType === "run" ? "run" : "walk";
-    const n = Math.max(1, Number(o.sessions) || 1);
-    const guided = n === 1 ? `1 guided ${kind}` : `${n} guided ${kind}s`;
-    const days = Math.max(1, Number(o.days) || 1);
-    const weeks = Number(o.weeks) || Math.ceil(days / 7);
-    const window2 = days >= 7 && days % 7 === 0 ? `${weeks} week${weeks === 1 ? "" : "s"}` : `${days} day${days === 1 ? "" : "s"}`;
-    return `${window2}, ${guided}`;
-  }
-  function planTeaserModel(goal = {}, { units: units3 = "mi", formatDistance: formatDistance2 } = {}) {
-    const outline = planSessionOutline(goal);
-    const type = outline.activityType;
-    const kind = type === "run" ? "Run" : "Walk";
-    let goalLabel = kind;
-    const dist3 = Number(goal.goalDistanceMeters);
-    if (dist3 > 0 && typeof formatDistance2 === "function") {
-      goalLabel = `${kind} ${formatDistance2(dist3, units3)}`;
-    } else if (dist3 > 0) {
-      const miles = dist3 / METERS_PER_MILE;
-      const km = dist3 / 1e3;
-      goalLabel = units3 === "km" ? `${kind} ${Number(km.toFixed(km < 10 ? 2 : 1))} km` : `${kind} ${Number(miles.toFixed(miles < 10 ? 3 : 1))} mi`;
-    }
-    if (Number(goal.goalDurationSec) > 0) {
-      const sec = Math.round(Number(goal.goalDurationSec));
-      const m = Math.floor(sec / 60);
-      const s2 = sec % 60;
-      goalLabel += ` in ${m}:${String(s2).padStart(2, "0")}`;
-    }
-    return {
-      goalLabel,
-      lengthLabel: formatPlanLength(outline),
-      includes: ["Step goals", "Per-leg paces", "Water reminders"],
-      activityType: type,
-      windowDays: outline.days,
-      weeks: outline.weeks,
-      sessions: outline.sessions
-    };
-  }
-  function buildPlanDraft({
-    activityType = "walk",
-    goalDistanceMeters = null,
-    goalDurationSec = null,
-    windowDays = 14,
-    course = null,
-    autoLoop = false,
-    center = { lat: 43.7672, lon: 11.2543 },
-    bodyKg = null,
-    now = /* @__PURE__ */ new Date(),
-    name = "",
-    beginner = true
-  }) {
-    const type = activityType === "run" ? "run" : "walk";
-    const mph = activityMph(type);
-    const maxPerWeek = MAX_SESSIONS_PER_WEEK[type];
-    const outline = planSessionOutline({
-      activityType: type,
-      goalDistanceMeters,
-      goalDurationSec,
-      windowDays,
-      course
-    });
-    const days = outline.days;
-    const goalDistance = Number(goalDistanceMeters) > 0 ? Number(goalDistanceMeters) : null;
-    const goalDuration = Number(goalDurationSec) > 0 ? Number(goalDurationSec) : null;
-    let sessionMeters = outline.sessionMeters;
-    let sessionSecTypical = outline.sessionSecTypical;
-    const sessionsNeeded = outline.sessions;
-    const route = routeForGoal({ targetMeters: sessionMeters, course, autoLoop, center });
-    const pins = route.pins;
-    sessionMeters = pathLengthMeters(pins) || sessionMeters;
-    sessionSecTypical = etaSeconds(sessionMeters, mph) || 1;
-    const dates = spreadDates(now, days, sessionsNeeded);
-    const goalTargetSec = goalDistance && goalDuration ? riegelPredict({
-      timeSec: goalDuration,
-      fromMeters: goalDistance,
-      toMeters: sessionMeters
-    }) : null;
-    const initialTargetSec = goalTargetSec ? Math.max(goalTargetSec, sessionSecTypical) : sessionSecTypical;
-    const effort = effortEstimate({
-      activityType: type,
-      mph,
-      durationSec: sessionSecTypical,
-      bodyKg
-    });
-    let vdot = null;
-    let trainingPaces = null;
-    if (type === "run" && goalDistance && goalDuration) {
-      vdot = vdotFromPerformance({ distanceMeters: goalDistance, timeSec: goalDuration });
-      trainingPaces = trainingPacesFromVdot(vdot);
-    }
-    const hours = sessionSecTypical / 3600;
-    const water = waterTargetMl({ bodyKg, sessionHoursThatDay: hours });
-    const waterRest = waterTargetMl({ bodyKg, sessionHoursThatDay: 0 });
-    const title = name || defaultTitle(type, goalDistance, goalDuration, days);
-    const startedAt = startOfDay(now).toISOString();
-    const legTargetsSec = buildLegTargets(pins, initialTargetSec);
-    const legGoalTargetsSec = goalTargetSec ? buildLegTargets(pins, goalTargetSec) : null;
-    return {
-      version: 1,
-      title,
-      activityType: type,
-      goal: {
-        kind: goalDistance && goalDuration ? "both" : goalDuration ? "time" : "distance",
-        distanceMeters: goalDistance,
-        durationSec: goalDuration,
-        windowDays: days
-      },
-      water: {
-        ...water,
-        restDayMl: waterRest.dailyMl,
-        userAdjusted: false,
-        reminderLocalTimes: DEFAULT_REMINDER_TIMES.slice(),
-        source: "efsa-acsm-general"
-      },
-      route: {
-        mode: route.mode,
-        courseId: route.courseId,
-        targetLengthMeters: sessionMeters,
-        scaleFactor: Math.round(route.scaleFactor * 1e3) / 1e3,
-        repeatTimes: route.repeatTimes,
-        loop: { type: "LineString", coordinates: (route.path && route.path.length >= 2 ? route.path : pins).map((p) => [p.lon, p.lat]) },
-        pins
-      },
-      schedule: {
-        sessionsPerWeek: Number((sessionsNeeded / days * 7).toFixed(2)),
-        sessionDistanceMeters: sessionMeters,
-        sessionDurationSec: sessionSecTypical,
-        sessionDates: dates,
-        initialTargetSec,
-        goalTargetSec,
-        legTargetsSec,
-        legGoalTargetsSec,
-        maxSessionsPerWeek: maxPerWeek,
-        effort,
-        vdot,
-        trainingPaces,
-        mix: runWalkMix({ activityType: type, beginner, sessionSec: sessionSecTypical }),
-        weekly: weeklyProgression({
-          windowDays: days,
-          sessionsPerWeek: sessionsNeeded / days * 7,
-          sessionMeters
-        })
-      },
-      progression: {
-        currentTargetSec: initialTargetSec,
-        targetStartedAt: startedAt,
-        step: DEFAULT_STEP,
-        legTargetsSec,
-        legStartedAt: legTargetsSec.map(() => startedAt),
-        legGoalTargetsSec
-      }
-    };
-  }
-  function defaultTitle(type, dist3, dur, days) {
-    const kind = type === "run" ? "Run" : "Walk";
-    if (dist3) return `${days}-day ${kind.toLowerCase()} plan`;
-    return `${days}-day ${kind.toLowerCase()} plan`;
-  }
-  function spreadDates(now, windowDays, count) {
-    const days = Math.max(1, Math.round(windowDays || 1));
-    const n = Math.max(0, Math.min(days, Math.round(count || 0)));
-    const start = addDays(startOfDay(now), 1);
-    if (n === 0) return [];
-    if (n === 1) return [isoDate(start)];
-    const lastOffset = Math.max(1, days - 1);
-    const offsets = [];
-    for (let i = 0; i < n; i++) {
-      offsets.push(Math.round(i * lastOffset / (n - 1)));
-    }
-    for (let i = 1; i < offsets.length - 1; i++) {
-      if (offsets[i] === offsets[i - 1] + 1 && offsets[i] === offsets[i + 1] - 1) {
-        const move = offsets[i + 1] < lastOffset ? 1 : -1;
-        if (offsets[i] + move !== offsets[i + 1] || move < 0) offsets[i] += move;
-      }
-    }
-    const dates = unique(offsets.sort((a, b2) => a - b2)).map((o) => isoDate(addDays(start, o)));
-    return dates;
-  }
-  function unique(arr) {
-    return arr.filter((v2, i) => arr.indexOf(v2) === i);
-  }
-  function applySessionResult(progression, performedSec, now = /* @__PURE__ */ new Date(), goalTargetSec = null, legPerformedSec = null) {
-    const next = nextSplitTarget({
-      currentTargetSec: progression.currentTargetSec,
-      bestPerformedSec: performedSec,
-      targetStartedAt: progression.targetStartedAt,
-      now,
-      goalTargetSec,
-      step: progression.step || DEFAULT_STEP
-    });
-    let out;
-    if (!next.tightened) {
-      out = { ...progression, lastReason: next.reason, lastPerformedSec: performedSec };
-    } else {
-      out = {
-        ...progression,
-        currentTargetSec: next.targetSec,
-        targetStartedAt: startOfDay(now).toISOString(),
-        lastReason: next.reason,
-        lastPerformedSec: performedSec
-      };
-    }
-    if (Array.isArray(legPerformedSec) && Array.isArray(out.legTargetsSec)) {
-      out = applyLegSessionResult(out, legPerformedSec, now, out.legGoalTargetsSec || null);
-    }
-    return out;
-  }
-
-  // www/js/body_weight.js
-  var KG_PER_LB = 0.45359237;
-  function lbToKg(lb) {
-    const n = Number(lb);
-    if (!Number.isFinite(n)) return null;
-    return n * KG_PER_LB;
-  }
-  function kgToLb(kg) {
-    const n = Number(kg);
-    if (!Number.isFinite(n)) return null;
-    return n / KG_PER_LB;
-  }
-  function defaultWeightUnit({ locale, units: units3, remembered } = {}) {
-    if (remembered === "lb" || remembered === "kg") return remembered;
-    if (units3 === "mi") return "lb";
-    if (units3 === "km") return "kg";
-    const loc = String(locale || "").toLowerCase().replace(/_/g, "-");
-    if (loc === "en-us" || loc.startsWith("en-us") || loc.endsWith("-us")) return "lb";
-    return "kg";
-  }
-  var MIN_KG = 30;
-  var MAX_KG = 250;
-  function parseWeightInput(raw, unit) {
-    const text = String(raw == null ? "" : raw).trim();
-    if (!text) return null;
-    const n = Number(text);
-    if (!Number.isFinite(n) || n <= 0) return null;
-    const kg = unit === "lb" ? lbToKg(n) : n;
-    if (!Number.isFinite(kg) || kg < MIN_KG || kg > MAX_KG) return null;
-    return kg;
-  }
-  function formatWeightInput(kg, unit) {
-    const n = Number(kg);
-    if (!Number.isFinite(n) || n <= 0) return "";
-    if (unit === "lb") return String(Number(kgToLb(n).toFixed(1)));
-    return String(Number(n.toFixed(1)));
-  }
-
-  // www/js/plans.js
-  var PLAN_FORMAT = "heldpath-plan";
-  var PLAN_FORMAT_VERSION = 1;
-  var MAX_PLAN_PINS = 5e3;
-  var MAX_SESSIONS = 1e3;
-  function num(v2, fallback = 0) {
-    const n = Number(v2);
-    return Number.isFinite(n) ? n : fallback;
-  }
-  function cleanTitle(v2) {
-    return String(v2 == null ? "" : v2).trim().slice(0, 120) || "Heldpath plan";
-  }
-  function cleanPins(raw, fallback = []) {
-    if (!Array.isArray(raw)) return fallback;
-    const out = [];
-    for (const p of raw.slice(0, MAX_PLAN_PINS)) {
-      if (!p || !Number.isFinite(Number(p.lat)) || !Number.isFinite(Number(p.lon))) continue;
-      const lat = Number(p.lat);
-      const lon = Number(p.lon);
-      if (lat < -90 || lat > 90 || lon < -180 || lon > 180) continue;
-      out.push({ lat, lon, role: p.role === "start" || p.role === "end" ? p.role : "via" });
-    }
-    if (!out.length) return fallback;
-    out[0].role = "start";
-    out[out.length - 1].role = "end";
-    return out;
-  }
-  function cleanDates(raw) {
-    if (!Array.isArray(raw)) return [];
-    const out = [];
-    for (const d2 of raw.slice(0, MAX_SESSIONS)) {
-      const s2 = String(d2 || "");
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(s2)) continue;
-      if (!out.includes(s2)) out.push(s2);
-    }
-    return out.sort();
-  }
-  function makePlan(draft, { id = uid("plan"), now = /* @__PURE__ */ new Date(), ownership = null } = {}) {
-    const iso = (now instanceof Date ? now : new Date(now)).toISOString();
-    return {
-      id,
-      version: 1,
-      title: cleanTitle(draft.title),
-      createdAt: iso,
-      updatedAt: iso,
-      activityType: draft.activityType === "run" ? "run" : "walk",
-      goal: { ...draft.goal },
-      water: { ...draft.water, reminderLocalTimes: normaliseReminderTimes(draft.water?.reminderLocalTimes) },
-      route: {
-        ...draft.route,
-        pins: cleanPins(draft.route?.pins),
-        loop: {
-          type: "LineString",
-          coordinates: (draft.route?.pins || []).map((p) => [p.lon, p.lat])
-        }
-      },
-      schedule: { ...draft.schedule },
-      progression: { ...draft.progression },
-      ownership: ownership || { state: "owned" }
-    };
-  }
-  async function createPlanForGoal(goal = {}, { iapApi = iap_exports, now = /* @__PURE__ */ new Date(), id = null } = {}) {
-    let purchased = false;
-    if (!iapApi.hasCredit()) {
-      const buy = await iapApi.purchasePlanCredit();
-      if (!buy || !buy.ok) return { ok: false, error: "purchase_failed", detail: buy };
-      purchased = true;
-    }
-    const draft = buildPlanDraft({ ...goal, now });
-    const plan = makePlan(draft, { id: id || uid("plan"), now });
-    const redeem = iapApi.redeemCreditForPlan(plan.id);
-    if (!redeem || !redeem.ok) return { ok: false, error: redeem?.error || "no_credit" };
-    plan.ownership = {
-      state: "owned",
-      productId: iapApi.PLAN_PRODUCT_ID,
-      purchasedAt: plan.createdAt
-    };
-    return { ok: true, plan, purchased, credits: redeem.credits };
-  }
-  function planWithoutSecrets(plan) {
-    const copy = JSON.parse(JSON.stringify(plan));
-    delete copy.purchaseToken;
-    if (copy.ownership) {
-      delete copy.ownership.purchaseToken;
-      delete copy.ownership.purchase_token;
-      delete copy.ownership.transactionId;
-      delete copy.ownership.receipt;
-      copy.ownership = {
-        state: copy.ownership.state === "imported" ? "imported" : "owned",
-        ...copy.ownership.productId ? { productId: copy.ownership.productId } : {},
-        ...copy.ownership.purchasedAt ? { purchasedAt: copy.ownership.purchasedAt } : {}
-      };
-    }
-    const strip = (obj) => {
-      if (!obj || typeof obj !== "object") return;
-      for (const k of Object.keys(obj)) {
-        if (/token|receipt|secret|credential/i.test(k)) delete obj[k];
-        else strip(obj[k]);
-      }
-    };
-    strip(copy);
-    return copy;
-  }
-  function planFileFor(plan, now = /* @__PURE__ */ new Date()) {
-    return {
-      format: PLAN_FORMAT,
-      formatVersion: PLAN_FORMAT_VERSION,
-      exportedAt: (now instanceof Date ? now : new Date(now)).toISOString(),
-      plan: planWithoutSecrets(plan)
-    };
-  }
-  function serialisePlanFile(plan, now = /* @__PURE__ */ new Date()) {
-    return JSON.stringify(planFileFor(plan, now), null, 2);
-  }
-  function exportFileName(plan) {
-    const slug = String(plan?.title || "plan").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "plan";
-    return `heldpath-${slug}.paceplan`;
-  }
-  function sanitiseImportedPlan(raw) {
-    if (!raw || typeof raw !== "object") return { ok: false, error: "missing_plan" };
-    const activityType = raw.activityType === "run" ? "run" : raw.activityType === "walk" ? "walk" : null;
-    if (!activityType) return { ok: false, error: "bad_activity" };
-    const schedule = raw.schedule || {};
-    const sessionDates = cleanDates(schedule.sessionDates);
-    if (!sessionDates.length) return { ok: false, error: "bad_schedule" };
-    const sessionMeters = num(schedule.sessionDistanceMeters);
-    const sessionSec = num(schedule.sessionDurationSec);
-    if (!(sessionMeters > 0) || !(sessionSec > 0)) return { ok: false, error: "bad_schedule" };
-    const goal = raw.goal || {};
-    const water = raw.water || {};
-    const route = raw.route || {};
-    const pins = cleanPins(route.pins);
-    if (pins.length < 2) return { ok: false, error: "bad_route" };
-    const dailyMl = num(water.dailyMl, 2e3);
-    const plan = {
-      id: uid("plan"),
-      version: 1,
-      title: cleanTitle(raw.title),
-      createdAt: (/* @__PURE__ */ new Date()).toISOString(),
-      updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
-      activityType,
-      goal: {
-        kind: goal.kind === "time" || goal.kind === "both" ? goal.kind : "distance",
-        distanceMeters: goal.distanceMeters == null ? null : num(goal.distanceMeters, null),
-        durationSec: goal.durationSec == null ? null : num(goal.durationSec, null),
-        windowDays: Math.max(1, Math.round(num(goal.windowDays, sessionDates.length)))
-      },
-      water: {
-        dailyMl: Math.max(500, Math.min(1e4, Math.round(dailyMl / 50) * 50)),
-        baselineMl: Math.max(0, Math.round(num(water.baselineMl, dailyMl))),
-        exerciseMl: Math.max(0, Math.round(num(water.exerciseMl, 0))),
-        restDayMl: water.restDayMl == null ? void 0 : Math.max(0, Math.round(num(water.restDayMl, 0))),
-        userAdjusted: !!water.userAdjusted,
-        reminderLocalTimes: normaliseReminderTimes(water.reminderLocalTimes).length ? normaliseReminderTimes(water.reminderLocalTimes) : ["08:00", "12:00", "16:00", "20:00"],
-        source: String(water.source || "efsa-acsm-general").slice(0, 60),
-        ...water.allowNight === true ? { allowNight: true } : {}
-      },
-      route: {
-        mode: route.mode === "course" ? "course" : "autoloop",
-        courseId: route.courseId ? String(route.courseId).slice(0, 100) : null,
-        targetLengthMeters: num(route.targetLengthMeters, sessionMeters),
-        scaleFactor: num(route.scaleFactor, 1),
-        repeatTimes: Math.max(1, Math.round(num(route.repeatTimes, 1))),
-        loop: { type: "LineString", coordinates: pins.map((p) => [p.lon, p.lat]) },
-        pins
-      },
-      schedule: {
-        sessionsPerWeek: num(schedule.sessionsPerWeek, 3),
-        sessionDistanceMeters: sessionMeters,
-        sessionDurationSec: sessionSec,
-        sessionDates,
-        initialTargetSec: num(schedule.initialTargetSec, sessionSec),
-        goalTargetSec: schedule.goalTargetSec == null ? null : num(schedule.goalTargetSec, null),
-        legTargetsSec: buildLegTargets(pins, num(schedule.initialTargetSec, sessionSec))
-      },
-      progression: {},
-      // Imported plans are owned locally, but never re-charged.
-      ownership: { state: "imported" }
-    };
-    const startedAt = plan.createdAt;
-    const stepRaw = num(raw.progression?.step, 0.02);
-    const step = Math.max(0.01, Math.min(0.03, stepRaw || 0.02));
-    plan.progression = {
-      currentTargetSec: plan.schedule.initialTargetSec,
-      targetStartedAt: startedAt,
-      step,
-      legTargetsSec: plan.schedule.legTargetsSec,
-      legStartedAt: plan.schedule.legTargetsSec.map(() => startedAt)
-    };
-    return { ok: true, plan };
-  }
-  function importPlanFile(text, { iapApi = iap_exports, existingIds = [] } = {}) {
-    let data;
-    try {
-      data = JSON.parse(String(text || ""));
-    } catch {
-      return { ok: false, error: "invalid_json" };
-    }
-    if (!data || typeof data !== "object") return { ok: false, error: "invalid_json" };
-    if (data.format !== PLAN_FORMAT) return { ok: false, error: "wrong_format" };
-    if (Number(data.formatVersion) !== PLAN_FORMAT_VERSION) return { ok: false, error: "wrong_version" };
-    if (!data.plan || typeof data.plan !== "object") return { ok: false, error: "missing_plan" };
-    const checked = sanitiseImportedPlan(data.plan);
-    if (!checked.ok) return checked;
-    const plan = checked.plan;
-    const ids = new Set(existingIds || []);
-    while (ids.has(plan.id)) plan.id = uid("plan");
-    try {
-      iapApi.markImported(plan.id);
-    } catch {
-    }
-    return { ok: true, plan, free: true };
-  }
-  function scheduleRowId(planOrId, date) {
-    const id = typeof planOrId === "string" ? planOrId : planOrId.id;
-    return `sched_${id}_${date}`;
-  }
-  function planToCalendarRows(plan, { courseName = null } = {}) {
-    const dates = plan.schedule?.sessionDates || [];
-    const pins = plan.route?.pins || [];
-    return dates.map((date) => ({
-      id: scheduleRowId(plan, date),
-      date,
-      courseId: plan.route?.mode === "course" ? plan.route.courseId || null : null,
-      courseName: plan.route?.mode === "course" ? courseName || plan.title : "Plan loop",
-      activityType: plan.activityType,
-      sourcePlanId: plan.id,
-      sourceSessionDate: date,
-      targetLengthMeters: plan.schedule?.sessionDistanceMeters || 0,
-      targetSec: plan.schedule?.initialTargetSec || 0,
-      routePins: pins
-    }));
-  }
-  function addPlanToState(state3, plan, { courseName = null } = {}) {
-    if (!Array.isArray(state3.planLibrary)) state3.planLibrary = [];
-    state3.planLibrary = state3.planLibrary.filter((p) => p.id !== plan.id);
-    state3.planLibrary.push(plan);
-    if (!Array.isArray(state3.plans)) state3.plans = [];
-    state3.plans = state3.plans.filter((p) => p.sourcePlanId !== plan.id);
-    const rows = planToCalendarRows(plan, { courseName });
-    for (const row of rows) {
-      if (!state3.plans.some((p) => p.id === row.id)) state3.plans.push(row);
-    }
-    return { plan, rows };
-  }
-  function removePlanFromState(state3, planId) {
-    state3.planLibrary = (state3.planLibrary || []).filter((p) => p.id !== planId);
-    state3.plans = (state3.plans || []).filter((p) => p.sourcePlanId !== planId);
-    return state3;
-  }
-  function applyCompletedSession(plan, activity, now = /* @__PURE__ */ new Date()) {
-    if (!plan || !activity) return plan;
-    const performed = num(activity.elapsedSec);
-    if (!(performed > 0)) return plan;
-    const legPerformed = legSplitsFromTrack2(plan.route?.pins, activity.track);
-    plan.progression = applySessionResult(
-      plan.progression,
-      performed,
-      now,
-      plan.schedule?.goalTargetSec ?? null,
-      legPerformed
-    );
-    plan.updatedAt = (now instanceof Date ? now : new Date(now)).toISOString();
-    return plan;
-  }
-  function updateWaterTarget(plan, { dailyMl, bodyKg, reminderLocalTimes, allowNight } = {}) {
-    if (!plan || !plan.water) return plan;
-    if (dailyMl != null && Number.isFinite(Number(dailyMl))) {
-      plan.water.dailyMl = Math.max(500, Math.min(1e4, Math.round(Number(dailyMl) / 50) * 50));
-      plan.water.userAdjusted = true;
-    }
-    if (bodyKg != null && Number(bodyKg) > 0) {
-      const base = Math.round(32.5 * Number(bodyKg) / 50) * 50;
-      plan.water.baselineMl = base;
-      if (!plan.water.userAdjusted || dailyMl == null) {
-        plan.water.dailyMl = base + (plan.water.exerciseMl || 0);
-      }
-    }
-    if (Array.isArray(reminderLocalTimes)) {
-      plan.water.reminderLocalTimes = normaliseReminderTimes(reminderLocalTimes);
-      if (!plan.water.reminderLocalTimes.length) plan.water.reminderLocalTimes = ["08:00", "12:00", "16:00", "20:00"];
-    }
-    if (allowNight != null) plan.water.allowNight = !!allowNight;
-    plan.updatedAt = (/* @__PURE__ */ new Date()).toISOString();
-    return plan;
-  }
-  function stableNotificationId(planId, index = 0) {
-    let h2 = 2166136261;
-    const s2 = String(planId || "plan");
-    for (let i = 0; i < s2.length; i++) {
-      h2 ^= s2.charCodeAt(i);
-      h2 = Math.imul(h2, 16777619);
-    }
-    return Math.abs(h2) % 2e9 + index * 10 + 1;
-  }
-  function reminderPayloadFor(plan, opts = {}) {
-    const times = reminderTimesFor(plan, opts);
-    const ml = plan?.water?.dailyMl || 2e3;
-    return times.map((t, i) => ({
-      id: stableNotificationId(plan?.id, i),
-      title: "Time for a drink",
-      body: `About ${ml} ml today is your plan target. General guidance, not medical advice.`,
-      schedule: {
-        on: { hour: Number(t.slice(0, 2)), minute: Number(t.slice(3, 5)) },
-        repeats: true,
-        allowWhileIdle: true
-      }
-    }));
-  }
-  async function scheduleDrinkReminders(plan, { notifications = null, opts = {} } = {}) {
-    const payload = reminderPayloadFor(plan, opts);
-    if (!notifications) {
-      return { ok: false, skipped: true, reason: "not_available", times: payload.map((n) => n.schedule.on) };
-    }
-    try {
-      const ids = payload.map((n) => ({ id: n.id }));
-      if (ids.length) {
-        try {
-          await notifications.cancel({ notifications: ids });
-        } catch {
-        }
-      }
-      await notifications.schedule({ notifications: payload });
-      return { ok: true, scheduled: payload.length, ids: payload.map((n) => n.id) };
-    } catch (err2) {
-      return { ok: false, error: String(err2), times: payload.map((n) => n.schedule.on) };
-    }
-  }
-
   // node_modules/@mapbox/point-geometry/index.js
   function Point(x2, y2) {
     this.x = x2;
@@ -45075,6 +44312,19 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     return [];
   }
   var ON_DEMAND_MAX_TILES = 48;
+  function padDegForLoop(targetMeters) {
+    const target = Math.max(200, Number(targetMeters) || 0);
+    const baseR = target / (2 * Math.PI);
+    const reachM = baseR * 1.8 + 500;
+    return Math.max(8e-3, reachM / 111e3);
+  }
+  function graphCoversLoop(graph, center, targetMeters) {
+    if (!graph || !center) return false;
+    const pad = padDegForLoop(targetMeters);
+    const west = center.lon - pad, south = center.lat - pad;
+    const east = center.lon + pad, north = center.lat + pad;
+    return Number(graph.west) <= west && Number(graph.south) <= south && Number(graph.east) >= east && Number(graph.north) >= north;
+  }
   function padBoundsFromPoints(pts, padDeg = 4e-3) {
     let west = 180, south = 90, east = -180, north = -90;
     for (const p of pts || []) {
@@ -45156,7 +44406,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       if (!opts.lockWalkGraph) {
         if (opts.onStatus) opts.onStatus("finding");
         try {
-          const built = await buildGraphForBounds(padBoundsFromPoints(pts));
+          const built = await buildGraphForBounds(opts.bounds || padBoundsFromPoints(pts, opts.padDeg));
           const g = asRoutable(built.ok ? built.graph : null);
           if (g && pointsInGraphBounds(g, pts)) return g;
           if (g && somePointsInGraphBounds(g, pts)) {
@@ -45191,6 +44441,1052 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function graphCoversPoints(graph, points) {
     return pointsInGraphBounds(graph, pointsFrom(points));
+  }
+  async function ensureLoopGraph(center, targetMeters, opts = {}) {
+    if (!center) return null;
+    const existing = opts.graph || getActiveGraph();
+    if (graphCoversLoop(existing, center, targetMeters)) return existing;
+    const pad = padDegForLoop(targetMeters);
+    const bounds = {
+      west: center.lon - pad,
+      south: center.lat - pad,
+      east: center.lon + pad,
+      north: center.lat + pad
+    };
+    const built = await buildGraphForBounds(bounds, opts);
+    const g = asRoutable(built.ok ? built.graph : null);
+    if (g) {
+      setActiveGraph(g);
+      return g;
+    }
+    return ensureWalkGraph(center, { ...opts, bounds, padDeg: pad });
+  }
+
+  // www/js/plan_progress.js
+  var MS_WEEK = 7 * 24 * 60 * 60 * 1e3;
+  var DEFAULT_STEP = 0.02;
+  var MIN_STEP = 0.01;
+  var MAX_STEP = 0.03;
+  function metsForPace({ activityType = "walk", mph, grade = 0 } = {}) {
+    const speed = Number(mph);
+    if (!Number.isFinite(speed) || speed <= 0) return 0;
+    const metersPerMin = speed * METERS_PER_MILE / 60;
+    const g = Math.max(0, Number(grade) || 0);
+    const vo2 = activityType === "run" ? 0.2 * metersPerMin + 0.9 * metersPerMin * g + 3.5 : 0.1 * metersPerMin + 1.8 * metersPerMin * g + 3.5;
+    return Math.round(vo2 / 3.5 * 100) / 100;
+  }
+  function effortEstimate({ activityType = "walk", mph, durationSec = 0, bodyKg = null, gainM = 0, distanceM = 0 } = {}) {
+    const grade = Number(distanceM) > 0 && Number(gainM) > 0 ? Number(gainM) / Number(distanceM) : 0;
+    const mets = metsForPace({ activityType, mph, grade });
+    const minutes = Math.max(0, Number(durationSec) || 0) / 60;
+    const kg = Number(bodyKg) > 0 ? Number(bodyKg) : 70;
+    const kcalPerMin = mets * 3.5 * kg / 200;
+    return {
+      mets,
+      kcalPerMin: Math.round(kcalPerMin * 10) / 10,
+      kcal: Math.round(kcalPerMin * minutes),
+      bodyKg: kg,
+      assumedBodyKg: !(Number(bodyKg) > 0)
+    };
+  }
+  function riegelPredict({ timeSec, fromMeters, toMeters, exponent = 1.06 } = {}) {
+    const t = Number(timeSec);
+    const from = Number(fromMeters);
+    const to = Number(toMeters);
+    if (!(t > 0) || !(from > 0) || !(to > 0)) return null;
+    return t * Math.pow(to / from, exponent);
+  }
+  function vdotFromPerformance({ distanceMeters, timeSec } = {}) {
+    const d2 = Number(distanceMeters);
+    const t = Number(timeSec) / 60;
+    if (!(d2 > 0) || !(t > 0)) return null;
+    const v2 = d2 / t;
+    const vo2 = -4.6 + 0.182258 * v2 + 104e-6 * v2 * v2;
+    const pct = 0.8 + 0.1894393 * Math.exp(-0.012778 * t) + 0.2989558 * Math.exp(-0.1932605 * t);
+    return Math.round(vo2 / pct * 10) / 10;
+  }
+  function velocityForVdot(vdot, fraction) {
+    const target = Number(vdot) * fraction;
+    if (!(target > 0)) return 0;
+    const a = 104e-6;
+    const b2 = 0.182258;
+    const c = -(4.6 + target);
+    return (-b2 + Math.sqrt(b2 * b2 - 4 * a * c)) / (2 * a);
+  }
+  function trainingPacesFromVdot(vdot) {
+    const v2 = Number(vdot);
+    if (!(v2 > 0)) return null;
+    const band = (fraction) => {
+      const mpm = velocityForVdot(v2, fraction);
+      const mph = mpm * 60 / METERS_PER_MILE;
+      const secPerMile = mph > 0 ? 3600 / mph : null;
+      const secPerKm = mpm > 0 ? 1e3 / mpm * 60 : null;
+      return {
+        mph: Math.round(mph * 100) / 100,
+        secPerMile: secPerMile == null ? null : Math.round(secPerMile),
+        secPerKm: secPerKm == null ? null : Math.round(secPerKm)
+      };
+    };
+    return {
+      vdot: v2,
+      easy: band(0.7),
+      marathon: band(0.79),
+      threshold: band(0.88),
+      interval: band(1)
+    };
+  }
+  function nextSplitTarget({
+    currentTargetSec,
+    bestPerformedSec,
+    targetStartedAt,
+    now,
+    goalTargetSec = null,
+    step = DEFAULT_STEP
+  }) {
+    const stepClamped = Math.min(MAX_STEP, Math.max(MIN_STEP, step || DEFAULT_STEP));
+    const met = bestPerformedSec != null && Number.isFinite(bestPerformedSec) && bestPerformedSec <= currentTargetSec + 0.5;
+    const started = new Date(targetStartedAt).getTime();
+    const at = now instanceof Date ? now.getTime() : new Date(now).getTime();
+    const fullWeekPassed = Number.isFinite(started) && at - started >= MS_WEEK;
+    if (!met) {
+      return { targetSec: currentTargetSec, tightened: false, reason: "not_met" };
+    }
+    if (!fullWeekPassed) {
+      return { targetSec: currentTargetSec, tightened: false, reason: "week1_hold" };
+    }
+    let next = currentTargetSec * (1 - stepClamped);
+    if (goalTargetSec != null && Number.isFinite(goalTargetSec)) {
+      next = Math.max(next, goalTargetSec);
+    }
+    const tightened = next < currentTargetSec - 0.01;
+    return {
+      targetSec: tightened ? next : currentTargetSec,
+      tightened,
+      reason: tightened ? "tighten" : "at_goal"
+    };
+  }
+  function waterTargetMl({ bodyKg, sessionHoursThatDay }) {
+    const baseline = bodyKg ? Math.round(32.5 * bodyKg / 50) * 50 : 2e3;
+    const extra = Math.round((sessionHoursThatDay || 0) * 500 / 50) * 50;
+    return { dailyMl: baseline + extra, baselineMl: baseline, exerciseMl: extra };
+  }
+  var WATER_DISCLAIMER = "This is general guidance, not medical advice. Needs vary with body size, climate, health and medications. Ask a clinician if you are unsure. You can adjust this number.";
+  function mlToOz(ml) {
+    return Math.round((Number(ml) || 0) / ML_PER_OZ * 10) / 10;
+  }
+  function ozToMl(oz) {
+    return Math.round((Number(oz) || 0) * ML_PER_OZ);
+  }
+  function normaliseReminderTimes(times) {
+    if (!Array.isArray(times)) return [];
+    const out = [];
+    for (const raw of times) {
+      const m = String(raw || "").trim().match(/^(\d{1,2}):(\d{2})$/);
+      if (!m) continue;
+      const h2 = Number(m[1]);
+      const min = Number(m[2]);
+      if (h2 < 0 || h2 > 23 || min < 0 || min > 59) continue;
+      const hhmm = `${String(h2).padStart(2, "0")}:${String(min).padStart(2, "0")}`;
+      if (!out.includes(hhmm)) out.push(hhmm);
+    }
+    return out.sort();
+  }
+  function isNightTime(hhmm) {
+    const [h2] = normaliseReminderTimes([hhmm]);
+    if (!h2) return false;
+    const hour = Number(h2.slice(0, 2));
+    return hour >= 22 || hour < 6;
+  }
+  function reminderTimesFor(plan, opts = {}) {
+    const raw = plan && plan.water && Array.isArray(plan.water.reminderLocalTimes) ? plan.water.reminderLocalTimes : DEFAULT_REMINDER_TIMES;
+    const times = normaliseReminderTimes(raw.length ? raw : DEFAULT_REMINDER_TIMES);
+    const allowNight = opts.allowNight != null ? !!opts.allowNight : !!(plan && plan.water && plan.water.allowNight);
+    return allowNight ? times : times.filter((t) => !isNightTime(t));
+  }
+  var MAX_SESSIONS_PER_WEEK = { walk: 5, run: 4 };
+  var DEFAULT_REMINDER_TIMES = ["08:00", "12:00", "16:00", "20:00"];
+  var ML_PER_OZ = 29.5735;
+  function clamp2(v2, lo, hi) {
+    return Math.min(hi, Math.max(lo, v2));
+  }
+  function bearingBetween(a, b2) {
+    const toR = (d2) => d2 * Math.PI / 180;
+    const lat1 = toR(a.lat);
+    const lat2 = toR(b2.lat);
+    const dLon = toR(b2.lon - a.lon);
+    const y2 = Math.sin(dLon) * Math.cos(lat2);
+    const x2 = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+    return Math.atan2(y2, x2) * 180 / Math.PI;
+  }
+  function scalePins(pins, factor, anchor = null) {
+    if (!pins || pins.length < 1) return [];
+    const f2 = Number(factor);
+    if (!(f2 > 0) || Math.abs(f2 - 1) < 1e-3) return pins.map((p) => ({ ...p }));
+    const a = anchor || pins[0];
+    return pins.map((p) => {
+      const meters = pathLengthMeters([a, p]);
+      if (meters <= 0.5) return { ...p };
+      const b2 = bearingBetween(a, p);
+      const q2 = destination(a.lat, a.lon, b2, meters * f2);
+      return { ...p, lat: q2.lat, lon: q2.lon };
+    });
+  }
+  function repeatPins(pins, times) {
+    if (!pins || pins.length < 2) return pins ? pins.map((p) => ({ ...p })) : [];
+    const n = Math.max(1, Math.round(Number(times) || 1));
+    if (n === 1) return pins.map((p) => ({ ...p }));
+    const total = pathLengthMeters(pins);
+    const closed = haversine(pins[0], pins[pins.length - 1]) <= Math.max(30, total * 0.05);
+    const out = [];
+    for (let k = 0; k < n; k++) {
+      let chunk = pins.map((p) => ({ ...p }));
+      if (!closed) chunk = k % 2 === 1 ? chunk.slice().reverse() : chunk;
+      if (out.length) chunk = chunk.slice(1);
+      out.push(...chunk);
+    }
+    out.forEach((p, i) => {
+      p.role = i === 0 ? "start" : i === out.length - 1 ? "end" : "via";
+    });
+    return out;
+  }
+  function haversine(a, b2) {
+    const R3 = 6371e3;
+    const toR = (d2) => d2 * Math.PI / 180;
+    const dLat = toR(b2.lat - a.lat);
+    const dLon = toR(b2.lon - a.lon);
+    const s2 = Math.sin(dLat / 2) ** 2 + Math.cos(toR(a.lat)) * Math.cos(toR(b2.lat)) * Math.sin(dLon / 2) ** 2;
+    return 2 * R3 * Math.asin(Math.min(1, Math.sqrt(s2)));
+  }
+  function autoloopResult(loop, target) {
+    if (loop && loop.ok !== false && !loop.fallback && loop.pins && loop.path && loop.path.length >= 2) {
+      return {
+        ok: true,
+        mode: "autoloop",
+        courseId: null,
+        pins: loop.pins,
+        path: loop.path,
+        meters: loop.meters,
+        targetLengthMeters: target,
+        scaleFactor: 1,
+        repeatTimes: 1
+      };
+    }
+    return {
+      ok: false,
+      mode: "autoloop",
+      courseId: null,
+      pins: [],
+      path: null,
+      meters: 0,
+      targetLengthMeters: target,
+      scaleFactor: 1,
+      repeatTimes: 1,
+      reason: loop && loop.reason || "no-loop"
+    };
+  }
+  function routeForGoal({ targetMeters, course = null, autoLoop = false, center = null, graph = null, loop = null } = {}) {
+    const target = Math.max(50, Number(targetMeters) || 0);
+    if (course && course.pins && course.pins.length >= 2 && !autoLoop) {
+      const base = pathLengthMeters(course.pins);
+      if (base > 1) {
+        const ratio = target / base;
+        let pins;
+        let repeatTimes = 1;
+        let scaleFactor = ratio;
+        if (ratio > 2.5) {
+          repeatTimes = Math.max(2, Math.round(ratio));
+          pins = repeatPins(course.pins, repeatTimes);
+          scaleFactor = target / Math.max(1, pathLengthMeters(pins));
+          pins = scalePins(pins, scaleFactor, course.pins[0]);
+        } else {
+          pins = scalePins(course.pins, ratio, course.pins[0]);
+        }
+        return {
+          ok: true,
+          mode: "course",
+          courseId: course.id || null,
+          pins,
+          targetLengthMeters: target,
+          scaleFactor,
+          repeatTimes
+        };
+      }
+    }
+    if (!autoLoop) {
+      return { ok: true, mode: "none", courseId: null, pins: [], path: null, targetLengthMeters: target, scaleFactor: 1, repeatTimes: 1 };
+    }
+    if (loop) return autoloopResult(loop, target);
+    if (!center || !Number.isFinite(Number(center.lat)) || !Number.isFinite(Number(center.lon))) {
+      return autoloopResult({ ok: false, reason: "no-center" }, target);
+    }
+    const g = graph || getActiveGraph();
+    if (!g) return autoloopResult({ ok: false, reason: "no-graph" }, target);
+    return autoloopResult(autoLoopRoute(g, center, target), target);
+  }
+  async function buildAutoLoop(center, targetMeters, opts = {}) {
+    const target = Math.max(200, Number(targetMeters) || 0);
+    if (!center || !Number.isFinite(Number(center.lat)) || !Number.isFinite(Number(center.lon))) {
+      return autoloopResult({ ok: false, reason: "no-center" }, target);
+    }
+    let graph = null;
+    try {
+      graph = await ensureLoopGraph(center, target, opts);
+    } catch {
+      graph = getActiveGraph();
+    }
+    if (!graph) return autoloopResult({ ok: false, reason: "no-graph" }, target);
+    return autoloopResult(autoLoopRoute(graph, center, target, opts), target);
+  }
+  var AUTO_LOOP_FAIL_COPY = "Couldn't build a loop here \u2014 pick a saved route or build one";
+  function buildLegTargets(pins, totalSec) {
+    const total = Math.max(1, Math.round(Number(totalSec) || 0));
+    const legs = pins && pins.length >= 2 ? legDistances(pins) : [];
+    if (!legs.length) return [];
+    const meters = legs.reduce((s2, l) => s2 + l.meters, 0);
+    if (meters <= 0) {
+      const each = Math.round(total / legs.length);
+      return legs.map((_2, i) => i === legs.length - 1 ? total - each * (legs.length - 1) : each);
+    }
+    const out = legs.map((l) => Math.max(1, Math.round(l.meters / meters * total)));
+    const drift = total - out.reduce((s2, v2) => s2 + v2, 0);
+    out[out.length - 1] = Math.max(1, out[out.length - 1] + drift);
+    return out;
+  }
+  function applyLegSessionResult(progression, performedSecs, now = /* @__PURE__ */ new Date(), goalTargetsSec = null) {
+    const targets = Array.isArray(progression.legTargetsSec) ? progression.legTargetsSec.slice() : [];
+    const started = Array.isArray(progression.legStartedAt) ? progression.legStartedAt.slice() : [];
+    const goals = Array.isArray(goalTargetsSec) ? goalTargetsSec : null;
+    const reasons = [];
+    let anyTightened = false;
+    for (let i = 0; i < targets.length; i++) {
+      const res = nextSplitTarget({
+        currentTargetSec: targets[i],
+        bestPerformedSec: Array.isArray(performedSecs) ? performedSecs[i] : null,
+        targetStartedAt: started[i] || progression.targetStartedAt,
+        now,
+        goalTargetSec: goals ? goals[i] : null,
+        step: progression.step || DEFAULT_STEP
+      });
+      reasons.push(res.reason);
+      if (res.tightened) {
+        targets[i] = res.targetSec;
+        started[i] = startOfDay(now).toISOString();
+        anyTightened = true;
+      }
+    }
+    return {
+      ...progression,
+      legTargetsSec: targets,
+      legStartedAt: started,
+      lastLegReasons: reasons,
+      lastLegTightened: anyTightened
+    };
+  }
+  function legSplitsFromTrack2(pins, track) {
+    if (!pins || pins.length < 2 || !track || track.length < 2) return null;
+    if (!track.every((p) => p && Number.isFinite(p.t))) return null;
+    const legs = legDistances(pins).map((l) => l.meters);
+    const out = [];
+    let boundary = 0;
+    let idx = 1;
+    let traveled = 0;
+    let prevTraveled = 0;
+    let prevT = 0;
+    for (const leg of legs) {
+      boundary += leg;
+      while (idx < track.length && traveled < boundary) {
+        prevTraveled = traveled;
+        traveled += geodesicMeters(track[idx - 1], track[idx]);
+        prevT = track[idx - 1].t;
+        idx++;
+      }
+      if (traveled < boundary) return null;
+      const span = traveled - prevTraveled;
+      const frac = span <= 0 ? 0 : (boundary - prevTraveled) / span;
+      const t = prevT + (track[idx - 1].t - prevT) * frac;
+      out.push(Math.max(1, Math.round(t - out.reduce((s2, v2) => s2 + v2, 0))));
+    }
+    return out;
+  }
+  function safeWeeklyIncrease(previousMeters, nextMeters, maxIncreasePct = 0.1) {
+    const prev = Number(previousMeters);
+    const next = Number(nextMeters);
+    if (!(prev > 0) || !Number.isFinite(next)) return false;
+    return next <= prev * (1 + maxIncreasePct) + 0.5;
+  }
+  function weeklyProgression({ windowDays = 14, sessionsPerWeek = 3, sessionMeters = 0, maxIncreasePct = 0.1 } = {}) {
+    const days = Math.max(1, Math.round(Number(windowDays) || 14));
+    const weeks = Math.max(1, Math.ceil(days / 7));
+    const perWeek = Math.max(0, Number(sessionsPerWeek) || 0);
+    const meters = Math.max(0, Number(sessionMeters) || 0);
+    const out = [];
+    for (let i = 0; i < weeks; i++) {
+      const weekMeters = Math.round(perWeek * meters);
+      const prev = i ? out[i - 1].meters : weekMeters;
+      out.push({
+        week: i + 1,
+        sessions: perWeek,
+        meters: weekMeters,
+        safe: i === 0 ? true : safeWeeklyIncrease(prev, weekMeters, maxIncreasePct)
+      });
+    }
+    return { weeks: out, maxIncreasePct, safe: out.every((w2) => w2.safe) };
+  }
+  function runWalkMix({ activityType, beginner = true, sessionSec = 1800 } = {}) {
+    if (activityType !== "run" || !beginner) return null;
+    return {
+      label: "Walk 5 min to warm up, then repeat 1 min easy run / 2 min walk. Finish with 5 min walking.",
+      warmupSec: 300,
+      runSec: 60,
+      walkSec: 120,
+      minutes: Math.round((Number(sessionSec) || 0) / 60)
+    };
+  }
+  function planSessionOutline({
+    activityType = "walk",
+    goalDistanceMeters = null,
+    goalDurationSec = null,
+    windowDays = 14,
+    course = null
+  } = {}) {
+    const type = activityType === "run" ? "run" : "walk";
+    const mph = activityMph(type);
+    const days = Math.max(1, Math.round(windowDays || 14));
+    const goalDistance = Number(goalDistanceMeters) > 0 ? Number(goalDistanceMeters) : null;
+    const goalDuration = Number(goalDurationSec) > 0 ? Number(goalDurationSec) : null;
+    const maxPerWeek = MAX_SESSIONS_PER_WEEK[type];
+    const weeksFrac = Math.max(1, days / 7);
+    const maxSessions = Math.max(1, Math.min(days, Math.floor(weeksFrac * maxPerWeek)));
+    const typical30 = mph * METERS_PER_MILE / 2;
+    const typical45 = typical30 * 1.5;
+    const targetSessions = clamp2(Math.round(weeksFrac * 3) || 3, 2, maxSessions);
+    const minSession = typical30 * 0.18;
+    const maxSession = typical45 * 1.25;
+    let sessionMeters;
+    if (goalDistance) {
+      sessionMeters = clamp2(goalDistance / targetSessions, minSession, maxSession);
+    } else if (goalDuration) {
+      sessionMeters = goalDuration / targetSessions * (mph * METERS_PER_MILE / 3600);
+      sessionMeters = clamp2(sessionMeters, minSession, maxSession);
+    } else if (course && course.pins && course.pins.length >= 2) {
+      sessionMeters = pathLengthMeters(course.pins);
+    } else {
+      sessionMeters = typical30;
+    }
+    let sessionSecTypical = etaSeconds(sessionMeters, mph) || 1;
+    let sessionsNeeded = 1;
+    if (goalDistance) sessionsNeeded = Math.max(sessionsNeeded, Math.ceil(goalDistance / sessionMeters - 1e-6));
+    if (goalDuration) sessionsNeeded = Math.max(sessionsNeeded, Math.ceil(goalDuration / sessionSecTypical - 1e-6));
+    if (sessionsNeeded > maxSessions) {
+      sessionsNeeded = maxSessions;
+      if (goalDistance) {
+        sessionMeters = goalDistance / maxSessions;
+        sessionSecTypical = etaSeconds(sessionMeters, mph) || 1;
+      } else if (goalDuration) {
+        sessionSecTypical = goalDuration / maxSessions;
+        sessionMeters = sessionSecTypical * (mph * METERS_PER_MILE / 3600);
+      }
+    }
+    sessionsNeeded = Math.max(1, Math.min(sessionsNeeded, days));
+    const weeks = days % 7 === 0 ? days / 7 : Math.ceil(days / 7);
+    return {
+      activityType: type,
+      days,
+      weeks,
+      sessions: sessionsNeeded,
+      sessionMeters,
+      sessionSecTypical
+    };
+  }
+  function formatPlanLength(outline) {
+    const o = outline || {};
+    const kind = o.activityType === "run" ? "run" : "walk";
+    const n = Math.max(1, Number(o.sessions) || 1);
+    const guided = n === 1 ? `1 guided ${kind}` : `${n} guided ${kind}s`;
+    const days = Math.max(1, Number(o.days) || 1);
+    const weeks = Number(o.weeks) || Math.ceil(days / 7);
+    const window2 = days >= 7 && days % 7 === 0 ? `${weeks} week${weeks === 1 ? "" : "s"}` : `${days} day${days === 1 ? "" : "s"}`;
+    return `${window2}, ${guided}`;
+  }
+  function planTeaserModel(goal = {}, { units: units3 = "mi", formatDistance: formatDistance2 } = {}) {
+    const outline = planSessionOutline(goal);
+    const type = outline.activityType;
+    const kind = type === "run" ? "Run" : "Walk";
+    let goalLabel = kind;
+    const dist3 = Number(goal.goalDistanceMeters);
+    if (dist3 > 0 && typeof formatDistance2 === "function") {
+      goalLabel = `${kind} ${formatDistance2(dist3, units3)}`;
+    } else if (dist3 > 0) {
+      const miles = dist3 / METERS_PER_MILE;
+      const km = dist3 / 1e3;
+      goalLabel = units3 === "km" ? `${kind} ${Number(km.toFixed(km < 10 ? 2 : 1))} km` : `${kind} ${Number(miles.toFixed(miles < 10 ? 3 : 1))} mi`;
+    }
+    if (Number(goal.goalDurationSec) > 0) {
+      const sec = Math.round(Number(goal.goalDurationSec));
+      const m = Math.floor(sec / 60);
+      const s2 = sec % 60;
+      goalLabel += ` in ${m}:${String(s2).padStart(2, "0")}`;
+    }
+    return {
+      goalLabel,
+      lengthLabel: formatPlanLength(outline),
+      includes: ["Step goals", "Per-leg paces", "Water reminders"],
+      activityType: type,
+      windowDays: outline.days,
+      weeks: outline.weeks,
+      sessions: outline.sessions
+    };
+  }
+  function buildPlanDraft({
+    activityType = "walk",
+    goalDistanceMeters = null,
+    goalDurationSec = null,
+    windowDays = 14,
+    course = null,
+    autoLoop = false,
+    center = null,
+    loop = null,
+    bodyKg = null,
+    now = /* @__PURE__ */ new Date(),
+    name = "",
+    beginner = true
+  }) {
+    const type = activityType === "run" ? "run" : "walk";
+    const mph = activityMph(type);
+    const maxPerWeek = MAX_SESSIONS_PER_WEEK[type];
+    const outline = planSessionOutline({
+      activityType: type,
+      goalDistanceMeters,
+      goalDurationSec,
+      windowDays,
+      course
+    });
+    const days = outline.days;
+    const goalDistance = Number(goalDistanceMeters) > 0 ? Number(goalDistanceMeters) : null;
+    const goalDuration = Number(goalDurationSec) > 0 ? Number(goalDurationSec) : null;
+    let sessionMeters = outline.sessionMeters;
+    let sessionSecTypical = outline.sessionSecTypical;
+    const sessionsNeeded = outline.sessions;
+    const route = routeForGoal({ targetMeters: sessionMeters, course, autoLoop, center, loop });
+    const pins = route && route.pins || [];
+    const routeMeters2 = route && route.path && route.path.length >= 2 ? pathLengthMeters(route.path) : pathLengthMeters(pins);
+    sessionMeters = routeMeters2 || sessionMeters;
+    sessionSecTypical = etaSeconds(sessionMeters, mph) || 1;
+    const dates = spreadDates(now, days, sessionsNeeded);
+    const goalTargetSec = goalDistance && goalDuration ? riegelPredict({
+      timeSec: goalDuration,
+      fromMeters: goalDistance,
+      toMeters: sessionMeters
+    }) : null;
+    const initialTargetSec = goalTargetSec ? Math.max(goalTargetSec, sessionSecTypical) : sessionSecTypical;
+    const effort = effortEstimate({
+      activityType: type,
+      mph,
+      durationSec: sessionSecTypical,
+      bodyKg
+    });
+    let vdot = null;
+    let trainingPaces = null;
+    if (type === "run" && goalDistance && goalDuration) {
+      vdot = vdotFromPerformance({ distanceMeters: goalDistance, timeSec: goalDuration });
+      trainingPaces = trainingPacesFromVdot(vdot);
+    }
+    const hours = sessionSecTypical / 3600;
+    const water = waterTargetMl({ bodyKg, sessionHoursThatDay: hours });
+    const waterRest = waterTargetMl({ bodyKg, sessionHoursThatDay: 0 });
+    const title = name || defaultTitle(type, goalDistance, goalDuration, days);
+    const startedAt = startOfDay(now).toISOString();
+    const legSource = route.path && route.path.length >= 2 ? route.path : pins;
+    const legTargetsSec = legSource && legSource.length >= 2 ? buildLegTargets(legSource, initialTargetSec) : [Math.round(initialTargetSec) || 1];
+    const legGoalTargetsSec = goalTargetSec ? legSource && legSource.length >= 2 ? buildLegTargets(legSource, goalTargetSec) : [Math.round(goalTargetSec) || 1] : null;
+    return {
+      version: 1,
+      title,
+      activityType: type,
+      goal: {
+        kind: goalDistance && goalDuration ? "both" : goalDuration ? "time" : "distance",
+        distanceMeters: goalDistance,
+        durationSec: goalDuration,
+        windowDays: days
+      },
+      water: {
+        ...water,
+        restDayMl: waterRest.dailyMl,
+        userAdjusted: false,
+        reminderLocalTimes: DEFAULT_REMINDER_TIMES.slice(),
+        source: "efsa-acsm-general"
+      },
+      route: {
+        ok: route.ok !== false,
+        reason: route.reason || null,
+        mode: route.mode,
+        courseId: route.courseId,
+        targetLengthMeters: sessionMeters,
+        scaleFactor: Math.round((route.scaleFactor || 1) * 1e3) / 1e3,
+        repeatTimes: route.repeatTimes,
+        loop: { type: "LineString", coordinates: (route.path && route.path.length >= 2 ? route.path : pins).map((p) => [p.lon, p.lat]) },
+        pins,
+        path: route.path && route.path.length >= 2 ? route.path : null
+      },
+      schedule: {
+        sessionsPerWeek: Number((sessionsNeeded / days * 7).toFixed(2)),
+        sessionDistanceMeters: sessionMeters,
+        sessionDurationSec: sessionSecTypical,
+        sessionDates: dates,
+        initialTargetSec,
+        goalTargetSec,
+        legTargetsSec,
+        legGoalTargetsSec,
+        maxSessionsPerWeek: maxPerWeek,
+        effort,
+        vdot,
+        trainingPaces,
+        mix: runWalkMix({ activityType: type, beginner, sessionSec: sessionSecTypical }),
+        weekly: weeklyProgression({
+          windowDays: days,
+          sessionsPerWeek: sessionsNeeded / days * 7,
+          sessionMeters
+        })
+      },
+      progression: {
+        currentTargetSec: initialTargetSec,
+        targetStartedAt: startedAt,
+        step: DEFAULT_STEP,
+        legTargetsSec,
+        legStartedAt: legTargetsSec.map(() => startedAt),
+        legGoalTargetsSec
+      }
+    };
+  }
+  function defaultTitle(type, dist3, dur, days) {
+    const kind = type === "run" ? "Run" : "Walk";
+    if (dist3) return `${days}-day ${kind.toLowerCase()} plan`;
+    return `${days}-day ${kind.toLowerCase()} plan`;
+  }
+  function spreadDates(now, windowDays, count) {
+    const days = Math.max(1, Math.round(windowDays || 1));
+    const n = Math.max(0, Math.min(days, Math.round(count || 0)));
+    const start = addDays(startOfDay(now), 1);
+    if (n === 0) return [];
+    if (n === 1) return [isoDate(start)];
+    const lastOffset = Math.max(1, days - 1);
+    const offsets = [];
+    for (let i = 0; i < n; i++) {
+      offsets.push(Math.round(i * lastOffset / (n - 1)));
+    }
+    for (let i = 1; i < offsets.length - 1; i++) {
+      if (offsets[i] === offsets[i - 1] + 1 && offsets[i] === offsets[i + 1] - 1) {
+        const move = offsets[i + 1] < lastOffset ? 1 : -1;
+        if (offsets[i] + move !== offsets[i + 1] || move < 0) offsets[i] += move;
+      }
+    }
+    const dates = unique(offsets.sort((a, b2) => a - b2)).map((o) => isoDate(addDays(start, o)));
+    return dates;
+  }
+  function unique(arr) {
+    return arr.filter((v2, i) => arr.indexOf(v2) === i);
+  }
+  function applySessionResult(progression, performedSec, now = /* @__PURE__ */ new Date(), goalTargetSec = null, legPerformedSec = null) {
+    const next = nextSplitTarget({
+      currentTargetSec: progression.currentTargetSec,
+      bestPerformedSec: performedSec,
+      targetStartedAt: progression.targetStartedAt,
+      now,
+      goalTargetSec,
+      step: progression.step || DEFAULT_STEP
+    });
+    let out;
+    if (!next.tightened) {
+      out = { ...progression, lastReason: next.reason, lastPerformedSec: performedSec };
+    } else {
+      out = {
+        ...progression,
+        currentTargetSec: next.targetSec,
+        targetStartedAt: startOfDay(now).toISOString(),
+        lastReason: next.reason,
+        lastPerformedSec: performedSec
+      };
+    }
+    if (Array.isArray(legPerformedSec) && Array.isArray(out.legTargetsSec)) {
+      out = applyLegSessionResult(out, legPerformedSec, now, out.legGoalTargetsSec || null);
+    }
+    return out;
+  }
+
+  // www/js/body_weight.js
+  var KG_PER_LB = 0.45359237;
+  function lbToKg(lb) {
+    const n = Number(lb);
+    if (!Number.isFinite(n)) return null;
+    return n * KG_PER_LB;
+  }
+  function kgToLb(kg) {
+    const n = Number(kg);
+    if (!Number.isFinite(n)) return null;
+    return n / KG_PER_LB;
+  }
+  function defaultWeightUnit({ locale, units: units3, remembered } = {}) {
+    if (remembered === "lb" || remembered === "kg") return remembered;
+    if (units3 === "mi") return "lb";
+    if (units3 === "km") return "kg";
+    const loc = String(locale || "").toLowerCase().replace(/_/g, "-");
+    if (loc === "en-us" || loc.startsWith("en-us") || loc.endsWith("-us")) return "lb";
+    return "kg";
+  }
+  var MIN_KG = 30;
+  var MAX_KG = 250;
+  function parseWeightInput(raw, unit) {
+    const text = String(raw == null ? "" : raw).trim();
+    if (!text) return null;
+    const n = Number(text);
+    if (!Number.isFinite(n) || n <= 0) return null;
+    const kg = unit === "lb" ? lbToKg(n) : n;
+    if (!Number.isFinite(kg) || kg < MIN_KG || kg > MAX_KG) return null;
+    return kg;
+  }
+  function formatWeightInput(kg, unit) {
+    const n = Number(kg);
+    if (!Number.isFinite(n) || n <= 0) return "";
+    if (unit === "lb") return String(Number(kgToLb(n).toFixed(1)));
+    return String(Number(n.toFixed(1)));
+  }
+
+  // www/js/plans.js
+  var PLAN_FORMAT = "heldpath-plan";
+  var PLAN_FORMAT_VERSION = 1;
+  var MAX_PLAN_PINS = 5e3;
+  var MAX_SESSIONS = 1e3;
+  function num(v2, fallback = 0) {
+    const n = Number(v2);
+    return Number.isFinite(n) ? n : fallback;
+  }
+  function cleanTitle(v2) {
+    return String(v2 == null ? "" : v2).trim().slice(0, 120) || "Heldpath plan";
+  }
+  function cleanPins(raw, fallback = []) {
+    if (!Array.isArray(raw)) return fallback;
+    const out = [];
+    for (const p of raw.slice(0, MAX_PLAN_PINS)) {
+      if (!p || !Number.isFinite(Number(p.lat)) || !Number.isFinite(Number(p.lon))) continue;
+      const lat = Number(p.lat);
+      const lon = Number(p.lon);
+      if (lat < -90 || lat > 90 || lon < -180 || lon > 180) continue;
+      out.push({ lat, lon, role: p.role === "start" || p.role === "end" ? p.role : "via" });
+    }
+    if (!out.length) return fallback;
+    out[0].role = "start";
+    out[out.length - 1].role = "end";
+    return out;
+  }
+  function cleanDates(raw) {
+    if (!Array.isArray(raw)) return [];
+    const out = [];
+    for (const d2 of raw.slice(0, MAX_SESSIONS)) {
+      const s2 = String(d2 || "");
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(s2)) continue;
+      if (!out.includes(s2)) out.push(s2);
+    }
+    return out.sort();
+  }
+  function makePlan(draft, { id = uid("plan"), now = /* @__PURE__ */ new Date(), ownership = null } = {}) {
+    const iso = (now instanceof Date ? now : new Date(now)).toISOString();
+    return {
+      id,
+      version: 1,
+      title: cleanTitle(draft.title),
+      createdAt: iso,
+      updatedAt: iso,
+      activityType: draft.activityType === "run" ? "run" : "walk",
+      goal: { ...draft.goal },
+      water: { ...draft.water, reminderLocalTimes: normaliseReminderTimes(draft.water?.reminderLocalTimes) },
+      route: {
+        ...draft.route,
+        pins: cleanPins(draft.route?.pins),
+        path: Array.isArray(draft.route?.path) ? draft.route.path.map((p) => ({ lat: p.lat, lon: p.lon })) : null,
+        loop: {
+          type: "LineString",
+          coordinates: (draft.route?.path && draft.route.path.length >= 2 ? draft.route.path : draft.route?.pins || []).map((p) => [p.lon, p.lat])
+        }
+      },
+      schedule: { ...draft.schedule },
+      progression: { ...draft.progression },
+      ownership: ownership || { state: "owned" }
+    };
+  }
+  async function createPlanForGoal(goal = {}, { iapApi = iap_exports, now = /* @__PURE__ */ new Date(), id = null } = {}) {
+    const draft = buildPlanDraft({ ...goal, now });
+    const autoRoute = draft.route || {};
+    if (goal.autoLoop && (autoRoute.ok === false || !autoRoute.pins || autoRoute.pins.length < 2 || !autoRoute.path || autoRoute.path.length < 2)) {
+      return { ok: false, error: "no-loop", reason: autoRoute.reason || "no-loop" };
+    }
+    let purchased = false;
+    if (!iapApi.hasCredit()) {
+      const buy = await iapApi.purchasePlanCredit();
+      if (!buy || !buy.ok) return { ok: false, error: "purchase_failed", detail: buy };
+      purchased = true;
+    }
+    const plan = makePlan(draft, { id: id || uid("plan"), now });
+    const redeem = iapApi.redeemCreditForPlan(plan.id);
+    if (!redeem || !redeem.ok) return { ok: false, error: redeem?.error || "no_credit" };
+    plan.ownership = {
+      state: "owned",
+      productId: iapApi.PLAN_PRODUCT_ID,
+      purchasedAt: plan.createdAt
+    };
+    return { ok: true, plan, purchased, credits: redeem.credits };
+  }
+  function planWithoutSecrets(plan) {
+    const copy = JSON.parse(JSON.stringify(plan));
+    delete copy.purchaseToken;
+    if (copy.ownership) {
+      delete copy.ownership.purchaseToken;
+      delete copy.ownership.purchase_token;
+      delete copy.ownership.transactionId;
+      delete copy.ownership.receipt;
+      copy.ownership = {
+        state: copy.ownership.state === "imported" ? "imported" : "owned",
+        ...copy.ownership.productId ? { productId: copy.ownership.productId } : {},
+        ...copy.ownership.purchasedAt ? { purchasedAt: copy.ownership.purchasedAt } : {}
+      };
+    }
+    const strip = (obj) => {
+      if (!obj || typeof obj !== "object") return;
+      for (const k of Object.keys(obj)) {
+        if (/token|receipt|secret|credential/i.test(k)) delete obj[k];
+        else strip(obj[k]);
+      }
+    };
+    strip(copy);
+    return copy;
+  }
+  function planFileFor(plan, now = /* @__PURE__ */ new Date()) {
+    return {
+      format: PLAN_FORMAT,
+      formatVersion: PLAN_FORMAT_VERSION,
+      exportedAt: (now instanceof Date ? now : new Date(now)).toISOString(),
+      plan: planWithoutSecrets(plan)
+    };
+  }
+  function serialisePlanFile(plan, now = /* @__PURE__ */ new Date()) {
+    return JSON.stringify(planFileFor(plan, now), null, 2);
+  }
+  function exportFileName(plan) {
+    const slug = String(plan?.title || "plan").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "plan";
+    return `heldpath-${slug}.paceplan`;
+  }
+  function sanitiseImportedPlan(raw) {
+    if (!raw || typeof raw !== "object") return { ok: false, error: "missing_plan" };
+    const activityType = raw.activityType === "run" ? "run" : raw.activityType === "walk" ? "walk" : null;
+    if (!activityType) return { ok: false, error: "bad_activity" };
+    const schedule = raw.schedule || {};
+    const sessionDates = cleanDates(schedule.sessionDates);
+    if (!sessionDates.length) return { ok: false, error: "bad_schedule" };
+    const sessionMeters = num(schedule.sessionDistanceMeters);
+    const sessionSec = num(schedule.sessionDurationSec);
+    if (!(sessionMeters > 0) || !(sessionSec > 0)) return { ok: false, error: "bad_schedule" };
+    const goal = raw.goal || {};
+    const water = raw.water || {};
+    const route = raw.route || {};
+    const pins = cleanPins(route.pins);
+    const path = Array.isArray(route.path) ? route.path.map((p) => ({ lat: Number(p.lat), lon: Number(p.lon) })).filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lon)) : null;
+    if (pins.length < 2 && route.mode !== "none") return { ok: false, error: "bad_route" };
+    const dailyMl = num(water.dailyMl, 2e3);
+    const plan = {
+      id: uid("plan"),
+      version: 1,
+      title: cleanTitle(raw.title),
+      createdAt: (/* @__PURE__ */ new Date()).toISOString(),
+      updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
+      activityType,
+      goal: {
+        kind: goal.kind === "time" || goal.kind === "both" ? goal.kind : "distance",
+        distanceMeters: goal.distanceMeters == null ? null : num(goal.distanceMeters, null),
+        durationSec: goal.durationSec == null ? null : num(goal.durationSec, null),
+        windowDays: Math.max(1, Math.round(num(goal.windowDays, sessionDates.length)))
+      },
+      water: {
+        dailyMl: Math.max(500, Math.min(1e4, Math.round(dailyMl / 50) * 50)),
+        baselineMl: Math.max(0, Math.round(num(water.baselineMl, dailyMl))),
+        exerciseMl: Math.max(0, Math.round(num(water.exerciseMl, 0))),
+        restDayMl: water.restDayMl == null ? void 0 : Math.max(0, Math.round(num(water.restDayMl, 0))),
+        userAdjusted: !!water.userAdjusted,
+        reminderLocalTimes: normaliseReminderTimes(water.reminderLocalTimes).length ? normaliseReminderTimes(water.reminderLocalTimes) : ["08:00", "12:00", "16:00", "20:00"],
+        source: String(water.source || "efsa-acsm-general").slice(0, 60),
+        ...water.allowNight === true ? { allowNight: true } : {}
+      },
+      route: {
+        mode: route.mode === "course" ? "course" : route.mode === "none" ? "none" : pins.length >= 2 ? "autoloop" : "none",
+        courseId: route.courseId ? String(route.courseId).slice(0, 100) : null,
+        targetLengthMeters: num(route.targetLengthMeters, sessionMeters),
+        scaleFactor: num(route.scaleFactor, 1),
+        repeatTimes: Math.max(1, Math.round(num(route.repeatTimes, 1))),
+        loop: { type: "LineString", coordinates: (path && path.length >= 2 ? path : pins).map((p) => [p.lon, p.lat]) },
+        pins,
+        path: path && path.length >= 2 ? path : null
+      },
+      schedule: {
+        sessionsPerWeek: num(schedule.sessionsPerWeek, 3),
+        sessionDistanceMeters: sessionMeters,
+        sessionDurationSec: sessionSec,
+        sessionDates,
+        initialTargetSec: num(schedule.initialTargetSec, sessionSec),
+        goalTargetSec: schedule.goalTargetSec == null ? null : num(schedule.goalTargetSec, null),
+        legTargetsSec: pins.length >= 2 ? buildLegTargets(pins, num(schedule.initialTargetSec, sessionSec)) : [Math.round(num(schedule.initialTargetSec, sessionSec)) || 1]
+      },
+      progression: {},
+      // Imported plans are owned locally, but never re-charged.
+      ownership: { state: "imported" }
+    };
+    const startedAt = plan.createdAt;
+    const stepRaw = num(raw.progression?.step, 0.02);
+    const step = Math.max(0.01, Math.min(0.03, stepRaw || 0.02));
+    plan.progression = {
+      currentTargetSec: plan.schedule.initialTargetSec,
+      targetStartedAt: startedAt,
+      step,
+      legTargetsSec: plan.schedule.legTargetsSec,
+      legStartedAt: plan.schedule.legTargetsSec.map(() => startedAt)
+    };
+    return { ok: true, plan };
+  }
+  function importPlanFile(text, { iapApi = iap_exports, existingIds = [] } = {}) {
+    let data;
+    try {
+      data = JSON.parse(String(text || ""));
+    } catch {
+      return { ok: false, error: "invalid_json" };
+    }
+    if (!data || typeof data !== "object") return { ok: false, error: "invalid_json" };
+    if (data.format !== PLAN_FORMAT) return { ok: false, error: "wrong_format" };
+    if (Number(data.formatVersion) !== PLAN_FORMAT_VERSION) return { ok: false, error: "wrong_version" };
+    if (!data.plan || typeof data.plan !== "object") return { ok: false, error: "missing_plan" };
+    const checked = sanitiseImportedPlan(data.plan);
+    if (!checked.ok) return checked;
+    const plan = checked.plan;
+    const ids = new Set(existingIds || []);
+    while (ids.has(plan.id)) plan.id = uid("plan");
+    try {
+      iapApi.markImported(plan.id);
+    } catch {
+    }
+    return { ok: true, plan, free: true };
+  }
+  function scheduleRowId(planOrId, date) {
+    const id = typeof planOrId === "string" ? planOrId : planOrId.id;
+    return `sched_${id}_${date}`;
+  }
+  function planToCalendarRows(plan, { courseName = null } = {}) {
+    const dates = plan.schedule?.sessionDates || [];
+    const pins = plan.route?.pins || [];
+    const path = plan.route?.path || null;
+    return dates.map((date) => ({
+      id: scheduleRowId(plan, date),
+      date,
+      courseId: plan.route?.mode === "course" ? plan.route.courseId || null : null,
+      courseName: plan.route?.mode === "course" ? courseName || plan.title : plan.title || "Plan loop",
+      activityType: plan.activityType,
+      sourcePlanId: plan.id,
+      sourceSessionDate: date,
+      targetLengthMeters: plan.schedule?.sessionDistanceMeters || 0,
+      targetSec: plan.schedule?.initialTargetSec || 0,
+      routePins: pins,
+      routePath: path
+    }));
+  }
+  function addPlanToState(state3, plan, { courseName = null } = {}) {
+    if (!Array.isArray(state3.planLibrary)) state3.planLibrary = [];
+    state3.planLibrary = state3.planLibrary.filter((p) => p.id !== plan.id);
+    state3.planLibrary.push(plan);
+    if (!Array.isArray(state3.plans)) state3.plans = [];
+    state3.plans = state3.plans.filter((p) => p.sourcePlanId !== plan.id);
+    const rows = planToCalendarRows(plan, { courseName });
+    for (const row of rows) {
+      if (!state3.plans.some((p) => p.id === row.id)) state3.plans.push(row);
+    }
+    return { plan, rows };
+  }
+  function removePlanFromState(state3, planId) {
+    state3.planLibrary = (state3.planLibrary || []).filter((p) => p.id !== planId);
+    state3.plans = (state3.plans || []).filter((p) => p.sourcePlanId !== planId);
+    return state3;
+  }
+  function applyCompletedSession(plan, activity, now = /* @__PURE__ */ new Date()) {
+    if (!plan || !activity) return plan;
+    const performed = num(activity.elapsedSec);
+    if (!(performed > 0)) return plan;
+    const legPerformed = legSplitsFromTrack2(plan.route?.pins, activity.track);
+    plan.progression = applySessionResult(
+      plan.progression,
+      performed,
+      now,
+      plan.schedule?.goalTargetSec ?? null,
+      legPerformed
+    );
+    plan.updatedAt = (now instanceof Date ? now : new Date(now)).toISOString();
+    return plan;
+  }
+  function updateWaterTarget(plan, { dailyMl, bodyKg, reminderLocalTimes, allowNight } = {}) {
+    if (!plan || !plan.water) return plan;
+    if (dailyMl != null && Number.isFinite(Number(dailyMl))) {
+      plan.water.dailyMl = Math.max(500, Math.min(1e4, Math.round(Number(dailyMl) / 50) * 50));
+      plan.water.userAdjusted = true;
+    }
+    if (bodyKg != null && Number(bodyKg) > 0) {
+      const base = Math.round(32.5 * Number(bodyKg) / 50) * 50;
+      plan.water.baselineMl = base;
+      if (!plan.water.userAdjusted || dailyMl == null) {
+        plan.water.dailyMl = base + (plan.water.exerciseMl || 0);
+      }
+    }
+    if (Array.isArray(reminderLocalTimes)) {
+      plan.water.reminderLocalTimes = normaliseReminderTimes(reminderLocalTimes);
+      if (!plan.water.reminderLocalTimes.length) plan.water.reminderLocalTimes = ["08:00", "12:00", "16:00", "20:00"];
+    }
+    if (allowNight != null) plan.water.allowNight = !!allowNight;
+    plan.updatedAt = (/* @__PURE__ */ new Date()).toISOString();
+    return plan;
+  }
+  function stableNotificationId(planId, index = 0) {
+    let h2 = 2166136261;
+    const s2 = String(planId || "plan");
+    for (let i = 0; i < s2.length; i++) {
+      h2 ^= s2.charCodeAt(i);
+      h2 = Math.imul(h2, 16777619);
+    }
+    return Math.abs(h2) % 2e9 + index * 10 + 1;
+  }
+  function reminderPayloadFor(plan, opts = {}) {
+    const times = reminderTimesFor(plan, opts);
+    const ml = plan?.water?.dailyMl || 2e3;
+    return times.map((t, i) => ({
+      id: stableNotificationId(plan?.id, i),
+      title: "Time for a drink",
+      body: `About ${ml} ml today is your plan target. General guidance, not medical advice.`,
+      schedule: {
+        on: { hour: Number(t.slice(0, 2)), minute: Number(t.slice(3, 5)) },
+        repeats: true,
+        allowWhileIdle: true
+      }
+    }));
+  }
+  async function scheduleDrinkReminders(plan, { notifications = null, opts = {} } = {}) {
+    const payload = reminderPayloadFor(plan, opts);
+    if (!notifications) {
+      return { ok: false, skipped: true, reason: "not_available", times: payload.map((n) => n.schedule.on) };
+    }
+    try {
+      const ids = payload.map((n) => ({ id: n.id }));
+      if (ids.length) {
+        try {
+          await notifications.cancel({ notifications: ids });
+        } catch {
+        }
+      }
+      await notifications.schedule({ notifications: payload });
+      return { ok: true, scheduled: payload.length, ids: payload.map((n) => n.id) };
+    } catch (err2) {
+      return { ok: false, error: String(err2), times: payload.map((n) => n.schedule.on) };
+    }
   }
 
   // www/js/water_units.js
@@ -45565,7 +45861,12 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function renderCreditNote() {
     const credits = creditsRemaining();
-    $("plan-create-note").textContent = credits > 0 ? `${credits} unused plan credit${credits === 1 ? "" : "s"} on this phone. Creating a plan uses one.` : "No credit yet. Creating a plan buys one $2 credit first (stub in this build). Importing a shared plan stays free.";
+    const note = $("plan-create-note");
+    const current = note && note.textContent || "";
+    const busy = /Loading paths|Couldn't build a loop|Getting your location|Tap the map to set the start|Turn on location/i.test(current);
+    if (!busy) {
+      note.textContent = credits > 0 ? `${credits} unused plan credit${credits === 1 ? "" : "s"} on this phone. Creating a plan uses one.` : "No credit yet. Creating a plan buys one $2 credit first (stub in this build). Importing a shared plan stays free.";
+    }
     $("btn-plan-create").textContent = credits > 0 ? "Create plan \xB7 use 1 credit" : "Create plan \xB7 $2";
   }
   function waterPrefs() {
@@ -45718,12 +46019,41 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       root.appendChild(el);
     }
   }
+  async function resolveAutoLoopCenter(noteEl) {
+    let center = userCenter();
+    if (center) return center;
+    if (ctx && typeof ctx.resolveLoopCenter === "function") {
+      if (noteEl) noteEl.textContent = "Getting your location\u2026";
+      center = await ctx.resolveLoopCenter({
+        onNeedTap: () => {
+          if (noteEl) noteEl.textContent = "Tap the map to set the start of your loop";
+        }
+      });
+    }
+    return center || null;
+  }
   async function createPlan() {
     const goal = readGoal();
-    $("plan-create-note").textContent = "Creating\u2026";
+    const noteEl = $("plan-create-note");
+    if (goal.autoLoop) {
+      const center = await resolveAutoLoopCenter(noteEl);
+      if (!center) {
+        if (noteEl) noteEl.textContent = "Turn on location or tap the map to set a start point. Auto loop does not assume a city.";
+        return;
+      }
+      goal.center = center;
+      if (noteEl) noteEl.textContent = "Loading paths\u2026";
+      const loop = await buildAutoLoop(center, goal.goalDistanceMeters);
+      if (!loop || loop.ok === false) {
+        if (noteEl) noteEl.textContent = AUTO_LOOP_FAIL_COPY;
+        return;
+      }
+      goal.loop = loop;
+    }
+    if (noteEl) noteEl.textContent = "Creating\u2026";
     const res = await createPlanForGoal(goal);
     if (!res.ok) {
-      $("plan-create-note").textContent = res.error === "purchase_failed" ? "The store could not be reached. Nothing was charged." : "Could not create the plan. Nothing was charged.";
+      if (noteEl) noteEl.textContent = res.error === "purchase_failed" ? "The store could not be reached. Nothing was charged." : res.error === "no-loop" ? AUTO_LOOP_FAIL_COPY : "Could not create the plan. Nothing was charged.";
       return;
     }
     if (ui.waterOverrideMl != null || ui.reminderOverride && ui.reminderOverride.length) {
@@ -45748,6 +46078,10 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     const overlapCreateNote = overlapPlanCopy(overlapCreate);
     if (overlapCreateNote) $("plan-create-note").textContent += " " + overlapCreateNote;
     $("plan-reminder-note").textContent = remind.ok ? `Drink reminders scheduled on this phone: ${reminderTimesFor(res.plan).join(", ")}.` : `${reminderPayloadFor(res.plan).length} reminder times saved. They run on the phone once the app is installed.`;
+    if (goal.autoLoop && ctx && typeof ctx.showPlanRoute === "function") {
+      const row = (state().plans || []).find((p) => p.sourcePlanId === res.plan.id) || null;
+      ctx.showPlanRoute(row || res.plan);
+    }
   }
   async function saveWater() {
     const plan = newestPlan();
@@ -45945,8 +46279,15 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function kickPlanGraph() {
     const c = userCenter();
-    if (c) ensureWalkGraph(c).catch(() => {
-    });
+    if (!c) return;
+    const meters = ui && ui.distanceMeters || 1609;
+    if (typeof ctx.preloadLoopGraph === "function") {
+      ctx.preloadLoopGraph(c, meters).catch(() => {
+      });
+    } else {
+      ensureWalkGraph(c).catch(() => {
+      });
+    }
   }
   function renderPlansScreen() {
     if (!ctx) return;
@@ -50663,7 +51004,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
   }
   function renderToday() {
     const banner = $4("map-banner");
-    if (banner) banner.hidden = true;
+    if (banner && !ui2.keepMapBanner) banner.hidden = true;
   }
   function playQuietCompleteAlert() {
     try {
@@ -51539,7 +51880,8 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
           const course = {
             id: p.sourcePlanId ? null : c ? c.id : null,
             name: p.courseName || c && c.name || "Plan session",
-            pins
+            pins,
+            path: p.routePath || c && c.path || null
           };
           startTracking(p.activityType, course, p);
         } else if (c) {
@@ -51547,6 +51889,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         }
       },
       onOpenGroup: (id) => openGroupEvent(id),
+      onOpenPlanRoute: (id) => openPlanRoute(id, { from: "calendar" }),
       onSchedule: () => openSessionChoice(),
       onGroupRun: () => openGroupRun(),
       onStartCourse: (courseId, type) => {
@@ -51595,7 +51938,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       }
     }
     if (plan.routePins && plan.routePins.length >= 2) {
-      return { id: plan.courseId || null, name: plan.courseName, pins: plan.routePins };
+      return { id: plan.courseId || null, name: plan.courseName, pins: plan.routePins, path: plan.routePath || null };
     }
     return existing || null;
   }
@@ -51687,6 +52030,130 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
     }
     setTab("calendar");
     if (ui2.pendingGroupPlan) openGroupEvent(ui2.pendingGroupPlan);
+  }
+  function courseForPlanSession(plan) {
+    if (!plan) return null;
+    const existing = plan.courseId ? courseById2(plan.courseId) : null;
+    if (existing && existing.pins && existing.pins.length >= 2) {
+      return existing.path ? existing : { ...existing, path: plan.routePath || existing.path || null };
+    }
+    if (plan.routePins && plan.routePins.length >= 2) {
+      return { id: plan.courseId || null, name: plan.courseName || "Plan loop", pins: plan.routePins, path: plan.routePath || null };
+    }
+    if (plan.route && plan.route.pins && plan.route.pins.length >= 2) {
+      return { id: plan.route.courseId || null, name: plan.title || plan.courseName || "Plan loop", pins: plan.route.pins, path: plan.route.path || null };
+    }
+    return existing || null;
+  }
+  function showMapBanner(text) {
+    const banner = $4("map-banner");
+    const copy = String(text || "");
+    ui2.keepMapBanner = !!copy;
+    if (!banner) return;
+    banner.hidden = !copy;
+    banner.textContent = copy;
+  }
+  function openPlanRoute(planOrId, { from = "calendar" } = {}) {
+    const plan = typeof planOrId === "string" ? (state2.plans || []).find((p) => p.id === planOrId) : planOrId;
+    const course = courseForPlanSession(plan);
+    if (!course || !course.pins || course.pins.length < 2) {
+      const note = $4("plan-create-note");
+      if (note) note.textContent = AUTO_LOOP_FAIL_COPY;
+      return;
+    }
+    ui2.pendingPlanRoute = { plan, course, from };
+    closeSheet("sheet-plan-route");
+    setTab("today");
+    showScreen("today");
+    if ($4("today-dock")) $4("today-dock").hidden = true;
+    clearOverlays();
+    clearMarkers();
+    const line = course.path && course.path.length >= 2 ? course.path : course.pins;
+    if (line.length >= 2) drawRoute(line, { id: "course-line", color: "#4EC3F7", width: 5 });
+    addCoursePins(course.pins);
+    const pad = { top: 56, bottom: 360, left: 48, right: 48 };
+    whenReady(() => fitBounds(line, pad));
+    fitBounds(line, pad);
+    const meters = courseMeters(course);
+    const type = plan && plan.activityType || "walk";
+    const usedRecent = !!recentAveragePaceSecPerMeter(state2.activities || [], { type });
+    const dur = estimateSessionSec(meters, type);
+    if ($4("plan-route-title")) $4("plan-route-title").textContent = course.name || "Plan loop";
+    if ($4("plan-route-stats")) $4("plan-route-stats").textContent = `${formatDistance(meters, units2())} \xB7 ${formatEta(dur)}`;
+    if ($4("plan-route-pace-note")) {
+      $4("plan-route-pace-note").textContent = usedRecent ? "Estimated finish uses your recent pace." : "Estimated finish uses the default walk or run pace.";
+    }
+    if ($4("plan-route-note")) $4("plan-route-note").textContent = "";
+    const startBtn = $4("btn-plan-route-start");
+    if (startBtn) startBtn.hidden = false;
+    openSheet("sheet-plan-route");
+  }
+  function closePlanRouteView() {
+    closeSheet("sheet-plan-route");
+    if ($4("today-dock")) $4("today-dock").hidden = false;
+    try {
+      clearOverlays();
+      clearMarkers();
+    } catch {
+    }
+    const from = ui2.pendingPlanRoute && ui2.pendingPlanRoute.from;
+    if (from === "plans") setTab("plans");
+    else setTab("calendar");
+  }
+  function startPendingPlanRoute() {
+    const pending = ui2.pendingPlanRoute;
+    if (!pending || !pending.course) return;
+    closeSheet("sheet-plan-route");
+    if ($4("today-dock")) $4("today-dock").hidden = false;
+    const plan = pending.plan || {};
+    startTracking(plan.activityType || "walk", pending.course, plan);
+  }
+  function pickLoopStartOnMap() {
+    return new Promise((resolve2) => {
+      if (ui2.offPickLoop) {
+        try {
+          ui2.offPickLoop();
+        } catch {
+        }
+        ui2.offPickLoop = null;
+      }
+      setTab("today");
+      showScreen("today");
+      showMapBanner("Tap the map to set the start of your loop");
+      ui2.offPickLoop = onMapClick((pt) => {
+        if (ui2.offPickLoop) {
+          try {
+            ui2.offPickLoop();
+          } catch {
+          }
+          ui2.offPickLoop = null;
+        }
+        showMapBanner("");
+        const fix = { lat: pt.lat, lon: pt.lon, accuracy: 25, at: Date.now() };
+        state2.settings.lastKnown = fix;
+        persist();
+        try {
+          setUserDot(fix);
+        } catch {
+        }
+        resolve2({ lat: pt.lat, lon: pt.lon });
+      });
+    });
+  }
+  async function resolveLoopCenter({ onNeedTap } = {}) {
+    const known = normalizeFix(state2.settings.lastKnown);
+    if (known) return { lat: known.lat, lon: known.lon };
+    try {
+      const disc = await ensureLocationDisclosure();
+      if (disc && disc.allowed) {
+        const res = await (disc.locatePromise || requestPosition());
+        applyLocateResult(res, { animate: true });
+        if (res && res.ok && res.fix) return { lat: res.fix.lat, lon: res.fix.lon };
+      }
+    } catch {
+    }
+    if (typeof onNeedTap === "function") onNeedTap();
+    return pickLoopStartOnMap();
   }
   function openSchedule(opt = {}) {
     if (!state2.courses.length) {
@@ -52865,6 +53332,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       });
     }
     if ($4("btn-group-route-back")) $4("btn-group-route-back").addEventListener("click", () => closeGroupRouteView());
+    if ($4("btn-plan-route-start")) $4("btn-plan-route-start").addEventListener("click", () => startPendingPlanRoute());
+    if ($4("btn-plan-route-save")) {
+      $4("btn-plan-route-save").addEventListener("click", () => {
+        const pending = ui2.pendingPlanRoute;
+        saveGroupCourseTemplate(pending && pending.course, $4("plan-route-note"));
+      });
+    }
+    if ($4("btn-plan-route-back")) $4("btn-plan-route-back").addEventListener("click", () => closePlanRouteView());
     $4("btn-sched-save").addEventListener("click", () => {
       const c = courseById2($4("sched-course").value);
       if (!c) return;
@@ -53938,6 +54413,38 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       zoom: 16.2
     }
   };
+  async function showUsTownAutoLoop({ center, meters = 1609 } = {}) {
+    const fix = { lat: center.lat, lon: center.lon, accuracy: 18, at: Date.now() };
+    state2.settings.lastKnown = fix;
+    state2.settings.locationDisclosureAccepted = true;
+    state2.settings.mapStyle = "map";
+    persist();
+    setTab("today");
+    showScreen("today");
+    if ($4("today-dock")) $4("today-dock").hidden = true;
+    showMapBanner("Loading paths\u2026");
+    await waitMapReady();
+    setCenter(center.lat, center.lon, 15);
+    const loop = await buildAutoLoop(center, meters);
+    showMapBanner("");
+    if (!loop || loop.ok === false || !loop.pins || loop.pins.length < 2) {
+      showMapBanner(AUTO_LOOP_FAIL_COPY);
+      return loop;
+    }
+    const course = { id: null, name: "Plan loop", pins: loop.pins, path: loop.path };
+    const plan = {
+      id: "hook-plan-loop",
+      activityType: "walk",
+      courseName: "Plan loop",
+      courseId: null,
+      routePins: loop.pins,
+      routePath: loop.path,
+      targetLengthMeters: loop.meters || meters
+    };
+    openPlanRoute(plan, { from: "plans" });
+    await new Promise((r) => setTimeout(r, 400));
+    return loop;
+  }
   async function showUsTownBuilder({ center, pins, satellite = false, zoom = 16.2 } = {}) {
     const fix = { lat: center.lat, lon: center.lon, accuracy: 18, at: Date.now() };
     state2.settings.lastKnown = fix;
@@ -54007,6 +54514,7 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       closeSheet("sheet-group-invite");
       closeSheet("sheet-group-event");
       closeSheet("sheet-group-route");
+      closeSheet("sheet-plan-route");
       if ($4("today-dock")) $4("today-dock").hidden = false;
       closeSheet("sheet-builder-help");
       closeSheet("sheet-pin-action");
@@ -54215,8 +54723,12 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
         if (name === "routing-loop") {
           const center = { lat: 43.7672, lon: 11.2543 };
+          try {
+            await ensureLoopGraph(center, 1609);
+          } catch {
+          }
           const loop = getActiveGraph() ? autoLoopRoute(getActiveGraph(), center, 1609) : null;
-          if (loop && loop.pins) {
+          if (loop && loop.ok && loop.pins && !loop.fallback) {
             ui2.builderPins = loop.pins.map((p) => ({ ...p }));
             ui2.builderRoute = loop;
           } else {
@@ -54356,8 +54868,14 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         const center = { lat: 43.7672, lon: 11.2543 };
         await ensureWalkGraph(center);
         const wantMile = name === "builder-mile-loop";
+        if (wantMile) {
+          try {
+            await ensureLoopGraph(center, 1609);
+          } catch {
+          }
+        }
         const loop = wantMile && getActiveGraph() ? autoLoopRoute(getActiveGraph(), center, 1609) : null;
-        if (loop && loop.pins && loop.pins.length >= 3) {
+        if (loop && loop.ok && loop.pins && loop.pins.length >= 3 && !loop.fallback) {
           ui2.builder = ingestPins(loop.pins);
           ui2.builder = setEndIndex(ui2.builder, 0);
           ui2.builderRoute = loop;
@@ -54515,6 +55033,28 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
         startBuilderLocation({ center: true });
         renderBuilder();
         await new Promise((r) => setTimeout(r, 400));
+      } else if (name === "plan-autoloop" || name === "plan-autoloop-gulfport" || name === "plan-autoloop-oak-park" || name === "plan-autoloop-holland") {
+        const key = name === "plan-autoloop-oak-park" ? "oak-park" : name === "plan-autoloop-holland" ? "holland" : "gulfport";
+        await showUsTownAutoLoop({ ...US_TOWN_ROUTES[key], meters: 1609 });
+      } else if (name === "plan-autoloop-loading") {
+        const center = US_TOWN_ROUTES.gulfport.center;
+        state2.settings.lastKnown = { ...center, accuracy: 18, at: Date.now() };
+        state2.settings.locationDisclosureAccepted = true;
+        persist();
+        setTab("today");
+        showScreen("today");
+        try {
+          setCenter(center.lat, center.lon, 15);
+        } catch {
+        }
+        showMapBanner("Loading paths\u2026");
+        if ($4("plan-create-note")) $4("plan-create-note").textContent = "Loading paths\u2026";
+      } else if (name === "plan-autoloop-nolocation") {
+        state2.settings.lastKnown = null;
+        persist();
+        setTab("today");
+        showScreen("today");
+        showMapBanner("Tap the map to set the start of your loop");
       } else if (name === "builder-satellite" || name === "map-satellite") {
         await showUsTownBuilder({ ...US_TOWN_ROUTES.gulfport, satellite: true });
       } else if (name === "builder-gulfport" || name === "builder-oak-park" || name === "builder-holland") {
@@ -55066,7 +55606,16 @@ ${time} \xB7 ${dist3} \xB7 ${pace}`;
       }
     });
     await wireAppLinks();
-    initPlansUi({ getState: () => state2, persist, units: units2, openShare: (plan) => openShareSheet("plan", plan), getCenter: () => state2.settings.lastKnown && state2.settings.lastKnown.lat != null ? { lat: state2.settings.lastKnown.lat, lon: state2.settings.lastKnown.lon } : null });
+    initPlansUi({
+      getState: () => state2,
+      persist,
+      units: units2,
+      openShare: (plan) => openShareSheet("plan", plan),
+      getCenter: () => state2.settings.lastKnown && state2.settings.lastKnown.lat != null ? { lat: state2.settings.lastKnown.lat, lon: state2.settings.lastKnown.lon } : null,
+      resolveLoopCenter,
+      showPlanRoute: (plan) => openPlanRoute(plan, { from: "plans" }),
+      preloadLoopGraph: (c, meters) => ensureLoopGraph(c, meters)
+    });
     renderSettings();
     try {
       if (Capacitor.isNativePlatform()) {

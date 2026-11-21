@@ -3,7 +3,7 @@
  * works offline outside the bundled Florence extract.
  */
 import { getTile, putTile, listAreas } from "./map_storage.js";
-import { parseGraph, setActiveGraph, loadBundledGraph, inGraphBounds } from "./routing.js";
+import { parseGraph, setActiveGraph, getActiveGraph, loadBundledGraph, inGraphBounds } from "./routing.js";
 import {
   buildWalkGraphFromTiles,
   pointsInGraphBounds,
@@ -200,6 +200,23 @@ function pointsFrom(arg) {
 
 export const ON_DEMAND_MAX_TILES = 48;
 
+/** Degrees of padding so an auto-loop of `targetMeters` fits in the graph. */
+export function padDegForLoop(targetMeters) {
+  const target = Math.max(200, Number(targetMeters) || 0);
+  const baseR = target / (2 * Math.PI);
+  const reachM = baseR * 1.8 + 500;
+  return Math.max(0.008, reachM / 111000);
+}
+
+export function graphCoversLoop(graph, center, targetMeters) {
+  if (!graph || !center) return false;
+  const pad = padDegForLoop(targetMeters);
+  const west = center.lon - pad, south = center.lat - pad;
+  const east = center.lon + pad, north = center.lat + pad;
+  return Number(graph.west) <= west && Number(graph.south) <= south
+    && Number(graph.east) >= east && Number(graph.north) >= north;
+}
+
 function padBoundsFromPoints(pts, padDeg = 0.004) {
   let west = 180, south = 90, east = -180, north = -90;
   for (const p of pts || []) {
@@ -288,7 +305,7 @@ export async function selectWalkGraph(points, opts = {}) {
     if (!opts.lockWalkGraph) {
       if (opts.onStatus) opts.onStatus("finding");
       try {
-        const built = await buildGraphForBounds(padBoundsFromPoints(pts));
+        const built = await buildGraphForBounds(opts.bounds || padBoundsFromPoints(pts, opts.padDeg));
         const g = asRoutable(built.ok ? built.graph : null);
         if (g && pointsInGraphBounds(g, pts)) return g;
         if (g && somePointsInGraphBounds(g, pts)) {
@@ -324,6 +341,29 @@ export async function ensureWalkGraph(points, opts = {}) {
 
 export function graphCoversPoints(graph, points) {
   return pointsInGraphBounds(graph, pointsFrom(points));
+}
+
+/**
+ * Load or build a walk graph large enough for an auto-loop around `center`.
+ */
+export async function ensureLoopGraph(center, targetMeters, opts = {}) {
+  if (!center) return null;
+  const existing = opts.graph || getActiveGraph();
+  if (graphCoversLoop(existing, center, targetMeters)) return existing;
+  const pad = padDegForLoop(targetMeters);
+  const bounds = {
+    west: center.lon - pad,
+    south: center.lat - pad,
+    east: center.lon + pad,
+    north: center.lat + pad,
+  };
+  const built = await buildGraphForBounds(bounds, opts);
+  const g = asRoutable(built.ok ? built.graph : null);
+  if (g) {
+    setActiveGraph(g);
+    return g;
+  }
+  return ensureWalkGraph(center, { ...opts, bounds, padDeg: pad });
 }
 
 export { OSM_ATTRIBUTION, FLORENCE_BOUNDS, inGraphBounds };

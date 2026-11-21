@@ -19,6 +19,7 @@ import {
 } from "./util.js";
 import { destination } from "./util.js";
 import { autoLoopRoute, getActiveGraph } from "./routing.js";
+import { ensureLoopGraph } from "./area_graphs.js";
 
 export const MS_WEEK = 7 * 24 * 60 * 60 * 1000;
 export const DEFAULT_STEP = 0.02; // 2%, within the 1–3% range
@@ -324,7 +325,40 @@ function haversine(a, b) {
  * A saved course is used as a template: scaled to length, or repeated and
  * then scaled when the session is much longer than the course.
  */
-export function routeForGoal({ targetMeters, course = null, autoLoop = false, center = null } = {}) {
+function autoloopResult(loop, target) {
+  if (loop && loop.ok !== false && !loop.fallback && loop.pins && loop.path && loop.path.length >= 2) {
+    return {
+      ok: true,
+      mode: "autoloop",
+      courseId: null,
+      pins: loop.pins,
+      path: loop.path,
+      meters: loop.meters,
+      targetLengthMeters: target,
+      scaleFactor: 1,
+      repeatTimes: 1,
+    };
+  }
+  return {
+    ok: false,
+    mode: "autoloop",
+    courseId: null,
+    pins: [],
+    path: null,
+    meters: 0,
+    targetLengthMeters: target,
+    scaleFactor: 1,
+    repeatTimes: 1,
+    reason: (loop && loop.reason) || "no-loop",
+  };
+}
+
+/**
+ * Pick a deterministic route for a session length.
+ * Saved courses are scaled/repeated. Auto loops use the walk graph around
+ * `center` — never a silent rectangle, and never a hard-coded city.
+ */
+export function routeForGoal({ targetMeters, course = null, autoLoop = false, center = null, graph = null, loop = null } = {}) {
   const target = Math.max(50, Number(targetMeters) || 0);
   if (course && course.pins && course.pins.length >= 2 && !autoLoop) {
     const base = pathLengthMeters(course.pins);
@@ -342,6 +376,7 @@ export function routeForGoal({ targetMeters, course = null, autoLoop = false, ce
         pins = scalePins(course.pins, ratio, course.pins[0]);
       }
       return {
+        ok: true,
         mode: "course",
         courseId: course.id || null,
         pins,
@@ -351,33 +386,35 @@ export function routeForGoal({ targetMeters, course = null, autoLoop = false, ce
       };
     }
   }
-  const origin = center || { lat: 43.7672, lon: 11.2543 };
-  const graph = getActiveGraph();
-  if (graph) {
-    const loop = autoLoopRoute(graph, origin, target);
-    if (loop && !loop.fallback && loop.pins && loop.path && loop.path.length >= 2) {
-      return {
-        mode: "autoloop",
-        courseId: null,
-        pins: loop.pins,
-        path: loop.path,
-        targetLengthMeters: target,
-        scaleFactor: 1,
-        repeatTimes: 1,
-      };
-    }
+  if (!autoLoop) {
+    return { ok: true, mode: "none", courseId: null, pins: [], path: null, targetLengthMeters: target, scaleFactor: 1, repeatTimes: 1 };
   }
-  const pins = autoLoopPins(origin, target);
-  return {
-    mode: "autoloop",
-    courseId: null,
-    pins,
-    targetLengthMeters: target,
-    scaleFactor: 1,
-    repeatTimes: 1,
-    fallback: "rectangle",
-  };
+  if (loop) return autoloopResult(loop, target);
+  if (!center || !Number.isFinite(Number(center.lat)) || !Number.isFinite(Number(center.lon))) {
+    return autoloopResult({ ok: false, reason: "no-center" }, target);
+  }
+  const g = graph || getActiveGraph();
+  if (!g) return autoloopResult({ ok: false, reason: "no-graph" }, target);
+  return autoloopResult(autoLoopRoute(g, center, target), target);
 }
+
+/** Load the walk graph for the user's location and build a street loop. */
+export async function buildAutoLoop(center, targetMeters, opts = {}) {
+  const target = Math.max(200, Number(targetMeters) || 0);
+  if (!center || !Number.isFinite(Number(center.lat)) || !Number.isFinite(Number(center.lon))) {
+    return autoloopResult({ ok: false, reason: "no-center" }, target);
+  }
+  let graph = null;
+  try {
+    graph = await ensureLoopGraph(center, target, opts);
+  } catch {
+    graph = getActiveGraph();
+  }
+  if (!graph) return autoloopResult({ ok: false, reason: "no-graph" }, target);
+  return autoloopResult(autoLoopRoute(graph, center, target, opts), target);
+}
+
+export const AUTO_LOOP_FAIL_COPY = "Couldn't build a loop here — pick a saved route or build one";
 
 /**
  * Split a session target into per-leg (between-pins) targets, in seconds.
@@ -631,7 +668,8 @@ export function buildPlanDraft({
   windowDays = 14,
   course = null,
   autoLoop = false,
-  center = { lat: 43.7672, lon: 11.2543 },
+  center = null,
+  loop = null,
   bodyKg = null,
   now = new Date(),
   name = "",
@@ -654,9 +692,10 @@ export function buildPlanDraft({
   let sessionSecTypical = outline.sessionSecTypical;
   const sessionsNeeded = outline.sessions;
 
-  const route = routeForGoal({ targetMeters: sessionMeters, course, autoLoop, center });
-  const pins = route.pins;
-  sessionMeters = pathLengthMeters(pins) || sessionMeters;
+  const route = routeForGoal({ targetMeters: sessionMeters, course, autoLoop, center, loop });
+  const pins = (route && route.pins) || [];
+  const routeMeters = (route && route.path && route.path.length >= 2) ? pathLengthMeters(route.path) : pathLengthMeters(pins);
+  sessionMeters = routeMeters || sessionMeters;
   sessionSecTypical = etaSeconds(sessionMeters, mph) || 1;
 
   const dates = spreadDates(now, days, sessionsNeeded);
@@ -693,8 +732,13 @@ export function buildPlanDraft({
 
   const title = name || defaultTitle(type, goalDistance, goalDuration, days);
   const startedAt = startOfDay(now).toISOString();
-  const legTargetsSec = buildLegTargets(pins, initialTargetSec);
-  const legGoalTargetsSec = goalTargetSec ? buildLegTargets(pins, goalTargetSec) : null;
+  const legSource = (route.path && route.path.length >= 2) ? route.path : pins;
+  const legTargetsSec = (legSource && legSource.length >= 2)
+    ? buildLegTargets(legSource, initialTargetSec)
+    : [Math.round(initialTargetSec) || 1];
+  const legGoalTargetsSec = goalTargetSec
+    ? ((legSource && legSource.length >= 2) ? buildLegTargets(legSource, goalTargetSec) : [Math.round(goalTargetSec) || 1])
+    : null;
 
   return {
     version: 1,
@@ -714,13 +758,16 @@ export function buildPlanDraft({
       source: "efsa-acsm-general",
     },
     route: {
+      ok: route.ok !== false,
+      reason: route.reason || null,
       mode: route.mode,
       courseId: route.courseId,
       targetLengthMeters: sessionMeters,
-      scaleFactor: Math.round(route.scaleFactor * 1000) / 1000,
+      scaleFactor: Math.round((route.scaleFactor || 1) * 1000) / 1000,
       repeatTimes: route.repeatTimes,
       loop: { type: "LineString", coordinates: (route.path && route.path.length >= 2 ? route.path : pins).map((p) => [p.lon, p.lat]) },
       pins,
+      path: route.path && route.path.length >= 2 ? route.path : null,
     },
     schedule: {
       sessionsPerWeek: Number(((sessionsNeeded / days) * 7).toFixed(2)),

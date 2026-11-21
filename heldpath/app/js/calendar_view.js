@@ -28,6 +28,22 @@ const SOURCE_LABEL = {
 
 const dist = (meters, units) => formatDistance(meters, units, { digits: 1 });
 
+function courseForPlanRow(p, courses) {
+  const c = (courses || []).find((x) => x.id === p.courseId);
+  if (c && c.pins && c.pins.length >= 2) return c;
+  if (p.routePins && p.routePins.length >= 2) {
+    return { id: p.courseId || null, name: p.courseName || "Plan loop", pins: p.routePins, path: p.routePath || null };
+  }
+  return null;
+}
+
+function planRouteMeters(p, courses) {
+  const c = courseForPlanRow(p, courses);
+  if (!c) return Number(p.targetLengthMeters) || 0;
+  const line = (c.path && c.path.length >= 2) ? c.path : c.pins;
+  return pathLengthMeters(line) || Number(p.targetLengthMeters) || 0;
+}
+
 export function groupActivitiesByDay(activities) {
   const out = {};
   for (const a of activities || []) {
@@ -107,8 +123,8 @@ function activityRow(a, units, open) {
 }
 
 function planRow(p, courses, units, isToday, isFuture) {
-  const c = (courses || []).find((x) => x.id === p.courseId);
-  const len = c ? pathLengthMeters(c.pins) : 0;
+  const c = courseForPlanRow(p, courses);
+  const len = planRouteMeters(p, courses);
   const eta = formatEta(etaSeconds(len, activityMph(p.activityType)));
   const isGroup = !!p.groupRunId;
   const timeLabel = p.startAt ? new Date(p.startAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) : "";
@@ -136,6 +152,12 @@ function planRow(p, courses, units, isToday, isFuture) {
       <div class="meta muted">—</div>
     </div>`;
   }
+  if (!p.courseId && p.routePins && p.routePins.length >= 2) {
+    return `<button class="list-item plan-row" data-plan-route="${escapeHtml(p.id)}" data-testid="plan-loop-row">
+      <div class="grow"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p></div>
+      <div class="meta">View</div>
+    </button>`;
+  }
   return `<button class="list-item plan-row" data-plan="${escapeHtml(p.id)}">
       <div class="grow"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p></div>
       <div class="meta">Start</div>
@@ -161,8 +183,7 @@ function upcomingMarkup(plans, courses, todayIso, units) {
   const next = sortCalendarItems((plans || []).filter((p) => p.date && p.date >= todayIso)).slice(0, 3);
   if (!next.length) return "";
   const rows = next.map((p) => {
-    const c = (courses || []).find((x) => x.id === p.courseId);
-    const len = c ? pathLengthMeters(c.pins) : 0;
+    const len = planRouteMeters(p, courses);
     return `<button class="list-item upcoming-row" data-up="${escapeHtml(p.date)}">
       <div class="grow">
         <h3>${escapeHtml(shortDate(p.date))}</h3>
@@ -192,6 +213,7 @@ export function renderCalendarView(ctx) {
     onSelectDay,
     onStartPlan,
     onOpenGroup,
+    onOpenPlanRoute,
     onSchedule,
     onGroupRun,
     onToggleActivity,
@@ -304,6 +326,11 @@ export function renderCalendarView(ctx) {
   panel.querySelectorAll("[data-group-plan]").forEach((el) => {
     el.addEventListener("click", () => {
       if (onOpenGroup) onOpenGroup(el.dataset.groupPlan);
+    });
+  });
+  panel.querySelectorAll("[data-plan-route]").forEach((el) => {
+    el.addEventListener("click", () => {
+      if (onOpenPlanRoute) onOpenPlanRoute(el.dataset.planRoute);
     });
   });
   panel.querySelectorAll("[data-repeat]").forEach((el) => {

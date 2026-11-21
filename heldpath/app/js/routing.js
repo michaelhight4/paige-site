@@ -365,16 +365,50 @@ function uniqueStops(ids) {
 /**
  * Build a closed walkable loop near `center` of about `targetMeters`.
  * Waypoints are snapped from a circle; heading, radius and waypoint count
- * are searched (deterministically) to hit the target. Returns
- * { pins, path, meters, fallback } — fallback is "rectangle" when the
- * graph cannot produce a loop.
+ * are searched (deterministically) to hit the target. Never invents a
+ * silent straight-line rectangle: if a walkable loop cannot be built,
+ * returns { ok: false, reason }.
  */
+
+function bearingDegrees(a, b) {
+  const lat1 = Number(a.lat) * Math.PI / 180;
+  const lat2 = Number(b.lat) * Math.PI / 180;
+  const dLon = (Number(b.lon) - Number(a.lon)) * Math.PI / 180;
+  const y = Math.sin(dLon) * Math.cos(lat2);
+  const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+  return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+}
+
+function turnDelta(fromDeg, toDeg) {
+  let d = Math.abs(Number(fromDeg) - Number(toDeg)) % 360;
+  return d > 180 ? 360 - d : d;
+}
+
+export function autoLoopFailed(reason) {
+  return { ok: false, reason: reason || "no-loop", pins: null, path: null, meters: 0, fallback: null };
+}
+
+function attachLoopToUser(built, center) {
+  if (!built || !built.path || built.path.length < 4 || !center) return built;
+  const start = { lat: Number(center.lat), lon: Number(center.lon) };
+  const path = [start, ...built.path];
+  const last = path[path.length - 1];
+  if (haversineMeters(last, start) > 0.5) path.push({ ...start });
+  else path[path.length - 1] = { ...start };
+  const pins = (built.pins || []).map((p) => ({ ...p }));
+  if (pins.length) {
+    pins[0] = { lat: start.lat, lon: start.lon, role: "start" };
+    pins[pins.length - 1] = { lat: start.lat, lon: start.lon, role: "end" };
+  }
+  return { ...built, ok: true, fallback: null, pins, path, meters: pathLengthMeters(path) };
+}
+
 export function autoLoopRoute(graph, center, targetMeters, opts = {}) {
   const target = Math.max(200, Number(targetMeters) || 0);
-  if (!graph || !center) return { fallback: "rectangle", pins: null, path: null, meters: 0 };
-
-  const start = snapToNode(graph, center.lat, center.lon, opts.maxSnap || 120);
-  if (!start) return { fallback: "rectangle", pins: null, path: null, meters: 0 };
+  if (!center || !Number.isFinite(Number(center.lat)) || !Number.isFinite(Number(center.lon))) {
+    return autoLoopFailed("no-center");
+  }
+  if (!graph) return autoLoopFailed("no-graph");
 
   const pathCache = new Map();
   function hop(a, b, avoid) {
@@ -385,12 +419,19 @@ export function autoLoopRoute(graph, center, targetMeters, opts = {}) {
     return res;
   }
 
-  function assemble(stops, viaPts) {
+  function assemble(start, stops, viaPts, opts = {}) {
     const path = [];
     let meters = 0;
+    const maxDetour = opts.maxDetour || 0;
     for (let i = 0; i < stops.length - 1; i++) {
       const piece = hop(stops[i], stops[i + 1]);
       if (!piece) return null;
+      if (maxDetour) {
+        const a = { lat: graph.lat[stops[i]], lon: graph.lon[stops[i]] };
+        const b = { lat: graph.lat[stops[i + 1]], lon: graph.lon[stops[i + 1]] };
+        const crow = haversineMeters(a, b);
+        if (crow > 5 && piece.meters > crow * maxDetour + 80) return null;
+      }
       meters += piece.meters;
       const pts = pointsFromNodes(graph, piece.nodes);
       if (!path.length) path.push(...pts);
@@ -406,16 +447,16 @@ export function autoLoopRoute(graph, center, targetMeters, opts = {}) {
       pins.push({ lat: p.lat, lon: p.lon, role: "via" });
     }
     pins.push({ lat: start.lat, lon: start.lon, role: "end" });
-    return { pins, path, meters, fallback: null };
+    return { pins, path, meters, fallback: null, ok: true };
   }
 
-  function tryOnce(radius, count, offsetDeg) {
+  function tryOnce(start, radius, count, offsetDeg, snapPad) {
     const ids = [start.id];
     const viaPts = [];
     for (let i = 0; i < count; i++) {
       const bearing = offsetDeg + (i * 360) / count;
       const dest = destination(center.lat, center.lon, bearing, radius);
-      const snap = snapToNode(graph, dest.lat, dest.lon, Math.max(80, radius * 0.45));
+      const snap = snapToNode(graph, dest.lat, dest.lon, Math.max(snapPad || 80, radius * 0.45));
       if (!snap) return null;
       viaPts.push(snap);
       if (snap.id !== ids[ids.length - 1]) ids.push(snap.id);
@@ -424,12 +465,133 @@ export function autoLoopRoute(graph, center, targetMeters, opts = {}) {
     const stops = uniqueStops(ids);
     if (stops.length < 3) return null;
     if (stops[0] !== stops[stops.length - 1]) stops.push(stops[0]);
-    const built = assemble(stops, viaPts);
-    if (!built || built.meters < target * 0.4) return null;
+    const built = assemble(start, stops, viaPts, { maxDetour: 3 });
+    if (!built || built.meters < target * 0.55 || built.meters > target * 1.6) return null;
+    built.quality = loopQuality(built.path);
     return built;
   }
 
-  function smallestBlock() {
+  function edgeKey(a, b) {
+    return a < b ? a + ":" + b : b + ":" + a;
+  }
+
+  function walkToward(fromId, heading, budgetMeters, used) {
+    const nodes = [fromId];
+    let id = fromId;
+    let meters = 0;
+    let prev = -1;
+    const seen = used || new Set();
+    for (let guard = 0; guard < 500 && meters < budgetMeters; guard++) {
+      const nbrs = graph.adj[id] || [];
+      if (!nbrs.length) break;
+      let best = null;
+      let bestScore = Infinity;
+      for (const e of nbrs) {
+        if (e.to === prev) continue;
+        const brg = bearingDegrees(
+          { lat: graph.lat[id], lon: graph.lon[id] },
+          { lat: graph.lat[e.to], lon: graph.lon[e.to] }
+        );
+        const reused = seen.has(edgeKey(id, e.to));
+        const score = turnDelta(heading, brg) + (reused ? 80 : 0);
+        if (score < bestScore) {
+          bestScore = score;
+          best = e;
+        }
+      }
+      if (!best) {
+        for (const e of nbrs) {
+          if (e.to === prev) { best = e; break; }
+        }
+      }
+      if (!best) break;
+      seen.add(edgeKey(id, best.to));
+      prev = id;
+      id = best.to;
+      meters += best.meters;
+      nodes.push(id);
+    }
+    return { nodes, meters, end: id };
+  }
+
+  function loopQuality(pts) {
+    if (!pts || pts.length < 4) return 0;
+    let minLat = Infinity, maxLat = -Infinity, minLon = Infinity, maxLon = -Infinity;
+    for (const p of pts) {
+      if (p.lat < minLat) minLat = p.lat;
+      if (p.lat > maxLat) maxLat = p.lat;
+      if (p.lon < minLon) minLon = p.lon;
+      if (p.lon > maxLon) maxLon = p.lon;
+    }
+    const height = haversineMeters({ lat: minLat, lon: minLon }, { lat: maxLat, lon: minLon });
+    const width = haversineMeters({ lat: minLat, lon: minLon }, { lat: minLat, lon: maxLon });
+    const short = Math.min(width, height);
+    const long = Math.max(width, height) || 1;
+    return short / long;
+  }
+
+  function retraceRatio(nodes) {
+    if (!nodes || nodes.length < 3) return 1;
+    const seen = new Set();
+    let reused = 0, total = 0;
+    for (let i = 1; i < nodes.length; i++) {
+      const key = edgeKey(nodes[i - 1], nodes[i]);
+      total++;
+      if (seen.has(key)) reused++;
+      else seen.add(key);
+    }
+    return total ? reused / total : 1;
+  }
+
+  function tryHeadingLoop(start, sides, offsetDeg, scale, shareUsed = true) {
+    const budget = (target / sides) * scale;
+    const nodes = [start.id];
+    const viaPts = [];
+    const used = shareUsed ? new Set() : null;
+    let id = start.id;
+    for (let s = 0; s < sides; s++) {
+      const heading = (offsetDeg + (s * 360) / sides) % 360;
+      const walk = walkToward(id, heading, budget, used);
+      if (!walk.nodes.length || walk.end == null) return null;
+      for (const n of walk.nodes.slice(1)) {
+        if (n !== nodes[nodes.length - 1]) nodes.push(n);
+      }
+      const viaId = walk.end;
+      viaPts.push({ id: viaId, lat: graph.lat[viaId], lon: graph.lon[viaId] });
+      id = walk.end;
+    }
+    if (nodes[nodes.length - 1] !== start.id) {
+      const closeHop = hop(nodes[nodes.length - 1], start.id);
+      if (!closeHop) return null;
+      const crow = haversineMeters(
+        { lat: graph.lat[nodes[nodes.length - 1]], lon: graph.lon[nodes[nodes.length - 1]] },
+        { lat: start.lat, lon: start.lon }
+      );
+      if (crow > 0.5 && closeHop.meters > crow * 3 + 80) return null;
+      if (closeHop.meters > target * 0.45) return null;
+      for (const n of closeHop.nodes.slice(1)) {
+        if (n !== nodes[nodes.length - 1]) nodes.push(n);
+      }
+    }
+    if (nodes.length < 4) return null;
+    const pts = pointsFromNodes(graph, nodes);
+    if (pts.length < 4) return null;
+    pts[0] = { lat: start.lat, lon: start.lon };
+    pts[pts.length - 1] = { lat: start.lat, lon: start.lon };
+    const meters = pathLengthMeters(pts);
+    if (meters < target * 0.55 || meters > target * 1.6) return null;
+    const pins = [{ lat: start.lat, lon: start.lon, role: "start" }];
+    const step = Math.max(1, Math.floor(viaPts.length / 3) || 1);
+    for (let i = 0; i < viaPts.length; i += step) {
+      const p = viaPts[i];
+      if (p.id === start.id) continue;
+      pins.push({ lat: p.lat, lon: p.lon, role: "via" });
+    }
+    pins.push({ lat: start.lat, lon: start.lon, role: "end" });
+    return { pins, path: pts, meters, fallback: null, ok: true, quality: loopQuality(pts), retrace: retraceRatio(nodes) };
+  }
+
+  function smallestBlock(start) {
     const nbrs = graph.adj[start.id] || [];
     let best = null;
     for (let i = 0; i < nbrs.length; i++) {
@@ -437,14 +599,7 @@ export function autoLoopRoute(graph, center, targetMeters, opts = {}) {
         const mid = hop(nbrs[i].to, nbrs[j].to, start.id);
         if (!mid) continue;
         const meters = mid.meters + nbrs[i].meters + nbrs[j].meters;
-        if (meters < 80) continue;
-        const nodes = [start.id, nbrs[i].to, ...mid.nodes.slice(1), start.id];
-        const viaPts = [
-          { id: nbrs[i].to, lat: graph.lat[nbrs[i].to], lon: graph.lon[nbrs[i].to] },
-          { id: nbrs[j].to, lat: graph.lat[nbrs[j].to], lon: graph.lon[nbrs[j].to] },
-        ];
-        const built = assemble(uniqueStops(nodes).concat(uniqueStops(nodes)[0] === nodes[nodes.length-1] ? [] : [start.id]), viaPts);
-        // assemble from the path nodes more carefully:
+        if (meters < 80 || meters > target * 1.8) continue;
         const path = pointsFromNodes(graph, [start.id, ...mid.nodes, start.id]);
         path[0] = { lat: start.lat, lon: start.lon };
         path[path.length - 1] = { lat: start.lat, lon: start.lon };
@@ -458,6 +613,7 @@ export function autoLoopRoute(graph, center, targetMeters, opts = {}) {
           path,
           meters,
           fallback: null,
+          ok: true,
         };
         if (!best || Math.abs(cand.meters - target) < Math.abs(best.meters - target)) best = cand;
       }
@@ -465,23 +621,99 @@ export function autoLoopRoute(graph, center, targetMeters, opts = {}) {
     return best;
   }
 
-  const baseR = target / (2 * Math.PI);
-  const counts = opts.waypointCounts || [3, 4, 5, 6];
-  const scales = opts.scales || [0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.65, 0.8, 1.0, 1.2];
-  const offsets = opts.offsets || [0, 20, 40, 60, 80, 100, 120, 150];
-  let best = target < 700 ? smallestBlock() : null;
-  const close = target * 0.05;
-  outer: for (const offsetDeg of offsets) {
-    for (const count of counts) {
-      for (const scale of scales) {
-        const cand = tryOnce(baseR * scale, count, offsetDeg);
-        if (!cand) continue;
-        if (!best || Math.abs(cand.meters - target) < Math.abs(best.meters - target)) best = cand;
-        if (Math.abs(best.meters - target) <= close) break outer;
+  function loopRank(cand) {
+    const err = Math.abs(cand.meters - target) / target;
+    const q = Number(cand.quality);
+    const quality = Number.isFinite(q) ? q : loopQuality(cand.path);
+    const retrace = Number(cand.retrace);
+    const shaped = quality >= 0.18 && !(retrace > 0.25);
+    // Length first: never prefer an off-target circuit over a ±5% loop.
+    if (err <= 0.05 && shaped) return 0;
+    if (err <= 0.05) return 1;
+    if (err <= 0.08 && shaped) return 2;
+    if (err <= 0.10 && shaped) return 3;
+    return 4;
+  }
+
+  function consider(cand, best) {
+    if (!cand) return best;
+    const attached = attachLoopToUser(cand, center);
+    if (!attached || !attached.path) return best;
+    attached.quality = cand.quality != null ? cand.quality : loopQuality(attached.path);
+    attached.retrace = cand.retrace;
+    attached._rank = loopRank(attached);
+    attached._err = Math.abs(attached.meters - target);
+    if (!best) return attached;
+    if (attached._rank < best._rank) return attached;
+    if (attached._rank === best._rank && attached._err < best._err) return attached;
+    return best;
+  }
+
+  function searchWithStart(start, counts, scales, offsets) {
+    const baseR = target / (2 * Math.PI);
+    let best = target < 700 ? consider(smallestBlock(start), null) : null;
+    const close = target * 0.05;
+    const headingScales = opts.headingScales || [0.7, 0.8, 0.85, 0.9, 0.93, 0.96, 0.98, 1.0, 1.02, 1.05, 1.08, 1.12, 1.18, 1.25, 1.35];
+    outer: for (const offsetDeg of offsets) {
+      for (const count of counts) {
+        for (const scale of headingScales) {
+          best = consider(tryHeadingLoop(start, count, offsetDeg, scale), best);
+          if (best && best._rank === 0) break outer;
+        }
       }
     }
+    if (!(best && best._rank <= 1)) {
+      outerU: for (const offsetDeg of offsets) {
+        for (const count of counts) {
+          for (const scale of headingScales) {
+            best = consider(tryHeadingLoop(start, count, offsetDeg, scale, false), best);
+            if (best && best._rank <= 1) break outerU;
+          }
+        }
+      }
+    }
+    if (!(best && best._rank <= 1)) {
+      outer2: for (const offsetDeg of offsets) {
+        for (const count of counts) {
+          for (const scale of scales) {
+            best = consider(tryOnce(start, baseR * scale, count, offsetDeg, Math.max(80, start._snap || 120)), best);
+            if (best && best._rank <= 1) break outer2;
+          }
+        }
+      }
+    }
+    return best;
   }
-  return best || { fallback: "rectangle", pins: null, path: null, meters: 0 };
+
+  const tightCounts = opts.waypointCounts || [3, 4, 5, 6];
+  const tightScales = opts.scales || [0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.65, 0.8, 1.0, 1.2];
+  const tightOffsets = opts.offsets || [0, 20, 40, 60, 80, 100, 120, 150];
+  const wideCounts = opts.wideCounts || [3, 4, 5, 6, 7, 8];
+  const wideScales = opts.wideScales || [0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.7, 0.8, 0.9, 1.0, 1.15, 1.3, 1.5, 1.7];
+  const wideOffsets = opts.wideOffsets || [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165];
+  const snapRadii = opts.snapRadii || [120, 200, 350, 500];
+
+  let best = null;
+  const close = target * 0.05;
+  for (const maxSnap of snapRadii) {
+    const start = snapToNode(graph, center.lat, center.lon, maxSnap);
+    if (!start) continue;
+    start._snap = maxSnap;
+    // Tight search first (keeps existing loops stable); widen if we miss ±5%.
+    const first = searchWithStart(start, tightCounts, tightScales, tightOffsets);
+    const wide = (!first || Math.abs(first.meters - target) > close)
+      ? searchWithStart(start, wideCounts, wideScales, wideOffsets)
+      : null;
+    for (const cand of [first, wide]) {
+      if (!cand) continue;
+      if (!best || Math.abs(cand.meters - target) < Math.abs(best.meters - target)) best = cand;
+    }
+    if (best && best._rank === 0) break;
+  }
+  if (!best) return autoLoopFailed("no-loop");
+  return best.path && best.path[0] && haversineMeters(best.path[0], center) < 1
+    ? best
+    : attachLoopToUser(best, center);
 }
 
 export function coursePath(course) {

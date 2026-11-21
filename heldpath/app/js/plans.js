@@ -75,9 +75,10 @@ export function makePlan(draft, { id = uid("plan"), now = new Date(), ownership 
     route: {
       ...draft.route,
       pins: cleanPins(draft.route?.pins),
+      path: Array.isArray(draft.route?.path) ? draft.route.path.map((p) => ({ lat: p.lat, lon: p.lon })) : null,
       loop: {
         type: "LineString",
-        coordinates: (draft.route?.pins || []).map((p) => [p.lon, p.lat]),
+        coordinates: ((draft.route?.path && draft.route.path.length >= 2) ? draft.route.path : (draft.route?.pins || [])).map((p) => [p.lon, p.lat]),
       },
     },
     schedule: { ...draft.schedule },
@@ -91,14 +92,19 @@ export function makePlan(draft, { id = uid("plan"), now = new Date(), ownership 
  * when the ledger is empty. Nothing is saved here; the caller writes state.
  */
 export async function createPlanForGoal(goal = {}, { iapApi = defaultIap, now = new Date(), id = null } = {}) {
+  // Paid step targets, paces and water amounts are generated only after unlock.
+  // Build the route first so a failed auto loop is never billed.
+  const draft = buildPlanDraft({ ...goal, now });
+  const autoRoute = draft.route || {};
+  if (goal.autoLoop && (autoRoute.ok === false || !autoRoute.pins || autoRoute.pins.length < 2 || !autoRoute.path || autoRoute.path.length < 2)) {
+    return { ok: false, error: "no-loop", reason: autoRoute.reason || "no-loop" };
+  }
   let purchased = false;
   if (!iapApi.hasCredit()) {
     const buy = await iapApi.purchasePlanCredit();
     if (!buy || !buy.ok) return { ok: false, error: "purchase_failed", detail: buy };
     purchased = true;
   }
-  // Paid step targets, paces and water amounts are generated only after unlock.
-  const draft = buildPlanDraft({ ...goal, now });
   const plan = makePlan(draft, { id: id || uid("plan"), now });
   const redeem = iapApi.redeemCreditForPlan(plan.id);
   if (!redeem || !redeem.ok) return { ok: false, error: redeem?.error || "no_credit" };
@@ -175,7 +181,10 @@ function sanitiseImportedPlan(raw) {
   const water = raw.water || {};
   const route = raw.route || {};
   const pins = cleanPins(route.pins);
-  if (pins.length < 2) return { ok: false, error: "bad_route" };
+  const path = Array.isArray(route.path)
+    ? route.path.map((p) => ({ lat: Number(p.lat), lon: Number(p.lon) })).filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lon))
+    : null;
+  if (pins.length < 2 && route.mode !== "none") return { ok: false, error: "bad_route" };
 
   const dailyMl = num(water.dailyMl, 2000);
   const plan = {
@@ -204,13 +213,14 @@ function sanitiseImportedPlan(raw) {
       ...(water.allowNight === true ? { allowNight: true } : {}),
     },
     route: {
-      mode: route.mode === "course" ? "course" : "autoloop",
+      mode: route.mode === "course" ? "course" : route.mode === "none" ? "none" : (pins.length >= 2 ? "autoloop" : "none"),
       courseId: route.courseId ? String(route.courseId).slice(0, 100) : null,
       targetLengthMeters: num(route.targetLengthMeters, sessionMeters),
       scaleFactor: num(route.scaleFactor, 1),
       repeatTimes: Math.max(1, Math.round(num(route.repeatTimes, 1))),
-      loop: { type: "LineString", coordinates: pins.map((p) => [p.lon, p.lat]) },
+      loop: { type: "LineString", coordinates: ((path && path.length >= 2) ? path : pins).map((p) => [p.lon, p.lat]) },
       pins,
+      path: path && path.length >= 2 ? path : null,
     },
     schedule: {
       sessionsPerWeek: num(schedule.sessionsPerWeek, 3),
@@ -219,7 +229,7 @@ function sanitiseImportedPlan(raw) {
       sessionDates,
       initialTargetSec: num(schedule.initialTargetSec, sessionSec),
       goalTargetSec: schedule.goalTargetSec == null ? null : num(schedule.goalTargetSec, null),
-      legTargetsSec: buildLegTargets(pins, num(schedule.initialTargetSec, sessionSec)),
+      legTargetsSec: pins.length >= 2 ? buildLegTargets(pins, num(schedule.initialTargetSec, sessionSec)) : [Math.round(num(schedule.initialTargetSec, sessionSec)) || 1],
     },
     progression: {},
     // Imported plans are owned locally, but never re-charged.
@@ -279,17 +289,19 @@ export function scheduleRowId(planOrId, date) {
 export function planToCalendarRows(plan, { courseName = null } = {}) {
   const dates = plan.schedule?.sessionDates || [];
   const pins = plan.route?.pins || [];
+  const path = plan.route?.path || null;
   return dates.map((date) => ({
     id: scheduleRowId(plan, date),
     date,
     courseId: plan.route?.mode === "course" ? plan.route.courseId || null : null,
-    courseName: plan.route?.mode === "course" ? courseName || plan.title : "Plan loop",
+    courseName: plan.route?.mode === "course" ? courseName || plan.title : (plan.title || "Plan loop"),
     activityType: plan.activityType,
     sourcePlanId: plan.id,
     sourceSessionDate: date,
     targetLengthMeters: plan.schedule?.sessionDistanceMeters || 0,
     targetSec: plan.schedule?.initialTargetSec || 0,
     routePins: pins,
+    routePath: path,
   }));
 }
 

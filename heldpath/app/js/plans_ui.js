@@ -19,6 +19,8 @@ import {
   planTeaserModel,
   WATER_DISCLAIMER,
   reminderTimesFor,
+  buildAutoLoop,
+  AUTO_LOOP_FAIL_COPY,
   normaliseReminderTimes,
   isNightTime,
   mlToOz,
@@ -265,9 +267,14 @@ function renderOwnership() {
 
 function renderCreditNote() {
   const credits = creditsRemaining();
-  $("plan-create-note").textContent = credits > 0
-    ? `${credits} unused plan credit${credits === 1 ? "" : "s"} on this phone. Creating a plan uses one.`
-    : "No credit yet. Creating a plan buys one $2 credit first (stub in this build). Importing a shared plan stays free.";
+  const note = $("plan-create-note");
+  const current = (note && note.textContent) || "";
+  const busy = /Loading paths|Couldn't build a loop|Getting your location|Tap the map to set the start|Turn on location/i.test(current);
+  if (!busy) {
+    note.textContent = credits > 0
+      ? `${credits} unused plan credit${credits === 1 ? "" : "s"} on this phone. Creating a plan uses one.`
+      : "No credit yet. Creating a plan buys one $2 credit first (stub in this build). Importing a shared plan stays free.";
+  }
   $("btn-plan-create").textContent = credits > 0 ? "Create plan · use 1 credit" : "Create plan · $2";
 }
 
@@ -446,14 +453,46 @@ function renderPlanList() {
 
 /* ——— Actions ——— */
 
+async function resolveAutoLoopCenter(noteEl) {
+  let center = userCenter();
+  if (center) return center;
+  if (ctx && typeof ctx.resolveLoopCenter === "function") {
+    if (noteEl) noteEl.textContent = "Getting your location…";
+    center = await ctx.resolveLoopCenter({
+      onNeedTap: () => {
+        if (noteEl) noteEl.textContent = "Tap the map to set the start of your loop";
+      },
+    });
+  }
+  return center || null;
+}
+
 async function createPlan() {
   const goal = readGoal();
-  $("plan-create-note").textContent = "Creating…";
+  const noteEl = $("plan-create-note");
+  if (goal.autoLoop) {
+    const center = await resolveAutoLoopCenter(noteEl);
+    if (!center) {
+      if (noteEl) noteEl.textContent = "Turn on location or tap the map to set a start point. Auto loop does not assume a city.";
+      return;
+    }
+    goal.center = center;
+    if (noteEl) noteEl.textContent = "Loading paths…";
+    const loop = await buildAutoLoop(center, goal.goalDistanceMeters);
+    if (!loop || loop.ok === false) {
+      if (noteEl) noteEl.textContent = AUTO_LOOP_FAIL_COPY;
+      return;
+    }
+    goal.loop = loop;
+  }
+  if (noteEl) noteEl.textContent = "Creating…";
   const res = await createPlanForGoal(goal);
   if (!res.ok) {
-    $("plan-create-note").textContent = res.error === "purchase_failed"
+    if (noteEl) noteEl.textContent = res.error === "purchase_failed"
       ? "The store could not be reached. Nothing was charged."
-      : "Could not create the plan. Nothing was charged.";
+      : res.error === "no-loop"
+        ? AUTO_LOOP_FAIL_COPY
+        : "Could not create the plan. Nothing was charged.";
     return;
   }
   if (ui.waterOverrideMl != null || (ui.reminderOverride && ui.reminderOverride.length)) {
@@ -484,6 +523,10 @@ async function createPlan() {
   $("plan-reminder-note").textContent = remind.ok
     ? `Drink reminders scheduled on this phone: ${reminderTimesFor(res.plan).join(", ")}.`
     : `${reminderPayloadFor(res.plan).length} reminder times saved. They run on the phone once the app is installed.`;
+  if (goal.autoLoop && ctx && typeof ctx.showPlanRoute === "function") {
+    const row = (state().plans || []).find((p) => p.sourcePlanId === res.plan.id) || null;
+    ctx.showPlanRoute(row || res.plan);
+  }
 }
 
 async function saveWater() {
@@ -673,7 +716,13 @@ export function initPlansUi(context) {
 
 function kickPlanGraph() {
   const c = userCenter();
-  if (c) ensureWalkGraph(c).catch(() => {});
+  if (!c) return;
+  const meters = (ui && ui.distanceMeters) || 1609;
+  if (typeof ctx.preloadLoopGraph === "function") {
+    ctx.preloadLoopGraph(c, meters).catch(() => {});
+  } else {
+    ensureWalkGraph(c).catch(() => {});
+  }
 }
 
 export function renderPlansScreen() {
