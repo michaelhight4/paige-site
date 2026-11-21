@@ -248,3 +248,59 @@ export async function openArchiveSource(id) {
     },
   };
 }
+
+/** Remove cached street tiles. Downloaded area records are also cleared so sizes stay honest. */
+export async function clearTileCache() {
+  const db = await tileDb();
+  await new Promise((resolve, reject) => {
+    const tx = db.transaction([TILE_STORE, AREA_STORE], "readwrite");
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+    tx.objectStore(TILE_STORE).clear();
+    tx.objectStore(AREA_STORE).clear();
+  });
+  db.close();
+  return { ok: true };
+}
+
+export async function packCacheBytes() {
+  const db = await idb();
+  const recs = await new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, "readonly");
+    const req = tx.objectStore(STORE).getAll();
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => reject(req.error);
+  });
+  db.close();
+  return recs.reduce((s, r) => s + (r && r.buffer ? r.buffer.byteLength : 0), 0);
+}
+
+/** All street tiles already stored on this phone (no network). */
+export async function listCachedTiles() {
+  const db = await tileDb();
+  const recs = await new Promise((resolve, reject) => {
+    const tx = db.transaction(TILE_STORE, "readonly");
+    const req = tx.objectStore(TILE_STORE).openCursor();
+    const out = [];
+    req.onsuccess = () => {
+      const cursor = req.result;
+      if (!cursor) { resolve(out); return; }
+      const key = String(cursor.key || "");
+      const parts = key.split("/");
+      const rec = cursor.value;
+      const data = rec && rec.data ? rec.data : rec;
+      if (parts.length >= 4 && data) {
+        const z = Number(parts[1]);
+        const x = Number(parts[2]);
+        const y = Number(parts[3]);
+        if (Number.isFinite(z) && Number.isFinite(x) && Number.isFinite(y)) {
+          out.push({ z, x, y, data });
+        }
+      }
+      cursor.continue();
+    };
+    req.onerror = () => reject(req.error);
+  });
+  db.close();
+  return recs;
+}

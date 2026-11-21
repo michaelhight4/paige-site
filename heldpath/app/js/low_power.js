@@ -1,10 +1,11 @@
 /**
  * Low-power tracking: a looser GPS fix so the phone lasts longer.
- * Off by default. High-accuracy tracking stays on unless the setting is on.
+ * Off by default. Normal tracking requests a GPS fix every second with no
+ * distance filter, so the marker can move with the user instead of in jumps.
  */
 import { haversineMeters } from "./util.js";
 
-export const NORMAL_DISTANCE_FILTER_M = 5;
+export const NORMAL_DISTANCE_FILTER_M = 0;
 export const LOW_DISTANCE_FILTER_M = 30;
 export const LOW_INTERVAL_MS = 10000;
 export const LOW_MIN_FIX_MS = 8000;
@@ -30,7 +31,7 @@ export function watchOptions(lowPower = false) {
   return {
     lowPower: false,
     enableHighAccuracy: true,
-    maximumAge: 1000,
+    maximumAge: 0,
     timeout: 15000,
     stale: false,
     distanceFilter: NORMAL_DISTANCE_FILTER_M,

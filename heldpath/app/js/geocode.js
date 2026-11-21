@@ -1,9 +1,11 @@
 /**
- * Place search via Photon (Komoot), which is based on OpenStreetMap.
- * Usage: light, on-demand lookups only; debounce in the UI; cache results;
- * do not bulk-query. Attribution: OpenStreetMap contributors and Photon.
- * https://github.com/komoot/photon
+ * Place search. Looks through maps already on this phone first.
+ * Photon is used only when the user turns on Photon place search in
+ * Privacy & Data. The app works fully with that setting off.
  */
+import { allowsPhoton, confirmOnlineUse } from "./privacy_data.js";
+import { searchOfflinePlaces } from "./offline_places.js";
+import { listCachedTiles } from "./map_storage.js";
 
 const PHOTON_URL = "https://photon.komoot.io/api/";
 const CACHE_LIMIT = 40;
@@ -33,6 +35,7 @@ export function parsePhotonFeature(feature) {
     lat,
     lon,
     type: props.type || props.osm_value || "",
+    source: "photon",
   };
 }
 
@@ -51,19 +54,60 @@ export function parsePhotonResponse(data) {
   return out;
 }
 
-export async function searchPlaces(query, { limit = 5, signal } = {}) {
+async function searchPhoton(query, { limit = 5, signal } = {}) {
+  const url = `${PHOTON_URL}?q=${encodeURIComponent(query)}&limit=${Math.min(8, Math.max(1, limit))}`;
+  const res = await fetch(url, { signal, headers: { Accept: "application/json" } });
+  if (!res.ok) throw new Error(`Place search failed (${res.status})`);
+  return parsePhotonResponse(await res.json());
+}
+
+/**
+ * Search places. Always tries the downloaded / visible map pack first.
+ * Online Photon lookup runs only if Privacy & Data allows it.
+ */
+export async function searchPlaces(query, { limit = 5, signal, map, tiles } = {}) {
   const q = String(query || "").trim();
   if (q.length < 2) return [];
   const key = q.toLowerCase();
   if (cache.has(key)) return cache.get(key);
-  const url = `${PHOTON_URL}?q=${encodeURIComponent(q)}&limit=${Math.min(8, Math.max(1, limit))}`;
-  const res = await fetch(url, { signal, headers: { Accept: "application/json" } });
-  if (!res.ok) throw new Error(`Place search failed (${res.status})`);
-  const places = parsePhotonResponse(await res.json());
+
+  let cachedTiles = tiles;
+  if (!cachedTiles) {
+    try { cachedTiles = await listCachedTiles(); } catch { cachedTiles = []; }
+  }
+  let places = [];
+  try {
+    places = await searchOfflinePlaces(q, { map, tiles: cachedTiles, limit });
+  } catch { places = []; }
+
+  let usePhoton = allowsPhoton();
+  if (!usePhoton && places.length === 0) {
+    usePhoton = confirmOnlineUse("photon");
+  }
+  if (usePhoton) {
+    try {
+      const online = await searchPhoton(q, { limit, signal });
+      const seen = new Set(places.map((p) => `${p.label}|${p.lat.toFixed(5)}|${p.lon.toFixed(5)}`));
+      for (const p of online) {
+        const k = `${p.label}|${p.lat.toFixed(5)}|${p.lon.toFixed(5)}`;
+        if (seen.has(k)) continue;
+        seen.add(k);
+        places.push(p);
+      }
+      places = places.slice(0, Math.max(1, limit));
+    } catch (err) {
+      if (!places.length) throw err;
+    }
+  }
+
   cache.set(key, places);
   if (cache.size > CACHE_LIMIT) {
     const first = cache.keys().next().value;
     cache.delete(first);
   }
   return places;
+}
+
+export function clearPlaceSearchCache() {
+  cache.clear();
 }

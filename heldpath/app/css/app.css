@@ -470,33 +470,78 @@ img { display: block; max-width: 100%; }
   border: 1px solid var(--line);
 }
 .pp-map-marker.user-dot {
-  width: 18px;
-  height: 18px;
-  background: var(--blue);
-  border: 3px solid #F3F6FA;
-  border-radius: 50%;
-  box-shadow: 0 0 0 6px rgba(78,195,247,0.25);
+  width: 84px;
+  height: 84px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
   position: absolute;
 }
 .pp-map-marker.user-dot .user-heading-rot {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 0;
-  height: 0;
+  inset: 0;
+  display: grid;
+  place-items: center;
   transform: rotate(var(--user-heading, 0deg));
+  transform-origin: 50% 62%;
+  will-change: transform;
 }
-.pp-map-marker.user-dot .user-heading {
+.pp-map-marker.user-dot .user-heading-arrow {
+  width: 80px;
+  height: 80px;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45));
+}
+.pp-map-marker.user-dot:not(.has-heading) .user-heading-cone { display: none; }
+.pp-map-marker.user-dot:not(.has-heading) .user-heading-rot { transform: none; }
+.btn-map-orient {
+  pointer-events: auto;
   position: absolute;
-  left: -6px;
-  bottom: 8px;
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 10px solid #F3F6FA;
+  top: calc(188px + var(--safe-top));
+  right: 10px;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 8px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: rgba(18, 22, 28, 0.94);
+  color: var(--text);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  display: grid;
+  place-items: center;
+  gap: 0;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  text-transform: uppercase;
 }
-.pp-map-marker.user-dot:not(.has-heading) .user-heading { display: none; }
+.btn-map-orient:focus-visible { outline: 2px solid var(--blue); }
+.btn-map-orient[aria-pressed="true"] { color: var(--blue); border-color: var(--blue); }
+.compass-calibrate-note {
+  pointer-events: none;
+  position: absolute;
+  left: var(--pad);
+  right: 62px;
+  bottom: calc(12px + var(--safe-bottom));
+  max-width: 360px;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(18, 22, 28, 0.94);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.35;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+body[data-screen="tracking"] .compass-calibrate-note {
+  bottom: calc(300px + var(--safe-bottom));
+}
+.compass-calibrate-note[hidden] { display: none; }
+#screen-privacy .scroll { padding-bottom: calc(96px + var(--safe-bottom)); }
 
 /* ——— Lists ——— */
 .list { display: flex; flex-direction: column; gap: 12px; }
@@ -1507,4 +1552,64 @@ body:has(#sheet-map.open) #map-locate-note { display: none; }
   border-color: var(--blue);
   color: var(--blue);
   font-weight: 700;
+}
+
+
+/* Privacy & Data */
+.privacy-inventory {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.privacy-inventory li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  font-size: 15px;
+}
+.privacy-inventory li:last-child { border-bottom: 0; }
+.privacy-inventory .count { color: var(--mint, #B8F3D0); }
+.privacy-activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 12px 0;
+}
+.privacy-activity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.privacy-activity .meta { min-width: 0; }
+.privacy-activity .meta strong { display: block; }
+.privacy-range {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+  margin-top: 12px;
+}
+.privacy-range .field-label { margin: 0; }
+.privacy-range input[type="date"] {
+  width: 100%;
+  background: #1C222A;
+  color: inherit;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+}
+
+/* The tracking puck is large on an activity map; shrink it in the course builder so it does not cover the route. */
+body.is-builder .pp-map-marker.user-dot {
+  width: 28px;
+  height: 28px;
+}
+body.is-builder .pp-map-marker.user-dot .user-heading-arrow {
+  width: 24px;
+  height: 24px;
 }

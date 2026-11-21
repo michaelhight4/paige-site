@@ -1,3 +1,4 @@
+import { allowsYouTube, confirmOnlineUse } from "./privacy_data.js";
 import {
   GROUPS,
   STRETCHES,
@@ -280,6 +281,7 @@ function renderCard() {
 }
 
 export function openStretchVideo(videoId) {
+  if (!allowsYouTube() && !confirmOnlineUse("youtube")) return false;
   const video = videoById(videoId);
   const sheet = $("sheet-stretch-video");
   if (!video || !sheet) return false;

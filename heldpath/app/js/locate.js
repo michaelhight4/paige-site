@@ -19,7 +19,8 @@ export function normalizeFix(point, now = Date.now()) {
   };
   if (Number.isFinite(Number(point.accuracy))) fix.accuracy = Number(point.accuracy);
   const heading = Number(point.heading);
-  if (Number.isFinite(heading)) fix.heading = heading;
+  if (Number.isFinite(heading) && heading >= 0) fix.heading = heading;
+  if (Number.isFinite(Number(point.speed)) && Number(point.speed) >= 0) fix.speed = Number(point.speed);
   return fix;
 }
 
@@ -60,6 +61,7 @@ function coordsFromBrowser(pos, now = Date.now()) {
     at: pos.timestamp || now,
   };
   if (Number.isFinite(Number(pos.coords.heading))) raw.heading = Number(pos.coords.heading);
+  if (Number.isFinite(Number(pos.coords.speed)) && Number(pos.coords.speed) >= 0) raw.speed = Number(pos.coords.speed);
   return normalizeFix(raw, now);
 }
 
@@ -294,28 +296,26 @@ export function stopLocationWatch() {
  */
 export async function startLocationWatch({ onFix, onError } = {}) {
   stopLocationWatch();
-  const opts = { enableHighAccuracy: true, maximumAge: 10000, timeout: 20000 };
+  const opts = { enableHighAccuracy: true, maximumAge: 0, timeout: 20000 };
   try {
     const { Capacitor } = await import("@capacitor/core");
     if (Capacitor.isNativePlatform()) {
-      const { Geolocation } = await import("@capacitor/geolocation");
-      const handle = await Geolocation.watchPosition(opts, (pos, err) => {
-        if (err) {
-          if (onError) onError(reasonFromGeoError(err));
-          return;
-        }
-        const fix = coordsFromBrowser(pos);
-        if (fix && onFix) onFix(fix);
-      });
-      liveWatch = {
-        kind: "native",
-        id: handle && (handle.value ?? handle),
-        clear: () => {
-          const id = handle && (handle.value ?? handle);
-          if (id != null) return Geolocation.clearWatch({ id });
-        },
-      };
-      return { ok: true, native: true };
+      // GPS_PROVIDER only via the first-party plugin. Do not use Capacitor
+      // Geolocation here: on Android it goes through Google Fused by default.
+      const loc = await import("./heldpath_location.js");
+      if (loc.isHeldpathLocationAvailable()) {
+        const handle = await loc.addWatcher(
+          { enhanced: !!(opts.enhanced), background: false, intervalMs: 1000, distanceFilter: 0 },
+          (fix) => { if (fix && onFix) onFix(fix); },
+          (err) => { if (onError) onError(reasonFromGeoError(err)); },
+        );
+        liveWatch = {
+          kind: "heldpath",
+          id: handle && handle.id,
+          clear: () => loc.removeWatcher(handle),
+        };
+        return { ok: true, native: true, gpsOnly: true };
+      }
     }
   } catch {
     /* fall through to the web API */

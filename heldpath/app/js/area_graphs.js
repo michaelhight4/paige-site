@@ -2,6 +2,8 @@
  * Walk graphs for downloaded map areas, stored on the phone so routing
  * works offline outside the bundled Florence extract.
  */
+import { allowsOverpass, confirmOnlineUse } from "./privacy_data.js";
+import { loadOfflineMapTile } from "./offline_tiles.js";
 import { getTile, putTile, listAreas } from "./map_storage.js";
 import { parseGraph, setActiveGraph, getActiveGraph, setActiveBikeGraph, getActiveBikeGraph, loadBundledGraph, inGraphBounds } from "./routing.js";
 import {
@@ -243,10 +245,12 @@ function padBoundsFromPoints(pts, padDeg = 0.004) {
 
 async function loadOfmTile(z, x, y) {
   try {
-    const cached = await getTile(z, x, y);
-    if (cached && cached.byteLength) return cached;
+    const offline = await loadOfflineMapTile(z, x, y);
+    if (offline && offline.byteLength) return offline;
   } catch { /* continue */ }
   if (typeof navigator !== "undefined" && navigator.onLine === false) return null;
+  let allowed = allowsOverpass();
+  if (!allowed) return null;
   try {
     const tmpl = await resolveOfmTemplate();
     const res = await fetch(tileUrl(tmpl, z, x, y), { headers: { "User-Agent": OFM_USER_AGENT } });

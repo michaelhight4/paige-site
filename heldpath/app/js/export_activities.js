@@ -197,6 +197,10 @@ export function exportTextFile(text, name, mime = "application/gpx+xml") {
   return saveBlob({ text, name, mime });
 }
 
+export function exportBinaryFile(bytes, name, mime = "application/octet-stream") {
+  return saveBlob({ bytes, name, mime });
+}
+
 export function exportActivityGpx(activity) {
   return exportTextFile(activityToGpx(activity), activityGpxName(activity));
 }

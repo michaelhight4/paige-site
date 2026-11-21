@@ -15,22 +15,40 @@
  *  - Import watch-tracked walks and runs so watch users can skip phone GPS.
  */
 import { Capacitor, registerPlugin } from "@capacitor/core";
+import { dedupeDecision } from "./import_activities.js";
+import { newActivity } from "./storage.js";
 
 const NativeHealth = registerPlugin("HeldpathHealth");
+
+/** Test-only hook so unit tests can feed mocked Health Connect sessions (including routes). */
+let testBridge = null;
+export function setHealthTestBridge(bridge) {
+  testBridge = bridge || null;
+}
+
+async function nativeCall(method, payload) {
+  if (testBridge && typeof testBridge[method] === "function") {
+    return testBridge[method](payload);
+  }
+  return NativeHealth[method](payload);
+}
 
 export const HEALTH_SCOPES = [
   "writeWorkouts",
   "readSteps",
   "readCalories",
   "readWorkouts",
+  "readRoutes",
+  "readDistance",
+  "readHeartRate",
 ];
 
 export const HEALTH_STATUS = {
-  stub: true,
+  stub: false,
   plugin: "HeldpathHealth",
   platforms: { android: "Health Connect", ios: "Apple Health" },
   reason:
-    "Health sync is not wired into this Capacitor 7 build yet. The HeldpathHealth plugin shim is ready in plugins/heldpath-health for the APK worker. Your setting is saved.",
+    "Health Connect is used only when you turn it on. Walks, runs and rides stay on this phone.",
 };
 
 export function providerForPlatform(platform = Capacitor.getPlatform()) {
@@ -40,7 +58,7 @@ export function providerForPlatform(platform = Capacitor.getPlatform()) {
 }
 
 function unavailableReason(platform) {
-  if (platform === "android") return "Health Connect is not connected in this build yet. The HeldpathHealth plugin shim is in plugins/heldpath-health for the APK worker.";
+  if (platform === "android") return "Health Connect is not available on this phone. Install or update Health Connect, then try again.";
   if (platform === "ios") return "Apple Health is not connected in this build yet. The HeldpathHealth plugin shim is in plugins/heldpath-health for the iOS build.";
   return "Health sync works in the Heldpath phone app on Android and iPhone, not in the browser preview.";
 }
@@ -83,10 +101,14 @@ function errorResult(err, extra = {}) {
  * @returns {Promise<{ok:boolean,available:boolean,status:string,platform:string,provider:string|null,scopes:string[],reason?:string}>}
  */
 export async function isAvailable() {
+  if (testBridge) {
+    if (typeof testBridge.isAvailable === "function") return testBridge.isAvailable();
+    return { ok: true, available: true, status: "ready", platform: "android", provider: "Health Connect", scopes: HEALTH_SCOPES };
+  }
   if (!Capacitor.isNativePlatform()) return unavailable({ scopes: [] });
   if (!pluginPresent()) return unavailable({ scopes: [] });
   try {
-    const res = await NativeHealth.isAvailable();
+    const res = await nativeCall("isAvailable");
     const available = !!(res && (res.available || res.ok));
     return {
       ok: available,
@@ -112,7 +134,7 @@ export async function requestAccess() {
     return { ...avail, granted: false, scopes: [] };
   }
   try {
-    const res = await NativeHealth.requestAccess({ scopes: HEALTH_SCOPES });
+    const res = await nativeCall("requestAccess", { scopes: HEALTH_SCOPES });
     const granted = !!(res && (res.granted || res.ok));
     return {
       ok: granted,
@@ -188,7 +210,7 @@ export async function writeWorkout(activity) {
   const avail = await isAvailable();
   if (!avail.available) return { ...avail, written: false, activityId: activity.id || null };
   try {
-    const res = await NativeHealth.writeWorkout({ workout: workoutPayload(activity) });
+    const res = await nativeCall("writeWorkout", { workout: workoutPayload(activity) });
     const written = !!(res && (res.written || res.ok));
     return {
       ok: written,
@@ -213,7 +235,7 @@ export async function readStepsAndCalories(from, to) {
   const avail = await isAvailable();
   if (!avail.available) return { ...avail, steps: null, calories: null, entries: [] };
   try {
-    const res = await NativeHealth.readStepsAndCalories({ from, to });
+    const res = await nativeCall("readStepsAndCalories", { from, to });
     return {
       ok: !!res,
       status: res ? "read" : "error",
@@ -229,7 +251,44 @@ export async function readStepsAndCalories(from, to) {
   }
 }
 
-function normalizeImported(raw) {
+function haversineMeters(a, b) {
+  const R = 6371000;
+  const r = Math.PI / 180;
+  const dLat = (b.lat - a.lat) * r;
+  const dLon = (b.lon - a.lon) * r;
+  const s = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.min(1, Math.sqrt(s)));
+}
+
+function trackDistanceMeters(track) {
+  let meters = 0;
+  for (let i = 1; i < track.length; i++) meters += haversineMeters(track[i - 1], track[i]);
+  return meters;
+}
+
+export const KNOWN_HEALTH_ORIGINS = {
+  "com.sec.android.app.shealth": "Samsung Health",
+  "com.samsung.android.app.health": "Samsung Health",
+  "com.garmin.android.apps.connectmobile": "Garmin",
+  "com.fitbit.FitbitMobile": "Fitbit",
+  "com.strava": "Strava",
+  "com.google.android.apps.fitness": "Google Fit",
+  "com.google.android.apps.healthdata": "Health Connect",
+  "com.google.android.apps.wearable.health": "Wear OS",
+  "com.nike.plusgps": "Nike Run Club",
+  "com.underarmour.ua.record": "MapMyRun",
+  "com.peloton.activity": "Peloton",
+  "com.apple.Health": "Apple Health",
+  "com.pagegames.heldpath": "Heldpath",
+};
+
+export function originLabel(origin, fallback) {
+  if (fallback) return fallback;
+  const key = String(origin || "");
+  return KNOWN_HEALTH_ORIGINS[key] || (key ? key : "Unknown app");
+}
+
+export function normalizeImported(raw) {
   if (!raw || typeof raw !== "object") return null;
   const startedAt = raw.startedAt || raw.startTime || null;
   const endedAt = raw.endedAt || raw.endTime || null;
@@ -237,30 +296,134 @@ function normalizeImported(raw) {
   if (!Number.isFinite(elapsedSec) && startedAt && endedAt) {
     elapsedSec = Math.round((Date.parse(endedAt) - Date.parse(startedAt)) / 1000);
   }
-  const distanceMeters = Number(raw.distanceMeters);
-  if (!(distanceMeters > 0) || !(elapsedSec > 0)) return null;
   const track = Array.isArray(raw.track)
-    ? raw.track.filter((p) => p && Number.isFinite(p.lat) && Number.isFinite(p.lon))
+    ? raw.track.filter((p) => p && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon)))
+        .map((p) => ({ lat: Number(p.lat), lon: Number(p.lon), ele: p.ele, at: p.at, t: p.t }))
     : [];
-  return {
+  let distanceMeters = Number(raw.distanceMeters);
+  if (!(distanceMeters > 0) && track.length >= 2) distanceMeters = trackDistanceMeters(track);
+  const origin = raw.dataOrigin || raw.healthOrigin || null;
+  const label = originLabel(origin, raw.originLabel || raw.healthOriginLabel);
+  const row = {
     type: healthType(raw.type),
-    startedAt: startedAt || new Date(Date.now() - elapsedSec * 1000).toISOString(),
+    startedAt: startedAt || (elapsedSec > 0 ? new Date(Date.now() - elapsedSec * 1000).toISOString() : null),
     endedAt: endedAt || new Date().toISOString(),
-    distanceMeters,
-    elapsedSec,
+    distanceMeters: Number.isFinite(distanceMeters) ? distanceMeters : 0,
+    elapsedSec: Number.isFinite(elapsedSec) ? elapsedSec : 0,
     track,
-    source: "watch",
+    source: "health",
     health: {
       steps: Number.isFinite(raw.steps) ? raw.steps : null,
       calories: Number.isFinite(raw.calories) ? raw.calories : null,
       provider: raw.provider || providerForPlatform(),
     },
-    healthId: raw.id ? String(raw.id) : `${startedAt || "watch"}:${distanceMeters}:${elapsedSec}`,
+    healthId: raw.id ? String(raw.id) : `${origin || "health"}:${startedAt || "session"}:${Math.round(distanceMeters || 0)}:${elapsedSec || 0}`,
+    healthOrigin: origin,
+    healthOriginLabel: label,
     courseId: null,
-    courseName: raw.name || null,
+    courseName: raw.name || label || null,
     samples: healthSamples(raw),
     climbGainM: Number.isFinite(raw.climbGainM) ? raw.climbGainM : 0,
+    avgHr: Number.isFinite(raw.avgHr) ? raw.avgHr : null,
+    maxHr: Number.isFinite(raw.maxHr) ? raw.maxHr : null,
+    routeConsentNeeded: !!raw.routeConsentNeeded,
   };
+  if (!(row.elapsedSec > 0) && !(row.distanceMeters > 0) && track.length < 2 && !row.routeConsentNeeded) return null;
+  return row;
+}
+
+export function groupSessionsByOrigin(sessions) {
+  const groups = new Map();
+  for (const raw of sessions || []) {
+    const session = raw && raw.healthId ? raw : normalizeImported(raw);
+    if (!session) continue;
+    const key = session.healthOrigin || "unknown";
+    if (!groups.has(key)) {
+      groups.set(key, {
+        origin: key,
+        label: session.healthOriginLabel || originLabel(key),
+        sessions: [],
+        withRoute: 0,
+      });
+    }
+    const g = groups.get(key);
+    g.sessions.push(session);
+    if ((session.track || []).length >= 2) g.withRoute += 1;
+  }
+  return [...groups.values()].sort((a, b) => b.sessions.length - a.sessions.length);
+}
+
+/**
+ * Merge selected Health Connect sessions into the on-device activity list.
+ * De-duplicates against existing walks (healthId, then a near match on time and distance).
+ */
+export function applyImportedSessions(existing, sessions, { origins = null } = {}) {
+  const allowed = origins == null ? null : new Set(origins);
+  const next = Array.isArray(existing) ? existing.slice() : [];
+  const added = [];
+  let skipped = 0;
+  for (const raw of sessions || []) {
+    const session = raw && raw.healthId ? raw : normalizeImported(raw);
+    if (!session) { skipped += 1; continue; }
+    if (allowed && !allowed.has(session.healthOrigin || "unknown")) { skipped += 1; continue; }
+    if ((session.track || []).length < 2 && !(session.distanceMeters > 0)) { skipped += 1; continue; }
+    const decision = dedupeDecision(session, next);
+    if (decision.status === "duplicate") { skipped += 1; continue; }
+    if (decision.status === "replace" && decision.match) {
+      const idx = next.indexOf(decision.match);
+      if (idx >= 0) {
+        const merged = {
+          ...decision.match,
+          ...session,
+          id: decision.match.id,
+          mergedIds: [...(decision.match.mergedIds || []), session.healthId].filter(Boolean),
+        };
+        next[idx] = merged;
+        added.push(merged);
+        continue;
+      }
+    }
+    const row = newActivity({ ...session, source: session.source || "health" });
+    next.push(row);
+    added.push(row);
+  }
+  return { activities: next, added, skipped };
+}
+
+
+export async function listExerciseSessions({ from, to } = {}) {
+  const avail = await isAvailable();
+  if (!avail.available) return { ...avail, sessions: [], groups: [] };
+  try {
+    const res = await nativeCall("listWorkouts", { from, to });
+    const list = Array.isArray(res)
+      ? res
+      : Array.isArray(res && res.workouts)
+        ? res.workouts
+        : [];
+    const sessions = list.map(normalizeImported).filter(Boolean);
+    return {
+      ok: true,
+      available: true,
+      sessions,
+      groups: groupSessionsByOrigin(sessions),
+      status: sessions.length ? "listed" : "empty",
+      platform: avail.platform,
+      provider: (res && res.provider) || avail.provider,
+      reason: sessions.length ? undefined : "No walks, runs or rides were found in Health Connect.",
+    };
+  } catch (err) {
+    return { ...errorResult(err), sessions: [], groups: [] };
+  }
+}
+
+export async function requestExerciseRoute(id) {
+  try {
+    const res = await nativeCall("requestExerciseRoute", { id });
+    return res || { ok: false };
+  } catch (err) {
+    return { ok: false, reason: String(err && err.message ? err.message : err) };
+  }
 }
 
 /**
@@ -271,7 +434,7 @@ export async function importWatchWorkouts(from, to) {
   const avail = await isAvailable();
   if (!avail.available) return { ...avail, imported: [], skipped: 0 };
   try {
-    const res = await NativeHealth.listWorkouts({ from, to });
+    const res = await nativeCall("listWorkouts", { from, to });
     const list = Array.isArray(res)
       ? res
       : Array.isArray(res && res.workouts)

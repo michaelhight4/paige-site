@@ -21,7 +21,47 @@ import {
   pointAlongPath,
   destination,
 } from "./util.js";
-import { loadState, saveState, resetState, newCourse, newActivity, newPlan, newGoal, migrateCourses } from "./storage.js";
+import { loadState, saveState, resetState, hydrateState, emptyState, newCourse, newActivity, newPlan, newGoal, migrateCourses } from "./storage.js";
+import { verifyAppSignature } from "./secure_store.js";
+import { EXPORT_UNENCRYPTED_WARNING, EXPORT_PASSWORD_PROMPT } from "./export_protect.js";
+import {
+  SHARE_ONLY_ON_TAP_NOTE,
+  GOOGLE_LOCATION_CONSENT,
+  GOOGLE_LOCATION_NOTE,
+  HEALTH_READ_NOTE,
+  HEALTH_WRITE_NOTE,
+  HEALTH_IMPORT_CONSENT,
+  HEALTH_BACKGROUND_NOTE,
+  PHOTON_NOTE,
+  PHOTON_CONSENT,
+  OVERPASS_NOTE,
+  OVERPASS_CONSENT,
+  YOUTUBE_NOTE,
+  YOUTUBE_CONSENT,
+  setIntegration,
+  setPrivacyRuntime,
+  confirmOnlineUse,
+  onPrivacyRuntimeChange,
+  allowsPhoton,
+  allowsOverpass,
+  allowsYouTube,
+  measureInventory,
+  byteLabel,
+  deleteActivityById,
+  deleteActivitiesInRange,
+  deleteEverything,
+  exportAllData,
+  clearMapTileCache,
+} from "./privacy_data.js";
+import { PATH_SNAP_NOTE, snapTrackToPath } from "./path_snap.js";
+import {
+  startCompassWatch,
+  requestCompassPermission,
+  createHeadingTracker,
+  updateHeadingTracker,
+  CALIBRATE_COPY,
+} from "./heading.js";
+import * as heldpathLocation from "./heldpath_location.js";
 import * as health from "./health.js";
 import { normalizeSport, loadLastSport, saveLastSport, sportLabel, rateLabel } from "./sport.js"; /* heldpath-hook: bike */
 import { PLANS_HOOK_COPY } from "./plans_hook.js";
@@ -58,7 +98,7 @@ import {
 } from "./indoor_log.js";
 import * as splits from "./splits.js";
 import { seedDemo, midCourseWalk, pastCourseRun, arnoLoopPins } from "./demo.js";
-import { purchaseSupport, SUPPORT_PRODUCT_ID } from "./iap.js";
+import { purchaseSupport, SUPPORT_PRODUCT_ID, BILLING_COMING_SOON } from "./iap.js";
 import { isWeb, applyPlatformVisibility, registerServiceWorker, listenForInstallPrompt, canPromptInstall, promptInstall, WEB_APP_NOTE, WEB_PAY_NOTE } from "./platform.js";
 import { renderCalendarView } from "./calendar_view.js";
 import { conflictCopy, plansOnDate } from "./calendar_conflict.js";
@@ -178,7 +218,7 @@ import { initMapDownloadUi, showMapAreas, openCrop, closeCrop } from "./map_down
 /* heldpath-hook: import — universal GPX/FIT/TCX/zip import and export/share cards */
 import { initImportUi } from "./import_ui.js";
 import { initExportUi } from "./export_ui.js";
-import { listAreas } from "./map_offline.js";
+import { listAreas, downloadArea } from "./map_offline.js";
 import { ensureWalkGraph, ensureLoopGraph, ensureBikeGraph, ensureBikeLoopGraph, graphCoversPoints } from "./area_graphs.js"; /* heldpath-hook: bike */
 import { assessRouteLowSignal, LOW_SIGNAL_COPY, pathBbox } from "./low_signal.js";
 import { gainLoss, displayDistance, naismithSeconds, formatGain, elevationProfileSvg, FLAT_DISCLAIMER, HILLS_DISCLAIMER, DEM_CREDIT_SHORT, DEM_ATTRIBUTION_URL } from "./elevation.js";
@@ -206,7 +246,7 @@ import {
   stopLocationWatch,
   locationWatchActive,
 } from "./locate.js";
-import { searchPlaces } from "./geocode.js";
+import { searchPlaces, clearPlaceSearchCache } from "./geocode.js";
 import {
   makeGroupRun,
   inviteMessage,
@@ -260,6 +300,7 @@ import {
 } from "./route_save.js";
 
 let state = loadState();
+setPrivacyRuntime(state.settings);
 const PR_BADGES = {
   "1mi": "badge_mile",
   "5k": "badge_5k",
@@ -297,8 +338,11 @@ const $ = (id) => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 
 function persist() {
+  setPrivacyRuntime(state.settings);
   saveState(state);
 }
+
+
 
 function liveSessionExtra() {
   return { activePlanId: ui.activePlanId || null };
@@ -315,7 +359,7 @@ let autoEndingSession = false;
 function onLiveSessionUpdate(s, why) {
   if (!s) return;
   paintSessionHud(s);
-  drawSessionOnMap(s);
+  drawSessionOnMap(s, { why });
   maybeSaveLiveSession(s, { ...liveSessionExtra(), force: why === "hide" });
   maybeForgotPrompt(s);
   maybeAutoEndLoopTarget(s);
@@ -384,6 +428,20 @@ async function resumePendingSession() {
   if (!sess) return;
   track.setAutoPauseEnabled(state.settings.autoPause !== false);
   track.setLowPowerEnabled(!!state.settings.lowPower);
+  if (typeof track.setEnhancedLocation === "function") {
+    track.setEnhancedLocation(!!state.settings.googleLocationOptIn).catch(() => {});
+  }
+  ui.activityOrient = ui.activityOrient || "heading";
+  if (typeof map.setMapOrientation === "function") map.setMapOrientation("heading");
+  requestCompassPermission().catch(() => {});
+  if (!state.settings.batteryExemptPrompted && heldpathLocation.requestBatteryExemption) {
+    heldpathLocation.requestBatteryExemption().then((res) => {
+      if (res && (res.ok || res.prompted || res.exempt)) {
+        state.settings.batteryExemptPrompted = true;
+        persist();
+      }
+    }).catch(() => {});
+  }
   setTab("today");
   showScreen("tracking");
   paintSessionHud(sess);
@@ -439,8 +497,10 @@ function activityDetailLine(activity) {
 
 function sourceLabel(activity) {
   if (!activity || !activity.source) return "Tracked on this phone";
-  if (activity.source === "watch") return "Imported from a watch";
-  if (activity.source === "health") return "From the health app";
+  if (activity.source === "watch" || activity.source === "health") {
+    const from = activity.healthOriginLabel;
+    return from ? `Imported from ${from}` : (activity.source === "watch" ? "Imported from a watch" : "Imported from Health Connect");
+  }
   if (activity.source === "import") {
     const fmt = String(activity.importFormat || "").toUpperCase();
     return fmt ? `Imported ${fmt} file` : "Imported from a file";
@@ -452,16 +512,21 @@ function sourceLabel(activity) {
 async function refreshHealthStatus() {
   const note = $("health-note");
   if (!note) return;
-  if (!state.settings.healthOptIn) {
-    note.textContent = "Off. Steps and calories always come from your phone's health app, never from Heldpath. Turn this on when you want workouts written to Health Connect or Apple Health.";
+  const readOn = !!state.settings.healthReadOptIn;
+  const writeOn = !!state.settings.healthWriteOptIn;
+  if (!readOn && !writeOn) {
+    note.textContent = "Off. Steps and calories always come from your phone's health app, never from Heldpath. Open Privacy & Data to turn on Health Connect read or write.";
     return;
   }
   const avail = await health.isAvailable();
+  const provider = (avail && avail.provider) || (Capacitor.getPlatform() === "ios" ? "Apple Health" : "Health Connect");
+  const bits = [];
+  if (writeOn) bits.push("finished walks and runs can be written there");
+  if (readOn) bits.push("steps and calories can be read back from it");
   if (avail.available) {
-    const provider = avail.provider || (Capacitor.getPlatform() === "ios" ? "Apple Health" : "Health Connect");
-    note.textContent = `On. Connected to ${provider}. Finished walks and runs can be written there, and steps and calories are read back from it. Nothing is estimated by Heldpath.`;
+    note.textContent = `${readOn && writeOn ? "On" : "Partly on"}. Connected to ${provider}. ${bits.join(", and ")}. Nothing is estimated by Heldpath.`;
   } else {
-    note.textContent = `On in settings, but not connected in this build. ${avail.reason}`;
+    note.textContent = `${readOn && writeOn ? "On" : "Partly on"} in Privacy & Data, but not connected in this build. ${avail.reason || ""}`.trim();
   }
 }
 
@@ -476,6 +541,8 @@ function showScreen(name) {
   if ($("map-tools")) $("map-tools").hidden = !mapScreens.has(name) || name === "insights";
   document.body.dataset.screen = name;
   document.body.classList.toggle("on-map-screen", mapScreens.has(name));
+  document.body.classList.toggle("is-builder", name === "builder");
+  if (typeof syncMapOrientationForScreen === "function") syncMapOrientationForScreen(name);
   $("tab-bar").style.display = name === "lock" || ui.hideNav ? "none" : "grid";
   if (mapScreens.has(name)) {
     requestAnimationFrame(() => map.resizeMap());
@@ -909,30 +976,84 @@ function saveCourseGoal() {
   paintCourseGoalFields(course);
 }
 
-function drawSessionOnMap(sess) {
-  map.clearOverlays();
-  map.clearMarkers();
-  const guide = (sess.coursePath && sess.coursePath.length >= 2) ? sess.coursePath : sess.coursePins;
-  if (guide && guide.length) {
-    const c = sess.courseId ? courseById(sess.courseId) : null;
-    paintCourseLegs(sess.courseLegs || (c && c.legs), guide, { id: "course-line", width: 4 });
-    if (sess.coursePins) addCoursePins(sess.coursePins);
-    if (sess.target && sess.target.stopPin) {
-      const stopLabel = sess.target.targetMeters
-        ? formatDistance(sess.target.targetMeters, units(), { digits: 2 })
-        : "End";
-      map.addPin(sess.target.stopPin, { kind: "stop", label: stopLabel });
+let liveMapGuideKey = null;
+
+function sessionGuideKey(sess) {
+  if (!sess) return "";
+  const stop = sess.target && sess.target.stopPin;
+  return [sess.courseId || "", sess.coursePins ? sess.coursePins.length : 0, stop && stop.lat, stop && stop.lon].join(":");
+}
+
+function paintCompassCalibrate(needed) {
+  const el = $("compass-calibrate-note");
+  if (!el) return;
+  el.textContent = CALIBRATE_COPY;
+  el.hidden = !needed;
+}
+
+function drawSessionOnMap(sess, { full = false, why = "fix" } = {}) {
+  if (!sess) return;
+  const key = sessionGuideKey(sess);
+  const needFull = full || liveMapGuideKey !== key;
+  if (needFull) {
+    map.clearOverlays();
+    map.clearMarkers();
+    liveMapGuideKey = key;
+    const guide = (sess.coursePath && sess.coursePath.length >= 2) ? sess.coursePath : sess.coursePins;
+    if (guide && guide.length) {
+      const c = sess.courseId ? courseById(sess.courseId) : null;
+      paintCourseLegs(sess.courseLegs || (c && c.legs), guide, { id: "course-line", width: 4 });
+      if (sess.coursePins) addCoursePins(sess.coursePins);
+      if (sess.target && sess.target.stopPin) {
+        const stopLabel = sess.target.targetMeters
+          ? formatDistance(sess.target.targetMeters, units(), { digits: 2 })
+          : "End";
+        map.addPin(sess.target.stopPin, { kind: "stop", label: stopLabel });
+      }
     }
   }
-  if (sess.track.length >= 2) map.drawRoute(sess.track, { id: "live-line", color: "#4EC3F7", width: 5 });
+  if (sess.track && sess.track.length >= 2) map.drawRoute(sess.track, { id: "live-line", color: "#4EC3F7", width: 5 });
   if (sess.offRoute && sess.wayBack && sess.wayBack.length >= 2) {
     map.drawRoute(sess.wayBack, { id: "way-back", color: "#F0C15A", width: 5, dash: true });
   }
-  const last = sess.track[sess.track.length - 1];
+  const last = sess.livePoint || (sess.track && sess.track[sess.track.length - 1]);
   if (last) {
-    map.addDot(last);
-    map.setCenter(last.lat, last.lon);
+    const heading = sess.liveHeading != null ? sess.liveHeading : last.heading;
+    const point = { ...last, heading, speed: last.speed };
+    if (typeof map.setUserDotGlide === "function") map.setUserDotGlide(point, { follow: true });
+    else {
+      map.setUserDot(point);
+      map.setCenter(point.lat, point.lon);
+    }
   }
+  paintCompassCalibrate(!!sess.needsCompassCalibration);
+}
+
+function paintMapOrientButton() {
+  const btn = $("btn-map-orient");
+  if (!btn || typeof map.getMapOrientation !== "function") return;
+  const mode = map.getMapOrientation();
+  const copy = (map.MAP_ORIENT_COPY && map.MAP_ORIENT_COPY[mode]) || map.MAP_ORIENT_COPY.north;
+  btn.textContent = copy.label;
+  btn.title = copy.title;
+  btn.setAttribute("aria-label", copy.aria);
+  btn.setAttribute("aria-pressed", mode === "heading" ? "true" : "false");
+}
+
+function toggleMapOrientation() {
+  const current = typeof map.getMapOrientation === "function" ? map.getMapOrientation() : "north";
+  const next = current === "heading" ? "north" : "heading";
+  if (ui.screen === "tracking") ui.activityOrient = next;
+  else ui.idleOrient = next;
+  map.setMapOrientation(next);
+  paintMapOrientButton();
+}
+
+function syncMapOrientationForScreen(name) {
+  if (typeof map.setMapOrientation !== "function") return;
+  if (name === "tracking") map.setMapOrientation(ui.activityOrient || "heading");
+  else if (name === "today" || name === "builder") map.setMapOrientation(ui.idleOrient || "north");
+  paintMapOrientButton();
 }
 
 function addCoursePins(pins, { builderState = null, clickable = false, endsOnly = false } = {}) {
@@ -2404,13 +2525,248 @@ function openInsights({ suggest = false } = {}) {
 }
 /* heldpath-hook: routes-heatmap end */
 
+
+function openPrivacy() {
+  setTab("settings");
+  showScreen("privacy");
+  renderPrivacy();
+}
+
+function paintPrivacySwitch(id, on) {
+  const el = $(id);
+  if (!el) return;
+  el.classList.toggle("on", !!on);
+  el.setAttribute("aria-checked", on ? "true" : "false");
+}
+
+function privacyActivityLabel(act) {
+  const when = act && (act.startedAt || act.endedAt);
+  const d = when ? new Date(when) : null;
+  const date = d && Number.isFinite(d.getTime())
+    ? d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })
+    : "Unknown date";
+  const kind = act && act.type ? String(act.type) : "activity";
+  const dist = act && Number(act.distanceMeters) > 0 ? formatDistance(act.distanceMeters, units()) : "";
+  const name = (act && (act.courseName || act.name)) || kind;
+  return { title: name, sub: [date, kind, dist].filter(Boolean).join(" · ") };
+}
+
+function renderPrivacy() {
+  if ($("privacy-share-note")) $("privacy-share-note").textContent = SHARE_ONLY_ON_TAP_NOTE;
+  if ($("privacy-google-note")) $("privacy-google-note").textContent = GOOGLE_LOCATION_NOTE;
+  if ($("privacy-health-read-note")) $("privacy-health-read-note").textContent = HEALTH_READ_NOTE;
+  if ($("privacy-health-write-note")) $("privacy-health-write-note").textContent = HEALTH_WRITE_NOTE;
+  if ($("privacy-health-background-note")) $("privacy-health-background-note").textContent = HEALTH_BACKGROUND_NOTE;
+  if ($("privacy-path-snap-note")) $("privacy-path-snap-note").textContent = PATH_SNAP_NOTE;
+  if ($("privacy-photon-note")) $("privacy-photon-note").textContent = PHOTON_NOTE;
+  if ($("privacy-overpass-note")) $("privacy-overpass-note").textContent = OVERPASS_NOTE;
+  if ($("privacy-youtube-note")) $("privacy-youtube-note").textContent = YOUTUBE_NOTE;
+  if ($("privacy-export-note")) $("privacy-export-note").textContent = (typeof EXPORT_UNENCRYPTED_WARNING === "string" ? EXPORT_UNENCRYPTED_WARNING : $("privacy-export-note").textContent);
+  paintPrivacySwitch("privacy-google-location", state.settings.googleLocationOptIn);
+  paintPrivacySwitch("privacy-health-read", state.settings.healthReadOptIn);
+  paintPrivacySwitch("privacy-health-write", state.settings.healthWriteOptIn);
+  paintPrivacySwitch("privacy-health-background", state.settings.healthBackgroundSyncOptIn);
+  paintPrivacySwitch("privacy-photon", state.settings.photonOptIn);
+  paintPrivacySwitch("privacy-overpass", state.settings.overpassOptIn);
+  paintPrivacySwitch("privacy-youtube", state.settings.youtubeOptIn);
+  paintPrivacySwitch("privacy-path-snap", state.settings.pathSnapOptIn);
+  const list = $("privacy-activity-list");
+  if (list) {
+    const acts = [...(state.activities || [])].sort((a, b) => String(b.startedAt || "").localeCompare(String(a.startedAt || "")));
+    if (!acts.length) {
+      list.innerHTML = `<p class="tiny">No activities stored on this phone.</p>`;
+    } else {
+      list.innerHTML = acts.slice(0, 40).map((a) => {
+        const lab = privacyActivityLabel(a);
+        return `<div class="privacy-activity" data-id="${escapeHtml(a.id)}">
+          <div class="meta"><strong>${escapeHtml(lab.title)}</strong><p class="tiny">${escapeHtml(lab.sub)}</p></div>
+          <button class="btn btn-danger" data-privacy-delete="${escapeHtml(a.id)}" data-testid="privacy-delete-one">Delete</button>
+        </div>`;
+      }).join("");
+    }
+  }
+  measureInventory(state).then((inv) => {
+    if (ui.screen !== "privacy") return;
+    const ul = $("privacy-inventory");
+    if (ul) {
+      ul.innerHTML = inv.rows.map((r) => {
+        const extra = r.count != null ? ` <span class="count">${r.count}</span>` : "";
+        return `<li><span>${escapeHtml(r.label)}${extra}</span><span>${escapeHtml(byteLabel(r.bytes))}</span></li>`;
+      }).join("");
+    }
+    if ($("privacy-total")) $("privacy-total").textContent = `Total on this phone: ${inv.totalLabel}. This never leaves the device unless you export it or tap Share.`;
+    const tile = inv.rows.find((r) => r.id === "tiles");
+    if ($("privacy-tile-note") && tile) {
+      $("privacy-tile-note").textContent = `Cached street tiles currently use ${byteLabel(tile.bytes)}. They are stored only on this phone. Clearing the cache removes those downloaded tiles. You can download an area again later.`;
+    }
+  }).catch(() => {});
+}
+
+function applyPrivacySettings(next) {
+  const prevGoogle = !!state.settings.googleLocationOptIn;
+  state.settings = next;
+  persist();
+  renderSettings();
+  renderPrivacy();
+  if (prevGoogle && !next.googleLocationOptIn && typeof track.setEnhancedLocation === "function") {
+    track.setEnhancedLocation(false).catch(() => {});
+  } else if (!prevGoogle && next.googleLocationOptIn && typeof track.setEnhancedLocation === "function") {
+    track.setEnhancedLocation(true).catch(() => {});
+  }
+}
+
+function bindPrivacy() {
+  if ($("btn-privacy-open")) $("btn-privacy-open").addEventListener("click", () => openPrivacy());
+  if ($("privacy-back")) $("privacy-back").addEventListener("click", () => setTab("settings"));
+  if ($("privacy-google-location")) {
+    $("privacy-google-location").addEventListener("click", () => {
+      const nextOn = !state.settings.googleLocationOptIn;
+      if (nextOn && !window.confirm(GOOGLE_LOCATION_CONSENT)) return;
+      applyPrivacySettings(setIntegration(state.settings, "googleLocationOptIn", nextOn));
+    });
+  }
+  if ($("privacy-health-read")) {
+    $("privacy-health-read").addEventListener("click", async () => {
+      const nextOn = !state.settings.healthReadOptIn;
+      applyPrivacySettings(setIntegration(state.settings, "healthReadOptIn", nextOn));
+      if (nextOn) await health.requestAccess();
+    });
+  }
+  if ($("privacy-health-write")) {
+    $("privacy-health-write").addEventListener("click", async () => {
+      const nextOn = !state.settings.healthWriteOptIn;
+      applyPrivacySettings(setIntegration(state.settings, "healthWriteOptIn", nextOn));
+      if (nextOn) await health.requestAccess();
+    });
+  }
+  if ($("privacy-health-background")) {
+    $("privacy-health-background").addEventListener("click", () => {
+      const nextOn = !state.settings.healthBackgroundSyncOptIn;
+      if (nextOn && !state.settings.healthReadOptIn) {
+        if ($("health-import-status")) $("health-import-status").textContent = "Turn on Health Connect read and import at least once before background sync.";
+        return;
+      }
+      applyPrivacySettings(setIntegration(state.settings, "healthBackgroundSyncOptIn", nextOn));
+    });
+  }
+  if ($("privacy-photon")) {
+    $("privacy-photon").addEventListener("click", () => {
+      const nextOn = !state.settings.photonOptIn;
+      if (nextOn && !window.confirm(PHOTON_CONSENT)) return;
+      applyPrivacySettings(setIntegration(state.settings, "photonOptIn", nextOn));
+      if (typeof clearPlaceSearchCache === "function") clearPlaceSearchCache();
+    });
+  }
+  if ($("privacy-overpass")) {
+    $("privacy-overpass").addEventListener("click", () => {
+      const nextOn = !state.settings.overpassOptIn;
+      if (nextOn && !window.confirm(OVERPASS_CONSENT)) return;
+      applyPrivacySettings(setIntegration(state.settings, "overpassOptIn", nextOn));
+    });
+  }
+  if ($("privacy-youtube")) {
+    $("privacy-youtube").addEventListener("click", () => {
+      const nextOn = !state.settings.youtubeOptIn;
+      if (nextOn && !window.confirm(YOUTUBE_CONSENT)) return;
+      applyPrivacySettings(setIntegration(state.settings, "youtubeOptIn", nextOn));
+    });
+  }
+  if ($("privacy-path-snap")) {
+    $("privacy-path-snap").addEventListener("click", () => {
+      applyPrivacySettings(setIntegration(state.settings, "pathSnapOptIn", !state.settings.pathSnapOptIn));
+    });
+  }
+  if ($("privacy-activity-list")) {
+    $("privacy-activity-list").addEventListener("click", (ev) => {
+      const btn = ev.target.closest("[data-privacy-delete]");
+      if (!btn) return;
+      const id = btn.getAttribute("data-privacy-delete");
+      const act = (state.activities || []).find((a) => a && a.id === id);
+      const name = (act && (act.courseName || act.name || "this activity")) || "this activity";
+      if (!window.confirm(`Delete “${name}”? This cannot be undone.`)) return;
+      const result = deleteActivityById(state, id);
+      Object.assign(state, result.state);
+      persist();
+      if ($("privacy-delete-status")) $("privacy-delete-status").textContent = result.removed ? "Activity deleted from this phone." : "That activity was not found.";
+      renderPrivacy();
+      render();
+    });
+  }
+  if ($("btn-privacy-delete-range")) {
+    $("btn-privacy-delete-range").addEventListener("click", () => {
+      const from = $("privacy-from") && $("privacy-from").value;
+      const to = $("privacy-to") && $("privacy-to").value;
+      if (!from && !to) {
+        if ($("privacy-delete-status")) $("privacy-delete-status").textContent = "Choose a start date, an end date, or both.";
+        return;
+      }
+      if (!window.confirm("Delete every activity in this date range? This cannot be undone.")) return;
+      const result = deleteActivitiesInRange(state, from, to);
+      Object.assign(state, result.state);
+      persist();
+      if ($("privacy-delete-status")) $("privacy-delete-status").textContent = result.removed
+        ? `Deleted ${result.removed} ${result.removed === 1 ? "activity" : "activities"} from this phone.`
+        : "No activities in that range.";
+      renderPrivacy();
+      render();
+    });
+  }
+  if ($("btn-privacy-delete-all")) {
+    $("btn-privacy-delete-all").addEventListener("click", () => {
+      if (!window.confirm("Delete everything stored in Heldpath on this phone? Activities, courses, plans, and goals will be removed. This cannot be undone.")) return;
+      if (!window.confirm("This really deletes all of your Heldpath data on this phone. Continue?")) return;
+      const result = deleteEverything(state);
+      Object.assign(state, result.state);
+      persist();
+      if ($("privacy-delete-status")) $("privacy-delete-status").textContent = "Everything was deleted from this phone.";
+      renderPrivacy();
+      render();
+    });
+  }
+  if ($("btn-privacy-export")) {
+    $("btn-privacy-export").addEventListener("click", async () => {
+      const status = $("privacy-export-status");
+      if (!window.confirm(EXPORT_UNENCRYPTED_WARNING + " Continue?")) return;
+      let password = "";
+      try { password = window.prompt(EXPORT_PASSWORD_PROMPT, "") || ""; } catch { password = ""; }
+      if (status) status.textContent = "Building a zip of your GPX, FIT, and JSON files on this phone…";
+      try {
+        const res = await exportAllData(state, { password });
+        if (status) {
+          status.textContent = res.ok
+            ? (res.encrypted
+              ? `Saved ${res.name}. This file is password-protected. Sharing only happens if you share that file yourself.`
+              : `Saved ${res.name || "heldpath-export.zip"} (unencrypted). Sharing only happens if you share that file yourself.`)
+            : (res.reason || "Could not save the export on this device.");
+        }
+      } catch (err) {
+        if (status) status.textContent = `Could not export: ${String(err && err.message ? err.message : err)}`;
+      }
+    });
+  }
+  if ($("btn-privacy-clear-tiles")) {
+    $("btn-privacy-clear-tiles").addEventListener("click", async () => {
+      if (!window.confirm("Clear the map tile cache on this phone? Downloaded street tiles will be removed. You can download an area again later.")) return;
+      const status = $("privacy-tile-status");
+      try {
+        await clearMapTileCache();
+        if (status) status.textContent = "Map tile cache cleared.";
+        renderPrivacy();
+      } catch (err) {
+        if (status) status.textContent = `Could not clear the cache: ${String(err && err.message ? err.message : err)}`;
+      }
+    });
+  }
+}
+
 function renderSettings() {
   document.querySelectorAll("#units-tog button").forEach((b) => {
     b.classList.toggle("active", b.dataset.units === units());
   });
   if ($("health-switch")) {
-    $("health-switch").classList.toggle("on", !!state.settings.healthOptIn);
-    $("health-switch").setAttribute("aria-checked", state.settings.healthOptIn ? "true" : "false");
+    const healthOn = !!(state.settings.healthReadOptIn && state.settings.healthWriteOptIn);
+    $("health-switch").classList.toggle("on", healthOn);
+    $("health-switch").setAttribute("aria-checked", healthOn ? "true" : "false");
   }
   if ($("auto-pause-switch")) {
     const on = state.settings.autoPause !== false;
@@ -2468,6 +2824,7 @@ function render() {
   /* heldpath-hook: routes-heatmap end */
   if (ui.screen === "goals") renderGoalsScreen();
   if (ui.screen === "settings" || ui.screen === "support") renderSettings();
+  if (ui.screen === "privacy") renderPrivacy();
   if (ui.screen === "plans") renderPlansScreen();
   if (track.getSession()) paintSessionHud(track.getSession());
 }
@@ -2740,6 +3097,20 @@ async function beginTracking(type, course, plan, targetPlan) {
   const sess = track.makeSession({ type, course, units: units(), target: targetPlan || null });
   track.setAutoPauseEnabled(state.settings.autoPause !== false);
   track.setLowPowerEnabled(!!state.settings.lowPower);
+  if (typeof track.setEnhancedLocation === "function") {
+    track.setEnhancedLocation(!!state.settings.googleLocationOptIn).catch(() => {});
+  }
+  ui.activityOrient = ui.activityOrient || "heading";
+  if (typeof map.setMapOrientation === "function") map.setMapOrientation("heading");
+  requestCompassPermission().catch(() => {});
+  if (!state.settings.batteryExemptPrompted && heldpathLocation.requestBatteryExemption) {
+    heldpathLocation.requestBatteryExemption().then((res) => {
+      if (res && (res.ok || res.prompted || res.exempt)) {
+        state.settings.batteryExemptPrompted = true;
+        persist();
+      }
+    }).catch(() => {});
+  }
   setTab("today");
   showScreen("tracking");
   paintSessionHud(sess);
@@ -2773,40 +3144,130 @@ async function pauseOrResume() {
   flushLiveSession(true);
 }
 
+let healthImportPending = null;
+
+function refreshHistoryViews() {
+  if (ui.screen === "progress") renderProgress();
+  if (ui.screen === "calendar") renderCalendar();
+  if (ui.screen === "insights") {
+    try { paintInsightsMap(); } catch { /* map may be hidden */ }
+  }
+  try { renderSettings(); } catch { /* ignore */ }
+}
+
+function paintHealthImportSources(groups, selected) {
+  const box = $("health-import-sources");
+  if (!box) return;
+  box.innerHTML = (groups || []).map((g) => {
+    const checked = selected.has(g.origin) ? "checked" : "";
+    const routes = g.withRoute === 1 ? "1 with a route" : `${g.withRoute} with a route`;
+    const count = g.sessions.length === 1 ? "1 session" : `${g.sessions.length} sessions`;
+    return `<label class="row-toggle" style="margin-top:10px;display:flex;gap:12px;align-items:flex-start">
+      <input type="checkbox" data-origin="${g.origin}" data-testid="health-origin-${g.origin}" ${checked} />
+      <div><strong>${g.label}</strong><p class="tiny">${count} · ${routes}</p></div>
+    </label>`;
+  }).join("") || `<p class="tiny">No walks, runs or rides were found in Health Connect.</p>`;
+}
+
 async function importWatchActivities() {
   const status = $("health-import-status");
-  if (!state.settings.healthOptIn) {
-    status.textContent = "Turn on health sync first so Heldpath can read workouts from the health app.";
+  if (!state.settings.healthReadOptIn) {
+    if (typeof window !== "undefined" && typeof window.confirm === "function" && !window.confirm(HEALTH_IMPORT_CONSENT)) {
+      status.textContent = "Import is off until you allow Health Connect read. You can also turn it on in Privacy & Data.";
+      return;
+    }
+    applyPrivacySettings(setIntegration(state.settings, "healthReadOptIn", true));
+  }
+  status.textContent = "Waiting for Health Connect permission…";
+  const access = await health.requestAccess();
+  if (!access.granted && access.available === false) {
+    status.textContent = access.reason || "Health Connect is not available on this phone.";
     return;
   }
-  status.textContent = "Looking for watch workouts from the last 30 days…";
-  const to = new Date();
-  const from = new Date(to.getTime() - 30 * 24 * 60 * 60 * 1000);
-  let res;
+  if (!access.granted) {
+    status.textContent = access.reason || "Health access was not granted. You can turn it on later in Health Connect.";
+    return;
+  }
+  status.textContent = "Reading walks, runs and rides already on this phone…";
+  let listed;
   try {
-    res = await health.importWatchWorkouts(from.toISOString(), to.toISOString());
+    listed = await health.listExerciseSessions();
   } catch (err) {
-    status.textContent = `Could not read watch workouts: ${String(err)}`;
+    status.textContent = `Could not read Health Connect: ${String(err)}`;
     return;
   }
-  if (!res.ok || !res.imported.length) {
-    status.textContent = res.reason || "No watch workouts found for the last 30 days.";
+  if (!listed.ok || !(listed.groups && listed.groups.length)) {
+    status.textContent = listed.reason || "No walks, runs or rides were found in Health Connect.";
     return;
   }
-  let added = 0;
-  for (const workout of res.imported) {
-    if (workout.healthId && state.activities.some((a) => a.healthId === workout.healthId)) continue;
-    state.activities.push(newActivity({ ...workout, source: "watch" }));
-    added++;
+  const selected = new Set((listed.groups || []).map((g) => g.origin));
+  healthImportPending = { listed, selected };
+  paintHealthImportSources(listed.groups, selected);
+  const sheetStatus = $("health-import-sheet-status");
+  if (sheetStatus) sheetStatus.textContent = `${listed.sessions.length} sessions found. Choose the apps to import, then Import selected.`;
+  openSheet("sheet-health-import");
+  status.textContent = "Choose which apps to import from, then import selected.";
+}
+
+async function confirmHealthImport() {
+  const status = $("health-import-status");
+  const sheetStatus = $("health-import-sheet-status");
+  if (!healthImportPending) {
+    closeSheet("sheet-health-import");
+    return;
   }
-  if (added) {
+  const box = $("health-import-sources");
+  const picked = new Set();
+  if (box) {
+    box.querySelectorAll("input[type=checkbox][data-origin]").forEach((el) => {
+      if (el.checked) picked.add(el.getAttribute("data-origin"));
+    });
+  }
+  if (!picked.size) {
+    if (sheetStatus) sheetStatus.textContent = "Select at least one app to import.";
+    return;
+  }
+  let sessions = healthImportPending.listed.sessions || [];
+  // Per-route consent for sessions the system flagged.
+  const needConsent = sessions.filter((s) => s.routeConsentNeeded && picked.has(s.healthOrigin || "unknown") && (!s.track || s.track.length < 2));
+  for (const sess of needConsent) {
+    if (sheetStatus) sheetStatus.textContent = "Android may ask you to allow a route from your health app…";
+    try {
+      const route = await health.requestExerciseRoute(sess.healthId);
+      if (route && route.ok && Array.isArray(route.track) && route.track.length >= 2) {
+        sess.track = route.track;
+        sess.routeConsentNeeded = false;
+      }
+    } catch { /* skip this route */ }
+  }
+  const result = health.applyImportedSessions(state.activities, sessions, { origins: [...picked] });
+  state.activities = result.activities;
+  state.settings.healthImportOrigins = [...picked];
+  state.settings.lastHealthImportAt = new Date().toISOString();
+  persist();
+  closeSheet("sheet-health-import");
+  healthImportPending = null;
+  refreshHistoryViews();
+  const added = result.added.length;
+  const msg = added
+    ? `Imported ${added} ${added === 1 ? "session" : "sessions"} onto this phone. They will show on the heat map, Progress and Calendar.`
+    : (result.skipped ? "Those sessions are already in Heldpath." : "Nothing was imported.");
+  if (status) status.textContent = msg;
+}
+
+async function maybeSyncHealthHistory() {
+  if (!state.settings.healthBackgroundSyncOptIn || !state.settings.healthReadOptIn) return;
+  const origins = Array.isArray(state.settings.healthImportOrigins) ? state.settings.healthImportOrigins : [];
+  if (!origins.length) return;
+  try {
+    const listed = await health.listExerciseSessions({ from: state.settings.lastHealthImportAt || undefined });
+    if (!listed.ok || !listed.sessions.length) return;
+    const result = health.applyImportedSessions(state.activities, listed.sessions, { origins });
+    if (!result.added.length) return;
+    state.activities = result.activities;
+    state.settings.lastHealthImportAt = new Date().toISOString();
     persist();
-    if (ui.screen === "progress") renderProgress();
-    if (ui.screen === "calendar") renderCalendar();
-  }
-  status.textContent = added
-    ? `Imported ${added} watch ${added === 1 ? "workout" : "workouts"}. Steps and calories came from the health app where it had them.`
-    : "Those watch workouts are already in Heldpath.";
+  } catch { /* optional, stay quiet */ }
 }
 
 async function finishTracking() {
@@ -2846,6 +3307,12 @@ async function confirmTrimEnd(trim) {
 
 async function completeSession(sess) {
   const course = sess.courseId ? courseById(sess.courseId) : null;
+  const rawTrack = (sess.rawTrack && sess.rawTrack.length) ? sess.rawTrack : (sess.track || []);
+  let displayTrack = (state.settings.pathSnapOptIn && (sess.coursePath || sess.coursePins))
+    ? snapTrackToPath(sess.track, sess.coursePath || sess.coursePins)
+    : (sess.track || []);
+  // An empty filtered track (the old lag bug) must not drop the raw GPS path.
+  if (!Array.isArray(displayTrack) || displayTrack.length < 2) displayTrack = rawTrack;
   const act = newActivity({
     type: sess.type,
     courseId: sess.courseId,
@@ -2854,33 +3321,38 @@ async function completeSession(sess) {
     endedAt: new Date().toISOString(),
     distanceMeters: activityDistanceMeters(sess),
     elapsedSec: sess.elapsedSec,
-    track: sess.track,
+    track: displayTrack,
+    rawTrack,
     source: "phone",
-    ...elevationFields(sess.track),
+    ...elevationFields(displayTrack),
   });
   if (act.distanceMeters > 20 || act.elapsedSec > 20) {
     let legResult = null;
     if (course) legResult = splits.updateCourseLegPbs(course, act);
 
-    if (state.settings.healthOptIn) {
+    if (state.settings.healthWriteOptIn || state.settings.healthReadOptIn) {
       try {
-        const write = await health.writeWorkout(act);
-        act.healthSync = {
-          written: !!write.written,
-          status: write.status,
-          reason: write.reason || null,
-          provider: write.provider || null,
-        };
-        const reading = await health.readStepsAndCalories(act.startedAt, act.endedAt);
-        if (reading.ok && (reading.steps != null || reading.calories != null)) {
-          // Values come straight from Health Connect / Apple Health.
-          act.health = {
-            steps: reading.steps,
-            calories: reading.calories,
-            provider: reading.provider || null,
+        act.healthSync = { written: false, status: "skipped", reason: null, provider: null };
+        if (state.settings.healthWriteOptIn) {
+          const write = await health.writeWorkout(act);
+          act.healthSync = {
+            written: !!write.written,
+            status: write.status,
+            reason: write.reason || null,
+            provider: write.provider || null,
           };
-        } else if (!reading.ok) {
-          act.healthSync.readReason = reading.reason || null;
+        }
+        if (state.settings.healthReadOptIn) {
+          const reading = await health.readStepsAndCalories(act.startedAt, act.endedAt);
+          if (reading.ok && (reading.steps != null || reading.calories != null)) {
+            act.health = {
+              steps: reading.steps,
+              calories: reading.calories,
+              provider: reading.provider || null,
+            };
+          } else if (!reading.ok) {
+            act.healthSync.readReason = reading.reason || null;
+          }
         }
       } catch (err) {
         act.healthSync = { written: false, status: "error", reason: String(err) };
@@ -3691,16 +4163,29 @@ function bind() {
     });
   }
   $("health-switch").addEventListener("click", async () => {
-    const next = !state.settings.healthOptIn;
-    state.settings.healthOptIn = next;
+    const next = !(state.settings.healthReadOptIn && state.settings.healthWriteOptIn);
+    state.settings = setIntegration(state.settings, "healthOptIn", next);
     persist();
     renderSettings();
+    if (ui.screen === "privacy") renderPrivacy();
     if (next) {
       const access = await health.requestAccess();
       if (access.status === "granted") renderSettings();
     }
   });
   $("btn-health-import").addEventListener("click", importWatchActivities);
+  if ($("btn-health-select-all")) {
+    $("btn-health-select-all").addEventListener("click", () => {
+      const box = $("health-import-sources");
+      if (!box) return;
+      const boxes = [...box.querySelectorAll("input[type=checkbox][data-origin]")];
+      const allOn = boxes.length && boxes.every((el) => el.checked);
+      boxes.forEach((el) => { el.checked = !allOn; });
+    });
+  }
+  if ($("btn-health-import-confirm")) $("btn-health-import-confirm").addEventListener("click", confirmHealthImport);
+  if ($("btn-health-import-cancel")) $("btn-health-import-cancel").addEventListener("click", () => closeSheet("sheet-health-import"));
+  bindPrivacy();
   $("btn-summary-done").addEventListener("click", () => {
     ui.hideNav = false;
     setTab("today");
@@ -3863,16 +4348,17 @@ if ($("btn-pin-set-end")) $("btn-pin-set-end").addEventListener("click", () => {
       if (msg) {
         msg.textContent = res.ok
           ? "Thank you. This $5 donation (" + SUPPORT_PRODUCT_ID + ") is recorded as a stub until Play Billing is wired. Nothing is unlocked, and you never have to donate to use the app."
-          : "Donation could not be started.";
+          : (res && res.reason === "coming-soon" ? BILLING_COMING_SOON : "Donation could not be started.");
       }
     });
   }
   if ($("btn-locate-me")) {
-    $("btn-locate-me").addEventListener("click", () => locateUser({ animate: true }));
+    $("btn-locate-me").addEventListener("click", () => { if (typeof map.setFollowPaused === "function") map.setFollowPaused(false); locateUser({ animate: true }); });
   }
   if ($("btn-map-style")) {
     $("btn-map-style").addEventListener("click", () => toggleMapStyle());
   }
+  if ($("btn-map-orient")) $("btn-map-orient").addEventListener("click", () => toggleMapOrientation());
   const openNewGoal = () => openNewGoalSheet();
   if ($("btn-new-goal")) $("btn-new-goal").addEventListener("click", openNewGoal);
   if ($("btn-today-new-goal")) $("btn-today-new-goal").addEventListener("click", openNewGoal);
@@ -3929,6 +4415,8 @@ function isOnline() {
 }
 
 function paintMapStyleButton() {
+  if (typeof paintMapOrientButton === "function") paintMapOrientButton();
+
   const sat = (state.settings.mapStyle || "map") === "satellite";
   const btn = $("btn-map-style");
   if (btn) {
@@ -3962,10 +4450,49 @@ function toggleMapStyle() {
   paintMapStyleButton();
 }
 
+let mapHeading = createHeadingTracker();
+let mapCompassStop = null;
+
+function ensureMapCompass() {
+  if (mapCompassStop) return;
+  requestCompassPermission().catch(() => {});
+  mapCompassStop = startCompassWatch((reading) => {
+    mapHeading = updateHeadingTracker(mapHeading, { compass: reading, at: Date.now() });
+    if (track.getSession()) return;
+    if (!mapHeading.shouldRedraw && mapHeading.allowMapRotate === false) return;
+    const last = typeof map.getLastUserCoord === "function" ? map.getLastUserCoord() : null;
+    if (last) {
+      const view = { ...last, heading: mapHeading.heading, allowMapRotate: mapHeading.allowMapRotate };
+      if (typeof map.getMapOrientation === "function" && typeof map.setUserDotGlide === "function") {
+        map.setUserDotGlide(view, { follow: map.getMapOrientation() === "heading" && !map.isFollowPaused() });
+      } else map.setUserDot(view);
+    }
+    paintCompassCalibrate(mapHeading.needsCalibration);
+  });
+}
+
 function onLiveFix(fix) {
   const saved = rememberLocation(fix);
   const point = saved || fix;
-  if (point) map.setUserDot(point);
+  if (!point) return;
+  mapHeading = updateHeadingTracker(mapHeading, {
+    gpsHeading: point.heading,
+    speedMps: point.speed,
+    accuracyM: point.accuracy,
+    at: point.at || Date.now(),
+  });
+  const view = {
+    ...point,
+    heading: mapHeading.heading != null ? mapHeading.heading : point.heading,
+    speed: point.speed,
+    allowMapRotate: mapHeading.allowMapRotate,
+  };
+  const follow = typeof map.getMapOrientation === "function"
+    && map.getMapOrientation() === "heading"
+    && typeof map.isFollowPaused === "function"
+    && !map.isFollowPaused();
+  if (typeof map.setUserDotGlide === "function") map.setUserDotGlide(view, { follow });
+  else map.setUserDot(view);
 }
 
 function maybeStartLiveLocation() {
@@ -3974,6 +4501,7 @@ function maybeStartLiveLocation() {
   const allowed = !!state.settings.locationDisclosureAccepted || !!known;
   if (!allowed) return;
   if (locationWatchActive()) return;
+  ensureMapCompass();
   startLocationWatch({
     onFix: onLiveFix,
     onError: () => {},
@@ -4001,11 +4529,16 @@ function applyLaunchView(point, { animate = false } = {}) {
   return view;
 }
 
+let lastKnownSavedAt = 0;
 function rememberLocation(fix) {
   const saved = normalizeFix(fix);
   if (!saved) return null;
   state.settings.lastKnown = saved;
-  persist();
+  const now = Date.now();
+  if (now - lastKnownSavedAt > 15000) {
+    lastKnownSavedAt = now;
+    persist();
+  }
   return saved;
 }
 
@@ -4158,7 +4691,7 @@ function bindPlaceSearch(input, list) {
     const ac = new AbortController();
     inflight = ac;
     try {
-      const places = await searchPlaces(q, { limit: 5, signal: ac.signal });
+      const places = await searchPlaces(q, { limit: 5, signal: ac.signal, map: map.getMap && map.getMap() });
       if (inflight !== ac) return;
       renderHits(places);
     } catch (err) {
@@ -5157,7 +5690,7 @@ window.HeldpathTest = {
       showFreeRouteMap(built);
       openSheet("sheet-save-free");
     } else if (name === "builder" || name === "routing-builder" || name === "routing-straight" || name === "routing-loop") {
-      ui.builderSheetExpanded = false;
+      ui.builderSheetExpanded = name !== "builder";
       await ensureWalkGraph({ lat: 43.7672, lon: 11.2543 });
       if (name === "routing-loop") {
         const center = { lat: 43.7672, lon: 11.2543 };
@@ -5176,6 +5709,9 @@ window.HeldpathTest = {
           { lat: 43.76956, lon: 11.25586, role: "via" },
           { lat: 43.77313, lon: 11.25596, role: "end" },
         ];
+        if (name === "routing-straight") {
+          ui.builderPins = ui.builderPins.map((p, i) => i === 0 ? p : { ...p, pathMode: "off" });
+        }
       } else {
         const pins = (state.courses[0] && state.courses[0].pins) || arnoLoopPins();
         ui.builderPins = pins.map((p) => ({ ...p }));
@@ -5183,12 +5719,15 @@ window.HeldpathTest = {
       showScreen("builder");
       setTab("today");
       showScreen("builder");
+      document.body.classList.add("is-builder");
+      renderBuilder();
+      await waitBuilderRouted(20000);
       renderBuilder();
       const fit = (ui.builderRoute && ui.builderRoute.path && ui.builderRoute.path.length >= 2)
         ? ui.builderRoute.path
-        : ui.builderPins;
-      const pad = { top: 56, bottom: 580, left: 56, right: 56 };
-      map.whenReady(() => { renderBuilder(); if (fit && fit.length) map.fitBounds(fit, pad); });
+        : (ui.builder && ui.builder.pins) || ui.builderPins;
+      fitBuilderCourse(fit, { maxZoom: 16 });
+      map.whenReady(() => { renderBuilder(); fitBuilderCourse(fit, { maxZoom: 16 }); });
     } else if (name === "courses") setTab("courses");
     else if (name === "courses-empty") { state.courses = []; setTab("courses"); }
     else if (name === "calendar") { ui.cal = startOfDay(new Date()); ui.selectedDay = isoDate(new Date()); setTab("calendar"); }
@@ -5300,6 +5839,33 @@ window.HeldpathTest = {
       await window.HeldpathTest.show("builder", opt);
       setBuilderSheet(true);
       maybeShowBuilderExplainer({ force: true });
+    } else if (name === "builder-gulfport" || name === "routing-gulfport") {
+      state.settings.overpassOptIn = false;
+      state.settings.photonOptIn = false;
+      state.settings.locationDisclosureAccepted = true;
+      setPrivacyRuntime(state.settings);
+      persist();
+      const town = US_TOWN_ROUTES.gulfport;
+      const padDeg = 0.006;
+      const box = {
+        west: town.loopCenter.lon - padDeg,
+        south: town.loopCenter.lat - padDeg,
+        east: town.loopCenter.lon + padDeg,
+        north: town.loopCenter.lat + padDeg,
+      };
+      try {
+        await downloadArea(box, { name: "Gulfport, MS", id: "area-gulfport-offline" });
+      } catch { /* hook still shows the builder; route test will fail if the pack is missing */ }
+      await showUsTownBuilderLoop({ ...town, meters: 1609 });
+      setBuilderSheet(true);
+      ui.builderSheetExpanded = true;
+      renderBuilder();
+      await waitBuilderRouted(20000);
+      renderBuilder();
+      const fit = (ui.builderRoute && ui.builderRoute.path && ui.builderRoute.path.length >= 2)
+        ? ui.builderRoute.path
+        : (ui.builder && ui.builder.pins) || town.loopPins;
+      fitBuilderCourse(fit, { maxZoom: 16.4 });
     } else if (
       name === "builder-collapsed" || name === "builder-expanded"
       || name === "builder-collapsed-gulfport" || name === "builder-expanded-gulfport"
@@ -5896,6 +6462,28 @@ window.HeldpathTest = {
       showResumeSheet(snap);
     }
     else if (name === "settings") setTab("settings");
+    else if (name === "settings-privacy") {
+      const fixture = makeSectorFixture();
+      const act = activityFromSectorFixture(fixture);
+      const older = newActivity({
+        type: "walk",
+        courseName: "Arno walk",
+        startedAt: "2026-10-02T08:10:00.000Z",
+        endedAt: "2026-10-02T08:42:00.000Z",
+        distanceMeters: 3200,
+        elapsedSec: 32 * 60,
+        track: fixture.track.slice(0, 40),
+        source: "phone",
+      });
+      state.activities = [act, older, ...(state.activities || []).filter((a) => a && a.id !== act.id && a.id !== older.id)];
+      state.courses = [fixture.course, ...(state.courses || []).filter((c) => c.id !== fixture.course.id)];
+      state.settings.googleLocationOptIn = false;
+      state.settings.healthReadOptIn = false;
+      state.settings.healthWriteOptIn = false;
+      state.settings.pathSnapOptIn = false;
+      persist();
+      openPrivacy();
+    }
     else if (name === "low-signal") {
       const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
       if (!state.courses.length) state.courses.push(course);
@@ -5946,6 +6534,43 @@ window.HeldpathTest = {
       });
       showSummary(act, course, null);
       openSummaryDetails();
+    } else if (name === "tracking-heading" || name === "tracking-north") {
+      const start = { lat: 43.76956, lon: 11.25584 };
+      const heading = 40;
+      const made = track.makeSession({ type: "walk", units: "mi" });
+      made.track = [
+        { lat: start.lat, lon: start.lon, t: 0, heading, speed: 1.4 },
+        { lat: start.lat + 0.00035, lon: start.lon + 0.00028, t: 20, heading, speed: 1.4 },
+        { lat: start.lat + 0.0007, lon: start.lon + 0.00055, t: 40, heading, speed: 1.4 },
+      ];
+      made.livePoint = { ...made.track[made.track.length - 1], heading, speed: 1.4 };
+      made.liveHeading = heading;
+      made.distanceMeters = 110;
+      made.elapsedSec = 40;
+      ui.activityOrient = name === "tracking-north" ? "north" : "heading";
+      rememberLocation({ ...start, heading, at: Date.now() });
+      setTab("today");
+      showScreen("tracking");
+      paintSessionHud(made);
+      const aim = () => {
+        if (typeof map.setFollowPaused === "function") map.setFollowPaused(false);
+        if (typeof map.setMapOrientation === "function") map.setMapOrientation(ui.activityOrient, { apply: false });
+        drawSessionOnMap(made, { full: true });
+        const view = { ...made.livePoint, heading };
+        map.setUserDot(view);
+        const m = map.getMap && map.getMap();
+        if (m) {
+          m.jumpTo({
+            center: [view.lon, view.lat],
+            zoom: 16,
+            bearing: ui.activityOrient === "heading" ? heading : 0,
+            pitch: 0,
+          });
+        }
+        paintMapOrientButton();
+      };
+      map.whenReady(aim);
+      aim();
     } else if (name === "tracking-lowpower") {
       const course = state.courses[0] || newCourse({ name: "Arno Loop", pins: arnoLoopPins() });
       if (!state.courses.length) state.courses.push(course);
@@ -6141,9 +6766,21 @@ window.HeldpathTest = {
 };
 
 async function init() {
+  onPrivacyRuntimeChange((s) => {
+    state.settings = s;
+    persist();
+    try { renderPrivacy(); } catch { /* screen may not be open */ }
+  });
   applyPlatformVisibility();
   listenForInstallPrompt();
   registerServiceWorker();
+  const sig = await verifyAppSignature();
+  if (sig && sig.ok === false && !sig.skipped) {
+    state = emptyState();
+  } else {
+    state = await hydrateState();
+  }
+  setPrivacyRuntime(state.settings);
   if (params.has("demo") || params.get("seed") === "1") {
     state = resetState();
     seedDemo(state);
@@ -6227,6 +6864,7 @@ async function init() {
     if (isResumable(pending)) showResumeSheet(pending);
     else await locateAndOfferMapChoice();
   }
+  maybeSyncHealthHistory();
 }
 
 init();

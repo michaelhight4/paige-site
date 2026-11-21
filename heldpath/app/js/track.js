@@ -18,8 +18,15 @@ import { updateOffRoute } from "./off_route.js";
 import { maybeDetectStart, progressFromStart } from "./start_detect.js";
 import { nativeWatcherOptions, webWatchOptions, shouldAcceptFix } from "./low_power.js";
 import { fuseElevation, heightFromPressure } from "./elevation.js";
+import { createGpsFilter, applyGpsFix, applyCadenceHold } from "./gps_filter.js";
+import { createHeadingTracker, updateHeadingTracker, startCompassWatch, requestCompassPermission } from "./heading.js";
+import * as heldpathLocation from "./heldpath_location.js";
 
 const BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
+
+let enhancedLocation = false;
+let compassStop = null;
+let pluginHandle = null;
 
 let watcherId = null;
 let timer = null;
@@ -69,6 +76,11 @@ export function makeSession({ type, course, units, target } = {}) {
     pausedAcc: 0,
     pauseStarted: null,
     track: [],
+    rawTrack: [],
+    gpsFilter: createGpsFilter({ type: normalizeSport(type) }),
+    headingTracker: createHeadingTracker(),
+    livePoint: null,
+    liveHeading: null,
     distanceMeters: 0,
     elapsedSec: 0,
     pauseReason: null,
@@ -145,10 +157,12 @@ export function restoreSession(saved, at = Date.now()) {
   return tickElapsed(at);
 }
 
-export function pushPoint(lat, lon, at = Date.now(), ele = null) {
+export function pushPoint(lat, lon, at = Date.now(), ele = null, extras = {}) {
   if (!session || session.paused) return session;
   const pt = { lat, lon, t: session.elapsedSec, at: new Date(at).toISOString() };
   if (ele != null && Number.isFinite(Number(ele))) pt.ele = Number(ele);
+  if (Number.isFinite(Number(extras.heading)) && Number(extras.heading) >= 0) pt.heading = Number(extras.heading);
+  if (Number.isFinite(Number(extras.speed)) && Number(extras.speed) >= 0) pt.speed = Number(extras.speed);
   const last = session.track[session.track.length - 1];
   if (last) {
     const d = haversineMeters(last, pt);
@@ -505,10 +519,55 @@ function fuseFixElevation(extras = {}) {
 
 export function noteFix(lat, lon, at = Date.now(), extras = {}) {
   if (!session) return session;
+  const raw = {
+    lat,
+    lon,
+    at,
+    accuracy: extras.accuracy,
+    speed: extras.speed,
+    heading: extras.heading,
+    altitude: extras.altitude,
+  };
+  if (!session.rawTrack) session.rawTrack = [];
+  if (Number.isFinite(Number(lat)) && Number.isFinite(Number(lon))) {
+    const rawPt = { lat, lon, t: session.elapsedSec, at: new Date(at).toISOString() };
+    if (Number.isFinite(Number(extras.accuracy))) rawPt.accuracy = Number(extras.accuracy);
+    if (Number.isFinite(Number(extras.altitude))) rawPt.ele = Number(extras.altitude);
+    if (Number.isFinite(Number(extras.speed))) rawPt.speed = Number(extras.speed);
+    if (Number.isFinite(Number(extras.heading)) && Number(extras.heading) >= 0) rawPt.heading = Number(extras.heading);
+    session.rawTrack.push(rawPt);
+  }
+  if (!session.gpsFilter) session.gpsFilter = createGpsFilter({ type: session.type });
+  if (!session.headingTracker) session.headingTracker = createHeadingTracker();
+  updateHeadingTracker(session.headingTracker, {
+    compass: extras.compassHeading != null
+      ? { heading: extras.compassHeading, sensorAccuracy: extras.sensorAccuracy, accuracyDeg: extras.accuracyDeg }
+      : null,
+    gpsHeading: extras.heading,
+    speedMps: extras.speed,
+    accuracyM: extras.accuracy,
+    stepping: extras.stepping != null ? extras.stepping : (Number(extras.cadenceHz) > 0 ? true : undefined),
+    at,
+  });
+  let applied = applyGpsFix(session.gpsFilter, raw);
+  let used = applied.ok && applied.filtered ? applied.filtered : null;
+  if (!used && Number(extras.cadenceHz) > 0) {
+    used = applyCadenceHold(session.gpsFilter, {
+      cadenceHz: extras.cadenceHz,
+      strideM: session.type === "run" ? 0.9 : 0.7,
+      at,
+      heading: session.headingTracker.heading,
+    });
+  }
+  if (used && session.headingTracker.heading != null) used.heading = session.headingTracker.heading;
+  session.liveHeading = session.headingTracker.heading;
+  session.livePoint = used || session.livePoint;
+  session.needsCompassCalibration = !!session.headingTracker.needsCalibration;
+  if (!used) return session;
   const ele = fuseFixElevation(extras || {});
   const before = session.paused;
   const reason = session.pauseReason;
-  const decision = considerAutoPause(autoWatch, autoInput(at, { lat, lon }));
+  const decision = considerAutoPause(autoWatch, autoInput(at, { lat: used.lat, lon: used.lon }));
   applyAutoDecision(decision, at);
   if (decision === "resume" && reason === "auto") {
     const from = autoWatch.movingSince || at;
@@ -516,9 +575,32 @@ export function noteFix(lat, lon, at = Date.now(), extras = {}) {
       if (s.at >= from) pushPoint(s.lat, s.lon, s.at);
     }
   } else if (!session.paused) {
-    pushPoint(lat, lon, at, ele);
+    pushPoint(used.lat, used.lon, at, ele, { heading: used.heading, speed: used.speed });
   }
   return session;
+}
+
+export function noteCompass(reading, at = Date.now()) {
+  if (!session) return session;
+  if (!session.headingTracker) session.headingTracker = createHeadingTracker();
+  updateHeadingTracker(session.headingTracker, { compass: reading, at });
+  session.liveHeading = session.headingTracker.heading;
+  session.needsCompassCalibration = !!session.headingTracker.needsCalibration;
+  if (session.livePoint) session.livePoint = { ...session.livePoint, heading: session.liveHeading };
+  return session;
+}
+
+export async function setEnhancedLocation(on) {
+  enhancedLocation = !!on;
+  const res = await heldpathLocation.setEnhanced(on);
+  if (session && onUpdate) {
+    try { await restartWatching(); } catch { /* keep flag even if restart fails */ }
+  }
+  return res;
+}
+
+export function isEnhancedLocation() {
+  return !!enhancedLocation;
 }
 
 /** Timer tick so auto-pause still fires when the GPS distance filter is quiet. */
@@ -558,39 +640,54 @@ export async function startWatching(handler) {
     try {
       const payload = notificationPayload(session);
       await bindNotificationActions();
-      watcherId = await BackgroundGeolocation.addWatcher(
-        nativeWatcherOptions({
-          backgroundMessage: payload.body,
-          backgroundTitle: payload.title,
-          // The APK worker reads these in docs/NATIVE_TRACKING.md. Extra keys
-          // are ignored by plugin versions that do not know them.
-          notificationId: payload.id,
-          notificationActions: payload.actions,
-          notificationDeepLink: payload.deepLink,
-          notificationOngoing: payload.ongoing,
-        }, lowPowerEnabled),
-        (location, error) => {
-          if (error) {
-            if (onUpdate) onUpdate(session, "error", error);
-            return;
-          }
-          if (!location || !session) return;
-          const at = location.time || Date.now();
-          const next = { lat: location.latitude, lon: location.longitude, at };
-          if (!shouldAcceptFix(lastAcceptedFix, next, { lowPower: lowPowerEnabled })) return;
-          lastAcceptedFix = next;
-          noteFix(next.lat, next.lon, next.at, {
-            altitude: location.altitude,
-            altitudeAccuracy: location.altitudeAccuracy,
-          });
-          tickElapsed();
-          if (onUpdate) onUpdate(session, "fix");
-          refreshNotification(session);
-        }
-      );
+      if (heldpathLocation.isHeldpathLocationAvailable()) {
+        pluginHandle = await heldpathLocation.addWatcher(
+          {
+            enhanced: enhancedLocation,
+            lowPower: lowPowerEnabled,
+            background: true,
+            backgroundTitle: payload.title,
+            backgroundMessage: payload.body,
+            intervalMs: lowPowerEnabled ? 10000 : 1000,
+            distanceFilter: 0,
+          },
+          (fix) => {
+            if (!fix || !session) return;
+            const next = { lat: fix.lat, lon: fix.lon, at: fix.at };
+            if (!shouldAcceptFix(lastAcceptedFix, next, { lowPower: lowPowerEnabled })) return;
+            lastAcceptedFix = next;
+            noteFix(next.lat, next.lon, next.at, {
+              altitude: fix.altitude,
+              altitudeAccuracy: fix.altitudeAccuracy,
+              accuracy: fix.accuracy,
+              speed: fix.speed,
+              heading: fix.heading,
+              compassHeading: fix.compassHeading,
+              sensorAccuracy: fix.sensorAccuracy,
+              cadenceHz: fix.cadenceHz,
+            });
+            tickElapsed();
+            if (onUpdate) onUpdate(session, "fix");
+            refreshNotification(session);
+          },
+          (error) => { if (onUpdate) onUpdate(session, "error", error); },
+          (heading) => {
+            if (!session || !heading) return;
+            noteCompass({
+              heading: heading.heading ?? heading.compassHeading,
+              sensorAccuracy: heading.sensorAccuracy,
+            });
+            if (onUpdate) onUpdate(session, "heading");
+          },
+        );
+        watcherId = pluginHandle && pluginHandle.id;
+        lastNotificationBody = payload.body;
+        lastNotificationAt = Date.now();
+        return { ok: true, native: true, gpsOnly: !enhancedLocation };
+      }
       lastNotificationBody = payload.body;
       lastNotificationAt = Date.now();
-      return { ok: true, native: true };
+      return { ok: false, native: true, error: "HeldpathLocation plugin is not available." };
     } catch (err) {
       return { ok: false, native: true, error: String(err) };
     }
@@ -606,6 +703,9 @@ export async function startWatching(handler) {
         lastAcceptedFix = next;
         noteFix(next.lat, next.lon, next.at, {
           altitude: pos.coords.altitude,
+          accuracy: pos.coords.accuracy,
+          speed: pos.coords.speed,
+          heading: pos.coords.heading,
         });
         tickElapsed();
         if (onUpdate) onUpdate(session, "fix");
@@ -614,6 +714,13 @@ export async function startWatching(handler) {
       webWatchOptions(lowPowerEnabled)
     );
   }
+  try {
+    requestCompassPermission().catch(() => {});
+    compassStop = startCompassWatch((reading) => {
+      noteCompass(reading);
+      if (onUpdate) onUpdate(session, "heading");
+    });
+  } catch { /* no browser compass */ }
   return { ok: true, native: false };
 }
 
@@ -634,7 +741,14 @@ export async function stopWatching() {
     try { await notificationListener.remove(); } catch { /* ignore */ }
   }
   notificationListener = null;
-  if (Capacitor.isNativePlatform() && watcherId) {
+  if (compassStop) {
+    try { compassStop(); } catch { /* ignore */ }
+    compassStop = null;
+  }
+  if (pluginHandle) {
+    try { await heldpathLocation.removeWatcher(pluginHandle); } catch { /* ignore */ }
+    pluginHandle = null;
+  } else if (Capacitor.isNativePlatform() && watcherId) {
     try {
       await BackgroundGeolocation.removeWatcher({ id: watcherId });
     } catch { /* ignore */ }

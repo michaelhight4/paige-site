@@ -48,6 +48,22 @@ function pointTime(activity) {
   return Number.isFinite(t) ? t : null;
 }
 
+/** Prefer the displayed track; fall back to raw GPS or a stored path so empty lag-bug tracks still paint. */
+export function activityRoute(activity) {
+  const candidates = [
+    activity && activity.track,
+    activity && activity.rawTrack,
+    activity && activity.path,
+  ];
+  let best = [];
+  for (const list of candidates) {
+    if (!Array.isArray(list)) continue;
+    const pts = list.filter(validPoint);
+    if (pts.length > best.length) best = pts;
+  }
+  return best;
+}
+
 function rangeStart(range, now) {
   const preset = RANGE_FILTERS.find((r) => r.id === range);
   if (!preset || preset.days == null) return null;
@@ -62,7 +78,7 @@ export function filterActivities(activities, opts = {}) {
     : (opts.range ? rangeStart(opts.range, opts.now) : null);
   const until = opts.until != null ? Date.parse(opts.until) : null;
   return (activities || []).filter((a) => {
-    if (!a || !Array.isArray(a.track) || a.track.length < 2) return false;
+    if (!a || activityRoute(a).length < 2) return false;
     if (sport !== "all" && sportOf(a) !== sport) return false;
     const t = pointTime(a);
     if (Number.isFinite(since) && t != null && t < since) return false;
@@ -91,7 +107,7 @@ export function heatGrid(activities, opts = {}) {
   const cells = new Map();
   let segments = 0;
   for (const a of activities || []) {
-    const pts = (a.track || []).filter(validPoint);
+    const pts = activityRoute(a);
     for (let i = 1; i < pts.length; i++) {
       const p = pts[i - 1];
       const q = pts[i];
@@ -115,7 +131,7 @@ export function heatmapFeatureCollection(activities, opts = {}) {
   const features = [];
   const maxFeatures = Number(opts.maxFeatures) > 0 ? Number(opts.maxFeatures) : 12000;
   for (const a of activities || []) {
-    const pts = (a.track || []).filter(validPoint);
+    const pts = activityRoute(a);
     const sport = sportOf(a);
     const stride = pts.length > 3000 ? Math.ceil(pts.length / 3000) : 1;
     for (let i = 1; i < pts.length; i += stride) {
@@ -155,7 +171,7 @@ export function heatmapSummary(activities, opts = {}) {
   const sports = { walk: 0, run: 0, ride: 0 };
   for (const a of list) {
     const stored = Number(a.distanceMeters) || 0;
-    meters += stored > 0 ? stored : pathLengthMeters((a.track || []).filter(validPoint));
+    meters += stored > 0 ? stored : pathLengthMeters(activityRoute(a));
     sports[sportOf(a)] += 1;
   }
   const repeated = Array.from(grid.cells.values()).filter((n) => n > 1).length;
@@ -276,5 +292,5 @@ export function clearHeatmap(map) {
 }
 
 export function heatmapEmptyCopy() {
-  return "Your heatmap fills in as you finish walks, runs and rides. It stays on this phone — there is no community map and nothing is uploaded.";
+  return "The heat map fills from walks, runs and rides recorded in Heldpath, or imported from Health Connect, once they include a route. It stays on this phone — there is no community map and nothing is uploaded. If you already walked with another app on this phone, import those sessions from Settings.";
 }

@@ -1,11 +1,20 @@
 import { uid } from "./util.js";
 import { normalizeSport } from "./sport.js";
+import { isSecureStoreAvailable, secureGet, secureSet, secureRemove } from "./secure_store.js";
 
 const KEY = "heldpath.v1";
 
 const DEFAULT_SETTINGS = {
   units: "mi",
   healthOptIn: false,
+  healthReadOptIn: false,
+  healthWriteOptIn: false,
+  googleLocationOptIn: false,
+  pathSnapOptIn: false,
+  onlineLookupOptIn: false,
+  photonOptIn: false,
+  overpassOptIn: false,
+  youtubeOptIn: false,
   mapPackInstalled: false,
   seenMapPrompt: false,
   locationDisclosureAccepted: false,
@@ -21,6 +30,9 @@ const DEFAULT_SETTINGS = {
   weightUnit: null, // "lb" | "kg" — null means pick from locale / units
   bodyKg: null,
   lastSport: "walk", // walk | run | ride — the start picker default
+  healthBackgroundSyncOptIn: false,
+  healthImportOrigins: [],
+  lastHealthImportAt: null,
 };
 
 export function emptyState() {
@@ -84,6 +96,22 @@ export function migrateSettings(settings) {
   const s = { ...(settings || {}) };
   delete s.followPaths;
   delete s.routeMode;
+  if (s.healthReadOptIn == null && s.healthWriteOptIn == null && s.healthOptIn) {
+    s.healthReadOptIn = true;
+    s.healthWriteOptIn = true;
+  }
+  if (s.healthReadOptIn == null) s.healthReadOptIn = false;
+  if (s.healthWriteOptIn == null) s.healthWriteOptIn = false;
+  if (s.healthBackgroundSyncOptIn == null) s.healthBackgroundSyncOptIn = false;
+  if (!Array.isArray(s.healthImportOrigins)) s.healthImportOrigins = [];
+  if (s.lastHealthImportAt == null) s.lastHealthImportAt = null;
+  if (s.googleLocationOptIn == null) s.googleLocationOptIn = false;
+  if (s.pathSnapOptIn == null) s.pathSnapOptIn = false;
+  if (s.onlineLookupOptIn == null) s.onlineLookupOptIn = false;
+  if (s.photonOptIn == null) s.photonOptIn = !!s.onlineLookupOptIn;
+  if (s.overpassOptIn == null) s.overpassOptIn = !!s.onlineLookupOptIn;
+  if (s.youtubeOptIn == null) s.youtubeOptIn = false;
+  s.healthOptIn = !!(s.healthReadOptIn && s.healthWriteOptIn);
   return s;
 }
 
@@ -106,30 +134,25 @@ export function migrateCourses(courses) {
   });
 }
 
-export function loadState() {
-  try {
-    const raw = localStorage.getItem(KEY);
-    if (!raw) return emptyState();
-    const parsed = JSON.parse(raw);
-    return {
-      ...emptyState(),
-      ...parsed,
-      settings: migrateSettings({ ...DEFAULT_SETTINGS, ...(parsed.settings || {}) }),
-      courses: migrateCourses(parsed.courses || []),
-      activities: parsed.activities || [],
-      plans: parsed.plans || [],
-      planLibrary: parsed.planLibrary || [],
-      planCredits: parsed.planCredits || 0,
-      groupRuns: parsed.groupRuns || [],
-      goals: migrateGoals(parsed.goals || []),
-    };
-  } catch {
-    return emptyState();
-  }
+function parseState(raw) {
+  if (!raw) return emptyState();
+  const parsed = JSON.parse(raw);
+  return {
+    ...emptyState(),
+    ...parsed,
+    settings: migrateSettings({ ...DEFAULT_SETTINGS, ...(parsed.settings || {}) }),
+    courses: migrateCourses(parsed.courses || []),
+    activities: parsed.activities || [],
+    plans: parsed.plans || [],
+    planLibrary: parsed.planLibrary || [],
+    planCredits: parsed.planCredits || 0,
+    groupRuns: parsed.groupRuns || [],
+    goals: migrateGoals(parsed.goals || []),
+  };
 }
 
-export function saveState(state) {
-  const copy = {
+function snapshot(state) {
+  return JSON.stringify({
     settings: state.settings,
     courses: state.courses,
     activities: state.activities,
@@ -138,12 +161,117 @@ export function saveState(state) {
     planCredits: state.planCredits || 0,
     groupRuns: state.groupRuns || [],
     goals: state.goals || [],
-  };
-  localStorage.setItem(KEY, JSON.stringify(copy));
+  });
+}
+
+let memoryRaw = null;
+let nativeSecured = false;
+
+/**
+ * Confirm a Keystore write by reading it back. Never drop the plaintext
+ * copy until the encrypted payload is actually there — EncryptedSharedPreferences
+ * can fail silently on a large activity history, which would empty the heat map.
+ */
+export async function confirmSecureWrite(key, json) {
+  const ok = await secureSet(key, json);
+  if (!ok) return false;
+  const back = await secureGet(key);
+  return !!(back && back.length === String(json).length);
+}
+
+function readPlaintext() {
+  try { return localStorage.getItem(KEY); } catch { return null; }
+}
+
+function writePlaintext(json) {
+  try { localStorage.setItem(KEY, json); return true; } catch { return false; }
+}
+
+function clearPlaintext() {
+  try { localStorage.removeItem(KEY); } catch { /* ignore */ }
+}
+
+/** Load activity data from the Keystore-backed store on Android, migrating any leftover plaintext once. */
+export async function hydrateState() {
+  if (!isSecureStoreAvailable()) {
+    nativeSecured = false;
+    const state = loadState();
+    memoryRaw = snapshot(state);
+    return state;
+  }
+  const secured = await secureGet(KEY);
+  const plain = readPlaintext();
+  if (secured) {
+    nativeSecured = true;
+    memoryRaw = secured;
+    // Only drop leftover plaintext after the encrypted copy is confirmed present.
+    clearPlaintext();
+    try { return parseState(secured); } catch {
+      if (plain) {
+        memoryRaw = plain;
+        nativeSecured = false;
+        try { return parseState(plain); } catch { return emptyState(); }
+      }
+      return emptyState();
+    }
+  }
+  if (plain) {
+    const moved = await confirmSecureWrite(KEY, plain);
+    memoryRaw = plain;
+    if (moved) {
+      nativeSecured = true;
+      clearPlaintext();
+    } else {
+      // Keep the plaintext copy so a large history is not wiped if the
+      // encrypted store cannot hold it (or has not been upgraded to a file).
+      nativeSecured = false;
+    }
+    try { return parseState(plain); } catch { return emptyState(); }
+  }
+  nativeSecured = true;
+  memoryRaw = null;
+  return emptyState();
+}
+
+export function loadState() {
+  try {
+    if (memoryRaw) return parseState(memoryRaw);
+    const raw = localStorage.getItem(KEY);
+    if (!raw) return emptyState();
+    return parseState(raw);
+  } catch {
+    return emptyState();
+  }
+}
+
+export function saveState(state) {
+  const json = snapshot(state);
+  memoryRaw = json;
+  if (isSecureStoreAvailable()) {
+    // Always keep a local copy until the encrypted write is confirmed, so a
+    // failed or oversized store cannot wipe walks off the heat map.
+    writePlaintext(json);
+    confirmSecureWrite(KEY, json).then((ok) => {
+      if (ok) {
+        nativeSecured = true;
+        clearPlaintext();
+      } else {
+        nativeSecured = false;
+        writePlaintext(json);
+      }
+    }).catch(() => {
+      nativeSecured = false;
+      writePlaintext(json);
+    });
+    return;
+  }
+  writePlaintext(json);
 }
 
 export function resetState() {
-  localStorage.removeItem(KEY);
+  memoryRaw = null;
+  try { localStorage.removeItem(KEY); } catch { /* ignore */ }
+  if (nativeSecured && isSecureStoreAvailable()) secureRemove(KEY).catch(() => {});
   return emptyState();
 }
 
@@ -182,6 +310,9 @@ export function newActivity(partial = {}) {
     health: partial.health || null, // {steps, calories, provider} from the health app only
     healthId: partial.healthId || null, // watch import dedupe key
     healthSync: partial.healthSync || null, // {written, status, reason} for honesty in the summary
+    rawTrack: Array.isArray(partial.rawTrack) ? partial.rawTrack : [],
+    healthOrigin: partial.healthOrigin || null,
+    healthOriginLabel: partial.healthOriginLabel || null,
     climbGainM: partial.climbGainM || 0,
     climbLossM: partial.climbLossM || 0,
     distance3dMeters: partial.distance3dMeters || 0,

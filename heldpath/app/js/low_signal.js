@@ -5,6 +5,9 @@
  */
 import { haversineMeters } from "./util.js";
 import { normalizeBbox, OFM_USER_AGENT } from "./map_tiles.js";
+import { allowsOverpass } from "./privacy_data.js";
+import { tunnelsFromTiles } from "./offline_places.js";
+import { listCachedTiles } from "./map_storage.js";
 
 export const LOW_SIGNAL_COPY = "Parts of this route may have weak signal. Download the route area for the best accuracy?";
 export const SAMPLE_STEP_M = 50;
@@ -194,7 +197,17 @@ export function shouldFetchTunnels() {
       if (q.has("screen") || q.has("nosw")) return false;
     }
   } catch { /* ignore */ }
-  return true;
+  // Overpass is opt-in. Off by default so a map area is never sent off-device.
+  return allowsOverpass();
+}
+
+export async function loadOfflineTunnelWays() {
+  try {
+    const tiles = await listCachedTiles();
+    return tunnelsFromTiles(tiles);
+  } catch {
+    return [];
+  }
 }
 
 export async function assessRouteLowSignal(path, { areas, ways, fetchFn, timeoutMs } = {}) {
@@ -203,13 +216,12 @@ export async function assessRouteLowSignal(path, { areas, ways, fetchFn, timeout
   const areaList = areas || [];
   let found = ways;
   if (found == null) {
-    if (!shouldFetchTunnels()) found = [];
-    else {
+    found = await loadOfflineTunnelWays();
+    if (shouldFetchTunnels()) {
       try {
-        found = await loadTunnelWays(bbox, { fetchFn, timeoutMs });
-      } catch {
-        found = [];
-      }
+        const online = await loadTunnelWays(bbox, { fetchFn, timeoutMs });
+        if (online && online.length) found = found.concat(online);
+      } catch { /* keep offline ways */ }
     }
   }
   return assessLowSignal({ path: pts, areas: areaList, ways: found });

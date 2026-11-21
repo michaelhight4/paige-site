@@ -9,6 +9,9 @@ export const PLAN_PRODUCT_ID = "com.pagegames.heldpath.plan_credit_2";
 export const PLAN_PRICE_USD = 2;
 export const SUPPORT_PRODUCT_ID = "support_5";
 export const SUPPORT_PRICE_USD = 5;
+/** Play Billing is not wired. Purchase buttons stay hidden; stubs do not grant credits. */
+export const BILLING_AVAILABLE = false;
+export const BILLING_COMING_SOON = "Purchases are coming soon. The $2 plan and $5 donation are not available in this build. Everything else in Heldpath stays free.";
 export const OWNERSHIP_COPY =
   "All goals are free. Set a distance, a time, or a weekly total, and a time frame if you want one. Free goals show your current speed, the speed you need, and the gap. A $2 plan adds incremental session targets, mixed run-walk or ride patterns, water and nutrition guidance. $2 per plan, no subscription. Keep it forever, share it free, restart anytime. You can buy as many plans as you want. A plan does not unlock goals — it adds incremental session targets, mixed patterns, water reminders, and carb and protein guidance.";
 
@@ -50,7 +53,10 @@ function saveLedger(l) {
 }
 
 /** Stub purchase. When stores are live, replace the body with the official IAP call. */
-export async function purchasePlanCredit() {
+export async function purchasePlanCredit({ allowStub = false } = {}) {
+  if (!BILLING_AVAILABLE && !allowStub) {
+    return { ok: false, stub: false, available: false, reason: "coming-soon", productId: PLAN_PRODUCT_ID, credits: loadLedger().credits };
+  }
   const l = loadLedger();
   const rec = {
     id: "stub_" + Date.now().toString(36),
@@ -98,7 +104,10 @@ export function hasCredit() {
 }
 
 /** Stub $5 donation. When stores are live, call Play Billing / StoreKit with SUPPORT_PRODUCT_ID. Hidden on the web app. */
-export async function purchaseSupport() {
+export async function purchaseSupport({ allowStub = false } = {}) {
+  if (!BILLING_AVAILABLE && !allowStub) {
+    return { ok: false, stub: false, available: false, reason: "coming-soon", productId: SUPPORT_PRODUCT_ID };
+  }
   const rec = {
     id: "stub_support_" + Date.now().toString(36),
     productId: SUPPORT_PRODUCT_ID,
@@ -112,7 +121,6 @@ export async function purchaseSupport() {
   list.push(rec);
   localStorage.setItem(key, JSON.stringify(list));
   return { ok: true, stub: true, productId: SUPPORT_PRODUCT_ID, purchase: rec };
-
 }
 
 export function creditsRemaining() {

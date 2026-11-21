@@ -12,6 +12,7 @@ import {
 } from "./map_tiles.js";
 import { WORLD_VIEW, STREET_ZOOM } from "./locate.js";
 import { geodesicDirect } from "./util.js";
+import { headingToMarkerAngle, CALIBRATE_COPY } from "./heading.js";
 
 let map = null;
 let protocolAdded = false;
@@ -341,7 +342,7 @@ const BOUNDS = FLORENCE_BOUNDS;
 const ATTRIBUTION =
   '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · <a href="https://protomaps.com">Protomaps</a> · <a href="https://openfreemap.org/">OpenFreeMap</a> © <a href="https://openmaptiles.org/">OpenMapTiles</a>';
 export const SEARCH_ATTRIBUTION =
-  'Place search uses <a href="https://photon.komoot.io/">Photon</a> and <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.';
+  'Place search uses maps stored on this phone. Online lookup is off unless you turn it on in Privacy &amp; Data.';
 export const ROAD_ATTRIBUTION = 'Roads © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 let attribTimer = null;
@@ -771,6 +772,28 @@ function ensureUserAccuracyLayer() {
   }
 }
 
+function userArrowSvg() {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 48 48");
+  svg.setAttribute("class", "user-heading-arrow");
+  svg.setAttribute("aria-hidden", "true");
+  svg.innerHTML = '<path class="user-heading-cone" d="M24 1.2 L38 26.5 L24 20.5 L10 26.5 Z" fill="#4EC3F7" stroke="#F3F6FA" stroke-width="3.2" stroke-linejoin="round"/><circle cx="24" cy="29" r="11" fill="#4EC3F7" stroke="#F3F6FA" stroke-width="3.6"/><circle cx="24" cy="29" r="4" fill="#F3F6FA"/>';
+  return svg;
+}
+
+let lastUserCoord = null;
+let glideRaf = 0;
+let glideFrom = null;
+let glideTo = null;
+let glideStart = 0;
+let mapOrientation = "north";
+let followPaused = false;
+let rotateHooked = false;
+
+function currentMapBearing() {
+  try { return map ? Number(map.getBearing()) || 0 : 0; } catch { return 0; }
+}
+
 function paintUserDotChrome(coord) {
   if (!userMarker) return;
   const el = userMarker.getElement();
@@ -778,7 +801,8 @@ function paintUserDotChrome(coord) {
   const heading = Number(coord && coord.heading);
   if (Number.isFinite(heading) && heading >= 0) {
     el.classList.add("has-heading");
-    el.style.setProperty("--user-heading", `${heading}deg`);
+    const angle = headingToMarkerAngle(heading, currentMapBearing());
+    el.style.setProperty("--user-heading", `${angle}deg`);
   } else {
     el.classList.remove("has-heading");
     el.style.removeProperty("--user-heading");
@@ -788,8 +812,35 @@ function paintUserDotChrome(coord) {
   if (src) src.setData(accuracyFeature(coord));
 }
 
+function hookMapRotate() {
+  if (!map || rotateHooked) return;
+  rotateHooked = true;
+  map.on("rotate", () => { if (lastUserCoord) paintUserDotChrome(lastUserCoord); });
+  map.on("dragstart", () => { followPaused = true; });
+  map.on("rotatestart", () => { followPaused = true; });
+  map.on("pitchstart", () => { followPaused = true; });
+}
+
+function applyCameraFollow(coord, { animate = false } = {}) {
+  if (!map || !coord || followPaused) return;
+  const heading = Number(coord.heading);
+  const camera = {
+    center: [Number(coord.lon), Number(coord.lat)],
+  };
+  if (mapOrientation === "heading" && Number.isFinite(heading) && heading >= 0) {
+    // Standing still: do not wag the map until the compass moves past the deadband.
+    if (coord.allowMapRotate !== false) camera.bearing = heading;
+  } else if (mapOrientation === "north") {
+    camera.bearing = 0;
+  }
+  if (animate) map.easeTo({ ...camera, duration: 280, essential: true, easing: (t) => t });
+  else map.jumpTo(camera);
+}
+
 export function setUserDot(coord) {
   if (!map || !coord || !Number.isFinite(Number(coord.lat)) || !Number.isFinite(Number(coord.lon))) return;
+  hookMapRotate();
+  lastUserCoord = { ...coord };
   const lngLat = [Number(coord.lon), Number(coord.lat)];
   if (userMarker) {
     userMarker.setLngLat(lngLat);
@@ -801,16 +852,116 @@ export function setUserDot(coord) {
   el.setAttribute("aria-label", "You are here");
   const rot = document.createElement("span");
   rot.className = "user-heading-rot";
-  const ptr = document.createElement("i");
-  ptr.className = "user-heading";
-  rot.appendChild(ptr);
+  rot.appendChild(userArrowSvg());
   el.appendChild(rot);
   userMarker = new maplibregl.Marker({ element: el, anchor: "center" }).setLngLat(lngLat).addTo(map);
   paintUserDotChrome(coord);
   return userMarker;
 }
 
+/**
+ * Move the user puck smoothly toward a new fix, using speed and heading
+ * to coast for up to ~2s between updates. The camera can follow.
+ */
+export function setUserDotGlide(coord, { follow = false } = {}) {
+  if (!coord || !Number.isFinite(Number(coord.lat))) return setUserDot(coord);
+  hookMapRotate();
+  const now = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
+  const current = lastUserCoord && Number.isFinite(Number(lastUserCoord.lat)) ? lastUserCoord : coord;
+  glideFrom = { ...current, at: now };
+  glideTo = { ...coord, at: now };
+  if (!userMarker) setUserDot(coord);
+  if (glideRaf) cancelAnimationFrame(glideRaf);
+  const step = (t) => {
+    if (!glideTo) return;
+    const dt = Math.max(0, Math.min(2000, t - (glideFrom.at || t))) / 1000;
+    const speed = Number(glideTo.speed);
+    const heading = Number(glideTo.heading);
+    let lat = Number(glideTo.lat);
+    let lon = Number(glideTo.lon);
+    if (dt < 2 && Number.isFinite(speed) && speed > 0.8 && Number.isFinite(heading) && heading >= 0 && glideFrom) {
+      // Coast from the last known point along heading for a short window.
+      const coast = Math.min(dt, 2);
+      const fromAge = Math.max(0, (t - (glideTo.fixAt || glideTo.at || t)) / 1000);
+      if (fromAge > 0 && fromAge <= 2) {
+        const moved = geodesicDirect(
+          { lat: Number(glideTo.lat), lon: Number(glideTo.lon) },
+          heading,
+          speed * fromAge,
+        );
+        if (moved) {
+          lat = moved.lat;
+          lon = moved.lon;
+        }
+      }
+    }
+    const view = { ...glideTo, lat, lon };
+    lastUserCoord = view;
+    if (userMarker) userMarker.setLngLat([lon, lat]);
+    paintUserDotChrome(view);
+    if (follow) applyCameraFollow(view, { animate: false });
+    glideRaf = requestAnimationFrame(step);
+  };
+  glideStart = now;
+  if (typeof requestAnimationFrame === "function") glideRaf = requestAnimationFrame(step);
+  else setUserDot(coord);
+  if (follow) applyCameraFollow({ ...coord }, { animate: true });
+  return userMarker;
+}
+
+export function stopUserDotGlide() {
+  if (glideRaf) cancelAnimationFrame(glideRaf);
+  glideRaf = 0;
+}
+
+export function getMapOrientation() {
+  return mapOrientation;
+}
+
+export function isFollowPaused() {
+  return followPaused;
+}
+
+export function setFollowPaused(paused) {
+  followPaused = !!paused;
+}
+
+export function setMapOrientation(mode, { apply = true } = {}) {
+  mapOrientation = mode === "heading" ? "heading" : "north";
+  followPaused = false;
+  if (apply && map) {
+    if (mapOrientation === "north") {
+      map.easeTo({ bearing: 0, duration: 400, essential: true });
+    } else if (lastUserCoord) {
+      applyCameraFollow(lastUserCoord, { animate: true });
+    }
+  }
+  if (lastUserCoord) paintUserDotChrome(lastUserCoord);
+  return mapOrientation;
+}
+
+export function easeCameraTo(lat, lon, { heading, duration = 400 } = {}) {
+  if (!map || followPaused) return;
+  const camera = { center: [lon, lat], duration, essential: true };
+  if (mapOrientation === "heading" && Number.isFinite(Number(heading)) && heading >= 0) camera.bearing = Number(heading);
+  if (mapOrientation === "north") camera.bearing = 0;
+  map.easeTo(camera);
+}
+
+export function getLastUserCoord() {
+  return lastUserCoord;
+}
+
+export const MAP_ORIENT_COPY = {
+  heading: { label: "Head", title: "Heading up", aria: "Heading up. Tap for north up" },
+  north: { label: "North", title: "North up", aria: "North up. Tap for heading up" },
+};
+
+export { CALIBRATE_COPY };
+
 export function clearUserDot() {
+  stopUserDotGlide();
+  lastUserCoord = null;
   if (userMarker) {
     userMarker.remove();
     userMarker = null;

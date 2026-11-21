@@ -47,7 +47,7 @@ import {
 } from "./plans.js";
 import { ensureWalkGraph } from "./area_graphs.js";
 import { overlapPlanCopy, overlappingDates } from "./calendar_conflict.js";
-import { OWNERSHIP_COPY, creditsRemaining } from "./iap.js";
+import { OWNERSHIP_COPY, creditsRemaining, BILLING_AVAILABLE, BILLING_COMING_SOON } from "./iap.js";
 import { exactCourseRoute, buildEvenPaceLegTargets, describeLegPlan } from "./plan_legs.js";
 import {
   formatWaterLine,
@@ -274,12 +274,24 @@ function renderCreditNote() {
   const note = $("plan-create-note");
   const current = (note && note.textContent) || "";
   const busy = /Loading paths|Couldn't build a loop|Getting your location|Tap the map to set the start|Turn on location/i.test(current);
-  if (!busy) {
-    note.textContent = credits > 0
-      ? `${credits} unused plan credit${credits === 1 ? "" : "s"} on this phone. Creating a plan uses one.`
-      : "No credit yet. Creating a plan buys one $2 credit first (stub in this build). Importing a shared plan stays free.";
+  const createBtn = $("btn-plan-create");
+  if (createBtn) {
+    createBtn.hidden = !BILLING_AVAILABLE;
+    createBtn.disabled = !BILLING_AVAILABLE;
+    createBtn.classList.toggle("billing-live-only", !BILLING_AVAILABLE);
+    createBtn.textContent = BILLING_AVAILABLE
+      ? (credits > 0 ? "Create plan · use 1 credit" : "Create plan · $2")
+      : "Coming soon";
   }
-  $("btn-plan-create").textContent = credits > 0 ? "Create plan · use 1 credit" : "Create plan · $2";
+  if (!busy) {
+    if (!BILLING_AVAILABLE) {
+      note.textContent = BILLING_COMING_SOON + " Importing a shared plan stays free.";
+    } else {
+      note.textContent = credits > 0
+        ? `${credits} unused plan credit${credits === 1 ? "" : "s"} on this phone. Creating a plan uses one.`
+        : "No credit yet. Creating a plan buys one $2 credit first. Importing a shared plan stays free.";
+    }
+  }
 }
 
 function waterPrefs() {
@@ -543,7 +555,7 @@ async function createPlan() {
   const res = await createPlanForGoal(goal);
   if (!res.ok) {
     if (noteEl) noteEl.textContent = res.error === "purchase_failed"
-      ? "The store could not be reached. Nothing was charged."
+      ? (res.detail && res.detail.reason === "coming-soon" ? BILLING_COMING_SOON : "The store could not be reached. Nothing was charged.")
       : res.error === "no-loop"
         ? AUTO_LOOP_FAIL_COPY
         : "Could not create the plan. Nothing was charged.";

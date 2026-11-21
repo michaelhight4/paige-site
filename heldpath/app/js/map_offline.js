@@ -83,7 +83,10 @@ export async function downloadArea(bbox, opt = {}) {
   };
   await saveArea(area);
   try { prefetchDemForBbox(box).catch(() => {}); } catch { /* DEM is optional */ }
-  try { buildGraphForArea(area).catch(() => {}); } catch { /* graph is optional */ }
+  try {
+    const built = await buildGraphForArea(area);
+    if (built && built.ok && built.graph) result.graphReady = true;
+  } catch { /* graph can be rebuilt later from the saved tiles */ }
   return { ok: true, area, plan, result };
 }
 
